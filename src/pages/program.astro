@@ -1,68 +1,44 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="The Penumbra program" description="A multi-paper investigation of closed-loop observation problems in cross-border trade and finance.">
+<Base title="The Penumbra program" description="A multi-paper trade-research program on closed-loop observation in international trade.">
   <article class="h-article">
     <header>
-      <div class="h-article-meta">RESEARCH PROGRAM · 2024–2027</div>
+      <div class="h-article-meta">RESEARCH PROGRAM · TRADE THEORY + EMPIRICS</div>
       <h1>The Penumbra program</h1>
       <p style="color: var(--ink-soft); font-size: 1.1rem; margin-top: 0.6rem;">
-        A multi-paper investigation of closed-loop observation problems in cross-border trade and finance. What happens when the data that is supposed to tell you what the economy is doing is itself produced by the equilibrium you're trying to measure.
+        A trade-research program on closed-loop observation problems in international trade. Theory, empirics, and a satellite-calibrated bilateral trade-cost panel.
       </p>
     </header>
 
-    <h2>The problem in plain English</h2>
+    <h2>What the program is</h2>
 
-    <p>Official trade and production statistics rest on a quiet assumption. Counterparties, customs offices, port authorities, central banks: each one will declare its activity, the declarations get reconciled, and the national accounts close. The numbers come out a quarter late, with some revisions, and life proceeds.</p>
+    <p>The Penumbra program is a multi-paper investigation of international trade settings where the official data are themselves a function of the equilibrium the researcher is trying to estimate. The intellectual problem is closed-loop in a specific sense: the cost of trade depends on the equilibrium, because the equilibrium produces the satellites, the AIS records, the customs declarations, and the third-party reconciliations that determine what trade costs look like to a researcher. The cost then determines the equilibrium. The right object to estimate is a fixed point on Wasserstein space.</p>
 
-    <p>That assumption fails in a corner of the world economy that is large and growing. Russian seaborne crude under the 2022 oil-price cap moves through a shadow fleet that suppresses AIS transmissions, conducts ship-to-ship transfers in international waters, and re-flags through jurisdictions that don't reconcile with anyone. Iranian oil has worked the same way since the 2018 sanctions. SwissAid put the Africa-to-UAE gold smuggling gap at roughly $30 billion a year in their 2024 report. Heavy rare earths, illicit fishing, occupied-territory output in Ukraine, gray-market semiconductor flows. The list is not short. None of this shows up in the gravity equation if you trust the data and don't have a model of what the data isn't telling you.</p>
+    <p>The program treats this as a problem of trade theory first. The empirics, the satellite-economics applications, and the methodology contributions follow from the theory. The intermediary-selection work in domestic blended-finance settings (Helfrich 2026 on the U.S. New Markets Tax Credit) is a spinoff that applies the same decomposition logic to a different setting.</p>
 
-    <p>The Penumbra program is the analytical treatment of that gap. It says: an equilibrium where economic activity is partly hidden produces statistics that are themselves a function of how much is hidden. Trying to estimate trade flows from the visible portion is therefore not a measurement problem. It's a closed-loop problem. The cost of trade depends on the equilibrium because the equilibrium produces the satellites and the AIS records and the customs declarations that determine what trade costs look like to you. The cost then determines the equilibrium. You have a fixed-point on Wasserstein space and you have to solve it as one.</p>
+    <h2>The papers</h2>
 
-    <h2>Why it has to be a program and not a paper</h2>
+    <p><strong>SSRN 4772016 — Unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces.</strong> The analytical foundation: an equivalence between economic equilibrium and optimal transport on infinite-dimensional Hilbert spaces, using tensor-valued measures and nonlinear operator theory. Working draft. Used as the technical seed of the program. <a href="/research/helfrich-2024-ssrn-4772016">Paper page</a>.</p>
 
-    <p>The single-paper version of this idea would smear three problems together. You'd have a theory contribution, an empirical contribution, and a methodology contribution in one place, and each one would be too thin to defend on its own. The split version has each piece carry its own weight.</p>
+    <p><strong>Paper 0 — Penumbra.</strong> Umbrella theory paper. Formalizes the measurement-gap problem in international trade (sanctioned crude, Sahelian gold, gray-market rare earths, illicit fishing, occupied-territory output) as a closed-loop problem on Wasserstein space. Sections 1-10 drafted; main.tex compiles. <a href="/research/helfrich-2026-penumbra">Paper page</a>.</p>
 
-    <p><strong>Paper 0 (Penumbra).</strong> The <a href="/research/helfrich-2026-penumbra">umbrella theory paper</a>. Lays out the measurement-gap problem, the taxonomy of failure modes (declaration suppression, transshipment, fictitious-counterparty flags, observation-side opacity), and the closed-loop framing on Wasserstein space. The job here is conceptual clarity. After this paper, the rest of the literature can stop talking past itself about whether shadow trade is a level shift or a structural feature.</p>
+    <p><strong>Paper 1 — AROE.</strong> The fixed-point theorem on the 2-Wasserstein space with a measure-dependent cost and a stochastic observation operator. Existence under standard regularity hypotheses; uniqueness with a quantitative half-order Wasserstein stability estimate under feedback contractivity. Compiled PDF in the working tree. <a href="/research/helfrich-2026-aroe">Paper page</a>.</p>
 
-    <p><strong>Paper 1 (AROE).</strong> The <a href="/research/helfrich-2026-aroe">theorem</a>. Fixed-point problem on the 2-Wasserstein space with a measure-dependent cost driven by a stochastic observation operator. Existence under standard regularity hypotheses (H1)–(H3). Uniqueness with a quantitative half-order Wasserstein stability estimate under feedback-contractivity (H4). The half-order rate is the technical contribution. Standard Wasserstein gradient flows give first-order JKO contraction. This setup doesn't have displacement convexity to lean on, so the contraction comes from c-convex stability on the best-response map and the rate falls to half-order in the Wasserstein metric. The empirical companion has to be powered to detect that rate.</p>
+    <p><strong>Paper 2 — Russian seaborne crude empirical companion.</strong> Tests the feedback-contractivity hypothesis from Paper 1 in the corridor where the closed-loop problem is sharpest. AIS-track data, port-arrival records, the Hilgenstock-Babina-Itskhoki oil-cap monitoring infrastructure. In data-construction phase. <a href="/research/helfrich-2026-russian-crude">Paper page</a>.</p>
 
-    <p><strong>Paper 2 (Russian crude).</strong> The <a href="/research/helfrich-2026-russian-crude">empirical companion</a>. Tests the (H4) feedback-contractivity hypothesis in the corridor where the closed-loop problem is sharpest. AIS-track data when transmitting, port-arrival records from multiple counterparty jurisdictions, S&P Global commodity-flow data, the Hilgenstock-Babina-Itskhoki oil-cap monitoring infrastructure. First direct empirical estimate of the feedback-contractivity constant in a real-world quantitative spatial setting. If H4 holds in the corridor where it should be hardest to hold, the theorem in Paper 1 gets the empirical weight it needs.</p>
+    <p><strong>Paper 5 — Effective Distance (with Dr. Elizaveta Gonchar).</strong> Satellite-calibrated bilateral trade-cost panel, 200 countries × 25 years × multiple distance variants. Validated in the Yotov et al. (2016) structural gravity framework with Weidner-Zylkin (2021) bias correction. Welfare counterfactuals on the 2021 Suez closure, the 2023 Panama Canal drought, and the 2024 Houthi Red Sea rerouting. Released CC-BY-4.0 as public-good infrastructure. Target submission <em>Journal of International Economics</em>. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">Paper page</a>. Builds on the 2025 SSRN preprint <a href="/research/gonchar-helfrich-2025-spotlight"><em>Trade in the Spotlight</em></a> (SSRN 5202676).</p>
 
-    <p><strong>Paper 5 (Effective Distance).</strong> With <a href="/people/elizaveta-gonchar">Dr. Elizaveta Gonchar</a>. The <a href="/research/gonchar-helfrich-2026-effective-distance-panel">satellite-calibrated bilateral trade-cost panel</a>, 200 countries × 25 years × eight distance variants. Validates in the Yotov et al. (2016) structural gravity framework with Weidner-Zylkin (2021) bias correction. Three counterfactuals on live chokepoint shocks: the 2021 Suez Ever Given closure, the 2023 Panama Canal drought, and the 2024 Houthi Red Sea rerouting. Material revisions to ACR welfare numbers. Released CC-BY-4.0 as public-good infrastructure on Zenodo. Target submission: <em>Journal of International Economics</em>. The seed paper is <a href="/research/gonchar-helfrich-2025-spotlight">Trade in the Spotlight</a> (SSRN 5202676, 2025), which introduced the OVDL distance measure.</p>
+    <p><strong>Joint Paper 1 — Ukraine wartime economic reorganization (with Dr. Elizaveta Gonchar).</strong> Applies the closed-loop framework to Ukrainian wartime economic reorganization, 2022-2025. Decomposes spatial reorganization across hromadas into destruction, evacuation, conscription-driven labor withdrawal, and sectoral adaptation. Produces a quarterly Ukraine Shadow-Activity Index as a public-good output. Target SSRN October 2026; journal submission target February 2027 (<em>Journal of Development Economics</em> or <em>AEJ: Applied</em>). <a href="/research/gonchar-helfrich-2026-ukraine">Paper page</a>.</p>
 
-    <p><strong>Joint Paper 1 (Ukraine).</strong> With Liz again. The <a href="/research/gonchar-helfrich-2026-ukraine">flagship application</a>: closed-loop spatial-labor model of Ukrainian wartime economic reorganization, 2022 through 2025. Decomposes the spatial reorganization of Ukrainian economic activity across hromadas into destruction, evacuation, conscription-driven labor withdrawal, and sectoral adaptation. Produces a quarterly Ukraine Shadow-Activity Index as a public-good output. Liz brings Russian and Ukrainian language access (Ukrstat releases, NBU communications, KSE Institute reports, Kiel/ifW and DIW reports in German) and spatial-autoregressive labor methodology. I bring the closed-loop OT spine. SSRN target October 2026, journal submission target February 2027 (<em>Journal of Development Economics</em> or <em>AEJ: Applied</em>).</p>
+    <h2>The spinoff: NMTC</h2>
 
-    <h2>The order matters</h2>
+    <p><a href="/research/helfrich-2026-nmtc-rural-gap">Helfrich (2026) on the U.S. New Markets Tax Credit</a> is a parallel application of the program's intermediary-selection logic to a domestic-policy setting. The headline empirical result: the apparent rural-urban leverage gap in NMTC collapses once Community Development Entity fixed effects are added. The same decomposition is being extended to European blended-finance instruments (Portuguese Sociedades de Garantia Mútua, Irish SBCI on-lender structure) in collaboration with Katia Antunes.</p>
 
-    <p>Papers 0 and 1 have to come out together, or close to it. The theorem in Paper 1 doesn't make sense without the conceptual framing in Paper 0; the framing in Paper 0 doesn't have analytical weight without the theorem. Paper 2 follows because it's the empirical bet on the framework: if the feedback-contractivity constant in the Russian-crude corridor turns out to be on the wrong side of one, the framework is in trouble and we want to know before Paper 5 builds on top of it.</p>
+    <h2>Reading order</h2>
 
-    <p>Paper 5 doesn't strictly need Papers 0–2 to be out yet. The effective-distance construction is technically self-contained. But it's the cleanest demonstration of why the closed-loop framing matters in practice, because the gravity-equation residuals before and after the time-varying multi-modal cost construction track the chokepoint-shock periods in a way the static CEPII distance never could. So 5 is a load-bearing piece of the program's argument, even though it would stand alone.</p>
+    <p>For the theory: SSRN 4772016 → Paper 0 → Paper 1. For the trade-cost empirics: Trade in the Spotlight (2025) → Paper 5. For the application: Joint Paper 1 (Ukraine). The NMTC paper is the cleanest stand-alone illustration of the decomposition methodology in a non-trade setting.</p>
 
-    <p>Joint Paper 1 (Ukraine) is the flagship application and probably the most-read paper in the set. It needs Papers 0 and 1 for its analytical claims about endogenous observability loss, and Paper 5 for the trade-cost variation that enters the wartime trade-disruption channel. That's why it goes last in the sequence even though the substantive policy questions are first-order important right now.</p>
-
-    <h2>The spinoff (NMTC)</h2>
-
-    <p>The <a href="/research/helfrich-2026-nmtc-rural-gap">U.S. New Markets Tax Credit paper</a> is a parallel application of the same intermediary-selection logic in a domestic-policy setting. The decomposition trick is the same. The raw rural-urban leverage gap is large and negative. Once you add Community Development Entity fixed effects, the gap collapses. About 80% of the aggregate rural penalty is between-CDE selection rather than within-CDE deployment. The "rural credit problem" is an intermediary-allocation problem in a wig.</p>
-
-    <p>The methodological transfer matters because if the within-vs-between decomposition holds up in NMTC, the same technique should travel to LIHTC, the Opportunity Zones, the EU Cohesion Funds, and the various blended-finance vehicles operated by the IFC, the AfDB, the EIB. The European replication is the work I'm doing with Katia Antunes; the first fieldwork happens in Lisbon and Dublin this June.</p>
-
-    <h2>Where we are</h2>
-
-    <p>The program is roughly halfway through. Papers 0 and 1 are drafted (sections complete, main.tex compiling in both cases). Paper 2 has the data plan, the identification strategy, and the README; empirical results are next. Paper 5 has the construction algorithm and the validation framework; the gravity estimation runs are queued. Joint Paper 1 has the data architecture and the methodological spine; the empirical work depends on Paper 5 outputs as inputs, so it's the last in the queue.</p>
-
-    <p>The NMTC paper is closer to submission than any of the Penumbra-program papers and will probably hit SSRN first. That's fine. The NMTC result is methodologically downstream from the program (it applies the same decomposition logic in a different setting) but chronologically and substantively self-contained.</p>
-
-    <h2>Why this is one program and not three</h2>
-
-    <p>The closed-loop framework, the effective-distance construction, the intermediary-selection decomposition: each one can be defended on its own merits in a single paper. But the reason they're worth doing together is that each is solving a piece of the same problem. The world economy has three structural opacities that make standard methods fragile. Sanctions and shadow trade hide cross-border flows. Static bilateral-distance measures hide the changing topology of trade costs. Pass-through intermediation hides the allocation step that determines who actually receives the capital. The Penumbra program treats all three as one connected problem and provides the analytical apparatus and the empirical demonstrations for each.</p>
-
-    <p>The end-state is a body of work that gives applied trade and development researchers something they don't currently have: a way to model and identify equilibrium quantities when the data are themselves part of the equilibrium. That's the program, in one sentence.</p>
-
-    <h2>Reading order if you only have an hour</h2>
-
-    <p>Start with the <a href="/research/helfrich-2026-nmtc-rural-gap">NMTC paper</a> for the cleanest application of the intermediary-selection decomposition. Then read <a href="/research/gonchar-helfrich-2026-effective-distance-panel">the Effective Distance paper</a> for the cleanest application of the time-varying bilateral cost. If you still have appetite, the <a href="/research/helfrich-2026-penumbra">Penumbra umbrella paper</a> ties everything together.</p>
-
-    <p>If you'd like me to walk through any of this in person, <a href="/book">book a session</a>.</p>
+    <p>The full list of papers and datasets is at <a href="/research">/research</a> and <a href="/datasets">/datasets</a>.</p>
   </article>
 </Base>

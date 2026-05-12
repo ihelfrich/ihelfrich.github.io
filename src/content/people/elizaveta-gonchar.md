@@ -1,24 +1,21 @@
 ---
 name: "Dr. Elizaveta Gonchar"
-role: "PhD economist · co-PI on Penumbra, EffDist, and Ukraine joint paper"
+role: "Co-author on Penumbra-program trade and trade-cost work"
 affiliation: "Co-PI and collaborator"
-bio: "Applied economist and Ian's most frequent research co-author. Spatial economics, applied labor economics under shocks, and the geospatial analysis of trade and externality networks. Russian fluency and Kyiv origin give direct access to Ukrainian-, Russian-, and German-language primary sources; spatial-autoregressive modeling expertise and CHIPS-era hromada-analog methodology underpin the joint work on Ukrainian wartime reorganization. Frequent collaborator on the Penumbra closed-loop observation program and the EffDist V2026 global panel."
+bio: "Frequent research co-author with Ian Helfrich. Joint work covers the Effective Distance bilateral trade-cost panel (Paper 5), the 2025 SSRN preprint Trade in the Spotlight (5202676), and the Joint Paper 1 application to Ukrainian wartime economic reorganization. Russian-language source access supports the joint work on Ukrainian and Russian-language primary materials."
 photo: "/people/liz.jpg"
 interests:
-  - "spatial economics of extractive industries"
-  - "applied labor economics under supply shocks"
-  - "trade-network and effective-distance methods"
-  - "Russian, Ukrainian, and Central-European economic statistics"
-  - "satellite-economics and remote-sensing validation"
+  - "trade and effective distance"
+  - "spatial economics and externality networks"
+  - "applied labor under shocks"
+  - "Ukrainian and Russian-language economic statistics"
 order: 2
 ---
 
 ## Joint work with Ian
 
-- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)** — Paper 5. Working paper in preparation, target *Journal of International Economics*. Builds the first global, time-varying, multi-modal effective-distance panel using VIIRS nightlights, gridded population, and OpenStreetMap transport networks. Companion dataset (EffDist V2026) on Zenodo.
-- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)** — Joint Paper 1 of the Penumbra program. SSRN target Oct 2026, JDE / AEJ:Applied target Feb 2027. Closed-loop spatial-labor model of Ukrainian economic reorganization; quarterly Ukraine Shadow-Activity Index as a public-good output.
-- **[Trade in the spotlight (2025)](/research/gonchar-helfrich-2025-spotlight)** — SSRN 5202676. April 2025 preprint that introduced the OVDL distance measure; superseded by the full panel in Paper 5.
-- **EffDist V2026** dataset — [dataset page](/datasets/effdist-v2026). Released CC-BY-4.0 with companion paper.
-- **La Mita viewer + Mining Externality Atlas** — interactive viewer for historical and contemporary mining externalities, with a scoping path toward a global externality atlas.
+- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)** (Paper 5). Working paper in preparation, target *Journal of International Economics*. Companion dataset (EffDist V2026) for CC-BY-4.0 Zenodo release.
+- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)** (Joint Paper 1 of the Penumbra program). SSRN target October 2026; journal submission target February 2027 (JDE / AEJ: Applied).
+- **[Trade in the Spotlight (2025)](/research/gonchar-helfrich-2025-spotlight)** (SSRN 5202676). April 2025 preprint introducing the OVDL distance measure. Foundation for Paper 5.
 
-A full personal page with CV, affiliation, contact, and photo will live here once Liz has set up her own preferences. Until then, write to Ian for collaboration inquiries and he'll pass things along.
+A full personal page with CV, affiliation, contact, and photo will live here at her preference. Until then, correspondence about joint work can come through Ian.

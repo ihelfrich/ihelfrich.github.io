@@ -2,6 +2,7 @@
 title: "Sanctions, satellites, and the Lucas critique"
 summary: "Why the satellite-economics literature has been quietly committing a Lucas-critique violation for a decade, and what to do about it. The intellectual setup for the Penumbra paper."
 date: 2026-04-10
+draft: true
 tags: ["sanctions", "satellite-economics", "penumbra", "research-notes"]
 ---
 

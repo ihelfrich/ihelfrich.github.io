@@ -2,6 +2,7 @@
 title: "On not knowing whether the rural penalty is an EU problem too"
 summary: "Katia leaves for Lisbon in three weeks. The U.S. result is clean. Whether it transfers to Portugal and Ireland is an open question, and that uncertainty is exactly why the trip is worth making."
 date: 2026-04-22
+draft: true
 tags: ["nmtc", "blended-finance", "rural", "europe", "research-notes"]
 ---
 

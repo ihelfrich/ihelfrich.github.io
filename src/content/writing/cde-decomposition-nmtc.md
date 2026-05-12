@@ -2,6 +2,7 @@
 title: "The CDE decomposition that wasn't supposed to work"
 summary: "How the apparent rural-urban leverage gap in the U.S. New Markets Tax Credit collapsed once I added intermediary fixed effects. A note on the moment that reframed the paper, what it means for the CDFI Fund, and what I still don't know."
 date: 2026-05-12
+draft: true
 tags: ["nmtc", "blended-finance", "rural", "research-notes"]
 ---
 

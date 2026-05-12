@@ -2,6 +2,7 @@
 title: "Effective distance, plainly"
 summary: "Why Portugal and Brazil are 'closer' than Portugal and Morocco, even though Morocco is right across the strait. A non-technical note on the metric Liz and I are building for the Effective Distance panel, and the chokepoint shocks that make it matter."
 date: 2026-04-28
+draft: true
 tags: ["trade", "networks", "effective-distance", "research-notes"]
 ---
 
