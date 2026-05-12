@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="GIS portfolio" description="Geographic information systems work: remote sensing, planning visualization, hazard analysis.">
+  <h1>GIS portfolio</h1>
+
+  <p>I have a master's in GIS and most of my research has a geographic-scale aggregation problem hiding inside it somewhere. The pieces below are the parts of that work that stand on their own outside of a paper.</p>
+
+  <h2>Texas snowstorm impact analysis</h2>
+  <p>Class project from the planning sequence: looking at the spatial pattern of power outages in Texas after the February 2021 cold snap, geocoded against utility-territory boundaries and tract-level demographics. The headline finding (which is now established in the published literature too) is that the outage spatial pattern was orthogonal to the temperature pattern, which is a polite way of saying the grid failed where the political map said it would fail, not where the cold map said it would fail. <a href="/portfolio/Helfrich_CP6521_FinalProject_Texas.pdf">Final project PDF</a>.</p>
+
+  <h2>Visualization for planning (group project)</h2>
+  <p>A municipal planning project that asked the team to produce the kind of dossier an actual municipal client could read end-to-end: spatial analysis, design concepts, supporting figures, narrative. The deliverable was the kind of thing I now ask MBA students to imitate when they need to produce a public-facing brief from technical work. <a href="/portfolio/CP6006_FinalSubmission_Report.pdf">Final submission PDF</a>.</p>
+
+  <h2>LiDAR building identification</h2>
+  <p>A small piece on using LiDAR-derived elevation data to identify building footprints. Mostly a demonstration of the data pipeline; the underlying problem (deriving footprints from raw point clouds) is a solved one in the literature but a useful one to have run from scratch. The point of the exercise is that I have, in fact, run it from scratch.</p>
+
+  <h2>Ongoing geospatial work</h2>
+  <p>The bigger geospatial projects are now embedded in the research papers themselves. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">Paper 5 (Effective Distance)</a> is a multi-modal least-cost-path construction across WorldPop / GHS-POP / HRSL gridded population, VIIRS nightlights, and OpenStreetMap transport networks for 200 countries over 25 years. The <a href="/datasets/effdist-v2026">EffDist V2026 dataset</a> page has the technical details.</p>
+
+  <p style="color: var(--muted); font-size: 0.92rem; margin-top: 2rem;">The PDFs above are migrating from the older ianhelfrich.com WordPress site. If a link is broken, <a href="mailto:ianthelfrich@gmail.com">email me</a> and I'll send the file directly.</p>
+</Base>
