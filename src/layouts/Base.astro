@@ -11,12 +11,21 @@ const desc = description ?? "Applied causal inference, blended-finance research,
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
+  <meta name="author" content="Dr. Ian Helfrich" />
+  <meta name="theme-color" content="#0d3b66" />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={Astro.url} />
+  <meta property="og:site_name" content="Ian Helfrich" />
+  <meta property="og:image" content="https://ihelfrich.github.io/people/ian.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={desc} />
+  <meta name="twitter:image" content="https://ihelfrich.github.io/people/ian.jpg" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
+  <link rel="canonical" href={Astro.url} />
   <title>{fullTitle}</title>
 </head>
 <body>
@@ -25,6 +34,7 @@ const desc = description ?? "Applied causal inference, blended-finance research,
       <a href="/" class="h-nav-brand">Ian Helfrich</a>
       <div class="h-nav-links">
         <a href="/research">Research</a>
+        <a href="/program">Program</a>
         <a href="/datasets">Datasets</a>
         <a href="/projects">Projects</a>
         <a href="/teaching">Teaching</a>
