@@ -1,0 +1,24 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("writing");
+  return posts.map(p => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const post = await getEntry("writing", slug);
+const { Content } = await render(post);
+const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+---
+<Base title={post.data.title} description={post.data.summary}>
+  <article class="h-article">
+    <header>
+      <div class="h-article-meta">{fmt(post.data.date)}{post.data.updated ? ` · updated ${fmt(post.data.updated)}` : ""}{post.data.tags.length > 0 ? ` · ${post.data.tags.join(", ")}` : ""}</div>
+      <h1>{post.data.title}</h1>
+      {post.data.subtitle && <p style="color: var(--ink-soft); font-size: 1.1rem; margin-top: 0.4rem;">{post.data.subtitle}</p>}
+    </header>
+    <Content />
+  </article>
+</Base>

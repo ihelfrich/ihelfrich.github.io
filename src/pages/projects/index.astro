@@ -1,0 +1,21 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
+---
+<Base title="Projects" description="Sites, datasets, viewers, and analysis tools.">
+  <h1>Projects</h1>
+  <p>Sites, datasets, viewers, and analysis tools. Each one is a working artifact, not a portfolio piece. Click through and use them.</p>
+
+  <div class="h-card-grid">
+    {projects.map(p => (
+      <a class="h-card" href={p.data.url ?? `/projects/${p.id}`} target={p.data.url ? "_blank" : undefined} rel={p.data.url ? "noopener" : undefined}>
+        <div class="h-card-tag">{p.data.tags.join(" · ")}</div>
+        <div class="h-card-title">{p.data.title}</div>
+        <div class="h-card-blurb">{p.data.blurb}</div>
+        <span class="h-card-status" data-status={p.data.status}>{p.data.status}</span>
+      </a>
+    ))}
+  </div>
+</Base>

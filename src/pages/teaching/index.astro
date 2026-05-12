@@ -1,0 +1,20 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
+---
+<Base title="Teaching" description="Reference sites, books, and tutoring materials.">
+  <h1>Teaching</h1>
+  <p>Reference sites and curricula I've built (and keep iterating). Use anything here under CC-BY-SA. Email me when you spot something wrong or stale.</p>
+
+  <div class="h-card-grid">
+    {teaching.map(t => (
+      <a class="h-card" href={t.data.url} target="_blank" rel="noopener">
+        <div class="h-card-tag">{t.data.audience}{t.data.tags.length > 0 ? ` · ${t.data.tags.join(" · ")}` : ""}</div>
+        <div class="h-card-title">{t.data.title}</div>
+        <div class="h-card-blurb">{t.data.blurb}</div>
+      </a>
+    ))}
+  </div>
+</Base>

@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const papers = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year);
+---
+<Base title="Research" description="Papers and working drafts.">
+  <h1>Research</h1>
+  <p>Working papers, drafts, and preprints. Most are in active iteration; if a paper here interests you, write me.</p>
+
+  <ul class="h-row-list">
+    {papers.map(p => (
+      <li class="h-row">
+        <div class="h-row-meta">{p.data.year} · {p.data.status}{p.data.venue ? ` · ${p.data.venue}` : ""}{p.data.tags.length > 0 ? ` · ${p.data.tags.join(", ")}` : ""}</div>
+        <h3 class="h-row-title"><a href={`/research/${p.id}`}>{p.data.title}</a></h3>
+        <p class="h-row-summary"><em>{p.data.authors.join(", ")}.</em> {p.data.abstract}</p>
+        <div style="margin-top: 0.4rem; font-family: var(--font-sans); font-size: 0.85rem;">
+          {p.data.pdf && <a href={p.data.pdf} target="_blank" rel="noopener">PDF</a>}
+          {p.data.pdf && p.data.ssrn && <span style="color: var(--muted);"> · </span>}
+          {p.data.ssrn && <a href={p.data.ssrn} target="_blank" rel="noopener">SSRN</a>}
+          {(p.data.pdf || p.data.ssrn) && p.data.repo && <span style="color: var(--muted);"> · </span>}
+          {p.data.repo && <a href={p.data.repo} target="_blank" rel="noopener">Code & data</a>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</Base>

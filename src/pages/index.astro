@@ -1,0 +1,89 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
+const pinnedProjects = projects.filter(p => p.data.pinned).slice(0, 6);
+
+const writing = (await getCollection("writing"))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 5);
+
+const research = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year).slice(0, 5);
+const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
+
+const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+---
+<Base>
+  <section class="h-hero">
+    <h1>Ian Helfrich</h1>
+    <p class="h-hero-lead">
+      PhD economist (Georgia Tech 2024). Applied causal inference, blended finance, and the geography of capital. I build research, datasets, and teaching tools for the kinds of policy questions where the answer depends on who you are and where you live.
+    </p>
+    <div class="h-hero-meta">
+      Atlanta · <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> · <a href="https://github.com/ihelfrich">github.com/ihelfrich</a>
+    </div>
+  </section>
+
+  <p>
+    Right now I'm writing a working paper on the rural mobilization gap in the U.S. New Markets Tax Credit, building a global effective-distance dataset with Dr. Elizaveta Gonchar, and running a teaching pipeline (Inference Lab, Macro Prep, Pictures of Inference) that I draft alongside the research because the two improve each other. If you're doing applied causal work in development finance, rural-credit policy, or the spatial-finance space, I would like to hear about it.
+  </p>
+
+  <div class="h-section-head">
+    <h2>Projects</h2>
+    <a href="/projects" class="h-see-all">All projects →</a>
+  </div>
+  <div class="h-card-grid">
+    {pinnedProjects.map(p => (
+      <a class="h-card" href={p.data.url ?? `/projects/${p.id}`} target={p.data.url ? "_blank" : undefined} rel={p.data.url ? "noopener" : undefined}>
+        <div class="h-card-tag">{p.data.tags[0] ?? "project"}</div>
+        <div class="h-card-title">{p.data.title}</div>
+        <div class="h-card-blurb">{p.data.blurb}</div>
+        <span class="h-card-status" data-status={p.data.status}>{p.data.status}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="h-section-head">
+    <h2>Research</h2>
+    <a href="/research" class="h-see-all">All papers →</a>
+  </div>
+  <ul class="h-row-list">
+    {research.map(r => (
+      <li class="h-row">
+        <div class="h-row-meta">{r.data.year} · {r.data.status}{r.data.venue ? ` · ${r.data.venue}` : ""}</div>
+        <h3 class="h-row-title"><a href={`/research/${r.id}`}>{r.data.title}</a></h3>
+        <p class="h-row-summary">{r.data.authors.join(", ")}</p>
+      </li>
+    ))}
+  </ul>
+
+  <div class="h-section-head">
+    <h2>Writing</h2>
+    <a href="/writing" class="h-see-all">All posts →</a>
+  </div>
+  <ul class="h-row-list">
+    {writing.map(w => (
+      <li class="h-row">
+        <div class="h-row-meta">{fmt(w.data.date)}</div>
+        <h3 class="h-row-title"><a href={`/writing/${w.id}`}>{w.data.title}</a></h3>
+        <p class="h-row-summary">{w.data.summary}</p>
+      </li>
+    ))}
+  </ul>
+
+  <div class="h-section-head">
+    <h2>Teaching</h2>
+    <a href="/teaching" class="h-see-all">All →</a>
+  </div>
+  <div class="h-card-grid">
+    {teaching.map(t => (
+      <a class="h-card" href={t.data.url} target="_blank" rel="noopener">
+        <div class="h-card-tag">{t.data.audience}</div>
+        <div class="h-card-title">{t.data.title}</div>
+        <div class="h-card-blurb">{t.data.blurb}</div>
+      </a>
+    ))}
+  </div>
+</Base>

@@ -1,0 +1,53 @@
+name: Build and deploy hub
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Rebuild daily so the cross-site search picks up spoke updates
+  schedule:
+    - cron: "30 7 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci
+      - name: Build hub
+        run: npm run build:fast
+      - name: Mirror spokes for indexing
+        run: |
+          mkdir -p dist/inference-lab dist/macroprep
+          wget -r -np -nH --cut-dirs=1 -R "index.html?*" -P dist/inference-lab https://ihelfrich.github.io/inference-lab/ || true
+          wget -r -np -nH --cut-dirs=1 -R "index.html?*" -P dist/macroprep https://ihelfrich.github.io/macroprep/ || true
+      - name: Build Pagefind index
+        run: npx pagefind --site dist --output-path dist/pagefind
+      - name: Remove spoke copies (Pages routes /inference-lab to its own repo)
+        run: rm -rf dist/inference-lab dist/macroprep
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

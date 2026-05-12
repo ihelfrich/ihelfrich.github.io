@@ -1,0 +1,51 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="Search" description="Search across all of Ian Helfrich's writing, research, projects, and teaching materials.">
+  <h1>Search</h1>
+  <p>
+    Search across this site plus the Inference Lab and Macro Prep teaching sites. The index is built from the rendered HTML of all three properties and runs entirely in your browser — no server, no tracking. Powered by <a href="https://pagefind.app" target="_blank" rel="noopener">Pagefind</a>.
+  </p>
+
+  <div class="h-search-wrap">
+    <div id="search"></div>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.9rem; margin-top: 2rem;">
+    Tips: search by topic ("RDD bandwidth"), by author ("Callaway Sant'Anna"), or by program ("NMTC", "BPF", "PRONAF"). Results link directly to the chapter or post.
+  </p>
+
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <script src="/pagefind/pagefind-ui.js" is:inline></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      new PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 30,
+        resetStyles: false
+      });
+    });
+  </script>
+  <style>
+    :global(.pagefind-ui) {
+      --pagefind-ui-primary: var(--rust);
+      --pagefind-ui-text: var(--ink);
+      --pagefind-ui-background: var(--paper);
+      --pagefind-ui-border: var(--rule);
+      --pagefind-ui-tag: var(--paper-2);
+      --pagefind-ui-font: var(--font-serif);
+      --pagefind-ui-border-radius: 5px;
+    }
+    :global(.pagefind-ui__search-input) {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+    }
+    :global(.pagefind-ui__result-title) {
+      font-family: var(--font-serif);
+      color: var(--ink);
+    }
+  </style>
+</Base>
