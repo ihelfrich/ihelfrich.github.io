@@ -28,10 +28,41 @@ body {
   margin: 0;
   font-family: var(--font-serif);
   font-feature-settings: "kern", "liga", "onum";
-  background: var(--paper);
   color: #1c1c1c;
   line-height: 1.65;
   font-size: 18px;
+  /* layered: warm paper + faint grain (SVG noise) + soft top-corner glow */
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(at 100% 0%, rgba(212, 167, 44, 0.07) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(184, 92, 56, 0.06) 0%, transparent 45%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: auto, auto, 200px 200px;
+  background-attachment: fixed, fixed, fixed;
+}
+
+/* scroll-progress bar */
+.h-scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--rust), var(--gold));
+  z-index: 200;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* reveal animation (the JS adds .h-in once visible) */
+.h-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.h-reveal.h-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .h-reveal { opacity: 1; transform: none; transition: none; }
 }
 
 a {
@@ -129,43 +160,123 @@ footer a { color: var(--muted); }
 
 /* ===== Hero (landing) ===== */
 .h-hero {
-  padding: 2.5rem 0 2rem;
+  position: relative;
+  /* full-bleed: break out of any constrained container */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: -2.4rem;
+  margin-bottom: 2.5rem;
+  padding: 4rem 1.4rem 3.2rem;
   border-bottom: 1px solid var(--rule);
-  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.h-hero > *:not(.h-hero-canvas) {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.h-hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+.h-hero > * { position: relative; z-index: 1; }
+.h-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rust);
+  margin-bottom: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.h-hero-eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rust);
+  box-shadow: 0 0 0 0 rgba(184, 92, 56, 0.6);
+  animation: pulse 2.2s ease-out infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(184, 92, 56, 0.6); }
+  70%  { box-shadow: 0 0 0 12px rgba(184, 92, 56, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(184, 92, 56, 0); }
 }
 .h-hero h1 {
-  font-size: 3rem;
-  line-height: 1.05;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
   margin: 0;
+  font-weight: 700;
+}
+.h-hero h1 .h-accent {
+  background: linear-gradient(120deg, var(--ink) 30%, var(--rust) 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .h-hero-lead {
-  font-size: 1.18rem;
+  font-size: 1.2rem;
   color: var(--ink-soft);
-  margin: 0.8rem 0 1.2rem;
-  max-width: 40rem;
+  margin: 1rem 0 1.4rem;
+  max-width: 38rem;
 }
+.h-hero-lead em { color: var(--rust); font-style: normal; font-weight: 600; }
 .h-hero-meta {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--muted);
   letter-spacing: 0.04em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
 }
-.h-hero-meta a { color: var(--muted); }
-.h-hero-meta a:hover { color: var(--rust); }
+.h-hero-meta a { color: var(--muted); border-bottom: 1px dotted var(--rule); }
+.h-hero-meta a:hover { color: var(--rust); border-bottom-color: var(--rust); }
+.h-hero-meta .h-cta {
+  color: var(--paper);
+  background: var(--rust);
+  padding: 0.3em 0.8em;
+  border-radius: 99px;
+  border: none;
+  font-weight: 600;
+}
+.h-hero-meta .h-cta:hover { background: var(--ink); color: var(--paper); }
 
 /* ===== Section header with eyebrow + see-all link ===== */
 .h-section-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin: 2.4rem 0 0.8rem;
-  border-left: 4px solid var(--rust);
-  padding-left: 0.7rem;
-}
-.h-section-head h2 {
-  margin: 0;
+  margin: 3rem 0 1rem;
   border-left: none;
   padding-left: 0;
+  position: relative;
+}
+.h-section-head::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0; top: 50%;
+  width: 4px;
+  height: 1.6rem;
+  background: linear-gradient(var(--rust), var(--gold));
+  border-radius: 4px;
+  transform: translateY(-50%);
+}
+.h-section-head h2 {
+  margin: 0 0 0 0.9rem;
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
 }
 .h-section-head .h-see-all {
   font-family: var(--font-sans);
@@ -183,21 +294,38 @@ footer a { color: var(--muted); }
   margin: 1rem 0;
 }
 .h-card {
+  position: relative;
   background: var(--paper);
   border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 1rem 1.15rem;
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s ease;
   display: block;
-  border-bottom: 1px solid var(--rule);
   text-decoration: none;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.h-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--rust) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
 }
 .h-card:hover {
-  border-color: var(--rust);
-  box-shadow: 0 4px 16px rgba(13, 59, 102, 0.08);
-  transform: translateY(-2px);
-  border-bottom: 1px solid var(--rust);
+  border-color: transparent;
+  box-shadow: 0 12px 32px -10px rgba(13, 59, 102, 0.18),
+              0 4px 12px -6px rgba(184, 92, 56, 0.12);
 }
+.h-card:hover::before { opacity: 1; }
 .h-card-tag {
   font-family: var(--font-mono);
   font-size: 0.72rem;

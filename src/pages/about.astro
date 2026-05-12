@@ -4,31 +4,33 @@ import Base from "../layouts/Base.astro";
 <Base title="About" description="Who I am and what I work on.">
   <h1>About</h1>
 
-  <p>I'm an applied economist. PhD from Georgia Tech in 2024, with a thesis on network centrality, spatial heterogeneity, and optimal transport in international trade. My research is in the family of "applied causal inference with a spatial conscience." That is: I care a lot about identification, I care equally about whether the result generalises to the geography it claims to describe, and I tend to study programs where capital moves through pass-through intermediaries (Community Development Entities, mutual guarantee societies, microfinance institutions, central-bank refinancing windows) rather than directly to final beneficiaries.</p>
+  <p>I grew up paying attention to signals before I knew they had a name. My first technical training was in signal processing, then GIS, then economics. The thread was always: how do you tell, from messy data, what's actually going on underneath. By the time I got to graduate school, this had narrowed into a specific obsession with the geography of capital flows. Who gets credit, where, on what terms. Most of my research is some version of that question.</p>
 
-  <p>The thing I'm best at is taking a policy question that looks like a market-structure problem ("rural communities can't access credit") and showing it's actually an intermediary-allocation problem ("the public capital we routed through these particular CDEs went where the CDEs preferred to deploy it"). That reframing matters because the fixes are different and the cheap fix is usually the second one.</p>
+  <p>I finished my PhD at Georgia Tech in 2024. The dissertation was on network centrality, spatial heterogeneity, and optimal transport in international trade. It was not the kind of dissertation that ends up cited in policy briefs. But the methods turned out to travel. The way you decompose a trade-network shock into direct and indirect components is the same way you decompose a place-based-credit program into between-intermediary and within-intermediary effects. Same algebra, different setting. I've spent the time since finishing trying to make the connection useful.</p>
 
-  <h2>What I work on</h2>
+  <h2>The thing I'm doing right now</h2>
 
-  <p>Three threads, in rough order of how much time they take:</p>
+  <p>A working paper on the U.S. New Markets Tax Credit. The headline result is that the apparent rural mobilization gap, which has been a persistent talking point in CDFI Fund advocacy for a decade, is almost entirely between-CDE selection. Within any given CDE, rural projects don't leverage worse than urban ones in a way you can statistically detect. The penalty isn't a market problem. It's an allocation problem. That has direct implications for how the CDFI Fund should design its allocation rounds: send more rural-targeted dollars through high-leverage urban-experienced CDEs, with rural carve-outs, rather than subsidize rural projects more inside intermediaries that don't really do leverage. The paper is heading to SSRN in the next few weeks.</p>
 
-  <p><strong>Research.</strong> Right now the active papers are (1) <em>The rural mobilization gap in U.S. place-based tax credit</em>, which decomposes the NMTC rural penalty into between-CDE and within-CDE components; (2) <em>Trade in the spotlight</em> with Dr. Elizaveta Gonchar, which applies an effective-distance metric to bilateral economic exposure under sanctions; and (3) a Portugal/Ireland extension of the NMTC methodology to EU blended-finance instruments, in collaboration with Katia Antunes. The larger arc is the <strong>Spatial Public-Finance Atlas</strong>, a multi-program atlas of how public-subsidy capital flows across geography.</p>
+  <p>I'm also rolling that methodology forward into the European setting, with <a href="/people/">Katia Antunes</a>, who's about to do fieldwork in Lisbon and Dublin. The Portuguese SGM structure (four mutual-guarantee societies, one of them agriculture-specialized) is a clean European analogue to the U.S. CDE structure. The Irish SBCI works through commercial-bank on-lenders, which is a different intermediary geometry. Comparing the two should let us see whether the intermediary-selection mechanism transfers across institutional designs, or whether the U.S. result is a U.S. artifact. Either answer is publishable.</p>
 
-  <p><strong>Teaching.</strong> I run three teaching sites: <a href="https://ihelfrich.github.io/inference-lab/">Inference Lab</a> for applied causal methods, <a href="https://ihelfrich.github.io/macroprep/">Macro Prep</a> for intermediate macroeconomics, and <a href="https://github.com/ihelfrich/pictures-of-inference">Pictures of Inference</a> for a visual textbook on statistical inference (in draft). I tutor graduate students and advanced undergraduates in econometrics, finance, and economic theory. I take new clients selectively, with priority on people working on applied-causal projects in development or blended finance.</p>
+  <p>The third thread is joint work with <a href="/people/elizaveta-gonchar">Dr. Elizaveta Gonchar</a>, who's also my fiancée. We're building an effective-distance dataset (EffDist V2026) and have a paper out on SSRN, <em>Trade in the Spotlight</em>, applying it to bilateral exposure under sanctions. The metric replaces great-circle distance with shortest-network-path distance through a probability-weighted trade-flow graph. It's a small idea that does a surprising amount of work in a gravity equation.</p>
 
-  <p><strong>Tools.</strong> I build datasets and viewers as part of the research workflow rather than as portfolio pieces. The <a href="https://ihelfrich.github.io/us-nmtc-viewer/">US NMTC Viewer</a> is the data spine behind the rural-mobilization paper. The EffDist V2026 dataset is a global gridded effective-distance product co-developed with Dr. Gonchar. All of it lives on GitHub and is CC-BY-SA or CC-BY licensed unless otherwise noted.</p>
+  <h2>The teaching</h2>
+
+  <p>I run three teaching sites because they keep me honest about my research. If I can't explain a method clearly enough for a competent undergraduate to use it on their own data, I probably don't understand the method as well as I think I do. The biggest of these is <a href="https://ihelfrich.github.io/inference-lab/">Inference Lab</a>, which has 15 chapters on the methods I actually use, with R and Stata code side by side. <a href="https://ihelfrich.github.io/macroprep/">Macro Prep</a> is a reference site for intermediate macro with live FRED dashboards. <a href="https://github.com/ihelfrich/pictures-of-inference">Pictures of Inference</a> is a slow-cooking book on visual statistics, drafted in Quarto.</p>
+
+  <p>The tutoring is one-to-one work with graduate students and advanced undergraduates. I take maybe four or five clients at a time, mostly people working on applied-causal projects in development or finance. If you're trying to figure out whether your data supports an RDD or whether you need to fall back to a fuzzy design, that's the kind of conversation I'm useful for. If you want someone to do your problem sets, I'm not.</p>
 
   <h2>What I don't do</h2>
 
-  <p>I don't take tutoring clients whose objective is to outsource problem sets. I don't co-author papers I haven't substantively contributed to. I don't ghost-write. I don't accept consulting work where the deliverable is a foregone conclusion. And I don't currently take new institutional consulting engagements unless they overlap meaningfully with the existing research program (DFI-funded impact evaluation in rural finance is the main exception).</p>
+  <p>I don't ghostwrite. I don't sign onto papers I haven't substantively contributed to. I don't take consulting engagements whose conclusion is already decided. I don't post on Twitter (the account is dormant; Bluesky is the only social I check). I don't currently take big institutional retainer-style work because I'd rather finish the paper.</p>
 
-  <h2>Background</h2>
+  <h2>Where I live</h2>
 
-  <p>I worked in signal processing before economics, and have a master's in GIS. The signal-processing background shows up in the spatial-methods work; the GIS shows up in how I think about geographic-scale aggregation. Both feel relevant to the kinds of questions I now study.</p>
-
-  <p>I live in Atlanta. I'm engaged to Dr. Elizaveta Gonchar, who is also my most frequent research collaborator. We work on the spatial economics of capital, externalities, and trade together.</p>
+  <p>Atlanta. I work mostly from home, occasionally from the library at Tech, and I travel for conferences and fieldwork. The next trip is NEUDC in November if the submission lands. Before that, a visit to Lisbon with Katia. <a href="/now">More on the rolling week-by-week.</a></p>
 
   <h2>Contact</h2>
 
-  <p><a href="/contact/">Contact page</a> has the right addresses and a booking widget for tutoring slots.</p>
+  <p>Email is fastest, <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>. Tutoring slots through <a href="/book">the booking page</a>. Research correspondence, just write me. I read what comes in and I answer most of it within a day.</p>
 </Base>

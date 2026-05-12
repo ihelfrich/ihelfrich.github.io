@@ -28,21 +28,34 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
 ---
 <Base>
   <section class="h-hero">
-    <h1>Ian Helfrich</h1>
+    <canvas id="hero-canvas" class="h-hero-canvas" aria-hidden="true"></canvas>
+    <div class="h-hero-eyebrow">Atlanta, Georgia · open to new work</div>
+    <h1>Ian Helfrich,<br/><span class="h-accent">applied economist.</span></h1>
     <p class="h-hero-lead">
-      PhD economist (Georgia Tech 2024). Applied causal inference, blended finance, and the geography of capital. I build research, datasets, and teaching tools for the kinds of policy questions where the answer depends on who you are and where you live.
+      I work on programs where capital is supposed to find the people who need it, and where it usually doesn't. Right now that's <em>blended finance in rural America and the EU</em>, and the geography of credit pass-through more broadly. PhD from Georgia Tech, 2024.
     </p>
     <div class="h-hero-meta">
-      Atlanta · <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> · <a href="https://github.com/ihelfrich">github.com/ihelfrich</a> · <a href="/book" style="color: var(--rust);">book a session</a>
+      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
+      <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">github</a>
+      <a href="/now">what I'm doing now</a>
+      <a href="/book" class="h-cta">Book a session</a>
     </div>
   </section>
 
-  <p style="font-size: 1.05rem;">
-    Right now I'm writing a working paper on the rural mobilization gap in the U.S. New Markets Tax Credit, building a global effective-distance dataset with Dr. Elizaveta Gonchar, prepping Katia Antunes for a Portugal+Ireland blended-finance fieldwork trip, and running a teaching pipeline (Inference Lab, Macro Prep, Pictures of Inference) that I draft alongside the research because the two improve each other. <a href="/now">More on what I'm working on this week →</a>
-  </p>
+  <section style="max-width: var(--content-max); margin: 0 auto;">
+    <p style="font-size: 1.1rem; line-height: 1.7;">
+      A while back I was looking at the U.S. New Markets Tax Credit data and noticing what everyone in that literature notices: rural projects got worse deals. Lower leverage, smaller deal sizes, fewer dollars per resident. The usual story. Then I added Community Development Entity fixed effects to the regression. Most of the gap collapsed. Inside any given CDE, rural projects were doing fine. What looked like a rural-credit-market problem was a CDE-allocation problem in a wig.
+    </p>
+    <p>
+      That kind of result is what I keep ending up at. A program looks one way until you take the pass-through structure seriously. Once you do, the policy lever changes. Cheaper, often. Sometimes harder politically. Always more accurate. Most of what's on this site is in that family: the <a href="/research/helfrich-2026-nmtc-rural-gap">NMTC paper</a>, the <a href="/datasets/effdist-v2026">effective-distance work with Liz</a>, the <a href="https://ihelfrich.github.io/inference-lab/">teaching site</a> I built so other people can do this kind of analysis without spending a year tooling up.
+    </p>
+    <p style="color: var(--muted); font-size: 0.95rem;">
+      If you're a graduate student trying to read your way into applied causal inference, or a DFI person trying to figure out whether your rural-credit program is doing what it claims, those are the two reasons people usually email me. Both welcome.
+    </p>
+  </section>
 
   <div class="h-section-head">
-    <h2>Featured projects</h2>
+    <h2>What I've built</h2>
     <a href="/projects" class="h-see-all">All projects →</a>
   </div>
   <div class="h-card-grid">
@@ -57,7 +70,7 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
   </div>
 
   <div class="h-section-head">
-    <h2>Research</h2>
+    <h2>Papers</h2>
     <a href="/research" class="h-see-all">All papers →</a>
   </div>
   <ul class="h-row-list">
@@ -86,7 +99,7 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
 
   <div class="h-section-head">
     <h2>Writing</h2>
-    <a href="/writing" class="h-see-all">All posts → · <a href="/rss.xml" style="font-family: var(--font-mono); font-size: 0.8em;">RSS</a></a>
+    <a href="/writing" class="h-see-all">All → · <a href="/rss.xml" style="font-family: var(--font-mono); font-size: 0.8em;">RSS</a></a>
   </div>
   <ul class="h-row-list">
     {writing.map(w => (
@@ -130,7 +143,7 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
   )}
 
   <div class="h-section-head">
-    <h2>Collaborators</h2>
+    <h2>People I work with</h2>
     <a href="/people" class="h-see-all">All →</a>
   </div>
   <div class="h-card-grid">
@@ -146,7 +159,7 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
   {readingItems.length > 0 && (
     <>
       <div class="h-section-head">
-        <h2>What I'm reading</h2>
+        <h2>On my desk</h2>
         <a href="/reading" class="h-see-all">All →</a>
       </div>
       <ul class="h-row-list">
@@ -160,10 +173,13 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
     </>
   )}
 
-  <div style="margin-top: 3.5rem; padding: 1.5rem 1.7rem; background: var(--paper-2); border-left: 4px solid var(--sage); border-radius: 4px;">
-    <h3 style="margin-top: 0;">Looking to work together?</h3>
-    <p style="margin-bottom: 0;">
-      <a href="/book">Book a 30-min consult</a> for tutoring (graduate or advanced-undergrad economics) or a research call. For collaboration or speaking, email is fastest: <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>.
+  <div style="margin: 4rem 0 2rem; padding: 2rem 2.2rem; background: linear-gradient(135deg, var(--paper-2), var(--paper)); border-left: 4px solid var(--sage); border-radius: 6px; box-shadow: 0 1px 12px rgba(13, 59, 102, 0.05);">
+    <h3 style="margin: 0 0 0.4rem;">Want to work together?</h3>
+    <p style="margin-bottom: 0; font-size: 1.05rem;">
+      <a href="/book">Book a 30-minute consult</a> for tutoring (graduate or advanced-undergrad econ) or to chat about a project. For research or collaboration questions, write me directly at <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>. I answer most emails within a day.
     </p>
   </div>
+
+  <script src="/network.js" defer></script>
+  <script src="/reveal.js" defer></script>
 </Base>
