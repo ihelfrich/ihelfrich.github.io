@@ -14,6 +14,9 @@ const { Content } = await render(person);
 <Base title={person.data.name} description={person.data.bio.slice(0, 160)}>
   <article class="h-article">
     <header>
+      {person.data.photo && (
+        <img src={person.data.photo} alt={person.data.name} style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%; float: right; margin: 0 0 1rem 1.4rem; border: 3px solid var(--paper-2); box-shadow: 0 4px 14px rgba(13, 59, 102, 0.12);" loading="lazy" />
+      )}
       <div class="h-article-meta">{person.data.role}{person.data.affiliation ? ` · ${person.data.affiliation}` : ''}</div>
       <h1>{person.data.name}</h1>
       <p style="color: var(--ink-soft); font-size: 1.05rem; margin-top: 0.6rem;">{person.data.bio}</p>
