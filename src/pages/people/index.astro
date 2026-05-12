@@ -1,0 +1,20 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const people = (await getCollection("people")).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="People" description="Research collaborators and co-authors.">
+  <h1>People</h1>
+  <p>I work with a small set of close collaborators and a rotating group of tutoring clients and students. The page here is for the long-term research partnerships.</p>
+
+  <div class="h-card-grid">
+    {people.map(p => (
+      <a class="h-card" href={`/people/${p.id}`}>
+        <div class="h-card-tag">{p.data.role}</div>
+        <div class="h-card-title">{p.data.name}</div>
+        <div class="h-card-blurb">{p.data.bio.slice(0, 200)}{p.data.bio.length > 200 ? '…' : ''}</div>
+      </a>
+    ))}
+  </div>
+</Base>

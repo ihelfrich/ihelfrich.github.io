@@ -1,0 +1,26 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const datasets = (await getCollection("datasets")).sort((a, b) => b.data.year - a.data.year);
+---
+<Base title="Datasets" description="Research datasets I've built and released.">
+  <h1>Datasets</h1>
+  <p>Cleaned, geocoded, linked, and citable. Most are pre-release; once a companion paper goes up, the dataset goes to Zenodo with a DOI.</p>
+
+  <ul class="h-row-list">
+    {datasets.map(d => (
+      <li class="h-row">
+        <div class="h-row-meta">{d.data.year} · {d.data.status} · {d.data.license}{d.data.size ? ` · ${d.data.size}` : ''}{d.data.tags.length > 0 ? ` · ${d.data.tags.join(', ')}` : ''}</div>
+        <h3 class="h-row-title"><a href={`/datasets/${d.id}`}>{d.data.title}</a></h3>
+        <p class="h-row-summary"><em>{d.data.authors.join(', ')}.</em> {d.data.blurb}</p>
+        <div style="margin-top: 0.4rem; font-family: var(--font-sans); font-size: 0.85rem;">
+          {d.data.doi && <a href={`https://doi.org/${d.data.doi}`} target="_blank" rel="noopener">DOI</a>}
+          {d.data.zenodo && <>{d.data.doi && <span style="color: var(--muted);"> · </span>}<a href={d.data.zenodo} target="_blank" rel="noopener">Zenodo</a></>}
+          {d.data.repo && <>{(d.data.doi || d.data.zenodo) && <span style="color: var(--muted);"> · </span>}<a href={d.data.repo} target="_blank" rel="noopener">Source code</a></>}
+          {d.data.viewer && <>{(d.data.doi || d.data.zenodo || d.data.repo) && <span style="color: var(--muted);"> · </span>}<a href={d.data.viewer} target="_blank" rel="noopener">Viewer</a></>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</Base>

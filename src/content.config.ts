@@ -57,4 +57,59 @@ const teaching = defineCollection({
   }),
 });
 
-export const collections = { projects, writing, research, teaching };
+const people = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/people' }),
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    bio: z.string(),
+    affiliation: z.string().optional(),
+    email: z.string().optional(),
+    website: z.string().optional(),
+    orcid: z.string().optional(),
+    googleScholar: z.string().optional(),
+    ssrn: z.string().optional(),
+    github: z.string().optional(),
+    bluesky: z.string().optional(),
+    linkedin: z.string().optional(),
+    photo: z.string().optional(),
+    interests: z.array(z.string()).default([]),
+    order: z.number().default(99),
+  }),
+});
+
+const datasets = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/datasets' }),
+  schema: z.object({
+    title: z.string(),
+    authors: z.array(z.string()),
+    blurb: z.string(),
+    year: z.number(),
+    status: z.enum(['released', 'in-progress', 'planned', 'archived']),
+    doi: z.string().optional(),
+    zenodo: z.string().optional(),
+    repo: z.string().optional(),
+    viewer: z.string().optional(),
+    size: z.string().optional(),
+    license: z.string().default('CC-BY-4.0'),
+    citation: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+const talks = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/talks' }),
+  schema: z.object({
+    title: z.string(),
+    venue: z.string(),
+    location: z.string().optional(),
+    date: z.coerce.date(),
+    type: z.enum(['conference', 'seminar', 'workshop', 'public', 'guest lecture']).default('conference'),
+    upcoming: z.boolean().default(false),
+    slides: z.string().optional(),
+    video: z.string().optional(),
+    abstract: z.string().optional(),
+  }),
+});
+
+export const collections = { projects, writing, research, teaching, people, datasets, talks };

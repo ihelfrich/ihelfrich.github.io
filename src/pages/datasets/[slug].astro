@@ -1,0 +1,35 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const datasets = await getCollection("datasets");
+  return datasets.map(d => ({ params: { slug: d.id } }));
+}
+
+const { slug } = Astro.params;
+const dataset = await getEntry("datasets", slug);
+const { Content } = await render(dataset);
+---
+<Base title={dataset.data.title} description={dataset.data.blurb}>
+  <article class="h-article">
+    <header>
+      <div class="h-article-meta">DATASET · {dataset.data.year} · {dataset.data.status} · {dataset.data.license}</div>
+      <h1>{dataset.data.title}</h1>
+      <p style="color: var(--ink-soft); font-style: italic; margin: 0.5rem 0 0.4rem;">{dataset.data.authors.join(", ")}</p>
+      <p>{dataset.data.blurb}</p>
+      <div style="margin-top: 0.8rem; font-family: var(--font-sans); font-size: 0.92rem;">
+        {dataset.data.doi && <a href={`https://doi.org/${dataset.data.doi}`} target="_blank" rel="noopener">DOI →</a>}
+        {dataset.data.zenodo && <>{dataset.data.doi && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}<a href={dataset.data.zenodo} target="_blank" rel="noopener">Zenodo →</a></>}
+        {dataset.data.repo && <>{(dataset.data.doi || dataset.data.zenodo) && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}<a href={dataset.data.repo} target="_blank" rel="noopener">Source code →</a></>}
+        {dataset.data.viewer && <>{(dataset.data.doi || dataset.data.zenodo || dataset.data.repo) && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}<a href={dataset.data.viewer} target="_blank" rel="noopener">Viewer →</a></>}
+      </div>
+      {dataset.data.citation && (
+        <div style="margin-top: 1rem; padding: 0.7rem 0.9rem; background: var(--paper-2); border-radius: 4px; font-family: var(--font-mono); font-size: 0.82rem;">
+          <strong>Cite as:</strong> {dataset.data.citation}
+        </div>
+      )}
+    </header>
+    <Content />
+  </article>
+</Base>

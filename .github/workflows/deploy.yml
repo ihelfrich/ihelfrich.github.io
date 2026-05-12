@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Rebuild daily so the cross-site search picks up spoke updates
+  # Daily rebuild: refreshes the reading feed + re-indexes the spoke sites
   schedule:
     - cron: "30 7 * * *"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,7 +26,13 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: npm ci
+      - name: Refresh reading aggregator
+        run: python3 scripts/fetch_reading.py
+        continue-on-error: true
       - name: Build hub
         run: npm run build:fast
       - name: Mirror spokes for indexing
@@ -41,6 +47,14 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+      - name: Commit refreshed feed cache
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/feeds/*.json
+          git diff --staged --quiet || git commit -m "chore: refresh reading feed cache"
+          git push || true
 
   deploy:
     needs: build

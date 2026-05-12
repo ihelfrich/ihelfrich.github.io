@@ -1,0 +1,69 @@
+---
+import Base from "../layouts/Base.astro";
+const CAL_USERNAME = "ianhelfrich";
+const CAL_EVENT = "consult-30min";
+---
+<Base title="Book a session" description="Schedule a tutoring consult or research call.">
+  <h1>Book a session</h1>
+
+  <p>Pick a time below. The default event is a 30-minute introductory consult. After our first call we'll set a regular cadence and discuss rates.</p>
+
+  <p style="font-family: var(--font-sans); font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem;">
+    Timezone is auto-detected. If you're outside US hours, look at the late evening slots (Atlanta time) for early-morning options in Europe/Africa, or early-morning Atlanta slots for late-evening Asia/Australia.
+  </p>
+
+  <div id="cal-embed" style="min-height: 720px; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper-2); padding: 1rem;">
+    <p style="text-align: center; padding: 2rem 1rem; color: var(--muted);">
+      <strong>Booking widget initializing.</strong><br/>
+      If the calendar doesn't load below in a few seconds, my Cal.com account isn't connected yet. <a href="mailto:ianthelfrich@gmail.com?subject=Booking%20request">Email me directly</a> and we'll pick a time.
+    </p>
+  </div>
+
+  <script is:inline define:vars={{ CAL_USERNAME, CAL_EVENT }}>
+    (function() {
+      // Cal.com embed script; will silently no-op if the account isn't set up
+      const script = document.createElement('script');
+      script.src = 'https://app.cal.com/embed/embed.js';
+      script.async = true;
+      script.onload = function() {
+        if (window.Cal) {
+          window.Cal('init', { origin: 'https://cal.com' });
+          window.Cal('inline', {
+            elementOrSelector: '#cal-embed',
+            calLink: `${CAL_USERNAME}/${CAL_EVENT}`,
+            config: { theme: 'light' }
+          });
+          window.Cal('ui', {
+            theme: 'light',
+            styles: { branding: { brandColor: '#b85c38' } },
+            hideEventTypeDetails: false
+          });
+        }
+      };
+      script.onerror = function() {
+        document.getElementById('cal-embed').innerHTML = '<p style="text-align: center; padding: 2rem 1rem; color: var(--muted);"><strong>Cal.com is not reachable.</strong><br/>Please <a href="mailto:ianthelfrich@gmail.com?subject=Booking%20request">email me</a> directly.</p>';
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
+
+  <h2>What to expect</h2>
+
+  <p>For the first call we'll spend 30 minutes on:</p>
+  <ul>
+    <li>What you're working on (5-10 min, you talk)</li>
+    <li>Whether I'm the right fit (5 min, I push back honestly if I'm not)</li>
+    <li>What a cadence and structure could look like (10 min)</li>
+    <li>Rates, scheduling logistics, and next steps (5 min)</li>
+  </ul>
+
+  <p>If we both decide to work together, follow-on sessions are billed by the hour at a rate we agree on the first call. Rates vary by client situation (graduate students get a different rate than industry clients). I'm transparent about this and we'll figure it out together.</p>
+
+  <h2>What we won't do</h2>
+
+  <p>I don't write your problem sets for you. I don't do your dissertation econometrics on your behalf. I will sit with you while you do the work, push back when something is wrong, and make sure you understand <em>why</em> a particular estimator is the right one for your data. That's the bargain.</p>
+
+  <h2>Cancellations</h2>
+
+  <p>Cancel at least 6 hours in advance via the calendar invite. Late cancellations and no-shows are charged at half the session rate (after the first call, which is free regardless).</p>
+</Base>

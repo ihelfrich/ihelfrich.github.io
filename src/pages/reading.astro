@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import fs from "node:fs";
+import path from "node:path";
+
+let items = [];
+let sources = { generated_at: null, sources: [] };
+try {
+  items = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/reading.json"), "utf8"));
+  sources = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/_sources.json"), "utf8"));
+} catch (e) {
+  // first build before the feed runs
+}
+
+const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const okCount = sources.sources.filter(s => s.ok).length;
+const totalCount = sources.sources.length;
+---
+<Base title="Reading" description="What I'm reading: the working-paper and dev-econ feed I follow.">
+  <h1>Reading</h1>
+
+  <p>What I'm reading. The page aggregates the working-paper and applied-econ feeds I follow into one rolling list. Refreshes daily.</p>
+
+  <p style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);">
+    Feeds: NBER, World Bank Development Impact, VoxDev, VoxEU, CGD, Marginal Revolution, Bruegel, J-PAL, IPA, IFS, BIS, IMF.
+    {sources.generated_at && (<>Last refresh: {fmt(sources.generated_at)} · {okCount}/{totalCount} feeds healthy.</>)}
+  </p>
+
+  <ul class="h-row-list">
+    {items.map(item => (
+      <li class="h-row">
+        <div class="h-row-meta"><a href={item.link} target="_blank" rel="noopener" style="color: var(--rust); border: none;">{item.source}</a> · {fmt(item.date)}{item.category ? ` · ${item.category}` : ''}</div>
+        <h3 class="h-row-title"><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h3>
+        {item.summary && <p class="h-row-summary">{item.summary}</p>}
+      </li>
+    ))}
+  </ul>
+
+  {items.length === 0 && (
+    <p style="color: var(--muted); padding: 1.2rem; background: var(--paper-2); border-radius: 4px;">
+      No items in cache yet. The aggregator runs daily via the GitHub Action; first run produces output within minutes.
+    </p>
+  )}
+
+  <h2>How to subscribe</h2>
+  <p>For my own writing only, <a href="/rss.xml">subscribe to the hub's RSS feed</a>. For the underlying sources here, subscribe to each individually with your favourite RSS reader (NetNewsWire and Feedbin are both excellent).</p>
+</Base>

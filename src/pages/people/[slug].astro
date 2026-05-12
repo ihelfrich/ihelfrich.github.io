@@ -1,0 +1,43 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const people = await getCollection("people");
+  return people.map(p => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const person = await getEntry("people", slug);
+const { Content } = await render(person);
+---
+<Base title={person.data.name} description={person.data.bio.slice(0, 160)}>
+  <article class="h-article">
+    <header>
+      <div class="h-article-meta">{person.data.role}{person.data.affiliation ? ` · ${person.data.affiliation}` : ''}</div>
+      <h1>{person.data.name}</h1>
+      <p style="color: var(--ink-soft); font-size: 1.05rem; margin-top: 0.6rem;">{person.data.bio}</p>
+
+      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem; font-family: var(--font-sans); font-size: 0.9rem;">
+        {person.data.email && <a href={`mailto:${person.data.email}`}>Email</a>}
+        {person.data.website && <a href={person.data.website} target="_blank" rel="noopener">Website</a>}
+        {person.data.github && <a href={person.data.github} target="_blank" rel="noopener">GitHub</a>}
+        {person.data.orcid && <a href={person.data.orcid} target="_blank" rel="noopener">ORCID</a>}
+        {person.data.googleScholar && <a href={person.data.googleScholar} target="_blank" rel="noopener">Google Scholar</a>}
+        {person.data.ssrn && <a href={person.data.ssrn} target="_blank" rel="noopener">SSRN</a>}
+        {person.data.bluesky && <a href={person.data.bluesky} target="_blank" rel="noopener">Bluesky</a>}
+        {person.data.linkedin && <a href={person.data.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+      </div>
+
+      {person.data.interests.length > 0 && (
+        <div style="margin-top: 1rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--rust); margin-bottom: 0.4rem;">Research interests</div>
+          <ul style="margin: 0; padding-left: 1.2rem; color: var(--ink-soft); font-size: 0.95rem;">
+            {person.data.interests.map(i => <li>{i}</li>)}
+          </ul>
+        </div>
+      )}
+    </header>
+    <Content />
+  </article>
+</Base>

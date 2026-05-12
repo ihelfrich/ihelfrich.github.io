@@ -1,6 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import fs from "node:fs";
+import path from "node:path";
 
 const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
 const pinnedProjects = projects.filter(p => p.data.pinned).slice(0, 6);
@@ -8,10 +10,19 @@ const pinnedProjects = projects.filter(p => p.data.pinned).slice(0, 6);
 const writing = (await getCollection("writing"))
   .filter(p => !p.data.draft)
   .sort((a, b) => +b.data.date - +a.data.date)
-  .slice(0, 5);
+  .slice(0, 4);
 
-const research = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year).slice(0, 5);
+const research = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year).slice(0, 4);
+const datasets = (await getCollection("datasets")).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
 const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
+const people = (await getCollection("people")).sort((a, b) => a.data.order - b.data.order);
+const allTalks = await getCollection("talks");
+const upcomingTalks = allTalks.filter(t => t.data.upcoming).sort((a, b) => +a.data.date - +b.data.date).slice(0, 3);
+
+let readingItems = [];
+try {
+  readingItems = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/reading.json"), "utf8")).slice(0, 5);
+} catch (e) {}
 
 const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 ---
@@ -22,16 +33,16 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
       PhD economist (Georgia Tech 2024). Applied causal inference, blended finance, and the geography of capital. I build research, datasets, and teaching tools for the kinds of policy questions where the answer depends on who you are and where you live.
     </p>
     <div class="h-hero-meta">
-      Atlanta · <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> · <a href="https://github.com/ihelfrich">github.com/ihelfrich</a>
+      Atlanta · <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> · <a href="https://github.com/ihelfrich">github.com/ihelfrich</a> · <a href="/book" style="color: var(--rust);">book a session</a>
     </div>
   </section>
 
-  <p>
-    Right now I'm writing a working paper on the rural mobilization gap in the U.S. New Markets Tax Credit, building a global effective-distance dataset with Dr. Elizaveta Gonchar, and running a teaching pipeline (Inference Lab, Macro Prep, Pictures of Inference) that I draft alongside the research because the two improve each other. If you're doing applied causal work in development finance, rural-credit policy, or the spatial-finance space, I would like to hear about it.
+  <p style="font-size: 1.05rem;">
+    Right now I'm writing a working paper on the rural mobilization gap in the U.S. New Markets Tax Credit, building a global effective-distance dataset with Dr. Elizaveta Gonchar, prepping Katia Antunes for a Portugal+Ireland blended-finance fieldwork trip, and running a teaching pipeline (Inference Lab, Macro Prep, Pictures of Inference) that I draft alongside the research because the two improve each other. <a href="/now">More on what I'm working on this week →</a>
   </p>
 
   <div class="h-section-head">
-    <h2>Projects</h2>
+    <h2>Featured projects</h2>
     <a href="/projects" class="h-see-all">All projects →</a>
   </div>
   <div class="h-card-grid">
@@ -60,8 +71,22 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
   </ul>
 
   <div class="h-section-head">
+    <h2>Datasets</h2>
+    <a href="/datasets" class="h-see-all">All datasets →</a>
+  </div>
+  <ul class="h-row-list">
+    {datasets.map(d => (
+      <li class="h-row">
+        <div class="h-row-meta">{d.data.year} · {d.data.status}{d.data.size ? ` · ${d.data.size}` : ""}</div>
+        <h3 class="h-row-title"><a href={`/datasets/${d.id}`}>{d.data.title}</a></h3>
+        <p class="h-row-summary"><em>{d.data.authors.join(", ")}.</em> {d.data.blurb}</p>
+      </li>
+    ))}
+  </ul>
+
+  <div class="h-section-head">
     <h2>Writing</h2>
-    <a href="/writing" class="h-see-all">All posts →</a>
+    <a href="/writing" class="h-see-all">All posts → · <a href="/rss.xml" style="font-family: var(--font-mono); font-size: 0.8em;">RSS</a></a>
   </div>
   <ul class="h-row-list">
     {writing.map(w => (
@@ -85,5 +110,60 @@ const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", mo
         <div class="h-card-blurb">{t.data.blurb}</div>
       </a>
     ))}
+  </div>
+
+  {upcomingTalks.length > 0 && (
+    <>
+      <div class="h-section-head">
+        <h2>Upcoming talks</h2>
+        <a href="/talks" class="h-see-all">All talks →</a>
+      </div>
+      <ul class="h-row-list">
+        {upcomingTalks.map(t => (
+          <li class="h-row">
+            <div class="h-row-meta">{fmt(t.data.date)} · {t.data.venue}{t.data.location ? ` · ${t.data.location}` : ''}</div>
+            <h3 class="h-row-title">{t.data.title}</h3>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <div class="h-section-head">
+    <h2>Collaborators</h2>
+    <a href="/people" class="h-see-all">All →</a>
+  </div>
+  <div class="h-card-grid">
+    {people.map(p => (
+      <a class="h-card" href={`/people/${p.id}`}>
+        <div class="h-card-tag">{p.data.role}</div>
+        <div class="h-card-title">{p.data.name}</div>
+        <div class="h-card-blurb">{p.data.bio.slice(0, 180)}{p.data.bio.length > 180 ? '…' : ''}</div>
+      </a>
+    ))}
+  </div>
+
+  {readingItems.length > 0 && (
+    <>
+      <div class="h-section-head">
+        <h2>What I'm reading</h2>
+        <a href="/reading" class="h-see-all">All →</a>
+      </div>
+      <ul class="h-row-list">
+        {readingItems.map(item => (
+          <li class="h-row">
+            <div class="h-row-meta"><a href={item.link} target="_blank" rel="noopener" style="color: var(--rust); border: none;">{item.source}</a> · {fmt(item.date)}</div>
+            <h3 class="h-row-title"><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h3>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <div style="margin-top: 3.5rem; padding: 1.5rem 1.7rem; background: var(--paper-2); border-left: 4px solid var(--sage); border-radius: 4px;">
+    <h3 style="margin-top: 0;">Looking to work together?</h3>
+    <p style="margin-bottom: 0;">
+      <a href="/book">Book a 30-min consult</a> for tutoring (graduate or advanced-undergrad economics) or a research call. For collaboration or speaking, email is fastest: <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>.
+    </p>
   </div>
 </Base>
