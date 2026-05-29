@@ -25,6 +25,12 @@ const SPOKES = [
     localBuild: '/Users/ian/Downloads/macroprep/docs',
     remoteUrl: 'https://ihelfrich.github.io/macroprep/',
     subpath: 'macroprep'
+  },
+  {
+    name: 'american-policy-atlas',
+    localBuild: '/Users/ian/gemini_playground/tutoring/CA_Policy_Atlas/app/dist',
+    remoteUrl: 'https://ihelfrich.github.io/american-policy-atlas/',
+    subpath: 'american-policy-atlas'
   }
 ];
 

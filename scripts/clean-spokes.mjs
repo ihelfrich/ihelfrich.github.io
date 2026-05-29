@@ -8,7 +8,7 @@ import { rmSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
 const DIST = resolve('./dist');
-const SPOKE_DIRS = ['inference-lab', 'macroprep'];
+const SPOKE_DIRS = ['inference-lab', 'macroprep', 'american-policy-atlas'];
 
 console.log('[clean-spokes] removing local spoke copies (Pagefind index already built)');
 for (const dir of SPOKE_DIRS) {

@@ -37,13 +37,14 @@ jobs:
         run: npm run build:fast
       - name: Mirror spokes for indexing
         run: |
-          mkdir -p dist/inference-lab dist/macroprep
+          mkdir -p dist/inference-lab dist/macroprep dist/american-policy-atlas
           wget -r -np -nH --cut-dirs=1 -R "index.html?*" -P dist/inference-lab https://ihelfrich.github.io/inference-lab/ || true
           wget -r -np -nH --cut-dirs=1 -R "index.html?*" -P dist/macroprep https://ihelfrich.github.io/macroprep/ || true
+          wget -r -np -nH --cut-dirs=1 -R "index.html?*" -P dist/american-policy-atlas https://ihelfrich.github.io/american-policy-atlas/ || true
       - name: Build Pagefind index
         run: npx pagefind --site dist --output-path dist/pagefind
       - name: Remove spoke copies (Pages routes /inference-lab to its own repo)
-        run: rm -rf dist/inference-lab dist/macroprep
+        run: rm -rf dist/inference-lab dist/macroprep dist/american-policy-atlas
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
