@@ -2,26 +2,88 @@
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
-const papers = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year);
+const papers = (await getCollection("research")).sort((a, b) => {
+  if (a.id === "helfrich-vardanyan-2026-ai-entry-level-labor") return -1;
+  if (b.id === "helfrich-vardanyan-2026-ai-entry-level-labor") return 1;
+  return b.data.year - a.data.year || a.data.title.localeCompare(b.data.title);
+});
 ---
-<Base title="Research" description="Papers and working drafts.">
-  <h1>Research</h1>
-  <p>Working papers, drafts, and preprints. Most are in active iteration; if a paper here interests you, write me.</p>
+<Base
+  wide
+  title="Research"
+  description="Research by economist Ian Helfrich on labor and AI, international trade, networks, spatial and policy econometrics, and place-based investment."
+>
+  <header class="page-hero">
+    <span class="eyebrow">Working papers · Preprints · Research program</span>
+    <h1>Applied questions. Structural thinking.</h1>
+    <p class="kicker">My research studies how exposure, location, networks, and measurement shape economic outcomes—from AI and early-career work to trade costs and place-based capital.</p>
+    <div class="button-row">
+      <a class="button" href="#papers">View papers</a>
+      <a class="button secondary" href="/contact">Research inquiry</a>
+    </div>
+  </header>
 
-  <ul class="h-row-list">
-    {papers.map(p => (
-      <li class="h-row">
-        <div class="h-row-meta">{p.data.year} · {p.data.status}{p.data.venue ? ` · ${p.data.venue}` : ""}{p.data.tags.length > 0 ? ` · ${p.data.tags.join(", ")}` : ""}</div>
-        <h3 class="h-row-title"><a href={`/research/${p.id}`}>{p.data.title}</a></h3>
-        <p class="h-row-summary"><em>{p.data.authors.join(", ")}.</em> {p.data.abstract}</p>
-        <div style="margin-top: 0.4rem; font-family: var(--font-sans); font-size: 0.85rem;">
-          {p.data.pdf && <a href={p.data.pdf} target="_blank" rel="noopener">PDF</a>}
-          {p.data.pdf && p.data.ssrn && <span style="color: var(--muted);"> · </span>}
-          {p.data.ssrn && <a href={p.data.ssrn} target="_blank" rel="noopener">SSRN</a>}
-          {(p.data.pdf || p.data.ssrn) && p.data.repo && <span style="color: var(--muted);"> · </span>}
-          {p.data.repo && <a href={p.data.repo} target="_blank" rel="noopener">Code & data</a>}
-        </div>
-      </li>
-    ))}
-  </ul>
+  <section class="section compact" aria-labelledby="themes-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Current themes</span>
+        <h2 id="themes-title">Three connected lines of work.</h2>
+      </div>
+      <p>Across them, the recurring concern is whether the metric, comparison, or network representation matches the economic object we claim to study.</p>
+    </div>
+
+    <div class="method-grid">
+      <article class="method-card">
+        <h3>Labor, AI & measurement</h3>
+        <p>Generative-AI exposure, entry-level employment, occupational heterogeneity, policy measurement, and the ethics of economic metrics.</p>
+      </article>
+      <article class="method-card">
+        <h3>Trade, networks & space</h3>
+        <p>Effective distance, satellite-calibrated trade costs, visibility shocks, network topology, optimal transport, and endogenous observability.</p>
+      </article>
+      <article class="method-card">
+        <h3>Place-based policy & capital</h3>
+        <p>New Markets Tax Credits, intermediary selection, rural mobilization, blended finance, spatial policy evaluation, and causal decomposition.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="papers" class="section" aria-labelledby="papers-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Papers</span>
+        <h2 id="papers-title">Active research.</h2>
+      </div>
+      <p>Statuses are stated plainly. Draft pages describe the design and program; they do not imply a finished or accepted result.</p>
+    </div>
+
+    <ul class="h-row-list">
+      {papers.map((paper) => (
+        <li class="h-row">
+          <div class="h-row-meta">
+            {paper.data.year} · {paper.data.status}
+            {paper.data.venue ? ` · ${paper.data.venue}` : ""}
+            {paper.data.tags.length > 0 ? ` · ${paper.data.tags.join(" · ")}` : ""}
+          </div>
+          <h3 class="h-row-title"><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3>
+          <p class="h-row-summary"><em>{paper.data.authors.join(", ")}.</em> {paper.data.abstract}</p>
+          <div style="margin-top: 0.55rem; font-family: var(--font-sans); font-size: 0.8rem;">
+            <a href={`/research/${paper.id}`}>Research page →</a>
+            {paper.data.pdf && <span> · <a href={paper.data.pdf} target="_blank" rel="noopener">PDF</a></span>}
+            {paper.data.ssrn && <span> · <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN</a></span>}
+            {paper.data.repo && <span> · <a href={paper.data.repo} target="_blank" rel="noopener">Code & data</a></span>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="cta-panel">
+    <span class="section-label">Collaboration and discussion</span>
+    <h2>Working on an adjacent question?</h2>
+    <p>Send the paper title or project description, the connection you see, and the specific conversation you are proposing.</p>
+    <div class="button-row">
+      <a class="button" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry">Send a research inquiry</a>
+    </div>
+  </section>
 </Base>

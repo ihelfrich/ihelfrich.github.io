@@ -1,43 +1,38 @@
-# Astro Starter Kit: Minimal
+# Ian Helfrich — public site
+
+Public website for Dr. Ian Helfrich: quantitative teaching practice, applied economics research, open teaching tools, datasets, and writing.
+
+The site is built with Astro and deployed to GitHub Pages. The current production URL is `https://ihelfrich.github.io/`; the legacy WordPress site remains at `https://ianhelfrich.com/` until the custom-domain cutover is explicitly approved and completed.
+
+## Local development
+
+Node 22.12 or newer is required.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Production build:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build:fast
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Structure
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- `src/pages/` — routes and commercial pages
+- `src/content/teaching/` — courses and open teaching tools
+- `src/content/research/` — papers and active research pages
+- `src/content/projects/` — software, viewers, and research infrastructure
+- `src/content/writing/` — essays and notes
+- `src/layouts/Base.astro` — global metadata, navigation, and footer
+- `src/styles/global.css` — design system and responsive layout
+- `public/cv/` — public CV documents
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Deployment
 
-## 🧞 Commands
+Pushes to `main` trigger `.github/workflows/deploy.yml`. The workflow builds the site, refreshes the reading cache, creates the Pagefind index, and deploys the `dist/` artifact to GitHub Pages.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The custom-domain process and rollback notes are documented in `DNS_AND_DOMAINS.md`. Do not change DNS or remove the WordPress host until the GitHub Pages build, custom-domain certificate, email MX records, redirects, and rollback records have all been verified.

@@ -1,0 +1,124 @@
+<form id="inquiry-form" class="inquiry-form">
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="inquiry-name">Name</label>
+      <input id="inquiry-name" name="name" autocomplete="name" required />
+    </div>
+
+    <div class="form-field">
+      <label for="inquiry-email">Email</label>
+      <input id="inquiry-email" name="email" type="email" autocomplete="email" required />
+    </div>
+
+    <div class="form-field">
+      <label for="inquiry-role">I am a…</label>
+      <select id="inquiry-role" name="role" required>
+        <option value="">Choose one</option>
+        <option>Undergraduate student</option>
+        <option>Master's student</option>
+        <option>Doctoral student</option>
+        <option>Researcher or predoctoral fellow</option>
+        <option>Working professional</option>
+        <option>Faculty member or administrator</option>
+        <option>Organization or research team</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="inquiry-format">I am looking for…</label>
+      <select id="inquiry-format" name="format" required>
+        <option value="">Choose one</option>
+        <option>A focused private session</option>
+        <option>Recurring private coaching</option>
+        <option>A research-methods diagnostic</option>
+        <option>A four-week intensive</option>
+        <option>Ongoing methods partnership</option>
+        <option>An institutional workshop</option>
+        <option>Not sure yet</option>
+      </select>
+    </div>
+
+    <div class="form-field full">
+      <label for="inquiry-goal">What are you trying to understand, complete, or build?</label>
+      <textarea id="inquiry-goal" name="goal" required placeholder="A few specific sentences are perfect. Include the course, research question, method, or decision that is giving you trouble."></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="inquiry-timeline">Timeline or important date</label>
+      <input id="inquiry-timeline" name="timeline" placeholder="For example: exam October 12" />
+    </div>
+
+    <div class="form-field">
+      <label for="inquiry-tools">Methods or software involved</label>
+      <input id="inquiry-tools" name="tools" placeholder="For example: DiD, Stata, R" />
+    </div>
+
+    <div class="form-field full">
+      <label for="inquiry-referral">How did you find Ian?</label>
+      <input id="inquiry-referral" name="referral" placeholder="Search, referral, university, Wyzant, LinkedIn…" />
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button class="button copper" type="submit">Prepare my inquiry</button>
+    <button class="button secondary" id="copy-inquiry" type="button">Copy inquiry instead</button>
+  </div>
+  <p class="form-note">
+    This form sends nothing to a database. “Prepare my inquiry” opens your email app with the answers filled in; you review and send it yourself. If that does not work, email <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>.
+  </p>
+  <p id="inquiry-status" class="form-note" role="status" aria-live="polite"></p>
+</form>
+
+<script is:inline>
+  (() => {
+    const form = document.querySelector('#inquiry-form');
+    const copyButton = document.querySelector('#copy-inquiry');
+    const status = document.querySelector('#inquiry-status');
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const prepare = () => {
+      const data = new FormData(form);
+      const value = (key) => String(data.get(key) || '').trim();
+      const name = value('name');
+      const lines = [
+        'WORK-WITH-ME INQUIRY',
+        '',
+        `Name: ${name}`,
+        `Email: ${value('email')}`,
+        `Role: ${value('role')}`,
+        `Format: ${value('format')}`,
+        `Timeline: ${value('timeline') || 'Not specified'}`,
+        `Methods/software: ${value('tools') || 'Not specified'}`,
+        `Found Ian through: ${value('referral') || 'Not specified'}`,
+        '',
+        'GOAL / CONTEXT',
+        value('goal'),
+      ];
+      return {
+        subject: `${value('format') || 'Work-with-me'} inquiry — ${name || 'prospective client'}`,
+        body: lines.join('\n'),
+      };
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const inquiry = prepare();
+      if (status) status.textContent = 'Opening your email app. Please review the message, then press Send.';
+      window.location.href = `mailto:ianthelfrich@gmail.com?subject=${encodeURIComponent(inquiry.subject)}&body=${encodeURIComponent(inquiry.body)}`;
+    });
+
+    copyButton?.addEventListener('click', async () => {
+      if (!form.reportValidity()) return;
+      const inquiry = prepare();
+      const text = `Subject: ${inquiry.subject}\n\n${inquiry.body}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        if (status) status.textContent = 'Inquiry copied. Paste it into an email to ianthelfrich@gmail.com.';
+      } catch {
+        if (status) status.textContent = 'Copy was blocked by your browser. Select your answers manually or use the email link above.';
+      }
+    });
+  })();
+</script>

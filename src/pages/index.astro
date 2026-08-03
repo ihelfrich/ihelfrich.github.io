@@ -1,185 +1,229 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
-import fs from "node:fs";
-import path from "node:path";
 
-const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
-const pinnedProjects = projects.filter(p => p.data.pinned).slice(0, 6);
+const preferredLabs = ["stats-lab", "inference-lab", "econ101a", "macroprep", "ppd504-studio", "pictures-of-inference"];
+const teaching = await getCollection("teaching");
+const labs = preferredLabs
+  .map((id) => teaching.find((entry) => entry.id === id))
+  .filter(Boolean);
 
-const writing = (await getCollection("writing"))
-  .filter(p => !p.data.draft)
-  .sort((a, b) => +b.data.date - +a.data.date)
-  .slice(0, 4);
-
-const research = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year).slice(0, 4);
-const datasets = (await getCollection("datasets")).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
-const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
-const people = (await getCollection("people")).sort((a, b) => a.data.order - b.data.order);
-const allTalks = await getCollection("talks");
-const upcomingTalks = allTalks.filter(t => t.data.upcoming).sort((a, b) => +a.data.date - +b.data.date).slice(0, 3);
-
-let readingItems = [];
-try {
-  readingItems = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/reading.json"), "utf8")).slice(0, 5);
-} catch (e) {}
-
-const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const researchCollection = await getCollection("research");
+const preferredResearch = [
+  "helfrich-vardanyan-2026-ai-entry-level-labor",
+  "gonchar-helfrich-2025-spotlight",
+  "helfrich-2026-nmtc-rural-gap",
+];
+const research = preferredResearch
+  .map((id) => researchCollection.find((entry) => entry.id === id))
+  .filter(Boolean);
 ---
-<Base>
-  <section class="h-hero">
-    <canvas id="hero-canvas" class="h-hero-canvas" aria-hidden="true"></canvas>
-    <div class="h-hero-eyebrow">Smyrna, Georgia · open to new work</div>
-    <h1>Ian Helfrich,<br/><span class="h-accent">trade economist.</span></h1>
-    <p class="h-hero-lead">
-      PhD in Economics from Georgia Institute of Technology, 2024. Primary field international trade. Secondary fields geospatial economics, microeconomic theory, and networks. Advisors Tibor Besedes and Usha Nair-Reichert.
-    </p>
-    <div class="h-hero-meta">
-      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
-      <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">github</a>
-      <a href="/about">about</a>
-      <a href="/book" class="h-cta">Book a session</a>
+<Base
+  wide
+  description="Private econometrics, statistics, and applied-research coaching with Dr. Ian Helfrich—PhD economist, award-winning educator, and creator of open quantitative teaching tools."
+>
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Private quantitative instruction · Research methods</span>
+        <h1 id="home-title">Make the methods <em>yours.</em></h1>
+        <p class="hero-lead">
+          I help graduate students, researchers, professionals, and teams master econometrics, statistics, and applied economic research well enough to explain—and defend—every decision.
+        </p>
+        <div class="button-row">
+          <a class="button" href="/work-with-me">Explore ways to work together</a>
+          <a class="button secondary" href="/teaching">See the teaching</a>
+        </div>
+        <p class="hero-note">Instruction and coaching—not ghostwriting. Your analysis remains your own.</p>
+      </div>
+
+      <div class="hero-portrait" aria-hidden="true">
+        <img src="/people/ian.webp" alt="" width="1200" height="1800" fetchpriority="high" />
+        <div class="hero-seal">PhD Economics<br />Georgia Tech<br />2024</div>
+      </div>
     </div>
   </section>
 
-  <section style="max-width: var(--content-max); margin: 0 auto;">
-    <p style="font-size: 1.1rem; line-height: 1.7;">
-      My doctoral and post-doctoral research is in international trade, with secondary work in geospatial economics, microeconomic theory, and networks. The active line of work, joint with Dr. Elizaveta Gonchar, builds a satellite-calibrated bilateral trade-cost panel for 200 countries over 2000-2024; the 2025 SSRN preprint <a href="/research/gonchar-helfrich-2025-spotlight"><em>Trade in the Spotlight</em></a> introduced the construction. A separate working paper, <a href="/research/helfrich-2024-ssrn-4772016">SSRN 4772016</a>, unifies economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces. The umbrella research program is documented at <a href="/program">/program</a>.
-    </p>
-    <p>
-      A smaller, more applied line of work uses the same intermediary-network methods in domestic-policy settings. <a href="/research/helfrich-2026-nmtc-rural-gap">Helfrich (2026)</a> decomposes the apparent rural-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The companion European replication is in progress, with Katia Antunes.
-    </p>
-    <p style="color: var(--muted); font-size: 0.95rem;">
-      Twin master's degrees from Georgia Tech in Economics (2019) and Geographic Information Science and Technology (2022). Prior degrees from Indiana University Bloomington, the Barcelona School of Economics, and UNC Chapel Hill. Working languages English, Spanish, Russian, Ukrainian.
-    </p>
+  <div class="proof-strip" aria-label="Teaching record">
+    <div class="proof-item">
+      <span class="proof-number">1,200+</span>
+      <span class="proof-label">hours of instruction in the past year</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">450+</span>
+      <span class="proof-label">students taught across universities and private practice</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">5.0</span>
+      <span class="proof-label">average rating across 175+ public ratings</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">2023</span>
+      <span class="proof-label">Georgia Tech Graduate TA of the Year</span>
+    </div>
+  </div>
+
+  <section class="positioning-statement">
+    <div>
+      <span class="section-label">What this practice is</span>
+      <h2>Clarity for quantitative work that matters.</h2>
+    </div>
+    <div class="statement-copy">
+      <p>
+        A formula is not understanding. A result is not a research design. And software output is not an argument. My job is to help you connect the economics, the identification strategy, the code, and the interpretation—without taking ownership of the work away from you.
+      </p>
+      <p>
+        This is rigorous, patient, high-context teaching for people who need more than an answer key.
+      </p>
+    </div>
   </section>
 
-  <div class="h-section-head">
-    <h2>What I've built</h2>
-    <a href="/projects" class="h-see-all">All projects →</a>
-  </div>
-  <div class="h-card-grid">
-    {pinnedProjects.map(p => (
-      <a class="h-card" href={p.data.url ?? `/projects/${p.id}`} target={p.data.url ? "_blank" : undefined} rel={p.data.url ? "noopener" : undefined}>
-        <div class="h-card-tag">{p.data.tags[0] ?? "project"}</div>
-        <div class="h-card-title">{p.data.title}</div>
-        <div class="h-card-blurb">{p.data.blurb}</div>
-        <span class="h-card-status" data-status={p.data.status}>{p.data.status}</span>
-      </a>
-    ))}
-  </div>
-
-  <div class="h-section-head">
-    <h2>Papers</h2>
-    <a href="/research" class="h-see-all">All papers →</a>
-  </div>
-  <ul class="h-row-list">
-    {research.map(r => (
-      <li class="h-row">
-        <div class="h-row-meta">{r.data.year} · {r.data.status}{r.data.venue ? ` · ${r.data.venue}` : ""}</div>
-        <h3 class="h-row-title"><a href={`/research/${r.id}`}>{r.data.title}</a></h3>
-        <p class="h-row-summary">{r.data.authors.join(", ")}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Datasets</h2>
-    <a href="/datasets" class="h-see-all">All datasets →</a>
-  </div>
-  <ul class="h-row-list">
-    {datasets.map(d => (
-      <li class="h-row">
-        <div class="h-row-meta">{d.data.year} · {d.data.status}{d.data.size ? ` · ${d.data.size}` : ""}</div>
-        <h3 class="h-row-title"><a href={`/datasets/${d.id}`}>{d.data.title}</a></h3>
-        <p class="h-row-summary"><em>{d.data.authors.join(", ")}.</em> {d.data.blurb}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Writing</h2>
-    <a href="/writing" class="h-see-all">All → · <a href="/rss.xml" style="font-family: var(--font-mono); font-size: 0.8em;">RSS</a></a>
-  </div>
-  <ul class="h-row-list">
-    {writing.map(w => (
-      <li class="h-row">
-        <div class="h-row-meta">{fmt(w.data.date)}</div>
-        <h3 class="h-row-title"><a href={`/writing/${w.id}`}>{w.data.title}</a></h3>
-        <p class="h-row-summary">{w.data.summary}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Teaching</h2>
-    <a href="/teaching" class="h-see-all">All →</a>
-  </div>
-  <div class="h-card-grid">
-    {teaching.map(t => (
-      <a class="h-card" href={t.data.url} target="_blank" rel="noopener">
-        <div class="h-card-tag">{t.data.audience}</div>
-        <div class="h-card-title">{t.data.title}</div>
-        <div class="h-card-blurb">{t.data.blurb}</div>
-      </a>
-    ))}
-  </div>
-
-  {upcomingTalks.length > 0 && (
-    <>
-      <div class="h-section-head">
-        <h2>Upcoming talks</h2>
-        <a href="/talks" class="h-see-all">All talks →</a>
+  <section class="section" aria-labelledby="audience-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Who I help</span>
+        <h2 id="audience-title">Different stakes. The same standard.</h2>
       </div>
-      <ul class="h-row-list">
-        {upcomingTalks.map(t => (
-          <li class="h-row">
-            <div class="h-row-meta">{fmt(t.data.date)} · {t.data.venue}{t.data.location ? ` · ${t.data.location}` : ''}</div>
-            <h3 class="h-row-title">{t.data.title}</h3>
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
+      <p>I work selectively so each engagement gets real preparation, continuity, and intellectual attention.</p>
+    </div>
 
-  <div class="h-section-head">
-    <h2>People I work with</h2>
-    <a href="/people" class="h-see-all">All →</a>
-  </div>
-  <div class="h-card-grid">
-    {people.map(p => (
-      <a class="h-card" href={`/people/${p.id}`}>
-        <div class="h-card-tag">{p.data.role}</div>
-        <div class="h-card-title">{p.data.name}</div>
-        <div class="h-card-blurb">{p.data.bio.slice(0, 180)}{p.data.bio.length > 180 ? '…' : ''}</div>
-      </a>
-    ))}
-  </div>
+    <div class="audience-grid">
+      <article class="audience-card">
+        <h3>Graduate students</h3>
+        <p>Master's and doctoral students navigating econometrics, statistics, microeconomics, macroeconomics, finance, qualifying exams, or an empirical paper.</p>
+      </article>
+      <article class="audience-card">
+        <h3>Researchers & professionals</h3>
+        <p>Analysts, economists, policy professionals, and research staff who need a sharper model, a defensible empirical strategy, or fluency in unfamiliar methods.</p>
+      </article>
+      <article class="audience-card">
+        <h3>Departments & teams</h3>
+        <p>Universities, research centers, and organizations that need an applied workshop, quantitative bootcamp, or custom instructional program.</p>
+      </article>
+    </div>
+  </section>
 
-  {readingItems.length > 0 && (
-    <>
-      <div class="h-section-head">
-        <h2>On my desk</h2>
-        <a href="/reading" class="h-see-all">All →</a>
+  <section class="section" aria-labelledby="offers-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Ways to work together</span>
+        <h2 id="offers-title">Built around the outcome—not the clock.</h2>
       </div>
-      <ul class="h-row-list">
-        {readingItems.map(item => (
-          <li class="h-row">
-            <div class="h-row-meta"><a href={item.link} target="_blank" rel="noopener" style="color: var(--rust); border: none;">{item.source}</a> · {fmt(item.date)}</div>
-            <h3 class="h-row-title"><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h3>
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
+      <p>One focused session when that is enough. A structured engagement when the problem deserves continuity.</p>
+    </div>
 
-  <div style="margin: 4rem 0 2rem; padding: 2rem 2.2rem; background: linear-gradient(135deg, var(--paper-2), var(--paper)); border-left: 4px solid var(--sage); border-radius: 6px; box-shadow: 0 1px 12px rgba(13, 59, 102, 0.05);">
-    <h3 style="margin: 0 0 0.4rem;">Want to work together?</h3>
-    <p style="margin-bottom: 0; font-size: 1.05rem;">
-      <a href="/book">Book a 30-minute consult</a> for tutoring (graduate or advanced-undergrad econ) or to chat about a project. For research or collaboration questions, write me directly at <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>. I answer most emails within a day.
-    </p>
-  </div>
+    <div class="offer-grid">
+      <article class="offer-card">
+        <span class="card-tag">One-to-one</span>
+        <h3>Private quantitative coaching</h3>
+        <p>High-context instruction in econometrics, statistics, economics, finance, and quantitative software.</p>
+        <ul>
+          <li>Graduate and advanced undergraduate work</li>
+          <li>R, Stata, Python, Excel, and Julia</li>
+          <li>Recurring or focused sessions</li>
+        </ul>
+      </article>
 
-  <script src="/network.js" defer></script>
-  <script src="/reveal.js" defer></script>
+      <article class="offer-card featured">
+        <span class="card-tag">Structured</span>
+        <h3>Research methods coaching</h3>
+        <p>Methodological guidance for a paper, thesis, dissertation, replication, or applied research project.</p>
+        <ul>
+          <li>Research design and identification</li>
+          <li>Code review and diagnostic reasoning</li>
+          <li>Interpretation and defense preparation</li>
+        </ul>
+      </article>
+
+      <article class="offer-card">
+        <span class="card-tag">Institutional</span>
+        <h3>Workshops & training</h3>
+        <p>Custom instruction that turns a methods gap into working capability for a department, lab, or team.</p>
+        <ul>
+          <li>Econometrics and causal inference</li>
+          <li>Applied R, Stata, and data workflows</li>
+          <li>Half-day, full-day, and cohort formats</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="button-row">
+      <a class="button" href="/work-with-me">See formats, rates, and fit</a>
+    </div>
+  </section>
+
+  <section class="ethics-panel" aria-labelledby="ethics-title">
+    <div>
+      <span class="section-label">The non-negotiable</span>
+      <h2 id="ethics-title">Your work stays yours.</h2>
+    </div>
+    <div>
+      <p>
+        I will teach, question, demonstrate, debug alongside you, review reasoning, and help you prepare to defend your choices. I will not take an exam, complete graded work, fabricate analysis, or ghostwrite research.
+      </p>
+      <p><strong>The goal is not dependence. It is command.</strong></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="labs-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Proof of teaching</span>
+        <h2 id="labs-title">The classroom extends beyond the call.</h2>
+      </div>
+      <p>I build the resources I wish every quantitative course had: visual, worked, interactive, and grounded in real tools.</p>
+    </div>
+
+    <div class="lab-grid">
+      {labs.map((lab) => lab && (
+        <article class="lab-card">
+          <span class="card-tag">{lab.data.audience}</span>
+          <h3>{lab.data.title}</h3>
+          <p>{lab.data.blurb}</p>
+          <a class="lab-link" href={lab.data.url} target="_blank" rel="noopener">Explore the resource →</a>
+        </article>
+      ))}
+    </div>
+
+    <div class="button-row">
+      <a class="button secondary" href="/teaching">Teaching record and full library</a>
+    </div>
+  </section>
+
+  <aside class="proof-quote" aria-label="Teaching philosophy">
+    <blockquote>
+      The best session ends with you needing me less—not because the problem got easier, but because your mental model got stronger.
+    </blockquote>
+    <cite>Ian Helfrich · teaching philosophy</cite>
+  </aside>
+
+  <section class="section compact" aria-labelledby="research-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Active scholarship</span>
+        <h2 id="research-title">I teach the work because I do the work.</h2>
+      </div>
+      <p>Current research spans labor and AI, international trade, spatial econometrics, networks, and place-based policy.</p>
+    </div>
+
+    <ul class="h-row-list">
+      {research.map((paper) => paper && (
+        <li class="h-row">
+          <div class="h-row-meta">{paper.data.year} · {paper.data.status}</div>
+          <h3 class="h-row-title"><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3>
+          <p class="h-row-summary">{paper.data.authors.join(", ")}</p>
+        </li>
+      ))}
+    </ul>
+    <a class="card-arrow" href="/research">View the complete research program →</a>
+  </section>
+
+  <section class="cta-panel">
+    <span class="section-label">Start with fit</span>
+    <h2>Tell me what you are trying to understand—or build.</h2>
+    <p>A short inquiry is enough. I will tell you plainly whether I am the right person, what format makes sense, and what it will cost.</p>
+    <div class="button-row">
+      <a class="button" href="/work-with-me#inquiry">Start an inquiry</a>
+    </div>
+  </section>
 </Base>

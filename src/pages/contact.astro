@@ -1,39 +1,59 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="Contact" description="How to reach me; how to book tutoring sessions.">
-  <h1>Contact</h1>
+<Base
+  wide
+  title="Contact"
+  description="Contact Dr. Ian Helfrich about private quantitative coaching, institutional training, economic research, collaboration, or speaking."
+>
+  <header class="page-hero">
+    <span class="eyebrow">Contact</span>
+    <h1>Use the route that gets you a useful answer.</h1>
+    <p class="kicker">Based in Atlanta and working remotely with students, researchers, professionals, and organizations worldwide.</p>
+  </header>
 
-  <p>Email is the right channel for everything except scheduling a first tutoring call, which has its own page below. I read what comes in. Most things get a reply within a day.</p>
+  <section class="section compact">
+    <div class="audience-grid">
+      <article class="audience-card">
+        <h3>Private coaching</h3>
+        <p>For econometrics, statistics, economics, finance, code, a research project, or a structured intensive.</p>
+        <a class="card-arrow" href="/work-with-me#inquiry">Use the inquiry form →</a>
+      </article>
+      <article class="audience-card">
+        <h3>Departments & organizations</h3>
+        <p>For workshops, cohort training, custom curriculum, methodological office hours, or an institutional scope.</p>
+        <a class="card-arrow" href="/work-with-me#institutions">See institutional work →</a>
+      </article>
+      <article class="audience-card">
+        <h3>Research, media & speaking</h3>
+        <p>For scholarly collaboration, research discussion, interviews, invited talks, or commentary within my fields.</p>
+        <a class="card-arrow" href="mailto:ianthelfrich@gmail.com?subject=Research%2C%20media%2C%20or%20speaking%20inquiry">Email directly →</a>
+      </article>
+    </div>
+  </section>
 
-  <ul style="list-style: none; padding-left: 0; line-height: 2; font-size: 1.05rem;">
-    <li><strong>Email</strong> · <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> (same address handles iMessage)</li>
-    <li><strong>GitHub</strong> · <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">@ihelfrich</a></li>
-    <li><strong>Bluesky</strong> · I lurk; DMs are open</li>
-    <li><strong>Atlanta, Georgia</strong></li>
-  </ul>
+  <section class="section compact" aria-labelledby="direct-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Direct</span>
+        <h2 id="direct-title">Elsewhere online.</h2>
+      </div>
+    </div>
+    <ul class="credential-list">
+      <li><strong>Email</strong><br /><a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a></li>
+      <li><strong>LinkedIn</strong><br /><a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">ian-helfrich</a></li>
+      <li><strong>GitHub</strong><br /><a href="https://github.com/ihelfrich" target="_blank" rel="noopener">@ihelfrich</a></li>
+      <li><strong>Location</strong><br />Atlanta metropolitan area, Georgia</li>
+    </ul>
+    <p class="fine-print">Please do not send confidential student records, protected data, or proprietary datasets in an initial message. We can establish an appropriate transfer method after confirming fit.</p>
+  </section>
 
-  <h2>Tutoring</h2>
-
-  <p>I work with a small number of clients at a time. The mix in any given semester is usually two or three graduate students working on applied papers, one or two advanced undergraduates trying to read their way into causal inference, and occasionally an MBA or industry person who needs a translator between their data team and their finance team. I take new clients when I have capacity, which is most of the time but not always.</p>
-
-  <p>The subjects I'm actually good at are:</p>
-
-  <ul>
-    <li><strong>Applied econometrics</strong>, especially the DiD/RDD/IV/synthetic-control toolkit and where each one breaks. The whole <a href="https://ihelfrich.github.io/inference-lab/">Inference Lab</a> site is the long version of this.</li>
-    <li><strong>Intermediate macro</strong> at the Mankiw / Case-Fair-Oster / Romer level. <a href="https://ihelfrich.github.io/macroprep/">Macro Prep</a> is the reference site I built for that.</li>
-    <li><strong>Intermediate micro</strong> at the Varian / Nicholson / Mas-Colell level, including the worked-problem comparative-statics drill (Lerner, Slutsky, Walrasian-equilibrium 4-step, Edgeworth box, Bertrand/Cournot, basic mechanism design).</li>
-    <li><strong>Corporate finance and capital markets</strong>, MBA-level. TVM, WACC, DCF, YTM with Newton-Raphson, Hamada, M&M, options basics.</li>
-    <li><strong>Reading-and-replicating econ papers</strong>. This is the most useful one for pre-doctoral fellows and early grad students. We pick a paper, you try to replicate the headline table, and I sit with you while you figure out what the published code actually does and where you're going wrong.</li>
-  </ul>
-
-  <p>Subjects I'm not the right person for: pure theory and game theory beyond an undergraduate level; macro at the Lucas/Sargent/RBC level; finance beyond the MBA-curriculum scope; anything you want done <em>for</em> you rather than <em>with</em> you.</p>
-
-  <h2>Book a first call</h2>
-
-  <p>The first call is free, 30 minutes, on <a href="/book">the booking page</a>. We'll figure out whether I'm the right fit. If I am, we'll set a cadence and agree on a rate. If I'm not, I'll usually know someone who is, and I'll say so.</p>
-
-  <h2>Research, collaboration, speaking</h2>
-
-  <p>Email with the paper title or project description in the subject line. I prioritise replies to people who have actually read something I've written. If you're a journalist or doing press, put PRESS in the subject and I'll get to you faster. I'll talk about U.S. blended finance, NMTC, EU Cohesion, applied causal inference, rural credit pass-through, and the network-econometrics work with Liz. I won't talk about current U.S. partisan politics or stock-market predictions, which is mostly for my own sanity.</p>
+  <section class="cta-panel">
+    <span class="section-label">Private instruction</span>
+    <h2>Start with the problem, not a sales call.</h2>
+    <p>The inquiry form asks for exactly what I need to assess fit and recommend a format.</p>
+    <div class="button-row">
+      <a class="button" href="/work-with-me#inquiry">Start an inquiry</a>
+    </div>
+  </section>
 </Base>

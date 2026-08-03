@@ -3,7 +3,6 @@ name: "Dr. Elizaveta Gonchar"
 role: "Co-author on Penumbra-program trade and trade-cost work"
 affiliation: "Co-PI and collaborator"
 bio: "Frequent research co-author with Ian Helfrich. Joint work covers the Effective Distance bilateral trade-cost panel (Paper 5), the 2025 SSRN preprint Trade in the Spotlight (5202676), and the Joint Paper 1 application to Ukrainian wartime economic reorganization. Russian-language source access supports the joint work on Ukrainian and Russian-language primary materials."
-photo: "/people/liz.jpg"
 interests:
   - "trade and effective distance"
   - "spatial economics and externality networks"

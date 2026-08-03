@@ -7,7 +7,7 @@ email: "ianthelfrich@gmail.com"
 website: "https://ianhelfrich.com"
 github: "https://github.com/ihelfrich"
 linkedin: "https://www.linkedin.com/in/ian-helfrich"
-photo: "/people/ian.jpg"
+photo: "/people/ian.webp"
 interests:
   - "international trade and gravity models"
   - "trade networks and effective distance"
