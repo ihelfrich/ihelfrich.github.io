@@ -4,11 +4,12 @@ import Base from "../layouts/Base.astro";
 <Base title="Search" description="Search across all of Ian Helfrich's writing, research, projects, and teaching materials.">
   <h1>Search</h1>
   <p>
-    Search across this site plus the Inference Lab and Macro Prep teaching sites. The index is built from the rendered HTML of all three properties and runs entirely in your browser — no server, no tracking. Powered by <a href="https://pagefind.app" target="_blank" rel="noopener">Pagefind</a>.
+    Search across this site plus the Inference Lab and Macro Prep teaching sites. The index is built from the rendered HTML of all three properties and runs entirely in your browser. No server and no tracking. Powered by <a href="https://pagefind.app" target="_blank" rel="noopener">Pagefind</a>.
   </p>
 
   <div class="h-search-wrap">
     <div id="search"></div>
+    <p data-pagefind-fallback hidden>The search index is unavailable in this preview. Use the <a href="/library">public index</a> or the global Index command instead.</p>
   </div>
 
   <p style="color: var(--muted); font-size: 0.9rem; margin-top: 2rem;">
@@ -19,7 +20,12 @@ import Base from "../layouts/Base.astro";
   <script src="/pagefind/pagefind-ui.js" is:inline></script>
   <script is:inline>
     window.addEventListener('DOMContentLoaded', () => {
-      new PagefindUI({
+      if (typeof window.PagefindUI !== 'function') {
+        const fallback = document.querySelector('[data-pagefind-fallback]');
+        if (fallback) fallback.hidden = false;
+        return;
+      }
+      new window.PagefindUI({
         element: "#search",
         showSubResults: true,
         showImages: false,

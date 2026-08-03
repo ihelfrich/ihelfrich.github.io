@@ -11,21 +11,21 @@ const { slug } = Astro.params;
 const paper = await getEntry("research", slug);
 const { Content } = await render(paper);
 ---
-<Base title={paper.data.title} description={paper.data.abstract}>
+<Base wide pageClass="record-page record-paper" title={paper.data.title} description={paper.data.abstract}>
   <article class="h-article">
     <header>
-      <div class="h-article-meta">PAPER · {paper.data.year} · {paper.data.status}{paper.data.venue ? ` · ${paper.data.venue}` : ""}</div>
+      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>PAPER · {paper.data.year}</span><span><i></i>{paper.data.status}</span></div>
+      <div class="h-article-meta">{paper.data.venue ?? "INDEPENDENT RESEARCH RECORD"}</div>
       <h1>{paper.data.title}</h1>
-      <p style="color: var(--ink-soft); font-style: italic; margin: 0.6rem 0 0.4rem;">{paper.data.authors.join(", ")}</p>
-      <p style="color: var(--ink-soft);">{paper.data.abstract}</p>
-      <div style="margin-top: 0.8rem; font-family: var(--font-sans); font-size: 0.92rem;">
+      <p class="record-authors">{paper.data.authors.join(" · ")}</p>
+      <p class="record-deck">{paper.data.abstract}</p>
+      <div class="record-actions">
         {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener">PDF →</a>}
-        {paper.data.pdf && paper.data.ssrn && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}
         {paper.data.ssrn && <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN →</a>}
-        {(paper.data.pdf || paper.data.ssrn) && paper.data.repo && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}
         {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code & data →</a>}
       </div>
     </header>
-    <Content />
+    <div class="record-body"><Content /></div>
+    <footer class="record-end"><span>END OF PUBLIC RECORD</span><a href="/research">All papers →</a><a href="/library">Complete public index →</a></footer>
   </article>
 </Base>

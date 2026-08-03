@@ -1,0 +1,130 @@
+<section class="diagnostic-section section" aria-labelledby="diagnostic-title">
+  <div class="diagnostic-shell" data-bottleneck-diagnostic>
+    <div class="diagnostic-intro">
+      <span class="diagnostic-plate">PRIVATE PRACTICE · INTAKE INSTRUMENT 02</span>
+      <span class="section-label">Find the real constraint</span>
+      <h2 id="diagnostic-title">Where does the work stop feeling like yours?</h2>
+      <p>Choose the closest description. Nothing is submitted; this simply maps the bottleneck to a sensible first engagement.</p>
+
+      <div class="diagnostic-options" role="tablist" aria-label="Select your quantitative bottleneck">
+        <button id="diagnostic-tab-0" type="button" role="tab" aria-selected="true" aria-controls="diagnostic-readout" data-diagnostic-option="0" class="is-active">
+          <span>01</span> I have output I do not trust
+        </button>
+        <button id="diagnostic-tab-1" type="button" role="tab" aria-selected="false" aria-controls="diagnostic-readout" data-diagnostic-option="1" tabindex="-1">
+          <span>02</span> I know the method, but not why
+        </button>
+        <button id="diagnostic-tab-2" type="button" role="tab" aria-selected="false" aria-controls="diagnostic-readout" data-diagnostic-option="2" tabindex="-1">
+          <span>03</span> I need a research design
+        </button>
+        <button id="diagnostic-tab-3" type="button" role="tab" aria-selected="false" aria-controls="diagnostic-readout" data-diagnostic-option="3" tabindex="-1">
+          <span>04</span> My team needs shared language
+        </button>
+      </div>
+    </div>
+
+    <div id="diagnostic-readout" class="diagnostic-readout" role="tabpanel" aria-labelledby="diagnostic-tab-0" aria-live="polite">
+      <div class="diagnostic-compass" aria-hidden="true">
+        <svg viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="68"></circle>
+          <circle cx="90" cy="90" r="43"></circle>
+          <path d="M90 8V172M8 90H172"></path>
+          <path class="compass-needle" d="M90 90L90 31L101 83Z"></path>
+          <circle class="compass-center" cx="90" cy="90" r="6"></circle>
+          <text x="90" y="20">Q</text><text x="160" y="94">D</text><text x="90" y="166">I</text><text x="18" y="94">C</text>
+        </svg>
+      </div>
+
+      <span class="readout-kicker" data-diagnostic-kicker>Likely constraint · implementation</span>
+      <h3 data-diagnostic-title>Audit the path from data to result.</h3>
+      <p data-diagnostic-copy>We trace the sample, transformations, model, uncertainty, and code until you can say exactly what produced the output. Then we test whether it answers your question.</p>
+
+      <div class="diagnostic-recommendation">
+        <span>Best place to begin</span>
+        <strong data-diagnostic-format>Methods diagnostic · 75 minutes</strong>
+        <small data-diagnostic-note>Materials reviewed in advance; concise roadmap afterward.</small>
+      </div>
+      <a class="button" href="#inquiry" data-diagnostic-link>Describe this problem</a>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const diagnosticStates = [
+    {
+      kicker: "Likely constraint · implementation",
+      title: "Audit the path from data to result.",
+      copy: "We trace the sample, transformations, model, uncertainty, and code until you can say exactly what produced the output. Then we test whether it answers your question.",
+      format: "Methods diagnostic · 75 minutes",
+      note: "Materials reviewed in advance; concise roadmap afterward.",
+      rotation: "0deg"
+    },
+    {
+      kicker: "Likely constraint · mental model",
+      title: "Rebuild the method from first principles.",
+      copy: "We move between intuition, notation, geometry, and software until you can reconstruct the method when the recipe changes.",
+      format: "Private quantitative session · 60 minutes",
+      note: "Best for a defined concept, model, or difficult course unit.",
+      rotation: "90deg"
+    },
+    {
+      kicker: "Likely constraint · identification",
+      title: "Start with the missing comparison.",
+      copy: "We clarify the estimand, counterfactual, assumptions, and feasible designs before choosing an estimator or adding another regression to the pile.",
+      format: "Methods diagnostic · 75 minutes",
+      note: "Best for a paper, dissertation, replication, or applied project.",
+      rotation: "180deg"
+    },
+    {
+      kicker: "Likely constraint · coordination",
+      title: "Turn tacit expertise into common practice.",
+      copy: "We build a shared conceptual vocabulary, worked examples, and reusable diagnostics around the decisions your team actually makes.",
+      format: "Custom workshop · scoped to the team",
+      note: "Half-day, full-day, cohort, or ongoing office-hours formats.",
+      rotation: "270deg"
+    }
+  ];
+
+  document.querySelectorAll('[data-bottleneck-diagnostic]').forEach((diagnostic) => {
+    const tabs = Array.from(diagnostic.querySelectorAll('[data-diagnostic-option]'));
+    const fields = {
+      kicker: diagnostic.querySelector('[data-diagnostic-kicker]'),
+      title: diagnostic.querySelector('[data-diagnostic-title]'),
+      copy: diagnostic.querySelector('[data-diagnostic-copy]'),
+      format: diagnostic.querySelector('[data-diagnostic-format]'),
+      note: diagnostic.querySelector('[data-diagnostic-note]')
+    };
+    const needle = diagnostic.querySelector('.compass-needle');
+
+    const selectOption = (nextIndex, moveFocus = false) => {
+      const normalized = (nextIndex + tabs.length) % tabs.length;
+      const content = diagnosticStates[normalized];
+      tabs.forEach((tab, index) => {
+        const active = index === normalized;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      const panel = diagnostic.querySelector('[role="tabpanel"]');
+      if (panel && tabs[normalized]?.id) panel.setAttribute('aria-labelledby', tabs[normalized].id);
+      Object.entries(fields).forEach(([key, field]) => {
+        if (field) field.textContent = content[key];
+      });
+      if (needle) needle.style.setProperty('--needle-rotation', content.rotation);
+      if (moveFocus) tabs[normalized]?.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectOption(index));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          selectOption(index + 1, true);
+        }
+        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          selectOption(index - 1, true);
+        }
+      });
+    });
+  });
+</script>

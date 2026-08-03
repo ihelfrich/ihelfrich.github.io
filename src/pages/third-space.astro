@@ -1,0 +1,131 @@
+---
+import Base from "../layouts/Base.astro";
+import ThirdSpaceSeam from "../components/ThirdSpaceSeam.astro";
+---
+<Base
+  wide
+  pageClass="third-space-page"
+  title="Third Space Labs"
+  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizaveta Gonchar, Ph.D., to develop emerging researchers and share research in the open."
+>
+  <section class="ts-page-hero" aria-labelledby="ts-page-title">
+    <div class="ts-page-topline">
+      <a class="ts-page-brand" href="/third-space" aria-label="Third Space Labs home">
+        <svg viewBox="0 0 150 92" role="img" aria-label="Third Space mark: two open rings with their shared space filled">
+          <defs><clipPath id="ts-page-ring-clip"><circle cx="90" cy="46" r="34"></circle></clipPath></defs>
+          <circle class="ts-page-overlap" cx="60" cy="46" r="34" clip-path="url(#ts-page-ring-clip)"></circle>
+          <circle class="ts-page-ring" cx="60" cy="46" r="34"></circle>
+          <circle class="ts-page-ring" cx="90" cy="46" r="34"></circle>
+        </svg>
+        <span><strong>Third Space</strong><small>LABS · ST. LOUIS</small></span>
+      </a>
+      <span class="ts-page-status"><i></i>INDEPENDENT · IN FORMATION</span>
+    </div>
+
+    <div class="ts-page-hero-grid">
+      <span class="ts-page-folio">FOUNDING DIRECTION · 2026</span>
+      <h1 id="ts-page-title">The question<br />lives <em>between.</em></h1>
+      <div>
+        <p>
+          Third Space Labs is the independent research venture Elizaveta Gonchar and I are building between university and industry. A participant enters with a question. They leave with a method, a public object, and work they can defend under their own name.
+        </p>
+        <a href="#rooms">Explore the four arms ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="ts-page-thesis" aria-labelledby="ts-thesis-title">
+    <span>THE GAP</span>
+    <h2 id="ts-thesis-title">Ability often arrives<br />before access.</h2>
+    <div>
+      <p>
+        A student can be ready to collect data before anyone is ready to give them a title. An independent researcher can have the question and lack the methods infrastructure, collaborators, or publication path needed to carry it.
+      </p>
+      <p>
+        Third Space is being built for that interval. Participants ask precise questions, expose their design choices, revise when the evidence moves, and share the resulting object in public.
+      </p>
+    </div>
+  </section>
+
+  <section class="ts-principle-strip" aria-label="Third Space principles">
+    <span>Question before credential</span>
+    <span>Method before prestige</span>
+    <span>Authors own their work</span>
+    <span>Versions remain public</span>
+  </section>
+
+  <ThirdSpaceSeam />
+
+  <section id="rooms" class="ts-page-rooms" aria-labelledby="ts-rooms-title">
+    <header>
+      <span>THE ARCHITECTURE</span>
+      <h2 id="ts-rooms-title">Four arms.<br />One research commons.</h2>
+      <p>Each arm leaves a different object behind: a project, a citable record, a method someone else can inspect, or a researcher ready for the next question.</p>
+    </header>
+    <ol>
+      <li>
+        <span>01</span>
+        <div><small>LAB</small><h3>Put a real question on the table.</h3></div>
+        <p>Mentored projects begin with a question whose answer is genuinely unknown and a design the participant can explain.</p>
+      </li>
+      <li>
+        <span>02</span>
+        <div><small>PAPERS</small><h3>Give the work a citable address.</h3></div>
+        <p>The public record includes the question, method, versions, limits, and contribution.</p>
+      </li>
+      <li>
+        <span>03</span>
+        <div><small>METHODS</small><h3>Show the choice inside the method.</h3></div>
+        <p>Protocols, examples, and reusable infrastructure make each research decision available for inspection.</p>
+      </li>
+      <li>
+        <span>04</span>
+        <div><small>FELLOWS</small><h3>Let the researcher arrive early.</h3></div>
+        <p>A mentored path for undergraduates, graduate students, and high-school researchers ready to own the work.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="ts-page-process" aria-labelledby="ts-process-title">
+    <header>
+      <span>THE PATH</span>
+      <h2 id="ts-process-title">Question. Method.<br />Public object.</h2>
+    </header>
+    <ol>
+      <li><span>01</span><h3>Name what you do not know.</h3><p>Begin with the smallest version of the question that can meet evidence.</p></li>
+      <li><span>02</span><h3>Build what the question requires.</h3><p>Learn the method, habits, and research infrastructure while using them on the actual object.</p></li>
+      <li><span>03</span><h3>Leave a record someone can inspect.</h3><p>Publish the question, method, limits, versions, and contribution in the open.</p></li>
+    </ol>
+  </section>
+
+  <section class="ts-page-founders" aria-labelledby="ts-founders-title">
+    <header>
+      <span>CO-FOUNDERS</span>
+      <h2 id="ts-founders-title">Two economists.<br />One shared laboratory.</h2>
+    </header>
+    <div class="ts-founder-grid">
+      <article>
+        <span>IAN T. S. HELFRICH · PHD</span>
+        <h3>Research economist.<br />Instrument builder.</h3>
+        <p>Ian works across econometrics, labor, trade, networks, spatial analysis, and quantitative education. He builds the public instrument and traces the choice hiding inside the result.</p>
+        <a href="/about">Ian’s background →</a>
+      </article>
+      <article>
+        <span>ELIZAVETA GONCHAR · PHD</span>
+        <h3>Spatial economist.<br />Methods architect.</h3>
+        <p>Elizaveta is a spatial economist and Ian’s fiancée and frequent coauthor. Their joint work covers effective distance, trade, satellite-calibrated measurement, and Ukraine’s wartime economic reorganization.</p>
+        <a href="/people/elizaveta-gonchar">Elizaveta’s research record →</a>
+      </article>
+    </div>
+    <p class="ts-founder-note">Partners since 2013 · engaged · coauthors · economists · based in St. Louis</p>
+  </section>
+
+  <section class="ts-page-invitation" aria-labelledby="ts-invitation-title">
+    <span>THE FOUNDING CONVERSATION</span>
+    <h2 id="ts-invitation-title">Have a question that<br />needs a third space?</h2>
+    <p>
+      The venture is in formation. We are interested in hearing from prospective researchers, mentors, collaborators, and institutions who recognize the gap this lab is being built to fill.
+    </p>
+    <a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs">Begin a conversation</a>
+  </section>
+</Base>

@@ -1,0 +1,139 @@
+---
+import { getCollection } from "astro:content";
+
+const [papers, datasets, essays, tools] = await Promise.all([
+  getCollection("research"),
+  getCollection("datasets"),
+  getCollection("writing", ({ data }) => !data.draft),
+  getCollection("projects"),
+]);
+
+const channels = [
+  {
+    key: "papers", label: "Papers", code: "P", count: papers.length,
+    title: "Claims that have reached paper form.",
+    copy: "Working papers, preprints, and published work. The status line tells you how much confidence the object has earned.",
+    records: papers.sort((a, b) => b.data.year - a.data.year).slice(0, 4).map((entry) => ({ meta: `${entry.data.year} · ${entry.data.status}`, title: entry.data.title, href: `/research/${entry.id}` })),
+    href: "/research",
+  },
+  {
+    key: "data", label: "Data", code: "D", count: datasets.length,
+    title: "The rows underneath the claim.",
+    copy: "Cleaned panels, construction records, licenses, viewers, and release paths. Data becomes public when the trail is ready to travel with it.",
+    records: datasets.sort((a, b) => b.data.year - a.data.year).slice(0, 4).map((entry) => ({ meta: `${entry.data.year} · ${entry.data.status}`, title: entry.data.title, href: `/datasets/${entry.id}` })),
+    href: "/datasets",
+  },
+  {
+    key: "essays", label: "Essays", code: "W", count: essays.length,
+    title: "Questions before they become papers.",
+    copy: "Research notes, methodological arguments, and field reports. This is where I show the uncertainty that a finished abstract usually removes.",
+    records: essays.sort((a, b) => +b.data.date - +a.data.date).slice(0, 4).map((entry) => ({ meta: entry.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }), title: entry.data.title, href: `/writing/${entry.id}` })),
+    href: "/writing",
+  },
+  {
+    key: "tools", label: "Tools", code: "T", count: tools.length,
+    title: "Code with a public surface.",
+    copy: "Viewers, laboratories, atlases, and research infrastructure. Open the object, change an input, and inspect what moves.",
+    records: tools.sort((a, b) => Number(b.data.pinned) - Number(a.data.pinned) || +b.data.date - +a.data.date).slice(0, 4).map((entry) => ({ meta: `${entry.data.status} · ${entry.data.tags.slice(0, 2).join(" · ")}`, title: entry.data.title, href: entry.data.url ?? `/projects/${entry.id}`, external: Boolean(entry.data.url) })),
+    href: "/projects",
+  },
+];
+
+const total = papers.length + datasets.length + essays.length + tools.length;
+---
+
+<section class="archive-switchboard" aria-labelledby="archive-switchboard-title" data-archive-switchboard>
+  <header class="archive-switchboard-head">
+    <div>
+      <span>04 / PUBLIC OUTPUT</span>
+      <h2 id="archive-switchboard-title">I put the work<br />where you can test it.</h2>
+    </div>
+    <p>{total} public records currently connect the papers, datasets, essays, and tools. Each one has a stable page. The complete index can be searched by question, method, place, or status.</p>
+  </header>
+
+  <div class="archive-switchboard-shell">
+    <nav class="archive-channel-tabs" role="tablist" aria-label="Choose a public output channel">
+      {channels.map((channel, index) => (
+        <button
+          id={`archive-tab-${channel.key}`}
+          class:list={[index === 0 && "is-active"]}
+          type="button"
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls={`archive-panel-${channel.key}`}
+          tabindex={index === 0 ? "0" : "-1"}
+          data-archive-tab={channel.key}
+        >
+          <span>{channel.code}</span><strong>{channel.label}</strong><small>{String(channel.count).padStart(2, "0")}</small>
+        </button>
+      ))}
+    </nav>
+
+    <div class="archive-channel-field">
+      {channels.map((channel, index) => (
+        <article
+          id={`archive-panel-${channel.key}`}
+          class:list={["archive-channel-panel", index === 0 && "is-active"]}
+          role="tabpanel"
+          aria-labelledby={`archive-tab-${channel.key}`}
+          data-archive-panel={channel.key}
+          hidden={index !== 0}
+        >
+          <header><span>{channel.code} / {String(channel.count).padStart(2, "0")} RECORDS</span><h3>{channel.title}</h3><p>{channel.copy}</p></header>
+          <ol>
+            {channel.records.map((record, recordIndex) => (
+              <li>
+                <span>{channel.code}-{String(recordIndex + 1).padStart(2, "0")}</span>
+                <div><small>{record.meta}</small><a href={record.href} target={record.external ? "_blank" : undefined} rel={record.external ? "noopener" : undefined}>{record.title}</a></div>
+                <i aria-hidden="true">{record.external ? "↗" : "→"}</i>
+              </li>
+            ))}
+          </ol>
+          <a class="archive-channel-open" href={channel.href}>Open all {channel.label.toLowerCase()} →</a>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <footer class="archive-switchboard-foot">
+    <span><i></i>PUBLIC INDEX ONLINE</span>
+    <span>{total} RECORDS · RSS + JSON</span>
+    <div><a href="/library">Search the complete index</a><a href="/archive.json">Machine-readable JSON</a></div>
+  </footer>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-archive-switchboard]").forEach((switchboard) => {
+      const tabs = Array.from(switchboard.querySelectorAll("[data-archive-tab]"));
+      const panels = Array.from(switchboard.querySelectorAll("[data-archive-panel]"));
+      const select = (key, focus = false) => {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.archiveTab === key;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && focus) tab.focus();
+        });
+        panels.forEach((panel) => {
+          const active = panel.dataset.archivePanel === key;
+          panel.classList.toggle("is-active", active);
+          panel.hidden = !active;
+        });
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => select(tab.dataset.archiveTab));
+        tab.addEventListener("keydown", (event) => {
+          let next = index;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % tabs.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          select(tabs[next].dataset.archiveTab, true);
+        });
+      });
+    });
+  })();
+</script>

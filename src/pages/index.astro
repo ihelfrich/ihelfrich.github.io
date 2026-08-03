@@ -1,185 +1,125 @@
 ---
 import Base from "../layouts/Base.astro";
-import { getCollection } from "astro:content";
-import fs from "node:fs";
-import path from "node:path";
-
-const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
-const pinnedProjects = projects.filter(p => p.data.pinned).slice(0, 6);
-
-const writing = (await getCollection("writing"))
-  .filter(p => !p.data.draft)
-  .sort((a, b) => +b.data.date - +a.data.date)
-  .slice(0, 4);
-
-const research = (await getCollection("research")).sort((a, b) => b.data.year - a.data.year).slice(0, 4);
-const datasets = (await getCollection("datasets")).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
-const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
-const people = (await getCollection("people")).sort((a, b) => a.data.order - b.data.order);
-const allTalks = await getCollection("talks");
-const upcomingTalks = allTalks.filter(t => t.data.upcoming).sort((a, b) => +a.data.date - +b.data.date).slice(0, 3);
-
-let readingItems = [];
-try {
-  readingItems = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/reading.json"), "utf8")).slice(0, 5);
-} catch (e) {}
-
-const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+import SpecificationWorkbench from "../components/SpecificationWorkbench.astro";
+import AudienceNavigator from "../components/AudienceNavigator.astro";
+import ThirdSpacePortal from "../components/ThirdSpacePortal.astro";
+import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.astro";
 ---
-<Base>
-  <section class="h-hero">
-    <canvas id="hero-canvas" class="h-hero-canvas" aria-hidden="true"></canvas>
-    <div class="h-hero-eyebrow">Smyrna, Georgia · open to new work</div>
-    <h1>Ian Helfrich,<br/><span class="h-accent">trade economist.</span></h1>
-    <p class="h-hero-lead">
-      PhD in Economics from Georgia Institute of Technology, 2024. Primary field international trade. Secondary fields geospatial economics, microeconomic theory, and networks. Advisors Tibor Besedes and Usha Nair-Reichert.
-    </p>
-    <div class="h-hero-meta">
-      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
-      <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">github</a>
-      <a href="/about">about</a>
-      <a href="/book" class="h-cta">Book a session</a>
+<Base
+  wide
+  pageClass="instrument-home"
+  image="/people/ian-editorial.webp"
+  description="Ian Helfrich is a research economist and award-winning educator offering quantitative instruction, research mentorship, and custom training from high school through professional practice."
+>
+  <SpecificationWorkbench />
+
+  <section class="ih-evidence" aria-label="Selected evidence">
+    <div><strong>1,200+</strong><span>recent-year teaching hours</span></div>
+    <div><strong>450+</strong><span>students across classrooms and private practice</span></div>
+    <div><strong>5.0</strong><span>average across 175+ public ratings</span></div>
+    <div><strong>2023</strong><span>Georgia Tech Graduate TA of the Year</span></div>
+  </section>
+
+  <AudienceNavigator />
+
+  <section class="ih-practice" aria-labelledby="practice-title">
+    <header class="ih-section-intro">
+      <div>
+        <span class="ih-section-number">02 / THE PRACTICE</span>
+        <h2 id="practice-title">Show me where<br />the reasoning breaks.</h2>
+      </div>
+      <p>
+        Sometimes the fix is one missing idea. Sometimes a student needs a semester of connected work. Sometimes a research design has to be taken apart before it can be trusted. I scope those problems differently.
+      </p>
+    </header>
+
+    <div class="ih-service-ledger">
+      <article>
+        <span class="ih-ledger-index">01</span>
+        <div>
+          <span class="ih-ledger-type">PRIVATE INSTRUCTION</span>
+          <h3>Find the missing model</h3>
+        </div>
+        <p>A wrong answer is often the last visible link in a longer chain. We find the first weak link, rebuild it, and test whether the idea survives a new problem.</p>
+        <ul>
+          <li>High school · undergraduate · MBA · graduate</li>
+          <li>SAT/ACT · AP · R · Stata · Python · Excel</li>
+        </ul>
+        <a href="/work-with-me#private">View format →</a>
+      </article>
+
+      <article>
+        <span class="ih-ledger-index">02</span>
+        <div>
+          <span class="ih-ledger-type">RESEARCH MENTORSHIP</span>
+          <h3>Make the design answer the question</h3>
+        </div>
+        <p>We state the object, decide what comparison could identify it, inspect the code, and keep the final claim inside what the evidence can carry.</p>
+        <ul>
+          <li>Independent projects · theses · dissertations · papers</li>
+          <li>Design review · code review · defense preparation</li>
+        </ul>
+        <a href="/work-with-me#research">View format →</a>
+      </article>
+
+      <article>
+        <span class="ih-ledger-index">03</span>
+        <div>
+          <span class="ih-ledger-type">TEAMS + INSTITUTIONS</span>
+          <h3>Put the team’s real problem on screen</h3>
+        </div>
+        <p>I build the training around the models, data, and decisions already on the team’s desk. The examples and diagnostics stay with the group after I leave.</p>
+        <ul>
+          <li>Workshops · cohorts · curriculum architecture</li>
+          <li>Econometrics · causal inference · data workflows</li>
+        </ul>
+        <a href="/work-with-me#institutions">View format →</a>
+      </article>
+    </div>
+
+    <div class="ih-practice-close">
+      <p><strong>Your judgment is the deliverable.</strong> I teach, question, demonstrate, review, and debug alongside you. I do not take exams, fabricate analysis, or ghostwrite work.</p>
+      <a class="ih-action" href="/work-with-me">See fit, formats, and rates</a>
     </div>
   </section>
 
-  <section style="max-width: var(--content-max); margin: 0 auto;">
-    <p style="font-size: 1.1rem; line-height: 1.7;">
-      My doctoral and post-doctoral research is in international trade, with secondary work in geospatial economics, microeconomic theory, and networks. The active line of work, joint with Dr. Elizaveta Gonchar, builds a satellite-calibrated bilateral trade-cost panel for 200 countries over 2000-2024; the 2025 SSRN preprint <a href="/research/gonchar-helfrich-2025-spotlight"><em>Trade in the Spotlight</em></a> introduced the construction. A separate working paper, <a href="/research/helfrich-2024-ssrn-4772016">SSRN 4772016</a>, unifies economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces. The umbrella research program is documented at <a href="/program">/program</a>.
-    </p>
-    <p>
-      A smaller, more applied line of work uses the same intermediary-network methods in domestic-policy settings. <a href="/research/helfrich-2026-nmtc-rural-gap">Helfrich (2026)</a> decomposes the apparent rural-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The companion European replication is in progress, with Katia Antunes.
-    </p>
-    <p style="color: var(--muted); font-size: 0.95rem;">
-      Twin master's degrees from Georgia Tech in Economics (2019) and Geographic Information Science and Technology (2022). Prior degrees from Indiana University Bloomington, the Barcelona School of Economics, and UNC Chapel Hill. Working languages English, Spanish, Russian, Ukrainian.
-    </p>
+  <ThirdSpacePortal />
+
+  <PublicArchiveSwitchboard />
+
+  <section class="ih-profile" aria-labelledby="profile-title">
+    <figure class="ih-profile-image">
+      <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" loading="lazy" />
+      <figcaption>IAN T. S. HELFRICH · ECONOMIST / EDUCATOR</figcaption>
+    </figure>
+    <div class="ih-profile-copy">
+      <span class="ih-section-number">05 / THE PERSON IN THE ROOM</span>
+      <h2 id="profile-title">A research economist<br />who builds the instruments.</h2>
+      <p class="ih-profile-lead">
+        I am a Georgia Tech-trained economist, quantitative researcher, and award-winning educator. I work across econometrics, labor, trade, networks, spatial analysis, and the harder question underneath all of them: how did this number become evidence?
+      </p>
+      <div class="ih-profile-notes">
+        <p><span>RESEARCH</span>AI and labor · trade and networks · place-based policy · spatial econometrics</p>
+        <p><span>TEACHING</span>SAT and AP foundations · undergraduate and MBA coursework · graduate methods · professional training</p>
+        <p><span>TOOLS</span>R · Stata · Python · Julia · GIS · reproducible research systems</p>
+      </div>
+      <div class="ih-profile-links">
+        <a href="/about">Read the full background →</a>
+        <a href="/cv">Open CV →</a>
+      </div>
+    </div>
+    <blockquote>
+      “The best session ends when you can find the next mistake before I do.”
+    </blockquote>
   </section>
 
-  <div class="h-section-head">
-    <h2>What I've built</h2>
-    <a href="/projects" class="h-see-all">All projects →</a>
-  </div>
-  <div class="h-card-grid">
-    {pinnedProjects.map(p => (
-      <a class="h-card" href={p.data.url ?? `/projects/${p.id}`} target={p.data.url ? "_blank" : undefined} rel={p.data.url ? "noopener" : undefined}>
-        <div class="h-card-tag">{p.data.tags[0] ?? "project"}</div>
-        <div class="h-card-title">{p.data.title}</div>
-        <div class="h-card-blurb">{p.data.blurb}</div>
-        <span class="h-card-status" data-status={p.data.status}>{p.data.status}</span>
-      </a>
-    ))}
-  </div>
-
-  <div class="h-section-head">
-    <h2>Papers</h2>
-    <a href="/research" class="h-see-all">All papers →</a>
-  </div>
-  <ul class="h-row-list">
-    {research.map(r => (
-      <li class="h-row">
-        <div class="h-row-meta">{r.data.year} · {r.data.status}{r.data.venue ? ` · ${r.data.venue}` : ""}</div>
-        <h3 class="h-row-title"><a href={`/research/${r.id}`}>{r.data.title}</a></h3>
-        <p class="h-row-summary">{r.data.authors.join(", ")}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Datasets</h2>
-    <a href="/datasets" class="h-see-all">All datasets →</a>
-  </div>
-  <ul class="h-row-list">
-    {datasets.map(d => (
-      <li class="h-row">
-        <div class="h-row-meta">{d.data.year} · {d.data.status}{d.data.size ? ` · ${d.data.size}` : ""}</div>
-        <h3 class="h-row-title"><a href={`/datasets/${d.id}`}>{d.data.title}</a></h3>
-        <p class="h-row-summary"><em>{d.data.authors.join(", ")}.</em> {d.data.blurb}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Writing</h2>
-    <a href="/writing" class="h-see-all">All → · <a href="/rss.xml" style="font-family: var(--font-mono); font-size: 0.8em;">RSS</a></a>
-  </div>
-  <ul class="h-row-list">
-    {writing.map(w => (
-      <li class="h-row">
-        <div class="h-row-meta">{fmt(w.data.date)}</div>
-        <h3 class="h-row-title"><a href={`/writing/${w.id}`}>{w.data.title}</a></h3>
-        <p class="h-row-summary">{w.data.summary}</p>
-      </li>
-    ))}
-  </ul>
-
-  <div class="h-section-head">
-    <h2>Teaching</h2>
-    <a href="/teaching" class="h-see-all">All →</a>
-  </div>
-  <div class="h-card-grid">
-    {teaching.map(t => (
-      <a class="h-card" href={t.data.url} target="_blank" rel="noopener">
-        <div class="h-card-tag">{t.data.audience}</div>
-        <div class="h-card-title">{t.data.title}</div>
-        <div class="h-card-blurb">{t.data.blurb}</div>
-      </a>
-    ))}
-  </div>
-
-  {upcomingTalks.length > 0 && (
-    <>
-      <div class="h-section-head">
-        <h2>Upcoming talks</h2>
-        <a href="/talks" class="h-see-all">All talks →</a>
-      </div>
-      <ul class="h-row-list">
-        {upcomingTalks.map(t => (
-          <li class="h-row">
-            <div class="h-row-meta">{fmt(t.data.date)} · {t.data.venue}{t.data.location ? ` · ${t.data.location}` : ''}</div>
-            <h3 class="h-row-title">{t.data.title}</h3>
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
-
-  <div class="h-section-head">
-    <h2>People I work with</h2>
-    <a href="/people" class="h-see-all">All →</a>
-  </div>
-  <div class="h-card-grid">
-    {people.map(p => (
-      <a class="h-card" href={`/people/${p.id}`}>
-        <div class="h-card-tag">{p.data.role}</div>
-        <div class="h-card-title">{p.data.name}</div>
-        <div class="h-card-blurb">{p.data.bio.slice(0, 180)}{p.data.bio.length > 180 ? '…' : ''}</div>
-      </a>
-    ))}
-  </div>
-
-  {readingItems.length > 0 && (
-    <>
-      <div class="h-section-head">
-        <h2>On my desk</h2>
-        <a href="/reading" class="h-see-all">All →</a>
-      </div>
-      <ul class="h-row-list">
-        {readingItems.map(item => (
-          <li class="h-row">
-            <div class="h-row-meta"><a href={item.link} target="_blank" rel="noopener" style="color: var(--rust); border: none;">{item.source}</a> · {fmt(item.date)}</div>
-            <h3 class="h-row-title"><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h3>
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
-
-  <div style="margin: 4rem 0 2rem; padding: 2rem 2.2rem; background: linear-gradient(135deg, var(--paper-2), var(--paper)); border-left: 4px solid var(--sage); border-radius: 6px; box-shadow: 0 1px 12px rgba(13, 59, 102, 0.05);">
-    <h3 style="margin: 0 0 0.4rem;">Want to work together?</h3>
-    <p style="margin-bottom: 0; font-size: 1.05rem;">
-      <a href="/book">Book a 30-minute consult</a> for tutoring (graduate or advanced-undergrad econ) or to chat about a project. For research or collaboration questions, write me directly at <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>. I answer most emails within a day.
-    </p>
-  </div>
-
-  <script src="/network.js" defer></script>
-  <script src="/reveal.js" defer></script>
+  <section class="ih-inquiry" aria-labelledby="inquiry-title">
+    <span class="ih-section-number">06 / START WITH THE REAL PROBLEM</span>
+    <h2 id="inquiry-title">Where does the<br />reasoning break?</h2>
+    <p>Send the problem, what you have tried, and the actual deadline. I will tell you whether I can help, what the smallest useful engagement is, and what it costs.</p>
+    <div>
+      <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
+      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
+    </div>
+  </section>
 </Base>

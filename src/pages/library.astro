@@ -1,0 +1,201 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const [papers, datasets, essays, tools, talks] = await Promise.all([
+  getCollection("research"),
+  getCollection("datasets"),
+  getCollection("writing", ({ data }) => !data.draft),
+  getCollection("projects"),
+  getCollection("talks"),
+]);
+
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const items = [
+  ...papers.map((entry, index) => ({
+    type: "paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-01`),
+    title: entry.data.title, summary: entry.data.abstract, meta: `${entry.data.status}${entry.data.venue ? ` · ${entry.data.venue}` : ""}`,
+    tags: entry.data.tags, href: `/research/${entry.id}`, action: "Open paper record", status: entry.data.status,
+  })),
+  ...datasets.map((entry, index) => ({
+    type: "data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-02`),
+    title: entry.data.title, summary: entry.data.blurb, meta: `${entry.data.status} · ${entry.data.license}${entry.data.size ? ` · ${entry.data.size}` : ""}`,
+    tags: entry.data.tags, href: `/datasets/${entry.id}`, action: "Open data record", status: entry.data.status,
+  })),
+  ...essays.map((entry, index) => ({
+    type: "essay", code: `W-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
+    title: entry.data.title, summary: entry.data.summary, meta: fmt(entry.data.date), tags: entry.data.tags,
+    href: `/writing/${entry.id}`, action: "Read essay", status: "published",
+  })),
+  ...tools.map((entry, index) => ({
+    type: "tool", code: `T-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
+    title: entry.data.title, summary: entry.data.blurb, meta: `${entry.data.status} · ${fmt(entry.data.date)}`, tags: entry.data.tags,
+    href: entry.data.url ?? `/projects/${entry.id}`, action: entry.data.url ? "Launch tool" : "Open tool record", status: entry.data.status,
+    external: Boolean(entry.data.url),
+  })),
+  ...talks.map((entry, index) => ({
+    type: "talk", code: `K-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
+    title: entry.data.title, summary: entry.data.abstract ?? `${entry.data.type} at ${entry.data.venue}.`, meta: `${fmt(entry.data.date)} · ${entry.data.venue}`,
+    tags: [entry.data.type], href: "/talks", action: "Open talks", status: entry.data.upcoming ? "upcoming" : "delivered",
+  })),
+].sort((a, b) => +b.date - +a.date || a.title.localeCompare(b.title));
+
+const counts = {
+  paper: papers.length,
+  data: datasets.length,
+  essay: essays.length,
+  tool: tools.length,
+  talk: talks.length,
+};
+
+const channels = [
+  ["paper", "Papers", papers.length],
+  ["data", "Data", datasets.length],
+  ["essay", "Essays", essays.length],
+  ["tool", "Tools", tools.length],
+  ["talk", "Talks", talks.length],
+];
+---
+
+<Base
+  wide
+  pageClass="library-page"
+  title="Public Index"
+  description="The public record of Ian Helfrich's papers, datasets, essays, research tools, talks, and teaching materials."
+>
+  <section class="lib-hero" aria-labelledby="library-title">
+    <div class="lib-hero-top">
+      <span>PUBLIC INDEX / IAN T. S. HELFRICH</span>
+      <span>{items.length} RECORDS / 5 CHANNELS</span>
+      <span><i></i>OPEN ACCESS WHERE RIGHTS ALLOW</span>
+    </div>
+    <div class="lib-hero-grid">
+      <div class="lib-hero-copy">
+        <span>THE WORK IS THE INTRODUCTION</span>
+        <h1 id="library-title">Open the<br /><em>drawers.</em></h1>
+        <p>
+          Papers, data, essays, talks, and tools belong in public when I can responsibly put them there. Every item below says what exists, what is still underway, and where the underlying work can be inspected.
+        </p>
+        <div><a href="#records">Search {items.length} records</a><a href="/rss.xml">Follow the feed</a></div>
+      </div>
+
+      <div class="lib-signal" data-library-signal>
+        <header><span>OUTPUT FIELD / ALL CHANNELS</span><output data-signal-code>MOVE THROUGH A RECORD</output></header>
+        <div class="lib-signal-readout" aria-live="polite">
+          <span data-signal-type>PUBLIC RECORD</span>
+          <strong data-signal-title>{counts.paper} papers. {counts.data} datasets. {counts.tool} tools.</strong>
+          <p data-signal-meta>Focus a mark to inspect the record behind it.</p>
+        </div>
+        <div class="lib-tracks">
+          {channels.map(([type, label, count]) => (
+            <div class="lib-track" data-channel={type}>
+              <span>{label}<small>{String(count).padStart(2, "0")}</small></span>
+              <div>
+                {items.filter((item) => item.type === type).map((item, index) => (
+                  <a
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener" : undefined}
+                    aria-label={`${item.code}: ${item.title}`}
+                    style={`--pulse: ${index % 4}; --weight: ${Math.min(4, 1 + Math.floor(item.title.length / 32))}`}
+                    data-signal-record data-code={item.code} data-type={item.type} data-title={item.title} data-meta={item.meta}
+                  ></a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <footer><span>HEIGHT / TITLE DENSITY</span><span>BLUE / ACTIVE RECORD</span><span>FOCUS + ENTER / OPEN</span></footer>
+      </div>
+    </div>
+  </section>
+
+  <section id="records" class="lib-records" aria-labelledby="records-title" data-public-index>
+    <header class="lib-records-head">
+      <div><span>CATALOGUE / LIVE FILTER</span><h2 id="records-title">One index.<br />No scavenger hunt.</h2></div>
+      <p>I use this as the public spine for work spread across papers, repositories, datasets, viewers, and field notes. Search by object, method, place, or problem.</p>
+    </header>
+
+    <div class="lib-controls">
+      <label><span>QUERY</span><input type="search" placeholder="Try: rural, AI, gravity, econometrics…" data-library-query /></label>
+      <div class="lib-filters" role="group" aria-label="Filter by record type">
+        <button class="is-active" type="button" data-library-filter="all">All <span>{items.length}</span></button>
+        {channels.map(([type, label, count]) => <button type="button" data-library-filter={type}>{label} <span>{count}</span></button>)}
+      </div>
+      <output data-library-count>{items.length} records visible</output>
+    </div>
+
+    <div class="lib-table-head" aria-hidden="true"><span>Accession / type</span><span>Record</span><span>Status / date</span><span>Open</span></div>
+    <ol class="lib-record-list">
+      {items.map((item) => (
+        <li data-library-item data-type={item.type} data-search={`${item.code} ${item.type} ${item.title} ${item.summary} ${item.meta} ${item.tags.join(" ")}`.toLowerCase()}>
+          <div><span>{item.code}</span><small>{item.type}</small></div>
+          <article><h3><a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}>{item.title}</a></h3><p>{item.summary}</p><div>{item.tags.map((tag) => <span>{tag}</span>)}</div></article>
+          <div><strong>{item.status}</strong><span>{item.meta}</span></div>
+          <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}><span class="sr-only">{item.action}: {item.title}</span>{item.external ? "↗" : "→"}</a>
+        </li>
+      ))}
+    </ol>
+    <p class="lib-empty" data-library-empty hidden>No public record matches that combination.</p>
+  </section>
+
+  <section class="lib-protocol" aria-labelledby="protocol-title">
+    <span>PUBLICATION PROTOCOL</span>
+    <h2 id="protocol-title">A status is a claim.<br />I label it accordingly.</h2>
+    <div>
+      <p><strong>Draft means draft.</strong> A project page can document a question, design, or data pipeline before it can support a result. I say which stage it has reached.</p>
+      <p><strong>Data needs a trail.</strong> Releases include a source record, license, construction notes, and a stable citation when the material is ready.</p>
+      <p><strong>Corrections stay visible.</strong> Dates, versions, and updated records let the public object change without pretending it was always finished.</p>
+    </div>
+    <footer><a href="/archive.json">MACHINE-READABLE INDEX / JSON</a><a href="/rss.xml">SYNDICATED UPDATES / RSS</a><a href="https://github.com/ihelfrich" target="_blank" rel="noopener">SOURCE REPOSITORIES / GITHUB ↗</a></footer>
+  </section>
+</Base>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-library-signal]").forEach((signal) => {
+      const code = signal.querySelector("[data-signal-code]");
+      const type = signal.querySelector("[data-signal-type]");
+      const title = signal.querySelector("[data-signal-title]");
+      const meta = signal.querySelector("[data-signal-meta]");
+      signal.querySelectorAll("[data-signal-record]").forEach((record) => {
+        const reveal = () => {
+          signal.querySelectorAll("[data-signal-record]").forEach((item) => item.classList.toggle("is-active", item === record));
+          if (code) code.textContent = record.dataset.code;
+          if (type) type.textContent = record.dataset.type.toUpperCase();
+          if (title) title.textContent = record.dataset.title;
+          if (meta) meta.textContent = record.dataset.meta;
+        };
+        record.addEventListener("pointerenter", reveal);
+        record.addEventListener("focus", reveal);
+      });
+    });
+
+    document.querySelectorAll("[data-public-index]").forEach((index) => {
+      const query = index.querySelector("[data-library-query]");
+      const buttons = Array.from(index.querySelectorAll("[data-library-filter]"));
+      const records = Array.from(index.querySelectorAll("[data-library-item]"));
+      const count = index.querySelector("[data-library-count]");
+      const empty = index.querySelector("[data-library-empty]");
+      let filter = "all";
+      const update = () => {
+        const needle = query?.value.trim().toLowerCase() ?? "";
+        let visible = 0;
+        records.forEach((record) => {
+          const matchType = filter === "all" || record.dataset.type === filter;
+          const matchQuery = !needle || record.dataset.search.includes(needle);
+          record.hidden = !(matchType && matchQuery);
+          if (!record.hidden) visible += 1;
+        });
+        if (count) count.textContent = `${visible} ${visible === 1 ? "record" : "records"} visible`;
+        if (empty) empty.hidden = visible > 0;
+      };
+      buttons.forEach((button) => button.addEventListener("click", () => {
+        filter = button.dataset.libraryFilter;
+        buttons.forEach((candidate) => candidate.classList.toggle("is-active", candidate === button));
+        update();
+      }));
+      query?.addEventListener("input", update);
+    });
+  })();
+</script>

@@ -1,0 +1,153 @@
+<section id="third-space" class="ts-portal" aria-labelledby="third-space-title">
+  <div class="ts-portal-mast">
+    <div class="ts-mark-lockup" aria-label="Third Space Labs">
+      <svg class="ts-mark" viewBox="0 0 150 92" role="img" aria-label="Two open rings with their shared third space filled">
+        <defs>
+          <clipPath id="third-space-ring-clip"><circle cx="90" cy="46" r="34"></circle></clipPath>
+        </defs>
+        <circle class="ts-mark-overlap" cx="60" cy="46" r="34" clip-path="url(#third-space-ring-clip)"></circle>
+        <circle class="ts-mark-ring" cx="60" cy="46" r="34"></circle>
+        <circle class="ts-mark-ring" cx="90" cy="46" r="34"></circle>
+      </svg>
+      <div><strong>Third Space</strong><span>LABS · ST. LOUIS</span></div>
+    </div>
+    <span class="ts-state"><i></i>IN FORMATION</span>
+  </div>
+
+  <div class="ts-portal-intro">
+    <span class="ts-folio">03 / A LAB BETWEEN INSTITUTIONS</span>
+    <h2 id="third-space-title">Researchers should not have to wait<br />for permission to begin.</h2>
+    <div>
+      <p>
+        Ian Helfrich and Elizaveta Gonchar are building an independent lab for researchers whose ability has outrun their institutional access. It sits between university and industry, where a real question can begin before a title or department catches up.
+      </p>
+      <p class="ts-principle">The standard stays high. The gate gets wider.</p>
+    </div>
+  </div>
+
+  <div class="ts-room-interface" data-third-space-portal>
+    <nav class="ts-room-tabs" role="tablist" aria-label="Explore the four arms of Third Space Labs">
+      <button id="ts-tab-lab" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="ts-room-panel" data-ts-room="lab"><span>01</span>Lab</button>
+      <button id="ts-tab-papers" type="button" role="tab" aria-selected="false" aria-controls="ts-room-panel" tabindex="-1" data-ts-room="papers"><span>02</span>Papers</button>
+      <button id="ts-tab-methods" type="button" role="tab" aria-selected="false" aria-controls="ts-room-panel" tabindex="-1" data-ts-room="methods"><span>03</span>Methods</button>
+      <button id="ts-tab-fellows" type="button" role="tab" aria-selected="false" aria-controls="ts-room-panel" tabindex="-1" data-ts-room="fellows"><span>04</span>Fellows</button>
+    </nav>
+
+    <div class="ts-room-map" aria-hidden="true">
+      <svg viewBox="0 0 640 470">
+        <path class="ts-map-frame" d="M32 32H608V438H32ZM320 32V438M32 235H608"></path>
+        <path class="ts-map-route" d="M132 132H320V92M508 132H320V92M132 338H320V378M508 338H320V378M320 92V378"></path>
+        <circle class="ts-map-center" cx="320" cy="235" r="30"></circle>
+        <g class="ts-map-room ts-map-room--lab is-active" data-map-room="lab"><circle cx="132" cy="132" r="10"></circle><text x="132" y="164" text-anchor="middle">LAB</text></g>
+        <g class="ts-map-room ts-map-room--papers" data-map-room="papers"><circle cx="508" cy="132" r="10"></circle><text x="508" y="164" text-anchor="middle">PAPERS</text></g>
+        <g class="ts-map-room ts-map-room--methods" data-map-room="methods"><circle cx="132" cy="338" r="10"></circle><text x="132" y="370" text-anchor="middle">METHODS</text></g>
+        <g class="ts-map-room ts-map-room--fellows" data-map-room="fellows"><circle cx="508" cy="338" r="10"></circle><text x="508" y="370" text-anchor="middle">FELLOWS</text></g>
+        <text class="ts-map-center-label" x="320" y="232" text-anchor="middle">THIRD</text>
+        <text class="ts-map-center-label" x="320" y="246" text-anchor="middle">SPACE</text>
+      </svg>
+      <span>FOUR ARMS · ONE RESEARCH COMMONS</span>
+    </div>
+
+    <article id="ts-room-panel" class="ts-room-panel" role="tabpanel" aria-labelledby="ts-tab-lab" aria-live="polite">
+      <span class="ts-room-index" data-ts-index>01 / LAB</span>
+      <h3 data-ts-title>A place to do the work.</h3>
+      <p data-ts-copy>
+        Projects begin with an unanswered question, a design the participant can explain, and work they can defend under their own name.
+      </p>
+      <dl>
+        <div><dt>Function</dt><dd data-ts-function>Research development</dd></div>
+        <div><dt>Built for</dt><dd data-ts-audience>Emerging and independent researchers</dd></div>
+        <div><dt>Principle</dt><dd data-ts-principle>Students as principal researchers</dd></div>
+      </dl>
+      <a href="/third-space">Enter Third Space →</a>
+    </article>
+  </div>
+
+  <footer class="ts-portal-footer">
+    <span>CO-FOUNDED BY IAN HELFRICH, PHD + ELIZAVETA GONCHAR, PHD</span>
+    <a href="/third-space">Read the founding direction</a>
+  </footer>
+</section>
+
+<script is:inline>
+  (() => {
+    const rooms = {
+      lab: {
+        index: "01 / LAB",
+        title: "A place to do the work.",
+        copy: "Projects begin with an unanswered question, a design the participant can explain, and work they can defend under their own name.",
+        function: "Research development",
+        audience: "Emerging and independent researchers",
+        principle: "Students as principal researchers"
+      },
+      papers: {
+        index: "02 / PAPERS",
+        title: "A place to give the work an address.",
+        copy: "A citable address for the question, method, versions, limits, and contribution.",
+        function: "Open research publication",
+        audience: "Authors with research to share",
+        principle: "Work shared in the open"
+      },
+      methods: {
+        index: "03 / METHODS",
+        title: "A place to expose the choice inside the method.",
+        copy: "Methods instruction, protocols, working examples, and reusable research infrastructure that expose the decisions hidden beneath polished results.",
+        function: "Methods training and infrastructure",
+        audience: "Researchers building technical range",
+        principle: "Every choice available for inspection"
+      },
+      fellows: {
+        index: "04 / FELLOWS",
+        title: "A place to let the researcher arrive early.",
+        copy: "A mentored path for undergraduates, graduate students, and high-school researchers ready to own the question, method, and public record.",
+        function: "Research apprenticeship",
+        audience: "High school through graduate level",
+        principle: "Independence over affiliation"
+      }
+    };
+
+    document.querySelectorAll("[data-third-space-portal]").forEach((portal) => {
+      const tabs = Array.from(portal.querySelectorAll("[data-ts-room]"));
+      const mapRooms = Array.from(portal.querySelectorAll("[data-map-room]"));
+      const panel = portal.querySelector("[role='tabpanel']");
+      const fields = {
+        index: portal.querySelector("[data-ts-index]"),
+        title: portal.querySelector("[data-ts-title]"),
+        copy: portal.querySelector("[data-ts-copy]"),
+        function: portal.querySelector("[data-ts-function]"),
+        audience: portal.querySelector("[data-ts-audience]"),
+        principle: portal.querySelector("[data-ts-principle]")
+      };
+
+      const selectRoom = (key, moveFocus = false) => {
+        const room = rooms[key];
+        if (!room) return;
+        portal.dataset.activeRoom = key;
+        tabs.forEach((tab) => {
+          const active = tab.dataset.tsRoom === key;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && panel) panel.setAttribute("aria-labelledby", tab.id);
+        });
+        mapRooms.forEach((mapRoom) => mapRoom.classList.toggle("is-active", mapRoom.dataset.mapRoom === key));
+        Object.entries(fields).forEach(([name, element]) => { if (element) element.textContent = room[name]; });
+        if (moveFocus) tabs.find((tab) => tab.dataset.tsRoom === key)?.focus();
+      };
+
+      tabs.forEach((tab, tabIndex) => {
+        tab.addEventListener("click", () => selectRoom(tab.dataset.tsRoom));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex = tabIndex;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (tabIndex + 1) % tabs.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (tabIndex - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          selectRoom(tabs[nextIndex].dataset.tsRoom, true);
+        });
+      });
+    });
+  })();
+</script>

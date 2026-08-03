@@ -33,6 +33,8 @@ jobs:
       - name: Refresh reading aggregator
         run: python3 scripts/fetch_reading.py
         continue-on-error: true
+      - name: Run factual and voice release gate
+        run: npm run check:copy
       - name: Build hub
         run: npm run build:fast
       - name: Mirror spokes for indexing

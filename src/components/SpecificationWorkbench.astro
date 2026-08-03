@@ -1,0 +1,327 @@
+---
+const specs = [
+  {
+    key: "m0", code: "M0", label: "RAW", beta: -0.26225892496708414, se: 0.05973118400635994, p: 0.000011301051061142302, rsq: 0.0020330427215242697,
+    controls: ["PROJECT"],
+    title: "The rural penalty looks decisive.",
+    copy: "Pool all 8,024 projects and non-metro leverage is 0.262 lower. The estimate is precise. The model also treats every intermediary as interchangeable."
+  },
+  {
+    key: "m1", code: "M1", label: "+ YEAR", beta: -0.2492351438167053, se: 0.060576503565311864, p: 0.000038821064217335164, rsq: 0.015463589747546247,
+    controls: ["PROJECT", "YEAR"],
+    title: "Timing explains almost none of it.",
+    copy: "Allocation year moves the coefficient from −0.262 to −0.249. The projects did not simply arrive in bad years."
+  },
+  {
+    key: "m2", code: "M2", label: "+ PROJECT TYPE", beta: -0.1856368063298589, se: 0.060878176835919, p: 0.0022936298193446335, rsq: 0.022387920835136122,
+    controls: ["PROJECT", "YEAR", "TYPE"],
+    title: "Project mix explains a piece.",
+    copy: "Control for the kind of borrower receiving the credit and the estimate falls to −0.186. A substantial gap remains."
+  },
+  {
+    key: "m3", code: "M3", label: "+ STATE", beta: -0.17200578105953668, se: 0.06743342003332778, p: 0.010749146937038828, rsq: 0.038704103586657324,
+    controls: ["PROJECT", "YEAR", "TYPE", "STATE"],
+    title: "Geography is still not the answer.",
+    copy: "State fixed effects leave a coefficient of −0.172. Where a project sits matters less than the raw comparison implied."
+  },
+  {
+    key: "m4", code: "M4", label: "+ INTERMEDIARY", beta: -0.04669406877348936, se: 0.10112753588507604, p: 0.6442717516729041, rsq: 0.13137374310871142,
+    controls: ["PROJECT", "YEAR", "TYPE", "CDE"],
+    title: "The penalty was mostly between intermediaries.",
+    copy: "Compare rural and urban projects handled by the same CDE and the estimate falls to −0.047. It is statistically indistinguishable from zero."
+  }
+];
+
+const cdes = [
+  ["Advantage Capital Community Development Fund", 1438.6, .30, 745],
+  ["Local Initiatives Support Corporation", 1123.0, .10, 253],
+  ["ESIC New Markets Partners", 1057.4, .00, 226],
+  ["USBCDE", 935.0, .10, 416],
+  ["National New Markets Tax Credit Fund", 823.0, .20, 332],
+  ["Stonehenge Community Development", 797.0, .20, 220],
+  ["HEDC New Markets", 775.2, .10, 238],
+  ["Banc of America CDE", 773.7, .10, 153],
+  ["Consortium America", 758.9, .00, 181],
+  ["National Community Fund I", 748.8, .10, 263],
+  ["Chase New Markets Corporation", 717.1, .20, 466],
+  ["Coastal Enterprises", 678.7, .40, 113],
+  ["Clearinghouse CDFI", 678.2, .10, 162],
+  ["The Reinvestment Fund", 665.8, .10, 198],
+  ["Midwest Minnesota CDC", 662.3, .60, 234],
+  ["Montana Community Development Corporation", 660.0, .70, 147],
+  ["Capital Impact Partners", 659.5, .00, 199],
+  ["National Trust Community Investment Corporation", 657.0, .00, 110],
+  ["Truist Community Development Enterprises", 653.8, .20, 214],
+  ["Rural Development Partners", 636.4, .80, 91]
+].map(([name, qlici, share, transactions], index) => {
+  const x = 84 + Number(share) / .8 * 620;
+  const y = 350 - (Number(qlici) - 620) / 840 * 255;
+  const radius = 5 + Math.sqrt(Number(transactions)) * .22;
+  return { name, qlici, share, transactions, x, y, radius, index };
+});
+
+const plotX = (value) => 92 + (value + .55) / .8 * 630;
+---
+<section class="spec-hero" data-spec-workbench aria-labelledby="spec-hero-title">
+  <div class="spec-topline">
+    <span>IAN HELFRICH · RESEARCH ECONOMIST / EDUCATOR</span>
+    <span>PUBLIC CDFI DATA · FY2001–22 · N = 8,024</span>
+    <span><i></i>PIPELINE OUTPUT · VERIFIED</span>
+  </div>
+
+  <div class="spec-hero-grid">
+    <article class="spec-story">
+      <span class="spec-kicker">THE MODEL I RAN TWICE</span>
+      <h1 id="spec-hero-title">I assumed I’d typed<br />the model <em>wrong.</em></h1>
+      <p>
+        Non-metro projects leveraged 0.262 less private capital in the raw data. I added the identity of the Community Development Entity deploying the credit. The estimate fell to 0.047. The model moved 82.2 percent of the story from rural markets to the intermediaries receiving the allocation.
+      </p>
+      <div class="spec-story-actions">
+        <button type="button" data-run-specs>Run the specification path</button>
+        <a href="/research/helfrich-2026-nmtc-rural-gap">Read the research note</a>
+      </div>
+      <div class="spec-story-result"><strong>82.2%</strong><span>of the raw coefficient disappears after CDE fixed effects</span></div>
+      <blockquote>The number everyone trusts was a choice. I go find the choice.</blockquote>
+    </article>
+
+    <div class="spec-console">
+      <header class="spec-console-head">
+        <div><span>INSTRUMENT 01</span><strong>RURAL LEVERAGE / SPECIFICATION</strong></div>
+        <nav role="tablist" aria-label="Choose a view of the NMTC result">
+          <button id="spec-view-coefficient" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="spec-coefficient-panel" data-spec-view="coefficient">Coefficient</button>
+          <button id="spec-view-cdes" type="button" role="tab" aria-selected="false" aria-controls="spec-cde-panel" tabindex="-1" data-spec-view="cdes">Intermediaries</button>
+        </nav>
+      </header>
+
+      <div id="spec-coefficient-panel" class="spec-view is-active" role="tabpanel" aria-labelledby="spec-view-coefficient" data-spec-panel="coefficient">
+        <div class="spec-plot-label"><span>COEFFICIENT ON NON-METRO PROJECT</span><span>95% CI</span></div>
+        <svg viewBox="0 0 800 430" role="img" aria-labelledby="spec-plot-title spec-plot-desc">
+          <title id="spec-plot-title">Rural leverage coefficient across five model specifications</title>
+          <desc id="spec-plot-desc">The coefficient moves from negative 0.262 in the raw model to negative 0.047 after Community Development Entity fixed effects are added.</desc>
+          <g class="spec-axis" aria-hidden="true">
+            <line x1="92" y1="376" x2="722" y2="376"></line>
+            {[-.5,-.4,-.3,-.2,-.1,0,.1,.2].map((tick) => <g><line x1={plotX(tick)} y1="64" x2={plotX(tick)} y2="382"></line><text x={plotX(tick)} y="408" text-anchor="middle">{tick.toFixed(1)}</text></g>)}
+            <text x="92" y="29">LOWER RURAL LEVERAGE</text><text x="722" y="29" text-anchor="end">NO GAP</text>
+          </g>
+          <g class="spec-estimates">
+            {specs.map((spec, index) => {
+              const y = 88 + index * 63;
+              const lower = plotX(spec.beta - 1.96 * spec.se);
+              const upper = plotX(spec.beta + 1.96 * spec.se);
+              return (
+                <g class:list={[index === 0 && "is-active"]} data-spec-point={spec.key} tabindex="0" role="button" aria-label={`${spec.code}, ${spec.label}, coefficient ${spec.beta.toFixed(3)}`}>
+                  <text class="spec-row-code" x="8" y={y + 4}>{spec.code}</text>
+                  <line class="spec-ci" x1={lower} y1={y} x2={upper} y2={y}></line>
+                  <line class="spec-ci-cap" x1={lower} y1={y - 6} x2={lower} y2={y + 6}></line>
+                  <line class="spec-ci-cap" x1={upper} y1={y - 6} x2={upper} y2={y + 6}></line>
+                  <circle cx={plotX(spec.beta)} cy={y} r="7"></circle>
+                  <text class="spec-row-value" x={Math.min(748, plotX(spec.beta) + 14)} y={y + 4}>{spec.beta.toFixed(3)}</text>
+                </g>
+              );
+            })}
+          </g>
+          <line class="spec-zero" x1={plotX(0)} y1="53" x2={plotX(0)} y2="377"></line>
+        </svg>
+      </div>
+
+      <div id="spec-cde-panel" class="spec-view" role="tabpanel" aria-labelledby="spec-view-cdes" data-spec-panel="cdes" hidden>
+        <div class="spec-plot-label"><span>TOP 20 CDEs BY QLICI VOLUME</span><span>X: NON-METRO SHARE · Y: $M DEPLOYED</span></div>
+        <svg viewBox="0 0 800 430" role="img" aria-labelledby="cde-plot-title cde-plot-desc">
+          <title id="cde-plot-title">Intermediary deployment field</title>
+          <desc id="cde-plot-desc">The twenty largest Community Development Entities plotted by non-metro deal share and total Qualified Low-Income Community Investment volume.</desc>
+          <g class="cde-axis" aria-hidden="true">
+            <line x1="84" y1="365" x2="704" y2="365"></line><line x1="84" y1="74" x2="84" y2="365"></line>
+            {[0,.2,.4,.6,.8].map((tick) => <g><line x1={84 + tick / .8 * 620} y1="70" x2={84 + tick / .8 * 620} y2="365"></line><text x={84 + tick / .8 * 620} y="393" text-anchor="middle">{Math.round(tick*100)}%</text></g>)}
+            <text x="84" y="29">$636M</text><text x="704" y="29" text-anchor="end">$1.44B · QLICI DEPLOYED</text>
+          </g>
+          <g class="cde-points">
+            {cdes.map((cde) => (
+              <circle cx={cde.x} cy={cde.y} r={cde.radius} tabindex="0" role="button" data-cde-name={cde.name} data-cde-qlici={cde.qlici} data-cde-share={cde.share} data-cde-transactions={cde.transactions} aria-label={`${cde.name}: ${cde.share * 100}% non-metro share, $${cde.qlici} million deployed`}><title>{cde.name}</title></circle>
+            ))}
+          </g>
+          <line class="cde-target" x1={84 + .2 / .8 * 620} y1="64" x2={84 + .2 / .8 * 620} y2="365"></line>
+          <text class="cde-target-label" x={84 + .2 / .8 * 620 + 8} y="63">20% STATUTORY LINE</text>
+        </svg>
+      </div>
+
+      <div class="spec-readout" aria-live="polite">
+        <div class="spec-readout-number"><span data-spec-code>M0 / RAW</span><strong data-spec-beta>−0.262</strong></div>
+        <div class="spec-readout-copy"><span data-spec-title>The rural penalty looks decisive.</span><p data-spec-copy>Pool all 8,024 projects and non-metro leverage is 0.262 lower. The estimate is precise. The model also treats every intermediary as interchangeable.</p></div>
+        <dl>
+          <div><dt>p</dt><dd data-spec-p>&lt; .001</dd></div>
+          <div><dt>R²</dt><dd data-spec-rsq>.002</dd></div>
+          <div><dt>N</dt><dd>8,024</dd></div>
+        </dl>
+      </div>
+
+      <div class="cde-readout" aria-live="polite" hidden data-cde-readout>
+        <span>INTERMEDIARY UNDER POINTER</span>
+        <strong data-cde-title>Advantage Capital Community Development Fund</strong>
+        <dl><div><dt>QLICI deployed</dt><dd data-cde-volume>$1,438.6M</dd></div><div><dt>Non-metro share</dt><dd data-cde-rural>30%</dd></div><div><dt>Transactions</dt><dd data-cde-count>745</dd></div></dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-controls" role="tablist" aria-label="Choose the model specification">
+    {specs.map((spec, index) => (
+      <button id={`spec-tab-${spec.key}`} class:list={[index === 0 && "is-active"]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? "0" : "-1"} data-spec={spec.key}>
+        <span>{spec.code}</span><strong>{spec.label}</strong><small>{spec.controls.join(" + ")}</small>
+      </button>
+    ))}
+  </div>
+
+  <footer class="spec-footer">
+    <span>OUTCOME · PROJECT COST / QLICI · WINSORIZED [1,20]</span>
+    <span data-spec-status><i></i>MODEL READY · USE ← → OR KEYS 0–4</span>
+    <span><a href="/data/nmtc-specifications.csv" download>DOWNLOAD SPECS ↓</a> · <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">SOURCE + PROVENANCE ↗</a></span>
+  </footer>
+</section>
+
+<script is:inline define:vars={{ specs }}>
+  (() => {
+    document.querySelectorAll("[data-spec-workbench]").forEach((workbench) => {
+      const specButtons = Array.from(workbench.querySelectorAll("[data-spec]"));
+      const specPoints = Array.from(workbench.querySelectorAll("[data-spec-point]"));
+      const viewButtons = Array.from(workbench.querySelectorAll("[data-spec-view]"));
+      const panels = Array.from(workbench.querySelectorAll("[data-spec-panel]"));
+      const runButton = workbench.querySelector("[data-run-specs]");
+      const status = workbench.querySelector("[data-spec-status]");
+      const specReadout = workbench.querySelector(".spec-readout");
+      const cdeReadout = workbench.querySelector("[data-cde-readout]");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let currentIndex = 0;
+      let runTimer = 0;
+
+      const fields = {
+        code: workbench.querySelector("[data-spec-code]"),
+        beta: workbench.querySelector("[data-spec-beta]"),
+        p: workbench.querySelector("[data-spec-p]"),
+        rsq: workbench.querySelector("[data-spec-rsq]"),
+        title: workbench.querySelector("[data-spec-title]"),
+        copy: workbench.querySelector("[data-spec-copy]")
+      };
+
+      const formatP = (value) => value < .001 ? "< .001" : value.toFixed(3).replace(/^0/, "");
+      const formatBeta = (value) => `${value < 0 ? "−" : ""}${Math.abs(value).toFixed(3)}`;
+
+      const selectSpec = (index, moveFocus = false) => {
+        currentIndex = Math.max(0, Math.min(specs.length - 1, index));
+        const spec = specs[currentIndex];
+        workbench.dataset.activeSpec = spec.key;
+        specButtons.forEach((button, buttonIndex) => {
+          const active = buttonIndex === currentIndex;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+        specPoints.forEach((point) => point.classList.toggle("is-active", point.dataset.specPoint === spec.key));
+        if (fields.code) fields.code.textContent = `${spec.code} / ${spec.label}`;
+        if (fields.beta) fields.beta.textContent = formatBeta(spec.beta);
+        if (fields.p) fields.p.textContent = formatP(spec.p);
+        if (fields.rsq) fields.rsq.textContent = spec.rsq.toFixed(3).replace(/^0/, "");
+        if (fields.title) fields.title.textContent = spec.title;
+        if (fields.copy) fields.copy.textContent = spec.copy;
+        if (status) status.innerHTML = `<i></i>${spec.code} RESOLVED · ${spec.controls.join(" + ")}`;
+        if (!reducedMotion) {
+          fields.beta?.animate([{ opacity: .2, transform: "translateY(10px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 280, easing: "cubic-bezier(.2,.8,.2,1)" });
+          fields.title?.parentElement?.animate([{ opacity: .45 }, { opacity: 1 }], { duration: 360, easing: "ease-out" });
+          specPoints[currentIndex]?.animate([{ opacity: .35 }, { opacity: 1 }], { duration: 320, easing: "ease-out" });
+        }
+        if (moveFocus) specButtons[currentIndex]?.focus();
+      };
+
+      const stopRun = () => {
+        if (runTimer) window.clearTimeout(runTimer);
+        runTimer = 0;
+        if (runButton) runButton.textContent = "Run the specification path";
+      };
+
+      const runPath = () => {
+        stopRun();
+        let index = 0;
+        if (runButton) runButton.textContent = "Stop model path";
+        const advance = () => {
+          selectSpec(index);
+          index += 1;
+          if (index < specs.length) runTimer = window.setTimeout(advance, reducedMotion ? 80 : 780);
+          else stopRun();
+        };
+        advance();
+      };
+
+      specButtons.forEach((button, index) => {
+        button.addEventListener("click", () => { stopRun(); selectSpec(index); });
+        button.addEventListener("keydown", (event) => {
+          let next = index;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % specButtons.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + specButtons.length) % specButtons.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = specButtons.length - 1;
+          else return;
+          event.preventDefault();
+          stopRun();
+          selectSpec(next, true);
+        });
+      });
+      specPoints.forEach((point, index) => {
+        point.addEventListener("click", () => { stopRun(); selectSpec(index); });
+        point.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); stopRun(); selectSpec(index); } });
+      });
+      runButton?.addEventListener("click", () => runTimer ? stopRun() : runPath());
+
+      const selectView = (key, moveFocus = false) => {
+        viewButtons.forEach((button) => {
+          const active = button.dataset.specView === key;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && moveFocus) button.focus();
+        });
+        panels.forEach((panel) => {
+          const active = panel.dataset.specPanel === key;
+          panel.classList.toggle("is-active", active);
+          panel.hidden = !active;
+        });
+        if (specReadout) specReadout.hidden = key !== "coefficient";
+        if (cdeReadout) cdeReadout.hidden = key !== "cdes";
+      };
+      viewButtons.forEach((button, index) => {
+        button.addEventListener("click", () => selectView(button.dataset.specView));
+        button.addEventListener("keydown", (event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          event.preventDefault();
+          const next = index === 0 ? 1 : 0;
+          selectView(viewButtons[next].dataset.specView, true);
+        });
+      });
+
+      const cdeFields = {
+        title: workbench.querySelector("[data-cde-title]"),
+        volume: workbench.querySelector("[data-cde-volume]"),
+        rural: workbench.querySelector("[data-cde-rural]"),
+        count: workbench.querySelector("[data-cde-count]")
+      };
+      workbench.querySelectorAll("[data-cde-name]").forEach((point) => {
+        const updateCde = () => {
+          workbench.querySelectorAll("[data-cde-name]").forEach((candidate) => candidate.classList.toggle("is-active", candidate === point));
+          if (cdeFields.title) cdeFields.title.textContent = point.dataset.cdeName;
+          if (cdeFields.volume) cdeFields.volume.textContent = `$${Number(point.dataset.cdeQlici).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}M`;
+          if (cdeFields.rural) cdeFields.rural.textContent = `${Math.round(Number(point.dataset.cdeShare) * 100)}%`;
+          if (cdeFields.count) cdeFields.count.textContent = Number(point.dataset.cdeTransactions).toLocaleString();
+        };
+        point.addEventListener("pointerenter", updateCde);
+        point.addEventListener("focus", updateCde);
+        point.addEventListener("click", updateCde);
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (!workbench.matches(":hover") && !workbench.contains(document.activeElement)) return;
+        if (/^[0-4]$/.test(event.key)) { stopRun(); selectSpec(Number(event.key)); }
+      });
+      if (!reducedMotion) {
+        workbench.classList.add("is-resolving");
+        window.setTimeout(() => workbench.classList.remove("is-resolving"), 1450);
+      }
+    });
+  })();
+</script>

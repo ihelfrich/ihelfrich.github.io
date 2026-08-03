@@ -1,46 +1,75 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="About" description="Trade economist. PhD Economics, Georgia Tech 2024. Primary field international trade; secondary fields geospatial economics, microeconomic theory, networks.">
-  <h1>About</h1>
+<Base
+  wide
+  pageClass="about-page"
+  title="About"
+  image="/people/ian-editorial.webp"
+  description="Ian Helfrich is a research economist, award-winning educator, and builder of public quantitative instruments based in St. Louis, Missouri."
+>
+  <section class="ab-hero" aria-labelledby="ab-title">
+    <div class="ab-topline"><span>IAN T. S. HELFRICH / PHD</span><span>RESEARCH ECONOMIST · EDUCATOR · INSTRUMENT BUILDER</span><span>ST. LOUIS / WORLDWIDE</span></div>
+    <div class="ab-hero-grid">
+      <figure>
+        <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" />
+        <figcaption>PORTRAIT / IAN HELFRICH</figcaption>
+      </figure>
+      <article>
+        <span>THE THROUGH-LINE</span>
+        <h1 id="ab-title">I find the choice<br />hiding in the <em>number.</em></h1>
+        <p>I am an economist, teacher, and instrument builder in St. Louis. My research asks what a familiar metric forgot. My teaching asks which mental model broke first. The software gives both questions somewhere to run.</p>
+        <div><a class="ih-action" href="/work-with-me">Work with me</a><a href="/cv">Open the CV →</a></div>
+      </article>
+    </div>
+    <div class="ab-hero-ledger"><span>GEORGIA TECH / ECONOMICS PHD / 2024</span><span>1,200+ RECENT-YEAR TEACHING HOURS</span><span>13 PUBLIC TOOLS</span><span>TEACHING AWARD / 2023</span></div>
+  </section>
 
-  <p>Trade economist. PhD in Economics from Georgia Institute of Technology, 2024, under Tibor Besedes and Usha Nair-Reichert. Primary research field international trade; secondary fields geospatial economics, microeconomic theory, and networks.</p>
+  <section class="ab-thesis" aria-labelledby="ab-thesis-title">
+    <span>01 / THE RECURRING PROBLEM</span>
+    <h2 id="ab-thesis-title">A result becomes trusted.<br />Its construction disappears.</h2>
+    <div>
+      <p>The raw rural credit gap looked like a fact about rural markets. Add the identity of the intermediary and 82.2 percent of the coefficient disappears. Static geographic distance looks harmless until a canal closes, a drought changes a route, or a corridor comes under attack.</p>
+      <p>I keep returning to that moment. What did the measure assume? Which comparison produced the estimate? What changes when the assumption moves? I build the model, figure, viewer, or lesson that lets another person answer those questions directly.</p>
+    </div>
+  </section>
 
-  <h2>Education</h2>
+  <section class="ab-modes" aria-labelledby="ab-modes-title">
+    <header><span>02 / ONE PRACTICE · THREE MODES</span><h2 id="ab-modes-title">The research, teaching,<br />and code correct one another.</h2><p>Research keeps the lesson honest. Teaching exposes the sentence that still does not work. Building turns the recurring explanation into a public object.</p></header>
+    <div>
+      <article><span>R / 01</span><strong>8,024</strong><h3>Projects changed the policy target.</h3><p>The NMTC decomposition moved the rural leverage question upstream to intermediary allocation.</p><a href="/research">Open the research record →</a></article>
+      <article><span>T / 02</span><strong>1,200+</strong><h3>Hours made the diagnosis faster.</h3><p>High school, undergraduate, MBA, graduate, research, and professional work reveal the first broken link at different scales.</p><a href="/teaching">Open the teaching record →</a></article>
+      <article><span>B / 03</span><strong>13</strong><h3>Tools kept the explanation running.</h3><p>Viewers, observatories, laboratories, atlases, and research pipelines let a visitor change the input and inspect what follows.</p><a href="/projects">Open the tools →</a></article>
+    </div>
+  </section>
 
-  <ul>
-    <li><strong>PhD, Economics</strong> — Georgia Institute of Technology, 2024. Primary: international trade. Secondary: geospatial economics, microeconomic theory, networks. Advisors: Dr. Tibor Besedes, Dr. Usha Nair-Reichert.</li>
-    <li><strong>MS, Geographic Information Science and Technology</strong> — Georgia Institute of Technology, 2022. Primary research: remote detection of economic growth and environmental health; multi- and hyper-spectral remote sensing. Secondary research: "smart city" design and urban planning. Advisor: Dr. William Drummond.</li>
-    <li><strong>MS, Economics</strong> — Georgia Institute of Technology, 2019. Research area: network effects in gravity models of international trade.</li>
-    <li><strong>MA, Economics</strong> — Indiana University Bloomington, 2017. Research areas: international trade, game theory, financial networks.</li>
-    <li><strong>MSc, Economics and Public Policy</strong> — Barcelona School of Economics, 2015. Thesis: <em>The Effects of Pico y Placa Driving Restrictions on Pollution in Quito, Ecuador</em>. Finalist, Public Policy Thesis Competition (Class of 2015).</li>
-    <li><strong>Summer School</strong> — London School of Economics, July-August 2013. Coursework in International Economics and European Economic Integration.</li>
-    <li><strong>BA, Economics</strong> (with secondary BA in Political Science) — UNC Chapel Hill, 2014. Took 18 credits of Transatlantic Masters Program courses by invitation from the UNC Department of Political Science. Special recognition from Chancellor Carol Folt for exceptional service to the school.</li>
-  </ul>
+  <section class="ab-training" aria-labelledby="ab-training-title">
+    <header><span>03 / FORMAL TRAINING</span><h2 id="ab-training-title">Economics at the core.<br />Space, policy, and networks in the room.</h2><p>Six degrees built the range. The questions now move through trade, labor, causal inference, remote sensing, spatial analysis, and quantitative education.</p></header>
+    <ol>
+      <li><span>2024</span><div><small>PHD · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>Network centrality · spatial heterogeneity · optimal transport · quantitative psychology minor</p></div></li>
+      <li><span>2022</span><div><small>MS · GEOGRAPHIC INFORMATION SCIENCE + TECHNOLOGY</small><h3>Georgia Institute of Technology</h3><p>Remote sensing · spatial analysis · geospatial computation</p></div></li>
+      <li><span>2019</span><div><small>MS · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>International trade · economic networks · applied econometrics</p></div></li>
+      <li><span>2018</span><div><small>MA · ECONOMICS</small><h3>Indiana University Bloomington</h3><p>Trade · game theory · financial networks</p></div></li>
+      <li><span>2015</span><div><small>MSC · ECONOMICS + PUBLIC POLICY</small><h3>Barcelona School of Economics</h3><p>Applied policy analysis · thesis competition finalist</p></div></li>
+      <li><span>2014</span><div><small>BA · ECONOMICS</small><h3>University of North Carolina at Chapel Hill</h3><p>Economics · political science</p></div></li>
+    </ol>
+  </section>
 
-  <h2>Research</h2>
+  <section class="ab-teaching" aria-labelledby="ab-teaching-title">
+    <div><span>04 / WHY TEACHING STAYED</span><h2 id="ab-teaching-title">If I cannot explain the step,<br />I may not understand the step.</h2></div>
+    <div><p>I have taught or supported instruction at Georgia Tech, Duke University, Indiana University, and online degree programs. The rooms range from principles courses and SAT preparation to graduate econometrics, executive MBA work, engineering signal processing, dissertations, and professional methods training.</p><blockquote>Georgia Tech Graduate Teaching Assistant of the Year · 2023</blockquote></div>
+  </section>
 
-  <p>Active research is organized around two threads. The first, on which most of my doctoral work was concentrated, is on the structure of international trade through the lens of networks, geospatial heterogeneity, and optimal transport. Working papers in that thread include a unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces (SSRN 4772016), and joint work with Dr. Elizaveta Gonchar on satellite-calibrated bilateral trade-cost measures (the 2025 SSRN preprint <em>Trade in the Spotlight</em> and the forthcoming Effective Distance panel for the <em>Journal of International Economics</em>).</p>
+  <section class="ab-dojo" aria-labelledby="ab-dojo-title">
+    <span>05 / ANOTHER CLASSROOM</span>
+    <h2 id="ab-dojo-title">Before I taught econometrics,<br />I taught people how to fall.</h2>
+    <div><strong>3°</strong><p>I am a third-degree black belt and have taught Sin Moo HapKiDo since 2007. That room taught me to demonstrate precisely, decompose movement, protect the learner while failure is still useful, and remove support as control returns.</p></div>
+  </section>
 
-  <p>The second thread is a smaller, more applied line of work that uses the same intermediary-network methods in domestic-policy settings. Helfrich (2026, in preparation) decomposes the apparent rural-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The decomposition exposes the between-intermediary share of the aggregate variation as the structurally interesting one. The same approach is being extended (with Katia Antunes) to the European blended-finance setting.</p>
-
-  <p>The umbrella program covering both threads is documented at <a href="/program">/program</a>. The full list of papers and datasets is at <a href="/research">/research</a> and <a href="/datasets">/datasets</a>.</p>
-
-  <h2>Teaching</h2>
-
-  <p>Instructor of record at Georgia Tech (Econ 2106 Principles of Microeconomics, Econ 2100 Economics and Policy Problems). Graduate teaching assistant across the Georgia Tech Economics department (Econ 2100, 2105, 2106, 3110, 4180 Game Theory, 4357 Law and Economics, 4520 Economics of Sports, 7023 Econometrics II) and at the Electrical and Computer Engineering department (ECE 6250 Advanced Digital Signal Processing, ECE 6271 Adaptive Filtering). Earlier graduate TA appointments at Duke University's Global Executive MBA (STRATEGY 835, MGRECON 780, STRATEGY 836) and Indiana University (ECON 201, 327, 425). Instructor at Campus / Campuswire (online university partnership with MTI College) since July 2022.</p>
-
-  <p>Inaugural cohort of Graduate Teaching Fellows at the Georgia Tech Center for Teaching and Learning, 2018-19; co-led the new-TA orientation. The teaching pipeline is documented at <a href="/teaching">/teaching</a>. Open teaching sites built and maintained: <a href="https://ihelfrich.github.io/inference-lab/">Inference Lab</a>, <a href="https://ihelfrich.github.io/macroprep/">Macro Prep</a>, and <a href="https://github.com/ihelfrich/pictures-of-inference">Pictures of Inference</a> (in draft).</p>
-
-  <h2>Service and honors</h2>
-
-  <p>Senator of the Year, Georgia Institute of Technology Graduate Student Government, 2020. Vice President for Campus Services in Graduate Student Government, 2019-20. Graduate Senator (2018-20), representing the Economics department and then serving as a senator-at-large. Finalist, Public Policy Thesis Competition, Barcelona School of Economics, 2015. UNC-selected Student Keynote Speaker, Savannah Conference on Informational Literacy, 2011.</p>
-
-  <h2>Skills</h2>
-
-  <p>Programming and statistical: STATA, Python, R, Julia, Node.JS, LaTeX. Geospatial: ArcGIS Pro and Online, QGIS, Erdas IMAGINE, Gephi, GRASS, GDAL, Google Earth Engine. Visualization and design: Adobe Illustrator, InDesign, Photoshop, Unreal Engine 5, Blender, Julia (DataVoyager, Makie, Pluto), D3. Audio and media: Adobe Audition and Premier Pro, Ableton Live, T.E. OP-Z, OBS, voice work. Languages: English, Spanish, Russian, Ukrainian. Third-degree black belt and instructor in Sin Moo HapKiDo (since 2007).</p>
-
-  <h2>Contact</h2>
-
-  <p>Email: <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>. Tutoring slots via <a href="/book">the booking page</a>. Based in Smyrna, Georgia.</p>
+  <section class="ab-cta" aria-labelledby="ab-cta-title">
+    <span>06 / ST. LOUIS · WORKING WORLDWIDE</span>
+    <h2 id="ab-cta-title">What number are you<br />no longer willing to trust?</h2>
+    <p>Send the course, model, dataset, paper, decision, or institutional problem. I will tell you where I would start.</p>
+    <div><a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a><a href="/library">Search the public work →</a></div>
+  </section>
 </Base>

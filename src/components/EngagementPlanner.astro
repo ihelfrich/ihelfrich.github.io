@@ -1,0 +1,104 @@
+<section class="ep-planner" aria-labelledby="planner-title" data-engagement-planner>
+  <header>
+    <span>FIT CALCULATOR · TWO INPUTS</span>
+    <h2 id="planner-title">Find the smallest useful engagement.</h2>
+    <p>Change the problem and runway. The smallest plausible starting point recomputes. I confirm the actual quote after reading the material.</p>
+  </header>
+
+  <div class="ep-shell">
+    <fieldset class="ep-question">
+      <legend><span>INPUT 01</span>What kind of pressure are you under?</legend>
+      <label><input type="radio" name="problem" value="course" checked /><span>Course or exam</span></label>
+      <label><input type="radio" name="problem" value="research" /><span>Research design</span></label>
+      <label><input type="radio" name="problem" value="technical" /><span>Code or model</span></label>
+      <label><input type="radio" name="problem" value="professional" /><span>Professional decision</span></label>
+      <label><input type="radio" name="problem" value="team" /><span>Team capability</span></label>
+    </fieldset>
+
+    <fieldset class="ep-question">
+      <legend><span>INPUT 02</span>How much runway does the problem have?</legend>
+      <label><input type="radio" name="runway" value="focused" checked /><span>One focused intervention<small>A specific blockage</small></span></label>
+      <label><input type="radio" name="runway" value="sprint" /><span>Several hard weeks<small>A compressed milestone</small></span></label>
+      <label><input type="radio" name="runway" value="sustained" /><span>Sustained development<small>Capability built over time</small></span></label>
+    </fieldset>
+
+    <article class="ep-result" aria-live="polite">
+      <span>RECOMMENDED START</span>
+      <strong data-plan-code>01 / SESSION</strong>
+      <h3 data-plan-title>Private session</h3>
+      <p data-plan-copy>One prepared, live session for a defined concept, problem, model, or decision.</p>
+      <dl>
+        <div><dt>Starting point</dt><dd data-plan-price>$225 · 60 minutes</dd></div>
+        <div><dt>First deliverable</dt><dd data-plan-deliverable>Pre-session intake + live working session</dd></div>
+      </dl>
+      <a href="#inquiry">Ask about this format →</a>
+    </article>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-engagement-planner]").forEach((planner) => {
+      const inputs = Array.from(planner.querySelectorAll("input"));
+      const fields = {
+        code: planner.querySelector("[data-plan-code]"),
+        title: planner.querySelector("[data-plan-title]"),
+        copy: planner.querySelector("[data-plan-copy]"),
+        price: planner.querySelector("[data-plan-price]"),
+        deliverable: planner.querySelector("[data-plan-deliverable]")
+      };
+      const plans = {
+        session: {
+          code: "01 / SESSION",
+          title: "Private session",
+          copy: "One prepared, live session for a defined concept, problem, model, or decision.",
+          price: "$225 · 60 minutes",
+          deliverable: "Pre-session intake + live working session"
+        },
+        diagnostic: {
+          code: "02 / DIAGNOSTIC",
+          title: "Methods diagnostic",
+          copy: "I read the material first. We use the session to locate the design problem and leave with a defensible next sequence.",
+          price: "$325 · 75 minutes",
+          deliverable: "Materials review + concise written roadmap"
+        },
+        intensive: {
+          code: "03 / INTENSIVE",
+          title: "Four-week intensive",
+          copy: "A compressed sequence for a difficult course unit, exam, replication, model, or research milestone.",
+          price: "From $1,800",
+          deliverable: "Six sessions + custom practice + continuity"
+        },
+        mentorship: {
+          code: "04 / MENTORSHIP",
+          title: "Ongoing private mentorship",
+          copy: "A semester, project, thesis, or professional transition gives us enough time to build the judgment in layers.",
+          price: "Scoped after fit",
+          deliverable: "Cadence, milestones, and boundaries in writing"
+        },
+        institutional: {
+          code: "05 / INSTITUTIONAL",
+          title: "Custom team scope",
+          copy: "Live instruction and durable learning infrastructure designed around the methods and decisions your group actually uses.",
+          price: "Half-day from $5,000",
+          deliverable: "Needs analysis + written program scope"
+        }
+      };
+
+      const update = () => {
+        const problem = planner.querySelector('input[name="problem"]:checked')?.value || "course";
+        const runway = planner.querySelector('input[name="runway"]:checked')?.value || "focused";
+        let planKey = "session";
+        if (problem === "team") planKey = "institutional";
+        else if (runway === "sustained") planKey = "mentorship";
+        else if (runway === "sprint") planKey = "intensive";
+        else if (problem === "research" || problem === "technical") planKey = "diagnostic";
+        const plan = plans[planKey];
+        Object.entries(fields).forEach(([name, element]) => { if (element) element.textContent = plan[name]; });
+      };
+
+      inputs.forEach((input) => input.addEventListener("change", update));
+      update();
+    });
+  })();
+</script>

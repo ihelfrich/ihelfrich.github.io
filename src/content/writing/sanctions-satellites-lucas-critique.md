@@ -64,4 +64,4 @@ The empirical demonstration in Paper 2 is what makes the analytical apparatus wo
 
 The next post in this thread will be on the empirical strategy itself. How to back out the Frechet derivative from AIS and port-arrival data. That one is harder to write because the methodological details matter and the right level of plain language isn't obvious yet. Coming.
 
-If you've read this far and you'd like to talk through any of it, <a href="/book">my booking page</a> is the easiest path. Welcome.
+If you've read this far and you'd like to talk through any of it, <a href="/contact">the contact page</a> is the easiest path. Welcome.

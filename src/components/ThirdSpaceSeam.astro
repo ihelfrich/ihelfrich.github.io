@@ -1,0 +1,143 @@
+---
+const seams = [
+  {
+    key: "capital-place", code: "01", left: "CAPITAL", right: "PLACE",
+    question: "Does rural finance underperform inside the same intermediary?",
+    method: "Project panel · CDE fixed effects · leverage decomposition",
+    object: "A public allocation diagnosis",
+    note: "The raw rural gap falls by 82.2 percent when the comparison moves inside the CDE.",
+    href: "/research/helfrich-2026-nmtc-rural-gap",
+  },
+  {
+    key: "trade-space", code: "02", left: "TRADE", right: "SPACE",
+    question: "How far apart are two countries after the route changes?",
+    method: "Nightlights · population grids · transport networks · structural gravity",
+    object: "A time-varying distance panel",
+    note: "A static great-circle measure cannot see a canal closure, drought rerouting, or a corridor under attack.",
+    href: "/research/gonchar-helfrich-2026-effective-distance-panel",
+  },
+  {
+    key: "work-ai", code: "03", left: "WORK", right: "AI",
+    question: "Which entry-level tasks change before the occupation does?",
+    method: "CPS microdata · continuous exposure · event study · triple difference",
+    object: "An early-career labor measure",
+    note: "The unit of exposure has to match the margin where workers first meet the technology.",
+    href: "/research/helfrich-vardanyan-2026-ai-entry-level-labor",
+  },
+  {
+    key: "observation-strategy", code: "04", left: "OBSERVATION", right: "STRATEGY",
+    question: "What changes when the measured actor can see the measurement?",
+    method: "Satellite and AIS signals · optimal transport · equilibrium feedback",
+    object: "A closed-loop observation model",
+    note: "The proxy can change the behavior it was calibrated to observe. That makes measurement part of the equilibrium.",
+    href: "/research/helfrich-2026-penumbra",
+  },
+  {
+    key: "teaching-research", code: "05", left: "TEACHING", right: "RESEARCH",
+    question: "How early can a learner own a question worth answering?",
+    method: "Mentorship · open methods · revision · citable publication",
+    object: "A researcher with a public record",
+    note: "Ability often arrives before institutional access. The lab is being built for that interval.",
+    href: "/third-space#rooms",
+  },
+];
+---
+
+<section class="ts-seams" aria-labelledby="ts-seams-title" data-third-space-seams>
+  <header class="ts-seams-head">
+    <span>THE SEAMS / FIVE LIVE EXAMPLES</span>
+    <h2 id="ts-seams-title">Two literatures rarely<br />share a bibliography.</h2>
+    <p>That gap is often where the useful question lives. These are the seams already shaping our research and the lab we are building.</p>
+  </header>
+
+  <div class="ts-seams-shell">
+    <nav role="tablist" aria-label="Choose a research seam">
+      {seams.map((seam, index) => (
+        <button
+          id={`seam-tab-${seam.key}`}
+          class:list={[index === 0 && "is-active"]}
+          type="button"
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls="seam-panel"
+          tabindex={index === 0 ? "0" : "-1"}
+          data-seam={seam.key}
+        ><span>{seam.code}</span><strong>{seam.left}</strong><i>×</i><strong>{seam.right}</strong></button>
+      ))}
+    </nav>
+
+    <div class="ts-seam-figure" aria-hidden="true">
+      <svg viewBox="0 0 620 430">
+        <circle class="ts-seam-circle ts-seam-circle--left" cx="245" cy="215" r="150"></circle>
+        <circle class="ts-seam-circle ts-seam-circle--right" cx="375" cy="215" r="150"></circle>
+        <path class="ts-seam-overlap" d="M310 79.8A150 150 0 0 1 310 350.2A150 150 0 0 1 310 79.8Z"></path>
+        <text class="ts-seam-label" x="205" y="218" text-anchor="middle" data-seam-left>CAPITAL</text>
+        <text class="ts-seam-label" x="415" y="218" text-anchor="middle" data-seam-right>PLACE</text>
+        <text class="ts-seam-center" x="310" y="210" text-anchor="middle">THIRD</text>
+        <text class="ts-seam-center" x="310" y="226" text-anchor="middle">SPACE</text>
+      </svg>
+      <span>THE OVERLAP IS THE UNIT OF WORK</span>
+    </div>
+
+    <article id="seam-panel" class="ts-seam-panel" role="tabpanel" aria-labelledby="seam-tab-capital-place" aria-live="polite">
+      <span data-seam-code>01 / CAPITAL × PLACE</span>
+      <h3 data-seam-question>Does rural finance underperform inside the same intermediary?</h3>
+      <p data-seam-note>The raw rural gap falls by 82.2 percent when the comparison moves inside the CDE.</p>
+      <dl>
+        <div><dt>Method</dt><dd data-seam-method>Project panel · CDE fixed effects · leverage decomposition</dd></div>
+        <div><dt>Public object</dt><dd data-seam-object>A public allocation diagnosis</dd></div>
+      </dl>
+      <a href="/research/helfrich-2026-nmtc-rural-gap" data-seam-link>Open the work →</a>
+    </article>
+  </div>
+</section>
+
+<script is:inline define:vars={{ seams }}>
+  (() => {
+    document.querySelectorAll("[data-third-space-seams]").forEach((instrument) => {
+      const tabs = Array.from(instrument.querySelectorAll("[data-seam]"));
+      const panel = instrument.querySelector("[role='tabpanel']");
+      const fields = {
+        left: instrument.querySelector("[data-seam-left]"), right: instrument.querySelector("[data-seam-right]"),
+        code: instrument.querySelector("[data-seam-code]"), question: instrument.querySelector("[data-seam-question]"),
+        note: instrument.querySelector("[data-seam-note]"), method: instrument.querySelector("[data-seam-method]"),
+        object: instrument.querySelector("[data-seam-object]"), link: instrument.querySelector("[data-seam-link]"),
+      };
+      const select = (index, focus = false) => {
+        const seam = seams[index];
+        tabs.forEach((tab, tabIndex) => {
+          const active = tabIndex === index;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && panel) panel.setAttribute("aria-labelledby", tab.id);
+        });
+        if (fields.left) fields.left.textContent = seam.left;
+        if (fields.right) fields.right.textContent = seam.right;
+        if (fields.code) fields.code.textContent = `${seam.code} / ${seam.left} × ${seam.right}`;
+        if (fields.question) fields.question.textContent = seam.question;
+        if (fields.note) fields.note.textContent = seam.note;
+        if (fields.method) fields.method.textContent = seam.method;
+        if (fields.object) fields.object.textContent = seam.object;
+        if (fields.link) fields.link.setAttribute("href", seam.href);
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          panel?.animate([{ opacity: .35, transform: "translateX(12px)" }, { opacity: 1, transform: "translateX(0)" }], { duration: 360, easing: "cubic-bezier(.2,.8,.2,1)" });
+          instrument.querySelector(".ts-seam-overlap")?.animate([{ opacity: .35, transform: "scale(.86)", transformOrigin: "center" }, { opacity: 1, transform: "scale(1)", transformOrigin: "center" }], { duration: 440, easing: "cubic-bezier(.2,.8,.2,1)" });
+        }
+        if (focus) tabs[index]?.focus();
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => select(index));
+        tab.addEventListener("keydown", (event) => {
+          let next = index;
+          if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % tabs.length;
+          else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = tabs.length - 1;
+          else return;
+          event.preventDefault(); select(next, true);
+        });
+      });
+    });
+  })();
+</script>

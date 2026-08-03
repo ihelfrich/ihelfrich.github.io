@@ -1,9 +1,57 @@
 ---
 import "../styles/global.css";
-const { title, description, wide = false } = Astro.props;
-const siteTitle = "Ian Helfrich";
-const fullTitle = title ? `${title} — ${siteTitle}` : siteTitle;
-const desc = description ?? "Applied causal inference, blended-finance research, and teaching by Dr. Ian Helfrich (PhD Economics, Georgia Tech 2024).";
+import "../styles/instrument.css";
+import SiteIndex from "../components/SiteIndex.astro";
+import FieldRail from "../components/FieldRail.astro";
+
+const {
+  title,
+  description,
+  wide = false,
+  image = "/people/ian-editorial.webp",
+  noindex = false,
+  pageClass = "",
+} = Astro.props;
+
+const siteTitle = "Ian Helfrich, PhD";
+const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Quantitative Education & Research Mentorship`;
+const desc = description ?? "Research economist and award-winning educator building public quantitative instruments, private mentorship, and institutional training from St. Louis.";
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
+const pathname = Astro.url.pathname;
+const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+const year = new Date().getFullYear();
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Dr. Ian T. S. Helfrich",
+  honorificSuffix: "PhD",
+  url: canonical.origin,
+  image: socialImage.toString(),
+  jobTitle: ["Economist", "Educator", "Quantitative Research Advisor"],
+  homeLocation: {
+    "@type": "Place",
+    name: "St. Louis, Missouri",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Georgia Institute of Technology",
+  },
+  sameAs: [
+    "https://github.com/ihelfrich",
+    "https://www.linkedin.com/in/ian-helfrich",
+  ],
+  knowsAbout: [
+    "Econometrics",
+    "Statistics",
+    "Causal inference",
+    "International trade",
+    "Economic networks",
+    "Geospatial economics",
+    "Research methods",
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -12,52 +60,129 @@ const desc = description ?? "Applied causal inference, blended-finance research,
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
   <meta name="author" content="Dr. Ian Helfrich" />
-  <meta name="theme-color" content="#0d3b66" />
+  <meta name="theme-color" content="#121426" />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={Astro.url} />
-  <meta property="og:site_name" content="Ian Helfrich" />
-  <meta property="og:image" content="https://ihelfrich.github.io/people/ian.jpg" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={siteTitle} />
+  <meta property="og:image" content={socialImage} />
+  <meta property="og:image:alt" content="Portrait of economist and educator Ian Helfrich" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={desc} />
-  <meta name="twitter:image" content="https://ihelfrich.github.io/people/ian.jpg" />
+  <meta name="twitter:image" content={socialImage} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
-  <link rel="canonical" href={Astro.url} />
+  <link rel="canonical" href={canonical} />
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <title>{fullTitle}</title>
 </head>
-<body>
-  <nav class="h-nav">
-    <div class="h-nav-inner">
-      <a href="/" class="h-nav-brand">Ian Helfrich</a>
-      <div class="h-nav-links">
-        <a href="/research">Research</a>
-        <a href="/program">Program</a>
-        <a href="/datasets">Datasets</a>
-        <a href="/projects">Projects</a>
-        <a href="/teaching">Teaching</a>
-        <a href="/gis">GIS</a>
-        <a href="/writing">Writing</a>
-        <a href="/people">People</a>
-        <a href="/reading">Reading</a>
-        <a href="/talks">Talks</a>
-        <a href="/now">Now</a>
-        <a href="/about">About</a>
-        <a href="/search">Search</a>
-        <a href="/book" style="color: var(--rust); font-weight: 600;">Book</a>
-      </div>
-    </div>
-  </nav>
+<body class={pageClass}>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="h-scroll-progress" aria-hidden="true"></div>
 
-  <main class={wide ? "wide" : ""}>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-brand" aria-label="Ian Helfrich, home">
+        <span class="site-brand-mark" aria-hidden="true"><i>IH</i></span>
+        <span class="site-brand-copy">
+          <strong>Ian Helfrich, PhD</strong>
+          <small>Economist · Educator</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span class="sr-only">Open navigation</span>
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+        <a href="/work-with-me" aria-current={isActive("/work-with-me") ? "page" : undefined}>Work with me</a>
+        <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
+        <a href="/library" aria-current={isActive("/library") ? "page" : undefined}>Public work</a>
+        <a href="/third-space" aria-current={isActive("/third-space") ? "page" : undefined}>Third Space</a>
+        <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
+        <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
+        <a href="/work-with-me#inquiry" class="nav-cta">Start an inquiry</a>
+      </nav>
+    </div>
+  </header>
+
+  <SiteIndex />
+
+  <main id="main-content" class:list={[wide && "wide"]}>
     <slot />
   </main>
 
-  <footer>
-    © 2026 Dr. Ian Helfrich · <a href="https://github.com/ihelfrich">GitHub</a> · <a href="https://orcid.org/">ORCID</a> · <a href="/rss.xml">RSS</a> · CC-BY-SA 4.0
+  <FieldRail />
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="footer-intro">
+        <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
+        <p>I find the choice hiding inside the number.</p>
+        <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
+      </div>
+
+      <div class="footer-links">
+        <div>
+          <strong>Work</strong>
+          <a href="/work-with-me">Private coaching</a>
+          <a href="/work-with-me#institutions">Institutional training</a>
+          <a href="/teaching">Teaching tools</a>
+          <a href="/third-space">Third Space Labs</a>
+        </div>
+        <div>
+          <strong>Public work</strong>
+          <a href="/library">Complete index</a>
+          <a href="/research">Research</a>
+          <a href="/datasets">Datasets</a>
+          <a href="/writing">Essays + notes</a>
+          <a href="/projects">Projects</a>
+        </div>
+        <div>
+          <strong>Connect</strong>
+          <a href="mailto:ianthelfrich@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+          <a href="/rss.xml">RSS</a>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer-bottom">
+      <span>© {year} Ian Helfrich</span>
+      <span>Instruction and coaching only. Your work remains your own.</span>
+      <span class="footer-colophon">Set in Bodoni Moda · Newsreader · Geist · Geist Mono</span>
+      <button type="button" data-index-open>INDEX /</button>
+    </div>
   </footer>
-  <script src="/reveal.js" defer></script>
+
+  <script is:inline>
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('#primary-nav');
+    navToggle?.addEventListener('click', () => {
+      const open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      nav?.classList.toggle('is-open', !open);
+    });
+    nav?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navToggle?.setAttribute('aria-expanded', 'false');
+        nav?.classList.remove('is-open');
+      });
+    });
+
+    const progress = document.querySelector('.h-scroll-progress');
+    const updateProgress = () => {
+      if (!progress) return;
+      const available = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = available > 0 ? window.scrollY / available : 0;
+      progress.style.transform = `scaleX(${Math.max(0, Math.min(1, ratio))})`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  </script>
 </body>
 </html>

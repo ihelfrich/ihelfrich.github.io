@@ -4,9 +4,11 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ------- scroll progress bar -------
-  const bar = document.createElement('div');
-  bar.className = 'h-scroll-progress';
-  document.body.appendChild(bar);
+  const bar = document.querySelector('.h-scroll-progress') || document.createElement('div');
+  if (!bar.isConnected) {
+    bar.className = 'h-scroll-progress';
+    document.body.appendChild(bar);
+  }
   function onScroll() {
     const h = document.documentElement;
     const pct = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100;
@@ -16,8 +18,10 @@
   onScroll();
 
   // ------- reveal-on-scroll -------
+  const revealSelector = '.h-card, .h-row, .h-section-head, .audience-card, .offer-card, .method-card, .price-card, .lab-card';
+
   if (reduce) {
-    document.querySelectorAll('.h-card, .h-row, .h-section-head').forEach(el => el.classList.add('h-in'));
+    document.querySelectorAll(revealSelector).forEach(el => el.classList.add('h-in'));
     return;
   }
 
@@ -30,7 +34,7 @@
     }
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.h-card, .h-row, .h-section-head').forEach(el => {
+  document.querySelectorAll(revealSelector).forEach(el => {
     el.classList.add('h-reveal');
     io.observe(el);
   });
