@@ -1,0 +1,171 @@
+<section class="reasoning-section section" aria-labelledby="reasoning-title">
+  <div class="section-heading reasoning-heading">
+    <div>
+      <span class="section-label">A model of the work</span>
+      <h2 id="reasoning-title">Reasoning is a chain. Test every link.</h2>
+    </div>
+    <p>
+      Select a stage to see the questions underneath good quantitative work. This is the sequence I teach until it becomes instinct.
+    </p>
+  </div>
+
+  <div class="reasoning-instrument" data-reasoning-instrument style="--active-stage: 0">
+    <div class="instrument-chrome" aria-hidden="true">
+      <span>IH · REASONING INSTRUMENT</span>
+      <span class="instrument-status"><i></i> MODEL ACTIVE</span>
+      <span>PLATE 01 / 05</span>
+    </div>
+
+    <div class="instrument-grid">
+      <div class="reasoning-track" role="tablist" aria-label="Stages of quantitative reasoning">
+        <button id="reasoning-tab-0" class="reasoning-stage is-active" type="button" role="tab" aria-selected="true" aria-controls="reasoning-readout" data-stage="0">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-number">01</span>
+          <span class="stage-name">Question</span>
+        </button>
+        <button id="reasoning-tab-1" class="reasoning-stage" type="button" role="tab" aria-selected="false" aria-controls="reasoning-readout" data-stage="1" tabindex="-1">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-number">02</span>
+          <span class="stage-name">Design</span>
+        </button>
+        <button id="reasoning-tab-2" class="reasoning-stage" type="button" role="tab" aria-selected="false" aria-controls="reasoning-readout" data-stage="2" tabindex="-1">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-number">03</span>
+          <span class="stage-name">Estimator</span>
+        </button>
+        <button id="reasoning-tab-3" class="reasoning-stage" type="button" role="tab" aria-selected="false" aria-controls="reasoning-readout" data-stage="3" tabindex="-1">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-number">04</span>
+          <span class="stage-name">Implementation</span>
+        </button>
+        <button id="reasoning-tab-4" class="reasoning-stage" type="button" role="tab" aria-selected="false" aria-controls="reasoning-readout" data-stage="4" tabindex="-1">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-number">05</span>
+          <span class="stage-name">Claim</span>
+        </button>
+      </div>
+
+      <div id="reasoning-readout" class="reasoning-readout" role="tabpanel" aria-labelledby="reasoning-tab-0" aria-live="polite">
+        <div class="readout-index" aria-hidden="true" data-reasoning-index>01</div>
+        <div class="readout-main">
+          <span class="readout-kicker" data-reasoning-kicker>Begin with the estimand</span>
+          <h3 data-reasoning-question>What, precisely, are we trying to learn?</h3>
+          <p data-reasoning-copy>
+            A useful question names the population, contrast, outcome, and decision. It tells us what evidence would count before the software is opened.
+          </p>
+        </div>
+        <dl class="readout-notes">
+          <div>
+            <dt>Common fracture</dt>
+            <dd data-reasoning-failure>Starting from the available dataset instead of the economic question.</dd>
+          </div>
+          <div>
+            <dt>What we build</dt>
+            <dd data-reasoning-build>A verbal and mathematical target that can govern every choice downstream.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="instrument-legend" aria-hidden="true">
+      <span>Q</span><i></i><span>D</span><i></i><span>θ̂</span><i></i><span>{`{ }`}</span><i></i><span>∴</span>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const reasoningStages = [
+    {
+      index: "01",
+      kicker: "Begin with the estimand",
+      question: "What, precisely, are we trying to learn?",
+      copy: "A useful question names the population, contrast, outcome, and decision. It tells us what evidence would count before the software is opened.",
+      failure: "Starting from the available dataset instead of the economic question.",
+      build: "A verbal and mathematical target that can govern every choice downstream."
+    },
+    {
+      index: "02",
+      kicker: "Make the counterfactual visible",
+      question: "Which comparison could make the claim credible?",
+      copy: "Research design is an argument about the missing world. We make that counterfactual explicit, then ask which assumptions let observed data stand in for it.",
+      failure: "Choosing a fashionable method before stating the identifying assumptions.",
+      build: "A design whose logic can be explained without hiding behind its acronym."
+    },
+    {
+      index: "03",
+      kicker: "Connect design to quantity",
+      question: "What statistical object turns the design into an estimate?",
+      copy: "The estimator is not a button. Its weights, functional form, uncertainty, and target must remain aligned with the design and the substantive question.",
+      failure: "Treating software defaults as if they were methodological decisions.",
+      build: "A specification you can derive, inspect, stress-test, and defend."
+    },
+    {
+      index: "04",
+      kicker: "Audit the machinery",
+      question: "Does the code estimate the object we described?",
+      copy: "We trace the sample, transformations, joins, fixed effects, standard errors, and missingness so the implementation cannot silently change the question.",
+      failure: "Letting sample changes, clustering choices, or transformations disappear inside code.",
+      build: "A transparent workflow with diagnostics at the points most likely to break."
+    },
+    {
+      index: "05",
+      kicker: "Keep the claim inside the design",
+      question: "What can—and cannot—the result support?",
+      copy: "Interpretation joins magnitude, uncertainty, context, and external validity. A good conclusion is ambitious about meaning and disciplined about reach.",
+      failure: "Letting a coefficient outrun the population, design, or evidence behind it.",
+      build: "A claim you can communicate plainly and defend under serious questioning."
+    }
+  ];
+
+  document.querySelectorAll('[data-reasoning-instrument]').forEach((instrument) => {
+    const tabs = Array.from(instrument.querySelectorAll('[data-stage]'));
+    const fields = {
+      index: instrument.querySelector('[data-reasoning-index]'),
+      kicker: instrument.querySelector('[data-reasoning-kicker]'),
+      question: instrument.querySelector('[data-reasoning-question]'),
+      copy: instrument.querySelector('[data-reasoning-copy]'),
+      failure: instrument.querySelector('[data-reasoning-failure]'),
+      build: instrument.querySelector('[data-reasoning-build]')
+    };
+
+    const selectStage = (nextIndex, moveFocus = false) => {
+      const normalized = (nextIndex + tabs.length) % tabs.length;
+      const content = reasoningStages[normalized];
+      instrument.style.setProperty('--active-stage', String(normalized));
+      tabs.forEach((tab, index) => {
+        const active = index === normalized;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      const panel = instrument.querySelector('[role="tabpanel"]');
+      if (panel && tabs[normalized]?.id) panel.setAttribute('aria-labelledby', tabs[normalized].id);
+      Object.entries(fields).forEach(([key, field]) => {
+        if (field) field.textContent = content[key];
+      });
+      if (moveFocus) tabs[normalized]?.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectStage(index));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          event.preventDefault();
+          selectStage(index + 1, true);
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          selectStage(index - 1, true);
+        }
+        if (event.key === 'Home') {
+          event.preventDefault();
+          selectStage(0, true);
+        }
+        if (event.key === 'End') {
+          event.preventDefault();
+          selectStage(tabs.length - 1, true);
+        }
+      });
+    });
+  });
+</script>

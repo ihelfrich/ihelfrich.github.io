@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import FieldSignatures from "../components/FieldSignatures.astro";
+import ReasoningInstrument from "../components/ReasoningInstrument.astro";
 import { getCollection } from "astro:content";
 
 const preferredLabs = ["stats-lab", "inference-lab", "econ101a", "macroprep", "ppd504-studio", "pictures-of-inference"];
@@ -25,6 +27,10 @@ const research = preferredResearch
   <section class="home-hero" aria-labelledby="home-title">
     <div class="home-hero-inner">
       <div class="hero-copy">
+        <div class="hero-folio" aria-hidden="true">
+          <span>Selected private practice · No. 01</span>
+          <span>Atlanta · working worldwide</span>
+        </div>
         <span class="eyebrow">Private quantitative instruction · Research methods</span>
         <h1 id="home-title">Make the methods <em>yours.</em></h1>
         <p class="hero-lead">
@@ -38,8 +44,20 @@ const research = preferredResearch
       </div>
 
       <div class="hero-portrait" aria-hidden="true">
+        <span class="portrait-coordinate portrait-coordinate-top">FIG. 001 · EDUCATOR / ECONOMIST</span>
+        <span class="portrait-coordinate portrait-coordinate-side">C21 · C55 · L13 · R12</span>
+        <svg class="portrait-orbit" viewBox="0 0 520 680">
+          <ellipse cx="270" cy="350" rx="226" ry="282"></ellipse>
+          <ellipse cx="270" cy="350" rx="168" ry="236"></ellipse>
+          <path d="M44 350H496M270 68V632"></path>
+          <circle cx="438" cy="193" r="6"></circle>
+          <circle cx="93" cy="473" r="4"></circle>
+        </svg>
         <img src="/people/ian.webp" alt="" width="1200" height="1800" fetchpriority="high" />
-        <div class="hero-seal">PhD Economics<br />Georgia Tech<br />2024</div>
+        <div class="hero-seal">
+          <span class="seal-monogram">IH</span>
+          <span class="seal-copy">PhD Economics · Georgia Tech · MMXXIV</span>
+        </div>
       </div>
     </div>
   </section>
@@ -77,6 +95,8 @@ const research = preferredResearch
       </p>
     </div>
   </section>
+
+  <ReasoningInstrument />
 
   <section class="section" aria-labelledby="audience-title">
     <div class="section-heading">
@@ -164,6 +184,8 @@ const research = preferredResearch
       <p><strong>The goal is not dependence. It is command.</strong></p>
     </div>
   </section>
+
+  <FieldSignatures />
 
   <section class="section" aria-labelledby="labs-title">
     <div class="section-heading">
