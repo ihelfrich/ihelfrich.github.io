@@ -1,0 +1,222 @@
+<section class="ih-confounding" aria-labelledby="confounding-title">
+  <header class="ih-section-intro ih-section-intro--inverse">
+    <div>
+      <span class="ih-section-number">02 / OPEN THE MODEL</span>
+      <h2 id="confounding-title">A result can look decisive<br />and still be wrong.</h2>
+    </div>
+    <p>
+      This is a working regression, not an animation. Change the common-cause strength, reveal the omitted variable, and watch the estimator correct itself.
+    </p>
+  </header>
+
+  <div class="ih-estimator" data-confounding-lab>
+    <div class="ih-estimator-controls">
+      <div class="ih-control-head">
+        <span>MODEL CONTROL</span>
+        <button type="button" data-resample>Draw another sample</button>
+      </div>
+
+      <label class="ih-range-label" for="confounding-strength">
+        <span>Common-cause strength</span>
+        <output for="confounding-strength" data-strength-output>68%</output>
+      </label>
+      <input id="confounding-strength" data-strength type="range" min="0" max="92" value="68" step="1" />
+
+      <fieldset class="ih-estimator-choice">
+        <legend>Estimator</legend>
+        <label>
+          <input type="radio" name="estimator" value="naive" checked />
+          <span><b>Naive</b><small>Y on X</small></span>
+        </label>
+        <label>
+          <input type="radio" name="estimator" value="adjusted" />
+          <span><b>Adjusted</b><small>Y on X + Z</small></span>
+        </label>
+      </fieldset>
+
+      <div class="ih-model-equations" aria-label="Model equations">
+        <p><span>DATA</span>X ← Z → Y</p>
+        <p><span>TRUTH</span>β<sub>X</sub> = 2.40</p>
+        <p data-model-spec><span>FIT</span>Y = α + βX + ε</p>
+      </div>
+    </div>
+
+    <div class="ih-estimator-plot">
+      <div class="ih-plot-head">
+        <span>LIVE SAMPLE · N = 84</span>
+        <span data-plot-key>POINTS SHARE ONE COLOR · Z IS OMITTED</span>
+      </div>
+      <svg viewBox="0 0 760 510" role="img" aria-labelledby="plot-title plot-description">
+        <title id="plot-title">Interactive regression plot</title>
+        <desc id="plot-description" data-plot-description>A scatter plot of X and Y with a naive regression line.</desc>
+        <g class="ih-plot-grid" aria-hidden="true">
+          <path d="M76 38V448H726M76 106H726M76 174H726M76 242H726M76 310H726M76 378H726M184 38V448M292 38V448M400 38V448M508 38V448M616 38V448"></path>
+        </g>
+        <g class="ih-plot-axis" aria-hidden="true">
+          <text x="401" y="492" text-anchor="middle">EXPOSURE · X</text>
+          <text x="25" y="243" text-anchor="middle" transform="rotate(-90 25 243)">OUTCOME · Y</text>
+        </g>
+        <g data-points></g>
+        <line class="ih-regression-line" data-line x1="76" y1="448" x2="726" y2="38"></line>
+        <g class="ih-plot-annotation" data-annotation aria-hidden="true">
+          <line x1="560" y1="94" x2="635" y2="138"></line>
+          <text x="553" y="76">OBSERVED SLOPE</text>
+          <text x="553" y="94" data-line-label>β̂ = 4.31</text>
+        </g>
+      </svg>
+    </div>
+
+    <aside class="ih-estimator-readout" aria-live="polite">
+      <span class="ih-readout-label">ESTIMATED EFFECT OF X</span>
+      <strong data-estimate>4.31</strong>
+      <div class="ih-bias-meter" aria-hidden="true">
+        <span>0</span><i><b data-bias-bar></b><em data-truth-marker></em></i><span>6</span>
+      </div>
+      <dl>
+        <div><dt>True effect</dt><dd>2.40</dd></div>
+        <div><dt>Absolute bias</dt><dd data-bias>1.91</dd></div>
+        <div><dt>Specification</dt><dd data-specification>Omitted Z</dd></div>
+      </dl>
+      <p data-interpretation>
+        X is collecting part of Z’s effect. The line fits the sample; the causal story does not.
+      </p>
+      <a href="/teaching">See more working teaching tools →</a>
+    </aside>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const TRUE_EFFECT = 2.4;
+
+    document.querySelectorAll("[data-confounding-lab]").forEach((lab) => {
+      const strengthInput = lab.querySelector("[data-strength]");
+      const strengthOutput = lab.querySelector("[data-strength-output]");
+      const estimatorInputs = Array.from(lab.querySelectorAll('input[name="estimator"]'));
+      const pointGroup = lab.querySelector("[data-points]");
+      const line = lab.querySelector("[data-line]");
+      const lineLabel = lab.querySelector("[data-line-label]");
+      const estimateOutput = lab.querySelector("[data-estimate]");
+      const biasOutput = lab.querySelector("[data-bias]");
+      const biasBar = lab.querySelector("[data-bias-bar]");
+      const specification = lab.querySelector("[data-specification]");
+      const interpretation = lab.querySelector("[data-interpretation]");
+      const modelSpec = lab.querySelector("[data-model-spec]");
+      const plotKey = lab.querySelector("[data-plot-key]");
+      const plotDescription = lab.querySelector("[data-plot-description]");
+      const resample = lab.querySelector("[data-resample]");
+      let sampleNumber = 0;
+
+      const seededRandom = (initialSeed) => {
+        let seed = initialSeed;
+        return () => {
+          seed = (seed * 16807) % 2147483647;
+          return (seed - 1) / 2147483646;
+        };
+      };
+
+      const normalPair = (random) => {
+        const first = Math.max(random(), 1e-9);
+        const second = random();
+        const magnitude = Math.sqrt(-2 * Math.log(first));
+        return [magnitude * Math.cos(2 * Math.PI * second), magnitude * Math.sin(2 * Math.PI * second)];
+      };
+
+      const mean = (values) => values.reduce((total, value) => total + value, 0) / values.length;
+      const covariance = (first, second) => {
+        const firstMean = mean(first);
+        const secondMean = mean(second);
+        return first.reduce((total, value, index) => total + (value - firstMean) * (second[index] - secondMean), 0) / first.length;
+      };
+
+      const makeData = (strength) => {
+        const random = seededRandom(7411 + sampleNumber * 1153);
+        const data = [];
+        for (let index = 0; index < 84; index += 1) {
+          const [z, xNoise] = normalPair(random);
+          const [yNoise] = normalPair(random);
+          const x = strength * z + Math.sqrt(Math.max(.04, 1 - strength * strength)) * xNoise;
+          const y = TRUE_EFFECT * x + 2.85 * strength * z + 1.15 * yNoise;
+          data.push({ x, y, z });
+        }
+        return data;
+      };
+
+      const calculate = (data) => {
+        const x = data.map((point) => point.x);
+        const y = data.map((point) => point.y);
+        const z = data.map((point) => point.z);
+        const varX = covariance(x, x);
+        const varZ = covariance(z, z);
+        const covXY = covariance(x, y);
+        const covXZ = covariance(x, z);
+        const covZY = covariance(z, y);
+        const naive = covXY / varX;
+        const determinant = varX * varZ - covXZ * covXZ;
+        const adjusted = (covXY * varZ - covZY * covXZ) / determinant;
+        return { naive, adjusted, meanX: mean(x), meanY: mean(y) };
+      };
+
+      const update = () => {
+        const strengthPercent = Number(strengthInput?.value || 68);
+        const strength = strengthPercent / 100;
+        const mode = estimatorInputs.find((input) => input.checked)?.value || "naive";
+        const adjusted = mode === "adjusted";
+        const data = makeData(strength);
+        const results = calculate(data);
+        const estimate = adjusted ? results.adjusted : results.naive;
+        const bias = Math.abs(estimate - TRUE_EFFECT);
+
+        if (strengthOutput) strengthOutput.textContent = `${strengthPercent}%`;
+        if (estimateOutput) estimateOutput.textContent = estimate.toFixed(2);
+        if (biasOutput) biasOutput.textContent = bias.toFixed(2);
+        if (specification) specification.textContent = adjusted ? "Z included" : "Omitted Z";
+        if (modelSpec) modelSpec.innerHTML = adjusted ? "<span>FIT</span>Y = α + βX + γZ + ε" : "<span>FIT</span>Y = α + βX + ε";
+        if (plotKey) plotKey.textContent = adjusted ? "COLOR REVEALS Z · MODEL CONTROLS FOR Z" : "POINTS SHARE ONE COLOR · Z IS OMITTED";
+        if (plotDescription) plotDescription.textContent = `A scatter plot of X and Y with ${adjusted ? "the common cause Z revealed and an adjusted" : "a naive"} regression line. The estimated slope is ${estimate.toFixed(2)} while the true effect is 2.40.`;
+        if (lineLabel) lineLabel.textContent = `β̂ = ${estimate.toFixed(2)}`;
+        if (interpretation) interpretation.textContent = adjusted
+          ? "Once Z enters the design, the estimate returns toward the true effect. Better specification changes what the same sample can tell us."
+          : strengthPercent < 12
+            ? "With little common-cause pressure, the naive line happens to sit close to the truth. Increase Z to see the identification problem emerge."
+            : "X is collecting part of Z’s effect. The line fits the sample; the causal story does not.";
+        if (biasBar) biasBar.style.width = `${Math.min(100, Math.max(0, estimate / 6 * 100))}%`;
+
+        const xValues = data.map((point) => point.x);
+        const yValues = data.map((point) => point.y);
+        const xMin = Math.min(...xValues) - .35;
+        const xMax = Math.max(...xValues) + .35;
+        const yMin = Math.min(...yValues) - .6;
+        const yMax = Math.max(...yValues) + .6;
+        const plotX = (value) => 76 + (value - xMin) / (xMax - xMin) * 650;
+        const plotY = (value) => 448 - (value - yMin) / (yMax - yMin) * 410;
+
+        if (pointGroup) {
+          pointGroup.replaceChildren(...data.map((point) => {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", String(plotX(point.x)));
+            circle.setAttribute("cy", String(plotY(point.y)));
+            circle.setAttribute("r", adjusted ? "4.1" : "3.7");
+            circle.style.setProperty("--z", String(Math.max(0, Math.min(1, (point.z + 2.5) / 5))));
+            circle.classList.toggle("is-revealed", adjusted);
+            return circle;
+          }));
+        }
+
+        const firstY = results.meanY + estimate * (xMin - results.meanX);
+        const lastY = results.meanY + estimate * (xMax - results.meanX);
+        if (line) {
+          line.setAttribute("x1", String(plotX(xMin)));
+          line.setAttribute("y1", String(plotY(firstY)));
+          line.setAttribute("x2", String(plotX(xMax)));
+          line.setAttribute("y2", String(plotY(lastY)));
+        }
+      };
+
+      strengthInput?.addEventListener("input", update);
+      estimatorInputs.forEach((input) => input.addEventListener("change", update));
+      resample?.addEventListener("click", () => { sampleNumber += 1; update(); });
+      update();
+    });
+  })();
+</script>

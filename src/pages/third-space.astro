@@ -1,0 +1,128 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  wide
+  pageClass="third-space-page"
+  title="Third Space Labs"
+  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizabeth Vardanyan to develop emerging researchers and share serious work in the open."
+>
+  <section class="ts-page-hero" aria-labelledby="ts-page-title">
+    <div class="ts-page-topline">
+      <a class="ts-page-brand" href="/third-space" aria-label="Third Space Labs home">
+        <svg viewBox="0 0 150 92" role="img" aria-label="Third Space mark: two open rings with their shared space filled">
+          <defs><clipPath id="ts-page-ring-clip"><circle cx="90" cy="46" r="34"></circle></clipPath></defs>
+          <circle class="ts-page-overlap" cx="60" cy="46" r="34" clip-path="url(#ts-page-ring-clip)"></circle>
+          <circle class="ts-page-ring" cx="60" cy="46" r="34"></circle>
+          <circle class="ts-page-ring" cx="90" cy="46" r="34"></circle>
+        </svg>
+        <span><strong>Third Space</strong><small>LABS · ST. LOUIS</small></span>
+      </a>
+      <span class="ts-page-status"><i></i>INDEPENDENT · IN FORMATION</span>
+    </div>
+
+    <div class="ts-page-hero-grid">
+      <span class="ts-page-folio">FOUNDING DIRECTION · 2026</span>
+      <h1 id="ts-page-title">Serious work<br />starts <em>between.</em></h1>
+      <div>
+        <p>
+          Third Space Labs develops researchers—not just research. We are building the place between university and industry where ambitious people can form consequential questions, learn credible methods, and publish work they own.
+        </p>
+        <a href="#rooms">Explore the four arms ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="ts-page-thesis" aria-labelledby="ts-thesis-title">
+    <span>THE GAP</span>
+    <h2 id="ts-thesis-title">People are often ready<br />before institutions let them be.</h2>
+    <div>
+      <p>
+        Access to real research is still organized around titles, departments, and scarce invitations. The result is a familiar dead zone: capable students and independent researchers can be ready to contribute while lacking the mentorship, methods infrastructure, collaborators, or publication path that makes contribution possible.
+      </p>
+      <p>
+        Third Space is designed to remove that gate without lowering the standard. Participants are expected to ask precise questions, make their design legible, revise honestly, and share the resulting work in the open.
+      </p>
+    </div>
+  </section>
+
+  <section class="ts-principle-strip" aria-label="Third Space principles">
+    <span>Independence over affiliation</span>
+    <span>Rigor without gatekeeping</span>
+    <span>Students as principal researchers</span>
+    <span>Work shared in the open</span>
+  </section>
+
+  <section id="rooms" class="ts-page-rooms" aria-labelledby="ts-rooms-title">
+    <header>
+      <span>THE ARCHITECTURE</span>
+      <h2 id="ts-rooms-title">Four arms.<br />One research commons.</h2>
+      <p>Each arm solves a different part of the access problem. Together they create a path from first question to public contribution.</p>
+    </header>
+    <ol>
+      <li>
+        <span>01</span>
+        <div><small>LAB</small><h3>Do the work.</h3></div>
+        <p>Mentored research projects structured around consequential questions, credible designs, and real ownership.</p>
+      </li>
+      <li>
+        <span>02</span>
+        <div><small>PAPERS</small><h3>Let the work travel.</h3></div>
+        <p>An open path for careful, citable research and a visible record of method, revision, and contribution.</p>
+      </li>
+      <li>
+        <span>03</span>
+        <div><small>METHODS</small><h3>Expose how rigor is made.</h3></div>
+        <p>Instruction, protocols, examples, and reusable infrastructure that make research decisions inspectable.</p>
+      </li>
+      <li>
+        <span>04</span>
+        <div><small>FELLOWS</small><h3>Develop the researcher.</h3></div>
+        <p>A mentored path for ambitious undergraduates, graduate students, and serious high-school researchers.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="ts-page-process" aria-labelledby="ts-process-title">
+    <header>
+      <span>THE PATH</span>
+      <h2 id="ts-process-title">Interest becomes inquiry.<br />Inquiry becomes a contribution.</h2>
+    </header>
+    <ol>
+      <li><span>01</span><h3>Join by interest.</h3><p>Begin with a question, subject, system, or unresolved problem that merits serious attention.</p></li>
+      <li><span>02</span><h3>Mentor + train.</h3><p>Build the methodological command, habits, and research infrastructure the question requires.</p></li>
+      <li><span>03</span><h3>Publish in the open.</h3><p>Make the question, method, limits, and contribution available for others to inspect and extend.</p></li>
+    </ol>
+  </section>
+
+  <section class="ts-page-founders" aria-labelledby="ts-founders-title">
+    <header>
+      <span>CO-FOUNDERS</span>
+      <h2 id="ts-founders-title">Built by researchers<br />who are also teachers.</h2>
+    </header>
+    <div class="ts-founder-grid">
+      <article>
+        <span>IAN T. S. HELFRICH · PHD</span>
+        <h3>Research economist.<br />Instrument builder.</h3>
+        <p>Ian works across econometrics, labor, trade, networks, spatial analysis, and quantitative education. His practice centers on making difficult research systems legible enough for other people to command.</p>
+        <a href="/about">Ian’s background →</a>
+      </article>
+      <article>
+        <span>ELIZABETH VARDANYAN · PHD</span>
+        <h3>Spatial economist.<br />Methods architect.</h3>
+        <p>Liz is an economist and geospatial researcher whose work brings spatial reasoning, careful measurement, and institutional knowledge into applied questions that cross disciplinary boundaries.</p>
+        <a href="/research">Shared research →</a>
+      </article>
+    </div>
+    <p class="ts-founder-note">Partners since 2013 · coauthors · twelve degrees between them · based in St. Louis</p>
+  </section>
+
+  <section class="ts-page-invitation" aria-labelledby="ts-invitation-title">
+    <span>THE FOUNDING CONVERSATION</span>
+    <h2 id="ts-invitation-title">Have a question that<br />needs a third space?</h2>
+    <p>
+      The venture is in formation. We are interested in hearing from prospective researchers, mentors, collaborators, and institutions who recognize the gap this lab is being built to fill.
+    </p>
+    <a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs">Begin a conversation</a>
+  </section>
+</Base>

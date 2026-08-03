@@ -1,0 +1,444 @@
+<section class="ih-field" data-capability-field aria-labelledby="capability-title">
+  <canvas class="ih-field-canvas" aria-hidden="true"></canvas>
+
+  <div class="ih-field-gutter" aria-hidden="true">
+    <span>IAN HELFRICH · PHD</span>
+    <span>ECONOMETRICS / TEACHING / RESEARCH</span>
+    <span>ST. LOUIS · WORLDWIDE</span>
+  </div>
+
+  <div class="ih-field-copy">
+    <p class="ih-kicker">Quantitative instruction · research mentorship</p>
+    <h1 id="capability-title">Nothing stays<br /><em>a black box.</em></h1>
+    <p class="ih-field-lead">
+      I teach high-school students, undergraduates, MBAs, graduate researchers, and working professionals to take difficult quantitative systems apart—and rebuild them with command.
+    </p>
+    <div class="ih-action-row">
+      <a class="ih-action" href="#pathways">Find your starting point</a>
+      <a class="ih-text-link" href="/work-with-me">Ways to work together</a>
+    </div>
+  </div>
+
+  <aside class="ih-field-readout" aria-live="polite">
+    <span class="ih-readout-label">Selected route · <b data-field-route-index>01</b></span>
+    <h2 data-field-route-title>Build the runway early.</h2>
+    <p data-field-route-copy>SAT/ACT strategy, AP success, and an early introduction to research-grade habits: precise questions, credible sources, clean data, and work you can explain.</p>
+    <a href="/work-with-me#inquiry" data-field-route-link>Explore this route →</a>
+  </aside>
+
+  <div class="ih-field-controls" role="tablist" aria-label="Choose the learner or client route shown in the capability field">
+    <button id="field-route-high-school" class="is-active" type="button" role="tab" aria-selected="true" data-field-route="high-school"><span>01</span>High school</button>
+    <button id="field-route-undergraduate" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="undergraduate"><span>02</span>Undergraduate</button>
+    <button id="field-route-mba" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="mba"><span>03</span>MBA</button>
+    <button id="field-route-graduate" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="graduate"><span>04</span>Graduate</button>
+    <button id="field-route-research" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="research"><span>05</span>Research</button>
+    <button id="field-route-professional" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="professional"><span>06</span>Professional</button>
+    <button id="field-route-team" type="button" role="tab" aria-selected="false" tabindex="-1" data-field-route="team"><span>07</span>Teams</button>
+  </div>
+
+  <div class="ih-field-status" aria-hidden="true">
+    <span>CAPABILITY MAP · CONCEPTUAL TOPOLOGY</span>
+    <span><i></i><b data-field-state>solving</b> · iter <b data-field-iterations>000</b></span>
+    <span data-field-focus>drag a node · watch it re-solve</span>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const routes = {
+      "high-school": {
+        index: "01",
+        title: "Build the runway early.",
+        copy: "SAT/ACT strategy, AP success, and an early introduction to research-grade habits: precise questions, credible sources, clean data, and work you can explain.",
+        skills: ["foundation", "evidence", "communication"]
+      },
+      undergraduate: {
+        index: "02",
+        title: "Own the quantitative core.",
+        copy: "Economics, statistics, finance, and data work become connected ideas—not separate courses survived one assignment at a time.",
+        skills: ["foundation", "inference", "code"]
+      },
+      mba: {
+        index: "03",
+        title: "Make the numbers decision-ready.",
+        copy: "Finance, quantitative analysis, forecasting, and spreadsheets taught as a coherent language for explaining a recommendation under pressure.",
+        skills: ["finance", "evidence", "communication"]
+      },
+      graduate: {
+        index: "04",
+        title: "Move from technique to defense.",
+        copy: "Econometrics, theory, qualifying exams, theses, and dissertations—with every assumption, estimator, and interpretation made visible.",
+        skills: ["inference", "design", "code"]
+      },
+      research: {
+        index: "05",
+        title: "Turn the question into a design.",
+        copy: "From estimand and counterfactual to code audit and claim: methodological coaching for work that must hold up under serious scrutiny.",
+        skills: ["design", "inference", "evidence"]
+      },
+      professional: {
+        index: "06",
+        title: "Upgrade the model behind the decision.",
+        copy: "For analysts, economists, policy professionals, and technical leaders learning an unfamiliar method or pressure-testing consequential work.",
+        skills: ["finance", "code", "communication"]
+      },
+      team: {
+        index: "07",
+        title: "Give the room a shared method.",
+        copy: "Custom workshops and training that turn tacit quantitative expertise into a common, reusable way of reasoning across a department or team.",
+        skills: ["design", "communication", "evidence"]
+      }
+    };
+
+    const nodeBlueprint = [
+      { key: "command", label: "command", kind: "core", tx: .69, ty: .48, mass: 3.4 },
+      { key: "foundation", label: "foundations", kind: "skill", tx: .50, ty: .23, mass: 1.4 },
+      { key: "inference", label: "inference", kind: "skill", tx: .66, ty: .18, mass: 1.4 },
+      { key: "design", label: "research design", kind: "skill", tx: .83, ty: .25, mass: 1.4 },
+      { key: "code", label: "implementation", kind: "skill", tx: .89, ty: .52, mass: 1.4 },
+      { key: "communication", label: "explanation", kind: "skill", tx: .82, ty: .76, mass: 1.4 },
+      { key: "evidence", label: "evidence", kind: "skill", tx: .64, ty: .82, mass: 1.4 },
+      { key: "finance", label: "decision", kind: "skill", tx: .48, ty: .70, mass: 1.4 },
+      { key: "high-school", label: "high school", kind: "route", tx: .45, ty: .40, mass: 1 },
+      { key: "undergraduate", label: "undergraduate", kind: "route", tx: .53, ty: .52, mass: 1 },
+      { key: "mba", label: "MBA", kind: "route", tx: .57, ty: .62, mass: 1 },
+      { key: "graduate", label: "graduate", kind: "route", tx: .68, ty: .68, mass: 1 },
+      { key: "research", label: "research", kind: "route", tx: .76, ty: .62, mass: 1 },
+      { key: "professional", label: "professional", kind: "route", tx: .78, ty: .48, mass: 1 },
+      { key: "team", label: "teams", kind: "route", tx: .72, ty: .35, mass: 1 }
+    ];
+
+    document.querySelectorAll("[data-capability-field]").forEach((host) => {
+      const canvas = host.querySelector("canvas");
+      const context = canvas?.getContext("2d");
+      if (!canvas || !context) return;
+
+      const routeButtons = Array.from(host.querySelectorAll("[data-field-route]"));
+      const title = host.querySelector("[data-field-route-title]");
+      const copy = host.querySelector("[data-field-route-copy]");
+      const index = host.querySelector("[data-field-route-index]");
+      const state = host.querySelector("[data-field-state]");
+      const iterations = host.querySelector("[data-field-iterations]");
+      const focus = host.querySelector("[data-field-focus]");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      let width = 1;
+      let height = 1;
+      let pixelRatio = 1;
+      let selectedRoute = "high-school";
+      let hoveredNode = -1;
+      let draggedNode = -1;
+      let pressedNode = -1;
+      let pointerX = -1000;
+      let pointerY = -1000;
+      let pressX = 0;
+      let pressY = 0;
+      let solving = true;
+      let calmFrames = 0;
+      let iteration = 0;
+      let frame = 0;
+
+      let seed = 918273;
+      const random = () => {
+        seed = (seed * 16807) % 2147483647;
+        return (seed - 1) / 2147483646;
+      };
+
+      const nodes = nodeBlueprint.map((node) => ({
+        ...node,
+        x: random(),
+        y: random(),
+        vx: 0,
+        vy: 0,
+        fx: 0,
+        fy: 0
+      }));
+
+      const nodeIndex = Object.fromEntries(nodes.map((node, nodePosition) => [node.key, nodePosition]));
+      const edges = [];
+      Object.entries(routes).forEach(([routeKey, route]) => {
+        edges.push([nodeIndex[routeKey], nodeIndex.command]);
+        route.skills.forEach((skill) => edges.push([nodeIndex[routeKey], nodeIndex[skill]]));
+      });
+      Object.keys(nodeIndex).filter((key) => !routes[key] && key !== "command").forEach((skill) => edges.push([nodeIndex.command, nodeIndex[skill]]));
+
+      const isConnected = (first, second) => edges.some(([a, b]) => (a === first && b === second) || (a === second && b === first));
+      const isSelectedSkill = (key) => routes[selectedRoute].skills.includes(key);
+
+      const targetX = (node) => node.tx * width;
+      const targetY = (node) => node.ty * height;
+
+      const resize = () => {
+        const bounds = host.getBoundingClientRect();
+        const previousWidth = width;
+        const previousHeight = height;
+        width = Math.max(1, bounds.width);
+        height = Math.max(1, bounds.height);
+        pixelRatio = Math.min(2, window.devicePixelRatio || 1);
+        canvas.width = width * pixelRatio;
+        canvas.height = height * pixelRatio;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        nodes.forEach((node) => {
+          if (previousWidth > 1 && previousHeight > 1) {
+            node.x = (node.x / previousWidth) * width;
+            node.y = (node.y / previousHeight) * height;
+          } else {
+            node.x *= width;
+            node.y *= height;
+          }
+        });
+        restart();
+      };
+
+      const restart = () => {
+        solving = true;
+        calmFrames = 0;
+        if (state) state.textContent = "solving";
+        if (reduceMotion) {
+          for (let stepNumber = 0; stepNumber < 160; stepNumber += 1) step();
+          solving = false;
+          if (state) state.textContent = "at equilibrium";
+          draw();
+          return;
+        }
+        if (!frame) frame = requestAnimationFrame(loop);
+      };
+
+      const step = () => {
+        const scale = Math.min(width, height);
+        const repulsion = scale * scale * 0.012;
+        nodes.forEach((node, i) => {
+          if (i === draggedNode) {
+            node.x = pointerX;
+            node.y = pointerY;
+            node.vx = 0;
+            node.vy = 0;
+            return;
+          }
+          let fx = (targetX(node) - node.x) * (node.kind === "route" ? .018 : .011);
+          let fy = (targetY(node) - node.y) * (node.kind === "route" ? .018 : .011);
+          nodes.forEach((other, j) => {
+            if (i === j) return;
+            const dx = node.x - other.x;
+            const dy = node.y - other.y;
+            const distanceSquared = dx * dx + dy * dy + 1;
+            const distance = Math.sqrt(distanceSquared);
+            const force = repulsion / distanceSquared;
+            fx += force * dx / distance;
+            fy += force * dy / distance;
+          });
+          node.fx = fx;
+          node.fy = fy;
+        });
+
+        edges.forEach(([fromIndex, toIndex]) => {
+          const from = nodes[fromIndex];
+          const to = nodes[toIndex];
+          const dx = to.x - from.x;
+          const dy = to.y - from.y;
+          const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+          const desired = scale * (from.kind === "route" && to.kind === "skill" ? .17 : .20);
+          const spring = (distance - desired) * .008;
+          const ux = dx / distance;
+          const uy = dy / distance;
+          if (fromIndex !== draggedNode) { from.fx += spring * ux; from.fy += spring * uy; }
+          if (toIndex !== draggedNode) { to.fx -= spring * ux; to.fy -= spring * uy; }
+        });
+
+        let energy = 0;
+        nodes.forEach((node, i) => {
+          if (i === draggedNode) return;
+          node.vx = (node.vx + node.fx / node.mass) * .82;
+          node.vy = (node.vy + node.fy / node.mass) * .82;
+          node.vx = Math.max(-8, Math.min(8, node.vx));
+          node.vy = Math.max(-8, Math.min(8, node.vy));
+          node.x = Math.max(18, Math.min(width - 18, node.x + node.vx));
+          node.y = Math.max(72, Math.min(height - 120, node.y + node.vy));
+          energy += node.vx * node.vx + node.vy * node.vy;
+        });
+
+        iteration += 1;
+        if (iterations) iterations.textContent = String(iteration).padStart(3, "0").slice(-3);
+        calmFrames = energy < .22 ? calmFrames + 1 : 0;
+        if (calmFrames > 24 && draggedNode < 0) {
+          solving = false;
+          if (state) state.textContent = "at equilibrium";
+        }
+      };
+
+      const drawArrow = (from, to, active, dimmed) => {
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+        const ux = dx / distance;
+        const uy = dy / distance;
+        const endX = to.x - ux * 8;
+        const endY = to.y - uy * 8;
+        context.strokeStyle = active ? "#2e6bff" : dimmed ? "rgba(27,26,24,.08)" : "rgba(27,26,24,.18)";
+        context.fillStyle = context.strokeStyle;
+        context.lineWidth = active ? 1.7 : 1;
+        context.beginPath();
+        context.moveTo(from.x + ux * 7, from.y + uy * 7);
+        context.lineTo(endX, endY);
+        context.stroke();
+        const arrowSize = active ? 5.5 : 4;
+        context.beginPath();
+        context.moveTo(endX, endY);
+        context.lineTo(endX - ux * arrowSize - uy * arrowSize * .55, endY - uy * arrowSize + ux * arrowSize * .55);
+        context.lineTo(endX - ux * arrowSize + uy * arrowSize * .55, endY - uy * arrowSize - ux * arrowSize * .55);
+        context.closePath();
+        context.fill();
+      };
+
+      const draw = () => {
+        context.clearRect(0, 0, width, height);
+        const selectedIndex = nodeIndex[selectedRoute];
+        edges.forEach(([fromIndex, toIndex]) => {
+          const active = fromIndex === selectedIndex || toIndex === selectedIndex ||
+            ((fromIndex === nodeIndex.command || toIndex === nodeIndex.command) &&
+              (isSelectedSkill(nodes[fromIndex].key) || isSelectedSkill(nodes[toIndex].key)));
+          const hoverActive = hoveredNode >= 0 && (fromIndex === hoveredNode || toIndex === hoveredNode);
+          drawArrow(nodes[fromIndex], nodes[toIndex], active || hoverActive, hoveredNode >= 0 && !hoverActive);
+        });
+
+        nodes.forEach((node, nodePosition) => {
+          const selected = node.key === selectedRoute;
+          const activeSkill = isSelectedSkill(node.key);
+          const hovered = nodePosition === hoveredNode;
+          const related = hoveredNode >= 0 && isConnected(nodePosition, hoveredNode);
+          const dimmed = hoveredNode >= 0 && !hovered && !related;
+          const radius = node.kind === "core" ? 9 : node.kind === "route" ? 5.5 : 6.5;
+          context.fillStyle = selected || activeSkill || hovered ? "#2e6bff" : dimmed ? "rgba(27,26,24,.22)" : node.kind === "route" ? "#6f6a61" : "#1b1a18";
+          context.beginPath();
+          context.arc(node.x, node.y, selected ? radius + 2 : radius, 0, Math.PI * 2);
+          context.fill();
+          if (selected) {
+            context.strokeStyle = "rgba(46,107,255,.24)";
+            context.lineWidth = 1;
+            context.beginPath();
+            context.arc(node.x, node.y, radius + 8, 0, Math.PI * 2);
+            context.stroke();
+          }
+          context.font = `${selected || node.kind === "core" ? 600 : 500} 11px "Geist Mono", ui-monospace, monospace`;
+          context.fillStyle = selected || activeSkill || hovered ? "#2e6bff" : dimmed ? "rgba(27,26,24,.25)" : "#4e4a43";
+          const measured = context.measureText(node.label).width;
+          let labelX = node.x + radius + 7;
+          if (labelX + measured > width - 10) labelX = node.x - radius - 7 - measured;
+          context.fillText(node.label, labelX, node.y + 4);
+        });
+      };
+
+      const loop = () => {
+        frame = 0;
+        if (solving || draggedNode >= 0) step();
+        draw();
+        if (solving || draggedNode >= 0) frame = requestAnimationFrame(loop);
+      };
+
+      const nearestNode = () => {
+        let match = -1;
+        let bestDistance = 24 * 24;
+        nodes.forEach((node, nodePosition) => {
+          const dx = node.x - pointerX;
+          const dy = node.y - pointerY;
+          const distance = dx * dx + dy * dy;
+          if (distance < bestDistance) { bestDistance = distance; match = nodePosition; }
+        });
+        return match;
+      };
+
+      const updatePointer = (event) => {
+        const bounds = canvas.getBoundingClientRect();
+        pointerX = event.clientX - bounds.left;
+        pointerY = event.clientY - bounds.top;
+      };
+
+      const selectRoute = (routeKey, notify = true) => {
+        if (!routes[routeKey]) return;
+        selectedRoute = routeKey;
+        const route = routes[routeKey];
+        if (title) title.textContent = route.title;
+        if (copy) copy.textContent = route.copy;
+        if (index) index.textContent = route.index;
+        routeButtons.forEach((button) => {
+          const active = button.dataset.fieldRoute === routeKey;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+        const selectedNode = nodes[nodeIndex[routeKey]];
+        selectedNode.vx += (random() - .5) * 5;
+        selectedNode.vy += (random() - .5) * 5;
+        restart();
+        if (notify) window.dispatchEvent(new CustomEvent("ih:audience", { detail: { key: routeKey, source: "field" } }));
+      };
+
+      canvas.addEventListener("pointermove", (event) => {
+        updatePointer(event);
+        if (draggedNode >= 0) {
+          nodes[draggedNode].x = pointerX;
+          nodes[draggedNode].y = pointerY;
+          restart();
+        } else {
+          hoveredNode = nearestNode();
+          canvas.style.cursor = hoveredNode >= 0 ? "grab" : "default";
+          if (focus) focus.textContent = hoveredNode >= 0 ? nodes[hoveredNode].label : "drag a node · watch it re-solve";
+          draw();
+        }
+      });
+      canvas.addEventListener("pointerdown", (event) => {
+        updatePointer(event);
+        pressedNode = nearestNode();
+        draggedNode = pressedNode;
+        pressX = pointerX;
+        pressY = pointerY;
+        if (draggedNode >= 0) {
+          canvas.setPointerCapture(event.pointerId);
+          canvas.style.cursor = "grabbing";
+          restart();
+        }
+      });
+      canvas.addEventListener("pointerup", (event) => {
+        updatePointer(event);
+        const travel = Math.hypot(pointerX - pressX, pointerY - pressY);
+        if (pressedNode >= 0 && travel < 6 && nodes[pressedNode].kind === "route") selectRoute(nodes[pressedNode].key);
+        draggedNode = -1;
+        pressedNode = -1;
+        canvas.style.cursor = hoveredNode >= 0 ? "grab" : "default";
+        restart();
+      });
+      canvas.addEventListener("pointerleave", () => {
+        if (draggedNode < 0) {
+          hoveredNode = -1;
+          if (focus) focus.textContent = "drag a node · watch it re-solve";
+          draw();
+        }
+      });
+
+      routeButtons.forEach((button, buttonIndex) => {
+        button.addEventListener("click", () => selectRoute(button.dataset.fieldRoute));
+        button.addEventListener("keydown", (event) => {
+          let nextIndex = buttonIndex;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (buttonIndex + 1) % routeButtons.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (buttonIndex - 1 + routeButtons.length) % routeButtons.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = routeButtons.length - 1;
+          else return;
+          event.preventDefault();
+          const nextButton = routeButtons[nextIndex];
+          selectRoute(nextButton.dataset.fieldRoute);
+          nextButton.focus();
+        });
+      });
+
+      window.addEventListener("ih:audience", (event) => {
+        if (event.detail?.source !== "field") selectRoute(event.detail?.key, false);
+      });
+
+      new ResizeObserver(resize).observe(host);
+      resize();
+    });
+  })();
+</script>

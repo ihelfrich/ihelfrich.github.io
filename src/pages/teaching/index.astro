@@ -1,179 +1,116 @@
 ---
 import Base from "../../layouts/Base.astro";
+import AudienceNavigator from "../../components/AudienceNavigator.astro";
 import { getCollection } from "astro:content";
 
 const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
 ---
 <Base
   wide
+  pageClass="teaching-page"
   title="Teaching"
-  description="Teaching record, private quantitative instruction, and open learning tools from Dr. Ian Helfrich, Georgia Tech PhD economist and 2023 Graduate TA of the Year."
+  description="Ian Helfrich teaches quantitative reasoning from SAT, ACT, AP, and undergraduate foundations through MBA coursework, graduate econometrics, research design, and professional methods training."
 >
-  <header class="page-hero">
-    <span class="eyebrow">Teaching record · Open curriculum · Private practice</span>
-    <h1>Teaching is the work.</h1>
-    <p class="kicker">
-      I teach economics and quantitative methods by connecting intuition, formal reasoning, software, and evidence. The objective is not to make difficult material look easy. It is to make it navigable—and eventually yours.
-    </p>
-    <div class="button-row">
-      <a class="button" href="/work-with-me">Work with me privately</a>
-      <a class="button secondary" href="#open-tools">Explore open teaching tools</a>
+  <header class="teach-hero" aria-labelledby="teach-title">
+    <div class="teach-hero-folio"><span>TEACHING RECORD · OPEN CURRICULUM · PRIVATE PRACTICE</span><span>ST. LOUIS · WORLDWIDE</span></div>
+    <div class="teach-hero-grid">
+      <span>EDUCATION AS TRANSFER OF CONTROL</span>
+      <h1 id="teach-title">Teaching<br /><em>is the work.</em></h1>
+      <div>
+        <p>I connect intuition, formal reasoning, software, and evidence until a learner can diagnose the next problem without waiting for me to appear.</p>
+        <div><a class="ih-action" href="/work-with-me">Work with me</a><a href="#open-tools">Open the tool library ↓</a></div>
+      </div>
     </div>
   </header>
 
-  <div class="teaching-proof" aria-label="Teaching record in numbers">
-    <div><strong>1,200+</strong><span>hours in the past year</span></div>
+  <section class="teach-proof" aria-label="Selected teaching record">
+    <div><strong>1,200+</strong><span>recent-year instruction hours</span></div>
     <div><strong>450+</strong><span>students taught</span></div>
-    <div><strong>5.0</strong><span>average across 175+ ratings</span></div>
+    <div><strong>5.0</strong><span>across 175+ public ratings</span></div>
     <div><strong>2023</strong><span>Georgia Tech teaching award</span></div>
-  </div>
+  </section>
 
-  <section class="positioning-statement">
+  <AudienceNavigator />
+
+  <section class="teach-standard" aria-labelledby="standard-title">
+    <span>THE STANDARD</span>
+    <h2 id="standard-title">Do not memorize<br />what you can reconstruct.</h2>
     <div>
-      <span class="section-label">My standard</span>
-      <h2>Do not memorize what you can reconstruct.</h2>
-    </div>
-    <div class="statement-copy">
-      <p>
-        Quantitative education often separates concepts that belong together: a model from its assumptions, an estimator from its identification strategy, code from its output, and output from a defensible claim. I put those pieces back together.
-      </p>
-      <p>
-        Students should leave able to diagnose a new problem, not merely imitate the last demonstration.
-      </p>
+      <p>Quantitative education often separates concepts that belong together: a model from its assumptions, an estimator from its identification strategy, code from its output, and output from a defensible claim.</p>
+      <p>I put those pieces back together. The objective is not to make difficult material look easy. It is to make it navigable—and eventually yours.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="practice-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Private instruction</span>
-        <h2 id="practice-title">A teaching practice for high-stakes moments.</h2>
-      </div>
-      <p>Private work ranges from one difficult concept to a sustained research-methods partnership.</p>
-    </div>
-
-    <div class="offer-grid">
-      <article class="offer-card">
-        <span class="card-tag">Course mastery</span>
-        <h3>Economics, statistics & finance</h3>
-        <p>Graduate and advanced undergraduate instruction that works from underlying logic toward reliable execution.</p>
-        <ul>
-          <li>Econometrics and statistics</li>
-          <li>Microeconomics and macroeconomics</li>
-          <li>Corporate finance and capital markets</li>
-        </ul>
-      </article>
-      <article class="offer-card featured">
-        <span class="card-tag">Applied research</span>
-        <h3>Methods, code & empirical reasoning</h3>
-        <p>Ethical coaching for people who must design, execute, interpret, and defend their own analysis.</p>
-        <ul>
-          <li>Causal inference and research design</li>
-          <li>R, Stata, Python, Excel, and Julia</li>
-          <li>Replication and paper-reading workflows</li>
-        </ul>
-      </article>
-      <article class="offer-card">
-        <span class="card-tag">Organizations</span>
-        <h3>Custom courses & workshops</h3>
-        <p>Live training paired with durable materials for departments, labs, policy groups, and analytical teams.</p>
-        <ul>
-          <li>Methods bootcamps</li>
-          <li>Software-centered workshops</li>
-          <li>Cohort instruction and office hours</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="open-tools" class="section" aria-labelledby="tools-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Open teaching library</span>
-        <h2 id="tools-title">Built for use—not decoration.</h2>
-      </div>
-      <p>These are working instructional environments with code, visual models, practice problems, and real data. They are continuously revised from actual teaching.</p>
-    </div>
-
-    <div class="lab-grid">
-      {teaching.map((item) => (
-        <article class="lab-card">
-          <span class="card-tag">{item.data.audience}</span>
-          <h3>{item.data.title}</h3>
+  <section id="open-tools" class="teach-library" aria-labelledby="library-title">
+    <header class="teach-section-head">
+      <span>OPEN TEACHING LIBRARY</span>
+      <h2 id="library-title">Built for use.<br />Left running.</h2>
+      <p>Working instructional environments with code, visual models, practice, and real data—continuously revised through actual teaching.</p>
+    </header>
+    <div class="teach-tool-ledger">
+      {teaching.map((item, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div><small>{item.data.audience}</small><h3>{item.data.title}</h3></div>
           <p>{item.data.blurb}</p>
-          <a class="lab-link" href={item.data.url} target="_blank" rel="noopener">Open resource →</a>
+          <a href={item.data.url} target="_blank" rel="noopener"><span class="sr-only">Open {item.data.title}</span>↗</a>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="ethics-panel" aria-labelledby="integrity-title">
+  <section class="teach-method" aria-labelledby="method-title">
+    <header>
+      <span>THE PEDAGOGY</span>
+      <h2 id="method-title">Diagnosis.<br />Representation.<br />Independence.</h2>
+    </header>
+    <ol>
+      <li><span>01 / DIAGNOSE</span><h3>Find the missing mental model.</h3><p>The visible error is often downstream of a conceptual gap. We locate that gap before piling on procedures.</p></li>
+      <li><span>02 / TRANSLATE</span><h3>Move across representations.</h3><p>Words, equations, graphs, code, and real examples should reinforce one another. When one angle fails, we change it.</p></li>
+      <li><span>03 / TRANSFER</span><h3>Return control to the learner.</h3><p>I model the reasoning, then reduce support. The endpoint is your ability to reconstruct, test, and defend the argument.</p></li>
+    </ol>
+  </section>
+
+  <section class="teach-integrity" aria-labelledby="integrity-title">
+    <header><span>ACADEMIC INTEGRITY</span><h2 id="integrity-title">Support without substitution.</h2></header>
     <div>
-      <span class="section-label">Academic integrity</span>
-      <h2 id="integrity-title">Support without substitution.</h2>
-    </div>
-    <div>
-      <p>I can teach a concept, work a parallel example, inspect your reasoning, review code with you, help diagnose an empirical design, and prepare you to explain your choices.</p>
-      <p>I will not take an assessment, produce graded work, invent results, or serve as an undisclosed author or analyst. <strong>Learning is the product.</strong></p>
+      <p>I teach concepts, build parallel examples, inspect reasoning, review code alongside you, diagnose research designs, and prepare you to explain your decisions.</p>
+      <p>I do not take assessments, produce graded work, invent results, or serve as an undisclosed author or analyst. <strong>Learning is the product.</strong></p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="record-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Institutional record</span>
-        <h2 id="record-title">From principles courses to graduate econometrics.</h2>
-      </div>
-      <p>Instructor-of-record, teaching-assistant, fellowship, online-program, and private-practice experience across a wide range of learners.</p>
+  <section class="teach-record" aria-labelledby="record-title">
+    <header class="teach-section-head">
+      <span>INSTITUTIONAL RECORD</span>
+      <h2 id="record-title">Principles courses<br />through graduate methods.</h2>
+      <p>Instructor-of-record, teaching-assistant, fellowship, executive-program, online-program, and private-practice experience.</p>
+    </header>
+    <div class="teach-record-ledger">
+      <article><span>01</span><h3>Georgia Institute of Technology</h3><p>Instructor of record in Economics and Policy and Principles of Microeconomics; teaching across intermediate economics, game theory, law and economics, sports economics, and graduate econometrics.</p></article>
+      <article><span>02</span><h3>Georgia Tech ECE</h3><p>Graduate teaching support in advanced digital signal processing and adaptive filtering.</p></article>
+      <article><span>03</span><h3>Duke University</h3><p>Teaching support in the Global Executive MBA program, including managerial economics and strategy.</p></article>
+      <article><span>04</span><h3>Indiana University</h3><p>Graduate teaching appointments in principles, game theory, and international trade.</p></article>
+      <article><span>05</span><h3>Campus / MTI College</h3><p>Online instruction in principles of microeconomics and macroeconomics.</p></article>
     </div>
-
-    <div class="credential-list">
-      <li><strong>Georgia Institute of Technology</strong><br />Instructor of record: Economics and Policy; Principles of Microeconomics.</li>
-      <li><strong>Georgia Tech Economics</strong><br />Teaching across principles, intermediate economics, game theory, law and economics, sports economics, and graduate econometrics.</li>
-      <li><strong>Georgia Tech ECE</strong><br />Graduate teaching support in advanced digital signal processing and adaptive filtering.</li>
-      <li><strong>Duke University</strong><br />Teaching support in the Global Executive MBA program, including managerial economics and strategy.</li>
-      <li><strong>Indiana University</strong><br />Graduate teaching appointments in principles, game theory, and international trade.</li>
-      <li><strong>Campus / MTI College</strong><br />Online instructor in principles of microeconomics and macroeconomics.</li>
-    </div>
-
-    <h3>Selected recognition</h3>
-    <ul>
-      <li><strong>Graduate Teaching Assistant of the Year</strong>, Georgia Institute of Technology, 2023.</li>
-      <li><strong>Graduate Teaching Fellow</strong>, Georgia Tech Center for Teaching and Learning; inaugural cohort, 2018–19.</li>
-      <li>Co-leader for new-teaching-assistant orientation at Georgia Tech.</li>
-    </ul>
-  </section>
-
-  <section class="section compact" aria-labelledby="principles-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Pedagogy</span>
-        <h2 id="principles-title">How I teach.</h2>
-      </div>
-    </div>
-
-    <div class="method-grid">
-      <article class="method-card">
-        <h3>Diagnose first</h3>
-        <p>The visible error is often downstream of a missing mental model. We locate that gap before piling on procedures.</p>
-      </article>
-      <article class="method-card">
-        <h3>Move across representations</h3>
-        <p>Words, equations, graphs, code, and real examples should reinforce one another. If one representation fails, we change the angle.</p>
-      </article>
-      <article class="method-card">
-        <h3>Transfer the control</h3>
-        <p>I model the reasoning, then reduce support. The endpoint is your independent ability to reconstruct, test, and defend the argument.</p>
-      </article>
+    <div class="teach-recognition">
+      <span>SELECTED RECOGNITION</span>
+      <p><strong>Graduate Teaching Assistant of the Year</strong> · Georgia Tech · 2023</p>
+      <p><strong>Graduate Teaching Fellow</strong> · Georgia Tech Center for Teaching and Learning · inaugural 2018–19 cohort</p>
+      <p><strong>New-TA orientation co-leader</strong> · Georgia Tech</p>
     </div>
   </section>
 
-  <section class="cta-panel">
-    <span class="section-label">Private or institutional</span>
-    <h2>Bring me the part that still does not make sense.</h2>
-    <p>Tell me the course, method, project, audience, and timeline. I will tell you whether I can help—and the smallest engagement that makes sense.</p>
-    <div class="button-row">
-      <a class="button" href="/work-with-me#inquiry">Start an inquiry</a>
-    </div>
+  <section class="teach-third-space" aria-labelledby="teaching-third-space-title">
+    <span>WHEN A COURSE IS NOT ENOUGH</span>
+    <h2 id="teaching-third-space-title">Serious young researchers<br />need somewhere to begin.</h2>
+    <p>Third Space Fellows is being developed for ambitious undergraduates, graduate students, and serious high-school researchers ready to move from consuming knowledge to producing it.</p>
+    <a href="/third-space">Explore Third Space Labs →</a>
+  </section>
+
+  <section class="teach-cta">
+    <span>PRIVATE OR INSTITUTIONAL</span>
+    <h2>Bring me the part that<br />still does not make sense.</h2>
+    <p>Tell me the course, exam, method, project, audience, and timeline. I will tell you whether I can help—and the smallest useful engagement.</p>
+    <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
   </section>
 </Base>

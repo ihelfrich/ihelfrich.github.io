@@ -1,0 +1,231 @@
+<section id="pathways" class="ih-pathways" aria-labelledby="pathways-title">
+  <header class="ih-section-intro">
+    <div>
+      <span class="ih-section-number">01 / WHERE YOU ENTER</span>
+      <h2 id="pathways-title">Different starting points.<br />The same standard of command.</h2>
+    </div>
+    <p>
+      Test preparation, a difficult course, an MBA model, a dissertation, and an institutional workshop are not the same engagement. Choose your altitude and the route will redraw itself.
+    </p>
+  </header>
+
+  <div class="ih-pathway-interface" data-audience-navigator style="--route-index: 0">
+    <nav class="ih-pathway-tabs" role="tablist" aria-label="Choose your current learning or professional stage">
+      <button id="pathway-tab-high-school" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="pathway-panel" data-audience="high-school"><span>01</span>High school</button>
+      <button id="pathway-tab-undergraduate" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="undergraduate"><span>02</span>Undergraduate</button>
+      <button id="pathway-tab-mba" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="mba"><span>03</span>MBA</button>
+      <button id="pathway-tab-graduate" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="graduate"><span>04</span>Graduate</button>
+      <button id="pathway-tab-research" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="research"><span>05</span>Researcher</button>
+      <button id="pathway-tab-professional" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="professional"><span>06</span>Professional</button>
+      <button id="pathway-tab-team" type="button" role="tab" aria-selected="false" aria-controls="pathway-panel" tabindex="-1" data-audience="team"><span>07</span>Team</button>
+    </nav>
+
+    <div class="ih-pathway-stage">
+      <div class="ih-pathway-drawing" aria-hidden="true">
+        <div class="ih-drawing-label"><span>LEARNING PATH</span><span data-path-code>HS · FOUNDATION</span></div>
+        <svg viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet">
+          <path class="ih-path-grid" d="M40 50H720M40 110H720M40 170H720M40 230H720M40 290H720M110 30V305M280 30V305M450 30V305M620 30V305"></path>
+          <path class="ih-path-shadow" d="M78 258C176 258 178 207 270 207S365 149 452 149S548 79 680 79"></path>
+          <path class="ih-path-live" d="M78 258C176 258 178 207 270 207S365 149 452 149S548 79 680 79"></path>
+          <g class="ih-path-nodes">
+            <circle cx="78" cy="258" r="8"></circle>
+            <circle cx="270" cy="207" r="8"></circle>
+            <circle cx="452" cy="149" r="8"></circle>
+            <circle cx="680" cy="79" r="10"></circle>
+          </g>
+          <g class="ih-path-labels">
+            <text x="78" y="286" text-anchor="middle" data-path-step="0">FOUNDATION</text>
+            <text x="270" y="235" text-anchor="middle" data-path-step="1">STRATEGY</text>
+            <text x="452" y="177" text-anchor="middle" data-path-step="2">FLUENCY</text>
+            <text x="680" y="107" text-anchor="middle" data-path-step="3">INDEPENDENCE</text>
+          </g>
+        </svg>
+        <span class="ih-drawing-caption">The destination is independent judgment, not permanent tutoring.</span>
+      </div>
+
+      <article id="pathway-panel" class="ih-pathway-panel" role="tabpanel" aria-labelledby="pathway-tab-high-school" aria-live="polite">
+        <span class="ih-panel-kicker" data-path-kicker>High school · long runway</span>
+        <h3 data-path-title>Strong foundations. Serious ambition.</h3>
+        <p data-path-copy>
+          Build near-term exam performance without teaching disposable tricks. The same work can become an early apprenticeship in data, evidence, and research.
+        </p>
+        <ul data-path-outcomes>
+          <li>SAT/ACT strategy and quantitative fluency</li>
+          <li>AP coursework and exam preparation</li>
+          <li>Professional-grade research habits before college</li>
+        </ul>
+        <dl class="ih-pathway-meta">
+          <div><dt>Typical material</dt><dd data-path-material>Test strategy · AP subjects · economics · statistics · research</dd></div>
+          <div><dt>Useful first format</dt><dd data-path-format>Private coaching or research-track consultation</dd></div>
+        </dl>
+        <div class="ih-panel-actions">
+          <a class="ih-action" href="/work-with-me#inquiry">Discuss this route</a>
+          <a class="ih-text-link" href="/third-space" data-path-secondary>See Third Space Fellows</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const audienceRoutes = {
+      "high-school": {
+        index: 0,
+        code: "HS · FOUNDATION",
+        kicker: "High school · long runway",
+        title: "Strong foundations. Serious ambition.",
+        copy: "Build near-term exam performance without teaching disposable tricks. The same work can become an early apprenticeship in data, evidence, and research.",
+        outcomes: ["SAT/ACT strategy and quantitative fluency", "AP coursework and exam preparation", "Professional-grade research habits before college"],
+        material: "Test strategy · AP subjects · economics · statistics · research",
+        format: "Private coaching or research-track consultation",
+        steps: ["FOUNDATION", "STRATEGY", "FLUENCY", "INDEPENDENCE"],
+        secondary: "See Third Space Fellows",
+        secondaryHref: "/third-space"
+      },
+      undergraduate: {
+        index: 1,
+        code: "UG · QUANT CORE",
+        kicker: "Undergraduate · connected curriculum",
+        title: "Stop treating every course as a separate emergency.",
+        copy: "Connect mathematical intuition, economic reasoning, software, and interpretation so that each course strengthens the next one.",
+        outcomes: ["Economics, statistics, finance, and quantitative marketing", "R, Stata, Python, Excel, and reproducible workflows", "Independent projects, honors work, and research readiness"],
+        material: "Micro · macro · econometrics · statistics · finance · data",
+        format: "Private session, recurring coaching, or intensive",
+        steps: ["INTUITION", "NOTATION", "COMPUTATION", "APPLICATION"],
+        secondary: "Explore teaching tools",
+        secondaryHref: "/teaching"
+      },
+      mba: {
+        index: 2,
+        code: "MBA · DECISION",
+        kicker: "MBA · decision fluency",
+        title: "Make the model useful in the room where decisions happen.",
+        copy: "Move between finance, quantitative analysis, managerial economics, forecasting, and the concise explanation an executive setting demands.",
+        outcomes: ["Corporate finance and capital-market reasoning", "Quantitative analysis, forecasting, and model interpretation", "Excel workflows and decision-grade communication"],
+        material: "Finance · analytics · economics · statistics · Excel",
+        format: "Focused session or recurring private coaching",
+        steps: ["QUESTION", "MODEL", "DECISION", "DEFENSE"],
+        secondary: "See formats and rates",
+        secondaryHref: "/work-with-me#formats"
+      },
+      graduate: {
+        index: 3,
+        code: "GR · METHODS",
+        kicker: "Graduate · methodological command",
+        title: "Know why the method works—and when it does not.",
+        copy: "For difficult coursework, qualifying exams, theses, and dissertations where memorized recipes collapse under real questioning.",
+        outcomes: ["Graduate econometrics, statistics, micro, macro, and finance", "Qualifying-exam preparation and difficult course recovery", "Thesis and dissertation methods support within clear integrity boundaries"],
+        material: "Inference · identification · theory · code · defense",
+        format: "Methods diagnostic, recurring coaching, or intensive",
+        steps: ["ESTIMAND", "DESIGN", "ESTIMATOR", "CLAIM"],
+        secondary: "Review the integrity policy",
+        secondaryHref: "/work-with-me#integrity"
+      },
+      research: {
+        index: 4,
+        code: "R · IDENTIFICATION",
+        kicker: "Researcher · defensible design",
+        title: "Turn a promising question into work that holds up.",
+        copy: "Clarify the estimand, interrogate the counterfactual, audit the code, and keep the claim inside what the design can support.",
+        outcomes: ["Research design and identification strategy", "Code review, diagnostics, and replication workflows", "Interpretation, presentation, and defense preparation"],
+        material: "Causal inference · econometrics · spatial · networks · policy",
+        format: "Methods diagnostic or structured research engagement",
+        steps: ["QUESTION", "DESIGN", "AUDIT", "CLAIM"],
+        secondary: "See active research",
+        secondaryHref: "/research"
+      },
+      professional: {
+        index: 5,
+        code: "PRO · JUDGMENT",
+        kicker: "Professional · consequential analysis",
+        title: "Build confidence in the reasoning behind the output.",
+        copy: "Learn an unfamiliar method, pressure-test a model, or strengthen the analysis behind a policy, investment, or organizational decision.",
+        outcomes: ["Applied econometrics and statistical modeling", "Economic, finance, policy, and data-workflow fluency", "Clear communication of assumptions, magnitude, and uncertainty"],
+        material: "Models · software · diagnostics · decisions · communication",
+        format: "Private advisory session or scoped engagement",
+        steps: ["CONTEXT", "MODEL", "STRESS TEST", "DECISION"],
+        secondary: "See ways to work together",
+        secondaryHref: "/work-with-me"
+      },
+      team: {
+        index: 6,
+        code: "ORG · SHARED METHOD",
+        kicker: "Department or team · shared capability",
+        title: "Turn tacit expertise into a common operating language.",
+        copy: "Custom instruction built around the methods, tools, and decisions the group actually faces—then captured in materials that survive the workshop.",
+        outcomes: ["Econometrics, causal inference, and quantitative reasoning", "Applied R, Stata, Python, Excel, or data workflows", "Reusable examples, diagnostics, and post-session materials"],
+        material: "Custom curriculum · workshops · cohorts · office hours",
+        format: "Half-day, full-day, cohort, or continuing program",
+        steps: ["BASELINE", "LANGUAGE", "PRACTICE", "TRANSFER"],
+        secondary: "Institutional training",
+        secondaryHref: "/work-with-me#institutions"
+      }
+    };
+
+    document.querySelectorAll("[data-audience-navigator]").forEach((navigator) => {
+      const tabs = Array.from(navigator.querySelectorAll("[data-audience]"));
+      const panel = navigator.querySelector("[role='tabpanel']");
+      const fields = {
+        code: navigator.querySelector("[data-path-code]"),
+        kicker: navigator.querySelector("[data-path-kicker]"),
+        title: navigator.querySelector("[data-path-title]"),
+        copy: navigator.querySelector("[data-path-copy]"),
+        material: navigator.querySelector("[data-path-material]"),
+        format: navigator.querySelector("[data-path-format]")
+      };
+      const outcomes = navigator.querySelector("[data-path-outcomes]");
+      const stepLabels = Array.from(navigator.querySelectorAll("[data-path-step]"));
+      const secondary = navigator.querySelector("[data-path-secondary]");
+
+      const selectAudience = (key, notify = true, moveFocus = false) => {
+        const route = audienceRoutes[key];
+        if (!route) return;
+        navigator.style.setProperty("--route-index", route.index);
+        navigator.dataset.activeAudience = key;
+        tabs.forEach((tab) => {
+          const active = tab.dataset.audience === key;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+          tab.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && panel) panel.setAttribute("aria-labelledby", tab.id);
+        });
+        Object.entries(fields).forEach(([fieldName, element]) => {
+          if (element) element.textContent = route[fieldName];
+        });
+        if (outcomes) {
+          outcomes.replaceChildren(...route.outcomes.map((outcome) => {
+            const item = document.createElement("li");
+            item.textContent = outcome;
+            return item;
+          }));
+        }
+        stepLabels.forEach((label, stepIndex) => { label.textContent = route.steps[stepIndex]; });
+        if (secondary) {
+          secondary.textContent = route.secondary;
+          secondary.setAttribute("href", route.secondaryHref);
+        }
+        if (moveFocus) tabs[route.index]?.focus();
+        if (notify) window.dispatchEvent(new CustomEvent("ih:audience", { detail: { key, source: "navigator" } }));
+      };
+
+      tabs.forEach((tab, tabIndex) => {
+        tab.addEventListener("click", () => selectAudience(tab.dataset.audience));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex = tabIndex;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (tabIndex + 1) % tabs.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (tabIndex - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          selectAudience(tabs[nextIndex].dataset.audience, true, true);
+        });
+      });
+
+      window.addEventListener("ih:audience", (event) => {
+        if (event.detail?.source !== "navigator") selectAudience(event.detail?.key, false);
+      });
+    });
+  })();
+</script>

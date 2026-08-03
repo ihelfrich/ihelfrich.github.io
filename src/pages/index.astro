@@ -1,10 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
-import FieldSignatures from "../components/FieldSignatures.astro";
-import ReasoningInstrument from "../components/ReasoningInstrument.astro";
+import LiveCapabilityField from "../components/LiveCapabilityField.astro";
+import AudienceNavigator from "../components/AudienceNavigator.astro";
+import ConfoundingLab from "../components/ConfoundingLab.astro";
+import ThirdSpacePortal from "../components/ThirdSpacePortal.astro";
 import { getCollection } from "astro:content";
 
-const preferredLabs = ["stats-lab", "inference-lab", "econ101a", "macroprep", "ppd504-studio", "pictures-of-inference"];
+const preferredLabs = ["stats-lab", "inference-lab", "ppd504-studio", "pictures-of-inference"];
 const teaching = await getCollection("teaching");
 const labs = preferredLabs
   .map((id) => teaching.find((entry) => entry.id === id))
@@ -22,230 +24,163 @@ const research = preferredResearch
 ---
 <Base
   wide
-  description="Private econometrics, statistics, and applied-research coaching with Dr. Ian Helfrich—PhD economist, award-winning educator, and creator of open quantitative teaching tools."
+  pageClass="instrument-home"
+  image="/people/ian-editorial.webp"
+  description="Ian Helfrich is a research economist and award-winning educator offering quantitative instruction, research mentorship, and custom training from high school through professional practice."
 >
-  <section class="home-hero" aria-labelledby="home-title">
-    <div class="home-hero-inner">
-      <div class="hero-copy">
-        <div class="hero-folio" aria-hidden="true">
-          <span>Selected private practice · No. 01</span>
-          <span>Atlanta · working worldwide</span>
-        </div>
-        <span class="eyebrow">Private quantitative instruction · Research methods</span>
-        <h1 id="home-title">Make the methods <em>yours.</em></h1>
-        <p class="hero-lead">
-          I help graduate students, researchers, professionals, and teams master econometrics, statistics, and applied economic research well enough to explain—and defend—every decision.
-        </p>
-        <div class="button-row">
-          <a class="button" href="/work-with-me">Explore ways to work together</a>
-          <a class="button secondary" href="/teaching">See the teaching</a>
-        </div>
-        <p class="hero-note">Instruction and coaching—not ghostwriting. Your analysis remains your own.</p>
-      </div>
+  <LiveCapabilityField />
 
-      <div class="hero-portrait" aria-hidden="true">
-        <span class="portrait-coordinate portrait-coordinate-top">FIG. 001 · EDUCATOR / ECONOMIST</span>
-        <span class="portrait-coordinate portrait-coordinate-side">C21 · C55 · L13 · R12</span>
-        <svg class="portrait-orbit" viewBox="0 0 520 680">
-          <ellipse cx="270" cy="350" rx="226" ry="282"></ellipse>
-          <ellipse cx="270" cy="350" rx="168" ry="236"></ellipse>
-          <path d="M44 350H496M270 68V632"></path>
-          <circle cx="438" cy="193" r="6"></circle>
-          <circle cx="93" cy="473" r="4"></circle>
-        </svg>
-        <img src="/people/ian.webp" alt="" width="1200" height="1800" fetchpriority="high" />
-        <div class="hero-seal">
-          <span class="seal-monogram">IH</span>
-          <span class="seal-copy">PhD Economics · Georgia Tech · MMXXIV</span>
-        </div>
-      </div>
-    </div>
+  <section class="ih-evidence" aria-label="Selected evidence">
+    <div><strong>1,200+</strong><span>recent-year teaching hours</span></div>
+    <div><strong>450+</strong><span>students across classrooms and private practice</span></div>
+    <div><strong>5.0</strong><span>average across 175+ public ratings</span></div>
+    <div><strong>2023</strong><span>Georgia Tech Graduate TA of the Year</span></div>
   </section>
 
-  <div class="proof-strip" aria-label="Teaching record">
-    <div class="proof-item">
-      <span class="proof-number">1,200+</span>
-      <span class="proof-label">hours of instruction in the past year</span>
-    </div>
-    <div class="proof-item">
-      <span class="proof-number">450+</span>
-      <span class="proof-label">students taught across universities and private practice</span>
-    </div>
-    <div class="proof-item">
-      <span class="proof-number">5.0</span>
-      <span class="proof-label">average rating across 175+ public ratings</span>
-    </div>
-    <div class="proof-item">
-      <span class="proof-number">2023</span>
-      <span class="proof-label">Georgia Tech Graduate TA of the Year</span>
-    </div>
-  </div>
+  <AudienceNavigator />
+  <ConfoundingLab />
 
-  <section class="positioning-statement">
-    <div>
-      <span class="section-label">What this practice is</span>
-      <h2>Clarity for quantitative work that matters.</h2>
-    </div>
-    <div class="statement-copy">
-      <p>
-        A formula is not understanding. A result is not a research design. And software output is not an argument. My job is to help you connect the economics, the identification strategy, the code, and the interpretation—without taking ownership of the work away from you.
-      </p>
-      <p>
-        This is rigorous, patient, high-context teaching for people who need more than an answer key.
-      </p>
-    </div>
-  </section>
-
-  <ReasoningInstrument />
-
-  <section class="section" aria-labelledby="audience-title">
-    <div class="section-heading">
+  <section class="ih-practice" aria-labelledby="practice-title">
+    <header class="ih-section-intro">
       <div>
-        <span class="section-label">Who I help</span>
-        <h2 id="audience-title">Different stakes. The same standard.</h2>
+        <span class="ih-section-number">03 / THE PRACTICE</span>
+        <h2 id="practice-title">Bring the hard part.<br />We will make it legible.</h2>
       </div>
-      <p>I work selectively so each engagement gets real preparation, continuity, and intellectual attention.</p>
-    </div>
-
-    <div class="audience-grid">
-      <article class="audience-card">
-        <h3>Graduate students</h3>
-        <p>Master's and doctoral students navigating econometrics, statistics, microeconomics, macroeconomics, finance, qualifying exams, or an empirical paper.</p>
-      </article>
-      <article class="audience-card">
-        <h3>Researchers & professionals</h3>
-        <p>Analysts, economists, policy professionals, and research staff who need a sharper model, a defensible empirical strategy, or fluency in unfamiliar methods.</p>
-      </article>
-      <article class="audience-card">
-        <h3>Departments & teams</h3>
-        <p>Universities, research centers, and organizations that need an applied workshop, quantitative bootcamp, or custom instructional program.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="offers-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Ways to work together</span>
-        <h2 id="offers-title">Built around the outcome—not the clock.</h2>
-      </div>
-      <p>One focused session when that is enough. A structured engagement when the problem deserves continuity.</p>
-    </div>
-
-    <div class="offer-grid">
-      <article class="offer-card">
-        <span class="card-tag">One-to-one</span>
-        <h3>Private quantitative coaching</h3>
-        <p>High-context instruction in econometrics, statistics, economics, finance, and quantitative software.</p>
-        <ul>
-          <li>Graduate and advanced undergraduate work</li>
-          <li>R, Stata, Python, Excel, and Julia</li>
-          <li>Recurring or focused sessions</li>
-        </ul>
-      </article>
-
-      <article class="offer-card featured">
-        <span class="card-tag">Structured</span>
-        <h3>Research methods coaching</h3>
-        <p>Methodological guidance for a paper, thesis, dissertation, replication, or applied research project.</p>
-        <ul>
-          <li>Research design and identification</li>
-          <li>Code review and diagnostic reasoning</li>
-          <li>Interpretation and defense preparation</li>
-        </ul>
-      </article>
-
-      <article class="offer-card">
-        <span class="card-tag">Institutional</span>
-        <h3>Workshops & training</h3>
-        <p>Custom instruction that turns a methods gap into working capability for a department, lab, or team.</p>
-        <ul>
-          <li>Econometrics and causal inference</li>
-          <li>Applied R, Stata, and data workflows</li>
-          <li>Half-day, full-day, and cohort formats</li>
-        </ul>
-      </article>
-    </div>
-
-    <div class="button-row">
-      <a class="button" href="/work-with-me">See formats, rates, and fit</a>
-    </div>
-  </section>
-
-  <section class="ethics-panel" aria-labelledby="ethics-title">
-    <div>
-      <span class="section-label">The non-negotiable</span>
-      <h2 id="ethics-title">Your work stays yours.</h2>
-    </div>
-    <div>
       <p>
-        I will teach, question, demonstrate, debug alongside you, review reasoning, and help you prepare to defend your choices. I will not take an exam, complete graded work, fabricate analysis, or ghostwrite research.
+        The format follows the problem: one precise intervention when that is enough, or a sustained engagement when judgment has to be built over time.
       </p>
-      <p><strong>The goal is not dependence. It is command.</strong></p>
+    </header>
+
+    <div class="ih-service-ledger">
+      <article>
+        <span class="ih-ledger-index">01</span>
+        <div>
+          <span class="ih-ledger-type">PRIVATE INSTRUCTION</span>
+          <h3>Quantitative command</h3>
+        </div>
+        <p>Economics, statistics, econometrics, finance, test strategy, and technical software—taught as connected systems rather than isolated tricks.</p>
+        <ul>
+          <li>High school · undergraduate · MBA · graduate</li>
+          <li>SAT/ACT · AP · R · Stata · Python · Excel</li>
+        </ul>
+        <a href="/work-with-me#private">View format →</a>
+      </article>
+
+      <article>
+        <span class="ih-ledger-index">02</span>
+        <div>
+          <span class="ih-ledger-type">RESEARCH MENTORSHIP</span>
+          <h3>From question to defensible claim</h3>
+        </div>
+        <p>High-context guidance through estimands, design, identification, implementation, diagnostics, interpretation, and the defense of consequential work.</p>
+        <ul>
+          <li>Independent projects · theses · dissertations · papers</li>
+          <li>Design review · code review · defense preparation</li>
+        </ul>
+        <a href="/work-with-me#research">View format →</a>
+      </article>
+
+      <article>
+        <span class="ih-ledger-index">03</span>
+        <div>
+          <span class="ih-ledger-type">TEAMS + INSTITUTIONS</span>
+          <h3>Shared methods that survive the workshop</h3>
+        </div>
+        <p>Custom quantitative instruction, research bootcamps, and learning systems designed around the decisions a real department, lab, or organization makes.</p>
+        <ul>
+          <li>Workshops · cohorts · curriculum architecture</li>
+          <li>Econometrics · causal inference · data workflows</li>
+        </ul>
+        <a href="/work-with-me#institutions">View format →</a>
+      </article>
+    </div>
+
+    <div class="ih-practice-close">
+      <p><strong>Instruction, never substitution.</strong> I teach, question, demonstrate, review, and debug alongside you. I do not take exams, fabricate analysis, or ghostwrite work.</p>
+      <a class="ih-action" href="/work-with-me">See fit, formats, and rates</a>
     </div>
   </section>
 
-  <FieldSignatures />
+  <ThirdSpacePortal />
 
-  <section class="section" aria-labelledby="labs-title">
-    <div class="section-heading">
+  <section class="ih-tools" aria-labelledby="tools-title">
+    <header class="ih-section-intro">
       <div>
-        <span class="section-label">Proof of teaching</span>
-        <h2 id="labs-title">The classroom extends beyond the call.</h2>
+        <span class="ih-section-number">04 / INSTRUMENTS LEFT RUNNING</span>
+        <h2 id="tools-title">Teaching should leave<br />working infrastructure behind.</h2>
       </div>
-      <p>I build the resources I wish every quantitative course had: visual, worked, interactive, and grounded in real tools.</p>
-    </div>
+      <p>
+        I build open, interactive environments where learners can alter assumptions, inspect calculations, and practice until the logic becomes their own.
+      </p>
+    </header>
 
-    <div class="lab-grid">
-      {labs.map((lab) => lab && (
-        <article class="lab-card">
-          <span class="card-tag">{lab.data.audience}</span>
-          <h3>{lab.data.title}</h3>
+    <div class="ih-tool-index">
+      {labs.map((lab, index) => lab && (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div><small>{lab.data.audience}</small><h3>{lab.data.title}</h3></div>
           <p>{lab.data.blurb}</p>
-          <a class="lab-link" href={lab.data.url} target="_blank" rel="noopener">Explore the resource →</a>
+          <a href={lab.data.url} target="_blank" rel="noopener"><span class="sr-only">Open {lab.data.title}</span>↗</a>
         </article>
       ))}
     </div>
-
-    <div class="button-row">
-      <a class="button secondary" href="/teaching">Teaching record and full library</a>
-    </div>
+    <a class="ih-index-link" href="/teaching">Open the complete teaching record + tool library →</a>
   </section>
 
-  <aside class="proof-quote" aria-label="Teaching philosophy">
-    <blockquote>
-      The best session ends with you needing me less—not because the problem got easier, but because your mental model got stronger.
-    </blockquote>
-    <cite>Ian Helfrich · teaching philosophy</cite>
-  </aside>
-
-  <section class="section compact" aria-labelledby="research-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Active scholarship</span>
-        <h2 id="research-title">I teach the work because I do the work.</h2>
+  <section class="ih-profile" aria-labelledby="profile-title">
+    <figure class="ih-profile-image">
+      <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" loading="lazy" />
+      <figcaption>IAN T. S. HELFRICH · ECONOMIST / EDUCATOR</figcaption>
+    </figure>
+    <div class="ih-profile-copy">
+      <span class="ih-section-number">05 / THE PERSON IN THE ROOM</span>
+      <h2 id="profile-title">A research economist<br />who builds the instruments.</h2>
+      <p class="ih-profile-lead">
+        I am a Georgia Tech–trained economist, quantitative researcher, and award-winning educator. My work lives at the junction of econometrics, networks, labor, trade, spatial analysis, and the difficult craft of explaining how we know what we think we know.
+      </p>
+      <div class="ih-profile-notes">
+        <p><span>RESEARCH</span>AI and labor · trade and networks · place-based policy · spatial econometrics</p>
+        <p><span>TEACHING</span>Patient enough for first principles · rigorous enough for a dissertation defense</p>
+        <p><span>TOOLS</span>R · Stata · Python · Julia · GIS · reproducible research systems</p>
       </div>
-      <p>Current research spans labor and AI, international trade, spatial econometrics, networks, and place-based policy.</p>
+      <div class="ih-profile-links">
+        <a href="/about">Read the full background →</a>
+        <a href="/cv">Open CV →</a>
+      </div>
     </div>
+    <blockquote>
+      “The best session ends with you needing me less—not because the problem got easier, but because your mental model got stronger.”
+    </blockquote>
+  </section>
 
-    <ul class="h-row-list">
-      {research.map((paper) => paper && (
-        <li class="h-row">
-          <div class="h-row-meta">{paper.data.year} · {paper.data.status}</div>
-          <h3 class="h-row-title"><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3>
-          <p class="h-row-summary">{paper.data.authors.join(", ")}</p>
+  <section class="ih-research" aria-labelledby="research-title">
+    <header class="ih-section-intro">
+      <div>
+        <span class="ih-section-number">06 / ACTIVE SCHOLARSHIP</span>
+        <h2 id="research-title">I teach the work<br />because I do the work.</h2>
+      </div>
+      <p>Current inquiry spans AI and the training ladder, international trade, economic networks, spatial inequality, and place-based policy.</p>
+    </header>
+
+    <ol class="ih-research-ledger">
+      {research.map((paper, index) => paper && (
+        <li>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div><small>{paper.data.year} · {paper.data.status}</small><h3><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3></div>
+          <p>{paper.data.authors.join(" · ")}</p>
         </li>
       ))}
-    </ul>
-    <a class="card-arrow" href="/research">View the complete research program →</a>
+    </ol>
+    <a class="ih-index-link" href="/research">View the complete research program →</a>
   </section>
 
-  <section class="cta-panel">
-    <span class="section-label">Start with fit</span>
-    <h2>Tell me what you are trying to understand—or build.</h2>
-    <p>A short inquiry is enough. I will tell you plainly whether I am the right person, what format makes sense, and what it will cost.</p>
-    <div class="button-row">
-      <a class="button" href="/work-with-me#inquiry">Start an inquiry</a>
+  <section class="ih-inquiry" aria-labelledby="inquiry-title">
+    <span class="ih-section-number">07 / START WITH THE REAL PROBLEM</span>
+    <h2 id="inquiry-title">What are you trying<br />to understand—or build?</h2>
+    <p>A short note is enough. I will tell you plainly whether I am the right person, what format makes sense, and what it will cost.</p>
+    <div>
+      <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
+      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
     </div>
   </section>
 </Base>
