@@ -1,0 +1,113 @@
+<section class="relay" aria-labelledby="relay-title" data-representation-relay style="--relay-x: 40%; --relay-y: 46%">
+  <header class="relay-head">
+    <span>TEACHING INSTRUMENT / REPRESENTATION RELAY</span>
+    <h2 id="relay-title">One relationship.<br />Five ways to catch a mistake.</h2>
+    <p>Move the price. The sentence, table, equation, graph, and code all update from the same demand curve. If one representation stops making sense, the others give us another way in.</p>
+  </header>
+
+  <div class="relay-shell">
+    <aside class="relay-control">
+      <div class="relay-control-top"><span>INPUT / PRICE</span><output data-relay-price>$20</output></div>
+      <label for="relay-price">Change the price</label>
+      <input id="relay-price" type="range" min="10" max="35" step="1" value="20" data-relay-input />
+      <div class="relay-scale"><span>$10</span><span>$35</span></div>
+      <dl>
+        <div><dt>Demand rule</dt><dd>Q = 90 − 2P</dd></div>
+        <div><dt>Slope</dt><dd>−2 units / $1</dd></div>
+        <div><dt>Current elasticity</dt><dd data-relay-elasticity>−0.80</dd></div>
+        <div><dt>Revenue</dt><dd data-relay-revenue>$1,000</dd></div>
+      </dl>
+      <button type="button" data-relay-reset>Return to $20</button>
+    </aside>
+
+    <div class="relay-stage">
+      <article class="relay-cell relay-sentence">
+        <span>01 / WORDS</span>
+        <p>At <strong data-relay-price-word>$20</strong>, buyers demand <strong data-relay-quantity-word>50 units</strong>. One more dollar reduces quantity by two units along this curve.</p>
+      </article>
+
+      <article class="relay-cell relay-equation">
+        <span>02 / EQUATION</span>
+        <div><i>Q</i> = 90 − 2(<b data-relay-price-equation>20</b>) = <strong data-relay-quantity-equation>50</strong></div>
+      </article>
+
+      <article class="relay-cell relay-table">
+        <span>03 / TABLE</span>
+        <table>
+          <thead><tr><th>Price</th><th>Quantity</th><th>Revenue</th></tr></thead>
+          <tbody><tr><td data-relay-price-table>$20</td><td data-relay-quantity-table>50</td><td data-relay-revenue-table>$1,000</td></tr></tbody>
+        </table>
+      </article>
+
+      <article class="relay-cell relay-graph">
+        <span>04 / GRAPH</span>
+        <svg viewBox="0 0 560 310" role="img" aria-labelledby="relay-graph-title relay-graph-desc">
+          <title id="relay-graph-title">Linear demand curve</title>
+          <desc id="relay-graph-desc">A demand curve defined by quantity equals ninety minus two times price. The active point updates with the price slider.</desc>
+          <g class="relay-grid" aria-hidden="true"><path d="M60 30V260H530M60 76H530M60 122H530M60 168H530M60 214H530M154 30V260M248 30V260M342 30V260M436 30V260"></path></g>
+          <path class="relay-demand" d="M154 242L483 35"></path>
+          <line class="relay-guide relay-guide-x" x1="60" y1="154" x2="248" y2="154" data-relay-guide-x></line>
+          <line class="relay-guide relay-guide-y" x1="248" y1="154" x2="248" y2="260" data-relay-guide-y></line>
+          <circle class="relay-point" cx="248" cy="154" r="8" data-relay-point></circle>
+          <g class="relay-labels" aria-hidden="true"><text x="60" y="285">0</text><text x="530" y="285" text-anchor="end">QUANTITY</text><text x="42" y="35" text-anchor="end">PRICE</text><text x="489" y="31">Q = 90 − 2P</text></g>
+          <text class="relay-point-label" x="263" y="143" data-relay-point-label>P $20 / Q 50</text>
+        </svg>
+      </article>
+
+      <article class="relay-cell relay-code">
+        <span>05 / CODE</span>
+        <pre><code><i>price</i> &lt;- <b data-relay-price-code>20</b>
+quantity &lt;- 90 - 2 * <i>price</i>
+revenue &lt;- <i>price</i> * quantity
+
+# quantity: <b data-relay-quantity-code>50</b>
+# revenue:  <b data-relay-revenue-code>1000</b></code></pre>
+      </article>
+    </div>
+  </div>
+
+  <footer class="relay-foot"><span><i></i>ALL FIVE VIEWS SHARE ONE STATE</span><span>MOVE THE SLIDER / WATCH FOR DISAGREEMENT</span><a href="/teaching#open-tools">OPEN THE TEACHING LIBRARY →</a></footer>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-representation-relay]").forEach((relay) => {
+      const input = relay.querySelector("[data-relay-input]");
+      if (!(input instanceof HTMLInputElement)) return;
+      const one = (selector) => relay.querySelector(selector);
+      const all = (selector) => relay.querySelectorAll(selector);
+      const money = (value) => `$${Number(value).toLocaleString("en-US")}`;
+      const update = () => {
+        const price = Number(input.value);
+        const quantity = 90 - 2 * price;
+        const revenue = price * quantity;
+        const elasticity = -2 * price / quantity;
+        all("[data-relay-price]").forEach((field) => field.textContent = money(price));
+        all("[data-relay-price-word]").forEach((field) => field.textContent = money(price));
+        all("[data-relay-price-equation], [data-relay-price-code]").forEach((field) => field.textContent = String(price));
+        one("[data-relay-price-table]").textContent = money(price);
+        one("[data-relay-quantity-word]").textContent = `${quantity} units`;
+        all("[data-relay-quantity-equation], [data-relay-quantity-table], [data-relay-quantity-code]").forEach((field) => field.textContent = String(quantity));
+        one("[data-relay-elasticity]").textContent = `−${Math.abs(elasticity).toFixed(2)}`;
+        one("[data-relay-revenue]").textContent = money(revenue);
+        one("[data-relay-revenue-table]").textContent = money(revenue);
+        one("[data-relay-revenue-code]").textContent = String(revenue);
+        const x = 60 + quantity / 100 * 470;
+        const y = 260 - price / 50 * 230;
+        const point = one("[data-relay-point]");
+        const guideX = one("[data-relay-guide-x]");
+        const guideY = one("[data-relay-guide-y]");
+        const label = one("[data-relay-point-label]");
+        point?.setAttribute("cx", String(x)); point?.setAttribute("cy", String(y));
+        guideX?.setAttribute("y1", String(y)); guideX?.setAttribute("y2", String(y)); guideX?.setAttribute("x2", String(x));
+        guideY?.setAttribute("x1", String(x)); guideY?.setAttribute("x2", String(x)); guideY?.setAttribute("y1", String(y));
+        label?.setAttribute("x", String(Math.min(445, x + 15))); label?.setAttribute("y", String(Math.max(24, y - 11)));
+        if (label) label.textContent = `P $${price} / Q ${quantity}`;
+        relay.style.setProperty("--relay-progress", `${(price - 10) / 25 * 100}%`);
+      };
+      input.addEventListener("input", update);
+      relay.querySelector("[data-relay-reset]")?.addEventListener("click", () => { input.value = "20"; update(); input.focus(); });
+      update();
+    });
+  })();
+</script>

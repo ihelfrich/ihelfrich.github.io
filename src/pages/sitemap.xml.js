@@ -12,6 +12,7 @@ const staticRoutes = [
   "/projects/",
   "/datasets/",
   "/writing/",
+  "/library/",
   "/talks/",
   "/people/",
   "/program/",

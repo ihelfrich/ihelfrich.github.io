@@ -1,0 +1,57 @@
+<aside class="field-rail" aria-label="Page position" data-field-rail>
+  <span class="field-rail-current" data-field-current>OPENING FIELD</span>
+  <div class="field-rail-track"><i data-field-progress aria-hidden="true"></i><nav aria-label="Sections on this page" data-field-markers></nav></div>
+  <output data-field-coordinate>000</output>
+</aside>
+
+<script is:inline>
+  (() => {
+    const rail = document.querySelector("[data-field-rail]");
+    if (!rail) return;
+    const current = rail.querySelector("[data-field-current]");
+    const progress = rail.querySelector("[data-field-progress]");
+    const markers = rail.querySelector("[data-field-markers]");
+    const coordinate = rail.querySelector("[data-field-coordinate]");
+    let sections = [];
+    let frame = 0;
+
+    const labelFor = (section, index) => {
+      const heading = section.querySelector("h1, h2");
+      return section.dataset.railLabel || heading?.textContent?.replace(/\s+/g, " ").trim() || `FIELD ${index + 1}`;
+    };
+
+    const build = () => {
+      sections = Array.from(document.querySelectorAll("main > section, main > div > section"))
+        .filter((section) => section.querySelector("h1, h2") && section.getBoundingClientRect().height > 120)
+        .map((section, index) => ({ section, label: labelFor(section, index), top: section.offsetTop }));
+      if (!markers) return;
+      markers.replaceChildren(...sections.map((entry, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.setAttribute("aria-label", `Go to ${entry.label}`);
+        button.title = entry.label;
+        button.style.top = `${sections.length > 1 ? index / (sections.length - 1) * 100 : 0}%`;
+        button.addEventListener("click", () => entry.section.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
+        return button;
+      }));
+      update();
+    };
+
+    const update = () => {
+      frame = 0;
+      const available = document.documentElement.scrollHeight - innerHeight;
+      const ratio = available > 0 ? Math.max(0, Math.min(1, scrollY / available)) : 0;
+      if (progress) progress.style.transform = `scaleY(${ratio})`;
+      if (coordinate) coordinate.textContent = String(Math.round(ratio * 999)).padStart(3, "0");
+      const probe = scrollY + innerHeight * .38;
+      let active = 0;
+      sections.forEach((entry, index) => { if (entry.top <= probe) active = index; });
+      if (current && sections[active]) current.textContent = sections[active].label;
+      markers?.querySelectorAll("button").forEach((marker, index) => marker.classList.toggle("is-active", index === active));
+    };
+
+    addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
+    addEventListener("resize", build);
+    if (document.fonts?.ready) document.fonts.ready.then(build); else build();
+  })();
+</script>

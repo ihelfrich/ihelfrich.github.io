@@ -3,128 +3,73 @@ import Base from "../layouts/Base.astro";
 ---
 <Base
   wide
+  pageClass="about-page"
   title="About"
-  description="Ian Helfrich is a PhD economist, award-winning educator, applied researcher, and builder of open quantitative teaching tools based in St. Louis, Missouri."
+  image="/people/ian-editorial.webp"
+  description="Ian Helfrich is a research economist, award-winning educator, and builder of public quantitative instruments based in St. Louis, Missouri."
 >
-  <header class="page-hero">
-    <span class="eyebrow">Economist · Educator · Builder</span>
-    <h1>I make difficult quantitative ideas usable.</h1>
-    <p class="kicker">
-      I am Ian Helfrich, a Georgia Tech–trained economist and educator based in St. Louis. My work moves between private teaching, applied economic research, and the tools that make both of those activities better.
-    </p>
-    <div class="button-row">
-      <a class="button" href="/work-with-me">Work with me</a>
-      <a class="button secondary" href="/cv">View my CV</a>
-    </div>
-  </header>
-
-  <section class="positioning-statement">
-    <div>
-      <span class="section-label">The through-line</span>
-      <h2>Structure first. Then technique.</h2>
-    </div>
-    <div class="statement-copy">
-      <p>
-        Whether I am teaching an econometrics student, designing an empirical strategy, or building a research tool, I am usually solving the same problem: turning a complicated system into a structure someone can inspect, test, and use.
-      </p>
-      <p>
-        My doctoral training is in international trade, networks, spatial heterogeneity, and optimal transport. My applied work spans labor and AI, place-based policy, causal inference, geospatial measurement, and quantitative research infrastructure.
-      </p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="modes-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">One practice, three modes</span>
-        <h2 id="modes-title">Teaching, research, and construction.</h2>
-      </div>
-      <p>Each mode disciplines the others: research keeps the teaching honest; teaching exposes weak explanations; building turns recurring needs into durable tools.</p>
-    </div>
-
-    <div class="method-grid">
-      <article class="method-card">
-        <h3>Teaching</h3>
-        <p>More than 1,200 hours in a recent teaching year, 450+ students, a 5.0 average across 175+ public ratings, and Georgia Tech's 2023 Graduate Teaching Assistant of the Year award.</p>
-        <a class="card-arrow" href="/teaching">Teaching record →</a>
-      </article>
-      <article class="method-card">
-        <h3>Research</h3>
-        <p>Active work in labor and AI, international trade, spatial and policy econometrics, networks, place-based investment, and quantitative measurement.</p>
-        <a class="card-arrow" href="/research">Research program →</a>
-      </article>
-      <article class="method-card">
-        <h3>Tools</h3>
-        <p>Open instructional sites, empirical viewers, datasets, research pipelines, and computational infrastructure in Python, R, Stata, Julia, Go, and modern web tools.</p>
-        <a class="card-arrow" href="/projects">Projects and tools →</a>
+  <section class="ab-hero" aria-labelledby="ab-title">
+    <div class="ab-topline"><span>IAN T. S. HELFRICH / PHD</span><span>RESEARCH ECONOMIST · EDUCATOR · INSTRUMENT BUILDER</span><span>ST. LOUIS / WORLDWIDE</span></div>
+    <div class="ab-hero-grid">
+      <figure>
+        <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" />
+        <figcaption>PORTRAIT / IAN HELFRICH</figcaption>
+      </figure>
+      <article>
+        <span>THE THROUGH-LINE</span>
+        <h1 id="ab-title">I find the choice<br />hiding in the <em>number.</em></h1>
+        <p>I am an economist, teacher, and instrument builder in St. Louis. My research asks what a familiar metric forgot. My teaching asks which mental model broke first. The software gives both questions somewhere to run.</p>
+        <div><a class="ih-action" href="/work-with-me">Work with me</a><a href="/cv">Open the CV →</a></div>
       </article>
     </div>
+    <div class="ab-hero-ledger"><span>GEORGIA TECH / ECONOMICS PHD / 2024</span><span>1,200+ RECENT-YEAR TEACHING HOURS</span><span>13 PUBLIC TOOLS</span><span>TEACHING AWARD / 2023</span></div>
   </section>
 
-  <section class="section" aria-labelledby="education-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Training</span>
-        <h2 id="education-title">An unusually interdisciplinary economics education.</h2>
-      </div>
-      <p>Economics is the core, with serious training in geographic information science, public policy, networks, and quantitative methods.</p>
-    </div>
-
-    <ul class="credential-list">
-      <li><strong>PhD, Economics</strong><br />Georgia Institute of Technology, 2024</li>
-      <li><strong>MS, Geographic Information Science & Technology</strong><br />Georgia Institute of Technology, 2022</li>
-      <li><strong>MS, Economics</strong><br />Georgia Institute of Technology, 2019</li>
-      <li><strong>MA, Economics</strong><br />Indiana University Bloomington, 2018</li>
-      <li><strong>MSc, Economics & Public Policy</strong><br />Barcelona School of Economics, 2015</li>
-      <li><strong>BA, Economics</strong><br />University of North Carolina at Chapel Hill, 2014</li>
-    </ul>
-  </section>
-
-  <section class="ethics-panel" aria-labelledby="teaching-title">
+  <section class="ab-thesis" aria-labelledby="ab-thesis-title">
+    <span>01 / THE RECURRING PROBLEM</span>
+    <h2 id="ab-thesis-title">A result becomes trusted.<br />Its construction disappears.</h2>
     <div>
-      <span class="section-label">Why teaching remains central</span>
-      <h2 id="teaching-title">Explanation is a form of analysis.</h2>
+      <p>The raw rural credit gap looked like a fact about rural markets. Add the identity of the intermediary and 82.2 percent of the coefficient disappears. Static geographic distance looks harmless until a canal closes, a drought changes a route, or a corridor comes under attack.</p>
+      <p>I keep returning to that moment. What did the measure assume? Which comparison produced the estimate? What changes when the assumption moves? I build the model, figure, viewer, or lesson that lets another person answer those questions directly.</p>
     </div>
+  </section>
+
+  <section class="ab-modes" aria-labelledby="ab-modes-title">
+    <header><span>02 / ONE PRACTICE · THREE MODES</span><h2 id="ab-modes-title">The research, teaching,<br />and code correct one another.</h2><p>Research keeps the lesson honest. Teaching exposes the sentence that still does not work. Building turns the recurring explanation into a public object.</p></header>
     <div>
-      <p>I have taught or supported instruction at Georgia Tech, Duke University, Indiana University, and online degree programs, from principles courses through graduate econometrics and engineering signal processing.</p>
-      <p><strong>A good explanation is not a simplified version of expertise. It is one of the strongest tests of it.</strong></p>
+      <article><span>R / 01</span><strong>8,024</strong><h3>Projects changed the policy target.</h3><p>The NMTC decomposition moved the rural leverage question upstream to intermediary allocation.</p><a href="/research">Open the research record →</a></article>
+      <article><span>T / 02</span><strong>1,200+</strong><h3>Hours made the diagnosis faster.</h3><p>High school, undergraduate, MBA, graduate, research, and professional work reveal the first broken link at different scales.</p><a href="/teaching">Open the teaching record →</a></article>
+      <article><span>B / 03</span><strong>13</strong><h3>Tools kept the explanation running.</h3><p>Viewers, observatories, laboratories, atlases, and research pipelines let a visitor change the input and inspect what follows.</p><a href="/projects">Open the tools →</a></article>
     </div>
   </section>
 
-  <section class="section compact" aria-labelledby="selected-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Selected recognition</span>
-        <h2 id="selected-title">Awards and service.</h2>
-      </div>
-    </div>
-    <ul>
-      <li><strong>Graduate Teaching Assistant of the Year</strong>, Georgia Institute of Technology, 2023.</li>
-      <li><strong>Senator of the Year</strong>, Georgia Tech Graduate Student Government, 2020.</li>
-      <li><strong>Graduate Teaching Fellow</strong>, Georgia Tech Center for Teaching and Learning, inaugural cohort.</li>
-      <li><strong>Referee</strong>, <em>Journal of Economic Theory</em>, 2025.</li>
-      <li><strong>Public Policy Thesis Competition finalist</strong>, Barcelona School of Economics, 2015.</li>
-    </ul>
+  <section class="ab-training" aria-labelledby="ab-training-title">
+    <header><span>03 / FORMAL TRAINING</span><h2 id="ab-training-title">Economics at the core.<br />Space, policy, and networks in the room.</h2><p>Six degrees built the range. The questions now move through trade, labor, causal inference, remote sensing, spatial analysis, and quantitative education.</p></header>
+    <ol>
+      <li><span>2024</span><div><small>PHD · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>Network centrality · spatial heterogeneity · optimal transport · quantitative psychology minor</p></div></li>
+      <li><span>2022</span><div><small>MS · GEOGRAPHIC INFORMATION SCIENCE + TECHNOLOGY</small><h3>Georgia Institute of Technology</h3><p>Remote sensing · spatial analysis · geospatial computation</p></div></li>
+      <li><span>2019</span><div><small>MS · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>International trade · economic networks · applied econometrics</p></div></li>
+      <li><span>2018</span><div><small>MA · ECONOMICS</small><h3>Indiana University Bloomington</h3><p>Trade · game theory · financial networks</p></div></li>
+      <li><span>2015</span><div><small>MSC · ECONOMICS + PUBLIC POLICY</small><h3>Barcelona School of Economics</h3><p>Applied policy analysis · thesis competition finalist</p></div></li>
+      <li><span>2014</span><div><small>BA · ECONOMICS</small><h3>University of North Carolina at Chapel Hill</h3><p>Economics · political science</p></div></li>
+    </ol>
   </section>
 
-  <section class="section compact" aria-labelledby="outside-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Beyond economics</span>
-        <h2 id="outside-title">A teacher in more than one room.</h2>
-      </div>
-    </div>
-    <p>
-      I am also a third-degree black belt and longtime instructor in Sin Moo HapKiDo. That practice shaped much of how I think about instruction: demonstrate precisely, decompose movement, protect the learner while they fail, and gradually transfer control.
-    </p>
+  <section class="ab-teaching" aria-labelledby="ab-teaching-title">
+    <div><span>04 / WHY TEACHING STAYED</span><h2 id="ab-teaching-title">If I cannot explain the step,<br />I may not understand the step.</h2></div>
+    <div><p>I have taught or supported instruction at Georgia Tech, Duke University, Indiana University, and online degree programs. The rooms range from principles courses and SAT preparation to graduate econometrics, executive MBA work, engineering signal processing, dissertations, and professional methods training.</p><blockquote>Georgia Tech Graduate Teaching Assistant of the Year · 2023</blockquote></div>
   </section>
 
-  <section class="cta-panel">
-    <span class="section-label">St. Louis · Working worldwide</span>
-    <h2>Have a methods problem worth thinking through?</h2>
-    <p>Private coaching, institutional teaching, research collaboration, and speaking inquiries each have a clear route.</p>
-    <div class="button-row">
-      <a class="button" href="/contact">Choose the right contact path</a>
-    </div>
+  <section class="ab-dojo" aria-labelledby="ab-dojo-title">
+    <span>05 / ANOTHER CLASSROOM</span>
+    <h2 id="ab-dojo-title">Before I taught econometrics,<br />I taught people how to fall.</h2>
+    <div><strong>3°</strong><p>I am a third-degree black belt and have taught Sin Moo HapKiDo since 2007. That room taught me to demonstrate precisely, decompose movement, protect the learner while failure is still useful, and remove support as control returns.</p></div>
+  </section>
+
+  <section class="ab-cta" aria-labelledby="ab-cta-title">
+    <span>06 / ST. LOUIS · WORKING WORLDWIDE</span>
+    <h2 id="ab-cta-title">What number are you<br />no longer willing to trust?</h2>
+    <p>Send the course, model, dataset, paper, decision, or institutional problem. I will tell you where I would start.</p>
+    <div><a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a><a href="/library">Search the public work →</a></div>
   </section>
 </Base>

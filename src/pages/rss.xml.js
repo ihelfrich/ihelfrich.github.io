@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 export async function GET(context) {
   const writing = (await getCollection('writing')).filter(p => !p.data.draft);
   const research = await getCollection('research');
+  const datasets = await getCollection('datasets');
+  const projects = await getCollection('projects');
+  const talks = await getCollection('talks');
 
   const items = [
     ...writing.map(p => ({
@@ -19,12 +22,33 @@ export async function GET(context) {
       description: r.data.abstract,
       link: `/research/${r.id}/`,
       categories: ['research', ...r.data.tags]
+    })),
+    ...datasets.map(d => ({
+      title: `[data] ${d.data.title}`,
+      pubDate: new Date(`${d.data.year}-01-02`),
+      description: d.data.blurb,
+      link: `/datasets/${d.id}/`,
+      categories: ['dataset', d.data.status, ...d.data.tags]
+    })),
+    ...projects.map(p => ({
+      title: `[tool] ${p.data.title}`,
+      pubDate: p.data.date,
+      description: p.data.blurb,
+      link: p.data.url ?? `/projects/${p.id}/`,
+      categories: ['tool', p.data.status, ...p.data.tags]
+    })),
+    ...talks.map(t => ({
+      title: `[talk] ${t.data.title}`,
+      pubDate: t.data.date,
+      description: t.data.abstract ?? `${t.data.type} at ${t.data.venue}.`,
+      link: '/talks/',
+      categories: ['talk', t.data.type]
     }))
   ].sort((a, b) => +b.pubDate - +a.pubDate);
 
   return rss({
     title: 'Ian Helfrich',
-    description: 'Applied causal inference, blended-finance research, and teaching.',
+    description: 'Papers, datasets, essays, research tools, talks, and teaching from Ian Helfrich.',
     site: context.site,
     items
   });

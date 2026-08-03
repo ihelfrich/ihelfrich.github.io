@@ -1,26 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
-import LiveCapabilityField from "../components/LiveCapabilityField.astro";
+import SpecificationWorkbench from "../components/SpecificationWorkbench.astro";
 import AudienceNavigator from "../components/AudienceNavigator.astro";
-import ConfoundingLab from "../components/ConfoundingLab.astro";
 import ThirdSpacePortal from "../components/ThirdSpacePortal.astro";
-import { getCollection } from "astro:content";
-
-const preferredLabs = ["stats-lab", "inference-lab", "ppd504-studio", "pictures-of-inference"];
-const teaching = await getCollection("teaching");
-const labs = preferredLabs
-  .map((id) => teaching.find((entry) => entry.id === id))
-  .filter(Boolean);
-
-const researchCollection = await getCollection("research");
-const preferredResearch = [
-  "helfrich-vardanyan-2026-ai-entry-level-labor",
-  "gonchar-helfrich-2025-spotlight",
-  "helfrich-2026-nmtc-rural-gap",
-];
-const research = preferredResearch
-  .map((id) => researchCollection.find((entry) => entry.id === id))
-  .filter(Boolean);
+import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.astro";
 ---
 <Base
   wide
@@ -28,7 +11,7 @@ const research = preferredResearch
   image="/people/ian-editorial.webp"
   description="Ian Helfrich is a research economist and award-winning educator offering quantitative instruction, research mentorship, and custom training from high school through professional practice."
 >
-  <LiveCapabilityField />
+  <SpecificationWorkbench />
 
   <section class="ih-evidence" aria-label="Selected evidence">
     <div><strong>1,200+</strong><span>recent-year teaching hours</span></div>
@@ -38,16 +21,15 @@ const research = preferredResearch
   </section>
 
   <AudienceNavigator />
-  <ConfoundingLab />
 
   <section class="ih-practice" aria-labelledby="practice-title">
     <header class="ih-section-intro">
       <div>
-        <span class="ih-section-number">03 / THE PRACTICE</span>
-        <h2 id="practice-title">Bring the hard part.<br />We will make it legible.</h2>
+        <span class="ih-section-number">02 / THE PRACTICE</span>
+        <h2 id="practice-title">Show me where<br />the reasoning breaks.</h2>
       </div>
       <p>
-        The format follows the problem: one precise intervention when that is enough, or a sustained engagement when judgment has to be built over time.
+        Sometimes the fix is one missing idea. Sometimes a student needs a semester of connected work. Sometimes a research design has to be taken apart before it can be trusted. I scope those problems differently.
       </p>
     </header>
 
@@ -56,9 +38,9 @@ const research = preferredResearch
         <span class="ih-ledger-index">01</span>
         <div>
           <span class="ih-ledger-type">PRIVATE INSTRUCTION</span>
-          <h3>Quantitative command</h3>
+          <h3>Find the missing model</h3>
         </div>
-        <p>Economics, statistics, econometrics, finance, test strategy, and technical software—taught as connected systems rather than isolated tricks.</p>
+        <p>A wrong answer is often the last visible link in a longer chain. We find the first weak link, rebuild it, and test whether the idea survives a new problem.</p>
         <ul>
           <li>High school · undergraduate · MBA · graduate</li>
           <li>SAT/ACT · AP · R · Stata · Python · Excel</li>
@@ -70,9 +52,9 @@ const research = preferredResearch
         <span class="ih-ledger-index">02</span>
         <div>
           <span class="ih-ledger-type">RESEARCH MENTORSHIP</span>
-          <h3>From question to defensible claim</h3>
+          <h3>Make the design answer the question</h3>
         </div>
-        <p>High-context guidance through estimands, design, identification, implementation, diagnostics, interpretation, and the defense of consequential work.</p>
+        <p>We state the object, decide what comparison could identify it, inspect the code, and keep the final claim inside what the evidence can carry.</p>
         <ul>
           <li>Independent projects · theses · dissertations · papers</li>
           <li>Design review · code review · defense preparation</li>
@@ -84,9 +66,9 @@ const research = preferredResearch
         <span class="ih-ledger-index">03</span>
         <div>
           <span class="ih-ledger-type">TEAMS + INSTITUTIONS</span>
-          <h3>Shared methods that survive the workshop</h3>
+          <h3>Put the team’s real problem on screen</h3>
         </div>
-        <p>Custom quantitative instruction, research bootcamps, and learning systems designed around the decisions a real department, lab, or organization makes.</p>
+        <p>I build the training around the models, data, and decisions already on the team’s desk. The examples and diagnostics stay with the group after I leave.</p>
         <ul>
           <li>Workshops · cohorts · curriculum architecture</li>
           <li>Econometrics · causal inference · data workflows</li>
@@ -96,36 +78,14 @@ const research = preferredResearch
     </div>
 
     <div class="ih-practice-close">
-      <p><strong>Instruction, never substitution.</strong> I teach, question, demonstrate, review, and debug alongside you. I do not take exams, fabricate analysis, or ghostwrite work.</p>
+      <p><strong>Your judgment is the deliverable.</strong> I teach, question, demonstrate, review, and debug alongside you. I do not take exams, fabricate analysis, or ghostwrite work.</p>
       <a class="ih-action" href="/work-with-me">See fit, formats, and rates</a>
     </div>
   </section>
 
   <ThirdSpacePortal />
 
-  <section class="ih-tools" aria-labelledby="tools-title">
-    <header class="ih-section-intro">
-      <div>
-        <span class="ih-section-number">04 / INSTRUMENTS LEFT RUNNING</span>
-        <h2 id="tools-title">Teaching should leave<br />working infrastructure behind.</h2>
-      </div>
-      <p>
-        I build open, interactive environments where learners can alter assumptions, inspect calculations, and practice until the logic becomes their own.
-      </p>
-    </header>
-
-    <div class="ih-tool-index">
-      {labs.map((lab, index) => lab && (
-        <article>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <div><small>{lab.data.audience}</small><h3>{lab.data.title}</h3></div>
-          <p>{lab.data.blurb}</p>
-          <a href={lab.data.url} target="_blank" rel="noopener"><span class="sr-only">Open {lab.data.title}</span>↗</a>
-        </article>
-      ))}
-    </div>
-    <a class="ih-index-link" href="/teaching">Open the complete teaching record + tool library →</a>
-  </section>
+  <PublicArchiveSwitchboard />
 
   <section class="ih-profile" aria-labelledby="profile-title">
     <figure class="ih-profile-image">
@@ -136,11 +96,11 @@ const research = preferredResearch
       <span class="ih-section-number">05 / THE PERSON IN THE ROOM</span>
       <h2 id="profile-title">A research economist<br />who builds the instruments.</h2>
       <p class="ih-profile-lead">
-        I am a Georgia Tech–trained economist, quantitative researcher, and award-winning educator. My work lives at the junction of econometrics, networks, labor, trade, spatial analysis, and the difficult craft of explaining how we know what we think we know.
+        I am a Georgia Tech-trained economist, quantitative researcher, and award-winning educator. I work across econometrics, labor, trade, networks, spatial analysis, and the harder question underneath all of them: how did this number become evidence?
       </p>
       <div class="ih-profile-notes">
         <p><span>RESEARCH</span>AI and labor · trade and networks · place-based policy · spatial econometrics</p>
-        <p><span>TEACHING</span>Patient enough for first principles · rigorous enough for a dissertation defense</p>
+        <p><span>TEACHING</span>SAT and AP foundations · undergraduate and MBA coursework · graduate methods · professional training</p>
         <p><span>TOOLS</span>R · Stata · Python · Julia · GIS · reproducible research systems</p>
       </div>
       <div class="ih-profile-links">
@@ -149,35 +109,14 @@ const research = preferredResearch
       </div>
     </div>
     <blockquote>
-      “The best session ends with you needing me less—not because the problem got easier, but because your mental model got stronger.”
+      “The best session ends when you can find the next mistake before I do.”
     </blockquote>
   </section>
 
-  <section class="ih-research" aria-labelledby="research-title">
-    <header class="ih-section-intro">
-      <div>
-        <span class="ih-section-number">06 / ACTIVE SCHOLARSHIP</span>
-        <h2 id="research-title">I teach the work<br />because I do the work.</h2>
-      </div>
-      <p>Current inquiry spans AI and the training ladder, international trade, economic networks, spatial inequality, and place-based policy.</p>
-    </header>
-
-    <ol class="ih-research-ledger">
-      {research.map((paper, index) => paper && (
-        <li>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <div><small>{paper.data.year} · {paper.data.status}</small><h3><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3></div>
-          <p>{paper.data.authors.join(" · ")}</p>
-        </li>
-      ))}
-    </ol>
-    <a class="ih-index-link" href="/research">View the complete research program →</a>
-  </section>
-
   <section class="ih-inquiry" aria-labelledby="inquiry-title">
-    <span class="ih-section-number">07 / START WITH THE REAL PROBLEM</span>
-    <h2 id="inquiry-title">What are you trying<br />to understand—or build?</h2>
-    <p>A short note is enough. I will tell you plainly whether I am the right person, what format makes sense, and what it will cost.</p>
+    <span class="ih-section-number">06 / START WITH THE REAL PROBLEM</span>
+    <h2 id="inquiry-title">Where does the<br />reasoning break?</h2>
+    <p>Send the problem, what you have tried, and the actual deadline. I will tell you whether I can help, what the smallest useful engagement is, and what it costs.</p>
     <div>
       <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
       <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>

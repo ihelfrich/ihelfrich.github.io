@@ -1,11 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
+import ThirdSpaceSeam from "../components/ThirdSpaceSeam.astro";
 ---
 <Base
   wide
   pageClass="third-space-page"
   title="Third Space Labs"
-  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizabeth Vardanyan to develop emerging researchers and share serious work in the open."
+  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizaveta Gonchar, Ph.D., to develop emerging researchers and share research in the open."
 >
   <section class="ts-page-hero" aria-labelledby="ts-page-title">
     <div class="ts-page-topline">
@@ -23,10 +24,10 @@ import Base from "../layouts/Base.astro";
 
     <div class="ts-page-hero-grid">
       <span class="ts-page-folio">FOUNDING DIRECTION · 2026</span>
-      <h1 id="ts-page-title">Serious work<br />starts <em>between.</em></h1>
+      <h1 id="ts-page-title">The question<br />lives <em>between.</em></h1>
       <div>
         <p>
-          Third Space Labs develops researchers—not just research. We are building the place between university and industry where ambitious people can form consequential questions, learn credible methods, and publish work they own.
+          Third Space Labs is the independent research venture Elizaveta Gonchar and I are building between university and industry. A participant enters with a question. They leave with a method, a public object, and work they can defend under their own name.
         </p>
         <a href="#rooms">Explore the four arms ↓</a>
       </div>
@@ -35,50 +36,52 @@ import Base from "../layouts/Base.astro";
 
   <section class="ts-page-thesis" aria-labelledby="ts-thesis-title">
     <span>THE GAP</span>
-    <h2 id="ts-thesis-title">People are often ready<br />before institutions let them be.</h2>
+    <h2 id="ts-thesis-title">Ability often arrives<br />before access.</h2>
     <div>
       <p>
-        Access to real research is still organized around titles, departments, and scarce invitations. The result is a familiar dead zone: capable students and independent researchers can be ready to contribute while lacking the mentorship, methods infrastructure, collaborators, or publication path that makes contribution possible.
+        A student can be ready to collect data before anyone is ready to give them a title. An independent researcher can have the question and lack the methods infrastructure, collaborators, or publication path needed to carry it.
       </p>
       <p>
-        Third Space is designed to remove that gate without lowering the standard. Participants are expected to ask precise questions, make their design legible, revise honestly, and share the resulting work in the open.
+        Third Space is being built for that interval. Participants ask precise questions, expose their design choices, revise when the evidence moves, and share the resulting object in public.
       </p>
     </div>
   </section>
 
   <section class="ts-principle-strip" aria-label="Third Space principles">
-    <span>Independence over affiliation</span>
-    <span>Rigor without gatekeeping</span>
-    <span>Students as principal researchers</span>
-    <span>Work shared in the open</span>
+    <span>Question before credential</span>
+    <span>Method before prestige</span>
+    <span>Authors own their work</span>
+    <span>Versions remain public</span>
   </section>
+
+  <ThirdSpaceSeam />
 
   <section id="rooms" class="ts-page-rooms" aria-labelledby="ts-rooms-title">
     <header>
       <span>THE ARCHITECTURE</span>
       <h2 id="ts-rooms-title">Four arms.<br />One research commons.</h2>
-      <p>Each arm solves a different part of the access problem. Together they create a path from first question to public contribution.</p>
+      <p>Each arm leaves a different object behind: a project, a citable record, a method someone else can inspect, or a researcher ready for the next question.</p>
     </header>
     <ol>
       <li>
         <span>01</span>
-        <div><small>LAB</small><h3>Do the work.</h3></div>
-        <p>Mentored research projects structured around consequential questions, credible designs, and real ownership.</p>
+        <div><small>LAB</small><h3>Put a real question on the table.</h3></div>
+        <p>Mentored projects begin with a question whose answer is genuinely unknown and a design the participant can explain.</p>
       </li>
       <li>
         <span>02</span>
-        <div><small>PAPERS</small><h3>Let the work travel.</h3></div>
-        <p>An open path for careful, citable research and a visible record of method, revision, and contribution.</p>
+        <div><small>PAPERS</small><h3>Give the work a citable address.</h3></div>
+        <p>The public record includes the question, method, versions, limits, and contribution.</p>
       </li>
       <li>
         <span>03</span>
-        <div><small>METHODS</small><h3>Expose how rigor is made.</h3></div>
-        <p>Instruction, protocols, examples, and reusable infrastructure that make research decisions inspectable.</p>
+        <div><small>METHODS</small><h3>Show the choice inside the method.</h3></div>
+        <p>Protocols, examples, and reusable infrastructure make each research decision available for inspection.</p>
       </li>
       <li>
         <span>04</span>
-        <div><small>FELLOWS</small><h3>Develop the researcher.</h3></div>
-        <p>A mentored path for ambitious undergraduates, graduate students, and serious high-school researchers.</p>
+        <div><small>FELLOWS</small><h3>Let the researcher arrive early.</h3></div>
+        <p>A mentored path for undergraduates, graduate students, and high-school researchers ready to own the work.</p>
       </li>
     </ol>
   </section>
@@ -86,35 +89,35 @@ import Base from "../layouts/Base.astro";
   <section class="ts-page-process" aria-labelledby="ts-process-title">
     <header>
       <span>THE PATH</span>
-      <h2 id="ts-process-title">Interest becomes inquiry.<br />Inquiry becomes a contribution.</h2>
+      <h2 id="ts-process-title">Question. Method.<br />Public object.</h2>
     </header>
     <ol>
-      <li><span>01</span><h3>Join by interest.</h3><p>Begin with a question, subject, system, or unresolved problem that merits serious attention.</p></li>
-      <li><span>02</span><h3>Mentor + train.</h3><p>Build the methodological command, habits, and research infrastructure the question requires.</p></li>
-      <li><span>03</span><h3>Publish in the open.</h3><p>Make the question, method, limits, and contribution available for others to inspect and extend.</p></li>
+      <li><span>01</span><h3>Name what you do not know.</h3><p>Begin with the smallest version of the question that can meet evidence.</p></li>
+      <li><span>02</span><h3>Build what the question requires.</h3><p>Learn the method, habits, and research infrastructure while using them on the actual object.</p></li>
+      <li><span>03</span><h3>Leave a record someone can inspect.</h3><p>Publish the question, method, limits, versions, and contribution in the open.</p></li>
     </ol>
   </section>
 
   <section class="ts-page-founders" aria-labelledby="ts-founders-title">
     <header>
       <span>CO-FOUNDERS</span>
-      <h2 id="ts-founders-title">Built by researchers<br />who are also teachers.</h2>
+      <h2 id="ts-founders-title">Two economists.<br />One shared laboratory.</h2>
     </header>
     <div class="ts-founder-grid">
       <article>
         <span>IAN T. S. HELFRICH · PHD</span>
         <h3>Research economist.<br />Instrument builder.</h3>
-        <p>Ian works across econometrics, labor, trade, networks, spatial analysis, and quantitative education. His practice centers on making difficult research systems legible enough for other people to command.</p>
+        <p>Ian works across econometrics, labor, trade, networks, spatial analysis, and quantitative education. He builds the public instrument and traces the choice hiding inside the result.</p>
         <a href="/about">Ian’s background →</a>
       </article>
       <article>
-        <span>ELIZABETH VARDANYAN · PHD</span>
+        <span>ELIZAVETA GONCHAR · PHD</span>
         <h3>Spatial economist.<br />Methods architect.</h3>
-        <p>Liz is an economist and geospatial researcher whose work brings spatial reasoning, careful measurement, and institutional knowledge into applied questions that cross disciplinary boundaries.</p>
-        <a href="/research">Shared research →</a>
+        <p>Elizaveta is a spatial economist and Ian’s fiancée and frequent coauthor. Their joint work covers effective distance, trade, satellite-calibrated measurement, and Ukraine’s wartime economic reorganization.</p>
+        <a href="/people/elizaveta-gonchar">Elizaveta’s research record →</a>
       </article>
     </div>
-    <p class="ts-founder-note">Partners since 2013 · coauthors · twelve degrees between them · based in St. Louis</p>
+    <p class="ts-founder-note">Partners since 2013 · engaged · coauthors · economists · based in St. Louis</p>
   </section>
 
   <section class="ts-page-invitation" aria-labelledby="ts-invitation-title">

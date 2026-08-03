@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import AudienceNavigator from "../../components/AudienceNavigator.astro";
+import RepresentationRelay from "../../components/RepresentationRelay.astro";
 import { getCollection } from "astro:content";
 
 const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date - +a.data.date);
@@ -12,12 +13,12 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
   description="Ian Helfrich teaches quantitative reasoning from SAT, ACT, AP, and undergraduate foundations through MBA coursework, graduate econometrics, research design, and professional methods training."
 >
   <header class="teach-hero" aria-labelledby="teach-title">
-    <div class="teach-hero-folio"><span>TEACHING RECORD · OPEN CURRICULUM · PRIVATE PRACTICE</span><span>ST. LOUIS · WORLDWIDE</span></div>
+    <div class="teach-hero-folio"><span>1,200+ RECENT-YEAR HOURS · HIGH SCHOOL THROUGH PHD · TEAMS</span><span>ST. LOUIS · WORLDWIDE</span></div>
     <div class="teach-hero-grid">
-      <span>EDUCATION AS TRANSFER OF CONTROL</span>
-      <h1 id="teach-title">Teaching<br /><em>is the work.</em></h1>
+      <span>START WITH THE FIRST BROKEN LINK</span>
+      <h1 id="teach-title">The mistake<br /><em>is usually earlier.</em></h1>
       <div>
-        <p>I connect intuition, formal reasoning, software, and evidence until a learner can diagnose the next problem without waiting for me to appear.</p>
+        <p>A bad regression coefficient may begin as an algebra gap. A finance model may fail because the units changed three steps ago. An SAT plateau may come from a review system that records answers and loses reasons. I find the first break.</p>
         <div><a class="ih-action" href="/work-with-me">Work with me</a><a href="#open-tools">Open the tool library ↓</a></div>
       </div>
     </div>
@@ -30,14 +31,16 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
     <div><strong>2023</strong><span>Georgia Tech teaching award</span></div>
   </section>
 
+  <RepresentationRelay />
+
   <AudienceNavigator />
 
   <section class="teach-standard" aria-labelledby="standard-title">
     <span>THE STANDARD</span>
-    <h2 id="standard-title">Do not memorize<br />what you can reconstruct.</h2>
+    <h2 id="standard-title">Recognition is fragile.<br />Reconstruction holds.</h2>
     <div>
-      <p>Quantitative education often separates concepts that belong together: a model from its assumptions, an estimator from its identification strategy, code from its output, and output from a defensible claim.</p>
-      <p>I put those pieces back together. The objective is not to make difficult material look easy. It is to make it navigable—and eventually yours.</p>
+      <p>Quantitative education often separates concepts that belong together: the model from its assumptions, the estimator from its identifying comparison, the code from its output, and the output from the sentence it can support.</p>
+      <p>I put the chain back on the table. We move through words, equations, graphs, code, and evidence until you can rebuild the argument when the surface details change.</p>
     </div>
   </section>
 
@@ -45,7 +48,7 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
     <header class="teach-section-head">
       <span>OPEN TEACHING LIBRARY</span>
       <h2 id="library-title">Built for use.<br />Left running.</h2>
-      <p>Working instructional environments with code, visual models, practice, and real data—continuously revised through actual teaching.</p>
+      <p>These are working environments with code, visual models, practice, and real data. I revise them when an actual student exposes a better way to teach the idea.</p>
     </header>
     <div class="teach-tool-ledger">
       {teaching.map((item, index) => (
@@ -65,17 +68,17 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
       <h2 id="method-title">Diagnosis.<br />Representation.<br />Independence.</h2>
     </header>
     <ol>
-      <li><span>01 / DIAGNOSE</span><h3>Find the missing mental model.</h3><p>The visible error is often downstream of a conceptual gap. We locate that gap before piling on procedures.</p></li>
-      <li><span>02 / TRANSLATE</span><h3>Move across representations.</h3><p>Words, equations, graphs, code, and real examples should reinforce one another. When one angle fails, we change it.</p></li>
-      <li><span>03 / TRANSFER</span><h3>Return control to the learner.</h3><p>I model the reasoning, then reduce support. The endpoint is your ability to reconstruct, test, and defend the argument.</p></li>
+      <li><span>01 / DIAGNOSE</span><h3>Trace the error upstream.</h3><p>We ask for the last step you trust, then test it. The first weak link sets the lesson.</p></li>
+      <li><span>02 / TRANSLATE</span><h3>Make the idea survive a new form.</h3><p>Words, equations, graphs, code, and real examples should agree. A disagreement tells us exactly where to look.</p></li>
+      <li><span>03 / TRANSFER</span><h3>Take my hand off the wheel.</h3><p>I model the reasoning, reduce support, and change the surface details. You finish by testing and defending the argument yourself.</p></li>
     </ol>
   </section>
 
   <section class="teach-integrity" aria-labelledby="integrity-title">
-    <header><span>ACADEMIC INTEGRITY</span><h2 id="integrity-title">Support without substitution.</h2></header>
+    <header><span>ACADEMIC INTEGRITY</span><h2 id="integrity-title">Your name stays attached to your work.</h2></header>
     <div>
       <p>I teach concepts, build parallel examples, inspect reasoning, review code alongside you, diagnose research designs, and prepare you to explain your decisions.</p>
-      <p>I do not take assessments, produce graded work, invent results, or serve as an undisclosed author or analyst. <strong>Learning is the product.</strong></p>
+      <p>I do not take assessments, produce graded work, invent results, or serve as an undisclosed author or analyst. <strong>You have to be able to defend every line.</strong></p>
     </div>
   </section>
 
@@ -102,15 +105,15 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
 
   <section class="teach-third-space" aria-labelledby="teaching-third-space-title">
     <span>WHEN A COURSE IS NOT ENOUGH</span>
-    <h2 id="teaching-third-space-title">Serious young researchers<br />need somewhere to begin.</h2>
-    <p>Third Space Fellows is being developed for ambitious undergraduates, graduate students, and serious high-school researchers ready to move from consuming knowledge to producing it.</p>
+    <h2 id="teaching-third-space-title">A young researcher needs<br />a real question to begin.</h2>
+    <p>Third Space Fellows is being developed for undergraduates, graduate students, and high-school researchers ready to own the question, method, revision, and public record.</p>
     <a href="/third-space">Explore Third Space Labs →</a>
   </section>
 
   <section class="teach-cta">
     <span>PRIVATE OR INSTITUTIONAL</span>
-    <h2>Bring me the part that<br />still does not make sense.</h2>
-    <p>Tell me the course, exam, method, project, audience, and timeline. I will tell you whether I can help—and the smallest useful engagement.</p>
+    <h2>Bring me the last step<br />you still trust.</h2>
+    <p>Tell me the course, exam, method, project, audience, and timeline. I will trace forward from there and tell you the smallest useful engagement.</p>
     <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
   </section>
 </Base>

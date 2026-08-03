@@ -12,13 +12,16 @@ const post = await getEntry("writing", slug);
 const { Content } = await render(post);
 const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 ---
-<Base title={post.data.title} description={post.data.summary}>
+<Base wide pageClass="record-page record-writing" title={post.data.title} description={post.data.summary}>
   <article class="h-article">
     <header>
-      <div class="h-article-meta">{fmt(post.data.date)}{post.data.updated ? ` · updated ${fmt(post.data.updated)}` : ""}{post.data.tags.length > 0 ? ` · ${post.data.tags.join(", ")}` : ""}</div>
+      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>ESSAY / NOTE</span><span><i></i>PUBLISHED</span></div>
+      <div class="h-article-meta">{fmt(post.data.date)}{post.data.updated ? ` · updated ${fmt(post.data.updated)}` : ""}{post.data.tags.length > 0 ? ` · ${post.data.tags.join(" · ")}` : ""}</div>
       <h1>{post.data.title}</h1>
-      {post.data.subtitle && <p style="color: var(--ink-soft); font-size: 1.1rem; margin-top: 0.4rem;">{post.data.subtitle}</p>}
+      <p class="record-authors">Ian Helfrich</p>
+      <p class="record-deck">{post.data.subtitle ?? post.data.summary}</p>
     </header>
-    <Content />
+    <div class="record-body"><Content /></div>
+    <footer class="record-end"><span>END OF NOTE</span><a href="/writing">All essays + notes →</a><a href="/rss.xml">Follow by RSS →</a></footer>
   </article>
 </Base>

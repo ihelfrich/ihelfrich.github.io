@@ -1,19 +1,21 @@
 ---
 import "../styles/global.css";
 import "../styles/instrument.css";
+import SiteIndex from "../components/SiteIndex.astro";
+import FieldRail from "../components/FieldRail.astro";
 
 const {
   title,
   description,
   wide = false,
-  image = "/people/ian.webp",
+  image = "/people/ian-editorial.webp",
   noindex = false,
   pageClass = "",
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} — ${siteTitle}` : `${siteTitle} | Quantitative Education & Research Mentorship`;
-const desc = description ?? "Quantitative instruction and research mentorship from high school through graduate study, professional practice, and institutional training.";
+const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Quantitative Education & Research Mentorship`;
+const desc = description ?? "Research economist and award-winning educator building public quantitative instruments, private mentorship, and institutional training from St. Louis.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
@@ -58,7 +60,7 @@ const personSchema = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
   <meta name="author" content="Dr. Ian Helfrich" />
-  <meta name="theme-color" content="#102a43" />
+  <meta name="theme-color" content="#121426" />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
@@ -99,24 +101,28 @@ const personSchema = {
       <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
         <a href="/work-with-me" aria-current={isActive("/work-with-me") ? "page" : undefined}>Work with me</a>
         <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
-        <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
-        <a href="/projects" aria-current={isActive("/projects") ? "page" : undefined}>Tools</a>
+        <a href="/library" aria-current={isActive("/library") ? "page" : undefined}>Public work</a>
         <a href="/third-space" aria-current={isActive("/third-space") ? "page" : undefined}>Third Space</a>
         <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
+        <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
         <a href="/work-with-me#inquiry" class="nav-cta">Start an inquiry</a>
       </nav>
     </div>
   </header>
 
+  <SiteIndex />
+
   <main id="main-content" class:list={[wide && "wide"]}>
     <slot />
   </main>
+
+  <FieldRail />
 
   <footer class="site-footer">
     <div class="site-footer-inner">
       <div class="footer-intro">
         <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-        <p>High-stakes quantitative work, taught with clarity.</p>
+        <p>I find the choice hiding inside the number.</p>
         <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
       </div>
 
@@ -129,24 +135,27 @@ const personSchema = {
           <a href="/third-space">Third Space Labs</a>
         </div>
         <div>
-          <strong>Background</strong>
+          <strong>Public work</strong>
+          <a href="/library">Complete index</a>
           <a href="/research">Research</a>
+          <a href="/datasets">Datasets</a>
+          <a href="/writing">Essays + notes</a>
           <a href="/projects">Projects</a>
-          <a href="/cv">CV</a>
         </div>
         <div>
           <strong>Connect</strong>
           <a href="mailto:ianthelfrich@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+          <a href="/rss.xml">RSS</a>
         </div>
       </div>
     </div>
     <div class="site-footer-bottom">
       <span>© {year} Ian Helfrich</span>
-      <span>Instruction and coaching only—your work remains your own.</span>
-      <span class="footer-colophon">Set in Newsreader · Geist · Geist Mono</span>
-      <a href="/rss.xml">RSS</a>
+      <span>Instruction and coaching only. Your work remains your own.</span>
+      <span class="footer-colophon">Set in Bodoni Moda · Newsreader · Geist · Geist Mono</span>
+      <button type="button" data-index-open>INDEX /</button>
     </div>
   </footer>
 

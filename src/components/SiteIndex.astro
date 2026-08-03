@@ -1,0 +1,154 @@
+---
+import { getCollection } from "astro:content";
+
+const [research, writing, datasets, projects, teaching] = await Promise.all([
+  getCollection("research"),
+  getCollection("writing", ({ data }) => !data.draft),
+  getCollection("datasets"),
+  getCollection("projects"),
+  getCollection("teaching"),
+]);
+
+const records = [
+  { kind: "Go", code: "GO-01", title: "Work with Ian", detail: "Private instruction, research mentorship, and institutional training", href: "/work-with-me" },
+  { kind: "Go", code: "GO-02", title: "Teaching", detail: "Open teaching tools, record, and pedagogy", href: "/teaching" },
+  { kind: "Go", code: "GO-03", title: "Public index", detail: "Papers, data, essays, tools, and talks in one searchable record", href: "/library" },
+  { kind: "Go", code: "GO-04", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
+  { kind: "Go", code: "GO-05", title: "About Ian", detail: "Background, research program, and current work", href: "/about" },
+  { kind: "Go", code: "GO-06", title: "Curriculum vitae", detail: "Appointments, teaching, papers, awards, and methods", href: "/cv" },
+  ...research.map((entry, index) => ({
+    kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
+    title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.status}`, href: `/research/${entry.id}`,
+  })),
+  ...datasets.map((entry, index) => ({
+    kind: "Data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
+    title: entry.data.title, detail: `${entry.data.status} · ${entry.data.license}`, href: `/datasets/${entry.id}`,
+  })),
+  ...writing.map((entry, index) => ({
+    kind: "Essay", code: `W-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`,
+    title: entry.data.title, detail: entry.data.summary, href: `/writing/${entry.id}`,
+  })),
+  ...projects.map((entry, index) => ({
+    kind: "Tool", code: `T-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`,
+    title: entry.data.title, detail: `${entry.data.status} · ${entry.data.blurb}`, href: entry.data.url ?? `/projects/${entry.id}`,
+    external: Boolean(entry.data.url),
+  })),
+  ...teaching.map((entry, index) => ({
+    kind: "Teach", code: `L-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`,
+    title: entry.data.title, detail: `${entry.data.audience} · ${entry.data.blurb}`, href: entry.data.url, external: true,
+  })),
+];
+---
+
+<dialog class="site-index" data-site-index aria-labelledby="site-index-title">
+  <div class="site-index-shell">
+    <header class="site-index-head">
+      <div>
+        <span>IAN HELFRICH / PUBLIC WORKSTATION</span>
+        <strong id="site-index-title">Find anything.</strong>
+      </div>
+      <button type="button" data-index-close aria-label="Close site index">ESC <i>×</i></button>
+    </header>
+
+    <div class="site-index-query">
+      <label for="site-index-input">Search the site</label>
+      <span aria-hidden="true">/</span>
+      <input id="site-index-input" type="search" autocomplete="off" placeholder="paper, method, dataset, person, problem…" data-index-query />
+      <output data-index-count>{records.length} records</output>
+    </div>
+
+    <div class="site-index-columns" aria-hidden="true">
+      <span>ACCESSION</span><span>TYPE</span><span>RECORD</span><span>OPEN</span>
+    </div>
+    <nav class="site-index-results" aria-label="Search results" data-index-results>
+      {records.map((record) => (
+        <a
+          href={record.href}
+          target={record.external ? "_blank" : undefined}
+          rel={record.external ? "noopener" : undefined}
+          data-index-record
+          data-search={`${record.kind} ${record.code} ${record.title} ${record.detail}`.toLowerCase()}
+        >
+          <span>{record.code}</span>
+          <small>{record.kind}</small>
+          <div><strong>{record.title}</strong><p>{record.detail}</p></div>
+          <i aria-hidden="true">{record.external ? "↗" : "→"}</i>
+        </a>
+      ))}
+      <p class="site-index-empty" data-index-empty hidden>No record matches that query.</p>
+    </nav>
+
+    <footer class="site-index-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> MOVE</span>
+      <span><kbd>ENTER</kbd> OPEN</span>
+      <span><kbd>ESC</kbd> CLOSE</span>
+      <a href="/library">OPEN THE COMPLETE PUBLIC INDEX →</a>
+    </footer>
+  </div>
+</dialog>
+
+<script is:inline>
+  (() => {
+    const dialog = document.querySelector("[data-site-index]");
+    if (!(dialog instanceof HTMLDialogElement)) return;
+    const input = dialog.querySelector("[data-index-query]");
+    const records = Array.from(dialog.querySelectorAll("[data-index-record]"));
+    const count = dialog.querySelector("[data-index-count]");
+    const empty = dialog.querySelector("[data-index-empty]");
+    let visible = records;
+    let active = -1;
+
+    const setActive = (index) => {
+      visible.forEach((record) => record.classList.remove("is-active"));
+      if (!visible.length) { active = -1; return; }
+      active = (index + visible.length) % visible.length;
+      visible[active].classList.add("is-active");
+      visible[active].scrollIntoView({ block: "nearest" });
+    };
+
+    const filter = () => {
+      const query = input?.value.trim().toLowerCase() ?? "";
+      visible = records.filter((record) => {
+        const match = !query || record.dataset.search.includes(query);
+        record.hidden = !match;
+        return match;
+      });
+      if (count) count.textContent = `${visible.length} ${visible.length === 1 ? "record" : "records"}`;
+      if (empty) empty.hidden = visible.length > 0;
+      setActive(visible.length ? 0 : -1);
+    };
+
+    const open = () => {
+      if (!dialog.open) dialog.showModal();
+      document.documentElement.classList.add("index-is-open");
+      if (input instanceof HTMLInputElement) {
+        input.value = "";
+        filter();
+        window.setTimeout(() => input.focus(), 0);
+      }
+    };
+    const close = () => {
+      dialog.close();
+      document.documentElement.classList.remove("index-is-open");
+    };
+
+    document.querySelectorAll("[data-index-open]").forEach((button) => button.addEventListener("click", open));
+    dialog.querySelector("[data-index-close]")?.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) close(); });
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); close(); });
+    dialog.addEventListener("close", () => document.documentElement.classList.remove("index-is-open"));
+    input?.addEventListener("input", filter);
+    input?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") { event.preventDefault(); setActive(active + 1); }
+      else if (event.key === "ArrowUp") { event.preventDefault(); setActive(active - 1); }
+      else if (event.key === "Enter" && active >= 0) { event.preventDefault(); visible[active]?.click(); }
+    });
+    document.addEventListener("keydown", (event) => {
+      const target = event.target;
+      const editing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable;
+      if (event.key === "Escape" && dialog.open) { event.preventDefault(); close(); }
+      else if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); dialog.open ? close() : open(); }
+      else if (event.key === "/" && !editing && !dialog.open) { event.preventDefault(); open(); }
+    });
+  })();
+</script>

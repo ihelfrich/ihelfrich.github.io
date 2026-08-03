@@ -1,6 +1,6 @@
 ---
 title: "AI and the Entry-Level Labor Market"
-authors: ["Ian Helfrich", "S. Vardanyan"]
+authors: ["Ian Helfrich", "Shane Vardanyan"]
 year: 2026
 status: "working paper"
 abstract: "Studies how exposure to generative AI is reshaping early-career employment in the United States. The empirical design combines continuous-exposure event-study and triple-difference estimates using Current Population Survey microdata, with attention to heterogeneous changes across occupations and experience levels."

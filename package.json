@@ -7,8 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes",
+    "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes",
     "build:fast": "astro build",
+    "check:copy": "node scripts/check-site-copy.mjs",
+    "check": "npm run check:copy && npm run build:fast",
     "preview": "astro preview",
     "astro": "astro",
     "fetch-spokes": "node scripts/fetch-spokes.mjs",

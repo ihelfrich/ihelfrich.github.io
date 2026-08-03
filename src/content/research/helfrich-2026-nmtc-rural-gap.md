@@ -6,7 +6,7 @@ status: "working paper"
 venue: "SSRN preprint (forthcoming)"
 ssrn: ""
 repo: "https://github.com/ihelfrich/us-nmtc-viewer"
-abstract: "Decomposes the rural-versus-urban leverage gap in the U.S. New Markets Tax Credit using CDE (Community Development Entity) fixed effects. The raw gap of −0.262*** in private-leverage ratio collapses to −0.047 (p = 0.64, insignificant) once between-CDE selection is absorbed. Approximately 80% of the aggregate rural penalty is between-CDE allocation, not within-CDE deployment. The rural mobilization debate is therefore an intermediary-selection problem, not a market-structure problem, with direct implications for CDFI Fund allocation rules."
+abstract: "Decomposes the rural-versus-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The raw private-leverage gap of −0.262 falls to −0.047 (p = 0.64) after CDE identity enters the model. The coefficient loses 82.2 percent of its magnitude. The decomposition moves the policy target upstream, from rural project markets to the CDFI Fund rules that determine which intermediaries receive allocation authority."
 tags: ["nmtc", "blended-finance", "rural", "intermediary-FE"]
 ---
 

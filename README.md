@@ -16,7 +16,7 @@ npm run dev
 Production build:
 
 ```sh
-npm run build:fast
+npm run build
 npm run preview
 ```
 
@@ -25,11 +25,17 @@ npm run preview
 - `src/pages/` — routes and commercial pages
 - `src/content/teaching/` — courses and open teaching tools
 - `src/content/research/` — papers and active research pages
+- `src/content/datasets/` — public datasets and release records
 - `src/content/projects/` — software, viewers, and research infrastructure
 - `src/content/writing/` — essays and notes
+- `src/content/talks/` — talks, seminars, and workshops
+- `src/pages/library.astro` — unified public index
+- `src/pages/archive.json.js` — machine-readable public catalogue
 - `src/layouts/Base.astro` — global metadata, navigation, and footer
-- `src/styles/global.css` — design system and responsive layout
+- `src/styles/instrument.css` — editorial, interaction, and responsive design system
 - `public/cv/` — public CV documents
+
+Publishing conventions are documented in `PUBLISHING.md`; the visual and motion rules are documented in `DESIGN_SYSTEM.md`.
 
 ## Deployment
 
