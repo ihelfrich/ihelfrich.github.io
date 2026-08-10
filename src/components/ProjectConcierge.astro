@@ -1173,16 +1173,16 @@ const steps = [
 
 <style>
   .pc-shell {
-    --pc-ink: #161915;
-    --pc-night: #0f302a;
-    --pc-blue: #f15a37;
-    --pc-blue-bright: #e0bd68;
-    --pc-bone: #f5f0e6;
-    --pc-paper: #fffdf7;
-    --pc-rule: #c9c0af;
-    --pc-muted: #6a6c64;
-    --pc-red: #a9361f;
-    --pc-green: #0f302a;
+    --pc-ink: #09090b;
+    --pc-night: #09090b;
+    --pc-blue: #9fa2ff;
+    --pc-blue-bright: #e4e5ff;
+    --pc-bone: #f7f7f5;
+    --pc-paper: #fff;
+    --pc-rule: #d9d9d7;
+    --pc-muted: #686870;
+    --pc-red: #a62b25;
+    --pc-green: #3337c8;
     position: relative;
     width: min(1500px, calc(100% - clamp(1rem, 4vw, 5rem)));
     margin: 0 auto clamp(4rem, 9vw, 9rem);
@@ -1351,7 +1351,7 @@ const steps = [
   .pc-choice-body i { grid-row: 1 / span 2; font: 500 .62rem var(--ih-mono, monospace); }
   .pc-choice-body strong { color: inherit; font: 600 clamp(.94rem, 1.4vw, 1.12rem)/1.2 var(--ih-sans, sans-serif); }
   .pc-choice-body small { color: var(--pc-muted); font: .78rem/1.45 var(--ih-sans, sans-serif); }
-  .pc-choice:hover .pc-choice-body { background: #f3e4d5; }
+  .pc-choice:hover .pc-choice-body { background: #f0f0ff; }
   .pc-choice input:checked + .pc-choice-body { color: var(--pc-ink); background: var(--pc-blue); }
   .pc-choice input:checked + .pc-choice-body small { color: var(--pc-ink); }
   .pc-choice input:focus-visible + .pc-choice-body { outline: 4px solid var(--pc-blue-bright); outline-offset: -4px; }
@@ -1373,7 +1373,7 @@ const steps = [
   }
 
   .pc-field textarea { resize: vertical; }
-  .pc-field input:focus, .pc-field select:focus, .pc-field textarea:focus, .pc-window input:focus { border-color: var(--pc-blue); outline: 3px solid rgba(241, 90, 55, .22); outline-offset: 0; }
+  .pc-field input:focus, .pc-field select:focus, .pc-field textarea:focus, .pc-window input:focus { border-color: #4b4fe9; outline: 3px solid rgba(75, 79, 233, .18); outline-offset: 0; }
   .pc-field > small { justify-self: end; color: var(--pc-muted); font: .6rem var(--ih-mono, monospace); }
 
   .pc-check { display: grid; grid-template-columns: auto 1fr; gap: .8rem; margin-top: 1.5rem; padding: 1.1rem; background: #e8e1d7; border: 1px solid var(--pc-ink); cursor: pointer; }

@@ -1,0 +1,212 @@
+<section class="engagement-routes" aria-labelledby="engagement-routes-title">
+  <header class="engagement-routes__head">
+    <p>Ways to work together</p>
+    <div>
+      <h2 id="engagement-routes-title">Meet the problem at its level.</h2>
+      <p>
+        One-to-one teaching is an active core of the practice. Select advisory and institutional work extends the same
+        rigor into decisions, research, and quantitative capability.
+      </p>
+    </div>
+  </header>
+
+  <div class="engagement-routes__grid">
+    <a class="engagement-route engagement-route--teaching" href="/start?problem=learning&source=home-routes">
+      <span class="engagement-route__meta"><i>01 / PRIVATE</i><b>Booking</b></span>
+      <div>
+        <h3>Private teaching</h3>
+        <p>
+          Econometrics, micro and macroeconomics, strategy, mathematics, ACT and SAT, AP, IB Higher Level, coding,
+          and advanced quantitative methods.
+        </p>
+      </div>
+      <footer><span>450+ learners · 1,200+ hours in a recent year</span><strong>Start a teaching brief ↗</strong></footer>
+    </a>
+
+    <a class="engagement-route engagement-route--advisory" href="/start?source=home-routes-advisory">
+      <span class="engagement-route__meta"><i>02 / ADVISORY</i><b>Selective</b></span>
+      <div>
+        <h3>Consulting + research</h3>
+        <p>
+          Policy, business, and research questions that need economic structure, credible empirical design, spatial
+          measurement, quantitative strategy, or a usable evidence product.
+        </p>
+      </div>
+      <footer><span>Economics · strategy · evidence systems</span><strong>Scope an engagement ↗</strong></footer>
+    </a>
+
+    <a class="engagement-route engagement-route--institutional" href="/start?problem=team&source=home-routes">
+      <span class="engagement-route__meta"><i>03 / INSTITUTIONAL</i><b>Scoped</b></span>
+      <div>
+        <h3>Teams + programs</h3>
+        <p>
+          Workshops, curricula, methods studios, research mentorship, and reusable learning systems for teams,
+          classrooms, labs, and institutions.
+        </p>
+      </div>
+      <footer><span>Training · methods · durable capability</span><strong>Design a program ↗</strong></footer>
+    </a>
+  </div>
+
+  <p class="engagement-routes__sectors" aria-label="Fields served">
+    <span>Policy</span><span>Business</span><span>Research</span><span>Education</span><span>Quantitative learning</span>
+  </p>
+</section>
+
+<style>
+  .engagement-routes {
+    --route-black: #09090b;
+    --route-white: #f7f7f5;
+    --route-paper: #fff;
+    --route-accent: #4b4fe9;
+    --route-accent-light: #dfe0ff;
+    --route-line: rgba(9, 9, 11, .14);
+    padding: clamp(6rem, 10vw, 10rem) clamp(1rem, 3vw, 3.5rem);
+    color: var(--route-black);
+    background: var(--route-paper);
+  }
+
+  .engagement-routes__head {
+    display: grid;
+    max-width: 1680px;
+    margin: 0 auto clamp(3rem, 6vw, 6rem);
+    grid-template-columns: minmax(120px, .26fr) 1fr;
+    gap: 2rem;
+  }
+
+  .engagement-routes__head > p { margin: .5rem 0 0; color: #686870; font: 500 .75rem/1.35 var(--ih-mono); }
+  .engagement-routes__head > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .46fr); gap: 2rem 6vw; align-items: end; }
+  .engagement-routes__head h2 { max-width: 12ch; margin: 0; font: 520 clamp(3.6rem, 7vw, 8rem)/.86 var(--ih-display); letter-spacing: -.072em; text-wrap: balance; }
+  .engagement-routes__head div > p { max-width: 570px; margin: 0 0 .6rem; color: #343439; font: 430 clamp(1rem, 1.35vw, 1.23rem)/1.54 var(--ih-sans); letter-spacing: -.018em; }
+
+  .engagement-routes__grid {
+    display: grid;
+    max-width: 1680px;
+    min-height: clamp(520px, 62svh, 720px);
+    margin: 0 auto;
+    grid-template-columns: 1.18fr 1fr .76fr;
+    transition: grid-template-columns 760ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .engagement-routes__grid:has(.engagement-route--teaching:is(:hover, :focus-visible)) { grid-template-columns: 1.42fr .86fr .66fr; }
+  .engagement-routes__grid:has(.engagement-route--advisory:is(:hover, :focus-visible)) { grid-template-columns: .9fr 1.36fr .68fr; }
+  .engagement-routes__grid:has(.engagement-route--institutional:is(:hover, :focus-visible)) { grid-template-columns: .82fr .88fr 1.24fr; }
+
+  .engagement-route {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    padding: clamp(1.4rem, 2.5vw, 2.7rem);
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+    color: var(--route-black);
+    border: 0;
+    border-right: 1px solid rgba(9, 9, 11, .22);
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  .engagement-route:last-child { border-right: 0; }
+  .engagement-route--teaching { color: #fff; background: var(--route-accent); }
+  .engagement-route--advisory { color: var(--route-white); background: var(--route-black); }
+  .engagement-route--institutional { background: var(--route-accent-light); }
+
+  .engagement-route::before {
+    position: absolute;
+    z-index: -1;
+    right: -28%;
+    bottom: -24%;
+    width: 72%;
+    aspect-ratio: 1;
+    content: "";
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: .12;
+    transform: scale(.72);
+    transition: transform 760ms cubic-bezier(.16, 1, .3, 1), opacity 240ms ease;
+  }
+
+  .engagement-route:is(:hover, :focus-visible)::before { opacity: .24; transform: scale(1); }
+
+  .engagement-route__meta,
+  .engagement-route footer { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .engagement-route__meta i,
+  .engagement-route__meta b,
+  .engagement-route footer span,
+  .engagement-route footer strong { font: 600 .67rem/1.4 var(--ih-mono); font-style: normal; letter-spacing: .02em; }
+  .engagement-route__meta b { padding: .28rem .48rem; border: 1px solid currentColor; border-radius: 999px; text-transform: uppercase; }
+  .engagement-route--teaching .engagement-route__meta,
+  .engagement-route--teaching footer { color: #fff; }
+  .engagement-route--advisory .engagement-route__meta,
+  .engagement-route--advisory footer { color: #aaaab2; }
+  .engagement-route--institutional .engagement-route__meta,
+  .engagement-route--institutional footer { color: #4d4d56; }
+
+  .engagement-route h3 { max-width: 8ch; margin: 0 0 1.5rem; color: inherit; font: 520 clamp(2.8rem, 4.8vw, 6rem)/.84 var(--ih-display); letter-spacing: -.072em; text-wrap: balance; }
+  .engagement-route > div > p { max-width: 540px; margin: 0; color: inherit; font: 430 clamp(.93rem, 1.1vw, 1.08rem)/1.52 var(--ih-sans); opacity: .78; }
+  .engagement-route--teaching > div > p { opacity: .94; }
+  .engagement-route footer { padding-top: 1rem; border-top: 1px solid currentColor; }
+  .engagement-route footer span { max-width: 18rem; opacity: .78; }
+  .engagement-route--teaching footer span { opacity: .92; }
+  .engagement-route footer strong { color: inherit; white-space: nowrap; }
+
+  .engagement-route:focus-visible { z-index: 3; outline: 3px solid #fff; outline-offset: -6px; }
+  .engagement-route--institutional:focus-visible { outline-color: var(--route-black); }
+
+  .engagement-routes__sectors {
+    display: flex;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 1rem 0 0;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #686870;
+    border-top: 1px solid var(--route-line);
+    font: 600 .64rem var(--ih-mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1080px) {
+    .engagement-routes__grid,
+    .engagement-routes__grid:has(.engagement-route:is(:hover, :focus-visible)) { grid-template-columns: 1fr 1fr; }
+    .engagement-route--institutional { min-height: 340px; grid-column: 1 / -1; }
+    .engagement-route--advisory { border-right: 0; }
+    .engagement-route--institutional h3 { max-width: 12ch; }
+  }
+
+  @media (max-width: 720px) {
+    .engagement-routes__head { grid-template-columns: 1fr; }
+    .engagement-routes__head > div { grid-template-columns: 1fr; }
+    .engagement-routes__head h2 { font-size: clamp(3.4rem, 13vw, 6.4rem); }
+    .engagement-routes__grid,
+    .engagement-routes__grid:has(.engagement-route:is(:hover, :focus-visible)) { grid-template-columns: 1fr; }
+    .engagement-route { min-height: 470px; border-right: 0; border-bottom: 1px solid rgba(9, 9, 11, .22); }
+    .engagement-route--institutional { min-height: 470px; grid-column: auto; }
+    .engagement-route h3 { max-width: 10ch; font-size: clamp(3rem, 14vw, 5.3rem); }
+    .engagement-routes__sectors { justify-content: flex-start; flex-wrap: wrap; }
+  }
+
+  @media (max-width: 480px) {
+    .engagement-routes { padding-inline: 0; }
+    .engagement-routes__head,
+    .engagement-routes__sectors { margin-inline: 1rem; }
+    .engagement-route { padding: 1.25rem 1rem; }
+    .engagement-route footer { align-items: flex-start; flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .engagement-routes__grid,
+    .engagement-route::before { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    .engagement-route,
+    .engagement-route--teaching,
+    .engagement-route--advisory,
+    .engagement-route--institutional { color: LinkText; background: Canvas; border: 1px solid CanvasText; }
+    .engagement-route::before { display: none; }
+  }
+</style>

@@ -79,9 +79,8 @@ import ProjectConcierge from "../components/ProjectConcierge.astro";
     overflow: hidden;
     color: var(--ih-bone);
     background:
-      radial-gradient(circle at 78% 22%, rgba(241, 90, 55, .34), transparent 24rem),
-      radial-gradient(circle at 62% 68%, rgba(120, 167, 160, .18), transparent 32rem),
-      linear-gradient(120deg, var(--ih-night-deep) 0%, var(--ih-night) 64%, #143d35 100%);
+      linear-gradient(90deg, transparent 0 71%, rgba(75, 79, 233, .9) 71% 100%),
+      var(--ih-night);
     border-bottom: 1px solid var(--ih-ink);
   }
 
@@ -90,9 +89,10 @@ import ProjectConcierge from "../components/ProjectConcierge.astro";
     inset: 0;
     pointer-events: none;
     content: "";
-    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
-    background-size: 54px 54px;
-    mask-image: radial-gradient(circle at 70% 45%, black, transparent 70%);
+    background-image: var(--ih-grain);
+    background-size: 160px 160px;
+    mix-blend-mode: soft-light;
+    opacity: .12;
   }
 
   .starter-hero-meta {
@@ -101,7 +101,7 @@ import ProjectConcierge from "../components/ProjectConcierge.astro";
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 1rem;
-    color: #c9d5ce;
+    color: #c9c9ce;
     border-bottom: 1px solid rgba(255,255,255,.35);
     font: 500 .58rem var(--ih-mono);
     letter-spacing: .12em;
@@ -133,9 +133,9 @@ import ProjectConcierge from "../components/ProjectConcierge.astro";
   }
 
   .starter-hero h1 em { color: var(--ih-signal); font-weight: 400; }
-  .starter-intro > p { max-width: 480px; margin: 0 0 2rem; color: #d6ded8; font: clamp(.95rem, 1.5vw, 1.15rem)/1.55 var(--ih-sans); }
+  .starter-intro > p { max-width: 480px; margin: 0 0 2rem; color: #d8d8dc; font: clamp(.95rem, 1.5vw, 1.15rem)/1.55 var(--ih-sans); }
   .starter-intro ul { margin: 0; padding: 0; border-top: 1px solid rgba(255,255,255,.32); list-style: none; }
-  .starter-intro li { display: grid; grid-template-columns: 2.1rem 1fr; gap: .6rem; margin: 0; padding: .7rem 0; color: #b8c8c0; border-bottom: 1px solid rgba(255,255,255,.18); font: 500 .63rem var(--ih-mono); letter-spacing: .04em; text-transform: uppercase; }
+  .starter-intro li { display: grid; grid-template-columns: 2.1rem 1fr; gap: .6rem; margin: 0; padding: .7rem 0; color: #b7b7bd; border-bottom: 1px solid rgba(255,255,255,.18); font: 500 .63rem var(--ih-mono); letter-spacing: .04em; text-transform: uppercase; }
   .starter-intro li span { color: var(--ih-interval); }
 
   .starter-signal {
@@ -145,7 +145,7 @@ import ProjectConcierge from "../components/ProjectConcierge.astro";
     gap: .6rem;
     align-items: center;
     margin-top: clamp(3rem, 8vw, 8rem);
-    color: #a6bab0;
+    color: #a8a8af;
     font: 500 .54rem var(--ih-mono);
     letter-spacing: .12em;
   }

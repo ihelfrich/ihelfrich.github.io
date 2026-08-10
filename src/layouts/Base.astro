@@ -9,14 +9,14 @@ const {
   description,
   wide = false,
   image = "/og.png",
-  imageAlt = "Ian Helfrich, PhD: Evidence you can move",
+  imageAlt = "Ian Helfrich, PhD: Complex evidence, made usable",
   noindex = false,
   pageClass = "",
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Research Economist & Evidence Systems Designer`;
-const desc = description ?? "Research economist building defensible models, geospatial intelligence, interactive evidence products, and quantitative capability for researchers, teams, and institutions.";
+const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist, Quantitative Designer & Educator`;
+const desc = description ?? "Economist, quantitative designer, researcher, and educator working across policy, business, research, and learning to make complex evidence usable.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const personImage = new URL("/people/ian-editorial.webp", Astro.site ?? Astro.url.origin);
@@ -31,7 +31,7 @@ const personSchema = {
   honorificSuffix: "PhD",
   url: canonical.origin,
   image: personImage.toString(),
-  jobTitle: ["Research Economist", "Econometrician", "Geospatial Analyst", "Evidence Systems Designer", "Educator"],
+  jobTitle: ["Research Economist", "Network Economist", "Econometrician", "Quantitative Designer", "Educator", "Tutor"],
   homeLocation: {
     "@type": "Place",
     name: "St. Louis, Missouri",
@@ -50,6 +50,10 @@ const personSchema = {
     "Causal inference",
     "International trade",
     "Economic networks",
+    "Microeconomics",
+    "Macroeconomics",
+    "Strategy",
+    "Mathematics education",
     "Geospatial economics",
     "Geographic information systems",
     "Remote sensing",
@@ -57,6 +61,9 @@ const personSchema = {
     "Research software",
     "Quantitative training",
     "Research methods",
+    "Test preparation",
+    "Acoustics",
+    "Signal processing",
   ],
 };
 ---
@@ -67,7 +74,7 @@ const personSchema = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
   <meta name="author" content="Dr. Ian Helfrich" />
-  <meta name="theme-color" content="#0f302a" />
+  <meta name="theme-color" content="#f7f7f5" />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
@@ -93,11 +100,7 @@ const personSchema = {
   <header class="site-header">
     <div class="site-header-inner">
       <a href="/" class="site-brand" aria-label="Ian Helfrich, home">
-        <span class="site-brand-mark" aria-hidden="true"><i>IH</i></span>
-        <span class="site-brand-copy">
-          <strong>Ian Helfrich, PhD</strong>
-          <small>Economist · Evidence systems</small>
-        </span>
+        <span>Ian Helfrich</span><sup>PhD</sup>
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -107,12 +110,11 @@ const personSchema = {
 
       <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
         <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
-        <a href="/capabilities" aria-current={isActive("/capabilities") ? "page" : undefined}>Capabilities</a>
-        <a href="/lab" aria-current={isActive("/lab") ? "page" : undefined}>Lab</a>
         <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
+        <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
         <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
         <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
-        <a href="/start" class="nav-cta">Start a project</a>
+        <a href="/start" class="nav-cta">Work with Ian</a>
       </nav>
     </div>
   </header>
@@ -129,41 +131,46 @@ const personSchema = {
     <div class="site-footer-inner">
       <div class="footer-intro">
         <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-        <p>I turn uncertain data into decisions people can inspect and defend.</p>
+        <p>Complex evidence, made usable through economics, research, software, and teaching.</p>
         <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
       </div>
 
       <div class="footer-links">
         <div>
-          <strong>Studio</strong>
-          <a href="/capabilities#econometrics">Econometric audit</a>
-          <a href="/capabilities#products">Evidence products</a>
-          <a href="/capabilities#spatial">Spatial intelligence</a>
-          <a href="/capabilities#training">Team methods studios</a>
+          <strong>Work</strong>
+          <a href="/work">Selected work</a>
+          <a href="/research">Research</a>
+          <a href="/projects">Projects</a>
+          <a href="/datasets">Datasets</a>
         </div>
         <div>
-          <strong>Public work</strong>
-          <a href="/library">Complete index</a>
-          <a href="/research">Research</a>
-          <a href="/datasets">Datasets</a>
-          <a href="/writing">Essays + notes</a>
-          <a href="/projects">Projects</a>
-          <a href="/teaching">Teaching</a>
+          <strong>Practice</strong>
+          <a href="/capabilities">Economics + strategy</a>
+          <a href="/gis">Remote sensing + spatial</a>
+          <a href="/teaching">Teaching + tutoring</a>
+          <a href="/third-space">ThirdSpace</a>
+        </div>
+        <div>
+          <strong>About</strong>
+          <a href="/about">Profile</a>
+          <a href="/cv">Curriculum vitae</a>
+          <a href="/writing">Writing</a>
+          <a href="/now">Now</a>
         </div>
         <div>
           <strong>Connect</strong>
+          <a href="/start">Start a project</a>
+          <a href="/start?problem=learning&source=footer">Private tutoring</a>
           <a href="mailto:ianthelfrich@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
-          <a href="/start">Start a project</a>
-          <a href="/rss.xml">RSS</a>
         </div>
       </div>
     </div>
     <div class="site-footer-bottom">
       <span>© {year} Ian Helfrich</span>
       <span>Research, analysis, software, and education. Every engagement is scoped in writing.</span>
-      <span class="footer-colophon">Set in Geist · Source Serif 4 · Geist Mono</span>
+      <span class="footer-colophon">Built with Astro · Motion with GSAP + Three.js</span>
       <button type="button" data-index-open>INDEX /</button>
     </div>
   </footer>
@@ -171,16 +178,24 @@ const personSchema = {
   <script is:inline>
     const navToggle = document.querySelector('.nav-toggle');
     const nav = document.querySelector('#primary-nav');
+    const navLabel = navToggle?.querySelector('.sr-only');
+    const closeNavigation = (restoreFocus = false) => {
+      navToggle?.setAttribute('aria-expanded', 'false');
+      nav?.classList.remove('is-open');
+      if (navLabel) navLabel.textContent = 'Open navigation';
+      if (restoreFocus) navToggle?.focus();
+    };
     navToggle?.addEventListener('click', () => {
       const open = navToggle.getAttribute('aria-expanded') === 'true';
       navToggle.setAttribute('aria-expanded', String(!open));
       nav?.classList.toggle('is-open', !open);
+      if (navLabel) navLabel.textContent = open ? 'Open navigation' : 'Close navigation';
     });
     nav?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        navToggle?.setAttribute('aria-expanded', 'false');
-        nav?.classList.remove('is-open');
-      });
+      link.addEventListener('click', () => closeNavigation());
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navToggle?.getAttribute('aria-expanded') === 'true') closeNavigation(true);
     });
 
     const progress = document.querySelector('.h-scroll-progress');
