@@ -1,125 +1,181 @@
 ---
 import Base from "../layouts/Base.astro";
+import StudioFrontDoor from "../components/StudioFrontDoor.astro";
 import SpecificationWorkbench from "../components/SpecificationWorkbench.astro";
-import AudienceNavigator from "../components/AudienceNavigator.astro";
-import ThirdSpacePortal from "../components/ThirdSpacePortal.astro";
+import CapabilityMatrix from "../components/CapabilityMatrix.astro";
 import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.astro";
 ---
+
 <Base
   wide
-  pageClass="instrument-home"
-  image="/people/ian-editorial.webp"
-  description="Ian Helfrich is a research economist and award-winning educator offering quantitative instruction, research mentorship, and custom training from high school through professional practice."
+  pageClass="studio-home"
+  image="/og.png"
+  description="Ian Helfrich is a research economist who builds defensible econometric analyses, geospatial intelligence, interactive evidence products, and quantitative capability for researchers, teams, and institutions."
 >
-  <SpecificationWorkbench />
+  <StudioFrontDoor />
 
-  <section class="ih-evidence" aria-label="Selected evidence">
-    <div><strong>1,200+</strong><span>recent-year teaching hours</span></div>
-    <div><strong>450+</strong><span>students across classrooms and private practice</span></div>
-    <div><strong>5.0</strong><span>average across 175+ public ratings</span></div>
-    <div><strong>2023</strong><span>Georgia Tech Graduate TA of the Year</span></div>
+  <section class="studio-live-intro" aria-labelledby="studio-live-title" data-rail-label="LIVE EVIDENCE">
+    <div>
+      <span>02 / A LIVE CASE</span>
+      <h2 id="studio-live-title">A polished result is where the investigation begins.</h2>
+    </div>
+    <p>
+      The instrument below uses a real specification path from a place-based policy project. Change the model, inspect the interval, and watch the substantive story move when intermediary identity enters the comparison.
+    </p>
+    <aside>
+      <span>WHAT THIS PROVES</span>
+      <strong>Question → design → code → visual state → defensible sentence</strong>
+    </aside>
   </section>
 
-  <AudienceNavigator />
+  <SpecificationWorkbench heading="h2" />
 
-  <section class="ih-practice" aria-labelledby="practice-title">
-    <header class="ih-section-intro">
-      <div>
-        <span class="ih-section-number">02 / THE PRACTICE</span>
-        <h2 id="practice-title">Show me where<br />the reasoning breaks.</h2>
-      </div>
-      <p>
-        Sometimes the fix is one missing idea. Sometimes a student needs a semester of connected work. Sometimes a research design has to be taken apart before it can be trusted. I scope those problems differently.
-      </p>
-    </header>
-
-    <div class="ih-service-ledger">
-      <article>
-        <span class="ih-ledger-index">01</span>
-        <div>
-          <span class="ih-ledger-type">PRIVATE INSTRUCTION</span>
-          <h3>Find the missing model</h3>
-        </div>
-        <p>A wrong answer is often the last visible link in a longer chain. We find the first weak link, rebuild it, and test whether the idea survives a new problem.</p>
-        <ul>
-          <li>High school · undergraduate · MBA · graduate</li>
-          <li>SAT/ACT · AP · R · Stata · Python · Excel</li>
-        </ul>
-        <a href="/work-with-me#private">View format →</a>
-      </article>
-
-      <article>
-        <span class="ih-ledger-index">02</span>
-        <div>
-          <span class="ih-ledger-type">RESEARCH MENTORSHIP</span>
-          <h3>Make the design answer the question</h3>
-        </div>
-        <p>We state the object, decide what comparison could identify it, inspect the code, and keep the final claim inside what the evidence can carry.</p>
-        <ul>
-          <li>Independent projects · theses · dissertations · papers</li>
-          <li>Design review · code review · defense preparation</li>
-        </ul>
-        <a href="/work-with-me#research">View format →</a>
-      </article>
-
-      <article>
-        <span class="ih-ledger-index">03</span>
-        <div>
-          <span class="ih-ledger-type">TEAMS + INSTITUTIONS</span>
-          <h3>Put the team’s real problem on screen</h3>
-        </div>
-        <p>I build the training around the models, data, and decisions already on the team’s desk. The examples and diagnostics stay with the group after I leave.</p>
-        <ul>
-          <li>Workshops · cohorts · curriculum architecture</li>
-          <li>Econometrics · causal inference · data workflows</li>
-        </ul>
-        <a href="/work-with-me#institutions">View format →</a>
-      </article>
-    </div>
-
-    <div class="ih-practice-close">
-      <p><strong>Your judgment is the deliverable.</strong> I teach, question, demonstrate, review, and debug alongside you. I do not take exams, fabricate analysis, or ghostwrite work.</p>
-      <a class="ih-action" href="/work-with-me">See fit, formats, and rates</a>
-    </div>
-  </section>
-
-  <ThirdSpacePortal />
+  <CapabilityMatrix />
 
   <PublicArchiveSwitchboard />
 
-  <section class="ih-profile" aria-labelledby="profile-title">
-    <figure class="ih-profile-image">
+  <section class="studio-profile" aria-labelledby="studio-profile-title" data-rail-label="THE PERSON">
+    <figure>
       <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" loading="lazy" />
-      <figcaption>IAN T. S. HELFRICH · ECONOMIST / EDUCATOR</figcaption>
+      <figcaption>IAN T. S. HELFRICH · ST. LOUIS / WORLDWIDE</figcaption>
     </figure>
-    <div class="ih-profile-copy">
-      <span class="ih-section-number">05 / THE PERSON IN THE ROOM</span>
-      <h2 id="profile-title">A research economist<br />who builds the instruments.</h2>
-      <p class="ih-profile-lead">
-        I am a Georgia Tech-trained economist, quantitative researcher, and award-winning educator. I work across econometrics, labor, trade, networks, spatial analysis, and the harder question underneath all of them: how did this number become evidence?
+    <article>
+      <span>05 / THE PERSON INSIDE THE SYSTEM</span>
+      <h2 id="studio-profile-title">An economist who can build the model, the interface, and the room where it becomes usable.</h2>
+      <p class="studio-profile__lead">
+        I am a Georgia Tech-trained research economist, GIS specialist, software builder, editor, and award-winning educator. My work moves through trade, labor, networks, place-based policy, causal inference, remote sensing, and the design of quantitative tools people can actually operate.
       </p>
-      <div class="ih-profile-notes">
-        <p><span>RESEARCH</span>AI and labor · trade and networks · place-based policy · spatial econometrics</p>
-        <p><span>TEACHING</span>SAT and AP foundations · undergraduate and MBA coursework · graduate methods · professional training</p>
-        <p><span>TOOLS</span>R · Stata · Python · Julia · GIS · reproducible research systems</p>
+      <div class="studio-profile__ledger">
+        <p><span>RESEARCH</span>Econometrics · trade · labor · networks · policy · measurement</p>
+        <p><span>SPATIAL</span>GIS · remote sensing · effective distance · site and corridor analysis</p>
+        <p><span>BUILD</span>Python · R · Stata · Julia · SQL · data products · research systems</p>
+        <p><span>TRANSFER</span>Executive workshops · methods studios · research mentorship · editorial review</p>
       </div>
-      <div class="ih-profile-links">
+      <div class="studio-profile__links">
         <a href="/about">Read the full background →</a>
-        <a href="/cv">Open CV →</a>
+        <a href="/cv">Open the curriculum vitae ↗</a>
+        <a href="/library">Search the public record ↗</a>
       </div>
-    </div>
-    <blockquote>
-      “The best session ends when you can find the next mistake before I do.”
-    </blockquote>
+    </article>
+    <blockquote>“The deliverable is a decision whose construction remains visible.”</blockquote>
   </section>
 
-  <section class="ih-inquiry" aria-labelledby="inquiry-title">
-    <span class="ih-section-number">06 / START WITH THE REAL PROBLEM</span>
-    <h2 id="inquiry-title">Where does the<br />reasoning break?</h2>
-    <p>Send the problem, what you have tried, and the actual deadline. I will tell you whether I can help, what the smallest useful engagement is, and what it costs.</p>
+  <section class="studio-close" aria-labelledby="studio-close-title" data-rail-label="START A PROJECT">
+    <span>06 / BRING THE LAST RESULT YOU STILL TRUST</span>
+    <h2 id="studio-close-title">Where does the evidence stop carrying the decision?</h2>
+    <p>Describe the decision, current artifact, constraint, and real timeline. The project starter will recommend the smallest useful engagement and prepare a complete brief.</p>
     <div>
-      <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
+      <a class="studio-close__button" href="/start">Open the project starter →</a>
       <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a>
     </div>
   </section>
 </Base>
+
+<style>
+  .studio-live-intro {
+    display: grid;
+    padding: clamp(4rem, 8vw, 8rem) clamp(1rem, 5vw, 6rem);
+    grid-template-columns: 1.25fr .75fr;
+    gap: 2rem 5vw;
+    color: var(--ih-ink);
+    background: var(--ih-bone);
+    border-bottom: 1px solid var(--ih-ink);
+  }
+
+  .studio-live-intro > div > span,
+  .studio-profile article > span,
+  .studio-close > span {
+    color: var(--ih-blue);
+    font: 600 .64rem/1.2 var(--ih-mono);
+    letter-spacing: .08em;
+  }
+
+  .studio-live-intro h2 {
+    max-width: 1000px;
+    margin: .8rem 0 0;
+    font: 500 clamp(3.2rem, 6vw, 7rem)/.9 var(--ih-display);
+    letter-spacing: -.06em;
+  }
+
+  .studio-live-intro > p {
+    max-width: 600px;
+    margin: 1.7rem 0 0;
+    color: var(--ih-graphite);
+    font: 400 1.12rem/1.5 var(--ih-serif);
+  }
+
+  .studio-live-intro aside {
+    display: grid;
+    padding: 1rem 0 0;
+    grid-column: 1 / -1;
+    grid-template-columns: 190px 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--ih-rule);
+  }
+
+  .studio-live-intro aside span { color: var(--ih-muted); font: 500 .56rem var(--ih-mono); letter-spacing: .07em; }
+  .studio-live-intro aside strong { color: var(--ih-ink); font: 500 .75rem var(--ih-mono); }
+
+  .studio-profile {
+    display: grid;
+    padding: clamp(4rem, 9vw, 9rem) clamp(1rem, 5vw, 6rem);
+    grid-template-columns: minmax(240px, .5fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 7rem);
+    color: var(--ih-ink);
+    background: var(--ih-paper);
+    border-bottom: 1px solid var(--ih-ink);
+  }
+
+  .studio-profile figure { margin: 0; }
+  .studio-profile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; filter: saturate(.72) contrast(1.04); }
+  .studio-profile figcaption { padding: .7rem 0; border-bottom: 1px solid var(--ih-ink); font: 500 .55rem var(--ih-mono); letter-spacing: .06em; }
+
+  .studio-profile h2 {
+    max-width: 1100px;
+    margin: .8rem 0 1.4rem;
+    font: 500 clamp(2.8rem, 5.1vw, 6rem)/.92 var(--ih-display);
+    letter-spacing: -.055em;
+  }
+
+  .studio-profile__lead { max-width: 900px; color: var(--ih-graphite); font: 400 clamp(1.15rem, 1.7vw, 1.45rem)/1.5 var(--ih-serif); }
+
+  .studio-profile__ledger { display: grid; margin-top: 2rem; border-top: 1px solid var(--ih-ink); }
+  .studio-profile__ledger p { display: grid; margin: 0; padding: .85rem 0; grid-template-columns: 110px 1fr; gap: 1rem; border-bottom: 1px solid var(--ih-rule); color: var(--ih-graphite); font: 400 .83rem/1.4 var(--ih-sans); }
+  .studio-profile__ledger span { color: var(--ih-blue); font: 600 .56rem var(--ih-mono); letter-spacing: .06em; }
+
+  .studio-profile__links { display: flex; margin-top: 1.5rem; gap: 1rem 1.5rem; flex-wrap: wrap; }
+  .studio-profile__links a { color: var(--ih-ink); font: 600 .62rem var(--ih-mono); text-underline-offset: .3em; text-transform: uppercase; }
+
+  .studio-profile blockquote {
+    margin: 0;
+    padding: 1.3rem 0 0;
+    grid-column: 1 / -1;
+    color: var(--ih-blue);
+    border: 0;
+    border-top: 1px solid var(--ih-ink);
+    font: italic 500 clamp(2rem, 3.8vw, 4.5rem)/1.02 var(--ih-display);
+    letter-spacing: -.04em;
+  }
+
+  .studio-close {
+    padding: clamp(4rem, 9vw, 9rem) clamp(1rem, 7vw, 9rem);
+    color: var(--ih-bone);
+    background: var(--ih-ink);
+  }
+
+  .studio-close h2 { max-width: 1250px; margin: .9rem 0 1.5rem; color: var(--ih-bone); font: 500 clamp(3.2rem, 7vw, 8rem)/.88 var(--ih-display); letter-spacing: -.065em; }
+  .studio-close p { max-width: 680px; color: var(--ih-smoke-blue); font: 400 1.1rem/1.5 var(--ih-serif); }
+  .studio-close > div { display: flex; margin-top: 2rem; align-items: center; gap: 1rem 1.5rem; flex-wrap: wrap; }
+  .studio-close__button { display: inline-flex; min-height: 54px; padding: 0 1.2rem; align-items: center; color: white; background: var(--ih-blue); border: 1px solid var(--ih-blue); font: 600 .65rem var(--ih-mono); letter-spacing: .06em; text-decoration: none; text-transform: uppercase; }
+  .studio-close__button:hover { color: var(--ih-ink); background: var(--ih-bone); border-color: var(--ih-bone); }
+  .studio-close > div > a:last-child { color: var(--ih-bone); font: 500 .68rem var(--ih-mono); text-underline-offset: .35em; }
+
+  @media (max-width: 820px) {
+    .studio-live-intro,
+    .studio-profile { grid-template-columns: 1fr; }
+    .studio-live-intro aside { grid-template-columns: 1fr; }
+    .studio-profile figure { max-width: 420px; }
+    .studio-profile h2 { font-size: clamp(3rem, 13vw, 5rem); }
+    .studio-profile__ledger p { grid-template-columns: 1fr; gap: .35rem; }
+  }
+</style>

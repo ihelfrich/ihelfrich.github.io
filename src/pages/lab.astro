@@ -1,0 +1,137 @@
+---
+import Base from "../layouts/Base.astro";
+import SpecificationWorkbench from "../components/SpecificationWorkbench.astro";
+import SpatialAllocationStudio from "../components/SpatialAllocationStudio.astro";
+import ModelToMessageRelay from "../components/ModelToMessageRelay.astro";
+
+const instruments = [
+  {
+    code: "LAB / 01",
+    title: "Specification Path",
+    proof: "Econometric diagnosis",
+    prompt: "What changed when the model changed?",
+    href: "#specification-path",
+  },
+  {
+    code: "LAB / 02",
+    title: "Spatial Allocation Studio",
+    proof: "Geospatial analysis",
+    prompt: "What changes when the metric or boundary rule moves?",
+    href: "#spatial-allocation",
+  },
+  {
+    code: "LAB / 03",
+    title: "Model-to-Message Relay",
+    proof: "Decision communication",
+    prompt: "Can the same analytical state survive the plot and the sentence?",
+    href: "#model-to-message",
+  },
+];
+---
+
+<Base
+  wide
+  pageClass="lab-page"
+  title="Interactive evidence lab"
+  description="Working demonstrations of econometric diagnosis, spatial allocation, and model-to-message translation by research economist Ian Helfrich."
+>
+  <header class="lab-hero" aria-labelledby="lab-title">
+    <div class="lab-hero__topline"><span>IAN HELFRICH / EVIDENCE SYSTEMS</span><span>THREE WORKING INSTRUMENTS</span><span>CHANGE THE STATE · INSPECT THE CLAIM</span></div>
+    <div class="lab-hero__grid">
+      <article>
+        <span>THE INTERACTIVE LAB</span>
+        <h1 id="lab-title">Open the model.<br />Move the assumption.<br /><em>Watch the claim.</em></h1>
+      </article>
+      <div>
+        <p>These instruments do real analytical work in the browser. Each one connects a changing input to an estimate, visual state, interpretation, and client problem.</p>
+        <a href="/start?problem=interface">Build an evidence instrument →</a>
+      </div>
+    </div>
+    <nav class="lab-manifest" aria-label="Lab instruments">
+      {instruments.map((instrument) => (
+        <a href={instrument.href}>
+          <span>{instrument.code}</span>
+          <strong>{instrument.title}</strong>
+          <small>{instrument.proof}</small>
+          <p>{instrument.prompt}</p>
+          <i aria-hidden="true">↓</i>
+        </a>
+      ))}
+    </nav>
+  </header>
+
+  <section id="specification-path" class="lab-intro" aria-labelledby="specification-lab-title" data-rail-label="SPECIFICATION PATH">
+    <div><span>INSTRUMENT / 01</span><h2 id="specification-lab-title">The specification path.</h2></div>
+    <p>Five versions of the same comparison produce five different stories. Move through the controls and inspect which substantive conclusion survives.</p>
+    <aside><span>PROVES</span><strong>Research design · econometric audit · model diagnostics · policy interpretation</strong></aside>
+  </section>
+  <SpecificationWorkbench heading="h2" />
+
+  <div id="spatial-allocation" class="lab-anchor" data-rail-label="SPATIAL ALLOCATION">
+    <SpatialAllocationStudio />
+  </div>
+
+  <div id="model-to-message" class="lab-anchor" data-rail-label="MODEL TO MESSAGE">
+    <ModelToMessageRelay />
+  </div>
+
+  <section class="lab-close" aria-labelledby="lab-close-title" data-rail-label="BUILD YOUR INSTRUMENT">
+    <span>THE DEMO IS THE METHOD</span>
+    <h2 id="lab-close-title">What should your evidence let someone else inspect?</h2>
+    <p>Bring the data, claim, workflow, or recurring explanation. I can scope the analytical core, interface, provenance trail, and handoff as one system.</p>
+    <div><a href="/start?problem=interface">Start a data product brief →</a><a href="/capabilities#products">See the capability →</a></div>
+  </section>
+</Base>
+
+<style>
+  .lab-hero { color: var(--ih-bone); background: var(--ih-ink); border-bottom: 1px solid var(--ih-bone); }
+  .lab-hero__topline { display: grid; min-height: 42px; grid-template-columns: 1fr 1fr 1fr; align-items: center; border-bottom: 1px solid rgba(242,234,222,.3); font: 500 .56rem var(--ih-mono); letter-spacing: .08em; }
+  .lab-hero__topline span { height: 100%; padding: .85rem clamp(1rem,3vw,3.5rem); border-right: 1px solid rgba(242,234,222,.2); }
+  .lab-hero__topline span:nth-child(2) { text-align: center; }
+  .lab-hero__topline span:last-child { border: 0; text-align: right; }
+
+  .lab-hero__grid { display: grid; min-height: 600px; padding: clamp(4rem,8vw,8rem) clamp(1rem,5vw,6rem); grid-template-columns: 1.35fr .65fr; gap: 3rem 6vw; align-items: end; }
+  .lab-hero__grid article > span { color: var(--ih-blue); font: 600 .64rem var(--ih-mono); letter-spacing: .08em; }
+  .lab-hero h1 { margin: 1rem 0 0; color: var(--ih-bone); font: 500 clamp(4.5rem,9vw,10rem)/.78 var(--ih-display); letter-spacing: -.075em; }
+  .lab-hero h1 em { color: var(--ih-blue); font-weight: 500; }
+  .lab-hero__grid > div p { color: var(--ih-smoke-blue); font: 400 1.12rem/1.52 var(--ih-serif); }
+  .lab-hero__grid > div a { color: var(--ih-bone); font: 600 .63rem var(--ih-mono); text-underline-offset: .35em; text-transform: uppercase; }
+
+  .lab-manifest { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid rgba(242,234,222,.3); }
+  .lab-manifest a { position: relative; display: grid; min-height: 230px; padding: 1.2rem; align-content: start; color: var(--ih-bone); border-right: 1px solid rgba(242,234,222,.25); text-decoration: none; }
+  .lab-manifest a:last-child { border-right: 0; }
+  .lab-manifest a:hover { color: white; background: var(--ih-blue); }
+  .lab-manifest span,.lab-manifest small { font: 500 .55rem var(--ih-mono); letter-spacing: .07em; }
+  .lab-manifest small { margin-top: .3rem; color: var(--ih-smoke-blue); }
+  .lab-manifest strong { margin-top: 1rem; color: inherit; font: 500 clamp(1.7rem,2.7vw,3rem)/1 var(--ih-serif); }
+  .lab-manifest p { max-width: 330px; margin-top: 1rem; color: var(--ih-smoke-blue); font: 400 .82rem/1.4 var(--ih-sans); }
+  .lab-manifest i { position: absolute; right: 1.2rem; bottom: 1.2rem; font: normal 1rem var(--ih-mono); }
+
+  .lab-intro { display: grid; padding: clamp(4rem,7vw,7rem) clamp(1rem,5vw,6rem); grid-template-columns: 1.2fr .8fr; gap: 2rem 6vw; color: var(--ih-ink); background: var(--ih-bone); border-bottom: 1px solid var(--ih-ink); }
+  .lab-intro > div span { color: var(--ih-blue); font: 600 .62rem var(--ih-mono); letter-spacing: .08em; }
+  .lab-intro h2 { margin: .7rem 0 0; font: 500 clamp(3.3rem,6vw,7rem)/.86 var(--ih-display); letter-spacing: -.06em; }
+  .lab-intro > p { max-width: 600px; margin: 1.6rem 0 0; color: var(--ih-graphite); font: 400 1.1rem/1.5 var(--ih-serif); }
+  .lab-intro aside { display: grid; padding-top: 1rem; grid-column: 1/-1; grid-template-columns: 120px 1fr; gap: 1rem; border-top: 1px solid var(--ih-rule); }
+  .lab-intro aside span { color: var(--ih-muted); font: 500 .54rem var(--ih-mono); }
+  .lab-intro aside strong { color: var(--ih-ink); font: 500 .68rem var(--ih-mono); }
+
+  .lab-anchor { scroll-margin-top: 66px; }
+  .lab-close { padding: clamp(5rem,9vw,10rem) clamp(1rem,7vw,9rem); color: var(--ih-bone); background: var(--ih-blue); }
+  .lab-close > span { font: 600 .62rem var(--ih-mono); letter-spacing: .08em; }
+  .lab-close h2 { max-width: 1300px; margin: .8rem 0 1.5rem; color: white; font: 500 clamp(3.5rem,7.5vw,8.5rem)/.86 var(--ih-display); letter-spacing: -.065em; }
+  .lab-close p { max-width: 680px; color: white; font: 400 1.12rem/1.5 var(--ih-serif); }
+  .lab-close > div { display: flex; margin-top: 2rem; gap: 1rem 1.5rem; flex-wrap: wrap; }
+  .lab-close a { display: inline-flex; min-height: 50px; padding: 0 1rem; align-items: center; color: var(--ih-ink); background: var(--ih-bone); border: 1px solid var(--ih-bone); font: 600 .62rem var(--ih-mono); text-decoration: none; text-transform: uppercase; }
+  .lab-close a:last-child { color: white; background: transparent; }
+  .lab-close a:hover { color: white; background: var(--ih-ink); border-color: var(--ih-ink); }
+
+  @media (max-width: 820px) {
+    .lab-hero__topline { grid-template-columns: 1fr 1fr; }
+    .lab-hero__topline span:nth-child(2) { display: none; }
+    .lab-hero__grid,.lab-intro { grid-template-columns: 1fr; }
+    .lab-hero h1 { font-size: clamp(4.2rem,19vw,7rem); }
+    .lab-manifest { grid-template-columns: 1fr; }
+    .lab-manifest a { min-height: 190px; border-right: 0; border-bottom: 1px solid rgba(242,234,222,.25); }
+    .lab-intro aside { grid-template-columns: 1fr; }
+  }
+</style>

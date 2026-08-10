@@ -40,6 +40,7 @@ body {
 }
 
 .spec-story h1,
+.spec-story h2,
 .lib-hero-copy h1,
 .wp-hero h1,
 .teach-hero h1,
@@ -56,6 +57,16 @@ h1, h2, h3, h4 { font-family: var(--ih-serif); }
 :focus-visible { outline-color: var(--ih-blue); border-radius: 0; }
 
 .instrument-home main.wide {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.studio-home main.wide,
+.lab-page main.wide,
+.capabilities-page main.wide,
+.work-page main.wide,
+.start-page main.wide {
   width: 100%;
   max-width: none;
   padding: 0;
@@ -1348,8 +1359,10 @@ h1, h2, h3, h4 { font-family: var(--ih-serif); }
 .spec-story { position: relative; display: flex; min-width: 0; padding: clamp(3rem,5.5vw,6.5rem) clamp(2rem,5vw,5.2rem) clamp(2.5rem,5vw,5rem) clamp(2.3rem,5.5vw,6rem); flex-direction: column; justify-content: center; overflow: hidden; border-right: 1px solid var(--ih-ink); }
 .spec-story::before { position: absolute; z-index: -1; right: -2.5rem; bottom: -4.5rem; color: rgba(27,26,24,.035); content: "β"; font: 500 30rem/.7 var(--ih-serif); }
 .spec-kicker { color: var(--ih-blue); font: 600 .55rem var(--ih-mono); letter-spacing: .11em; }
-.spec-story h1 { max-width: 8ch; margin: 1.3rem 0 1.4rem; color: var(--ih-ink); font: 500 clamp(4.4rem,7.3vw,8.4rem)/.72 var(--ih-display); letter-spacing: -.08em; }
-.spec-story h1 em { color: var(--ih-blue); font-weight: 400; }
+.spec-story h1,
+.spec-story h2 { max-width: 8ch; margin: 1.3rem 0 1.4rem; color: var(--ih-ink); font: 500 clamp(4.4rem,7.3vw,8.4rem)/.72 var(--ih-display); letter-spacing: -.08em; }
+.spec-story h1 em,
+.spec-story h2 em { color: var(--ih-blue); font-weight: 400; }
 .spec-story > p { max-width: 40rem; margin: 0; color: var(--ih-graphite); font-size: clamp(.88rem,1.1vw,1.05rem); line-height: 1.63; }
 .spec-story-actions { display: flex; margin-top: 1.8rem; align-items: center; gap: 1.2rem; }
 .spec-story-actions button { min-height: 46px; padding: .8rem 1rem; color: white; background: var(--ih-blue); border: 1px solid var(--ih-blue); cursor: pointer; font: 600 .55rem var(--ih-mono); letter-spacing: .04em; text-transform: uppercase; }
@@ -1482,7 +1495,8 @@ h1, h2, h3, h4 { font-family: var(--ih-serif); }
 @media (max-width: 1120px) {
   .spec-hero-grid { grid-template-columns: minmax(340px,.75fr) minmax(550px,1.25fr); }
   .spec-story { padding-right: 2.5rem; padding-left: 2.5rem; }
-  .spec-story h1 { font-size: clamp(4rem,7vw,6rem); }
+  .spec-story h1,
+  .spec-story h2 { font-size: clamp(4rem,7vw,6rem); }
   .spec-readout { grid-template-columns: 100px 1fr; }
   .spec-readout dl { display: none; }
   .archive-channel-panel { grid-template-columns: minmax(240px,.6fr) minmax(360px,1fr); }
@@ -1493,7 +1507,8 @@ h1, h2, h3, h4 { font-family: var(--ih-serif); }
   .spec-topline span:nth-child(2) { display: none; }
   .spec-hero-grid { min-height: 0; grid-template-columns: 1fr; }
   .spec-story { min-height: 690px; padding: 4rem 1.2rem; border-right: 0; border-bottom: 1px solid var(--ih-ink); }
-  .spec-story h1 { font-size: clamp(4.7rem,20vw,7.3rem); }
+  .spec-story h1,
+  .spec-story h2 { font-size: clamp(4.7rem,20vw,7.3rem); }
   .spec-console { min-height: 700px; padding: 1rem; }
   .spec-controls { overflow-x: auto; grid-template-columns: repeat(5,minmax(145px,1fr)); }
   .spec-footer { grid-template-columns: 1fr auto; }

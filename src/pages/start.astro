@@ -1,0 +1,198 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectConcierge from "../components/ProjectConcierge.astro";
+---
+
+<Base
+  wide
+  pageClass="starter-page"
+  title="Start a project"
+  description="Build a private, structured project brief for quantitative instruction, research methods, geospatial analysis, data products, or institutional training with Ian Helfrich, Ph.D."
+>
+  <header class="starter-hero" aria-labelledby="starter-title">
+    <div class="starter-hero-meta">
+      <span>IAN HELFRICH / PROJECT INTAKE</span>
+      <span>ST. LOUIS · WORLDWIDE</span>
+      <span>STATIC · LOCAL · EXPLICIT</span>
+    </div>
+    <div class="starter-hero-grid">
+      <div class="starter-index" aria-hidden="true">
+        <span>START</span>
+        <strong>00</strong>
+      </div>
+      <div>
+        <span class="starter-eyebrow">A useful inquiry is already analytical work.</span>
+        <h1 id="starter-title">Bring the point<br />where it <em>moves.</em></h1>
+      </div>
+      <div class="starter-intro">
+        <p>Name the decision, the last step you trust, the real runway, and the handling boundary. The instrument below turns those pieces into a brief you control.</p>
+        <ul>
+          <li><span>01</span>No account or upload</li>
+          <li><span>02</span>No automatic submission</li>
+          <li><span>03</span>No calendar or payment claim</li>
+        </ul>
+      </div>
+    </div>
+    <div class="starter-signal" aria-hidden="true">
+      <span>PROBLEM</span><i></i><span>FIT</span><i></i><span>HANDLING</span><i></i><span>SCOPE</span><i></i><span>TIME</span><i></i><span>BRIEF</span>
+    </div>
+  </header>
+
+  <section class="starter-orientation" aria-labelledby="orientation-title">
+    <div>
+      <span>BEFORE YOU BEGIN</span>
+      <h2 id="orientation-title">Six deliberate steps.<br />About eight minutes.</h2>
+    </div>
+    <div class="starter-orientation-copy">
+      <p>The starter recommends a plausible engagement, summarizes scope, and prepares a portable text brief. Your answers remain in this browser until you choose email, copy, download, or optional safe draft recovery.</p>
+      <p><strong>Keep PHI, IRB-controlled material, NDA content, student records, credentials, proprietary datasets, and regulated information out of every field.</strong> Initial scoping needs an abstract description only.</p>
+    </div>
+  </section>
+
+  <ProjectConcierge />
+
+  <section class="starter-after" aria-labelledby="after-title">
+    <div>
+      <span>WHAT HAPPENS NEXT</span>
+      <h2 id="after-title">The brief opens a decision.</h2>
+    </div>
+    <ol>
+      <li><span>01</span><strong>You send the brief.</strong><p>Email, clipboard, and text download are explicit handoffs. This site stores no lead record.</p></li>
+      <li><span>02</span><strong>Ian assesses fit.</strong><p>You receive a proposed format, a clarifying question, a referral, or a candid decline.</p></li>
+      <li><span>03</span><strong>Terms go in writing.</strong><p>Scope, rate, preparation, handling, timing, cancellation terms, and integrity boundaries are confirmed before paid work begins.</p></li>
+      <li><span>04</span><strong>Scheduling follows scope.</strong><p>A verified provider link can appear in this flow after it is configured. Until then, timing is confirmed directly.</p></li>
+    </ol>
+  </section>
+</Base>
+
+<style>
+  :global(.starter-page main.wide) {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .starter-hero {
+    position: relative;
+    width: 100%;
+    padding: clamp(1rem, 3vw, 3rem) clamp(1rem, 4vw, 5rem) clamp(3rem, 8vw, 8rem);
+    overflow: hidden;
+    color: var(--ih-bone);
+    background:
+      radial-gradient(circle at 76% 24%, rgba(64, 91, 214, .48), transparent 26rem),
+      linear-gradient(120deg, #10121f 0%, #151a36 60%, #0f1120 100%);
+    border-bottom: 1px solid var(--ih-ink);
+  }
+
+  .starter-hero::before {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: radial-gradient(circle at 70% 45%, black, transparent 70%);
+  }
+
+  .starter-hero-meta {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    color: #aaaab7;
+    border-bottom: 1px solid rgba(255,255,255,.35);
+    font: 500 .58rem var(--ih-mono);
+    letter-spacing: .12em;
+  }
+
+  .starter-hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1.25fr) minmax(280px, .75fr);
+    gap: clamp(1.5rem, 4vw, 5rem);
+    align-items: end;
+    padding-top: clamp(3rem, 8vw, 8rem);
+  }
+
+  .starter-index { display: grid; align-content: space-between; align-self: stretch; min-height: 230px; padding-right: 1rem; border-right: 1px solid rgba(255,255,255,.28); }
+  .starter-index span { font: 500 .58rem var(--ih-mono); letter-spacing: .12em; }
+  .starter-index strong { color: var(--ih-bone); font: 400 3.3rem var(--ih-display); }
+  .starter-eyebrow { color: #9cb0ff; font: 500 .66rem var(--ih-mono); letter-spacing: .08em; text-transform: uppercase; }
+
+  .starter-hero h1 {
+    max-width: 950px;
+    margin: .8rem 0 0;
+    color: var(--ih-bone);
+    font-family: var(--ih-display);
+    font-size: clamp(3.3rem, 9vw, 9.3rem);
+    font-weight: 500;
+    line-height: .78;
+    letter-spacing: -.065em;
+  }
+
+  .starter-hero h1 em { color: #7994ff; font-weight: 400; }
+  .starter-intro > p { max-width: 480px; margin: 0 0 2rem; color: #d0cdd4; font: clamp(.95rem, 1.5vw, 1.15rem)/1.55 var(--ih-sans); }
+  .starter-intro ul { margin: 0; padding: 0; border-top: 1px solid rgba(255,255,255,.32); list-style: none; }
+  .starter-intro li { display: grid; grid-template-columns: 2.1rem 1fr; gap: .6rem; margin: 0; padding: .7rem 0; color: #aaaab5; border-bottom: 1px solid rgba(255,255,255,.18); font: 500 .63rem var(--ih-mono); letter-spacing: .04em; text-transform: uppercase; }
+  .starter-intro li span { color: #7994ff; }
+
+  .starter-signal {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    gap: .6rem;
+    align-items: center;
+    margin-top: clamp(3rem, 8vw, 8rem);
+    color: #8d8c98;
+    font: 500 .54rem var(--ih-mono);
+    letter-spacing: .12em;
+  }
+
+  .starter-signal i { height: 1px; background: rgba(255,255,255,.28); }
+
+  .starter-orientation,
+  .starter-after {
+    display: grid;
+    grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr);
+    gap: clamp(2rem, 7vw, 8rem);
+    width: min(1400px, calc(100% - clamp(2rem, 8vw, 10rem)));
+    margin: clamp(4rem, 9vw, 9rem) auto;
+  }
+
+  .starter-orientation > div:first-child,
+  .starter-after > div:first-child { padding-top: 1rem; border-top: 1px solid var(--ih-ink); }
+  .starter-orientation span,
+  .starter-after > div span { font: 600 .6rem var(--ih-mono); letter-spacing: .12em; }
+  .starter-orientation h2,
+  .starter-after h2 { margin: 1rem 0 0; font-family: var(--ih-display); font-size: clamp(2.2rem, 4.5vw, 4.5rem); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
+  .starter-orientation-copy { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; padding-top: 1rem; border-top: 1px solid var(--ih-rule); }
+  .starter-orientation-copy p { margin: 0; color: var(--ih-muted); font: .98rem/1.65 var(--ih-sans); }
+  .starter-orientation-copy strong { color: var(--ih-oxide); }
+
+  .starter-after { padding-top: clamp(3rem, 7vw, 7rem); border-top: 1px solid var(--ih-ink); }
+  .starter-after > div:first-child { border-top: 0; }
+  .starter-after ol { margin: 0; padding: 0; list-style: none; }
+  .starter-after li { display: grid; grid-template-columns: 3rem minmax(180px, .65fr) 1fr; gap: 1rem; margin: 0; padding: 1.2rem 0; border-top: 1px solid var(--ih-rule); }
+  .starter-after li > span { color: var(--ih-blue); font: 600 .64rem var(--ih-mono); }
+  .starter-after li strong { color: var(--ih-ink); font: 600 .95rem var(--ih-sans); }
+  .starter-after li p { margin: 0; color: var(--ih-muted); font: .82rem/1.5 var(--ih-sans); }
+
+  @media (max-width: 900px) {
+    .starter-hero-grid { grid-template-columns: 65px 1fr; }
+    .starter-intro { grid-column: 2; }
+    .starter-orientation, .starter-after { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 620px) {
+    .starter-hero-meta span:nth-child(2) { display: none; }
+    .starter-hero-grid { grid-template-columns: 1fr; }
+    .starter-index { display: none; }
+    .starter-intro { grid-column: auto; }
+    .starter-signal { grid-template-columns: repeat(6, auto); justify-content: space-between; }
+    .starter-signal i { display: none; }
+    .starter-orientation-copy { grid-template-columns: 1fr; }
+    .starter-after li { grid-template-columns: 2rem 1fr; }
+    .starter-after li p { grid-column: 2; }
+  }
+</style>

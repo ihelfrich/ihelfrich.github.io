@@ -1,0 +1,518 @@
+---
+const lanes = [
+  {
+    id: "research-audit",
+    index: "01",
+    signal: "IDENTIFICATION / MEASUREMENT / REPLICATION",
+    title: "Research and econometric audit",
+    premise: "A coefficient moved, an estimand drifted, or a result now carries more weight than its design can support.",
+    inputs: [
+      "Research question or decision",
+      "Design, data dictionary, and current specifications",
+      "Code, tables, figures, and known concerns",
+      "Deadline and review context",
+    ],
+    methods: [
+      "Estimand mapping",
+      "Identification review",
+      "Measurement audit",
+      "Specification diagnostics",
+      "Code and replication review",
+      "Claim calibration",
+    ],
+    outputs: [
+      "Written diagnostic with severity and sequence",
+      "Specification map and prioritized repair path",
+      "Annotated code or reproducibility notes within scope",
+      "Live review of findings, limits, and next decisions",
+    ],
+    fit: "Research teams, policy organizations, empirical product teams, and researchers preparing consequential work.",
+    boundary: "The desired conclusion remains open. Every claim stays inside the evidence and the engagement's stated authorship rules.",
+    proof: [
+      { label: "NMTC decomposition", href: "/research/helfrich-2026-nmtc-rural-gap" },
+      { label: "Research record", href: "/research" },
+      { label: "Inference Lab", href: "/projects/inference-lab" },
+    ],
+    cta: "/start?lane=research-audit&source=capabilities",
+  },
+  {
+    id: "evidence-products",
+    index: "02",
+    signal: "INTERFACE / EXPLANATION / PUBLICATION",
+    title: "Interactive data and evidence products",
+    premise: "The analysis exists. The people who need it still cannot see how the result was constructed or what changes it.",
+    inputs: [
+      "Validated analysis or public data",
+      "Audience, decisions, and recurring questions",
+      "Publication, accessibility, and hosting constraints",
+      "Existing visual and institutional language",
+    ],
+    methods: [
+      "Information architecture",
+      "Interactive visualization",
+      "Spatial and 3D interfaces",
+      "Live-computed explanation",
+      "Data provenance design",
+      "Accessible static deployment",
+    ],
+    outputs: [
+      "Scoped explorer, observatory, studio, or viewer",
+      "Documented data and interaction model",
+      "Deployment and maintenance plan",
+      "Reusable visual and analytical components",
+    ],
+    fit: "Research groups, nonprofits, educators, policy teams, and technical firms with evidence that stakeholders need to inspect.",
+    boundary: "The analytical spine must be validated or explicitly labeled exploratory. Public deployment requires publishable data and rights.",
+    proof: [
+      { label: "American Policy Atlas", href: "/projects/american-policy-atlas" },
+      { label: "NMTC Viewer", href: "/projects/us-nmtc-viewer" },
+      { label: "PPD 504 Studio", href: "/projects/ppd504-studio" },
+    ],
+    cta: "/start?lane=evidence-products&source=capabilities",
+  },
+  {
+    id: "geospatial-network",
+    index: "03",
+    signal: "SPACE / NETWORKS / EXPOSURE",
+    title: "Geospatial and network intelligence",
+    premise: "The unit, route, boundary, or network representation may be deciding the answer before the model begins.",
+    inputs: [
+      "Geographic or network decision",
+      "Spatial unit and time horizon",
+      "Exposure, outcome, route, or relationship data",
+      "Coverage, licensing, and uncertainty constraints",
+    ],
+    methods: [
+      "Geocoding and spatial QA",
+      "Spatial joins and aggregation",
+      "Remote-sensing integration",
+      "Spatial dependence",
+      "Least-cost and effective distance",
+      "Network representation",
+    ],
+    outputs: [
+      "Decision map, network view, or interactive explorer",
+      "Analysis-ready spatial or relational dataset",
+      "Methods and uncertainty memo",
+      "Reproducible processing workflow",
+    ],
+    fit: "Trade, logistics, policy, infrastructure, climate, finance, and place-based investment questions with a genuine spatial or network mechanism.",
+    boundary: "Coverage and resolution must match the intended inference. Operational forecasting and licensed-domain advice require the relevant specialist team.",
+    proof: [
+      { label: "Effective-distance preprint", href: "/research/gonchar-helfrich-2025-spotlight" },
+      { label: "EffDist dataset", href: "/datasets/effdist-v2026" },
+      { label: "GIS portfolio", href: "/gis" },
+    ],
+    cta: "/start?lane=geospatial-network&source=capabilities",
+  },
+  {
+    id: "training-mentorship",
+    index: "04",
+    signal: "TRANSFER / PRACTICE / JUDGMENT",
+    title: "Quantitative training and mentorship",
+    premise: "A team can run the recipe. The next unfamiliar problem still exposes a gap between output and judgment.",
+    inputs: [
+      "Real work examples and target decisions",
+      "Baseline skills and software environment",
+      "Audience size, format, and available time",
+      "Capability the group should retain",
+    ],
+    methods: [
+      "Live diagnostic instruction",
+      "Custom curriculum architecture",
+      "Deliberate practice",
+      "Code and model walkthroughs",
+      "Interactive teaching instruments",
+      "Office hours and feedback",
+    ],
+    outputs: [
+      "Workshop, cohort, intensive, or mentorship plan",
+      "Tailored examples and durable reference materials",
+      "Practice and diagnostic instruments",
+      "Transfer objective and next-step map",
+    ],
+    fit: "Analyst teams, universities, professional cohorts, graduate researchers, and advanced learners who need durable quantitative judgment.",
+    boundary: "Participants retain authorship and make the final analytical decisions. Academic-integrity and institutional rules govern every engagement.",
+    proof: [
+      { label: "Teaching record", href: "/teaching" },
+      { label: "Stats Lab", href: "/projects/stats-lab" },
+      { label: "Macro Prep", href: "/projects/macroprep" },
+    ],
+    cta: "/start?lane=training-mentorship&source=capabilities",
+  },
+];
+---
+
+<section class="cap-matrix" aria-labelledby="cap-matrix-title">
+  <header class="cap-matrix__header">
+    <div>
+      <span class="cap-matrix__eyebrow">THE CAPABILITY MATRIX / FOUR ENTRY POINTS</span>
+      <h2 id="cap-matrix-title">Bring the point<br />where confidence <em>ends.</em></h2>
+    </div>
+    <p>
+      Each lane begins with a different object. The shared sequence is question, representation, method, diagnostic, and a result another person can inspect.
+    </p>
+  </header>
+
+  <ol class="cap-matrix__lanes">
+    {lanes.map((lane) => (
+      <li id={lane.id} class="cap-lane">
+        <article aria-labelledby={`${lane.id}-title`}>
+          <header class="cap-lane__head">
+            <span class="cap-lane__number" aria-hidden="true">{lane.index}</span>
+            <div>
+              <small>{lane.signal}</small>
+              <h3 id={`${lane.id}-title`}>{lane.title}</h3>
+              <p>{lane.premise}</p>
+            </div>
+          </header>
+
+          <div class="cap-lane__flow" aria-label={`${lane.title} engagement flow`}>
+            <section aria-labelledby={`${lane.id}-inputs`}>
+              <span aria-hidden="true">A</span>
+              <h4 id={`${lane.id}-inputs`}>Inputs</h4>
+              <ul>{lane.inputs.map((item) => <li>{item}</li>)}</ul>
+            </section>
+
+            <section aria-labelledby={`${lane.id}-methods`}>
+              <span aria-hidden="true">B</span>
+              <h4 id={`${lane.id}-methods`}>Methods</h4>
+              <ul class="cap-lane__tags">{lane.methods.map((item) => <li>{item}</li>)}</ul>
+            </section>
+
+            <section aria-labelledby={`${lane.id}-outputs`}>
+              <span aria-hidden="true">C</span>
+              <h4 id={`${lane.id}-outputs`}>Outputs</h4>
+              <ul>{lane.outputs.map((item) => <li>{item}</li>)}</ul>
+            </section>
+          </div>
+
+          <div class="cap-lane__fit">
+            <div>
+              <span>GOOD FIT</span>
+              <p>{lane.fit}</p>
+            </div>
+            <div>
+              <span>BOUNDARY</span>
+              <p>{lane.boundary}</p>
+            </div>
+          </div>
+
+          <footer class="cap-lane__foot">
+            <nav aria-label={`${lane.title} public proof`}>
+              <span>PUBLIC PROOF</span>
+              {lane.proof.map((item) => <a href={item.href}>{item.label}</a>)}
+            </nav>
+            <a class="cap-lane__cta" href={lane.cta}>
+              <span>Start with this lane</span>
+              <b aria-hidden="true">↗</b>
+            </a>
+          </footer>
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .cap-matrix {
+    --cap-ink: #11131d;
+    --cap-paper: #f4f1e9;
+    --cap-line: color-mix(in srgb, var(--cap-ink) 18%, transparent);
+    --cap-accent: #bb4e30;
+    padding: clamp(4.5rem, 8vw, 8rem) max(1.25rem, calc((100vw - 1440px) / 2));
+    color: var(--cap-ink);
+    background:
+      linear-gradient(90deg, transparent 49.94%, color-mix(in srgb, var(--cap-ink) 7%, transparent) 50%, transparent 50.06%),
+      var(--cap-paper);
+  }
+
+  .cap-matrix__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: end;
+    margin: 0 auto clamp(3rem, 6vw, 6rem);
+    max-width: 1320px;
+  }
+
+  .cap-matrix__eyebrow,
+  .cap-lane__head small,
+  .cap-lane__fit span,
+  .cap-lane__foot nav > span {
+    font: 650 0.68rem/1.3 var(--font-sans, sans-serif);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .cap-matrix__eyebrow {
+    display: block;
+    margin-bottom: 1.2rem;
+    color: var(--cap-accent);
+  }
+
+  .cap-matrix__header h2 {
+    margin: 0;
+    font: 400 clamp(3.1rem, 7.2vw, 7.4rem) / 0.84 var(--font-display, serif);
+    letter-spacing: -0.055em;
+  }
+
+  .cap-matrix__header h2 em {
+    color: var(--cap-accent);
+    font-weight: 400;
+  }
+
+  .cap-matrix__header > p {
+    margin: 0 0 0.45rem;
+    font: 400 clamp(1rem, 1.35vw, 1.22rem) / 1.65 var(--font-serif, serif);
+  }
+
+  .cap-matrix__lanes {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--cap-ink);
+  }
+
+  .cap-lane {
+    border-bottom: 1px solid var(--cap-ink);
+  }
+
+  .cap-lane article {
+    padding: clamp(2.4rem, 5vw, 5rem) 0;
+  }
+
+  .cap-lane__head {
+    display: grid;
+    grid-template-columns: clamp(4rem, 8vw, 7rem) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 3rem);
+    align-items: start;
+    margin-bottom: clamp(2rem, 4vw, 4rem);
+  }
+
+  .cap-lane__number {
+    font: 300 clamp(2.8rem, 6vw, 6rem) / 0.75 var(--font-display, serif);
+    color: var(--cap-accent);
+  }
+
+  .cap-lane__head small {
+    color: color-mix(in srgb, var(--cap-ink) 56%, transparent);
+  }
+
+  .cap-lane__head h3 {
+    max-width: 19ch;
+    margin: 0.45rem 0 0.9rem;
+    font: 450 clamp(2.1rem, 4.4vw, 4.5rem) / 0.95 var(--font-display, serif);
+    letter-spacing: -0.04em;
+  }
+
+  .cap-lane__head p {
+    max-width: 68ch;
+    margin: 0;
+    font: 400 clamp(1rem, 1.3vw, 1.2rem) / 1.55 var(--font-serif, serif);
+  }
+
+  .cap-lane__flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--cap-line);
+    background: color-mix(in srgb, white 26%, transparent);
+  }
+
+  .cap-lane__flow section {
+    position: relative;
+    min-height: 22rem;
+    padding: clamp(1.4rem, 2.5vw, 2.4rem);
+  }
+
+  .cap-lane__flow section + section {
+    border-left: 1px solid var(--cap-line);
+  }
+
+  .cap-lane__flow section > span {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    display: grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    place-items: center;
+    border: 1px solid var(--cap-line);
+    border-radius: 50%;
+    font: 600 0.65rem/1 var(--font-mono, monospace);
+  }
+
+  .cap-lane__flow h4 {
+    margin: 0 0 2rem;
+    font: 500 1.25rem/1 var(--font-display, serif);
+  }
+
+  .cap-lane__flow ul {
+    display: grid;
+    gap: 0.82rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cap-lane__flow li {
+    position: relative;
+    padding-left: 1rem;
+    font: 450 0.9rem/1.45 var(--font-sans, sans-serif);
+  }
+
+  .cap-lane__flow li::before {
+    position: absolute;
+    left: 0;
+    color: var(--cap-accent);
+    content: "+";
+  }
+
+  .cap-lane__tags {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-content: start;
+    gap: 0.5rem !important;
+  }
+
+  .cap-lane__tags li {
+    padding: 0.45rem 0.6rem !important;
+    border: 1px solid var(--cap-line);
+    font: 560 0.7rem/1.15 var(--font-mono, monospace) !important;
+    letter-spacing: 0.025em;
+  }
+
+  .cap-lane__tags li::before {
+    content: none;
+  }
+
+  .cap-lane__fit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-right: 1px solid var(--cap-line);
+    border-bottom: 1px solid var(--cap-line);
+    border-left: 1px solid var(--cap-line);
+  }
+
+  .cap-lane__fit > div {
+    padding: 1.4rem clamp(1.4rem, 2.5vw, 2.4rem);
+  }
+
+  .cap-lane__fit > div + div {
+    border-left: 1px solid var(--cap-line);
+  }
+
+  .cap-lane__fit span {
+    color: var(--cap-accent);
+  }
+
+  .cap-lane__fit p {
+    margin: 0.55rem 0 0;
+    font: 450 0.88rem/1.55 var(--font-sans, sans-serif);
+  }
+
+  .cap-lane__foot {
+    display: flex;
+    gap: 2rem;
+    align-items: end;
+    justify-content: space-between;
+    padding-top: 1.4rem;
+  }
+
+  .cap-lane__foot nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1rem;
+    align-items: center;
+  }
+
+  .cap-lane__foot nav > span {
+    color: color-mix(in srgb, var(--cap-ink) 54%, transparent);
+  }
+
+  .cap-lane__foot nav a {
+    color: inherit;
+    font: 570 0.75rem/1.3 var(--font-sans, sans-serif);
+    text-underline-offset: 0.23em;
+  }
+
+  .cap-lane__cta {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 1.3rem;
+    align-items: center;
+    min-height: 3.4rem;
+    padding: 0.4rem 0.45rem 0.4rem 1.2rem;
+    color: white;
+    background: var(--cap-ink);
+    text-decoration: none;
+    font: 650 0.75rem/1 var(--font-sans, sans-serif);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .cap-lane__cta b {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    color: var(--cap-ink);
+    background: var(--cap-paper);
+    font-size: 1rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cap-lane__cta,
+    .cap-lane__cta b {
+      transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .cap-lane__cta:hover,
+    .cap-lane__cta:focus-visible {
+      background: var(--cap-accent);
+    }
+
+    .cap-lane__cta:hover b,
+    .cap-lane__cta:focus-visible b {
+      transform: rotate(45deg);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .cap-matrix__header,
+    .cap-lane__flow,
+    .cap-lane__fit {
+      grid-template-columns: 1fr;
+    }
+
+    .cap-lane__flow section {
+      min-height: 0;
+    }
+
+    .cap-lane__flow section + section,
+    .cap-lane__fit > div + div {
+      border-top: 1px solid var(--cap-line);
+      border-left: 0;
+    }
+
+    .cap-lane__foot {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .cap-lane__cta {
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cap-lane__head {
+      grid-template-columns: 1fr;
+    }
+
+    .cap-lane__number {
+      font-size: 2.6rem;
+    }
+  }
+</style>

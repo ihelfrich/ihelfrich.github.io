@@ -1,0 +1,447 @@
+---
+import Base from "../layouts/Base.astro";
+import CapabilityMatrix from "../components/CapabilityMatrix.astro";
+---
+
+<Base
+  wide
+  pageClass="capabilities-page"
+  title="Capabilities"
+  description="Econometric audits, interactive evidence products, geospatial and network intelligence, and quantitative training from research economist Ian Helfrich, PhD."
+>
+  <header class="cp-hero" aria-labelledby="cp-title">
+    <div class="cp-hero__topline">
+      <span>IAN T. S. HELFRICH / RESEARCH PRACTICE</span>
+      <span>ST. LOUIS / WORKING WORLDWIDE</span>
+    </div>
+
+    <div class="cp-hero__grid">
+      <div class="cp-hero__folio" aria-hidden="true">
+        <span>CAPABILITY FIELD</span>
+        <b>04</b>
+        <small>ENTRY POINTS</small>
+      </div>
+      <div class="cp-hero__copy">
+        <span>QUESTION / REPRESENTATION / METHOD / DECISION</span>
+        <h1 id="cp-title">What does the<br />answer <em>depend on?</em></h1>
+        <p>
+          I audit the design, build the analytical object, expose the moving parts, and transfer the reasoning to the people who must use it.
+        </p>
+        <div>
+          <a class="cp-action" href="/start?source=capabilities-hero">Bring me the problem</a>
+          <a href="/work">Read the case record →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cp-proof" aria-label="Selected qualifications and teaching evidence">
+      <div><strong>PhD</strong><span>Economics, Georgia Tech</span></div>
+      <div><strong>MS</strong><span>Geographic Information Science</span></div>
+      <div><strong>2023</strong><span>Georgia Tech Graduate TA of the Year</span></div>
+      <div><strong>1,200+</strong><span>Hours in a recent teaching year</span></div>
+    </div>
+  </header>
+
+  <section class="cp-thesis" aria-labelledby="cp-thesis-title">
+    <span>THE PRACTICE</span>
+    <h2 id="cp-thesis-title">A model is a chain<br />of consequential choices.</h2>
+    <div>
+      <p>
+        The geographic unit changes the pattern. An intermediary fixed effect changes the policy target. A static distance measure misses the route that actually carries exposure. A technically correct chart leaves its audience unable to inspect the assumption underneath it.
+      </p>
+      <p>
+        My work begins at that seam. Economics frames the object. Econometrics disciplines the comparison. Geospatial and network methods represent the system. Software and teaching make the reasoning available to other people.
+      </p>
+    </div>
+  </section>
+
+  <CapabilityMatrix />
+
+  <section class="cp-sequence" aria-labelledby="cp-sequence-title">
+    <header>
+      <span>THE ENGAGEMENT SEQUENCE</span>
+      <h2 id="cp-sequence-title">Four gates before<br />the work expands.</h2>
+      <p>Scope grows only when the next step changes the answer, the decision, or the capability that remains.</p>
+    </header>
+    <ol>
+      <li><b>01</b><div><h3>Name the decision.</h3><p>What must someone decide, publish, defend, teach, or build?</p></div></li>
+      <li><b>02</b><div><h3>Find the load-bearing choice.</h3><p>Locate the unit, measure, comparison, representation, or workflow that controls the result.</p></div></li>
+      <li><b>03</b><div><h3>Choose the smallest useful object.</h3><p>A diagnostic, prototype, map, model, workshop, or documented pipeline may be enough.</p></div></li>
+      <li><b>04</b><div><h3>Define the handoff.</h3><p>Specify the output, ownership, limits, maintenance, and decision rights in writing.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="cp-bridge" aria-labelledby="cp-bridge-title">
+    <div>
+      <span>PUBLIC WORK / INSPECT BEFORE YOU INQUIRE</span>
+      <h2 id="cp-bridge-title">The proof is<br />an open object.</h2>
+    </div>
+    <div>
+      <p>
+        Review the papers, datasets, viewers, observatories, studios, and teaching laboratories. Status labels separate live work, preprints, drafts, and projects in progress.
+      </p>
+      <nav aria-label="Public work links">
+        <a href="/work">Selected cases</a>
+        <a href="/research">Research</a>
+        <a href="/projects">Projects</a>
+        <a href="/datasets">Datasets</a>
+        <a href="/library">Complete index</a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="cp-final" aria-labelledby="cp-final-title">
+    <span>START WITH THE LAST STEP YOU TRUST</span>
+    <h2 id="cp-final-title">Send the question,<br />the blockage, and the stakes.</h2>
+    <p>I will identify the closest capability lane, the smallest useful engagement, and the evidence needed to scope it responsibly.</p>
+    <div>
+      <a class="cp-action cp-action--light" href="/start?source=capabilities-footer">Start an inquiry</a>
+      <a href="/work">See how the pieces connect →</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cp-hero {
+    min-height: calc(100svh - 5rem);
+    padding: clamp(1.25rem, 3vw, 3rem) max(1.25rem, calc((100vw - 1440px) / 2)) 0;
+    color: #f3efe6;
+    background:
+      radial-gradient(circle at 72% 34%, rgba(191, 78, 47, 0.2), transparent 25rem),
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
+      #11131d;
+    background-size: auto, 64px 64px, 64px 64px, auto;
+  }
+
+  .cp-hero__topline {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.28);
+    font: 650 0.66rem/1.3 var(--font-sans, sans-serif);
+    letter-spacing: 0.16em;
+  }
+
+  .cp-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.26fr) minmax(0, 1fr);
+    min-height: 66svh;
+    border-bottom: 1px solid rgba(255,255,255,0.28);
+  }
+
+  .cp-hero__folio {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: clamp(1.5rem, 4vw, 4rem);
+    border-right: 1px solid rgba(255,255,255,0.28);
+  }
+
+  .cp-hero__folio span,
+  .cp-hero__copy > span,
+  .cp-thesis > span,
+  .cp-sequence header > span,
+  .cp-bridge span,
+  .cp-final > span {
+    font: 650 0.66rem/1.3 var(--font-sans, sans-serif);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .cp-hero__folio b {
+    margin-top: 1.2rem;
+    color: #cf5b39;
+    font: 300 clamp(4rem, 9vw, 9rem)/0.8 var(--font-display, serif);
+  }
+
+  .cp-hero__folio small {
+    margin-top: 0.6rem;
+    font: 550 0.62rem/1 var(--font-mono, monospace);
+    letter-spacing: 0.13em;
+  }
+
+  .cp-hero__copy {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(3rem, 7vw, 7rem);
+  }
+
+  .cp-hero__copy > span {
+    color: #d8a28e;
+  }
+
+  .cp-hero h1 {
+    margin: 1.2rem 0 1.6rem;
+    font: 400 clamp(4rem, 10vw, 10rem)/0.8 var(--font-display, serif);
+    letter-spacing: -0.06em;
+  }
+
+  .cp-hero h1 em {
+    color: #cf5b39;
+    font-weight: 400;
+  }
+
+  .cp-hero__copy > p {
+    max-width: 48rem;
+    margin: 0;
+    color: rgba(243,239,230,0.82);
+    font: 400 clamp(1.05rem, 1.65vw, 1.4rem)/1.6 var(--font-serif, serif);
+  }
+
+  .cp-hero__copy > div,
+  .cp-final > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.3rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .cp-hero__copy > div > a:not(.cp-action),
+  .cp-final > div > a:not(.cp-action) {
+    color: inherit;
+    font: 600 0.8rem/1 var(--font-sans, sans-serif);
+    text-underline-offset: 0.3em;
+  }
+
+  .cp-action {
+    display: inline-flex;
+    min-height: 3.5rem;
+    align-items: center;
+    padding: 0.25rem 1.3rem;
+    color: #11131d;
+    background: #f3efe6;
+    text-decoration: none;
+    font: 700 0.73rem/1 var(--font-sans, sans-serif);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cp-proof {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .cp-proof div {
+    display: flex;
+    flex-direction: column;
+    min-height: 7rem;
+    justify-content: center;
+    padding: 1rem clamp(1rem, 2vw, 2rem);
+    border-left: 1px solid rgba(255,255,255,0.28);
+  }
+
+  .cp-proof div:first-child {
+    border-left: 0;
+  }
+
+  .cp-proof strong {
+    color: #cf5b39;
+    font: 400 1.65rem/1 var(--font-display, serif);
+  }
+
+  .cp-proof span {
+    margin-top: 0.45rem;
+    color: rgba(243,239,230,0.72);
+    font: 520 0.72rem/1.35 var(--font-sans, sans-serif);
+  }
+
+  .cp-thesis,
+  .cp-bridge {
+    display: grid;
+    grid-template-columns: 0.38fr 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding: clamp(5rem, 10vw, 10rem) max(1.25rem, calc((100vw - 1320px) / 2));
+    color: #11131d;
+    background: #e9e4d9;
+  }
+
+  .cp-thesis > span,
+  .cp-sequence header > span,
+  .cp-bridge span {
+    color: #b5482c;
+  }
+
+  .cp-thesis h2,
+  .cp-sequence h2,
+  .cp-bridge h2,
+  .cp-final h2 {
+    margin: 0;
+    font: 420 clamp(2.7rem, 6vw, 6rem)/0.9 var(--font-display, serif);
+    letter-spacing: -0.05em;
+  }
+
+  .cp-thesis > div {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .cp-thesis p,
+  .cp-bridge p {
+    margin: 0;
+    font: 400 1.05rem/1.7 var(--font-serif, serif);
+  }
+
+  .cp-sequence {
+    padding: clamp(5rem, 9vw, 9rem) max(1.25rem, calc((100vw - 1320px) / 2));
+    color: #f3efe6;
+    background: #181b28;
+  }
+
+  .cp-sequence header {
+    display: grid;
+    grid-template-columns: 1fr 0.6fr;
+    gap: 2rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+
+  .cp-sequence header > span {
+    grid-column: 1 / -1;
+  }
+
+  .cp-sequence header p {
+    margin: 0;
+    color: rgba(243,239,230,0.72);
+    font: 400 1rem/1.6 var(--font-serif, serif);
+  }
+
+  .cp-sequence ol {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(255,255,255,0.28);
+    list-style: none;
+  }
+
+  .cp-sequence li {
+    display: grid;
+    grid-template-columns: clamp(4rem, 9vw, 8rem) 1fr;
+    gap: 1.5rem;
+    padding: 1.7rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.28);
+  }
+
+  .cp-sequence li b {
+    color: #cf5b39;
+    font: 400 1.4rem/1 var(--font-display, serif);
+  }
+
+  .cp-sequence li div {
+    display: grid;
+    grid-template-columns: 0.55fr 1fr;
+    gap: 2rem;
+  }
+
+  .cp-sequence h3 {
+    margin: 0;
+    font: 450 1.55rem/1.1 var(--font-display, serif);
+  }
+
+  .cp-sequence li p {
+    margin: 0;
+    color: rgba(243,239,230,0.72);
+    font: 420 0.9rem/1.5 var(--font-sans, sans-serif);
+  }
+
+  .cp-bridge {
+    grid-template-columns: 1fr 1fr;
+    background: #f4f1e9;
+  }
+
+  .cp-bridge h2 {
+    margin-top: 1.1rem;
+  }
+
+  .cp-bridge > div:last-child {
+    align-self: end;
+  }
+
+  .cp-bridge nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .cp-bridge nav a {
+    color: inherit;
+    font: 650 0.78rem/1.4 var(--font-sans, sans-serif);
+    text-underline-offset: 0.3em;
+  }
+
+  .cp-final {
+    padding: clamp(5rem, 10vw, 10rem) max(1.25rem, calc((100vw - 1120px) / 2));
+    color: #f3efe6;
+    background: #b5482c;
+  }
+
+  .cp-final > span {
+    display: block;
+    margin-bottom: 1.1rem;
+    color: #24140e;
+  }
+
+  .cp-final p {
+    max-width: 48rem;
+    margin: 1.5rem 0 0;
+    font: 400 1.1rem/1.65 var(--font-serif, serif);
+  }
+
+  .cp-action--light {
+    background: #f3efe6;
+  }
+
+  @media (max-width: 800px) {
+    .cp-hero__grid,
+    .cp-thesis,
+    .cp-bridge,
+    .cp-sequence header {
+      grid-template-columns: 1fr;
+    }
+
+    .cp-hero__folio {
+      display: none;
+    }
+
+    .cp-hero__copy {
+      padding: 4rem 0;
+    }
+
+    .cp-proof {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cp-proof div:nth-child(3) {
+      border-left: 0;
+    }
+
+    .cp-thesis > span {
+      grid-column: 1;
+    }
+
+    .cp-sequence li div {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cp-hero__topline span:last-child {
+      display: none;
+    }
+
+    .cp-proof {
+      grid-template-columns: 1fr;
+    }
+
+    .cp-proof div,
+    .cp-proof div:nth-child(3) {
+      border-top: 1px solid rgba(255,255,255,0.28);
+      border-left: 0;
+    }
+  }
+</style>

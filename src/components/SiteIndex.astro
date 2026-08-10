@@ -10,12 +10,16 @@ const [research, writing, datasets, projects, teaching] = await Promise.all([
 ]);
 
 const records = [
-  { kind: "Go", code: "GO-01", title: "Work with Ian", detail: "Private instruction, research mentorship, and institutional training", href: "/work-with-me" },
-  { kind: "Go", code: "GO-02", title: "Teaching", detail: "Open teaching tools, record, and pedagogy", href: "/teaching" },
-  { kind: "Go", code: "GO-03", title: "Public index", detail: "Papers, data, essays, tools, and talks in one searchable record", href: "/library" },
-  { kind: "Go", code: "GO-04", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
-  { kind: "Go", code: "GO-05", title: "About Ian", detail: "Background, research program, and current work", href: "/about" },
-  { kind: "Go", code: "GO-06", title: "Curriculum vitae", detail: "Appointments, teaching, papers, awards, and methods", href: "/cv" },
+  { kind: "Go", code: "GO-01", title: "Start a project", detail: "Project fit, scope, recommendation, brief, and scheduling handoff", href: "/start" },
+  { kind: "Go", code: "GO-02", title: "Selected work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", href: "/work" },
+  { kind: "Go", code: "GO-03", title: "Capabilities", detail: "Research audit, evidence products, spatial intelligence, and team methods", href: "/capabilities" },
+  { kind: "Go", code: "GO-04", title: "Interactive lab", detail: "Working analytical instruments with methods and decision context", href: "/lab" },
+  { kind: "Go", code: "GO-05", title: "Research", detail: "Papers, programs, methods, data, and current questions", href: "/research" },
+  { kind: "Go", code: "GO-06", title: "Teaching", detail: "Open teaching tools, training, private mentorship, and pedagogy", href: "/teaching" },
+  { kind: "Go", code: "GO-07", title: "Public index", detail: "Papers, data, essays, tools, and talks in one searchable record", href: "/library" },
+  { kind: "Go", code: "GO-08", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
+  { kind: "Go", code: "GO-09", title: "About Ian", detail: "Background, research program, and current work", href: "/about" },
+  { kind: "Go", code: "GO-10", title: "Curriculum vitae", detail: "Appointments, teaching, papers, awards, and methods", href: "/cv" },
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
     title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.status}`, href: `/research/${entry.id}`,
