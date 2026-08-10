@@ -22,6 +22,7 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const personImage = new URL("/people/ian-editorial.webp", Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+const isQuietHome = pageClass.split(/\s+/).includes("quiet-home");
 const year = new Date().getFullYear();
 
 const personSchema = {
@@ -113,7 +114,7 @@ const personSchema = {
         <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
         <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
         <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
-        <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
+        {!isQuietHome && <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>}
         <a href="/start" class="nav-cta">Work with Ian</a>
       </nav>
     </div>
@@ -127,53 +128,74 @@ const personSchema = {
 
   <FieldRail />
 
-  <footer class="site-footer">
-    <div class="site-footer-inner">
-      <div class="footer-intro">
-        <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-        <p>Complex evidence, made usable through economics, research, software, and teaching.</p>
-        <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
-      </div>
-
-      <div class="footer-links">
+  {isQuietHome ? (
+    <footer class="site-footer site-footer--quiet">
+      <div class="quiet-footer-inner">
         <div>
-          <strong>Work</strong>
-          <a href="/work">Selected work</a>
-          <a href="/research">Research</a>
-          <a href="/projects">Projects</a>
-          <a href="/datasets">Datasets</a>
+          <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
+          <p>Economics · Research · Education</p>
         </div>
-        <div>
-          <strong>Practice</strong>
-          <a href="/capabilities">Economics + strategy</a>
-          <a href="/gis">Remote sensing + spatial</a>
-          <a href="/teaching">Teaching + tutoring</a>
-          <a href="/third-space">ThirdSpace</a>
-        </div>
-        <div>
-          <strong>About</strong>
-          <a href="/about">Profile</a>
-          <a href="/cv">Curriculum vitae</a>
-          <a href="/writing">Writing</a>
-          <a href="/now">Now</a>
-        </div>
-        <div>
-          <strong>Connect</strong>
-          <a href="/start">Start a project</a>
-          <a href="/start?problem=learning&source=footer">Private tutoring</a>
+        <nav aria-label="Footer navigation">
+          <a href="/cv">CV</a>
           <a href="mailto:ianthelfrich@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+      <div class="site-footer-bottom">
+        <span>© {year} Ian Helfrich</span>
+        <span>St. Louis, Missouri · Working worldwide</span>
+      </div>
+    </footer>
+  ) : (
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="footer-intro">
+          <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
+          <p>Complex evidence, made usable through economics, research, software, and teaching.</p>
+          <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
+        </div>
+
+        <div class="footer-links">
+          <div>
+            <strong>Work</strong>
+            <a href="/work">Selected work</a>
+            <a href="/research">Research</a>
+            <a href="/projects">Projects</a>
+            <a href="/datasets">Datasets</a>
+          </div>
+          <div>
+            <strong>Practice</strong>
+            <a href="/capabilities">Economics + strategy</a>
+            <a href="/gis">Remote sensing + spatial</a>
+            <a href="/teaching">Teaching + tutoring</a>
+            <a href="/third-space">ThirdSpace</a>
+          </div>
+          <div>
+            <strong>About</strong>
+            <a href="/about">Profile</a>
+            <a href="/cv">Curriculum vitae</a>
+            <a href="/writing">Writing</a>
+            <a href="/now">Now</a>
+          </div>
+          <div>
+            <strong>Connect</strong>
+            <a href="/start">Start a project</a>
+            <a href="/start?problem=learning&source=footer">Private tutoring</a>
+            <a href="mailto:ianthelfrich@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="site-footer-bottom">
-      <span>© {year} Ian Helfrich</span>
-      <span>Research, analysis, software, and education. Every engagement is scoped in writing.</span>
-      <span class="footer-colophon">Built with Astro · Motion with GSAP + Three.js</span>
-      <button type="button" data-index-open>INDEX /</button>
-    </div>
-  </footer>
+      <div class="site-footer-bottom">
+        <span>© {year} Ian Helfrich</span>
+        <span>Research, analysis, software, and education. Every engagement is scoped in writing.</span>
+        <span class="footer-colophon">Built with Astro</span>
+        <button type="button" data-index-open>INDEX /</button>
+      </div>
+    </footer>
+  )}
 
   <script is:inline>
     const navToggle = document.querySelector('.nav-toggle');
