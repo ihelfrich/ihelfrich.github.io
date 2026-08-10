@@ -1,9 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
-import StudioFrontDoor from "../components/StudioFrontDoor.astro";
+import CounterfactualAtlas from "../components/CounterfactualAtlas.astro";
 import SpecificationWorkbench from "../components/SpecificationWorkbench.astro";
-import CapabilityMatrix from "../components/CapabilityMatrix.astro";
-import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.astro";
+import EvidenceTransects from "../components/EvidenceTransects.astro";
+import ProofCircuit from "../components/ProofCircuit.astro";
 ---
 
 <Base
@@ -12,27 +12,28 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
   image="/og.png"
   description="Ian Helfrich is a research economist who builds defensible econometric analyses, geospatial intelligence, interactive evidence products, and quantitative capability for researchers, teams, and institutions."
 >
-  <StudioFrontDoor />
+  <CounterfactualAtlas />
 
   <section class="studio-live-intro" aria-labelledby="studio-live-title" data-rail-label="LIVE EVIDENCE">
     <div>
       <span>02 / A LIVE CASE</span>
-      <h2 id="studio-live-title">A polished result is where the investigation begins.</h2>
+      <h2 id="studio-live-title">A result you can push until its assumptions show.</h2>
     </div>
     <p>
-      The instrument below uses a real specification path from a place-based policy project. Change the model, inspect the interval, and watch the substantive story move when intermediary identity enters the comparison.
+      This instrument uses a real specification path from a place-based policy project. Change the model, inspect the interval, and watch the substantive story move when intermediary identity enters the comparison.
     </p>
     <aside>
       <span>WHAT THIS PROVES</span>
       <strong>Question → design → code → visual state → defensible sentence</strong>
+      <small>Verified finding · public case · interactive reconstruction</small>
     </aside>
   </section>
 
   <SpecificationWorkbench heading="h2" />
 
-  <CapabilityMatrix />
+  <EvidenceTransects />
 
-  <PublicArchiveSwitchboard />
+  <ProofCircuit />
 
   <section class="studio-profile" aria-labelledby="studio-profile-title" data-rail-label="THE PERSON">
     <figure>
@@ -57,7 +58,7 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
         <a href="/library">Search the public record ↗</a>
       </div>
     </article>
-    <blockquote>“The deliverable is a decision whose construction remains visible.”</blockquote>
+    <blockquote><span>Working principle</span>“The deliverable is a decision whose construction remains visible.”</blockquote>
   </section>
 
   <section class="studio-close" aria-labelledby="studio-close-title" data-rail-label="START A PROJECT">
@@ -108,13 +109,15 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
     display: grid;
     padding: 1rem 0 0;
     grid-column: 1 / -1;
-    grid-template-columns: 190px 1fr;
+    grid-template-columns: 190px minmax(0, 1fr) auto;
     gap: 1rem;
+    align-items: baseline;
     border-top: 1px solid var(--ih-rule);
   }
 
   .studio-live-intro aside span { color: var(--ih-muted); font: 500 .56rem var(--ih-mono); letter-spacing: .07em; }
   .studio-live-intro aside strong { color: var(--ih-ink); font: 500 .75rem var(--ih-mono); }
+  .studio-live-intro aside small { color: var(--ih-signal-dark); font: 600 .56rem var(--ih-mono); letter-spacing: .05em; text-transform: uppercase; }
 
   .studio-profile {
     display: grid;
@@ -126,8 +129,9 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
     border-bottom: 1px solid var(--ih-ink);
   }
 
-  .studio-profile figure { margin: 0; }
-  .studio-profile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; filter: saturate(.72) contrast(1.04); }
+  .studio-profile figure { position: relative; margin: 0; align-self: start; }
+  .studio-profile figure::after { position: absolute; right: -1rem; bottom: 2.4rem; width: 42%; height: 18%; content: ""; background: var(--ih-signal); mix-blend-mode: multiply; pointer-events: none; }
+  .studio-profile img { display: block; width: 100%; aspect-ratio: .88; object-fit: cover; filter: saturate(.6) contrast(1.08); clip-path: polygon(0 0, 100% 0, 100% 83%, 78% 100%, 0 100%); }
   .studio-profile figcaption { padding: .7rem 0; border-bottom: 1px solid var(--ih-ink); font: 500 .55rem var(--ih-mono); letter-spacing: .06em; }
 
   .studio-profile h2 {
@@ -147,6 +151,9 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
   .studio-profile__links a { color: var(--ih-ink); font: 600 .62rem var(--ih-mono); text-underline-offset: .3em; text-transform: uppercase; }
 
   .studio-profile blockquote {
+    display: grid;
+    grid-template-columns: minmax(120px, .22fr) 1fr;
+    gap: 1rem;
     margin: 0;
     padding: 1.3rem 0 0;
     grid-column: 1 / -1;
@@ -157,16 +164,18 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
     letter-spacing: -.04em;
   }
 
+  .studio-profile blockquote span { padding-top: .45rem; color: var(--ih-muted); font: 600 .58rem var(--ih-mono); letter-spacing: .08em; text-transform: uppercase; }
+
   .studio-close {
     padding: clamp(4rem, 9vw, 9rem) clamp(1rem, 7vw, 9rem);
     color: var(--ih-bone);
-    background: var(--ih-ink);
+    background: var(--ih-night);
   }
 
   .studio-close h2 { max-width: 1250px; margin: .9rem 0 1.5rem; color: var(--ih-bone); font: 500 clamp(3.2rem, 7vw, 8rem)/.88 var(--ih-display); letter-spacing: -.065em; }
   .studio-close p { max-width: 680px; color: var(--ih-smoke-blue); font: 400 1.1rem/1.5 var(--ih-serif); }
   .studio-close > div { display: flex; margin-top: 2rem; align-items: center; gap: 1rem 1.5rem; flex-wrap: wrap; }
-  .studio-close__button { display: inline-flex; min-height: 54px; padding: 0 1.2rem; align-items: center; color: white; background: var(--ih-blue); border: 1px solid var(--ih-blue); font: 600 .65rem var(--ih-mono); letter-spacing: .06em; text-decoration: none; text-transform: uppercase; }
+  .studio-close__button { display: inline-flex; min-height: 54px; padding: 0 1.2rem; align-items: center; color: var(--ih-on-dark); background: var(--ih-blue); border: 1px solid var(--ih-blue); font: 600 .65rem var(--ih-mono); letter-spacing: .06em; text-decoration: none; text-transform: uppercase; }
   .studio-close__button:hover { color: var(--ih-ink); background: var(--ih-bone); border-color: var(--ih-bone); }
   .studio-close > div > a:last-child { color: var(--ih-bone); font: 500 .68rem var(--ih-mono); text-underline-offset: .35em; }
 
@@ -177,5 +186,6 @@ import PublicArchiveSwitchboard from "../components/PublicArchiveSwitchboard.ast
     .studio-profile figure { max-width: 420px; }
     .studio-profile h2 { font-size: clamp(3rem, 13vw, 5rem); }
     .studio-profile__ledger p { grid-template-columns: 1fr; gap: .35rem; }
+    .studio-profile blockquote { grid-template-columns: 1fr; }
   }
 </style>

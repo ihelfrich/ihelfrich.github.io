@@ -1,0 +1,1142 @@
+---
+const nmtcSpecs = [
+  {
+    code: "M0",
+    label: "Raw",
+    beta: -0.26225892496708414,
+    se: 0.05973118400635994,
+    reading: "The pooled comparison treats every intermediary as interchangeable.",
+  },
+  {
+    code: "M1",
+    label: "+ Year",
+    beta: -0.2492351438167053,
+    se: 0.060576503565311864,
+    reading: "Allocation year explains almost none of the raw difference.",
+  },
+  {
+    code: "M2",
+    label: "+ Project type",
+    beta: -0.1856368063298589,
+    se: 0.060878176835919,
+    reading: "Project mix explains part of the difference, while a substantial gap remains.",
+  },
+  {
+    code: "M3",
+    label: "+ State",
+    beta: -0.17200578105953668,
+    se: 0.06743342003332778,
+    reading: "State fixed effects move the result only a little further toward zero.",
+  },
+  {
+    code: "M4",
+    label: "+ Intermediary",
+    beta: -0.04669406877348936,
+    se: 0.10112753588507604,
+    reading: "Within the same intermediary, the estimate falls to negative 0.047 and becomes imprecise.",
+  },
+];
+
+const relayStates = [
+  {
+    key: "question",
+    label: "Question",
+    equation: "Y  ?  X",
+    tableKey: "DESIGN",
+    tableValue: "OPEN",
+    sentence: "Which comparison would make the claim meaningful?",
+    barA: 36,
+    barB: 72,
+  },
+  {
+    key: "estimate",
+    label: "Estimate",
+    equation: "Ŷ = α + βX",
+    tableKey: "ESTIMATE",
+    tableValue: "β̂",
+    sentence: "The comparison is explicit and the estimate can be inspected.",
+    barA: 55,
+    barB: 42,
+  },
+  {
+    key: "decision",
+    label: "Decision",
+    equation: "β̂  |  D",
+    tableKey: "CLAIM",
+    tableValue: "BOUNDED",
+    sentence: "The sentence stays inside the design and its uncertainty.",
+    barA: 48,
+    barB: 50,
+  },
+];
+---
+
+<section class="evidence-transects" aria-labelledby="evidence-transects-title" data-rail-label="EVIDENCE TRANSECTS">
+  <h2 id="evidence-transects-title" class="transect-sr-only">Selected work as interactive evidence transects</h2>
+
+  <article class="transect transect--nmtc" data-transect data-transect-kind="nmtc" aria-labelledby="transect-nmtc-title">
+    <div class="transect__copy">
+      <span class="transect__case">CASE 01 / ECONOMETRIC DIAGNOSIS</span>
+      <h3 id="transect-nmtc-title">The coefficient moved. So did the policy target.</h3>
+      <p>Does the rural private-leverage gap arise within comparable intermediaries, or from which intermediaries serve rural projects?</p>
+      <a href="/research/helfrich-2026-nmtc-rural-gap">Inspect the case <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="transect__instrument" data-nmtc-instrument>
+      <div class="transect__instrument-head">
+        <span>FIVE-MODEL PATH</span>
+        <span>COEFFICIENT / 95% CI</span>
+      </div>
+      <div class="transect__canvas-stage">
+        <canvas data-nmtc-canvas aria-hidden="true"></canvas>
+        <p class="transect__canvas-fallback" data-nmtc-fallback>
+          The coefficient moves from negative 0.262 in the raw model to negative 0.047 after intermediary fixed effects, an 82.2 percent reduction in magnitude.
+        </p>
+      </div>
+      <div class="transect__readout">
+        <div>
+          <span data-nmtc-model>M0 / RAW</span>
+          <strong data-nmtc-beta>−0.262</strong>
+        </div>
+        <p data-nmtc-reading>The pooled comparison treats every intermediary as interchangeable.</p>
+        <em data-nmtc-shift>START OF PATH</em>
+      </div>
+      <div class="transect__controls transect__controls--five" role="group" aria-label="Choose a model in the NMTC specification path">
+        {nmtcSpecs.map((spec, index) => (
+          <button
+            type="button"
+            data-nmtc-index={index}
+            aria-pressed={index === 0 ? "true" : "false"}
+            class:list={[index === 0 && "is-active"]}
+          >
+            <span>{spec.code}</span>
+            <strong>{spec.label}</strong>
+          </button>
+        ))}
+      </div>
+      <output class="transect-sr-only" data-nmtc-status aria-live="polite">M0, raw model, coefficient negative 0.262.</output>
+      <noscript><p class="transect__noscript">Five public specifications move from a raw coefficient of −0.262 to −0.047 after intermediary fixed effects.</p></noscript>
+    </div>
+  </article>
+
+  <article class="transect transect--distance" data-transect data-transect-kind="distance" aria-labelledby="transect-distance-title">
+    <div class="transect__copy">
+      <span class="transect__case">CASE 02 / SPATIAL + NETWORK SYSTEM</span>
+      <h3 id="transect-distance-title">Distance changes when the world changes.</h3>
+      <p>How should bilateral distance respond when population, infrastructure, and corridors move?</p>
+      <a href="/research/gonchar-helfrich-2026-effective-distance-panel">Inspect the case <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="transect__instrument" data-distance-instrument>
+      <div class="transect__instrument-head">
+        <span>REPRESENTATION TEST</span>
+        <span>CONCEPT MINIATURE</span>
+      </div>
+      <div class="transect__canvas-stage">
+        <canvas data-distance-canvas aria-hidden="true"></canvas>
+        <p class="transect__canvas-fallback" data-distance-fallback>
+          The baseline joins two population centers directly. The corridor-aware state bends the represented path through a transport corridor.
+        </p>
+      </div>
+      <div class="transect__readout">
+        <div>
+          <span data-distance-code>BASELINE</span>
+          <strong data-distance-title>GEODESIC</strong>
+        </div>
+        <p data-distance-reading>Population-aware endpoints are joined by a direct geographic representation.</p>
+        <em>ACTIVE RESEARCH</em>
+      </div>
+      <div class="transect__controls" role="group" aria-label="Choose a distance representation">
+        <button type="button" class="is-active" data-distance-mode="baseline" aria-pressed="true">
+          <span>01</span><strong>Baseline</strong>
+        </button>
+        <button type="button" data-distance-mode="corridor" aria-pressed="false">
+          <span>02</span><strong>Corridor-aware</strong>
+        </button>
+      </div>
+      <output class="transect-sr-only" data-distance-status aria-live="polite">Baseline state. Population-aware endpoints are joined by a direct geographic representation.</output>
+      <noscript><p class="transect__noscript">The research compares static distance conventions with population-aware and evolving representations of bilateral distance.</p></noscript>
+    </div>
+  </article>
+
+  <article class="transect transect--relay" data-transect data-transect-kind="relay" aria-labelledby="transect-relay-title">
+    <div class="transect__copy">
+      <span class="transect__case">CASE 03 / INTERACTIVE EVIDENCE</span>
+      <h3 id="transect-relay-title">A method another person can operate.</h3>
+      <p>Can the explanation survive after the expert leaves the room?</p>
+      <a href="/projects">Inspect the case <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="transect__instrument transect__instrument--relay" data-relay-instrument data-relay-state="question">
+      <div class="transect__instrument-head">
+        <span>ONE STATE / FOUR VIEWS</span>
+        <span>DEMONSTRATION STATE</span>
+      </div>
+      <div class="relay-field" data-relay-field>
+        <section class="relay-view relay-view--equation" aria-labelledby="relay-equation-label">
+          <span id="relay-equation-label">EQUATION</span>
+          <output data-relay-equation>Y&nbsp; ? &nbsp;X</output>
+        </section>
+        <section class="relay-view relay-view--chart" aria-labelledby="relay-chart-label">
+          <span id="relay-chart-label">CHART</span>
+          <div class="relay-chart" aria-hidden="true">
+            <i data-relay-bar="a"></i>
+            <i data-relay-bar="b"></i>
+            <b></b>
+          </div>
+        </section>
+        <section class="relay-view relay-view--table" aria-labelledby="relay-table-label">
+          <span id="relay-table-label">TABLE</span>
+          <table>
+            <tbody>
+              <tr><th scope="row" data-relay-table-key>DESIGN</th><td data-relay-table-value>OPEN</td></tr>
+              <tr><th scope="row">STATE</th><td data-relay-state-label>QUESTION</td></tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="relay-view relay-view--sentence" aria-labelledby="relay-sentence-label">
+          <span id="relay-sentence-label">SENTENCE</span>
+          <p data-relay-sentence>Which comparison would make the claim meaningful?</p>
+        </section>
+        <div class="relay-pulse" aria-hidden="true"></div>
+      </div>
+      <div class="transect__controls transect__controls--three" role="group" aria-label="Propagate an analytical state across four views">
+        {relayStates.map((state, index) => (
+          <button
+            type="button"
+            data-relay-index={index}
+            aria-pressed={index === 0 ? "true" : "false"}
+            class:list={[index === 0 && "is-active"]}
+          >
+            <span>0{index + 1}</span><strong>{state.label}</strong>
+          </button>
+        ))}
+      </div>
+      <output class="transect-sr-only" data-relay-status aria-live="polite">Question state. Which comparison would make the claim meaningful?</output>
+      <noscript><p class="transect__noscript">A single analytical state is represented as an equation, chart, table, and defensible sentence.</p></noscript>
+    </div>
+  </article>
+</section>
+
+<script is:inline define:vars={{ nmtcSpecs, relayStates }}>
+  (() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const forcedColors = window.matchMedia("(forced-colors: active)");
+    const hasCanvas = Boolean(document.createElement("canvas").getContext);
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const lerp = (start, end, amount) => start + (end - start) * amount;
+    const ease = (amount) => 1 - Math.pow(1 - amount, 3);
+    const formatBeta = (value) => `${value < 0 ? "−" : ""}${Math.abs(value).toFixed(3)}`;
+
+    document.documentElement.classList.add("has-transect-js");
+    if (!hasCanvas) document.documentElement.classList.add("no-transect-canvas");
+
+    const revealTransects = () => {
+      const transects = Array.from(document.querySelectorAll("[data-transect]"));
+      if (!("IntersectionObserver" in window) || reducedMotion.matches) {
+        transects.forEach((transect) => transect.classList.add("is-ready"));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-ready");
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -12%", threshold: 0.12 });
+      transects.forEach((transect) => observer.observe(transect));
+    };
+
+    const setupCanvas = (canvas, draw) => {
+      if (!canvas || !hasCanvas || forcedColors.matches) return () => {};
+      const context = canvas.getContext("2d");
+      let frame = 0;
+      const render = () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const bounds = canvas.getBoundingClientRect();
+          if (!bounds.width || !bounds.height) return;
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          const width = Math.round(bounds.width);
+          const height = Math.round(bounds.height);
+          const targetWidth = Math.round(width * ratio);
+          const targetHeight = Math.round(height * ratio);
+          if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+          }
+          context.setTransform(ratio, 0, 0, ratio, 0, 0);
+          context.clearRect(0, 0, width, height);
+          draw(context, width, height);
+        });
+      };
+      const resizeObserver = "ResizeObserver" in window ? new ResizeObserver(render) : null;
+      resizeObserver?.observe(canvas);
+      render();
+      return render;
+    };
+
+    const setupNmtc = (root) => {
+      const canvas = root.querySelector("[data-nmtc-canvas]");
+      const buttons = Array.from(root.querySelectorAll("[data-nmtc-index]"));
+      const fields = {
+        model: root.querySelector("[data-nmtc-model]"),
+        beta: root.querySelector("[data-nmtc-beta]"),
+        reading: root.querySelector("[data-nmtc-reading]"),
+        shift: root.querySelector("[data-nmtc-shift]"),
+        status: root.querySelector("[data-nmtc-status]"),
+      };
+      let active = 0;
+      let marker = 0;
+      let pointer = null;
+      let render = () => {};
+      let animation = 0;
+
+      const plotX = (value, width) => {
+        const left = Math.max(44, width * 0.08);
+        const right = Math.max(28, width * 0.05);
+        return left + ((value + 0.55) / 0.75) * (width - left - right);
+      };
+
+      const draw = (context, width, height) => {
+        const top = 28;
+        const bottom = height - 36;
+        const rowGap = (bottom - top) / (nmtcSpecs.length - 1);
+        context.lineCap = "round";
+        context.lineJoin = "round";
+
+        [-0.5, -0.25, 0].forEach((tick) => {
+          const x = plotX(tick, width);
+          context.beginPath();
+          context.strokeStyle = tick === 0 ? "rgba(22,25,21,.46)" : "rgba(106,108,100,.22)";
+          context.lineWidth = tick === 0 ? 1.5 : 1;
+          context.moveTo(x, 12);
+          context.lineTo(x, height - 16);
+          context.stroke();
+          context.fillStyle = "#6a6c64";
+          context.font = "500 10px Geist Mono, monospace";
+          context.textAlign = "center";
+          context.fillText(tick === 0 ? "0" : tick.toFixed(2), x, height - 6);
+        });
+
+        context.beginPath();
+        nmtcSpecs.forEach((spec, index) => {
+          const x = plotX(spec.beta, width);
+          const y = top + index * rowGap;
+          if (index === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        });
+        context.strokeStyle = "#78a7a0";
+        context.lineWidth = 2;
+        context.stroke();
+
+        nmtcSpecs.forEach((spec, index) => {
+          const y = top + index * rowGap;
+          const lower = plotX(spec.beta - 1.96 * spec.se, width);
+          const upper = plotX(spec.beta + 1.96 * spec.se, width);
+          const x = plotX(spec.beta, width);
+          context.beginPath();
+          context.moveTo(lower, y);
+          context.lineTo(upper, y);
+          context.strokeStyle = "#e0bd68";
+          context.lineWidth = index === active ? 4 : 2;
+          context.stroke();
+          context.beginPath();
+          context.arc(x, y, index === active ? 6 : 4, 0, Math.PI * 2);
+          context.fillStyle = index <= active ? "#f15a37" : "#f5f0e6";
+          context.fill();
+          context.strokeStyle = "#161915";
+          context.lineWidth = 1.5;
+          context.stroke();
+          context.fillStyle = "#3a3f39";
+          context.font = "600 10px Geist Mono, monospace";
+          context.textAlign = "left";
+          context.fillText(spec.code, 6, y + 4);
+        });
+
+        const startSpec = nmtcSpecs[Math.floor(marker)];
+        const endSpec = nmtcSpecs[Math.min(nmtcSpecs.length - 1, Math.ceil(marker))];
+        const part = marker - Math.floor(marker);
+        const markerX = lerp(plotX(startSpec.beta, width), plotX(endSpec.beta, width), part);
+        const markerY = lerp(top + Math.floor(marker) * rowGap, top + Math.ceil(marker) * rowGap, part);
+        context.beginPath();
+        context.arc(markerX, markerY, 11, 0, Math.PI * 2);
+        context.strokeStyle = "#a9361f";
+        context.lineWidth = 2;
+        context.stroke();
+
+        if (pointer !== null) {
+          const pointerX = pointer * width;
+          context.beginPath();
+          context.moveTo(pointerX, 0);
+          context.lineTo(pointerX, height);
+          context.strokeStyle = "rgba(241,90,55,.32)";
+          context.lineWidth = 1;
+          context.stroke();
+        }
+      };
+
+      render = setupCanvas(canvas, draw);
+
+      const updateFields = (index) => {
+        const spec = nmtcSpecs[index];
+        const shift = Math.abs((1 - spec.beta / nmtcSpecs[0].beta) * 100);
+        fields.model.textContent = `${spec.code} / ${spec.label.toUpperCase()}`;
+        fields.beta.textContent = formatBeta(spec.beta);
+        fields.reading.textContent = spec.reading;
+        fields.shift.textContent = index === 0 ? "START OF PATH" : `${shift.toFixed(1)}% FROM RAW`;
+        fields.status.textContent = `${spec.code}, ${spec.label}, coefficient ${formatBeta(spec.beta)}. ${spec.reading}`;
+        buttons.forEach((button, buttonIndex) => {
+          const selected = buttonIndex === index;
+          button.classList.toggle("is-active", selected);
+          button.setAttribute("aria-pressed", String(selected));
+        });
+      };
+
+      const select = (index) => {
+        const next = clamp(index, 0, nmtcSpecs.length - 1);
+        if (next === active && marker === next) return;
+        const from = marker;
+        active = next;
+        updateFields(next);
+        cancelAnimationFrame(animation);
+        if (reducedMotion.matches) {
+          marker = next;
+          render();
+          return;
+        }
+        const started = performance.now();
+        const tick = (time) => {
+          const progress = clamp((time - started) / 320, 0, 1);
+          marker = lerp(from, next, ease(progress));
+          render();
+          if (progress < 1 && !document.hidden) animation = requestAnimationFrame(tick);
+        };
+        animation = requestAnimationFrame(tick);
+      };
+
+      buttons.forEach((button, index) => {
+        button.addEventListener("click", () => select(index));
+        button.addEventListener("focus", () => select(index));
+      });
+
+      if (canvas && hasCanvas) {
+        const chooseFromPointer = (event) => {
+          const bounds = canvas.getBoundingClientRect();
+          const position = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
+          pointer = position;
+          select(Math.round(position * (nmtcSpecs.length - 1)));
+          render();
+        };
+        canvas.addEventListener("pointermove", (event) => {
+          if (event.pointerType === "mouse") chooseFromPointer(event);
+        });
+        canvas.addEventListener("pointerdown", chooseFromPointer);
+        canvas.addEventListener("pointerleave", () => {
+          pointer = null;
+          render();
+        });
+      }
+    };
+
+    const setupDistance = (root) => {
+      const canvas = root.querySelector("[data-distance-canvas]");
+      const buttons = Array.from(root.querySelectorAll("[data-distance-mode]"));
+      const fields = {
+        code: root.querySelector("[data-distance-code]"),
+        title: root.querySelector("[data-distance-title]"),
+        reading: root.querySelector("[data-distance-reading]"),
+        status: root.querySelector("[data-distance-status]"),
+      };
+      let mode = "baseline";
+      let morph = 0;
+      let pointer = null;
+      let render = () => {};
+      let animation = 0;
+
+      const drawContours = (context, width, height) => {
+        for (let line = 0; line < 5; line += 1) {
+          context.beginPath();
+          for (let step = 0; step <= 48; step += 1) {
+            const t = step / 48;
+            const x = t * width;
+            const y = height * (0.17 + line * 0.16) + Math.sin(t * Math.PI * 2 + line * 0.8) * 13;
+            if (step === 0) context.moveTo(x, y);
+            else context.lineTo(x, y);
+          }
+          context.strokeStyle = "rgba(120,167,160,.22)";
+          context.lineWidth = 1;
+          context.stroke();
+        }
+      };
+
+      const draw = (context, width, height) => {
+        const origin = { x: Math.max(54, width * 0.12), y: height * 0.42 };
+        const destination = { x: Math.min(width - 54, width * 0.88), y: height * 0.48 };
+        drawContours(context, width, height);
+
+        context.beginPath();
+        const corridorY = height * 0.76;
+        context.moveTo(width * 0.18, corridorY);
+        context.bezierCurveTo(width * 0.38, corridorY - 26, width * 0.62, corridorY + 20, width * 0.82, corridorY - 4);
+        context.strokeStyle = `rgba(120,167,160,${0.18 + morph * 0.62})`;
+        context.lineWidth = 10;
+        context.stroke();
+        context.strokeStyle = `rgba(245,240,230,${morph * 0.8})`;
+        context.lineWidth = 1;
+        context.setLineDash([7, 8]);
+        context.stroke();
+        context.setLineDash([]);
+
+        context.beginPath();
+        for (let step = 0; step <= 64; step += 1) {
+          const t = step / 64;
+          const x = lerp(origin.x, destination.x, t);
+          const directY = lerp(origin.y, destination.y, t) - Math.sin(Math.PI * t) * height * 0.1;
+          const routedY = lerp(origin.y, destination.y, t) + Math.sin(Math.PI * t) * height * 0.28 + Math.sin(Math.PI * 3 * t) * 8;
+          const y = lerp(directY, routedY, morph);
+          if (step === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.strokeStyle = "#f15a37";
+        context.lineWidth = 3;
+        context.stroke();
+
+        [origin, destination].forEach((point, index) => {
+          [24, 16, 7].forEach((radius, ringIndex) => {
+            context.beginPath();
+            context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+            context.fillStyle = ringIndex === 2 ? "#f15a37" : `rgba(224,189,104,${0.1 + ringIndex * 0.08})`;
+            context.fill();
+            if (ringIndex < 2) {
+              context.strokeStyle = "rgba(224,189,104,.52)";
+              context.lineWidth = 1;
+              context.stroke();
+            }
+          });
+          context.fillStyle = "#f7f2e9";
+          context.font = "600 10px Geist Mono, monospace";
+          context.textAlign = index === 0 ? "left" : "right";
+          context.fillText(index === 0 ? "ORIGIN" : "DESTINATION", point.x + (index === 0 ? 32 : -32), point.y + 4);
+        });
+
+        if (pointer !== null) {
+          const x = pointer * width;
+          context.beginPath();
+          context.moveTo(x, 0);
+          context.lineTo(x, height);
+          context.strokeStyle = "rgba(241,90,55,.3)";
+          context.lineWidth = 1;
+          context.stroke();
+        }
+      };
+
+      render = setupCanvas(canvas, draw);
+
+      const updateFields = (nextMode) => {
+        const corridor = nextMode === "corridor";
+        fields.code.textContent = corridor ? "CORRIDOR-AWARE" : "BASELINE";
+        fields.title.textContent = corridor ? "ROUTED" : "GEODESIC";
+        fields.reading.textContent = corridor
+          ? "The represented path responds to a transport corridor between population-aware endpoints."
+          : "Population-aware endpoints are joined by a direct geographic representation.";
+        fields.status.textContent = `${corridor ? "Corridor-aware" : "Baseline"} state. ${fields.reading.textContent}`;
+        buttons.forEach((button) => {
+          const selected = button.dataset.distanceMode === nextMode;
+          button.classList.toggle("is-active", selected);
+          button.setAttribute("aria-pressed", String(selected));
+        });
+      };
+
+      const select = (nextMode) => {
+        const target = nextMode === "corridor" ? 1 : 0;
+        if (mode === nextMode && morph === target) return;
+        const from = morph;
+        mode = nextMode;
+        updateFields(nextMode);
+        cancelAnimationFrame(animation);
+        if (reducedMotion.matches) {
+          morph = target;
+          render();
+          return;
+        }
+        const started = performance.now();
+        const tick = (time) => {
+          const progress = clamp((time - started) / 420, 0, 1);
+          morph = lerp(from, target, ease(progress));
+          render();
+          if (progress < 1 && !document.hidden) animation = requestAnimationFrame(tick);
+        };
+        animation = requestAnimationFrame(tick);
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => select(button.dataset.distanceMode));
+        button.addEventListener("focus", () => select(button.dataset.distanceMode));
+      });
+
+      if (canvas && hasCanvas) {
+        const chooseFromPointer = (event) => {
+          const bounds = canvas.getBoundingClientRect();
+          const position = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
+          pointer = position;
+          select(position >= 0.5 ? "corridor" : "baseline");
+          render();
+        };
+        canvas.addEventListener("pointermove", (event) => {
+          if (event.pointerType === "mouse") chooseFromPointer(event);
+        });
+        canvas.addEventListener("pointerdown", chooseFromPointer);
+        canvas.addEventListener("pointerleave", () => {
+          pointer = null;
+          render();
+        });
+      }
+    };
+
+    const setupRelay = (root) => {
+      const field = root.querySelector("[data-relay-field]");
+      const buttons = Array.from(root.querySelectorAll("[data-relay-index]"));
+      const fields = {
+        equation: root.querySelector("[data-relay-equation]"),
+        barA: root.querySelector('[data-relay-bar="a"]'),
+        barB: root.querySelector('[data-relay-bar="b"]'),
+        tableKey: root.querySelector("[data-relay-table-key]"),
+        tableValue: root.querySelector("[data-relay-table-value]"),
+        stateLabel: root.querySelector("[data-relay-state-label]"),
+        sentence: root.querySelector("[data-relay-sentence]"),
+        status: root.querySelector("[data-relay-status]"),
+      };
+      let active = 0;
+      let shiftTimer = 0;
+
+      const select = (index) => {
+        const next = clamp(index, 0, relayStates.length - 1);
+        const state = relayStates[next];
+        active = next;
+        root.dataset.relayState = state.key;
+        fields.equation.textContent = state.equation;
+        fields.barA.style.setProperty("--relay-height", `${state.barA}%`);
+        fields.barB.style.setProperty("--relay-height", `${state.barB}%`);
+        fields.tableKey.textContent = state.tableKey;
+        fields.tableValue.textContent = state.tableValue;
+        fields.stateLabel.textContent = state.label.toUpperCase();
+        fields.sentence.textContent = state.sentence;
+        fields.status.textContent = `${state.label} state. ${state.sentence}`;
+        buttons.forEach((button, buttonIndex) => {
+          const selected = buttonIndex === next;
+          button.classList.toggle("is-active", selected);
+          button.setAttribute("aria-pressed", String(selected));
+        });
+        clearTimeout(shiftTimer);
+        root.classList.remove("is-shifting");
+        if (!reducedMotion.matches) {
+          requestAnimationFrame(() => root.classList.add("is-shifting"));
+          shiftTimer = window.setTimeout(() => root.classList.remove("is-shifting"), 520);
+        }
+      };
+
+      buttons.forEach((button, index) => {
+        button.addEventListener("click", () => select(index));
+        button.addEventListener("focus", () => select(index));
+      });
+
+      field?.addEventListener("pointermove", (event) => {
+        if (event.pointerType !== "mouse") return;
+        const bounds = field.getBoundingClientRect();
+        select(Math.round(clamp((event.clientX - bounds.left) / bounds.width, 0, 1) * (relayStates.length - 1)));
+      });
+      field?.addEventListener("pointerdown", (event) => {
+        const bounds = field.getBoundingClientRect();
+        select(Math.round(clamp((event.clientX - bounds.left) / bounds.width, 0, 1) * (relayStates.length - 1)));
+      });
+      select(0);
+    };
+
+    revealTransects();
+    document.querySelectorAll("[data-nmtc-instrument]").forEach(setupNmtc);
+    document.querySelectorAll("[data-distance-instrument]").forEach(setupDistance);
+    document.querySelectorAll("[data-relay-instrument]").forEach(setupRelay);
+  })();
+</script>
+
+<style>
+  .evidence-transects {
+    --atlas-night: #0f302a;
+    --atlas-night-deep: #0a211e;
+    --atlas-paper: #f5f0e6;
+    --atlas-paper-high: #fffdf7;
+    --atlas-ink: #161915;
+    --atlas-graphite: #3a3f39;
+    --atlas-muted: #6a6c64;
+    --atlas-rule: #c9c0af;
+    --atlas-signal: #f15a37;
+    --atlas-signal-dark: #a9361f;
+    --atlas-water: #78a7a0;
+    --atlas-interval: #e0bd68;
+    --atlas-on-dark: #f7f2e9;
+    color: var(--atlas-ink);
+    background: var(--atlas-paper);
+    border-bottom: 1px solid var(--atlas-ink);
+  }
+
+  .transect-sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .transect {
+    position: relative;
+    display: grid;
+    min-height: 560px;
+    grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+    border-top: 1px solid var(--atlas-ink);
+    isolation: isolate;
+  }
+
+  .transect::before {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: 1px;
+    content: "";
+    background: var(--atlas-rule);
+    transform-origin: left;
+  }
+
+  :global(.has-transect-js) .transect:not(.is-ready)::before {
+    transform: scaleX(0);
+  }
+
+  :global(.has-transect-js) .transect::before {
+    transition: transform 760ms cubic-bezier(.2, .76, .2, 1);
+  }
+
+  .transect__copy {
+    display: flex;
+    padding: clamp(3rem, 6vw, 6.5rem) clamp(1.25rem, 5vw, 6rem);
+    flex-direction: column;
+    background: var(--atlas-paper);
+  }
+
+  .transect__case,
+  .transect__instrument-head,
+  .transect__readout span,
+  .transect__readout em {
+    font-family: var(--ih-mono, "Geist Mono", monospace);
+    font-size: clamp(.7rem, .76vw, .78rem);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
+  .transect__case { color: var(--atlas-signal-dark); }
+
+  .transect__copy h3 {
+    max-width: 720px;
+    margin: clamp(1.2rem, 2.5vw, 2.2rem) 0 1.2rem;
+    font: 600 clamp(2.8rem, 5.3vw, 6.4rem)/.9 var(--ih-display, "Geist", sans-serif);
+    letter-spacing: -.06em;
+  }
+
+  .transect__copy > p {
+    max-width: 590px;
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 400 clamp(1.08rem, 1.5vw, 1.34rem)/1.55 var(--ih-serif, "Source Serif 4", serif);
+  }
+
+  .transect__copy > a {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: auto;
+    padding: 1rem 0 .35rem;
+    justify-content: space-between;
+    gap: 3rem;
+    color: var(--atlas-ink);
+    border-bottom: 2px solid var(--atlas-signal);
+    font: 600 .84rem/1 var(--ih-sans, "Geist", sans-serif);
+    text-decoration: none;
+  }
+
+  .transect__copy > a:hover { border-bottom-color: var(--atlas-ink); }
+
+  .transect__copy > a:focus-visible,
+  .transect__controls button:focus-visible {
+    outline: 2px solid var(--atlas-signal);
+    outline-offset: 4px;
+  }
+
+  .transect__instrument {
+    display: grid;
+    min-width: 0;
+    padding: clamp(1.2rem, 2.5vw, 2.6rem);
+    grid-template-rows: auto minmax(250px, 1fr) auto auto;
+    align-content: stretch;
+    background: var(--atlas-paper-high);
+    border-left: 1px solid var(--atlas-ink);
+  }
+
+  .transect__instrument-head {
+    display: flex;
+    min-height: 36px;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--atlas-muted);
+  }
+
+  .transect__instrument-head span:last-child { text-align: right; }
+
+  .transect__canvas-stage {
+    position: relative;
+    min-height: 250px;
+    overflow: hidden;
+    border-top: 1px solid var(--atlas-rule);
+    border-bottom: 1px solid var(--atlas-rule);
+  }
+
+  .transect__canvas-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+    cursor: crosshair;
+    touch-action: pan-y;
+  }
+
+  :global(.has-transect-js) .transect:not(.is-ready) .transect__canvas-stage canvas {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+
+  :global(.has-transect-js) .transect.is-ready .transect__canvas-stage canvas {
+    opacity: 1;
+    clip-path: inset(0);
+    transition: opacity 260ms ease-out, clip-path 780ms cubic-bezier(.2, .76, .2, 1);
+  }
+
+  .transect__canvas-fallback {
+    position: absolute;
+    inset: auto 1rem 1rem;
+    display: none;
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 500 1rem/1.5 var(--ih-sans, "Geist", sans-serif);
+  }
+
+  :global(.no-transect-canvas) .transect__canvas-fallback { display: block; }
+  :global(.no-transect-canvas) .transect__canvas-stage canvas { display: none; }
+
+  .transect__readout {
+    display: grid;
+    min-height: 102px;
+    padding: 1.15rem 0;
+    grid-template-columns: minmax(130px, .58fr) minmax(240px, 1.2fr) auto;
+    gap: 1rem 1.5rem;
+    align-items: center;
+    border-bottom: 1px solid var(--atlas-rule);
+  }
+
+  .transect__readout > div { display: grid; gap: .25rem; }
+  .transect__readout span { color: var(--atlas-muted); }
+
+  .transect__readout strong {
+    color: var(--atlas-ink);
+    font: 600 clamp(2rem, 3.3vw, 3.8rem)/.82 var(--ih-mono, "Geist Mono", monospace);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.06em;
+  }
+
+  .transect__readout p {
+    max-width: 610px;
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 500 clamp(.93rem, 1.15vw, 1.08rem)/1.45 var(--ih-sans, "Geist", sans-serif);
+  }
+
+  .transect__readout em {
+    justify-self: end;
+    color: var(--atlas-signal-dark);
+    white-space: nowrap;
+  }
+
+  .transect__controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .transect__controls--five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .transect__controls--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .transect__controls button {
+    display: grid;
+    min-height: 58px;
+    padding: .75rem;
+    grid-template-columns: auto 1fr;
+    gap: .7rem;
+    align-items: center;
+    color: var(--atlas-muted);
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--atlas-rule);
+    cursor: pointer;
+    font-family: var(--ih-sans, "Geist", sans-serif);
+    text-align: left;
+  }
+
+  .transect__controls button:last-child { border-right: 0; }
+  .transect__controls button:hover { color: var(--atlas-ink); background: rgba(120, 167, 160, .1); }
+  .transect__controls button.is-active { color: var(--atlas-ink); background: var(--atlas-signal); }
+  .transect__controls button span { font: 600 .7rem var(--ih-mono, "Geist Mono", monospace); }
+  .transect__controls button strong { font-size: clamp(.72rem, .9vw, .88rem); font-weight: 600; }
+
+  .transect__noscript {
+    margin: 1rem 0 0;
+    color: var(--atlas-graphite);
+    font: 500 1rem/1.5 var(--ih-sans, "Geist", sans-serif);
+  }
+
+  .transect--distance {
+    color: var(--atlas-on-dark);
+    border-top-color: var(--atlas-on-dark);
+  }
+
+  .transect--distance::before { background: rgba(247, 242, 233, .28); }
+  .transect--distance .transect__copy,
+  .transect--distance .transect__instrument { background: var(--atlas-night); }
+  .transect--distance .transect__instrument { border-left-color: rgba(247, 242, 233, .48); }
+  .transect--distance .transect__case { color: var(--atlas-interval); }
+  .transect--distance .transect__copy h3,
+  .transect--distance .transect__copy > a,
+  .transect--distance .transect__readout strong { color: var(--atlas-on-dark); }
+  .transect--distance .transect__copy > p,
+  .transect--distance .transect__readout p { color: rgba(247, 242, 233, .82); }
+  .transect--distance .transect__copy > a { border-bottom-color: var(--atlas-signal); }
+  .transect--distance .transect__copy > a:hover { border-bottom-color: var(--atlas-on-dark); }
+  .transect--distance .transect__instrument-head,
+  .transect--distance .transect__readout span { color: rgba(247, 242, 233, .68); }
+  .transect--distance .transect__readout em { color: var(--atlas-interval); }
+  .transect--distance .transect__canvas-stage,
+  .transect--distance .transect__readout { border-color: rgba(247, 242, 233, .28); }
+  .transect--distance .transect__controls button { color: rgba(247, 242, 233, .72); border-right-color: rgba(247, 242, 233, .25); }
+  .transect--distance .transect__controls button:hover { color: var(--atlas-on-dark); background: rgba(120, 167, 160, .16); }
+  .transect--distance .transect__controls button.is-active { color: var(--atlas-ink); background: var(--atlas-signal); }
+
+  .transect__instrument--relay {
+    grid-template-rows: auto minmax(310px, 1fr) auto;
+  }
+
+  .relay-field {
+    position: relative;
+    display: grid;
+    min-height: 310px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: hidden;
+    border-top: 1px solid var(--atlas-rule);
+    border-bottom: 1px solid var(--atlas-rule);
+    touch-action: pan-y;
+  }
+
+  .relay-view {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    padding: 1rem;
+    align-content: center;
+    gap: 1.25rem;
+    background: var(--atlas-paper-high);
+    border-right: 1px solid var(--atlas-rule);
+  }
+
+  .relay-view:last-of-type { border-right: 0; }
+  .relay-view > span { color: var(--atlas-muted); font: 600 .7rem var(--ih-mono, "Geist Mono", monospace); letter-spacing: .07em; }
+
+  .relay-view output {
+    color: var(--atlas-ink);
+    font: 600 clamp(1.55rem, 2.4vw, 3rem)/1 var(--ih-mono, "Geist Mono", monospace);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.045em;
+  }
+
+  .relay-chart {
+    position: relative;
+    display: flex;
+    height: 122px;
+    padding: 0 15%;
+    align-items: end;
+    justify-content: center;
+    gap: 14%;
+    border-bottom: 1px solid var(--atlas-ink);
+  }
+
+  .relay-chart i {
+    width: 28%;
+    height: var(--relay-height, 36%);
+    background: var(--atlas-water);
+    transition: height 360ms cubic-bezier(.2, .76, .2, 1), background 220ms ease;
+  }
+
+  .relay-chart i:nth-child(2) { --relay-height: 72%; background: var(--atlas-signal); }
+  .relay-chart b { position: absolute; top: 50%; right: 5%; left: 5%; height: 2px; background: var(--atlas-interval); }
+
+  .relay-view table { width: 100%; border-collapse: collapse; font: 600 .74rem/1.3 var(--ih-mono, "Geist Mono", monospace); }
+  .relay-view th,
+  .relay-view td { padding: .7rem 0; border-bottom: 1px solid var(--atlas-rule); text-align: left; }
+  .relay-view th { color: var(--atlas-muted); font-weight: 500; }
+  .relay-view td { color: var(--atlas-ink); text-align: right; }
+  .relay-view--sentence p { margin: 0; color: var(--atlas-graphite); font: 400 clamp(1rem, 1.25vw, 1.18rem)/1.48 var(--ih-serif, "Source Serif 4", serif); }
+
+  .relay-pulse {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    left: -12%;
+    width: 12%;
+    background: var(--atlas-signal);
+    opacity: .16;
+    pointer-events: none;
+    transform: skewX(-10deg);
+  }
+
+  .is-shifting .relay-pulse { animation: relay-travel 500ms cubic-bezier(.2, .76, .2, 1); }
+
+  [data-relay-state="estimate"] .relay-view--equation,
+  [data-relay-state="decision"] .relay-view--sentence { background: rgba(224, 189, 104, .17); }
+
+  [data-relay-state="estimate"] .relay-chart i:first-child { background: var(--atlas-signal); }
+  [data-relay-state="decision"] .relay-chart i { background: var(--atlas-signal); }
+
+  :global(.has-transect-js) .transect:not(.is-ready) .relay-view {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  :global(.has-transect-js) .transect.is-ready .relay-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 360ms ease-out, transform 540ms cubic-bezier(.2, .76, .2, 1);
+  }
+
+  :global(.has-transect-js) .transect.is-ready .relay-view:nth-child(2) { transition-delay: 80ms; }
+  :global(.has-transect-js) .transect.is-ready .relay-view:nth-child(3) { transition-delay: 160ms; }
+  :global(.has-transect-js) .transect.is-ready .relay-view:nth-child(4) { transition-delay: 240ms; }
+
+  @keyframes relay-travel {
+    from { transform: translateX(0) skewX(-10deg); }
+    to { transform: translateX(940%) skewX(-10deg); }
+  }
+
+  @media (max-width: 980px) {
+    .transect {
+      min-height: 0;
+      grid-template-columns: 1fr;
+    }
+
+    .transect__instrument {
+      order: -1;
+      min-height: 520px;
+      border-left: 0;
+      border-bottom: 1px solid var(--atlas-ink);
+    }
+
+    .transect--distance .transect__instrument { border-bottom-color: rgba(247, 242, 233, .48); }
+    .transect__copy { min-height: 440px; }
+    .transect__copy > a { margin-top: 2.5rem; }
+  }
+
+  @media (max-width: 700px) {
+    .transect__instrument { min-height: 0; padding: 1rem; }
+    .transect__instrument-head { min-height: 42px; }
+    .transect__canvas-stage,
+    .transect__canvas-stage canvas { min-height: 230px; }
+
+    .transect__readout {
+      grid-template-columns: 1fr auto;
+      gap: .8rem;
+    }
+
+    .transect__readout > p { grid-column: 1 / -1; }
+    .transect__readout em { grid-column: 2; grid-row: 1; }
+    .transect__controls--five { grid-template-columns: repeat(5, minmax(54px, 1fr)); overflow-x: auto; }
+    .transect__controls--five button { grid-template-columns: 1fr; gap: .25rem; }
+    .transect__controls button { min-height: 60px; padding: .62rem; }
+
+    .relay-field {
+      min-height: 430px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .relay-view { min-height: 210px; }
+    .relay-view:nth-child(2) { border-right: 0; }
+    .relay-view:nth-child(-n+2) { border-bottom: 1px solid var(--atlas-rule); }
+    .transect__copy { min-height: 390px; padding: 3rem 1.25rem; }
+    .transect__copy h3 { font-size: clamp(2.8rem, 13vw, 4.8rem); }
+  }
+
+  @media (max-width: 440px) {
+    .transect__instrument-head span:last-child { display: none; }
+    .transect__readout { grid-template-columns: 1fr; }
+    .transect__readout em { grid-column: auto; grid-row: auto; justify-self: start; }
+    .transect__controls--three { grid-template-columns: 1fr 1fr 1fr; }
+    .transect__controls--three button { grid-template-columns: 1fr; gap: .2rem; }
+    .relay-field { grid-template-columns: 1fr; }
+    .relay-view { min-height: 150px; border-right: 0; border-bottom: 1px solid var(--atlas-rule); }
+    .relay-view:nth-child(-n+2) { border-bottom: 1px solid var(--atlas-rule); }
+    .relay-view:last-of-type { border-bottom: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .transect::before,
+    .transect__canvas-stage canvas,
+    .relay-view,
+    .relay-chart i {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .transect__canvas-stage canvas {
+      opacity: 1 !important;
+      clip-path: none !important;
+    }
+
+    .relay-view { opacity: 1 !important; transform: none !important; }
+    .relay-pulse { display: none; }
+  }
+
+  @media (forced-colors: active) {
+    .transect,
+    .transect__copy,
+    .transect__instrument,
+    .relay-view { color: CanvasText; background: Canvas; }
+
+    .transect__canvas-stage canvas,
+    .relay-pulse { display: none; }
+
+    .transect__canvas-fallback {
+      position: static;
+      display: block;
+      padding: 1rem 0;
+      color: CanvasText;
+    }
+
+    .transect__copy > a,
+    .transect__controls button,
+    .transect__controls button.is-active { color: LinkText; background: Canvas; border-color: ButtonText; }
+
+    .transect__controls button.is-active { outline: 2px solid Highlight; outline-offset: -3px; }
+    .relay-chart i,
+    .relay-chart b { background: CanvasText; }
+  }
+</style>

@@ -1,0 +1,1797 @@
+<section
+  class="counterfactual-atlas"
+  data-counterfactual-atlas
+  data-stage="observe"
+  data-rail-label="COUNTERFACTUAL ATLAS"
+  aria-labelledby="atlas-title"
+>
+  <header class="atlas-identity">
+    <span>IAN T. S. HELFRICH / PHD ECONOMICS + MS GIS</span>
+    <span>THE EVIDENCE STUDIO</span>
+  </header>
+
+  <div class="atlas-field" data-atlas-field>
+    <canvas data-atlas-canvas aria-hidden="true"></canvas>
+    <div class="atlas-field__fallback" aria-hidden="true">
+      <span class="atlas-field__fallback-mark"></span>
+      <span class="atlas-field__fallback-mark"></span>
+      <span class="atlas-field__fallback-mark"></span>
+      <span class="atlas-field__fallback-mark"></span>
+      <p>Interactive analytical field</p>
+    </div>
+    <div class="atlas-lens-receipt" data-lens-receipt aria-hidden="true">
+      <span data-lens-mode>INSPECT</span>
+      <strong data-lens-unit>PLACE 037</strong>
+      <small data-lens-region>REGION 2 · COMPARISON</small>
+    </div>
+  </div>
+
+  <article class="atlas-thesis">
+    <p class="atlas-kicker">RESEARCH ECONOMIST · EVIDENCE SYSTEMS</p>
+    <h1 id="atlas-title">
+      I turn uncertain data<br />
+      into decisions people can<br />
+      <em>inspect and defend.</em>
+    </h1>
+    <p class="atlas-thesis__lead">
+      Research design, econometrics, geospatial intelligence, interactive data products, and quantitative training from the estimand to the interface.
+    </p>
+    <div class="atlas-thesis__actions">
+      <a class="atlas-primary-action" href="/start?source=counterfactual-atlas">Bring me the decision <span aria-hidden="true">→</span></a>
+      <a class="atlas-secondary-action" href="/work">Explore selected work <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+
+  <div class="atlas-synthetic-label">
+    <strong>SYNTHETIC DEMONSTRATION</strong>
+    <span>SEED 1931 · NO CLIENT DATA</span>
+  </div>
+
+  <div class="atlas-stage-rail" role="group" aria-label="Analytical stage">
+    <button type="button" data-stage-button="observe" aria-pressed="true">
+      <span>01</span><strong>Observe</strong><small>Raw field</small>
+    </button>
+    <button type="button" data-stage-button="design" aria-pressed="false">
+      <span>02</span><strong>Design</strong><small>Balance</small>
+    </button>
+    <button type="button" data-stage-button="estimate" aria-pressed="false">
+      <span>03</span><strong>Estimate</strong><small>Region FE</small>
+    </button>
+    <button type="button" data-stage-button="decide" aria-pressed="false">
+      <span>04</span><strong>Decide</strong><small>Spatial match</small>
+    </button>
+  </div>
+
+  <aside class="atlas-readout" aria-label="Synchronized estimate and claim" data-atlas-readout>
+    <div class="atlas-readout__head">
+      <div>
+        <span data-stage-index>01 / OBSERVE</span>
+        <strong data-design-name>RAW COMPARISON</strong>
+      </div>
+      <button class="atlas-lock" type="button" data-lock-button aria-pressed="false">
+        Lock focal place
+      </button>
+    </div>
+
+    <div class="atlas-estimate-row">
+      <div>
+        <span>SIMULATED DIFFERENCE</span>
+        <output data-estimate>+0.00</output>
+      </div>
+      <div class="atlas-diagnostic">
+        <span data-diagnostic-label>ASSIGNMENT GAP</span>
+        <strong data-diagnostic-value>0.00 SMD</strong>
+      </div>
+    </div>
+
+    <div class="atlas-interval" data-interval>
+      <div class="atlas-interval__labels">
+        <span>95% APPROX. INTERVAL</span>
+        <output data-interval-text>[0.00, 0.00]</output>
+      </div>
+      <div class="atlas-interval__plot" aria-hidden="true">
+        <i class="atlas-interval__axis"></i>
+        <i class="atlas-interval__zero"></i>
+        <i class="atlas-interval__range"></i>
+        <i class="atlas-interval__point"></i>
+      </div>
+      <div class="atlas-interval__scale" aria-hidden="true"><span>−0.6</span><span>0</span><span>+1.2</span></div>
+    </div>
+
+    <p class="atlas-claim" data-claim>
+      Across the synthetic field, the unadjusted difference is being calculated.
+    </p>
+
+    <details class="atlas-explanation">
+      <summary>Why did this move?</summary>
+      <p data-explanation>The current stage compares average simulated outcomes before design adjustment.</p>
+    </details>
+  </aside>
+
+  <form class="atlas-controls" data-atlas-controls>
+    <div class="atlas-control atlas-control--focal">
+      <label for="atlas-focal-place">
+        <span>FOCAL PLACE</span>
+        <output data-focal-label for="atlas-focal-place">Place 037 · Region 2</output>
+      </label>
+      <input id="atlas-focal-place" data-focal-input type="range" min="0" max="119" step="1" value="36" />
+    </div>
+
+    <div class="atlas-control atlas-control--radius">
+      <label for="atlas-radius">
+        <span>NEIGHBORHOOD RADIUS</span>
+        <output data-radius-label for="atlas-radius">0.24</output>
+      </label>
+      <input id="atlas-radius" data-radius-input type="range" min="0.10" max="0.45" step="0.01" value="0.24" />
+    </div>
+
+    <fieldset class="atlas-control atlas-control--estimand">
+      <legend>TARGET ESTIMAND</legend>
+      <label><input type="radio" name="atlas-estimand" value="place" checked /> <span>Places</span></label>
+      <label><input type="radio" name="atlas-estimand" value="population" /> <span>Population</span></label>
+    </fieldset>
+
+    <button class="atlas-reset" type="reset" data-reset-button>Reset design</button>
+  </form>
+
+  <p class="atlas-instruction" data-atlas-instruction>
+    MOVE TO INSPECT A PLACE · CLICK TO HOLD
+  </p>
+
+  <p class="atlas-proofline">
+    PhD Economics · MS Geographic Information Science · Georgia Tech teaching award · open methods and source trails
+  </p>
+
+  <p class="atlas-live" data-atlas-live aria-live="polite" aria-atomic="true"></p>
+</section>
+
+<script is:inline>
+  (() => {
+    const roots = document.querySelectorAll("[data-counterfactual-atlas]");
+
+    roots.forEach((root) => {
+      if (root.dataset.atlasMounted === "true") return;
+      root.dataset.atlasMounted = "true";
+
+      const field = root.querySelector("[data-atlas-field]");
+      const canvas = root.querySelector("[data-atlas-canvas]");
+      const context = canvas?.getContext("2d", { alpha: false });
+      if (!field || !canvas || !context) return;
+
+      const ui = {
+        stageButtons: Array.from(root.querySelectorAll("[data-stage-button]")),
+        stageIndex: root.querySelector("[data-stage-index]"),
+        designName: root.querySelector("[data-design-name]"),
+        estimate: root.querySelector("[data-estimate]"),
+        diagnosticLabel: root.querySelector("[data-diagnostic-label]"),
+        diagnosticValue: root.querySelector("[data-diagnostic-value]"),
+        interval: root.querySelector("[data-interval]"),
+        intervalText: root.querySelector("[data-interval-text]"),
+        claim: root.querySelector("[data-claim]"),
+        explanation: root.querySelector("[data-explanation]"),
+        focalInput: root.querySelector("[data-focal-input]"),
+        focalLabel: root.querySelector("[data-focal-label]"),
+        radiusInput: root.querySelector("[data-radius-input]"),
+        radiusLabel: root.querySelector("[data-radius-label]"),
+        estimands: Array.from(root.querySelectorAll('input[name="atlas-estimand"]')),
+        reset: root.querySelector("[data-reset-button]"),
+        lock: root.querySelector("[data-lock-button]"),
+        receipt: root.querySelector("[data-lens-receipt]"),
+        lensMode: root.querySelector("[data-lens-mode]"),
+        lensUnit: root.querySelector("[data-lens-unit]"),
+        lensRegion: root.querySelector("[data-lens-region]"),
+        instruction: root.querySelector("[data-atlas-instruction]"),
+        readout: root.querySelector("[data-atlas-readout]"),
+        live: root.querySelector("[data-atlas-live]"),
+      };
+
+      const STAGES = {
+        observe: {
+          index: "01",
+          label: "OBSERVE",
+          design: "RAW COMPARISON",
+          diagnostic: "ASSIGNMENT GAP",
+        },
+        design: {
+          index: "02",
+          label: "DESIGN",
+          design: "BALANCED COMPARISON",
+          diagnostic: "MAX BALANCE",
+        },
+        estimate: {
+          index: "03",
+          label: "ESTIMATE",
+          design: "REGION FIXED EFFECTS",
+          diagnostic: "REGIONS CONTROLLED",
+        },
+        decide: {
+          index: "04",
+          label: "DECIDE",
+          design: "SPATIAL MATCH",
+          diagnostic: "TREATED RETAINED",
+        },
+      };
+
+      const COLUMNS = 12;
+      const ROWS = 10;
+      const UNIT_COUNT = COLUMNS * ROWS;
+      const DEFAULT_FOCAL = 36;
+      const DEFAULT_RADIUS = 0.24;
+      const intervalDomain = [-0.6, 1.2];
+      const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const forcedColorsQuery = window.matchMedia("(forced-colors: active)");
+
+      const state = {
+        stage: "observe",
+        estimand: "place",
+        radius: DEFAULT_RADIUS,
+        focalUnitId: DEFAULT_FOCAL,
+        hoverUnitId: null,
+        pointerDown: false,
+        locked: false,
+        interacted: false,
+        visible: true,
+        reducedMotion: reducedMotionQuery.matches,
+        forcedColors: forcedColorsQuery.matches,
+        width: 1,
+        height: 1,
+        dpr: 1,
+        lensX: 0,
+        lensY: 0,
+        targetLensX: 0,
+        targetLensY: 0,
+        lensInitialized: false,
+        result: null,
+        frame: 0,
+        dirty: true,
+        lane: "estimate",
+      };
+
+      function mulberry32(seed) {
+        let value = seed >>> 0;
+        return function random() {
+          value += 0x6d2b79f5;
+          let next = value;
+          next = Math.imul(next ^ (next >>> 15), next | 1);
+          next ^= next + Math.imul(next ^ (next >>> 7), next | 61);
+          return ((next ^ (next >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      const random = mulberry32(1931);
+
+      function normalRandom() {
+        const first = Math.max(random(), Number.EPSILON);
+        const second = random();
+        return Math.sqrt(-2 * Math.log(first)) * Math.cos(2 * Math.PI * second);
+      }
+
+      function clamp(value, minimum, maximum) {
+        return Math.min(maximum, Math.max(minimum, value));
+      }
+
+      function logistic(value) {
+        return 1 / (1 + Math.exp(-value));
+      }
+
+      function distanceToSegment(x, y, ax, ay, bx, by) {
+        const dx = bx - ax;
+        const dy = by - ay;
+        const lengthSquared = dx * dx + dy * dy;
+        const amount = lengthSquared === 0 ? 0 : clamp(((x - ax) * dx + (y - ay) * dy) / lengthSquared, 0, 1);
+        const px = ax + amount * dx;
+        const py = ay + amount * dy;
+        return Math.hypot(x - px, y - py);
+      }
+
+      function generateUnits() {
+        const vertices = [];
+        for (let row = 0; row <= ROWS; row += 1) {
+          const vertexRow = [];
+          for (let column = 0; column <= COLUMNS; column += 1) {
+            const edgeX = column === 0 || column === COLUMNS;
+            const edgeY = row === 0 || row === ROWS;
+            vertexRow.push([
+              column / COLUMNS + (edgeX ? 0 : (random() - 0.5) * 0.022),
+              row / ROWS + (edgeY ? 0 : (random() - 0.5) * 0.026),
+            ]);
+          }
+          vertices.push(vertexRow);
+        }
+
+        const regionAssignmentShift = [0.32, -0.24, 0.18, -0.12];
+        const regionOutcomeShift = [-0.34, 0.24, 0.42, -0.18];
+        const generated = [];
+
+        for (let row = 0; row < ROWS; row += 1) {
+          for (let column = 0; column < COLUMNS; column += 1) {
+            const polygon = [
+              vertices[row][column],
+              vertices[row][column + 1],
+              vertices[row + 1][column + 1],
+              vertices[row + 1][column],
+            ];
+            const x = polygon.reduce((sum, point) => sum + point[0], 0) / polygon.length;
+            const y = polygon.reduce((sum, point) => sum + point[1], 0) / polygon.length;
+            const region = (row < ROWS / 2 ? 0 : 2) + (column < COLUMNS / 2 ? 0 : 1);
+            const corridorDistance = Math.min(
+              distanceToSegment(x, y, 0.03, 0.18, 0.96, 0.76),
+              distanceToSegment(x, y, 0.19, 0.97, 0.72, 0.03),
+            );
+            const access = Math.exp(-6 * corridorDistance);
+            const spatialWave = 0.30 * Math.sin(Math.PI * 2.2 * x) * Math.cos(Math.PI * 1.6 * y);
+            const baseline = 0.75 * x - 0.45 * y + spatialWave + normalRandom() * 0.20;
+            const propensity = clamp(logistic(-0.68 + 1.15 * baseline + 0.90 * access + regionAssignmentShift[region]), 0.06, 0.94);
+            const treated = random() < propensity ? 1 : 0;
+            const population = Math.round(420 + 2750 * logistic(0.45 + 0.75 * baseline + 0.55 * access + normalRandom() * 0.45));
+            const outcome = 0.30 * treated + 0.95 * baseline + 0.60 * access + regionOutcomeShift[region] + normalRandom() * 0.28;
+
+            generated.push({
+              id: row * COLUMNS + column,
+              row,
+              column,
+              x,
+              y,
+              region,
+              population,
+              baseline,
+              access,
+              propensity,
+              treated,
+              outcome,
+              polygon,
+            });
+          }
+        }
+
+        return generated;
+      }
+
+      const units = generateUnits();
+      const meanPopulation = units.reduce((sum, unit) => sum + unit.population, 0) / units.length;
+      const outcomeMean = units.reduce((sum, unit) => sum + unit.outcome, 0) / units.length;
+      const outcomeDeviation = Math.sqrt(units.reduce((sum, unit) => sum + (unit.outcome - outcomeMean) ** 2, 0) / units.length) || 1;
+
+      function baseWeight(unit) {
+        return state.estimand === "population" ? unit.population / meanPopulation : 1;
+      }
+
+      function robustBinaryRegression(weights) {
+        let s00 = 0;
+        let s01 = 0;
+        let s11 = 0;
+        let sy0 = 0;
+        let sy1 = 0;
+
+        units.forEach((unit, index) => {
+          const weight = weights[index];
+          s00 += weight;
+          s01 += weight * unit.treated;
+          s11 += weight * unit.treated;
+          sy0 += weight * unit.outcome;
+          sy1 += weight * unit.treated * unit.outcome;
+        });
+
+        const determinant = s00 * s11 - s01 * s01;
+        if (Math.abs(determinant) < 1e-9) return { estimate: 0, standardError: 0 };
+
+        const inverse00 = s11 / determinant;
+        const inverse01 = -s01 / determinant;
+        const inverse11 = s00 / determinant;
+        const intercept = inverse00 * sy0 + inverse01 * sy1;
+        const estimate = inverse01 * sy0 + inverse11 * sy1;
+        let meat00 = 0;
+        let meat01 = 0;
+        let meat11 = 0;
+
+        units.forEach((unit, index) => {
+          const residual = unit.outcome - intercept - estimate * unit.treated;
+          const scoreSquared = (weights[index] * residual) ** 2;
+          meat00 += scoreSquared;
+          meat01 += scoreSquared * unit.treated;
+          meat11 += scoreSquared * unit.treated;
+        });
+
+        const variance = (
+          inverse01 * inverse01 * meat00
+          + 2 * inverse01 * inverse11 * meat01
+          + inverse11 * inverse11 * meat11
+        ) * (units.length / Math.max(1, units.length - 2));
+
+        return { estimate, standardError: Math.sqrt(Math.max(0, variance)) };
+      }
+
+      function weightedMoments(property, treatment, weights) {
+        let totalWeight = 0;
+        let weightedSum = 0;
+        units.forEach((unit, index) => {
+          if (unit.treated !== treatment) return;
+          totalWeight += weights[index];
+          weightedSum += weights[index] * unit[property];
+        });
+        const mean = totalWeight ? weightedSum / totalWeight : 0;
+        let varianceSum = 0;
+        units.forEach((unit, index) => {
+          if (unit.treated !== treatment) return;
+          varianceSum += weights[index] * (unit[property] - mean) ** 2;
+        });
+        return { mean, variance: totalWeight ? varianceSum / totalWeight : 0 };
+      }
+
+      function maximumBalanceGap(weights) {
+        return ["baseline", "access"].reduce((maximum, property) => {
+          const treated = weightedMoments(property, 1, weights);
+          const comparison = weightedMoments(property, 0, weights);
+          const pooled = Math.sqrt(Math.max(1e-9, (treated.variance + comparison.variance) / 2));
+          return Math.max(maximum, Math.abs(treated.mean - comparison.mean) / pooled);
+        }, 0);
+      }
+
+      function rawResult() {
+        const weights = units.map((unit) => baseWeight(unit));
+        const model = robustBinaryRegression(weights);
+        const balance = maximumBalanceGap(weights);
+        return {
+          ...model,
+          diagnosticValue: `${balance.toFixed(2)} SMD`,
+          retained: units.length,
+          changedUnits: [],
+          claim: `Across the synthetic field, the unadjusted ${state.estimand === "population" ? "population-weighted" : "place-weighted"} difference is ${formatSigned(model.estimate)} ${formatInterval(model.estimate, model.standardError)}. It is descriptive and does not isolate a treatment effect.`,
+          explanation: `This stage compares weighted average outcomes across ${units.filter((unit) => unit.treated).length} treated and ${units.filter((unit) => !unit.treated).length} comparison places. Assignment still follows baseline conditions, corridor access, and region.`,
+        };
+      }
+
+      function balancedResult() {
+        const weights = units.map((unit) => {
+          const inverseProbability = unit.treated ? 1 / unit.propensity : 1 / (1 - unit.propensity);
+          return baseWeight(unit) * clamp(inverseProbability, 0.1, 10);
+        });
+        const model = robustBinaryRegression(weights);
+        const balance = maximumBalanceGap(weights);
+        const changedUnits = units.filter((unit) => {
+          const inverseProbability = unit.treated ? 1 / unit.propensity : 1 / (1 - unit.propensity);
+          return inverseProbability >= 10;
+        }).map((unit) => unit.id);
+        return {
+          ...model,
+          diagnosticValue: `${balance.toFixed(2)} SMD`,
+          retained: units.length,
+          changedUnits,
+          claim: `After balancing observed assignment factors, the simulated ${state.estimand === "population" ? "population-weighted" : "place-weighted"} difference is ${formatSigned(model.estimate)} ${formatInterval(model.estimate, model.standardError)}. The comparison relies on overlap and measured covariates.`,
+          explanation: `Inverse-propensity weights balance baseline conditions and corridor access. Weights are clipped at 10; ${changedUnits.length} synthetic place${changedUnits.length === 1 ? " is" : "s are"} affected by that limit.`,
+        };
+      }
+
+      function regionFixedEffectResult() {
+        const weights = units.map((unit) => baseWeight(unit));
+        const regionMeans = new Map();
+
+        for (let region = 0; region < 4; region += 1) {
+          const members = units.filter((unit) => unit.region === region);
+          const totalWeight = members.reduce((sum, unit) => sum + weights[unit.id], 0);
+          regionMeans.set(region, {
+            treatment: members.reduce((sum, unit) => sum + weights[unit.id] * unit.treated, 0) / totalWeight,
+            outcome: members.reduce((sum, unit) => sum + weights[unit.id] * unit.outcome, 0) / totalWeight,
+          });
+        }
+
+        let denominator = 0;
+        let numerator = 0;
+        const transformed = units.map((unit) => {
+          const means = regionMeans.get(unit.region);
+          const treatment = unit.treated - means.treatment;
+          const outcome = unit.outcome - means.outcome;
+          denominator += weights[unit.id] * treatment * treatment;
+          numerator += weights[unit.id] * treatment * outcome;
+          return { treatment, outcome };
+        });
+        const estimate = denominator ? numerator / denominator : 0;
+        let meat = 0;
+        transformed.forEach((unit, index) => {
+          const residual = unit.outcome - estimate * unit.treatment;
+          meat += (weights[index] * unit.treatment * residual) ** 2;
+        });
+        const variance = denominator ? meat / (denominator * denominator) * (units.length / Math.max(1, units.length - 1)) : 0;
+        const standardError = Math.sqrt(Math.max(0, variance));
+        return {
+          estimate,
+          standardError,
+          diagnosticValue: "4 / 4",
+          retained: units.length,
+          changedUnits: [],
+          claim: `Within four synthetic regions, the ${state.estimand === "population" ? "population-weighted" : "place-weighted"} estimate is ${formatSigned(estimate)} ${formatInterval(estimate, standardError)}. Stable differences across regions are absorbed by the design.`,
+          explanation: "Treatment and outcome are centered inside each of four synthetic regions before estimation. The interval uses a compact heteroskedasticity-robust approximation.",
+        };
+      }
+
+      function unitDistance(first, second) {
+        return Math.hypot(first.x - second.x, first.y - second.y);
+      }
+
+      function matchNeighbors(focal, limit = 12) {
+        return units
+          .filter((candidate) => candidate.treated !== focal.treated && unitDistance(focal, candidate) <= state.radius)
+          .map((candidate) => ({
+            unit: candidate,
+            distance: unitDistance(focal, candidate),
+            weight: Math.exp(-unitDistance(focal, candidate) / state.radius) * Math.exp(-5 * Math.abs(focal.propensity - candidate.propensity)),
+          }))
+          .sort((first, second) => second.weight - first.weight)
+          .slice(0, limit);
+      }
+
+      function spatialMatchResult() {
+        const treatedUnits = units.filter((unit) => unit.treated);
+        const differences = [];
+        const changed = new Set();
+
+        treatedUnits.forEach((treated) => {
+          const neighbors = matchNeighbors(treated, 16).filter((neighbor) => !neighbor.unit.treated);
+          if (!neighbors.length) return;
+          const totalNeighborWeight = neighbors.reduce((sum, neighbor) => sum + neighbor.weight * baseWeight(neighbor.unit), 0);
+          const comparisonOutcome = neighbors.reduce((sum, neighbor) => sum + neighbor.weight * baseWeight(neighbor.unit) * neighbor.unit.outcome, 0) / totalNeighborWeight;
+          differences.push({ value: treated.outcome - comparisonOutcome, weight: baseWeight(treated) });
+          neighbors.forEach((neighbor) => changed.add(neighbor.unit.id));
+        });
+
+        const totalWeight = differences.reduce((sum, item) => sum + item.weight, 0);
+        const estimate = totalWeight ? differences.reduce((sum, item) => sum + item.weight * item.value, 0) / totalWeight : 0;
+        const weightedVariance = totalWeight ? differences.reduce((sum, item) => sum + item.weight * (item.value - estimate) ** 2, 0) / totalWeight : 0;
+        const squaredWeights = differences.reduce((sum, item) => sum + item.weight * item.weight, 0);
+        const effectiveCount = squaredWeights ? totalWeight * totalWeight / squaredWeights : 1;
+        const standardError = Math.sqrt(weightedVariance / Math.max(1, effectiveCount - 1));
+        return {
+          estimate,
+          standardError,
+          diagnosticValue: `${differences.length} / ${treatedUnits.length}`,
+          retained: differences.length,
+          changedUnits: Array.from(changed),
+          claim: `Among comparable nearby synthetic places, the ${state.estimand === "population" ? "population-weighted" : "place-weighted"} matched difference is ${formatSigned(estimate)} ${formatInterval(estimate, standardError)}. ${differences.length} treated places retain a nearby comparison.`,
+          explanation: `Comparison places lie within radius ${state.radius.toFixed(2)} and receive more weight when distance and assignment propensity are close. The interval uses a weighted paired-difference approximation.`,
+        };
+      }
+
+      function computeResult() {
+        if (state.stage === "design") return balancedResult();
+        if (state.stage === "estimate") return regionFixedEffectResult();
+        if (state.stage === "decide") return spatialMatchResult();
+        return rawResult();
+      }
+
+      function formatSigned(value) {
+        return `${value >= 0 ? "+" : "−"}${Math.abs(value).toFixed(2)}`;
+      }
+
+      function formatInterval(estimate, standardError) {
+        const lower = estimate - 1.96 * standardError;
+        const upper = estimate + 1.96 * standardError;
+        return `[${formatSigned(lower)}, ${formatSigned(upper)}]`;
+      }
+
+      function updateInterval(result) {
+        const lower = result.estimate - 1.96 * result.standardError;
+        const upper = result.estimate + 1.96 * result.standardError;
+        const toPercent = (value) => clamp((value - intervalDomain[0]) / (intervalDomain[1] - intervalDomain[0]) * 100, 0, 100);
+        const lowerPercent = toPercent(lower);
+        const upperPercent = toPercent(upper);
+        const estimatePercent = toPercent(result.estimate);
+        const zeroPercent = toPercent(0);
+        ui.interval?.style.setProperty("--interval-start", `${lowerPercent}%`);
+        ui.interval?.style.setProperty("--interval-width", `${Math.max(1, upperPercent - lowerPercent)}%`);
+        ui.interval?.style.setProperty("--interval-point", `${estimatePercent}%`);
+        ui.interval?.style.setProperty("--interval-zero", `${zeroPercent}%`);
+        if (ui.intervalText) ui.intervalText.textContent = formatInterval(result.estimate, result.standardError);
+      }
+
+      function selectedUnit() {
+        return units[state.hoverUnitId ?? state.focalUnitId] || units[DEFAULT_FOCAL];
+      }
+
+      function updateReceipt() {
+        const unit = selectedUnit();
+        if (ui.lensMode) ui.lensMode.textContent = state.locked ? "LOCKED" : "INSPECT";
+        if (ui.lensUnit) ui.lensUnit.textContent = `PLACE ${String(unit.id + 1).padStart(3, "0")}`;
+        if (ui.lensRegion) ui.lensRegion.textContent = `REGION ${unit.region + 1} · ${unit.treated ? "TREATED" : "COMPARISON"}`;
+        if (ui.receipt) {
+          ui.receipt.style.setProperty("--lens-x", `${state.lensX}px`);
+          ui.receipt.style.setProperty("--lens-y", `${state.lensY}px`);
+          ui.receipt.dataset.side = state.lensX > state.width * 0.70 ? "left" : "right";
+        }
+      }
+
+      function updateFocalControl() {
+        const unit = units[state.focalUnitId];
+        if (ui.focalInput) ui.focalInput.value = String(unit.id);
+        if (ui.focalLabel) ui.focalLabel.textContent = `Place ${String(unit.id + 1).padStart(3, "0")} · Region ${unit.region + 1}`;
+      }
+
+      function updateLockControl() {
+        if (!ui.lock) return;
+        ui.lock.setAttribute("aria-pressed", String(state.locked));
+        ui.lock.textContent = state.locked ? "Release focal place" : "Lock focal place";
+      }
+
+      function updateReadout(announce = false) {
+        const result = computeResult();
+        const stage = STAGES[state.stage];
+        state.result = result;
+        if (ui.stageIndex) ui.stageIndex.textContent = `${stage.index} / ${stage.label}`;
+        if (ui.designName) ui.designName.textContent = stage.design;
+        if (ui.estimate) ui.estimate.textContent = formatSigned(result.estimate);
+        if (ui.diagnosticLabel) ui.diagnosticLabel.textContent = stage.diagnostic;
+        if (ui.diagnosticValue) ui.diagnosticValue.textContent = result.diagnosticValue;
+        if (ui.claim) ui.claim.textContent = result.claim;
+        if (ui.explanation) ui.explanation.textContent = result.explanation;
+        updateInterval(result);
+        updateFocalControl();
+        updateLockControl();
+
+        if (!state.reducedMotion && ui.readout && typeof ui.readout.animate === "function") {
+          ui.readout.animate(
+            [{ opacity: 0.72, transform: "translateY(5px)" }, { opacity: 1, transform: "translateY(0)" }],
+            { duration: 220, easing: "cubic-bezier(.22,.72,.18,1)" },
+          );
+        }
+
+        if (announce && ui.live) {
+          ui.live.textContent = `${stage.label.toLowerCase()} stage selected. Estimate ${formatSigned(result.estimate)}. ${stage.diagnostic.toLowerCase()} ${result.diagnosticValue}.`;
+        }
+      }
+
+      function setStage(stageName, announce = true) {
+        if (!STAGES[stageName]) return;
+        state.stage = stageName;
+        root.dataset.stage = stageName;
+        ui.stageButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.stageButton === stageName));
+        });
+        updateReadout(announce);
+        scheduleDraw();
+      }
+
+      function setFocal(unitId, announce = false) {
+        state.focalUnitId = clamp(Math.round(Number(unitId) || 0), 0, UNIT_COUNT - 1);
+        const unit = units[state.focalUnitId];
+        if (state.locked || state.reducedMotion) {
+          state.targetLensX = unit.x * state.width;
+          state.targetLensY = unit.y * state.height;
+          if (state.reducedMotion) {
+            state.lensX = state.targetLensX;
+            state.lensY = state.targetLensY;
+          }
+        }
+        updateFocalControl();
+        updateReceipt();
+        if (announce && ui.live) {
+          ui.live.textContent = `Focal place ${String(unit.id + 1).padStart(3, "0")}, region ${unit.region + 1}, ${unit.treated ? "treated" : "comparison"}.`;
+        }
+        scheduleDraw();
+      }
+
+      function readPalette() {
+        const styles = getComputedStyle(root);
+        const read = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+        return {
+          background: read("--field-bg", "#0f302a"),
+          panel: read("--field-panel", "#184139"),
+          ink: read("--field-ink", "#f7f2e9"),
+          muted: read("--field-muted", "#a8b8b0"),
+          treated: read("--field-treated", "#f15a37"),
+          comparison: read("--field-comparison", "#78a7a0"),
+          adjusted: read("--field-adjusted", "#e0bd68"),
+          warning: read("--field-warning", "#a9361f"),
+          grid: read("--field-grid", "#426158"),
+          focus: read("--field-focus", "#fffdf7"),
+        };
+      }
+
+      function parseHex(color) {
+        const normalized = color.trim().replace("#", "");
+        if (!/^[0-9a-f]{6}$/i.test(normalized)) return null;
+        return [
+          Number.parseInt(normalized.slice(0, 2), 16),
+          Number.parseInt(normalized.slice(2, 4), 16),
+          Number.parseInt(normalized.slice(4, 6), 16),
+        ];
+      }
+
+      function mixColor(first, second, amount) {
+        const start = parseHex(first);
+        const end = parseHex(second);
+        if (!start || !end) return amount > 0.5 ? second : first;
+        const mixed = start.map((value, index) => Math.round(value + (end[index] - value) * clamp(amount, 0, 1)));
+        return `rgb(${mixed[0]}, ${mixed[1]}, ${mixed[2]})`;
+      }
+
+      function valueColor(unit, adjusted, palette) {
+        let value = unit.outcome;
+        if (adjusted) {
+          if (state.stage === "observe") value -= state.result.estimate * unit.treated;
+          if (state.stage === "design") value -= 0.70 * unit.baseline + 0.42 * unit.access;
+          if (state.stage === "estimate") {
+            const regionMembers = units.filter((candidate) => candidate.region === unit.region);
+            const regionMean = regionMembers.reduce((sum, candidate) => sum + candidate.outcome, 0) / regionMembers.length;
+            value -= regionMean;
+          }
+          if (state.stage === "decide") value -= state.result.estimate * unit.treated + 0.45 * unit.baseline;
+        }
+        const standardized = clamp((value - (adjusted ? 0 : outcomeMean)) / (outcomeDeviation * 1.65), -1, 1);
+        if (standardized >= 0) return mixColor(palette.panel, adjusted ? palette.adjusted : palette.treated, standardized * 0.82);
+        return mixColor(palette.panel, palette.comparison, Math.abs(standardized) * 0.78);
+      }
+
+      function mapPoint(point) {
+        return [point[0] * state.width, point[1] * state.height];
+      }
+
+      function tracePolygon(unit) {
+        context.beginPath();
+        unit.polygon.forEach((point, index) => {
+          const [x, y] = mapPoint(point);
+          if (index === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        });
+        context.closePath();
+      }
+
+      function drawHatch(unit, palette) {
+        context.save();
+        tracePolygon(unit);
+        context.clip();
+        context.strokeStyle = palette.ink;
+        context.lineWidth = 1;
+        const boundsLeft = unit.column / COLUMNS * state.width;
+        const boundsTop = unit.row / ROWS * state.height;
+        const boundsWidth = state.width / COLUMNS;
+        const boundsHeight = state.height / ROWS;
+        for (let offset = -boundsHeight; offset < boundsWidth + boundsHeight; offset += 8) {
+          context.beginPath();
+          context.moveTo(boundsLeft + offset, boundsTop + boundsHeight);
+          context.lineTo(boundsLeft + offset + boundsHeight, boundsTop);
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      function drawContours(palette, adjusted) {
+        context.save();
+        context.strokeStyle = adjusted ? palette.adjusted : palette.grid;
+        context.globalAlpha = adjusted ? 0.34 : 0.46;
+        context.lineWidth = adjusted ? 1.3 : 0.8;
+        for (let line = 0; line < 7; line += 1) {
+          context.beginPath();
+          for (let step = 0; step <= 48; step += 1) {
+            const x = step / 48 * state.width;
+            const baseline = (0.10 + line * 0.135) * state.height;
+            const y = baseline + Math.sin(step * 0.31 + line * 0.72) * state.height * 0.026 + Math.cos(step * 0.13) * state.height * 0.012;
+            if (step === 0) context.moveTo(x, y);
+            else context.lineTo(x, y);
+          }
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      function drawCorridors(palette, adjusted) {
+        context.save();
+        context.strokeStyle = adjusted ? palette.adjusted : palette.comparison;
+        context.globalAlpha = adjusted ? 0.62 : 0.46;
+        context.lineWidth = adjusted ? 2.2 : 1.35;
+        context.setLineDash(adjusted ? [] : [7, 7]);
+        context.beginPath();
+        context.moveTo(state.width * 0.03, state.height * 0.18);
+        context.lineTo(state.width * 0.96, state.height * 0.76);
+        context.moveTo(state.width * 0.19, state.height * 0.97);
+        context.lineTo(state.width * 0.72, state.height * 0.03);
+        context.stroke();
+        context.restore();
+      }
+
+      function drawRegionBoundaries(palette, adjusted) {
+        if (state.stage === "observe" && !adjusted) return;
+        context.save();
+        context.strokeStyle = adjusted ? palette.focus : palette.muted;
+        context.globalAlpha = adjusted ? 0.86 : 0.66;
+        context.lineWidth = adjusted ? 2 : 1.3;
+        context.setLineDash([5, 5]);
+        context.beginPath();
+        for (let row = 0; row <= ROWS; row += 1) {
+          const x = state.width * 0.5;
+          const y = state.height * row / ROWS;
+          if (row === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.moveTo(0, state.height * 0.5);
+        context.lineTo(state.width, state.height * 0.5);
+        context.stroke();
+        context.restore();
+      }
+
+      function drawNeighborLinks(palette, adjusted) {
+        if (state.stage !== "decide" && !adjusted) return;
+        const focal = selectedUnit();
+        const neighbors = matchNeighbors(focal, 10);
+        if (!neighbors.length) return;
+        const maximumWeight = Math.max(...neighbors.map((neighbor) => neighbor.weight), 1e-6);
+        context.save();
+        neighbors.forEach((neighbor) => {
+          context.beginPath();
+          context.moveTo(focal.x * state.width, focal.y * state.height);
+          context.lineTo(neighbor.unit.x * state.width, neighbor.unit.y * state.height);
+          context.strokeStyle = adjusted ? palette.adjusted : palette.comparison;
+          context.globalAlpha = 0.22 + 0.64 * neighbor.weight / maximumWeight;
+          context.lineWidth = 0.8 + 1.8 * neighbor.weight / maximumWeight;
+          context.stroke();
+        });
+        context.restore();
+      }
+
+      function drawCells(palette, adjusted) {
+        const selected = selectedUnit();
+        units.forEach((unit) => {
+          tracePolygon(unit);
+          context.fillStyle = state.forcedColors ? palette.background : valueColor(unit, adjusted, palette);
+          context.fill();
+
+          context.strokeStyle = unit.treated ? palette.treated : palette.grid;
+          context.globalAlpha = unit.treated ? 0.88 : 0.58;
+          context.lineWidth = unit.treated ? 1.45 : 0.75;
+          context.stroke();
+          context.globalAlpha = 1;
+
+          if (state.forcedColors && unit.treated) drawHatch(unit, palette);
+
+          if (state.stage === "design" && unit.propensity > 0.78) {
+            context.beginPath();
+            context.arc(unit.x * state.width, unit.y * state.height, 2.4, 0, Math.PI * 2);
+            context.fillStyle = palette.warning;
+            context.fill();
+          }
+
+          if (unit.id === state.focalUnitId || unit.id === selected.id) {
+            tracePolygon(unit);
+            context.strokeStyle = unit.id === selected.id ? palette.focus : palette.adjusted;
+            context.lineWidth = unit.id === selected.id ? 3.4 : 2;
+            context.globalAlpha = 1;
+            context.stroke();
+            if (unit.id === selected.id) {
+              context.beginPath();
+              context.arc(unit.x * state.width, unit.y * state.height, 5.5, 0, Math.PI * 2);
+              context.fillStyle = palette.treated;
+              context.fill();
+              context.strokeStyle = palette.focus;
+              context.lineWidth = 1.5;
+              context.stroke();
+            }
+          }
+        });
+      }
+
+      function drawEstimateGlyph(palette, adjusted) {
+        if (state.stage !== "estimate" && state.stage !== "decide") return;
+        const result = state.result;
+        const chartLeft = state.width * 0.58;
+        const chartRight = state.width * 0.92;
+        const chartY = state.height * 0.16;
+        const scale = (value) => chartLeft + clamp((value - intervalDomain[0]) / (intervalDomain[1] - intervalDomain[0]), 0, 1) * (chartRight - chartLeft);
+        const lower = result.estimate - 1.96 * result.standardError;
+        const upper = result.estimate + 1.96 * result.standardError;
+        context.save();
+        context.globalAlpha = adjusted ? 0.96 : 0.58;
+        context.strokeStyle = palette.muted;
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(chartLeft, chartY);
+        context.lineTo(chartRight, chartY);
+        context.stroke();
+        context.strokeStyle = palette.adjusted;
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(scale(lower), chartY);
+        context.lineTo(scale(upper), chartY);
+        context.stroke();
+        context.fillStyle = palette.treated;
+        context.beginPath();
+        context.arc(scale(result.estimate), chartY, 5, 0, Math.PI * 2);
+        context.fill();
+        context.strokeStyle = palette.focus;
+        context.lineWidth = 1;
+        context.stroke();
+        context.restore();
+      }
+
+      function drawScene(palette, adjusted) {
+        context.fillStyle = adjusted ? palette.panel : palette.background;
+        context.fillRect(0, 0, state.width, state.height);
+        drawContours(palette, adjusted);
+        drawCorridors(palette, adjusted);
+        drawNeighborLinks(palette, adjusted);
+        drawCells(palette, adjusted);
+        drawRegionBoundaries(palette, adjusted);
+        drawEstimateGlyph(palette, adjusted);
+      }
+
+      function draw() {
+        state.dirty = false;
+        if (!state.visible || state.width <= 1 || state.height <= 1) return;
+        const palette = readPalette();
+        context.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+        drawScene(palette, false);
+
+        const lensRadius = Math.min(state.width, state.height) * (state.width < 640 ? 0.18 : 0.145);
+        context.save();
+        context.beginPath();
+        context.arc(state.lensX, state.lensY, lensRadius, 0, Math.PI * 2);
+        context.clip();
+        drawScene(palette, true);
+        context.restore();
+
+        context.save();
+        context.beginPath();
+        context.arc(state.lensX, state.lensY, lensRadius, 0, Math.PI * 2);
+        context.strokeStyle = state.locked ? palette.treated : palette.focus;
+        context.lineWidth = state.locked ? 3 : 1.5;
+        context.stroke();
+        context.beginPath();
+        context.moveTo(state.lensX - lensRadius - 8, state.lensY);
+        context.lineTo(state.lensX - lensRadius + 8, state.lensY);
+        context.moveTo(state.lensX + lensRadius - 8, state.lensY);
+        context.lineTo(state.lensX + lensRadius + 8, state.lensY);
+        context.moveTo(state.lensX, state.lensY - lensRadius - 8);
+        context.lineTo(state.lensX, state.lensY - lensRadius + 8);
+        context.stroke();
+        context.restore();
+        updateReceipt();
+      }
+
+      function frame() {
+        state.frame = 0;
+        if (!state.lensInitialized) {
+          state.lensX = state.targetLensX;
+          state.lensY = state.targetLensY;
+          state.lensInitialized = true;
+        }
+
+        const deltaX = state.targetLensX - state.lensX;
+        const deltaY = state.targetLensY - state.lensY;
+        const stillMoving = !state.reducedMotion && (Math.abs(deltaX) > 0.25 || Math.abs(deltaY) > 0.25);
+        if (stillMoving) {
+          state.lensX += deltaX * 0.32;
+          state.lensY += deltaY * 0.32;
+          state.dirty = true;
+        } else {
+          state.lensX = state.targetLensX;
+          state.lensY = state.targetLensY;
+        }
+
+        if (state.dirty || stillMoving) draw();
+        if (stillMoving && state.visible) state.frame = requestAnimationFrame(frame);
+      }
+
+      function scheduleDraw() {
+        state.dirty = true;
+        if (!state.visible || state.frame) return;
+        state.frame = requestAnimationFrame(frame);
+      }
+
+      function resizeCanvas() {
+        const bounds = field.getBoundingClientRect();
+        state.width = Math.max(1, Math.round(bounds.width));
+        state.height = Math.max(1, Math.round(bounds.height));
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const projectedPixels = state.width * state.height * dpr * dpr;
+        if (projectedPixels > 2500000) dpr *= Math.sqrt(2500000 / projectedPixels);
+        state.dpr = Math.max(1, dpr);
+        canvas.width = Math.round(state.width * state.dpr);
+        canvas.height = Math.round(state.height * state.dpr);
+        canvas.style.width = `${state.width}px`;
+        canvas.style.height = `${state.height}px`;
+
+        const focal = units[state.focalUnitId];
+        if (!state.lensInitialized || state.locked || state.reducedMotion) {
+          state.targetLensX = focal.x * state.width;
+          state.targetLensY = focal.y * state.height;
+          if (!state.lensInitialized || state.reducedMotion) {
+            state.lensX = state.targetLensX;
+            state.lensY = state.targetLensY;
+          }
+        } else {
+          state.targetLensX = clamp(state.targetLensX, 0, state.width);
+          state.targetLensY = clamp(state.targetLensY, 0, state.height);
+        }
+        scheduleDraw();
+      }
+
+      function pointInPolygon(x, y, polygon) {
+        let inside = false;
+        for (let first = 0, second = polygon.length - 1; first < polygon.length; second = first, first += 1) {
+          const xi = polygon[first][0];
+          const yi = polygon[first][1];
+          const xj = polygon[second][0];
+          const yj = polygon[second][1];
+          const intersects = yi > y !== yj > y && x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi;
+          if (intersects) inside = !inside;
+        }
+        return inside;
+      }
+
+      function hitTest(clientX, clientY) {
+        const bounds = field.getBoundingClientRect();
+        const normalizedX = clamp((clientX - bounds.left) / Math.max(1, bounds.width), 0, 0.999999);
+        const normalizedY = clamp((clientY - bounds.top) / Math.max(1, bounds.height), 0, 0.999999);
+        const column = clamp(Math.floor(normalizedX * COLUMNS), 0, COLUMNS - 1);
+        const row = clamp(Math.floor(normalizedY * ROWS), 0, ROWS - 1);
+        const candidates = [];
+        for (let rowOffset = -1; rowOffset <= 1; rowOffset += 1) {
+          for (let columnOffset = -1; columnOffset <= 1; columnOffset += 1) {
+            const candidateRow = row + rowOffset;
+            const candidateColumn = column + columnOffset;
+            if (candidateRow < 0 || candidateRow >= ROWS || candidateColumn < 0 || candidateColumn >= COLUMNS) continue;
+            candidates.push(units[candidateRow * COLUMNS + candidateColumn]);
+          }
+        }
+        const containing = candidates.find((unit) => pointInPolygon(normalizedX, normalizedY, unit.polygon));
+        if (containing) return containing;
+        return candidates.sort((first, second) => (
+          Math.hypot(first.x - normalizedX, first.y - normalizedY)
+          - Math.hypot(second.x - normalizedX, second.y - normalizedY)
+        ))[0];
+      }
+
+      function setLensFromPointer(event) {
+        const bounds = field.getBoundingClientRect();
+        state.targetLensX = clamp(event.clientX - bounds.left, 0, bounds.width);
+        state.targetLensY = clamp(event.clientY - bounds.top, 0, bounds.height);
+        const unit = hitTest(event.clientX, event.clientY);
+        if (unit && state.hoverUnitId !== unit.id) {
+          state.hoverUnitId = unit.id;
+          updateReceipt();
+        }
+        scheduleDraw();
+        return unit;
+      }
+
+      function markInteraction() {
+        if (state.interacted) return;
+        state.interacted = true;
+        root.dataset.interacted = "true";
+        if (ui.instruction) ui.instruction.setAttribute("aria-hidden", "true");
+      }
+
+      field.addEventListener("pointerenter", (event) => {
+        if (!state.locked) setLensFromPointer(event);
+      });
+
+      field.addEventListener("pointermove", (event) => {
+        if (state.locked && !state.pointerDown) return;
+        const unit = setLensFromPointer(event);
+        if (state.pointerDown && unit) setFocal(unit.id, false);
+      });
+
+      field.addEventListener("pointerdown", (event) => {
+        if (event.button !== undefined && event.button !== 0) return;
+        state.pointerDown = true;
+        field.setPointerCapture?.(event.pointerId);
+        const unit = setLensFromPointer(event);
+        if (unit) setFocal(unit.id, false);
+        markInteraction();
+      });
+
+      field.addEventListener("pointerup", (event) => {
+        if (!state.pointerDown) return;
+        state.pointerDown = false;
+        if (field.hasPointerCapture?.(event.pointerId)) field.releasePointerCapture(event.pointerId);
+        const unit = setLensFromPointer(event);
+        if (unit) setFocal(unit.id, false);
+        state.locked = true;
+        state.hoverUnitId = null;
+        updateLockControl();
+        updateReceipt();
+        if (ui.live) {
+          const focal = units[state.focalUnitId];
+          ui.live.textContent = `Focal place ${String(focal.id + 1).padStart(3, "0")} locked. ${focal.treated ? "Treated" : "Comparison"}, region ${focal.region + 1}.`;
+        }
+        scheduleDraw();
+      });
+
+      field.addEventListener("pointercancel", () => {
+        state.pointerDown = false;
+      });
+
+      ui.stageButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          markInteraction();
+          setStage(button.dataset.stageButton, true);
+        });
+      });
+
+      ui.focalInput?.addEventListener("input", () => {
+        state.locked = true;
+        state.hoverUnitId = null;
+        markInteraction();
+        setFocal(ui.focalInput.value, false);
+        updateLockControl();
+      });
+
+      ui.focalInput?.addEventListener("change", () => setFocal(ui.focalInput.value, true));
+
+      ui.radiusInput?.addEventListener("input", () => {
+        state.radius = Number(ui.radiusInput.value);
+        if (ui.radiusLabel) ui.radiusLabel.textContent = state.radius.toFixed(2);
+        updateReadout(false);
+        scheduleDraw();
+      });
+
+      ui.radiusInput?.addEventListener("change", () => {
+        markInteraction();
+        updateReadout(true);
+      });
+
+      ui.estimands.forEach((input) => {
+        input.addEventListener("change", () => {
+          if (!input.checked) return;
+          state.estimand = input.value;
+          markInteraction();
+          updateReadout(true);
+          scheduleDraw();
+        });
+      });
+
+      ui.lock?.addEventListener("click", () => {
+        state.locked = !state.locked;
+        state.hoverUnitId = null;
+        const focal = units[state.focalUnitId];
+        state.targetLensX = focal.x * state.width;
+        state.targetLensY = focal.y * state.height;
+        markInteraction();
+        updateLockControl();
+        updateReceipt();
+        if (ui.live) ui.live.textContent = state.locked ? `Focal place ${String(focal.id + 1).padStart(3, "0")} locked.` : "Focal place released. Move across the field to inspect another place.";
+        scheduleDraw();
+      });
+
+      root.querySelector("form")?.addEventListener("reset", (event) => {
+        event.preventDefault();
+        state.stage = "observe";
+        state.estimand = "place";
+        state.radius = DEFAULT_RADIUS;
+        state.focalUnitId = DEFAULT_FOCAL;
+        state.hoverUnitId = null;
+        state.locked = false;
+        ui.estimands.forEach((input) => { input.checked = input.value === "place"; });
+        if (ui.radiusInput) ui.radiusInput.value = String(DEFAULT_RADIUS);
+        if (ui.radiusLabel) ui.radiusLabel.textContent = DEFAULT_RADIUS.toFixed(2);
+        const focal = units[DEFAULT_FOCAL];
+        state.targetLensX = focal.x * state.width;
+        state.targetLensY = focal.y * state.height;
+        markInteraction();
+        setStage("observe", true);
+        updateLockControl();
+      });
+
+      root.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !state.locked) return;
+        state.locked = false;
+        state.hoverUnitId = null;
+        updateLockControl();
+        updateReceipt();
+        scheduleDraw();
+      });
+
+      root.addEventListener("studio:lanechange", (event) => {
+        if (!event.detail?.lane) return;
+        state.lane = event.detail.lane;
+        root.dataset.lane = state.lane;
+      });
+
+      const resizeObserver = new ResizeObserver(resizeCanvas);
+      resizeObserver.observe(field);
+
+      const intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.target !== root) return;
+          state.visible = entry.isIntersecting;
+          if (state.visible) scheduleDraw();
+          else if (state.frame) {
+            cancelAnimationFrame(state.frame);
+            state.frame = 0;
+          }
+        });
+      }, { rootMargin: "120px 0px", threshold: 0 });
+      intersectionObserver.observe(root);
+
+      const handleReducedMotion = () => {
+        state.reducedMotion = reducedMotionQuery.matches;
+        scheduleDraw();
+      };
+      const handleForcedColors = () => {
+        state.forcedColors = forcedColorsQuery.matches;
+        scheduleDraw();
+      };
+      reducedMotionQuery.addEventListener?.("change", handleReducedMotion);
+      forcedColorsQuery.addEventListener?.("change", handleForcedColors);
+
+      updateReadout(false);
+      resizeCanvas();
+      root.dataset.atlasReady = "true";
+
+      document.addEventListener("astro:before-swap", () => {
+        resizeObserver.disconnect();
+        intersectionObserver.disconnect();
+        reducedMotionQuery.removeEventListener?.("change", handleReducedMotion);
+        forcedColorsQuery.removeEventListener?.("change", handleForcedColors);
+        if (state.frame) cancelAnimationFrame(state.frame);
+      }, { once: true });
+    });
+  })();
+</script>
+
+<style>
+  .counterfactual-atlas {
+    --atlas-night: #0f302a;
+    --atlas-night-deep: #0a211e;
+    --atlas-paper: #f5f0e6;
+    --atlas-paper-high: #fffdf7;
+    --atlas-ink: #161915;
+    --atlas-graphite: #3a3f39;
+    --atlas-muted: #6a6c64;
+    --atlas-rule: #c9c0af;
+    --atlas-signal: #f15a37;
+    --atlas-signal-dark: #a9361f;
+    --atlas-water: #78a7a0;
+    --atlas-interval: #e0bd68;
+    --atlas-on-dark: #f7f2e9;
+    --field-bg: #0f302a;
+    --field-panel: #184139;
+    --field-ink: #f7f2e9;
+    --field-muted: #a8b8b0;
+    --field-treated: #f15a37;
+    --field-comparison: #78a7a0;
+    --field-adjusted: #e0bd68;
+    --field-warning: #a9361f;
+    --field-grid: #426158;
+    --field-focus: #fffdf7;
+    position: relative;
+    min-height: max(780px, calc(100svh - 66px));
+    overflow: hidden;
+    color: var(--atlas-on-dark);
+    background: var(--atlas-night);
+    border-bottom: 1px solid var(--atlas-night-deep);
+    isolation: isolate;
+  }
+
+  .atlas-identity {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    min-height: 42px;
+    padding: 0 clamp(1rem, 3vw, 3.5rem);
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--atlas-on-dark);
+    border-bottom: 1px solid rgba(247, 242, 233, .25);
+    font: 600 .58rem/1.2 var(--ih-mono, "Geist Mono", monospace);
+    letter-spacing: .09em;
+  }
+
+  .atlas-field {
+    position: absolute;
+    z-index: 0;
+    inset: 42px 0 0 38%;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--field-bg);
+    border-left: 1px solid rgba(247, 242, 233, .2);
+    cursor: crosshair;
+    touch-action: pan-y;
+  }
+
+  .atlas-field canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .atlas-field__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: var(--atlas-on-dark);
+    background-color: var(--atlas-night);
+    background-image:
+      linear-gradient(rgba(120, 167, 160, .17) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 167, 160, .17) 1px, transparent 1px);
+    background-size: 8.333% 10%;
+    transition: opacity 180ms ease;
+  }
+
+  [data-atlas-ready="true"] .atlas-field__fallback { opacity: 0; pointer-events: none; }
+  .atlas-field__fallback p { color: var(--atlas-on-dark); font: 600 .66rem var(--ih-mono, monospace); letter-spacing: .1em; text-transform: uppercase; }
+  .atlas-field__fallback-mark { position: absolute; width: 14px; height: 14px; background: var(--atlas-signal); border: 2px solid var(--atlas-on-dark); }
+  .atlas-field__fallback-mark:nth-child(1) { top: 22%; left: 28%; }
+  .atlas-field__fallback-mark:nth-child(2) { top: 41%; left: 68%; background: var(--atlas-water); }
+  .atlas-field__fallback-mark:nth-child(3) { top: 67%; left: 46%; background: var(--atlas-interval); }
+  .atlas-field__fallback-mark:nth-child(4) { top: 76%; left: 81%; }
+
+  .atlas-field::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0 auto 0 0;
+    width: min(22vw, 280px);
+    content: "";
+    background: linear-gradient(90deg, var(--atlas-night), rgba(15, 48, 42, 0));
+    pointer-events: none;
+  }
+
+  .atlas-thesis {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    left: clamp(1rem, 4.5vw, 5.5rem);
+    width: min(57vw, 1040px);
+    transform: translateY(-53%);
+    pointer-events: none;
+  }
+
+  .atlas-kicker {
+    margin: 0 0 1.25rem;
+    color: var(--atlas-water);
+    font: 600 .65rem/1.3 var(--ih-mono, "Geist Mono", monospace);
+    letter-spacing: .11em;
+  }
+
+  .atlas-thesis h1 {
+    max-width: 9.8ch;
+    margin: 0;
+    color: var(--atlas-on-dark);
+    font: 600 clamp(4.2rem, 7.55vw, 9.3rem)/.84 var(--ih-display, "Geist", sans-serif);
+    letter-spacing: -.072em;
+    text-wrap: balance;
+  }
+
+  .atlas-thesis h1 em {
+    position: relative;
+    display: inline-block;
+    color: var(--atlas-on-dark);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .atlas-thesis h1 em::after {
+    position: absolute;
+    right: .02em;
+    bottom: -.06em;
+    left: .02em;
+    height: .055em;
+    content: "";
+    background: var(--atlas-signal);
+    transform: scaleX(.36);
+    transform-origin: left;
+    transition: transform 420ms cubic-bezier(.22,.72,.18,1);
+  }
+
+  [data-stage="decide"] .atlas-thesis h1 em::after { transform: scaleX(1); }
+
+  .atlas-thesis__lead {
+    max-width: 650px;
+    margin: 1.55rem 0 0;
+    color: #d6ded9;
+    font: 400 clamp(1rem, 1.45vw, 1.28rem)/1.52 var(--ih-serif, "Source Serif 4", Georgia, serif);
+  }
+
+  .atlas-thesis__actions {
+    display: flex;
+    margin-top: 1.55rem;
+    align-items: center;
+    gap: 1rem 1.35rem;
+    flex-wrap: wrap;
+    pointer-events: auto;
+  }
+
+  .atlas-primary-action {
+    display: inline-flex;
+    min-height: 52px;
+    padding: 0 1.05rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.8rem;
+    color: var(--atlas-ink);
+    background: var(--atlas-signal);
+    border: 1px solid var(--atlas-signal);
+    font: 650 .67rem/1 var(--ih-mono, monospace);
+    letter-spacing: .06em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 160ms ease, background 160ms ease;
+  }
+
+  .atlas-primary-action:hover { color: var(--atlas-ink); background: var(--atlas-paper-high); border-color: var(--atlas-paper-high); }
+  .atlas-secondary-action { display: inline-flex; min-height: 44px; align-items: center; color: var(--atlas-on-dark); font: 600 .68rem/1.2 var(--ih-mono, monospace); text-underline-offset: .35em; text-transform: uppercase; }
+
+  .atlas-synthetic-label {
+    position: absolute;
+    z-index: 5;
+    top: 58px;
+    right: clamp(1rem, 2.2vw, 2.5rem);
+    display: grid;
+    padding: .65rem .75rem;
+    gap: .2rem;
+    color: var(--atlas-on-dark);
+    background: rgba(10, 33, 30, .9);
+    border-left: 3px solid var(--atlas-signal);
+    pointer-events: none;
+  }
+
+  .atlas-synthetic-label strong { font: 650 .58rem var(--ih-mono, monospace); letter-spacing: .08em; }
+  .atlas-synthetic-label span { color: #b8c6bf; font: 500 .49rem var(--ih-mono, monospace); letter-spacing: .06em; }
+
+  .atlas-stage-rail {
+    position: absolute;
+    z-index: 6;
+    top: 50%;
+    right: clamp(.7rem, 1.7vw, 2rem);
+    display: grid;
+    width: clamp(98px, 8.5vw, 132px);
+    transform: translateY(-50%);
+    border-top: 1px solid rgba(247, 242, 233, .35);
+  }
+
+  .atlas-stage-rail button {
+    display: grid;
+    min-height: 64px;
+    padding: .6rem .2rem .6rem .65rem;
+    grid-template-columns: 24px 1fr;
+    grid-template-rows: auto auto;
+    align-content: center;
+    color: #b8c6bf;
+    background: rgba(10, 33, 30, .82);
+    border: 0;
+    border-bottom: 1px solid rgba(247, 242, 233, .35);
+    cursor: pointer;
+    text-align: left;
+    transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+  }
+
+  .atlas-stage-rail button span { grid-row: 1 / 3; color: var(--atlas-water); font: 600 .5rem var(--ih-mono, monospace); }
+  .atlas-stage-rail button strong { color: inherit; font: 600 .65rem var(--ih-sans, "Geist", sans-serif); letter-spacing: .02em; }
+  .atlas-stage-rail button small { color: inherit; font: 500 .48rem var(--ih-mono, monospace); letter-spacing: .04em; text-transform: uppercase; }
+  .atlas-stage-rail button:hover { color: var(--atlas-on-dark); background: var(--atlas-night-deep); }
+  .atlas-stage-rail button[aria-pressed="true"] { color: var(--atlas-on-dark); background: var(--atlas-signal-dark); border-left: 3px solid var(--atlas-signal); }
+
+  .atlas-readout {
+    position: absolute;
+    z-index: 5;
+    right: clamp(8.8rem, 12vw, 12.5rem);
+    bottom: 164px;
+    width: min(29vw, 430px);
+    padding: 1rem;
+    color: var(--atlas-on-dark);
+    background: rgba(10, 33, 30, .94);
+    border-top: 1px solid rgba(247, 242, 233, .55);
+    border-bottom: 1px solid rgba(247, 242, 233, .22);
+  }
+
+  .atlas-readout__head {
+    display: flex;
+    padding-bottom: .7rem;
+    align-items: start;
+    justify-content: space-between;
+    gap: .75rem;
+    border-bottom: 1px solid rgba(247, 242, 233, .2);
+  }
+
+  .atlas-readout__head > div { display: grid; gap: .18rem; }
+  .atlas-readout__head span { color: var(--atlas-water); font: 600 .5rem var(--ih-mono, monospace); letter-spacing: .07em; }
+  .atlas-readout__head strong { font: 600 .61rem var(--ih-mono, monospace); letter-spacing: .05em; }
+
+  .atlas-lock {
+    min-height: 44px;
+    padding: 0 .65rem;
+    color: var(--atlas-on-dark);
+    background: transparent;
+    border: 1px solid rgba(247, 242, 233, .45);
+    cursor: pointer;
+    font: 600 .52rem var(--ih-mono, monospace);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .atlas-lock[aria-pressed="true"] { color: var(--atlas-ink); background: var(--atlas-interval); border-color: var(--atlas-interval); }
+
+  .atlas-estimate-row {
+    display: grid;
+    padding: .75rem 0;
+    grid-template-columns: 1fr auto;
+    gap: .8rem;
+    align-items: end;
+  }
+
+  .atlas-estimate-row > div:first-child { display: grid; gap: .22rem; }
+  .atlas-estimate-row span { color: #b8c6bf; font: 500 .48rem var(--ih-mono, monospace); letter-spacing: .06em; }
+  .atlas-estimate-row output { color: var(--atlas-signal); font: 650 clamp(2.6rem, 4vw, 4.7rem)/.82 var(--ih-mono, monospace); font-variant-numeric: tabular-nums; letter-spacing: -.08em; }
+
+  .atlas-diagnostic { display: grid; padding-left: .8rem; gap: .25rem; border-left: 1px solid rgba(247, 242, 233, .2); text-align: right; }
+  .atlas-diagnostic strong { color: var(--atlas-interval); font: 600 .76rem var(--ih-mono, monospace); font-variant-numeric: tabular-nums; }
+
+  .atlas-interval { --interval-start: 33%; --interval-width: 20%; --interval-point: 44%; --interval-zero: 33%; }
+  .atlas-interval__labels { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #b8c6bf; font: 500 .47rem var(--ih-mono, monospace); letter-spacing: .05em; }
+  .atlas-interval__labels output { color: var(--atlas-on-dark); font-variant-numeric: tabular-nums; }
+  .atlas-interval__plot { position: relative; height: 22px; margin-top: .15rem; }
+  .atlas-interval__axis,
+  .atlas-interval__range,
+  .atlas-interval__zero,
+  .atlas-interval__point { position: absolute; display: block; }
+  .atlas-interval__axis { top: 10px; right: 0; left: 0; height: 1px; background: rgba(247, 242, 233, .28); }
+  .atlas-interval__zero { top: 4px; bottom: 4px; left: var(--interval-zero); width: 1px; background: var(--atlas-on-dark); }
+  .atlas-interval__range { top: 9px; left: var(--interval-start); width: var(--interval-width); height: 3px; background: var(--atlas-interval); }
+  .atlas-interval__range::before,
+  .atlas-interval__range::after { position: absolute; top: -4px; width: 2px; height: 11px; content: ""; background: var(--atlas-interval); }
+  .atlas-interval__range::before { left: 0; }
+  .atlas-interval__range::after { right: 0; }
+  .atlas-interval__point { top: 5px; left: var(--interval-point); width: 10px; height: 10px; background: var(--atlas-signal); border: 1px solid var(--atlas-on-dark); border-radius: 50%; transform: translateX(-50%); }
+  .atlas-interval__scale { display: flex; justify-content: space-between; color: #8fa39a; font: 500 .44rem var(--ih-mono, monospace); }
+
+  .atlas-claim { margin: .7rem 0 0; color: var(--atlas-on-dark); font: 400 .83rem/1.43 var(--ih-serif, "Source Serif 4", Georgia, serif); }
+  .atlas-explanation { margin-top: .6rem; padding-top: .55rem; border-top: 1px solid rgba(247, 242, 233, .18); }
+  .atlas-explanation summary { display: flex; min-height: 44px; align-items: center; color: var(--atlas-water); cursor: pointer; font: 600 .53rem/1.4 var(--ih-mono, monospace); letter-spacing: .04em; text-transform: uppercase; }
+  .atlas-explanation p { margin: .35rem 0 0; color: #c5d0ca; font: 400 .73rem/1.45 var(--ih-sans, "Geist", sans-serif); }
+
+  .atlas-controls {
+    position: absolute;
+    z-index: 6;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    width: 62%;
+    min-height: 142px;
+    padding: .8rem clamp(8.8rem, 12vw, 12.5rem) .8rem 1rem;
+    grid-template-columns: 1fr 1fr .9fr auto;
+    gap: .7rem;
+    align-items: center;
+    color: var(--atlas-on-dark);
+    background: rgba(10, 33, 30, .97);
+    border-top: 1px solid rgba(247, 242, 233, .42);
+  }
+
+  .atlas-control { min-width: 0; }
+  .atlas-control > label:first-child { display: grid; gap: .28rem; }
+  .atlas-control label > span,
+  .atlas-control legend { color: #a8b8b0; font: 600 .49rem var(--ih-mono, monospace); letter-spacing: .06em; }
+  .atlas-control output { overflow: hidden; color: var(--atlas-on-dark); font: 500 .58rem var(--ih-mono, monospace); text-overflow: ellipsis; white-space: nowrap; }
+  .atlas-control input[type="range"] { width: 100%; min-height: 44px; margin: .1rem 0 0; accent-color: var(--atlas-signal); cursor: pointer; }
+
+  .atlas-control--estimand { display: grid; min-height: 74px; margin: 0; padding: 0; align-content: center; grid-template-columns: 1fr 1fr; gap: .3rem .55rem; border: 0; }
+  .atlas-control--estimand legend { grid-column: 1 / -1; margin-bottom: .2rem; }
+  .atlas-control--estimand label { display: flex; min-height: 44px; align-items: center; gap: .35rem; cursor: pointer; }
+  .atlas-control--estimand input { width: 18px; height: 18px; accent-color: var(--atlas-signal); }
+  .atlas-control--estimand label > span { color: var(--atlas-on-dark); font-size: .57rem; }
+
+  .atlas-reset {
+    min-height: 44px;
+    padding: .55rem .7rem;
+    color: var(--atlas-on-dark);
+    background: transparent;
+    border: 1px solid rgba(247, 242, 233, .45);
+    cursor: pointer;
+    font: 600 .52rem/1.2 var(--ih-mono, monospace);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .atlas-reset:hover,
+  .atlas-lock:hover { color: var(--atlas-ink); background: var(--atlas-paper-high); border-color: var(--atlas-paper-high); }
+
+  .atlas-lens-receipt {
+    position: absolute;
+    z-index: 4;
+    top: var(--lens-y, 45%);
+    left: var(--lens-x, 55%);
+    display: grid;
+    min-width: 150px;
+    padding: .55rem .65rem;
+    gap: .15rem;
+    color: var(--atlas-on-dark);
+    background: rgba(10, 33, 30, .94);
+    border-left: 2px solid var(--atlas-signal);
+    transform: translate(92px, -50%);
+    pointer-events: none;
+  }
+
+  .atlas-lens-receipt[data-side="left"] { transform: translate(calc(-100% - 92px), -50%); border-right: 2px solid var(--atlas-signal); border-left: 0; }
+  .atlas-lens-receipt span { color: var(--atlas-signal); font: 650 .46rem var(--ih-mono, monospace); letter-spacing: .08em; }
+  .atlas-lens-receipt strong { font: 600 .63rem var(--ih-mono, monospace); letter-spacing: .04em; }
+  .atlas-lens-receipt small { color: #b8c6bf; font: 500 .46rem var(--ih-mono, monospace); letter-spacing: .04em; }
+
+  .atlas-instruction {
+    position: absolute;
+    z-index: 7;
+    right: clamp(1rem, 2.2vw, 2.5rem);
+    bottom: 150px;
+    margin: 0;
+    color: var(--atlas-on-dark);
+    font: 600 .5rem var(--ih-mono, monospace);
+    letter-spacing: .08em;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+
+  [data-interacted="true"] .atlas-instruction { opacity: 0; }
+
+  .atlas-proofline {
+    position: absolute;
+    z-index: 5;
+    bottom: 1.2rem;
+    left: clamp(1rem, 4.5vw, 5.5rem);
+    width: min(32vw, 480px);
+    margin: 0;
+    color: #a8b8b0;
+    font: 500 .52rem/1.5 var(--ih-mono, monospace);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .atlas-live { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; white-space: nowrap; }
+
+  .counterfactual-atlas :focus-visible {
+    outline: 2px solid var(--atlas-signal);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 1180px) {
+    .counterfactual-atlas { min-height: 980px; }
+    .atlas-thesis { top: 43%; width: 62vw; }
+    .atlas-thesis h1 { font-size: clamp(4rem, 8.5vw, 7.2rem); }
+    .atlas-readout { right: 8rem; bottom: 178px; width: min(34vw, 400px); }
+    .atlas-controls { min-height: 158px; padding-right: 8rem; grid-template-columns: 1fr 1fr; }
+    .atlas-control--estimand { grid-row: 2; }
+    .atlas-reset { grid-row: 2; }
+    .atlas-instruction { bottom: 166px; }
+  }
+
+  @media (max-width: 900px) {
+    .counterfactual-atlas {
+      display: grid;
+      min-height: 0;
+      padding-top: 42px;
+      grid-template-columns: 1fr;
+      overflow: visible;
+    }
+
+    .atlas-identity { position: absolute; }
+    .atlas-thesis {
+      position: relative;
+      order: 1;
+      top: auto;
+      left: auto;
+      width: auto;
+      min-height: min(74svh, 680px);
+      padding: clamp(3.2rem, 10vw, 6rem) 1rem 3rem;
+      transform: none;
+    }
+    .atlas-thesis h1 { max-width: 11ch; font-size: clamp(3.6rem, 13.5vw, 7rem); }
+    .atlas-thesis__lead { max-width: 570px; }
+    .atlas-field {
+      position: relative;
+      order: 2;
+      inset: auto;
+      width: 100%;
+      min-height: 540px;
+      aspect-ratio: 1.25 / 1;
+      border-top: 1px solid rgba(247, 242, 233, .25);
+      border-left: 0;
+    }
+    .atlas-synthetic-label { top: calc(min(74svh, 680px) + 58px); }
+    .atlas-stage-rail {
+      position: relative;
+      z-index: 8;
+      order: 3;
+      top: auto;
+      right: auto;
+      width: 100%;
+      grid-template-columns: repeat(4, 1fr);
+      transform: none;
+      border-top-color: rgba(247, 242, 233, .35);
+    }
+    .atlas-stage-rail button { min-height: 68px; border-right: 1px solid rgba(247, 242, 233, .22); }
+    .atlas-stage-rail button:last-child { border-right: 0; }
+    .atlas-readout {
+      position: relative;
+      order: 4;
+      right: auto;
+      bottom: auto;
+      width: auto;
+      padding: 1rem;
+      background: var(--atlas-night-deep);
+    }
+    .atlas-controls {
+      position: relative;
+      order: 5;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      min-height: 0;
+      padding: 1rem;
+      grid-template-columns: 1fr 1fr;
+      background: var(--atlas-night-deep);
+    }
+    .atlas-instruction { top: calc(min(74svh, 680px) + 74px); bottom: auto; }
+    .atlas-proofline { position: relative; order: 6; bottom: auto; left: auto; width: auto; margin: 0; padding: 1.2rem 1rem; border-top: 1px solid rgba(247, 242, 233, .22); }
+  }
+
+  @media (max-width: 640px) {
+    .atlas-identity span:last-child { display: none; }
+    .atlas-thesis { min-height: min(78svh, 700px); padding-top: 3.5rem; }
+    .atlas-thesis h1 { font-size: clamp(3.25rem, 15vw, 5.8rem); line-height: .87; }
+    .atlas-thesis h1 br { display: none; }
+    .atlas-thesis__lead { font-size: 1rem; }
+    .atlas-thesis__actions { align-items: flex-start; flex-direction: column; }
+    .atlas-field { min-height: 390px; aspect-ratio: 1 / 1; }
+    .atlas-field::after { width: 80px; }
+    .atlas-synthetic-label { top: calc(min(78svh, 700px) + 52px); right: .75rem; }
+    .atlas-stage-rail { grid-template-columns: 1fr 1fr; }
+    .atlas-stage-rail button { min-height: 62px; }
+    .atlas-stage-rail button:nth-child(2) { border-right: 0; }
+    .atlas-readout__head { align-items: stretch; flex-direction: column; }
+    .atlas-lock { width: 100%; }
+    .atlas-estimate-row { grid-template-columns: 1fr; }
+    .atlas-diagnostic { padding: .65rem 0 0; border-top: 1px solid rgba(247, 242, 233, .2); border-left: 0; text-align: left; }
+    .atlas-controls { grid-template-columns: 1fr; }
+    .atlas-control--estimand,
+    .atlas-reset { grid-row: auto; }
+    .atlas-instruction { top: calc(min(78svh, 700px) + 62px); right: .75rem; max-width: 210px; text-align: right; }
+    .atlas-lens-receipt { min-width: 126px; transform: translate(58px, -50%); }
+    .atlas-lens-receipt[data-side="left"] { transform: translate(calc(-100% - 58px), -50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .counterfactual-atlas *,
+    .counterfactual-atlas *::before,
+    .counterfactual-atlas *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  }
+
+  @media (forced-colors: active) {
+    .counterfactual-atlas {
+      --atlas-night: Canvas;
+      --atlas-night-deep: Canvas;
+      --atlas-paper: Canvas;
+      --atlas-paper-high: Canvas;
+      --atlas-ink: CanvasText;
+      --atlas-on-dark: CanvasText;
+      --atlas-signal: Highlight;
+      --atlas-signal-dark: Highlight;
+      --atlas-water: CanvasText;
+      --atlas-interval: Highlight;
+      --field-bg: Canvas;
+      --field-panel: Canvas;
+      --field-ink: CanvasText;
+      --field-muted: CanvasText;
+      --field-treated: Highlight;
+      --field-comparison: CanvasText;
+      --field-adjusted: Highlight;
+      --field-warning: Highlight;
+      --field-grid: CanvasText;
+      --field-focus: Highlight;
+      border-color: CanvasText;
+      forced-color-adjust: auto;
+    }
+    .atlas-field canvas { display: none; }
+    [data-atlas-ready="true"] .atlas-field__fallback { opacity: 1; }
+    .atlas-field__fallback { background: Canvas; border: 2px solid CanvasText; }
+    .atlas-field__fallback-mark { background: Canvas; border: 2px solid CanvasText; }
+    .atlas-field__fallback-mark:nth-child(odd) { background: Highlight; }
+    .atlas-primary-action,
+    .atlas-stage-rail button[aria-pressed="true"],
+    .atlas-lock[aria-pressed="true"] { color: HighlightText; background: Highlight; border-color: Highlight; }
+    .atlas-readout,
+    .atlas-controls,
+    .atlas-synthetic-label,
+    .atlas-lens-receipt,
+    .atlas-stage-rail button { background: Canvas; }
+  }
+</style>

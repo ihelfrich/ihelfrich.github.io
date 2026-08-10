@@ -1,0 +1,1301 @@
+---
+const routes = [
+  {
+    key: "estimate",
+    index: "01",
+    label: "The estimate moves",
+    signal: "A result changes across models",
+    headline: "Find the decision carrying the conclusion.",
+    summary: "Trace the estimand, comparison, specification, and inference choices into one inspectable decision map.",
+    path: "Estimand audit → specification diagnostics → NMTC case",
+    hypothesis: "A focused evidence diagnostic can isolate which design decision is carrying the conclusion.",
+    methodCount: "2 methods · 2 artifacts · 1 public case",
+    proofLabel: "Inspect the NMTC specification case",
+    proofHref: "/research/helfrich-2026-nmtc-rural-gap",
+    startHref: "/start?problem=estimate&source=proof-circuit",
+  },
+  {
+    key: "interface",
+    index: "02",
+    label: "The result needs an interface",
+    signal: "Readers cannot interrogate the result",
+    headline: "Turn the analysis into an operating instrument.",
+    summary: "Connect analytical state, provenance, and interaction so another person can change, compare, and verify the evidence.",
+    path: "State architecture → evidence instrument → public laboratories",
+    hypothesis: "A compact data-product sprint can make the method inspectable without separating the interface from its source trail.",
+    methodCount: "2 methods · 3 artifacts · 1 public archive",
+    proofLabel: "Inspect the public laboratories",
+    proofHref: "/projects",
+    startHref: "/start?problem=interface&source=proof-circuit",
+  },
+  {
+    key: "spatial",
+    index: "03",
+    label: "Place changes the answer",
+    signal: "A boundary, route, or distance matters",
+    headline: "Make geography part of the identification strategy.",
+    summary: "Carry boundaries, networks, aggregation, and spatial comparison rules into a reproducible analytical package.",
+    path: "Spatial structure → decision atlas → effective-distance panel",
+    hypothesis: "A spatial intelligence sprint can reveal which boundary, distance, or exposure definition changes the decision.",
+    methodCount: "2 methods · 3 artifacts · 1 public case",
+    proofLabel: "Inspect the effective-distance system",
+    proofHref: "/research/gonchar-helfrich-2026-effective-distance-panel",
+    startHref: "/start?problem=spatial&source=proof-circuit",
+  },
+  {
+    key: "team",
+    index: "04",
+    label: "The method needs to transfer",
+    signal: "The workflow lives with one person",
+    headline: "Build judgment that survives the handoff.",
+    summary: "Join live cases, reproducible workflow, and explanation into a methods studio the team can continue to operate.",
+    path: "Workflow diagnosis → methods studio → public teaching record",
+    hypothesis: "A methods studio built around the team’s real work can transfer both the procedure and the judgment behind it.",
+    methodCount: "2 methods · 3 artifacts · 1 public record",
+    proofLabel: "Inspect the teaching record",
+    proofHref: "/teaching",
+    startHref: "/start?problem=team&source=proof-circuit",
+  },
+];
+
+const columns = [
+  { key: "signal", index: "01", label: "CLIENT SIGNAL", note: "Where the decision starts" },
+  { key: "method", index: "02", label: "ANALYTICAL MOVE", note: "What changes the evidence" },
+  { key: "artifact", index: "03", label: "DELIVERABLE", note: "What another person receives" },
+  { key: "proof", index: "04", label: "PUBLIC PROOF", note: "What can be inspected now" },
+];
+
+const nodes = [
+  {
+    id: "signal-estimate",
+    column: "signal",
+    code: "S / 01",
+    label: "Estimate moves across models",
+    detail: "The sign, magnitude, interval, or policy target changes with the specification.",
+    routes: ["estimate"],
+  },
+  {
+    id: "signal-interface",
+    column: "signal",
+    code: "S / 02",
+    label: "Readers cannot inspect the result",
+    detail: "A static chart or report hides the comparisons a decision-maker needs to test.",
+    routes: ["interface"],
+  },
+  {
+    id: "signal-spatial",
+    column: "signal",
+    code: "S / 03",
+    label: "Place changes the answer",
+    detail: "Distance, boundaries, routes, aggregation, or exposure definitions alter the conclusion.",
+    routes: ["spatial"],
+  },
+  {
+    id: "signal-team",
+    column: "signal",
+    code: "S / 04",
+    label: "The method lives with one person",
+    detail: "The team can reproduce steps yet still lacks the judgment that makes the workflow reliable.",
+    routes: ["team"],
+  },
+  {
+    id: "method-estimand",
+    column: "method",
+    code: "M / 11",
+    label: "Estimand + specification audit",
+    detail: "Map each model choice to the population, comparison, and claim it identifies.",
+    routes: ["estimate"],
+  },
+  {
+    id: "method-inference",
+    column: "method",
+    code: "M / 12",
+    label: "Inference + sensitivity design",
+    detail: "Test the interval, dependence structure, and sensitivity of the substantive result.",
+    routes: ["estimate", "spatial"],
+  },
+  {
+    id: "method-state",
+    column: "method",
+    code: "M / 21",
+    label: "Analytical state architecture",
+    detail: "Define which controls, views, and claims must remain synchronized in the interface.",
+    routes: ["interface"],
+  },
+  {
+    id: "method-provenance",
+    column: "method",
+    code: "M / 22",
+    label: "Provenance + workflow design",
+    detail: "Carry data source, transformation, model state, and explanation through the handoff.",
+    routes: ["interface", "team"],
+  },
+  {
+    id: "method-spatial",
+    column: "method",
+    code: "M / 31",
+    label: "Spatial structure audit",
+    detail: "Interrogate boundary, scale, network, distance, and neighborhood definitions.",
+    routes: ["spatial"],
+  },
+  {
+    id: "method-workflow",
+    column: "method",
+    code: "M / 41",
+    label: "Live-case methods studio",
+    detail: "Turn the team’s recurring decisions into guided practice, instruments, and review points.",
+    routes: ["team"],
+  },
+  {
+    id: "artifact-decision-map",
+    column: "artifact",
+    code: "A / 11",
+    label: "Decision map",
+    detail: "A compact account of which choices change the estimate, target, and defensible claim.",
+    routes: ["estimate", "spatial"],
+  },
+  {
+    id: "artifact-diagnostics",
+    column: "artifact",
+    code: "A / 12",
+    label: "Annotated diagnostics",
+    detail: "Intervals, balance, sensitivity, and code review tied directly to the conclusion.",
+    routes: ["estimate"],
+  },
+  {
+    id: "artifact-instrument",
+    column: "artifact",
+    code: "A / 21",
+    label: "Evidence instrument",
+    detail: "A working interface that keeps graphics, tables, equations, and language in one state.",
+    routes: ["interface"],
+  },
+  {
+    id: "artifact-system",
+    column: "artifact",
+    code: "A / 22",
+    label: "Reproducible research system",
+    detail: "A documented data and analysis path with provenance another person can continue.",
+    routes: ["interface", "team"],
+  },
+  {
+    id: "artifact-spatial-package",
+    column: "artifact",
+    code: "A / 31",
+    label: "Spatial analysis package",
+    detail: "Reproducible geoprocessing, diagnostics, model outputs, and a documented source trail.",
+    routes: ["spatial"],
+  },
+  {
+    id: "artifact-atlas",
+    column: "artifact",
+    code: "A / 32",
+    label: "Interactive decision atlas",
+    detail: "A map-centered surface for changing assumptions, comparing places, and tracing results.",
+    routes: ["spatial", "interface"],
+  },
+  {
+    id: "artifact-studio",
+    column: "artifact",
+    code: "A / 41",
+    label: "Team methods studio",
+    detail: "A live sequence built around the team’s actual models, data, and recurring decisions.",
+    routes: ["team"],
+  },
+  {
+    id: "artifact-handoff",
+    column: "artifact",
+    code: "A / 42",
+    label: "Operating handoff",
+    detail: "A review protocol, working examples, and reference instrument for continued use.",
+    routes: ["team"],
+  },
+  {
+    id: "proof-nmtc",
+    column: "proof",
+    code: "P / 01",
+    label: "NMTC specification path",
+    detail: "A five-model path showing how intermediary identity changes the rural capital result.",
+    routes: ["estimate"],
+    href: "/research/helfrich-2026-nmtc-rural-gap",
+  },
+  {
+    id: "proof-labs",
+    column: "proof",
+    code: "P / 02",
+    label: "Public analytical laboratories",
+    detail: "Working viewers, labs, and research tools with inspectable analytical state.",
+    routes: ["interface"],
+    href: "/projects",
+  },
+  {
+    id: "proof-distance",
+    column: "proof",
+    code: "P / 03",
+    label: "Effective-distance system",
+    detail: "A satellite-calibrated bilateral construction combining population, infrastructure, and routes.",
+    routes: ["spatial"],
+    href: "/research/gonchar-helfrich-2026-effective-distance-panel",
+  },
+  {
+    id: "proof-teaching",
+    column: "proof",
+    code: "P / 04",
+    label: "Quantitative teaching record",
+    detail: "Methods instruction spanning foundations, applied work, and doctoral research practice.",
+    routes: ["team"],
+    href: "/teaching",
+  },
+];
+
+const edges = [
+  { from: "signal-estimate", to: "method-estimand", routes: ["estimate"] },
+  { from: "signal-estimate", to: "method-inference", routes: ["estimate"] },
+  { from: "method-estimand", to: "artifact-decision-map", routes: ["estimate"] },
+  { from: "method-estimand", to: "artifact-diagnostics", routes: ["estimate"] },
+  { from: "method-inference", to: "artifact-diagnostics", routes: ["estimate"] },
+  { from: "method-inference", to: "artifact-decision-map", routes: ["estimate"] },
+  { from: "artifact-decision-map", to: "proof-nmtc", routes: ["estimate"] },
+  { from: "artifact-diagnostics", to: "proof-nmtc", routes: ["estimate"] },
+  { from: "signal-interface", to: "method-state", routes: ["interface"] },
+  { from: "signal-interface", to: "method-provenance", routes: ["interface"] },
+  { from: "method-state", to: "artifact-instrument", routes: ["interface"] },
+  { from: "method-state", to: "artifact-atlas", routes: ["interface"] },
+  { from: "method-provenance", to: "artifact-system", routes: ["interface"] },
+  { from: "artifact-instrument", to: "proof-labs", routes: ["interface"] },
+  { from: "artifact-atlas", to: "proof-labs", routes: ["interface"] },
+  { from: "artifact-system", to: "proof-labs", routes: ["interface"] },
+  { from: "signal-spatial", to: "method-spatial", routes: ["spatial"] },
+  { from: "signal-spatial", to: "method-inference", routes: ["spatial"] },
+  { from: "method-spatial", to: "artifact-spatial-package", routes: ["spatial"] },
+  { from: "method-spatial", to: "artifact-atlas", routes: ["spatial"] },
+  { from: "method-spatial", to: "artifact-decision-map", routes: ["spatial"] },
+  { from: "method-inference", to: "artifact-decision-map", routes: ["spatial"] },
+  { from: "artifact-spatial-package", to: "proof-distance", routes: ["spatial"] },
+  { from: "artifact-atlas", to: "proof-distance", routes: ["spatial"] },
+  { from: "artifact-decision-map", to: "proof-distance", routes: ["spatial"] },
+  { from: "signal-team", to: "method-workflow", routes: ["team"] },
+  { from: "signal-team", to: "method-provenance", routes: ["team"] },
+  { from: "method-workflow", to: "artifact-studio", routes: ["team"] },
+  { from: "method-workflow", to: "artifact-handoff", routes: ["team"] },
+  { from: "method-provenance", to: "artifact-system", routes: ["team"] },
+  { from: "method-provenance", to: "artifact-handoff", routes: ["team"] },
+  { from: "artifact-studio", to: "proof-teaching", routes: ["team"] },
+  { from: "artifact-handoff", to: "proof-teaching", routes: ["team"] },
+  { from: "artifact-system", to: "proof-teaching", routes: ["team"] },
+];
+---
+
+<section class="proof-circuit" data-proof-circuit data-active-route="estimate" aria-labelledby="proof-circuit-title" data-rail-label="PROOF CIRCUIT">
+  <header class="proof-circuit__intro">
+    <div>
+      <span class="proof-circuit__kicker">04 / PROOF CIRCUIT</span>
+      <h2 id="proof-circuit-title">Trace a problem until the method, artifact, and proof line up.</h2>
+    </div>
+    <p>
+      Choose a live client signal. Every illuminated path carries a scoped analytical move into a tangible deliverable and an inspectable public record.
+    </p>
+  </header>
+
+  <nav class="proof-circuit__routes" role="tablist" aria-label="Choose a client problem">
+    {routes.map((route, index) => (
+      <button
+        id={`proof-route-${route.key}`}
+        type="button"
+        role="tab"
+        aria-selected={index === 0 ? "true" : "false"}
+        aria-controls="proof-circuit-panel"
+        tabindex={index === 0 ? "0" : "-1"}
+        class:list={["proof-circuit__route", index === 0 && "is-active"]}
+        data-circuit-route={route.key}
+      >
+        <span>{route.index}</span>
+        <strong>{route.label}</strong>
+      </button>
+    ))}
+  </nav>
+
+  <div id="proof-circuit-panel" class="proof-circuit__panel" role="tabpanel" aria-labelledby="proof-route-estimate">
+    <div class="proof-circuit__stage" data-circuit-stage>
+      <canvas class="proof-circuit__canvas" data-circuit-canvas aria-hidden="true"></canvas>
+
+      <div class="proof-circuit__grid" data-circuit-grid>
+        {columns.map((column, columnIndex) => (
+          <section class="proof-circuit__column" data-circuit-column={column.key} aria-labelledby={`proof-column-${column.key}`}>
+            <header>
+              <span>{column.index}</span>
+              <div>
+                <h3 id={`proof-column-${column.key}`}>{column.label}</h3>
+                <p>{column.note}</p>
+              </div>
+            </header>
+
+            <div class="proof-circuit__node-list">
+              {nodes.filter((node) => node.column === column.key).map((node, nodeIndex) => (
+                node.href ? (
+                  <a
+                    class:list={["proof-circuit__node", node.routes.includes("estimate") && "is-route-member"]}
+                    href={node.href}
+                    data-circuit-node
+                    data-node-id={node.id}
+                    data-node-routes={node.routes.join(" ")}
+                    data-column-index={columnIndex}
+                    data-node-index={nodeIndex}
+                  >
+                    <span>{node.code}</span>
+                    <strong>{node.label}</strong>
+                    <small>{node.detail}</small>
+                    <i aria-hidden="true">↗</i>
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    class:list={["proof-circuit__node", node.routes.includes("estimate") && "is-route-member"]}
+                    data-circuit-node
+                    data-node-id={node.id}
+                    data-node-routes={node.routes.join(" ")}
+                    data-column-index={columnIndex}
+                    data-node-index={nodeIndex}
+                    aria-pressed="false"
+                  >
+                    <span>{node.code}</span>
+                    <strong>{node.label}</strong>
+                    <small>{node.detail}</small>
+                    <i aria-hidden="true">+</i>
+                  </button>
+                )
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+
+    <aside class="proof-circuit__receipt" data-circuit-receipt aria-labelledby="proof-circuit-receipt-title">
+      <div class="proof-circuit__receipt-head">
+        <span data-receipt-index>ROUTE 01 / 04</span>
+        <output data-receipt-count>{routes[0].methodCount}</output>
+      </div>
+      <div class="proof-circuit__receipt-state">
+        <span data-receipt-signal>{routes[0].signal}</span>
+        <h3 id="proof-circuit-receipt-title" data-receipt-headline>{routes[0].headline}</h3>
+        <p data-receipt-summary>{routes[0].summary}</p>
+      </div>
+      <div class="proof-circuit__trace" aria-label="Selected evidence path">
+        <span>ACTIVE TRACE</span>
+        <strong data-receipt-path>{routes[0].path}</strong>
+      </div>
+      <div class="proof-circuit__hypothesis">
+        <span>PROJECT HYPOTHESIS</span>
+        <p id="proof-circuit-detail" data-receipt-hypothesis>{routes[0].hypothesis}</p>
+      </div>
+      <div class="proof-circuit__receipt-actions">
+        <a class="proof-circuit__start" href={routes[0].startHref} data-receipt-start>Scope this route <span aria-hidden="true">→</span></a>
+        <a class="proof-circuit__proof" href={routes[0].proofHref} data-receipt-proof>{routes[0].proofLabel} <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="proof-circuit__legend">
+    <span><i class="legend-flow" aria-hidden="true"></i> Active relationship</span>
+    <span><i class="legend-selection" aria-hidden="true"></i> Selected evidence</span>
+    <span>Focus or select any node to expose its route</span>
+    <button type="button" data-circuit-reset>RESET TRACE</button>
+  </footer>
+
+  <p class="sr-only" data-circuit-status aria-live="polite" aria-atomic="true"></p>
+</section>
+
+<script is:inline define:vars={{ routes, nodes, edges, columns }}>
+  (() => {
+    const routeKeys = routes.map((route) => route.key);
+    const routeMap = new Map(routes.map((route) => [route.key, route]));
+    const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+    const columnOrder = columns.map((column) => column.key);
+
+    document.querySelectorAll("[data-proof-circuit]").forEach((root) => {
+      const stage = root.querySelector("[data-circuit-stage]");
+      const canvas = root.querySelector("[data-circuit-canvas]");
+      const context = canvas?.getContext("2d");
+      const routeButtons = Array.from(root.querySelectorAll("[data-circuit-route]"));
+      const nodeElements = Array.from(root.querySelectorAll("[data-circuit-node]"));
+      const resetButton = root.querySelector("[data-circuit-reset]");
+      const panel = root.querySelector("[role='tabpanel']");
+      const status = root.querySelector("[data-circuit-status]");
+      const fields = {
+        index: root.querySelector("[data-receipt-index]"),
+        count: root.querySelector("[data-receipt-count]"),
+        signal: root.querySelector("[data-receipt-signal]"),
+        headline: root.querySelector("[data-receipt-headline]"),
+        summary: root.querySelector("[data-receipt-summary]"),
+        path: root.querySelector("[data-receipt-path]"),
+        hypothesis: root.querySelector("[data-receipt-hypothesis]"),
+        start: root.querySelector("[data-receipt-start]"),
+        proof: root.querySelector("[data-receipt-proof]"),
+      };
+
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const state = {
+        route: "estimate",
+        selectedNodeId: null,
+        previewNodeId: null,
+        pinned: false,
+        reducedMotion: motionQuery.matches,
+        visible: true,
+      };
+
+      let nodeRects = new Map();
+      let animationFrame = 0;
+      let resizeFrame = 0;
+      let transitionStart = 0;
+
+      const routesForElement = (element) => (element?.dataset.nodeRoutes || "").split(" ").filter(Boolean);
+
+      const preferredRouteForNode = (element) => {
+        const available = routesForElement(element);
+        return available.includes(state.route) ? state.route : available[0];
+      };
+
+      const activeNodeId = () => state.pinned ? state.selectedNodeId : state.previewNodeId;
+
+      const writeReceipt = (routeKey, nodeId = null) => {
+        const route = routeMap.get(routeKey);
+        const node = nodeId ? nodeMap.get(nodeId) : null;
+        if (!route) return;
+
+        if (fields.index) fields.index.textContent = `ROUTE ${route.index} / 04`;
+        if (fields.count) fields.count.textContent = route.methodCount;
+        if (fields.signal) fields.signal.textContent = route.signal;
+        if (fields.headline) fields.headline.textContent = route.headline;
+        if (fields.summary) fields.summary.textContent = route.summary;
+        if (fields.path) fields.path.textContent = route.path;
+        if (fields.hypothesis) fields.hypothesis.textContent = node?.detail || route.hypothesis;
+        if (fields.start) fields.start.href = route.startHref;
+        if (fields.proof) {
+          fields.proof.href = route.proofHref;
+          fields.proof.childNodes[0].nodeValue = `${route.proofLabel} `;
+        }
+      };
+
+      const announce = () => {
+        const route = routeMap.get(state.route);
+        if (!status || !route) return;
+        status.textContent = `${route.label}. ${route.methodCount}.`;
+      };
+
+      const updateDom = ({ announceChange = false } = {}) => {
+        const emphasizedId = activeNodeId();
+        root.dataset.activeRoute = state.route;
+
+        routeButtons.forEach((button) => {
+          const active = button.dataset.circuitRoute === state.route;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && panel) panel.setAttribute("aria-labelledby", button.id);
+        });
+
+        nodeElements.forEach((element) => {
+          const member = routesForElement(element).includes(state.route);
+          const emphasized = element.dataset.nodeId === emphasizedId;
+          element.classList.toggle("is-route-member", member);
+          element.classList.toggle("is-emphasized", emphasized);
+          if (element.matches("button")) {
+            element.setAttribute("aria-pressed", String(state.pinned && emphasized));
+          }
+        });
+
+        writeReceipt(state.route, emphasizedId);
+        if (announceChange) announce();
+      };
+
+      const cssColor = (name, fallback) => {
+        const value = getComputedStyle(root).getPropertyValue(name).trim();
+        return value || fallback;
+      };
+
+      const measureNodes = () => {
+        if (!stage || !canvas || !context || canvas.offsetParent === null) return false;
+        const stageRect = stage.getBoundingClientRect();
+        const cssWidth = Math.max(1, Math.round(stageRect.width));
+        const cssHeight = Math.max(1, Math.round(stageRect.height));
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const pixelWidth = Math.round(cssWidth * dpr);
+        const pixelHeight = Math.round(cssHeight * dpr);
+
+        if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+          canvas.width = pixelWidth;
+          canvas.height = pixelHeight;
+          canvas.style.width = `${cssWidth}px`;
+          canvas.style.height = `${cssHeight}px`;
+        }
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        nodeRects = new Map(nodeElements.map((element) => {
+          const rect = element.getBoundingClientRect();
+          return [element.dataset.nodeId, {
+            left: rect.left - stageRect.left,
+            right: rect.right - stageRect.left,
+            top: rect.top - stageRect.top,
+            bottom: rect.bottom - stageRect.top,
+            width: rect.width,
+            height: rect.height,
+          }];
+        }));
+        return true;
+      };
+
+      const drawCurve = (edge, color, alpha, width, progress = 1, emphasized = false) => {
+        const from = nodeRects.get(edge.from);
+        const to = nodeRects.get(edge.to);
+        if (!from || !to || !context) return;
+
+        const x1 = from.right;
+        const y1 = from.top + from.height / 2;
+        const x2 = to.left;
+        const y2 = to.top + to.height / 2;
+        const bend = Math.max(26, (x2 - x1) * 0.42);
+
+        context.save();
+        context.globalAlpha = alpha;
+        context.strokeStyle = color;
+        context.fillStyle = color;
+        context.lineWidth = width;
+        context.lineCap = "round";
+        if (progress < 1) {
+          context.setLineDash([8, 10]);
+          context.lineDashOffset = (1 - progress) * 38;
+        }
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.bezierCurveTo(x1 + bend, y1, x2 - bend, y2, x2 - 7, y2);
+        context.stroke();
+
+        if (emphasized || progress > 0.72) {
+          context.setLineDash([]);
+          context.beginPath();
+          context.moveTo(x2 - 8, y2 - 4);
+          context.lineTo(x2 - 1, y2);
+          context.lineTo(x2 - 8, y2 + 4);
+          context.closePath();
+          context.fill();
+        }
+        context.restore();
+      };
+
+      const draw = (progress = 1) => {
+        if (!context || !canvas || !stage || canvas.offsetParent === null) return;
+        const cssWidth = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
+        const cssHeight = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
+        context.clearRect(0, 0, cssWidth, cssHeight);
+
+        const rule = cssColor("--atlas-rule", "#c9c0af");
+        const flow = cssColor("--atlas-water", "#78a7a0");
+        const selected = cssColor("--atlas-signal", "#f15a37");
+        const emphasizedId = activeNodeId();
+
+        edges.forEach((edge) => drawCurve(edge, rule, 0.11, 1, 1, false));
+        edges.filter((edge) => edge.routes.includes(state.route)).forEach((edge) => {
+          const emphasized = emphasizedId && (edge.from === emphasizedId || edge.to === emphasizedId);
+          drawCurve(
+            edge,
+            emphasized ? selected : flow,
+            emphasized ? 0.96 : 0.36 + (0.46 * progress),
+            emphasized ? 2.25 : 1.35,
+            progress,
+            emphasized,
+          );
+        });
+      };
+
+      const animateDraw = () => {
+        cancelAnimationFrame(animationFrame);
+        if (!state.visible || state.reducedMotion) {
+          if (measureNodes()) draw(1);
+          return;
+        }
+
+        transitionStart = performance.now();
+        const tick = (now) => {
+          const linear = Math.min(1, (now - transitionStart) / 260);
+          const eased = 1 - Math.pow(1 - linear, 3);
+          if (measureNodes()) draw(eased);
+          if (linear < 1) animationFrame = requestAnimationFrame(tick);
+        };
+        animationFrame = requestAnimationFrame(tick);
+      };
+
+      const scheduleMeasure = ({ animate = false } = {}) => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+          if (animate) animateDraw();
+          else if (measureNodes()) draw(1);
+        });
+      };
+
+      const persistRoute = (key) => {
+        try {
+          sessionStorage.setItem("ih-proof-route", key);
+        } catch {
+          /* Storage is an optional continuity aid. */
+        }
+      };
+
+      const setRoute = (key, { focusTab = false, announceChange = false, persist = true } = {}) => {
+        if (!routeMap.has(key)) return;
+        state.route = key;
+        state.selectedNodeId = null;
+        state.previewNodeId = null;
+        state.pinned = false;
+        updateDom({ announceChange });
+        if (persist) persistRoute(key);
+        if (focusTab) routeButtons.find((button) => button.dataset.circuitRoute === key)?.focus();
+        scheduleMeasure({ animate: true });
+      };
+
+      const previewNode = (element) => {
+        if (state.pinned || !element) return;
+        const nextRoute = preferredRouteForNode(element);
+        if (nextRoute && nextRoute !== state.route) state.route = nextRoute;
+        state.previewNodeId = element.dataset.nodeId;
+        updateDom();
+        scheduleMeasure({ animate: true });
+      };
+
+      const clearPreview = () => {
+        if (state.pinned || !state.previewNodeId) return;
+        state.previewNodeId = null;
+        updateDom();
+        scheduleMeasure();
+      };
+
+      const toggleNode = (element) => {
+        if (!element) return;
+        const id = element.dataset.nodeId;
+        const nextRoute = preferredRouteForNode(element);
+        if (nextRoute) state.route = nextRoute;
+
+        if (state.pinned && state.selectedNodeId === id) {
+          state.pinned = false;
+          state.selectedNodeId = null;
+          state.previewNodeId = id;
+        } else {
+          state.pinned = true;
+          state.selectedNodeId = id;
+          state.previewNodeId = null;
+        }
+        updateDom({ announceChange: true });
+        persistRoute(state.route);
+        scheduleMeasure({ animate: true });
+      };
+
+      const nodesInColumn = (columnIndex, routeOnly = true) => nodeElements.filter((element) => {
+        const sameColumn = Number(element.dataset.columnIndex) === columnIndex;
+        return sameColumn && (!routeOnly || routesForElement(element).includes(state.route));
+      });
+
+      const focusRelativeNode = (element, direction) => {
+        const currentColumn = Number(element.dataset.columnIndex);
+        const currentIndex = Number(element.dataset.nodeIndex);
+        let target = null;
+
+        if (direction === "up" || direction === "down") {
+          const peers = nodesInColumn(currentColumn);
+          const peerIndex = peers.indexOf(element);
+          if (peers.length) {
+            const delta = direction === "up" ? -1 : 1;
+            target = peers[(peerIndex + delta + peers.length) % peers.length];
+          }
+        } else {
+          const delta = direction === "left" ? -1 : 1;
+          const targetColumn = currentColumn + delta;
+          const candidates = nodesInColumn(targetColumn);
+          if (candidates.length) {
+            target = candidates.reduce((best, candidate) => {
+              if (!best) return candidate;
+              const candidateDistance = Math.abs(Number(candidate.dataset.nodeIndex) - currentIndex);
+              const bestDistance = Math.abs(Number(best.dataset.nodeIndex) - currentIndex);
+              return candidateDistance < bestDistance ? candidate : best;
+            }, null);
+          }
+        }
+        target?.focus();
+      };
+
+      routeButtons.forEach((button, index) => {
+        button.addEventListener("click", () => setRoute(button.dataset.circuitRoute, { announceChange: true }));
+        button.addEventListener("keydown", (event) => {
+          let nextIndex = null;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = index + 1;
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = index - 1;
+          if (event.key === "Home") nextIndex = 0;
+          if (event.key === "End") nextIndex = routeButtons.length - 1;
+          if (nextIndex === null) return;
+          event.preventDefault();
+          const normalized = (nextIndex + routeButtons.length) % routeButtons.length;
+          setRoute(routeButtons[normalized].dataset.circuitRoute, {
+            focusTab: true,
+            announceChange: true,
+          });
+        });
+      });
+
+      nodeElements.forEach((element) => {
+        element.addEventListener("focus", () => previewNode(element));
+        element.addEventListener("pointerenter", (event) => {
+          if (event.pointerType !== "touch") previewNode(element);
+        });
+        element.addEventListener("pointerleave", () => {
+          if (!element.matches(":focus")) clearPreview();
+        });
+        if (element.matches("button")) element.addEventListener("click", () => toggleNode(element));
+        element.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            focusRelativeNode(element, "up");
+          } else if (event.key === "ArrowDown") {
+            event.preventDefault();
+            focusRelativeNode(element, "down");
+          } else if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            focusRelativeNode(element, "left");
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            focusRelativeNode(element, "right");
+          } else if (event.key === "Home" || event.key === "End") {
+            event.preventDefault();
+            const peers = nodesInColumn(Number(element.dataset.columnIndex));
+            (event.key === "Home" ? peers[0] : peers[peers.length - 1])?.focus();
+          } else if (event.key === "Escape") {
+            state.pinned = false;
+            state.selectedNodeId = null;
+            state.previewNodeId = null;
+            updateDom({ announceChange: true });
+            scheduleMeasure({ animate: true });
+          }
+        });
+      });
+
+      root.addEventListener("focusout", (event) => {
+        requestAnimationFrame(() => {
+          if (!state.pinned && !root.contains(document.activeElement)) clearPreview();
+        });
+      });
+
+      resetButton?.addEventListener("click", () => setRoute("estimate", { announceChange: true }));
+
+      document.addEventListener("studio:lanechange", (event) => {
+        const key = event.detail?.lane;
+        if (routeKeys.includes(key)) setRoute(key, { announceChange: true });
+      });
+
+      const onMotionChange = (event) => {
+        state.reducedMotion = event.matches;
+        scheduleMeasure();
+      };
+      motionQuery.addEventListener?.("change", onMotionChange);
+
+      const resizeObserver = "ResizeObserver" in window ? new ResizeObserver(() => scheduleMeasure()) : null;
+      if (resizeObserver && stage) resizeObserver.observe(stage);
+      else window.addEventListener("resize", () => scheduleMeasure(), { passive: true });
+
+      const intersectionObserver = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+        state.visible = entries[0]?.isIntersecting ?? true;
+        if (state.visible) scheduleMeasure();
+        else cancelAnimationFrame(animationFrame);
+      }, { rootMargin: "180px" }) : null;
+      intersectionObserver?.observe(root);
+
+      if (!context) root.classList.add("has-no-canvas");
+
+      let initialRoute = "estimate";
+      try {
+        const queryRoute = new URLSearchParams(window.location.search).get("problem");
+        const storedRoute = sessionStorage.getItem("ih-proof-route");
+        if (routeKeys.includes(queryRoute)) initialRoute = queryRoute;
+        else if (routeKeys.includes(storedRoute)) initialRoute = storedRoute;
+      } catch {
+        /* The server-rendered route remains complete. */
+      }
+      setRoute(initialRoute, { persist: false });
+    });
+  })();
+</script>
+
+<style>
+  .proof-circuit {
+    --atlas-night: #0f302a;
+    --atlas-night-deep: #0a211e;
+    --atlas-paper: #f5f0e6;
+    --atlas-paper-high: #fffdf7;
+    --atlas-ink: #161915;
+    --atlas-graphite: #3a3f39;
+    --atlas-muted: #6a6c64;
+    --atlas-rule: #c9c0af;
+    --atlas-signal: #f15a37;
+    --atlas-signal-dark: #a9361f;
+    --atlas-water: #78a7a0;
+    --atlas-interval: #e0bd68;
+    --atlas-on-dark: #f7f2e9;
+    position: relative;
+    color: var(--atlas-ink);
+    background: var(--atlas-paper);
+    border-block: 1px solid var(--atlas-ink);
+    isolation: isolate;
+  }
+
+  .proof-circuit::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    content: "";
+    opacity: .26;
+    background-image:
+      linear-gradient(90deg, transparent calc(25% - .5px), var(--atlas-rule) 25%, transparent calc(25% + .5px)),
+      linear-gradient(90deg, transparent calc(50% - .5px), var(--atlas-rule) 50%, transparent calc(50% + .5px)),
+      linear-gradient(90deg, transparent calc(75% - .5px), var(--atlas-rule) 75%, transparent calc(75% + .5px));
+    pointer-events: none;
+  }
+
+  .proof-circuit__intro {
+    display: grid;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 8.5rem) clamp(1rem, 5vw, 5.5rem) clamp(2rem, 4vw, 3.5rem);
+    grid-template-columns: minmax(0, 1.2fr) minmax(260px, .55fr);
+    gap: 2rem 6vw;
+    align-items: end;
+  }
+
+  .proof-circuit__kicker {
+    color: var(--atlas-signal-dark);
+    font: 650 .65rem/1.2 var(--ih-mono);
+    letter-spacing: .09em;
+  }
+
+  .proof-circuit__intro h2 {
+    max-width: 1050px;
+    margin: .8rem 0 0;
+    font: 560 clamp(3.1rem, 6.5vw, 7.5rem)/.88 var(--ih-display);
+    letter-spacing: -.065em;
+    text-wrap: balance;
+  }
+
+  .proof-circuit__intro > p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 430 clamp(1rem, 1.4vw, 1.18rem)/1.55 var(--ih-serif);
+  }
+
+  .proof-circuit__routes {
+    display: grid;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-inline: clamp(1rem, 5vw, 5.5rem);
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .proof-circuit__route {
+    position: relative;
+    display: grid;
+    min-height: 100px;
+    padding: 1rem;
+    align-content: space-between;
+    gap: 1rem;
+    color: var(--atlas-muted);
+    background: color-mix(in srgb, var(--atlas-paper-high) 68%, transparent);
+    border: 1px solid var(--atlas-rule);
+    border-right: 0;
+    cursor: pointer;
+    text-align: left;
+    transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .proof-circuit__route:last-child { border-right: 1px solid var(--atlas-rule); }
+  .proof-circuit__route > span { font: 600 .56rem/1 var(--ih-mono); letter-spacing: .08em; }
+  .proof-circuit__route > strong { color: inherit; font: 580 .82rem/1.25 var(--ih-sans); }
+  .proof-circuit__route:hover { color: var(--atlas-ink); background: var(--atlas-paper-high); }
+  .proof-circuit__route.is-active {
+    z-index: 2;
+    color: var(--atlas-on-dark);
+    background: var(--atlas-night);
+    border-color: var(--atlas-night);
+    transform: translateY(-7px);
+  }
+  .proof-circuit__route.is-active::after {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: .9rem;
+    top: .9rem;
+    content: "";
+    background: var(--atlas-signal);
+    border-radius: 50%;
+  }
+
+  .proof-circuit__panel {
+    display: grid;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 5.5rem) clamp(2rem, 5vw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
+    gap: 0;
+  }
+
+  .proof-circuit__stage {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--atlas-night);
+    border: 1px solid var(--atlas-night-deep);
+  }
+
+  .proof-circuit__stage::before,
+  .proof-circuit__stage::after {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+  }
+
+  .proof-circuit__stage::before {
+    opacity: .22;
+    background-image:
+      linear-gradient(rgba(120, 167, 160, .22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 167, 160, .22) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, black, transparent 92%);
+  }
+
+  .proof-circuit__stage::after {
+    inset: 1.1rem;
+    border: 1px solid rgba(120, 167, 160, .2);
+  }
+
+  .proof-circuit__canvas {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .proof-circuit__grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    min-height: 720px;
+    padding: 1.6rem;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: clamp(1.2rem, 2.7vw, 3.2rem);
+  }
+
+  .proof-circuit__column {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .proof-circuit__column > header {
+    display: grid;
+    min-height: 72px;
+    padding-bottom: .9rem;
+    grid-template-columns: 28px 1fr;
+    gap: .65rem;
+    border-bottom: 1px solid rgba(247, 242, 233, .2);
+  }
+
+  .proof-circuit__column > header > span {
+    color: var(--atlas-signal);
+    font: 650 .56rem/1.2 var(--ih-mono);
+  }
+  .proof-circuit__column h3 {
+    margin: 0;
+    color: var(--atlas-on-dark);
+    font: 650 .62rem/1.2 var(--ih-mono);
+    letter-spacing: .08em;
+  }
+  .proof-circuit__column header p {
+    margin: .35rem 0 0;
+    color: rgba(247, 242, 233, .58);
+    font: 440 .61rem/1.35 var(--ih-sans);
+  }
+
+  .proof-circuit__node-list {
+    display: flex;
+    min-height: 0;
+    padding-block: 1rem;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: .7rem;
+  }
+
+  .proof-circuit__node {
+    position: relative;
+    display: grid;
+    width: 100%;
+    min-height: 76px;
+    padding: .75rem 1.65rem .75rem .75rem;
+    align-content: start;
+    gap: .28rem;
+    color: rgba(247, 242, 233, .5);
+    background: rgba(10, 33, 30, .88);
+    border: 1px solid rgba(201, 192, 175, .18);
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    opacity: .52;
+    transition: opacity 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .proof-circuit__node > span {
+    color: inherit;
+    font: 620 .48rem/1 var(--ih-mono);
+    letter-spacing: .08em;
+  }
+  .proof-circuit__node > strong {
+    color: inherit;
+    font: 570 .69rem/1.25 var(--ih-sans);
+  }
+  .proof-circuit__node > small {
+    display: none;
+    color: rgba(247, 242, 233, .7);
+    font: 420 .6rem/1.4 var(--ih-sans);
+  }
+  .proof-circuit__node > i {
+    position: absolute;
+    right: .65rem;
+    top: .65rem;
+    color: inherit;
+    font: normal 600 .62rem/1 var(--ih-mono);
+  }
+
+  .proof-circuit__node.is-route-member {
+    color: var(--atlas-on-dark);
+    border-color: rgba(120, 167, 160, .62);
+    opacity: 1;
+  }
+  .proof-circuit__node.is-route-member::before {
+    position: absolute;
+    width: 5px;
+    left: -3px;
+    top: 14px;
+    bottom: 14px;
+    content: "";
+    background: var(--atlas-water);
+  }
+  .proof-circuit__node:hover,
+  .proof-circuit__node:focus-visible {
+    color: var(--atlas-on-dark);
+    border-color: var(--atlas-signal);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  .proof-circuit__node.is-emphasized {
+    color: var(--atlas-on-dark);
+    background: color-mix(in srgb, var(--atlas-signal) 16%, var(--atlas-night-deep));
+    border-color: var(--atlas-signal);
+    opacity: 1;
+  }
+  .proof-circuit__node.is-emphasized::before { background: var(--atlas-signal); }
+
+  .proof-circuit__receipt {
+    display: flex;
+    min-width: 0;
+    padding: clamp(1.25rem, 2.8vw, 2.7rem);
+    flex-direction: column;
+    color: var(--atlas-ink);
+    background: var(--atlas-paper-high);
+    border: 1px solid var(--atlas-ink);
+    border-left: 0;
+  }
+
+  .proof-circuit__receipt-head {
+    display: flex;
+    padding-bottom: 1rem;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--atlas-rule);
+    color: var(--atlas-muted);
+    font: 600 .52rem/1.2 var(--ih-mono);
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+  .proof-circuit__receipt-head output { color: var(--atlas-signal-dark); }
+
+  .proof-circuit__receipt-state { padding: clamp(1.6rem, 3vw, 3rem) 0; }
+  .proof-circuit__receipt-state > span {
+    color: var(--atlas-signal-dark);
+    font: 620 .58rem/1.3 var(--ih-mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .proof-circuit__receipt-state h3 {
+    margin: .8rem 0 1rem;
+    font: 560 clamp(2.1rem, 3.4vw, 3.9rem)/.94 var(--ih-display);
+    letter-spacing: -.05em;
+  }
+  .proof-circuit__receipt-state p {
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 430 .9rem/1.5 var(--ih-serif);
+  }
+
+  .proof-circuit__trace,
+  .proof-circuit__hypothesis {
+    display: grid;
+    padding: 1rem 0;
+    gap: .45rem;
+    border-top: 1px solid var(--atlas-rule);
+  }
+  .proof-circuit__trace > span,
+  .proof-circuit__hypothesis > span {
+    color: var(--atlas-muted);
+    font: 600 .51rem/1 var(--ih-mono);
+    letter-spacing: .08em;
+  }
+  .proof-circuit__trace strong {
+    color: var(--atlas-ink);
+    font: 600 .66rem/1.5 var(--ih-mono);
+  }
+  .proof-circuit__hypothesis p {
+    margin: 0;
+    color: var(--atlas-graphite);
+    font: 430 .79rem/1.5 var(--ih-sans);
+  }
+
+  .proof-circuit__receipt-actions {
+    display: grid;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    gap: .8rem;
+  }
+  .proof-circuit__start,
+  .proof-circuit__proof {
+    display: flex;
+    min-height: 50px;
+    padding: .8rem .9rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font: 650 .58rem/1.25 var(--ih-mono);
+    letter-spacing: .05em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .proof-circuit__start { color: var(--atlas-night-deep); background: var(--atlas-signal); border: 1px solid var(--atlas-signal); }
+  .proof-circuit__start:hover { color: var(--atlas-on-dark); background: var(--atlas-night); border-color: var(--atlas-night); }
+  .proof-circuit__proof { color: var(--atlas-ink); border: 1px solid var(--atlas-ink); }
+  .proof-circuit__proof:hover { color: var(--atlas-on-dark); background: var(--atlas-night); }
+
+  .proof-circuit__legend {
+    display: flex;
+    max-width: 1600px;
+    min-height: 54px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 5.5rem);
+    align-items: center;
+    gap: 1rem 1.5rem;
+    color: var(--atlas-muted);
+    border-top: 1px solid var(--atlas-rule);
+    font: 560 .52rem/1.25 var(--ih-mono);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .proof-circuit__legend span { display: inline-flex; align-items: center; gap: .45rem; }
+  .proof-circuit__legend i { display: inline-block; width: 22px; height: 2px; }
+  .proof-circuit__legend .legend-flow { background: var(--atlas-water); }
+  .proof-circuit__legend .legend-selection { background: var(--atlas-signal); }
+  .proof-circuit__legend button {
+    margin-left: auto;
+    padding: .45rem .65rem;
+    color: var(--atlas-signal-dark);
+    background: transparent;
+    border: 1px solid var(--atlas-rule);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  @media (max-width: 1180px) {
+    .proof-circuit__panel { grid-template-columns: 1fr; }
+    .proof-circuit__receipt { min-height: 460px; border-top: 0; border-left: 1px solid var(--atlas-ink); }
+    .proof-circuit__receipt-actions { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 760px) {
+    .proof-circuit::before { display: none; }
+    .proof-circuit__intro { grid-template-columns: 1fr; }
+    .proof-circuit__intro h2 { font-size: clamp(3rem, 14vw, 5.2rem); }
+    .proof-circuit__routes { grid-template-columns: 1fr 1fr; }
+    .proof-circuit__route { min-height: 86px; border-bottom: 0; }
+    .proof-circuit__route:nth-child(2) { border-right: 1px solid var(--atlas-rule); }
+    .proof-circuit__route:nth-child(n + 3) { border-bottom: 1px solid var(--atlas-rule); }
+    .proof-circuit__route.is-active { transform: none; }
+
+    .proof-circuit__stage { overflow: visible; }
+    .proof-circuit__stage::after { inset: .65rem; }
+    .proof-circuit__canvas { display: none; }
+    .proof-circuit__grid {
+      min-height: 0;
+      padding: 1.25rem;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .proof-circuit__column { position: relative; }
+    .proof-circuit__column:not(:last-child) { padding-bottom: 3.2rem; }
+    .proof-circuit__column:not(:last-child)::after {
+      position: absolute;
+      left: 50%;
+      bottom: .85rem;
+      content: "↓";
+      color: var(--atlas-water);
+      font: 700 1.1rem/1 var(--ih-mono);
+      transform: translateX(-50%);
+    }
+    .proof-circuit__column > header { min-height: 0; }
+    .proof-circuit__node-list { padding-block: .8rem 0; }
+    .proof-circuit__node:not(.is-route-member) { display: none; }
+    .proof-circuit__node { min-height: 70px; }
+    .proof-circuit__node > small { display: block; }
+    .proof-circuit__receipt { min-height: 0; }
+    .proof-circuit__receipt-actions { grid-template-columns: 1fr; }
+    .proof-circuit__legend { padding-block: 1rem; flex-wrap: wrap; }
+    .proof-circuit__legend > span:nth-child(3) { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proof-circuit *,
+    .proof-circuit *::before,
+    .proof-circuit *::after {
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .proof-circuit__stage { background: Canvas; border-color: CanvasText; }
+    .proof-circuit__stage::before,
+    .proof-circuit__stage::after,
+    .proof-circuit__canvas { display: none; }
+    .proof-circuit__column h3,
+    .proof-circuit__column header p { color: CanvasText; }
+    .proof-circuit__node,
+    .proof-circuit__node.is-route-member,
+    .proof-circuit__node.is-emphasized {
+      color: CanvasText;
+      background: Canvas;
+      border: 1px solid CanvasText;
+      opacity: 1;
+    }
+    .proof-circuit__node.is-route-member { outline: 2px solid Highlight; outline-offset: 2px; }
+    .proof-circuit__node::before { display: none; }
+    .proof-circuit__route.is-active,
+    .proof-circuit__start { color: HighlightText; background: Highlight; }
+  }
+</style>
