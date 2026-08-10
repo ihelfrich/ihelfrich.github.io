@@ -1,0 +1,727 @@
+---
+const {
+  id = "spatial-allocation-studio",
+  headingLevel = "h2",
+} = Astro.props;
+
+const Heading = headingLevel;
+const metricName = `${id}-metric`;
+const boundaryId = `${id}-boundary`;
+
+const regions = [
+  { id: "R01", name: "North Fork", area: 52, count: 8 },
+  { id: "R02", name: "Copper Basin", area: 84, count: 13 },
+  { id: "R03", name: "Juniper Ridge", area: 121, count: 5 },
+  { id: "R04", name: "Mesa East", area: 63, count: 15 },
+  { id: "R05", name: "Arroyo North", area: 97, count: 2 },
+  { id: "R06", name: "Silver Plain", area: 140, count: 10 },
+  { id: "R07", name: "Cedar Wash", area: 75, count: 7 },
+  { id: "R08", name: "Red Butte", area: 110, count: 4 },
+  { id: "R09", name: "Dry Creek", area: 48, count: 11 },
+  { id: "R10", name: "Granite South", area: 155, count: 3 },
+  { id: "R11", name: "Cottonwood", area: 89, count: 6 },
+  { id: "R12", name: "Echo Valley", area: 132, count: 9 },
+];
+
+const initialTotal = regions.reduce((sum, region) => sum + region.count, 0);
+const initialBreaks = [2, 3, 5, 8, 11, 15];
+const initialClass = (value) => {
+  for (let index = 1; index < initialBreaks.length; index += 1) {
+    if (value <= initialBreaks[index]) return index - 1;
+  }
+  return initialBreaks.length - 2;
+};
+const initialRanked = [...regions].sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+---
+
+<section id={id} class="sa-studio" data-spatial-studio aria-labelledby={`${id}-title`}>
+  <header class="sa-header">
+    <div>
+      <span class="sa-kicker">LAB 02 / SPATIAL ALLOCATION</span>
+      <Heading id={`${id}-title`}>A count becomes a map.<br />A map becomes a choice.</Heading>
+    </div>
+    <div class="sa-intro">
+      <p>
+        Place synthetic site locations inside synthetic planning districts, then change the metric, classification rule, and boundary decision. The map, legend, ranking, and export share one state.
+      </p>
+      <p class="sa-data-note"><i aria-hidden="true"></i>DEMONSTRATION DATA / SYNTHETIC / {regions.length} DISTRICTS / {initialTotal} SITES</p>
+    </div>
+  </header>
+
+  <div class="sa-workbench">
+    <aside class="sa-controls" aria-label="Spatial allocation controls">
+      <div class="sa-control-head">
+        <span>CONTROL SURFACE</span>
+        <button type="button" data-sa-reset>Reset</button>
+      </div>
+
+      <fieldset class="sa-fieldset">
+        <legend><span>INPUT 01</span>Metric</legend>
+        <label>
+          <input type="radio" name={metricName} value="count" checked />
+          <span><strong>Raw count</strong><small>Sites assigned to a district</small></span>
+        </label>
+        <label>
+          <input type="radio" name={metricName} value="density" />
+          <span><strong>Density</strong><small>Sites per 100 km²</small></span>
+        </label>
+        <label>
+          <input type="radio" name={metricName} value="share" />
+          <span><strong>Share</strong><small>Percent of assigned sites</small></span>
+        </label>
+      </fieldset>
+
+      <label class="sa-select-control">
+        <span><b>INPUT 02</b>Classification rule</span>
+        <select data-sa-classification>
+          <option value="equal">Equal interval</option>
+          <option value="quantile">Quantile</option>
+          <option value="natural" selected>Natural breaks</option>
+        </select>
+        <small>Five classes recalculate from the active metric.</small>
+      </label>
+
+      <div class="sa-boundary-control">
+        <span><b>INPUT 03</b>Boundary case</span>
+        <label class="sa-switch" for={boundaryId}>
+          <input id={boundaryId} type="checkbox" data-sa-boundary />
+          <span aria-hidden="true"><i></i></span>
+          <strong>Move site 043 onto the shared edge</strong>
+        </label>
+        <label class="sa-boundary-rule">
+          <span>Assignment rule</span>
+          <select data-sa-boundary-rule disabled>
+            <option value="north">Assign to North Fork</option>
+            <option value="copper">Assign to Copper Basin</option>
+            <option value="exclude">Exclude from district totals</option>
+          </select>
+        </label>
+      </div>
+
+      <dl class="sa-totals">
+        <div><dt>Unique sites</dt><dd>{initialTotal}</dd></div>
+        <div><dt>Assigned sites</dt><dd data-sa-assigned>{initialTotal}</dd></div>
+        <div><dt>District area</dt><dd>{regions.reduce((sum, region) => sum + region.area, 0).toLocaleString()} km²</dd></div>
+      </dl>
+    </aside>
+
+    <div class="sa-display">
+      <div class="sa-map-head">
+        <div>
+          <span>ALLOCATION SURFACE / SYNTHETIC DISTRICTS</span>
+          <strong data-sa-map-title>RAW COUNT / NATURAL BREAKS</strong>
+        </div>
+        <div class="sa-map-instructions">FOCUS A DISTRICT / USE ARROW KEYS</div>
+      </div>
+
+      <div class="sa-map-frame">
+        <div class="sa-map-grid" role="group" aria-label="Synthetic planning districts colored by site allocation">
+          {regions.map((region, index) => (
+            <button
+              type="button"
+              class:list={["sa-region", index === 0 && "is-selected"]}
+              data-sa-region
+              data-region-id={region.id}
+              data-region-name={region.name}
+              data-region-area={region.area}
+              data-region-count={region.count}
+              data-class={initialClass(region.count)}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              <span>{region.id}</span>
+              <strong>{region.name}</strong>
+              <output data-sa-region-value>{region.count}</output>
+            </button>
+          ))}
+          <span class="sa-boundary-site" aria-hidden="true"><i></i><small>SITE 043</small></span>
+          <span class="sa-north" aria-hidden="true"><b>N</b><i></i></span>
+          <span class="sa-scale" aria-hidden="true"><i></i><b>25 km</b></span>
+        </div>
+      </div>
+
+      <div class="sa-legend" aria-label="Map class legend">
+        <span class="sa-legend-title">CLASS BREAKS</span>
+        {Array.from({ length: 5 }, (_, index) => (
+          <span class="sa-legend-item" data-sa-legend={index}><i data-class={index}></i><b>{initialBreaks[index]} to {initialBreaks[index + 1]}</b></span>
+        ))}
+      </div>
+
+      <article class="sa-inspector" aria-live="polite">
+        <div>
+          <span>SELECTED DISTRICT</span>
+          <strong data-sa-selected-title>R01 / NORTH FORK</strong>
+        </div>
+        <dl>
+          <div><dt>Sites</dt><dd data-sa-selected-count>8</dd></div>
+          <div><dt>Area</dt><dd data-sa-selected-area>52 km²</dd></div>
+          <div><dt data-sa-selected-metric-label>Raw count</dt><dd data-sa-selected-metric>8</dd></div>
+          <div><dt>Map class</dt><dd data-sa-selected-class>{initialClass(regions[0].count) + 1} / 5</dd></div>
+        </dl>
+      </article>
+    </div>
+  </div>
+
+  <section class="sa-ranking" aria-labelledby={`${id}-ranking-title`}>
+    <header>
+      <div>
+        <span>RANKED OUTPUT / ACTIVE STATE</span>
+        <h3 id={`${id}-ranking-title`}>The table remains inspectable.</h3>
+      </div>
+      <div class="sa-output-actions">
+        <button type="button" data-sa-download>Download current CSV</button>
+        <span data-sa-download-status role="status"></span>
+      </div>
+    </header>
+
+    <div class="sa-table-wrap" tabindex="0" role="region" aria-label="Ranked district allocation table">
+      <table>
+        <caption>Districts ranked by the active spatial metric</caption>
+        <thead>
+          <tr><th scope="col">Rank</th><th scope="col">District</th><th scope="col">Sites</th><th scope="col">Area km²</th><th scope="col" data-sa-table-metric>Raw count</th><th scope="col">Class</th></tr>
+        </thead>
+        <tbody data-sa-table-body>
+          {initialRanked.map((region, index) => (
+            <tr data-sa-row data-region-id={region.id}>
+              <td data-sa-rank>{index + 1}</td>
+              <th scope="row"><button type="button" data-sa-row-select>{region.id} / {region.name}</button></th>
+              <td data-sa-row-count>{region.count}</td>
+              <td>{region.area}</td>
+              <td data-sa-row-metric>{region.count}</td>
+              <td data-sa-row-class>{initialClass(region.count) + 1}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="sa-footer">
+    <span data-sa-summary>METRIC / RAW COUNT · CLASSIFIER / NATURAL BREAKS · {initialTotal} SITES ASSIGNED</span>
+    <span>POINT IN POLYGON / CLIENT-SIDE DEMONSTRATION</span>
+    <a href="/start?problem=spatial&source=allocation-lab">Scope a spatial intelligence sprint →</a>
+  </footer>
+
+  <p class="sa-sr-only" data-sa-announcer aria-live="polite"></p>
+</section>
+
+<script is:inline>
+  (() => {
+    const CLASS_COUNT = 5;
+
+    document.querySelectorAll("[data-spatial-studio]").forEach((studio) => {
+      const regionButtons = Array.from(studio.querySelectorAll("[data-sa-region]"));
+      const tableBody = studio.querySelector("[data-sa-table-body]");
+      const tableRows = Array.from(studio.querySelectorAll("[data-sa-row]"));
+      const metricInputs = Array.from(studio.querySelectorAll('input[type="radio"]'));
+      const classification = studio.querySelector("[data-sa-classification]");
+      const boundary = studio.querySelector("[data-sa-boundary]");
+      const boundaryRule = studio.querySelector("[data-sa-boundary-rule]");
+      const announcer = studio.querySelector("[data-sa-announcer]");
+      const downloadStatus = studio.querySelector("[data-sa-download-status]");
+      let selectedId = regionButtons[0]?.dataset.regionId || "R01";
+      let currentRows = [];
+
+      const baseRows = regionButtons.map((button) => ({
+        id: button.dataset.regionId,
+        name: button.dataset.regionName,
+        area: Number(button.dataset.regionArea),
+        baseCount: Number(button.dataset.regionCount),
+      }));
+
+      const metricLabel = (metric) => ({
+        count: "Raw count",
+        density: "Sites per 100 km²",
+        share: "Share of assigned sites",
+      })[metric];
+
+      const classifierLabel = (rule) => ({
+        equal: "Equal interval",
+        quantile: "Quantile",
+        natural: "Natural breaks",
+      })[rule];
+
+      const formatValue = (value, metric) => {
+        if (metric === "count") return String(Math.round(value));
+        if (metric === "density") return `${value.toFixed(1)} / 100 km²`;
+        return `${value.toFixed(1)}%`;
+      };
+
+      const getMetric = () => studio.querySelector('input[type="radio"]:checked')?.value || "count";
+
+      const getCounts = () => {
+        const rows = baseRows.map((row) => ({ ...row, count: row.baseCount }));
+        if (!boundary?.checked) return rows;
+        const north = rows.find((row) => row.id === "R01");
+        const copper = rows.find((row) => row.id === "R02");
+        if (copper) copper.count -= 1;
+        if (boundaryRule?.value === "north" && north) north.count += 1;
+        if (boundaryRule?.value === "copper" && copper) copper.count += 1;
+        return rows;
+      };
+
+      const quantileBreaks = (values, classes) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const breaks = [sorted[0]];
+        for (let index = 1; index < classes; index += 1) {
+          breaks.push(sorted[Math.max(0, Math.ceil(index * sorted.length / classes) - 1)]);
+        }
+        breaks.push(sorted[sorted.length - 1]);
+        return breaks;
+      };
+
+      const equalBreaks = (values, classes) => {
+        const minimum = Math.min(...values);
+        const maximum = Math.max(...values);
+        return Array.from({ length: classes + 1 }, (_, index) => minimum + (maximum - minimum) * index / classes);
+      };
+
+      const naturalBreaks = (values, requestedClasses) => {
+        const data = [...values].sort((a, b) => a - b);
+        const classes = Math.max(1, Math.min(requestedClasses, data.length));
+        const lower = Array.from({ length: data.length + 1 }, () => Array(classes + 1).fill(0));
+        const variance = Array.from({ length: data.length + 1 }, () => Array(classes + 1).fill(Infinity));
+
+        for (let classIndex = 1; classIndex <= classes; classIndex += 1) {
+          lower[1][classIndex] = 1;
+          variance[1][classIndex] = 0;
+        }
+
+        for (let length = 2; length <= data.length; length += 1) {
+          let sum = 0;
+          let sumSquares = 0;
+          let weight = 0;
+          let currentVariance = 0;
+          for (let offset = 1; offset <= length; offset += 1) {
+            const lowerIndex = length - offset + 1;
+            const value = data[lowerIndex - 1];
+            weight += 1;
+            sum += value;
+            sumSquares += value * value;
+            currentVariance = sumSquares - sum * sum / weight;
+            const previousIndex = lowerIndex - 1;
+            if (previousIndex > 0) {
+              for (let classIndex = 2; classIndex <= classes; classIndex += 1) {
+                const candidate = currentVariance + variance[previousIndex][classIndex - 1];
+                if (candidate <= variance[length][classIndex]) {
+                  lower[length][classIndex] = lowerIndex;
+                  variance[length][classIndex] = candidate;
+                }
+              }
+            }
+          }
+          lower[length][1] = 1;
+          variance[length][1] = currentVariance;
+        }
+
+        const breaks = Array(classes + 1).fill(data[0]);
+        breaks[classes] = data[data.length - 1];
+        let classIndex = classes;
+        let position = data.length;
+        while (classIndex > 1) {
+          const breakIndex = Math.max(0, lower[position][classIndex] - 2);
+          breaks[classIndex - 1] = data[breakIndex];
+          position = Math.max(1, lower[position][classIndex] - 1);
+          classIndex -= 1;
+        }
+        return breaks;
+      };
+
+      const getBreaks = (values, rule) => {
+        if (rule === "equal") return equalBreaks(values, CLASS_COUNT);
+        if (rule === "quantile") return quantileBreaks(values, CLASS_COUNT);
+        return naturalBreaks(values, CLASS_COUNT);
+      };
+
+      const getClassIndex = (value, breaks) => {
+        for (let index = 1; index < breaks.length; index += 1) {
+          if (value <= breaks[index] || index === breaks.length - 1) return index - 1;
+        }
+        return breaks.length - 2;
+      };
+
+      const selectRegion = (id, moveFocus = false, announce = false) => {
+        selectedId = id;
+        regionButtons.forEach((button) => {
+          const selected = button.dataset.regionId === id;
+          button.classList.toggle("is-selected", selected);
+          button.setAttribute("aria-pressed", String(selected));
+          if (selected && moveFocus) button.focus();
+        });
+        tableRows.forEach((row) => row.classList.toggle("is-selected", row.dataset.regionId === id));
+        const row = currentRows.find((candidate) => candidate.id === id);
+        if (!row) return;
+        const set = (selector, value) => {
+          const target = studio.querySelector(selector);
+          if (target) target.textContent = value;
+        };
+        set("[data-sa-selected-title]", `${row.id} / ${row.name.toUpperCase()}`);
+        set("[data-sa-selected-count]", String(row.count));
+        set("[data-sa-selected-area]", `${row.area} km²`);
+        set("[data-sa-selected-metric-label]", metricLabel(row.metric));
+        set("[data-sa-selected-metric]", formatValue(row.value, row.metric));
+        set("[data-sa-selected-class]", `${row.classIndex + 1} / ${CLASS_COUNT}`);
+        if (announce && announcer) announcer.textContent = `${row.name} selected. ${row.count} sites. ${formatValue(row.value, row.metric)}.`;
+      };
+
+      const update = (announce = false) => {
+        const metric = getMetric();
+        const rule = classification?.value || "natural";
+        const rows = getCounts();
+        const assignedTotal = rows.reduce((sum, row) => sum + row.count, 0);
+        rows.forEach((row) => {
+          row.metric = metric;
+          row.value = metric === "count"
+            ? row.count
+            : metric === "density"
+              ? row.count / row.area * 100
+              : assignedTotal > 0 ? row.count / assignedTotal * 100 : 0;
+        });
+        const breaks = getBreaks(rows.map((row) => row.value), rule);
+        rows.forEach((row) => { row.classIndex = getClassIndex(row.value, breaks); });
+        currentRows = rows;
+
+        const byId = Object.fromEntries(rows.map((row) => [row.id, row]));
+        regionButtons.forEach((button) => {
+          const row = byId[button.dataset.regionId];
+          if (!row) return;
+          button.dataset.class = String(row.classIndex);
+          const output = button.querySelector("[data-sa-region-value]");
+          if (output) output.textContent = formatValue(row.value, metric);
+          button.setAttribute("aria-label", `${row.id}, ${row.name}, ${formatValue(row.value, metric)}, map class ${row.classIndex + 1} of ${CLASS_COUNT}`);
+        });
+
+        studio.querySelectorAll("[data-sa-legend]").forEach((item, index) => {
+          const lower = breaks[index];
+          const upper = breaks[index + 1];
+          const label = metric === "count"
+            ? `${Math.round(lower)} to ${Math.round(upper)}`
+            : `${lower.toFixed(1)} to ${upper.toFixed(1)}${metric === "share" ? "%" : ""}`;
+          const text = item.querySelector("b");
+          if (text) text.textContent = label;
+        });
+
+        const ranked = [...rows].sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
+        ranked.forEach((row, index) => {
+          const tableRow = tableRows.find((candidate) => candidate.dataset.regionId === row.id);
+          if (!tableRow || !tableBody) return;
+          tableBody.append(tableRow);
+          tableRow.querySelector("[data-sa-rank]").textContent = String(index + 1);
+          tableRow.querySelector("[data-sa-row-count]").textContent = String(row.count);
+          tableRow.querySelector("[data-sa-row-metric]").textContent = formatValue(row.value, metric);
+          tableRow.querySelector("[data-sa-row-class]").textContent = String(row.classIndex + 1);
+        });
+
+        const boundaryState = boundary?.checked
+          ? boundaryRule?.value === "exclude"
+            ? "boundary site excluded"
+            : `boundary site assigned to ${boundaryRule?.value === "north" ? "North Fork" : "Copper Basin"}`
+          : "boundary site inside Copper Basin";
+        studio.classList.toggle("is-boundary", Boolean(boundary?.checked));
+        if (boundaryRule) boundaryRule.disabled = !boundary?.checked;
+        const set = (selector, value) => {
+          const target = studio.querySelector(selector);
+          if (target) target.textContent = value;
+        };
+        set("[data-sa-assigned]", String(assignedTotal));
+        set("[data-sa-map-title]", `${metricLabel(metric).toUpperCase()} / ${classifierLabel(rule).toUpperCase()}`);
+        set("[data-sa-table-metric]", metricLabel(metric));
+        set("[data-sa-summary]", `METRIC / ${metricLabel(metric).toUpperCase()} · CLASSIFIER / ${classifierLabel(rule).toUpperCase()} · ${assignedTotal} SITES ASSIGNED`);
+        selectRegion(selectedId);
+        if (announce && announcer) announcer.textContent = `${metricLabel(metric)} displayed with ${classifierLabel(rule)}. ${assignedTotal} sites assigned. ${boundaryState}.`;
+      };
+
+      regionButtons.forEach((button, index) => {
+        button.addEventListener("click", () => selectRegion(button.dataset.regionId, false, true));
+        button.addEventListener("keydown", (event) => {
+          let next = index;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % regionButtons.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + regionButtons.length) % regionButtons.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = regionButtons.length - 1;
+          else return;
+          event.preventDefault();
+          selectRegion(regionButtons[next].dataset.regionId, true, true);
+        });
+      });
+
+      tableRows.forEach((row) => {
+        row.querySelector("[data-sa-row-select]")?.addEventListener("click", () => selectRegion(row.dataset.regionId, true, true));
+      });
+
+      metricInputs.forEach((input) => input.addEventListener("change", () => update(true)));
+      classification?.addEventListener("change", () => update(true));
+      boundary?.addEventListener("change", () => update(true));
+      boundaryRule?.addEventListener("change", () => update(true));
+
+      studio.querySelector("[data-sa-reset]")?.addEventListener("click", () => {
+        const countInput = studio.querySelector('input[value="count"]');
+        if (countInput) countInput.checked = true;
+        if (classification) classification.value = "natural";
+        if (boundary) boundary.checked = false;
+        if (boundaryRule) boundaryRule.value = "north";
+        selectedId = "R01";
+        update(true);
+        selectRegion(selectedId, true);
+      });
+
+      studio.querySelector("[data-sa-download]")?.addEventListener("click", () => {
+        const metric = getMetric();
+        const rule = classification?.value || "natural";
+        const header = ["rank", "district_id", "district_name", "sites", "area_km2", "metric", "metric_value", "class", "classification", "boundary_state"];
+        const ranked = [...currentRows].sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
+        const boundaryState = boundary?.checked ? boundaryRule?.value : "inside_copper_basin";
+        const lines = [header.join(","), ...ranked.map((row, index) => [
+          index + 1,
+          row.id,
+          `"${row.name.replaceAll('"', '""')}"`,
+          row.count,
+          row.area,
+          metric,
+          row.value.toFixed(metric === "count" ? 0 : 3),
+          row.classIndex + 1,
+          rule,
+          boundaryState,
+        ].join(","))];
+        const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `synthetic-spatial-allocation-${metric}-${rule}.csv`;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        if (downloadStatus) downloadStatus.textContent = "Current allocation downloaded.";
+      });
+
+      update();
+    });
+  })();
+</script>
+
+<style>
+  .sa-studio {
+    --sa-ink: var(--ih-ink, #121426);
+    --sa-bone: var(--ih-bone, #f2eade);
+    --sa-paper: var(--ih-paper, #faf5ed);
+    --sa-blue: var(--ih-blue, #2852e8);
+    --sa-blue-dark: var(--ih-blue-dark, #193fbe);
+    --sa-graphite: var(--ih-graphite, #30313d);
+    --sa-muted: var(--ih-muted, #66636a);
+    --sa-rule: var(--ih-rule, #c7bdb0);
+    --sa-oxide: var(--ih-oxide, #ad4e35);
+    --sa-serif: var(--ih-serif, "Newsreader", Georgia, serif);
+    --sa-sans: var(--ih-sans, "Geist", system-ui, sans-serif);
+    --sa-mono: var(--ih-mono, "Geist Mono", ui-monospace, monospace);
+    color: var(--sa-ink);
+    background: var(--sa-bone);
+    border-block: 1px solid var(--sa-ink);
+    font-family: var(--sa-sans);
+  }
+
+  .sa-studio *, .sa-studio *::before, .sa-studio *::after { box-sizing: border-box; }
+
+  .sa-header {
+    display: grid;
+    max-width: 1460px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 4vw, 4rem);
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, .65fr);
+    gap: clamp(2rem, 7vw, 8rem);
+    align-items: end;
+  }
+
+  .sa-kicker,
+  .sa-data-note,
+  .sa-control-head,
+  .sa-fieldset legend span,
+  .sa-select-control > span,
+  .sa-boundary-control > span,
+  .sa-map-head,
+  .sa-legend,
+  .sa-inspector span,
+  .sa-ranking header span,
+  .sa-footer {
+    font: 600 .6rem/1.4 var(--sa-mono);
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  .sa-kicker { color: var(--sa-blue); }
+
+  .sa-header h2, .sa-header h1 {
+    max-width: 13ch;
+    margin: 1.1rem 0 0;
+    color: var(--sa-ink);
+    font: 500 clamp(3rem, 6vw, 6.4rem)/.9 var(--sa-serif);
+    letter-spacing: -.055em;
+  }
+
+  .sa-intro > p:first-child { margin: 0; color: var(--sa-graphite); font: 400 clamp(1rem, 1.4vw, 1.2rem)/1.55 var(--sa-serif); }
+  .sa-data-note { margin: 2rem 0 0; padding-top: .9rem; color: var(--sa-muted); border-top: 1px solid var(--sa-rule); }
+  .sa-data-note i { display: inline-block; width: 6px; height: 6px; margin-right: .55rem; background: var(--sa-blue); }
+
+  .sa-workbench { display: grid; max-width: 1460px; margin: 0 auto; grid-template-columns: 290px minmax(0, 1fr); border: 1px solid var(--sa-ink); }
+  .sa-controls { border-right: 1px solid var(--sa-ink); background: var(--sa-paper); }
+  .sa-control-head { display: flex; min-height: 54px; padding: 1rem; align-items: center; justify-content: space-between; color: var(--sa-muted); border-bottom: 1px solid var(--sa-ink); }
+  .sa-control-head button, .sa-output-actions button { padding: 0; color: var(--sa-blue-dark); background: transparent; border: 0; cursor: pointer; font: 600 .58rem var(--sa-mono); text-decoration: underline; text-underline-offset: .25em; text-transform: uppercase; }
+
+  .sa-fieldset { margin: 0; padding: 1rem; border: 0; border-bottom: 1px solid var(--sa-ink); }
+  .sa-fieldset legend { width: 100%; margin: 0 0 .8rem; padding: 0; color: var(--sa-graphite); font: 600 .72rem var(--sa-sans); }
+  .sa-fieldset legend span, .sa-select-control > span b, .sa-boundary-control > span b { display: block; margin-bottom: .25rem; color: var(--sa-muted); font: 600 .52rem var(--sa-mono); letter-spacing: .09em; }
+  .sa-fieldset label { display: block; position: relative; }
+  .sa-fieldset input { position: absolute; opacity: 0; }
+  .sa-fieldset label > span { display: block; padding: .72rem .75rem; border: 1px solid var(--sa-rule); cursor: pointer; }
+  .sa-fieldset label + label > span { border-top: 0; }
+  .sa-fieldset strong { display: block; color: var(--sa-ink); font: 600 .72rem var(--sa-sans); }
+  .sa-fieldset small { display: block; margin-top: .2rem; color: var(--sa-muted); font: 500 .55rem/1.4 var(--sa-mono); }
+  .sa-fieldset input:checked + span { color: white; background: var(--sa-blue); border-color: var(--sa-blue); }
+  .sa-fieldset input:checked + span strong, .sa-fieldset input:checked + span small { color: white; }
+  .sa-fieldset input:focus-visible + span { outline: 3px solid var(--sa-ink); outline-offset: 2px; }
+
+  .sa-select-control, .sa-boundary-control { display: block; padding: 1rem; border-bottom: 1px solid var(--sa-ink); }
+  .sa-select-control > span, .sa-boundary-control > span { display: block; margin-bottom: .65rem; color: var(--sa-graphite); }
+  .sa-select-control select, .sa-boundary-rule select { width: 100%; min-height: 42px; padding: .65rem; color: var(--sa-ink); background: var(--sa-bone); border: 1px solid var(--sa-ink); border-radius: 0; font: 600 .68rem var(--sa-mono); }
+  .sa-select-control small { display: block; margin-top: .45rem; color: var(--sa-muted); font: 500 .52rem/1.4 var(--sa-mono); }
+
+  .sa-switch { display: grid; grid-template-columns: 36px 1fr; gap: .65rem; align-items: center; cursor: pointer; }
+  .sa-switch input { position: absolute; opacity: 0; }
+  .sa-switch > span { position: relative; width: 36px; height: 20px; background: var(--sa-rule); border: 1px solid var(--sa-ink); }
+  .sa-switch > span i { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; background: var(--sa-ink); transition: transform 160ms ease, background 160ms ease; }
+  .sa-switch input:checked + span { background: var(--sa-blue); }
+  .sa-switch input:checked + span i { background: white; transform: translateX(16px); }
+  .sa-switch input:focus-visible + span { outline: 3px solid var(--sa-blue); outline-offset: 3px; }
+  .sa-switch strong { color: var(--sa-graphite); font: 600 .65rem/1.35 var(--sa-sans); }
+  .sa-boundary-rule { display: block; margin-top: .9rem; }
+  .sa-boundary-rule > span { display: block; margin-bottom: .35rem; color: var(--sa-muted); font: 600 .52rem var(--sa-mono); text-transform: uppercase; }
+  .sa-boundary-rule select:disabled { opacity: .5; cursor: not-allowed; }
+
+  .sa-totals { margin: 0; padding: 1rem; }
+  .sa-totals div { display: flex; padding: .55rem 0; justify-content: space-between; border-top: 1px solid var(--sa-rule); }
+  .sa-totals dt { color: var(--sa-muted); font: 600 .52rem var(--sa-mono); text-transform: uppercase; }
+  .sa-totals dd { margin: 0; color: var(--sa-ink); font: 600 .65rem var(--sa-mono); }
+
+  .sa-display { min-width: 0; background: var(--sa-ink); }
+  .sa-map-head { display: flex; min-height: 54px; padding: .85rem 1rem; align-items: center; justify-content: space-between; gap: 1rem; color: #aaa6a0; border-bottom: 1px solid rgba(242,234,222,.35); }
+  .sa-map-head strong { display: block; margin-top: .18rem; color: white; font: 600 .62rem var(--sa-mono); }
+  .sa-map-instructions { text-align: right; }
+  .sa-map-frame { padding: clamp(1rem, 3vw, 2.5rem); }
+  .sa-map-grid { position: relative; display: grid; min-height: 560px; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); background: #222536; border: 1px solid rgba(242,234,222,.45); overflow: hidden; }
+  .sa-region { position: relative; display: flex; min-width: 0; padding: 1rem; flex-direction: column; align-items: flex-start; justify-content: flex-end; color: var(--sa-ink); background: #e8eefb; border: 1px solid rgba(18,20,38,.55); border-radius: 0; cursor: pointer; text-align: left; transition: background 220ms ease, filter 160ms ease, transform 160ms ease; }
+  .sa-region:nth-of-type(1), .sa-region:nth-of-type(6), .sa-region:nth-of-type(11) { clip-path: polygon(0 0, 94% 4%, 100% 92%, 5% 100%); }
+  .sa-region:nth-of-type(2), .sa-region:nth-of-type(7), .sa-region:nth-of-type(12) { clip-path: polygon(4% 4%, 100% 0, 95% 100%, 0 94%); }
+  .sa-region:nth-of-type(3), .sa-region:nth-of-type(8) { clip-path: polygon(0 0, 100% 5%, 94% 94%, 6% 100%); }
+  .sa-region:nth-of-type(4), .sa-region:nth-of-type(9) { clip-path: polygon(5% 0, 100% 4%, 100% 100%, 0 95%); }
+  .sa-region:nth-of-type(5), .sa-region:nth-of-type(10) { clip-path: polygon(0 5%, 95% 0, 100% 95%, 4% 100%); }
+  .sa-region[data-class="0"] { background: #e8eefb; }
+  .sa-region[data-class="1"] { background: #bdcdf9; }
+  .sa-region[data-class="2"] { background: #86a5f2; }
+  .sa-region[data-class="3"] { color: white; background: #4f79ec; }
+  .sa-region[data-class="4"] { color: white; background: var(--sa-blue-dark); }
+  .sa-region span { font: 600 .52rem var(--sa-mono); letter-spacing: .08em; }
+  .sa-region strong { max-width: 12ch; margin-top: .25rem; color: inherit; font: 600 clamp(.72rem, 1vw, .92rem)/1.1 var(--sa-sans); }
+  .sa-region output { margin-top: .65rem; color: inherit; font: 500 clamp(1.15rem, 2vw, 2rem)/1 var(--sa-serif); }
+  .sa-region:hover { filter: brightness(1.08); }
+  .sa-region.is-selected { z-index: 2; filter: drop-shadow(0 0 0 white) drop-shadow(0 0 5px rgba(255,255,255,.75)); transform: scale(.96); }
+  .sa-region:focus-visible { z-index: 3; outline: 4px solid white; outline-offset: -6px; }
+
+  .sa-boundary-site { position: absolute; z-index: 5; top: 17%; left: 34%; color: white; pointer-events: none; transition: left 420ms cubic-bezier(.16,1,.3,1), top 420ms cubic-bezier(.16,1,.3,1); }
+  .sa-boundary-site i { display: block; width: 13px; height: 13px; background: var(--sa-oxide); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 3px rgba(173,78,53,.35); }
+  .sa-boundary-site small { position: absolute; top: 18px; left: 0; width: 70px; color: white; font: 600 .46rem var(--sa-mono); }
+  .sa-studio.is-boundary .sa-boundary-site { top: 33.333%; left: 25%; }
+  .sa-north { position: absolute; z-index: 4; top: 1.2rem; right: 1.2rem; color: var(--sa-ink); font: 700 .58rem var(--sa-mono); text-align: center; }
+  .sa-north b { display: block; }
+  .sa-north i { display: block; width: 1px; height: 24px; margin: .2rem auto 0; background: var(--sa-ink); }
+  .sa-scale { position: absolute; z-index: 4; right: 1.2rem; bottom: 1rem; color: white; font: 600 .48rem var(--sa-mono); text-align: right; }
+  .sa-scale i { display: block; width: 74px; height: 6px; margin-bottom: .25rem; border: 1px solid white; border-top: 0; }
+
+  .sa-legend { display: grid; padding: 0 clamp(1rem, 3vw, 2.5rem) 1.25rem; grid-template-columns: 110px repeat(5, 1fr); gap: .6rem; align-items: center; color: #aaa6a0; }
+  .sa-legend-item { display: grid; grid-template-columns: 16px 1fr; gap: .35rem; align-items: center; }
+  .sa-legend-item i { width: 16px; height: 10px; }
+  .sa-legend-item i[data-class="0"] { background: #e8eefb; }
+  .sa-legend-item i[data-class="1"] { background: #bdcdf9; }
+  .sa-legend-item i[data-class="2"] { background: #86a5f2; }
+  .sa-legend-item i[data-class="3"] { background: #4f79ec; }
+  .sa-legend-item i[data-class="4"] { background: var(--sa-blue-dark); border: 1px solid rgba(255,255,255,.5); }
+  .sa-legend-item b { color: #d7d2ca; font: 500 .48rem var(--sa-mono); }
+
+  .sa-inspector { display: grid; padding: 1.25rem clamp(1rem, 3vw, 2.5rem); grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); gap: 2rem; color: white; border-top: 1px solid rgba(242,234,222,.35); }
+  .sa-inspector > div strong { display: block; margin-top: .5rem; color: white; font: 500 clamp(1.35rem, 2.3vw, 2.3rem)/1 var(--sa-serif); }
+  .sa-inspector dl { display: grid; margin: 0; grid-template-columns: repeat(4, 1fr); }
+  .sa-inspector dl div { padding: .5rem 1rem; border-left: 1px solid rgba(242,234,222,.25); }
+  .sa-inspector dt { color: #aaa6a0; font: 600 .48rem var(--sa-mono); text-transform: uppercase; }
+  .sa-inspector dd { margin: .45rem 0 0; color: white; font: 600 .65rem var(--sa-mono); }
+
+  .sa-ranking { max-width: 1460px; margin: 0 auto; padding: clamp(4rem, 7vw, 7rem) clamp(1.25rem, 4vw, 4rem); }
+  .sa-ranking > header { display: flex; margin-bottom: 2rem; align-items: end; justify-content: space-between; gap: 2rem; }
+  .sa-ranking h3 { max-width: 14ch; margin: .6rem 0 0; color: var(--sa-ink); font: 500 clamp(2rem, 4vw, 4rem)/.95 var(--sa-serif); }
+  .sa-output-actions { min-width: 220px; text-align: right; }
+  .sa-output-actions span { display: block; min-height: 1.3em; margin-top: .5rem; color: var(--sa-muted); font-size: .48rem; }
+  .sa-table-wrap { overflow-x: auto; border: 1px solid var(--sa-ink); }
+  .sa-table-wrap:focus-visible { outline: 3px solid var(--sa-blue); outline-offset: 3px; }
+  .sa-ranking table { width: 100%; min-width: 760px; border-collapse: collapse; color: var(--sa-graphite); font: 500 .68rem var(--sa-mono); }
+  .sa-ranking caption { padding: .8rem; color: var(--sa-muted); background: var(--sa-paper); border-bottom: 1px solid var(--sa-rule); font: 600 .52rem var(--sa-mono); text-align: left; text-transform: uppercase; }
+  .sa-ranking th, .sa-ranking td { padding: .9rem 1rem; border-bottom: 1px solid var(--sa-rule); text-align: left; }
+  .sa-ranking thead th { color: var(--sa-muted); background: var(--sa-paper); font-size: .52rem; text-transform: uppercase; }
+  .sa-ranking tbody tr:last-child > * { border-bottom: 0; }
+  .sa-ranking tbody tr.is-selected { background: rgba(40,82,232,.09); }
+  .sa-ranking tbody th button { padding: 0; color: var(--sa-ink); background: transparent; border: 0; cursor: pointer; font: 600 .68rem var(--sa-mono); text-align: left; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .25em; }
+  .sa-ranking tbody th button:hover { color: var(--sa-blue); text-decoration-color: currentColor; }
+  .sa-ranking tbody th button:focus-visible { outline: 3px solid var(--sa-blue); outline-offset: 3px; }
+
+  .sa-footer { display: grid; min-height: 72px; padding: 1rem clamp(1.25rem, 4vw, 4rem); grid-template-columns: 1fr auto auto; gap: 2rem; align-items: center; color: #aaa6a0; background: var(--sa-ink); }
+  .sa-footer a { color: #a9bcff; text-align: right; }
+  .sa-sr-only { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; border: 0 !important; }
+
+  @media (max-width: 1050px) {
+    .sa-header { grid-template-columns: 1fr; align-items: start; }
+    .sa-workbench { grid-template-columns: 250px minmax(0, 1fr); }
+    .sa-map-grid { min-height: 500px; }
+    .sa-legend { grid-template-columns: repeat(5, 1fr); }
+    .sa-legend-title { grid-column: 1 / -1; }
+    .sa-inspector { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 780px) {
+    .sa-workbench { display: block; border-inline: 0; }
+    .sa-controls { border-right: 0; border-bottom: 1px solid var(--sa-ink); }
+    .sa-map-grid { min-height: 620px; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
+    .sa-studio.is-boundary .sa-boundary-site { top: 25%; left: 33.333%; }
+    .sa-inspector dl { grid-template-columns: repeat(2, 1fr); }
+    .sa-inspector dl div:nth-child(3) { border-top: 1px solid rgba(242,234,222,.25); }
+    .sa-inspector dl div:nth-child(4) { border-top: 1px solid rgba(242,234,222,.25); }
+    .sa-ranking > header { display: block; }
+    .sa-output-actions { margin-top: 1.5rem; text-align: left; }
+    .sa-footer { grid-template-columns: 1fr; gap: .7rem; }
+    .sa-footer a { text-align: left; }
+  }
+
+  @media (max-width: 520px) {
+    .sa-header { padding-inline: 1.1rem; }
+    .sa-map-frame { padding: .75rem; }
+    .sa-map-grid { min-height: 680px; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); }
+    .sa-region { padding: .65rem; }
+    .sa-studio.is-boundary .sa-boundary-site { top: 16.666%; left: 50%; }
+    .sa-legend { grid-template-columns: repeat(2, 1fr); }
+    .sa-legend-title { grid-column: 1 / -1; }
+    .sa-inspector dl { grid-template-columns: 1fr; }
+    .sa-inspector dl div { border-top: 1px solid rgba(242,234,222,.25); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sa-studio *, .sa-studio *::before, .sa-studio *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  }
+
+  @media (forced-colors: active) {
+    .sa-region { color: ButtonText; background: ButtonFace; border: 1px solid ButtonText; forced-color-adjust: auto; }
+    .sa-region.is-selected { outline: 4px solid Highlight; }
+    .sa-boundary-site i { background: Highlight; }
+  }
+
+  @media print {
+    .sa-controls, .sa-output-actions, .sa-footer a { display: none; }
+    .sa-workbench { display: block; }
+    .sa-map-grid { min-height: 420px; }
+    .sa-studio { break-inside: avoid; }
+  }
+</style>

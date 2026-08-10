@@ -1,0 +1,1504 @@
+---
+// Add a verified HTTPS scheduling page here when one exists.
+const BOOKING_URL = "";
+const CONTACT_EMAIL = "ianthelfrich@gmail.com";
+
+const steps = [
+  ["01", "Direction", "Name the problem"],
+  ["02", "Fit", "Define the work"],
+  ["03", "Data gate", "Classify the material"],
+  ["04", "Runway", "Set scope and budget"],
+  ["05", "Windows", "Share availability"],
+  ["06", "Brief", "Review the route"],
+];
+---
+
+<section
+  class="pc-shell"
+  data-project-concierge
+  data-booking-url={BOOKING_URL}
+  data-contact-email={CONTACT_EMAIL}
+  aria-labelledby="pc-title"
+>
+  <header class="pc-console-head">
+    <div>
+      <span class="pc-kicker">PROJECT CONCIERGE / LOCAL INSTRUMENT</span>
+      <h2 id="pc-title">Turn the moving part into a brief.</h2>
+    </div>
+    <div class="pc-console-state" aria-label="System state">
+      <span><i aria-hidden="true"></i> Local only</span>
+      <span>NO UPLOADS</span>
+      <span>V1.0</span>
+    </div>
+  </header>
+
+  <div class="pc-progress-band">
+    <div>
+      <span data-progress-label>Step 1 of 6</span>
+      <strong data-progress-title>Direction</strong>
+    </div>
+    <progress data-progress value="1" max="6">1 of 6</progress>
+    <output data-progress-percent>17%</output>
+  </div>
+
+  <div class="pc-source-note" data-source-note hidden>
+    <span>CONTEXT LINKED</span>
+    <p>This starter opened with a project route already selected: <strong data-source-value></strong>.</p>
+  </div>
+
+  <aside class="pc-draft-banner" data-draft-banner hidden aria-live="polite">
+    <div>
+      <span>SAVED ON THIS DEVICE</span>
+      <strong>A logistics draft is available.</strong>
+      <p data-draft-time></p>
+    </div>
+    <div>
+      <button type="button" data-restore-draft>Restore choices</button>
+      <button type="button" data-discard-draft>Discard</button>
+    </div>
+  </aside>
+
+  <form id="project-starter" class="pc-workspace" action="/start/" method="post" novalidate>
+    <aside class="pc-step-rail" aria-label="Project starter steps">
+      <ol role="tablist" aria-orientation="vertical">
+        {steps.map(([number, label, detail], index) => (
+          <li>
+            <button
+              type="button"
+              role="tab"
+              id={`pc-tab-${index + 1}`}
+              aria-controls={`pc-step-${index + 1}`}
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-current={index === 0 ? "step" : undefined}
+              data-step-target={index}
+              disabled={index > 0}
+            >
+              <span>{number}</span>
+              <span><strong>{label}</strong><small>{detail}</small></span>
+              <i aria-hidden="true">↗</i>
+            </button>
+          </li>
+        ))}
+      </ol>
+
+      <div class="pc-draft-tools">
+        <span>RECOVERY</span>
+        <p>Save service choices and logistics in this browser. Contact details and project narratives stay out of the saved draft.</p>
+        <button type="button" data-save-draft>Save safe draft</button>
+        <button type="button" data-clear-all>Clear this starter</button>
+      </div>
+    </aside>
+
+    <div class="pc-stage">
+      <p class="pc-live sr-only" data-live-status role="status" aria-live="polite"></p>
+
+      <section
+        class="pc-panel"
+        id="pc-step-1"
+        role="tabpanel"
+        aria-labelledby="pc-tab-1"
+        data-step="0"
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>01 / DIRECTION</span>
+          <h3>Where does the answer move?</h3>
+          <p>Choose the closest description. The route can change after Ian reads the brief.</p>
+        </header>
+
+        <fieldset class="pc-choice-grid pc-choice-grid--problems">
+          <legend class="sr-only">Primary problem</legend>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="causal" required />
+            <span class="pc-choice-body"><i>01</i><strong>Evidence and causal design</strong><small>Estimand, identification, panel design, DiD, IV, RDD, event study, inference</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="model" required />
+            <span class="pc-choice-body"><i>02</i><strong>Model or code diagnostic</strong><small>A result changes, a pipeline breaks, a specification drifts, or the units stop making sense</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="geospatial" required />
+            <span class="pc-choice-body"><i>03</i><strong>Geospatial decision system</strong><small>QGIS, spatial data, remote sensing, accessibility, maps, provenance, spatial inference</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="research-product" required />
+            <span class="pc-choice-body"><i>04</i><strong>Research or data product</strong><small>A defensible paper, replication, dataset, public instrument, analytical memo, or research workflow</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="learning" required />
+            <span class="pc-choice-body"><i>05</i><strong>Learning and quantitative fluency</strong><small>Economics, statistics, finance, econometrics, coding, exam strategy, or research mentorship</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="problem" value="team" required />
+            <span class="pc-choice-body"><i>06</i><strong>Team capability</strong><small>Workshop, curriculum, methods office hours, reusable materials, or an institutional learning system</small></span>
+          </label>
+          <label class="pc-choice pc-choice--wide">
+            <input type="radio" name="problem" value="unsure" required />
+            <span class="pc-choice-body"><i>07</i><strong>I can describe the break, and I need help naming the route</strong><small>The brief will preserve uncertainty and recommend a useful first conversation.</small></span>
+          </label>
+        </fieldset>
+
+        <div class="pc-panel-actions pc-panel-actions--end">
+          <button class="pc-action pc-action--primary" type="button" data-next>Define the work <span>→</span></button>
+        </div>
+      </section>
+
+      <section
+        class="pc-panel"
+        id="pc-step-2"
+        role="tabpanel"
+        aria-labelledby="pc-tab-2"
+        data-step="1"
+        hidden
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>02 / FIT</span>
+          <h3>Define the work in its own language.</h3>
+          <p>Keep names, records, private datasets, and confidential details out of these fields.</p>
+        </header>
+
+        <div class="pc-form-grid">
+          <label class="pc-field">
+            <span>Your name <i>required</i></span>
+            <input name="name" autocomplete="name" maxlength="100" required />
+          </label>
+          <label class="pc-field">
+            <span>Email <i>required</i></span>
+            <input name="email" type="email" autocomplete="email" maxlength="160" required />
+          </label>
+          <label class="pc-field">
+            <span>Your role <i>required</i></span>
+            <select name="audience" required>
+              <option value="">Choose one</option>
+              <option value="student">Student or family</option>
+              <option value="graduate">Graduate or doctoral researcher</option>
+              <option value="faculty">Faculty member or administrator</option>
+              <option value="professional">Working professional</option>
+              <option value="organization">Organization or research team</option>
+              <option value="collaborator">Research collaborator</option>
+              <option value="other">Another role</option>
+            </select>
+          </label>
+          <label class="pc-field">
+            <span>Current stage <i>required</i></span>
+            <select name="stage" required>
+              <option value="">Choose one</option>
+              <option value="framing">Question or framing</option>
+              <option value="design">Design or specification</option>
+              <option value="data">Data acquisition or cleaning</option>
+              <option value="implementation">Implementation or estimation</option>
+              <option value="interpretation">Interpretation or communication</option>
+              <option value="stuck">Stuck across several stages</option>
+            </select>
+          </label>
+          <label class="pc-field pc-field--full">
+            <span>What needs to be true when this work is done? <i>required</i></span>
+            <textarea name="outcome" maxlength="900" rows="5" required placeholder="Describe the decision, understanding, result, or deliverable at a high level. Do not paste records, data, draft prose, or identifying details."></textarea>
+            <small><output data-count-for="outcome">0</output> / 900 characters</small>
+          </label>
+          <label class="pc-field pc-field--full">
+            <span>What is the last step you trust? <i>required</i></span>
+            <textarea name="obstacle" maxlength="900" rows="5" required placeholder="Describe what you tried, where the reasoning moves, and what changed. Abstract descriptions are enough for fit."></textarea>
+            <small><output data-count-for="obstacle">0</output> / 900 characters</small>
+          </label>
+          <label class="pc-field pc-field--full">
+            <span>Methods, software, or domain</span>
+            <input name="methods" maxlength="240" placeholder="For example: staggered DiD, QGIS, Stata, R, trade, finance" />
+          </label>
+        </div>
+
+        <label class="pc-check">
+          <input type="checkbox" name="integrity" value="confirmed" required />
+          <span><strong>Authorship and integrity boundary</strong>I am seeking instruction, advisory work, research design, review, or implementation support within appropriate authorship and academic-integrity rules.</span>
+        </label>
+
+        <div class="pc-panel-actions">
+          <button class="pc-action pc-action--ghost" type="button" data-back><span>←</span> Back</button>
+          <button class="pc-action pc-action--primary" type="button" data-next>Classify the material <span>→</span></button>
+        </div>
+      </section>
+
+      <section
+        class="pc-panel"
+        id="pc-step-3"
+        role="tabpanel"
+        aria-labelledby="pc-tab-3"
+        data-step="2"
+        hidden
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>03 / DATA GATE</span>
+          <h3>Classify before you describe.</h3>
+          <p>This starter never asks for a file. Initial scoping should remain abstract.</p>
+        </header>
+
+        <div class="pc-security-callout" role="note">
+          <span>RESTRICTED MATERIAL STOP</span>
+          <strong>Do not enter or send PHI, IRB-controlled material, NDA content, student records, credentials, proprietary datasets, or other regulated information.</strong>
+          <p>If the engagement could involve restricted material, select that classification below. Ian can establish an appropriate transfer and working method after fit is confirmed.</p>
+        </div>
+
+        <fieldset class="pc-choice-grid pc-choice-grid--privacy">
+          <legend>Which classification best fits the future work?</legend>
+          <label class="pc-choice">
+            <input type="radio" name="privacy" value="public" required />
+            <span class="pc-choice-body"><i>A</i><strong>Public or synthetic</strong><small>Published sources, open data, synthetic examples, or material safe for public discussion</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="privacy" value="ordinary-private" required />
+            <span class="pc-choice-body"><i>B</i><strong>Ordinary private work</strong><small>Your own unpublished work with no regulated records, contract restrictions, or third-party confidential data</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="privacy" value="restricted" required />
+            <span class="pc-choice-body"><i>C</i><strong>Possibly restricted</strong><small>PHI, IRB, NDA, education records, employer or client confidentiality, credentials, or regulated information may be involved later</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="privacy" value="unknown" required />
+            <span class="pc-choice-body"><i>D</i><strong>I am unsure</strong><small>Treat the future material as restricted until its handling requirements are clear.</small></span>
+          </label>
+        </fieldset>
+
+        <div class="pc-classification-response" data-classification-response aria-live="polite">
+          <span>GATE STATE</span>
+          <p>Select a classification to see the handling route.</p>
+        </div>
+
+        <label class="pc-check pc-check--security">
+          <input type="checkbox" name="privacy-pledge" value="confirmed" required />
+          <span><strong>Safe initial brief</strong>I will keep regulated, identifying, confidential, credential, and dataset content out of this starter and the prepared email.</span>
+        </label>
+
+        <div class="pc-panel-actions">
+          <button class="pc-action pc-action--ghost" type="button" data-back><span>←</span> Back</button>
+          <button class="pc-action pc-action--primary" type="button" data-next>Set the runway <span>→</span></button>
+        </div>
+      </section>
+
+      <section
+        class="pc-panel"
+        id="pc-step-4"
+        role="tabpanel"
+        aria-labelledby="pc-tab-4"
+        data-step="3"
+        hidden
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>04 / RUNWAY</span>
+          <h3>Put the constraint beside the work.</h3>
+          <p>These answers help distinguish a focused session from a larger diagnostic, intensive, or institutional scope.</p>
+        </header>
+
+        <fieldset class="pc-choice-grid pc-choice-grid--scope">
+          <legend>What shape of engagement are you considering?</legend>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="focused" required />
+            <span class="pc-choice-body"><i>01</i><strong>One focused session</strong><small>A defined concept, model, code issue, map, decision, or exam strategy</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="diagnostic" required />
+            <span class="pc-choice-body"><i>02</i><strong>Diagnostic with advance review</strong><small>A design session and written route for a paper, project, or analytical problem</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="intensive" required />
+            <span class="pc-choice-body"><i>03</i><strong>Multi-week intensive</strong><small>A compressed runway with continuity, practice, or milestone support</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="ongoing" required />
+            <span class="pc-choice-body"><i>04</i><strong>Ongoing partnership</strong><small>Recurring methods, implementation, or research support with defined boundaries</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="institutional" required />
+            <span class="pc-choice-body"><i>05</i><strong>Team or institutional scope</strong><small>Workshop, curriculum, office hours, reusable infrastructure, or a learning system</small></span>
+          </label>
+          <label class="pc-choice">
+            <input type="radio" name="engagement" value="unsure" required />
+            <span class="pc-choice-body"><i>06</i><strong>I need a recommendation</strong><small>Use the problem, stage, runway, and budget to identify a plausible first step.</small></span>
+          </label>
+        </fieldset>
+
+        <div class="pc-form-grid pc-form-grid--runway">
+          <label class="pc-field">
+            <span>Important date</span>
+            <input name="deadline" type="date" />
+          </label>
+          <label class="pc-field">
+            <span>Runway <i>required</i></span>
+            <select name="urgency" required>
+              <option value="">Choose one</option>
+              <option value="48-hours">Within 48 hours</option>
+              <option value="one-week">Within one week</option>
+              <option value="two-four-weeks">Two to four weeks</option>
+              <option value="one-three-months">One to three months</option>
+              <option value="flexible">Flexible or exploratory</option>
+            </select>
+          </label>
+          <label class="pc-field">
+            <span>Budget range <i>required</i></span>
+            <select name="budget" required>
+              <option value="">Choose one</option>
+              <option value="up-to-250">Up to $250</option>
+              <option value="250-500">$250 to $500</option>
+              <option value="500-2000">$500 to $2,000</option>
+              <option value="2000-5000">$2,000 to $5,000</option>
+              <option value="5000-plus">$5,000 or more</option>
+              <option value="scope-first">I need scope before setting a budget</option>
+            </select>
+          </label>
+          <label class="pc-field">
+            <span>Meeting mode <i>required</i></span>
+            <select name="meeting-mode" required>
+              <option value="">Choose one</option>
+              <option value="remote">Remote</option>
+              <option value="st-louis">In-person St. Louis, if appropriate</option>
+              <option value="either">Either format</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="pc-panel-actions">
+          <button class="pc-action pc-action--ghost" type="button" data-back><span>←</span> Back</button>
+          <button class="pc-action pc-action--primary" type="button" data-next>Share preferred windows <span>→</span></button>
+        </div>
+      </section>
+
+      <section
+        class="pc-panel"
+        id="pc-step-5"
+        role="tabpanel"
+        aria-labelledby="pc-tab-5"
+        data-step="4"
+        hidden
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>05 / WINDOWS</span>
+          <h3>Express availability in one timezone.</h3>
+          <p>These are preferences for scoping. A time becomes real only after written confirmation.</p>
+        </header>
+
+        <div class="pc-timezone-block">
+          <label class="pc-field">
+            <span>Your timezone <i>required</i></span>
+            <input name="timezone" list="pc-timezones" autocomplete="off" maxlength="80" required />
+            <small data-timezone-note>Detecting this browser's timezone.</small>
+          </label>
+          <datalist id="pc-timezones">
+            <option value="America/Chicago"></option>
+            <option value="America/New_York"></option>
+            <option value="America/Denver"></option>
+            <option value="America/Los_Angeles"></option>
+            <option value="Europe/London"></option>
+            <option value="Europe/Paris"></option>
+            <option value="Asia/Kolkata"></option>
+            <option value="Asia/Singapore"></option>
+            <option value="Australia/Sydney"></option>
+            <option value="UTC"></option>
+          </datalist>
+          <div class="pc-clock" aria-hidden="true">
+            <span>LOCAL SIGNAL</span>
+            <strong data-local-clock>--:--</strong>
+            <small data-local-date>Detecting</small>
+          </div>
+        </div>
+
+        <fieldset class="pc-windows">
+          <legend>Preferred windows</legend>
+          <p>Give one complete window. Two additional options can shorten the scheduling exchange.</p>
+          {[1, 2, 3].map((number) => (
+            <div class="pc-window" data-window={number}>
+              <span>{String(number).padStart(2, "0")}</span>
+              <label>
+                <small>Date{number === 1 ? " (required)" : ""}</small>
+                <input name={`window-${number}-date`} type="date" required={number === 1} />
+              </label>
+              <label>
+                <small>From{number === 1 ? " (required)" : ""}</small>
+                <input name={`window-${number}-start`} type="time" required={number === 1} />
+              </label>
+              <label>
+                <small>To{number === 1 ? " (required)" : ""}</small>
+                <input name={`window-${number}-end`} type="time" required={number === 1} />
+              </label>
+            </div>
+          ))}
+        </fieldset>
+
+        <div class="pc-availability-note">
+          <span>REQUEST STATE</span>
+          <p>No calendar is connected to this page. These windows enter the brief and do not reserve an appointment.</p>
+        </div>
+
+        <div class="pc-panel-actions">
+          <button class="pc-action pc-action--ghost" type="button" data-back><span>←</span> Back</button>
+          <button class="pc-action pc-action--primary" type="button" data-next>Build the brief <span>→</span></button>
+        </div>
+      </section>
+
+      <section
+        class="pc-panel pc-panel--brief"
+        id="pc-step-6"
+        role="tabpanel"
+        aria-labelledby="pc-tab-6"
+        data-step="5"
+        hidden
+      >
+        <header class="pc-panel-head" tabindex="-1">
+          <span>06 / PROVISIONAL ROUTE</span>
+          <h3>Your brief has a shape.</h3>
+          <p>This recommendation is a starting point. Fit, scope, price, and timing remain unconfirmed until Ian replies.</p>
+        </header>
+
+        <article class="pc-recommendation" aria-live="polite">
+          <div class="pc-recommendation-code">
+            <span>ROUTE</span>
+            <strong data-route-code>R-00</strong>
+          </div>
+          <div>
+            <span>PROVISIONAL RECOMMENDATION</span>
+            <h4 data-route-title>Building recommendation</h4>
+            <p data-route-reason></p>
+          </div>
+          <div class="pc-rate">
+            <span>PUBLIC STARTING POINT</span>
+            <strong data-route-rate>Scope first</strong>
+          </div>
+        </article>
+
+        <div class="pc-scope-board">
+          <div>
+            <span>LIKELY FIRST SCOPE</span>
+            <ul data-route-scope></ul>
+          </div>
+          <div>
+            <span>FIT FLAGS</span>
+            <ul data-fit-flags></ul>
+          </div>
+        </div>
+
+        <section class="pc-brief-card" aria-labelledby="pc-brief-heading">
+          <header>
+            <div><span>CLIENT BRIEF</span><h4 id="pc-brief-heading" data-brief-title>Project inquiry</h4></div>
+            <button type="button" data-jump-step="1">Edit context</button>
+          </header>
+          <dl data-brief-summary></dl>
+        </section>
+
+        <div class="pc-handoff">
+          <header>
+            <span>HANDOFF</span>
+            <h4>Move the brief from this browser.</h4>
+            <p>This page has no submission endpoint. Choose an explicit handoff and review the content before sending it.</p>
+          </header>
+          <div class="pc-handoff-actions">
+            <button class="pc-action pc-action--primary" type="button" data-email-brief>Open email draft <span>↗</span></button>
+            <button class="pc-action pc-action--dark" type="button" data-copy-brief>Copy full brief</button>
+            <button class="pc-action pc-action--ghost" type="button" data-download-brief>Download .txt</button>
+          </div>
+          <p class="pc-handoff-status" data-handoff-status role="status" aria-live="polite">Email opens in your configured mail application. You review the draft and press Send.</p>
+        </div>
+
+        <div class="pc-booking-gate">
+          <div>
+            <span>SCHEDULING GATE</span>
+            <strong data-booking-state>Provider link pending</strong>
+            <p data-booking-note>Scheduling remains a manual next step. Ian will share a verified calendar link after fit and scope are confirmed.</p>
+          </div>
+          <a class="pc-action pc-action--booking" data-booking-link href="#" hidden>Open verified scheduler <span>↗</span></a>
+        </div>
+
+        <div class="pc-final-truth" role="note">
+          <strong>No inquiry, payment, file, or appointment was created by this page.</strong>
+          <span>A project begins after you send the brief and receive written confirmation.</span>
+        </div>
+
+        <div class="pc-panel-actions">
+          <button class="pc-action pc-action--ghost" type="button" data-back><span>←</span> Edit windows</button>
+          <button class="pc-action pc-action--ghost" type="button" data-jump-step="0">Review from the start</button>
+        </div>
+      </section>
+    </div>
+  </form>
+</section>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-project-concierge]');
+    if (!(root instanceof HTMLElement) || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const form = root.querySelector('#project-starter');
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const panels = Array.from(root.querySelectorAll('[data-step]'));
+    const tabs = Array.from(root.querySelectorAll('[data-step-target]'));
+    const progress = root.querySelector('[data-progress]');
+    const progressLabel = root.querySelector('[data-progress-label]');
+    const progressTitle = root.querySelector('[data-progress-title]');
+    const progressPercent = root.querySelector('[data-progress-percent]');
+    const liveStatus = root.querySelector('[data-live-status]');
+    const draftBanner = root.querySelector('[data-draft-banner]');
+    const draftTime = root.querySelector('[data-draft-time]');
+    const handoffStatus = root.querySelector('[data-handoff-status]');
+    const draftKey = 'ian-helfrich-project-starter-v1';
+    const stepNames = ['Direction', 'Fit', 'Data gate', 'Runway', 'Windows', 'Brief'];
+    const safeDraftFields = [
+      'problem', 'audience', 'stage', 'privacy', 'engagement', 'deadline', 'urgency',
+      'budget', 'meeting-mode', 'timezone', 'window-1-date', 'window-1-start',
+      'window-1-end', 'window-2-date', 'window-2-start', 'window-2-end',
+      'window-3-date', 'window-3-start', 'window-3-end'
+    ];
+    let currentStep = 0;
+    let furthestStep = 0;
+    let draftArmed = false;
+    let sourceContext = '';
+
+    const problemCatalog = {
+      causal: {
+        label: 'Evidence and causal design',
+        reason: 'The central risk is identification, inference, or the claim supported by the design.',
+        scope: ['Locate the estimand and identifying variation', 'Pressure-test assumptions and diagnostics', 'Define the next defensible implementation step']
+      },
+      model: {
+        label: 'Model or code diagnostic',
+        reason: 'The useful first move is to isolate the exact transformation, specification, or implementation step where the result changes.',
+        scope: ['Reproduce the trusted state', 'Trace the first consequential divergence', 'Leave a testable correction path']
+      },
+      geospatial: {
+        label: 'Geospatial decision system',
+        reason: 'The problem joins spatial data, analytical choices, provenance, and communication.',
+        scope: ['Define the spatial unit and decision', 'Audit CRS, joins, measures, and provenance', 'Specify the map, model, or reproducible output']
+      },
+      'research-product': {
+        label: 'Research or data product',
+        reason: 'The work needs a visible chain from question through evidence to a durable public or private output.',
+        scope: ['Define the object and audience', 'Map evidence, code, and provenance', 'Set a release-quality definition of done']
+      },
+      learning: {
+        label: 'Learning and quantitative fluency',
+        reason: 'The engagement should connect intuition, formal reasoning, implementation, and the answer you can defend.',
+        scope: ['Diagnose the current mental model', 'Work the highest-leverage examples', 'Build a reusable next-practice loop']
+      },
+      team: {
+        label: 'Team capability',
+        reason: 'The value comes from a shared method, durable materials, and a system the team can use after the session.',
+        scope: ['Identify capability gaps and real use cases', 'Design the live learning intervention', 'Specify reusable materials and follow-through']
+      },
+      unsure: {
+        label: 'Route discovery',
+        reason: 'The first task is to name the decision, the failure point, and the smallest useful engagement.',
+        scope: ['Clarify the object and constraint', 'Separate fit questions from scope questions', 'Recommend a bounded first step']
+      }
+    };
+
+    const services = {
+      focused: {
+        code: 'R-01',
+        title: 'Focused private session',
+        rate: '$225 / 60 min',
+        scope: ['Brief intake before the session', 'Prepared live instruction or diagnostic work', 'Notes when they improve the handoff']
+      },
+      diagnostic: {
+        code: 'R-02',
+        title: 'Research-methods diagnostic',
+        rate: '$325 / 75 min',
+        scope: ['Advance review of a safe, agreed packet', 'Design or diagnostic session', 'Written roadmap with boundaries and next steps']
+      },
+      intensive: {
+        code: 'R-03',
+        title: 'Four-week intensive',
+        rate: 'From $1,800',
+        scope: ['Six-session working runway', 'Custom practice or milestone structure', 'Continuity between meetings within agreed terms']
+      },
+      ongoing: {
+        code: 'R-04',
+        title: 'Ongoing methods partnership',
+        rate: 'Scoped in writing',
+        scope: ['Recurring decision cadence', 'Defined advisory and implementation boundaries', 'Periodic review of progress and next decisions']
+      },
+      institutional: {
+        code: 'R-05',
+        title: 'Team learning system',
+        rate: 'From $5,000 / half day',
+        scope: ['Needs analysis with stakeholders', 'Live workshop or cohort intervention', 'Reusable materials and analytical infrastructure']
+      }
+    };
+
+    const labels = {
+      audience: {
+        student: 'Student or family', graduate: 'Graduate or doctoral researcher',
+        faculty: 'Faculty member or administrator', professional: 'Working professional',
+        organization: 'Organization or research team', collaborator: 'Research collaborator', other: 'Another role'
+      },
+      stage: {
+        framing: 'Question or framing', design: 'Design or specification', data: 'Data acquisition or cleaning',
+        implementation: 'Implementation or estimation', interpretation: 'Interpretation or communication', stuck: 'Stuck across several stages'
+      },
+      privacy: {
+        public: 'Public or synthetic', 'ordinary-private': 'Ordinary private work',
+        restricted: 'Possibly restricted', unknown: 'Unknown, treat as restricted'
+      },
+      urgency: {
+        '48-hours': 'Within 48 hours', 'one-week': 'Within one week',
+        'two-four-weeks': 'Two to four weeks', 'one-three-months': 'One to three months', flexible: 'Flexible or exploratory'
+      },
+      budget: {
+        'up-to-250': 'Up to $250', '250-500': '$250 to $500', '500-2000': '$500 to $2,000',
+        '2000-5000': '$2,000 to $5,000', '5000-plus': '$5,000 or more', 'scope-first': 'Scope needed first'
+      },
+      'meeting-mode': { remote: 'Remote', 'st-louis': 'In-person St. Louis, if appropriate', either: 'Either format' }
+    };
+
+    const getValue = (name) => String(new FormData(form).get(name) || '').trim();
+    const setLive = (message) => {
+      if (liveStatus) liveStatus.textContent = message;
+    };
+    const setHandoff = (message, tone = '') => {
+      if (!(handoffStatus instanceof HTMLElement)) return;
+      handoffStatus.textContent = message;
+      handoffStatus.dataset.tone = tone;
+    };
+    const cleanLine = (value, limit = 180) => String(value || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, limit);
+
+    const validatePanel = (index) => {
+      const panel = panels[index];
+      if (!(panel instanceof HTMLElement)) return false;
+
+      if (index === 4 && !validateWindows()) return false;
+
+      const controls = Array.from(panel.querySelectorAll('input, select, textarea'));
+      for (const control of controls) {
+        if (!(control instanceof HTMLInputElement || control instanceof HTMLSelectElement || control instanceof HTMLTextAreaElement)) continue;
+        if (!control.checkValidity()) {
+          control.reportValidity();
+          control.focus({ preventScroll: true });
+          control.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setLive('Complete the highlighted field before continuing.');
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const validateWindows = () => {
+      const rows = Array.from(root.querySelectorAll('[data-window]'));
+      for (const row of rows) {
+        const inputs = Array.from(row.querySelectorAll('input'));
+        inputs.forEach((input) => input.setCustomValidity(''));
+        const values = inputs.map((input) => input.value.trim());
+        const hasAny = values.some(Boolean);
+        const isFirst = row.getAttribute('data-window') === '1';
+        if ((hasAny || isFirst) && values.some((value) => !value)) {
+          const missing = inputs.find((input) => !input.value.trim());
+          missing?.setCustomValidity('Complete the date, start, and end for this window.');
+          missing?.reportValidity();
+          missing?.focus();
+          setLive('Each availability window needs a date, start time, and end time.');
+          return false;
+        }
+        if (values.every(Boolean) && values[2] <= values[1]) {
+          inputs[2].setCustomValidity('Choose an end time after the start time.');
+          inputs[2].reportValidity();
+          inputs[2].focus();
+          setLive('Choose an end time after the start time.');
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const showStep = (index, shouldFocus = true) => {
+      const bounded = Math.max(0, Math.min(panels.length - 1, index));
+      currentStep = bounded;
+      panels.forEach((panel, panelIndex) => {
+        panel.hidden = panelIndex !== bounded;
+      });
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === bounded;
+        tab.disabled = tabIndex > furthestStep;
+        tab.setAttribute('aria-selected', String(active));
+        if (active) tab.setAttribute('aria-current', 'step');
+        else tab.removeAttribute('aria-current');
+        tab.classList.toggle('is-complete', tabIndex < furthestStep);
+      });
+      if (progress instanceof HTMLProgressElement) progress.value = bounded + 1;
+      if (progressLabel) progressLabel.textContent = `Step ${bounded + 1} of ${panels.length}`;
+      if (progressTitle) progressTitle.textContent = stepNames[bounded];
+      if (progressPercent) progressPercent.textContent = `${Math.round(((bounded + 1) / panels.length) * 100)}%`;
+      if (bounded === panels.length - 1) renderBrief();
+      setLive(`${stepNames[bounded]}, step ${bounded + 1} of ${panels.length}.`);
+      if (shouldFocus) {
+        const heading = panels[bounded].querySelector('.pc-panel-head');
+        heading?.focus({ preventScroll: true });
+        root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    const pickService = () => {
+      const problem = getValue('problem');
+      const engagement = getValue('engagement');
+      if (engagement === 'institutional' || problem === 'team') return services.institutional;
+      if (engagement === 'intensive') return services.intensive;
+      if (engagement === 'ongoing') return services.ongoing;
+      if (engagement === 'diagnostic' || ['causal', 'research-product'].includes(problem)) return services.diagnostic;
+      return services.focused;
+    };
+
+    const windowLines = () => {
+      const timezone = getValue('timezone') || 'Timezone missing';
+      const found = [];
+      for (let number = 1; number <= 3; number += 1) {
+        const date = getValue(`window-${number}-date`);
+        const start = getValue(`window-${number}-start`);
+        const end = getValue(`window-${number}-end`);
+        if (date && start && end) found.push(`${date}, ${start} to ${end} (${timezone})`);
+      }
+      return found;
+    };
+
+    const fitFlags = (service) => {
+      const flags = [];
+      const privacy = getValue('privacy');
+      const urgency = getValue('urgency');
+      const budget = getValue('budget');
+      if (privacy === 'restricted' || privacy === 'unknown') flags.push('Secure handling must be established before any source material is shared.');
+      else flags.push('Initial classification permits abstract scoping by ordinary email.');
+      if (urgency === '48-hours') flags.push('The 48-hour runway may limit availability and preparation depth.');
+      else flags.push(`Runway stated as ${labels.urgency[urgency] || 'unspecified'}.`);
+      if (budget === 'up-to-250' && service !== services.focused) flags.push('The selected budget may require a narrower first step.');
+      else flags.push(`Budget signal: ${labels.budget[budget] || 'unspecified'}.`);
+      return flags;
+    };
+
+    const addList = (target, items) => {
+      if (!(target instanceof HTMLElement)) return;
+      target.replaceChildren(...items.map((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        return li;
+      }));
+    };
+
+    const addSummary = (target, rows) => {
+      if (!(target instanceof HTMLElement)) return;
+      const nodes = [];
+      for (const [term, detail] of rows) {
+        const dt = document.createElement('dt');
+        const dd = document.createElement('dd');
+        dt.textContent = term;
+        dd.textContent = detail || 'Not specified';
+        nodes.push(dt, dd);
+      }
+      target.replaceChildren(...nodes);
+    };
+
+    const renderBrief = () => {
+      const problem = problemCatalog[getValue('problem')] || problemCatalog.unsure;
+      const service = pickService();
+      const windows = windowLines();
+      const privacy = getValue('privacy');
+      const routeTitle = root.querySelector('[data-route-title]');
+      const routeCode = root.querySelector('[data-route-code]');
+      const routeRate = root.querySelector('[data-route-rate]');
+      const routeReason = root.querySelector('[data-route-reason]');
+      const briefTitle = root.querySelector('[data-brief-title]');
+      if (routeTitle) routeTitle.textContent = service.title;
+      if (routeCode) routeCode.textContent = service.code;
+      if (routeRate) routeRate.textContent = service.rate;
+      if (routeReason) routeReason.textContent = `${problem.reason} The selected engagement shape points to ${service.title.toLowerCase()} as the provisional route.`;
+      if (briefTitle) briefTitle.textContent = `${cleanLine(getValue('name'), 70) || 'Prospective client'} / ${problem.label}`;
+      addList(root.querySelector('[data-route-scope]'), [...service.scope, ...problem.scope.slice(0, 1)]);
+      addList(root.querySelector('[data-fit-flags]'), fitFlags(service));
+      addSummary(root.querySelector('[data-brief-summary]'), [
+        ['Problem field', problem.label],
+        ['Audience and stage', `${labels.audience[getValue('audience')] || 'Unspecified'} / ${labels.stage[getValue('stage')] || 'Unspecified'}`],
+        ['Desired outcome', getValue('outcome')],
+        ['Last trusted step', getValue('obstacle')],
+        ['Methods and software', getValue('methods') || 'Not specified'],
+        ['Material class', labels.privacy[privacy] || 'Unspecified'],
+        ['Runway and date', `${labels.urgency[getValue('urgency')] || 'Unspecified'} / ${getValue('deadline') || 'No date supplied'}`],
+        ['Budget and mode', `${labels.budget[getValue('budget')] || 'Unspecified'} / ${labels['meeting-mode'][getValue('meeting-mode')] || 'Unspecified'}`],
+        ['Preferred windows', windows.length ? windows.join(' | ') : 'No complete windows'],
+        ['Linked context', sourceContext || 'Direct starter']
+      ]);
+      configureBooking();
+    };
+
+    const buildBriefText = () => {
+      const problem = problemCatalog[getValue('problem')] || problemCatalog.unsure;
+      const service = pickService();
+      const windows = windowLines();
+      const privacy = getValue('privacy');
+      const lines = [
+        'IAN HELFRICH PROJECT STARTER',
+        '',
+        'CONTACT',
+        `Name: ${cleanLine(getValue('name'), 100)}`,
+        `Email: ${cleanLine(getValue('email'), 160)}`,
+        `Role: ${labels.audience[getValue('audience')] || 'Unspecified'}`,
+        '',
+        'PROJECT',
+        `Problem field: ${problem.label}`,
+        `Current stage: ${labels.stage[getValue('stage')] || 'Unspecified'}`,
+        `Desired outcome: ${getValue('outcome')}`,
+        `Last trusted step: ${getValue('obstacle')}`,
+        `Methods/software: ${getValue('methods') || 'Not specified'}`,
+        '',
+        'HANDLING',
+        `Material classification: ${labels.privacy[privacy] || 'Unspecified'}`,
+        'Restricted, identifying, confidential, credential, and dataset content excluded: Confirmed',
+        '',
+        'SCOPE AND RUNWAY',
+        `Provisional route: ${service.title}`,
+        `Public starting point: ${service.rate}`,
+        `Runway: ${labels.urgency[getValue('urgency')] || 'Unspecified'}`,
+        `Important date: ${getValue('deadline') || 'Not specified'}`,
+        `Budget: ${labels.budget[getValue('budget')] || 'Unspecified'}`,
+        `Meeting mode: ${labels['meeting-mode'][getValue('meeting-mode')] || 'Unspecified'}`,
+        '',
+        'PREFERRED WINDOWS',
+        ...(windows.length ? windows.map((window, index) => `${index + 1}. ${window}`) : ['None supplied']),
+        '',
+        `Linked context: ${sourceContext || 'Direct starter'}`,
+        '',
+        'STATUS',
+        'This brief is an inquiry. Fit, scope, price, timing, payment, and appointment status await written confirmation.'
+      ];
+      return lines.join('\n');
+    };
+
+    const configureBooking = () => {
+      const link = root.querySelector('[data-booking-link]');
+      const state = root.querySelector('[data-booking-state]');
+      const note = root.querySelector('[data-booking-note]');
+      const raw = String(root.dataset.bookingUrl || '').trim();
+      let verified = '';
+      try {
+        const candidate = new URL(raw);
+        if (candidate.protocol === 'https:') verified = candidate.toString();
+      } catch {}
+      if (link instanceof HTMLAnchorElement && verified) {
+        link.href = verified;
+        link.hidden = false;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        if (state) state.textContent = 'Verified scheduling page available';
+        if (note) note.textContent = 'The provider handles live availability and confirmation. A slot exists only after the provider confirms it.';
+      } else {
+        if (link instanceof HTMLAnchorElement) link.hidden = true;
+        if (state) state.textContent = 'Provider link pending';
+        if (note) note.textContent = 'Scheduling remains a manual next step. Ian will share a verified calendar link after fit and scope are confirmed.';
+      }
+    };
+
+    const copyText = async (text) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        const copied = document.execCommand('copy');
+        area.remove();
+        return copied;
+      }
+    };
+
+    const draftObject = () => {
+      const data = {};
+      for (const name of safeDraftFields) {
+        const value = getValue(name);
+        if (value) data[name] = value;
+      }
+      return { version: 1, savedAt: new Date().toISOString(), data };
+    };
+
+    const saveDraft = (announce = true) => {
+      try {
+        localStorage.setItem(draftKey, JSON.stringify(draftObject()));
+        draftArmed = true;
+        if (announce) setLive('Safe logistics draft saved in this browser. Contact details and narratives were excluded.');
+      } catch {
+        if (announce) setLive('This browser blocked local draft storage.');
+      }
+    };
+
+    const readDraft = () => {
+      try {
+        const raw = localStorage.getItem(draftKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed?.version !== 1 || !parsed.data || typeof parsed.data !== 'object') return null;
+        return parsed;
+      } catch {
+        return null;
+      }
+    };
+
+    const applyField = (name, value) => {
+      const controls = Array.from(form.elements).filter((control) => control instanceof HTMLElement && control.getAttribute('name') === name);
+      for (const control of controls) {
+        if (control instanceof HTMLInputElement && (control.type === 'radio' || control.type === 'checkbox')) control.checked = control.value === value;
+        else if (control instanceof HTMLInputElement || control instanceof HTMLSelectElement || control instanceof HTMLTextAreaElement) control.value = value;
+      }
+    };
+
+    const restoreDraft = () => {
+      const draft = readDraft();
+      if (!draft) return;
+      for (const [name, value] of Object.entries(draft.data)) {
+        if (safeDraftFields.includes(name) && typeof value === 'string') applyField(name, value);
+      }
+      draftArmed = true;
+      if (draftBanner instanceof HTMLElement) draftBanner.hidden = true;
+      updateClassification();
+      updateCounts();
+      setLive('Saved logistics choices restored. Contact details and narratives still need to be entered.');
+    };
+
+    const discardDraft = () => {
+      try { localStorage.removeItem(draftKey); } catch {}
+      draftArmed = false;
+      if (draftBanner instanceof HTMLElement) draftBanner.hidden = true;
+      setLive('Saved logistics draft discarded.');
+    };
+
+    const showDraftOffer = () => {
+      const draft = readDraft();
+      if (!draft || !(draftBanner instanceof HTMLElement)) return;
+      draftBanner.hidden = false;
+      if (draftTime) {
+        const date = new Date(draft.savedAt);
+        draftTime.textContent = Number.isNaN(date.getTime()) ? 'Saved previously.' : `Saved ${date.toLocaleString()}.`;
+      }
+    };
+
+    const updateClassification = () => {
+      const response = root.querySelector('[data-classification-response] p');
+      const value = getValue('privacy');
+      if (!response) return;
+      if (value === 'public') response.textContent = 'Public or synthetic material can be discussed during ordinary scoping. Share only the minimum needed after fit is confirmed.';
+      else if (value === 'ordinary-private') response.textContent = 'Keep this brief abstract. A later working method can be agreed before unpublished material is shared.';
+      else if (value === 'restricted' || value === 'unknown') response.textContent = 'Restricted route active. Keep source material out of email and this starter. Confirm handling requirements before transfer.';
+      else response.textContent = 'Select a classification to see the handling route.';
+      root.dataset.privacyState = value || 'unset';
+    };
+
+    const updateCounts = () => {
+      root.querySelectorAll('[data-count-for]').forEach((output) => {
+        const name = output.getAttribute('data-count-for');
+        const field = name ? form.elements.namedItem(name) : null;
+        if (field instanceof HTMLTextAreaElement) output.textContent = String(field.value.length);
+      });
+    };
+
+    const detectTimezone = () => {
+      const input = form.elements.namedItem('timezone');
+      const note = root.querySelector('[data-timezone-note]');
+      let zone = '';
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch {}
+      if (input instanceof HTMLInputElement && !input.value && zone) input.value = zone;
+      if (note) note.textContent = zone ? `Detected ${zone}. Edit it if your preferred windows use another timezone.` : 'Timezone detection was unavailable. Enter an IANA timezone such as America/Chicago.';
+      updateClock();
+    };
+
+    const updateClock = () => {
+      const zone = getValue('timezone');
+      const clock = root.querySelector('[data-local-clock]');
+      const date = root.querySelector('[data-local-date]');
+      try {
+        const now = new Date();
+        if (clock) clock.textContent = new Intl.DateTimeFormat([], { timeZone: zone || undefined, hour: '2-digit', minute: '2-digit' }).format(now);
+        if (date) date.textContent = new Intl.DateTimeFormat([], { timeZone: zone || undefined, weekday: 'short', month: 'short', day: 'numeric' }).format(now);
+      } catch {
+        if (clock) clock.textContent = '--:--';
+        if (date) date.textContent = 'Check timezone';
+      }
+    };
+
+    const applyQuery = () => {
+      const params = new URLSearchParams(window.location.search);
+      const allowed = {
+        problem: new Set(Object.keys(problemCatalog)),
+        engagement: new Set(['focused', 'diagnostic', 'intensive', 'ongoing', 'institutional', 'unsure']),
+        urgency: new Set(Object.keys(labels.urgency)),
+        audience: new Set(Object.keys(labels.audience))
+      };
+      const problemAliases = {
+        estimate: 'causal',
+        interface: 'research-product',
+        spatial: 'geospatial',
+        research: 'causal',
+        training: 'team'
+      };
+      const laneAliases = {
+        'research-audit': 'causal',
+        'evidence-products': 'research-product',
+        'geospatial-network': 'geospatial',
+        'training-mentorship': 'team'
+      };
+      let applied = false;
+      const requestedProblem = params.get('problem');
+      const requestedLane = params.get('lane');
+      const normalizedProblem = requestedProblem
+        ? (problemAliases[requestedProblem] || requestedProblem)
+        : (requestedLane ? laneAliases[requestedLane] : '');
+      if (normalizedProblem && allowed.problem.has(normalizedProblem)) {
+        applyField('problem', normalizedProblem);
+        applied = true;
+      }
+      for (const [name, choices] of Object.entries(allowed)) {
+        if (name === 'problem') continue;
+        const value = params.get(name);
+        if (value && choices.has(value)) {
+          applyField(name, value);
+          applied = true;
+        }
+      }
+      const rawSource = params.get('source') || params.get('from') || params.get('project') || '';
+      if (/^[a-z0-9][a-z0-9_-]{0,63}$/i.test(rawSource)) {
+        sourceContext = rawSource;
+        const sourceNote = root.querySelector('[data-source-note]');
+        const sourceValue = root.querySelector('[data-source-value]');
+        if (sourceNote instanceof HTMLElement) sourceNote.hidden = false;
+        if (sourceValue) sourceValue.textContent = rawSource.replace(/[-_]+/g, ' ');
+        applied = true;
+      }
+      if (applied) setLive('Recognized choices from the incoming project link were applied. Review them before continuing.');
+    };
+
+    root.querySelectorAll('[data-next]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!validatePanel(currentStep)) return;
+        furthestStep = Math.max(furthestStep, currentStep + 1);
+        showStep(currentStep + 1);
+      });
+    });
+
+    root.querySelectorAll('[data-back]').forEach((button) => {
+      button.addEventListener('click', () => showStep(currentStep - 1));
+    });
+
+    root.querySelectorAll('[data-jump-step]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const index = Number(button.getAttribute('data-jump-step'));
+        if (Number.isInteger(index) && index >= 0 && index <= furthestStep) showStep(index);
+      });
+    });
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        if (index <= furthestStep) showStep(index);
+      });
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const enabled = tabs.filter((candidate) => !candidate.disabled);
+        const here = enabled.indexOf(tab);
+        let target = here;
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') target = Math.min(enabled.length - 1, here + 1);
+        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') target = Math.max(0, here - 1);
+        if (event.key === 'Home') target = 0;
+        if (event.key === 'End') target = enabled.length - 1;
+        enabled[target]?.focus();
+      });
+    });
+
+    root.querySelector('[data-email-brief]')?.addEventListener('click', () => {
+      const service = pickService();
+      const subject = `Project inquiry: ${cleanLine(service.title, 80)} | ${cleanLine(getValue('name'), 70) || 'prospective client'}`;
+      const body = buildBriefText();
+      setHandoff('Opening your email application. Review the draft and press Send.', 'working');
+      window.location.href = `mailto:${root.dataset.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    root.querySelector('[data-copy-brief]')?.addEventListener('click', async () => {
+      const copied = await copyText(buildBriefText());
+      setHandoff(copied ? `Brief copied. Paste it into an email to ${root.dataset.contactEmail}.` : 'Copy was blocked. Download the text brief or open the email draft.', copied ? 'success' : 'error');
+    });
+
+    root.querySelector('[data-download-brief]')?.addEventListener('click', () => {
+      const blob = new Blob([buildBriefText()], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `ian-helfrich-project-brief-${new Date().toISOString().slice(0, 10)}.txt`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      setHandoff('Text brief downloaded to this device. Review it before attaching or sending.', 'success');
+    });
+
+    root.querySelector('[data-save-draft]')?.addEventListener('click', () => saveDraft(true));
+    root.querySelector('[data-restore-draft]')?.addEventListener('click', restoreDraft);
+    root.querySelector('[data-discard-draft]')?.addEventListener('click', discardDraft);
+    root.querySelector('[data-clear-all]')?.addEventListener('click', () => {
+      const approved = window.confirm('Clear every field in this starter and remove its saved logistics draft from this browser?');
+      if (!approved) return;
+      form.reset();
+      discardDraft();
+      sourceContext = '';
+      furthestStep = 0;
+      detectTimezone();
+      updateClassification();
+      updateCounts();
+      showStep(0);
+      setLive('Project starter cleared.');
+    });
+
+    form.addEventListener('submit', (event) => event.preventDefault());
+    form.addEventListener('input', () => {
+      updateCounts();
+      updateClassification();
+      if (draftArmed) saveDraft(false);
+      if (currentStep === panels.length - 1) renderBrief();
+    });
+    form.elements.namedItem('timezone')?.addEventListener('change', updateClock);
+
+    const today = new Date().toISOString().slice(0, 10);
+    root.querySelectorAll('input[type="date"]').forEach((input) => input.setAttribute('min', today));
+    applyQuery();
+    detectTimezone();
+    updateClassification();
+    updateCounts();
+    showDraftOffer();
+    configureBooking();
+    showStep(0, false);
+    window.setInterval(updateClock, 30000);
+  })();
+</script>
+
+<style>
+  .pc-shell {
+    --pc-ink: #10121f;
+    --pc-blue: #2d55ed;
+    --pc-blue-bright: #6f8cff;
+    --pc-bone: #f4ede2;
+    --pc-paper: #fffaf2;
+    --pc-rule: #beb4a8;
+    --pc-muted: #67646c;
+    --pc-red: #b5422f;
+    --pc-green: #166f5a;
+    position: relative;
+    width: min(1500px, calc(100% - clamp(1rem, 4vw, 5rem)));
+    margin: 0 auto clamp(4rem, 9vw, 9rem);
+    color: var(--pc-ink);
+    background: var(--pc-bone);
+    border: 1px solid var(--pc-ink);
+    box-shadow: 18px 18px 0 rgba(16, 18, 31, .09);
+    isolation: isolate;
+  }
+
+  .pc-shell::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    content: "";
+    background-image: linear-gradient(rgba(16, 18, 31, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 18, 31, .035) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: linear-gradient(to bottom, black, transparent 60%);
+  }
+
+  .pc-console-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+    padding: clamp(1.25rem, 3vw, 2.6rem);
+    color: var(--pc-bone);
+    background: var(--pc-ink);
+    border-bottom: 1px solid var(--pc-ink);
+  }
+
+  .pc-kicker,
+  .pc-panel-head > span,
+  .pc-console-state,
+  .pc-progress-band,
+  .pc-step-rail,
+  .pc-draft-tools > span,
+  .pc-security-callout > span,
+  .pc-classification-response > span,
+  .pc-availability-note > span,
+  .pc-recommendation span,
+  .pc-scope-board > div > span,
+  .pc-brief-card header span,
+  .pc-handoff header > span,
+  .pc-booking-gate span,
+  .pc-source-note > span,
+  .pc-draft-banner > div > span {
+    font-family: var(--ih-mono, monospace);
+    font-size: .61rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .pc-console-head h2 {
+    max-width: 850px;
+    margin: .55rem 0 0;
+    color: var(--pc-bone);
+    font-family: var(--ih-display, serif);
+    font-size: clamp(2.15rem, 5vw, 5.2rem);
+    font-weight: 500;
+    line-height: .94;
+    letter-spacing: -.05em;
+  }
+
+  .pc-console-state { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1rem; color: #b8b4ba; }
+  .pc-console-state span:first-child { color: #bdffeb; }
+  .pc-console-state i { display: inline-block; width: 7px; height: 7px; margin-right: .35rem; background: #48e6b8; border-radius: 50%; box-shadow: 0 0 0 5px rgba(72, 230, 184, .13); }
+
+  .pc-progress-band {
+    display: grid;
+    grid-template-columns: minmax(160px, .35fr) 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    min-height: 68px;
+    padding: .85rem clamp(1.25rem, 3vw, 2.6rem);
+    border-bottom: 1px solid var(--pc-ink);
+    background: var(--pc-paper);
+  }
+
+  .pc-progress-band > div { display: flex; gap: .7rem; align-items: baseline; }
+  .pc-progress-band span { color: var(--pc-muted); }
+  .pc-progress-band strong { font-size: .75rem; color: var(--pc-ink); text-transform: uppercase; }
+  .pc-progress-band output { font-size: .72rem; }
+  .pc-progress-band progress { width: 100%; height: 5px; border: 0; appearance: none; }
+  .pc-progress-band progress::-webkit-progress-bar { background: #d6cec3; }
+  .pc-progress-band progress::-webkit-progress-value { background: var(--pc-blue); transition: width .35s ease; }
+  .pc-progress-band progress::-moz-progress-bar { background: var(--pc-blue); }
+
+  .pc-source-note,
+  .pc-draft-banner {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: center;
+    padding: 1rem clamp(1.25rem, 3vw, 2.6rem);
+    border-bottom: 1px solid var(--pc-ink);
+  }
+
+  .pc-source-note[hidden], .pc-draft-banner[hidden] { display: none; }
+  .pc-source-note { color: #eef2ff; background: var(--pc-blue); }
+  .pc-source-note p { margin: 0; font-size: .86rem; }
+  .pc-source-note strong { color: white; }
+  .pc-draft-banner { color: var(--pc-ink); background: #f4d97f; }
+  .pc-draft-banner p { margin: .2rem 0 0; font-size: .75rem; }
+  .pc-draft-banner > div:last-child { display: flex; gap: .5rem; }
+  .pc-draft-banner button, .pc-draft-tools button, .pc-brief-card header button {
+    padding: .55rem .75rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid currentColor;
+    font: 600 .62rem var(--ih-mono, monospace);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .pc-workspace { display: grid; grid-template-columns: minmax(210px, 275px) minmax(0, 1fr); }
+  .pc-step-rail { display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--pc-ink); background: rgba(255, 250, 242, .55); }
+  .pc-step-rail ol { margin: 0; padding: 0; list-style: none; }
+  .pc-step-rail li { margin: 0; border-bottom: 1px solid var(--pc-rule); }
+  .pc-step-rail li > button {
+    display: grid;
+    grid-template-columns: 2.1rem 1fr auto;
+    gap: .65rem;
+    align-items: center;
+    width: 100%;
+    min-height: 76px;
+    padding: .85rem 1rem;
+    color: var(--pc-ink);
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .pc-step-rail li > button:disabled { color: #99939a; cursor: default; }
+  .pc-step-rail li > button[aria-current="step"] { color: white; background: var(--pc-blue); }
+  .pc-step-rail li > button.is-complete > span:first-child::after { content: " ✓"; color: var(--pc-green); }
+  .pc-step-rail li > button[aria-current="step"].is-complete > span:first-child::after { color: white; }
+  .pc-step-rail button > span:first-child { font-size: .65rem; }
+  .pc-step-rail button > span:nth-child(2) { display: grid; gap: .15rem; }
+  .pc-step-rail button strong { color: inherit; font-size: .7rem; text-transform: uppercase; }
+  .pc-step-rail button small { font-size: .58rem; line-height: 1.3; opacity: .72; }
+  .pc-step-rail button > i { font-style: normal; opacity: 0; }
+  .pc-step-rail button:not(:disabled):hover > i, .pc-step-rail button[aria-current="step"] > i { opacity: 1; }
+
+  .pc-draft-tools { padding: 1.25rem 1rem; border-top: 1px solid var(--pc-ink); }
+  .pc-draft-tools p { margin: .5rem 0 .85rem; color: var(--pc-muted); font: .72rem/1.45 var(--ih-sans, sans-serif); }
+  .pc-draft-tools button { width: 100%; margin-top: .4rem; }
+  .pc-draft-tools button:last-child { color: var(--pc-muted); border-color: var(--pc-rule); }
+
+  .pc-stage { min-width: 0; min-height: 900px; }
+  .pc-panel { padding: clamp(1.5rem, 4.5vw, 5rem); }
+  .pc-panel[hidden] { display: none; }
+  .pc-panel-head { max-width: 870px; margin-bottom: clamp(2rem, 4vw, 3.8rem); outline: none; }
+  .pc-panel-head h3 { max-width: 760px; margin: .55rem 0 .7rem; font-family: var(--ih-display, serif); font-size: clamp(2.2rem, 4.8vw, 4.8rem); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
+  .pc-panel-head p { max-width: 730px; margin: 0; color: var(--pc-muted); font: clamp(.94rem, 1.6vw, 1.12rem)/1.55 var(--ih-sans, sans-serif); }
+
+  .pc-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 1px; border: 0; background: var(--pc-ink); }
+  .pc-choice-grid legend { width: 100%; margin: 0 0 1rem; padding: 0; color: var(--pc-ink); background: var(--pc-bone); font: 600 .72rem var(--ih-mono, monospace); letter-spacing: .05em; text-transform: uppercase; }
+  .pc-choice { position: relative; min-width: 0; background: var(--pc-paper); cursor: pointer; }
+  .pc-choice--wide { grid-column: 1 / -1; }
+  .pc-choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .pc-choice-body { display: grid; grid-template-columns: 2rem 1fr; gap: .35rem .7rem; min-height: 145px; padding: 1.25rem; transition: color .18s ease, background .18s ease; }
+  .pc-choice-body i { grid-row: 1 / span 2; font: 500 .62rem var(--ih-mono, monospace); }
+  .pc-choice-body strong { color: inherit; font: 600 clamp(.94rem, 1.4vw, 1.12rem)/1.2 var(--ih-sans, sans-serif); }
+  .pc-choice-body small { color: var(--pc-muted); font: .78rem/1.45 var(--ih-sans, sans-serif); }
+  .pc-choice:hover .pc-choice-body { background: #eef0ff; }
+  .pc-choice input:checked + .pc-choice-body { color: white; background: var(--pc-blue); }
+  .pc-choice input:checked + .pc-choice-body small { color: #e7ebff; }
+  .pc-choice input:focus-visible + .pc-choice-body { outline: 4px solid #f0b93e; outline-offset: -4px; }
+
+  .pc-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+  .pc-field { display: grid; align-content: start; gap: .42rem; min-width: 0; }
+  .pc-field--full { grid-column: 1 / -1; }
+  .pc-field > span, .pc-windows label > small { color: var(--pc-ink); font: 600 .68rem var(--ih-mono, monospace); letter-spacing: .04em; text-transform: uppercase; }
+  .pc-field > span i { color: var(--pc-blue); font-style: normal; font-size: .55rem; }
+  .pc-field input, .pc-field select, .pc-field textarea, .pc-window input {
+    width: 100%;
+    min-width: 0;
+    padding: .86rem .9rem;
+    color: var(--pc-ink);
+    background: var(--pc-paper);
+    border: 1px solid var(--pc-ink);
+    border-radius: 0;
+    font: .92rem/1.35 var(--ih-sans, sans-serif);
+  }
+
+  .pc-field textarea { resize: vertical; }
+  .pc-field input:focus, .pc-field select:focus, .pc-field textarea:focus, .pc-window input:focus { border-color: var(--pc-blue); outline: 3px solid rgba(45, 85, 237, .2); outline-offset: 0; }
+  .pc-field > small { justify-self: end; color: var(--pc-muted); font: .6rem var(--ih-mono, monospace); }
+
+  .pc-check { display: grid; grid-template-columns: auto 1fr; gap: .8rem; margin-top: 1.5rem; padding: 1.1rem; background: #e8e1d7; border: 1px solid var(--pc-ink); cursor: pointer; }
+  .pc-check input { width: 1.1rem; height: 1.1rem; accent-color: var(--pc-blue); }
+  .pc-check span { color: var(--pc-muted); font: .82rem/1.45 var(--ih-sans, sans-serif); }
+  .pc-check strong { display: block; margin-bottom: .2rem; color: var(--pc-ink); }
+  .pc-check--security { background: #f3d5ce; }
+
+  .pc-security-callout { margin-bottom: 2rem; padding: clamp(1.2rem, 3vw, 2rem); color: white; background: var(--pc-red); border: 1px solid var(--pc-ink); }
+  .pc-security-callout strong { display: block; max-width: 900px; margin: .65rem 0; color: white; font: 600 clamp(1rem, 2vw, 1.35rem)/1.3 var(--ih-sans, sans-serif); }
+  .pc-security-callout p { max-width: 850px; margin: 0; color: #ffe8e2; font: .85rem/1.5 var(--ih-sans, sans-serif); }
+  .pc-choice-grid--privacy .pc-choice-body, .pc-choice-grid--scope .pc-choice-body { min-height: 125px; }
+  .pc-classification-response, .pc-availability-note { display: grid; grid-template-columns: 150px 1fr; gap: 1rem; margin-top: 1.25rem; padding: 1rem; border: 1px solid var(--pc-ink); background: #e9e4db; }
+  .pc-classification-response p, .pc-availability-note p { margin: 0; font: .82rem/1.45 var(--ih-sans, sans-serif); }
+  .pc-shell[data-privacy-state="restricted"] .pc-classification-response,
+  .pc-shell[data-privacy-state="unknown"] .pc-classification-response { color: white; background: var(--pc-red); }
+
+  .pc-form-grid--runway { margin-top: 2rem; }
+  .pc-timezone-block { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 1rem; align-items: stretch; }
+  .pc-clock { display: grid; align-content: center; padding: 1.2rem; color: white; background: var(--pc-ink); border: 1px solid var(--pc-ink); }
+  .pc-clock span { font: .57rem var(--ih-mono, monospace); letter-spacing: .12em; }
+  .pc-clock strong { margin: .3rem 0; color: white; font: 500 2.2rem var(--ih-mono, monospace); }
+  .pc-clock small { color: #bbb9c2; font: .68rem var(--ih-mono, monospace); }
+
+  .pc-windows { margin: 2rem 0 0; padding: 0; border: 0; }
+  .pc-windows legend { font: 600 1.1rem var(--ih-sans, sans-serif); }
+  .pc-windows > p { color: var(--pc-muted); font: .82rem var(--ih-sans, sans-serif); }
+  .pc-window { display: grid; grid-template-columns: 45px minmax(160px, 1fr) minmax(120px, .65fr) minmax(120px, .65fr); gap: 1rem; align-items: end; padding: 1rem 0; border-top: 1px solid var(--pc-rule); }
+  .pc-window:last-child { border-bottom: 1px solid var(--pc-rule); }
+  .pc-window > span { align-self: center; color: var(--pc-blue); font: 600 .72rem var(--ih-mono, monospace); }
+  .pc-window label { display: grid; gap: .35rem; }
+
+  .pc-panel-actions { display: flex; justify-content: space-between; gap: .75rem; margin-top: clamp(2.2rem, 5vw, 4rem); padding-top: 1.2rem; border-top: 1px solid var(--pc-rule); }
+  .pc-panel-actions--end { justify-content: flex-end; }
+  .pc-action { display: inline-flex; gap: 1rem; align-items: center; justify-content: space-between; min-height: 48px; padding: .85rem 1rem; color: var(--pc-ink); background: transparent; border: 1px solid var(--pc-ink); border-radius: 0; font: 600 .68rem var(--ih-mono, monospace); letter-spacing: .04em; text-decoration: none; text-transform: uppercase; cursor: pointer; }
+  .pc-action:hover { color: white; background: var(--pc-blue); border-color: var(--pc-blue); }
+  .pc-action--primary { min-width: 210px; color: white; background: var(--pc-blue); border-color: var(--pc-blue); }
+  .pc-action--primary:hover { background: #173cbe; }
+  .pc-action--dark { color: white; background: var(--pc-ink); }
+  .pc-action--ghost { color: var(--pc-muted); border-color: var(--pc-rule); }
+
+  .pc-recommendation { display: grid; grid-template-columns: 110px 1fr minmax(170px, auto); gap: 1.5rem; align-items: stretch; color: white; background: var(--pc-blue); border: 1px solid var(--pc-ink); }
+  .pc-recommendation > div { padding: 1.3rem; }
+  .pc-recommendation-code { display: grid; align-content: space-between; border-right: 1px solid rgba(255,255,255,.45); }
+  .pc-recommendation-code strong { color: white; font: 500 2rem var(--ih-mono, monospace); }
+  .pc-recommendation h4 { margin: .4rem 0; color: white; font: 500 clamp(1.6rem, 3vw, 2.7rem) var(--ih-display, serif); letter-spacing: -.035em; }
+  .pc-recommendation p { max-width: 720px; margin: 0; color: #e4e9ff; font: .86rem/1.5 var(--ih-sans, sans-serif); }
+  .pc-rate { display: grid; align-content: center; border-left: 1px solid rgba(255,255,255,.45); }
+  .pc-rate strong { margin-top: .4rem; color: white; font: 600 1rem var(--ih-sans, sans-serif); }
+
+  .pc-scope-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 1px; padding: 1px; background: var(--pc-ink); }
+  .pc-scope-board > div { padding: 1.4rem; background: var(--pc-paper); }
+  .pc-scope-board ul { margin: 1rem 0 0; padding: 0; list-style: none; }
+  .pc-scope-board li { position: relative; padding: .65rem 0 .65rem 1.4rem; border-top: 1px solid var(--pc-rule); font: .8rem/1.4 var(--ih-sans, sans-serif); }
+  .pc-scope-board li::before { position: absolute; left: 0; color: var(--pc-blue); content: "↗"; }
+
+  .pc-brief-card { margin-top: 2rem; background: var(--pc-paper); border: 1px solid var(--pc-ink); }
+  .pc-brief-card header { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 1.1rem 1.3rem; border-bottom: 1px solid var(--pc-ink); }
+  .pc-brief-card h4 { margin: .3rem 0 0; font: 500 1.4rem var(--ih-display, serif); }
+  .pc-brief-card dl { display: grid; grid-template-columns: minmax(150px, .28fr) 1fr; margin: 0; }
+  .pc-brief-card dt, .pc-brief-card dd { margin: 0; padding: .85rem 1.1rem; border-bottom: 1px solid var(--pc-rule); }
+  .pc-brief-card dt { color: var(--pc-muted); border-right: 1px solid var(--pc-rule); font: 600 .61rem var(--ih-mono, monospace); letter-spacing: .04em; text-transform: uppercase; }
+  .pc-brief-card dd { overflow-wrap: anywhere; white-space: pre-wrap; font: .8rem/1.5 var(--ih-sans, sans-serif); }
+
+  .pc-handoff { margin-top: 2rem; padding: clamp(1.25rem, 3vw, 2rem); color: white; background: var(--pc-ink); }
+  .pc-handoff h4 { margin: .4rem 0; color: white; font: 500 2rem var(--ih-display, serif); }
+  .pc-handoff header p { max-width: 730px; color: #c2bec6; font: .83rem/1.5 var(--ih-sans, sans-serif); }
+  .pc-handoff-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.2rem; }
+  .pc-handoff .pc-action--ghost { color: white; border-color: #696a75; }
+  .pc-handoff-status { margin: 1rem 0 0; color: #bebbc4; font: .72rem/1.45 var(--ih-mono, monospace); }
+  .pc-handoff-status[data-tone="success"] { color: #7ff1cf; }
+  .pc-handoff-status[data-tone="error"] { color: #ff998b; }
+
+  .pc-booking-gate { display: flex; justify-content: space-between; gap: 2rem; align-items: center; margin-top: 1px; padding: 1.3rem; color: var(--pc-ink); background: #f0d276; border: 1px solid var(--pc-ink); }
+  .pc-booking-gate strong { display: block; margin: .35rem 0; }
+  .pc-booking-gate p { max-width: 760px; margin: 0; font: .76rem/1.45 var(--ih-sans, sans-serif); }
+  .pc-action--booking { flex: 0 0 auto; color: white; background: var(--pc-green); border-color: var(--pc-green); }
+  .pc-final-truth { display: flex; justify-content: space-between; gap: 1rem; padding: .9rem 1.2rem; color: white; background: var(--pc-red); border: 1px solid var(--pc-ink); border-top: 0; font: .7rem/1.4 var(--ih-mono, monospace); }
+  .pc-final-truth strong { color: white; }
+
+  @media (max-width: 950px) {
+    .pc-workspace { grid-template-columns: 1fr; }
+    .pc-step-rail { border-right: 0; border-bottom: 1px solid var(--pc-ink); }
+    .pc-step-rail ol { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow-x: auto; }
+    .pc-step-rail li { border-right: 1px solid var(--pc-rule); border-bottom: 0; }
+    .pc-step-rail li > button { display: grid; grid-template-columns: 1fr; min-width: 115px; min-height: 92px; }
+    .pc-step-rail button > span:nth-child(2) small, .pc-step-rail button > i { display: none; }
+    .pc-draft-tools { display: none; }
+    .pc-stage { min-height: 0; }
+  }
+
+  @media (max-width: 720px) {
+    .pc-shell { width: calc(100% - 1rem); box-shadow: 6px 6px 0 rgba(16, 18, 31, .09); }
+    .pc-console-head { grid-template-columns: 1fr; }
+    .pc-console-state { justify-content: flex-start; }
+    .pc-progress-band { grid-template-columns: 1fr auto; }
+    .pc-progress-band > div { display: grid; gap: 0; }
+    .pc-progress-band progress { grid-column: 1 / -1; grid-row: 2; }
+    .pc-source-note, .pc-draft-banner, .pc-booking-gate, .pc-final-truth { align-items: flex-start; flex-direction: column; }
+    .pc-draft-banner > div:last-child { flex-wrap: wrap; }
+    .pc-panel { padding: 1.3rem; }
+    .pc-choice-grid, .pc-form-grid, .pc-scope-board { grid-template-columns: 1fr; }
+    .pc-choice--wide, .pc-field--full { grid-column: auto; }
+    .pc-timezone-block { grid-template-columns: 1fr; }
+    .pc-window { grid-template-columns: 34px 1fr 1fr; }
+    .pc-window label:first-of-type { grid-column: 2 / -1; }
+    .pc-recommendation { grid-template-columns: 75px 1fr; }
+    .pc-recommendation .pc-rate { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.45); border-left: 0; }
+    .pc-brief-card dl { grid-template-columns: 1fr; }
+    .pc-brief-card dt { border-right: 0; padding-bottom: .2rem; }
+    .pc-brief-card dd { padding-top: .25rem; }
+    .pc-panel-actions { flex-wrap: wrap; }
+    .pc-panel-actions .pc-action { width: 100%; }
+    .pc-handoff-actions { display: grid; }
+    .pc-handoff-actions .pc-action { width: 100%; }
+    .pc-classification-response, .pc-availability-note { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pc-shell *, .pc-shell *::before, .pc-shell *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; }
+  }
+
+  @media print {
+    .pc-step-rail, .pc-progress-band, .pc-console-state, .pc-panel:not(.pc-panel--brief), .pc-panel-actions, .pc-handoff-actions, .pc-booking-gate { display: none !important; }
+    .pc-workspace { display: block; }
+    .pc-panel--brief { display: block !important; }
+    .pc-shell { width: 100%; margin: 0; border: 0; box-shadow: none; }
+  }
+</style>

@@ -1,4 +1,7 @@
 ---
+const { heading = "h1" } = Astro.props;
+const HeroHeading = heading;
+
 const specs = [
   {
     key: "m0", code: "M0", label: "RAW", beta: -0.26225892496708414, se: 0.05973118400635994, p: 0.000011301051061142302, rsq: 0.0020330427215242697,
@@ -72,7 +75,7 @@ const plotX = (value) => 92 + (value + .55) / .8 * 630;
   <div class="spec-hero-grid">
     <article class="spec-story">
       <span class="spec-kicker">THE MODEL I RAN TWICE</span>
-      <h1 id="spec-hero-title">I assumed I’d typed<br />the model <em>wrong.</em></h1>
+      <HeroHeading id="spec-hero-title">I assumed I’d typed<br />the model <em>wrong.</em></HeroHeading>
       <p>
         Non-metro projects leveraged 0.262 less private capital in the raw data. I added the identity of the Community Development Entity deploying the credit. The estimate fell to 0.047. The model moved 82.2 percent of the story from rural markets to the intermediaries receiving the allocation.
       </p>

@@ -1,0 +1,669 @@
+---
+const {
+  id = "model-to-message-relay",
+  headingLevel = "h2",
+} = Astro.props;
+
+const Heading = headingLevel;
+const effectId = `${id}-effect`;
+const uncertaintyId = `${id}-uncertainty`;
+const baselineId = `${id}-baseline`;
+const thresholdId = `${id}-threshold`;
+const claimName = `${id}-claim`;
+---
+
+<section id={id} class="mr-relay" data-model-relay aria-labelledby={`${id}-title`}>
+  <header class="mr-header">
+    <div>
+      <span class="mr-kicker">LAB 03 / MODEL TO MESSAGE</span>
+      <Heading id={`${id}-title`}>One estimate.<br />Every sentence accountable.</Heading>
+    </div>
+    <div>
+      <p>
+        Change a synthetic program estimate, its uncertainty, the baseline, and the minimum useful effect. The interval, table, technical interpretation, and decision brief update from the same state.
+      </p>
+      <p class="mr-data-note"><i aria-hidden="true"></i>SYNTHETIC PROGRAM EVALUATION / OUTCOMES PER 1,000 ELIGIBLE FIRMS</p>
+    </div>
+  </header>
+
+  <div class="mr-workbench">
+    <aside class="mr-controls" aria-label="Model and decision controls">
+      <div class="mr-control-head">
+        <span>CONTROL SURFACE</span>
+        <button type="button" data-mr-reset>Reset</button>
+      </div>
+
+      <label class="mr-range" for={effectId}>
+        <span><b>INPUT 01</b>Estimated effect <output for={effectId} data-mr-effect-output>+12.0</output></span>
+        <input id={effectId} type="range" min="-20" max="40" step="1" value="12" data-mr-effect aria-describedby={`${effectId}-note`} />
+        <small id={`${effectId}-note`}>Additional completed applications per 1,000 firms</small>
+        <i aria-hidden="true"><span>−20</span><span>+40</span></i>
+      </label>
+
+      <label class="mr-range" for={uncertaintyId}>
+        <span><b>INPUT 02</b>Standard error <output for={uncertaintyId} data-mr-uncertainty-output>4.0</output></span>
+        <input id={uncertaintyId} type="range" min="1" max="15" step="0.5" value="4" data-mr-uncertainty aria-describedby={`${uncertaintyId}-note`} />
+        <small id={`${uncertaintyId}-note`}>The 95% interval uses estimate ± 1.96 standard errors</small>
+        <i aria-hidden="true"><span>1</span><span>15</span></i>
+      </label>
+
+      <label class="mr-range" for={baselineId}>
+        <span><b>INPUT 03</b>Baseline outcome <output for={baselineId} data-mr-baseline-output>120</output></span>
+        <input id={baselineId} type="range" min="20" max="300" step="5" value="120" data-mr-baseline aria-describedby={`${baselineId}-note`} />
+        <small id={`${baselineId}-note`}>Completed applications per 1,000 firms before the program</small>
+        <i aria-hidden="true"><span>20</span><span>300</span></i>
+      </label>
+
+      <label class="mr-range" for={thresholdId}>
+        <span><b>INPUT 04</b>Decision threshold <output for={thresholdId} data-mr-threshold-output>+8.0</output></span>
+        <input id={thresholdId} type="range" min="0" max="25" step="1" value="8" data-mr-threshold aria-describedby={`${thresholdId}-note`} />
+        <small id={`${thresholdId}-note`}>Minimum additional outcomes required by the decision rule</small>
+        <i aria-hidden="true"><span>0</span><span>+25</span></i>
+      </label>
+
+      <fieldset class="mr-claim-control">
+        <legend><span>INPUT 05</span>Claim posture</legend>
+        <label>
+          <input type="radio" name={claimName} value="disciplined" checked data-mr-claim />
+          <span><strong>Disciplined</strong><small>Sentence follows the full interval</small></span>
+        </label>
+        <label>
+          <input type="radio" name={claimName} value="forceful" data-mr-claim />
+          <span><strong>Forceful</strong><small>Sentence leads with the point estimate</small></span>
+        </label>
+      </fieldset>
+    </aside>
+
+    <div class="mr-output">
+      <div class="mr-output-head">
+        <div><span>INSTRUMENT 03</span><strong>SYNTHETIC PROGRAM EFFECT / DECISION TRANSLATION</strong></div>
+        <span data-mr-evidence-code>THRESHOLD / UNCERTAIN</span>
+      </div>
+
+      <div class="mr-estimate-banner">
+        <div>
+          <span>ESTIMATED EFFECT</span>
+          <strong data-mr-estimate>+12.0</strong>
+          <small>additional outcomes / 1,000 firms</small>
+        </div>
+        <div>
+          <span>95% INTERVAL</span>
+          <strong data-mr-interval>+4.2 to +19.8</strong>
+          <small data-mr-relative>+10.0% relative to baseline</small>
+        </div>
+        <div class="mr-evidence-status" data-mr-evidence-state="uncertain">
+          <span>DECISION TEST</span>
+          <strong data-mr-evidence-status>UNCERTAINTY CROSSES THRESHOLD</strong>
+          <small data-mr-evidence-detail>Point estimate clears +8.0. Lower bound does not.</small>
+        </div>
+      </div>
+
+      <div class="mr-plot-panel">
+        <div class="mr-plot-head"><span>EFFECT SCALE / OUTCOMES PER 1,000</span><span>INTERVAL + DECISION RULE</span></div>
+        <div
+          class="mr-effect-plot"
+          role="img"
+          aria-label="Estimated effect positive 12.0 with a 95 percent interval from positive 4.2 to positive 19.8 and a decision threshold of positive 8.0"
+          data-mr-plot
+          style="--mr-lower:45.1%;--mr-estimate:51.7%;--mr-upper:58.2%;--mr-threshold:48.3%"
+        >
+          <div class="mr-plot-scale" aria-hidden="true">
+            <span style="left:0%">−50</span>
+            <span style="left:25%">−20</span>
+            <span style="left:41.6667%">0</span>
+            <span style="left:58.3333%">+20</span>
+            <span style="left:75%">+40</span>
+            <span style="left:100%">+70</span>
+          </div>
+          <div class="mr-plot-track" aria-hidden="true">
+            <i class="mr-zero"></i>
+            <i class="mr-threshold-line"><b>THRESHOLD</b></i>
+            <span class="mr-interval-line"><i></i><i></i></span>
+            <span class="mr-estimate-point"><i></i><b data-mr-plot-estimate>+12.0</b></span>
+          </div>
+          <div class="mr-plot-labels" aria-hidden="true"><span>DECREASE</span><span>NO CHANGE</span><span>INCREASE</span></div>
+        </div>
+
+        <div class="mr-baseline-plot" role="img" aria-label="Baseline 120 outcomes and modeled outcome 132 outcomes per 1,000 firms" data-mr-baseline-plot>
+          <div><span>BASELINE</span><i><b data-mr-baseline-bar style="width:40%"></b></i><strong data-mr-baseline-value>120</strong></div>
+          <div><span>MODELED</span><i><b data-mr-modeled-bar style="width:44%"></b></i><strong data-mr-modeled-value>132</strong></div>
+        </div>
+      </div>
+
+      <div class="mr-synchronized-grid">
+        <article class="mr-table-card">
+          <span>01 / TABLE</span>
+          <table>
+            <caption>Current synthetic estimate and decision quantities</caption>
+            <tbody>
+              <tr><th scope="row">Baseline</th><td data-mr-table-baseline>120.0</td></tr>
+              <tr><th scope="row">Effect</th><td data-mr-table-effect>+12.0</td></tr>
+              <tr><th scope="row">95% lower</th><td data-mr-table-lower>+4.2</td></tr>
+              <tr><th scope="row">95% upper</th><td data-mr-table-upper>+19.8</td></tr>
+              <tr><th scope="row">Relative effect</th><td data-mr-table-relative>+10.0%</td></tr>
+              <tr><th scope="row">Decision threshold</th><td data-mr-table-threshold>+8.0</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="mr-message-card">
+          <span>02 / TECHNICAL SENTENCE</span>
+          <p data-mr-technical>
+            The synthetic estimate is +12.0 additional completed applications per 1,000 eligible firms, with a 95% interval from +4.2 to +19.8.
+          </p>
+        </article>
+
+        <article class="mr-message-card mr-message-card--decision">
+          <span>03 / DECISION SENTENCE</span>
+          <p data-mr-decision>
+            The point estimate clears the +8.0 decision threshold. Plausible effects extend below that threshold, so this scenario still requires a risk decision.
+          </p>
+        </article>
+
+        <article class="mr-claim-card" data-mr-claim-state="within">
+          <div>
+            <span>04 / CLAIM BOUNDARY</span>
+            <strong data-mr-claim-status>WITHIN BOUNDARY</strong>
+          </div>
+          <p data-mr-claim-sentence>
+            The estimate is positive, while the interval includes effects below the +8.0 decision threshold.
+          </p>
+          <small data-mr-claim-note>The sentence reports the interval and the decision rule.</small>
+        </article>
+      </div>
+
+      <div class="mr-actions">
+        <button type="button" data-mr-copy>Copy current brief</button>
+        <span role="status" data-mr-copy-status></span>
+        <a href="/start?problem=team&source=model-relay">Bring this discipline to a team →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mr-footer">
+    <span><i aria-hidden="true"></i>ALL REPRESENTATIONS SHARE ONE STATE</span>
+    <span>SYNTHETIC DATA / NO CLIENT OR ADMINISTRATIVE RECORDS</span>
+    <span>EFFECT DOMAIN / −50 TO +70</span>
+  </footer>
+
+  <p class="mr-sr-only" data-mr-announcer aria-live="polite"></p>
+</section>
+
+<script is:inline>
+  (() => {
+    const DOMAIN_MIN = -50;
+    const DOMAIN_MAX = 70;
+    const BAR_MAX = 320;
+
+    document.querySelectorAll("[data-model-relay]").forEach((relay) => {
+      const effectInput = relay.querySelector("[data-mr-effect]");
+      const uncertaintyInput = relay.querySelector("[data-mr-uncertainty]");
+      const baselineInput = relay.querySelector("[data-mr-baseline]");
+      const thresholdInput = relay.querySelector("[data-mr-threshold]");
+      const claimInputs = Array.from(relay.querySelectorAll("[data-mr-claim]"));
+      const plot = relay.querySelector("[data-mr-plot]");
+      const baselinePlot = relay.querySelector("[data-mr-baseline-plot]");
+      const announcer = relay.querySelector("[data-mr-announcer]");
+      const copyStatus = relay.querySelector("[data-mr-copy-status]");
+      let currentBrief = "";
+
+      if (!effectInput || !uncertaintyInput || !baselineInput || !thresholdInput) return;
+
+      const signed = (value, digits = 1) => {
+        const rounded = Number(value).toFixed(digits);
+        if (Number(value) > 0) return `+${rounded}`;
+        if (Number(value) < 0) return `−${Math.abs(Number(value)).toFixed(digits)}`;
+        return Number(0).toFixed(digits);
+      };
+
+      const percentPosition = (value) => {
+        const bounded = Math.max(DOMAIN_MIN, Math.min(DOMAIN_MAX, value));
+        return (bounded - DOMAIN_MIN) / (DOMAIN_MAX - DOMAIN_MIN) * 100;
+      };
+
+      const setText = (selector, value) => {
+        const target = relay.querySelector(selector);
+        if (target) target.textContent = value;
+      };
+
+      const getState = () => {
+        const effect = Number(effectInput.value);
+        const uncertainty = Number(uncertaintyInput.value);
+        const baseline = Number(baselineInput.value);
+        const threshold = Number(thresholdInput.value);
+        const lower = effect - 1.96 * uncertainty;
+        const upper = effect + 1.96 * uncertainty;
+        const modeled = baseline + effect;
+        const relative = baseline !== 0 ? effect / baseline * 100 : 0;
+        const posture = relay.querySelector("[data-mr-claim]:checked")?.value || "disciplined";
+        return { effect, uncertainty, baseline, threshold, lower, upper, modeled, relative, posture };
+      };
+
+      const evidenceMessage = (state) => {
+        if (state.lower >= state.threshold && state.lower > 0) {
+          return {
+            state: "clear",
+            code: "THRESHOLD / CLEAR",
+            status: "INTERVAL CLEARS THRESHOLD",
+            detail: `Lower bound ${signed(state.lower)} exceeds ${signed(state.threshold)}.`,
+            decision: `The full 95% interval clears the ${signed(state.threshold)} decision threshold. This scenario supports action under the stated rule.`,
+          };
+        }
+        if (state.effect >= state.threshold && state.lower < state.threshold) {
+          return {
+            state: "uncertain",
+            code: "THRESHOLD / UNCERTAIN",
+            status: "UNCERTAINTY CROSSES THRESHOLD",
+            detail: `Point estimate clears ${signed(state.threshold)}. Lower bound does not.`,
+            decision: `The point estimate clears the ${signed(state.threshold)} decision threshold. Plausible effects extend below that threshold, so this scenario still requires a risk decision.`,
+          };
+        }
+        if (state.lower <= 0 && state.upper >= 0) {
+          return {
+            state: "unresolved",
+            code: "DIRECTION / UNRESOLVED",
+            status: "INTERVAL CROSSES ZERO",
+            detail: "The interval includes increases, no change, and decreases.",
+            decision: `The interval crosses zero and the ${signed(state.threshold)} decision threshold. Current evidence cannot settle the direction or minimum useful effect.`,
+          };
+        }
+        if (state.effect < state.threshold && state.upper >= state.threshold) {
+          return {
+            state: "uncertain",
+            code: "THRESHOLD / UNCERTAIN",
+            status: "UPPER RANGE CLEARS THRESHOLD",
+            detail: `Point estimate falls below ${signed(state.threshold)}. Upper bound exceeds it.`,
+            decision: `The point estimate falls below the ${signed(state.threshold)} decision threshold. Plausible effects include values that clear it, so the decision depends on tolerance for uncertainty.`,
+          };
+        }
+        if (state.upper < 0) {
+          return {
+            state: "adverse",
+            code: "DIRECTION / ADVERSE",
+            status: "INTERVAL BELOW ZERO",
+            detail: "The full interval indicates fewer completed applications.",
+            decision: "The full 95% interval is below zero. This scenario supports an adverse effect under the stated model.",
+          };
+        }
+        return {
+          state: "below",
+          code: "THRESHOLD / BELOW",
+          status: "INTERVAL BELOW THRESHOLD",
+          detail: `Upper bound ${signed(state.upper)} remains below ${signed(state.threshold)}.`,
+          decision: `The full 95% interval remains below the ${signed(state.threshold)} decision threshold. This scenario does not satisfy the stated action rule.`,
+        };
+      };
+
+      const claimMessage = (state) => {
+        if (state.posture === "disciplined") {
+          if (state.lower >= state.threshold && state.lower > 0) {
+            return {
+              state: "within",
+              status: "WITHIN BOUNDARY",
+              sentence: `The estimate supports an increase that clears the ${signed(state.threshold)} decision threshold across the 95% interval.`,
+              note: "The sentence reports the direction, interval, and decision rule.",
+            };
+          }
+          if (state.lower > 0 && state.effect >= state.threshold) {
+            return {
+              state: "within",
+              status: "WITHIN BOUNDARY",
+              sentence: `The estimate is positive, while the interval includes effects below the ${signed(state.threshold)} decision threshold.`,
+              note: "The sentence separates statistical direction from decision sufficiency.",
+            };
+          }
+          if (state.lower <= 0 && state.upper >= 0) {
+            return {
+              state: "within",
+              status: "WITHIN BOUNDARY",
+              sentence: "The interval includes zero, so the direction of the effect remains unresolved in this scenario.",
+              note: "The sentence keeps the claim inside the interval.",
+            };
+          }
+          if (state.upper < 0) {
+            return {
+              state: "within",
+              status: "WITHIN BOUNDARY",
+              sentence: "The estimate and its 95% interval indicate fewer completed applications in this scenario.",
+              note: "The sentence reports the adverse direction without adding a causal guarantee.",
+            };
+          }
+          return {
+            state: "within",
+            status: "WITHIN BOUNDARY",
+            sentence: `The estimate falls below the ${signed(state.threshold)} decision threshold under the stated rule.`,
+            note: "The sentence follows the current decision criterion.",
+          };
+        }
+
+        let sentence = "The program had no effect.";
+        let supported = false;
+        if (state.effect >= state.threshold) {
+          sentence = "The program delivered a decision-ready improvement.";
+          supported = state.lower >= state.threshold && state.lower > 0;
+        } else if (state.effect > 0) {
+          sentence = "The program improved completed applications.";
+          supported = state.lower > 0;
+        } else if (state.effect < 0) {
+          sentence = "The program reduced completed applications.";
+          supported = state.upper < 0;
+        }
+        return supported
+          ? { state: "within", status: "WITHIN BOUNDARY", sentence, note: "The full interval supports this forceful draft." }
+          : { state: "outside", status: "OUTSIDE BOUNDARY", sentence, note: "The point estimate alone cannot carry this draft." };
+      };
+
+      const update = (announce = false) => {
+        const state = getState();
+        const evidence = evidenceMessage(state);
+        const claim = claimMessage(state);
+        const effectText = signed(state.effect);
+        const lowerText = signed(state.lower);
+        const upperText = signed(state.upper);
+        const thresholdText = signed(state.threshold);
+        const relativeText = `${signed(state.relative)}%`;
+
+        setText("[data-mr-effect-output]", effectText);
+        setText("[data-mr-uncertainty-output]", state.uncertainty.toFixed(1));
+        setText("[data-mr-baseline-output]", state.baseline.toFixed(0));
+        setText("[data-mr-threshold-output]", thresholdText);
+        setText("[data-mr-estimate]", effectText);
+        setText("[data-mr-interval]", `${lowerText} to ${upperText}`);
+        setText("[data-mr-relative]", `${relativeText} relative to baseline`);
+        setText("[data-mr-evidence-code]", evidence.code);
+        setText("[data-mr-evidence-status]", evidence.status);
+        setText("[data-mr-evidence-detail]", evidence.detail);
+        setText("[data-mr-plot-estimate]", effectText);
+        setText("[data-mr-baseline-value]", state.baseline.toFixed(0));
+        setText("[data-mr-modeled-value]", state.modeled.toFixed(0));
+        setText("[data-mr-table-baseline]", state.baseline.toFixed(1));
+        setText("[data-mr-table-effect]", effectText);
+        setText("[data-mr-table-lower]", lowerText);
+        setText("[data-mr-table-upper]", upperText);
+        setText("[data-mr-table-relative]", relativeText);
+        setText("[data-mr-table-threshold]", thresholdText);
+        setText("[data-mr-technical]", `The synthetic estimate is ${effectText} additional completed applications per 1,000 eligible firms, with a 95% interval from ${lowerText} to ${upperText}.`);
+        setText("[data-mr-decision]", evidence.decision);
+        setText("[data-mr-claim-status]", claim.status);
+        setText("[data-mr-claim-sentence]", claim.sentence);
+        setText("[data-mr-claim-note]", claim.note);
+
+        const evidenceCard = relay.querySelector(".mr-evidence-status");
+        const claimCard = relay.querySelector(".mr-claim-card");
+        if (evidenceCard) evidenceCard.dataset.mrEvidenceState = evidence.state;
+        if (claimCard) claimCard.dataset.mrClaimState = claim.state;
+
+        if (plot) {
+          plot.style.setProperty("--mr-lower", `${percentPosition(state.lower)}%`);
+          plot.style.setProperty("--mr-estimate", `${percentPosition(state.effect)}%`);
+          plot.style.setProperty("--mr-upper", `${percentPosition(state.upper)}%`);
+          plot.style.setProperty("--mr-threshold", `${percentPosition(state.threshold)}%`);
+          plot.setAttribute("aria-label", `Estimated effect ${effectText} with a 95 percent interval from ${lowerText} to ${upperText} and a decision threshold of ${thresholdText}`);
+        }
+
+        const baselineWidth = Math.max(0, Math.min(100, state.baseline / BAR_MAX * 100));
+        const modeledWidth = Math.max(0, Math.min(100, state.modeled / BAR_MAX * 100));
+        const baselineBar = relay.querySelector("[data-mr-baseline-bar]");
+        const modeledBar = relay.querySelector("[data-mr-modeled-bar]");
+        if (baselineBar) baselineBar.style.width = `${baselineWidth}%`;
+        if (modeledBar) modeledBar.style.width = `${modeledWidth}%`;
+        if (baselinePlot) baselinePlot.setAttribute("aria-label", `Baseline ${state.baseline.toFixed(0)} outcomes and modeled outcome ${state.modeled.toFixed(0)} outcomes per 1,000 firms`);
+
+        currentBrief = [
+          "SYNTHETIC MODEL TO MESSAGE BRIEF",
+          "",
+          `Baseline: ${state.baseline.toFixed(1)} outcomes per 1,000 firms`,
+          `Estimated effect: ${effectText}`,
+          `95% interval: ${lowerText} to ${upperText}`,
+          `Relative effect: ${relativeText}`,
+          `Decision threshold: ${thresholdText}`,
+          `Decision test: ${evidence.status}`,
+          "",
+          "TECHNICAL",
+          `The synthetic estimate is ${effectText} additional completed applications per 1,000 eligible firms, with a 95% interval from ${lowerText} to ${upperText}.`,
+          "",
+          "DECISION",
+          evidence.decision,
+          "",
+          "CLAIM DRAFT",
+          claim.sentence,
+          `Claim boundary: ${claim.status}`,
+        ].join("\n");
+
+        if (announce && announcer) announcer.textContent = `${evidence.status}. Claim ${claim.status.toLowerCase()}. Effect ${effectText}; interval ${lowerText} to ${upperText}.`;
+      };
+
+      [effectInput, uncertaintyInput, baselineInput, thresholdInput].forEach((input) => {
+        input.addEventListener("input", () => update(false));
+        input.addEventListener("change", () => update(true));
+      });
+      claimInputs.forEach((input) => input.addEventListener("change", () => update(true)));
+
+      relay.querySelector("[data-mr-reset]")?.addEventListener("click", () => {
+        effectInput.value = "12";
+        uncertaintyInput.value = "4";
+        baselineInput.value = "120";
+        thresholdInput.value = "8";
+        const disciplined = relay.querySelector('[data-mr-claim][value="disciplined"]');
+        if (disciplined) disciplined.checked = true;
+        update(true);
+        effectInput.focus();
+      });
+
+      relay.querySelector("[data-mr-copy]")?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(currentBrief);
+          if (copyStatus) copyStatus.textContent = "Brief copied.";
+        } catch {
+          if (copyStatus) copyStatus.textContent = "Copy was blocked. Select the visible sentences manually.";
+        }
+      });
+
+      update();
+    });
+  })();
+</script>
+
+<style>
+  .mr-relay {
+    --mr-ink: var(--ih-ink, #121426);
+    --mr-bone: var(--ih-bone, #f2eade);
+    --mr-paper: var(--ih-paper, #faf5ed);
+    --mr-blue: var(--ih-blue, #2852e8);
+    --mr-blue-dark: var(--ih-blue-dark, #193fbe);
+    --mr-graphite: var(--ih-graphite, #30313d);
+    --mr-muted: var(--ih-muted, #66636a);
+    --mr-rule: var(--ih-rule, #c7bdb0);
+    --mr-oxide: var(--ih-oxide, #ad4e35);
+    --mr-serif: var(--ih-serif, "Newsreader", Georgia, serif);
+    --mr-sans: var(--ih-sans, "Geist", system-ui, sans-serif);
+    --mr-mono: var(--ih-mono, "Geist Mono", ui-monospace, monospace);
+    color: var(--mr-bone);
+    background: var(--mr-ink);
+    border-block: 1px solid var(--mr-ink);
+    font-family: var(--mr-sans);
+  }
+
+  .mr-relay *, .mr-relay *::before, .mr-relay *::after { box-sizing: border-box; }
+
+  .mr-header {
+    display: grid;
+    max-width: 1460px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 4vw, 4rem);
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, .65fr);
+    gap: clamp(2rem, 7vw, 8rem);
+    align-items: end;
+  }
+
+  .mr-kicker,
+  .mr-data-note,
+  .mr-control-head,
+  .mr-range > span b,
+  .mr-claim-control legend span,
+  .mr-output-head,
+  .mr-estimate-banner span,
+  .mr-plot-head,
+  .mr-synchronized-grid article > span,
+  .mr-claim-card div span,
+  .mr-footer {
+    font: 600 .6rem/1.4 var(--mr-mono);
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  .mr-kicker { color: #a9bcff; }
+  .mr-header h2, .mr-header h1 { max-width: 12ch; margin: 1.1rem 0 0; color: white; font: 500 clamp(3rem, 6vw, 6.4rem)/.9 var(--mr-serif); letter-spacing: -.055em; }
+  .mr-header > div:last-child > p:first-child { margin: 0; color: #d0cbc3; font: 400 clamp(1rem, 1.4vw, 1.2rem)/1.55 var(--mr-serif); }
+  .mr-data-note { margin: 2rem 0 0; padding-top: .9rem; color: #aaa6a0; border-top: 1px solid rgba(242,234,222,.35); }
+  .mr-data-note i { display: inline-block; width: 6px; height: 6px; margin-right: .55rem; background: var(--mr-blue); }
+
+  .mr-workbench { display: grid; max-width: 1460px; margin: 0 auto; grid-template-columns: 300px minmax(0, 1fr); border: 1px solid rgba(242,234,222,.55); }
+  .mr-controls { color: var(--mr-ink); background: var(--mr-bone); border-right: 1px solid rgba(242,234,222,.55); }
+  .mr-control-head { display: flex; min-height: 54px; padding: 1rem; align-items: center; justify-content: space-between; color: var(--mr-muted); border-bottom: 1px solid var(--mr-ink); }
+  .mr-control-head button { padding: 0; color: var(--mr-blue-dark); background: transparent; border: 0; cursor: pointer; font: 600 .58rem var(--mr-mono); text-decoration: underline; text-underline-offset: .25em; text-transform: uppercase; }
+
+  .mr-range { display: block; padding: 1rem; border-bottom: 1px solid var(--mr-ink); }
+  .mr-range > span { display: grid; margin-bottom: .85rem; grid-template-columns: 1fr auto; gap: .5rem; color: var(--mr-graphite); font: 600 .7rem var(--mr-sans); }
+  .mr-range > span b { grid-column: 1 / -1; color: var(--mr-muted); font-size: .52rem; }
+  .mr-range output { color: var(--mr-blue-dark); font: 600 1rem var(--mr-mono); }
+  .mr-range input { width: 100%; height: 2px; margin: .5rem 0 .55rem; appearance: none; background: var(--mr-rule); accent-color: var(--mr-blue); }
+  .mr-range input::-webkit-slider-thumb { width: 17px; height: 17px; appearance: none; background: var(--mr-blue); border: 3px solid white; border-radius: 0; box-shadow: 0 0 0 1px var(--mr-ink); cursor: ew-resize; }
+  .mr-range input::-moz-range-thumb { width: 13px; height: 13px; background: var(--mr-blue); border: 3px solid white; border-radius: 0; box-shadow: 0 0 0 1px var(--mr-ink); cursor: ew-resize; }
+  .mr-range input:focus-visible { outline: 3px solid var(--mr-blue); outline-offset: 7px; }
+  .mr-range small { display: block; color: var(--mr-muted); font: 500 .52rem/1.4 var(--mr-mono); }
+  .mr-range > i { display: flex; margin-top: .45rem; justify-content: space-between; color: var(--mr-muted); font: 500 .48rem var(--mr-mono); font-style: normal; }
+
+  .mr-claim-control { margin: 0; padding: 1rem; border: 0; }
+  .mr-claim-control legend { width: 100%; margin: 0 0 .8rem; padding: 0; color: var(--mr-graphite); font: 600 .7rem var(--mr-sans); }
+  .mr-claim-control legend span { display: block; margin-bottom: .25rem; color: var(--mr-muted); font-size: .52rem; }
+  .mr-claim-control label { display: block; position: relative; }
+  .mr-claim-control input { position: absolute; opacity: 0; }
+  .mr-claim-control label > span { display: block; padding: .72rem; border: 1px solid var(--mr-rule); cursor: pointer; }
+  .mr-claim-control label + label > span { border-top: 0; }
+  .mr-claim-control strong { display: block; color: var(--mr-ink); font: 600 .7rem var(--mr-sans); }
+  .mr-claim-control small { display: block; margin-top: .2rem; color: var(--mr-muted); font: 500 .52rem/1.4 var(--mr-mono); }
+  .mr-claim-control input:checked + span { color: white; background: var(--mr-blue); border-color: var(--mr-blue); }
+  .mr-claim-control input:checked + span strong, .mr-claim-control input:checked + span small { color: white; }
+  .mr-claim-control input:focus-visible + span { outline: 3px solid var(--mr-ink); outline-offset: 2px; }
+
+  .mr-output { min-width: 0; }
+  .mr-output-head { display: flex; min-height: 54px; padding: .85rem 1rem; align-items: center; justify-content: space-between; gap: 1rem; color: #aaa6a0; border-bottom: 1px solid rgba(242,234,222,.35); }
+  .mr-output-head strong { display: block; margin-top: .15rem; color: white; font: 600 .62rem var(--mr-mono); }
+  .mr-output-head > span { color: #a9bcff; text-align: right; }
+
+  .mr-estimate-banner { display: grid; grid-template-columns: .7fr 1fr 1.2fr; border-bottom: 1px solid rgba(242,234,222,.35); }
+  .mr-estimate-banner > div { min-height: 150px; padding: 1.25rem; border-right: 1px solid rgba(242,234,222,.25); }
+  .mr-estimate-banner > div:last-child { border-right: 0; }
+  .mr-estimate-banner span { color: #96928c; }
+  .mr-estimate-banner strong { display: block; margin-top: .75rem; color: white; font: 500 clamp(1.7rem, 3vw, 3.3rem)/1 var(--mr-serif); }
+  .mr-estimate-banner small { display: block; margin-top: .55rem; color: #bdb8b0; font: 500 .56rem/1.45 var(--mr-mono); }
+  .mr-evidence-status[data-mr-evidence-state="clear"] { background: rgba(38,117,91,.28); }
+  .mr-evidence-status[data-mr-evidence-state="uncertain"], .mr-evidence-status[data-mr-evidence-state="unresolved"] { background: rgba(211,161,74,.14); }
+  .mr-evidence-status[data-mr-evidence-state="adverse"] { background: rgba(173,78,53,.24); }
+  .mr-evidence-status strong { font: 600 clamp(1rem, 1.7vw, 1.45rem)/1.15 var(--mr-mono); letter-spacing: -.02em; }
+
+  .mr-plot-panel { padding: clamp(1.25rem, 3vw, 2.5rem); border-bottom: 1px solid rgba(242,234,222,.35); }
+  .mr-plot-head { display: flex; margin-bottom: 2rem; justify-content: space-between; color: #96928c; }
+  .mr-effect-plot { padding: 1.2rem 0 0; }
+  .mr-plot-scale { position: relative; height: 22px; margin-inline: 1.25rem; color: #96928c; font: 500 .5rem var(--mr-mono); }
+  .mr-plot-scale span { position: absolute; transform: translateX(-50%); }
+  .mr-plot-scale span:first-child { transform: none; }
+  .mr-plot-scale span:last-child { transform: translateX(-100%); }
+  .mr-plot-track { position: relative; height: 86px; margin-inline: 1.25rem; background: repeating-linear-gradient(90deg, rgba(242,234,222,.08) 0 1px, transparent 1px 16.6667%); border-block: 1px solid rgba(242,234,222,.22); }
+  .mr-zero { position: absolute; top: 0; bottom: 0; left: 41.6667%; width: 2px; background: white; opacity: .55; }
+  .mr-threshold-line { position: absolute; top: 0; bottom: 0; left: var(--mr-threshold); width: 2px; background: #d3a14a; transition: left 260ms cubic-bezier(.16,1,.3,1); }
+  .mr-threshold-line b { position: absolute; top: -20px; left: 5px; color: #e5bd77; font: 600 .48rem var(--mr-mono); white-space: nowrap; }
+  .mr-interval-line { position: absolute; top: 41px; left: var(--mr-lower); width: calc(var(--mr-upper) - var(--mr-lower)); height: 4px; background: #94aaff; transition: left 280ms cubic-bezier(.16,1,.3,1), width 280ms cubic-bezier(.16,1,.3,1); }
+  .mr-interval-line i { position: absolute; top: -8px; width: 2px; height: 20px; background: #94aaff; }
+  .mr-interval-line i:first-child { left: 0; }
+  .mr-interval-line i:last-child { right: 0; }
+  .mr-estimate-point { position: absolute; top: 30px; left: var(--mr-estimate); transition: left 280ms cubic-bezier(.16,1,.3,1); }
+  .mr-estimate-point i { display: block; width: 24px; height: 24px; background: var(--mr-blue); border: 4px solid white; transform: translateX(-50%) rotate(45deg); }
+  .mr-estimate-point b { position: absolute; top: 31px; left: 0; color: white; font: 600 .58rem var(--mr-mono); transform: translateX(-50%); white-space: nowrap; }
+  .mr-plot-labels { display: flex; margin: .7rem 1.25rem 0; justify-content: space-between; color: #96928c; font: 600 .48rem var(--mr-mono); }
+
+  .mr-baseline-plot { display: grid; margin-top: 2.6rem; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .mr-baseline-plot > div { display: grid; grid-template-columns: 68px 1fr 44px; gap: .7rem; align-items: center; }
+  .mr-baseline-plot span { color: #96928c; font: 600 .5rem var(--mr-mono); }
+  .mr-baseline-plot > div > i { height: 10px; background: rgba(242,234,222,.13); font-style: normal; }
+  .mr-baseline-plot > div > i b { display: block; height: 100%; background: #7d829d; transition: width 280ms cubic-bezier(.16,1,.3,1); }
+  .mr-baseline-plot > div:last-child > i b { background: var(--mr-blue); }
+  .mr-baseline-plot strong { color: white; font: 600 .65rem var(--mr-mono); text-align: right; }
+
+  .mr-synchronized-grid { display: grid; grid-template-columns: .72fr 1fr; }
+  .mr-synchronized-grid article { min-height: 250px; padding: clamp(1.25rem, 3vw, 2.4rem); border-right: 1px solid rgba(242,234,222,.25); border-bottom: 1px solid rgba(242,234,222,.25); }
+  .mr-synchronized-grid article:nth-child(even) { border-right: 0; }
+  .mr-synchronized-grid article > span, .mr-claim-card div span { color: #96928c; }
+  .mr-table-card table { width: 100%; margin-top: 1rem; border-collapse: collapse; color: #d7d2ca; font: 500 .62rem var(--mr-mono); }
+  .mr-table-card caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .mr-table-card th, .mr-table-card td { padding: .48rem 0; border-top: 1px solid rgba(242,234,222,.2); }
+  .mr-table-card th { color: #aaa6a0; font-weight: 500; text-align: left; }
+  .mr-table-card td { color: white; font-weight: 600; text-align: right; }
+  .mr-message-card p, .mr-claim-card p { margin: 2rem 0 0; color: white; font: 400 clamp(1.3rem, 2.3vw, 2.3rem)/1.16 var(--mr-serif); letter-spacing: -.025em; }
+  .mr-message-card--decision { background: rgba(40,82,232,.1); }
+  .mr-claim-card { transition: background 220ms ease; }
+  .mr-claim-card > div { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .mr-claim-card > div strong { color: #a9bcff; font: 600 .66rem var(--mr-mono); text-align: right; }
+  .mr-claim-card[data-mr-claim-state="outside"] { background: rgba(173,78,53,.22); }
+  .mr-claim-card[data-mr-claim-state="outside"] > div strong { color: #ffb7a4; }
+  .mr-claim-card small { display: block; margin-top: 1.5rem; color: #aaa6a0; font: 500 .58rem/1.45 var(--mr-mono); }
+
+  .mr-actions { display: grid; min-height: 74px; padding: 1rem clamp(1.25rem, 3vw, 2.4rem); grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; }
+  .mr-actions button { min-height: 42px; padding: .65rem .9rem; color: white; background: var(--mr-blue); border: 1px solid var(--mr-blue); border-radius: 0; cursor: pointer; font: 600 .58rem var(--mr-mono); text-transform: uppercase; }
+  .mr-actions button:hover { background: var(--mr-blue-dark); }
+  .mr-actions button:focus-visible, .mr-actions a:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+  .mr-actions span { color: #aaa6a0; font: 500 .54rem var(--mr-mono); }
+  .mr-actions a { color: #a9bcff; font: 600 .58rem var(--mr-mono); text-transform: uppercase; }
+
+  .mr-footer { display: grid; max-width: 1460px; min-height: 72px; margin: 0 auto; padding: 1rem clamp(1.25rem, 4vw, 4rem); grid-template-columns: 1fr auto auto; gap: 2rem; align-items: center; color: #96928c; }
+  .mr-footer i { display: inline-block; width: 6px; height: 6px; margin-right: .55rem; background: var(--mr-blue); }
+  .mr-sr-only { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; border: 0 !important; }
+
+  @media (max-width: 1080px) {
+    .mr-header { grid-template-columns: 1fr; align-items: start; }
+    .mr-workbench { grid-template-columns: 260px minmax(0, 1fr); }
+    .mr-estimate-banner { grid-template-columns: 1fr 1fr; }
+    .mr-estimate-banner > div:nth-child(2) { border-right: 0; }
+    .mr-estimate-banner > div:last-child { grid-column: 1 / -1; border-top: 1px solid rgba(242,234,222,.25); }
+    .mr-synchronized-grid { grid-template-columns: 1fr; }
+    .mr-synchronized-grid article { border-right: 0; }
+  }
+
+  @media (max-width: 780px) {
+    .mr-workbench { display: block; border-inline: 0; }
+    .mr-controls { border-right: 0; border-bottom: 1px solid rgba(242,234,222,.55); }
+    .mr-baseline-plot { grid-template-columns: 1fr; }
+    .mr-actions { grid-template-columns: 1fr; }
+    .mr-footer { grid-template-columns: 1fr; gap: .7rem; }
+  }
+
+  @media (max-width: 520px) {
+    .mr-header { padding-inline: 1.1rem; }
+    .mr-estimate-banner { grid-template-columns: 1fr; }
+    .mr-estimate-banner > div { border-right: 0; border-bottom: 1px solid rgba(242,234,222,.25); }
+    .mr-estimate-banner > div:last-child { grid-column: auto; border-top: 0; }
+    .mr-plot-scale span:nth-child(2), .mr-plot-scale span:nth-child(5) { display: none; }
+    .mr-plot-head { display: block; }
+    .mr-plot-head span { display: block; margin-bottom: .35rem; }
+    .mr-claim-card > div { display: block; }
+    .mr-claim-card > div strong { display: block; margin-top: .6rem; text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mr-relay *, .mr-relay *::before, .mr-relay *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  }
+
+  @media (forced-colors: active) {
+    .mr-interval-line, .mr-interval-line i, .mr-threshold-line, .mr-estimate-point i { background: Highlight; }
+    .mr-plot-track { border: 1px solid CanvasText; }
+    .mr-claim-card[data-mr-claim-state="outside"] { outline: 3px solid Mark; }
+  }
+
+  @media print {
+    .mr-controls, .mr-actions, .mr-footer { display: none; }
+    .mr-workbench { display: block; }
+    .mr-relay { color: black; background: white; }
+    .mr-output, .mr-output * { color: black !important; background: white !important; border-color: #555 !important; }
+  }
+</style>

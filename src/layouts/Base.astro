@@ -8,16 +8,18 @@ const {
   title,
   description,
   wide = false,
-  image = "/people/ian-editorial.webp",
+  image = "/og.png",
+  imageAlt = "Ian Helfrich, PhD: Evidence Systems",
   noindex = false,
   pageClass = "",
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Quantitative Education & Research Mentorship`;
-const desc = description ?? "Research economist and award-winning educator building public quantitative instruments, private mentorship, and institutional training from St. Louis.";
+const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Research Economist & Evidence Systems Designer`;
+const desc = description ?? "Research economist building defensible models, geospatial intelligence, interactive evidence products, and quantitative capability for researchers, teams, and institutions.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
+const personImage = new URL("/people/ian-editorial.webp", Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
 const year = new Date().getFullYear();
@@ -28,8 +30,8 @@ const personSchema = {
   name: "Dr. Ian T. S. Helfrich",
   honorificSuffix: "PhD",
   url: canonical.origin,
-  image: socialImage.toString(),
-  jobTitle: ["Economist", "Educator", "Quantitative Research Advisor"],
+  image: personImage.toString(),
+  jobTitle: ["Research Economist", "Econometrician", "Geospatial Analyst", "Evidence Systems Designer", "Educator"],
   homeLocation: {
     "@type": "Place",
     name: "St. Louis, Missouri",
@@ -49,6 +51,11 @@ const personSchema = {
     "International trade",
     "Economic networks",
     "Geospatial economics",
+    "Geographic information systems",
+    "Remote sensing",
+    "Interactive data visualization",
+    "Research software",
+    "Quantitative training",
     "Research methods",
   ],
 };
@@ -68,7 +75,7 @@ const personSchema = {
   <meta property="og:url" content={canonical} />
   <meta property="og:site_name" content={siteTitle} />
   <meta property="og:image" content={socialImage} />
-  <meta property="og:image:alt" content="Portrait of economist and educator Ian Helfrich" />
+  <meta property="og:image:alt" content={imageAlt} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={desc} />
@@ -89,7 +96,7 @@ const personSchema = {
         <span class="site-brand-mark" aria-hidden="true"><i>IH</i></span>
         <span class="site-brand-copy">
           <strong>Ian Helfrich, PhD</strong>
-          <small>Economist · Educator</small>
+          <small>Economist · Evidence systems</small>
         </span>
       </a>
 
@@ -99,13 +106,13 @@ const personSchema = {
       </button>
 
       <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
-        <a href="/work-with-me" aria-current={isActive("/work-with-me") ? "page" : undefined}>Work with me</a>
-        <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
-        <a href="/library" aria-current={isActive("/library") ? "page" : undefined}>Public work</a>
-        <a href="/third-space" aria-current={isActive("/third-space") ? "page" : undefined}>Third Space</a>
+        <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
+        <a href="/capabilities" aria-current={isActive("/capabilities") ? "page" : undefined}>Capabilities</a>
+        <a href="/lab" aria-current={isActive("/lab") ? "page" : undefined}>Lab</a>
+        <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
         <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
         <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
-        <a href="/work-with-me#inquiry" class="nav-cta">Start an inquiry</a>
+        <a href="/start" class="nav-cta">Start a project</a>
       </nav>
     </div>
   </header>
@@ -122,17 +129,17 @@ const personSchema = {
     <div class="site-footer-inner">
       <div class="footer-intro">
         <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-        <p>I find the choice hiding inside the number.</p>
+        <p>I turn uncertain data into decisions people can inspect and defend.</p>
         <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
       </div>
 
       <div class="footer-links">
         <div>
-          <strong>Work</strong>
-          <a href="/work-with-me">Private coaching</a>
-          <a href="/work-with-me#institutions">Institutional training</a>
-          <a href="/teaching">Teaching tools</a>
-          <a href="/third-space">Third Space Labs</a>
+          <strong>Studio</strong>
+          <a href="/capabilities#econometrics">Econometric audit</a>
+          <a href="/capabilities#products">Evidence products</a>
+          <a href="/capabilities#spatial">Spatial intelligence</a>
+          <a href="/capabilities#training">Team methods studios</a>
         </div>
         <div>
           <strong>Public work</strong>
@@ -141,19 +148,21 @@ const personSchema = {
           <a href="/datasets">Datasets</a>
           <a href="/writing">Essays + notes</a>
           <a href="/projects">Projects</a>
+          <a href="/teaching">Teaching</a>
         </div>
         <div>
           <strong>Connect</strong>
           <a href="mailto:ianthelfrich@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+          <a href="/start">Start a project</a>
           <a href="/rss.xml">RSS</a>
         </div>
       </div>
     </div>
     <div class="site-footer-bottom">
       <span>© {year} Ian Helfrich</span>
-      <span>Instruction and coaching only. Your work remains your own.</span>
+      <span>Research, analysis, software, and education. Every engagement is scoped in writing.</span>
       <span class="footer-colophon">Set in Bodoni Moda · Newsreader · Geist · Geist Mono</span>
       <button type="button" data-index-open>INDEX /</button>
     </div>
