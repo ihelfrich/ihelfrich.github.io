@@ -1,0 +1,395 @@
+---
+const projects = [
+  {
+    key: "nmtc",
+    index: "01",
+    category: "Place-based policy · Econometrics · Public data product",
+    title: "A coefficient became a different policy question.",
+    story: "A linked FY2001–FY2022 project panel showed that most of the raw rural private-leverage gap sits between Community Development Entities, not within comparable intermediaries. The result redirects attention from rural projects alone to who reaches them and under what allocation rules.",
+    facts: [
+      ["−0.262 → −0.047", "Rural coefficient after CDE fixed effects"],
+      ["82.2%", "Reduction in coefficient magnitude"],
+      ["PUBLIC", "Panel and live viewer"],
+    ],
+    primary: ["Read the NMTC case", "/research/helfrich-2026-nmtc-rural-gap"],
+    secondary: ["Inspect the public record", "/projects/us-nmtc-viewer"],
+  },
+  {
+    key: "distance",
+    index: "02",
+    category: "International trade · Remote sensing · Measurement",
+    title: "Distance changed when economic geography entered the measure.",
+    story: "The OVDL construction uses annual VIIRS nightlights and gridded population to place bilateral endpoints where activity and people actually are. The public 2025 preprint reports improved gravity-model fit; the larger 2000–2024 panel remains active work.",
+    facts: [
+      ["VIIRS + POPULATION", "Economically meaningful endpoints"],
+      ["2025", "Public SSRN preprint"],
+      ["2000–2024", "Active panel horizon"],
+    ],
+    primary: ["Read the effective-distance case", "/research/gonchar-helfrich-2025-spotlight"],
+    secondary: ["See the active panel", "/research/gonchar-helfrich-2026-effective-distance-panel"],
+  },
+  {
+    key: "teaching",
+    index: "03",
+    category: "Tutoring · Education · Interaction design · Public software",
+    title: "World-class teaching, at every level.",
+    story: "From ACT and SAT, AP and IB Higher Level, through university microeconomics, macroeconomics, strategy, mathematics, and graduate econometrics, the work begins at the learner's level without compromising intellectual rigor. Interactive products turn recurring explanations into ideas learners can manipulate, inspect, and carry forward.",
+    facts: [
+      ["450+", "Students taught"],
+      ["1,200+", "Hours in a recent teaching year"],
+      ["2023", "Georgia Tech teaching award"],
+    ],
+    primary: ["Explore teaching and tutoring", "/teaching"],
+    secondary: ["Start a private-work brief", "/start?problem=learning&source=home-work"],
+  },
+];
+---
+
+<section id="selected-work" class="work-folio" data-work-folio aria-labelledby="work-folio-title">
+  <header class="work-folio__intro">
+    <p>Selected work</p>
+    <div>
+      <h2 id="work-folio-title">Evidence, built all the way through.</h2>
+      <p>Three projects move from original reasoning to a public object another person can inspect, operate, or learn from.</p>
+    </div>
+  </header>
+
+  <div class="work-folio__stage" data-folio-stage>
+    <nav class="work-folio__rail" aria-label="Selected project chapters">
+      {projects.map((project, index) => (
+        <button
+          type="button"
+          data-folio-jump={index}
+          aria-label={`Show project ${index + 1}: ${project.title}`}
+          aria-pressed={index === 0 ? "true" : "false"}
+        >
+          <span>{project.index}</span>
+          <i aria-hidden="true"></i>
+        </button>
+      ))}
+    </nav>
+
+    <div class="work-folio__panels">
+      {projects.map((project, index) => (
+        <article
+          class:list={["folio-project", `folio-project--${project.key}`, index === 0 && "is-active"]}
+          data-folio-panel
+          data-project-key={project.key}
+          aria-labelledby={`folio-project-${project.key}`}
+        >
+          <div class="folio-project__copy">
+            <div class="folio-project__meta">
+              <span>{project.index}</span>
+              <p>{project.category}</p>
+            </div>
+            <h3 id={`folio-project-${project.key}`}>{project.title}</h3>
+            <p class="folio-project__story">{project.story}</p>
+            <div class="folio-project__links">
+              <a href={project.primary[1]}>{project.primary[0]} <span aria-hidden="true">↗</span></a>
+              <a href={project.secondary[1]}>{project.secondary[0]}</a>
+            </div>
+          </div>
+
+          <div class="folio-project__visual" aria-hidden="true">
+            {project.key === "nmtc" && (
+              <div class="folio-shift">
+                <div><span>RAW</span><strong>−.262</strong></div>
+                <i></i>
+                <div><span>WITHIN CDE</span><strong>−.047</strong></div>
+                <b>82.2%</b>
+              </div>
+            )}
+            {project.key === "distance" && (
+              <div class="folio-measure">
+                <span>STATIC</span>
+                <span>PLACE</span>
+                <span>TIME</span>
+                <i></i><i></i><i></i>
+                <strong>OVDL</strong>
+              </div>
+            )}
+            {project.key === "teaching" && (
+              <div class="folio-subjects">
+                <span>ECONOMETRICS</span><span>MICRO</span><span>MACRO</span>
+                <span>MATHEMATICS</span><span>STRATEGY</span><span>ACT / SAT</span>
+                <span>AP / IB HL</span><span>CODE</span><strong>TEACH</strong>
+              </div>
+            )}
+          </div>
+
+          <dl class="folio-project__facts">
+            {project.facts.map(([value, label]) => (
+              <div><dt>{label}</dt><dd>{value}</dd></div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
+
+    <p class="work-folio__counter" aria-hidden="true"><span data-folio-current>01</span> / {String(projects.length).padStart(2, "0")}</p>
+  </div>
+
+  <footer class="work-folio__exit">
+    <a href="/work">View all selected work <span aria-hidden="true">↗</span></a>
+  </footer>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const roots = document.querySelectorAll<HTMLElement>("[data-work-folio]");
+
+  roots.forEach((root) => {
+    if (root.dataset.motionReady === "true") return;
+    root.dataset.motionReady = "true";
+
+    const stage = root.querySelector<HTMLElement>("[data-folio-stage]");
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-folio-panel]"));
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-folio-jump]"));
+    const counter = root.querySelector<HTMLElement>("[data-folio-current]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pinReady = window.matchMedia("(min-width: 960px) and (min-height: 720px)");
+    const aborter = new AbortController();
+    const { signal } = aborter;
+    let active = 0;
+    let timeline: ReturnType<typeof gsap.timeline> | undefined;
+
+    const setActive = (index: number, force = false) => {
+      const normalized = Math.max(0, Math.min(panels.length - 1, index));
+      if (!force && normalized === active && root.dataset.initialized === "true") return;
+      const focused = document.activeElement;
+      const recoverFocus = focused instanceof HTMLElement && panels.some((panel, panelIndex) => panelIndex !== normalized && panel.contains(focused));
+      active = normalized;
+      root.dataset.initialized = "true";
+      panels.forEach((panel, panelIndex) => {
+        const selected = panelIndex === active;
+        panel.classList.toggle("is-active", selected);
+        panel.setAttribute("aria-hidden", String(!selected));
+        panel.inert = !selected;
+      });
+      buttons.forEach((button, buttonIndex) => button.setAttribute("aria-pressed", String(buttonIndex === active)));
+      if (counter) counter.textContent = String(active + 1).padStart(2, "0");
+      if (recoverFocus) buttons[active]?.focus({ preventScroll: true });
+    };
+
+    const build = () => {
+      timeline?.scrollTrigger?.kill();
+      timeline?.kill();
+      timeline = undefined;
+      root.classList.remove("has-pinned-folio");
+      panels.forEach((panel) => gsap.set(panel, { clearProps: "all" }));
+
+      if (reduceMotion.matches || !pinReady.matches || !stage) {
+        panels.forEach((panel) => {
+          panel.removeAttribute("aria-hidden");
+          panel.inert = false;
+          panel.classList.remove("is-active");
+        });
+        return;
+      }
+
+      root.classList.add("has-pinned-folio");
+      setActive(0, true);
+      gsap.set(panels, { autoAlpha: 0, yPercent: 8, pointerEvents: "none" });
+      gsap.set(panels[0], { autoAlpha: 1, yPercent: 0, pointerEvents: "auto" });
+
+      timeline = gsap.timeline({
+        defaults: { ease: "power3.inOut" },
+        scrollTrigger: {
+          trigger: stage,
+          start: "top top",
+          end: () => `+=${window.innerHeight * Math.max(1.8, (panels.length - 1) * 1.1)}`,
+          pin: true,
+          scrub: 0.65,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => setActive(Math.round(self.progress * (panels.length - 1))),
+        },
+      });
+
+      panels.slice(1).forEach((panel, index) => {
+        const previous = panels[index];
+        const position = index;
+        timeline
+          ?.to(previous, { autoAlpha: 0, yPercent: -6, pointerEvents: "none", duration: 0.42 }, position + .30)
+          .fromTo(panel, { autoAlpha: 0, yPercent: 8 }, { autoAlpha: 1, yPercent: 0, pointerEvents: "auto", duration: 0.48 }, position + .45);
+      });
+    };
+
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => {
+        if (!timeline?.scrollTrigger) {
+          panels[index]?.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+          return;
+        }
+        const trigger = timeline.scrollTrigger;
+        const destination = trigger.start + (trigger.end - trigger.start) * (index / Math.max(1, panels.length - 1));
+        window.scrollTo({ top: destination, behavior: reduceMotion.matches ? "auto" : "smooth" });
+      }, { signal });
+    });
+
+    build();
+    reduceMotion.addEventListener("change", build, { signal });
+    pinReady.addEventListener("change", build, { signal });
+
+    document.addEventListener("astro:before-swap", () => {
+      timeline?.scrollTrigger?.kill();
+      timeline?.kill();
+      aborter.abort();
+      delete root.dataset.motionReady;
+    }, { once: true, signal });
+  });
+</script>
+
+<style>
+  .work-folio {
+    --folio-black: #09090b;
+    --folio-white: #f7f7f5;
+    --folio-pure: #fff;
+    --folio-graphite: #343439;
+    --folio-muted: #686870;
+    --folio-line: rgba(9, 9, 11, .14);
+    --folio-line-dark: rgba(255, 255, 255, .16);
+    --folio-accent: #4b4fe9;
+    color: var(--folio-black);
+    background: var(--folio-white);
+  }
+
+  .work-folio__intro {
+    display: grid;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: clamp(6rem, 11vw, 11rem) clamp(1.25rem, 3vw, 3.5rem) clamp(3rem, 6vw, 6rem);
+    grid-template-columns: minmax(120px, .26fr) 1fr;
+    gap: 2rem;
+  }
+
+  .work-folio__intro > p { margin: .6rem 0 0; color: var(--folio-muted); font: 500 .75rem/1.3 var(--ih-mono); }
+  .work-folio__intro > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, .42fr); gap: 2rem 5vw; align-items: end; }
+  .work-folio__intro h2 { max-width: 11ch; margin: 0; font: 520 clamp(3.8rem, 7.5vw, 8.6rem)/.86 var(--ih-display); letter-spacing: -.072em; }
+  .work-folio__intro div > p { max-width: 520px; margin: 0 0 .7rem; color: var(--folio-graphite); font: 430 clamp(1rem, 1.35vw, 1.25rem)/1.5 var(--ih-sans); letter-spacing: -.018em; }
+
+  .work-folio__stage { position: relative; min-height: 100svh; overflow: hidden; background: var(--folio-pure); }
+  .work-folio__panels { position: relative; min-height: 100svh; }
+  .folio-project { display: grid; min-height: 100svh; padding: clamp(5.8rem, 10vh, 8rem) clamp(1.25rem, 4vw, 5rem) clamp(2rem, 5vh, 4rem); grid-template-columns: minmax(0, .95fr) minmax(360px, 1.05fr); grid-template-rows: 1fr auto; gap: clamp(2rem, 5vw, 6rem); align-content: stretch; }
+  .has-pinned-folio .work-folio__panels { height: 100svh; }
+  .has-pinned-folio .folio-project { position: absolute; inset: 0; }
+
+  .folio-project--distance { color: var(--folio-white); background: var(--folio-black); }
+  .folio-project--nmtc,
+  .folio-project--teaching { background: var(--folio-pure); }
+
+  .folio-project__copy { z-index: 2; display: flex; max-width: 800px; flex-direction: column; align-self: center; }
+  .folio-project__meta { display: flex; align-items: center; gap: 1rem; color: var(--folio-muted); }
+  .folio-project__meta span { color: var(--folio-accent); font: 600 .75rem var(--ih-mono); }
+  .folio-project__meta p { margin: 0; font: 500 .72rem/1.4 var(--ih-sans); text-transform: none; }
+  .folio-project--distance .folio-project__meta { color: #a9a9b1; }
+
+  .folio-project h3 { max-width: 12ch; margin: 1.5rem 0; color: inherit; font: 520 clamp(3rem, 5.8vw, 7rem)/.88 var(--ih-display); letter-spacing: -.068em; }
+  .folio-project__story { max-width: 680px; margin: 0; color: var(--folio-graphite); font: 430 clamp(1rem, 1.25vw, 1.18rem)/1.58 var(--ih-sans); letter-spacing: -.012em; }
+  .folio-project--distance .folio-project__story { color: #c9c9ce; }
+
+  .folio-project__links { display: flex; margin-top: 2rem; align-items: center; gap: 1rem 1.5rem; flex-wrap: wrap; }
+  .folio-project__links a:first-child { display: inline-flex; min-height: 48px; padding: 0 1.1rem; align-items: center; gap: 1.6rem; color: white; background: var(--folio-accent); border-radius: 999px; font: 600 .78rem var(--ih-sans); text-decoration: none; }
+  .folio-project__links a:first-child:hover { background: #3337c8; }
+  .folio-project__links a:last-child { color: inherit; font: 550 .78rem var(--ih-sans); text-underline-offset: .35em; }
+
+  .folio-project__visual { position: relative; min-height: 54vh; align-self: center; overflow: hidden; border-radius: clamp(18px, 2.4vw, 32px); }
+
+  .folio-shift { position: absolute; inset: 0; display: grid; padding: clamp(1.3rem, 3vw, 3rem); grid-template-columns: 1fr 1px 1fr; gap: clamp(1rem, 3vw, 3rem); align-items: center; background: #ededeb; }
+  .folio-shift > div { display: grid; gap: 1.4rem; }
+  .folio-shift > div:last-of-type { text-align: right; }
+  .folio-shift span { color: var(--folio-muted); font: 600 .66rem var(--ih-mono); }
+  .folio-shift strong { font: 520 clamp(3.2rem, 6.7vw, 8rem)/.8 var(--ih-display); letter-spacing: -.085em; }
+  .folio-shift i { width: 1px; height: 78%; background: var(--folio-accent); }
+  .folio-shift b { position: absolute; right: 1.5rem; bottom: 1.2rem; color: var(--folio-accent); font: 520 clamp(4rem, 8vw, 9rem)/.8 var(--ih-display); letter-spacing: -.08em; opacity: .16; }
+
+  .folio-measure { position: absolute; inset: 0; display: grid; padding: clamp(1.5rem, 3vw, 3rem); place-content: center; color: white; background: #111114; }
+  .folio-measure > span { position: absolute; font: 530 clamp(2.5rem, 6vw, 7rem)/1 var(--ih-display); letter-spacing: -.07em; }
+  .folio-measure > span:nth-child(1) { top: 8%; left: 7%; color: #68686f; }
+  .folio-measure > span:nth-child(2) { top: 42%; right: 5%; }
+  .folio-measure > span:nth-child(3) { bottom: 7%; left: 13%; color: var(--folio-accent); }
+  .folio-measure i { position: absolute; height: 1px; background: var(--folio-line-dark); transform-origin: left; }
+  .folio-measure i:nth-of-type(1) { top: 32%; left: 8%; width: 77%; transform: rotate(8deg); }
+  .folio-measure i:nth-of-type(2) { top: 58%; left: 14%; width: 72%; transform: rotate(-13deg); }
+  .folio-measure i:nth-of-type(3) { top: 74%; left: 28%; width: 56%; transform: rotate(17deg); background: var(--folio-accent); }
+  .folio-measure strong { z-index: 2; color: var(--folio-white); font: 620 clamp(5rem, 11vw, 13rem)/.75 var(--ih-display); letter-spacing: -.095em; mix-blend-mode: difference; }
+
+  .folio-subjects { position: absolute; inset: 0; display: grid; padding: clamp(1rem, 2vw, 2rem); grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 1px; background: var(--folio-line); }
+  .folio-subjects span,
+  .folio-subjects strong { display: flex; padding: 1rem; align-items: flex-end; color: var(--folio-graphite); background: #efefed; font: 560 clamp(.66rem, 1vw, .9rem)/1.2 var(--ih-sans); }
+  .folio-subjects span:nth-child(2),
+  .folio-subjects span:nth-child(5),
+  .folio-subjects span:nth-child(7) { align-items: flex-start; justify-content: flex-end; text-align: right; }
+  .folio-subjects strong { align-items: center; justify-content: center; color: white; background: var(--folio-accent); font-size: clamp(1.8rem, 4vw, 4.5rem); letter-spacing: -.06em; }
+
+  .folio-project__facts { z-index: 2; display: grid; margin: 0; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--folio-line); }
+  .folio-project--distance .folio-project__facts { border-color: var(--folio-line-dark); }
+  .folio-project__facts > div { display: grid; padding: 1rem 1rem 0 0; gap: .35rem; }
+  .folio-project__facts dd { margin: 0; font: 540 clamp(1.4rem, 2.5vw, 3rem)/1 var(--ih-display); letter-spacing: -.05em; }
+  .folio-project__facts dt { color: var(--folio-muted); font: 500 .68rem/1.4 var(--ih-sans); }
+  .folio-project--distance .folio-project__facts dt { color: #9999a1; }
+
+  .work-folio__rail { position: absolute; z-index: 8; top: 50%; right: clamp(.55rem, 1.4vw, 1.5rem); display: none; gap: .35rem; transform: translateY(-50%); }
+  .has-pinned-folio .work-folio__rail { display: grid; }
+  .work-folio__rail button { display: grid; width: 42px; min-height: 44px; padding: .4rem; place-items: center; color: var(--folio-muted); background: rgba(247,247,245,.82); border: 0; border-radius: 999px; cursor: pointer; font: 600 .58rem var(--ih-mono); backdrop-filter: blur(10px); }
+  .work-folio__rail button i { width: 6px; height: 2px; background: currentColor; transition: width 180ms ease, background 180ms ease; }
+  .work-folio__rail button[aria-pressed="true"] { color: white; background: var(--folio-accent); }
+  .work-folio__rail button[aria-pressed="true"] i { width: 16px; }
+  .work-folio__counter { position: absolute; z-index: 8; right: clamp(1rem, 3vw, 3rem); bottom: 1rem; display: none; margin: 0; color: var(--folio-muted); font: 600 .62rem var(--ih-mono); }
+  .has-pinned-folio .work-folio__counter { display: block; }
+
+  .work-folio__exit { display: flex; max-width: 1680px; margin: 0 auto; padding: 2rem clamp(1.25rem, 3vw, 3.5rem) clamp(6rem, 10vw, 10rem); justify-content: flex-end; }
+  .work-folio__exit a { color: var(--folio-black); font: 600 .88rem var(--ih-sans); text-underline-offset: .35em; }
+
+  .work-folio a:focus-visible,
+  .work-folio button:focus-visible { outline: 2px solid var(--folio-accent); outline-offset: 3px; }
+
+  @media (max-width: 959px) {
+    .work-folio__intro { grid-template-columns: 1fr; }
+    .work-folio__intro > div { grid-template-columns: 1fr; }
+    .work-folio__intro h2 { font-size: clamp(3.5rem, 13vw, 6.8rem); }
+    .work-folio__stage,
+    .work-folio__panels { min-height: 0; overflow: visible; }
+    .folio-project { min-height: 0; padding: 5rem 1.25rem 2rem; grid-template-columns: 1fr; grid-template-rows: auto; }
+    .folio-project__visual { min-height: 52vw; order: -1; }
+    .folio-project__facts { grid-column: auto; }
+    .work-folio__rail,
+    .work-folio__counter { display: none; }
+  }
+
+  @media (max-width: 620px) {
+    .folio-project { padding-top: 4rem; }
+    .folio-project h3 { font-size: clamp(2.9rem, 13vw, 5rem); }
+    .folio-project__facts { grid-template-columns: 1fr; }
+    .folio-project__facts > div { padding: .85rem 0; border-bottom: 1px solid var(--folio-line); }
+    .folio-project--distance .folio-project__facts > div { border-color: var(--folio-line-dark); }
+    .folio-project__links { align-items: flex-start; flex-direction: column; }
+    .folio-project__visual { min-height: 72vw; }
+    .folio-subjects { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(5, 1fr); }
+    .folio-subjects strong { grid-column: 1 / -1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-folio *,
+    .work-folio *::before,
+    .work-folio *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+  }
+
+  @media (forced-colors: active) {
+    .folio-project,
+    .folio-project--distance,
+    .folio-project__visual,
+    .folio-shift,
+    .folio-measure,
+    .folio-subjects,
+    .folio-subjects span,
+    .folio-subjects strong { color: CanvasText; background: Canvas; }
+    .folio-project__visual { border: 1px solid CanvasText; }
+    .folio-project__links a:first-child,
+    .work-folio__rail button[aria-pressed="true"] { color: HighlightText; background: Highlight; }
+  }
+</style>
