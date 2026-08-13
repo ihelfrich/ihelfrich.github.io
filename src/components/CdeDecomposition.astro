@@ -1,0 +1,119 @@
+---
+// The paper's headline result as a figure the reader operates. Numbers come
+// from the abstract: raw gap -0.262; with CDE fixed effects -0.047 at
+// p = 0.64. The 95 percent interval shown in the FE state is implied by the
+// reported p-value (z = 0.47, SE approx 0.101); the raw gap's interval is
+// not reported in the abstract, so none is drawn. Motion runs only when the
+// reader flips the toggle, and stops when the estimate settles.
+---
+<figure class="cde-fig inst-panel">
+  <svg id="cde-plot" viewBox="0 0 1000 300" role="img" aria-label="Coefficient plot: the rural leverage gap with and without Community Development Entity fixed effects"></svg>
+  <p class="inst-readout cde-row">
+    <label class="cde-toggle">
+      <input type="checkbox" id="cde-fe" />
+      Community Development Entity fixed effects
+    </label>
+    <span id="cde-readout">raw rural gap: &minus;0.262</span>
+  </p>
+  <figcaption class="cde-note">
+    The figure is live: turn the fixed effects on and the estimate moves the
+    way it moves in the paper. The interval in the FE state is implied by the
+    reported p-value (p = 0.64 gives z &asymp; 0.47, SE &asymp; 0.101); the
+    abstract reports no interval for the raw gap, so none is drawn. Full
+    tables are in the paper and the replication repo.
+  </figcaption>
+</figure>
+
+<script>
+  // Coefficient plot with a spring toward the active specification.
+  const svg = document.getElementById("cde-plot");
+  const box = document.getElementById("cde-fe") as HTMLInputElement | null;
+  const readout = document.getElementById("cde-readout");
+  if (svg && box) {
+    const NS = "http://www.w3.org/2000/svg";
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const W = 1000, L = 90, R = 950, CY_TOP = 30, CY_BOT = 240;
+    const YMIN = -0.32, YMAX = 0.2;
+    const y = (v: number) => CY_TOP + (YMAX - v) / (YMAX - YMIN) * (CY_BOT - CY_TOP);
+    const RAW = -0.262, FE = -0.047, SE = 0.101, Z = 1.96;
+    const el = (tag: string, attrs: Record<string, string>) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      svg.appendChild(n);
+      return n;
+    };
+    const MONO = "font: 520 11px var(--ih-mono);";
+    // scale
+    for (const v of [-0.3, -0.2, -0.1, 0, 0.1, 0.2]) {
+      const Y = y(v);
+      el("line", { x1: String(L), y1: String(Y), x2: String(R), y2: String(Y),
+        stroke: v === 0 ? "#111113" : "rgba(17,17,19,0.1)", "stroke-width": v === 0 ? "1.2" : "1" });
+      const t = el("text", { x: String(L - 10), y: String(Y + 4), fill: "#898781",
+        "text-anchor": "end", style: MONO });
+      t.textContent = v === 0 ? "0" : v.toFixed(1);
+    }
+    const zeroLbl = el("text", { x: String(R), y: String(y(0) - 8), fill: "#898781", "text-anchor": "end", style: MONO });
+    zeroLbl.textContent = "no rural gap";
+    const X = (L + R) / 2;
+    const whisker = el("line", { x1: String(X), y1: String(y(RAW)), x2: String(X), y2: String(y(RAW)),
+      stroke: "#111113", "stroke-width": "1.6" });
+    const capT = el("line", { x1: String(X - 14), x2: String(X + 14), y1: String(y(RAW)), y2: String(y(RAW)), stroke: "#111113", "stroke-width": "1.6" });
+    const capB = el("line", { x1: String(X - 14), x2: String(X + 14), y1: String(y(RAW)), y2: String(y(RAW)), stroke: "#111113", "stroke-width": "1.6" });
+    const dot = el("circle", { cx: String(X), cy: String(y(RAW)), r: "9", fill: "#111113" });
+    const lbl = el("text", { x: String(X + 22), y: String(y(RAW) + 4), fill: "#3d3d42", style: MONO });
+    lbl.textContent = "raw rural gap  −0.262";
+
+    let cur = RAW, curSpread = 0, vel = 0, velS = 0, raf = 0, running = false;
+    function target() { return box!.checked ? FE : RAW; }
+    function targetSpread() { return box!.checked ? Z * SE : 0; }
+    function render(v: number, spread: number, live: boolean) {
+      const cy = y(v);
+      const hiY = y(v + spread), loY = y(v - spread);
+      dot.setAttribute("cy", String(cy));
+      dot.setAttribute("fill", live ? "#2852e8" : "#111113");
+      whisker.setAttribute("y1", String(hiY)); whisker.setAttribute("y2", String(loY));
+      whisker.setAttribute("stroke", live ? "#2852e8" : "#111113");
+      for (const [cap, yy] of [[capT, hiY], [capB, loY]] as const) {
+        cap.setAttribute("y1", String(yy)); cap.setAttribute("y2", String(yy));
+        cap.setAttribute("stroke", live ? "#2852e8" : "#111113");
+        cap.setAttribute("opacity", spread > 0.004 ? "1" : "0");
+      }
+      lbl.setAttribute("y", String(cy + 4));
+      lbl.textContent = box!.checked
+        ? "with CDE fixed effects  −0.047 (p = 0.64)"
+        : "raw rural gap  −0.262";
+    }
+    function step() {
+      const k = 0.09, damp = 0.75;
+      vel = (vel + (target() - cur) * k) * damp;
+      velS = (velS + (targetSpread() - curSpread) * k) * damp;
+      cur += vel; curSpread += velS;
+      const settled = Math.abs(vel) < 1e-5 && Math.abs(cur - target()) < 1e-4 &&
+                      Math.abs(velS) < 1e-5 && Math.abs(curSpread - targetSpread()) < 1e-4;
+      render(cur, curSpread, !settled);
+      if (settled) { cur = target(); curSpread = targetSpread(); render(cur, curSpread, false); running = false; return; }
+      raf = requestAnimationFrame(step);
+    }
+    box.addEventListener("change", () => {
+      if (readout) readout.textContent = box.checked
+        ? "−0.047, p = 0.64 · 82.2 percent of the gap was intermediary selection"
+        : "raw rural gap: −0.262";
+      if (reduced) { cur = target(); curSpread = targetSpread(); render(cur, curSpread, false); return; }
+      if (!running) { running = true; raf = requestAnimationFrame(step); }
+    });
+    render(RAW, 0, false);
+  }
+</script>
+
+<style>
+  .cde-fig { margin: 2.2rem 0; }
+  .cde-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+  .cde-toggle { display: inline-flex; gap: 0.5rem; align-items: center; cursor: pointer; color: #111113; }
+  .cde-toggle input { accent-color: #2852e8; }
+  .cde-note {
+    margin: 0.35rem 0.2rem 0.5rem;
+    color: #66666c;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+</style>

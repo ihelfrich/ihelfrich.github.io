@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import CdeDecomposition from "../../components/CdeDecomposition.astro";
 import { getCollection, getEntry, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -25,6 +26,7 @@ const { Content } = await render(paper);
         {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code & data →</a>}
       </div>
     </header>
+    {slug === "helfrich-2026-nmtc-rural-gap" && <CdeDecomposition />}
     <div class="record-body"><Content /></div>
     <footer class="record-end"><span>END OF PUBLIC RECORD</span><a href="/research">All papers →</a><a href="/library">Complete public index →</a></footer>
   </article>

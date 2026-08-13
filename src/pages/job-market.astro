@@ -429,6 +429,41 @@ const mapData = { nodes, edges };
     } else { render(); wake(); }
   }
 
+  // ── Sidenotes: on wide viewports the footnotes leave the end of the paper
+  // and sit in the right margin beside their reference marks, Tufte style.
+  // Pure layout, no motion; narrow viewports and print keep the footnote
+  // block at the end.
+  const paperEl = document.querySelector(".paper") as HTMLElement | null;
+  if (paperEl) {
+    const pairs: [string, string][] = [
+      ["ref-corr", "fn-corr"],
+      ["ref-letters", "fn-letters"],
+      ["ref-est", "fn-est"],
+    ];
+    const mq = window.matchMedia("(min-width: 1360px)");
+    function placeSidenotes() {
+      const on = mq.matches;
+      paperEl!.classList.toggle("has-sidenotes", on);
+      let prevBottom = -1e9;
+      for (const [refId, fnId] of pairs) {
+        const ref = document.getElementById(refId);
+        const fn = document.getElementById(fnId);
+        if (!ref || !fn) continue;
+        if (!on) { fn.style.top = ""; continue; }
+        const pr = paperEl!.getBoundingClientRect();
+        let top = ref.getBoundingClientRect().top - pr.top - 4;
+        if (top < prevBottom + 14) top = prevBottom + 14;
+        fn.style.top = `${top}px`;
+        prevBottom = top + fn.getBoundingClientRect().height;
+      }
+    }
+    const schedule = () => requestAnimationFrame(placeSidenotes);
+    mq.addEventListener("change", schedule);
+    window.addEventListener("resize", schedule);
+    window.addEventListener("load", schedule);
+    schedule();
+  }
+
   // ── Figure 2: the cycle instrument (unchanged mathematics, paper styling)
   const svg = document.getElementById("cyc");
   if (svg) {
@@ -625,6 +660,26 @@ const mapData = { nodes, edges };
   .paper-fns p { font-size: 0.84rem; line-height: 1.55; margin: 0 0 0.45rem; color: #3d3d42; }
   .fn-mark { display: inline-block; min-width: 1.1em; }
   .fn-back { text-decoration: none; }
+
+  /* Tufte sidenotes: footnotes float beside their marks when the margin
+     exists. Screen only; print keeps the footnote block. */
+  @media screen and (min-width: 1360px) {
+    .paper.has-sidenotes { position: relative; }
+    .paper.has-sidenotes .paper-fnrule,
+    .paper.has-sidenotes .paper-fns .fn-back { display: none; }
+    .paper.has-sidenotes .paper-fns p {
+      position: absolute;
+      left: calc(100% + 2.2rem);
+      width: 15.5rem;
+      margin: 0;
+      padding-left: 0.8rem;
+      border-left: 1px solid rgba(17, 17, 19, 0.18);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      text-align: left;
+      hyphens: none;
+    }
+  }
 
   .paper-refs { margin-top: 2.2rem; }
   .paper-refs h2 { font-size: 1.05rem; }
