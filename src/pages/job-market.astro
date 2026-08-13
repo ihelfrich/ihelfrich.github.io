@@ -1,11 +1,15 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
-// The candidate as working paper. This page is typeset as an economics
-// preprint: title block, abstract, numbered sections, booktab table,
-// footnotes, references. The figures are live instruments. JMP designation
-// remains the NMTC rural mobilization gap; swapping it is a one-block edit
-// in section 2 plus one reference entry.
+import portraitPlan from "../data/portrait-transport.json";
+// The candidate as working paper, with a cover. The cover is the site's one
+// midnight surface: fig. 0 renders the candidate's portrait as a measure of
+// 4,200 mass points that assemble along a precomputed transport plan when
+// the reader clicks "resolve" (points sampled from the photograph by
+// brightness, paired to a gaussian start cloud along a Z-order curve so the
+// flow reads as displacement interpolation). The typeset note follows.
+// JMP designation remains the NMTC rural mobilization gap; swapping it is a
+// one-block edit in section 2 plus one reference entry.
 
 const papers = await getCollection("research");
 const SHORT: Record<string, string> = {
@@ -35,13 +39,33 @@ for (let i = 0; i < nodes.length; i++)
 const mapData = { nodes, edges };
 ---
 <Base
+  wide
+  pageClass="paper-page"
   title="Job market"
   description="Ian Helfrich is on the 2026-27 economics job market. A candidate note for hiring committees, typeset as a working paper, with live figures."
 >
-  <article class="paper">
+  <section class="cover" aria-label="Cover">
+    <div class="cover-inner">
+      <div class="cover-type">
+        <p class="cover-eyebrow">AEA job market · 2026-27 cycle</p>
+        <h1>Making Complex<br />Evidence Usable</h1>
+        <p class="cover-sub">The candidate note of Ian Helfrich, typeset as a working paper. Two of its figures are live instruments. It begins below.</p>
+        <p class="cover-cta"><a href="#note">Read the note ↓</a></p>
+      </div>
+      <figure class="cover-fig">
+        <canvas id="fig0" aria-label="The candidate's portrait, rendered as a cloud of mass points that assemble when resolved"></canvas>
+        <figcaption>
+          <span>fig. 0 · the candidate, as a measure · n = 4,200</span>
+          <button type="button" id="fig0-btn">resolve</button>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <article class="paper" id="note">
     <header class="paper-head">
       <p class="paper-eyebrow">AEA job market · 2026-27 cycle · this draft: August 2026</p>
-      <h1>Making Complex Evidence Usable</h1>
+      <p class="paper-doc-title">Making Complex Evidence Usable</p>
       <p class="paper-sub">A candidate note for hiring committees, with live figures</p>
       <p class="paper-author">Ian Helfrich<a class="fn-ref" href="#fn-corr" id="ref-corr">†</a></p>
       <p class="paper-affil">Ph.D. Economics, Georgia Institute of Technology, 2024</p>
@@ -200,8 +224,79 @@ const mapData = { nodes, edges };
 </Base>
 
 <script is:inline type="application/json" id="pgm2-data" set:html={JSON.stringify(mapData)} />
+<script is:inline type="application/json" id="fig0-data" set:html={JSON.stringify(portraitPlan)} />
 
 <script>
+  // ── fig. 0: the candidate, as a measure ─────────────────────────────────
+  // 4,200 points sampled from the portrait by brightness, paired to a
+  // gaussian start cloud along a Z-order curve. "Resolve" flows the mass
+  // along the plan (displacement interpolation); "disperse" reverses it.
+  // Motion runs only on the visitor's click and stops at the endpoints.
+  const fig0 = document.getElementById("fig0") as HTMLCanvasElement | null;
+  const fig0Btn = document.getElementById("fig0-btn");
+  const fig0Data = document.getElementById("fig0-data");
+  if (fig0 && fig0Btn && fig0Data) {
+    const ctx = fig0.getContext("2d")!;
+    const { s, e } = JSON.parse(fig0Data.textContent || "{}") as { s: [number, number][]; e: [number, number, number][] };
+    const N = e.length;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const FLOW = 1700;
+    let size = 0, dpr = 1;
+    let resolved = false, animFrom = 0, animT0 = -1, raf = 0;
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    function resize() {
+      const r = fig0.getBoundingClientRect();
+      size = Math.max(1, r.width);
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      fig0.width = Math.round(size * dpr);
+      fig0.height = Math.round(size * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw(resolved ? 1 : 0);
+    }
+    function draw(t: number) {
+      ctx.clearRect(0, 0, size, size);
+      const transit = t > 0.001 && t < 0.999;
+      const wave = transit ? Math.sin(Math.PI * t) : 0;
+      for (let i = 0; i < N; i++) {
+        const x = (s[i][0] + (e[i][0] - s[i][0]) * t) * size;
+        const y = (s[i][1] + (e[i][1] - s[i][1]) * t) * size;
+        const b = e[i][2];
+        const r_ = (1.05 + (0.55 + 0.85 * b) * t) * (size / 520);
+        if (transit && i % 3 === 0) {
+          ctx.fillStyle = `rgba(40,82,232,${0.5 + 0.4 * wave})`;
+        } else {
+          const a = 0.5 + 0.42 * (t * b + (1 - t) * 0.35);
+          ctx.fillStyle = `rgba(242,234,222,${a})`;
+        }
+        ctx.beginPath();
+        ctx.arc(x, y, r_, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    function step(now: number) {
+      const raw = Math.min(1, (now - animT0) / FLOW);
+      const t = resolved ? animFrom + (1 - animFrom) * ease(raw) : animFrom * (1 - ease(raw));
+      draw(t);
+      if (raw < 1) { raf = requestAnimationFrame(step); return; }
+      animT0 = -1;
+      fig0Btn!.textContent = resolved ? "disperse" : "resolve";
+    }
+    function toggle() {
+      if (animT0 >= 0) return;
+      resolved = !resolved;
+      if (reduced) { draw(resolved ? 1 : 0); fig0Btn!.textContent = resolved ? "disperse" : "resolve"; return; }
+      animFrom = resolved ? 0 : 1;
+      animT0 = performance.now();
+      fig0Btn!.textContent = "resolving";
+      raf = requestAnimationFrame(step);
+    }
+    fig0Btn.addEventListener("click", toggle);
+    fig0.addEventListener("pointerdown", toggle);
+    new ResizeObserver(() => { cancelAnimationFrame(raf); animT0 = -1; resize(); }).observe(fig0);
+    resize();
+  }
+
   // ── Figure 1: the program map (compact variant of /research's instrument)
   const svg2 = document.getElementById("pgm2") as unknown as SVGSVGElement | null;
   const data2 = document.getElementById("pgm2-data");
@@ -386,11 +481,96 @@ const mapData = { nodes, edges };
 </script>
 
 <style>
+  :global(.paper-page main.wide) { width: 100%; max-width: none; padding: 0; }
+
+  /* ── The cover: the site's one midnight surface ── */
+  .cover {
+    background: #121426;
+    color: #f2eade;
+    min-height: calc(100svh - 72px);
+    display: grid;
+    align-items: center;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 5vw, 5rem);
+  }
+  .cover-inner {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(300px, 7fr) minmax(280px, 5fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .cover-eyebrow { margin: 0 0 1.4rem; color: #b9c0d8; font: 520 0.68rem/1.5 var(--ih-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+  .cover h1 {
+    margin: 0;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: #f2eade;
+  }
+  .cover-sub {
+    margin: 1.4rem 0 0;
+    max-width: 30rem;
+    color: #b9c0d8;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .cover-cta { margin: 2.2rem 0 0; }
+  .cover-cta a { color: #f2eade; font: 600 0.74rem/1.5 var(--ih-mono); text-decoration: underline; text-underline-offset: 0.34em; }
+  .cover-cta a:hover { color: #2852e8; }
+  .cover-fig { margin: 0; }
+  .cover-fig canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border: 1px solid rgba(242, 234, 222, 0.16);
+    border-radius: 4px;
+  }
+  .cover-fig figcaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.6rem;
+    color: #b9c0d8;
+    font: 520 0.64rem/1.5 var(--ih-mono);
+  }
+  #fig0-btn {
+    background: none;
+    border: 1px solid rgba(242, 234, 222, 0.35);
+    border-radius: 5px;
+    color: #f2eade;
+    font: 520 0.64rem/1.4 var(--ih-mono);
+    padding: 2px 10px;
+    cursor: pointer;
+  }
+  #fig0-btn:hover { border-color: #2852e8; color: #b9c0d8; }
+  @media (max-width: 860px) {
+    .cover-inner { grid-template-columns: 1fr; }
+    .cover-fig { max-width: 420px; }
+  }
+  @media (forced-colors: active) { .cover-fig canvas { display: none; } }
+
+  .paper-doc-title {
+    margin: 1.1rem 0 0.2rem;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 4vw, 2.7rem);
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+  }
+
   .paper {
     --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     max-width: 46rem;
     margin: 0 auto;
-    padding: 2.5rem 0 3rem;
+    padding: 3rem 1.25rem 3.5rem;
+    scroll-margin-top: 1.5rem;
     color: #111113;
     font-family: var(--serif);
     font-size: 1.02rem;
@@ -403,7 +583,7 @@ const mapData = { nodes, edges };
 
   .paper-head { text-align: center; margin-bottom: 2.4rem; }
   .paper-eyebrow { color: #66666c; font: 520 0.66rem/1.5 var(--ih-mono); letter-spacing: 0.06em; text-transform: uppercase; }
-  .paper-head h1 { margin: 1.1rem 0 0.2rem; font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.15; letter-spacing: -0.012em; }
+  .paper-head .paper-doc-title { font-family: var(--serif); }
   .paper-sub { margin: 0.2rem 0 1.4rem; font-style: italic; color: #3d3d42; }
   .paper-author { margin: 0; font-variant-caps: small-caps; letter-spacing: 0.14em; font-size: 1.08rem; }
   .paper-author .fn-ref { text-decoration: none; }
