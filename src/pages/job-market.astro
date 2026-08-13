@@ -24,6 +24,19 @@ import Base from "../layouts/Base.astro";
     </div>
   </header>
 
+  <section class="section compact" aria-labelledby="cycle-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">The cycle</span>
+        <h2 id="cycle-title">Where the market clock stands.</h2>
+      </div>
+      <p>The AEA 2026-27 cycle against today's date. The cursor is live; everything else is the calendar. Available for interviews through the signal window and at ASSA, in person or remote.</p>
+    </div>
+    <div class="cyc-wrap">
+      <svg id="cyc" viewBox="0 0 1000 150" role="img" aria-label="Timeline of the AEA 2026-27 job market cycle with a marker at today's date"></svg>
+    </div>
+  </section>
+
   <section class="section compact" aria-labelledby="facts-title">
     <div class="section-heading">
       <div>
@@ -146,3 +159,69 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
 </Base>
+
+<script>
+  // The cycle instrument: the AEA 2026-27 calendar drawn to scale, with a
+  // live cursor at today. The only computed element is the cursor; the only
+  // signal-blue element is the cursor. Everything else is ink on the axis.
+  const svg = document.getElementById("cyc");
+  if (svg) {
+    const NS = "http://www.w3.org/2000/svg";
+    const T0 = new Date("2026-08-01T00:00:00").getTime();
+    const T1 = new Date("2027-03-01T00:00:00").getTime();
+    const L = 14, R = 986, AX = 108;
+    const x = (d: string | number) =>
+      L + ((typeof d === "number" ? d : new Date(d + "T12:00:00").getTime()) - T0) / (T1 - T0) * (R - L);
+    const el = (tag: string, attrs: Record<string, string>, text?: string) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      if (text) n.textContent = text;
+      svg.appendChild(n);
+      return n;
+    };
+    const MONO = "font: 520 10.5px var(--ih-mono);";
+    const band = (d0: string, d1: string, y: number, label: string) => {
+      el("rect", { x: String(x(d0)), y: String(y), width: String(x(d1) - x(d0)), height: "16",
+        rx: "3", fill: "rgba(17,17,19,0.07)", stroke: "rgba(17,17,19,0.28)", "stroke-width": "0.6" });
+      el("text", { x: String(x(d0) + 5), y: String(y + 11.5), fill: "#3d3d42", style: MONO }, label);
+    };
+    // axis + month ticks
+    el("line", { x1: String(L), y1: String(AX), x2: String(R), y2: String(AX), stroke: "#111113", "stroke-width": "1" });
+    const months = ["2026-08-01","2026-09-01","2026-10-01","2026-11-01","2026-12-01","2027-01-01","2027-02-01","2027-03-01"];
+    const names = ["Aug","Sep","Oct","Nov","Dec","Jan 27","Feb",""];
+    months.forEach((m, i) => {
+      const X = x(m);
+      el("line", { x1: String(X), y1: String(AX - 4), x2: String(X), y2: String(AX + 4), stroke: "#898781", "stroke-width": "1" });
+      if (names[i]) el("text", { x: String(X + 4), y: String(AX + 18), fill: "#898781", style: MONO }, names[i]);
+    });
+    band("2026-08-01", "2027-01-31", 30, "JOE listings open · Aug 1 to Jan 31");
+    band("2026-10-01", "2026-11-30", 58, "deadline cluster · Oct to Nov");
+    band("2026-12-01", "2026-12-15", 58, "");
+    el("text", { x: String(x("2026-12-01")), y: "53", fill: "#3d3d42", style: MONO }, "signals · early Dec");
+    // ASSA marker
+    const ax2 = x("2027-01-03");
+    el("path", { d: `M ${ax2} ${AX - 9} l 5 6 l -5 6 l -5 -6 z`, fill: "#111113" });
+    el("text", { x: String(ax2 + 8), y: String(AX - 8), fill: "#3d3d42", style: MONO }, "ASSA · Jan 2027");
+    // today: the one live element
+    const now = Date.now();
+    if (now >= T0 && now <= T1) {
+      const X = x(now);
+      el("line", { x1: String(X), y1: "22", x2: String(X), y2: String(AX + 6), stroke: "#2852e8", "stroke-width": "1.6" });
+      const d = new Date();
+      const lbl = `today · ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      const anchor = X > R - 120 ? "end" : "start";
+      el("text", { x: String(X + (anchor === "end" ? -6 : 6)), y: "18", fill: "#2852e8",
+        "text-anchor": anchor, style: MONO }, lbl);
+    }
+  }
+</script>
+
+<style>
+  .cyc-wrap {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(17, 17, 19, 0.12);
+    border-radius: 14px;
+    padding: 0.7rem 0.8rem 0.3rem;
+  }
+  .cyc-wrap svg { display: block; width: 100%; height: auto; }
+</style>

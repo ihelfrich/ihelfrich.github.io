@@ -7,6 +7,35 @@ const papers = (await getCollection("research")).sort((a, b) => {
   if (b.id === "helfrich-vardanyan-2026-ai-entry-level-labor") return 1;
   return b.data.year - a.data.year || a.data.title.localeCompare(b.data.title);
 });
+
+// The program map: nodes are the papers, edges are computed from the papers'
+// own frontmatter tags (weight = number of shared tags). Nothing curated by
+// hand except the short display names.
+const SHORT: Record<string, string> = {
+  "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
+  "gonchar-helfrich-2025-spotlight": "Spotlight",
+  "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
+  "gonchar-helfrich-2026-ukraine": "Ukraine",
+  "helfrich-2024-ssrn-4772016": "OT equilibrium",
+  "helfrich-2026-aroe": "AROE",
+  "helfrich-2026-penumbra": "Penumbra",
+  "helfrich-2026-russian-crude": "Russian crude",
+  "helfrich-2026-nmtc-rural-gap": "NMTC",
+};
+const nodes = papers.map((p) => ({
+  id: p.id,
+  short: SHORT[p.id] ?? p.data.title.slice(0, 16),
+  title: p.data.title,
+  year: p.data.year,
+  tags: p.data.tags,
+}));
+const edges: { a: number; b: number; w: number; shared: string[] }[] = [];
+for (let i = 0; i < nodes.length; i++)
+  for (let j = i + 1; j < nodes.length; j++) {
+    const shared = nodes[i].tags.filter((t) => nodes[j].tags.includes(t));
+    if (shared.length > 0) edges.push({ a: i, b: j, w: shared.length, shared });
+  }
+const mapData = { nodes, edges };
 ---
 <Base
   wide
@@ -45,6 +74,20 @@ const papers = (await getCollection("research")).sort((a, b) => {
         <h3>Place-based policy & capital</h3>
         <p>New Markets Tax Credits, intermediary selection, rural mobilization, blended finance, spatial policy evaluation, and causal decomposition.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="map-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">The program, as a graph</span>
+        <h2 id="map-title">Nine papers, shared methods.</h2>
+      </div>
+      <p>Edges are computed from the papers' own method tags; heavier edges share more methods. The layout resolves once, then rests. Drag a node to interrogate the structure; click it to open the record. Two papers sit apart on purpose: separate lines of work.</p>
+    </div>
+    <div class="pgm-wrap">
+      <svg id="pgm" viewBox="0 0 1000 560" role="img" aria-label="Graph of research papers connected by shared method tags"></svg>
+      <p class="pgm-readout"><span id="pgm-readout">hover a node for its paper; hover an edge for the methods it shares</span></p>
     </div>
   </section>
 
@@ -87,3 +130,214 @@ const papers = (await getCollection("research")).sort((a, b) => {
     </div>
   </section>
 </Base>
+
+<script is:inline type="application/json" id="pgm-data" set:html={JSON.stringify(mapData)} />
+
+<script>
+  // The program map. A force layout over real frontmatter data: repulsion
+  // between all papers, springs along shared-tag edges (more shared methods,
+  // shorter rest length), weak centering. The solve runs visibly and stops at
+  // equilibrium; dragging a node re-poses the problem and it resolves again.
+  // Motion therefore keeps to the two licensed causes: a calculation
+  // resolving, and a visitor changing state.
+  const svg = document.getElementById("pgm") as unknown as SVGSVGElement | null;
+  const dataEl = document.getElementById("pgm-data");
+  const readout = document.getElementById("pgm-readout");
+  if (svg && dataEl) {
+    const { nodes, edges } = JSON.parse(dataEl.textContent || "{}");
+    const Wv = 1000, Hv = 560, CX = Wv / 2, CY = Hv / 2 - 14;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const N = nodes.length;
+    const X = new Float64Array(N), Y = new Float64Array(N);
+    const VX = new Float64Array(N), VY = new Float64Array(N);
+    const GOLD = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const a = i * GOLD, r = 150 + 18 * i;
+      X[i] = CX + Math.cos(a) * r; Y[i] = CY + Math.sin(a) * r * 0.72;
+    }
+
+    const NS = "http://www.w3.org/2000/svg";
+    const edgeEls: SVGLineElement[] = [], nodeEls: SVGGElement[] = [];
+    for (const e of edges) {
+      const l = document.createElementNS(NS, "line");
+      l.setAttribute("stroke", "rgba(17,17,19,0.22)");
+      l.setAttribute("stroke-width", String(0.8 + e.w * 0.9));
+      svg.appendChild(l); edgeEls.push(l as SVGLineElement);
+    }
+    nodes.forEach((n: any, i: number) => {
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("cursor", "pointer");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "link");
+      g.setAttribute("aria-label", n.title);
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("r", "7");
+      c.setAttribute("fill", "#111113");
+      const halo = document.createElementNS(NS, "circle");
+      halo.setAttribute("r", "17");
+      halo.setAttribute("fill", "transparent");
+      const t = document.createElementNS(NS, "text");
+      t.textContent = n.short;
+      t.setAttribute("text-anchor", "middle");
+      t.setAttribute("fill", "#66666c");
+      t.setAttribute("style", "font: 520 11px var(--ih-mono); pointer-events: none;");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${n.title} (${n.year})`;
+      g.append(halo, c, t, title);
+      svg.appendChild(g); nodeEls.push(g as SVGGElement);
+    });
+
+    let running = false, raf = 0, dragging = -1, dragMoved = 0;
+    function step() {
+      let energy = 0;
+      for (let i = 0; i < N; i++) {
+        if (i === dragging) continue;
+        let fx = (CX - X[i]) * 0.009, fy = (CY - Y[i]) * 0.009;
+        for (let j = 0; j < N; j++) {
+          if (j === i) continue;
+          const dx = X[i] - X[j], dy = Y[i] - Y[j];
+          const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
+          const f = 8600 / d2;
+          fx += (dx / d) * f; fy += (dy / d) * f;
+        }
+        VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
+      }
+      for (const [k, e] of edges.entries()) {
+        void k;
+        const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
+        const d = Math.max(1, Math.hypot(dx, dy));
+        const rest = 205 - 38 * Math.min(3, e.w);
+        const f = (d - rest) * 0.016 * e.w;
+        const ux = dx / d, uy = dy / d;
+        if (e.a !== dragging) { VX[e.a] += ux * f; VY[e.a] += uy * f; }
+        if (e.b !== dragging) { VX[e.b] -= ux * f; VY[e.b] -= uy * f; }
+      }
+      for (let i = 0; i < N; i++) {
+        if (i === dragging) continue;
+        X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
+        Y[i] = Math.min(Hv - 46, Math.max(34, Y[i] + VY[i]));
+        energy += VX[i] * VX[i] + VY[i] * VY[i];
+      }
+      render();
+      if (energy < 0.02 && dragging < 0) { running = false; return; }
+      raf = requestAnimationFrame(step);
+    }
+    function render() {
+      edges.forEach((e: any, k: number) => {
+        edgeEls[k].setAttribute("x1", String(X[e.a])); edgeEls[k].setAttribute("y1", String(Y[e.a]));
+        edgeEls[k].setAttribute("x2", String(X[e.b])); edgeEls[k].setAttribute("y2", String(Y[e.b]));
+      });
+      nodeEls.forEach((g, i) => {
+        g.setAttribute("transform", `translate(${X[i]},${Y[i]})`);
+        (g.children[2] as SVGTextElement).setAttribute("y", "24");
+      });
+    }
+    function wake() { if (!running) { running = true; raf = requestAnimationFrame(step); } }
+
+    function svgPoint(ev: PointerEvent) {
+      const m = svg.getScreenCTM();
+      if (!m) return { x: 0, y: 0 };
+      const inv = m.inverse();
+      return { x: ev.clientX * inv.a + ev.clientY * inv.c + inv.e, y: ev.clientX * inv.b + ev.clientY * inv.d + inv.f };
+    }
+    nodeEls.forEach((g, i) => {
+      g.addEventListener("pointerdown", (ev) => {
+        dragging = i; dragMoved = 0;
+        g.setPointerCapture(ev.pointerId);
+        ev.preventDefault();
+        wake();
+      });
+      g.addEventListener("pointermove", (ev) => {
+        if (dragging !== i) return;
+        const p = svgPoint(ev);
+        dragMoved += Math.abs(p.x - X[i]) + Math.abs(p.y - Y[i]);
+        X[i] = p.x; Y[i] = p.y; VX[i] = 0; VY[i] = 0;
+        wake();
+      });
+      g.addEventListener("pointerup", () => {
+        const wasDrag = dragMoved > 6;
+        dragging = -1; wake();
+        if (!wasDrag) window.location.href = `/research/${nodes[i].id}`;
+      });
+      g.addEventListener("keydown", (ev) => {
+        if ((ev as KeyboardEvent).key === "Enter") window.location.href = `/research/${nodes[i].id}`;
+      });
+      g.addEventListener("mouseenter", () => {
+        (g.children[1] as SVGCircleElement).setAttribute("fill", "#2852e8");
+        edges.forEach((e: any, k: number) => {
+          if (e.a === i || e.b === i) edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
+        });
+        if (readout) readout.textContent = `${nodes[i].title} (${nodes[i].year}) · ${nodes[i].tags.join(" · ")}`;
+      });
+      g.addEventListener("mouseleave", () => {
+        (g.children[1] as SVGCircleElement).setAttribute("fill", "#111113");
+        edgeEls.forEach((l) => l.setAttribute("stroke", "rgba(17,17,19,0.22)"));
+        if (readout) readout.textContent = "hover a node for its paper; hover an edge for the methods it shares";
+      });
+    });
+    edges.forEach((e: any, k: number) => {
+      edgeEls[k].addEventListener("mouseenter", () => {
+        edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
+        if (readout) readout.textContent = `${nodes[e.a].short} ↔ ${nodes[e.b].short} · shared: ${e.shared.join(", ")}`;
+      });
+      edgeEls[k].addEventListener("mouseleave", () => {
+        edgeEls[k].setAttribute("stroke", "rgba(17,17,19,0.22)");
+        if (readout) readout.textContent = "hover a node for its paper; hover an edge for the methods it shares";
+      });
+    });
+
+    if (reduced) {
+      for (let s = 0; s < 700; s++) {
+        running = true;
+        // synchronous settle: same physics, no visible animation
+        let energy = 0;
+        for (let i = 0; i < N; i++) {
+          let fx = (CX - X[i]) * 0.009, fy = (CY - Y[i]) * 0.009;
+          for (let j = 0; j < N; j++) {
+            if (j === i) continue;
+            const dx = X[i] - X[j], dy = Y[i] - Y[j];
+            const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
+            fx += (dx / d) * (8600 / d2); fy += (dy / d) * (8600 / d2);
+          }
+          VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
+        }
+        for (const e of edges) {
+          const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
+          const d = Math.max(1, Math.hypot(dx, dy));
+          const f = (d - (205 - 38 * Math.min(3, e.w))) * 0.016 * e.w;
+          VX[e.a] += (dx / d) * f; VY[e.a] += (dy / d) * f;
+          VX[e.b] -= (dx / d) * f; VY[e.b] -= (dy / d) * f;
+        }
+        for (let i = 0; i < N; i++) {
+          X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
+          Y[i] = Math.min(Hv - 46, Math.max(34, Y[i] + VY[i]));
+          energy += VX[i] * VX[i] + VY[i] * VY[i];
+        }
+        if (energy < 0.02) break;
+      }
+      running = false;
+      render();
+    } else {
+      render();
+      wake();
+    }
+  }
+</script>
+
+<style>
+  .pgm-wrap {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(17, 17, 19, 0.12);
+    border-radius: 14px;
+    padding: 0.6rem 0.6rem 0.2rem;
+  }
+  .pgm-wrap svg { display: block; width: 100%; height: auto; }
+  .pgm-wrap svg g:focus { outline: none; }
+  .pgm-wrap svg g:focus > circle:nth-child(2) { fill: #2852e8; }
+  .pgm-readout {
+    margin: 0.2rem 0.6rem 0.6rem;
+    color: #66666c;
+    font: 520 0.66rem/1.5 var(--ih-mono);
+    min-height: 1.2em;
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="Colophon"
+  description="How this site works: the mathematics running on the homepage, the design rules the site obeys, and the stack it is built with."
+>
+  <header class="page-hero">
+    <span class="eyebrow">Colophon · How this site works</span>
+    <h1>The site is an instrument.</h1>
+    <p class="kicker">Every moving element here is either a calculation resolving or a response to something you did. This page documents the mathematics, the rules, and the stack, so the craft can be inspected like any other claim.</p>
+  </header>
+
+  <section class="section" aria-labelledby="col-hero">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">The homepage solver</span>
+        <h2 id="col-hero">Entropic optimal transport, in your tab.</h2>
+      </div>
+      <p>The cloud on the homepage is a probability measure. Each click poses a Kantorovich problem and the page solves it before the mass moves. This is the construction from my paper on equilibrium and optimal transport: <a href="/research/helfrich-2024-ssrn-4772016">prices as gradients of convex potentials</a>.</p>
+    </div>
+    <p>
+      The cloud's positions are binned to a grid density <code>mu</code>; your click defines a target
+      density <code>nu</code> (the targets cycle: a blob, a ring, twin blobs). With squared-euclidean
+      cost the entropic Gibbs kernel <code>K</code> is a gaussian, so applying <code>K</code> is a heat
+      blur and every Sinkhorn iteration is two separable convolutions:
+    </p>
+    <pre class="col-math">a  &lt;-  mu / (K b)          b  &lt;-  nu / (K a)         (28 iterations)
+
+T(x_i)  =  [K (b * y)]_i / [K b]_i                    (barycentric map)
+
+phi  =  epsilon * log(a)                              (dual potential)</pre>
+    <p>
+      The mass then moves along the barycentric map with displacement interpolation. The fading
+      contour lines during transit are level sets of the dual potential <code>phi</code>: iso-price
+      curves, drawn by marching squares and allowed to decay. The readout reports the real numbers
+      from the solve that just ran: the Wasserstein estimate, the iteration count, the wall-clock
+      milliseconds. Two implementation details matter and both were found the honest way, by
+      watching a wrong answer render: the gaussian kernel must span the full grid (truncating it at
+      three sigma silently decouples far-apart supports), and numerical floors must sit near machine
+      minimum (a generous floor teleports decoupled mass to the origin).
+    </p>
+    <p>
+      The research page runs a second, smaller instrument: a force layout over the papers' own
+      frontmatter tags, resolving once and resting. The job market page draws the cycle calendar
+      with a single live cursor at today.
+    </p>
+  </section>
+
+  <section class="section compact" aria-labelledby="col-motion">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Motion doctrine</span>
+        <h2 id="col-motion">Two licensed causes.</h2>
+      </div>
+      <p>Movement on this site is permitted for exactly two reasons: a real calculation resolving, and a visitor changing state. Ambient drift, parallax, looping ornaments, and decorative fades are banned. Every animation loop measures its own energy and stops at equilibrium, so an idle page costs nothing. Signal blue is reserved for elements that are live and responding; if something is blue, it is listening.</p>
+    </div>
+  </section>
+
+  <section class="section compact" aria-labelledby="col-stack">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Stack</span>
+        <h2 id="col-stack">Static, dependency-light, inspectable.</h2>
+      </div>
+      <p>Astro, rendered fully static and served from GitHub Pages. The solvers are vanilla script in the page source: no frameworks at runtime, no analytics, no trackers, no cookies. Search is Pagefind, built at deploy time. A copy gate runs on every build and fails it for banned constructions. Documents follow a two-lane rule: LaTeX for journal submissions, Typst for everything I control.</p>
+    </div>
+    <div class="button-row">
+      <a class="button secondary" href="https://github.com/ihelfrich/ihelfrich.github.io" target="_blank" rel="noopener">Read the source</a>
+      <a class="button secondary" href="/research/helfrich-2024-ssrn-4772016">The paper behind the homepage</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .col-math {
+    overflow-x: auto;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(17, 17, 19, 0.12);
+    border-radius: 10px;
+    color: #111113;
+    font: 520 0.78rem/1.9 var(--ih-mono);
+  }
+</style>
