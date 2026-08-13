@@ -85,9 +85,9 @@ const mapData = { nodes, edges };
       </div>
       <p>Edges are computed from the papers' own method tags; heavier edges share more methods. The layout resolves once, then rests. Drag a node to interrogate the structure; click it to open the record. Two papers sit apart on purpose: separate lines of work.</p>
     </div>
-    <div class="pgm-wrap">
+    <div class="inst-panel">
       <svg id="pgm" viewBox="0 0 1000 560" role="img" aria-label="Graph of research papers connected by shared method tags"></svg>
-      <p class="pgm-readout"><span id="pgm-readout">hover a node for its paper; hover an edge for the methods it shares</span></p>
+      <p class="inst-readout"><span id="pgm-readout">hover a node for its paper; hover an edge for the methods it shares</span></p>
     </div>
   </section>
 
@@ -267,22 +267,22 @@ const mapData = { nodes, edges };
         edges.forEach((e: any, k: number) => {
           if (e.a === i || e.b === i) edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
         });
-        if (readout) readout.textContent = `${nodes[i].title} (${nodes[i].year}) · ${nodes[i].tags.join(" · ")}`;
+        if (readout) { readout.textContent = `${nodes[i].title} (${nodes[i].year}) · ${nodes[i].tags.join(" · ")}`; readout.parentElement?.classList.add("is-live"); }
       });
       g.addEventListener("mouseleave", () => {
         (g.children[1] as SVGCircleElement).setAttribute("fill", "#111113");
         edgeEls.forEach((l) => l.setAttribute("stroke", "rgba(17,17,19,0.22)"));
-        if (readout) readout.textContent = "hover a node for its paper; hover an edge for the methods it shares";
+        if (readout) { readout.textContent = "hover a node for its paper; hover an edge for the methods it shares"; readout.parentElement?.classList.remove("is-live"); }
       });
     });
     edges.forEach((e: any, k: number) => {
       edgeEls[k].addEventListener("mouseenter", () => {
         edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
-        if (readout) readout.textContent = `${nodes[e.a].short} ↔ ${nodes[e.b].short} · shared: ${e.shared.join(", ")}`;
+        if (readout) { readout.textContent = `${nodes[e.a].short} ↔ ${nodes[e.b].short} · shared: ${e.shared.join(", ")}`; readout.parentElement?.classList.add("is-live"); }
       });
       edgeEls[k].addEventListener("mouseleave", () => {
         edgeEls[k].setAttribute("stroke", "rgba(17,17,19,0.22)");
-        if (readout) readout.textContent = "hover a node for its paper; hover an edge for the methods it shares";
+        if (readout) { readout.textContent = "hover a node for its paper; hover an edge for the methods it shares"; readout.parentElement?.classList.remove("is-live"); }
       });
     });
 
@@ -325,19 +325,6 @@ const mapData = { nodes, edges };
 </script>
 
 <style>
-  .pgm-wrap {
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(17, 17, 19, 0.12);
-    border-radius: 14px;
-    padding: 0.6rem 0.6rem 0.2rem;
-  }
-  .pgm-wrap svg { display: block; width: 100%; height: auto; }
-  .pgm-wrap svg g:focus { outline: none; }
-  .pgm-wrap svg g:focus > circle:nth-child(2) { fill: #2852e8; }
-  .pgm-readout {
-    margin: 0.2rem 0.6rem 0.6rem;
-    color: #66666c;
-    font: 520 0.66rem/1.5 var(--ih-mono);
-    min-height: 1.2em;
-  }
+  .inst-panel svg g:focus { outline: none; }
+  .inst-panel svg g:focus > circle:nth-child(2) { fill: #2852e8; }
 </style>

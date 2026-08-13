@@ -1554,3 +1554,24 @@ details p { margin-top: 0.8rem; color: var(--ink-3); }
   main, main.wide { width: 100%; max-width: none; padding: 0; }
   a { color: #000; }
 }
+
+/* ── Instruments — shared chrome for the live components ─────────────────
+   (the transport hero, program map, cycle clock, estimator, trajectory) */
+.inst-panel {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(17, 17, 19, 0.12);
+  border-radius: 14px;
+  padding: 0.7rem 0.8rem 0.3rem;
+}
+.inst-panel svg { display: block; width: 100%; height: auto; }
+.inst-readout {
+  margin: 0.25rem 0.2rem 0.55rem;
+  color: #66666c;
+  font: 520 0.66rem/1.5 var(--ih-mono);
+  font-variant-numeric: tabular-nums;
+  min-height: 1.2em;
+}
+.inst-readout.is-live { color: #2852e8; }
+
+/* Brand detail: selection carries the signal, faintly */
+::selection { background: rgba(40, 82, 232, 0.16); }

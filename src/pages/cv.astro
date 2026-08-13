@@ -19,6 +19,20 @@ import Base from "../layouts/Base.astro";
     </div>
   </header>
 
+  <section class="section compact" aria-labelledby="cv-traj">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">The trajectory</span>
+        <h2 id="cv-traj">Twelve years, to scale.</h2>
+      </div>
+      <p>Degrees, papers, practice, and recognition on one axis, drawn from the dated facts below. Hover a mark for its record; the blue cursor is today.</p>
+    </div>
+    <div class="inst-panel">
+      <svg id="traj" viewBox="0 0 1000 210" role="img" aria-label="Career timeline 2014 to 2027 with degrees, papers, practice, and recognition"></svg>
+      <p class="inst-readout"><span id="traj-readout">hover a mark</span></p>
+    </div>
+  </section>
+
   <section class="section compact" aria-labelledby="cv-interests">
     <div class="section-heading">
       <div>
@@ -159,3 +173,80 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
 </Base>
+
+<script>
+  // The trajectory: the CV's dated facts on one axis. Ticks for point events
+  // (degrees, papers, recognition), bands for ongoing practice, one live
+  // cursor at today. Nothing here is decoration: every mark restates a line
+  // from the page below, and hovering names it in the readout.
+  const svg = document.getElementById("traj");
+  const readout = document.getElementById("traj-readout");
+  if (svg) {
+    const NS = "http://www.w3.org/2000/svg";
+    const Y0 = 2014, Y1 = 2027.6, L = 60, R = 986;
+    const x = (yr: number) => L + ((yr - Y0) / (Y1 - Y0)) * (R - L);
+    const MONO = "font: 520 10.5px var(--ih-mono);";
+    const el = (tag: string, attrs: Record<string, string>, text?: string) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      if (text) n.textContent = text;
+      svg.appendChild(n);
+      return n;
+    };
+    const rows: [string, number][] = [["education", 44], ["research", 88], ["practice", 128], ["recognition", 164]];
+    for (const [name, y] of rows) {
+      el("text", { x: "4", y: String(y + 3), fill: "#898781", style: MONO }, name);
+      el("line", { x1: String(L), y1: String(y), x2: String(R), y2: String(y), stroke: "rgba(17,17,19,0.1)", "stroke-width": "1" });
+    }
+    for (let yr = 2014; yr <= 2027; yr++) {
+      const X = x(yr);
+      el("line", { x1: String(X), y1: "186", x2: String(X), y2: "192", stroke: "#898781", "stroke-width": "1" });
+      if (yr % 2 === 0) el("text", { x: String(X - 12), y: "205", fill: "#898781", style: MONO }, String(yr));
+    }
+    type Mark = { yr: number; row: number; label: string };
+    const ticks: Mark[] = [
+      { yr: 2014.5, row: 44, label: "BA Economics, UNC Chapel Hill, 2014" },
+      { yr: 2015.5, row: 44, label: "MSc Economics & Public Policy, Barcelona School of Economics, 2015" },
+      { yr: 2018.5, row: 44, label: "MA Economics, Indiana University Bloomington, 2018" },
+      { yr: 2019.5, row: 44, label: "MS Economics, Georgia Tech, 2019" },
+      { yr: 2022.5, row: 44, label: "MS GIS&T, Georgia Tech, 2022" },
+      { yr: 2024.5, row: 44, label: "PhD Economics, Georgia Tech, 2024 · minor in Quantitative Psychology" },
+      { yr: 2024.3, row: 88, label: "Optimal transport & equilibrium in Hilbert spaces · SSRN 4772016, 2024" },
+      { yr: 2025.5, row: 88, label: "Trade in the spotlight (with Elizaveta Gonchar) · SSRN 5202676, 2025" },
+      { yr: 2026.2, row: 88, label: "2026 working papers: NMTC rural gap (JMP), AI x labor, effective distance, Ukraine, Penumbra program" },
+      { yr: 2023.5, row: 164, label: "Graduate Teaching Assistant of the Year, Georgia Tech, 2023" },
+      { yr: 2025.2, row: 164, label: "Referee, Journal of Economic Theory, 2025" },
+      { yr: 2020.5, row: 164, label: "Senator of the Year, Georgia Tech Graduate Student Government, 2020" },
+    ];
+    const now = 2026 + (Date.now() - new Date("2026-01-01").getTime()) / 31557600000;
+    const bands: { a: number; b: number; row: number; label: string }[] = [
+      { a: 2024, b: now, row: 128, label: "Quantitative research practice, 2024 to present" },
+      { a: 2026, b: now, row: 128, label: "Independent economic advisory, 2026 to present" },
+      { a: 2026.58, b: 2027.08, row: 88, label: "AEA JOE 2026-27 cycle: applying now" },
+    ];
+    const hot = (n: Element, label: string) => {
+      n.addEventListener("mouseenter", () => {
+        n.setAttribute("fill", "#2852e8");
+        if (readout) { readout.textContent = label; readout.parentElement?.classList.add("is-live"); }
+      });
+      n.addEventListener("mouseleave", () => {
+        n.setAttribute("fill", n.tagName === "rect" ? "rgba(17,17,19,0.12)" : "#111113");
+        if (readout) { readout.textContent = "hover a mark"; readout.parentElement?.classList.remove("is-live"); }
+      });
+    };
+    for (const b of bands) {
+      const r = el("rect", { x: String(x(b.a)), y: String(b.row - (b.a === 2026 ? -3 : 8)), width: String(x(b.b) - x(b.a)),
+        height: "5", rx: "2.5", fill: "rgba(17,17,19,0.12)" });
+      const t = el("title", {}); t.textContent = b.label; r.appendChild(t);
+      hot(r, b.label);
+    }
+    for (const m of ticks) {
+      const c = el("circle", { cx: String(x(m.yr)), cy: String(m.row), r: "5.5", fill: "#111113", cursor: "default" });
+      const t = el("title", {}); t.textContent = m.label; c.appendChild(t);
+      hot(c, m.label);
+    }
+    const X = x(now);
+    el("line", { x1: String(X), y1: "26", x2: String(X), y2: "192", stroke: "#2852e8", "stroke-width": "1.6" });
+    el("text", { x: String(X - 6), y: "20", fill: "#2852e8", "text-anchor": "end", style: MONO }, "today");
+  }
+</script>

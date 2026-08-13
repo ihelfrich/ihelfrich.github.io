@@ -31,6 +31,20 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
     <div><strong>2023</strong><span>Georgia Tech teaching award</span></div>
   </section>
 
+  <section class="section" aria-labelledby="est-title">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Inference you can touch</span>
+        <h2 id="est-title">Every click refits the model.</h2>
+      </div>
+      <p>Click to add a data point, drag one to move it, click a point to remove it. The least-squares line, the robust standard error, and the 95% mean band recompute in closed form on every change. This is the standard I teach to: the estimator, its assumptions, and its uncertainty in one picture.</p>
+    </div>
+    <div class="inst-panel">
+      <svg id="est" viewBox="0 0 1000 480" role="img" aria-label="Interactive least-squares scatterplot: click to add points, drag to move them"></svg>
+      <p class="inst-readout"><span id="est-readout"></span> <button type="button" id="est-reset" class="est-reset">reset</button></p>
+    </div>
+  </section>
+
   <RepresentationRelay />
 
   <AudienceNavigator />
@@ -117,3 +131,167 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
     <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
   </section>
 </Base>
+
+<script>
+  // The estimator you can touch. Data lives where you put it; on every
+  // change the page refits OLS in closed form and redraws the line, the 95%
+  // band for the conditional mean, and the readout (slope with HC1 robust
+  // standard error, R squared). Blue marks the moment a calculation is
+  // resolving; ink is the state at rest.
+  const svg = document.getElementById("est") as unknown as SVGSVGElement | null;
+  const readout = document.getElementById("est-readout");
+  const resetBtn = document.getElementById("est-reset");
+  if (svg) {
+    const NS = "http://www.w3.org/2000/svg";
+    const W = 1000, H = 480, L = 24, R = 976, T = 20, B = 456;
+    const T95 = [12.71, 4.3, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.2, 2.18, 2.16, 2.14, 2.13, 2.12, 2.11, 2.1, 2.09, 2.09];
+    const SEED: [number, number][] = [
+      [120, 380], [210, 330], [300, 355], [390, 280], [480, 250],
+      [570, 270], [660, 195], [770, 165], [880, 120],
+    ];
+    let pts: { x: number; y: number }[] = [];
+    let dragging = -1, dragMoved = 0, liveUntil = 0, raf = 0;
+
+    const bandEl = document.createElementNS(NS, "path");
+    const lineEl = document.createElementNS(NS, "line");
+    const gPts = document.createElementNS(NS, "g");
+    bandEl.setAttribute("stroke", "none");
+    lineEl.setAttribute("stroke-width", "1.7");
+    for (const y of [120, 240, 360]) {
+      const gl = document.createElementNS(NS, "line");
+      gl.setAttribute("x1", String(L)); gl.setAttribute("x2", String(R));
+      gl.setAttribute("y1", String(y)); gl.setAttribute("y2", String(y));
+      gl.setAttribute("stroke", "rgba(17,17,19,0.07)");
+      svg.appendChild(gl);
+    }
+    const ax = document.createElementNS(NS, "line");
+    ax.setAttribute("x1", String(L)); ax.setAttribute("x2", String(R));
+    ax.setAttribute("y1", String(B)); ax.setAttribute("y2", String(B));
+    ax.setAttribute("stroke", "#c3c2b7");
+    svg.append(ax, bandEl, lineEl, gPts);
+
+    function fit() {
+      const n = pts.length;
+      if (n < 3) return null;
+      let sx = 0, sy = 0;
+      for (const p of pts) { sx += p.x; sy += p.y; }
+      const mx = sx / n, my = sy / n;
+      let Sxx = 0, Sxy = 0;
+      for (const p of pts) { Sxx += (p.x - mx) ** 2; Sxy += (p.x - mx) * (p.y - my); }
+      if (Sxx < 1e-9) return null;
+      const b1 = Sxy / Sxx, b0 = my - b1 * mx;
+      let sse = 0, sst = 0, hc = 0;
+      for (const p of pts) {
+        const e = p.y - (b0 + b1 * p.x);
+        sse += e * e; sst += (p.y - my) ** 2; hc += e * e * (p.x - mx) ** 2;
+      }
+      const df = n - 2;
+      const s2 = sse / df;
+      const seHC1 = Math.sqrt((hc / (Sxx * Sxx)) * (n / df));
+      const r2 = sst > 1e-9 ? 1 - sse / sst : 1;
+      const tcrit = T95[Math.min(df, 20) - 1] ?? 1.96;
+      return { n, mx, Sxx, b0, b1, s2, seHC1, r2, tcrit };
+    }
+
+    function render() {
+      const now = performance.now();
+      const live = dragging >= 0 || now < liveUntil;
+      const f = fit();
+      const ink = live ? "#2852e8" : "#111113";
+      gPts.replaceChildren();
+      pts.forEach((p, i) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", String(p.x)); c.setAttribute("cy", String(p.y));
+        c.setAttribute("r", "6");
+        c.setAttribute("fill", i === dragging ? "#2852e8" : "#111113");
+        c.setAttribute("cursor", "grab");
+        c.setAttribute("data-i", String(i));
+        gPts.appendChild(c);
+      });
+      if (f) {
+        const yAt = (X: number) => f.b0 + f.b1 * X;
+        lineEl.setAttribute("x1", String(L)); lineEl.setAttribute("y1", String(yAt(L)));
+        lineEl.setAttribute("x2", String(R)); lineEl.setAttribute("y2", String(yAt(R)));
+        lineEl.setAttribute("stroke", ink);
+        let up = "", dn = "";
+        for (let X = L; X <= R; X += 24) {
+          const se = Math.sqrt(f.s2 * (1 / f.n + ((X - f.mx) ** 2) / f.Sxx)) * f.tcrit;
+          up += `${up ? "L" : "M"} ${X} ${yAt(X) - se} `;
+          dn = `L ${X} ${yAt(X) + se} ` + dn;
+        }
+        bandEl.setAttribute("d", up + dn + "Z");
+        bandEl.setAttribute("fill", live ? "rgba(40,82,232,0.08)" : "rgba(17,17,19,0.06)");
+        if (readout) {
+          const slope = (-f.b1 * 10).toFixed(2); // screen y is inverted; report in plot units
+          readout.textContent =
+            `n=${f.n} · slope ${slope} per unit · SE ${(f.seHC1 * 10).toFixed(2)} (HC1) · R² ${f.r2.toFixed(2)}`;
+          readout.parentElement?.classList.toggle("is-live", live);
+        }
+      } else {
+        lineEl.setAttribute("stroke", "none");
+        bandEl.setAttribute("d", "");
+        if (readout) readout.textContent = "add at least three points";
+      }
+      if (now < liveUntil) raf = requestAnimationFrame(render);
+    }
+
+    function toSvg(ev: PointerEvent) {
+      const m = svg.getScreenCTM()!;
+      const inv = m.inverse();
+      return {
+        x: Math.min(R, Math.max(L, ev.clientX * inv.a + ev.clientY * inv.c + inv.e)),
+        y: Math.min(B - 6, Math.max(T, ev.clientX * inv.b + ev.clientY * inv.d + inv.f)),
+      };
+    }
+    svg.addEventListener("pointerdown", (ev) => {
+      const target = ev.target as Element;
+      const p = toSvg(ev);
+      if (target.tagName === "circle") {
+        dragging = Number(target.getAttribute("data-i")); dragMoved = 0;
+        svg.setPointerCapture(ev.pointerId);
+      } else {
+        pts.push(p);
+        liveUntil = performance.now() + 380;
+      }
+      cancelAnimationFrame(raf); render();
+      if (performance.now() < liveUntil) raf = requestAnimationFrame(render);
+    });
+    svg.addEventListener("pointermove", (ev) => {
+      if (dragging < 0) return;
+      const p = toSvg(ev);
+      dragMoved += Math.abs(p.x - pts[dragging].x) + Math.abs(p.y - pts[dragging].y);
+      pts[dragging] = p;
+      render();
+    });
+    svg.addEventListener("pointerup", () => {
+      if (dragging >= 0 && dragMoved < 5) pts.splice(dragging, 1);
+      dragging = -1;
+      liveUntil = performance.now() + 380;
+      cancelAnimationFrame(raf); render();
+      raf = requestAnimationFrame(render);
+    });
+    resetBtn?.addEventListener("click", () => {
+      pts = SEED.map(([x, y]) => ({ x, y }));
+      liveUntil = performance.now() + 380;
+      cancelAnimationFrame(raf); render();
+      raf = requestAnimationFrame(render);
+    });
+
+    pts = SEED.map(([x, y]) => ({ x, y }));
+    render();
+  }
+</script>
+
+<style>
+  .est-reset {
+    background: none;
+    border: 1px solid rgba(17, 17, 19, 0.2);
+    border-radius: 5px;
+    color: #66666c;
+    font: 520 0.62rem/1.2 var(--ih-mono);
+    padding: 1px 8px;
+    cursor: pointer;
+    margin-left: 0.6rem;
+  }
+  .est-reset:hover { color: #2852e8; border-color: #2852e8; }
+</style>
