@@ -1,169 +1,341 @@
 ---
 import Base from "../layouts/Base.astro";
-// Published Aug 2026. JMP designation = NMTC rural mobilization gap
-// (sole-authored, clean identification, public replication repo); swapping
-// the JMP is a one-block edit in the "Job market paper" section.
+import { getCollection } from "astro:content";
+// The candidate as working paper. This page is typeset as an economics
+// preprint: title block, abstract, numbered sections, booktab table,
+// footnotes, references. The figures are live instruments. JMP designation
+// remains the NMTC rural mobilization gap; swapping it is a one-block edit
+// in section 2 plus one reference entry.
+
+const papers = await getCollection("research");
+const SHORT: Record<string, string> = {
+  "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
+  "gonchar-helfrich-2025-spotlight": "Spotlight",
+  "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
+  "gonchar-helfrich-2026-ukraine": "Ukraine",
+  "helfrich-2024-ssrn-4772016": "OT equilibrium",
+  "helfrich-2026-aroe": "AROE",
+  "helfrich-2026-penumbra": "Penumbra",
+  "helfrich-2026-russian-crude": "Russian crude",
+  "helfrich-2026-nmtc-rural-gap": "NMTC",
+};
+const nodes = papers.map((p) => ({
+  id: p.id,
+  short: SHORT[p.id] ?? p.data.title.slice(0, 16),
+  title: p.data.title,
+  year: p.data.year,
+  tags: p.data.tags,
+}));
+const edges: { a: number; b: number; w: number; shared: string[] }[] = [];
+for (let i = 0; i < nodes.length; i++)
+  for (let j = i + 1; j < nodes.length; j++) {
+    const shared = nodes[i].tags.filter((t) => nodes[j].tags.includes(t));
+    if (shared.length > 0) edges.push({ a: i, b: j, w: shared.length, shared });
+  }
+const mapData = { nodes, edges };
 ---
 <Base
   title="Job market"
-  description="Ian Helfrich is on the 2026-27 economics job market. Applied econometrics, international trade, spatial and high-dimensional methods. Ph.D. in Economics, Georgia Institute of Technology, 2024."
+  description="Ian Helfrich is on the 2026-27 economics job market. A candidate note for hiring committees, typeset as a working paper, with live figures."
 >
-  <header class="page-hero">
-    <span class="eyebrow">Job market candidate · AEA cycle 2026-27</span>
-    <h1>On the 2026-27 economics job market.</h1>
-    <p class="kicker">
-      Applied econometrician working on spatial and high-dimensional methods,
-      economic networks, and international trade. Ph.D. in Economics, Georgia
-      Institute of Technology, 2024, with a doctoral minor in quantitative
-      psychology.
-    </p>
-    <div class="button-row">
-      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
-      <a class="button secondary" href="mailto:ianthelfrich@gmail.com?subject=Faculty%20search%20inquiry">Email Ian</a>
-      <a class="button secondary" href="/research">Research</a>
-    </div>
-  </header>
+  <article class="paper">
+    <header class="paper-head">
+      <p class="paper-eyebrow">AEA job market · 2026-27 cycle · this draft: August 2026</p>
+      <h1>Making Complex Evidence Usable</h1>
+      <p class="paper-sub">A candidate note for hiring committees, with live figures</p>
+      <p class="paper-author">Ian Helfrich<a class="fn-ref" href="#fn-corr" id="ref-corr">†</a></p>
+      <p class="paper-affil">Ph.D. Economics, Georgia Institute of Technology, 2024</p>
+      <p class="paper-jel">JEL: C14 · F14 · R12 · J23 &nbsp;·&nbsp; Keywords: applied econometrics, international trade, spatial economics, optimal transport, labor and AI</p>
+      <nav class="paper-links" aria-label="Candidate documents">
+        <a href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">[ one-page CV ]</a>
+        <a href="/cv/helfrich-cv-full.pdf" target="_blank" rel="noopener">[ full CV ]</a>
+        <a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">[ evaluations ]</a>
+        <a href="mailto:ianthelfrich@gmail.com?subject=Faculty%20search%20inquiry">[ email ]</a>
+      </nav>
+    </header>
 
-  <section class="section compact" aria-labelledby="cycle-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">The cycle</span>
-        <h2 id="cycle-title">Where the market clock stands.</h2>
-      </div>
-      <p>The AEA 2026-27 cycle against today's date. The cursor is live; everything else is the calendar. Available for interviews through the signal window and at ASSA, in person or remote.</p>
-    </div>
-    <div class="inst-panel">
-      <svg id="cyc" viewBox="0 0 1000 150" role="img" aria-label="Timeline of the AEA 2026-27 job market cycle with a marker at today's date"></svg>
-    </div>
-  </section>
+    <section class="paper-abstract" aria-label="Abstract">
+      <h2>Abstract</h2>
+      <p>
+        This note summarizes the candidacy of Ian Helfrich for the 2026-27 economics
+        job market. The candidate is an applied econometrician working on spatial and
+        high-dimensional methods, economic networks, and international trade, with a
+        job market paper showing that 82.2 percent of the apparent rural penalty in
+        U.S. New Markets Tax Credit leverage is between-intermediary selection. The
+        research program spans satellite-calibrated trade costs, optimal transport
+        theory, and the labor-market effects of generative AI. Two figures in this
+        note are live instruments; the reader is invited to handle them. Availability
+        runs through the December signal window and ASSA 2027.
+      </p>
+    </section>
 
-  <section class="section compact" aria-labelledby="facts-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">At a glance</span>
-        <h2 id="facts-title">Candidate facts.</h2>
-      </div>
-      <p>The short version committees need first; the full record sits one click away on the research, teaching, and CV pages.</p>
-    </div>
-    <div class="method-grid">
-      <article class="method-card">
-        <h3>Fields</h3>
-        <p>Primary: applied econometrics, international trade, spatial and urban economics. Secondary: economic networks, labor and AI, policy evaluation.</p>
-      </article>
-      <article class="method-card">
-        <h3>Education</h3>
-        <p>Ph.D. Economics, Georgia Institute of Technology, 2024. M.S. GIS&amp;T, Georgia Tech, 2022. M.S. Economics, Georgia Tech, 2019. M.A. Economics, Indiana University, 2018.</p>
-      </article>
-      <article class="method-card">
-        <h3>Advisors</h3>
-        <p>Dr. Tibor Besedes and Dr. Usha Nair-Reichert, Georgia Institute of Technology. References and letters are available on request.</p>
-      </article>
-      <article class="method-card">
-        <h3>Availability</h3>
-        <p>Applying through AEA JOE this cycle. Available for interviews through the December signal window and at ASSA in January 2027, in person or remote.</p>
-      </article>
-    </div>
-  </section>
+    <section aria-labelledby="s1">
+      <h2 id="s1">1&ensp;The candidate</h2>
+      <p>
+        The candidate holds a Ph.D. in Economics from the Georgia Institute of
+        Technology (2024) with a doctoral minor in quantitative psychology, an M.S. in
+        Geographic Information Science and Technology (2022), and prior degrees in
+        economics from Georgia Tech, Indiana University, the Barcelona School of
+        Economics, and the University of North Carolina at Chapel Hill. His advisors
+        are Dr. Tibor Besedes and Dr. Usha Nair-Reichert.<a class="fn-ref" href="#fn-letters" id="ref-letters">1</a>
+      </p>
+      <p>
+        Primary fields are applied econometrics, international trade, and spatial and
+        urban economics; secondary fields are economic networks, labor and AI, and
+        policy evaluation. The unifying concern, in research and in teaching alike, is
+        whether the metric, the comparison, or the network representation matches the
+        economic object under study.
+      </p>
+    </section>
 
-  <section class="section" aria-labelledby="jmp-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Job market paper</span>
-        <h2 id="jmp-title">The rural mobilization gap in U.S. place-based tax credit.</h2>
-      </div>
-      <p>Sole-authored. Working paper, 2026. Replication code and viewer are public.</p>
-    </div>
-    <p>
-      The paper decomposes the rural-versus-urban private-leverage gap in the
-      U.S. New Markets Tax Credit using Community Development Entity fixed
-      effects, on a project-level panel linking every Qualified Equity
-      Investment from FY2001 to FY2022 to its issuing intermediary. The raw
-      rural gap of &minus;0.262 falls to &minus;0.047 (p = 0.64) once CDE
-      identity enters the model: 82.2 percent of the apparent rural penalty is
-      between-intermediary selection. A Chetty-Kleven style bunching test shows
-      the 20 percent non-metro mandate does not bind in cumulative-deployment
-      data. The decomposition moves the policy target upstream, from rural
-      project markets to the CDFI Fund rules that decide which intermediaries
-      receive allocation authority.
-    </p>
-    <div class="button-row">
-      <a class="button" href="/research/helfrich-2026-nmtc-rural-gap">Read the record</a>
-      <a class="button secondary" href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Replication code + viewer</a>
-    </div>
-  </section>
+    <section aria-labelledby="s2">
+      <h2 id="s2">2&ensp;The job market paper</h2>
+      <p class="paper-jmp-title">
+        <a href="/research/helfrich-2026-nmtc-rural-gap">"The rural mobilization gap in U.S. place-based tax credit"</a>
+        &nbsp;·&nbsp; sole-authored &nbsp;·&nbsp; working paper, 2026
+      </p>
+      <p>
+        The paper decomposes the rural-versus-urban private-leverage gap in the U.S.
+        New Markets Tax Credit using Community Development Entity fixed effects, on a
+        project-level panel linking every Qualified Equity Investment from FY2001 to
+        FY2022 to its issuing intermediary. The raw rural gap of &minus;0.262 falls to
+        &minus;0.047 (p = 0.64) once CDE identity enters the model: 82.2 percent of
+        the apparent rural penalty is between-intermediary selection. A Chetty-Kleven
+        style bunching test shows the 20 percent non-metro mandate does not bind in
+        cumulative-deployment data. The decomposition moves the policy target
+        upstream, from rural project markets to the CDFI Fund rules that decide which
+        intermediaries receive allocation authority. Replication code and an
+        interactive viewer are public (<a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">github.com/ihelfrich/us-nmtc-viewer</a>).
+      </p>
+    </section>
 
-  <section class="section" aria-labelledby="papers-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Selected research</span>
-        <h2 id="papers-title">The wider program.</h2>
-      </div>
-      <p>Nine working papers and preprints, spanning applied trade measurement, optimal transport theory, and labor. Full list on the research page.</p>
-    </div>
-    <ul class="h-row-list">
-      <li class="h-row">
-        <div class="h-row-meta">With Shane Vardanyan · working paper · 2026</div>
-        <h3 class="h-row-title"><a href="/research/helfrich-vardanyan-2026-ai-entry-level-labor">AI and the entry-level labor market</a></h3>
-        <p class="h-row-summary">Continuous-exposure event study and triple difference on generative-AI exposure and early-career U.S. employment, on CPS microdata.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">With Elizaveta Gonchar · working paper · 2026</div>
-        <h3 class="h-row-title"><a href="/research/gonchar-helfrich-2026-effective-distance-panel">Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024</a></h3>
-        <p class="h-row-summary">A global, time-varying, multi-modal effective-distance panel, validated in structural gravity with three counterfactuals.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">With Elizaveta Gonchar · SSRN 5202676 · 2025</div>
-        <h3 class="h-row-title"><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the spotlight: nightlights and population-weighted distance</a></h3>
-        <p class="h-row-summary">Gravity estimates with population-weighted geodesic distance and VIIRS nightlights.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">Sole-authored · SSRN 4772016 · 2024</div>
-        <h3 class="h-row-title"><a href="/research/helfrich-2024-ssrn-4772016">A unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces</a></h3>
-        <p class="h-row-summary">Equilibrium as optimal transport on Hilbert spaces: existence, uniqueness, and prices as gradients of convex potentials.</p>
-      </li>
-    </ul>
-  </section>
+    <section aria-labelledby="s3">
+      <h2 id="s3">3&ensp;The research program</h2>
+      <p>
+        Nine papers are active; Figure 1 draws them as a graph whose edges are
+        computed from the papers' own method tags. The connected component runs from
+        optimal transport theory (Helfrich 2024) through satellite-calibrated
+        measurement (Gonchar and Helfrich 2025, 2026) to the sanctions-era
+        observation program. Two papers sit apart deliberately: separate lines of
+        work in place-based policy and in labor. Full records, abstracts, and code
+        are indexed in the references.
+      </p>
+      <figure class="paper-fig">
+        <svg id="pgm2" viewBox="0 0 1000 460" role="img" aria-label="Graph of the candidate's papers connected by shared method tags"></svg>
+        <figcaption>
+          <strong>Figure 1.</strong> The research program as a graph. Nodes are
+          papers; edge weight is the number of shared method tags. The layout is a
+          force solve that resolves once and rests. The figure is live: drag a node
+          to interrogate the structure, click it to open the paper's record.
+          <span class="paper-fig-readout" id="pgm2-readout"></span>
+        </figcaption>
+      </figure>
+    </section>
 
-  <section class="section compact" aria-labelledby="teaching-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Teaching</span>
-        <h2 id="teaching-title">Instructor of record, and a public teaching stack.</h2>
-      </div>
-      <p>Georgia Tech Graduate TA of the Year, 2023.</p>
-    </div>
-    <p>
-      Instructor of record for three semesters at Georgia Tech (economics and
-      policy, principles of microeconomics), graduate TA for undergraduate
-      economics, graduate econometrics, and ECE signal processing, and roughly
-      1,200 hours of independent instruction with 450+ students. Builder of
-      open teaching sites used in real courses: Stats Lab, Inference Lab,
-      Pictures of Inference, and course studios for USC Price and UC Berkeley
-      syllabi. Teaching evaluations are available with the packet.
-    </p>
-    <div class="button-row">
-      <a class="button secondary" href="/teaching">Teaching portfolio</a>
-    </div>
-  </section>
+    <section aria-labelledby="s4">
+      <h2 id="s4">4&ensp;Teaching</h2>
+      <p>
+        The candidate's teaching record spans instruction of record, graduate
+        assistantship, and a large independent practice, summarized in Table 1. The
+        open teaching infrastructure consists of public, browser-native course
+        environments in active classroom use.<a class="fn-ref" href="#fn-est" id="ref-est">2</a>
+      </p>
+      <table class="paper-table">
+        <caption><strong>Table 1.</strong> Teaching record.</caption>
+        <thead>
+          <tr><th>Role</th><th>Detail</th><th class="num">Scale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Instructor of record</td><td>Georgia Tech: economics and policy; principles of microeconomics</td><td class="num">3 semesters</td></tr>
+          <tr><td>Graduate TA</td><td>Undergraduate economics; graduate econometrics; ECE signal processing</td><td class="num">4 courses</td></tr>
+          <tr><td>Independent instruction</td><td>Economics, statistics, econometrics, finance, test preparation</td><td class="num">1,200+ hrs · 450+ students</td></tr>
+          <tr><td>Recognition</td><td>Graduate Teaching Assistant of the Year, Georgia Tech (<a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">evaluations</a>)</td><td class="num">2023</td></tr>
+          <tr><td>Open infrastructure</td><td><a href="https://github.com/ihelfrich/stats-lab" target="_blank" rel="noopener">Stats Lab</a>, <a href="https://github.com/ihelfrich/inference-lab" target="_blank" rel="noopener">Inference Lab</a>, <a href="https://github.com/ihelfrich/macroprep" target="_blank" rel="noopener">Macro Prep</a>, <a href="https://github.com/ihelfrich/econ101a" target="_blank" rel="noopener">Econ 101A</a>, <a href="https://github.com/ihelfrich/ppd504-studio" target="_blank" rel="noopener">PPD 504 Studio</a>, <a href="https://github.com/ihelfrich/pictures-of-inference" target="_blank" rel="noopener">Pictures of Inference</a></td><td class="num">6 sites</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  <section class="cta-panel">
-    <span class="section-label">For hiring committees</span>
-    <h2>The full packet, on request.</h2>
-    <p>
-      CV, job market paper, research and teaching statements, evaluations, and
-      reference letters. Email and they arrive the same day.
-    </p>
-    <div class="button-row">
-      <a class="button" href="mailto:ianthelfrich@gmail.com?subject=Faculty%20search%20inquiry">Email Ian</a>
-      <a class="button secondary" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">Open the CV (PDF)</a>
-    </div>
-  </section>
+    <section aria-labelledby="s5">
+      <h2 id="s5">5&ensp;Availability</h2>
+      <p>
+        The candidate is applying through AEA JOE this cycle and is available for
+        interviews through the December signal window and at ASSA in January 2027,
+        in person or remote. Figure 2 places today against the market calendar.
+        Research and teaching statements, evaluations, and reference letters arrive
+        by email the same day they are requested.
+      </p>
+      <figure class="paper-fig">
+        <svg id="cyc" viewBox="0 0 1000 150" role="img" aria-label="Timeline of the AEA 2026-27 job market cycle with a marker at today's date"></svg>
+        <figcaption>
+          <strong>Figure 2.</strong> The AEA 2026-27 cycle, to scale. The blue
+          cursor is live and marks the day you are reading this.
+        </figcaption>
+      </figure>
+    </section>
+
+    <div class="paper-fnrule" role="separator"></div>
+    <section class="paper-fns" aria-label="Footnotes">
+      <p id="fn-corr"><span class="fn-mark">†</span> Corresponding candidate: <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> &nbsp;·&nbsp; <a href="https://ihelfrich.github.io">ihelfrich.github.io</a> &nbsp;·&nbsp; <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">github.com/ihelfrich</a> <a class="fn-back" href="#ref-corr">↩</a></p>
+      <p id="fn-letters"><span class="fn-mark">1</span> Reference letters are
+        delivered through application portals or directly to the committee on
+        request. <a class="fn-back" href="#ref-letters">↩</a></p>
+      <p id="fn-est"><span class="fn-mark">2</span> An interactive least-squares
+        estimator accompanies the <a href="/teaching">teaching portfolio</a>: the
+        reader places the data and the model refits, standard errors included, on
+        every change. The mathematics behind this note's figures is documented in
+        the <a href="/colophon">colophon</a>. <a class="fn-back" href="#ref-est">↩</a></p>
+    </section>
+
+    <section class="paper-refs" aria-labelledby="refs-title">
+      <h2 id="refs-title">References</h2>
+      <p>Gonchar, Elizaveta, and Ian Helfrich (2025). "Trade in the spotlight: nightlights and population-weighted distance." SSRN 5202676. <a href="/research/gonchar-helfrich-2025-spotlight">[record]</a></p>
+      <p>Gonchar, Elizaveta, and Ian Helfrich (2026). "Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024." Working paper. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">[record]</a></p>
+      <p>Helfrich, Ian (2024). "A unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces." SSRN 4772016. <a href="/research/helfrich-2024-ssrn-4772016">[record]</a></p>
+      <p>Helfrich, Ian (2026). "The rural mobilization gap in U.S. place-based tax credit." Working paper; job market paper. <a href="/research/helfrich-2026-nmtc-rural-gap">[record]</a></p>
+      <p>Helfrich, Ian (2026). "Penumbra: closed-loop observation under measurement gaps in cross-border trade." Draft. <a href="/research/helfrich-2026-penumbra">[record]</a></p>
+      <p>Helfrich, Ian, and Shane Vardanyan (2026). "AI and the entry-level labor market." Working paper. <a href="/research/helfrich-vardanyan-2026-ai-entry-level-labor">[record]</a></p>
+      <p class="paper-refs-more"><a href="/research">Complete program, with abstracts and code →</a></p>
+    </section>
+  </article>
 </Base>
 
+<script is:inline type="application/json" id="pgm2-data" set:html={JSON.stringify(mapData)} />
+
 <script>
-  // The cycle instrument: the AEA 2026-27 calendar drawn to scale, with a
-  // live cursor at today. The only computed element is the cursor; the only
-  // signal-blue element is the cursor. Everything else is ink on the axis.
+  // ── Figure 1: the program map (compact variant of /research's instrument)
+  const svg2 = document.getElementById("pgm2") as unknown as SVGSVGElement | null;
+  const data2 = document.getElementById("pgm2-data");
+  const ro2 = document.getElementById("pgm2-readout");
+  if (svg2 && data2) {
+    const { nodes, edges } = JSON.parse(data2.textContent || "{}");
+    const Wv = 1000, Hv = 460, CX = Wv / 2, CY = Hv / 2 - 10;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const N = nodes.length;
+    const X = new Float64Array(N), Y = new Float64Array(N);
+    const VX = new Float64Array(N), VY = new Float64Array(N);
+    const GOLD = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const a = i * GOLD, r = 130 + 16 * i;
+      X[i] = CX + Math.cos(a) * r; Y[i] = CY + Math.sin(a) * r * 0.66;
+    }
+    const NS = "http://www.w3.org/2000/svg";
+    const edgeEls: SVGLineElement[] = [], nodeEls: SVGGElement[] = [];
+    for (const e of edges) {
+      const l = document.createElementNS(NS, "line");
+      l.setAttribute("stroke", "rgba(17,17,19,0.22)");
+      l.setAttribute("stroke-width", String(0.8 + e.w * 0.9));
+      svg2.appendChild(l); edgeEls.push(l as SVGLineElement);
+    }
+    nodes.forEach((n: any, i: number) => {
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("cursor", "pointer");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "link");
+      g.setAttribute("aria-label", n.title);
+      const halo = document.createElementNS(NS, "circle");
+      halo.setAttribute("r", "16"); halo.setAttribute("fill", "transparent");
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("r", "6.5"); c.setAttribute("fill", "#111113");
+      const t = document.createElementNS(NS, "text");
+      t.textContent = n.short;
+      t.setAttribute("text-anchor", "middle");
+      t.setAttribute("fill", "#66666c");
+      t.setAttribute("style", "font: 520 10.5px var(--ih-mono); pointer-events: none;");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${n.title} (${n.year})`;
+      g.append(halo, c, t, title);
+      svg2.appendChild(g); nodeEls.push(g as SVGGElement);
+    });
+    let running = false, raf = 0, dragging = -1, dragMoved = 0;
+    function physics() {
+      let energy = 0;
+      for (let i = 0; i < N; i++) {
+        if (i === dragging) continue;
+        let fx = (CX - X[i]) * 0.01, fy = (CY - Y[i]) * 0.012;
+        for (let j = 0; j < N; j++) {
+          if (j === i) continue;
+          const dx = X[i] - X[j], dy = Y[i] - Y[j];
+          const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
+          fx += (dx / d) * (7200 / d2); fy += (dy / d) * (7200 / d2);
+        }
+        VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
+      }
+      for (const e of edges) {
+        const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
+        const d = Math.max(1, Math.hypot(dx, dy));
+        const f = (d - (180 - 34 * Math.min(3, e.w))) * 0.016 * e.w;
+        const ux = dx / d, uy = dy / d;
+        if (e.a !== dragging) { VX[e.a] += ux * f; VY[e.a] += uy * f; }
+        if (e.b !== dragging) { VX[e.b] -= ux * f; VY[e.b] -= uy * f; }
+      }
+      for (let i = 0; i < N; i++) {
+        if (i === dragging) continue;
+        X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
+        Y[i] = Math.min(Hv - 40, Math.max(30, Y[i] + VY[i]));
+        energy += VX[i] * VX[i] + VY[i] * VY[i];
+      }
+      return energy;
+    }
+    function render() {
+      edges.forEach((e: any, k: number) => {
+        edgeEls[k].setAttribute("x1", String(X[e.a])); edgeEls[k].setAttribute("y1", String(Y[e.a]));
+        edgeEls[k].setAttribute("x2", String(X[e.b])); edgeEls[k].setAttribute("y2", String(Y[e.b]));
+      });
+      nodeEls.forEach((g, i) => {
+        g.setAttribute("transform", `translate(${X[i]},${Y[i]})`);
+        (g.children[2] as SVGTextElement).setAttribute("y", "22");
+      });
+    }
+    function step() {
+      const e = physics();
+      render();
+      if (e < 0.02 && dragging < 0) { running = false; return; }
+      raf = requestAnimationFrame(step);
+    }
+    function wake() { if (!running) { running = true; raf = requestAnimationFrame(step); } }
+    function svgPt(ev: PointerEvent) {
+      const inv = svg2.getScreenCTM()!.inverse();
+      return { x: ev.clientX * inv.a + ev.clientY * inv.c + inv.e, y: ev.clientX * inv.b + ev.clientY * inv.d + inv.f };
+    }
+    nodeEls.forEach((g, i) => {
+      g.addEventListener("pointerdown", (ev) => {
+        dragging = i; dragMoved = 0;
+        g.setPointerCapture(ev.pointerId); ev.preventDefault(); wake();
+      });
+      g.addEventListener("pointermove", (ev) => {
+        if (dragging !== i) return;
+        const p = svgPt(ev);
+        dragMoved += Math.abs(p.x - X[i]) + Math.abs(p.y - Y[i]);
+        X[i] = p.x; Y[i] = p.y; VX[i] = 0; VY[i] = 0; wake();
+      });
+      g.addEventListener("pointerup", () => {
+        const wasDrag = dragMoved > 6;
+        dragging = -1; wake();
+        if (!wasDrag) window.location.href = `/research/${nodes[i].id}`;
+      });
+      g.addEventListener("keydown", (ev) => {
+        if ((ev as KeyboardEvent).key === "Enter") window.location.href = `/research/${nodes[i].id}`;
+      });
+      g.addEventListener("mouseenter", () => {
+        (g.children[1] as SVGCircleElement).setAttribute("fill", "#2852e8");
+        edges.forEach((e: any, k: number) => {
+          if (e.a === i || e.b === i) edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
+        });
+        if (ro2) ro2.textContent = ` Hovering: ${nodes[i].title} (${nodes[i].year}).`;
+      });
+      g.addEventListener("mouseleave", () => {
+        (g.children[1] as SVGCircleElement).setAttribute("fill", "#111113");
+        edgeEls.forEach((l) => l.setAttribute("stroke", "rgba(17,17,19,0.22)"));
+        if (ro2) ro2.textContent = "";
+      });
+    });
+    if (reduced) {
+      for (let s = 0; s < 700; s++) if (physics() < 0.02) break;
+      render();
+    } else { render(); wake(); }
+  }
+
+  // ── Figure 2: the cycle instrument (unchanged mathematics, paper styling)
   const svg = document.getElementById("cyc");
   if (svg) {
     const NS = "http://www.w3.org/2000/svg";
@@ -185,7 +357,6 @@ import Base from "../layouts/Base.astro";
         rx: "3", fill: "rgba(17,17,19,0.07)", stroke: "rgba(17,17,19,0.28)", "stroke-width": "0.6" });
       el("text", { x: String(x(d0) + 5), y: String(y + 11.5), fill: "#3d3d42", style: MONO }, label);
     };
-    // axis + month ticks
     el("line", { x1: String(L), y1: String(AX), x2: String(R), y2: String(AX), stroke: "#111113", "stroke-width": "1" });
     const months = ["2026-08-01","2026-09-01","2026-10-01","2026-11-01","2026-12-01","2027-01-01","2027-02-01","2027-03-01"];
     const names = ["Aug","Sep","Oct","Nov","Dec","Jan 27","Feb",""];
@@ -198,11 +369,9 @@ import Base from "../layouts/Base.astro";
     band("2026-10-01", "2026-11-30", 58, "deadline cluster · Oct to Nov");
     band("2026-12-01", "2026-12-15", 58, "");
     el("text", { x: String(x("2026-12-01")), y: "53", fill: "#3d3d42", style: MONO }, "signals · early Dec");
-    // ASSA marker
     const ax2 = x("2027-01-03");
     el("path", { d: `M ${ax2} ${AX - 9} l 5 6 l -5 6 l -5 -6 z`, fill: "#111113" });
     el("text", { x: String(ax2 + 8), y: String(AX - 8), fill: "#3d3d42", style: MONO }, "ASSA · Jan 2027");
-    // today: the one live element
     const now = Date.now();
     if (now >= T0 && now <= T1) {
       const X = x(now);
@@ -216,4 +385,69 @@ import Base from "../layouts/Base.astro";
   }
 </script>
 
+<style>
+  .paper {
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2.5rem 0 3rem;
+    color: #111113;
+    font-family: var(--serif);
+    font-size: 1.02rem;
+    line-height: 1.62;
+  }
+  .paper p { margin: 0 0 0.9rem; }
+  .paper section > p { text-align: justify; hyphens: auto; }
+  .paper a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2.5px; text-decoration-color: rgba(17,17,19,0.4); }
+  .paper a:hover { color: #2852e8; text-decoration-color: #2852e8; }
 
+  .paper-head { text-align: center; margin-bottom: 2.4rem; }
+  .paper-eyebrow { color: #66666c; font: 520 0.66rem/1.5 var(--ih-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+  .paper-head h1 { margin: 1.1rem 0 0.2rem; font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.15; letter-spacing: -0.012em; }
+  .paper-sub { margin: 0.2rem 0 1.4rem; font-style: italic; color: #3d3d42; }
+  .paper-author { margin: 0; font-variant-caps: small-caps; letter-spacing: 0.14em; font-size: 1.08rem; }
+  .paper-author .fn-ref { text-decoration: none; }
+  .paper-affil { margin: 0.15rem 0 0.9rem; color: #3d3d42; font-size: 0.93rem; }
+  .paper-jel { color: #66666c; font: 520 0.66rem/1.6 var(--ih-mono); }
+  .paper-links { display: flex; justify-content: center; gap: 1.1rem; flex-wrap: wrap; margin-top: 0.9rem; }
+  .paper-links a { color: #3d3d42; font: 520 0.68rem/1.5 var(--ih-mono); text-decoration: none; }
+  .paper-links a:hover { color: #2852e8; }
+
+  .paper-abstract { max-width: 40rem; margin: 0 auto 2.2rem; }
+  .paper-abstract h2 { text-align: center; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.12em; font-variant-caps: small-caps; margin: 0 0 0.5rem; }
+  .paper-abstract p { font-size: 0.94rem; line-height: 1.58; text-align: justify; hyphens: auto; margin: 0; }
+
+  .paper h2 { font-family: var(--serif); font-weight: 600; font-size: 1.18rem; margin: 2rem 0 0.7rem; }
+  .paper-jmp-title { font-style: italic; }
+
+  .fn-ref { font-size: 0.72em; vertical-align: super; line-height: 0; text-decoration: none; color: #2852e8; }
+
+  .paper-fig { margin: 1.6rem 0 1.9rem; padding: 0.7rem 0 0.4rem; border-top: 1px solid rgba(17,17,19,0.55); border-bottom: 1px solid rgba(17,17,19,0.55); }
+  .paper-fig svg { display: block; width: 100%; height: auto; }
+  .paper-fig figcaption { margin-top: 0.55rem; font-size: 0.85rem; line-height: 1.55; color: #3d3d42; text-align: justify; hyphens: auto; }
+  .paper-fig-readout { color: #2852e8; font: 520 0.68rem/1.5 var(--ih-mono); }
+  .paper-fig svg g:focus { outline: none; }
+  .paper-fig svg g:focus circle:nth-child(2) { fill: #2852e8; }
+
+  .paper-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: 0.92rem; border-top: 1.6px solid #111113; border-bottom: 1.6px solid #111113; }
+  .paper-table caption { caption-side: top; text-align: left; font-size: 0.85rem; color: #3d3d42; padding-bottom: 0.45rem; }
+  .paper-table th { text-align: left; font-weight: 600; padding: 0.5rem 0.8rem 0.4rem 0; border-bottom: 0.8px solid rgba(17,17,19,0.5); }
+  .paper-table td { vertical-align: top; padding: 0.45rem 0.8rem 0.45rem 0; border-bottom: 0.5px solid rgba(17,17,19,0.12); }
+  .paper-table tr:last-child td { border-bottom: none; }
+  .paper-table .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .paper-fnrule { width: 34%; border-top: 1px solid rgba(17,17,19,0.55); margin: 2.4rem 0 0.8rem; }
+  .paper-fns p { font-size: 0.84rem; line-height: 1.55; margin: 0 0 0.45rem; color: #3d3d42; }
+  .fn-mark { display: inline-block; min-width: 1.1em; }
+  .fn-back { text-decoration: none; }
+
+  .paper-refs { margin-top: 2.2rem; }
+  .paper-refs h2 { font-size: 1.05rem; }
+  .paper-refs p { font-size: 0.9rem; line-height: 1.55; margin: 0 0 0.55rem; padding-left: 1.6rem; text-indent: -1.6rem; }
+  .paper-refs-more { padding-left: 0 !important; text-indent: 0 !important; margin-top: 1rem !important; }
+
+  @media (max-width: 780px) {
+    .paper { padding: 1.4rem 0 2rem; }
+    .paper section > p, .paper-abstract p, .paper-fig figcaption { text-align: left; hyphens: none; }
+  }
+</style>
