@@ -20,6 +20,7 @@ const records = [
   { kind: "Go", code: "GO-08", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
   { kind: "Go", code: "GO-09", title: "About Ian", detail: "Background, research program, and current work", href: "/about" },
   { kind: "Go", code: "GO-10", title: "Curriculum vitae", detail: "Appointments, teaching, papers, awards, and methods", href: "/cv" },
+  { kind: "Go", code: "GO-11", title: "Job market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability", href: "/job-market" },
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
     title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.status}`, href: `/research/${entry.id}`,
