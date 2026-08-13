@@ -43,10 +43,11 @@ const work = [
   description="Ian Helfrich is an economist on the 2026-27 academic job market, a quantitative researcher, and an educator offering private instruction and select consulting."
 >
   <section class="quiet-hero" aria-labelledby="quiet-hero-title">
-    <div class="quiet-hero__intro">
-      <p class="quiet-kicker">Ian Helfrich, PhD · Economist · Quantitative educator</p>
+    <div class="quiet-hero__intro" id="field-stage">
+      <canvas id="field-canvas" aria-hidden="true"></canvas>
+      <p class="quiet-kicker">Ian Helfrich, PhD · Economist · On the 2026-27 job market</p>
       <div class="quiet-hero__grid">
-        <h1 id="quiet-hero-title">I make complex evidence usable<span aria-hidden="true">.</span></h1>
+        <h1 id="quiet-hero-title">I make complex evidence usable.</h1>
         <div class="quiet-hero__copy">
           <p>
             I solve difficult problems through economics, quantitative research, software, and teaching, then make the
@@ -59,6 +60,11 @@ const work = [
           </nav>
         </div>
       </div>
+      <p class="quiet-fieldnote">
+        <span>φ : ℝ² → ℝ</span>
+        <span class="quiet-fieldnote__hint">the marks follow ∇φ at your cursor</span>
+        <a href="/research/helfrich-2024-ssrn-4772016">prices as gradients of convex potentials ↗</a>
+      </p>
     </div>
 
     <div class="quiet-routes" aria-label="Ways to work with Ian">
@@ -148,6 +154,145 @@ const work = [
   </section>
 </Base>
 
+<script>
+  // The gradient field. A lattice of marks, still by default. Each mark is a
+  // spring-damped vector chasing the gradient of a potential centered on the
+  // cursor; a click launches one radial impulse that resolves to rest. Motion
+  // therefore has exactly the two licensed causes in DESIGN_SYSTEM.md: a
+  // visitor changing state, and a calculation resolving. Idle cost is zero:
+  // the rAF loop stops when the system reaches equilibrium.
+  const stage = document.getElementById("field-stage");
+  const canvas = document.getElementById("field-canvas") as HTMLCanvasElement | null;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (stage && canvas) {
+    const ctx = canvas.getContext("2d")!;
+    const SPACING = 54;        // lattice pitch, CSS px
+    const SIGMA = 120;         // potential width
+    const MAXLEN = 16;         // full extension of a mark
+    const SPRING = 0.14;
+    const DAMP = 0.8;
+    const WAVE_SPEED = 620;    // px/s
+    const WAVE_WIDTH = 55;     // shell thickness
+    const WAVE_LIFE = 1500;    // ms
+    const INK = [17, 17, 19];
+    const BLUE = [40, 82, 232]; // signal blue: live elements only
+
+    let W = 0, H = 0, dpr = 1;
+    let marks: { x: number; y: number; mx: number; my: number; vx: number; vy: number }[] = [];
+    let px = -1e9, py = -1e9;
+    let waves: { x: number; y: number; t0: number }[] = [];
+    let raf = 0, running = false;
+
+    function resize() {
+      const r = stage!.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas!.width = Math.round(W * dpr);
+      canvas!.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      marks = [];
+      const x0 = (W % SPACING) / 2, y0 = (H % SPACING) / 2;
+      for (let y = y0; y <= H; y += SPACING)
+        for (let x = x0; x <= W; x += SPACING)
+          marks.push({ x, y, mx: 0, my: 0, vx: 0, vy: 0 });
+      draw();
+    }
+
+    function fieldAt(x: number, y: number, now: number) {
+      // Cursor potential: gaussian bump, marks align away from the cursor.
+      let fx = 0, fy = 0;
+      const dx = x - px, dy = y - py;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 9 * SIGMA * SIGMA) {
+        const d = Math.sqrt(d2) || 1;
+        const g = Math.exp(-d2 / (2 * SIGMA * SIGMA));
+        fx += (dx / d) * g; fy += (dy / d) * g;
+      }
+      // Impulse waves: an expanding gaussian shell, amplitude decaying in time.
+      for (const w of waves) {
+        const t = (now - w.t0) / 1000;
+        const rr = WAVE_SPEED * t;
+        const wx = x - w.x, wy = y - w.y;
+        const d = Math.hypot(wx, wy) || 1;
+        const shell = Math.exp(-((d - rr) ** 2) / (2 * WAVE_WIDTH * WAVE_WIDTH));
+        const decay = Math.exp(-2.2 * t);
+        fx += (wx / d) * shell * decay * 0.9;
+        fy += (wy / d) * shell * decay * 0.9;
+      }
+      return { fx, fy };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const m of marks) {
+        const len = Math.hypot(m.mx, m.my);
+        const t = Math.min(1, len / MAXLEN);
+        // Base lattice dot, always present: the still state of the field.
+        ctx.fillStyle = `rgba(${INK[0]},${INK[1]},${INK[2]},0.16)`;
+        ctx.fillRect(m.x - 0.75, m.y - 0.75, 1.5, 1.5);
+        if (len > 0.4) {
+          const e = t * t;
+          const r_ = Math.round(INK[0] + (BLUE[0] - INK[0]) * e);
+          const g_ = Math.round(INK[1] + (BLUE[1] - INK[1]) * e);
+          const b_ = Math.round(INK[2] + (BLUE[2] - INK[2]) * e);
+          ctx.strokeStyle = `rgba(${r_},${g_},${b_},${0.16 + 0.68 * t})`;
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(m.x - m.mx / 2, m.y - m.my / 2);
+          ctx.lineTo(m.x + m.mx / 2, m.y + m.my / 2);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function step(now: number) {
+      waves = waves.filter((w) => now - w.t0 < WAVE_LIFE);
+      let energy = 0;
+      for (const m of marks) {
+        const { fx, fy } = fieldAt(m.x, m.y, now);
+        const tx = fx * MAXLEN, ty = fy * MAXLEN;
+        m.vx = (m.vx + (tx - m.mx) * SPRING) * DAMP;
+        m.vy = (m.vy + (ty - m.my) * SPRING) * DAMP;
+        m.mx += m.vx; m.my += m.vy;
+        energy += Math.abs(m.vx) + Math.abs(m.vy) + Math.abs(m.mx) + Math.abs(m.my);
+      }
+      draw();
+      const pointerInside = px > -1e8;
+      if (energy < 1 && !pointerInside && waves.length === 0) {
+        running = false;
+        return; // equilibrium: the calculation has resolved, the loop stops
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    function wake() {
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(step);
+      }
+    }
+
+    if (!reduced) {
+      stage.addEventListener("pointermove", (e) => {
+        const r = canvas.getBoundingClientRect();
+        px = e.clientX - r.left; py = e.clientY - r.top;
+        wake();
+      });
+      stage.addEventListener("pointerleave", () => { px = -1e9; py = -1e9; wake(); });
+      stage.addEventListener("pointerdown", (e) => {
+        const r = canvas.getBoundingClientRect();
+        waves.push({ x: e.clientX - r.left, y: e.clientY - r.top, t0: performance.now() });
+        wake();
+      });
+    }
+
+    const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); running = false; resize(); });
+    ro.observe(stage);
+    resize();
+  }
+</script>
+
 <style>
   :global(.quiet-home) {
     --quiet-ink: #111113;
@@ -177,45 +322,46 @@ const work = [
   .quiet-hero { padding: 0 clamp(1.25rem, 4vw, 4.5rem); border-bottom: 1px solid var(--quiet-rule); }
 
   .quiet-hero__intro {
+    position: relative;
     display: grid;
     min-height: clamp(620px, calc(100svh - 72px), 900px);
-    padding: clamp(2rem, 4vw, 4rem) 0;
-    grid-template-rows: auto 1fr;
+    padding: clamp(2rem, 4vw, 4rem) 0 1.1rem;
+    grid-template-rows: auto 1fr auto;
     border-bottom: 1px solid var(--quiet-ink);
+  }
+
+  #field-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+
+  .quiet-hero__intro > * { position: relative; z-index: 1; }
+  .quiet-hero__intro > #field-canvas { z-index: 0; }
+
+  @media (forced-colors: active) {
+    #field-canvas { display: none; }
   }
 
   .quiet-hero__grid {
     display: grid;
-    padding: clamp(4.5rem, 9vw, 9rem) 0 clamp(2rem, 4vw, 4rem);
+    padding: clamp(4rem, 8vw, 8rem) 0 clamp(2rem, 4vw, 4rem);
     grid-template-columns: minmax(0, 8fr) minmax(280px, 4fr);
     gap: 2rem clamp(3rem, 8vw, 9rem);
     align-items: end;
   }
 
   .quiet-hero h1 {
-    position: relative;
-    max-width: 10ch;
+    max-width: 11ch;
     margin: 0;
-    padding-left: clamp(1rem, 2vw, 2rem);
     color: var(--quiet-ink);
     font: 540 clamp(4.2rem, 8.4vw, 10rem)/.87 var(--ih-display);
     letter-spacing: -.075em;
     text-wrap: balance;
   }
-
-  /* Static rule: page-load animation removed per motion doctrine (only a
-     resolving calculation or a visitor state change may move). */
-  .quiet-hero h1::before {
-    position: absolute;
-    top: .06em;
-    bottom: .04em;
-    left: 0;
-    width: 5px;
-    content: "";
-    background: var(--quiet-blue);
-  }
-
-  .quiet-hero h1 > span { color: var(--quiet-blue); }
 
   .quiet-hero__copy > p {
     max-width: 560px;
@@ -232,6 +378,22 @@ const work = [
   .quiet-hero__copy a:hover,
   .quiet-work header a:hover,
   .quiet-trust nav a:hover { color: var(--quiet-blue); }
+
+  .quiet-fieldnote {
+    display: flex;
+    margin: 0;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    color: var(--quiet-muted);
+    font: 520 .62rem/1.5 var(--ih-mono);
+  }
+
+  .quiet-fieldnote a { color: var(--quiet-muted); text-underline-offset: .3em; }
+  .quiet-fieldnote a:hover { color: var(--quiet-blue); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quiet-fieldnote__hint { display: none; }
+  }
 
   .quiet-routes { border-bottom: 1px solid var(--quiet-ink); }
 
@@ -363,9 +525,5 @@ const work = [
   @media (prefers-reduced-motion: reduce) {
     .quiet-routes strong i,
     .quiet-work__arrow { transition: none; }
-  }
-
-  @media (forced-colors: active) {
-    .quiet-hero h1::before { background: CanvasText; }
   }
 </style>
