@@ -30,3 +30,5 @@ Plus, writing about my work forces me to think harder, code cleaner, and map sma
 ---
 
 *Postscript, May 2026: the "job market" framing dated. I went independent and the writing here became less about applications and more about working papers. The spirit holds.*
+
+*Second postscript, August 2026: the market came back around. I am applying through the AEA JOE 2026-27 cycle while the independent practice continues. Both things are true at once, which is very much the spirit of this blog.*

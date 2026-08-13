@@ -1,79 +1,161 @@
 ---
 import Base from "../layouts/Base.astro";
+// Evidence-linked CV: every claim that has a public artifact links to it
+// (paper records, SSRN, repos, live teaching sites, evaluations PDF). Facts
+// mirror the PDF; the page adds verifiability, never new claims.
 ---
 <Base
   title="CV"
-  description="Curriculum vitae for Dr. Ian Helfrich, applied economist, educator, and quantitative researcher. Updated July 2026."
+  description="Evidence-linked curriculum vitae for Dr. Ian Helfrich, applied economist, educator, and quantitative researcher. Every claim links to its public artifact."
 >
   <header class="page-hero">
-    <span class="eyebrow">Curriculum vitae · Updated July 2026</span>
+    <span class="eyebrow">Curriculum vitae · Evidence linked · PDF updated July 2026</span>
     <h1>Applied economist & educator.</h1>
-    <p class="kicker">Spatial and policy econometrics, economic networks, international trade, labor and AI, open research infrastructure, and quantitative education.</p>
+    <p class="kicker">Spatial and policy econometrics, economic networks, international trade, labor and AI, open research infrastructure, and quantitative education. Where a line below has a public artifact, the line links to it.</p>
     <div class="button-row">
-      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">Download current CV (PDF)</a>
+      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">One-page CV (PDF)</a>
+      <a class="button secondary" href="/cv/helfrich-cv-full.pdf" target="_blank" rel="noopener">Full CV (PDF)</a>
       <a class="button secondary" href="/job-market">Job market packet</a>
-      <a class="button secondary" href="/start">Start a project</a>
     </div>
   </header>
 
-  <h2>Research interests</h2>
-  <p>Applied econometrics for spatial and high-dimensional data, economic networks, international trade, and policy evaluation. Secondary interests include labor and AI, regional and environmental economics, remote sensing, and optimal transport.</p>
+  <section class="section compact" aria-labelledby="cv-interests">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Research interests</span>
+        <h2 id="cv-interests">What the work is about.</h2>
+      </div>
+      <p>Applied econometrics for spatial and high-dimensional data, economic networks, international trade, and policy evaluation. Secondary: labor and AI, regional and environmental economics, remote sensing, and optimal transport.</p>
+    </div>
+  </section>
 
-  <h2>Education</h2>
-  <ul>
-    <li><strong>PhD, Economics</strong>, Georgia Institute of Technology, 2024. Minor in Quantitative Psychology. Dissertation on network centrality, spatial heterogeneity, and optimal transport in international trade.</li>
-    <li><strong>MS, Geographic Information Science & Technology</strong>, Georgia Institute of Technology, 2022.</li>
-    <li><strong>MS, Economics</strong>, Georgia Institute of Technology, 2019.</li>
-    <li><strong>MA, Economics</strong>, Indiana University Bloomington, 2018.</li>
-    <li><strong>MSc, Economics & Public Policy</strong>, Barcelona School of Economics, 2015.</li>
-    <li><strong>BA, Economics</strong>, University of North Carolina at Chapel Hill, 2014.</li>
-  </ul>
+  <section class="section compact" aria-labelledby="cv-education">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Education</span>
+        <h2 id="cv-education">Six degrees, one ladder.</h2>
+      </div>
+      <p>Dissertation: network centrality, spatial heterogeneity, and optimal transport in international trade. Advisors: Dr. Tibor Besedes and Dr. Usha Nair-Reichert.</p>
+    </div>
+    <ul class="credential-list">
+      <li><strong>PhD, Economics</strong>, Georgia Institute of Technology, 2024. Doctoral minor in Quantitative Psychology.</li>
+      <li><strong>MS, Geographic Information Science &amp; Technology</strong>, Georgia Institute of Technology, 2022.</li>
+      <li><strong>MS, Economics</strong>, Georgia Institute of Technology, 2019.</li>
+      <li><strong>MA, Economics</strong>, Indiana University Bloomington, 2018.</li>
+      <li><strong>MSc, Economics &amp; Public Policy</strong>, Barcelona School of Economics, 2015.</li>
+      <li><strong>BA, Economics</strong>, University of North Carolina at Chapel Hill, 2014.</li>
+    </ul>
+  </section>
 
-  <h2>Selected research</h2>
-  <ul>
-    <li><strong>AI and the Entry-Level Labor Market</strong> (with Shane Vardanyan), working paper, 2026. Continuous-exposure event study and triple-difference analysis of generative AI and early-career U.S. employment using CPS microdata.</li>
-    <li><strong>Trade in the Spotlight</strong> (with E. Gonchar), SSRN 5202676, 2025. Effective-distance panel framework for bilateral flows under visibility shocks.</li>
-    <li><strong>The Rural Mobilization Gap</strong>, working paper. Community Development Entity fixed-effects decomposition of the New Markets Tax Credit.</li>
-    <li><strong>Metric Sovereignty</strong>, living draft. Arrow's impossibility, AI governance, and capitalist democracy.</li>
-    <li><strong>Penumbra</strong>, in progress. Topology and centrality in trade networks.</li>
-    <li><strong>Asymmetric Returns on Exposure</strong>, theory paper in progress. Networked trade with heterogeneous firm exposure.</li>
-  </ul>
-  <p><a href="/research">Research pages, abstracts, and materials →</a></p>
+  <section class="section" aria-labelledby="cv-research">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Selected research</span>
+        <h2 id="cv-research">Papers, with their records.</h2>
+      </div>
+      <p>Each row links to the full record: abstract, status, materials, and code where public. The complete list lives on the <a href="/research">research page</a>.</p>
+    </div>
+    <ul class="h-row-list">
+      <li class="h-row">
+        <div class="h-row-meta">With Shane Vardanyan · working paper · 2026</div>
+        <h3 class="h-row-title"><a href="/research/helfrich-vardanyan-2026-ai-entry-level-labor">AI and the entry-level labor market</a></h3>
+        <p class="h-row-summary">Continuous-exposure event study and triple difference on generative AI and early-career U.S. employment, CPS microdata.</p>
+      </li>
+      <li class="h-row">
+        <div class="h-row-meta">With Elizaveta Gonchar · SSRN 5202676 · 2025</div>
+        <h3 class="h-row-title"><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the spotlight</a></h3>
+        <p class="h-row-summary">Gravity with population-weighted geodesic distance and VIIRS nightlights. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5202676" target="_blank" rel="noopener">Preprint on SSRN</a>.</p>
+      </li>
+      <li class="h-row">
+        <div class="h-row-meta">Sole-authored · working paper · job market paper</div>
+        <h3 class="h-row-title"><a href="/research/helfrich-2026-nmtc-rural-gap">The rural mobilization gap in U.S. place-based tax credit</a></h3>
+        <p class="h-row-summary">CDE fixed-effects decomposition of the NMTC rural leverage gap. <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Replication code and viewer</a>.</p>
+      </li>
+      <li class="h-row">
+        <div class="h-row-meta">Sole-authored · SSRN 4772016 · 2024</div>
+        <h3 class="h-row-title"><a href="/research/helfrich-2024-ssrn-4772016">Economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces</a></h3>
+        <p class="h-row-summary">Existence, uniqueness, and prices as gradients of convex potentials.</p>
+      </li>
+      <li class="h-row">
+        <div class="h-row-meta">Sole-authored · living draft</div>
+        <h3 class="h-row-title"><a href="https://github.com/ihelfrich/metric-sovereignty" target="_blank" rel="noopener">Metric sovereignty</a></h3>
+        <p class="h-row-summary">Arrow's impossibility, AI directives, and capitalist democracy. Draft and source public on GitHub.</p>
+      </li>
+      <li class="h-row">
+        <div class="h-row-meta">Sole-authored · program · in progress</div>
+        <h3 class="h-row-title"><a href="/program">Penumbra: closed-loop observation under measurement gaps</a></h3>
+        <p class="h-row-summary">Umbrella theory plus the Russian seaborne-crude empirical companion; full program page with paper map.</p>
+      </li>
+    </ul>
+  </section>
 
-  <h2>Teaching</h2>
-  <ul>
-    <li><strong>Instructor of record, Georgia Institute of Technology</strong>, three semesters in economics and policy and principles of microeconomics.</li>
-    <li><strong>Graduate teaching assistant, Georgia Institute of Technology</strong>, undergraduate economics, graduate econometrics, and engineering signal processing.</li>
-    <li><strong>Online and independent teaching</strong>, roughly 1,200 hours in a recent teaching year and 450+ students across test preparation, economics, statistics, econometrics, finance, and research methods.</li>
-    <li><strong>Graduate Teaching Assistant of the Year</strong>, Georgia Institute of Technology, 2023.</li>
-    <li>Creator of Stats Lab, Inference Lab, Macro Prep, Econ 101A, PPD 504 Studio, and Pictures of Inference.</li>
-  </ul>
-  <p><a href="/teaching">Teaching record and open learning tools →</a></p>
+  <section class="section" aria-labelledby="cv-teaching">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Teaching</span>
+        <h2 id="cv-teaching">A record you can click.</h2>
+      </div>
+      <p>Formal instruction, then the public infrastructure. Evaluations are on this site as a PDF, and the teaching tools run live in the browser.</p>
+    </div>
+    <ul class="credential-list">
+      <li><strong>Instructor of record</strong>, Georgia Institute of Technology. Three semesters: economics and policy, principles of microeconomics.</li>
+      <li><strong>Graduate teaching assistant</strong>, Georgia Tech: undergraduate economics, graduate econometrics, ECE signal processing.</li>
+      <li><strong>Graduate Teaching Assistant of the Year</strong>, Georgia Tech, 2023. <a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">Course evaluations (PDF)</a>.</li>
+      <li><strong>Independent instruction</strong>: roughly 1,200 hours in a recent year, 450+ students across economics, statistics, econometrics, finance, test preparation, and research methods.</li>
+      <li><strong>Open teaching infrastructure</strong>: <a href="https://github.com/ihelfrich/stats-lab" target="_blank" rel="noopener">Stats Lab</a>, <a href="https://github.com/ihelfrich/inference-lab" target="_blank" rel="noopener">Inference Lab</a>, <a href="https://github.com/ihelfrich/macroprep" target="_blank" rel="noopener">Macro Prep</a>, <a href="https://github.com/ihelfrich/econ101a" target="_blank" rel="noopener">Econ 101A</a>, <a href="https://github.com/ihelfrich/ppd504-studio" target="_blank" rel="noopener">PPD 504 Studio</a>, and <a href="https://github.com/ihelfrich/pictures-of-inference" target="_blank" rel="noopener">Pictures of Inference</a>.</li>
+    </ul>
+    <p><a href="/teaching">Teaching record and open learning tools →</a></p>
+  </section>
 
-  <h2>Applied and advisory work</h2>
-  <ul>
-    <li><strong>Independent economic advisory, 2026–present</strong>, industrial-sector diagnostic methodology, indicator selection, composite-index construction, and international benchmarking design.</li>
-    <li><strong>Quantitative research practice, 2024–present</strong>, applied econometric and measurement work for institutional and private clients, including support for student-led empirical projects.</li>
-  </ul>
+  <section class="section compact" aria-labelledby="cv-applied">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Applied and advisory work</span>
+        <h2 id="cv-applied">Practice.</h2>
+      </div>
+      <p>Selected engagements and capabilities are documented on the <a href="/work">work page</a>.</p>
+    </div>
+    <ul class="credential-list">
+      <li><strong>Independent economic advisory, 2026 to present</strong>: industrial-sector diagnostics, indicator selection, composite-index construction, international benchmarking design.</li>
+      <li><strong>Quantitative research practice, 2024 to present</strong>: applied econometric and measurement work for institutional and private clients.</li>
+    </ul>
+  </section>
 
-  <h2>Computational work</h2>
-  <p>Python, R, Stata, Julia, and Go; spatial and remote-sensing workflows; LaTeX and Quarto; economic-data pipelines; interactive data products; entity and network analysis; and open-source teaching infrastructure.</p>
-  <p><a href="/projects">Selected tools and projects →</a></p>
+  <section class="section compact" aria-labelledby="cv-computational">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Computational work</span>
+        <h2 id="cv-computational">Tools, in public.</h2>
+      </div>
+      <p>Python, R, Stata, Julia, and Go; spatial and remote-sensing workflows; LaTeX, Typst, and Quarto; economic-data pipelines; interactive data products; entity and network analysis. The public record is the <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub profile</a> and the <a href="/projects">projects page</a>.</p>
+    </div>
+  </section>
 
-  <h2>Selected recognition</h2>
-  <ul>
-    <li>Graduate Teaching Assistant of the Year, Georgia Institute of Technology, 2023.</li>
-    <li>Referee, <em>Journal of Economic Theory</em>, 2025.</li>
-    <li>Senator of the Year, Georgia Tech Graduate Student Government, 2020.</li>
-    <li>Vice President for Campus Services and Senator, Georgia Tech Graduate Student Government, 2018–2020.</li>
-  </ul>
+  <section class="section compact" aria-labelledby="cv-recognition">
+    <div class="section-heading">
+      <div>
+        <span class="section-label">Selected recognition</span>
+        <h2 id="cv-recognition">Recognition.</h2>
+      </div>
+      <p>Service and awards, most recent first.</p>
+    </div>
+    <ul class="credential-list">
+      <li>Referee, <em>Journal of Economic Theory</em>, 2025.</li>
+      <li>Graduate Teaching Assistant of the Year, Georgia Institute of Technology, 2023.</li>
+      <li>Senator of the Year, Georgia Tech Graduate Student Government, 2020.</li>
+      <li>Vice President for Campus Services and Senator, Georgia Tech Graduate Student Government, 2018 to 2020.</li>
+    </ul>
+  </section>
 
   <section class="cta-panel">
-    <span class="section-label">Full document</span>
-    <h2>Download the current one-page CV.</h2>
-    <p>The PDF was updated in July 2026. Additional teaching evaluations, project detail, and references are available when relevant.</p>
+    <span class="section-label">Documents</span>
+    <h2>The packet, in three files.</h2>
+    <p>The one-page CV, the full CV, and course evaluations. Research and teaching statements, plus reference letters, arrive by email the same day.</p>
     <div class="button-row">
-      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">Open PDF</a>
+      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">One-page CV</a>
+      <a class="button secondary" href="/cv/helfrich-cv-full.pdf" target="_blank" rel="noopener">Full CV</a>
+      <a class="button secondary" href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">Evaluations</a>
+      <a class="button secondary" href="mailto:ianthelfrich@gmail.com?subject=CV%20packet%20request">Email Ian</a>
     </div>
   </section>
 </Base>

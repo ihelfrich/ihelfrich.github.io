@@ -40,7 +40,7 @@ const work = [
   pageClass="quiet-home"
   image="/og.png"
   imageAlt="Ian Helfrich, PhD, economist, quantitative researcher, and educator"
-  description="Ian Helfrich is an economist, quantitative researcher, and educator offering private instruction and select consulting across policy, business, research, and learning."
+  description="Ian Helfrich is an economist on the 2026-27 academic job market, a quantitative researcher, and an educator offering private instruction and select consulting."
 >
   <section class="quiet-hero" aria-labelledby="quiet-hero-title">
     <div class="quiet-hero__intro">
@@ -53,6 +53,7 @@ const work = [
             result clear enough to inspect, use, and trust.
           </p>
           <nav aria-label="Profile links">
+            <a href="/job-market">Job market ↗</a>
             <a href="#selected-work">Selected work ↓</a>
             <a href="/cv">Curriculum vitae ↗</a>
           </nav>
@@ -61,8 +62,16 @@ const work = [
     </div>
 
     <div class="quiet-routes" aria-label="Ways to work with Ian">
-      <a href="/start?problem=learning&source=home-hero">
+      <a href="/job-market">
         <span class="quiet-routes__index">01</span>
+        <div>
+          <h2>Hiring committees</h2>
+          <p>On the 2026-27 economics job market. Fields, job market paper, teaching record, availability, and the full packet on one page.</p>
+        </div>
+        <strong>Open the candidate page <i aria-hidden="true">↗</i></strong>
+      </a>
+      <a href="/start?problem=learning&source=home-hero">
+        <span class="quiet-routes__index">02</span>
         <div>
           <h2>Private teaching</h2>
           <p>Econometrics, economics, strategy, mathematics, coding, ACT/SAT, AP, and IB Higher Level.</p>
@@ -70,7 +79,7 @@ const work = [
         <strong>Start a teaching brief <i aria-hidden="true">↗</i></strong>
       </a>
       <a href="/start?source=home-hero">
-        <span class="quiet-routes__index">02</span>
+        <span class="quiet-routes__index">03</span>
         <div>
           <h2>Consulting + research</h2>
           <p>Policy, business, empirical strategy, network and spatial measurement, research systems, and team training.</p>
@@ -130,6 +139,7 @@ const work = [
         </p>
         <nav aria-label="Learn more about Ian">
           <a href="/about">About Ian ↗</a>
+          <a href="/job-market">Job market ↗</a>
           <a href="/cv">Curriculum vitae ↗</a>
           <a href="mailto:ianthelfrich@gmail.com">Email Ian ↗</a>
         </nav>
@@ -141,9 +151,9 @@ const work = [
 <style>
   :global(.quiet-home) {
     --quiet-ink: #111113;
-    --quiet-paper: #f5f4f0;
+    --quiet-paper: #f2eade;   /* archive bone, per DESIGN_SYSTEM.md */
     --quiet-white: #fff;
-    --quiet-blue: #3155d9;
+    --quiet-blue: #2852e8;    /* signal blue, per DESIGN_SYSTEM.md */
     --quiet-muted: #66666c;
     --quiet-rule: rgba(17, 17, 19, .19);
     background: var(--quiet-paper);
@@ -193,6 +203,8 @@ const work = [
     text-wrap: balance;
   }
 
+  /* Static rule: page-load animation removed per motion doctrine (only a
+     resolving calculation or a visitor state change may move). */
   .quiet-hero h1::before {
     position: absolute;
     top: .06em;
@@ -201,8 +213,6 @@ const work = [
     width: 5px;
     content: "";
     background: var(--quiet-blue);
-    transform-origin: top;
-    animation: quiet-rule-in 360ms cubic-bezier(.22, 1, .36, 1) both;
   }
 
   .quiet-hero h1 > span { color: var(--quiet-blue); }
@@ -311,8 +321,6 @@ const work = [
   .quiet-trust__credentials { margin: 2.5rem 0 0; padding-top: 1rem; color: var(--quiet-muted); border-top: 1px solid var(--quiet-rule); font: 520 .7rem/1.6 var(--ih-mono); }
   .quiet-trust nav { display: flex; margin-top: 2rem; gap: 1.5rem; flex-wrap: wrap; }
 
-  @keyframes quiet-rule-in { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-
   @media (max-width: 940px) {
     .quiet-hero__grid { grid-template-columns: 1fr; align-items: start; }
     .quiet-hero__copy { max-width: 620px; }
@@ -353,7 +361,6 @@ const work = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .quiet-hero h1::before { animation: none; }
     .quiet-routes strong i,
     .quiet-work__arrow { transition: none; }
   }
