@@ -37,7 +37,7 @@ const teaching = (await getCollection("teaching")).sort((a, b) => +b.data.date -
         <span class="section-label">Inference you can touch</span>
         <h2 id="est-title">Every click refits the model.</h2>
       </div>
-      <p>Click to add a data point, drag one to move it, click a point to remove it. The fit recomputes in closed form each time. Pull one point out into the tail and watch what moves together: the line tilts, the band bows, the robust standard error grows. That reaction is usually the lesson.</p>
+      <p>Click to add a point, drag to move it, click an existing point to remove it. The fit recomputes in closed form after each change. Move a point into the tail and the line, the band, and the robust standard error respond together; that joint response is the lesson.</p>
     </div>
     <div class="inst-panel">
       <svg id="est" viewBox="0 0 1000 480" role="img" aria-label="Interactive least-squares scatterplot: click to add points, drag to move them"></svg>

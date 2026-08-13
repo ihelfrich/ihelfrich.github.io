@@ -49,7 +49,7 @@ const mapData = { nodes, edges };
       <div class="cover-type">
         <p class="cover-eyebrow">AEA job market · 2026-27 cycle</p>
         <h1>Making Complex<br />Evidence Usable</h1>
-        <p class="cover-sub">The candidate note of Ian Helfrich, typeset as a working paper. Two of its figures are live instruments. It begins below.</p>
+        <p class="cover-sub">A candidate note, set as a working paper. Two of its figures are interactive.</p>
         <p class="cover-cta"><a href="#note">Read the note ↓</a></p>
       </div>
       <figure class="cover-fig">
@@ -81,15 +81,14 @@ const mapData = { nodes, edges };
     <section class="paper-abstract" aria-label="Abstract">
       <h2>Abstract</h2>
       <p>
-        This note summarizes the candidacy of Ian Helfrich for the 2026-27 economics
-        job market. The candidate is an applied econometrician working on spatial and
-        high-dimensional methods, economic networks, and international trade, with a
-        job market paper showing that 82.2 percent of the apparent rural penalty in
-        U.S. New Markets Tax Credit leverage is between-intermediary selection. The
-        research program spans satellite-calibrated trade costs, optimal transport
-        theory, and the labor-market effects of generative AI. Two figures in this
-        note are live instruments; the reader is invited to handle them. Availability
-        runs through the December signal window and ASSA 2027.
+        Ian Helfrich is an applied econometrician on the 2026-27 economics job
+        market, working on spatial and high-dimensional methods, economic networks,
+        and international trade. His job market paper finds that between-intermediary
+        selection accounts for 82.2 percent of the apparent rural penalty in U.S. New
+        Markets Tax Credit leverage. The wider program covers satellite-calibrated
+        trade costs, optimal transport theory, and the labor-market effects of
+        generative AI. Two figures in this note are interactive. He is available
+        through the December signal window and at ASSA 2027.
       </p>
     </section>
 
@@ -106,10 +105,10 @@ const mapData = { nodes, edges };
       <p>
         Primary fields are applied econometrics, international trade, and spatial and
         urban economics; secondary fields are economic networks, labor and AI, and
-        policy evaluation. A single test runs through the work: pick the wrong metric,
-        comparison, or network representation and the economics is gone before
-        estimation starts. Most of the papers below began as a failure of that test
-        somewhere in the wild.
+        policy evaluation. Across these areas the work asks one question: does the
+        metric, comparison, or network representation match the economic object under
+        study? Most of the papers below began in an applied setting where the
+        standard choice failed that test.
       </p>
     </section>
 
@@ -137,13 +136,12 @@ const mapData = { nodes, edges };
     <section aria-labelledby="s3">
       <h2 id="s3">3&ensp;The research program</h2>
       <p>
-        Nine papers are active; Figure 1 draws them as a graph whose edges are
-        computed from the papers' own method tags. The connected component runs from
-        optimal transport theory (Helfrich 2024) through satellite-calibrated
-        measurement (Gonchar and Helfrich 2025, 2026) to the sanctions-era
-        observation program. Two papers sit apart deliberately: separate lines of
-        work in place-based policy and in labor. Full records, abstracts, and code
-        are indexed in the references.
+        Nine papers are active. Figure 1 links papers that share method tags. The
+        main component connects optimal transport theory (Helfrich 2024),
+        satellite-calibrated measurement (Gonchar and Helfrich 2025, 2026), and the
+        sanctions-era observation program. Two papers are isolated: one in
+        place-based policy, one in labor. The references give full records,
+        abstracts, and code.
       </p>
       <figure class="paper-fig">
         <svg id="pgm2" viewBox="0 0 1000 460" role="img" aria-label="Graph of the candidate's papers connected by shared method tags"></svg>
@@ -578,15 +576,21 @@ const mapData = { nodes, edges };
     line-height: 1.62;
   }
   .paper p { margin: 0 0 0.9rem; }
+  .paper p, .paper li { orphans: 3; widows: 3; }
   .paper section > p { text-align: justify; hyphens: auto; }
+  .paper section:not(.paper-abstract):not(.paper-fns):not(.paper-refs) > p:not(.paper-jmp-title) + p { text-indent: 1.25em; }
   .paper a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2.5px; text-decoration-color: rgba(17,17,19,0.4); }
   .paper a:hover { color: #2852e8; text-decoration-color: #2852e8; }
+
+  @supports (text-wrap: pretty) {
+    .paper p, .paper h2, .paper figcaption, .paper caption { text-wrap: pretty; }
+  }
 
   .paper-head { text-align: center; margin-bottom: 2.4rem; }
   .paper-eyebrow { color: #66666c; font: 520 0.66rem/1.5 var(--ih-mono); letter-spacing: 0.06em; text-transform: uppercase; }
   .paper-head .paper-doc-title { font-family: var(--serif); }
   .paper-sub { margin: 0.2rem 0 1.4rem; font-style: italic; color: #3d3d42; }
-  .paper-author { margin: 0; font-variant-caps: small-caps; letter-spacing: 0.14em; font-size: 1.08rem; }
+  .paper-author { margin: 0; font-variant-caps: small-caps; letter-spacing: 0.08em; font-size: 1.08rem; }
   .paper-author .fn-ref { text-decoration: none; }
   .paper-affil { margin: 0.15rem 0 0.9rem; color: #3d3d42; font-size: 0.93rem; }
   .paper-jel { color: #66666c; font: 520 0.66rem/1.6 var(--ih-mono); }
@@ -595,7 +599,7 @@ const mapData = { nodes, edges };
   .paper-links a:hover { color: #2852e8; }
 
   .paper-abstract { max-width: 40rem; margin: 0 auto 2.2rem; }
-  .paper-abstract h2 { text-align: center; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.12em; font-variant-caps: small-caps; margin: 0 0 0.5rem; }
+  .paper-abstract h2 { text-align: center; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.08em; font-variant-caps: small-caps; margin: 0 0 0.5rem; }
   .paper-abstract p { font-size: 0.94rem; line-height: 1.58; text-align: justify; hyphens: auto; margin: 0; }
 
   .paper h2 { font-family: var(--serif); font-weight: 600; font-size: 1.18rem; margin: 2rem 0 0.7rem; }
@@ -610,7 +614,7 @@ const mapData = { nodes, edges };
   .paper-fig svg g:focus { outline: none; }
   .paper-fig svg g:focus circle:nth-child(2) { fill: #2852e8; }
 
-  .paper-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: 0.92rem; border-top: 1.6px solid #111113; border-bottom: 1.6px solid #111113; }
+  .paper-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: 0.92rem; font-variant-numeric: tabular-nums lining-nums; border-top: 1.6px solid #111113; border-bottom: 1.6px solid #111113; }
   .paper-table caption { caption-side: top; text-align: left; font-size: 0.85rem; color: #3d3d42; padding-bottom: 0.45rem; }
   .paper-table th { text-align: left; font-weight: 600; padding: 0.5rem 0.8rem 0.4rem 0; border-bottom: 0.8px solid rgba(17,17,19,0.5); }
   .paper-table td { vertical-align: top; padding: 0.45rem 0.8rem 0.45rem 0; border-bottom: 0.5px solid rgba(17,17,19,0.12); }
@@ -630,5 +634,54 @@ const mapData = { nodes, edges };
   @media (max-width: 780px) {
     .paper { padding: 1.4rem 0 2rem; }
     .paper section > p, .paper-abstract p, .paper-fig figcaption { text-align: left; hyphens: none; }
+  }
+
+  @media print {
+    @page { margin: 0.7in 0.75in; }
+
+    :global(html),
+    :global(body.paper-page),
+    :global(body.paper-page main) {
+      background: #fff !important;
+      color: #000 !important;
+    }
+
+    :global(.site-header),
+    :global(.site-footer),
+    :global(.skip-link),
+    :global(.field-rail),
+    :global(nav:not(.paper-links)),
+    :global(button),
+    .cover {
+      display: none !important;
+    }
+
+    .paper {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      color: #000 !important;
+      background: #fff !important;
+      font-family: var(--serif) !important;
+      font-size: 10.5pt;
+      line-height: 1.45;
+    }
+    .paper * { color: #000 !important; font-family: var(--serif) !important; }
+    .paper a { text-decoration-color: #000; }
+    .paper-head { margin-bottom: 1.4rem; }
+    .paper-links { display: block; margin-top: 0.55rem; }
+    .paper-links a { display: block; font-size: 9pt; line-height: 1.35; text-decoration: none; }
+    .paper-refs a[href]::after,
+    .paper-links a[href]::after {
+      content: " (" attr(href) ")";
+      font-size: 0.82em;
+      font-style: normal;
+      overflow-wrap: anywhere;
+    }
+    .paper-head, .paper h2 { break-after: avoid; page-break-after: avoid; }
+    .paper-fig, .paper-table, .paper-fns {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
   }
 </style>
