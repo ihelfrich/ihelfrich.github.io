@@ -83,9 +83,10 @@ const mapData = { nodes, edges };
       <p>
         Ian Helfrich is an applied econometrician on the 2026-27 economics job
         market, working on spatial and high-dimensional methods, economic networks,
-        and international trade. His job market paper finds that between-intermediary
-        selection accounts for 82.2 percent of the apparent rural penalty in U.S. New
-        Markets Tax Credit leverage. The wider program covers satellite-calibrated
+        and international trade. His job market paper finds that the apparent rural
+        penalty in U.S. New Markets Tax Credit leverage lies between intermediaries
+        and not within them, with intermediary identity carrying 88 percent of the
+        explained movement. The wider program covers satellite-calibrated
         trade costs, optimal transport theory, and the labor-market effects of
         generative AI. Two figures in this note are interactive. He is available
         through the December signal window and at ASSA 2027.
@@ -123,9 +124,13 @@ const mapData = { nodes, edges };
         New Markets Tax Credit using Community Development Entity fixed effects, on a
         project-level panel linking every Qualified Equity Investment from FY2001 to
         FY2022 to its issuing intermediary. The raw rural gap of &minus;0.262 falls to
-        &minus;0.047 (p = 0.64) once CDE identity enters the model: 82.2 percent of
-        the apparent rural penalty is between-intermediary selection. A Chetty-Kleven
-        style bunching test shows the 20 percent non-metro mandate does not bind in
+        &minus;0.047 (p = 0.64) once CDE identity enters the model, and an
+        order-invariant decomposition assigns &minus;0.185 of the raw gap to
+        intermediary composition, 88 percent of the explained movement. One
+        exception survives a multiple-comparison correction across twenty-four
+        subgroups: rural commercial real-estate rehabilitation, at &minus;0.439,
+        reported as exploratory. A Chetty-Kleven style bunching test shows the
+        20 percent non-metro administrative target does not bind in
         cumulative-deployment data. The decomposition moves the policy target
         upstream, from rural project markets to the CDFI Fund rules that decide which
         intermediaries receive allocation authority. Replication code and an
