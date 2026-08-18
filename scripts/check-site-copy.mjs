@@ -1,6 +1,15 @@
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 
+const readDirectoryIfPresent = async (directory) => {
+  try {
+    return await readdir(directory);
+  } catch (error) {
+    if (error?.code === "ENOENT") return [];
+    throw error;
+  }
+};
+
 const collectAstro = async (directory) => {
   const found = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -20,6 +29,8 @@ const rules = [
   { name: "wrong Third Space cofounder", pattern: /Elizabeth Vardanyan|Elizaveta Vardanyan/gi },
   { name: "abbreviated Shane Vardanyan", pattern: /\bS\. Vardanyan\b/g },
   { name: "stale 1,200-hour teaching claim", pattern: /\b1,?200(?:\+|\s+(?:hours?|hrs?))/gi },
+  { name: "stale 1,003-hour Wyzant claim", pattern: /\b1,003\b/g },
+  { name: "stale 171-rating Wyzant claim", pattern: /\b171\s+(?:public\s+)?(?:Wyzant\s+)?ratings?\b/gi },
   { name: "stale 450-student teaching claim", pattern: /\b450\+(?:\s+(?:students?|learners?))?/gi },
   { name: "stale 175-rating teaching claim", pattern: /\b175\+(?:\s+(?:public\s+)?ratings?)?/gi },
   { name: "one-off PPD 504 project name", pattern: /PPD 504 Studio/g },
@@ -51,6 +62,44 @@ if (/Vardanyan/i.test(thirdSpace)) failures.push("A Vardanyan reference appears 
 const shanePaper = await readFile("src/content/research/helfrich-vardanyan-2026-ai-entry-level-labor.md", "utf8");
 if (!shanePaper.includes('"Shane Vardanyan"')) failures.push("The AI labor paper must spell out Shane Vardanyan's name.");
 
+for (const [path, label] of [
+  ["src/content/research/helfrich-2026-human-or-machine.md", "the sole-authored Human or Machine working paper"],
+  ["src/content/research/helfrich-2024-dissertation.md", "the Georgia Tech doctoral dissertation"],
+]) {
+  try {
+    await readFile(path, "utf8");
+  } catch {
+    failures.push(`The research collection is missing ${label}.`);
+  }
+}
+
+const researchIndex = await readFile("src/pages/research/index.astro", "utf8");
+if (/Nine papers/i.test(researchIndex)) failures.push("The research index hard-codes an obsolete paper count.");
+
+let publicRecord = "";
+try {
+  publicRecord = await readFile("src/data/public-record.mjs", "utf8");
+} catch {
+  failures.push("Tutoring evidence must live in src/data/public-record.mjs, not be maintained page by page.");
+}
+for (const required of ["1,035+", "more than 1,035", "nearly 1,000", "August 2026", 'publicRating: "5.0"']) {
+  if (publicRecord && !publicRecord.includes(required)) failures.push(`The canonical public record is missing: ${required}.`);
+}
+
+for (const surface of [
+  "src/pages/index.astro",
+  "src/pages/about.astro",
+  "src/pages/capabilities.astro",
+  "src/pages/cv.astro",
+  "src/pages/job-market.astro",
+  "src/pages/teaching/index.astro",
+  "src/pages/work.astro",
+  "src/components/StudioFrontDoor.astro",
+]) {
+  const source = await readFile(surface, "utf8");
+  if (!source.includes("tutoringRecord")) failures.push(`${surface} must render tutoring evidence from the canonical public record.`);
+}
+
 const teachingPage = await readFile("src/pages/teaching/index.astro", "utf8");
 for (const required of [
   "Statistics & inference",
@@ -64,8 +113,20 @@ for (const required of [
 ]) {
   if (!teachingPage.includes(required)) failures.push(`Teaching page must present the durable capability family: ${required}.`);
 }
-if (!teachingPage.includes("1,003") || !teachingPage.includes("171")) {
-  failures.push("Teaching page must use the verified August 2026 Wyzant snapshot: 1,003 hours and 171 ratings.");
+const cvPage = await readFile("src/pages/cv.astro", "utf8");
+if (!cvPage.includes("Referee, Journal of Economic Theory")) {
+  failures.push("CV page must include the confirmed Journal of Economic Theory referee service.");
+}
+
+for (const filename of await readDirectoryIfPresent("src/content/talks")) {
+  if (!filename.endsWith(".md")) continue;
+  const source = await readFile(join("src/content/talks", filename), "utf8");
+  if (/ASSA\s*\/\s*AEA Annual Meeting/i.test(source) && /Atlanta/i.test(source)) {
+    failures.push(`${filename} assigns the 2026 ASSA/AEA meeting to Atlanta; the official meeting was in Philadelphia.`);
+  }
+  if (/^upcoming:\s*true\s*$/m.test(source) && /^abstract:\s*["']?Submitted\./mi.test(source)) {
+    failures.push(`${filename} presents a submission as an upcoming talk.`);
+  }
 }
 
 if (failures.length) {

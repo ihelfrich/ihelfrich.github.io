@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import CapabilityMatrix from "../components/CapabilityMatrix.astro";
+import { tutoringRecord } from "../data/public-record.mjs";
 ---
 
 <Base
@@ -38,7 +39,7 @@ import CapabilityMatrix from "../components/CapabilityMatrix.astro";
       <div><strong>PhD</strong><span>Economics, Georgia Tech</span></div>
       <div><strong>MS</strong><span>Geographic Information Science</span></div>
       <div><strong>2023</strong><span>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023</span></div>
-      <div><strong>1,003</strong><span>Public Wyzant hours · Aug 2026</span></div>
+      <div><strong>{tutoringRecord.wyzantHoursDisplay}</strong><span>Wyzant hours as of {tutoringRecord.asOf}, plus {tutoringRecord.privateHoursProse} private hours</span></div>
     </div>
   </header>
 
@@ -176,6 +177,7 @@ import CapabilityMatrix from "../components/CapabilityMatrix.astro";
 
   .cp-hero h1 {
     margin: 1.2rem 0 1.6rem;
+    color: #f3efe6;
     font: 400 clamp(4rem, 10vw, 10rem)/0.8 var(--font-display, serif);
     letter-spacing: -0.06em;
   }

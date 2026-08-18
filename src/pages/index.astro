@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { tutoringRecord } from "../data/public-record.mjs";
 
 const work = [
   {
@@ -28,8 +29,8 @@ const work = [
     title: "Teaching difficult material without making it smaller",
     description:
       "Private instruction and public learning tools connect intuition, mathematics, code, and the decisions each method supports.",
-    proof: "1,003 hours",
-    proofLabel: "171 ratings · Aug 2026",
+    proof: `${tutoringRecord.wyzantHoursDisplay} Wyzant hours`,
+    proofLabel: `${tutoringRecord.privateHoursProse} more privately`,
     href: "/teaching",
   },
 ];
@@ -97,7 +98,7 @@ const work = [
     <ul class="quiet-proofline" aria-label="Selected qualifications">
       <li>PhD Economics</li>
       <li>MS Geographic Information Science</li>
-      <li>1,003 Wyzant hours · 171 ratings · Aug 2026</li>
+      <li>{tutoringRecord.wyzantHoursDisplay} Wyzant hours · {tutoringRecord.privateHoursProse} private hours</li>
       <li>Georgia Tech teaching award</li>
     </ul>
   </section>

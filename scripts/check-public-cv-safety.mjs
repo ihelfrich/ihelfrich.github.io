@@ -20,6 +20,9 @@ const publishedPdfs = [
       "Applied Economist",
       "Quantitative Research Designer",
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
+      "More than 1,035 hours through Wyzant",
+      "nearly 1,000 additional direct",
+      "Referee, Journal of Economic Theory",
     ],
   },
   {
@@ -29,6 +32,9 @@ const publishedPdfs = [
       "Sole author and originator",
       "With contributions from Katia Antunes and Elizaveta Gonchar",
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
+      "More than 1,035 hours through Wyzant",
+      "nearly 1,000 additional direct",
+      "Referee, Journal of Economic Theory",
     ],
   },
   {
@@ -50,7 +56,6 @@ const forbiddenPdfPatterns = [
   [/Hanna Nio/i, "named learner"],
   [/PPD\s*504/i, "one-off course artifact"],
   [/ECON\s*101A/i, "one-off course artifact"],
-  [/Journal of Economic Theory/i, "unratified referee service"],
   [/tutoring client/i, "private client relationship"],
 ];
 
@@ -156,7 +161,6 @@ const publicClaimPages = {
   "NMTC research record": nmtcRecord,
   "job-market page": jobMarket,
   "NMTC project record": await readFile(resolve(dist, "projects/us-nmtc-viewer/index.html"), "utf8"),
-  "talks index": await readFile(resolve(dist, "talks/index.html"), "utf8"),
   "program page": await readFile(resolve(dist, "program/index.html"), "utf8"),
 };
 const falseNmtcBylines = [
@@ -167,6 +171,27 @@ const falseNmtcBylines = [
 for (const [label, html] of Object.entries(publicClaimPages)) {
   for (const falseByline of falseNmtcBylines) {
     if (html.includes(falseByline)) failures.push(`${label} contains false NMTC coauthor byline: ${falseByline}`);
+  }
+}
+
+const collectHtml = async (directory) => {
+  const found = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = resolve(directory, entry.name);
+    if (entry.isDirectory()) found.push(...await collectHtml(path));
+    else if (entry.name.endsWith(".html")) found.push(path);
+  }
+  return found;
+};
+const builtHtml = await Promise.all((await collectHtml(dist)).map((path) => readFile(path, "utf8")));
+for (const staleTalkClaim of [
+  "Effective-distance bilateral exposure under sanctions",
+  "Atlanta GA (virtual session)",
+  "NEUDC (Northeast Universities Development Consortium)",
+  "Submitted. Presents the solo-authored descriptive",
+]) {
+  if (builtHtml.some((html) => html.includes(staleTalkClaim))) {
+    failures.push(`built site contains an unverified or submission-only public record: ${staleTalkClaim}`);
   }
 }
 

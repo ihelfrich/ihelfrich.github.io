@@ -3,7 +3,7 @@ title: "AI and the Entry-Level Labor Market"
 authors: ["Ian Helfrich", "Shane Vardanyan"]
 year: 2026
 status: "working paper"
-abstract: "Studies how exposure to generative AI is reshaping early-career employment in the United States. The empirical design combines continuous-exposure event-study and triple-difference estimates using Current Population Survey microdata, with attention to heterogeneous changes across occupations and experience levels."
+abstract: "Develops an empirical design for asking whether early-career employment changed differently in occupations with greater generative-AI exposure. The planned analysis combines continuous-exposure event-study and triple-difference specifications using Current Population Survey microdata. The paper is in active development and claims no empirical result yet."
 tags: ["labor", "artificial-intelligence", "event-study", "cps", "early-career"]
 ---
 

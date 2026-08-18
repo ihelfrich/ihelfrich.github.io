@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { tutoringRecord } from "../data/public-record.mjs";
 
 const cases = [
   {
@@ -54,11 +55,11 @@ const cases = [
     type: "QUANTITATIVE EDUCATION / INTERACTIVE SYSTEMS",
     title: "When an explanation repeats, build the instrument.",
     question: "How can a learner manipulate the statistical object, see the diagnostic move, and carry the reasoning into a new problem?",
-    context: "The teaching practice spans statistics and inference, econometrics and research design, Python and SQL, microeconomics, macroeconomics, business, strategy and marketing, and GIS with public data. Public evidence includes 1,003 Wyzant hours and 171 ratings as of August 2026, three instructor-of-record semesters, and the Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023 recognition.",
+    context: `The teaching practice spans statistics and inference, econometrics and research design, Python and SQL, microeconomics, macroeconomics, business, strategy and marketing, and GIS with public data. The record includes ${tutoringRecord.wyzantHoursProse} Wyzant hours as of ${tutoringRecord.asOf}, ${tutoringRecord.privateHoursProse} additional private hours, a ${tutoringRecord.publicRating} public rating, three instructor-of-record semesters, and the Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023 recognition.`,
     intervention: "Recurring explanations become reusable systems: live statistical models, public-data exercises, cross-software code patterns, research-design diagnostics, and subject libraries that remain applicable across courses, teams, and learners.",
     findings: [
-      ["1,003", "Public Wyzant instruction hours · Aug 2026"],
-      ["171", "Public Wyzant ratings · Aug 2026"],
+      [tutoringRecord.wyzantHoursDisplay, `Wyzant instruction hours · ${tutoringRecord.asOfShort}`],
+      [tutoringRecord.privateHoursDisplay, "Additional private instruction hours"],
       ["3", "Instructor-of-record semesters"],
       ["7", "Durable curriculum families"],
     ],
@@ -253,6 +254,7 @@ const cases = [
 
   .wk-hero h1 {
     margin: 0;
+    color: #f1eee6;
     font: 400 clamp(4.2rem, 10vw, 10.5rem)/0.8 var(--font-display, serif);
     letter-spacing: -0.065em;
   }

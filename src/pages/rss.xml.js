@@ -7,7 +7,6 @@ export async function GET(context) {
   const research = await getCollection('research');
   const datasets = await getCollection('datasets');
   const projects = await getCollection('projects', (entry) => !isArchivalProject(entry.id));
-  const talks = await getCollection('talks');
 
   const items = [
     ...writing.map(p => ({
@@ -37,19 +36,12 @@ export async function GET(context) {
       description: p.data.blurb,
       link: p.data.url ?? `/projects/${p.id}/`,
       categories: ['tool', p.data.status, ...p.data.tags]
-    })),
-    ...talks.map(t => ({
-      title: `[talk] ${t.data.title}`,
-      pubDate: t.data.date,
-      description: t.data.abstract ?? `${t.data.type} at ${t.data.venue}.`,
-      link: '/talks/',
-      categories: ['talk', t.data.type]
     }))
   ].sort((a, b) => +b.pubDate - +a.pubDate);
 
   return rss({
     title: 'Ian Helfrich',
-    description: 'Papers, datasets, essays, research tools, talks, and teaching from Ian Helfrich.',
+    description: 'Papers, datasets, essays, research tools, and teaching from Ian Helfrich.',
     site: context.site,
     items
   });

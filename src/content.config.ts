@@ -97,19 +97,4 @@ const datasets = defineCollection({
   }),
 });
 
-const talks = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/talks' }),
-  schema: z.object({
-    title: z.string(),
-    venue: z.string(),
-    location: z.string().optional(),
-    date: z.coerce.date(),
-    type: z.enum(['conference', 'seminar', 'workshop', 'public', 'guest lecture']).default('conference'),
-    upcoming: z.boolean().default(false),
-    slides: z.string().optional(),
-    video: z.string().optional(),
-    abstract: z.string().optional(),
-  }),
-});
-
-export const collections = { projects, writing, research, teaching, people, datasets, talks };
+export const collections = { projects, writing, research, teaching, people, datasets };

@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { tutoringRecord } from "../data/public-record.mjs";
 ---
 <Base
   wide
@@ -23,7 +24,7 @@ import Base from "../layouts/Base.astro";
         <div><a class="ih-action" href="/start">Start a project</a><a href="/cv">Open the CV →</a></div>
       </article>
     </div>
-    <div class="ab-hero-ledger"><span>GEORGIA TECH / ECONOMICS PHD / 2024</span><span>1,003 WYZANT HOURS / 171 RATINGS / AUG 2026</span><span>OPEN PUBLIC TOOLS</span><span>GEORGIA TECH ECONOMICS GRADUATE TEACHING ASSISTANT OF THE YEAR, 2023</span></div>
+    <div class="ab-hero-ledger"><span>GEORGIA TECH / ECONOMICS PHD / 2024</span><span>{tutoringRecord.wyzantHoursDisplay} WYZANT HOURS / {tutoringRecord.privateHoursProse.toUpperCase()} PRIVATE HOURS</span><span>OPEN PUBLIC TOOLS</span><span>GEORGIA TECH ECONOMICS GRADUATE TEACHING ASSISTANT OF THE YEAR, 2023</span></div>
   </section>
 
   <section class="ab-thesis" aria-labelledby="ab-thesis-title">
@@ -39,7 +40,7 @@ import Base from "../layouts/Base.astro";
     <header><span>02 / ONE PRACTICE · THREE MODES</span><h2 id="ab-modes-title">The research, teaching,<br />and code correct one another.</h2><p>Research keeps the lesson honest. Teaching exposes the sentence that still does not work. Building turns the recurring explanation into a public object.</p></header>
     <div>
       <article><span>R / 01</span><strong>8,024</strong><h3>Projects changed the interpretation.</h3><p>The descriptive NMTC decomposition motivates evaluating intermediary allocation while leaving the mechanism unresolved.</p><a href="/research">Open the research record →</a></article>
-      <article><span>T / 02</span><strong>1,003</strong><h3>Public tutoring hours sharpened the diagnosis.</h3><p>High school, undergraduate, MBA, graduate, research, and professional work reveal the first broken link at different scales. The public Wyzant snapshot is current through August 2026.</p><a href="/teaching">Open the teaching record →</a></article>
+      <article><span>T / 02</span><strong>{tutoringRecord.wyzantHoursDisplay}</strong><h3>Public tutoring hours sharpened the diagnosis.</h3><p>{tutoringRecord.wyzantHoursProse[0].toUpperCase() + tutoringRecord.wyzantHoursProse.slice(1)} Wyzant hours as of {tutoringRecord.asOf} and {tutoringRecord.privateHoursProse} additional private hours span high school, undergraduate, MBA, graduate, research, and professional work.</p><a href="/teaching">Open the teaching record →</a></article>
       <article><span>B / 03</span><strong>OPEN</strong><h3>Tools kept the explanation running.</h3><p>Viewers, observatories, laboratories, atlases, and research pipelines let a visitor change the input and inspect what follows.</p><a href="/projects">Open the tools →</a></article>
     </div>
   </section>
@@ -64,7 +65,7 @@ import Base from "../layouts/Base.astro";
   <section class="ab-dojo" aria-labelledby="ab-dojo-title">
     <span>05 / ANOTHER CLASSROOM</span>
     <h2 id="ab-dojo-title">Before I taught econometrics,<br />I taught people how to fall.</h2>
-    <div><strong>3°</strong><p>I am a third-degree black belt and have taught Sin Moo HapKiDo since 2007. That room taught me to demonstrate precisely, decompose movement, protect the learner while failure is still useful, and remove support as control returns.</p></div>
+    <div><strong>12+</strong><p>More than twelve years in martial arts, including black belts in Sin Moo HapKiDo, TaeKwonDo, and Shotokan Karate. Practice and instruction taught me to demonstrate precisely, decompose movement, protect the learner while failure is still useful, and remove support as control returns.</p></div>
   </section>
 
   <section class="ab-cta" aria-labelledby="ab-cta-title">

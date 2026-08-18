@@ -2,9 +2,14 @@
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
+const priority = new Map([
+  ["helfrich-2026-human-or-machine", 0],
+  ["helfrich-2026-nmtc-rural-gap", 1],
+  ["helfrich-vardanyan-2026-ai-entry-level-labor", 2],
+]);
 const papers = (await getCollection("research")).sort((a, b) => {
-  if (a.id === "helfrich-vardanyan-2026-ai-entry-level-labor") return -1;
-  if (b.id === "helfrich-vardanyan-2026-ai-entry-level-labor") return 1;
+  const priorityDifference = (priority.get(a.id) ?? 99) - (priority.get(b.id) ?? 99);
+  if (priorityDifference !== 0) return priorityDifference;
   return b.data.year - a.data.year || a.data.title.localeCompare(b.data.title);
 });
 
@@ -12,6 +17,8 @@ const papers = (await getCollection("research")).sort((a, b) => {
 // own frontmatter tags (weight = number of shared tags). Nothing curated by
 // hand except the short display names.
 const SHORT: Record<string, string> = {
+  "helfrich-2026-human-or-machine": "AI validity",
+  "helfrich-2024-dissertation": "Dissertation",
   "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
   "gonchar-helfrich-2025-spotlight": "Spotlight",
   "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
@@ -81,9 +88,9 @@ const mapData = { nodes, edges };
     <div class="section-heading">
       <div>
         <span class="section-label">The program, as a graph</span>
-        <h2 id="map-title">Nine papers and what they share.</h2>
+        <h2 id="map-title">Research relationships.</h2>
       </div>
-      <p>Edges connect papers that share method tags; line weight is the number of shared tags. Drag a node, or click it to open the paper's record. The two isolated papers share no method tags with the rest of the program.</p>
+      <p>Edges connect papers that share method tags; line weight is the number of shared tags. Drag a node, or click it to open the paper's record. A record without a connecting line shares no method tag with the others.</p>
     </div>
     <div class="inst-panel">
       <svg id="pgm" viewBox="0 0 1000 560" role="img" aria-label="Graph of research papers connected by shared method tags"></svg>
@@ -95,7 +102,7 @@ const mapData = { nodes, edges };
     <div class="section-heading">
       <div>
         <span class="section-label">Papers</span>
-        <h2 id="papers-title">Active research.</h2>
+        <h2 id="papers-title">Research record.</h2>
       </div>
       <p>Statuses are stated plainly. Draft pages describe the design and program; they do not imply a finished or accepted result.</p>
     </div>

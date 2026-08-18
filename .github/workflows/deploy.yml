@@ -37,6 +37,8 @@ jobs:
         run: npm run check:copy
       - name: Build hub
         run: npm run build:fast
+      - name: Verify rendered headline styles
+        run: npm run check:styles
       - name: Verify public career and research artifacts
         run: npm run check:public-cv
       - name: Mirror spokes for indexing

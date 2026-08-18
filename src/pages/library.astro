@@ -3,12 +3,11 @@ import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 
-const [papers, datasets, essays, allTools, talks] = await Promise.all([
+const [papers, datasets, essays, allTools] = await Promise.all([
   getCollection("research"),
   getCollection("datasets"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("projects"),
-  getCollection("talks"),
 ]);
 const tools = allTools.filter((entry) => !isArchivalProject(entry.id));
 
@@ -35,11 +34,6 @@ const items = [
     href: entry.data.url ?? `/projects/${entry.id}`, action: entry.data.url ? "Launch tool" : "Open tool record", status: entry.data.status,
     external: Boolean(entry.data.url),
   })),
-  ...talks.map((entry, index) => ({
-    type: "talk", code: `K-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
-    title: entry.data.title, summary: entry.data.abstract ?? `${entry.data.type} at ${entry.data.venue}.`, meta: `${fmt(entry.data.date)} · ${entry.data.venue}`,
-    tags: [entry.data.type], href: "/talks", action: "Open talks", status: entry.data.upcoming ? "upcoming" : "delivered",
-  })),
 ].sort((a, b) => +b.date - +a.date || a.title.localeCompare(b.title));
 
 const counts = {
@@ -47,7 +41,6 @@ const counts = {
   data: datasets.length,
   essay: essays.length,
   tool: tools.length,
-  talk: talks.length,
 };
 
 const channels = [
@@ -55,7 +48,6 @@ const channels = [
   ["data", "Data", datasets.length],
   ["essay", "Essays", essays.length],
   ["tool", "Tools", tools.length],
-  ["talk", "Talks", talks.length],
 ];
 ---
 
@@ -63,12 +55,12 @@ const channels = [
   wide
   pageClass="library-page"
   title="Public Index"
-  description="The public record of Ian Helfrich's papers, datasets, essays, research tools, talks, and teaching materials."
+  description="The public record of Ian Helfrich's papers, datasets, essays, research tools, and teaching materials."
 >
   <section class="lib-hero" aria-labelledby="library-title">
     <div class="lib-hero-top">
       <span>PUBLIC INDEX / IAN T. S. HELFRICH</span>
-      <span>{items.length} RECORDS / 5 CHANNELS</span>
+      <span>{items.length} RECORDS / 4 CHANNELS</span>
       <span><i></i>OPEN ACCESS WHERE RIGHTS ALLOW</span>
     </div>
     <div class="lib-hero-grid">
@@ -76,7 +68,7 @@ const channels = [
         <span>THE WORK IS THE INTRODUCTION</span>
         <h1 id="library-title">Open the<br /><em>drawers.</em></h1>
         <p>
-          Papers, data, essays, talks, and tools belong in public when I can responsibly put them there. Every item below says what exists, what is still underway, and where the underlying work can be inspected.
+          Papers, data, essays, and tools belong in public when I can responsibly put them there. Every item below says what exists, what is still underway, and where the underlying work can be inspected.
         </p>
         <div><a href="#records">Search {items.length} records</a><a href="/rss.xml">Follow the feed</a></div>
       </div>

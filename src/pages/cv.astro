@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { tutoringRecord } from "../data/public-record.mjs";
 ---
 <Base
   wide
@@ -93,8 +94,12 @@ import Base from "../layouts/Base.astro";
       </div>
       <div>
         <dt>Independent practice</dt>
-        <dd>The public Wyzant profile reported 1,003 tutoring hours and a 5.0 rating across 171 ratings in August 2026. No private client identities are used as portfolio proof.</dd>
+        <dd>{tutoringRecord.wyzantHoursProse[0].toUpperCase() + tutoringRecord.wyzantHoursProse.slice(1)} tutoring hours through Wyzant as of {tutoringRecord.asOf}, with a {tutoringRecord.publicRating} public rating. Direct tutoring and executive-level quantitative research-design coaching add {tutoringRecord.privateHoursProse} hours outside the platform. These totals are kept separate, and no private client identities are used as portfolio proof.</dd>
         <a href="https://www.wyzant.com/Tutors/GA/Smyrna/10212943/" target="_blank" rel="noopener">Open the public profile →</a>
+      </div>
+      <div>
+        <dt>Peer review</dt>
+        <dd>Referee, Journal of Economic Theory, 2025.</dd>
       </div>
       <div>
         <dt>Critical-technology assessment</dt>

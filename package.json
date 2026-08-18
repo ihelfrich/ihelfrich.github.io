@@ -12,7 +12,8 @@
     "check:copy": "node scripts/check-site-copy.mjs",
     "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
-    "check": "npm run check:copy && npm run build:fast && npm run check:public-cv",
+    "check": "npm run check:copy && npm run build:fast && npm run check:styles && npm run check:public-cv",
+    "check:styles": "node scripts/check-rendered-styles.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "fetch-spokes": "node scripts/fetch-spokes.mjs",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@astrojs/rss": "4.0.19",
+    "happy-dom": "^20.11.2",
     "pagefind": "^1.5.2",
     "pdfjs-dist": "^6.2.108"
   },
