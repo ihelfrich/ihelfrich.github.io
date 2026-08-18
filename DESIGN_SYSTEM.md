@@ -1,37 +1,83 @@
-# Design system: portrait, paper, signal
+# Evidence Fieldbook design system
 
-The site is built around Ian Helfrich's actual overlap: research economist, teacher, and instrument builder. Its visual system pairs editorial authority with computational legibility.
+The site is one evidence fieldbook across research, teaching, software, and advisory work. Its visual authority comes from legible hierarchy, disciplined evidence, and explicit limits—not page-specific brands or decorative effects.
 
-## Color
+## Palette
 
-- **Portrait midnight `#121426`** comes from the blue-black shadows in Ian's editorial portrait. It replaces generic web black and carries the research-console surfaces.
-- **Archive bone `#f2eade`** comes from the warm highlights in the portrait and the color of handled paper. It keeps long reading surfaces warmer than pure white.
-- **Signal blue `#2852e8`** is the high-chroma computational color. Against the low-chroma midnight and bone field it has strong figure-ground separation. It passes AA with white and archive bone, and clears the 3:1 non-text threshold against portrait midnight. Blue is reserved for controls, active estimates, live status, and links that respond.
-- **Smoke blue `#b9c0d8`** is the low-chroma bridge between portrait midnight and signal blue. It appears in editorial display type where a live control would be misleading.
-- **St. Louis oxide `#ad4e35`** draws from the city's red-brick material field. It is used sparingly in the Third Space system.
-- **River spruce `#184f48`** gives Third Space a distinct institutional field. The oxide/spruce relationship is a muted complementary pair; warm archive bone keeps both from becoming corporate green and orange.
+The brand layer has exactly six colors.
 
-Color never carries meaning by itself. Active states also change shape, border, label, or position. All body combinations target WCAG AA contrast or better.
+| Token | Value | Role |
+| --- | --- | --- |
+| `--ef-ink` | `#11131D` | Text, rules, and dark fields |
+| `--ef-paper` | `#F1F3F2` | Cool mineral page field |
+| `--ef-figure` | `#FFFFFF` | Figures, tables, code, and focused reading |
+| `--ef-signal` | `#3156E8` | Links, focus, current selection, and live calculation |
+| `--ef-teal` | `#28706B` | Positive or comparative annotation |
+| `--ef-oxide` | `#9E4D38` | Limits, caveats, and negative annotation |
 
-## Type
+Derived rules and muted text use `color-mix()` from these six tokens. Do not add named brand colors. No gradient is part of the brand layer. Color never carries status alone; pair it with text, shape, line style, or an icon.
 
-- **Bodoni Moda** carries only the largest human claims. Its high contrast and optical-size axis give the site the editorial refinement appropriate to scholarship, without making body copy precious.
-- **Newsreader** carries arguments, explanations, and long reading. It was designed for sustained screen reading.
-- **Geist** carries instruction and interface prose.
-- **Geist Mono** carries every coefficient, status, accession number, source label, and keyboard instruction.
-- Third Space retains **Spectral**, **Hanken Grotesk**, and **Spline Sans Mono** as a related but independent venture voice.
+## Typography
 
-Large type is a claim, not decoration. It is used for the sentence the page is prepared to defend.
+Typography is local, variable, and role-based.
 
-## Motion
+| Token | Local family | Use |
+| --- | --- | --- |
+| `--font-display` | Geist Variable | Page titles, masthead, navigation, and high-level headings; usually 500–650 |
+| `--font-text` | Newsreader Variable | Explanations, abstracts, case narratives, essays, and long reading |
+| `--font-data` | Geist Mono Variable | Status, dates, roles, methods, coefficients, citations, code, captions, and controls |
 
-Motion has two licensed causes:
+`fieldbook.css` declares the WOFF2 files with `font-display: swap`, explicit weight ranges, and durable system fallbacks. The assets, checksums, pinned sources, and licenses are recorded in `public/fonts/PROVENANCE.md`.
 
-1. A real calculation is resolving.
-2. A visitor changed the state.
+Legacy `--font-serif`, `--font-sans`, `--font-mono`, and `--ih-*` names are compatibility aliases only. New CSS must use the canonical roles directly. Owned shared styles already do so; component-local aliases disappear as those components migrate.
 
-The NMTC confidence intervals draw as the result resolves. The model path moves only when run. The teaching relay updates because the price changed. The Third Space overlap responds to a selected research seam. The public index responds to focus and filters. Ambient drift, parallax, looping ornaments, and decorative page fades are excluded. Reduced-motion mode removes every nonessential transition.
+Type scale:
 
-## Factual release gate
+- H1: `clamp(3rem, 7vw, 7.5rem)`, line-height about `0.94`, one oversized title per page.
+- H2: `clamp(2rem, 4vw, 4rem)`, line-height about `1.04`.
+- Question/deck: `clamp(1.3rem, 2vw, 1.8rem)` in Newsreader.
+- Body: `clamp(1rem, 1.1vw, 1.125rem)`, line-height `1.67`, target measure `68ch`.
+- Data/caption: `0.72–0.82rem`, line-height at least `1.4`; uppercase only for short labels.
 
-`npm run check:copy` blocks the known name conflation and common voice violations. Third Space Labs is co-founded by Ian Helfrich and Elizaveta Gonchar, Ph.D. Shane Vardanyan is Ian's student coauthor on the AI and entry-level labor project.
+Large type signals hierarchy. It is not a substitute for a claim, and it does not repeat as a billboard in every section.
+
+## Grid and spacing
+
+Desktop uses a 12-column grid within 1440px, fluid outer padding `clamp(1.25rem, 4vw, 4rem)`, and gutters `clamp(1rem, 2vw, 1.5rem)`.
+
+- Narrative: columns 2–8, capped at `68ch`.
+- Evidence/status/limit margin: columns 9–11.
+- Figures: columns 2–11 when their evidence needs the width.
+- At 960px: eight columns, narrative 1–5 and margin 6–8.
+- At 720px: one reading column; margin evidence follows the paragraph it supports.
+
+Spacing is semantic: 4, 8, 12, 20, 32, 52, 84, and 136px. Figures and tables use square corners. Controls may use a 6px radius when a tactile boundary helps. Universal cards, floating shadows, and page-level horizontal overflow are excluded.
+
+## Evidence aperture
+
+The signature element is a bounded evidence aperture joining:
+
+1. a consequential question in ordinary language;
+2. a real figure, model, map, dataset, lesson, or interface;
+3. a result or current status;
+4. a plain interpretation;
+5. an explicit limit;
+6. a public artifact to inspect.
+
+The shell is a semantic frame, not a decorative card. Important meaning remains in HTML outside canvas or SVG, and margin evidence is never hidden on mobile.
+
+## Shell and navigation
+
+Primary navigation is fixed in this order: Work, Research, Teaching, About, CV. Index is a utility; Contact is the single action. Job market and other records remain contextual and in the restrained footer.
+
+On mobile, navigation opens as a full-width modal sheet below the masthead. The button visibly changes from Menu to Close and remains inside the managed focus order. Opening locks body scroll, isolates background regions with `inert` plus an `aria-hidden` fallback, and moves focus into the sheet; focus is trapped; Escape, backdrop, and selection close it; Escape and backdrop restore focus. Without JavaScript, the same navigation remains in normal flow. Primary links, secondary records, Index, and Contact are grouped rather than flattened into one list.
+
+## Motion, accessibility, and print
+
+Motion has two causes: a real calculation resolves, or a visitor changes state. Ambient drift, parallax, looping ornaments, and decorative page fades are excluded. Reduced-motion mode makes state changes immediate without removing content.
+
+Focus is always visible in signal blue. Shell links and controls provide at least 44×44 CSS-pixel hit areas. Dark titles maintain at least 4.5:1 contrast. Forced-colors mode preserves control boundaries and focus. Print removes navigation and live chrome, uses black on white, and avoids breaking an aperture across pages when possible.
+
+## Release contract
+
+`npm run check:styles` blocks missing/malformed local fonts, remote font requests, incorrect palette values, unresolved canonical type roles, dark-title contrast failures, and regressions in the mobile navigation contract. The build remains readable when webfonts are blocked and functional when JavaScript is disabled; enhanced navigation behavior is verified with JavaScript enabled.

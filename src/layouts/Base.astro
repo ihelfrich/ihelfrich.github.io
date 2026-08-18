@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import "../styles/instrument.css";
+import "../styles/fieldbook.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
 
@@ -9,21 +10,20 @@ const {
   description,
   wide = false,
   image = "/og.png",
-  imageAlt = "Ian Helfrich, PhD: Complex evidence, made usable",
+  imageAlt = "Ian Helfrich, PhD: applied economist, quantitative research designer, and educator",
   noindex = false,
   excludeFromSearch = false,
   pageClass = "",
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist, Quantitative Designer & Educator`;
-const desc = description ?? "Economist, quantitative designer, researcher, and educator working across policy, business, research, and learning to make complex evidence usable.";
+const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
+const desc = description ?? "Economist working across applied research and quantitative education.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const personImage = new URL("/people/ian-editorial.webp", Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
-const isQuietHome = pageClass.split(/\s+/).includes("quiet-home");
 const year = new Date().getFullYear();
 
 const personSchema = {
@@ -33,7 +33,7 @@ const personSchema = {
   honorificSuffix: "PhD",
   url: canonical.origin,
   image: personImage.toString(),
-  jobTitle: ["Research Economist", "Network Economist", "Econometrician", "Quantitative Designer", "Educator", "Tutor"],
+  jobTitle: "Economist",
   homeLocation: {
     "@type": "Place",
     name: "St. Louis, Missouri",
@@ -48,24 +48,9 @@ const personSchema = {
   ],
   knowsAbout: [
     "Econometrics",
-    "Statistics",
-    "Causal inference",
     "International trade",
     "Economic networks",
-    "Microeconomics",
-    "Macroeconomics",
-    "Strategy",
-    "Mathematics education",
-    "Geospatial economics",
-    "Geographic information systems",
-    "Remote sensing",
-    "Interactive data visualization",
-    "Research software",
-    "Quantitative training",
-    "Research methods",
-    "Test preparation",
-    "Acoustics",
-    "Signal processing",
+    "Quantitative education",
   ],
 };
 ---
@@ -76,7 +61,7 @@ const personSchema = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
   <meta name="author" content="Dr. Ian Helfrich" />
-  <meta name="theme-color" content="#f7f7f5" />
+  <meta name="theme-color" content="#F1F3F2" />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
@@ -93,6 +78,7 @@ const personSchema = {
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
   <link rel="canonical" href={canonical} />
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  <script is:inline>document.documentElement.classList.add('has-js');</script>
   <title>{fullTitle}</title>
 </head>
 <body class={pageClass}>
@@ -105,21 +91,41 @@ const personSchema = {
         <span>Ian Helfrich</span><sup>PhD</sup>
       </a>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
-        <span class="sr-only">Open navigation</span>
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-surface" data-nav-surface>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span class="nav-toggle-label">Menu</span>
+          <span class="nav-toggle-icon" aria-hidden="true"></span>
+        </button>
 
-      <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
-        <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
-        <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
-        <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
-        <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
-        <a href="/job-market" aria-current={isActive("/job-market") ? "page" : undefined}>Job market</a>
-        {!isQuietHome && <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>}
-        <a href="/start" class="nav-cta">Work with Ian</a>
-      </nav>
+        <div id="primary-nav" class="mobile-nav-sheet" data-mobile-nav-sheet>
+          <nav class="primary-nav" aria-label="Primary navigation">
+            <div class="primary-nav-list" data-primary-nav>
+              <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
+              <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
+              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
+              <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
+              <a href="/cv" aria-current={isActive("/cv") ? "page" : undefined}>CV</a>
+            </div>
+            <div class="nav-utilities">
+              <button class="site-index-trigger" type="button" data-index-open><span>Index</span><kbd>⌘K</kbd></button>
+              <a href="/contact" class="nav-cta" aria-current={isActive("/contact") ? "page" : undefined}>Contact</a>
+            </div>
+          </nav>
+
+          <nav class="secondary-nav" data-secondary-nav aria-label="Secondary records">
+            <span class="secondary-nav-label">Records</span>
+            <div class="secondary-nav-links">
+              <a href="/job-market">Job market</a>
+              <a href="/projects">Projects</a>
+              <a href="/datasets">Datasets</a>
+              <a href="/library">Library</a>
+              <slot name="secondary-nav" />
+            </div>
+          </nav>
+        </div>
+      </div>
     </div>
+    <button class="nav-backdrop" type="button" data-nav-backdrop aria-label="Close navigation" aria-hidden="true" tabindex="-1" hidden></button>
   </header>
 
   <SiteIndex />
@@ -130,100 +136,149 @@ const personSchema = {
 
   <FieldRail />
 
-  {isQuietHome ? (
-    <footer class="site-footer site-footer--quiet">
-      <div class="quiet-footer-inner">
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="footer-intro">
+        <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
+        <p>Economist working across applied research and quantitative education.</p>
+        <p class="footer-location">St. Louis, Missouri</p>
+      </div>
+
+      <div class="footer-links">
         <div>
-          <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-          <p>Economics · Research · Education</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          <a href="/job-market">Job market</a>
+          <strong>Navigate</strong>
+          <a href="/work">Work</a>
+          <a href="/research">Research</a>
+          <a href="/teaching">Teaching</a>
+          <a href="/about">About</a>
           <a href="/cv">CV</a>
+        </div>
+        <div>
+          <strong>Records</strong>
+          <a href="/job-market">Job market</a>
+          <a href="/projects">Projects</a>
+          <a href="/datasets">Datasets</a>
+          <a href="/library">Library</a>
+          <a href="/writing">Writing</a>
+        </div>
+        <div>
+          <strong>Connect</strong>
+          <a href="/contact">Contact</a>
           <a href="mailto:ianthelfrich@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
-        </nav>
-      </div>
-      <div class="site-footer-bottom">
-        <span>© {year} Ian Helfrich</span>
-        <span>St. Louis, Missouri · Working worldwide</span>
-      </div>
-    </footer>
-  ) : (
-    <footer class="site-footer">
-      <div class="site-footer-inner">
-        <div class="footer-intro">
-          <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-          <p>Complex evidence, made usable through economics, research, software, and teaching.</p>
-          <p class="footer-location">St. Louis, Missouri · Working worldwide</p>
-        </div>
-
-        <div class="footer-links">
-          <div>
-            <strong>Work</strong>
-            <a href="/work">Selected work</a>
-            <a href="/research">Research</a>
-            <a href="/projects">Projects</a>
-            <a href="/datasets">Datasets</a>
-          </div>
-          <div>
-            <strong>Practice</strong>
-            <a href="/capabilities">Economics + strategy</a>
-            <a href="/gis">Remote sensing + spatial</a>
-            <a href="/teaching">Teaching + tutoring</a>
-            <a href="/third-space">ThirdSpace</a>
-          </div>
-          <div>
-            <strong>About</strong>
-            <a href="/about">Profile</a>
-            <a href="/cv">Curriculum vitae</a>
-            <a href="/job-market">Job market</a>
-            <a href="/writing">Writing</a>
-            <a href="/now">Now</a>
-            <a href="/colophon">Colophon</a>
-          </div>
-          <div>
-            <strong>Connect</strong>
-            <a href="/start">Start a project</a>
-            <a href="/start?problem=learning&source=footer">Private tutoring</a>
-            <a href="mailto:ianthelfrich@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
-          </div>
         </div>
       </div>
-      <div class="site-footer-bottom">
-        <span>© {year} Ian Helfrich</span>
-        <span>Research, analysis, software, and education. Every engagement is scoped in writing.</span>
-        <span class="footer-colophon">Built with Astro</span>
-        <button type="button" data-index-open>INDEX /</button>
-      </div>
-    </footer>
-  )}
+    </div>
+    <div class="site-footer-bottom">
+      <span>© {year} Ian Helfrich</span>
+      <button type="button" data-index-open>Index</button>
+    </div>
+  </footer>
 
   <script is:inline>
     const navToggle = document.querySelector('.nav-toggle');
     const nav = document.querySelector('#primary-nav');
-    const navLabel = navToggle?.querySelector('.sr-only');
+    const navSurface = document.querySelector('[data-nav-surface]');
+    const navHeader = document.querySelector('.site-header');
+    const siteBrand = document.querySelector('.site-brand');
+    const navLabel = navToggle?.querySelector('.nav-toggle-label');
+    const navBackdrop = document.querySelector('[data-nav-backdrop]');
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const isolatedState = new Map();
+    const isolateBackground = () => {
+      const regions = [...document.body.children]
+        .filter((element) => element !== navHeader && element.tagName !== 'SCRIPT');
+      if (siteBrand) regions.push(siteBrand);
+      regions.forEach((element) => {
+        if (!isolatedState.has(element)) {
+          isolatedState.set(element, {
+            inert: element.hasAttribute('inert'),
+            ariaHidden: element.getAttribute('aria-hidden'),
+          });
+        }
+        element.setAttribute('inert', '');
+        element.setAttribute('aria-hidden', 'true');
+      });
+    };
+    const restoreBackground = () => {
+      isolatedState.forEach((state, element) => {
+        if (!state.inert) element.removeAttribute('inert');
+        if (state.ariaHidden === null) element.removeAttribute('aria-hidden');
+        else element.setAttribute('aria-hidden', state.ariaHidden);
+      });
+      isolatedState.clear();
+    };
     const closeNavigation = (restoreFocus = false) => {
       navToggle?.setAttribute('aria-expanded', 'false');
       nav?.classList.remove('is-open');
-      if (navLabel) navLabel.textContent = 'Open navigation';
+      navSurface?.removeAttribute('role');
+      navSurface?.removeAttribute('aria-modal');
+      navSurface?.removeAttribute('aria-label');
+      document.body.classList.remove('nav-open');
+      if (navBackdrop instanceof HTMLElement) navBackdrop.hidden = true;
+      if (navLabel) navLabel.textContent = 'Menu';
+      restoreBackground();
       if (restoreFocus) navToggle?.focus();
     };
     navToggle?.addEventListener('click', () => {
       const open = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!open));
-      nav?.classList.toggle('is-open', !open);
-      if (navLabel) navLabel.textContent = open ? 'Open navigation' : 'Close navigation';
+      if (open) {
+        closeNavigation(true);
+        return;
+      }
+      navToggle.setAttribute('aria-expanded', 'true');
+      nav?.classList.add('is-open');
+      navSurface?.setAttribute('role', 'dialog');
+      navSurface?.setAttribute('aria-modal', 'true');
+      navSurface?.setAttribute('aria-label', 'Site navigation');
+      document.body.classList.add('nav-open');
+      if (navBackdrop instanceof HTMLElement) navBackdrop.hidden = false;
+      if (navLabel) navLabel.textContent = 'Close';
+      isolateBackground();
+      nav?.querySelector(focusableSelector)?.focus();
     });
-    nav?.querySelectorAll('a').forEach((link) => {
+    navBackdrop?.addEventListener('click', () => closeNavigation(true));
+    nav?.querySelectorAll('a, button[data-index-open]').forEach((link) => {
       link.addEventListener('click', () => closeNavigation());
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && navToggle?.getAttribute('aria-expanded') === 'true') closeNavigation(true);
+      if (navToggle?.getAttribute('aria-expanded') !== 'true') return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeNavigation(true);
+        return;
+      }
+      if (event.key !== 'Tab' || !nav || !navToggle) return;
+      const focusable = [navToggle, ...nav.querySelectorAll(focusableSelector)];
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
     });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1020 && navToggle?.getAttribute('aria-expanded') === 'true') closeNavigation();
+    });
+
+    const revealItems = [...document.querySelectorAll('[data-fieldbook-reveal]')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealItems.forEach((item) => item.setAttribute('data-revealed', ''));
+    } else {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.setAttribute('data-revealed', '');
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px' });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    }
 
     const progress = document.querySelector('.h-scroll-progress');
     const updateProgress = () => {
