@@ -1,13 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
-const [research, writing, datasets, allProjects] = await Promise.all([
+const [allResearch, writing, datasets, allProjects] = await Promise.all([
   getCollection("research"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("datasets"),
   getCollection("projects"),
 ]);
+const research = filterDiscoverableResearch(allResearch);
 const projects = allProjects.filter((entry) => !isArchivalProject(entry.id));
 const teachingFamilies = [
   ["Statistics & inference", "Probability, estimation, regression, diagnostics, causal inference, and visual reasoning", "statistics-inference"],
@@ -34,7 +36,7 @@ const records = [
   { kind: "Go", code: "GO-12", title: "Colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack", href: "/colophon" },
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
-    title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.status}`, href: `/research/${entry.id}`,
+    title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.displayStatus}`, href: `/research/${entry.id}`,
   })),
   ...datasets.map((entry, index) => ({
     kind: "Data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,

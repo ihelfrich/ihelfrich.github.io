@@ -1,0 +1,75 @@
+export const workCases = Object.freeze([
+  Object.freeze({
+    id: "nmtc-rural-gap",
+    title: "The rural mobilization gap in a U.S. place-based tax credit",
+    question: "Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?",
+    status: "Circulating sole-authored working paper",
+    role: "Ian Helfrich originated the project and is its sole author; Katia Antunes and Elizaveta Gonchar are acknowledged contributors.",
+    method: Object.freeze(["Community Development Entity fixed effects", "order-invariant decomposition", "bunching test"]),
+    result: "The raw coefficient is -0.262 and the mean within-CDE estimate is -0.047; neither margin estimate is statistically distinguishable from zero.",
+    limit: "The design is descriptive and noncausal, and it does not identify why intermediaries differ.",
+    links: Object.freeze([
+      Object.freeze({ label: "Research record", href: "/research/helfrich-2026-nmtc-rural-gap" }),
+      Object.freeze({ label: "Working paper", href: "/research/ian-helfrich-nmtc-working-paper.pdf" }),
+      Object.freeze({ label: "Repository and viewer", href: "https://github.com/ihelfrich/us-nmtc-viewer" }),
+    ]),
+  }),
+  Object.freeze({
+    id: "human-or-machine",
+    title: "Human or Machine?",
+    question: "Which task-level AI-exposure ratings continue to align with public measures of task use that appeared after the ratings were constructed?",
+    status: "Sole-authored working paper",
+    role: "Sole author",
+    method: Object.freeze(["within-occupation models", "paired cluster bootstrap", "out-of-time validation"]),
+    result: "The current analysis compares trained-human and GPT-4 ratings against six later public task-use measures across 19,265 occupation-task records.",
+    limit: "The study evaluates measurement validity; it does not estimate employment, wage, or causal task effects.",
+    links: Object.freeze([
+      Object.freeze({ label: "Research record", href: "/research/helfrich-2026-human-or-machine" }),
+    ]),
+  }),
+  Object.freeze({
+    id: "trade-in-the-spotlight",
+    title: "Trade in the Spotlight",
+    question: "Does a gravity model fit better when bilateral distance reflects where population and measured economic activity are located within countries?",
+    status: "2025 SSRN preprint",
+    role: "Coauthor with Elizaveta Gonchar",
+    method: Object.freeze(["gravity model", "VIIRS nightlights", "population-weighted geodesic distance"]),
+    result: "The preprint reports improved gravity fit for the OVDL distance construction.",
+    limit: "The planned 2000-2024 panel, transport-network extension, and structural-gravity validation are separate development work with no completed results.",
+    links: Object.freeze([
+      Object.freeze({ label: "Research record", href: "/research/gonchar-helfrich-2025-spotlight" }),
+      Object.freeze({ label: "SSRN preprint", href: "https://ssrn.com/abstract=5202676" }),
+    ]),
+  }),
+  Object.freeze({
+    id: "applied-statistics",
+    title: "Applied Statistics",
+    question: "How can a learner move from an estimand through computation, diagnostics, and a defensible interpretation in more than one statistical environment?",
+    status: "Public version 0.1",
+    role: "Designer, author, and developer",
+    method: Object.freeze(["two-group inference", "OLS with HC2", "cross-software verification"]),
+    result: "The public vertical slice connects derivation, deterministic fixtures, a World Bank data example, and executable JavaScript, Python, R, and Julia implementations.",
+    limit: "The project does not claim Excel or Stata parity until those implementations are included and mechanically tested.",
+    links: Object.freeze([
+      Object.freeze({ label: "Project record", href: "/projects/applied-statistics" }),
+      Object.freeze({ label: "Source repository", href: "https://github.com/ihelfrich/applied-statistics" }),
+    ]),
+  }),
+  Object.freeze({
+    id: "nncta-semiconductor-demonstration",
+    title: "NNCTA semiconductor demonstration",
+    reportTitle: "Securing America's Future: A Framework for Critical Technology Assessment",
+    question: "How could a semiconductor demonstration contribute to a broader critical-technology assessment?",
+    status: "Additional contributor · Public report · 2023",
+    role: "Additional contributor to the semiconductor demonstration in the 2023 NNCTA report Securing America's Future.",
+    method: Object.freeze(["critical-technology assessment", "semiconductor demonstration"]),
+    result: "The public record supports the narrowly scoped contribution credit.",
+    limit: "This records a contribution to one demonstration; it does not claim report authorship or a broader project role.",
+    links: Object.freeze([
+      Object.freeze({ label: "Official NNCTA report", href: "https://nncta.org/_files/documents/nncta-final-report.pdf" }),
+      Object.freeze({ label: "CV evidence ledger", href: "/cv/" }),
+    ]),
+  }),
+]);
+
+export const featuredWorkCases = Object.freeze(workCases.slice(0, 3));

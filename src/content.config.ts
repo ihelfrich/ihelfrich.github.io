@@ -41,7 +41,33 @@ const research = defineCollection({
     ssrn: z.string().optional(),
     repo: z.string().optional(),
     abstract: z.string(),
+    question: z.string().min(1).refine(
+      (value) => (value.match(/[.!?]+(?=\s|$)/g)?.length ?? 0) <= 2,
+      "Research questions must use no more than two sentences",
+    ),
+    maturity: z.enum(['circulating', 'working', 'development', 'earlier']),
+    displayStatus: z.enum([
+      'Public working paper',
+      'Preprint',
+      'Published dissertation',
+      'Current working paper',
+      'Active development · no results yet',
+      'Draft · claims under verification',
+    ]),
+    role: z.string().min(1),
+    method: z.array(z.string().min(1)).min(1),
+    limit: z.string().min(1),
+    discovery: z.enum(['primary', 'secondary', 'withheld']),
+    distinctiveQuery: z.string().min(1).optional(),
     tags: z.array(z.string()).default([]),
+  }).superRefine((data, context) => {
+    if (data.discovery === 'withheld' && !data.distinctiveQuery) {
+      context.addIssue({
+        code: 'custom',
+        path: ['distinctiveQuery'],
+        message: 'Withheld research must provide a distinctive Pagefind regression query',
+      });
+    }
   }),
 });
 

@@ -4,6 +4,13 @@ authors: ["Ian Helfrich"]
 year: 2026
 status: "working paper"
 abstract: "Tests the out-of-time measurement validity of trained-human and GPT-4 task-level AI-exposure ratings against six later public measures of task use. The analysis links 19,265 occupation-task records across 923 occupations and uses within-occupation models with paired cluster bootstraps. It evaluates measurement validity, not employment effects."
+question: "Which task-level AI-exposure ratings continue to align with public measures of task use that appeared after the ratings were constructed?"
+maturity: "working"
+displayStatus: "Current working paper"
+role: "Sole author"
+method: ["within-occupation models", "paired cluster bootstrap", "out-of-time validation"]
+limit: "The study evaluates measurement validity; it does not identify employment, wage, or causal task effects."
+discovery: "primary"
 tags: ["labor", "artificial-intelligence", "measurement", "validation", "occupations"]
 ---
 

@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
 const staticRoutes = [
   "/",
@@ -32,13 +33,14 @@ const escapeXml = (value) => value
 
 export async function GET({ site }) {
   const base = site ?? new URL("https://ihelfrich.github.io");
-  const [research, projects, datasets, writing, people] = await Promise.all([
+  const [allResearch, projects, datasets, writing, people] = await Promise.all([
     getCollection("research"),
     getCollection("projects"),
     getCollection("datasets"),
     getCollection("writing", ({ data }) => !data.draft),
     getCollection("people"),
   ]);
+  const research = filterDiscoverableResearch(allResearch);
   const dynamicRoutes = [
     ...research.map((entry) => `/research/${entry.id}/`),
     ...projects.filter((entry) => !isArchivalProject(entry.id)).map((entry) => `/projects/${entry.id}/`),

@@ -2,21 +2,23 @@
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
-const [papers, datasets, essays, allTools] = await Promise.all([
+const [allPapers, datasets, essays, allTools] = await Promise.all([
   getCollection("research"),
   getCollection("datasets"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("projects"),
 ]);
+const papers = filterDiscoverableResearch(allPapers);
 const tools = allTools.filter((entry) => !isArchivalProject(entry.id));
 
 const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 const items = [
   ...papers.map((entry, index) => ({
     type: "paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-01`),
-    title: entry.data.title, summary: entry.data.abstract, meta: `${entry.data.status}${entry.data.venue ? ` · ${entry.data.venue}` : ""}`,
-    tags: entry.data.tags, href: `/research/${entry.id}`, action: "Open paper record", status: entry.data.status,
+    title: entry.data.title, summary: entry.data.abstract, meta: `${entry.data.displayStatus}${entry.data.venue ? ` · ${entry.data.venue}` : ""}`,
+    tags: entry.data.tags, href: `/research/${entry.id}`, action: "Open paper record", status: entry.data.displayStatus,
   })),
   ...datasets.map((entry, index) => ({
     type: "data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-02`),

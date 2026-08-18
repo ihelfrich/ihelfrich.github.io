@@ -6,6 +6,13 @@ year: 2024
 status: "published"
 pdf: "https://repository.gatech.edu/bitstreams/5162403c-a517-48de-b794-660a053034c9/download"
 abstract: "Doctoral dissertation connecting three approaches to international trade: network centrality in gravity models, nightlight- and population-weighted measures of bilateral distance, and an infinite-dimensional framework linking economic equilibrium with optimal transport."
+question: "How do network position, within-country spatial heterogeneity, and optimal transport change the representation of international trade?"
+maturity: "earlier"
+displayStatus: "Published dissertation"
+role: "Sole-authored doctoral dissertation"
+method: ["structural gravity", "network centrality", "optimal transport"]
+limit: "The dissertation records three completed chapters; later papers and datasets have separate statuses and must not be inferred from this 2024 record."
+discovery: "secondary"
 tags: ["international-trade", "networks", "gravity", "spatial-economics", "optimal-transport"]
 ---
 

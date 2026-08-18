@@ -7,6 +7,13 @@ venue: "Working paper, August 2026"
 ssrn: ""
 repo: "https://github.com/ihelfrich/us-nmtc-viewer"
 abstract: "A descriptive, noncausal decomposition of the rural-versus-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The raw private-leverage gap of −0.262 falls to a mean within-CDE estimate of −0.047 (95 percent CI: −0.245 to +0.152); the median estimate is −0.001, and neither margin estimate is statistically distinguishable from zero. In the base order-invariant decomposition, most explained movement is associated with observed CDE composition: −0.185, or 86 percent. The design does not identify why CDEs differ, and the mechanism remains unresolved."
+question: "Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?"
+maturity: "circulating"
+displayStatus: "Public working paper"
+role: "Sole author; Katia Antunes and Elizaveta Gonchar are acknowledged contributors"
+method: ["Community Development Entity fixed effects", "order-invariant decomposition", "bunching test"]
+limit: "The design is descriptive and noncausal, does not identify why intermediaries differ, and leaves the mechanism unresolved."
+discovery: "primary"
 tags: ["nmtc", "blended-finance", "rural", "intermediary-FE"]
 ---
 

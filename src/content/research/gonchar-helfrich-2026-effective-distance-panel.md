@@ -5,6 +5,13 @@ year: 2026
 status: "draft"
 venue: "In preparation"
 abstract: "In preparation; planned 2000-2024 panel and structural-gravity validation. The proposed construction will combine nightlights, gridded population, and transport networks to study time-varying bilateral effective distance. Planned validation and chokepoint applications are research designs, not completed results, and no public panel release is claimed."
+question: "Can a time-varying measure of bilateral effective distance represent changes in population, economic activity, infrastructure, and transport corridors?"
+maturity: "development"
+displayStatus: "Active development · no results yet"
+role: "Coauthor with Elizaveta Gonchar"
+method: ["least-cost paths", "three-way fixed-effects PPML", "satellite-calibrated panel construction"]
+limit: "No completed results, validated panel, coverage claim, or public data release exists yet."
+discovery: "secondary"
 tags: ["trade", "gravity", "effective-distance", "satellite-economics", "panel-data"]
 ---
 

@@ -4,10 +4,15 @@ authors: ["Ian Helfrich"]
 year: 2026
 status: "draft"
 venue: "Design and data construction; no empirical results yet"
-abstract: "Empirical companion to the AROE theory paper, currently in design and data construction. The planned design will estimate the feedback-contractivity constant for Russian seaborne crude under the 2022-present sanctions regime using AIS-track data, port-arrival records, and shadow-fleet flag transitions. No empirical results yet."
+abstract: "A proposed empirical design for studying what public AIS tracks, port arrivals, and commodity-flow records can reveal about Russian seaborne crude as routes adapt to sanctions and observation. Data construction and identification remain under development; no empirical results exist yet."
+question: "Can public shipping and port records identify the feedback between sanctions-evasion behavior and the observation system used to measure Russian seaborne crude?"
+maturity: "development"
+displayStatus: "Active development · no results yet"
+role: "Sole author"
+method: ["AIS track linkage", "port-arrival reconciliation", "structural parameter design"]
+limit: "No empirical results exist yet; identification, coverage, and data construction remain under development."
+discovery: "secondary"
 tags: ["sanctions", "russian-crude", "AIS", "satellite-economics", "empirical-OT"]
 ---
 
-Currently in the empirical-design and data-construction phase. Identification strategy and data plan are documented in the project README. No empirical results yet.
-
-The proposed data sources include AIS coverage, port records from multiple counterparty jurisdictions, commodity-flow data, and the Hilgenstock-Babina-Itskhoki public oil-cap monitoring infrastructure. The planned analysis will assess whether these sources can identify the structural feedback-contractivity constant posed by the theory paper.
+This project is in the empirical-design and data-construction phase and proposes using AIS coverage, port arrivals, and commodity-flow records. No empirical results exist yet, and identification and coverage remain under development.

@@ -1,10 +1,11 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { isArchivalProject } from '../data/archival-projects.mjs';
+import { filterDiscoverableResearch } from '../data/research-discovery.mjs';
 
 export async function GET(context) {
   const writing = (await getCollection('writing')).filter(p => !p.data.draft);
-  const research = await getCollection('research');
+  const research = filterDiscoverableResearch(await getCollection('research'));
   const datasets = await getCollection('datasets');
   const projects = await getCollection('projects', (entry) => !isArchivalProject(entry.id));
 
@@ -21,7 +22,7 @@ export async function GET(context) {
       pubDate: new Date(`${r.data.year}-01-01`),
       description: r.data.abstract,
       link: `/research/${r.id}/`,
-      categories: ['research', ...r.data.tags]
+      categories: ['research', r.data.displayStatus, ...r.data.tags]
     })),
     ...datasets.map(d => ({
       title: `[data] ${d.data.title}`,

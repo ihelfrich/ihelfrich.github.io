@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { readFile, stat } from "node:fs/promises";
+import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { load as parseYaml } from "js-yaml";
 import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-projects.mjs";
 
 const root = path.resolve("dist");
@@ -10,6 +11,37 @@ const archive = JSON.parse(await readFile(path.join(root, "archive.json"), "utf8
 const archiveText = JSON.stringify(archive);
 const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
 const rss = await readFile(path.join(root, "rss.xml"), "utf8");
+const library = await readFile(path.join(root, "library", "index.html"), "utf8");
+const researchIndex = await readFile(path.join(root, "research", "index.html"), "utf8");
+
+const researchDirectory = path.resolve("src/content/research");
+const researchRecords = await Promise.all((await readdir(researchDirectory))
+  .filter((filename) => filename.endsWith(".md"))
+  .map(async (filename) => {
+    const source = await readFile(path.join(researchDirectory, filename), "utf8");
+    const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
+    assert.ok(frontmatter, `${filename} must have readable frontmatter`);
+    return { id: filename.replace(/\.md$/, ""), ...parseYaml(frontmatter[1]) };
+  }));
+const withheldResearch = researchRecords.filter(({ discovery }) => discovery === "withheld");
+assert.ok(withheldResearch.length > 0, "the discovery regression requires at least one data-derived withheld record");
+for (const record of withheldResearch) assert.ok(record.distinctiveQuery, `${record.id} must define a distinctiveQuery`);
+for (const record of researchRecords.filter(({ discovery }) => discovery !== "withheld")) {
+  const detail = await readFile(path.join(root, "research", record.id, "index.html"), "utf8");
+  const topline = detail.match(/<div class="record-topline">([\s\S]*?)<\/div>/)?.[1] ?? "";
+  assert.ok(topline.includes(record.displayStatus), `/research/${record.id}/ must render displayStatus in its record topline: ${record.displayStatus}`);
+}
+for (const { id, title } of withheldResearch) {
+  for (const [surface, source] of [["Research index", researchIndex], ["archive.json", archiveText], ["sitemap.xml", sitemap], ["rss.xml", rss], ["Library and SiteIndex", library]]) {
+    assert.ok(!source.includes(id), `${surface} must not publish withheld research ${id}`);
+    assert.ok(!source.includes(title), `${surface} must not publish the withheld title: ${title}`);
+  }
+  await assert.rejects(
+    access(path.join(root, "research", id, "index.html")),
+    { code: "ENOENT" },
+    `withheld research must not generate /research/${id}/`,
+  );
+}
 for (const { id, title } of archivalProjects) {
   assert.ok(!archiveText.includes(id), `/archive.json must not publish archival project ${id}`);
   assert.ok(!sitemap.includes(`/projects/${id}/`), `/sitemap.xml must not publish archival project ${id}`);
@@ -87,6 +119,17 @@ try {
     flagshipPaths.includes(`/projects/${reusableLearningFlagship.id}/`),
     "Pagefind must publish the generalized statistics library",
   );
+  for (const { id, title, distinctiveQuery } of withheldResearch) {
+    const titleResult = await pagefind.search(title);
+    const titleRecords = await Promise.all(titleResult.results.map((entry) => entry.data()));
+    for (const record of titleRecords) {
+      const indexedRecord = JSON.stringify(record);
+      assert.ok(!indexedRecord.includes(id), `Pagefind must not index withheld research id ${id}`);
+      assert.ok(!indexedRecord.includes(title), `Pagefind must not expose the withheld title in a result or excerpt: ${title}`);
+    }
+    const distinctiveResult = await pagefind.search(distinctiveQuery);
+    assert.equal(distinctiveResult.results.length, 0, `Pagefind query ${JSON.stringify(distinctiveQuery)} must return zero results for withheld research ${id}`);
+  }
 } finally {
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
 }

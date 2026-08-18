@@ -4,18 +4,15 @@ authors: ["Ian Helfrich", "Elizaveta Gonchar"]
 year: 2026
 status: "draft"
 venue: "In preparation"
-abstract: "Proposed application of the Penumbra closed-loop observation framework to Ukraine's wartime economic reorganization. The project will combine administrative, satellite, maritime, displacement, damage, and trade-disruption sources; aims to decompose changes in the spatial distribution of economic activity; and proposes a planned quarterly Ukraine Shadow-Activity Index. These are research aims, not completed outputs."
+abstract: "A proposed measurement program for Ukrainian economic activity that becomes harder to observe during war. Administrative, satellite, maritime, displacement, damage, labor, and trade sources are proposed; no index or empirical result exists yet."
+question: "How has Ukraine's wartime economic activity reorganized across space when official measurement is itself disrupted by conflict, occupation, and displacement?"
+maturity: "development"
+displayStatus: "Active development · no results yet"
+role: "Coauthor with Elizaveta Gonchar; contribution statement pending joint ratification"
+method: ["spatial decomposition", "remote sensing", "administrative-data reconciliation"]
+limit: "No completed results, index, or ratified contribution statement exists yet."
+discovery: "secondary"
 tags: ["ukraine", "wartime-economy", "spatial-labor", "satellite-economics", "sanctions"]
 ---
 
-Flagship first joint paper of the Penumbra program. Four research questions:
-
-1. **Measurement.** What is the divergence between officially measured Ukrainian economic activity (Ukrstat, NBU nowcasts) and a structurally modeled closed-loop estimate that accounts for endogenous observability loss in contested, occupied, and depopulated territories?
-
-2. **Spatial reorganization.** How has the spatial distribution of economic mass reorganized across Ukrainian oblasts and hromadas, decomposed into destruction, evacuation, conscription-driven labor withdrawal, and sectoral adaptation?
-
-3. **Labor composition under shock.** How did occupational composition within surviving firms adapt to wartime labor-supply shocks?
-
-4. **Sanctions counterfactual.** Using the Penumbra framework, what does Ukraine-adjacent Russian economic activity look like under true closed-loop conditions, and what does that imply about sanctions architecture effectiveness?
-
-The project is being developed jointly by Ian Helfrich and Elizaveta Gonchar. Specific contribution statements will be published only after both authors ratify them.
+This project is in preparation with Elizaveta Gonchar and proposes combining administrative, satellite, maritime, displacement, damage, labor, and trade sources. No index or empirical result exists, and the contribution statement remains pending joint ratification.

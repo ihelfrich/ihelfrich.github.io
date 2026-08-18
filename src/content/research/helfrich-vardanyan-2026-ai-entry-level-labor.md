@@ -4,6 +4,13 @@ authors: ["Ian Helfrich", "Shane Vardanyan"]
 year: 2026
 status: "working paper"
 abstract: "Develops an empirical design for asking whether early-career employment changed differently in occupations with greater generative-AI exposure. The planned analysis combines continuous-exposure event-study and triple-difference specifications using Current Population Survey microdata. The paper is in active development and claims no empirical result yet."
+question: "Did early-career employment change differently after widespread generative-AI adoption in occupations with greater measured AI exposure?"
+maturity: "development"
+displayStatus: "Active development · no results yet"
+role: "Coauthor with Shane Vardanyan"
+method: ["continuous-exposure event study", "triple difference", "Current Population Survey microdata"]
+limit: "No empirical results exist yet; the public record describes a design and planned analysis only."
+discovery: "primary"
 tags: ["labor", "artificial-intelligence", "event-study", "cps", "early-career"]
 ---
 

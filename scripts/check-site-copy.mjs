@@ -1,5 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { load as parseYaml } from "js-yaml";
+import * as publicRecordData from "../src/data/public-record.mjs";
+import { workCases } from "../src/data/work-cases.mjs";
 
 const readDirectoryIfPresent = async (directory) => {
   try {
@@ -42,6 +45,10 @@ const rules = [
 ];
 
 const failures = [];
+const packageManifest = JSON.parse(await readFile("package.json", "utf8"));
+if (!packageManifest.devDependencies?.["js-yaml"]) {
+  failures.push("package.json must declare js-yaml directly because the public-copy and discovery gates import it.");
+}
 for (const file of files) {
   const source = await readFile(file, "utf8");
   const lines = source.split("\n");
@@ -53,6 +60,108 @@ for (const file of files) {
     }
   }
 }
+
+const researchDirectory = "src/content/research";
+const researchFiles = (await readdir(researchDirectory)).filter((name) => name.endsWith(".md"));
+const allowedMaturity = new Set(["circulating", "working", "development", "earlier"]);
+const allowedDiscovery = new Set(["primary", "secondary", "withheld"]);
+const allowedDisplayStatus = new Set([
+  "Public working paper",
+  "Preprint",
+  "Published dissertation",
+  "Current working paper",
+  "Active development · no results yet",
+  "Draft · claims under verification",
+]);
+const researchRecords = [];
+for (const filename of researchFiles) {
+  const source = await readFile(join(researchDirectory, filename), "utf8");
+  const frontmatterMatch = source.match(/^---\n([\s\S]*?)\n---/);
+  if (!frontmatterMatch) {
+    failures.push(`${filename} has no readable YAML frontmatter.`);
+    continue;
+  }
+  const data = parseYaml(frontmatterMatch[1]);
+  const body = source.slice(frontmatterMatch[0].length).trim();
+  researchRecords.push({ id: filename.replace(/\.md$/, ""), filename, source, body, data });
+  for (const field of ["question", "maturity", "role", "method", "limit", "discovery", "displayStatus"]) {
+    if (data?.[field] == null || data[field] === "") failures.push(`${filename} is missing required research field: ${field}.`);
+  }
+  if (data?.maturity && !allowedMaturity.has(data.maturity)) failures.push(`${filename} has invalid maturity: ${data.maturity}.`);
+  if (data?.discovery && !allowedDiscovery.has(data.discovery)) failures.push(`${filename} has invalid discovery: ${data.discovery}.`);
+  if (data?.displayStatus && !allowedDisplayStatus.has(data.displayStatus)) failures.push(`${filename} has unapproved displayStatus: ${data.displayStatus}.`);
+  if (data?.method && (!Array.isArray(data.method) || data.method.length === 0 || data.method.some((item) => typeof item !== "string" || !item.trim()))) {
+    failures.push(`${filename} method must be a non-empty string array.`);
+  }
+  if (data?.maturity === "development" && !/\bno (?:completed |empirical )?results?\b/i.test(`${data.abstract ?? ""} ${data.limit ?? ""}`)) {
+    failures.push(`${filename} is in development and must explicitly state that it has no results.`);
+  }
+}
+
+const withheldResearch = researchRecords.filter(({ data }) => data?.discovery === "withheld");
+for (const record of withheldResearch) {
+  if (!record.data.distinctiveQuery?.trim()) failures.push(`${record.filename} must provide a distinctiveQuery for public-discovery regression testing.`);
+}
+for (const record of researchRecords.filter(({ data }) => data?.discovery !== "withheld")) {
+  for (const withheld of withheldResearch) {
+    for (const forbidden of [withheld.id, withheld.data.title, withheld.data.distinctiveQuery].filter(Boolean)) {
+      if (record.source.toLocaleLowerCase().includes(forbidden.toLocaleLowerCase())) {
+        failures.push(`${record.filename} publicly cross-references withheld research: ${forbidden}.`);
+      }
+    }
+  }
+}
+
+for (const record of researchRecords.filter(({ data }) => data?.maturity === "development")) {
+  if (!["Active development · no results yet", "Draft · claims under verification"].includes(record.data.displayStatus)) {
+    failures.push(`${record.filename} must use a maturity-safe development displayStatus.`);
+  }
+}
+for (const record of researchRecords.filter(({ data }) => data?.maturity === "working")) {
+  if (record.data.displayStatus !== "Current working paper") failures.push(`${record.filename} must display as Current working paper.`);
+}
+for (const record of researchRecords.filter(({ data }) => data?.maturity === "circulating")) {
+  const expected = record.data.status === "preprint" ? "Preprint" : "Public working paper";
+  if (record.data.displayStatus !== expected) failures.push(`${record.filename} must display as ${expected}.`);
+}
+for (const record of researchRecords.filter(({ data }) => data?.maturity === "earlier")) {
+  if (record.data.displayStatus !== "Published dissertation") failures.push(`${record.filename} must display as Published dissertation.`);
+}
+
+const ssrnTheory = researchRecords.find(({ id }) => id === "helfrich-2024-ssrn-4772016")?.source ?? "";
+for (const claim of [/\bexistence\b/i, /\buniqueness\b/i, /allocation(?:s)? as optimal transport/i, /prices? as gradients?/i, /Penumbra program/i, /Paper [01]/i]) {
+  if (claim.test(ssrnTheory)) failures.push(`helfrich-2024-ssrn-4772016.md retains an uncleared theorem or genealogy claim: ${claim}.`);
+}
+const penumbraRecord = researchRecords.find(({ id }) => id === "helfrich-2026-penumbra");
+for (const claim of [/\bexistence\b/i, /\buniqueness\b/i, /sections? 1[–-]10/i, /compiles? cleanly/i, /section drafts complete/i, /Paper [012]/i, /adaptive-regularization/i]) {
+  if (claim.test(penumbraRecord?.source ?? "")) failures.push(`helfrich-2026-penumbra.md retains an uncleared theorem, completion, or genealogy claim: ${claim}.`);
+}
+const ukraineRecord = researchRecords.find(({ id }) => id === "gonchar-helfrich-2026-ukraine");
+for (const claim of [/Flagship/i, /Four research questions/i, /Sanctions counterfactual/i, /Shadow-Activity Index/i, /Penumbra/i]) {
+  if (claim.test(ukraineRecord?.source ?? "")) failures.push(`gonchar-helfrich-2026-ukraine.md exceeds the approved development record: ${claim}.`);
+}
+if (((ukraineRecord?.body.match(/[.!?]+(?=\s|$)/g) ?? []).length) > 2) failures.push("gonchar-helfrich-2026-ukraine.md body must remain a restrained two-sentence development record.");
+
+for (const exportName of ["identityRecord", "tutoringRecord", "teachingRecognition", "serviceRecord", "availabilityRecord", "publicLinks"]) {
+  if (!publicRecordData[exportName] || typeof publicRecordData[exportName] !== "object") {
+    failures.push(`The canonical public record is missing structured export: ${exportName}.`);
+  }
+}
+if (publicRecordData.tutoringRecord?.asOf !== "August 2026") failures.push("Wyzant evidence must retain its August 2026 date.");
+if (publicRecordData.tutoringRecord?.wyzantHoursProse !== "more than 1,035") failures.push("Wyzant evidence must retain the verified more-than-1,035 wording.");
+if (publicRecordData.tutoringRecord?.privateHoursProse !== "nearly 1,000") failures.push("Private-practice evidence must remain a separate nearly-1,000 record.");
+if ("combinedHours" in (publicRecordData.tutoringRecord ?? {})) failures.push("Wyzant and private-practice hours must not be presented as a combined exact total.");
+if (publicRecordData.teachingRecognition?.award !== "Georgia Tech Economics Graduate Teaching Assistant of the Year") failures.push("The canonical teaching recognition must retain its verified departmental scope.");
+if (publicRecordData.identityRecord?.role !== "Applied economist, quantitative research designer, and educator") failures.push("The canonical identity role does not use the approved public positioning.");
+if (publicRecordData.identityRecord?.compact !== "Ian Helfrich — Applied economist, quantitative research designer, and educator") failures.push("The canonical compact identity does not use the approved wording.");
+if (publicRecordData.serviceRecord?.journalReferee !== "Ad hoc referee, Journal of Economic Theory") failures.push("The canonical service record must expose only the approved Journal of Economic Theory statement.");
+
+const nncta = workCases.find(({ id }) => id === "nncta-semiconductor-demonstration");
+const nnctaCredit = "Additional contributor to the semiconductor demonstration in the 2023 NNCTA report Securing America's Future.";
+if (nncta?.role !== nnctaCredit) failures.push("The NNCTA case must use the exact bounded canonical credit.");
+if (nncta?.reportTitle !== "Securing America's Future: A Framework for Critical Technology Assessment") failures.push("The NNCTA case must use the official report title.");
+if (nncta?.status !== "Additional contributor · Public report · 2023") failures.push("The NNCTA case must use the approved bounded status.");
+if (!nncta?.links?.some(({ href }) => href === "https://nncta.org/_files/documents/nncta-final-report.pdf")) failures.push("The NNCTA case must link the verified official report.");
 
 const thirdSpace = `${await readFile("src/pages/third-space.astro", "utf8")}\n${await readFile("src/components/ThirdSpacePortal.astro", "utf8")}`;
 if (!thirdSpace.includes("ELIZAVETA GONCHAR") || !thirdSpace.includes("Elizaveta Gonchar")) {

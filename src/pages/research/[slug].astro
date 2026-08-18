@@ -2,9 +2,10 @@
 import Base from "../../layouts/Base.astro";
 import CdeDecomposition from "../../components/CdeDecomposition.astro";
 import { getCollection, getEntry, render } from "astro:content";
+import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
 
 export async function getStaticPaths() {
-  const papers = await getCollection("research");
+  const papers = filterDiscoverableResearch(await getCollection("research"));
   return papers.map(p => ({ params: { slug: p.id } }));
 }
 
@@ -15,7 +16,7 @@ const { Content } = await render(paper);
 <Base wide pageClass="record-page record-paper" title={paper.data.title} description={paper.data.abstract}>
   <article class="h-article">
     <header>
-      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>PAPER · {paper.data.year}</span><span><i></i>{paper.data.status}</span></div>
+      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>PAPER · {paper.data.year}</span><span><i></i>{paper.data.displayStatus}</span></div>
       <div class="h-article-meta">{paper.data.venue ?? "INDEPENDENT RESEARCH RECORD"}</div>
       <h1>{paper.data.title}</h1>
       <p class="record-authors">{paper.data.authors.join(" · ")}</p>
