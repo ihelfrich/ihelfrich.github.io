@@ -66,7 +66,10 @@ try {
     const result = await pagefind.search(title);
     const records = await Promise.all(result.results.map((entry) => entry.data()));
     const paths = records.map((entry) => new URL(entry.url, origin).pathname);
-    assert.ok(!paths.includes(`/projects/${id}/`), `Pagefind must not publish /projects/${id}/`);
+    const forbiddenPaths = [`/projects/${id}/`, `/${id}/`];
+    for (const forbiddenPath of forbiddenPaths) {
+      assert.ok(!paths.includes(forbiddenPath), `Pagefind must not publish ${forbiddenPath}`);
+    }
   }
 } finally {
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));

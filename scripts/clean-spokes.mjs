@@ -1,14 +1,13 @@
 /**
  * After Pagefind indexes the merged dist/, remove the spoke HTML so the hub
- * repo doesn't ship duplicate copies. Pagefind results URLs (e.g.,
- * /inference-lab/chapters/04_DiD.html) will still resolve in production
- * because GitHub Pages routes those subpaths to the real spoke project repos.
+ * repo doesn't ship duplicate copies. Pagefind result URLs still resolve in
+ * production because GitHub Pages routes the subpath to the real spoke repo.
  */
 import { rmSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
 const DIST = resolve('./dist');
-const SPOKE_DIRS = ['inference-lab', 'macroprep', 'american-policy-atlas'];
+const SPOKE_DIRS = ['american-policy-atlas'];
 
 console.log('[clean-spokes] removing local spoke copies (Pagefind index already built)');
 for (const dir of SPOKE_DIRS) {

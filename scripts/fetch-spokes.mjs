@@ -1,10 +1,9 @@
 /**
- * Pull the rendered HTML of each spoke site into the local dist/ directory so
- * Pagefind can index all of them in one pass.
+ * Pull the rendered HTML of approved spoke sites into the local dist/
+ * directory so Pagefind can index them in one pass.
  *
  * This runs in two modes:
- *   - LOCAL: copy from sibling Quarto build folders if they exist
- *           (/Users/ian/Downloads/inference-lab/docs, etc.)
+ *   - LOCAL: copy from an approved sibling build folder if it exists
  *   - CI:   download the latest rendered HTML from GitHub Pages
  *
  * The merged index is what the /search page actually queries.
@@ -14,18 +13,6 @@ import { resolve, join } from 'node:path';
 
 const HUB_DIST = resolve('./dist');
 const SPOKES = [
-  {
-    name: 'inference-lab',
-    localBuild: '/Users/ian/Downloads/inference-lab/docs',
-    remoteUrl: 'https://ihelfrich.github.io/inference-lab/',
-    subpath: 'inference-lab'
-  },
-  {
-    name: 'macroprep',
-    localBuild: '/Users/ian/Downloads/macroprep/docs',
-    remoteUrl: 'https://ihelfrich.github.io/macroprep/',
-    subpath: 'macroprep'
-  },
   {
     name: 'american-policy-atlas',
     localBuild: '/Users/ian/gemini_playground/tutoring/CA_Policy_Atlas/app/dist',
