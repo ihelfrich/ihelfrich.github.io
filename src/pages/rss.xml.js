@@ -1,11 +1,12 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { isArchivalProject } from '../data/archival-projects.mjs';
 
 export async function GET(context) {
   const writing = (await getCollection('writing')).filter(p => !p.data.draft);
   const research = await getCollection('research');
   const datasets = await getCollection('datasets');
-  const projects = await getCollection('projects');
+  const projects = await getCollection('projects', (entry) => !isArchivalProject(entry.id));
   const talks = await getCollection('talks');
 
   const items = [

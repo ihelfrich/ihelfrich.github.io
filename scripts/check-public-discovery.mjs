@@ -9,9 +9,13 @@ const root = path.resolve("dist");
 const archive = JSON.parse(await readFile(path.join(root, "archive.json"), "utf8"));
 const archiveText = JSON.stringify(archive);
 const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
-for (const { id } of archivalProjects) {
+const rss = await readFile(path.join(root, "rss.xml"), "utf8");
+for (const { id, title } of archivalProjects) {
   assert.ok(!archiveText.includes(id), `/archive.json must not publish archival project ${id}`);
   assert.ok(!sitemap.includes(`/projects/${id}/`), `/sitemap.xml must not publish archival project ${id}`);
+  for (const forbiddenFeedText of [id, title, `/projects/${id}/`, `/${id}/`]) {
+    assert.ok(!rss.includes(forbiddenFeedText), `/rss.xml must not publish archival project text: ${forbiddenFeedText}`);
+  }
 }
 
 for (const { id } of archivalProjects) {
@@ -75,4 +79,4 @@ try {
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
 }
 
-console.log(`[public-discovery] ${archivalProjects.length} archival projects are direct-only, noindex, and absent from Pagefind and archive.json`);
+console.log(`[public-discovery] ${archivalProjects.length} archival projects are direct-only, noindex, and absent from Pagefind, sitemap, RSS, and archive.json`);
