@@ -1,0 +1,231 @@
+---
+import EvidenceAperture from "./EvidenceAperture.astro";
+---
+
+<EvidenceAperture
+  id="optimal-transport"
+  liveRegionId="optimal-transport-live"
+  class="optimal-transport-aperture"
+  question="How does a mass distribution reallocate toward a new spatial target?"
+  caption="Choose a target density and focus, then solve a discretized entropic transport coupling from the same fixed source."
+  status="Live browser calculation"
+  method="Entropic optimal transport; symmetric Gaussian-kernel Sinkhorn scaling; barycentric display map"
+  role="Research and implementation by Ian Helfrich"
+  limit="The readout is the coupling's root-mean-square transport cost divided by the viewport diagonal: a dimensionless, entropically regularized W₂ approximation on a finite grid, not an empirical result."
+  links={[{ label: "Related optimal-transport research", href: "/research/helfrich-2024-ssrn-4772016" }]}
+>
+  <figure slot="figure" class="ot-figure inst-panel" data-ot-aperture>
+    <div class="ot-stage" data-ot-stage>
+      <svg class="ot-static" viewBox="0 0 720 360" role="img" aria-labelledby="ot-static-title ot-static-desc">
+        <title id="ot-static-title">Static source mass distribution</title>
+        <desc id="ot-static-desc">A broad fixed source distribution awaits a user-selected target. The numerical definition, result, and limit are stated outside this figure.</desc>
+        <ellipse cx="450" cy="158" rx="142" ry="88"></ellipse>
+        <circle cx="395" cy="135" r="3"></circle><circle cx="430" cy="188" r="3"></circle><circle cx="475" cy="122" r="3"></circle><circle cx="510" cy="176" r="3"></circle>
+      </svg>
+      <canvas width="720" height="360" aria-hidden="true" data-ot-canvas></canvas>
+    </div>
+    <figcaption>The calculation begins only when Run transport is activated. Every run starts from the same fixed source; the visual motion follows the coupling's barycentric map.</figcaption>
+  </figure>
+
+  <div slot="controls" class="ot-controls">
+    <label>Target shape
+      <select data-ot-mode>
+        <option value="0">Concentrated center</option>
+        <option value="1">Ring</option>
+        <option value="2">Two centers</option>
+      </select>
+    </label>
+    <label>Horizontal focus
+      <input type="range" min="20" max="80" value="42" data-ot-x />
+    </label>
+    <label>Vertical focus
+      <input type="range" min="20" max="80" value="54" data-ot-y />
+    </label>
+    <button type="button" data-ot-run>Run transport</button>
+  </div>
+
+  <p><output data-ot-readout>Not run. Choose a target and activate Run transport.</output></p>
+  <p data-ot-detail>The reported RMS includes both displacement of each conditional mean and the coupling's conditional variance. Source and target marginals must converge to the displayed numerical tolerance.</p>
+</EvidenceAperture>
+
+<script>
+  import { binPointMass, formatSinkhornReadout, solveEntropicGridTransport } from "../lib/fieldbook-math.mjs";
+
+  document.querySelectorAll(".optimal-transport-aperture").forEach((aperture) => {
+    const stage = aperture.querySelector("[data-ot-stage]");
+    const canvas = aperture.querySelector("[data-ot-canvas]");
+    const modeControl = aperture.querySelector("[data-ot-mode]");
+    const xControl = aperture.querySelector("[data-ot-x]");
+    const yControl = aperture.querySelector("[data-ot-y]");
+    const runButton = aperture.querySelector("[data-ot-run]");
+    const readout = aperture.querySelector("[data-ot-readout]");
+    const detail = aperture.querySelector("[data-ot-detail]");
+    const live = aperture.querySelector("#optimal-transport-live");
+    if (!(stage instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement) || !(modeControl instanceof HTMLSelectElement)
+      || !(xControl instanceof HTMLInputElement) || !(yControl instanceof HTMLInputElement) || !(runButton instanceof HTMLButtonElement)) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const styles = getComputedStyle(aperture);
+    const inkColor = styles.getPropertyValue("--ef-ink").trim();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sampleSize = 900, gridMax = 42, sigma = 5, minIterations = 28;
+    const flowDuration = Number.parseFloat(styles.getPropertyValue("--ef-motion-slow")) || 420;
+    let width = 720, height = 360, dpr = 1, gridWidth = 42, gridHeight = 24, cellWidth = 1, cellHeight = 1;
+    const sourceX = new Float32Array(sampleSize), sourceY = new Float32Array(sampleSize);
+    const startX = new Float32Array(sampleSize), startY = new Float32Array(sampleSize);
+    const targetX = new Float32Array(sampleSize), targetY = new Float32Array(sampleSize);
+    let animationFrame = 0;
+
+    const randomGenerator = (seed: number) => () => {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let value = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      value = value + Math.imul(value ^ value >>> 7, 61 | value) ^ value;
+      return ((value ^ value >>> 14) >>> 0) / 4294967296;
+    };
+    const seedSource = () => {
+      const random = randomGenerator(20260818);
+      const centerX = width * 0.62, centerY = height * 0.44, scaleX = width * 0.19, scaleY = height * 0.17;
+      for (let index = 0; index < sampleSize; index += 1) {
+        let u = 0, v = 0;
+        do { u = random() * 2 - 1; v = random() * 2 - 1; } while (u * u + v * v > 1 || u * u + v * v === 0);
+        const magnitude = Math.sqrt(-2 * Math.log(u * u + v * v) / (u * u + v * v));
+        sourceX[index] = Math.min(width - 2, Math.max(2, centerX + u * magnitude * scaleX));
+        sourceY[index] = Math.min(height - 2, Math.max(2, centerY + v * magnitude * scaleY));
+      }
+    };
+    const targetDensity = (centerX: number, centerY: number, mode: number) => {
+      const density = new Float64Array(gridWidth * gridHeight);
+      const minimum = Math.min(width, height);
+      for (let gridY = 0; gridY < gridHeight; gridY += 1) for (let gridX = 0; gridX < gridWidth; gridX += 1) {
+        const screenX = (gridX + 0.5) * cellWidth, screenY = (gridY + 0.5) * cellHeight;
+        const dx = screenX - centerX, dy = screenY - centerY, distance = Math.hypot(dx, dy);
+        if (mode === 0) {
+          const scale = 0.11 * minimum;
+          density[gridY * gridWidth + gridX] = Math.exp(-(distance * distance) / (2 * scale * scale));
+        } else if (mode === 1) {
+          const ring = 0.17 * minimum, spread = 0.032 * minimum;
+          density[gridY * gridWidth + gridX] = Math.exp(-((distance - ring) ** 2) / (2 * spread * spread));
+        } else {
+          const offset = 0.16 * minimum, scale = 0.07 * minimum;
+          density[gridY * gridWidth + gridX] = Math.exp(-((dx - offset) ** 2 + dy * dy) / (2 * scale * scale))
+            + Math.exp(-((dx + offset) ** 2 + dy * dy) / (2 * scale * scale));
+        }
+      }
+      return density;
+    };
+    const sampleMap = (mapX: number[], mapY: number[], screenX: number, screenY: number) => {
+      const fractionalX = Math.min(gridWidth - 1.001, Math.max(0, screenX / cellWidth - 0.5));
+      const fractionalY = Math.min(gridHeight - 1.001, Math.max(0, screenY / cellHeight - 0.5));
+      const x0 = Math.floor(fractionalX), y0 = Math.floor(fractionalY);
+      const xWeight = fractionalX - x0, yWeight = fractionalY - y0;
+      const i00 = y0 * gridWidth + x0, i10 = i00 + 1, i01 = i00 + gridWidth, i11 = i01 + 1;
+      return [
+        mapX[i00] * (1 - xWeight) * (1 - yWeight) + mapX[i10] * xWeight * (1 - yWeight) + mapX[i01] * (1 - xWeight) * yWeight + mapX[i11] * xWeight * yWeight,
+        mapY[i00] * (1 - xWeight) * (1 - yWeight) + mapY[i10] * xWeight * (1 - yWeight) + mapY[i01] * (1 - xWeight) * yWeight + mapY[i11] * xWeight * yWeight,
+      ];
+    };
+    const solve = () => {
+      const points = Array.from({ length: sampleSize }, (_, index) => ({ x: sourceX[index], y: sourceY[index] }));
+      const source = binPointMass({ points, width: gridWidth, height: gridHeight, cellWidth, cellHeight });
+      const target = targetDensity(width * Number(xControl.value) / 100, height * Number(yControl.value) / 100, Number(modeControl.value));
+      const xCoordinates = Array.from({ length: gridWidth * gridHeight }, (_, index) => ((index % gridWidth) + 0.5) * cellWidth);
+      const yCoordinates = Array.from({ length: gridWidth * gridHeight }, (_, index) => (Math.floor(index / gridWidth) + 0.5) * cellHeight);
+      const result = solveEntropicGridTransport({
+        source,
+        target,
+        width: gridWidth,
+        height: gridHeight,
+        sigma,
+        minIterations,
+        maxIterations: 1200,
+        tolerance: 1e-9,
+        xCoordinates,
+        yCoordinates,
+        normalization: Math.hypot(width, height),
+      });
+      for (let index = 0; index < sampleSize; index += 1) {
+        const mapped = sampleMap(result.conditionalMeanX, result.conditionalMeanY, sourceX[index], sourceY[index]);
+        startX[index] = sourceX[index]; startY[index] = sourceY[index]; targetX[index] = mapped[0]; targetY[index] = mapped[1];
+      }
+      return result;
+    };
+    const draw = (progress = 0) => {
+      context.clearRect(0, 0, width, height);
+      context.fillStyle = inkColor;
+      context.globalAlpha = 0.48;
+      for (let index = 0; index < sampleSize; index += 1) {
+        const screenX = startX[index] + (targetX[index] - startX[index]) * progress;
+        const screenY = startY[index] + (targetY[index] - startY[index]) * progress;
+        context.fillRect(screenX - 0.8, screenY - 0.8, 1.6, 1.6);
+      }
+      context.globalAlpha = 1;
+    };
+    const finish = (result: ReturnType<typeof solveEntropicGridTransport>) => {
+      draw(1);
+      runButton.disabled = false;
+      const resultText = formatSinkhornReadout(result, { sampleSize });
+      if (readout) readout.textContent = resultText;
+      if (detail) detail.textContent = `Squared-cost components: barycentric ${result.normalizedBarycentricRms.toFixed(3)} and conditional spread ${result.normalizedConditionalRms.toFixed(3)} viewport diagonals in RMS units. Source L1 ${result.sourceMarginalL1.toExponential(1)}; target L1 ${result.targetMarginalL1.toExponential(1)}.`;
+      if (live) live.textContent = `Transport complete. ${resultText}`;
+    };
+    const run = () => {
+      cancelAnimationFrame(animationFrame);
+      runButton.disabled = true;
+      if (readout) readout.textContent = "Resolving the selected transport…";
+      const result = solve();
+      draw(0);
+      if (!result.converged) {
+        runButton.disabled = false;
+        if (readout) readout.textContent = `Solver stopped before the ${result.tolerance.toExponential(1)} marginal tolerance; maximum error ${result.maxMarginalError.toExponential(1)}.`;
+        if (live) live.textContent = "Transport did not reach the required marginal tolerance.";
+        return;
+      }
+      if (reduced) { finish(result); return; }
+      const started = performance.now();
+      const animate = (now: number) => {
+        const progress = Math.min(1, (now - started) / flowDuration);
+        const eased = progress < 0.5 ? 4 * progress ** 3 : 1 - ((-2 * progress + 2) ** 3) / 2;
+        draw(eased);
+        if (progress < 1) animationFrame = requestAnimationFrame(animate);
+        else finish(result);
+      };
+      animationFrame = requestAnimationFrame(animate);
+    };
+    const resize = () => {
+      const bounds = stage.getBoundingClientRect();
+      width = Math.max(1, bounds.width); height = Math.max(260, bounds.height);
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (width >= height) { gridWidth = gridMax; gridHeight = Math.max(20, Math.round(gridMax * height / width)); }
+      else { gridHeight = gridMax; gridWidth = Math.max(20, Math.round(gridMax * width / height)); }
+      cellWidth = width / gridWidth; cellHeight = height / gridHeight;
+      seedSource();
+      for (let index = 0; index < sampleSize; index += 1) {
+        startX[index] = targetX[index] = sourceX[index];
+        startY[index] = targetY[index] = sourceY[index];
+      }
+      stage.classList.add("is-enhanced");
+      draw(0);
+    };
+    runButton.addEventListener("click", run);
+    new ResizeObserver(resize).observe(stage);
+    resize();
+  });
+</script>
+
+<style>
+  .ot-figure { margin: 0; }
+  .ot-stage { min-height: 20rem; position: relative; }
+  .ot-stage :is(canvas, .ot-static) { height: 100%; inset: 0; position: absolute; width: 100%; }
+  .ot-stage canvas { display: none; }
+  .ot-stage.is-enhanced canvas { display: block; }
+  .ot-stage.is-enhanced .ot-static { display: none; }
+  .ot-static ellipse { fill: color-mix(in srgb, var(--ef-ink) 5%, transparent); stroke: color-mix(in srgb, var(--ef-ink) 28%, transparent); }
+  .ot-static circle { fill: var(--ef-ink); }
+  .ot-figure figcaption { color: color-mix(in srgb, var(--ef-ink) 68%, transparent); font-size: 0.82rem; }
+  .ot-controls { align-items: end; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .ot-controls label { display: grid; font-weight: 650; gap: 0.25rem; }
+  .ot-controls :is(select, input, button) { min-height: 44px; }
+  @media (prefers-reduced-motion: reduce) { .ot-figure * { transition: none !important; } }
+</style>

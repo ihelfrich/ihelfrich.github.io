@@ -1,0 +1,130 @@
+---
+export interface EvidenceLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export interface Props {
+  id?: string;
+  liveRegionId?: string;
+  question: string;
+  caption: string;
+  status: string;
+  method: string | string[];
+  role: string;
+  limit: string;
+  links?: EvidenceLink[];
+  class?: string;
+}
+
+const {
+  id = `aperture-${question.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+  liveRegionId,
+  question,
+  caption,
+  status,
+  method,
+  role,
+  limit,
+  links = [],
+  class: className,
+} = Astro.props;
+const methods = Array.isArray(method) ? method : [method];
+const linkIsExternal = (link: EvidenceLink) => link.external ?? /^https?:\/\//.test(link.href);
+const titleId = `${id}-question`;
+const captionId = `${id}-caption`;
+---
+
+<section id={id} class:list={["evidence-aperture", className]} aria-labelledby={titleId} aria-describedby={captionId}>
+  <header class="evidence-aperture__header">
+    <p class="evidence-aperture__label">Question</p>
+    <h2 id={titleId}>{question}</h2>
+    <p id={captionId} class="evidence-aperture__caption">{caption}</p>
+  </header>
+
+  <div class="evidence-aperture__figure">
+    <slot name="figure" />
+  </div>
+
+  {Astro.slots.has("controls") && (
+    <div class="evidence-aperture__controls" aria-label="Figure controls">
+      <slot name="controls" />
+    </div>
+  )}
+
+  {Astro.slots.has("default") && (
+    <div class="evidence-aperture__result">
+      <slot />
+    </div>
+  )}
+
+  {liveRegionId && <p id={liveRegionId} class="evidence-aperture__live" aria-live="polite" aria-atomic="true"></p>}
+
+  <aside class="evidence-aperture__margin" aria-label="Evidence record">
+    <dl>
+      <div><dt>Status</dt><dd>{status}</dd></div>
+      <div><dt>Method</dt><dd>{methods.join(" · ")}</dd></div>
+      <div><dt>Role</dt><dd>{role}</dd></div>
+      <div class="evidence-aperture__limit"><dt>Limit</dt><dd>{limit}</dd></div>
+    </dl>
+    {links.length > 0 && (
+      <nav aria-label="Evidence sources">
+        {links.map((link) => (
+          <a href={link.href} target={linkIsExternal(link) ? "_blank" : undefined} rel={linkIsExternal(link) ? "noopener" : undefined}>
+            {link.label}{linkIsExternal(link) ? " ↗" : " →"}
+          </a>
+        ))}
+      </nav>
+    )}
+  </aside>
+</section>
+
+<style>
+  .evidence-aperture {
+    display: grid;
+    gap: 1rem;
+    margin-block: 2rem;
+  }
+  .evidence-aperture__header,
+  .evidence-aperture__result,
+  .evidence-aperture__margin { max-width: 72rem; }
+  .evidence-aperture__label,
+  .evidence-aperture__margin dt {
+    color: color-mix(in srgb, var(--ef-ink) 65%, transparent);
+    font: 600 0.68rem/1.35 var(--font-data);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .evidence-aperture__header h2 { margin-block: 0.2rem 0.5rem; }
+  .evidence-aperture__caption { color: color-mix(in srgb, var(--ef-ink) 68%, transparent); max-width: 70ch; }
+  .evidence-aperture__figure {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .evidence-aperture__controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; }
+  .evidence-aperture__margin {
+    border-top: 1px solid color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper));
+    padding-top: 0.85rem;
+  }
+  .evidence-aperture__margin dl {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .evidence-aperture__margin dl > div { display: grid; gap: 0.15rem; }
+  .evidence-aperture__margin dd { margin: 0; }
+  .evidence-aperture__limit { border-left: 3px solid var(--ef-signal); padding-left: 0.65rem; }
+  .evidence-aperture__margin nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.9rem; }
+  .evidence-aperture__live { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+  @media (min-width: 58rem) {
+    .evidence-aperture {
+      grid-template-columns: minmax(0, 3fr) minmax(14rem, 1fr);
+    }
+    .evidence-aperture__header,
+    .evidence-aperture__figure,
+    .evidence-aperture__controls,
+    .evidence-aperture__result { grid-column: 1; }
+    .evidence-aperture__margin { grid-column: 2; grid-row: 1 / span 4; }
+  }
+</style>

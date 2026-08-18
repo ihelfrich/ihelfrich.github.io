@@ -1,0 +1,378 @@
+---
+import EvidenceAperture from "./EvidenceAperture.astro";
+import { buildResearchGraph, MINIMUM_SVG_TARGET_CSS_PX } from "../lib/fieldbook-math.mjs";
+
+interface Props {
+  papers: any[];
+}
+
+const { papers } = Astro.props;
+const SHORT: Record<string, string> = {
+  "helfrich-2026-human-or-machine": "AI validity",
+  "helfrich-2024-dissertation": "Dissertation",
+  "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
+  "gonchar-helfrich-2025-spotlight": "Spotlight",
+  "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
+  "gonchar-helfrich-2026-ukraine": "Ukraine",
+  "helfrich-2024-ssrn-4772016": "OT equilibrium",
+  "helfrich-2026-aroe": "AROE",
+  "helfrich-2026-penumbra": "Penumbra",
+  "helfrich-2026-russian-crude": "Russian crude",
+  "helfrich-2026-nmtc-rural-gap": "NMTC",
+};
+const records = papers.map((paper) => {
+  const data = paper.data ?? paper;
+  return {
+    id: paper.id,
+    short: SHORT[paper.id] ?? data.title.slice(0, 16),
+    title: data.title,
+    year: data.year,
+    maturity: data.maturity ?? "earlier",
+    status: data.status ?? "",
+    tags: data.tags ?? [],
+  };
+});
+const graph = buildResearchGraph(records);
+const GOLD = Math.PI * (3 - Math.sqrt(5));
+const positions = graph.nodes.map((_, index) => {
+  const angle = index * GOLD;
+  const radius = 150 + 18 * index;
+  return { x: 500 + Math.cos(angle) * radius, y: 266 + Math.sin(angle) * radius * 0.72 };
+});
+const tags = [...new Set(graph.nodes.flatMap((node) => node.tags))].sort();
+const maturityOrder = ["circulating", "working", "development", "earlier"];
+const maturities = maturityOrder.filter((value) => graph.nodes.some((node) => node.maturity === value));
+---
+
+<EvidenceAperture
+  id="research-graph"
+  liveRegionId="research-graph-live"
+  class="research-graph-aperture"
+  question="Which research records share explicit metadata tags?"
+  caption="Filter by tag or maturity, then inspect the metadata-derived connections. Line weight records the number of shared tags."
+  status="Secondary view of public research records"
+  method="Metadata-tag co-occurrence with a force-directed layout"
+  role="Visualization and record curation by Ian Helfrich"
+  limit="A shared tag records a metadata overlap. It does not establish one unified research program, causal relation, or substantive dependence."
+  links={[{ label: "Research record", href: "/research" }]}
+>
+  <figure slot="figure" class="research-graph inst-panel" data-research-graph>
+    <svg
+      viewBox="0 0 1000 560"
+      role="img"
+      aria-labelledby="research-graph-title research-graph-desc"
+      data-graph-svg
+      data-min-hit-target-css-px={MINIMUM_SVG_TARGET_CSS_PX}
+      style={`--svg-hit-target:${MINIMUM_SVG_TARGET_CSS_PX}px`}
+    >
+      <title id="research-graph-title">Research records connected by shared metadata tags</title>
+      <desc id="research-graph-desc">The complete records and connections are repeated in HTML tables after the figure.</desc>
+      <g data-graph-edges aria-hidden="true">
+        {graph.edges.map((edge, index) => (
+          <line
+            x1={positions[edge.a].x}
+            y1={positions[edge.a].y}
+            x2={positions[edge.b].x}
+            y2={positions[edge.b].y}
+            style={`--edge-weight:${edge.w}`}
+            data-edge-index={index}
+          ></line>
+        ))}
+      </g>
+      <g data-graph-nodes>
+        {graph.nodes.map((node, index) => (
+          <a href={`/research/${node.id}`} aria-label={`${node.title}, ${node.year}. Open research record.`} data-node-index={index}>
+            <g transform={`translate(${positions[index].x},${positions[index].y})`}>
+              <circle r="1" class="graph-hit"></circle>
+              <circle r="7" class="graph-dot"></circle>
+              <text text-anchor="middle" y="28">{node.short}</text>
+              <title>{node.title} ({node.year})</title>
+            </g>
+          </a>
+        ))}
+      </g>
+    </svg>
+    <figcaption>The server-rendered layout remains still until you filter or drag. Activate a focused record with Enter or Space. The tables below provide every record, tag, connection, and link without relying on the graph.</figcaption>
+    <script type="application/json" data-graph-data set:html={JSON.stringify(graph)} />
+  </figure>
+
+  <div slot="controls" class="graph-controls">
+    <label>Metadata tag
+      <select data-graph-tag>
+        <option value="all">All tags</option>
+        {tags.map((tag) => <option value={tag}>{tag}</option>)}
+      </select>
+    </label>
+    <label>Maturity
+      <select data-graph-maturity>
+        <option value="all">All maturities</option>
+        {maturities.map((maturity) => <option value={maturity}>{maturity}</option>)}
+      </select>
+    </label>
+    <button type="button" data-graph-reset>Reset view</button>
+  </div>
+
+  <p data-graph-readout>{graph.nodes.length} records; {graph.edges.length} shared-tag connections.</p>
+  <details class="graph-equivalent">
+    <summary>Research records and tag-derived connections</summary>
+    <div class="graph-table-wrap">
+      <table>
+        <caption>Research records in the graph</caption>
+        <thead><tr><th>Record</th><th>Year</th><th>Maturity</th><th>Status</th><th>Metadata tags</th></tr></thead>
+        <tbody>
+          {graph.nodes.map((node, index) => (
+            <tr data-node-row={index}>
+              <th scope="row"><a href={`/research/${node.id}`}>{node.title}</a></th>
+              <td>{node.year}</td><td>{node.maturity}</td><td>{node.status}</td><td>{node.tags.join(", ") || "None"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table>
+        <caption>Connections derived from shared tags</caption>
+        <thead><tr><th>First record</th><th>Second record</th><th>Shared tags</th><th>Weight</th></tr></thead>
+        <tbody>
+          {graph.edges.map((edge, index) => (
+            <tr data-edge-row={index}>
+              <td>{graph.nodes[edge.a].title}</td><td>{graph.nodes[edge.b].title}</td><td>{edge.shared.join(", ")}</td><td>{edge.w}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</EvidenceAperture>
+
+<script>
+  import { GRAPH_MAX_FRAMES, filterResearchGraph, shouldContinueGraphLayout, svgHitRadiusForCssTarget } from "../lib/fieldbook-math.mjs";
+
+  document.querySelectorAll(".research-graph-aperture").forEach((aperture) => {
+    const svg = aperture.querySelector("[data-graph-svg]");
+    const dataElement = aperture.querySelector("[data-graph-data]");
+    const tagSelect = aperture.querySelector("[data-graph-tag]");
+    const maturitySelect = aperture.querySelector("[data-graph-maturity]");
+    const readout = aperture.querySelector("[data-graph-readout]");
+    const live = aperture.querySelector("#research-graph-live");
+    if (!(svg instanceof SVGSVGElement) || !dataElement || !(tagSelect instanceof HTMLSelectElement) || !(maturitySelect instanceof HTMLSelectElement)) return;
+    const graph = JSON.parse(dataElement.textContent || "{}");
+    const nodeElements = Array.from(svg.querySelectorAll("[data-node-index]"));
+    const edgeElements = Array.from(svg.querySelectorAll("[data-edge-index]"));
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const width = 1000, height = 560, centerX = 500, centerY = 266;
+    const gold = Math.PI * (3 - Math.sqrt(5));
+    const x = new Float64Array(graph.nodes.length);
+    const y = new Float64Array(graph.nodes.length);
+    const vx = new Float64Array(graph.nodes.length);
+    const vy = new Float64Array(graph.nodes.length);
+    graph.nodes.forEach((_: unknown, index: number) => {
+      const angle = index * gold;
+      const radius = 150 + 18 * index;
+      x[index] = centerX + Math.cos(angle) * radius;
+      y[index] = centerY + Math.sin(angle) * radius * 0.72;
+    });
+    let activeNodes = new Set<number>();
+    let activeEdges = new Set<number>();
+    let dragging = -1;
+    let dragMoved = 0;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let running = false;
+    let frame = 0;
+    let pendingAnnouncement = "";
+
+    const syncHitTargets = () => {
+      const matrix = svg.getScreenCTM();
+      if (!matrix) {
+        svg.classList.remove("has-css-sized-hit-targets");
+        return;
+      }
+      const radius = svgHitRadiusForCssTarget({
+        scaleX: Math.hypot(matrix.a, matrix.b),
+        scaleY: Math.hypot(matrix.c, matrix.d),
+      });
+      svg.querySelectorAll(".graph-hit").forEach((hit) => hit.setAttribute("r", String(radius)));
+      svg.classList.add("has-css-sized-hit-targets");
+    };
+
+    const render = () => {
+      graph.edges.forEach((edge: any, index: number) => {
+        const element = edgeElements[index];
+        element?.setAttribute("x1", String(x[edge.a])); element?.setAttribute("y1", String(y[edge.a]));
+        element?.setAttribute("x2", String(x[edge.b])); element?.setAttribute("y2", String(y[edge.b]));
+      });
+      nodeElements.forEach((element, index) => element.querySelector("g")?.setAttribute("transform", `translate(${x[index]},${y[index]})`));
+    };
+    const physicsStep = () => {
+      let energy = 0;
+      for (const index of activeNodes) {
+        if (index === dragging) continue;
+        let forceX = (centerX - x[index]) * 0.009;
+        let forceY = (centerY - y[index]) * 0.009;
+        for (const other of activeNodes) {
+          if (other === index) continue;
+          const dx = x[index] - x[other], dy = y[index] - y[other];
+          const distance2 = Math.max(140, dx * dx + dy * dy), distance = Math.sqrt(distance2);
+          forceX += (dx / distance) * (8600 / distance2);
+          forceY += (dy / distance) * (8600 / distance2);
+        }
+        vx[index] = (vx[index] + forceX) * 0.85;
+        vy[index] = (vy[index] + forceY) * 0.85;
+      }
+      for (const edgeIndex of activeEdges) {
+        const edge = graph.edges[edgeIndex];
+        const dx = x[edge.b] - x[edge.a], dy = y[edge.b] - y[edge.a];
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        const force = (distance - (205 - 38 * Math.min(3, edge.w))) * 0.016 * edge.w;
+        if (edge.a !== dragging) { vx[edge.a] += (dx / distance) * force; vy[edge.a] += (dy / distance) * force; }
+        if (edge.b !== dragging) { vx[edge.b] -= (dx / distance) * force; vy[edge.b] -= (dy / distance) * force; }
+      }
+      for (const index of activeNodes) {
+        if (index === dragging) continue;
+        x[index] = Math.min(width - 60, Math.max(60, x[index] + vx[index]));
+        y[index] = Math.min(height - 46, Math.max(34, y[index] + vy[index]));
+        energy += vx[index] * vx[index] + vy[index] * vy[index];
+      }
+      return energy;
+    };
+    const announceCompletion = () => {
+      running = false;
+      render();
+      if (live && pendingAnnouncement) live.textContent = pendingAnnouncement;
+      pendingAnnouncement = "";
+    };
+    const step = () => {
+      const energy = physicsStep();
+      frame += 1;
+      render();
+      if (!shouldContinueGraphLayout({ energy, dragging: dragging >= 0, frame })) { announceCompletion(); return; }
+      requestAnimationFrame(step);
+    };
+    const settle = () => {
+      if (reduced) {
+        for (let count = 0; count < GRAPH_MAX_FRAMES; count += 1) if (physicsStep() < 0.02) break;
+        announceCompletion();
+      } else if (!running) {
+        frame = 0;
+        running = true;
+        requestAnimationFrame(step);
+      }
+    };
+    const applyFilter = (announce = true) => {
+      const filtered = filterResearchGraph(graph, { tag: tagSelect.value, maturity: maturitySelect.value });
+      activeNodes = new Set(filtered.nodeIndexes);
+      activeEdges = new Set(filtered.edgeIndexes);
+      nodeElements.forEach((element, index) => { (element as SVGElement).style.display = activeNodes.has(index) ? "" : "none"; });
+      edgeElements.forEach((element, index) => { (element as SVGElement).style.display = activeEdges.has(index) ? "" : "none"; });
+      const result = `${activeNodes.size} records; ${activeEdges.size} shared-tag connections.`;
+      if (readout) readout.textContent = result;
+      if (announce) {
+        pendingAnnouncement = `Research graph filter complete. ${result}`;
+        settle();
+      } else {
+        render();
+      }
+    };
+    const svgPoint = (event: PointerEvent) => {
+      const matrix = svg.getScreenCTM();
+      if (!matrix) return { x: 0, y: 0 };
+      const inverse = matrix.inverse();
+      return { x: event.clientX * inverse.a + event.clientY * inverse.c + inverse.e, y: event.clientX * inverse.b + event.clientY * inverse.d + inverse.f };
+    };
+
+    nodeElements.forEach((element, index) => {
+      let suppressClick = false;
+      element.addEventListener("pointerdown", (event) => {
+        const pointer = event as PointerEvent;
+        dragging = index; dragMoved = 0; dragStartX = x[index]; dragStartY = y[index];
+        (element as SVGElement).setPointerCapture(pointer.pointerId);
+      });
+      element.addEventListener("pointermove", (event) => {
+        if (dragging !== index) return;
+        const point = svgPoint(event as PointerEvent);
+        dragMoved += Math.abs(point.x - x[index]) + Math.abs(point.y - y[index]);
+        x[index] = point.x; y[index] = point.y; vx[index] = 0; vy[index] = 0;
+        render();
+      });
+      element.addEventListener("pointerup", (event) => {
+        const wasDrag = dragMoved > 6;
+        dragging = -1;
+        const pointer = event as PointerEvent;
+        if ((element as SVGElement).hasPointerCapture(pointer.pointerId)) (element as SVGElement).releasePointerCapture(pointer.pointerId);
+        if (wasDrag) {
+          suppressClick = true;
+          pendingAnnouncement = `${graph.nodes[index].title} repositioned. Graph layout complete.`;
+          settle();
+        }
+      });
+      const cancelDrag = () => {
+        if (dragging !== index) return;
+        x[index] = dragStartX; y[index] = dragStartY;
+        dragging = -1; dragMoved = 0; suppressClick = true;
+        render();
+        if (live) live.textContent = `${graph.nodes[index].title} drag canceled; the original position was restored.`;
+        window.setTimeout(() => { suppressClick = false; }, 250);
+      };
+      element.addEventListener("pointercancel", cancelDrag);
+      element.addEventListener("lostpointercapture", cancelDrag);
+      element.addEventListener("click", (event) => {
+        if (!suppressClick) return;
+        event.preventDefault(); suppressClick = false;
+      });
+      element.addEventListener("keydown", (event) => {
+        const keyboard = event as KeyboardEvent;
+        if (keyboard.key === " ") {
+          keyboard.preventDefault();
+          window.location.href = `/research/${graph.nodes[index].id}`;
+        }
+      });
+      const describe = () => {
+        if (readout) readout.textContent = `${graph.nodes[index].title} (${graph.nodes[index].year}) · ${graph.nodes[index].tags.join(" · ") || "no metadata tags"}`;
+      };
+      element.addEventListener("mouseenter", describe);
+      element.addEventListener("focus", describe);
+    });
+    tagSelect.addEventListener("change", () => applyFilter(true));
+    maturitySelect.addEventListener("change", () => applyFilter(true));
+    aperture.querySelector("[data-graph-reset]")?.addEventListener("click", () => {
+      tagSelect.value = "all"; maturitySelect.value = "all"; applyFilter(true); tagSelect.focus();
+    });
+    applyFilter(false);
+    syncHitTargets();
+    if (typeof ResizeObserver !== "undefined") new ResizeObserver(syncHitTargets).observe(svg);
+    else window.addEventListener("resize", syncHitTargets, { passive: true });
+  });
+</script>
+
+<style>
+  .research-graph { margin: 0; }
+  .research-graph svg { display: block; overflow: visible; touch-action: pan-y; width: 100%; }
+  [data-graph-edges] line { stroke: color-mix(in srgb, var(--ef-ink) 24%, transparent); stroke-width: calc(0.8px + var(--edge-weight) * 0.9px); }
+  .graph-hit {
+    fill: transparent;
+    forced-color-adjust: none;
+    pointer-events: all;
+    stroke: transparent;
+    stroke-width: var(--svg-hit-target);
+    vector-effect: non-scaling-stroke;
+  }
+  svg.has-css-sized-hit-targets .graph-hit { stroke-width: 0; }
+  .graph-dot { fill: var(--ef-ink); transition: fill var(--ef-motion-fast) var(--ef-ease-standard); }
+  [data-node-index] { cursor: pointer; }
+  [data-node-index] text { fill: color-mix(in srgb, var(--ef-ink) 65%, transparent); font: 520 11px var(--font-data); pointer-events: none; }
+  [data-node-index]:is(:hover, :focus-visible) .graph-dot { fill: var(--ef-signal); }
+  [data-node-index]:focus-visible .graph-hit { fill: transparent; stroke: var(--ef-signal); stroke-width: 3; }
+  .research-graph figcaption { color: color-mix(in srgb, var(--ef-ink) 68%, transparent); font-size: 0.82rem; }
+  .graph-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .graph-controls label { display: grid; font-weight: 650; gap: 0.25rem; }
+  .graph-controls :is(select, button) { min-height: 44px; }
+  .graph-equivalent summary { cursor: pointer; font-weight: 650; }
+  .graph-table-wrap { overflow-x: auto; }
+  .graph-equivalent table { border-collapse: collapse; margin-block: 1rem; min-width: 44rem; width: 100%; }
+  .graph-equivalent caption { font-weight: 650; text-align: left; }
+  .graph-equivalent :is(th, td) { border-bottom: 1px solid color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); padding: 0.45rem; text-align: left; vertical-align: top; }
+  @media (prefers-reduced-motion: reduce) { .research-graph * { transition: none !important; } }
+  @media (forced-colors: active) {
+    [data-node-index]:focus-visible .graph-hit { stroke: CanvasText; }
+    .graph-dot { fill: CanvasText; }
+  }
+</style>

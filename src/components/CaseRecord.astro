@@ -1,0 +1,72 @@
+---
+interface Link {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+interface Case {
+  id: string;
+  title: string;
+  question: string;
+  status: string;
+  role: string;
+  method: readonly string[];
+  result: string;
+  limit: string;
+  links?: readonly Link[];
+}
+
+interface Props {
+  record: Case;
+  headingLevel?: "h2" | "h3";
+}
+
+const { record, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const linkIsExternal = (link: Link) => link.external ?? /^https?:\/\//.test(link.href);
+---
+
+<article class="case-record" id={`case-${record.id}`} aria-labelledby={`case-${record.id}-title`}>
+  <header>
+    <p class="case-record__accession">Case record</p>
+    <Heading id={`case-${record.id}-title`}>{record.title}</Heading>
+  </header>
+  <dl class="case-record__fields">
+    <div><dt>Question</dt><dd>{record.question}</dd></div>
+    <div><dt>Status</dt><dd>{record.status}</dd></div>
+    <div><dt>Role</dt><dd>{record.role}</dd></div>
+    <div><dt>Method</dt><dd>{record.method.join(" · ")}</dd></div>
+    <div><dt>Result</dt><dd>{record.result}</dd></div>
+    <div class="case-record__limit"><dt>Limit</dt><dd>{record.limit}</dd></div>
+  </dl>
+  {record.links && record.links.length > 0 && (
+    <nav aria-label={`${record.title} artifacts`}>
+      {record.links.map((link) => (
+        <a href={link.href} target={linkIsExternal(link) ? "_blank" : undefined} rel={linkIsExternal(link) ? "noopener" : undefined}>
+          {link.label}{linkIsExternal(link) ? " ↗" : " →"}
+        </a>
+      ))}
+    </nav>
+  )}
+</article>
+
+<style>
+  .case-record { border-top: 1px solid color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); padding-block: 1.25rem; }
+  .case-record__accession,
+  .case-record dt {
+    color: color-mix(in srgb, var(--ef-ink) 65%, transparent);
+    font: 600 0.68rem/1.35 var(--font-data);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .case-record header :is(h2, h3) { margin-block: 0.25rem 1rem; }
+  .case-record__fields { display: grid; gap: 0.9rem; margin: 0; }
+  .case-record__fields > div { display: grid; gap: 0.2rem; }
+  .case-record dd { margin: 0; max-width: 72ch; }
+  .case-record__limit { border-left: 3px solid var(--ef-signal); padding-left: 0.7rem; }
+  .case-record nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 1rem; }
+  @media (min-width: 48rem) {
+    .case-record__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

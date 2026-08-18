@@ -1,119 +1,194 @@
 ---
-// The paper's headline result as a figure the reader operates. Numbers come
-// from the abstract: raw gap -0.262; with CDE fixed effects -0.047 at
-// p = 0.64. The 95 percent interval shown in the FE state is implied by the
-// reported p-value (z = 0.47, SE approx 0.101); the raw gap's interval is
-// not reported in the abstract, so none is drawn. Motion runs only when the
-// reader flips the toggle, and stops when the estimate settles.
+import EvidenceAperture from "./EvidenceAperture.astro";
+import { CDE_FACTS } from "../lib/fieldbook-math.mjs";
+
+const axisValues = [-0.3, -0.2, -0.1, 0, 0.1, 0.2];
+const y = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
 ---
-<figure class="cde-fig inst-panel">
-  <svg id="cde-plot" viewBox="0 0 1000 300" role="img" aria-label="Coefficient plot: the rural leverage gap with and without Community Development Entity fixed effects"></svg>
-  <p class="inst-readout cde-row">
-    <label class="cde-toggle">
-      <input type="checkbox" id="cde-fe" />
-      Community Development Entity fixed effects
-    </label>
-    <span id="cde-readout">raw rural gap: &minus;0.262</span>
-  </p>
-  <figcaption class="cde-note">
-    The figure is live: turn the fixed effects on and the estimate moves the
-    way it moves in the paper. The interval in the FE state is implied by the
-    reported p-value (p = 0.64 gives z &asymp; 0.47, SE &asymp; 0.101); the
-    abstract reports no interval for the raw gap, so none is drawn. Full
-    tables are in the paper and the replication repo.
-  </figcaption>
-</figure>
+
+<EvidenceAperture
+  id="cde-decomposition"
+  liveRegionId="cde-decomposition-live"
+  class="cde-aperture"
+  question="Does the rural private-leverage gap persist within the same Community Development Entity?"
+  caption="Choose a comparison to move from the raw rural gap to the paper's mean within-CDE estimate, exact reported interval, or separate descriptive decomposition."
+  status="Circulating sole-authored working paper"
+  method={["Community Development Entity fixed effects", "order-invariant decomposition", "bunching test"]}
+  role="Sole author; Katia Antunes and Elizaveta Gonchar are acknowledged contributors"
+  limit="The design is descriptive and noncausal, does not identify why intermediaries differ, and leaves the mechanism unresolved."
+  links={[
+    { label: "Research record", href: "/research/helfrich-2026-nmtc-rural-gap" },
+    { label: "Working paper", href: "/research/ian-helfrich-nmtc-working-paper.pdf" },
+    { label: "Repository and viewer", href: "https://github.com/ihelfrich/us-nmtc-viewer", external: true },
+  ]}
+>
+  <figure slot="figure" class="cde-fig inst-panel" data-cde-decomposition>
+    <svg viewBox="0 0 1000 300" aria-hidden="true" focusable="false">
+      {axisValues.map((value) => (
+        <g aria-hidden="true">
+          <line x1="90" y1={y(value)} x2="950" y2={y(value)} class:list={{ "cde-zero": value === 0 }}></line>
+          <text x="80" y={y(value) + 4} text-anchor="end">{value === 0 ? "0" : value.toFixed(1)}</text>
+        </g>
+      ))}
+      <text x="950" y={y(0) - 8} text-anchor="end">no rural gap</text>
+      <line x1="520" y1={y(CDE_FACTS.rawGap)} x2="520" y2={y(CDE_FACTS.rawGap)} data-cde-whisker data-cde-coefficient></line>
+      <line x1="506" x2="534" y1={y(CDE_FACTS.rawGap)} y2={y(CDE_FACTS.rawGap)} data-cde-cap-high data-cde-coefficient opacity="0"></line>
+      <line x1="506" x2="534" y1={y(CDE_FACTS.rawGap)} y2={y(CDE_FACTS.rawGap)} data-cde-cap-low data-cde-coefficient opacity="0"></line>
+      <circle cx="520" cy={y(CDE_FACTS.rawGap)} r="9" data-cde-dot data-cde-coefficient></circle>
+      <text x="542" y={y(CDE_FACTS.rawGap) + 4} data-cde-label data-cde-coefficient>raw rural gap −0.262</text>
+      <g data-cde-composition opacity="0">
+        <text x="90" y="264">Base descriptive decomposition: observed CDE composition</text>
+        <line x1="90" x2="850" y1="280" y2="280" class="cde-composition-track"></line>
+        <line x1="90" x2="90" y1="280" y2="280" class="cde-composition-fill" data-cde-composition-fill></line>
+        <text x="860" y="284">−0.185 / 86%</text>
+      </g>
+    </svg>
+    <figcaption>The coefficient view is redundant with the numerical record below; no result depends on reading position, color, or motion.</figcaption>
+  </figure>
+
+  <fieldset slot="controls" class="cde-states">
+    <legend>Comparison shown</legend>
+    <label><input type="radio" name="cde-state" value="raw" data-cde-state checked /> Raw gap</label>
+    <label><input type="radio" name="cde-state" value="within" data-cde-state /> Within CDE</label>
+    <label><input type="radio" name="cde-state" value="composition" data-cde-state /> Explained movement</label>
+  </fieldset>
+
+  <div class="cde-result" data-cde-result>
+    <p data-cde-readout><strong>Raw rural gap:</strong> −0.262.</p>
+    <table>
+      <caption>Reported estimates and decomposition facts</caption>
+      <tbody>
+        <tr><th scope="row">Raw gap</th><td>−0.262</td></tr>
+        <tr><th scope="row">Mean within-CDE estimate</th><td>−0.047; exact 95% CI [−0.245, +0.152]</td></tr>
+        <tr><th scope="row">Median within-CDE estimate</th><td>−0.001</td></tr>
+        <tr><th scope="row">Base decomposition</th><td>−0.185, or 86% of explained movement, is associated with observed CDE composition</td></tr>
+      </tbody>
+    </table>
+    <p>The analysis is descriptive and noncausal. It does not identify why CDEs differ, and the mechanism remains unresolved.</p>
+  </div>
+</EvidenceAperture>
 
 <script>
-  // Coefficient plot with a spring toward the active specification.
-  const svg = document.getElementById("cde-plot");
-  const box = document.getElementById("cde-fe") as HTMLInputElement | null;
-  const readout = document.getElementById("cde-readout");
-  if (svg && box) {
-    const NS = "http://www.w3.org/2000/svg";
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const W = 1000, L = 90, R = 950, CY_TOP = 30, CY_BOT = 240;
-    const YMIN = -0.32, YMAX = 0.2;
-    const y = (v: number) => CY_TOP + (YMAX - v) / (YMAX - YMIN) * (CY_BOT - CY_TOP);
-    const RAW = -0.262, FE = -0.047, SE = 0.101, Z = 1.96;
-    const el = (tag: string, attrs: Record<string, string>) => {
-      const n = document.createElementNS(NS, tag);
-      for (const k in attrs) n.setAttribute(k, attrs[k]);
-      svg.appendChild(n);
-      return n;
-    };
-    const MONO = "font: 520 11px var(--ih-mono);";
-    // scale
-    for (const v of [-0.3, -0.2, -0.1, 0, 0.1, 0.2]) {
-      const Y = y(v);
-      el("line", { x1: String(L), y1: String(Y), x2: String(R), y2: String(Y),
-        stroke: v === 0 ? "#111113" : "rgba(17,17,19,0.1)", "stroke-width": v === 0 ? "1.2" : "1" });
-      const t = el("text", { x: String(L - 10), y: String(Y + 4), fill: "#898781",
-        "text-anchor": "end", style: MONO });
-      t.textContent = v === 0 ? "0" : v.toFixed(1);
-    }
-    const zeroLbl = el("text", { x: String(R), y: String(y(0) - 8), fill: "#898781", "text-anchor": "end", style: MONO });
-    zeroLbl.textContent = "no rural gap";
-    const X = (L + R) / 2;
-    const whisker = el("line", { x1: String(X), y1: String(y(RAW)), x2: String(X), y2: String(y(RAW)),
-      stroke: "#111113", "stroke-width": "1.6" });
-    const capT = el("line", { x1: String(X - 14), x2: String(X + 14), y1: String(y(RAW)), y2: String(y(RAW)), stroke: "#111113", "stroke-width": "1.6" });
-    const capB = el("line", { x1: String(X - 14), x2: String(X + 14), y1: String(y(RAW)), y2: String(y(RAW)), stroke: "#111113", "stroke-width": "1.6" });
-    const dot = el("circle", { cx: String(X), cy: String(y(RAW)), r: "9", fill: "#111113" });
-    const lbl = el("text", { x: String(X + 22), y: String(y(RAW) + 4), fill: "#3d3d42", style: MONO });
-    lbl.textContent = "raw rural gap  −0.262";
+  import { CDE_FACTS, cdeState } from "../lib/fieldbook-math.mjs";
 
-    let cur = RAW, curSpread = 0, vel = 0, velS = 0, raf = 0, running = false;
-    function target() { return box!.checked ? FE : RAW; }
-    function targetSpread() { return box!.checked ? Z * SE : 0; }
-    function render(v: number, spread: number, live: boolean) {
-      const cy = y(v);
-      const hiY = y(v + spread), loY = y(v - spread);
-      dot.setAttribute("cy", String(cy));
-      dot.setAttribute("fill", live ? "#2852e8" : "#111113");
-      whisker.setAttribute("y1", String(hiY)); whisker.setAttribute("y2", String(loY));
-      whisker.setAttribute("stroke", live ? "#2852e8" : "#111113");
-      for (const [cap, yy] of [[capT, hiY], [capB, loY]] as const) {
-        cap.setAttribute("y1", String(yy)); cap.setAttribute("y2", String(yy));
-        cap.setAttribute("stroke", live ? "#2852e8" : "#111113");
-        cap.setAttribute("opacity", spread > 0.004 ? "1" : "0");
-      }
-      lbl.setAttribute("y", String(cy + 4));
-      lbl.textContent = box!.checked
-        ? "with CDE fixed effects  −0.047 (p = 0.64)"
-        : "raw rural gap  −0.262";
-    }
-    function step() {
-      const k = 0.09, damp = 0.75;
-      vel = (vel + (target() - cur) * k) * damp;
-      velS = (velS + (targetSpread() - curSpread) * k) * damp;
-      cur += vel; curSpread += velS;
-      const settled = Math.abs(vel) < 1e-5 && Math.abs(cur - target()) < 1e-4 &&
-                      Math.abs(velS) < 1e-5 && Math.abs(curSpread - targetSpread()) < 1e-4;
-      render(cur, curSpread, !settled);
-      if (settled) { cur = target(); curSpread = targetSpread(); render(cur, curSpread, false); running = false; return; }
-      raf = requestAnimationFrame(step);
-    }
-    box.addEventListener("change", () => {
-      if (readout) readout.textContent = box.checked
-        ? "−0.047, p = 0.64 · in the base descriptive decomposition, −0.185 (86 percent of the explained movement) is associated with observed CDE composition; the mechanism remains unresolved"
-        : "raw rural gap: −0.262";
-      if (reduced) { cur = target(); curSpread = targetSpread(); render(cur, curSpread, false); return; }
-      if (!running) { running = true; raf = requestAnimationFrame(step); }
-    });
-    render(RAW, 0, false);
-  }
+  document.querySelectorAll(".cde-aperture").forEach((aperture) => {
+    const radios = Array.from(aperture.querySelectorAll("[data-cde-state]"));
+    const dot = aperture.querySelector("[data-cde-dot]");
+    const whisker = aperture.querySelector("[data-cde-whisker]");
+    const capHigh = aperture.querySelector("[data-cde-cap-high]");
+    const capLow = aperture.querySelector("[data-cde-cap-low]");
+    const label = aperture.querySelector("[data-cde-label]");
+    const coefficientElements = Array.from(aperture.querySelectorAll("[data-cde-coefficient]"));
+    const composition = aperture.querySelector("[data-cde-composition]");
+    const compositionFill = aperture.querySelector("[data-cde-composition-fill]");
+    const readout = aperture.querySelector("[data-cde-readout]");
+    const live = aperture.querySelector("#cde-decomposition-live");
+    if (radios.length === 0 || !dot || !whisker || !capHigh || !capLow || !label || !composition || !compositionFill) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const plotY = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
+    let estimate = CDE_FACTS.rawGap;
+    let low = CDE_FACTS.rawGap;
+    let high = CDE_FACTS.rawGap;
+    let velocity = 0;
+    let lowVelocity = 0;
+    let highVelocity = 0;
+    let compositionShare = 0;
+    let compositionVelocity = 0;
+    let running = false;
+
+    const activeKey = () => {
+      const selected = radios.find((radio) => radio instanceof HTMLInputElement && radio.checked);
+      return selected instanceof HTMLInputElement ? selected.value : "raw";
+    };
+    const targets = () => {
+      const state = cdeState(activeKey());
+      const visualEstimate = state.key === "composition" ? CDE_FACTS.meanWithinCde : state.estimate;
+      return {
+        estimate: visualEstimate,
+        low: state.interval?.[0] ?? visualEstimate,
+        high: state.interval?.[1] ?? visualEstimate,
+        compositionShare: state.key === "composition" ? CDE_FACTS.explainedShare : 0,
+      };
+    };
+    const summary = () => {
+      const state = cdeState(activeKey());
+      return `${state.label}: ${state.estimate < 0 ? "−" : "+"}${Math.abs(state.estimate).toFixed(3)}. ${state.interpretation}`;
+    };
+    const render = (resolving: boolean) => {
+      const estimateY = plotY(estimate);
+      const highY = plotY(high);
+      const lowY = plotY(low);
+      dot.setAttribute("cy", String(estimateY));
+      dot.setAttribute("class", resolving ? "is-resolving" : "");
+      whisker.setAttribute("y1", String(highY)); whisker.setAttribute("y2", String(lowY));
+      capHigh.setAttribute("y1", String(highY)); capHigh.setAttribute("y2", String(highY));
+      capLow.setAttribute("y1", String(lowY)); capLow.setAttribute("y2", String(lowY));
+      const hasInterval = activeKey() === "within";
+      capHigh.setAttribute("opacity", hasInterval ? "1" : "0"); capLow.setAttribute("opacity", hasInterval ? "1" : "0");
+      label.setAttribute("y", String(estimateY + 4));
+      const state = cdeState(activeKey());
+      label.textContent = state.key === "composition"
+        ? "raw −0.262 → mean within-CDE −0.047"
+        : `${state.label}  ${state.estimate < 0 ? "−" : "+"}${Math.abs(state.estimate).toFixed(3)}`;
+      coefficientElements.forEach((element) => element.setAttribute("opacity", state.key === "composition" ? "0.22" : "1"));
+      capHigh.setAttribute("opacity", hasInterval ? "1" : "0"); capLow.setAttribute("opacity", hasInterval ? "1" : "0");
+      composition.setAttribute("opacity", state.key === "composition" ? "1" : "0");
+      compositionFill.setAttribute("x2", String(90 + 760 * compositionShare));
+    };
+    const finish = () => {
+      const target = targets();
+      estimate = target.estimate; low = target.low; high = target.high; compositionShare = target.compositionShare;
+      render(false);
+      running = false;
+      if (live) live.textContent = `Comparison updated. ${summary()}`;
+    };
+    const step = () => {
+      const target = targets();
+      const stiffness = 0.09;
+      const damping = 0.75;
+      velocity = (velocity + (target.estimate - estimate) * stiffness) * damping;
+      lowVelocity = (lowVelocity + (target.low - low) * stiffness) * damping;
+      highVelocity = (highVelocity + (target.high - high) * stiffness) * damping;
+      compositionVelocity = (compositionVelocity + (target.compositionShare - compositionShare) * stiffness) * damping;
+      estimate += velocity; low += lowVelocity; high += highVelocity; compositionShare += compositionVelocity;
+      const settled = Math.abs(velocity) < 1e-5 && Math.abs(estimate - target.estimate) < 1e-4
+        && Math.abs(lowVelocity) < 1e-5 && Math.abs(low - target.low) < 1e-4
+        && Math.abs(highVelocity) < 1e-5 && Math.abs(high - target.high) < 1e-4
+        && Math.abs(compositionVelocity) < 1e-5 && Math.abs(compositionShare - target.compositionShare) < 1e-4;
+      if (settled) { finish(); return; }
+      render(true);
+      requestAnimationFrame(step);
+    };
+
+    radios.forEach((radio) => radio.addEventListener("change", () => {
+      if (!(radio instanceof HTMLInputElement) || !radio.checked) return;
+      if (readout) readout.textContent = summary();
+      if (reduced) { finish(); return; }
+      if (!running) { running = true; requestAnimationFrame(step); }
+    }));
+    render(false);
+  });
 </script>
 
 <style>
-  .cde-fig { margin: 2.2rem 0; }
-  .cde-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
-  .cde-toggle { display: inline-flex; gap: 0.5rem; align-items: center; cursor: pointer; color: #111113; }
-  .cde-toggle input { accent-color: #2852e8; }
-  .cde-note {
-    margin: 0.35rem 0.2rem 0.5rem;
-    color: #66666c;
-    font-size: 0.82rem;
-    line-height: 1.55;
-  }
+  .cde-fig { margin: 0; }
+  .cde-fig svg { display: block; width: 100%; }
+  .cde-fig line { stroke: color-mix(in srgb, var(--ef-ink) 10%, transparent); stroke-width: 1; }
+  .cde-fig .cde-zero { stroke: var(--ef-ink); stroke-width: 1.2; }
+  .cde-fig [data-cde-whisker], .cde-fig [data-cde-cap-high], .cde-fig [data-cde-cap-low] { stroke: var(--ef-ink); stroke-width: 1.6; }
+  .cde-fig circle { fill: var(--ef-ink); }
+  .cde-fig circle.is-resolving { fill: var(--ef-signal); }
+  .cde-fig text { fill: color-mix(in srgb, var(--ef-ink) 65%, transparent); font: 520 11px var(--font-data); }
+  .cde-fig .cde-composition-track { stroke: color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); stroke-width: 8; }
+  .cde-fig .cde-composition-fill { stroke: var(--ef-signal); stroke-width: 8; }
+  .cde-fig figcaption { color: color-mix(in srgb, var(--ef-ink) 68%, transparent); font-size: 0.82rem; }
+  .cde-states { border: 0; display: flex; flex-wrap: wrap; gap: 0.45rem 1rem; margin: 0; padding: 0; }
+  .cde-states legend { font-weight: 650; margin-bottom: 0.35rem; width: 100%; }
+  .cde-states label { align-items: center; cursor: pointer; display: inline-flex; gap: 0.35rem; min-height: 44px; }
+  .cde-states input { accent-color: var(--ef-signal); }
+  .cde-result table { border-collapse: collapse; margin-block: 0.75rem; width: 100%; }
+  .cde-result caption { font-weight: 650; text-align: left; }
+  .cde-result :is(th, td) { border-bottom: 1px solid color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); padding: 0.45rem; text-align: left; vertical-align: top; }
+  .cde-result th { width: 36%; }
 </style>
