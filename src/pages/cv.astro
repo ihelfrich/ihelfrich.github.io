@@ -1,252 +1,42 @@
 ---
 import Base from "../layouts/Base.astro";
-// Evidence-linked CV: every claim that has a public artifact links to it
-// (paper records, SSRN, repos, live teaching sites, evaluations PDF). Facts
-// mirror the PDF; the page adds verifiability, never new claims.
 ---
 <Base
-  title="CV"
-  description="Evidence-linked curriculum vitae for Dr. Ian Helfrich, applied economist, educator, and quantitative researcher. Every claim links to its public artifact."
+  title="Curriculum vitae"
+  description="Verified career materials for Dr. Ian Helfrich are being updated from primary records."
 >
   <header class="page-hero">
-    <span class="eyebrow">Curriculum vitae · Evidence linked · PDF updated July 2026</span>
-    <h1>Applied economist & educator.</h1>
-    <p class="kicker">My work covers spatial and policy econometrics, economic networks, international trade, labor and AI, open research infrastructure, and quantitative education. Each entry with a public artifact links to it.</p>
+    <span class="eyebrow">Curriculum vitae · Accuracy review in progress</span>
+    <h1>Current materials are being verified.</h1>
+    <p class="kicker">
+      I retired the previous public PDFs because they no longer represented my
+      current research, teaching, and quantitative practice accurately. A new
+      executive résumé and a complete evidence-linked CV are being rebuilt from
+      primary records.
+    </p>
     <div class="button-row">
-      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">One-page CV (PDF)</a>
-      <a class="button secondary" href="/cv/helfrich-cv-full.pdf" target="_blank" rel="noopener">Full CV (PDF)</a>
-      <a class="button secondary" href="/job-market">Job market packet</a>
+      <a class="button" href="mailto:ianthelfrich@gmail.com?subject=Current%20CV%20request">Request the current CV</a>
+      <a class="button secondary" href="/research">Current research</a>
+      <a class="button secondary" href="/teaching">Teaching record</a>
+      <a class="button secondary" href="/job-market">Job-market profile</a>
     </div>
   </header>
 
-  <section class="section compact" aria-labelledby="cv-traj">
+  <section class="section compact" aria-labelledby="current-work">
     <div class="section-heading">
       <div>
-        <span class="section-label">The trajectory</span>
-        <h2 id="cv-traj">Twelve years, to scale.</h2>
+        <span class="section-label">Current work</span>
+        <h2 id="current-work">Research, teaching, and systems that can be inspected.</h2>
       </div>
-      <p>Degrees, papers, practice, and recognition on one axis, drawn from the dated facts below. Hover a mark for its record; the blue cursor is today.</p>
-    </div>
-    <div class="inst-panel">
-      <svg id="traj" viewBox="0 0 1000 210" role="img" aria-label="Career timeline 2014 to 2027 with degrees, papers, practice, and recognition"></svg>
-      <p class="inst-readout"><span id="traj-readout">hover a mark</span></p>
-    </div>
-  </section>
-
-  <section class="section compact" aria-labelledby="cv-interests">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Research interests</span>
-        <h2 id="cv-interests">What the work is about.</h2>
-      </div>
-      <p>Applied econometrics for spatial and high-dimensional data, economic networks, international trade, and policy evaluation. Secondary: labor and AI, regional and environmental economics, remote sensing, and optimal transport.</p>
-    </div>
-  </section>
-
-  <section class="section compact" aria-labelledby="cv-education">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Education</span>
-        <h2 id="cv-education">Six degrees, 2014 to 2024.</h2>
-      </div>
-      <p>Dissertation: network centrality, spatial heterogeneity, and optimal transport in international trade. Advisors: Dr. Tibor Besedes and Dr. Usha Nair-Reichert.</p>
+      <p>
+        The public research and teaching records remain available while the
+        replacement documents complete factual and visual review.
+      </p>
     </div>
     <ul class="credential-list">
-      <li><strong>PhD, Economics</strong>, Georgia Institute of Technology, 2024. Doctoral minor in Quantitative Psychology.</li>
-      <li><strong>MS, Geographic Information Science &amp; Technology</strong>, Georgia Institute of Technology, 2022.</li>
-      <li><strong>MS, Economics</strong>, Georgia Institute of Technology, 2019.</li>
-      <li><strong>MA, Economics</strong>, Indiana University Bloomington, 2018.</li>
-      <li><strong>MSc, Specialized Economic Analysis</strong> (Public Policy), Barcelona School of Economics, 2015.</li>
-      <li><strong>BA, Economics</strong>, University of North Carolina at Chapel Hill, 2014.</li>
+      <li><a href="/research/helfrich-2026-nmtc-rural-gap">New Markets Tax Credit research and public evidence record</a></li>
+      <li><a href="/work">Selected analytical work and evidence systems</a></li>
+      <li><a href="/teaching">University, professional, and independent quantitative instruction</a></li>
     </ul>
-  </section>
-
-  <section class="section" aria-labelledby="cv-research">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Selected research</span>
-        <h2 id="cv-research">Six of the nine active papers.</h2>
-      </div>
-      <p>Each row links to the full record: abstract, status, materials, and code where public. The complete list lives on the <a href="/research">research page</a>.</p>
-    </div>
-    <ul class="h-row-list">
-      <li class="h-row">
-        <div class="h-row-meta">With Shane Vardanyan · working paper · 2026</div>
-        <h3 class="h-row-title"><a href="/research/helfrich-vardanyan-2026-ai-entry-level-labor">AI and the entry-level labor market</a></h3>
-        <p class="h-row-summary">Continuous-exposure event study and triple difference on generative AI and early-career U.S. employment, CPS microdata.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">With Elizaveta Gonchar · SSRN 5202676 · 2025</div>
-        <h3 class="h-row-title"><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the spotlight</a></h3>
-        <p class="h-row-summary">Gravity with population-weighted geodesic distance and VIIRS nightlights. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5202676" target="_blank" rel="noopener">Preprint on SSRN</a>.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">Sole-authored · working paper · job market paper</div>
-        <h3 class="h-row-title"><a href="/research/helfrich-2026-nmtc-rural-gap">The rural mobilization gap in U.S. place-based tax credit</a></h3>
-        <p class="h-row-summary">CDE fixed-effects decomposition of the NMTC rural leverage gap. <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Replication code and viewer</a>.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">Sole-authored · SSRN 4772016 · 2024</div>
-        <h3 class="h-row-title"><a href="/research/helfrich-2024-ssrn-4772016">Economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces</a></h3>
-        <p class="h-row-summary">Existence, uniqueness, and prices as gradients of convex potentials.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">Sole-authored · living draft</div>
-        <h3 class="h-row-title"><a href="https://github.com/ihelfrich/metric-sovereignty" target="_blank" rel="noopener">Metric sovereignty</a></h3>
-        <p class="h-row-summary">Arrow's impossibility, AI directives, and capitalist democracy. Draft and source public on GitHub.</p>
-      </li>
-      <li class="h-row">
-        <div class="h-row-meta">Sole-authored · program · in progress</div>
-        <h3 class="h-row-title"><a href="/program">Penumbra: closed-loop observation under measurement gaps</a></h3>
-        <p class="h-row-summary">Umbrella theory plus the Russian seaborne-crude empirical companion; full program page with paper map.</p>
-      </li>
-    </ul>
-  </section>
-
-  <section class="section" aria-labelledby="cv-teaching">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Teaching</span>
-        <h2 id="cv-teaching">Instruction first, then infrastructure.</h2>
-      </div>
-      <p>The record: formal instruction, course evaluations hosted on this site, and teaching tools that run in the browser.</p>
-    </div>
-    <ul class="credential-list">
-      <li><strong>Instructor of record</strong>, Georgia Institute of Technology. Three semesters: economics and policy, principles of microeconomics.</li>
-      <li><strong>Graduate teaching assistant</strong>, Georgia Tech: undergraduate economics, graduate econometrics, ECE signal processing.</li>
-      <li><strong>Graduate Teaching Assistant of the Year</strong>, Georgia Tech, 2023. <a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">Course evaluations (PDF)</a>.</li>
-      <li><strong>Independent instruction</strong>: roughly 1,200 hours in a recent year, 450+ students across economics, statistics, econometrics, finance, test preparation, and research methods.</li>
-      <li><strong>Open teaching infrastructure</strong>: <a href="https://github.com/ihelfrich/stats-lab" target="_blank" rel="noopener">Stats Lab</a>, <a href="https://github.com/ihelfrich/inference-lab" target="_blank" rel="noopener">Inference Lab</a>, <a href="https://github.com/ihelfrich/macroprep" target="_blank" rel="noopener">Macro Prep</a>, <a href="https://github.com/ihelfrich/econ101a" target="_blank" rel="noopener">Econ 101A</a>, <a href="https://github.com/ihelfrich/ppd504-studio" target="_blank" rel="noopener">PPD 504 Studio</a>, and <a href="https://github.com/ihelfrich/pictures-of-inference" target="_blank" rel="noopener">Pictures of Inference</a>.</li>
-    </ul>
-    <p><a href="/teaching">Teaching record and open learning tools →</a></p>
-  </section>
-
-  <section class="section compact" aria-labelledby="cv-applied">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Applied and advisory work</span>
-        <h2 id="cv-applied">Practice.</h2>
-      </div>
-      <p>Selected engagements and capabilities are documented on the <a href="/work">work page</a>.</p>
-    </div>
-    <ul class="credential-list">
-      <li><strong>Independent economic advisory, 2026 to present</strong>: industrial-sector diagnostics, indicator selection, composite-index construction, international benchmarking design.</li>
-      <li><strong>Quantitative research practice, 2024 to present</strong>: applied econometric and measurement work for institutional and private clients.</li>
-    </ul>
-  </section>
-
-  <section class="section compact" aria-labelledby="cv-computational">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Computational work</span>
-        <h2 id="cv-computational">The toolchain, in public repos.</h2>
-      </div>
-      <p>Python, R, Stata, Julia, and Go; spatial and remote-sensing workflows; LaTeX, Typst, and Quarto; economic-data pipelines; interactive data products; entity and network analysis. The public record is the <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub profile</a> and the <a href="/projects">projects page</a>.</p>
-    </div>
-  </section>
-
-  <section class="section compact" aria-labelledby="cv-recognition">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Selected recognition</span>
-        <h2 id="cv-recognition">Recognition.</h2>
-      </div>
-      <p>Service and awards, most recent first.</p>
-    </div>
-    <ul class="credential-list">
-      <li>Referee, <em>Journal of Economic Theory</em>, 2025.</li>
-      <li>Graduate Teaching Assistant of the Year, Georgia Institute of Technology, 2023.</li>
-      <li>Senator of the Year, Georgia Tech Graduate Student Government, 2020.</li>
-      <li>Vice President for Campus Services and Senator, Georgia Tech Graduate Student Government, 2018 to 2020.</li>
-    </ul>
-  </section>
-
-  <section class="cta-panel">
-    <span class="section-label">Documents</span>
-    <h2>The packet, in three files.</h2>
-    <p>The one-page CV, the full CV, and the course evaluations are here. Research and teaching statements and reference letters are available by email the same day.</p>
-    <div class="button-row">
-      <a class="button" href="/cv/helfrich-cv-july-2026.pdf" target="_blank" rel="noopener">One-page CV</a>
-      <a class="button secondary" href="/cv/helfrich-cv-full.pdf" target="_blank" rel="noopener">Full CV</a>
-      <a class="button secondary" href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">Evaluations</a>
-      <a class="button secondary" href="mailto:ianthelfrich@gmail.com?subject=CV%20packet%20request">Email Ian</a>
-    </div>
   </section>
 </Base>
-
-<script>
-  // The trajectory: the CV's dated facts on one axis. Ticks for point events
-  // (degrees, papers, recognition), bands for ongoing practice, one live
-  // cursor at today. Nothing here is decoration: every mark restates a line
-  // from the page below, and hovering names it in the readout.
-  const svg = document.getElementById("traj");
-  const readout = document.getElementById("traj-readout");
-  if (svg) {
-    const NS = "http://www.w3.org/2000/svg";
-    const Y0 = 2014, Y1 = 2027.6, L = 60, R = 986;
-    const x = (yr: number) => L + ((yr - Y0) / (Y1 - Y0)) * (R - L);
-    const MONO = "font: 520 10.5px var(--ih-mono);";
-    const el = (tag: string, attrs: Record<string, string>, text?: string) => {
-      const n = document.createElementNS(NS, tag);
-      for (const k in attrs) n.setAttribute(k, attrs[k]);
-      if (text) n.textContent = text;
-      svg.appendChild(n);
-      return n;
-    };
-    const rows: [string, number][] = [["education", 44], ["research", 88], ["practice", 128], ["recognition", 164]];
-    for (const [name, y] of rows) {
-      el("text", { x: "4", y: String(y + 3), fill: "#898781", style: MONO }, name);
-      el("line", { x1: String(L), y1: String(y), x2: String(R), y2: String(y), stroke: "rgba(17,17,19,0.1)", "stroke-width": "1" });
-    }
-    for (let yr = 2014; yr <= 2027; yr++) {
-      const X = x(yr);
-      el("line", { x1: String(X), y1: "186", x2: String(X), y2: "192", stroke: "#898781", "stroke-width": "1" });
-      if (yr % 2 === 0) el("text", { x: String(X - 12), y: "205", fill: "#898781", style: MONO }, String(yr));
-    }
-    type Mark = { yr: number; row: number; label: string };
-    const ticks: Mark[] = [
-      { yr: 2014.5, row: 44, label: "BA Economics, UNC Chapel Hill, 2014" },
-      { yr: 2015.5, row: 44, label: "MSc Specialized Economic Analysis (Public Policy), Barcelona School of Economics, 2015" },
-      { yr: 2018.5, row: 44, label: "MA Economics, Indiana University Bloomington, 2018" },
-      { yr: 2019.5, row: 44, label: "MS Economics, Georgia Tech, 2019" },
-      { yr: 2022.5, row: 44, label: "MS GIS&T, Georgia Tech, 2022" },
-      { yr: 2024.5, row: 44, label: "PhD Economics, Georgia Tech, 2024 · minor in Quantitative Psychology" },
-      { yr: 2024.3, row: 88, label: "Optimal transport & equilibrium in Hilbert spaces · SSRN 4772016, 2024" },
-      { yr: 2025.5, row: 88, label: "Trade in the spotlight (with Elizaveta Gonchar) · SSRN 5202676, 2025" },
-      { yr: 2026.2, row: 88, label: "2026 working papers: NMTC rural gap (JMP), AI x labor, effective distance, Ukraine, Penumbra program" },
-      { yr: 2023.5, row: 164, label: "Graduate Teaching Assistant of the Year, Georgia Tech, 2023" },
-      { yr: 2025.2, row: 164, label: "Referee, Journal of Economic Theory, 2025" },
-      { yr: 2020.5, row: 164, label: "Senator of the Year, Georgia Tech Graduate Student Government, 2020" },
-    ];
-    const now = 2026 + (Date.now() - new Date("2026-01-01").getTime()) / 31557600000;
-    const bands: { a: number; b: number; row: number; label: string }[] = [
-      { a: 2024, b: now, row: 128, label: "Quantitative research practice, 2024 to present" },
-      { a: 2026, b: now, row: 128, label: "Independent economic advisory, 2026 to present" },
-      { a: 2026.58, b: 2027.08, row: 88, label: "AEA JOE 2026-27 cycle: applying now" },
-    ];
-    const hot = (n: Element, label: string) => {
-      n.addEventListener("mouseenter", () => {
-        n.setAttribute("fill", "#2852e8");
-        if (readout) { readout.textContent = label; readout.parentElement?.classList.add("is-live"); }
-      });
-      n.addEventListener("mouseleave", () => {
-        n.setAttribute("fill", n.tagName === "rect" ? "rgba(17,17,19,0.12)" : "#111113");
-        if (readout) { readout.textContent = "hover a mark"; readout.parentElement?.classList.remove("is-live"); }
-      });
-    };
-    for (const b of bands) {
-      const r = el("rect", { x: String(x(b.a)), y: String(b.row - (b.a === 2026 ? -3 : 8)), width: String(x(b.b) - x(b.a)),
-        height: "5", rx: "2.5", fill: "rgba(17,17,19,0.12)" });
-      const t = el("title", {}); t.textContent = b.label; r.appendChild(t);
-      hot(r, b.label);
-    }
-    for (const m of ticks) {
-      const c = el("circle", { cx: String(x(m.yr)), cy: String(m.row), r: "5.5", fill: "#111113", cursor: "default" });
-      const t = el("title", {}); t.textContent = m.label; c.appendChild(t);
-      hot(c, m.label);
-    }
-    const X = x(now);
-    el("line", { x1: String(X), y1: "26", x2: String(X), y2: "192", stroke: "#2852e8", "stroke-width": "1.6" });
-    el("text", { x: String(X - 6), y: "20", fill: "#2852e8", "text-anchor": "end", style: MONO }, "today");
-  }
-</script>

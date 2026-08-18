@@ -6,9 +6,11 @@ draft: true
 tags: ["nmtc", "blended-finance", "rural", "europe", "research-notes"]
 ---
 
+**Authorship clarification, August 18, 2026:** The U.S. NMTC manuscript is Ian Helfrich's original, solo-authored work. Katia Antunes and Elizaveta Gonchar are contributors to that project, not coauthors; no specific contributor roles are assigned here. Any proposed European follow-on discussed below is a separate project.
+
 Katia Antunes has her ticket. Lisbon on June fourth, Dublin on June twenty-second, back to Atlanta the first week of July. She's been my tutoring client for the better part of a year, and the trip is the start of her own research career.
 
-The premise of the trip is straightforward. We finished an empirical decomposition on the U.S. New Markets Tax Credit (the [CDE decomposition I wrote about](/writing/cde-decomposition-nmtc)) and the result was clean: about 80 percent of the apparent rural-urban leverage gap is between-CDE selection, not within-CDE deployment. The "rural credit problem" in the U.S. context is mostly an intermediary-allocation problem.
+The premise of the trip is straightforward. I completed a descriptive, noncausal decomposition on the U.S. New Markets Tax Credit (the [CDE decomposition I wrote about](/writing/cde-decomposition-nmtc)). In the base decomposition, observed CDE composition contributes −0.185, or 86 percent of the explained movement; the mechanism remains unresolved.
 
 The question Katia is going to Lisbon to answer is whether the same logic transfers to the European setting. Whether the Portuguese Sociedades de Garantia Mútua (the four mutual-guarantee societies that intermediate most national-level SME credit guarantees) and the Irish Strategic Banking Corporation of Ireland (which works through commercial-bank on-lenders) show the same decomposition pattern. Whether the apparent rural-vs-urban gap in EU blended finance is, like the U.S. version, mostly a between-intermediary phenomenon.
 
@@ -52,6 +54,6 @@ That's the realistic timeline. The trip is the data-access trip. The decompositi
 
 We've talked about this several times. The thing I want her to take away from the trip is that you go in willing to be wrong. The U.S. result is clean. The transfer to Europe is not guaranteed. If the European data say the U.S. result doesn't transfer, that's a finding, not a failure. Write the paper that finding deserves.
 
-I think she'll do this well. The combination of her policy-side training, her language skills (she speaks Portuguese, which matters more than I think most people realize for the depth of interview access in Lisbon), and her willingness to push back on the U.S. framing makes her exactly the right person for the trip. The fact that she's the second author on the paper rather than a research assistant matters here. She's going to argue with me about the results, and I want her to.
+I think she'll do this well. The combination of her policy-side training, her language skills (she speaks Portuguese, which matters more than I think most people realize for the depth of interview access in Lisbon), and her willingness to push back on the U.S. framing makes her exactly the right person for the trip. The proposed European follow-on is separate from the solo-authored U.S. NMTC manuscript.
 
 Whatever the answer is, we'll write it.

@@ -1,14 +1,14 @@
 ---
 title: "EffDist V2026"
 authors: ["Elizaveta Gonchar", "Ian Helfrich"]
-blurb: "Global gridded effective-distance dataset built on WorldPop population grids and GHS-SMOD settlement layers. Uses Brockmann-Helbing-style effective distance through a probability-weighted flow graph instead of geographic great-circle distance."
+blurb: "Planned global gridded effective-distance dataset using population grids, settlement layers, and probability-weighted flow graphs in place of geographic great-circle distance. In progress; no completed public release is claimed."
 year: 2026
 status: "in-progress"
-size: "~2° global grid, ~30 GB compressed"
-license: "CC-BY-4.0"
+size: "planned coverage; not yet verified"
+license: "Not yet assigned"
 tags: ["geospatial", "trade", "networks", "effective-distance"]
 ---
 
-Pairwise effective-distance matrices at the country, regional, and urban-rural levels, built for use in trade-gravity equations, migration models, and bilateral-exposure work. Headed for Zenodo on publication. Companion paper: Gonchar-Helfrich (2025) "Trade in the Spotlight" (SSRN 5202676).
+The planned output is a set of effective-distance matrices at country, regional, and urban-rural levels for use in trade-gravity equations, migration models, and bilateral-exposure work. Companion paper: Gonchar-Helfrich (2025), "Trade in the Spotlight" (SSRN 5202676).
 
-A full data dictionary, processing scripts, and reproducibility notes will live in the release repo. If you'd like early access for academic use, write to Ian.
+A release date, license, coverage statement, and access route will be added only after the dataset and documentation are verified.

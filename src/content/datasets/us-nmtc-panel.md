@@ -1,7 +1,7 @@
 ---
 title: "U.S. New Markets Tax Credit project-level panel (FY2001-FY2022)"
 authors: ["Ian Helfrich"]
-blurb: "Cleaned, geocoded, and CDE-linked project-level panel covering every Qualified Equity Investment in the U.S. New Markets Tax Credit program over its first 22 fiscal years. The data spine behind Helfrich (2026)."
+blurb: "Cleaned, geocoded, and CDE-linked project-level panel built from 19,907 QLICI transactions covering 8,024 U.S. New Markets Tax Credit projects with origination years 2001–2022. The data spine behind Helfrich (2026)."
 year: 2026
 status: "in-progress"
 viewer: "https://ihelfrich.github.io/us-nmtc-viewer/"

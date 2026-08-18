@@ -6,9 +6,9 @@ const cases = [
     id: "nmtc",
     index: "01",
     type: "PLACE-BASED POLICY / ECONOMETRIC DECOMPOSITION / PUBLIC VIEWER",
-    title: "The coefficient moved. So did the policy target.",
+    title: "The coefficient moved. The interpretation changed.",
     question: "Does the rural private-leverage gap arise inside comparable intermediaries, or from which intermediaries serve rural projects?",
-    context: "The public New Markets Tax Credit record spans FY2001 through FY2022. The project-level panel links Qualified Equity Investments to Community Development Entities, borrowers, census tracts, and rural classifications.",
+    context: "The public New Markets Tax Credit record spans origination years 2001 through 2022. The project-level panel aggregates 19,907 QLICI transactions into 8,024 projects linked to Community Development Entities, borrowers, census tracts, and rural classifications.",
     intervention: "The research design introduces Community Development Entity fixed effects to compare rural and urban projects within the same intermediary. The viewer exposes the underlying geography and project record for inspection.",
     findings: [
       ["-0.262", "Raw rural private-leverage coefficient"],
@@ -16,7 +16,7 @@ const cases = [
       ["82.2%", "Reduction in coefficient magnitude"],
       ["0.64", "Reported p-value after CDE fixed effects"],
     ],
-    interpretation: "The public working-paper record locates most of the raw gap between intermediaries. That changes the policy question from rural project conditions alone to the allocation rules and capabilities that shape which intermediaries reach rural projects.",
+    interpretation: "In this descriptive, noncausal record, most of the explained movement is associated with observed intermediary composition. That motivates evaluating allocation rules and intermediary capabilities alongside rural project conditions, while leaving the mechanism unresolved.",
     methods: ["Project-level linkage", "Geocoding QA", "CDE fixed effects", "Rural classification", "Bunching test", "Cesium viewer"],
     links: [
       ["Read the research page", "/research/helfrich-2026-nmtc-rural-gap"],

@@ -11,4 +11,4 @@ Section drafts complete; main.tex compiles cleanly in the working tree. Sections
 
 Empirical evidence cited in the introduction includes the Hilgenstock-Babina-Itskhoki seaborne-crude work on the Russian oil cap, the SwissAid 2024 estimate of the ~$30B/year African export-to-UAE-import gold gap, and the broader satellite-economics literature on the Lucas-critique problem in nightlight-to-GDP elasticities.
 
-Headed to SSRN in late spring 2026 after the empirical companion (Paper 2) lands a complete first-draft pass on the Russian seaborne-crude corridor.
+Draft; not yet posted to SSRN. No new posting date is claimed until the manuscript and empirical companion reach a verified circulation milestone.

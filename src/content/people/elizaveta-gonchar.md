@@ -13,8 +13,8 @@ order: 2
 
 ## Joint work with Ian
 
-- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)** (Paper 5). Working paper in preparation, target *Journal of International Economics*. Companion dataset (EffDist V2026) for CC-BY-4.0 Zenodo release.
-- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)** (Joint Paper 1 of the Penumbra program). SSRN target October 2026; journal submission target February 2027 (JDE / AEJ: Applied).
+- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)** (Paper 5). In preparation; coverage, validation, release, and submission venue remain to be verified.
+- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)** (Joint Paper 1 of the Penumbra program). In preparation; no posting or submission date is currently claimed.
 - **[Trade in the Spotlight (2025)](/research/gonchar-helfrich-2025-spotlight)** (SSRN 5202676). April 2025 preprint introducing the OVDL distance measure. Foundation for Paper 5.
 
 A full personal page with CV, affiliation, contact, and photo will live here at her preference. Until then, correspondence about joint work can come through Ian.

@@ -9,4 +9,4 @@ abstract: "The distribution of population across and within countries naturally 
 tags: ["trade", "gravity", "nightlights", "effective-distance", "geospatial"]
 ---
 
-April 2025 working paper. The OVDL measure introduced here is the seed of [the global effective-distance panel work](/research/gonchar-helfrich-2026-effective-distance-panel) we're currently finishing for JIE submission. That paper extends OVDL to a full multi-modal least-cost-path construction with transport-network endogenization, structural-gravity validation with three-way FE PPML, and three welfare counterfactuals on live chokepoint shocks (Suez 2021, Panama 2023, Red Sea 2024).
+April 2025 working paper. The OVDL measure introduced here is the seed of [planned effective-distance panel work](/research/gonchar-helfrich-2026-effective-distance-panel). That project is in preparation and proposes a multi-modal least-cost-path construction, structural-gravity validation, and applications to recent chokepoint shocks; no completed panel, counterfactual result, or submission target is claimed here.

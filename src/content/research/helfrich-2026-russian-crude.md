@@ -3,10 +3,11 @@ title: "Empirical observation equilibria: the Russian seaborne-crude corridor, 2
 authors: ["Ian Helfrich"]
 year: 2026
 status: "draft"
-abstract: "Empirical companion to the AROE theory paper. Tests the contraction hypothesis (H4) in the corridor where the closed-loop observation problem is sharpest: Russian seaborne crude under the 2022-present sanctions regime. Uses AIS-track data, port-arrival records, and shadow-fleet flag transitions to back out the observation operator's Frechet derivative. Provides the first direct empirical estimate of the feedback-contractivity constant in a real-world quantitative spatial setting."
+venue: "Design and data construction; no empirical results yet"
+abstract: "Empirical companion to the AROE theory paper, currently in design and data construction. The planned design will estimate the feedback-contractivity constant for Russian seaborne crude under the 2022-present sanctions regime using AIS-track data, port-arrival records, and shadow-fleet flag transitions. No empirical results yet."
 tags: ["sanctions", "russian-crude", "AIS", "satellite-economics", "empirical-OT"]
 ---
 
 Currently in the empirical-design and data-construction phase. Identification strategy and data plan are documented in the project README. No empirical results yet.
 
-The corridor is uniquely instrumented: dense AIS coverage (when transmitting), port records from multiple counterparty jurisdictions, S&P Global commodity-flow data, and the Hilgenstock-Babina-Itskhoki public oil-cap monitoring infrastructure. The paper's job is to use this density to identify the structural feedback-contractivity constant that the theory paper requires for uniqueness.
+The proposed data sources include AIS coverage, port records from multiple counterparty jurisdictions, commodity-flow data, and the Hilgenstock-Babina-Itskhoki public oil-cap monitoring infrastructure. The planned analysis will assess whether these sources can identify the structural feedback-contractivity constant posed by the theory paper.

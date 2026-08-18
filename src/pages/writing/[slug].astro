@@ -3,7 +3,7 @@ import Base from "../../layouts/Base.astro";
 import { getCollection, getEntry, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing");
+  const posts = (await getCollection("writing")).filter((post) => !post.data.draft);
   return posts.map(p => ({ params: { slug: p.id } }));
 }
 
