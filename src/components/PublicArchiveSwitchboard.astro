@@ -1,11 +1,12 @@
 ---
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../data/archival-projects.mjs";
 
 const [papers, datasets, essays, tools] = await Promise.all([
   getCollection("research"),
   getCollection("datasets"),
   getCollection("writing", ({ data }) => !data.draft),
-  getCollection("projects"),
+  getCollection("projects", (entry) => !isArchivalProject(entry.id)),
 ]);
 
 const channels = [

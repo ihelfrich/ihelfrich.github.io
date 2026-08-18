@@ -18,6 +18,11 @@ for (const { id, title } of archivalProjects) {
   }
 }
 
+const reusableLearningFlagship = { id: "applied-statistics", title: "Applied Statistics" };
+assert.ok(archiveText.includes(reusableLearningFlagship.id), "/archive.json must publish the generalized statistics library");
+assert.ok(sitemap.includes(`/projects/${reusableLearningFlagship.id}/`), "/sitemap.xml must publish the generalized statistics library");
+assert.ok(rss.includes(reusableLearningFlagship.title), "/rss.xml must publish the generalized statistics library");
+
 for (const { id } of archivalProjects) {
   const html = await readFile(path.join(root, "projects", id, "index.html"), "utf8");
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/, `${id} must be noindex`);
@@ -75,8 +80,15 @@ try {
       assert.ok(!paths.includes(forbiddenPath), `Pagefind must not publish ${forbiddenPath}`);
     }
   }
+  const flagshipResult = await pagefind.search(reusableLearningFlagship.title);
+  const flagshipRecords = await Promise.all(flagshipResult.results.map((entry) => entry.data()));
+  const flagshipPaths = flagshipRecords.map((entry) => new URL(entry.url, origin).pathname);
+  assert.ok(
+    flagshipPaths.includes(`/projects/${reusableLearningFlagship.id}/`),
+    "Pagefind must publish the generalized statistics library",
+  );
 } finally {
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
 }
 
-console.log(`[public-discovery] ${archivalProjects.length} archival projects are direct-only, noindex, and absent from Pagefind, sitemap, RSS, and archive.json`);
+console.log(`[public-discovery] ${archivalProjects.length} archival projects are excluded; Applied Statistics is present in Pagefind, sitemap, RSS, and archive.json`);
