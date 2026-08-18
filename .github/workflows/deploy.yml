@@ -37,6 +37,8 @@ jobs:
         run: npm run check:copy
       - name: Build hub
         run: npm run build:fast
+      - name: Verify public career and research artifacts
+        run: npm run check:public-cv
       - name: Mirror spokes for indexing
         run: |
           mkdir -p dist/inference-lab dist/macroprep dist/american-policy-atlas
@@ -47,6 +49,8 @@ jobs:
         run: npx pagefind --site dist --output-path dist/pagefind
       - name: Remove spoke copies (Pages routes /inference-lab to its own repo)
         run: rm -rf dist/inference-lab dist/macroprep dist/american-policy-atlas
+      - name: Verify public discovery surfaces
+        run: npm run check:discovery
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

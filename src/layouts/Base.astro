@@ -11,6 +11,7 @@ const {
   image = "/og.png",
   imageAlt = "Ian Helfrich, PhD: Complex evidence, made usable",
   noindex = false,
+  excludeFromSearch = false,
   pageClass = "",
 } = Astro.props;
 
@@ -69,7 +70,7 @@ const personSchema = {
 };
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-pagefind-ignore={excludeFromSearch ? "all" : undefined}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

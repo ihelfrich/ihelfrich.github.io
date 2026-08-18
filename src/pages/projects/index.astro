@@ -1,10 +1,10 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../../data/archival-projects.mjs";
 
-const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
 const projects = (await getCollection("projects"))
-  .filter((entry) => !demotedCourseArtifacts.has(entry.id))
+  .filter((entry) => !isArchivalProject(entry.id))
   .sort((a, b) => +b.data.date - +a.data.date);
 ---
 <Base title="Projects" description="Sites, datasets, viewers, and analysis tools.">

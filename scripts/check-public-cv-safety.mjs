@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { constants } from "node:fs";
 import { resolve } from "node:path";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 const dist = resolve("dist");
 const retiredArtifacts = [
@@ -10,6 +11,96 @@ const retiredArtifacts = [
 ];
 const publicPages = ["cv/index.html", "job-market/index.html"];
 const failures = [];
+
+const publishedPdfs = [
+  {
+    path: "cv/ian-helfrich-executive-resume.pdf",
+    pages: 2,
+    required: [
+      "Applied Economist",
+      "Quantitative Research Designer",
+      "Georgia Tech Economics Graduate Teaching Assistant of the Year",
+    ],
+  },
+  {
+    path: "cv/ian-helfrich-cv.pdf",
+    pages: 4,
+    required: [
+      "Sole author and originator",
+      "With contributions from Katia Antunes and Elizaveta Gonchar",
+      "Georgia Tech Economics Graduate Teaching Assistant of the Year",
+    ],
+  },
+  {
+    path: "research/ian-helfrich-nmtc-working-paper.pdf",
+    pages: 27,
+    required: [
+      "The Rural Mobilization Gap in a U.S. Place-Based Tax Credit",
+      "Sole author and originator",
+      "With contributions from Katia Antunes and Elizaveta Gonchar",
+    ],
+  },
+];
+
+const forbiddenPdfPatterns = [
+  [/4949\s+Oakdale/i, "legacy residential address"],
+  [/910[\s().+-]*922[\s.-]*5152/i, "legacy phone number"],
+  [/@outlook\.com/i, "superseded Outlook address"],
+  [/Saudi Arabia/i, "unratified ministry-adjacent client detail"],
+  [/Hanna Nio/i, "named learner"],
+  [/PPD\s*504/i, "one-off course artifact"],
+  [/ECON\s*101A/i, "one-off course artifact"],
+  [/Journal of Economic Theory/i, "unratified referee service"],
+  [/tutoring client/i, "private client relationship"],
+];
+
+async function extractPdfText(path) {
+  const bytes = new Uint8Array(await readFile(path));
+  const loadingTask = getDocument({
+    data: bytes,
+    useWorkerFetch: false,
+    isEvalSupported: false,
+  });
+  const pdf = await loadingTask.promise;
+  let text = "";
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    const page = await pdf.getPage(pageNumber);
+    const content = await page.getTextContent();
+    text += `${content.items.map((item) => item.str).join(" ")}\n`;
+  }
+  const pages = pdf.numPages;
+  await loadingTask.destroy();
+  return { pages, text: text.replace(/\s+/g, " ").trim() };
+}
+
+for (const artifact of publishedPdfs) {
+  const path = resolve(dist, artifact.path);
+  try {
+    const { pages, text } = await extractPdfText(path);
+    if (pages !== artifact.pages) {
+      failures.push(`${artifact.path} has ${pages} pages; expected ${artifact.pages}`);
+    }
+    if (text.length < 500) {
+      failures.push(`${artifact.path} did not yield clean extractable text`);
+    }
+    for (const phrase of artifact.required) {
+      if (!text.toLowerCase().includes(phrase.toLowerCase())) {
+        failures.push(`${artifact.path} omits required PDF text: ${phrase}`);
+      }
+    }
+    for (const [pattern, label] of forbiddenPdfPatterns) {
+      if (pattern.test(text)) failures.push(`${artifact.path} exposes ${label}`);
+    }
+    if (
+      artifact.path.includes("nmtc") &&
+      /Ian Helfrich\s*,?\s*Katia Antunes\s*,?\s*(?:and\s*)?Elizaveta Gonchar/i.test(text)
+    ) {
+      failures.push(`${artifact.path} presents NMTC contributors as coauthors`);
+    }
+  } catch (error) {
+    failures.push(`${artifact.path} is missing or unreadable: ${error.message}`);
+  }
+}
 
 for (const artifact of retiredArtifacts) {
   try {

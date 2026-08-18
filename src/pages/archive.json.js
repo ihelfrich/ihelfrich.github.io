@@ -1,11 +1,12 @@
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../data/archival-projects.mjs";
 
 export async function GET({ site }) {
   const [papers, datasets, essays, tools, talks] = await Promise.all([
     getCollection("research"),
     getCollection("datasets"),
     getCollection("writing", ({ data }) => !data.draft),
-    getCollection("projects"),
+    getCollection("projects", (entry) => !isArchivalProject(entry.id)),
     getCollection("talks"),
   ]);
   const base = site ?? new URL("https://ihelfrich.github.io");

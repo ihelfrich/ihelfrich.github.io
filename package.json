@@ -7,9 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes",
+    "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes && npm run check:discovery",
     "build:fast": "astro build",
     "check:copy": "node scripts/check-site-copy.mjs",
+    "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
     "check": "npm run check:copy && npm run build:fast && npm run check:public-cv",
     "preview": "astro preview",
@@ -23,7 +24,8 @@
   },
   "devDependencies": {
     "@astrojs/rss": "4.0.19",
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "pdfjs-dist": "^6.2.108"
   },
   "overrides": {
     "sharp": "0.35.3",

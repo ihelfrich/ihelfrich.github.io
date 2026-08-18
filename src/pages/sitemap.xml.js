@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../data/archival-projects.mjs";
 
 const staticRoutes = [
   "/",
@@ -39,11 +40,9 @@ export async function GET({ site }) {
     getCollection("writing", ({ data }) => !data.draft),
     getCollection("people"),
   ]);
-  const unlistedCourseArtifacts = new Set(["corpo-finance", "ppd504-studio"]);
-
   const dynamicRoutes = [
     ...research.map((entry) => `/research/${entry.id}/`),
-    ...projects.filter((entry) => !unlistedCourseArtifacts.has(entry.id)).map((entry) => `/projects/${entry.id}/`),
+    ...projects.filter((entry) => !isArchivalProject(entry.id)).map((entry) => `/projects/${entry.id}/`),
     ...datasets.map((entry) => `/datasets/${entry.id}/`),
     ...writing.map((entry) => `/writing/${entry.id}/`),
     ...people.map((entry) => `/people/${entry.id}/`),

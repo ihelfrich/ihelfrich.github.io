@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../data/archival-projects.mjs";
 
 const [research, writing, datasets, allProjects] = await Promise.all([
   getCollection("research"),
@@ -7,8 +8,7 @@ const [research, writing, datasets, allProjects] = await Promise.all([
   getCollection("datasets"),
   getCollection("projects"),
 ]);
-const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
-const projects = allProjects.filter((entry) => !demotedCourseArtifacts.has(entry.id));
+const projects = allProjects.filter((entry) => !isArchivalProject(entry.id));
 const teachingFamilies = [
   ["Statistics & inference", "Probability, estimation, regression, diagnostics, causal inference, and visual reasoning", "statistics-inference"],
   ["Econometrics & research design", "Identification, measurement, panel methods, specification strategy, and reproducibility", "econometrics-research-design"],

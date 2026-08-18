@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection, getEntry, render } from "astro:content";
+import { isArchivalProject } from "../../data/archival-projects.mjs";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -10,9 +11,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const project = await getEntry("projects", slug);
 const { Content } = await render(project);
-const unlistedCourseArtifacts = new Set(["corpo-finance", "ppd504-studio"]);
+const archival = isArchivalProject(project.id);
 ---
-<Base title={project.data.title} description={project.data.blurb} noindex={unlistedCourseArtifacts.has(project.id)}>
+<Base title={project.data.title} description={project.data.blurb} noindex={archival} excludeFromSearch={archival}>
   <article class="h-article">
     <header>
       <div class="h-article-meta">PROJECT · {project.data.tags.join(" · ")}</div>

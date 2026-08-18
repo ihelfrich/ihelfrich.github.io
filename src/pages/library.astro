@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { isArchivalProject } from "../data/archival-projects.mjs";
 
 const [papers, datasets, essays, allTools, talks] = await Promise.all([
   getCollection("research"),
@@ -9,8 +10,7 @@ const [papers, datasets, essays, allTools, talks] = await Promise.all([
   getCollection("projects"),
   getCollection("talks"),
 ]);
-const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
-const tools = allTools.filter((entry) => !demotedCourseArtifacts.has(entry.id));
+const tools = allTools.filter((entry) => !isArchivalProject(entry.id));
 
 const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 const items = [
