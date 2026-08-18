@@ -2,13 +2,15 @@
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
-const [papers, datasets, essays, tools, talks] = await Promise.all([
+const [papers, datasets, essays, allTools, talks] = await Promise.all([
   getCollection("research"),
   getCollection("datasets"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("projects"),
   getCollection("talks"),
 ]);
+const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
+const tools = allTools.filter((entry) => !demotedCourseArtifacts.has(entry.id));
 
 const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 const items = [

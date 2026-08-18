@@ -1,13 +1,23 @@
 ---
 import { getCollection } from "astro:content";
 
-const [research, writing, datasets, projects, teaching] = await Promise.all([
+const [research, writing, datasets, allProjects] = await Promise.all([
   getCollection("research"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("datasets"),
   getCollection("projects"),
-  getCollection("teaching"),
 ]);
+const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
+const projects = allProjects.filter((entry) => !demotedCourseArtifacts.has(entry.id));
+const teachingFamilies = [
+  ["Statistics & inference", "Probability, estimation, regression, diagnostics, causal inference, and visual reasoning", "statistics-inference"],
+  ["Econometrics & research design", "Identification, measurement, panel methods, specification strategy, and reproducibility", "econometrics-research-design"],
+  ["Python & SQL", "Analytical programming, data workflows, query design, debugging, and code review", "python-sql"],
+  ["Microeconomics", "Principles, theory, game theory, market structure, managerial economics, and policy", "microeconomics"],
+  ["Macroeconomics", "Principles, intermediate models, money, growth, international macro, and live public data", "macroeconomics"],
+  ["Business, strategy & marketing", "Quantitative decision models, finance, competitive analysis, market research, and communication", "business-strategy-marketing"],
+  ["GIS & public data", "Spatial analysis, remote sensing, public datasets, geographic measurement, and mapping", "gis-public-data"],
+];
 
 const records = [
   { kind: "Go", code: "GO-01", title: "Start a project", detail: "Project fit, scope, recommendation, brief, and scheduling handoff", href: "/start" },
@@ -39,9 +49,9 @@ const records = [
     title: entry.data.title, detail: `${entry.data.status} · ${entry.data.blurb}`, href: entry.data.url ?? `/projects/${entry.id}`,
     external: Boolean(entry.data.url),
   })),
-  ...teaching.map((entry, index) => ({
-    kind: "Teach", code: `L-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`,
-    title: entry.data.title, detail: `${entry.data.audience} · ${entry.data.blurb}`, href: entry.data.url, external: true,
+  ...teachingFamilies.map(([title, detail, id], index) => ({
+    kind: "Teach", code: `L-2026-${String(index + 1).padStart(2, "0")}`,
+    title, detail, href: `/teaching#${id}`,
   })),
 ];
 ---

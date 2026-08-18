@@ -2,11 +2,14 @@
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
-const projects = (await getCollection("projects")).sort((a, b) => +b.data.date - +a.data.date);
+const demotedCourseArtifacts = new Set(["corpo-finance", "inference-lab", "macroprep", "ppd504-studio", "stats-lab"]);
+const projects = (await getCollection("projects"))
+  .filter((entry) => !demotedCourseArtifacts.has(entry.id))
+  .sort((a, b) => +b.data.date - +a.data.date);
 ---
 <Base title="Projects" description="Sites, datasets, viewers, and analysis tools.">
   <h1>Projects</h1>
-  <p>Sites, datasets, viewers, and analysis tools. Each one is a working artifact, not a portfolio piece. Click through and use them.</p>
+  <p>Sites, datasets, viewers, and analysis tools organized around reusable research, evidence, and teaching systems. This index foregrounds work designed to travel across contexts.</p>
 
   <div class="h-card-grid">
     {projects.map(p => (
