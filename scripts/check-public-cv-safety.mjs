@@ -135,10 +135,25 @@ for (const check of researchStatusChecks) {
 }
 
 const writingSource = resolve("src/content/writing");
+const forbiddenWritingSourcePhrases = [
+  "tutoring client",
+  "has her ticket",
+  "has his ticket",
+  "twenty-five interviews scheduled",
+  "hanna-finals-studyhub",
+  "Macroecon_Intro",
+];
 for (const filename of await readdir(writingSource)) {
   if (!filename.endsWith(".md")) continue;
   const source = await readFile(resolve(writingSource, filename), "utf8");
+  for (const phrase of forbiddenWritingSourcePhrases) {
+    if (source.toLowerCase().includes(phrase.toLowerCase())) {
+      failures.push(`writing source exposes private or student-specific detail: ${filename} (${phrase})`);
+    }
+  }
   if (!/^draft:\s*true\s*$/m.test(source)) continue;
+
+  failures.push(`draft writing source remains in the public repository: ${filename}`);
 
   const slug = filename.slice(0, -3);
   try {

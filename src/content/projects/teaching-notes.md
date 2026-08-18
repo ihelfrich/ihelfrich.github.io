@@ -8,6 +8,6 @@ date: 2025-07-17
 pinned: false
 ---
 
-Years of accumulated lecture-notes, worked problems, and LaTeX templates pulled out of a thousand course folders and put in one place. The point is that when a new tutoring client shows up needing intermediate micro, I have a usable starting point instead of digging through ten old course directories.
+Years of lecture notes, worked problems, and LaTeX templates consolidated into a reusable starting point for economics instruction and quantitative coaching. The value is not any one course or learner: it is a maintained base that can be adapted across levels and contexts without rebuilding the underlying explanations each time.
 
 Public. If you teach any of the courses Inference Lab or Macro Prep covers, this is the underlying material I draw from.

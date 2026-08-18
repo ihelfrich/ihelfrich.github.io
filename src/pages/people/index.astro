@@ -6,7 +6,7 @@ const people = (await getCollection("people")).sort((a, b) => a.data.order - b.d
 ---
 <Base title="People" description="Research collaborators and co-authors.">
   <h1>People</h1>
-  <p>I work with a small set of close collaborators and a rotating group of tutoring clients and students. The page here is for the long-term research partnerships.</p>
+  <p>I work across a small set of long-term research collaborations. This page records public collaborators; private coaching and advisory relationships remain private.</p>
 
   <div class="h-card-grid">
     {people.map(p => (

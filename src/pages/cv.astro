@@ -2,41 +2,227 @@
 import Base from "../layouts/Base.astro";
 ---
 <Base
-  title="Curriculum vitae"
-  description="Verified career materials for Dr. Ian Helfrich are being updated from primary records."
+  wide
+  pageClass="cv-page"
+  title="Résumé and curriculum vitae"
+  description="Verified career materials for Ian Helfrich: applied economist, quantitative research designer, educator, and systems builder."
 >
-  <header class="page-hero">
-    <span class="eyebrow">Curriculum vitae · Accuracy review in progress</span>
-    <h1>Current materials are being verified.</h1>
-    <p class="kicker">
-      I retired the previous public PDFs because they no longer represented my
-      current research, teaching, and quantitative practice accurately. A new
-      executive résumé and a complete evidence-linked CV are being rebuilt from
-      primary records.
-    </p>
-    <div class="button-row">
-      <a class="button" href="mailto:ianthelfrich@gmail.com?subject=Current%20CV%20request">Request the current CV</a>
-      <a class="button secondary" href="/research">Current research</a>
-      <a class="button secondary" href="/teaching">Teaching record</a>
-      <a class="button secondary" href="/job-market">Job-market profile</a>
+  <header class="cv-hero">
+    <div class="cv-hero-copy">
+      <span class="eyebrow">Career materials · verified August 2026</span>
+      <h1>One practice,<br /><em>not one lane.</em></h1>
+      <p class="kicker">
+        I design quantitative research, build inspectable evidence systems, and
+        teach difficult methods across academic, executive, professional, and
+        independent settings. These documents present that range without
+        inflating titles, outcomes, or the status of work in progress.
+      </p>
+      <div class="button-row">
+        <a class="button" href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener">Open the 2-page résumé</a>
+        <a class="button secondary" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Open the 4-page CV</a>
+      </div>
     </div>
+
+    <aside class="cv-dossier" aria-label="Candidate dossier">
+      <span class="cv-dossier-label">Working identity</span>
+      <strong>Applied economist</strong>
+      <strong>Quantitative research designer</strong>
+      <strong>Educator &amp; systems builder</strong>
+      <dl>
+        <div><dt>Research</dt><dd>Public finance · trade · labor · spatial measurement</dd></div>
+        <div><dt>Methods</dt><dd>Econometrics · evidence engineering · GIS</dd></div>
+        <div><dt>Audiences</dt><dd>Researchers · executives · professionals · students</dd></div>
+      </dl>
+    </aside>
   </header>
 
-  <section class="section compact" aria-labelledby="current-work">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Current work</span>
-        <h2 id="current-work">Research, teaching, and systems that can be inspected.</h2>
-      </div>
+  <section class="cv-ledger" aria-labelledby="cv-ledger-title">
+    <header>
+      <span>What the record supports</span>
+      <h2 id="cv-ledger-title">Breadth with the boundaries left visible.</h2>
+      <p>Each line below is anchored to a verified appointment, public record, or inspectable artifact.</p>
+    </header>
+
+    <div class="cv-ledger-rows">
+      <article>
+        <span class="cv-code">R / 01</span>
+        <h3>Research design</h3>
+        <p>From an ambiguous substantive question to the estimand, data architecture, diagnostics, robustness plan, and appropriately bounded claim.</p>
+        <a href="/research">Inspect the research record →</a>
+      </article>
+      <article>
+        <span class="cv-code">E / 02</span>
+        <h3>Evidence systems</h3>
+        <p>Reproducible pipelines, source provenance, model outputs, decision logs, public viewers, and explicit controls for failure and uncertainty.</p>
+        <a href="/work">Inspect selected work →</a>
+      </article>
+      <article>
+        <span class="cv-code">T / 03</span>
+        <h3>Quantitative education</h3>
+        <p>Teaching at Georgia Tech, Duke’s Global Executive MBA, Indiana University, online degree programs, and an independent coaching practice.</p>
+        <a href="/teaching">Inspect the teaching record →</a>
+      </article>
+      <article>
+        <span class="cv-code">X / 04</span>
+        <h3>Executive translation</h3>
+        <p>Economics, statistics, research design, finance, strategy, quantitative marketing, and research computing made usable without flattening the technical problem.</p>
+        <a href="/start">Discuss a mandate →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="cv-proof" aria-labelledby="cv-proof-title">
+    <div class="cv-proof-intro">
+      <span class="section-label">Current proof</span>
+      <h2 id="cv-proof-title">The strongest claims are the ones a reader can check.</h2>
       <p>
-        The public research and teaching records remain available while the
-        replacement documents complete factual and visual review.
+        The packet distinguishes sole authorship from contribution, completed
+        analysis from planned work, and public metrics from recollection.
       </p>
     </div>
-    <ul class="credential-list">
-      <li><a href="/research/helfrich-2026-nmtc-rural-gap">New Markets Tax Credit research and public evidence record</a></li>
-      <li><a href="/work">Selected analytical work and evidence systems</a></li>
-      <li><a href="/teaching">University, professional, and independent quantitative instruction</a></li>
-    </ul>
+    <dl class="cv-proof-list">
+      <div>
+        <dt>NMTC working paper</dt>
+        <dd>Original study and sole-authored manuscript by Ian Helfrich. Katia Antunes and Elizaveta Gonchar are acknowledged as contributors, not coauthors.</dd>
+        <a href="/research/ian-helfrich-nmtc-working-paper.pdf" target="_blank" rel="noopener">Read the working paper →</a>
+      </div>
+      <div>
+        <dt>Teaching chronology</dt>
+        <dd>Three instructor-of-record semesters at Georgia Tech; teaching support at Duke and Indiana; online instruction; Georgia Tech Economics Graduate Teaching Assistant of the Year in 2023.</dd>
+        <a href="/teaching">Review the chronology →</a>
+      </div>
+      <div>
+        <dt>Independent practice</dt>
+        <dd>The public Wyzant profile reported 1,003 tutoring hours and a 5.0 rating across 171 ratings in August 2026. No private client identities are used as portfolio proof.</dd>
+        <a href="https://www.wyzant.com/Tutors/GA/Smyrna/10212943/" target="_blank" rel="noopener">Open the public profile →</a>
+      </div>
+      <div>
+        <dt>Critical-technology assessment</dt>
+        <dd>Additional contributor to the semiconductor demonstration in the 2023 NNCTA report. The CV states this as project credit, not authorship of the report.</dd>
+        <a href="/work">See the broader practice →</a>
+      </div>
+    </dl>
+  </section>
+
+  <section class="cv-documents" aria-labelledby="cv-documents-title">
+    <header>
+      <span class="section-label">Choose the document</span>
+      <h2 id="cv-documents-title">Two versions, one factual record.</h2>
+    </header>
+    <div>
+      <article>
+        <span>02 pages</span>
+        <h3>Executive résumé</h3>
+        <p>For industry, advisory, research-leadership, and first-conversation use. It leads with transferable value, current evidence, teaching, and systems work.</p>
+        <a class="button small" href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener">Open résumé</a>
+      </article>
+      <article>
+        <span>04 pages</span>
+        <h3>Evidence CV</h3>
+        <p>For academic, research, and diligence-heavy use. It gives the fuller teaching chronology, research status, methods, education, and public evidence.</p>
+        <a class="button small" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Open CV</a>
+      </article>
+    </div>
+    <p class="cv-version-note">Both PDFs were rebuilt and visually inspected in August 2026. Residential address, phone number, private client identities, and unsupported legacy metrics are intentionally omitted.</p>
   </section>
 </Base>
+
+<style>
+  .cv-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
+    gap: clamp(2.5rem, 7vw, 6rem);
+    align-items: end;
+    padding: clamp(2.2rem, 6vw, 5rem) 0 clamp(3rem, 7vw, 6rem);
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  .cv-hero::before {
+    position: absolute;
+    inset: 0 58% 0 auto;
+    width: 1px;
+    content: "";
+    background: linear-gradient(transparent, var(--rule-dark) 22%, var(--rule-dark) 78%, transparent);
+  }
+  .cv-hero h1 { max-width: 13ch; font-size: clamp(3.4rem, 8.5vw, 7.2rem); letter-spacing: -0.06em; }
+  .cv-hero h1 em { color: var(--copper-dark); font-style: normal; }
+  .cv-hero .kicker { max-width: 46rem; }
+  .cv-dossier {
+    position: relative;
+    padding: 1.6rem 0 0 1.6rem;
+    border-left: 3px solid var(--teal);
+  }
+  .cv-dossier-label, .cv-code, .cv-ledger > header > span, .cv-documents article > span {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--teal);
+    font: 650 0.68rem var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .cv-dossier > strong { display: block; margin: 0.2rem 0; color: var(--ink); font: 600 1.05rem var(--font-sans); }
+  .cv-dossier dl { margin: 1.5rem 0 0; }
+  .cv-dossier dl div { padding: 0.8rem 0; border-top: 1px solid var(--rule); }
+  .cv-dossier dt { color: var(--muted); font: 600 0.66rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+  .cv-dossier dd { margin: 0.2rem 0 0; color: var(--ink-2); font: 0.82rem/1.5 var(--font-sans); }
+  .cv-ledger { margin: clamp(4rem, 9vw, 8rem) 0; }
+  .cv-ledger > header { display: grid; grid-template-columns: 0.5fr 1fr 0.9fr; gap: 2rem; align-items: end; margin-bottom: 2rem; }
+  .cv-ledger > header > span { align-self: start; }
+  .cv-ledger > header h2, .cv-ledger > header p { margin: 0; }
+  .cv-ledger > header p { color: var(--ink-3); }
+  .cv-ledger-rows { border-top: 1px solid var(--ink); }
+  .cv-ledger-rows article {
+    display: grid;
+    grid-template-columns: 0.45fr 0.9fr 1.5fr 0.7fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cv-ledger-rows h3, .cv-ledger-rows p { margin: 0; }
+  .cv-ledger-rows h3 { font-size: 1.15rem; }
+  .cv-ledger-rows p { color: var(--ink-3); font-size: 0.93rem; }
+  .cv-ledger-rows a { font: 650 0.74rem var(--font-sans); text-decoration: none; }
+  .cv-proof {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 7vw, 6rem);
+    margin: clamp(5rem, 10vw, 9rem) 0;
+  }
+  .cv-proof-intro { position: sticky; top: 7rem; align-self: start; }
+  .cv-proof-intro h2 { margin-top: 0; }
+  .cv-proof-intro p { color: var(--ink-3); }
+  .cv-proof-list { margin: 0; border-top: 1px solid var(--ink); }
+  .cv-proof-list > div { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+  .cv-proof-list dt { color: var(--ink); font: 600 1.12rem var(--font-serif); }
+  .cv-proof-list dd { margin: 0.45rem 0; color: var(--ink-3); font-size: 0.93rem; }
+  .cv-proof-list a { font: 650 0.75rem var(--font-sans); text-decoration: none; }
+  .cv-documents { margin: 6rem 0 0; padding: clamp(2rem, 6vw, 4rem); background: var(--ink); border-radius: var(--radius-lg); }
+  .cv-documents header { display: flex; justify-content: space-between; gap: 2rem; align-items: end; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .cv-documents header h2 { max-width: 14ch; margin: 0; color: var(--white); }
+  .cv-documents > div { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 1px; background: rgba(255,255,255,0.18); }
+  .cv-documents article { padding: 2rem; background: var(--ink); }
+  .cv-documents article > span { color: #f3cc78; }
+  .cv-documents h3 { margin-top: 0; color: var(--white); }
+  .cv-documents article p { color: #c5d2dc; font-size: 0.92rem; }
+  .cv-documents .button { color: var(--ink) !important; background: var(--white); border-color: var(--white); box-shadow: none; }
+  .cv-version-note { margin: 1.5rem 0 0; color: #91a8b9; font: 0.72rem/1.6 var(--font-sans); }
+  @media (max-width: 860px) {
+    .cv-hero { grid-template-columns: 1fr; }
+    .cv-hero::before { display: none; }
+    .cv-dossier { max-width: 38rem; }
+    .cv-ledger > header { grid-template-columns: 1fr; gap: 0.5rem; }
+    .cv-ledger-rows article { grid-template-columns: 0.35fr 1fr; }
+    .cv-ledger-rows article p, .cv-ledger-rows article a { grid-column: 2; }
+    .cv-proof { grid-template-columns: 1fr; }
+    .cv-proof-intro { position: static; }
+  }
+  @media (max-width: 600px) {
+    .cv-hero h1 { font-size: clamp(3rem, 17vw, 5rem); }
+    .cv-ledger-rows article { grid-template-columns: 1fr; gap: 0.55rem; }
+    .cv-ledger-rows article p, .cv-ledger-rows article a { grid-column: 1; }
+    .cv-documents { padding: 1.4rem; border-radius: var(--radius); }
+    .cv-documents > div { grid-template-columns: 1fr; }
+    .cv-documents article { padding: 1.5rem 0.4rem; }
+  }
+</style>

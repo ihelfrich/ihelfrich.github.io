@@ -10,8 +10,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const project = await getEntry("projects", slug);
 const { Content } = await render(project);
+const unlistedCourseArtifacts = new Set(["corpo-finance", "ppd504-studio"]);
 ---
-<Base title={project.data.title} description={project.data.blurb}>
+<Base title={project.data.title} description={project.data.blurb} noindex={unlistedCourseArtifacts.has(project.id)}>
   <article class="h-article">
     <header>
       <div class="h-article-meta">PROJECT · {project.data.tags.join(" · ")}</div>
