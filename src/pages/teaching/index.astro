@@ -1,355 +1,281 @@
 ---
 import Base from "../../layouts/Base.astro";
-import AudienceNavigator from "../../components/AudienceNavigator.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
-import { tutoringRecord } from "../../data/public-record.mjs";
+import { publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
-const capabilityFamilies = [
+const institutions = [
   {
-    id: "statistics-inference",
-    title: "Statistics & inference",
-    level: "Foundations through graduate methods",
-    description: "Probability, sampling, estimation, regression, diagnostics, causal inference, and visual reasoning across Excel, Stata, R, and Julia.",
-    href: "/projects/applied-statistics",
+    years: "2017–2023",
+    institution: "Georgia Institute of Technology",
+    role: "Instructor of record and teaching assistant",
+    detail: "Instructor of record for three semesters in economics. Teaching-assistant service in Economics; inaugural Graduate Teaching Fellow cohort, 2018–19, with professional-development curriculum and orientation leadership.",
   },
   {
-    id: "econometrics-research-design",
-    title: "Econometrics & research design",
-    level: "Coursework, dissertations, and professional studies",
-    description: "Estimands, identification, measurement, panel methods, causal designs, specification strategy, reproducibility, and defensible claims.",
-    href: "/start?problem=learning&subject=econometrics-research-design&source=teaching-library",
+    years: "2016–2017",
+    institution: "Duke Global Executive MBA",
+    role: "Teaching support",
+    detail: "Supported instruction in managerial economics, strategy, and global markets. This was a teaching-support role.",
   },
   {
-    id: "python-sql",
-    title: "Python & SQL",
-    level: "Analytical programming and workflow design",
-    description: "Programming fundamentals, data structures, data cleaning, query design, automation, debugging, code review, and reproducible analysis.",
-    href: "/start?problem=learning&subject=python-sql&source=teaching-library",
+    years: "2015–2016",
+    institution: "Indiana University Bloomington",
+    role: "Graduate teaching assistant",
+    detail: "Supported undergraduate economics instruction while completing graduate training in economics.",
   },
   {
-    id: "microeconomics",
-    title: "Microeconomics",
-    level: "Principles through advanced theory",
-    description: "Consumer and producer theory, market structure, game theory, welfare, industrial organization, managerial economics, and policy applications.",
-    href: "/start?problem=learning&subject=microeconomics&source=teaching-library",
+    years: "2022–2023",
+    institution: "Campus / MTI College",
+    role: "Online instructor",
+    detail: "Taught Principles of Microeconomics in Summer and Fall 2022 and Principles of Macroeconomics in Spring 2023.",
   },
-  {
-    id: "macroeconomics",
-    title: "Macroeconomics",
-    level: "Principles, intermediate models, and live data",
-    description: "National accounts, short-run models, money and banking, inflation, growth, open-economy macroeconomics, and interpretation of public time series.",
-    href: "/start?problem=learning&subject=macroeconomics&source=teaching-library",
-  },
-  {
-    id: "business-strategy-marketing",
-    title: "Business, strategy & marketing",
-    level: "MBA, executive, and professional contexts",
-    description: "Managerial economics, corporate finance, competitive analysis, market research, quantitative decision models, and clear executive communication.",
-    href: "/start?problem=learning&subject=business-strategy-marketing&source=teaching-library",
-  },
-  {
-    id: "gis-public-data",
-    title: "GIS & public data",
-    level: "Spatial analysis and evidence communication",
-    description: "Spatial joins, cartography, remote sensing, Census and FRED data, geographic measurement, reproducible workflows, and decision-ready maps.",
-    href: "/start?problem=learning&subject=gis-public-data&source=teaching-library",
-  },
-  {
-    id: "pictures-of-inference",
-    title: "Pictures of Inference",
-    level: "Standalone visual textbook · active draft",
-    description: "A durable visual account of statistical and econometric inference, built to make the geometry, assumptions, and sampling logic inspectable.",
-    href: "https://github.com/ihelfrich/pictures-of-inference",
-    external: true,
-  },
-];
+] as const;
+
+const subjectFamilies = [
+  ["Statistics & inference", "Probability, estimation, uncertainty, diagnostics, and clear interpretation."],
+  ["Econometrics & research design", "Estimands, comparison design, causal inference, robustness, and research communication."],
+  ["Python & SQL", "Data work, analysis, reproducible workflows, and research computing."],
+  ["Microeconomics", "Consumer and producer theory, markets, incentives, game theory, and policy applications."],
+  ["Macroeconomics", "Growth, business cycles, monetary and fiscal policy, and open-economy analysis."],
+  ["Business, strategy & marketing", "Managerial economics, finance, quantitative marketing, and decision analysis."],
+  ["GIS & public data", "Spatial reasoning, remote sensing, QGIS, policy data, and geographic evidence."],
+] as const;
 ---
+
 <Base
   wide
-  pageClass="teaching-page"
-  title="Teaching"
-  description="Ian Helfrich teaches quantitative reasoning from SAT, ACT, AP, and undergraduate foundations through MBA coursework, graduate econometrics, research design, and professional methods training."
+  title="Teaching and coaching"
+  description="Institutional teaching, independent tutoring, quantitative research-design coaching, and open learning systems by Ian Helfrich."
+  pageClass="fieldbook-teaching"
 >
-  <header class="teach-hero" aria-labelledby="teach-title">
-    <div class="teach-hero-folio"><span>{tutoringRecord.wyzantHoursDisplay} WYZANT HOURS · {tutoringRecord.privateHoursProse.toUpperCase()} PRIVATE HOURS · HIGH SCHOOL THROUGH PHD · TEAMS</span><span>ST. LOUIS · WORLDWIDE</span></div>
-    <div class="teach-hero-grid">
-      <span>START WITH THE FIRST BROKEN LINK</span>
-      <h1 id="teach-title">The mistake<br /><em>is usually earlier.</em></h1>
+  <section class="teaching-hero route-grid" data-rail-label="Teaching overview">
+    <div class="teaching-hero__copy">
+      <p class="record-label">Institutional teaching · independent practice · public tools</p>
+      <h1>Teaching &amp; Coaching</h1>
+      <p>I teach economics, statistics, econometrics, programming, and research design in two connected modes: helping someone build the underlying intuition, and helping a researcher turn an open-ended question into a defensible empirical design.</p>
+    </div>
+    <aside class="teaching-hero__margin">
+      <p>That work has taken place in university classrooms, an executive MBA program, online courses, Wyzant, and a separate private practice. The audiences and subjects vary; the records below keep the roles and sources distinct.</p>
+    </aside>
+  </section>
+
+  <section class="relay-section route-band" data-rail-label="Representation relay">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Live teaching demonstration</p>
+          <h2>One relationship, five representations</h2>
+        </div>
+        <p>Change the price. The sentence, equation, table, graph, and code update together. The point is to make inconsistencies visible, while keeping the underlying result fixed.</p>
+      </header>
+      <RepresentationRelay />
+    </div>
+  </section>
+
+  <section class="practice-record route-shell" data-rail-label="Independent practice">
+    <header class="section-intro">
       <div>
-        <p>A bad regression coefficient may begin as an algebra gap. A finance model may fail because the units changed three steps ago. An SAT plateau may come from a review system that records answers and loses reasons. I find the first break.</p>
-        <div><a class="ih-action" href="/work-with-me">Work with me</a><a href="#capability-libraries">Explore the subject families ↓</a></div>
+        <p class="record-label">Independent-practice record · {tutoringRecord.asOf}</p>
+        <h2>Two sources, kept separate</h2>
       </div>
-    </div>
-  </header>
-
-  <section class="teach-proof" aria-label="Selected teaching record">
-    <div><strong>{tutoringRecord.wyzantHoursDisplay}</strong><span>Wyzant hours · {tutoringRecord.asOfShort}</span></div>
-    <div><strong>{tutoringRecord.privateHoursDisplay}</strong><span>{tutoringRecord.privateHoursProse} additional private hours</span></div>
-    <div><strong>3</strong><span>instructor-of-record semesters</span></div>
-    <div><strong>2023</strong><span>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023</span></div>
-  </section>
-
-  <section class="section" aria-labelledby="est-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Inference you can touch</span>
-        <h2 id="est-title">Every click refits the model.</h2>
-      </div>
-      <p>Click to add a point, drag to move it, click an existing point to remove it. The fit recomputes in closed form after each change. Move a point into the tail and the line, the band, and the robust standard error respond together; that joint response is the lesson.</p>
-    </div>
-    <div class="inst-panel">
-      <svg id="est" viewBox="0 0 1000 480" role="img" aria-label="Interactive least-squares scatterplot: click to add points, drag to move them"></svg>
-      <p class="inst-readout"><span id="est-readout"></span> <button type="button" id="est-reset" class="est-reset">reset</button></p>
-    </div>
-  </section>
-
-  <RepresentationRelay />
-
-  <AudienceNavigator />
-
-  <section class="teach-standard" aria-labelledby="standard-title">
-    <span>THE STANDARD</span>
-    <h2 id="standard-title">Recognition is fragile.<br />Reconstruction holds.</h2>
-    <div>
-      <p>Quantitative education often separates concepts that belong together: the model from its assumptions, the estimator from its identifying comparison, the code from its output, and the output from the sentence it can support.</p>
-      <p>I put the chain back on the table. We move through words, equations, graphs, code, and evidence until you can rebuild the argument when the surface details change.</p>
-    </div>
-  </section>
-
-  <section id="capability-libraries" class="teach-library" aria-labelledby="library-title">
-    <header class="teach-section-head">
-      <span>DURABLE SUBJECT FAMILIES</span>
-      <h2 id="library-title">A reusable spine.<br />Many entry points.</h2>
-      <p>Public tools and working materials are organized by the capability they develop. The structure survives a particular course, learner, or software package.</p>
+      <p>The platform record and private-practice ledger describe different work. They are never converted into a combined exact total.</p>
     </header>
-    <div class="teach-tool-ledger">
-      {capabilityFamilies.map((item, index) => (
-        <article id={item.id}>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <div><small>{item.level}</small><h3>{item.title}</h3></div>
-          <p>{item.description}</p>
-          <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}><span class="sr-only">Open {item.title}</span>↗</a>
+    <div class="hours-pair">
+      <article>
+        <p class="source-line">platform-recorded · {tutoringRecord.wyzant.evidenceLabel}</p>
+        <strong>{tutoringRecord.wyzant.hoursDisplay}</strong>
+        <h3>Instruction through Wyzant</h3>
+        <p>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} hours, current as of {tutoringRecord.wyzant.asOf}. <a href={publicLinks.wyzant} target="_blank" rel="noopener">Public profile ↗</a></p>
+      </article>
+      <article>
+        <p class="source-line">practice-recorded · {tutoringRecord.privatePractice.evidenceLabel}</p>
+        <strong>{tutoringRecord.privatePractice.hoursDisplay}</strong>
+        <h3>Independent private practice</h3>
+        <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours, separate from Wyzant.</p>
+      </article>
+    </div>
+    <p class="practice-range">I work with students, doctoral researchers, professionals, and executives across economics, statistics, econometrics, research design, Python, SQL, data analysis, policy and GIS, Stata, finance, marketing analytics, strategy, and quantitative test preparation. Engagements range from focused tutoring to ongoing executive-level quantitative research-design coaching.</p>
+    <div class="subject-families" aria-label="Teaching subject families">
+      {subjectFamilies.map(([title, detail]) => (
+        <article>
+          <h3>{title}</h3>
+          <p>{detail}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="teach-method" aria-labelledby="method-title">
-    <header>
-      <span>THE PEDAGOGY</span>
-      <h2 id="method-title">Diagnosis.<br />Representation.<br />Independence.</h2>
+  <section class="coaching-method route-shell" data-rail-label="Research-design coaching">
+    <header class="section-intro">
+      <div>
+        <p class="record-label">Research-design coaching</p>
+        <h2>From a substantive question to an analysis another person can defend</h2>
+      </div>
+      <p>A coaching engagement begins before software or estimator choice. The analysis follows the question, available evidence, and decision it must support.</p>
     </header>
-    <ol>
-      <li><span>01 / DIAGNOSE</span><h3>Trace the error upstream.</h3><p>We ask for the last step you trust, then test it. The first weak link sets the lesson.</p></li>
-      <li><span>02 / TRANSLATE</span><h3>Make the idea survive a new form.</h3><p>Words, equations, graphs, code, and real examples should agree. A disagreement tells us exactly where to look.</p></li>
-      <li><span>03 / TRANSFER</span><h3>Take my hand off the wheel.</h3><p>I model the reasoning, reduce support, and change the surface details. You finish by testing and defending the argument yourself.</p></li>
+    <ol class="coaching-sequence">
+      <li><span>01</span><div><strong>Decision</strong><p>Identify the decision, claim, or scholarly contribution the analysis needs to inform.</p></div></li>
+      <li><span>02</span><div><strong>Estimand</strong><p>Define the population, treatment or exposure, outcome, time frame, and quantity of interest.</p></div></li>
+      <li><span>03</span><div><strong>Evidence</strong><p>Test whether the available data match the question and document the construction.</p></div></li>
+      <li><span>04</span><div><strong>Comparison</strong><p>Choose a credible comparison and name the threats that could defeat it.</p></div></li>
+      <li><span>05</span><div><strong>Verification</strong><p>Plan diagnostics, robustness checks, and reproducible computation before interpreting output.</p></div></li>
+      <li><span>06</span><div><strong>Communication</strong><p>State the result, uncertainty, scope, and limit in language suited to the audience.</p></div></li>
     </ol>
+    <p class="composite-note">For example, “Did this program work?” becomes a set of explicit choices about target population, timing, outcome, comparison group, and plausible threats to identification. This is a composite illustration, not an account of an individual learner or client project.</p>
   </section>
 
-  <section class="teach-integrity" aria-labelledby="integrity-title">
-    <header><span>ACADEMIC INTEGRITY</span><h2 id="integrity-title">Your name stays attached to your work.</h2></header>
-    <div>
-      <p>I teach concepts, build parallel examples, inspect reasoning, review code alongside you, diagnose research designs, and prepare you to explain your decisions.</p>
-      <p>I do not take assessments, produce graded work, invent results, or serve as an undisclosed author or analyst. <strong>You have to be able to defend every line.</strong></p>
+  <section class="institutional-record route-band" data-rail-label="Institutional record">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Institutional chronology</p>
+          <h2>Classrooms, executive education, and online instruction</h2>
+        </div>
+        <p>Roles and scope are stated conservatively. Teaching support is distinguished from an instructor-of-record appointment.</p>
+      </header>
+      <div class="chronology">
+        {institutions.map((entry) => (
+          <article data-fieldbook-reveal>
+            <time>{entry.years}</time>
+            <div>
+              <h3>{entry.institution}</h3>
+              <p class="role-line">{entry.role}</p>
+              <p>{entry.detail}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="recognition-pair">
+        <article>
+          <p class="source-line">Award</p>
+          <h3>{teachingRecognition.award}, {teachingRecognition.year}</h3>
+        </article>
+        <article>
+          <p class="source-line">Teaching evaluations</p>
+          <h3>Georgia Tech course-evaluation record, {teachingRecognition.evaluations.year}</h3>
+          <a href={teachingRecognition.evaluations.href}>View source PDF →</a>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="teach-record" aria-labelledby="record-title">
-    <header class="teach-section-head">
-      <span>INSTITUTIONAL RECORD</span>
-      <h2 id="record-title">Principles courses<br />through graduate methods.</h2>
-      <p>Instructor-of-record, teaching-assistant, fellowship, executive-program, online-program, and private-practice experience.</p>
+  <section class="learning-systems route-shell" id="capability-libraries" data-rail-label="Learning systems">
+    <header class="section-intro">
+      <div>
+        <p class="record-label">Durable learning systems</p>
+        <h2>Reusable public materials</h2>
+      </div>
+      <p>The public portfolio emphasizes generalized tools and books. It does not display individual course commissions or bespoke learner repositories.</p>
     </header>
-    <div class="teach-record-ledger">
-      <article><span>01</span><h3>Georgia Institute of Technology</h3><p>Instructor of record in Economics and Policy and Principles of Microeconomics; teaching across intermediate economics, game theory, law and economics, sports economics, and graduate econometrics.</p></article>
-      <article><span>02</span><h3>Georgia Tech ECE</h3><p>Graduate teaching support in advanced digital signal processing and adaptive filtering.</p></article>
-      <article><span>03</span><h3>Duke University</h3><p>Teaching support in the Global Executive MBA program, including managerial economics and strategy.</p></article>
-      <article><span>04</span><h3>Indiana University</h3><p>Graduate teaching appointments in principles, game theory, and international trade.</p></article>
-      <article><span>05</span><h3>Campus / MTI College</h3><p>Online instruction in principles of microeconomics and macroeconomics.</p></article>
-    </div>
-    <div class="teach-recognition">
-      <span>SELECTED RECOGNITION</span>
-      <p><strong>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023</strong></p>
-      <p><strong>Graduate Teaching Fellow</strong> · Georgia Tech Center for Teaching and Learning · inaugural 2018–19 cohort</p>
-      <p><strong>New-TA orientation co-leader</strong> · Georgia Tech</p>
+    <div class="system-register">
+      <article>
+        <p class="source-line">Live public system · version 0.1</p>
+        <h3><a href="/projects/applied-statistics">Applied Statistics</a></h3>
+        <p>One complete two-group inference workflow, with a synchronized question, data, derivation, diagnostics, interpretation, and implementations in JavaScript, Python, R, and Julia.</p>
+        <a href="/projects/applied-statistics">Open the system and least-squares lab →</a>
+      </article>
+      <article>
+        <p class="source-line">Book and workbook in progress</p>
+        <h3><a href="/projects/pictures-of-inference">Pictures of Inference</a></h3>
+        <p>With Elizaveta Gonchar. A visual route into estimators, sampling variation, and causal comparisons; Part One, chapters 1–10 drafted as of August 14, 2026.</p>
+        <a href="/projects/pictures-of-inference">Project record →</a>
+      </article>
+      <article>
+        <p class="source-line">Open supporting resources</p>
+        <h3>Teaching notes and statistical software references</h3>
+        <p>Public notes, examples, and reference material organized around reusable concepts and workflows.</p>
+        <a href="/projects">Browse public learning projects →</a>
+      </article>
     </div>
   </section>
 
-  <section class="teach-third-space" aria-labelledby="teaching-third-space-title">
-    <span>WHEN A COURSE IS NOT ENOUGH</span>
-    <h2 id="teaching-third-space-title">A young researcher needs<br />a real question to begin.</h2>
-    <p>Third Space Fellows is being developed for undergraduates, graduate students, and high-school researchers ready to own the question, method, revision, and public record.</p>
-    <a href="/third-space">Explore Third Space Labs →</a>
-  </section>
-
-  <section class="teach-cta">
-    <span>PRIVATE OR INSTITUTIONAL</span>
-    <h2>Bring me the last step<br />you still trust.</h2>
-    <p>Tell me the course, exam, method, project, audience, and timeline. I will trace forward from there and tell you the smallest useful engagement.</p>
-    <a class="ih-action ih-action--light" href="/work-with-me#inquiry">Start an inquiry</a>
+  <section class="teaching-close route-grid" data-rail-label="Contact">
+    <div>
+      <p class="record-label">Teaching and coaching inquiries</p>
+      <h2>Include the subject, level, timeline, and kind of help you need.</h2>
+    </div>
+    <div>
+      <p>I am available for advanced tutoring, quantitative research-design coaching, curriculum and learning-system work, and institutional teaching.</p>
+      <a class="fieldbook-action" href="/contact">Ask about teaching or coaching</a>
+      <a class="text-route" href="/cv#teaching">View the full teaching record →</a>
+    </div>
   </section>
 </Base>
 
-<script>
-  // The estimator you can touch. Data lives where you put it; on every
-  // change the page refits OLS in closed form and redraws the line, the 95%
-  // band for the conditional mean, and the readout (slope with HC1 robust
-  // standard error, R squared). Blue marks the moment a calculation is
-  // resolving; ink is the state at rest.
-  const svg = document.getElementById("est") as unknown as SVGSVGElement | null;
-  const readout = document.getElementById("est-readout");
-  const resetBtn = document.getElementById("est-reset");
-  if (svg) {
-    const NS = "http://www.w3.org/2000/svg";
-    const W = 1000, H = 480, L = 24, R = 976, T = 20, B = 456;
-    const T95 = [12.71, 4.3, 3.18, 2.78, 2.57, 2.45, 2.36, 2.31, 2.26, 2.23, 2.2, 2.18, 2.16, 2.14, 2.13, 2.12, 2.11, 2.1, 2.09, 2.09];
-    const SEED: [number, number][] = [
-      [120, 380], [210, 330], [300, 355], [390, 280], [480, 250],
-      [570, 270], [660, 195], [770, 165], [880, 120],
-    ];
-    let pts: { x: number; y: number }[] = [];
-    let dragging = -1, dragMoved = 0, liveUntil = 0, raf = 0;
-
-    const bandEl = document.createElementNS(NS, "path");
-    const lineEl = document.createElementNS(NS, "line");
-    const gPts = document.createElementNS(NS, "g");
-    bandEl.setAttribute("stroke", "none");
-    lineEl.setAttribute("stroke-width", "1.7");
-    for (const y of [120, 240, 360]) {
-      const gl = document.createElementNS(NS, "line");
-      gl.setAttribute("x1", String(L)); gl.setAttribute("x2", String(R));
-      gl.setAttribute("y1", String(y)); gl.setAttribute("y2", String(y));
-      gl.setAttribute("stroke", "rgba(17,17,19,0.07)");
-      svg.appendChild(gl);
-    }
-    const ax = document.createElementNS(NS, "line");
-    ax.setAttribute("x1", String(L)); ax.setAttribute("x2", String(R));
-    ax.setAttribute("y1", String(B)); ax.setAttribute("y2", String(B));
-    ax.setAttribute("stroke", "#c3c2b7");
-    svg.append(ax, bandEl, lineEl, gPts);
-
-    function fit() {
-      const n = pts.length;
-      if (n < 3) return null;
-      let sx = 0, sy = 0;
-      for (const p of pts) { sx += p.x; sy += p.y; }
-      const mx = sx / n, my = sy / n;
-      let Sxx = 0, Sxy = 0;
-      for (const p of pts) { Sxx += (p.x - mx) ** 2; Sxy += (p.x - mx) * (p.y - my); }
-      if (Sxx < 1e-9) return null;
-      const b1 = Sxy / Sxx, b0 = my - b1 * mx;
-      let sse = 0, sst = 0, hc = 0;
-      for (const p of pts) {
-        const e = p.y - (b0 + b1 * p.x);
-        sse += e * e; sst += (p.y - my) ** 2; hc += e * e * (p.x - mx) ** 2;
-      }
-      const df = n - 2;
-      const s2 = sse / df;
-      const seHC1 = Math.sqrt((hc / (Sxx * Sxx)) * (n / df));
-      const r2 = sst > 1e-9 ? 1 - sse / sst : 1;
-      const tcrit = T95[Math.min(df, 20) - 1] ?? 1.96;
-      return { n, mx, Sxx, b0, b1, s2, seHC1, r2, tcrit };
-    }
-
-    function render() {
-      const now = performance.now();
-      const live = dragging >= 0 || now < liveUntil;
-      const f = fit();
-      const ink = live ? "#2852e8" : "#111113";
-      gPts.replaceChildren();
-      pts.forEach((p, i) => {
-        const c = document.createElementNS(NS, "circle");
-        c.setAttribute("cx", String(p.x)); c.setAttribute("cy", String(p.y));
-        c.setAttribute("r", "6");
-        c.setAttribute("fill", i === dragging ? "#2852e8" : "#111113");
-        c.setAttribute("cursor", "grab");
-        c.setAttribute("data-i", String(i));
-        gPts.appendChild(c);
-      });
-      if (f) {
-        const yAt = (X: number) => f.b0 + f.b1 * X;
-        lineEl.setAttribute("x1", String(L)); lineEl.setAttribute("y1", String(yAt(L)));
-        lineEl.setAttribute("x2", String(R)); lineEl.setAttribute("y2", String(yAt(R)));
-        lineEl.setAttribute("stroke", ink);
-        let up = "", dn = "";
-        for (let X = L; X <= R; X += 24) {
-          const se = Math.sqrt(f.s2 * (1 / f.n + ((X - f.mx) ** 2) / f.Sxx)) * f.tcrit;
-          up += `${up ? "L" : "M"} ${X} ${yAt(X) - se} `;
-          dn = `L ${X} ${yAt(X) + se} ` + dn;
-        }
-        bandEl.setAttribute("d", up + dn + "Z");
-        bandEl.setAttribute("fill", live ? "rgba(40,82,232,0.08)" : "rgba(17,17,19,0.06)");
-        if (readout) {
-          const slope = (-f.b1 * 10).toFixed(2); // screen y is inverted; report in plot units
-          readout.textContent =
-            `n=${f.n} · slope ${slope} per unit · SE ${(f.seHC1 * 10).toFixed(2)} (HC1) · R² ${f.r2.toFixed(2)}`;
-          readout.parentElement?.classList.toggle("is-live", live);
-        }
-      } else {
-        lineEl.setAttribute("stroke", "none");
-        bandEl.setAttribute("d", "");
-        if (readout) readout.textContent = "add at least three points";
-      }
-      if (now < liveUntil) raf = requestAnimationFrame(render);
-    }
-
-    function toSvg(ev: PointerEvent) {
-      const m = svg.getScreenCTM()!;
-      const inv = m.inverse();
-      return {
-        x: Math.min(R, Math.max(L, ev.clientX * inv.a + ev.clientY * inv.c + inv.e)),
-        y: Math.min(B - 6, Math.max(T, ev.clientX * inv.b + ev.clientY * inv.d + inv.f)),
-      };
-    }
-    svg.addEventListener("pointerdown", (ev) => {
-      const target = ev.target as Element;
-      const p = toSvg(ev);
-      if (target.tagName === "circle") {
-        dragging = Number(target.getAttribute("data-i")); dragMoved = 0;
-        svg.setPointerCapture(ev.pointerId);
-      } else {
-        pts.push(p);
-        liveUntil = performance.now() + 380;
-      }
-      cancelAnimationFrame(raf); render();
-      if (performance.now() < liveUntil) raf = requestAnimationFrame(render);
-    });
-    svg.addEventListener("pointermove", (ev) => {
-      if (dragging < 0) return;
-      const p = toSvg(ev);
-      dragMoved += Math.abs(p.x - pts[dragging].x) + Math.abs(p.y - pts[dragging].y);
-      pts[dragging] = p;
-      render();
-    });
-    svg.addEventListener("pointerup", () => {
-      if (dragging >= 0 && dragMoved < 5) pts.splice(dragging, 1);
-      dragging = -1;
-      liveUntil = performance.now() + 380;
-      cancelAnimationFrame(raf); render();
-      raf = requestAnimationFrame(render);
-    });
-    resetBtn?.addEventListener("click", () => {
-      pts = SEED.map(([x, y]) => ({ x, y }));
-      liveUntil = performance.now() + 380;
-      cancelAnimationFrame(raf); render();
-      raf = requestAnimationFrame(render);
-    });
-
-    pts = SEED.map(([x, y]) => ({ x, y }));
-    render();
-  }
-</script>
-
 <style>
-  .est-reset {
-    background: none;
-    border: 1px solid rgba(17, 17, 19, 0.2);
-    border-radius: 5px;
-    color: #66666c;
-    font: 520 0.62rem/1.2 var(--ih-mono);
-    padding: 1px 8px;
-    cursor: pointer;
-    margin-left: 0.6rem;
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-shell--compact { padding-block: 0; }
+  .route-grid { display: grid; width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ef-gutter); }
+  .route-band { padding-block: var(--ef-space-7); color: var(--ef-ink); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
+  .record-label,
+  .source-line,
+  .role-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .teaching-hero { min-height: 38rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .teaching-hero__copy { grid-column: 2 / span 7; }
+  .teaching-hero__copy h1 { max-width: 9ch; }
+  .teaching-hero__copy > p:last-child { max-width: 64ch; font-size: 1.25rem; }
+  .teaching-hero__margin { grid-column: 9 / span 3; padding-top: 0.8rem; border-top: 2px solid var(--ef-signal); }
+  .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .section-intro h2 { margin: 0; }
+  .section-intro > p { margin: 0; }
+  .relay-section :global(.evidence-aperture) { margin-top: var(--ef-space-6); }
+  .hours-pair { display: grid; margin-top: var(--ef-space-6); grid-template-columns: 1fr 1fr; border: 1px solid var(--ef-ink); }
+  .hours-pair article { min-height: 22rem; padding: var(--ef-space-5); }
+  .hours-pair article + article { border-left: 1px solid var(--ef-ink); }
+  .hours-pair article > strong { display: block; margin-block: 1rem; font: 570 clamp(3.5rem, 8vw, 7rem)/0.9 var(--font-display); letter-spacing: -0.065em; }
+  .hours-pair h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
+  .practice-range { max-width: 72ch; margin-top: var(--ef-space-5); font-size: 1.15rem; }
+  .subject-families { display: grid; margin-top: var(--ef-space-5); grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ef-ink); border-left: 1px solid var(--ef-ink); }
+  .subject-families article { min-height: 11rem; padding: var(--ef-space-4); border-right: 1px solid var(--ef-ink); border-bottom: 1px solid var(--ef-ink); }
+  .subject-families h3 { margin-top: 0; font: 650 0.78rem/1.4 var(--font-data); text-transform: uppercase; }
+  .subject-families p { font-size: 0.96rem; }
+  .coaching-sequence { display: grid; margin: var(--ef-space-6) 0 0; padding: 0; grid-template-columns: repeat(3, 1fr); list-style: none; border-top: 1px solid var(--ef-ink); border-left: 1px solid var(--ef-ink); }
+  .coaching-sequence li { display: grid; min-height: 13rem; padding: var(--ef-space-4); grid-template-columns: 2.5rem 1fr; gap: 0.65rem; border-right: 1px solid var(--ef-ink); border-bottom: 1px solid var(--ef-ink); }
+  .coaching-sequence span { color: var(--ef-signal); font: 600 0.72rem/1.4 var(--font-data); }
+  .coaching-sequence strong { font: 650 0.78rem/1.4 var(--font-data); text-transform: uppercase; }
+  .coaching-sequence p { margin-top: 0.65rem; }
+  .composite-note { max-width: 74ch; margin-top: var(--ef-space-5); padding-left: 1rem; border-left: 3px solid var(--ef-oxide); }
+  .chronology { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .chronology article { display: grid; padding-block: var(--ef-space-5); grid-template-columns: minmax(8rem, 0.6fr) minmax(0, 2fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .chronology time { color: var(--ef-signal); font: 600 0.78rem/1.4 var(--font-data); }
+  .chronology h3 { margin: 0; font-size: clamp(1.3rem, 2vw, 1.8rem); }
+  .chronology .role-line { margin-top: 0.35rem; }
+  .recognition-pair { display: grid; margin-top: var(--ef-space-6); grid-template-columns: 1fr 1fr; border: 1px solid var(--ef-ink); }
+  .recognition-pair article { padding: var(--ef-space-5); }
+  .recognition-pair article + article { border-left: 1px solid var(--ef-ink); }
+  .recognition-pair h3 { margin: 0; }
+  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ef-ink); }
+  .system-register article { padding: var(--ef-space-5); }
+  .system-register article + article { border-left: 1px solid var(--ef-ink); }
+  .system-register h3 { margin-top: 0; font-size: 1.45rem; }
+  .teaching-close { padding-block: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
+  .teaching-close > div:first-child { grid-column: 2 / span 7; }
+  .teaching-close > div:last-child { grid-column: 9 / span 3; }
+  .teaching-close h2 { margin: 0; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; margin-top: 1rem; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  .text-route { display: block; margin-top: 1rem; font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 60rem) {
+    .teaching-hero__copy { grid-column: 1 / span 5; }
+    .teaching-hero__margin { grid-column: 6 / span 3; }
+    .section-intro { grid-template-columns: 1fr; }
+    .subject-families { grid-template-columns: repeat(2, 1fr); }
+    .coaching-sequence { grid-template-columns: repeat(2, 1fr); }
+    .system-register { grid-template-columns: 1fr; }
+    .system-register article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
+    .teaching-close > div:first-child { grid-column: 1 / span 5; }
+    .teaching-close > div:last-child { grid-column: 6 / span 3; }
   }
-  .est-reset:hover { color: #2852e8; border-color: #2852e8; }
+  @media (max-width: 45rem) {
+    .route-grid { display: block; }
+    .teaching-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .teaching-hero__margin { margin-top: var(--ef-space-5); }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .hours-pair,
+    .recognition-pair,
+    .coaching-sequence { grid-template-columns: 1fr; }
+    .subject-families { grid-template-columns: 1fr; }
+    .hours-pair article + article,
+    .recognition-pair article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
+    .chronology article { grid-template-columns: 1fr; gap: 0.65rem; }
+  }
 </style>

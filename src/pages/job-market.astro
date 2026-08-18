@@ -1,756 +1,213 @@
 ---
-import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
-import portraitPlan from "../data/portrait-transport.json";
-import { tutoringRecord } from "../data/public-record.mjs";
-// The candidate as working paper, with a cover. The cover is the site's one
-// midnight surface: fig. 0 renders the candidate's portrait as a measure of
-// 4,200 mass points that assemble along a precomputed transport plan when
-// the reader clicks "resolve" (points sampled from the photograph by
-// brightness, paired to a gaussian start cloud along a Z-order curve so the
-// flow reads as displacement interpolation). The typeset note follows.
-// JMP designation remains the NMTC rural mobilization gap; swapping it is a
-// one-block edit in section 2 plus one reference entry.
+import Base from "../layouts/Base.astro";
+import { availabilityRecord, publicLinks, teachingRecognition, tutoringRecord } from "../data/public-record.mjs";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
-const papers = await getCollection("research");
-const SHORT: Record<string, string> = {
-  "helfrich-2026-human-or-machine": "AI validity",
-  "helfrich-2024-dissertation": "Dissertation",
-  "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
-  "gonchar-helfrich-2025-spotlight": "Spotlight",
-  "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
-  "gonchar-helfrich-2026-ukraine": "Ukraine",
-  "helfrich-2024-ssrn-4772016": "OT equilibrium",
-  "helfrich-2026-aroe": "AROE",
-  "helfrich-2026-penumbra": "Penumbra",
-  "helfrich-2026-russian-crude": "Russian crude",
-  "helfrich-2026-nmtc-rural-gap": "NMTC",
-};
-const nodes = papers.map((p) => ({
-  id: p.id,
-  short: SHORT[p.id] ?? p.data.title.slice(0, 16),
-  title: p.data.title,
-  year: p.data.year,
-  tags: p.data.tags,
-}));
-const edges: { a: number; b: number; w: number; shared: string[] }[] = [];
-for (let i = 0; i < nodes.length; i++)
-  for (let j = i + 1; j < nodes.length; j++) {
-    const shared = nodes[i].tags.filter((t) => nodes[j].tags.includes(t));
-    if (shared.length > 0) edges.push({ a: i, b: j, w: shared.length, shared });
-  }
-const mapData = { nodes, edges };
+const dossierIds = [
+  "helfrich-2026-nmtc-rural-gap",
+  "helfrich-2026-human-or-machine",
+  "gonchar-helfrich-2025-spotlight",
+  "helfrich-2024-ssrn-4772016",
+  "helfrich-2024-dissertation",
+];
+const dossierResearch = filterDiscoverableResearch(await getCollection("research"))
+  .filter((record) => dossierIds.includes(record.id))
+  .sort((a, b) => dossierIds.indexOf(a.id) - dossierIds.indexOf(b.id));
 ---
+
 <Base
   wide
-  pageClass="paper-page"
-  title="Job market"
-  description="Ian Helfrich is on the 2026-27 economics job market. A candidate note for hiring committees, typeset as a working paper, with live figures."
+  title="Academic job-market dossier"
+  description="Academic job-market materials for Ian Helfrich: applied economics research, teaching record, CV, and public working papers."
+  pageClass="fieldbook-job-market"
 >
-  <section class="cover" aria-label="Cover">
-    <div class="cover-inner">
-      <div class="cover-type">
-        <p class="cover-eyebrow">AEA job market · 2026-27 cycle</p>
-        <h1>Making Complex<br />Evidence Usable</h1>
-        <p class="cover-sub">A candidate note, set as a working paper. Two of its figures are interactive.</p>
-        <p class="cover-cta"><a href="#note">Read the note ↓</a></p>
+  <section class="market-hero route-grid" data-rail-label="Job-market dossier">
+    <div class="market-hero__copy">
+      <p class="record-label">{availabilityRecord.cycle} · {availabilityRecord.asOf}</p>
+      <h1>Academic job-market dossier</h1>
+      <p>I am an applied economist working across place-based policy, trade and spatial measurement, labor and AI, and quantitative education. This page gathers the public documents and research records most relevant to academic hiring.</p>
+      <div class="action-row">
+        <a class="fieldbook-action" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Academic CV · PDF ↗</a>
+        <a class="fieldbook-action fieldbook-action--quiet" href={publicLinks.email}>Email Ian</a>
       </div>
-      <figure class="cover-fig">
-        <canvas id="fig0" aria-label="The candidate's portrait, rendered as a cloud of mass points that assemble when resolved"></canvas>
-        <figcaption>
-          <span>fig. 0 · the candidate, as a measure · n = 4,200</span>
-          <button type="button" id="fig0-btn">resolve</button>
-        </figcaption>
-      </figure>
+    </div>
+    <aside class="market-hero__margin">
+      <p class="record-label">Current status</p>
+      <strong>{availabilityRecord.status}</strong>
+      <dl>
+        <div><dt>Field</dt><dd>Applied microeconomics and econometrics</dd></div>
+        <div><dt>Training</dt><dd>PhD in Economics, Georgia Tech, 2024</dd></div>
+        <div><dt>Location</dt><dd>St. Louis, Missouri</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="market-paper route-band" data-rail-label="Primary paper">
+    <div class="route-shell route-shell--compact">
+      <div class="paper-heading">
+        <div>
+          <p class="record-label">Primary public working paper · sole author and originator</p>
+          <h2>The rural mobilization gap in a U.S. place-based tax credit</h2>
+          <p class="paper-question">Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?</p>
+        </div>
+        <aside>
+          <dl>
+            <div><dt>Sample</dt><dd>19,907 transactions · 8,024 projects</dd></div>
+            <div><dt>Raw coefficient</dt><dd>−0.262</dd></div>
+            <div><dt>Mean within-CDE</dt><dd>−0.047 · 95% CI [−0.245, +0.152]</dd></div>
+            <div><dt>Median within-CDE</dt><dd>−0.001</dd></div>
+          </dl>
+        </aside>
+      </div>
+      <div class="paper-account">
+        <p>I assembled the transaction and project record, documented its provenance, estimated the pooled and within-intermediary comparisons, and decomposed the movement between them. In the base decomposition, −0.185, or 86% of the explained movement, is associated with observed CDE composition.</p>
+        <p>This is descriptive, noncausal evidence. The mean interval is wide; the design does not identify why intermediaries differ or resolve the mechanism.</p>
+        <p class="authorship-note">This project was my original idea, and I am its sole author. Katia Antunes and Elizaveta Gonchar contributed to it; they are not coauthors.</p>
+      </div>
+      <nav class="paper-links" aria-label="Primary paper links">
+        <a href="/research/ian-helfrich-nmtc-working-paper.pdf" target="_blank" rel="noopener">Working paper · PDF ↗</a>
+        <a href="/research/helfrich-2026-nmtc-rural-gap">Research record →</a>
+        <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Repository and viewer ↗</a>
+      </nav>
     </div>
   </section>
 
-  <article class="paper" id="note">
-    <header class="paper-head">
-      <p class="paper-eyebrow">AEA job market · 2026-27 cycle · this draft: August 2026</p>
-      <p class="paper-doc-title">Making Complex Evidence Usable</p>
-      <p class="paper-sub">A candidate note for hiring committees, with live figures</p>
-      <p class="paper-author">Ian Helfrich<a class="fn-ref" href="#fn-corr" id="ref-corr">†</a></p>
-      <p class="paper-affil">Ph.D. Economics, Georgia Institute of Technology, 2024</p>
-      <p class="paper-jel">JEL: C14 · F14 · R12 · J23 &nbsp;·&nbsp; Keywords: applied econometrics, international trade, spatial economics, optimal transport, labor and AI</p>
-      <nav class="paper-links" aria-label="Candidate documents">
-        <a href="/cv">[ CV update ]</a>
-        <a href="mailto:ianthelfrich@gmail.com?subject=Current%20CV%20request">[ request current CV ]</a>
-        <a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">[ evaluations ]</a>
-        <a href="mailto:ianthelfrich@gmail.com?subject=Faculty%20search%20inquiry">[ email ]</a>
-      </nav>
+  <section class="market-research route-shell" data-rail-label="Research record">
+    <header class="section-intro">
+      <div>
+        <p class="record-label">Selected research record</p>
+        <h2>Questions, status, role, and limits</h2>
+      </div>
+      <p>This page uses the same public-discovery rules as the research index. Work under development does not acquire a result claim by appearing in a hiring dossier.</p>
     </header>
+    <div class="dossier-list">
+      {dossierResearch.map((record, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <p class="status-line">{record.data.displayStatus} · {record.data.year}</p>
+            <h3><a href={`/research/${record.id}`}>{record.data.title}</a></h3>
+            <p>{record.data.question}</p>
+          </div>
+          <aside>
+            <p><strong>Role</strong>{record.data.role}</p>
+            <p><strong>Limit</strong>{record.data.limit}</p>
+          </aside>
+        </article>
+      ))}
+    </div>
+    <a class="text-route" href="/research">Complete research ledger →</a>
+  </section>
 
-    <section class="paper-abstract" aria-label="Abstract">
-      <h2>Abstract</h2>
-      <p>
-        Ian Helfrich is an applied econometrician on the 2026-27 economics job
-        market, working on spatial and high-dimensional methods, economic networks,
-        and international trade. His sole-authored job market paper reports a
-        descriptive, noncausal decomposition of the apparent rural gap in U.S. New
-        Markets Tax Credit leverage. In the base specification, observed intermediary
-        composition contributes −0.185, or 86 percent of the explained movement;
-        the mechanism remains unresolved. The wider program covers planned and active
-        work on satellite-calibrated trade costs, optimal transport theory, and labor
-        and generative-AI measurement. Two figures in this note are interactive. He is available
-        through the December signal window and at ASSA 2027.
-      </p>
-    </section>
+  <section class="market-teaching route-band" data-rail-label="Teaching">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Teaching record</p>
+          <h2>University classrooms, online courses, and quantitative coaching</h2>
+        </div>
+        <p>Instructor of record for three semesters at Georgia Tech; teaching support at Duke and Indiana; online instruction in microeconomics and macroeconomics; independent instruction and research-design coaching.</p>
+      </header>
+      <div class="teaching-evidence">
+        <article><span>Award</span><strong>{teachingRecognition.award}, {teachingRecognition.year}</strong></article>
+        <article><span>Evaluations</span><strong><a href={teachingRecognition.evaluations.href}>Georgia Tech course-evaluation record, {teachingRecognition.evaluations.year} →</a></strong></article>
+        <article><span>Wyzant · platform-recorded</span><strong>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} hours</strong></article>
+        <article><span>Private practice · practice-recorded</span><strong>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours</strong></article>
+        <article><span>Materials</span><strong><a href="/teaching">Full teaching and coaching record →</a></strong></article>
+      </div>
+    </div>
+  </section>
 
-    <section aria-labelledby="s1">
-      <h2 id="s1">1&ensp;The candidate</h2>
-      <p>
-        The candidate holds a Ph.D. in Economics from the Georgia Institute of
-        Technology (2024) with a doctoral minor in quantitative psychology, an M.S. in
-        Geographic Information Science and Technology (2022), and prior degrees in
-        economics from Georgia Tech, Indiana University, the Barcelona School of
-        Economics, and the University of North Carolina at Chapel Hill. His advisors
-        are Dr. Tibor Besedes and Dr. Usha Nair-Reichert.<a class="fn-ref" href="#fn-letters" id="ref-letters">1</a>
-      </p>
-      <p>
-        Primary fields are applied econometrics, international trade, and spatial and
-        urban economics; secondary fields are economic networks, labor and AI, and
-        policy evaluation. Across these areas the work asks one question: does the
-        metric, comparison, or network representation match the economic object under
-        study? Most of the papers below began in an applied setting where the
-        standard choice failed that test.
-      </p>
-    </section>
-
-    <section aria-labelledby="s2">
-      <h2 id="s2">2&ensp;The job market paper</h2>
-      <p class="paper-jmp-title">
-        <a href="/research/helfrich-2026-nmtc-rural-gap">"The rural mobilization gap in a U.S. place-based tax credit"</a>
-        &nbsp;·&nbsp; Ian Helfrich
-        &nbsp;·&nbsp; sole-authored
-        &nbsp;·&nbsp; working paper, August 2026
-      </p>
-      <p>
-        The paper decomposes the rural-versus-urban private-leverage gap in the U.S.
-        New Markets Tax Credit using Community Development Entity fixed effects, on a
-        project-level panel built from 19,907 QLICI transactions covering 8,024 projects
-        with origination years 2001–2022. The raw rural gap of &minus;0.262 falls to
-        &minus;0.047 (p = 0.64) once CDE identity enters the model. In the base
-        order-invariant decomposition, observed intermediary composition contributes
-        &minus;0.185, or 86 percent of the explained movement. This is a descriptive,
-        noncausal decomposition, and the mechanism remains unresolved. One
-        exception survives a multiple-comparison correction across twenty-four
-        subgroups: rural commercial real-estate rehabilitation, at &minus;0.439,
-        reported as exploratory. A Chetty-Kleven style bunching test detects no excess
-        mass around the 20 percent non-metro administrative target in realized
-        cumulative-deployment data; allocation-agreement compliance is unobserved.
-        The results motivate evaluating intermediary-allocation levers without
-        establishing a causal or lower-cost policy fix. Replication code and an
-        interactive viewer are public (<a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">github.com/ihelfrich/us-nmtc-viewer</a>).
-      </p>
-    </section>
-
-    <section aria-labelledby="s3">
-      <h2 id="s3">3&ensp;The research program</h2>
-      <p>
-        Nine records make up the research program. Figure 1 links papers that share method tags. The
-        main component connects optimal transport theory (Helfrich 2024),
-        satellite-calibrated measurement (Gonchar and Helfrich 2025, 2026), and the
-        sanctions-era observation program. Two papers are isolated: one in
-        place-based policy, one in labor. The references give full records,
-        abstracts, and code.
-      </p>
-      <figure class="paper-fig">
-        <svg id="pgm2" viewBox="0 0 1000 460" role="img" aria-label="Graph of the candidate's papers connected by shared method tags"></svg>
-        <figcaption>
-          <strong>Figure 1.</strong> The research program as a graph. Nodes are
-          papers; edge weight is the number of shared method tags. The layout is a
-          force solve. The figure is live: drag a node to test the structure, or
-          click it to open the paper's record.
-          <span class="paper-fig-readout" id="pgm2-readout"></span>
-        </figcaption>
-      </figure>
-    </section>
-
-    <section aria-labelledby="s4">
-      <h2 id="s4">4&ensp;Teaching</h2>
-      <p>
-        The candidate's teaching record spans instruction of record, graduate
-        assistantship, and a large independent practice, summarized in Table 1. The
-        quantitative practice is organized around durable subject families and
-        browser-native teaching instruments.<a class="fn-ref" href="#fn-est" id="ref-est">2</a>
-      </p>
-      <table class="paper-table">
-        <caption><strong>Table 1.</strong> Teaching record.</caption>
-        <thead>
-          <tr><th>Role</th><th>Detail</th><th class="num">Scale</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Instructor of record</td><td>Georgia Tech: economics and policy; principles of microeconomics</td><td class="num">3 semesters</td></tr>
-          <tr><td>Graduate TA</td><td>Undergraduate economics; graduate econometrics; ECE signal processing</td><td class="num">4 courses</td></tr>
-          <tr><td>Independent instruction</td><td>Economics, statistics, econometrics, finance, business, Python and SQL, research design, test preparation</td><td class="num">{tutoringRecord.wyzantHoursDisplay} Wyzant hrs<br />{tutoringRecord.privateHoursProse} private hrs</td></tr>
-          <tr><td>Recognition</td><td>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023</td><td class="num">Award</td></tr>
-          <tr><td>Teaching-quality evidence</td><td>Georgia Tech course evaluations (<a href="/cv/cios-evals-2022.pdf" target="_blank" rel="noopener">2022 evaluations</a>)</td><td class="num">2022</td></tr>
-          <tr><td>Curriculum families</td><td>Statistics and inference; econometrics and research design; Python and SQL; microeconomics; macroeconomics; business, strategy and marketing; GIS and public data</td><td class="num">7 families</td></tr>
-          <tr><td>Open book</td><td><a href="https://github.com/ihelfrich/pictures-of-inference" target="_blank" rel="noopener">Pictures of Inference</a>, a visual textbook in active draft</td><td class="num">Public source</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section aria-labelledby="s5">
-      <h2 id="s5">5&ensp;Availability</h2>
-      <p>
-        The candidate is applying through AEA JOE this cycle and is available for
-        interviews through the December signal window and at ASSA in January 2027,
-        in person or remote. Figure 2 places today against the market calendar.
-        Research and teaching statements, evaluations, and reference letters arrive
-        by email the same day they are requested.
-      </p>
-      <figure class="paper-fig">
-        <svg id="cyc" viewBox="0 0 1000 150" role="img" aria-label="Timeline of the AEA 2026-27 job market cycle with a marker at today's date"></svg>
-        <figcaption>
-          <strong>Figure 2.</strong> The AEA 2026-27 cycle, to scale. The blue
-          cursor is live and marks the day you are reading this.
-        </figcaption>
-      </figure>
-    </section>
-
-    <div class="paper-fnrule" role="separator"></div>
-    <section class="paper-fns" aria-label="Footnotes">
-      <p id="fn-corr"><span class="fn-mark">†</span> Corresponding candidate: <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a> &nbsp;·&nbsp; <a href="https://ihelfrich.github.io">ihelfrich.github.io</a> &nbsp;·&nbsp; <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">github.com/ihelfrich</a> <a class="fn-back" href="#ref-corr">↩</a></p>
-      <p id="fn-letters"><span class="fn-mark">1</span> Reference letters are
-        delivered through application portals or directly to the committee on
-        request. <a class="fn-back" href="#ref-letters">↩</a></p>
-      <p id="fn-est"><span class="fn-mark">2</span> An interactive least-squares
-        estimator accompanies the <a href="/teaching">teaching portfolio</a>: the
-        reader places the data and the model refits, standard errors included, on
-        every change. The mathematics behind this note's figures is documented in
-        the <a href="/colophon">colophon</a>. <a class="fn-back" href="#ref-est">↩</a></p>
-    </section>
-
-    <section class="paper-refs" aria-labelledby="refs-title">
-      <h2 id="refs-title">References</h2>
-      <p>Gonchar, Elizaveta, and Ian Helfrich (2025). "Trade in the spotlight: nightlights and population-weighted distance." SSRN 5202676. <a href="/research/gonchar-helfrich-2025-spotlight">[record]</a></p>
-      <p>Gonchar, Elizaveta, and Ian Helfrich (2026). "Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024." In preparation; no completed panel or results claimed. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">[record]</a></p>
-      <p>Helfrich, Ian (2024). "A unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces." SSRN 4772016. <a href="/research/helfrich-2024-ssrn-4772016">[record]</a></p>
-      <p>Helfrich, Ian (2026). "The rural mobilization gap in a U.S. place-based tax credit." Sole-authored working paper, August 2026; job market paper. Contributors: Katia Antunes and Elizaveta Gonchar. <a href="/research/helfrich-2026-nmtc-rural-gap">[record]</a></p>
-      <p>Helfrich, Ian (2026). "Penumbra: closed-loop observation under measurement gaps in cross-border trade." Draft. <a href="/research/helfrich-2026-penumbra">[record]</a></p>
-      <p>Helfrich, Ian, and Shane Vardanyan (2026). "AI and the entry-level labor market." Working paper. <a href="/research/helfrich-vardanyan-2026-ai-entry-level-labor">[record]</a></p>
-      <p class="paper-refs-more"><a href="/research">Complete program, with abstracts and code →</a></p>
-    </section>
-  </article>
+  <section class="market-close route-grid" data-rail-label="Documents and contact">
+    <div>
+      <p class="record-label">Documents and contact</p>
+      <h2>For a complete review</h2>
+    </div>
+    <div class="market-links">
+      <a href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Academic CV · PDF ↗</a>
+      <a href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener">Executive resume · PDF ↗</a>
+      <a href="/cv">Evidence-linked CV and contact →</a>
+      <a href={publicLinks.email}>Email Ian →</a>
+    </div>
+  </section>
 </Base>
 
-<script is:inline type="application/json" id="pgm2-data" set:html={JSON.stringify(mapData)} />
-<script is:inline type="application/json" id="fig0-data" set:html={JSON.stringify(portraitPlan)} />
-
-<script>
-  // ── fig. 0: the candidate, as a measure ─────────────────────────────────
-  // 4,200 points sampled from the portrait by brightness, paired to a
-  // gaussian start cloud along a Z-order curve. "Resolve" flows the mass
-  // along the plan (displacement interpolation); "disperse" reverses it.
-  // Motion runs only on the visitor's click and stops at the endpoints.
-  const fig0 = document.getElementById("fig0") as HTMLCanvasElement | null;
-  const fig0Btn = document.getElementById("fig0-btn");
-  const fig0Data = document.getElementById("fig0-data");
-  if (fig0 && fig0Btn && fig0Data) {
-    const ctx = fig0.getContext("2d")!;
-    const { s, e } = JSON.parse(fig0Data.textContent || "{}") as { s: [number, number][]; e: [number, number, number][] };
-    const N = e.length;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const FLOW = 1700;
-    let size = 0, dpr = 1;
-    let resolved = false, animFrom = 0, animT0 = -1, raf = 0;
-    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-    function resize() {
-      const r = fig0.getBoundingClientRect();
-      size = Math.max(1, r.width);
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      fig0.width = Math.round(size * dpr);
-      fig0.height = Math.round(size * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      draw(resolved ? 1 : 0);
-    }
-    function draw(t: number) {
-      ctx.clearRect(0, 0, size, size);
-      const transit = t > 0.001 && t < 0.999;
-      const wave = transit ? Math.sin(Math.PI * t) : 0;
-      for (let i = 0; i < N; i++) {
-        const x = (s[i][0] + (e[i][0] - s[i][0]) * t) * size;
-        const y = (s[i][1] + (e[i][1] - s[i][1]) * t) * size;
-        const b = e[i][2];
-        const r_ = (1.05 + (0.55 + 0.85 * b) * t) * (size / 520);
-        if (transit && i % 3 === 0) {
-          ctx.fillStyle = `rgba(40,82,232,${0.5 + 0.4 * wave})`;
-        } else {
-          const a = 0.5 + 0.42 * (t * b + (1 - t) * 0.35);
-          ctx.fillStyle = `rgba(242,234,222,${a})`;
-        }
-        ctx.beginPath();
-        ctx.arc(x, y, r_, 0, 6.2832);
-        ctx.fill();
-      }
-    }
-    function step(now: number) {
-      const raw = Math.min(1, (now - animT0) / FLOW);
-      const t = resolved ? animFrom + (1 - animFrom) * ease(raw) : animFrom * (1 - ease(raw));
-      draw(t);
-      if (raw < 1) { raf = requestAnimationFrame(step); return; }
-      animT0 = -1;
-      fig0Btn!.textContent = resolved ? "disperse" : "resolve";
-    }
-    function toggle() {
-      if (animT0 >= 0) return;
-      resolved = !resolved;
-      if (reduced) { draw(resolved ? 1 : 0); fig0Btn!.textContent = resolved ? "disperse" : "resolve"; return; }
-      animFrom = resolved ? 0 : 1;
-      animT0 = performance.now();
-      fig0Btn!.textContent = "resolving";
-      raf = requestAnimationFrame(step);
-    }
-    fig0Btn.addEventListener("click", toggle);
-    fig0.addEventListener("pointerdown", toggle);
-    new ResizeObserver(() => { cancelAnimationFrame(raf); animT0 = -1; resize(); }).observe(fig0);
-    resize();
-  }
-
-  // ── Figure 1: the program map (compact variant of /research's instrument)
-  const svg2 = document.getElementById("pgm2") as unknown as SVGSVGElement | null;
-  const data2 = document.getElementById("pgm2-data");
-  const ro2 = document.getElementById("pgm2-readout");
-  if (svg2 && data2) {
-    const { nodes, edges } = JSON.parse(data2.textContent || "{}");
-    const Wv = 1000, Hv = 460, CX = Wv / 2, CY = Hv / 2 - 10;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const N = nodes.length;
-    const X = new Float64Array(N), Y = new Float64Array(N);
-    const VX = new Float64Array(N), VY = new Float64Array(N);
-    const GOLD = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < N; i++) {
-      const a = i * GOLD, r = 130 + 16 * i;
-      X[i] = CX + Math.cos(a) * r; Y[i] = CY + Math.sin(a) * r * 0.66;
-    }
-    const NS = "http://www.w3.org/2000/svg";
-    const edgeEls: SVGLineElement[] = [], nodeEls: SVGGElement[] = [];
-    for (const e of edges) {
-      const l = document.createElementNS(NS, "line");
-      l.setAttribute("stroke", "rgba(17,17,19,0.22)");
-      l.setAttribute("stroke-width", String(0.8 + e.w * 0.9));
-      svg2.appendChild(l); edgeEls.push(l as SVGLineElement);
-    }
-    nodes.forEach((n: any, i: number) => {
-      const g = document.createElementNS(NS, "g");
-      g.setAttribute("cursor", "pointer");
-      g.setAttribute("tabindex", "0");
-      g.setAttribute("role", "link");
-      g.setAttribute("aria-label", n.title);
-      const halo = document.createElementNS(NS, "circle");
-      halo.setAttribute("r", "16"); halo.setAttribute("fill", "transparent");
-      const c = document.createElementNS(NS, "circle");
-      c.setAttribute("r", "6.5"); c.setAttribute("fill", "#111113");
-      const t = document.createElementNS(NS, "text");
-      t.textContent = n.short;
-      t.setAttribute("text-anchor", "middle");
-      t.setAttribute("fill", "#66666c");
-      t.setAttribute("style", "font: 520 10.5px var(--ih-mono); pointer-events: none;");
-      const title = document.createElementNS(NS, "title");
-      title.textContent = `${n.title} (${n.year})`;
-      g.append(halo, c, t, title);
-      svg2.appendChild(g); nodeEls.push(g as SVGGElement);
-    });
-    let running = false, raf = 0, dragging = -1, dragMoved = 0;
-    function physics() {
-      let energy = 0;
-      for (let i = 0; i < N; i++) {
-        if (i === dragging) continue;
-        let fx = (CX - X[i]) * 0.01, fy = (CY - Y[i]) * 0.012;
-        for (let j = 0; j < N; j++) {
-          if (j === i) continue;
-          const dx = X[i] - X[j], dy = Y[i] - Y[j];
-          const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
-          fx += (dx / d) * (7200 / d2); fy += (dy / d) * (7200 / d2);
-        }
-        VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
-      }
-      for (const e of edges) {
-        const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
-        const d = Math.max(1, Math.hypot(dx, dy));
-        const f = (d - (180 - 34 * Math.min(3, e.w))) * 0.016 * e.w;
-        const ux = dx / d, uy = dy / d;
-        if (e.a !== dragging) { VX[e.a] += ux * f; VY[e.a] += uy * f; }
-        if (e.b !== dragging) { VX[e.b] -= ux * f; VY[e.b] -= uy * f; }
-      }
-      for (let i = 0; i < N; i++) {
-        if (i === dragging) continue;
-        X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
-        Y[i] = Math.min(Hv - 40, Math.max(30, Y[i] + VY[i]));
-        energy += VX[i] * VX[i] + VY[i] * VY[i];
-      }
-      return energy;
-    }
-    function render() {
-      edges.forEach((e: any, k: number) => {
-        edgeEls[k].setAttribute("x1", String(X[e.a])); edgeEls[k].setAttribute("y1", String(Y[e.a]));
-        edgeEls[k].setAttribute("x2", String(X[e.b])); edgeEls[k].setAttribute("y2", String(Y[e.b]));
-      });
-      nodeEls.forEach((g, i) => {
-        g.setAttribute("transform", `translate(${X[i]},${Y[i]})`);
-        (g.children[2] as SVGTextElement).setAttribute("y", "22");
-      });
-    }
-    function step() {
-      const e = physics();
-      render();
-      if (e < 0.02 && dragging < 0) { running = false; return; }
-      raf = requestAnimationFrame(step);
-    }
-    function wake() { if (!running) { running = true; raf = requestAnimationFrame(step); } }
-    function svgPt(ev: PointerEvent) {
-      const inv = svg2.getScreenCTM()!.inverse();
-      return { x: ev.clientX * inv.a + ev.clientY * inv.c + inv.e, y: ev.clientX * inv.b + ev.clientY * inv.d + inv.f };
-    }
-    nodeEls.forEach((g, i) => {
-      g.addEventListener("pointerdown", (ev) => {
-        dragging = i; dragMoved = 0;
-        g.setPointerCapture(ev.pointerId); ev.preventDefault(); wake();
-      });
-      g.addEventListener("pointermove", (ev) => {
-        if (dragging !== i) return;
-        const p = svgPt(ev);
-        dragMoved += Math.abs(p.x - X[i]) + Math.abs(p.y - Y[i]);
-        X[i] = p.x; Y[i] = p.y; VX[i] = 0; VY[i] = 0; wake();
-      });
-      g.addEventListener("pointerup", () => {
-        const wasDrag = dragMoved > 6;
-        dragging = -1; wake();
-        if (!wasDrag) window.location.href = `/research/${nodes[i].id}`;
-      });
-      g.addEventListener("keydown", (ev) => {
-        if ((ev as KeyboardEvent).key === "Enter") window.location.href = `/research/${nodes[i].id}`;
-      });
-      g.addEventListener("mouseenter", () => {
-        (g.children[1] as SVGCircleElement).setAttribute("fill", "#2852e8");
-        edges.forEach((e: any, k: number) => {
-          if (e.a === i || e.b === i) edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
-        });
-        if (ro2) ro2.textContent = ` Hovering: ${nodes[i].title} (${nodes[i].year}).`;
-      });
-      g.addEventListener("mouseleave", () => {
-        (g.children[1] as SVGCircleElement).setAttribute("fill", "#111113");
-        edgeEls.forEach((l) => l.setAttribute("stroke", "rgba(17,17,19,0.22)"));
-        if (ro2) ro2.textContent = "";
-      });
-    });
-    if (reduced) {
-      for (let s = 0; s < 700; s++) if (physics() < 0.02) break;
-      render();
-    } else { render(); wake(); }
-  }
-
-  // ── Sidenotes: on wide viewports the footnotes leave the end of the paper
-  // and sit in the right margin beside their reference marks, Tufte style.
-  // Pure layout, no motion; narrow viewports and print keep the footnote
-  // block at the end.
-  const paperEl = document.querySelector(".paper") as HTMLElement | null;
-  if (paperEl) {
-    const pairs: [string, string][] = [
-      ["ref-corr", "fn-corr"],
-      ["ref-letters", "fn-letters"],
-      ["ref-est", "fn-est"],
-    ];
-    const mq = window.matchMedia("(min-width: 1360px)");
-    function placeSidenotes() {
-      const on = mq.matches;
-      paperEl!.classList.toggle("has-sidenotes", on);
-      let prevBottom = -1e9;
-      for (const [refId, fnId] of pairs) {
-        const ref = document.getElementById(refId);
-        const fn = document.getElementById(fnId);
-        if (!ref || !fn) continue;
-        if (!on) { fn.style.top = ""; continue; }
-        const pr = paperEl!.getBoundingClientRect();
-        let top = ref.getBoundingClientRect().top - pr.top - 4;
-        if (top < prevBottom + 14) top = prevBottom + 14;
-        fn.style.top = `${top}px`;
-        prevBottom = top + fn.getBoundingClientRect().height;
-      }
-    }
-    const schedule = () => requestAnimationFrame(placeSidenotes);
-    mq.addEventListener("change", schedule);
-    window.addEventListener("resize", schedule);
-    window.addEventListener("load", schedule);
-    schedule();
-  }
-
-  // ── Figure 2: the cycle instrument (unchanged mathematics, paper styling)
-  const svg = document.getElementById("cyc");
-  if (svg) {
-    const NS = "http://www.w3.org/2000/svg";
-    const T0 = new Date("2026-08-01T00:00:00").getTime();
-    const T1 = new Date("2027-03-01T00:00:00").getTime();
-    const L = 14, R = 986, AX = 108;
-    const x = (d: string | number) =>
-      L + ((typeof d === "number" ? d : new Date(d + "T12:00:00").getTime()) - T0) / (T1 - T0) * (R - L);
-    const el = (tag: string, attrs: Record<string, string>, text?: string) => {
-      const n = document.createElementNS(NS, tag);
-      for (const k in attrs) n.setAttribute(k, attrs[k]);
-      if (text) n.textContent = text;
-      svg.appendChild(n);
-      return n;
-    };
-    const MONO = "font: 520 10.5px var(--ih-mono);";
-    const band = (d0: string, d1: string, y: number, label: string) => {
-      el("rect", { x: String(x(d0)), y: String(y), width: String(x(d1) - x(d0)), height: "16",
-        rx: "3", fill: "rgba(17,17,19,0.07)", stroke: "rgba(17,17,19,0.28)", "stroke-width": "0.6" });
-      el("text", { x: String(x(d0) + 5), y: String(y + 11.5), fill: "#3d3d42", style: MONO }, label);
-    };
-    el("line", { x1: String(L), y1: String(AX), x2: String(R), y2: String(AX), stroke: "#111113", "stroke-width": "1" });
-    const months = ["2026-08-01","2026-09-01","2026-10-01","2026-11-01","2026-12-01","2027-01-01","2027-02-01","2027-03-01"];
-    const names = ["Aug","Sep","Oct","Nov","Dec","Jan 27","Feb",""];
-    months.forEach((m, i) => {
-      const X = x(m);
-      el("line", { x1: String(X), y1: String(AX - 4), x2: String(X), y2: String(AX + 4), stroke: "#898781", "stroke-width": "1" });
-      if (names[i]) el("text", { x: String(X + 4), y: String(AX + 18), fill: "#898781", style: MONO }, names[i]);
-    });
-    band("2026-08-01", "2027-01-31", 30, "JOE listings open · Aug 1 to Jan 31");
-    band("2026-10-01", "2026-11-30", 58, "deadline cluster · Oct to Nov");
-    band("2026-12-01", "2026-12-15", 58, "");
-    el("text", { x: String(x("2026-12-01")), y: "53", fill: "#3d3d42", style: MONO }, "signals · early Dec");
-    const ax2 = x("2027-01-03");
-    el("path", { d: `M ${ax2} ${AX - 9} l 5 6 l -5 6 l -5 -6 z`, fill: "#111113" });
-    el("text", { x: String(ax2 + 8), y: String(AX - 8), fill: "#3d3d42", style: MONO }, "ASSA · Jan 2027");
-    const now = Date.now();
-    if (now >= T0 && now <= T1) {
-      const X = x(now);
-      el("line", { x1: String(X), y1: "22", x2: String(X), y2: String(AX + 6), stroke: "#2852e8", "stroke-width": "1.6" });
-      const d = new Date();
-      const lbl = `today · ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-      const anchor = X > R - 120 ? "end" : "start";
-      el("text", { x: String(X + (anchor === "end" ? -6 : 6)), y: "18", fill: "#2852e8",
-        "text-anchor": anchor, style: MONO }, lbl);
-    }
-  }
-</script>
-
 <style>
-  :global(.paper-page main.wide) { width: 100%; max-width: none; padding: 0; }
-
-  /* ── The cover: the site's one midnight surface ── */
-  .cover {
-    background: #121426;
-    color: #f2eade;
-    min-height: calc(100svh - 72px);
-    display: grid;
-    align-items: center;
-    padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 5vw, 5rem);
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-shell--compact { padding-block: 0; }
+  .route-grid { display: grid; width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ef-gutter); }
+  .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
+  .record-label,
+  .status-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .market-hero { min-height: 40rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .market-hero__copy { grid-column: 2 / span 7; }
+  .market-hero h1 { max-width: 10ch; }
+  .market-hero__copy > p:last-of-type { max-width: 64ch; font-size: 1.22rem; }
+  .market-hero__margin { grid-column: 9 / span 3; padding-top: 0.8rem; border-top: 2px solid var(--ef-signal); }
+  .market-hero__margin > strong { display: block; font-size: 1.05rem; }
+  .market-hero__margin dl { margin: 1rem 0 0; }
+  .market-hero__margin dl > div { padding-block: 0.6rem; border-top: 1px solid var(--rule); }
+  .market-hero__margin dt { color: var(--muted); font: 600 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .market-hero__margin dd { margin: 0.2rem 0 0; }
+  .action-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  .fieldbook-action--quiet { color: var(--ef-ink); background: transparent; border-color: var(--ef-ink); }
+  .paper-heading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(17rem, 0.8fr); gap: var(--ef-space-7); }
+  .paper-heading h2 { max-width: 16ch; margin: 0; }
+  .paper-question { max-width: 62ch; margin-top: 1.5rem; font-size: 1.25rem; }
+  .paper-heading aside { padding-top: 0.7rem; border-top: 2px solid var(--ef-signal); }
+  .paper-heading dl { margin: 0; }
+  .paper-heading dl > div { display: grid; padding-block: 0.55rem; grid-template-columns: 1fr 1fr; gap: 0.7rem; border-bottom: 1px solid var(--rule); }
+  .paper-heading dt { color: var(--muted); font: 600 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .paper-heading dd { margin: 0; font-family: var(--font-data); font-size: 0.75rem; }
+  .paper-account { max-width: 72ch; margin-top: var(--ef-space-6); font-size: 1.08rem; }
+  .authorship-note { padding-left: 1rem; border-left: 3px solid var(--ef-signal); }
+  .paper-links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; margin-top: var(--ef-space-5); font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .section-intro h2 { margin: 0; }
+  .section-intro > p { margin: 0; }
+  .dossier-list { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .dossier-list article { display: grid; padding-block: var(--ef-space-5); grid-template-columns: 3rem minmax(0, 2fr) minmax(15rem, 0.9fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .dossier-list article > span { color: var(--ef-signal); font: 600 0.76rem/1.4 var(--font-data); }
+  .dossier-list h3 { margin: 0 0 0.75rem; font-size: clamp(1.35rem, 2.4vw, 2rem); }
+  .dossier-list h3 a { color: var(--ef-ink); text-decoration: none; }
+  .dossier-list aside { padding-left: 1rem; border-left: 1px solid var(--rule); }
+  .dossier-list aside p { margin: 0; }
+  .dossier-list aside p + p { margin-top: 1rem; padding-top: 0.7rem; color: var(--ef-oxide); border-top: 2px solid currentColor; }
+  .dossier-list aside strong { display: block; margin-bottom: 0.3rem; font: 650 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .text-route { display: inline-block; margin-top: var(--ef-space-5); font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .teaching-evidence { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ef-ink); }
+  .teaching-evidence article { min-height: 10rem; padding: var(--ef-space-4); }
+  .teaching-evidence article + article { border-left: 1px solid var(--ef-ink); }
+  .teaching-evidence span { display: block; margin-bottom: 1rem; color: var(--muted); font: 620 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .market-close { padding-block: var(--ef-space-7); }
+  .market-close > div:first-child { grid-column: 2 / span 7; }
+  .market-close > div:last-child { grid-column: 9 / span 3; }
+  .market-close h2 { margin: 0; }
+  .market-links { display: grid; align-content: end; gap: 0.7rem; font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 60rem) {
+    .market-hero__copy { grid-column: 1 / span 5; }
+    .market-hero__margin { grid-column: 6 / span 3; }
+    .section-intro { grid-template-columns: 1fr; }
+    .dossier-list article { grid-template-columns: 2.5rem minmax(0, 1.5fr) minmax(13rem, 1fr); }
+    .market-close > div:first-child { grid-column: 1 / span 5; }
+    .market-close > div:last-child { grid-column: 6 / span 3; }
+    .teaching-evidence { grid-template-columns: repeat(2, 1fr); }
+    .teaching-evidence article:nth-child(odd):not(:first-child) { border-left: 0; }
+    .teaching-evidence article:nth-child(n + 3) { border-top: 1px solid var(--ef-ink); }
   }
-  .cover-inner {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(300px, 7fr) minmax(280px, 5fr);
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: center;
-  }
-  .cover-eyebrow { margin: 0 0 1.4rem; color: #b9c0d8; font: 520 0.68rem/1.5 var(--ih-mono); letter-spacing: 0.08em; text-transform: uppercase; }
-  .cover h1 {
-    margin: 0;
-    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    font-weight: 600;
-    font-size: clamp(2.6rem, 5.6vw, 4.6rem);
-    line-height: 1.04;
-    letter-spacing: -0.015em;
-    color: #f2eade;
-  }
-  .cover-sub {
-    margin: 1.4rem 0 0;
-    max-width: 30rem;
-    color: #b9c0d8;
-    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.6;
-  }
-  .cover-cta { margin: 2.2rem 0 0; }
-  .cover-cta a { color: #f2eade; font: 600 0.74rem/1.5 var(--ih-mono); text-decoration: underline; text-underline-offset: 0.34em; }
-  .cover-cta a:hover { color: #2852e8; }
-  .cover-fig { margin: 0; }
-  .cover-fig canvas {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1;
-    cursor: pointer;
-    border: 1px solid rgba(242, 234, 222, 0.16);
-    border-radius: 4px;
-  }
-  .cover-fig figcaption {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.6rem;
-    color: #b9c0d8;
-    font: 520 0.64rem/1.5 var(--ih-mono);
-  }
-  #fig0-btn {
-    background: none;
-    border: 1px solid rgba(242, 234, 222, 0.35);
-    border-radius: 5px;
-    color: #f2eade;
-    font: 520 0.64rem/1.4 var(--ih-mono);
-    padding: 2px 10px;
-    cursor: pointer;
-  }
-  #fig0-btn:hover { border-color: #2852e8; color: #b9c0d8; }
-  @media (max-width: 860px) {
-    .cover-inner { grid-template-columns: 1fr; }
-    .cover-fig { max-width: 420px; }
-  }
-  @media (forced-colors: active) { .cover-fig canvas { display: none; } }
-
-  .paper-doc-title {
-    margin: 1.1rem 0 0.2rem;
-    font-weight: 600;
-    font-size: clamp(1.9rem, 4vw, 2.7rem);
-    line-height: 1.15;
-    letter-spacing: -0.012em;
-  }
-
-  .paper {
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    max-width: 46rem;
-    margin: 0 auto;
-    padding: 3rem 1.25rem 3.5rem;
-    scroll-margin-top: 1.5rem;
-    color: #111113;
-    font-family: var(--serif);
-    font-size: 1.02rem;
-    line-height: 1.62;
-  }
-  .paper p { margin: 0 0 0.9rem; }
-  .paper p, .paper li { orphans: 3; widows: 3; }
-  .paper section > p { text-align: justify; hyphens: auto; }
-  .paper section:not(.paper-abstract):not(.paper-fns):not(.paper-refs) > p:not(.paper-jmp-title) + p { text-indent: 1.25em; }
-  .paper a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2.5px; text-decoration-color: rgba(17,17,19,0.4); }
-  .paper a:hover { color: #2852e8; text-decoration-color: #2852e8; }
-
-  @supports (text-wrap: pretty) {
-    .paper p, .paper h2, .paper figcaption, .paper caption { text-wrap: pretty; }
-  }
-
-  .paper-head { text-align: center; margin-bottom: 2.4rem; }
-  .paper-eyebrow { color: #66666c; font: 520 0.66rem/1.5 var(--ih-mono); letter-spacing: 0.06em; text-transform: uppercase; }
-  .paper-head .paper-doc-title { font-family: var(--serif); }
-  .paper-sub { margin: 0.2rem 0 1.4rem; font-style: italic; color: #3d3d42; }
-  .paper-author { margin: 0; font-variant-caps: small-caps; letter-spacing: 0.08em; font-size: 1.08rem; }
-  .paper-author .fn-ref { text-decoration: none; }
-  .paper-affil { margin: 0.15rem 0 0.9rem; color: #3d3d42; font-size: 0.93rem; }
-  .paper-jel { color: #66666c; font: 520 0.66rem/1.6 var(--ih-mono); }
-  .paper-links { display: flex; justify-content: center; gap: 1.1rem; flex-wrap: wrap; margin-top: 0.9rem; }
-  .paper-links a { color: #3d3d42; font: 520 0.68rem/1.5 var(--ih-mono); text-decoration: none; }
-  .paper-links a:hover { color: #2852e8; }
-
-  .paper-abstract { max-width: 40rem; margin: 0 auto 2.2rem; }
-  .paper-abstract h2 { text-align: center; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.08em; font-variant-caps: small-caps; margin: 0 0 0.5rem; }
-  .paper-abstract p { font-size: 0.94rem; line-height: 1.58; text-align: justify; hyphens: auto; margin: 0; }
-
-  .paper h2 { font-family: var(--serif); font-weight: 600; font-size: 1.18rem; margin: 2rem 0 0.7rem; }
-  .paper-jmp-title { font-style: italic; }
-
-  .fn-ref { font-size: 0.72em; vertical-align: super; line-height: 0; text-decoration: none; color: #2852e8; }
-
-  .paper-fig { margin: 1.6rem 0 1.9rem; padding: 0.7rem 0 0.4rem; border-top: 1px solid rgba(17,17,19,0.55); border-bottom: 1px solid rgba(17,17,19,0.55); }
-  .paper-fig svg { display: block; width: 100%; height: auto; }
-  .paper-fig figcaption { margin-top: 0.55rem; font-size: 0.85rem; line-height: 1.55; color: #3d3d42; text-align: justify; hyphens: auto; }
-  .paper-fig-readout { color: #2852e8; font: 520 0.68rem/1.5 var(--ih-mono); }
-  .paper-fig svg g:focus { outline: none; }
-  .paper-fig svg g:focus circle:nth-child(2) { fill: #2852e8; }
-
-  .paper-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: 0.92rem; font-variant-numeric: tabular-nums lining-nums; border-top: 1.6px solid #111113; border-bottom: 1.6px solid #111113; }
-  .paper-table caption { caption-side: top; text-align: left; font-size: 0.85rem; color: #3d3d42; padding-bottom: 0.45rem; }
-  .paper-table th { text-align: left; font-weight: 600; padding: 0.5rem 0.8rem 0.4rem 0; border-bottom: 0.8px solid rgba(17,17,19,0.5); }
-  .paper-table td { vertical-align: top; padding: 0.45rem 0.8rem 0.45rem 0; border-bottom: 0.5px solid rgba(17,17,19,0.12); }
-  .paper-table tr:last-child td { border-bottom: none; }
-  .paper-table .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-
-  .paper-fnrule { width: 34%; border-top: 1px solid rgba(17,17,19,0.55); margin: 2.4rem 0 0.8rem; }
-  .paper-fns p { font-size: 0.84rem; line-height: 1.55; margin: 0 0 0.45rem; color: #3d3d42; }
-  .fn-mark { display: inline-block; min-width: 1.1em; }
-  .fn-back { text-decoration: none; }
-
-  /* Tufte sidenotes: footnotes float beside their marks when the margin
-     exists. Screen only; print keeps the footnote block. */
-  @media screen and (min-width: 1360px) {
-    .paper.has-sidenotes { position: relative; }
-    .paper.has-sidenotes .paper-fnrule,
-    .paper.has-sidenotes .paper-fns .fn-back { display: none; }
-    .paper.has-sidenotes .paper-fns p {
-      position: absolute;
-      left: calc(100% + 2.2rem);
-      width: 15.5rem;
-      margin: 0;
-      padding-left: 0.8rem;
-      border-left: 1px solid rgba(17, 17, 19, 0.18);
-      font-size: 0.78rem;
-      line-height: 1.5;
-      text-align: left;
-      hyphens: none;
-    }
-  }
-
-  .paper-refs { margin-top: 2.2rem; }
-  .paper-refs h2 { font-size: 1.05rem; }
-  .paper-refs p { font-size: 0.9rem; line-height: 1.55; margin: 0 0 0.55rem; padding-left: 1.6rem; text-indent: -1.6rem; }
-  .paper-refs-more { padding-left: 0 !important; text-indent: 0 !important; margin-top: 1rem !important; }
-
-  @media (max-width: 780px) {
-    .paper { padding: 1.4rem 0 2rem; }
-    .paper section > p, .paper-abstract p, .paper-fig figcaption { text-align: left; hyphens: none; }
-  }
-
-  @media print {
-    @page { margin: 0.7in 0.75in; }
-
-    :global(html),
-    :global(body.paper-page),
-    :global(body.paper-page main) {
-      background: #fff !important;
-      color: #000 !important;
-    }
-
-    :global(.site-header),
-    :global(.site-footer),
-    :global(.skip-link),
-    :global(.field-rail),
-    :global(nav:not(.paper-links)),
-    :global(button),
-    .cover {
-      display: none !important;
-    }
-
-    .paper {
-      max-width: none;
-      margin: 0;
-      padding: 0;
-      color: #000 !important;
-      background: #fff !important;
-      font-family: var(--serif) !important;
-      font-size: 10.5pt;
-      line-height: 1.45;
-    }
-    .paper * { color: #000 !important; font-family: var(--serif) !important; }
-    .paper a { text-decoration-color: #000; }
-    .paper-head { margin-bottom: 1.4rem; }
-    .paper-links { display: block; margin-top: 0.55rem; }
-    .paper-links a { display: block; font-size: 9pt; line-height: 1.35; text-decoration: none; }
-    .paper-refs a[href]::after,
-    .paper-links a[href]::after {
-      content: " (" attr(href) ")";
-      font-size: 0.82em;
-      font-style: normal;
-      overflow-wrap: anywhere;
-    }
-    .paper-head, .paper h2 { break-after: avoid; page-break-after: avoid; }
-    .paper-fig, .paper-table, .paper-fns {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
+  @media (max-width: 45rem) {
+    .route-grid { display: block; }
+    .market-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .market-hero__margin { margin-top: var(--ef-space-5); }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .paper-heading { grid-template-columns: 1fr; gap: var(--ef-space-5); }
+    .dossier-list article { grid-template-columns: 2.5rem 1fr; }
+    .dossier-list aside { grid-column: 2; padding: 1rem 0 0; border-top: 1px solid var(--rule); border-left: 0; }
+    .teaching-evidence { grid-template-columns: 1fr; }
+    .teaching-evidence article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
+    .market-links { margin-top: var(--ef-space-5); }
   }
 </style>

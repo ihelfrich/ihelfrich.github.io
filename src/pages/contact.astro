@@ -1,59 +1,77 @@
 ---
 import Base from "../layouts/Base.astro";
+import { publicLinks } from "../data/public-record.mjs";
 ---
+
 <Base
   wide
   title="Contact"
-  description="Contact Dr. Ian Helfrich about private quantitative coaching, institutional training, economic research, collaboration, or speaking."
+  description="Contact Ian Helfrich about roles, research collaboration, applied quantitative work, teaching, or research-design coaching."
+  pageClass="fieldbook-contact"
 >
-  <header class="page-hero">
-    <span class="eyebrow">Contact</span>
-    <h1>Use the route that gets you a useful answer.</h1>
-    <p class="kicker">Based in St. Louis and working remotely with high-school, undergraduate, MBA, graduate, research, professional, and institutional clients worldwide.</p>
-  </header>
-
-  <section class="section compact">
-    <div class="audience-grid">
-      <article class="audience-card">
-        <h3>Private coaching</h3>
-        <p>For SAT/ACT and AP preparation, economics, statistics, finance, econometrics, code, an MBA course, or a research project.</p>
-        <a class="card-arrow" href="/start?problem=learning">Build a private-work brief →</a>
-      </article>
-      <article class="audience-card">
-        <h3>Departments & organizations</h3>
-        <p>For workshops, cohort training, custom curriculum, methodological office hours, or an institutional scope.</p>
-        <a class="card-arrow" href="/start?problem=training">Build an institutional brief →</a>
-      </article>
-      <article class="audience-card">
-        <h3>Research, media & speaking</h3>
-        <p>For scholarly collaboration, research discussion, interviews, invited talks, or commentary within my fields.</p>
-        <a class="card-arrow" href="mailto:ianthelfrich@gmail.com?subject=Research%2C%20media%2C%20or%20speaking%20inquiry">Email directly →</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="section compact" aria-labelledby="direct-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Direct</span>
-        <h2 id="direct-title">Elsewhere online.</h2>
+  <section class="contact-hero" data-rail-label="Contact">
+    <div class="contact-heading">
+      <p class="record-label">Contact · St. Louis, Missouri</p>
+      <h1>Start with the question, context, and timeline.</h1>
+      <p>I welcome focused inquiries about academic or industry roles, collaborative research, applied quantitative work, and advanced teaching or research-design coaching.</p>
+      <div class="contact-actions">
+        <a class="fieldbook-action" href={publicLinks.email}>Email Ian</a>
+        <a class="text-route" href="/cv#contact">CV, availability, and complete contact record →</a>
       </div>
     </div>
-    <ul class="credential-list">
-      <li><strong>Email</strong><br /><a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a></li>
-      <li><strong>LinkedIn</strong><br /><a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">ian-helfrich</a></li>
-      <li><strong>GitHub</strong><br /><a href="https://github.com/ihelfrich" target="_blank" rel="noopener">@ihelfrich</a></li>
-      <li><strong>Location</strong><br />St. Louis metropolitan area, Missouri</li>
-    </ul>
-    <p class="fine-print">Please do not send confidential student records, protected data, or proprietary datasets in an initial message. We can establish an appropriate transfer method after confirming fit.</p>
-  </section>
 
-  <section class="cta-panel">
-    <span class="section-label">Private instruction</span>
-    <h2>Start with the problem, not a sales call.</h2>
-    <p>The inquiry form asks for exactly what I need to assess fit and recommend a format.</p>
-    <div class="button-row">
-      <a class="button" href="/start">Open the project starter</a>
+    <div class="inquiry-register" aria-label="Inquiry categories">
+      <article>
+        <span>01</span>
+        <h2>Hiring and collaboration</h2>
+        <p>Include the role or project, the decision or output the work must support, the timeline, and who will use the result.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>Teaching and coaching</h2>
+        <p>Include the subject, current level, deadline, and whether you need focused instruction, design review, or ongoing coaching.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Research and media</h2>
+        <p>Name the paper, project, or subject and the specific question you would like to discuss.</p>
+      </article>
     </div>
+
+    <aside class="privacy-note">
+      <strong>Initial-message boundary</strong>
+      <p>Please do not include confidential or regulated data in an initial message. We can establish an appropriate review workflow before sensitive material is shared.</p>
+    </aside>
   </section>
 </Base>
+
+<style>
+  .contact-hero { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); min-height: calc(100vh - 4.5rem); margin-inline: auto; padding-block: var(--ef-space-8); }
+  .record-label { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .contact-heading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); column-gap: var(--ef-space-7); align-items: end; }
+  .contact-heading .record-label { grid-column: 1 / -1; }
+  .contact-heading h1 { max-width: 11ch; margin: 0; }
+  .contact-heading > p:not(.record-label) { margin: 0; font-size: 1.16rem; }
+  .contact-actions { display: flex; flex-wrap: wrap; margin-top: var(--ef-space-5); align-items: center; gap: 0.8rem 1.2rem; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  .text-route { font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .inquiry-register { display: grid; margin-top: var(--ef-space-7); grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ef-ink); }
+  .inquiry-register article { min-height: 18rem; padding: var(--ef-space-5); }
+  .inquiry-register article + article { border-left: 1px solid var(--ef-ink); }
+  .inquiry-register span { color: var(--ef-signal); font: 600 0.72rem/1.4 var(--font-data); }
+  .inquiry-register h2 { margin-top: 2rem; font-size: clamp(1.4rem, 2.5vw, 2.2rem); }
+  .privacy-note { display: grid; margin-top: var(--ef-space-5); padding-top: var(--ef-space-4); grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-top: 2px solid var(--ef-oxide); }
+  .privacy-note strong { font: 650 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .privacy-note p { max-width: 68ch; margin: 0; }
+  @media (max-width: 60rem) {
+    .contact-heading { grid-template-columns: 1fr; }
+    .contact-heading > p:not(.record-label) { margin-top: 1.5rem; }
+  }
+  @media (max-width: 45rem) {
+    .contact-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .inquiry-register { grid-template-columns: 1fr; }
+    .inquiry-register article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
+    .privacy-note { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>

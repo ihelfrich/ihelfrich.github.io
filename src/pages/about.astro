@@ -1,77 +1,179 @@
 ---
 import Base from "../layouts/Base.astro";
 import { tutoringRecord } from "../data/public-record.mjs";
+
+const education = [
+  ["2024", "PhD, Economics", "Georgia Institute of Technology", "Doctoral minor in Quantitative Psychology"],
+  ["2022", "MS, Geographic Information Science and Technology", "Georgia Institute of Technology", ""],
+  ["2019", "MS, Economics", "Georgia Institute of Technology", ""],
+  ["2018", "MA, Economics", "Indiana University Bloomington", ""],
+  ["2015", "MSc, Specialized Economic Analysis (Public Policy)", "Barcelona School of Economics", ""],
+  ["2014", "BA, Economics", "University of North Carolina at Chapel Hill", ""],
+] as const;
 ---
+
 <Base
   wide
-  pageClass="about-page"
-  title="About"
-  image="/people/ian-editorial.webp"
-  imageAlt="Portrait of Ian Helfrich"
-  description="Ian Helfrich is a research economist, award-winning educator, and builder of public quantitative instruments based in St. Louis, Missouri."
+  title="About Ian Helfrich"
+  description="Ian Helfrich is an economist, quantitative research designer, and educator working across trade, policy, measurement, spatial analysis, and learning systems."
+  pageClass="fieldbook-about"
 >
-  <section class="ab-hero" aria-labelledby="ab-title">
-    <div class="ab-topline"><span>IAN T. S. HELFRICH / PHD</span><span>RESEARCH ECONOMIST · EDUCATOR · INSTRUMENT BUILDER</span><span>ST. LOUIS / WORLDWIDE</span></div>
-    <div class="ab-hero-grid">
-      <figure>
-        <img src="/people/ian-editorial.webp" alt="Ian Helfrich" width="400" height="400" />
-        <figcaption>PORTRAIT / IAN HELFRICH</figcaption>
-      </figure>
-      <article>
-        <span>THE THROUGH-LINE</span>
-        <h1 id="ab-title">I find the choice<br />hiding in the <em>number.</em></h1>
-        <p>I am an economist, teacher, and instrument builder in St. Louis. My research asks what a familiar metric forgot. My teaching asks which mental model broke first. The software gives both questions somewhere to run.</p>
-        <div><a class="ih-action" href="/start">Start a project</a><a href="/cv">Open the CV →</a></div>
-      </article>
+  <section class="about-hero route-grid" data-rail-label="About Ian">
+    <div class="about-hero__copy">
+      <p class="record-label">Biography</p>
+      <h1>About Ian</h1>
+      <p class="lead">My research has asked how a country should be located in a trade model, how AI-exposure scores should be tested after the fact, and whether a rural financing pattern survives comparison within the same intermediary.</p>
+      <p>My teaching asks a parallel question in a classroom or coaching session: what representation lets another person see the logic and test it for themselves?</p>
     </div>
-    <div class="ab-hero-ledger"><span>GEORGIA TECH / ECONOMICS PHD / 2024</span><span>{tutoringRecord.wyzantHoursDisplay} WYZANT HOURS / {tutoringRecord.privateHoursProse.toUpperCase()} PRIVATE HOURS</span><span>OPEN PUBLIC TOOLS</span><span>GEORGIA TECH ECONOMICS GRADUATE TEACHING ASSISTANT OF THE YEAR, 2023</span></div>
+    <figure class="about-portrait">
+      <img src="/people/ian-editorial.webp" alt="Portrait of Ian Helfrich" width="720" height="900" loading="eager" decoding="async" />
+      <figcaption>Ian Helfrich · St. Louis, Missouri</figcaption>
+    </figure>
   </section>
 
-  <section class="ab-thesis" aria-labelledby="ab-thesis-title">
-    <span>01 / THE RECURRING PROBLEM</span>
-    <h2 id="ab-thesis-title">A result becomes trusted.<br />Its construction disappears.</h2>
+  <section class="about-practice route-shell" data-rail-label="Practice">
+    <div class="narrative-grid">
+      <div>
+        <p class="record-label">Current practice</p>
+        <h2>Applied economics, quantitative research design, and education</h2>
+      </div>
+      <div class="reading-column">
+        <p>I am an applied economist and quantitative research designer based in St. Louis. I work across empirical research, theory, spatial analysis, software, and education, often building the data or analytical tool that a question requires.</p>
+        <p>The public record ranges from a sole-authored study of rural financing in the New Markets Tax Credit, to AI-measurement validation, trade and night-light research, browser-based quantitative learning systems, and advanced research-design coaching.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-education route-band" data-rail-label="Education">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Education</p>
+          <h2>Economics at the center; measurement, geography, and computation around it</h2>
+        </div>
+        <p>Economics is the core of the work. Training in measurement, cognition, geography, and computation supports the way I construct and test economic evidence; the linked research and teaching records show where those tools have been used.</p>
+      </header>
+      <div class="education-register">
+        {education.map(([year, degree, institution, note]) => (
+          <article data-fieldbook-reveal>
+            <time>{year}</time>
+            <div><h3>{degree}</h3>{note && <p>{note}</p>}</div>
+            <p>{institution}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="about-teaching route-shell" data-rail-label="Teaching">
+    <div class="narrative-grid">
+      <div>
+        <p class="record-label">Teaching and public practice</p>
+        <h2>Institutional teaching and independent work</h2>
+      </div>
+      <div class="reading-column">
+        <p>I have taught as instructor of record at Georgia Tech, supported teaching at Duke and Indiana, taught online microeconomics and macroeconomics, and worked independently with learners and researchers.</p>
+        <p>The complete record, current as of {tutoringRecord.asOf} and keeping Wyzant and private-practice sources separate, appears on <a href="/teaching">Teaching &amp; Coaching</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-service route-band" id="service" data-rail-label="Leadership and service">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Policy, leadership, and service</p>
+          <h2>Roles stated at their documented scope</h2>
+        </div>
+        <p>Contribution, leadership, teaching, and journal service are distinct records. Each is described without borrowing authority from the others.</p>
+      </header>
+      <dl class="service-ledger">
+        <div>
+          <dt>National Network for Critical Technology Assessment</dt>
+          <dd>Additional contributor to the semiconductor demonstration in the 2023 report <cite>Securing America's Future</cite>; not an author of the full report.</dd>
+        </div>
+        <div>
+          <dt>Georgia Tech Graduate Student Government</dt>
+          <dd>Vice President for Campus Services, 2019–20; Graduate Senator, 2018–20; Senator of the Year, 2020.</dd>
+        </div>
+        <div>
+          <dt>Teaching leadership</dt>
+          <dd>Inaugural Graduate Teaching Fellow cohort, 2018–19; designed professional-development curriculum and co-led orientation.</dd>
+        </div>
+        <div>
+          <dt>Teaching award</dt>
+          <dd>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023.</dd>
+        </div>
+        <div>
+          <dt>Academic service</dt>
+          <dd>Ad hoc referee, Journal of Economic Theory.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="about-close route-grid" data-rail-label="Explore the record">
     <div>
-      <p>The raw rural credit gap looked like a fact about rural markets. In a descriptive, noncausal comparison, the coefficient falls from −0.262 to −0.047 after adding intermediary identity. Static geographic distance looks harmless until a canal closes, a drought changes a route, or a corridor comes under attack.</p>
-      <p>I keep returning to that moment. What did the measure assume? Which comparison produced the estimate? What changes when the assumption moves? I build the model, figure, viewer, or lesson that lets another person answer those questions directly.</p>
+      <p class="record-label">Continue</p>
+      <h2>The best way to understand the range is through the work itself.</h2>
     </div>
-  </section>
-
-  <section class="ab-modes" aria-labelledby="ab-modes-title">
-    <header><span>02 / ONE PRACTICE · THREE MODES</span><h2 id="ab-modes-title">The research, teaching,<br />and code correct one another.</h2><p>Research keeps the lesson honest. Teaching exposes the sentence that still does not work. Building turns the recurring explanation into a public object.</p></header>
-    <div>
-      <article><span>R / 01</span><strong>8,024</strong><h3>Projects changed the interpretation.</h3><p>The descriptive NMTC decomposition motivates evaluating intermediary allocation while leaving the mechanism unresolved.</p><a href="/research">Open the research record →</a></article>
-      <article><span>T / 02</span><strong>{tutoringRecord.wyzantHoursDisplay}</strong><h3>Public tutoring hours sharpened the diagnosis.</h3><p>{tutoringRecord.wyzantHoursProse[0].toUpperCase() + tutoringRecord.wyzantHoursProse.slice(1)} Wyzant hours as of {tutoringRecord.asOf} and {tutoringRecord.privateHoursProse} additional private hours span high school, undergraduate, MBA, graduate, research, and professional work.</p><a href="/teaching">Open the teaching record →</a></article>
-      <article><span>B / 03</span><strong>OPEN</strong><h3>Tools kept the explanation running.</h3><p>Viewers, observatories, laboratories, atlases, and research pipelines let a visitor change the input and inspect what follows.</p><a href="/projects">Open the tools →</a></article>
-    </div>
-  </section>
-
-  <section class="ab-training" aria-labelledby="ab-training-title">
-    <header><span>03 / FORMAL TRAINING</span><h2 id="ab-training-title">Economics at the core.<br />Space, policy, and networks in the room.</h2><p>Six degrees built the range. The questions now move through trade, labor, causal inference, remote sensing, spatial analysis, and quantitative education.</p></header>
-    <ol>
-      <li><span>2024</span><div><small>PHD · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>Network centrality · spatial heterogeneity · optimal transport · quantitative psychology minor</p></div></li>
-      <li><span>2022</span><div><small>MS · GEOGRAPHIC INFORMATION SCIENCE + TECHNOLOGY</small><h3>Georgia Institute of Technology</h3><p>Remote sensing · spatial analysis · geospatial computation</p></div></li>
-      <li><span>2019</span><div><small>MS · ECONOMICS</small><h3>Georgia Institute of Technology</h3><p>International trade · economic networks · applied econometrics</p></div></li>
-      <li><span>2018</span><div><small>MA · ECONOMICS</small><h3>Indiana University Bloomington</h3><p>Trade · game theory · financial networks</p></div></li>
-      <li><span>2015</span><div><small>MSC · SPECIALIZED ECONOMIC ANALYSIS</small><h3>Barcelona School of Economics</h3><p>Public policy track · thesis competition finalist</p></div></li>
-      <li><span>2014</span><div><small>BA · ECONOMICS</small><h3>University of North Carolina at Chapel Hill</h3><p>Economics</p></div></li>
-    </ol>
-  </section>
-
-  <section class="ab-teaching" aria-labelledby="ab-teaching-title">
-    <div><span>04 / WHY TEACHING STAYED</span><h2 id="ab-teaching-title">If I cannot explain the step,<br />I may not understand the step.</h2></div>
-    <div><p>I have taught or supported instruction at Georgia Tech, Duke University, Indiana University, and online degree programs. The rooms range from principles courses and SAT preparation to graduate econometrics, executive MBA work, engineering signal processing, dissertations, and professional methods training.</p><blockquote>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023</blockquote></div>
-  </section>
-
-  <section class="ab-dojo" aria-labelledby="ab-dojo-title">
-    <span>05 / ANOTHER CLASSROOM</span>
-    <h2 id="ab-dojo-title">Before I taught econometrics,<br />I taught people how to fall.</h2>
-    <div><strong>12+</strong><p>More than twelve years in martial arts, including black belts in Sin Moo HapKiDo, TaeKwonDo, and Shotokan Karate. Practice and instruction taught me to demonstrate precisely, decompose movement, protect the learner while failure is still useful, and remove support as control returns.</p></div>
-  </section>
-
-  <section class="ab-cta" aria-labelledby="ab-cta-title">
-    <span>06 / ST. LOUIS · WORKING WORLDWIDE</span>
-    <h2 id="ab-cta-title">What number are you<br />no longer willing to trust?</h2>
-    <p>Send the course, model, dataset, paper, decision, or institutional problem. I will tell you where I would start.</p>
-    <div><a class="ih-action ih-action--light" href="/start">Start a project</a><a href="/library">Search the public work →</a></div>
+    <nav aria-label="About page next steps">
+      <a href="/work">Selected work →</a>
+      <a href="/research">Research →</a>
+      <a href="/teaching">Teaching &amp; coaching →</a>
+      <a href="/cv">CV &amp; contact →</a>
+    </nav>
   </section>
 </Base>
+
+<style>
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-shell--compact { padding-block: 0; }
+  .route-grid { display: grid; width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ef-gutter); }
+  .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
+  .record-label { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .about-hero { min-height: 43rem; padding-block: var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .about-hero__copy { grid-column: 2 / span 6; }
+  .about-hero__copy h1 { margin-bottom: 1.5rem; }
+  .about-hero__copy .lead { max-width: 57ch; font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.35; }
+  .about-hero__copy > p:last-child { max-width: 55ch; }
+  .about-portrait { grid-column: 9 / span 3; margin: 0; }
+  .about-portrait img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: saturate(0.82) contrast(1.02); }
+  .about-portrait figcaption { padding-top: 0.5rem; font: 560 0.68rem/1.4 var(--font-data); }
+  .narrative-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 1.35fr); gap: var(--ef-space-7); }
+  .narrative-grid h2 { margin: 0; }
+  .reading-column { max-width: 62ch; font-size: 1.16rem; }
+  .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .section-intro h2 { margin: 0; }
+  .section-intro > p { margin: 0; }
+  .education-register { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .education-register article { display: grid; padding-block: 1.1rem; grid-template-columns: 5rem minmax(0, 1.5fr) minmax(14rem, 1fr); gap: var(--ef-space-4); border-bottom: 1px solid var(--rule); }
+  .education-register time { color: var(--ef-signal); font: 600 0.74rem/1.5 var(--font-data); }
+  .education-register h3 { margin: 0; font-size: 1.18rem; }
+  .education-register p { margin: 0.25rem 0 0; }
+  .service-ledger { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .service-ledger > div { display: grid; padding-block: 1.15rem; grid-template-columns: minmax(14rem, 1fr) minmax(0, 2fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .service-ledger dt { font: 650 0.72rem/1.45 var(--font-data); text-transform: uppercase; }
+  .service-ledger dd { margin: 0; }
+  .about-close { padding-block: var(--ef-space-7); }
+  .about-close > div { grid-column: 2 / span 7; }
+  .about-close h2 { margin: 0; }
+  .about-close nav { display: grid; grid-column: 9 / span 3; align-content: end; gap: 0.7rem; font: 620 0.74rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 60rem) {
+    .about-hero__copy { grid-column: 1 / span 5; }
+    .about-portrait { grid-column: 6 / span 3; }
+    .section-intro { grid-template-columns: 1fr; }
+    .about-close > div { grid-column: 1 / span 5; }
+    .about-close nav { grid-column: 6 / span 3; }
+  }
+  @media (max-width: 45rem) {
+    .route-grid { display: block; }
+    .about-hero { min-height: auto; }
+    .about-portrait { max-width: 22rem; margin-top: var(--ef-space-5); }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .narrative-grid { grid-template-columns: 1fr; gap: var(--ef-space-5); }
+    .education-register article,
+    .service-ledger > div { grid-template-columns: 1fr; gap: 0.45rem; }
+    .about-close nav { margin-top: var(--ef-space-5); }
+  }
+</style>

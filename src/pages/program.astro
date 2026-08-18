@@ -1,44 +1,67 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
+
+const records = filterDiscoverableResearch(await getCollection("research"))
+  .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
 ---
-<Base title="The Penumbra program" description="A multi-paper trade-research program on closed-loop observation in international trade.">
-  <article class="h-article">
+
+<Base
+  wide
+  title="Research questions and connections"
+  description="A secondary view of Ian Helfrich's public research record, with maturity and limits preserved."
+  pageClass="fieldbook-program"
+>
+  <section class="program-page">
     <header>
-      <div class="h-article-meta">RESEARCH PROGRAM · TRADE THEORY + EMPIRICS</div>
-      <h1>The Penumbra program</h1>
-      <p style="color: var(--ink-soft); font-size: 1.1rem; margin-top: 0.6rem;">
-        A trade-research program on closed-loop observation problems in international trade. Theory, empirics, and a satellite-calibrated bilateral trade-cost panel.
-      </p>
+      <p class="record-label">Secondary research view</p>
+      <h1>Research questions and connections</h1>
+      <p>This page gathers the public research questions in one compact sequence. Shared subjects or methods can help a reader navigate between records; they do not turn active designs into completed findings.</p>
+      <a class="fieldbook-action" href="/research">Research by stage of evidence</a>
     </header>
-
-    <h2>What the program is</h2>
-
-    <p>The Penumbra program is a multi-paper investigation of international trade settings where the official data are themselves a function of the equilibrium the researcher is trying to estimate. The intellectual problem is closed-loop in a specific sense: the cost of trade depends on the equilibrium, because the equilibrium produces the satellites, the AIS records, the customs declarations, and the third-party reconciliations that determine what trade costs look like to a researcher. The cost then determines the equilibrium. The right object to estimate is a fixed point on Wasserstein space.</p>
-
-    <p>The program treats this as a problem of trade theory first. The empirics, the satellite-economics applications, and the methodology contributions follow from the theory. The intermediary-selection work in domestic blended-finance settings (Helfrich 2026 on the U.S. New Markets Tax Credit) is a spinoff that applies the same decomposition logic to a different setting.</p>
-
-    <h2>The papers</h2>
-
-    <p><strong>SSRN 4772016: Unifying framework for economic equilibrium and optimal transport in infinite-dimensional Hilbert spaces.</strong> The analytical foundation: an equivalence between economic equilibrium and optimal transport on infinite-dimensional Hilbert spaces, using tensor-valued measures and nonlinear operator theory. Working draft. Used as the technical seed of the program. <a href="/research/helfrich-2024-ssrn-4772016">Paper page</a>.</p>
-
-    <p><strong>Paper 0: Penumbra.</strong> Umbrella theory draft. Formalizes the measurement-gap problem in international trade (sanctioned crude, Sahelian gold, gray-market rare earths, illicit fishing, occupied-territory output) as a closed-loop problem on Wasserstein space. Draft; not yet posted to SSRN. <a href="/research/helfrich-2026-penumbra">Paper page</a>.</p>
-
-    <p><strong>Paper 1: AROE.</strong> Draft on a fixed-point problem over the 2-Wasserstein space with a measure-dependent cost and a stochastic observation operator. Candidate existence, uniqueness, and stability arguments remain under review; authorship configuration is also under review. <a href="/research/helfrich-2026-aroe">Paper page</a>.</p>
-
-    <p><strong>Paper 2: Russian seaborne crude empirical companion.</strong> A planned design for estimating the feedback-contractivity quantity posed by Paper 1 using AIS-track data, port-arrival records, and public oil-cap monitoring infrastructure. In data construction; no empirical results yet. <a href="/research/helfrich-2026-russian-crude">Paper page</a>.</p>
-
-    <p><strong>Paper 5: Effective Distance (with Dr. Elizaveta Gonchar).</strong> In preparation; a planned 2000–2024 bilateral effective-distance panel with structural-gravity validation and possible chokepoint applications. Coverage, results, and release status remain to be verified. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">Paper page</a>. Builds on the 2025 SSRN preprint <a href="/research/gonchar-helfrich-2025-spotlight"><em>Trade in the Spotlight</em></a> (SSRN 5202676).</p>
-
-    <p><strong>Joint Paper 1: Ukraine wartime economic reorganization (with Dr. Elizaveta Gonchar).</strong> In preparation. The proposed project will combine administrative, satellite, maritime, displacement, damage, and trade-disruption sources; it aims to study spatial reorganization and develop a planned quarterly Ukraine Shadow-Activity Index. These are research aims, not completed outputs. <a href="/research/gonchar-helfrich-2026-ukraine">Paper page</a>.</p>
-
-    <h2>The spinoff: NMTC</h2>
-
-    <p><a href="/research/helfrich-2026-nmtc-rural-gap">Helfrich (2026) on the U.S. New Markets Tax Credit</a> is a parallel application of the program's intermediary-composition logic to a domestic-policy setting. Ian Helfrich originated and solely authored the paper; Katia Antunes and Elizaveta Gonchar are contributors, acknowledged without assigned roles. The descriptive, noncausal result is that the apparent rural-urban leverage gap falls sharply once Community Development Entity fixed effects are added; the mechanism remains unresolved.</p>
-
-    <h2>Reading order</h2>
-
-    <p>For the theory: SSRN 4772016 → Paper 0 → Paper 1. For the trade-cost empirics: Trade in the Spotlight (2025) → Paper 5. For the application: Joint Paper 1 (Ukraine). The NMTC paper is the cleanest stand-alone illustration of the decomposition methodology in a non-trade setting.</p>
-
-    <p>The full list of papers and datasets is at <a href="/research">/research</a> and <a href="/datasets">/datasets</a>.</p>
-  </article>
+    <div class="program-register">
+      {records.map((record, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <p class="status-line">{record.data.displayStatus} · {record.data.year}</p>
+            <h2><a href={`/research/${record.id}`}>{record.data.title}</a></h2>
+            <p>{record.data.question}</p>
+          </div>
+          <aside>
+            <strong>{record.data.role}</strong>
+            <p>{record.data.limit}</p>
+          </aside>
+        </article>
+      ))}
+    </div>
+  </section>
 </Base>
+
+<style>
+  .program-page { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-8); }
+  .program-page > header { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .program-page > header .record-label { grid-column: 1 / -1; }
+  .program-page > header h1 { max-width: 11ch; margin: 0; }
+  .program-page > header > p:not(.record-label) { margin: 0; }
+  .program-page > header .fieldbook-action { grid-column: 2; justify-self: start; }
+  .record-label,
+  .status-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; margin-top: 0.5rem; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .program-register { margin-top: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
+  .program-register article { display: grid; padding-block: var(--ef-space-5); grid-template-columns: 3rem minmax(0, 2fr) minmax(15rem, 0.9fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .program-register article > span { color: var(--ef-signal); font: 600 0.76rem/1.4 var(--font-data); }
+  .program-register h2 { margin: 0 0 0.7rem; font-size: clamp(1.35rem, 2.5vw, 2.1rem); }
+  .program-register h2 a { color: var(--ef-ink); text-decoration: none; }
+  .program-register aside { padding-left: 1rem; border-left: 1px solid var(--rule); }
+  .program-register aside strong { font: 650 0.7rem/1.45 var(--font-data); }
+  .program-register aside p { margin-top: 0.8rem; padding-top: 0.8rem; color: var(--ef-oxide); border-top: 2px solid currentColor; }
+  @media (max-width: 45rem) {
+    .program-page { padding-block: var(--ef-space-7); }
+    .program-page > header { grid-template-columns: 1fr; }
+    .program-page > header .fieldbook-action { grid-column: 1; }
+    .program-register article { grid-template-columns: 2.5rem 1fr; }
+    .program-register aside { grid-column: 2; padding: 1rem 0 0; border-top: 1px solid var(--rule); border-left: 0; }
+  }
+</style>

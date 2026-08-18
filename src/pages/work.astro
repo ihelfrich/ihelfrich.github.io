@@ -1,687 +1,198 @@
 ---
 import Base from "../layouts/Base.astro";
+import CaseRecord from "../components/CaseRecord.astro";
 import { tutoringRecord } from "../data/public-record.mjs";
+import { workCases } from "../data/work-cases.mjs";
 
-const cases = [
-  {
-    id: "nmtc",
-    index: "01",
-    type: "PLACE-BASED POLICY / ECONOMETRIC DECOMPOSITION / PUBLIC VIEWER",
-    title: "The coefficient moved. The interpretation changed.",
-    question: "Does the rural private-leverage gap arise inside comparable intermediaries, or from which intermediaries serve rural projects?",
-    context: "The public New Markets Tax Credit record spans origination years 2001 through 2022. The project-level panel aggregates 19,907 QLICI transactions into 8,024 projects linked to Community Development Entities, borrowers, census tracts, and rural classifications.",
-    intervention: "The research design introduces Community Development Entity fixed effects to compare rural and urban projects within the same intermediary. The viewer exposes the underlying geography and project record for inspection.",
-    findings: [
-      ["-0.262", "Raw rural private-leverage coefficient"],
-      ["-0.047", "Coefficient after CDE fixed effects"],
-      ["82.2%", "Reduction in coefficient magnitude"],
-      ["0.64", "Reported p-value after CDE fixed effects"],
-    ],
-    interpretation: "In this descriptive, noncausal record, most of the explained movement is associated with observed intermediary composition. That motivates evaluating allocation rules and intermediary capabilities alongside rural project conditions, while leaving the mechanism unresolved.",
-    methods: ["Project-level linkage", "Geocoding QA", "CDE fixed effects", "Rural classification", "Bunching test", "Cesium viewer"],
-    links: [
-      ["Read the research page", "/research/helfrich-2026-nmtc-rural-gap"],
-      ["Inspect the panel record", "/datasets/us-nmtc-panel"],
-      ["Open the viewer case", "/projects/us-nmtc-viewer"],
-    ],
-    status: "WORKING PAPER / PUBLIC DATA SPINE / LIVE VIEWER",
-  },
-  {
-    id: "effective-distance",
-    index: "02",
-    type: "INTERNATIONAL TRADE / SATELLITE-CALIBRATED DISTANCE",
-    title: "Distance is an economic representation, not a ruler.",
-    question: "What changes when a gravity model represents where people and economic activity are located inside each country?",
-    context: "Canonical bilateral distance measures are static. The 2025 preprint with Elizaveta Gonchar uses annual nightlight intensity and gridded population to construct population-aware endpoints for bilateral distance.",
-    intervention: "The OVDL construction connects an origin weighted by VIIRS nightlights to a destination weighted by gridded population. The preprint compares this measure with standard gravity-model distance inputs.",
-    findings: [
-      ["2025", "Public SSRN preprint"],
-      ["OVDL", "Headline distance construction"],
-      ["VIIRS", "Annual nightlight signal"],
-      ["2000-24", "Horizon of the in-progress panel"],
-    ],
-    interpretation: "The released preprint reports improved gravity fit from taking within-country spatial distribution seriously. The larger multi-modal panel, structural-gravity validation, and chokepoint applications remain active work and carry explicit in-progress labels.",
-    methods: ["Nightlight weighting", "Gridded population", "Geodesic distance", "Gravity models", "Spatial aggregation", "Panel construction"],
-    links: [
-      ["Read the preprint record", "/research/gonchar-helfrich-2025-spotlight"],
-      ["See the active panel", "/research/gonchar-helfrich-2026-effective-distance-panel"],
-      ["Review the dataset page", "/datasets/effdist-v2026"],
-    ],
-    status: "SSRN PREPRINT / ACTIVE DATASET DEVELOPMENT",
-  },
-  {
-    id: "teaching-instruments",
-    index: "03",
-    type: "QUANTITATIVE EDUCATION / INTERACTIVE SYSTEMS",
-    title: "When an explanation repeats, build the instrument.",
-    question: "How can a learner manipulate the statistical object, see the diagnostic move, and carry the reasoning into a new problem?",
-    context: `The teaching practice spans statistics and inference, econometrics and research design, Python and SQL, microeconomics, macroeconomics, business, strategy and marketing, and GIS with public data. The record includes ${tutoringRecord.wyzantHoursProse} Wyzant hours as of ${tutoringRecord.asOf}, ${tutoringRecord.privateHoursProse} additional private hours, a ${tutoringRecord.publicRating} public rating, three instructor-of-record semesters, and the Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023 recognition.`,
-    intervention: "Recurring explanations become reusable systems: live statistical models, public-data exercises, cross-software code patterns, research-design diagnostics, and subject libraries that remain applicable across courses, teams, and learners.",
-    findings: [
-      [tutoringRecord.wyzantHoursDisplay, `Wyzant instruction hours · ${tutoringRecord.asOfShort}`],
-      [tutoringRecord.privateHoursDisplay, "Additional private instruction hours"],
-      ["3", "Instructor-of-record semesters"],
-      ["7", "Durable curriculum families"],
-    ],
-    interpretation: "The portfolio demonstrates curriculum architecture, quantitative translation, interaction design, and static-hostable deployment. The same pattern can support a team workshop, a public methods resource, or a durable internal reference system.",
-    methods: ["D3 interaction", "Observable JS", "Live computation", "R and Stata", "Excel and Julia", "Public-data pipelines"],
-    links: [
-      ["Open American Policy Atlas", "/projects/american-policy-atlas"],
-      ["Explore the subject libraries", "/teaching#capability-libraries"],
-      ["Explore the teaching record", "/teaching"],
-      ["Open Pictures of Inference", "/projects/pictures-of-inference"],
-    ],
-    status: "LIVE PUBLIC INSTRUMENTS / OPEN TEACHING RECORD",
-  },
-  {
-    id: "spatial-evidence",
-    index: "04",
-    type: "GIS / REMOTE SENSING / PLANNING COMMUNICATION",
-    title: "The map carries an argument about units and exposure.",
-    question: "Which geography represents the mechanism, and which visual form lets another person evaluate that choice?",
-    context: "The public GIS portfolio documents a Texas winter-storm impact analysis, a municipal planning dossier, a LiDAR building-footprint pipeline, and current spatial work embedded in trade and policy research.",
-    intervention: "The work combines geocoding, tract and utility-territory overlays, demographic context, remote-sensing inputs, spatial communication, and public-facing analytical documents.",
-    findings: [
-      ["MS", "Geographic Information Science and Technology"],
-      ["LiDAR", "Point-cloud to footprint demonstration"],
-      ["TRACT", "Demographic and policy geography"],
-      ["PDF", "Public planning and hazard artifacts"],
-    ],
-    interpretation: "These are public academic and research artifacts. They establish hands-on GIS depth without implying a commercial client outcome. Current research extends the same spatial judgment into effective distance, place-based finance, and interactive public evidence.",
-    methods: ["Spatial joins", "Remote sensing", "LiDAR", "Hazard mapping", "Planning visualization", "Geospatial communication"],
-    links: [
-      ["Open the GIS portfolio", "/gis"],
-      ["Read the Texas project PDF", "/portfolio/Helfrich_CP6521_FinalProject_Texas.pdf"],
-      ["Read the planning report", "/portfolio/CP6006_FinalSubmission_Report.pdf"],
-      ["Review current spatial research", "/research"],
-    ],
-    status: "PUBLIC ACADEMIC ARTIFACTS / ACTIVE RESEARCH METHODS",
-  },
+const caseCategories = {
+  "nmtc-rural-gap": ["applied", "policy", "measurement"],
+  "human-or-machine": ["applied", "measurement"],
+  "trade-in-the-spotlight": ["applied", "measurement", "spatial"],
+  "applied-statistics": ["learning", "measurement"],
+  "nncta-semiconductor-demonstration": ["policy", "applied"],
+};
+
+const filterOptions = [
+  { value: "all", label: "All five cases" },
+  { value: "applied", label: "Applied research" },
+  { value: "measurement", label: "Measurement" },
+  { value: "policy", label: "Policy" },
+  { value: "spatial", label: "Spatial" },
+  { value: "learning", label: "Learning systems" },
 ];
 ---
 
 <Base
   wide
-  pageClass="work-page"
   title="Selected work"
-  description="Case studies connecting research questions, econometric and geospatial methods, public datasets, and interactive evidence products by Ian Helfrich, PhD."
+  description="Selected cases in applied economics, measurement, spatial analysis, policy, and quantitative education."
+  pageClass="fieldbook-work"
 >
-  <header class="wk-hero" aria-labelledby="wk-title">
-    <div class="wk-hero__line">
-      <span>SELECTED WORK / PUBLIC EVIDENCE</span>
-      <span>RESEARCH / SYSTEMS / TEACHING</span>
+  <section class="work-hero route-grid" data-rail-label="Selected work">
+    <div class="work-hero__copy">
+      <p class="record-label">Case index · 2023–2026</p>
+      <h1>Selected work</h1>
+      <p>These cases show the work between an interesting question and a defensible answer: choosing the comparison, building the evidence, checking the interpretation, and leaving a record another person can inspect.</p>
     </div>
-    <div class="wk-hero__grid">
-      <h1 id="wk-title">Follow the choice<br />through the <em>work.</em></h1>
+    <aside class="work-hero__key">
+      <span>Each case records</span>
+      <ol>
+        <li>Question</li><li>Status</li><li>Role</li><li>Method</li><li>Result</li><li>Limit</li>
+      </ol>
+    </aside>
+  </section>
+
+  <section class="work-index route-shell" data-rail-label="Case index">
+    <header class="section-intro">
       <div>
-        <p>Each case starts with a result that depends on a hidden representation, comparison, or teaching decision. The public object keeps that decision visible.</p>
-        <a href="/start?source=work-hero">Discuss a related problem ↗</a>
+        <p class="record-label">Five public records</p>
+        <h2>Filter the index</h2>
       </div>
-    </div>
-    <nav class="wk-index" aria-label="Case study index">
-      {cases.map((item) => <a href={`#${item.id}`}><b>{item.index}</b><span>{item.title}</span></a>)}
-    </nav>
-  </header>
-
-  <section class="wk-intro" aria-labelledby="wk-intro-title">
-    <span>READING THE RECORD</span>
-    <h2 id="wk-intro-title">Question, method,<br />object, limit.</h2>
-    <p>
-      Working papers remain working papers. In-progress datasets remain in progress. Teaching sites demonstrate public systems, while academic projects demonstrate method. The labels are part of the evidence.
-    </p>
-  </section>
-
-  <div class="wk-cases">
-    {cases.map((item) => (
-      <article id={item.id} class="wk-case" aria-labelledby={`${item.id}-title`}>
-        <header class="wk-case__hero">
-          <div class="wk-case__number" aria-hidden="true">{item.index}</div>
-          <div>
-            <span>{item.type}</span>
-            <h2 id={`${item.id}-title`}>{item.title}</h2>
-          </div>
-        </header>
-
-        <div class="wk-case__question">
-          <span>THE QUESTION</span>
-          <p>{item.question}</p>
-        </div>
-
-        <div class="wk-case__narrative">
-          <section aria-labelledby={`${item.id}-context`}>
-            <span>01 / CONTEXT</span>
-            <h3 id={`${item.id}-context`}>What entered the frame</h3>
-            <p>{item.context}</p>
-          </section>
-          <section aria-labelledby={`${item.id}-intervention`}>
-            <span>02 / CONSTRUCTION</span>
-            <h3 id={`${item.id}-intervention`}>What changed</h3>
-            <p>{item.intervention}</p>
-          </section>
-        </div>
-
-        <dl class="wk-case__findings" aria-label={`${item.title} selected evidence`}>
-          {item.findings.map(([value, label]) => (
-            <div>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <div class="wk-case__reading">
-          <div>
-            <span>03 / INTERPRETATION</span>
-            <p>{item.interpretation}</p>
-          </div>
-          <div>
-            <span>METHOD FIELD</span>
-            <ul>{item.methods.map((method) => <li>{method}</li>)}</ul>
-          </div>
-        </div>
-
-        <footer class="wk-case__footer">
-          <div>
-            <span>STATUS</span>
-            <strong>{item.status}</strong>
-          </div>
-          <nav aria-label={`${item.title} links`}>
-            {item.links.map(([label, href]) => <a href={href}>{label} →</a>)}
-          </nav>
-        </footer>
-      </article>
-    ))}
-  </div>
-
-  <section class="wk-synthesis" aria-labelledby="wk-synthesis-title">
-    <header>
-      <span>THE REPEATING SYSTEM</span>
-      <h2 id="wk-synthesis-title">Different fields.<br />The same six moves.</h2>
+      <p>The filter changes the visible index only. Each case keeps one canonical record and its stated evidentiary boundary.</p>
     </header>
-    <ol>
-      <li><b>01</b><span>QUESTION</span><p>Name the decision or claim.</p></li>
-      <li><b>02</b><span>UNIT</span><p>Choose the object and representation.</p></li>
-      <li><b>03</b><span>DESIGN</span><p>Define the comparison and assumptions.</p></li>
-      <li><b>04</b><span>BUILD</span><p>Implement the model, pipeline, or interface.</p></li>
-      <li><b>05</b><span>STRESS</span><p>Expose movement, uncertainty, and failure modes.</p></li>
-      <li><b>06</b><span>HANDOFF</span><p>Leave an inspectable object and clear limits.</p></li>
-    </ol>
+    <div class="case-filters" role="group" aria-label="Filter selected work" data-work-filters>
+      {filterOptions.map((option, index) => (
+        <button type="button" data-work-filter={option.value} aria-pressed={index === 0 ? "true" : "false"}>{option.label}</button>
+      ))}
+    </div>
+    <p class="filter-result" data-work-filter-result aria-live="polite">Showing all five cases.</p>
+
+    <nav class="quiet-index" aria-label="Selected case links">
+      {workCases.map((record, index) => (
+        <a href={`#case-${record.id}`} data-work-index={record.id}>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <strong>{record.title}</strong>
+          <small>{record.status}</small>
+        </a>
+      ))}
+    </nav>
   </section>
 
-  <section class="wk-cta" aria-labelledby="wk-cta-title">
+  <section class="case-register route-shell" data-rail-label="Case records">
+    <h2 class="sr-only">Case records</h2>
+    {workCases.map((record, index) => (
+      <div
+        class="case-entry"
+        data-work-case={record.id}
+        data-work-categories={caseCategories[record.id]?.join(" ") ?? ""}
+        data-fieldbook-reveal
+      >
+        <div class="case-entry__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
+        <CaseRecord record={record} />
+      </div>
+    ))}
+  </section>
+
+  <section class="additional-practice route-shell" data-rail-label="Additional practice">
+    <div class="section-intro">
+      <div>
+        <p class="record-label">Additional practice</p>
+        <h2>Related methods, kept within their public record</h2>
+      </div>
+      <p>My formal training and public work also span geographic information science, remote sensing, research software, industrial-sector diagnostics, and browser-based econometrics instruction. Public examples appear where a reusable artifact exists. Private and learner-specific builds are excluded.</p>
+    </div>
+    <dl class="practice-ledger">
+      <div><dt>Spatial measurement</dt><dd><a href="/research/gonchar-helfrich-2025-spotlight"><cite>Trade in the Spotlight</cite></a>, the <a href="/research/helfrich-2024-dissertation">doctoral dissertation</a>, and public GIS records.</dd></div>
+      <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC viewer and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
+      <div><dt>Industrial diagnostics</dt><dd>Indicator selection, analytical sequencing, composite diagnostics, and international benchmarking. Private client identities, geographies, and outcomes are not published.</dd></div>
+      <div><dt>Quantitative instruction</dt><dd>Generalized browser-based sequences that connect a question, data, calculation, diagnostics, and interpretation.</dd></div>
+      <div><dt>Independent teaching practice</dt><dd>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} Wyzant hours and {tutoringRecord.privatePractice.hoursProse} additional private-practice hours as of {tutoringRecord.asOf}; the two sources remain separate. <a href="/teaching">Teaching record →</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="work-close route-grid" data-rail-label="Contact">
     <div>
-      <span>YOUR CASE STARTS BEFORE THE CASE STUDY</span>
-      <h2 id="wk-cta-title">Where does your<br />evidence change shape?</h2>
+      <p class="record-label">Next conversation</p>
+      <h2>Start with the question and the record you need.</h2>
     </div>
     <div>
-      <p>Send the decision, current object, blockage, and real timeline. Choose a capability lane if one already fits.</p>
-      <nav aria-label="Start an inquiry by capability">
-        <a href="/start?lane=research-audit&source=work">Research audit</a>
-        <a href="/start?lane=evidence-products&source=work">Evidence product</a>
-        <a href="/start?lane=geospatial-network&source=work">Geospatial or network</a>
-        <a href="/start?lane=training-mentorship&source=work">Training or mentorship</a>
-      </nav>
+      <p>For a research, advisory, or teaching inquiry, include the context, timeline, and decision or output the work must support.</p>
+      <a class="fieldbook-action" href="/contact">Contact Ian</a>
     </div>
   </section>
 </Base>
 
+<script>
+  document.querySelectorAll("[data-work-filters]").forEach((group) => {
+    const buttons = Array.from(group.querySelectorAll("[data-work-filter]"));
+    const cases = Array.from(document.querySelectorAll("[data-work-case]"));
+    const links = Array.from(document.querySelectorAll("[data-work-index]"));
+    const result = document.querySelector("[data-work-filter-result]");
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      const value = button.getAttribute("data-work-filter") || "all";
+      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      let count = 0;
+      cases.forEach((entry) => {
+        const categories = entry.getAttribute("data-work-categories")?.split(" ") ?? [];
+        const visible = value === "all" || categories.includes(value);
+        if (entry instanceof HTMLElement) entry.hidden = !visible;
+        if (visible) count += 1;
+      });
+      links.forEach((link) => {
+        const record = link.getAttribute("data-work-index");
+        const entry = cases.find((candidate) => candidate.getAttribute("data-work-case") === record);
+        if (link instanceof HTMLElement) link.hidden = entry instanceof HTMLElement ? entry.hidden : false;
+      });
+      if (result) result.textContent = value === "all" ? "Showing all five cases." : `Showing ${count} ${count === 1 ? "case" : "cases"}.`;
+    }));
+  });
+</script>
+
 <style>
-  .wk-hero {
-    padding: clamp(1.25rem, 3vw, 3rem) max(1.25rem, calc((100vw - 1440px) / 2)) 0;
-    color: #f1eee6;
-    background:
-      radial-gradient(circle at 21% 30%, rgba(55, 123, 120, 0.24), transparent 26rem),
-      #11131d;
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-grid { display: grid; width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ef-gutter); }
+  .record-label { margin: 0 0 0.75rem; color: var(--muted); font: 620 0.72rem/1.4 var(--font-data); letter-spacing: 0.08em; text-transform: uppercase; }
+  .work-hero { min-height: 36rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .work-hero__copy { grid-column: 2 / span 7; }
+  .work-hero__copy h1 { margin-bottom: 1.25rem; }
+  .work-hero__copy > p:last-child { max-width: 60ch; font-size: 1.3rem; }
+  .work-hero__key { grid-column: 10 / span 2; padding-top: 0.75rem; border-top: 2px solid var(--ef-signal); font: 560 0.72rem/1.5 var(--font-data); }
+  .work-hero__key span { color: var(--muted); text-transform: uppercase; }
+  .work-hero__key ol { margin: 0.75rem 0 0; padding-left: 1.5rem; }
+  .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .section-intro h2 { margin: 0; }
+  .section-intro > p { margin: 0; }
+  .case-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--ef-space-5); }
+  .case-filters button { min-height: 44px; padding: 0.65rem 0.85rem; color: var(--ef-ink); background: transparent; border: 1px solid var(--ef-ink); border-radius: var(--ef-control-radius); cursor: pointer; font: 620 0.7rem/1 var(--font-data); }
+  .case-filters button[aria-pressed="true"] { color: var(--ef-figure); background: var(--ef-signal); border-color: var(--ef-signal); }
+  .filter-result { margin-top: 0.75rem; color: var(--muted); font: 540 0.72rem/1.4 var(--font-data); }
+  .quiet-index { display: grid; margin-top: var(--ef-space-5); border-top: 1px solid var(--ef-ink); }
+  .quiet-index a { display: grid; min-height: 64px; padding-block: 0.8rem; align-items: center; grid-template-columns: 3rem minmax(0, 2fr) minmax(12rem, 1fr); gap: 1rem; color: var(--ef-ink); border-bottom: 1px solid var(--rule); text-decoration: none; }
+  .quiet-index a:hover strong { color: var(--ef-signal); }
+  .quiet-index span,
+  .quiet-index small { font-family: var(--font-data); font-size: 0.7rem; }
+  .quiet-index small { color: var(--muted); }
+  .case-register { padding-top: 0; }
+  .case-entry { display: grid; grid-template-columns: minmax(3rem, 0.45fr) minmax(0, 6fr); gap: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
+  .case-entry:last-child { border-bottom: 1px solid var(--ef-ink); }
+  .case-entry[hidden] { display: none; }
+  .case-entry__number { padding-top: var(--ef-space-5); color: var(--ef-signal); font: 580 clamp(1.5rem, 3vw, 3rem)/1 var(--font-data); }
+  .case-entry :global(.case-record) { border-top: 0; padding-block: var(--ef-space-5); }
+  .additional-practice { border-top: 1px solid var(--ef-ink); }
+  .practice-ledger { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .practice-ledger > div { display: grid; padding-block: 1rem; grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .practice-ledger dt { font: 650 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .practice-ledger dd { margin: 0; }
+  .work-close { padding-block: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
+  .work-close > div:first-child { grid-column: 2 / span 7; }
+  .work-close > div:last-child { grid-column: 9 / span 3; }
+  .work-close h2 { margin: 0; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; margin-top: 1rem; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.76rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  @media (max-width: 60rem) {
+    .work-hero__copy { grid-column: 1 / span 6; }
+    .work-hero__key { grid-column: 7 / span 2; }
+    .section-intro { grid-template-columns: 1fr; }
+    .work-close > div:first-child { grid-column: 1 / span 5; }
+    .work-close > div:last-child { grid-column: 6 / span 3; }
   }
-
-  .wk-hero__line {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.26);
-    font: 650 0.66rem/1.3 var(--font-sans, sans-serif);
-    letter-spacing: 0.16em;
-  }
-
-  .wk-hero__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.55fr);
-    gap: clamp(3rem, 8vw, 8rem);
-    align-items: end;
-    min-height: 66svh;
-    padding: clamp(4rem, 10vw, 10rem) 0 clamp(3rem, 6vw, 6rem);
-  }
-
-  .wk-hero h1 {
-    margin: 0;
-    color: #f1eee6;
-    font: 400 clamp(4.2rem, 10vw, 10.5rem)/0.8 var(--font-display, serif);
-    letter-spacing: -0.065em;
-  }
-
-  .wk-hero h1 em {
-    color: #57a4a0;
-    font-weight: 400;
-  }
-
-  .wk-hero__grid p {
-    margin: 0 0 1.6rem;
-    color: rgba(241,238,230,0.78);
-    font: 400 clamp(1.05rem, 1.5vw, 1.3rem)/1.6 var(--font-serif, serif);
-  }
-
-  .wk-hero__grid a {
-    color: #f1eee6;
-    font: 650 0.78rem/1 var(--font-sans, sans-serif);
-    text-underline-offset: 0.35em;
-  }
-
-  .wk-index {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid rgba(255,255,255,0.26);
-  }
-
-  .wk-index a {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.9rem;
-    min-height: 7rem;
-    align-items: center;
-    padding: 1.1rem;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .wk-index a + a {
-    border-left: 1px solid rgba(255,255,255,0.26);
-  }
-
-  .wk-index b {
-    color: #57a4a0;
-    font: 400 1.45rem/1 var(--font-display, serif);
-  }
-
-  .wk-index span {
-    font: 550 0.75rem/1.35 var(--font-sans, sans-serif);
-  }
-
-  .wk-intro {
-    display: grid;
-    grid-template-columns: 0.3fr 1fr 0.75fr;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: end;
-    padding: clamp(5rem, 9vw, 9rem) max(1.25rem, calc((100vw - 1320px) / 2));
-    color: #171923;
-    background: #ece7dc;
-  }
-
-  .wk-intro > span,
-  .wk-case__hero span,
-  .wk-case__question > span,
-  .wk-case__narrative span,
-  .wk-case__reading span,
-  .wk-case__footer span,
-  .wk-synthesis header > span,
-  .wk-cta span {
-    font: 650 0.66rem/1.3 var(--font-sans, sans-serif);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-  .wk-intro > span,
-  .wk-case__hero span,
-  .wk-case__question > span,
-  .wk-case__narrative span,
-  .wk-case__reading span,
-  .wk-synthesis header > span {
-    color: #a94b32;
-  }
-
-  .wk-intro h2,
-  .wk-case__hero h2,
-  .wk-synthesis h2,
-  .wk-cta h2 {
-    margin: 0;
-    font: 420 clamp(2.8rem, 6vw, 6.2rem)/0.9 var(--font-display, serif);
-    letter-spacing: -0.05em;
-  }
-
-  .wk-intro p {
-    margin: 0;
-    font: 400 1.02rem/1.7 var(--font-serif, serif);
-  }
-
-  .wk-cases {
-    background: #f4f1e9;
-  }
-
-  .wk-case {
-    scroll-margin-top: 6rem;
-    padding: clamp(5rem, 10vw, 10rem) max(1.25rem, calc((100vw - 1320px) / 2));
-    color: #171923;
-    border-top: 1px solid rgba(23,25,35,0.18);
-  }
-
-  .wk-case:nth-child(even) {
-    background: #e9e4da;
-  }
-
-  .wk-case__hero {
-    display: grid;
-    grid-template-columns: clamp(5rem, 12vw, 12rem) minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: start;
-  }
-
-  .wk-case__number {
-    color: rgba(23,25,35,0.14);
-    font: 300 clamp(5rem, 13vw, 13rem)/0.7 var(--font-display, serif);
-  }
-
-  .wk-case__hero h2 {
-    max-width: 18ch;
-    margin-top: 1rem;
-  }
-
-  .wk-case__question {
-    display: grid;
-    grid-template-columns: clamp(5rem, 12vw, 12rem) minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 4rem);
-    margin: clamp(3rem, 6vw, 6rem) 0;
-    padding: clamp(1.5rem, 3vw, 3rem) 0;
-    border-top: 1px solid #171923;
-    border-bottom: 1px solid #171923;
-  }
-
-  .wk-case__question p {
-    max-width: 38ch;
-    margin: 0;
-    font: 420 clamp(1.6rem, 3.2vw, 3.2rem)/1.12 var(--font-display, serif);
-  }
-
-  .wk-case__narrative {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 6vw, 6rem);
-    margin-left: calc(clamp(5rem, 12vw, 12rem) + clamp(1.5rem, 4vw, 4rem));
-  }
-
-  .wk-case__narrative h3 {
-    margin: 0.7rem 0 1rem;
-    font: 480 1.5rem/1.1 var(--font-display, serif);
-  }
-
-  .wk-case__narrative p,
-  .wk-case__reading p {
-    margin: 0;
-    font: 400 1rem/1.7 var(--font-serif, serif);
-  }
-
-  .wk-case__findings {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: clamp(4rem, 8vw, 8rem) 0 0;
-    border: 1px solid rgba(23,25,35,0.22);
-  }
-
-  .wk-case__findings div {
-    display: flex;
-    flex-direction: column-reverse;
-    min-height: 11rem;
-    justify-content: space-between;
-    padding: clamp(1rem, 2vw, 2rem);
-  }
-
-  .wk-case__findings div + div {
-    border-left: 1px solid rgba(23,25,35,0.22);
-  }
-
-  .wk-case__findings dt {
-    font: 540 0.74rem/1.4 var(--font-sans, sans-serif);
-  }
-
-  .wk-case__findings dd {
-    margin: 0;
-    color: #a94b32;
-    font: 420 clamp(2rem, 4vw, 4rem)/0.9 var(--font-display, serif);
-  }
-
-  .wk-case__reading {
-    display: grid;
-    grid-template-columns: 1fr 0.7fr;
-    gap: clamp(2rem, 7vw, 7rem);
-    padding: clamp(3rem, 6vw, 6rem) 0;
-  }
-
-  .wk-case__reading p {
-    margin-top: 1rem;
-  }
-
-  .wk-case__reading ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1rem 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .wk-case__reading li {
-    padding: 0.48rem 0.62rem;
-    border: 1px solid rgba(23,25,35,0.24);
-    font: 570 0.68rem/1.15 var(--font-mono, monospace);
-  }
-
-  .wk-case__footer {
-    display: grid;
-    grid-template-columns: 0.62fr 1fr;
-    gap: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #171923;
-  }
-
-  .wk-case__footer > div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-
-  .wk-case__footer strong {
-    font: 650 0.7rem/1.4 var(--font-sans, sans-serif);
-    letter-spacing: 0.08em;
-  }
-
-  .wk-case__footer nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.3rem;
-    justify-content: flex-end;
-  }
-
-  .wk-case__footer a {
-    color: inherit;
-    font: 650 0.76rem/1.4 var(--font-sans, sans-serif);
-    text-underline-offset: 0.3em;
-  }
-
-  .wk-synthesis {
-    padding: clamp(5rem, 10vw, 10rem) max(1.25rem, calc((100vw - 1320px) / 2));
-    color: #f1eee6;
-    background: #171923;
-  }
-
-  .wk-synthesis header {
-    display: grid;
-    grid-template-columns: 0.34fr 1fr;
-    gap: 2rem;
-    align-items: start;
-    margin-bottom: 4rem;
-  }
-
-  .wk-synthesis ol {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid rgba(255,255,255,0.26);
-    border-left: 1px solid rgba(255,255,255,0.26);
-    list-style: none;
-  }
-
-  .wk-synthesis li {
-    display: flex;
-    min-height: 15rem;
-    flex-direction: column;
-    padding: 1.5rem;
-    border-right: 1px solid rgba(255,255,255,0.26);
-    border-bottom: 1px solid rgba(255,255,255,0.26);
-  }
-
-  .wk-synthesis li b {
-    color: #57a4a0;
-    font: 400 1.3rem/1 var(--font-display, serif);
-  }
-
-  .wk-synthesis li span {
-    margin-top: auto;
-    font: 650 0.68rem/1 var(--font-sans, sans-serif);
-    letter-spacing: 0.16em;
-  }
-
-  .wk-synthesis li p {
-    margin: 0.8rem 0 0;
-    color: rgba(241,238,230,0.7);
-    font: 420 0.88rem/1.5 var(--font-sans, sans-serif);
-  }
-
-  .wk-cta {
-    display: grid;
-    grid-template-columns: 1fr 0.7fr;
-    gap: clamp(2rem, 8vw, 8rem);
-    align-items: end;
-    padding: clamp(5rem, 10vw, 10rem) max(1.25rem, calc((100vw - 1320px) / 2));
-    color: #151721;
-    background: #57a4a0;
-  }
-
-  .wk-cta h2 {
-    margin-top: 1rem;
-  }
-
-  .wk-cta p {
-    margin: 0;
-    font: 400 1.08rem/1.65 var(--font-serif, serif);
-  }
-
-  .wk-cta nav {
-    display: grid;
-    gap: 0.55rem;
-    margin-top: 1.7rem;
-  }
-
-  .wk-cta nav a {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.85rem 0;
-    color: inherit;
-    border-bottom: 1px solid rgba(21,23,33,0.4);
-    text-decoration: none;
-    font: 650 0.78rem/1.2 var(--font-sans, sans-serif);
-  }
-
-  .wk-cta nav a::after {
-    content: "↗";
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .wk-index a,
-    .wk-cta nav a {
-      transition: color 160ms ease, background 160ms ease, padding 160ms ease;
-    }
-
-    .wk-index a:hover,
-    .wk-index a:focus-visible {
-      color: #11131d;
-      background: #57a4a0;
-    }
-
-    .wk-cta nav a:hover,
-    .wk-cta nav a:focus-visible {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      background: rgba(255,255,255,0.14);
-    }
-  }
-
-  @media (max-width: 900px) {
-    .wk-hero__grid,
-    .wk-intro,
-    .wk-case__reading,
-    .wk-cta {
-      grid-template-columns: 1fr;
-    }
-
-    .wk-index,
-    .wk-case__findings,
-    .wk-synthesis ol {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .wk-index a:nth-child(3),
-    .wk-case__findings div:nth-child(3) {
-      border-left: 0;
-    }
-
-    .wk-case__narrative {
-      margin-left: 0;
-    }
-
-    .wk-synthesis header {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 620px) {
-    .wk-hero__line span:last-child {
-      display: none;
-    }
-
-    .wk-index,
-    .wk-case__narrative,
-    .wk-case__findings,
-    .wk-synthesis ol {
-      grid-template-columns: 1fr;
-    }
-
-    .wk-index a + a,
-    .wk-index a:nth-child(3),
-    .wk-case__findings div + div,
-    .wk-case__findings div:nth-child(3) {
-      border-top: 1px solid rgba(255,255,255,0.26);
-      border-left: 0;
-    }
-
-    .wk-case__findings div + div,
-    .wk-case__findings div:nth-child(3) {
-      border-color: rgba(23,25,35,0.22);
-    }
-
-    .wk-case__hero,
-    .wk-case__question {
-      grid-template-columns: 1fr;
-    }
-
-    .wk-case__number {
-      font-size: 4rem;
-    }
-
-    .wk-case__footer {
-      grid-template-columns: 1fr;
-    }
-
-    .wk-case__footer nav {
-      justify-content: flex-start;
-    }
+  @media (max-width: 45rem) {
+    .route-grid { display: block; }
+    .work-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .work-hero__key { margin-top: var(--ef-space-5); }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .quiet-index a { grid-template-columns: 2.5rem 1fr; }
+    .quiet-index small { grid-column: 2; }
+    .practice-ledger > div { grid-template-columns: 1fr; gap: 0.35rem; }
   }
 </style>

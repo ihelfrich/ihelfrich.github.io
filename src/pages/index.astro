@@ -1,704 +1,221 @@
 ---
 import Base from "../layouts/Base.astro";
-import { tutoringRecord } from "../data/public-record.mjs";
+import CaseRecord from "../components/CaseRecord.astro";
+import CdeDecomposition from "../components/CdeDecomposition.astro";
+import {
+  availabilityRecord,
+  identityRecord,
+  publicLinks,
+  teachingRecognition,
+  tutoringRecord,
+} from "../data/public-record.mjs";
+import { workCases } from "../data/work-cases.mjs";
 
-const work = [
-  {
-    number: "01",
-    field: "Policy · Econometrics",
-    title: "What changes when CDE identity enters",
-    description:
-      "A descriptive FY2001–FY2022 decomposition finds a median estimate near zero and margin estimates not statistically distinguishable from zero. The mean interval is wide, most explained movement is associated with observed CDE composition, and the mechanism remains unresolved.",
-    proof: "−0.262 → −0.047",
-    proofLabel: "with CDE fixed effects",
-    href: "/research/helfrich-2026-nmtc-rural-gap",
-  },
-  {
-    number: "02",
-    field: "Trade · Remote sensing",
-    title: "Measuring distance where economic activity occurs",
-    description:
-      "Nightlights and gridded population reposition bilateral endpoints, turning geography into a time-varying economic measure.",
-    proof: "VIIRS + population",
-    proofLabel: "economic endpoints",
-    href: "/research/gonchar-helfrich-2025-spotlight",
-  },
-  {
-    number: "03",
-    field: "Quantitative education",
-    title: "Teaching difficult material without making it smaller",
-    description:
-      "Private instruction and public learning tools connect intuition, mathematics, code, and the decisions each method supports.",
-    proof: `${tutoringRecord.wyzantHoursDisplay} Wyzant hours`,
-    proofLabel: `${tutoringRecord.privateHoursProse} more privately`,
-    href: "/teaching",
-  },
-];
+const selectedRecordIds = ["human-or-machine", "trade-in-the-spotlight", "applied-statistics"];
+const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(record.id));
 ---
 
 <Base
   wide
-  pageClass="quiet-home"
-  image="/og.png"
-  imageAlt="Ian Helfrich, PhD, economist, quantitative researcher, and educator"
-  description="Ian Helfrich is an economist on the 2026-27 academic job market, a quantitative researcher, and an educator offering private instruction and select consulting."
+  title="Applied economist and quantitative research designer"
+  description="Research, quantitative design, teaching, and public analytical tools by economist Ian Helfrich."
+  pageClass="fieldbook-home"
 >
-  <section class="quiet-hero" aria-labelledby="quiet-hero-title">
-    <div class="quiet-hero__intro" id="field-stage">
-      <canvas id="field-canvas" aria-hidden="true"></canvas>
-      <p class="quiet-kicker">Ian Helfrich, PhD · Economist · On the 2026-27 job market</p>
-      <div class="quiet-hero__grid">
-        <h1 id="quiet-hero-title">I make complex evidence usable.</h1>
-        <div class="quiet-hero__copy">
-          <p>
-            I use economics, quantitative research, software, and teaching to solve hard
-            problems, and I make the results clear enough to inspect, use, and trust.
-          </p>
-          <nav aria-label="Profile links">
-            <a href="/job-market">Job market ↗</a>
-            <a href="#selected-work">Selected work ↓</a>
-            <a href="/cv">Curriculum vitae ↗</a>
-          </nav>
-        </div>
+  <section class="fieldbook-intro fieldbook-grid" data-rail-label="Introduction">
+    <div class="fieldbook-intro__copy" data-fieldbook-reveal>
+      <p class="route-kicker">{identityRecord.role}</p>
+      <h1>I build empirical work that makes difficult questions inspectable.</h1>
+      <p class="fieldbook-intro__lead">I work on trade, place-based policy, labor and AI, measurement, and quantitative learning. Across those settings, I build the dataset, comparison, model, or teaching sequence needed to see what the evidence can support.</p>
+      <div class="action-row">
+        <a class="fieldbook-action" href="/work">See selected work</a>
+        <a class="fieldbook-action fieldbook-action--quiet" href="/cv">CV &amp; contact</a>
       </div>
-      <p class="quiet-fieldnote">
-        <span class="quiet-fieldnote__hint">click the field: the mass re-optimizes · entropic optimal transport, solved here in your browser</span>
-        <span id="ot-readout" aria-live="off">at rest</span>
-        <a href="/research/helfrich-2024-ssrn-4772016">prices as gradients of convex potentials ↗</a>
-      </p>
     </div>
-
-    <div class="quiet-routes" aria-label="Ways to work with Ian">
-      <a href="/job-market">
-        <span class="quiet-routes__index">01</span>
-        <div>
-          <h2>Hiring committees</h2>
-          <p>On the 2026-27 economics job market. Fields, job market paper, teaching record, availability, and the full packet on one page.</p>
-        </div>
-        <strong>Open the candidate page <i aria-hidden="true">↗</i></strong>
-      </a>
-      <a href="/start?problem=learning&source=home-hero">
-        <span class="quiet-routes__index">02</span>
-        <div>
-          <h2>Private teaching</h2>
-          <p>Econometrics, statistics, microeconomics, macroeconomics, business strategy and marketing, Python and SQL, mathematics, and exam preparation.</p>
-        </div>
-        <strong>Start a teaching brief <i aria-hidden="true">↗</i></strong>
-      </a>
-      <a href="/start?source=home-hero">
-        <span class="quiet-routes__index">03</span>
-        <div>
-          <h2>Consulting + research</h2>
-          <p>Policy, business, empirical strategy, network and spatial measurement, research systems, and team training.</p>
-        </div>
-        <strong>Scope an engagement <i aria-hidden="true">↗</i></strong>
-      </a>
-    </div>
-
-    <ul class="quiet-proofline" aria-label="Selected qualifications">
-      <li>PhD Economics</li>
-      <li>MS Geographic Information Science</li>
-      <li>{tutoringRecord.wyzantHoursDisplay} Wyzant hours · {tutoringRecord.privateHoursProse} private hours</li>
-      <li>Georgia Tech teaching award</li>
-    </ul>
+    <aside class="fieldbook-intro__status" aria-label="Current record" data-fieldbook-reveal>
+      <p class="record-label">Current record</p>
+      <dl>
+        <div><dt>Training</dt><dd>PhD in Economics, Georgia Tech, 2024</dd></div>
+        <div><dt>Location</dt><dd>{identityRecord.location}</dd></div>
+        <div><dt>Availability</dt><dd>{availabilityRecord.status}</dd></div>
+        <div><dt>Updated</dt><dd>{availabilityRecord.asOf}</dd></div>
+      </dl>
+      <a href="/job-market">Academic job-market materials →</a>
+    </aside>
   </section>
 
-  <section id="selected-work" class="quiet-work" aria-labelledby="quiet-work-title">
-    <header>
-      <p class="quiet-kicker">Selected evidence</p>
-      <div>
-        <h2 id="quiet-work-title">The work is the proof.</h2>
-        <a href="/work">View all work ↗</a>
+  <section class="home-signature route-band" data-rail-label="NMTC working paper">
+    <div class="route-band__heading fieldbook-grid">
+      <div class="fieldbook-narrative">
+        <p class="record-label">Signature research record · August 2026</p>
+        <h2>Does the rural financing gap survive a fairer comparison?</h2>
+        <p>The New Markets Tax Credit is meant to attract investment to low-income communities. I assembled 19,907 financing transactions covering 8,024 projects and asked whether the apparent rural and urban difference persists when the projects are handled by the same intermediary.</p>
       </div>
-    </header>
+      <aside class="fieldbook-margin signature-note">
+        <strong>Sole author and originator</strong>
+        <p>This project was my original idea, and I am its sole author. Katia Antunes and Elizaveta Gonchar contributed to it; they are not coauthors.</p>
+      </aside>
+    </div>
+    <div class="signature-aperture" data-fieldbook-reveal>
+      <CdeDecomposition />
+    </div>
+  </section>
 
-    <div class="quiet-work__list">
-      {work.map((project) => (
-        <a class="quiet-work__row" href={project.href}>
-          <span class="quiet-work__number">{project.number}</span>
-          <div class="quiet-work__title">
-            <small>{project.field}</small>
-            <h3>{project.title}</h3>
-          </div>
-          <p>{project.description}</p>
-          <div class="quiet-work__proof">
-            <strong>{project.proof}</strong>
-            <small>{project.proofLabel}</small>
-          </div>
-          <span class="quiet-work__arrow" aria-hidden="true">↗</span>
-        </a>
+  <section class="home-records route-shell" data-rail-label="Selected work">
+    <header class="section-intro">
+      <p class="record-label">Selected records · 03</p>
+      <h2>Three other questions, three different forms of evidence</h2>
+      <p>Each record states the question, present status, role, method, result, and limit before asking a reader to follow a link.</p>
+    </header>
+    <p class="selected-record-names">Human or Machine? · Trade in the Spotlight · Applied Statistics</p>
+    <div class="case-stack">
+      {selectedRecords.map((record, index) => (
+        <div class="numbered-case" data-fieldbook-reveal>
+          <span class="case-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <CaseRecord record={record} />
+        </div>
       ))}
     </div>
   </section>
 
-  <section class="quiet-trust" aria-labelledby="quiet-trust-title">
-    <p class="quiet-kicker">The practice</p>
-    <div class="quiet-trust__body">
-      <h2 id="quiet-trust-title">Research economist.<br />Teacher. Builder.</h2>
-      <div class="quiet-trust__copy">
-        <p>
-          My work connects econometrics, strategy, networks, remote sensing, geospatial
-          socioeconomics, mathematics, and learning. It also extends into independent
-          work with acoustics, signals, and sound.
-        </p>
-        <p class="quiet-trust__credentials">
-          PhD, Economics · MS, GIS · doctoral minor, Quantitative Psychology · St. Louis / worldwide
-        </p>
-        <nav aria-label="Learn more about Ian">
-          <a href="/about">About Ian ↗</a>
-          <a href="/job-market">Job market ↗</a>
-          <a href="/cv">Curriculum vitae ↗</a>
-          <a href="mailto:ianthelfrich@gmail.com">Email Ian ↗</a>
-        </nav>
+  <section class="home-teaching route-shell" data-rail-label="Teaching">
+    <header class="section-intro">
+      <p class="record-label">Teaching &amp; coaching</p>
+      <h2>Teaching across classrooms, online courses, and research practice</h2>
+      <p>I have been instructor of record for three semesters at Georgia Tech, supported teaching at Duke and Indiana, taught online microeconomics and macroeconomics, and built an independent practice spanning foundational instruction through executive-level quantitative research-design coaching.</p>
+    </header>
+    <div class="teaching-ledger">
+      <article>
+        <p class="evidence-source">platform-recorded · {tutoringRecord.wyzant.asOf}</p>
+        <strong>{tutoringRecord.wyzant.hoursDisplay}</strong>
+        <h3>Wyzant instruction</h3>
+        <p>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} hours of instruction recorded through Wyzant.</p>
+      </article>
+      <article>
+        <p class="evidence-source">practice-recorded · {tutoringRecord.privatePractice.asOf}</p>
+        <strong>{tutoringRecord.privatePractice.hoursDisplay}</strong>
+        <h3>Independent private practice</h3>
+        <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours in a separate independent practice.</p>
+      </article>
+      <article class="teaching-recognition">
+        <p class="evidence-source">award</p>
+        <h3>{teachingRecognition.award}, {teachingRecognition.year}</h3>
+        <p><a href={teachingRecognition.evaluations.href}>View the {teachingRecognition.evaluations.year} Georgia Tech course-evaluation record →</a></p>
+      </article>
+    </div>
+    <a class="text-route" href="/teaching">Teaching &amp; coaching →</a>
+  </section>
+
+  <section class="home-range route-shell" data-rail-label="Range">
+    <header class="section-intro">
+      <p class="record-label">Range, with evidence</p>
+      <h2>Work that crosses research, policy, software, and teaching</h2>
+    </header>
+    <dl class="range-ledger">
+      <div>
+        <dt>Critical-technology assessment</dt>
+        <dd>Additional contributor to the semiconductor demonstration in the 2023 NNCTA report <cite>Securing America's Future</cite>. <a href="/work#case-nncta-semiconductor-demonstration">Contribution record →</a></dd>
       </div>
+      <div>
+        <dt>Spatial measurement</dt>
+        <dd>MS in Geographic Information Science and Technology; remote-sensing and spatial measures in the dissertation and <cite>Trade in the Spotlight</cite>. <a href="/research/gonchar-helfrich-2025-spotlight">Research record →</a></dd>
+      </div>
+      <div>
+        <dt>Research software</dt>
+        <dd>Public viewers, reproducible pipelines, browser-based analytical tools, and multi-language learning systems. <a href="/projects">Public projects →</a></dd>
+      </div>
+      <div>
+        <dt>Leadership</dt>
+        <dd>Georgia Tech Graduate Student Government Vice President for Campus Services; Graduate Senator; Senator of the Year, 2020. <a href="/about#service">Service record →</a></dd>
+      </div>
+      <div>
+        <dt>Academic service</dt>
+        <dd>Ad hoc referee, Journal of Economic Theory. <a href="/cv#service">CV record →</a></dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="home-close route-band" data-rail-label="Contact">
+    <div class="fieldbook-grid">
+      <div class="fieldbook-narrative">
+        <p class="record-label">Current work and ways to collaborate</p>
+        <h2>Bring the question and the decision it needs to support.</h2>
+        <p>I am interested in roles and collaborations where the quality of a decision depends on how evidence is designed, compared, or explained. That includes applied research, economic and policy analysis, quantitative product work, research-methods advising, and advanced teaching or coaching.</p>
+        <div class="action-row">
+          <a class="fieldbook-action" href="/cv">View CV and availability</a>
+          <a class="fieldbook-action fieldbook-action--quiet" href="/contact">Get in touch</a>
+        </div>
+      </div>
+      <aside class="fieldbook-margin closing-links">
+        <a href={publicLinks.github} target="_blank" rel="noopener">GitHub ↗</a>
+        <a href={publicLinks.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="/job-market">Academic job-market materials →</a>
+      </aside>
     </div>
   </section>
 </Base>
 
-<script>
-  // ── The transport hero ────────────────────────────────────────────────────
-  // A cloud of mass particles at equilibrium. Each click declares a new
-  // target density; the page solves the entropic optimal transport problem
-  // between the cloud's current density and that target (convolutional
-  // Sinkhorn: with squared-euclidean cost the Gibbs kernel is a gaussian, so
-  // every iteration is two separable blurs), then moves the mass along the
-  // barycentric transport map. Equipotential contours of the dual potential
-  // are drawn and allowed to fade. The readout reports the real numbers:
-  // W2, iterations, solve time. Motion has exactly the two licensed causes
-  // in DESIGN_SYSTEM.md: a visitor changing state, and a calculation
-  // resolving. The loop stops at equilibrium, so idle cost is zero.
-  const stage = document.getElementById("field-stage");
-  const canvas = document.getElementById("field-canvas") as HTMLCanvasElement | null;
-  const readout = document.getElementById("ot-readout");
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (stage && canvas) {
-    const ctx = canvas.getContext("2d")!;
-    const N = 3000;              // particles
-    const GRID_MAX = 72;         // solver grid, long side
-    const BLUR_SIGMA = 7;        // entropic width in grid cells: must be wide
-                                 // enough that far-apart supports stay coupled
-                                 // (a truncated narrow kernel degenerates)
-    const ITERS = 28;            // sinkhorn iterations
-    const FLOW_MS = 1300;        // displacement interpolation time
-    const CONTOUR_MS = 2200;     // contour fade
-    const INK = [17, 17, 19];
-    const BLUE = [40, 82, 232];  // signal blue: live mass only
-    const BONE = "rgba(242,234,222,0.34)"; // motion veil during transit
-
-    let W = 0, H = 0, dpr = 1, gw = 0, gh = 0, cw = 0, chh = 0;
-    const px = new Float32Array(N), py = new Float32Array(N);       // base position
-    const sx = new Float32Array(N), sy = new Float32Array(N);       // flow start
-    const tx = new Float32Array(N), ty = new Float32Array(N);       // flow target
-    const ox = new Float32Array(N), oy = new Float32Array(N);       // cursor dimple offset
-    const vx = new Float32Array(N), vy = new Float32Array(N);       // dimple velocity
-    let curX = -1e9, curY = -1e9;
-    let flowT0 = 0, flowing = false;
-    let contours: number[][] = [], contourT0 = 0;
-    let mode = 0, running = false, raf = 0;
-
-    // ── solver ──────────────────────────────────────────────────────────
-    let kernel: Float64Array, kr = 0;
-    function makeKernel() {
-      // full-width kernel: every cell pair must stay coupled, however faintly
-      // (float64 holds e^-70 fine); truncation is what a graphics blur does,
-      // and it silently decouples far supports
-      kr = Math.max(gw, gh) - 1;
-      kernel = new Float64Array(2 * kr + 1);
-      for (let i = -kr; i <= kr; i++) kernel[i + kr] = Math.exp(-(i * i) / (2 * BLUR_SIGMA * BLUR_SIGMA));
-    }
-    function blur(src: Float64Array, tmp: Float64Array, out: Float64Array) {
-      // separable gaussian with edge renormalization (mass preserving)
-      for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) {
-        let s = 0, wsum = 0;
-        const lo = Math.max(0, x - kr), hi = Math.min(gw - 1, x + kr);
-        for (let u = lo; u <= hi; u++) { const w = kernel[u - x + kr]; s += src[y * gw + u] * w; wsum += w; }
-        tmp[y * gw + x] = s / wsum;
-      }
-      for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) {
-        let s = 0, wsum = 0;
-        const lo = Math.max(0, y - kr), hi = Math.min(gh - 1, y + kr);
-        for (let u = lo; u <= hi; u++) { const w = kernel[u - y + kr]; s += tmp[u * gw + x] * w; wsum += w; }
-        out[y * gw + x] = s / wsum;
-      }
-    }
-    function normalize(d: Float64Array) {
-      let s = 0;
-      for (let i = 0; i < d.length; i++) { d[i] += 1e-10; s += d[i]; }
-      for (let i = 0; i < d.length; i++) d[i] /= s;
-    }
-    function binParticles(): Float64Array {
-      const mu = new Float64Array(gw * gh);
-      for (let i = 0; i < N; i++) {
-        const gx = Math.min(gw - 1, Math.max(0, Math.round(px[i] / cw)));
-        const gy = Math.min(gh - 1, Math.max(0, Math.round(py[i] / chh)));
-        mu[gy * gw + gx] += 1;
-      }
-      const t1 = new Float64Array(gw * gh), sm = new Float64Array(gw * gh);
-      blur(mu, t1, sm); normalize(sm);
-      return sm;
-    }
-    function targetDensity(cx: number, cy: number, m: number): Float64Array {
-      const nu = new Float64Array(gw * gh);
-      const minD = Math.min(W, H);
-      for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) {
-        const X = (x + 0.5) * cw, Y = (y + 0.5) * chh;
-        const dx = X - cx, dy = Y - cy;
-        const d = Math.hypot(dx, dy);
-        let v = 0;
-        if (m === 0) {              // blob: demand concentrates at the click
-          const s = 0.11 * minD; v = Math.exp(-(d * d) / (2 * s * s));
-        } else if (m === 1) {       // ring: demand surrounds the click
-          const r = 0.17 * minD, w0 = 0.032 * minD;
-          v = Math.exp(-((d - r) * (d - r)) / (2 * w0 * w0));
-        } else {                    // twin blobs: demand splits across the click
-          const off = 0.16 * minD, s = 0.07 * minD;
-          const d1x = dx - off, d2x = dx + off;
-          v = Math.exp(-(d1x * d1x + dy * dy) / (2 * s * s)) + Math.exp(-(d2x * d2x + dy * dy) / (2 * s * s));
-        }
-        nu[y * gw + x] = v;
-      }
-      normalize(nu);
-      return nu;
-    }
-    function solve(cx: number, cy: number) {
-      const t0 = performance.now();
-      const n = gw * gh;
-      const mu = binParticles();
-      const nu = targetDensity(cx, cy, mode);
-      const a = new Float64Array(n).fill(1), b = new Float64Array(n).fill(1);
-      const t1 = new Float64Array(n), Kb = new Float64Array(n), Ka = new Float64Array(n);
-      for (let k = 0; k < ITERS; k++) {
-        blur(b, t1, Kb);
-        for (let i = 0; i < n; i++) a[i] = mu[i] / Math.max(Kb[i], 1e-300);
-        blur(a, t1, Ka);
-        for (let i = 0; i < n; i++) b[i] = nu[i] / Math.max(Ka[i], 1e-300);
-      }
-      for (let i = 0; i < n; i++) { // guard against inf/nan from extreme scalings
-        if (!Number.isFinite(a[i])) a[i] = 0;
-        if (!Number.isFinite(b[i])) b[i] = 0;
-      }
-      // barycentric map: T(x_i) = blur(b .* Y)_i / blur(b)_i, per coordinate
-      const bx = new Float64Array(n), by = new Float64Array(n);
-      for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) {
-        bx[y * gw + x] = b[y * gw + x] * (x + 0.5) * cw;
-        by[y * gw + x] = b[y * gw + x] * (y + 0.5) * chh;
-      }
-      const Bx = new Float64Array(n), By = new Float64Array(n), B1 = new Float64Array(n);
-      blur(bx, t1, Bx); blur(by, t1, By); blur(b, t1, B1);
-      const Tx = new Float64Array(n), Ty = new Float64Array(n);
-      for (let i = 0; i < n; i++) {
-        if (B1[i] < 1e-290) { // numerically decoupled cell: mass stays put
-          Tx[i] = ((i % gw) + 0.5) * cw; Ty[i] = (Math.floor(i / gw) + 0.5) * chh;
-        } else { Tx[i] = Bx[i] / B1[i]; Ty[i] = By[i] / B1[i]; }
-      }
-      // per-particle targets, W2 estimate, dual potential contours
-      let w2 = 0;
-      for (let i = 0; i < N; i++) {
-        const T = sampleMap(Tx, Ty, px[i], py[i]);
-        sx[i] = px[i] + ox[i]; sy[i] = py[i] + oy[i];
-        // sub-cell jitter: sample around the barycentric mean so the settled
-        // cloud reads as mass, never as the solver's grid
-        tx[i] = T[0] + (Math.random() + Math.random() - 1) * cw * 0.9;
-        ty[i] = T[1] + (Math.random() + Math.random() - 1) * chh * 0.9;
-        w2 += (tx[i] - px[i]) ** 2 + (ty[i] - py[i]) ** 2;
-      }
-      w2 = Math.sqrt(w2 / N) / Math.hypot(W, H);
-      const phi = new Float64Array(n);
-      for (let i = 0; i < n; i++) phi[i] = Math.log(Math.max(a[i], 1e-13));
-      blur(phi, t1, Ka);
-      contours = marchingSquares(Ka, 6);
-      contourT0 = performance.now();
-      const ms = performance.now() - t0;
-      if (readout) {
-        const msTxt = ms < 1 ? "<1" : ms.toFixed(0);
-        readout.textContent = `W2 ≈ ${w2.toFixed(3)} · sinkhorn k=${ITERS} · ${msTxt}ms · n=${N}`;
-        readout.classList.add("is-live");
-      }
-      mode = (mode + 1) % 3;
-    }
-    function sampleMap(Tx: Float64Array, Ty: Float64Array, x: number, y: number): [number, number] {
-      const fx = Math.min(gw - 1.001, Math.max(0, x / cw - 0.5));
-      const fy = Math.min(gh - 1.001, Math.max(0, y / chh - 0.5));
-      const x0 = Math.floor(fx), y0 = Math.floor(fy), ax = fx - x0, ay = fy - y0;
-      const i00 = y0 * gw + x0, i10 = i00 + 1, i01 = i00 + gw, i11 = i01 + 1;
-      return [
-        Tx[i00] * (1 - ax) * (1 - ay) + Tx[i10] * ax * (1 - ay) + Tx[i01] * (1 - ax) * ay + Tx[i11] * ax * ay,
-        Ty[i00] * (1 - ax) * (1 - ay) + Ty[i10] * ax * (1 - ay) + Ty[i01] * (1 - ax) * ay + Ty[i11] * ax * ay,
-      ];
-    }
-    function marchingSquares(f: Float64Array, nLevels: number): number[][] {
-      const sorted = Array.from(f).sort((p, q) => p - q);
-      const segs: number[][] = [];
-      for (let L = 1; L <= nLevels; L++) {
-        const lvl = sorted[Math.floor((L / (nLevels + 1)) * (sorted.length - 1))];
-        for (let y = 0; y < gh - 1; y++) for (let x = 0; x < gw - 1; x++) {
-          const v0 = f[y * gw + x] - lvl, v1 = f[y * gw + x + 1] - lvl;
-          const v2 = f[(y + 1) * gw + x + 1] - lvl, v3 = f[(y + 1) * gw + x] - lvl;
-          const pts: number[] = [];
-          const edge = (a: number, b: number, xa: number, ya: number, xb: number, yb: number) => {
-            if ((a < 0) !== (b < 0)) { const t = a / (a - b); pts.push((xa + (xb - xa) * t + 0.5) * cw, (ya + (yb - ya) * t + 0.5) * chh); }
-          };
-          edge(v0, v1, x, y, x + 1, y); edge(v1, v2, x + 1, y, x + 1, y + 1);
-          edge(v2, v3, x + 1, y + 1, x, y + 1); edge(v3, v0, x, y + 1, x, y);
-          if (pts.length === 4) segs.push(pts);
-        }
-      }
-      return segs;
-    }
-
-    // ── render + physics ────────────────────────────────────────────────
-    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-    function draw(veil: boolean, speeds: Float32Array | null) {
-      if (veil) { ctx.fillStyle = BONE; ctx.fillRect(0, 0, W, H); }
-      else ctx.clearRect(0, 0, W, H);
-      const now = performance.now();
-      const ca = Math.max(0, 1 - (now - contourT0) / CONTOUR_MS);
-      if (contours.length && ca > 0) {
-        ctx.strokeStyle = `rgba(17,17,19,${0.22 * ca})`;
-        ctx.lineWidth = 0.7;
-        ctx.beginPath();
-        for (const s of contours) { ctx.moveTo(s[0], s[1]); ctx.lineTo(s[2], s[3]); }
-        ctx.stroke();
-      }
-      for (let i = 0; i < N; i++) {
-        let X: number, Y: number, sp = 0;
-        if (flowing) {
-          const t = ease(Math.min(1, (now - flowT0) / FLOW_MS));
-          X = sx[i] + (tx[i] - sx[i]) * t; Y = sy[i] + (ty[i] - sy[i]) * t;
-          sp = speeds ? speeds[i] : 0;
-        } else { X = px[i] + ox[i]; Y = py[i] + oy[i]; sp = Math.hypot(vx[i], vy[i]) * 0.4; }
-        const e = Math.min(1, sp);
-        const r_ = Math.round(INK[0] + (BLUE[0] - INK[0]) * e);
-        const g_ = Math.round(INK[1] + (BLUE[1] - INK[1]) * e);
-        const b_ = Math.round(INK[2] + (BLUE[2] - INK[2]) * e);
-        ctx.fillStyle = `rgba(${r_},${g_},${b_},${0.34 + 0.3 * e})`;
-        ctx.fillRect(X - 0.8, Y - 0.8, 1.6, 1.6);
-      }
-    }
-    const flowSpeed = new Float32Array(N);
-    function step() {
-      const now = performance.now();
-      let energy = 0;
-      if (flowing) {
-        const t = Math.min(1, (now - flowT0) / FLOW_MS);
-        for (let i = 0; i < N; i++)
-          flowSpeed[i] = (Math.hypot(tx[i] - sx[i], ty[i] - sy[i]) / Math.max(1, FLOW_MS)) * 14 * (1 - Math.abs(2 * t - 1));
-        if (t >= 1) {
-          flowing = false;
-          for (let i = 0; i < N; i++) { px[i] = tx[i]; py[i] = ty[i]; ox[i] = oy[i] = vx[i] = vy[i] = 0; }
-          readout?.classList.remove("is-live");
-        }
-        energy = 1;
-      } else {
-        // cursor dimple: local repulsion with spring return
-        const R = 110;
-        for (let i = 0; i < N; i++) {
-          const dx = px[i] + ox[i] - curX, dy = py[i] + oy[i] - curY;
-          const d2 = dx * dx + dy * dy;
-          let fx2 = 0, fy2 = 0;
-          if (d2 < R * R) {
-            const d = Math.sqrt(d2) || 1, g = (1 - d / R);
-            fx2 = (dx / d) * g * 2.2; fy2 = (dy / d) * g * 2.2;
-          }
-          vx[i] = (vx[i] + fx2 - ox[i] * 0.12) * 0.82;
-          vy[i] = (vy[i] + fy2 - oy[i] * 0.12) * 0.82;
-          ox[i] += vx[i]; oy[i] += vy[i];
-          energy += Math.abs(vx[i]) + Math.abs(vy[i]);
-        }
-      }
-      draw(flowing, flowing ? flowSpeed : null);
-      const contourAlive = contours.length && now - contourT0 < CONTOUR_MS;
-      const pointerInside = curX > -1e8;
-      if (!flowing && !contourAlive && !pointerInside && energy < 0.6) { running = false; return; }
-      raf = requestAnimationFrame(step);
-    }
-    function wake() { if (!running) { running = true; raf = requestAnimationFrame(step); } }
-
-    // ── setup ───────────────────────────────────────────────────────────
-    function seed() {
-      // rest distribution: a broad anisotropic gaussian, right of center
-      const cx = W * 0.62, cy = H * 0.44, sxx = W * 0.19, syy = H * 0.17;
-      for (let i = 0; i < N; i++) {
-        let u = 0, v = 0;
-        do { u = Math.random() * 2 - 1; v = Math.random() * 2 - 1; } while (u * u + v * v > 1 || u * u + v * v === 0);
-        const m = Math.sqrt(-2 * Math.log(u * u + v * v) / (u * u + v * v));
-        px[i] = Math.min(W - 2, Math.max(2, cx + u * m * sxx));
-        py[i] = Math.min(H - 2, Math.max(2, cy + v * m * syy));
-      }
-    }
-    function resize() {
-      const r = stage!.getBoundingClientRect();
-      W = Math.max(1, r.width); H = Math.max(1, r.height);
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      canvas!.width = Math.round(W * dpr); canvas!.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (W >= H) { gw = GRID_MAX; gh = Math.max(24, Math.round(GRID_MAX * H / W)); }
-      else { gh = GRID_MAX; gw = Math.max(24, Math.round(GRID_MAX * W / H)); }
-      cw = W / gw; chh = H / gh;
-      makeKernel();
-      seed();
-      contours = [];
-      draw(false, null);
-    }
-
-    if (!reduced) {
-      stage.addEventListener("pointermove", (e) => {
-        const r = canvas.getBoundingClientRect();
-        curX = e.clientX - r.left; curY = e.clientY - r.top;
-        if (!flowing) wake();
-      });
-      stage.addEventListener("pointerleave", () => { curX = -1e9; curY = -1e9; wake(); });
-      stage.addEventListener("pointerdown", (e) => {
-        if (flowing) return;
-        if ((e.target as Element).closest("a")) return;
-        const r = canvas.getBoundingClientRect();
-        solve(e.clientX - r.left, e.clientY - r.top);
-        flowT0 = performance.now(); flowing = true;
-        wake();
-      });
-    }
-
-    const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); running = false; flowing = false; resize(); });
-    ro.observe(stage);
-    resize();
-  }
-</script>
-
 <style>
-  :global(.quiet-home) {
-    --quiet-ink: #111113;
-    --quiet-paper: #f2eade;   /* archive bone, per DESIGN_SYSTEM.md */
-    --quiet-white: #fff;
-    --quiet-blue: #2852e8;    /* signal blue, per DESIGN_SYSTEM.md */
-    --quiet-muted: #66666c;
-    --quiet-rule: rgba(17, 17, 19, .19);
-    background: var(--quiet-paper);
+  :global(.fieldbook-home main) { padding-top: 0; }
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-band { padding-block: var(--ef-space-7); border-block: 1px solid var(--ef-ink); background: var(--ef-figure); }
+  .record-label,
+  .route-kicker,
+  .evidence-source { margin: 0 0 0.75rem; color: color-mix(in srgb, var(--ef-ink) 64%, transparent); font: 620 0.72rem/1.4 var(--font-data); letter-spacing: 0.08em; text-transform: uppercase; }
+  .fieldbook-intro { min-height: min(48rem, calc(100vh - 4.5rem)); padding-block: clamp(4rem, 10vw, 8.5rem); align-items: end; }
+  .fieldbook-intro__copy { grid-column: 2 / span 7; }
+  .fieldbook-intro h1 { max-width: 11ch; margin-bottom: 1.5rem; font-size: clamp(3.25rem, 7.6vw, 7.5rem); }
+  .fieldbook-intro__lead { max-width: 62ch; font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.5; }
+  .fieldbook-intro__status { grid-column: 9 / span 3; padding-top: 1rem; border-top: 2px solid var(--ef-signal); font-family: var(--font-data); font-size: 0.8rem; }
+  .fieldbook-intro__status dl { margin: 0 0 1rem; }
+  .fieldbook-intro__status dl > div { padding-block: 0.65rem; border-bottom: 1px solid var(--rule); }
+  .fieldbook-intro__status dt { color: var(--muted); }
+  .fieldbook-intro__status dd { margin: 0.15rem 0 0; }
+  .action-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; justify-content: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.76rem/1 var(--font-data); letter-spacing: 0.04em; text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  .fieldbook-action--quiet { color: var(--ef-ink); background: transparent; border-color: var(--ef-ink); }
+  .fieldbook-action--quiet:hover { color: var(--ef-figure); }
+  .route-band__heading { margin-bottom: var(--ef-space-5); }
+  .section-intro { display: grid; max-width: 72rem; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); column-gap: var(--ef-space-6); }
+  .section-intro .record-label { grid-column: 1 / -1; }
+  .section-intro h2 { grid-column: 1; margin: 0; }
+  .section-intro > p:last-child { grid-column: 2; margin: 0; align-self: end; }
+  .signature-note { padding-top: 0.9rem; border-top: 2px solid var(--ef-oxide); }
+  .signature-note strong { font: 650 0.76rem/1.4 var(--font-data); text-transform: uppercase; }
+  .signature-note p { margin-top: 0.65rem; }
+  .signature-aperture { width: min(calc(100% - 2 * var(--ef-edge)), 80rem); margin-inline: auto; }
+  .case-stack { margin-top: var(--ef-space-6); border-bottom: 1px solid var(--ef-ink); }
+  .selected-record-names { margin: 1.2rem 0 0; color: var(--muted); font: 560 0.72rem/1.4 var(--font-data); }
+  .numbered-case { display: grid; grid-template-columns: minmax(3rem, 0.4fr) minmax(0, 6fr); gap: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
+  .numbered-case :global(.case-record) { border-top: 0; padding-block: var(--ef-space-5); }
+  .case-number { padding-top: var(--ef-space-5); color: var(--ef-signal); font: 580 clamp(1.5rem, 3vw, 3rem)/1 var(--font-data); }
+  .teaching-ledger { display: grid; margin-block: var(--ef-space-6) var(--ef-space-4); grid-template-columns: 1fr 1fr; border: 1px solid var(--ef-ink); }
+  .teaching-ledger article { min-height: 18rem; padding: var(--ef-space-5); }
+  .teaching-ledger article + article { border-left: 1px solid var(--ef-ink); }
+  .teaching-ledger article > strong { display: block; margin-block: 1rem; font: 570 clamp(3rem, 7vw, 6.5rem)/0.9 var(--font-display); letter-spacing: -0.06em; }
+  .teaching-ledger h3 { font-size: clamp(1.25rem, 2vw, 1.7rem); }
+  .teaching-recognition { grid-column: 1 / -1; min-height: auto !important; border-top: 1px solid var(--ef-ink); border-left: 0 !important; }
+  .text-route { font: 650 0.78rem/1 var(--font-data); text-transform: uppercase; }
+  .range-ledger { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .range-ledger > div { display: grid; padding-block: 1.2rem; grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .range-ledger dt { font: 650 0.76rem/1.4 var(--font-data); text-transform: uppercase; }
+  .range-ledger dd { margin: 0; }
+  .closing-links { display: grid; align-content: end; gap: 0.7rem; font: 600 0.76rem/1.4 var(--font-data); }
+  @media (max-width: 60rem) {
+    .fieldbook-intro__copy { grid-column: 1 / span 8; }
+    .fieldbook-intro__status { grid-column: 6 / span 3; }
+    .section-intro { grid-template-columns: 1fr; }
+    .section-intro :is(h2, > p:last-child) { grid-column: 1; }
+    .section-intro > p:last-child { margin-top: 1rem; }
   }
-
-  :global(.quiet-home main.wide) { width: 100%; max-width: none; padding: 0; }
-  :global(.quiet-home .field-rail),
-  :global(.quiet-home .h-scroll-progress) { display: none; }
-
-  .quiet-hero,
-  .quiet-work,
-  .quiet-trust { color: var(--quiet-ink); background: var(--quiet-paper); }
-
-  .quiet-kicker {
-    margin: 0;
-    color: var(--quiet-muted);
-    font: 520 .7rem/1.4 var(--ih-mono);
-    letter-spacing: .01em;
-  }
-
-  .quiet-hero { padding: 0 clamp(1.25rem, 4vw, 4.5rem); border-bottom: 1px solid var(--quiet-rule); }
-
-  .quiet-hero__intro {
-    position: relative;
-    display: grid;
-    min-height: clamp(620px, calc(100svh - 72px), 900px);
-    padding: clamp(2rem, 4vw, 4rem) 0 1.1rem;
-    grid-template-rows: auto 1fr auto;
-    border-bottom: 1px solid var(--quiet-ink);
-  }
-
-  #field-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
-  }
-
-  .quiet-hero__intro > * { position: relative; z-index: 1; }
-  .quiet-hero__intro > #field-canvas { z-index: 0; }
-
-  @media (forced-colors: active) {
-    #field-canvas { display: none; }
-  }
-
-  .quiet-hero__grid {
-    display: grid;
-    padding: clamp(4rem, 8vw, 8rem) 0 clamp(2rem, 4vw, 4rem);
-    grid-template-columns: minmax(0, 8fr) minmax(280px, 4fr);
-    gap: 2rem clamp(3rem, 8vw, 9rem);
-    align-items: end;
-  }
-
-  .quiet-hero h1 {
-    max-width: 11ch;
-    margin: 0;
-    color: var(--quiet-ink);
-    font: 540 clamp(4.2rem, 8.4vw, 10rem)/.87 var(--ih-display);
-    letter-spacing: -.075em;
-    text-wrap: balance;
-  }
-
-  .quiet-hero__copy > p {
-    max-width: 560px;
-    margin: 0;
-    color: #3d3d42;
-    font: 430 clamp(1.05rem, 1.35vw, 1.25rem)/1.58 var(--ih-sans);
-    letter-spacing: -.018em;
-  }
-
-  .quiet-hero__copy nav { display: flex; margin-top: 2rem; gap: 1.5rem; flex-wrap: wrap; }
-  .quiet-hero__copy a,
-  .quiet-work header a,
-  .quiet-trust nav a { color: var(--quiet-ink); font: 600 .74rem var(--ih-sans); text-underline-offset: .34em; }
-  .quiet-hero__copy a:hover,
-  .quiet-work header a:hover,
-  .quiet-trust nav a:hover { color: var(--quiet-blue); }
-
-  .quiet-fieldnote {
-    display: flex;
-    margin: 0;
-    gap: 1.4rem;
-    flex-wrap: wrap;
-    color: var(--quiet-muted);
-    font: 520 .62rem/1.5 var(--ih-mono);
-  }
-
-  .quiet-fieldnote a { color: var(--quiet-muted); text-underline-offset: .3em; }
-  .quiet-fieldnote a:hover { color: var(--quiet-blue); }
-
-  #ot-readout { color: var(--quiet-muted); font-variant-numeric: tabular-nums; }
-  #ot-readout.is-live { color: var(--quiet-blue); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .quiet-fieldnote__hint { display: none; }
-  }
-
-  .quiet-routes { border-bottom: 1px solid var(--quiet-ink); }
-
-  .quiet-routes > a {
-    display: grid;
-    min-height: 190px;
-    padding: clamp(1.4rem, 2.5vw, 2.5rem) 0;
-    grid-template-columns: minmax(80px, 1fr) minmax(320px, 7fr) minmax(190px, 4fr);
-    gap: 1.5rem;
-    align-items: start;
-    color: var(--quiet-ink);
-    border-bottom: 1px solid var(--quiet-rule);
-    text-decoration: none;
-  }
-
-  .quiet-routes > a:last-child { border-bottom: 0; }
-  .quiet-routes__index { color: var(--quiet-blue); font: 560 .7rem var(--ih-mono); }
-  .quiet-routes h2 { max-width: 12ch; margin: 0; color: var(--quiet-ink); font: 540 clamp(2.2rem, 3.6vw, 4.5rem)/.92 var(--ih-display); letter-spacing: -.055em; }
-  .quiet-routes p { max-width: 650px; margin: 1.2rem 0 0; color: var(--quiet-muted); font: 430 .92rem/1.52 var(--ih-sans); }
-  .quiet-routes strong { display: flex; justify-content: space-between; gap: 1rem; color: var(--quiet-ink); font: 600 .76rem/1.4 var(--ih-sans); }
-  .quiet-routes strong i { color: var(--quiet-blue); font-style: normal; transition: transform 150ms ease; }
-  .quiet-routes > a:hover h2 { color: var(--quiet-blue); }
-  .quiet-routes > a:hover strong i { transform: translate(2px, -2px); }
-
-  .quiet-proofline {
-    display: grid;
-    min-height: 76px;
-    margin: 0;
-    padding: 0;
-    grid-template-columns: repeat(4, 1fr);
-    list-style: none;
-  }
-
-  .quiet-proofline li {
-    display: flex;
-    padding: 1rem;
-    align-items: center;
-    color: var(--quiet-muted);
-    border-right: 1px solid var(--quiet-rule);
-    font: 520 .68rem/1.4 var(--ih-mono);
-  }
-
-  .quiet-proofline li:first-child { padding-left: 0; }
-  .quiet-proofline li:last-child { border-right: 0; }
-
-  .quiet-work { padding: clamp(6rem, 10vw, 10rem) clamp(1.25rem, 4vw, 4.5rem); background: var(--quiet-white); }
-
-  .quiet-work header { display: grid; grid-template-columns: minmax(120px, 2fr) minmax(0, 10fr); gap: 2rem; }
-  .quiet-work header > div { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
-  .quiet-work header h2 { max-width: 12ch; margin: 0; color: var(--quiet-ink); font: 540 clamp(3rem, 5.8vw, 7rem)/.9 var(--ih-display); letter-spacing: -.065em; }
-  .quiet-work__list { margin-top: clamp(3rem, 6vw, 6rem); border-top: 1px solid var(--quiet-ink); }
-
-  .quiet-work__row {
-    display: grid;
-    min-height: 210px;
-    padding: clamp(1.5rem, 2.5vw, 2.5rem) 0;
-    grid-template-columns: minmax(50px, 1fr) minmax(260px, 3fr) minmax(300px, 4fr) minmax(180px, 2fr) 28px;
-    gap: 1.5rem;
-    align-items: start;
-    color: var(--quiet-ink);
-    border-bottom: 1px solid var(--quiet-rule);
-    text-decoration: none;
-  }
-
-  .quiet-work__number,
-  .quiet-work small { color: var(--quiet-muted); font: 520 .67rem/1.4 var(--ih-mono); }
-  .quiet-work__title small { display: block; margin-bottom: 1rem; }
-  .quiet-work__title h3 { max-width: 18ch; margin: 0; color: var(--quiet-ink); font: 540 clamp(1.55rem, 2.3vw, 2.8rem)/1 var(--ih-display); letter-spacing: -.045em; }
-  .quiet-work__row > p { max-width: 560px; margin: 0; color: #46464b; font: 430 .93rem/1.56 var(--ih-sans); }
-  .quiet-work__proof { display: flex; flex-direction: column; gap: .55rem; }
-  .quiet-work__proof strong { color: var(--quiet-ink); font: 560 clamp(1.2rem, 1.7vw, 1.8rem)/1 var(--ih-display); letter-spacing: -.04em; }
-  .quiet-work__arrow { color: var(--quiet-blue); font: 500 1.1rem var(--ih-sans); transition: transform 150ms ease; }
-  .quiet-work__row:hover .quiet-work__title h3 { color: var(--quiet-blue); }
-  .quiet-work__row:hover .quiet-work__arrow { transform: translate(2px, -2px); }
-
-  .quiet-trust {
-    display: grid;
-    padding: clamp(6rem, 10vw, 10rem) clamp(1.25rem, 4vw, 4.5rem);
-    grid-template-columns: minmax(120px, 2fr) minmax(0, 10fr);
-    gap: 2rem;
-    border-top: 5px solid var(--quiet-blue);
-  }
-
-  .quiet-trust__body { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(360px, .72fr); gap: 3rem 8vw; }
-  .quiet-trust h2 { margin: 0; color: var(--quiet-ink); font: 540 clamp(3.2rem, 5.8vw, 7rem)/.87 var(--ih-display); letter-spacing: -.067em; }
-  .quiet-trust__copy > p:first-child { max-width: 680px; margin: 0; color: #39393e; font: 430 clamp(1rem, 1.3vw, 1.2rem)/1.62 var(--ih-sans); }
-  .quiet-trust__credentials { margin: 2.5rem 0 0; padding-top: 1rem; color: var(--quiet-muted); border-top: 1px solid var(--quiet-rule); font: 520 .7rem/1.6 var(--ih-mono); }
-  .quiet-trust nav { display: flex; margin-top: 2rem; gap: 1.5rem; flex-wrap: wrap; }
-
-  @media (max-width: 940px) {
-    .quiet-hero__grid { grid-template-columns: 1fr; align-items: start; }
-    .quiet-hero__copy { max-width: 620px; }
-    .quiet-routes > a { grid-template-columns: 60px 1fr; }
-    .quiet-routes > a > strong { grid-column: 2; }
-    .quiet-work__row { grid-template-columns: 44px minmax(220px, 3fr) minmax(260px, 4fr) minmax(160px, 2fr) 24px; }
-    .quiet-trust__body { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 720px) {
-    .quiet-hero__intro { min-height: 0; }
-    .quiet-hero__grid { padding-top: 5rem; }
-    .quiet-hero h1 { font-size: clamp(3.6rem, 16vw, 6.5rem); }
-    .quiet-routes > a { grid-template-columns: 38px 1fr; }
-    .quiet-proofline { grid-template-columns: 1fr 1fr; }
-    .quiet-proofline li { min-height: 60px; border-bottom: 1px solid var(--quiet-rule); }
-    .quiet-proofline li:nth-child(2) { border-right: 0; }
-    .quiet-proofline li:nth-child(3) { padding-left: 0; border-bottom: 0; }
-    .quiet-proofline li:nth-child(4) { border-bottom: 0; }
-    .quiet-work header,
-    .quiet-trust { grid-template-columns: 1fr; }
-    .quiet-work header > div { align-items: start; flex-direction: column; }
-    .quiet-work__row { grid-template-columns: 38px 1fr 24px; }
-    .quiet-work__title { grid-column: 2; }
-    .quiet-work__row > p,
-    .quiet-work__proof { grid-column: 2; }
-    .quiet-work__arrow { grid-column: 3; grid-row: 1; }
-  }
-
-  @media (max-width: 480px) {
-    .quiet-hero,
-    .quiet-work,
-    .quiet-trust { padding-right: 1rem; padding-left: 1rem; }
-    .quiet-hero__copy nav { flex-direction: column; align-items: flex-start; }
-    .quiet-proofline { grid-template-columns: 1fr; }
-    .quiet-proofline li { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--quiet-rule) !important; }
-    .quiet-proofline li:last-child { border-bottom: 0 !important; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .quiet-routes strong i,
-    .quiet-work__arrow { transition: none; }
+  @media (max-width: 45rem) {
+    .fieldbook-intro { display: block; min-height: auto; }
+    .fieldbook-intro__status { margin-top: 3rem; }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .route-band { padding-block: var(--ef-space-6); }
+    .teaching-ledger { grid-template-columns: 1fr; }
+    .teaching-ledger article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
+    .teaching-recognition { grid-column: 1; }
+    .range-ledger > div { grid-template-columns: 1fr; gap: 0.5rem; }
   }
 </style>

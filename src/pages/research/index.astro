@@ -1,337 +1,215 @@
 ---
-import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ResearchGraph from "../../components/ResearchGraph.astro";
+import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
 
-const priority = new Map([
-  ["helfrich-2026-human-or-machine", 0],
-  ["helfrich-2026-nmtc-rural-gap", 1],
-  ["helfrich-vardanyan-2026-ai-entry-level-labor", 2],
-]);
-const papers = (await getCollection("research")).sort((a, b) => {
-  const priorityDifference = (priority.get(a.id) ?? 99) - (priority.get(b.id) ?? 99);
-  if (priorityDifference !== 0) return priorityDifference;
-  return b.data.year - a.data.year || a.data.title.localeCompare(b.data.title);
-});
+const maturityGroups = [
+  {
+    key: "circulating",
+    heading: "Public and circulating",
+    note: "A manuscript or institutional record is available now.",
+  },
+  {
+    key: "working",
+    heading: "Current work",
+    note: "The analysis is documented; only cleared public artifacts are linked.",
+  },
+  {
+    key: "development",
+    heading: "Active development",
+    note: "No results yet. These records describe a question, design, or data build without an empirical result claim.",
+  },
+  {
+    key: "earlier",
+    heading: "Earlier work",
+    note: "Completed institutional work with its original date and boundary intact.",
+  },
+] as const;
 
-// The program map: nodes are the papers, edges are computed from the papers'
-// own frontmatter tags (weight = number of shared tags). Nothing curated by
-// hand except the short display names.
-const SHORT: Record<string, string> = {
-  "helfrich-2026-human-or-machine": "AI validity",
-  "helfrich-2024-dissertation": "Dissertation",
-  "helfrich-vardanyan-2026-ai-entry-level-labor": "AI × labor",
-  "gonchar-helfrich-2025-spotlight": "Spotlight",
-  "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
-  "gonchar-helfrich-2026-ukraine": "Ukraine",
-  "helfrich-2024-ssrn-4772016": "OT equilibrium",
-  "helfrich-2026-aroe": "AROE",
-  "helfrich-2026-penumbra": "Penumbra",
-  "helfrich-2026-russian-crude": "Russian crude",
-  "helfrich-2026-nmtc-rural-gap": "NMTC",
-};
-const nodes = papers.map((p) => ({
-  id: p.id,
-  short: SHORT[p.id] ?? p.data.title.slice(0, 16),
-  title: p.data.title,
-  year: p.data.year,
-  tags: p.data.tags,
-}));
-const edges: { a: number; b: number; w: number; shared: string[] }[] = [];
-for (let i = 0; i < nodes.length; i++)
-  for (let j = i + 1; j < nodes.length; j++) {
-    const shared = nodes[i].tags.filter((t) => nodes[j].tags.includes(t));
-    if (shared.length > 0) edges.push({ a: i, b: j, w: shared.length, shared });
-  }
-const mapData = { nodes, edges };
+const research = filterDiscoverableResearch(await getCollection("research"));
+const recordsByMaturity = new Map(maturityGroups.map((group) => [
+  group.key,
+  research
+    .filter((record) => record.data.maturity === group.key)
+    .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title)),
+]));
+const sourceLink = (record) => record.data.pdf
+  ? { label: "PDF", href: record.data.pdf }
+  : record.data.ssrn
+    ? { label: "SSRN", href: record.data.ssrn }
+    : record.data.repo
+      ? { label: "Repository", href: record.data.repo }
+      : undefined;
 ---
+
 <Base
   wide
   title="Research"
-  description="Research by economist Ian Helfrich on labor and AI, international trade, networks, spatial and policy econometrics, and place-based investment."
+  description="Research by Ian Helfrich, organized by what is public, what has evidence available, and what remains under development."
+  pageClass="fieldbook-research"
 >
-  <header class="page-hero">
-    <span class="eyebrow">Working papers · Preprints · Research program</span>
-    <h1>Applied questions. Structural thinking.</h1>
-    <p class="kicker">My research examines how exposure, location, network structure, and measurement affect early-career employment, trade costs, and place-based capital.</p>
-    <div class="button-row">
-      <a class="button" href="#papers">View papers</a>
-      <a class="button secondary" href="/start?problem=research">Research inquiry</a>
+  <section class="research-hero route-grid" data-rail-label="Research overview">
+    <div class="research-hero__copy">
+      <p class="record-label">Research ledger · status first</p>
+      <h1>Research, by stage of evidence</h1>
+      <p>My research spans trade, spatial measurement, place-based policy, labor and AI, and economic theory. This page separates work a reader can inspect now from working papers and designs still under development, because the status is part of the claim.</p>
     </div>
-  </header>
-
-  <section class="section compact" aria-labelledby="themes-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Current themes</span>
-        <h2 id="themes-title">Three connected lines of work.</h2>
-      </div>
-      <p>Across them, the recurring concern is whether the metric, comparison, or network representation matches the economic object we claim to study.</p>
-    </div>
-
-    <div class="method-grid">
-      <article class="method-card">
-        <h3>Labor, AI & measurement</h3>
-        <p>Generative-AI exposure, entry-level employment, occupational heterogeneity, policy measurement, and the ethics of economic metrics.</p>
-      </article>
-      <article class="method-card">
-        <h3>Trade, networks & space</h3>
-        <p>Effective distance, satellite-calibrated trade costs, visibility shocks, network topology, optimal transport, and endogenous observability.</p>
-      </article>
-      <article class="method-card">
-        <h3>Place-based policy & capital</h3>
-        <p>New Markets Tax Credits, intermediary composition, rural mobilization, blended finance, spatial policy evaluation, and descriptive decomposition.</p>
-      </article>
-    </div>
+    <aside class="research-hero__key" aria-label="Status definitions">
+      <dl>
+        <div><dt>Public</dt><dd>A manuscript or institutional record is available.</dd></div>
+        <div><dt>Current</dt><dd>The analysis is documented; links are limited to cleared artifacts.</dd></div>
+        <div><dt>Development</dt><dd>No results yet.</dd></div>
+      </dl>
+    </aside>
   </section>
 
-  <section class="section" aria-labelledby="map-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">The program, as a graph</span>
-        <h2 id="map-title">Research relationships.</h2>
-      </div>
-      <p>Edges connect papers that share method tags; line weight is the number of shared tags. Drag a node, or click it to open the paper's record. A record without a connecting line shares no method tag with the others.</p>
-    </div>
-    <div class="inst-panel">
-      <svg id="pgm" viewBox="0 0 1000 560" role="img" aria-label="Graph of research papers connected by shared method tags"></svg>
-      <p class="inst-readout"><span id="pgm-readout">hover a node for its paper; hover an edge for the methods it shares</span></p>
-    </div>
-  </section>
+  <div class="maturity-register">
+    {maturityGroups.map((group, groupIndex) => {
+      const records = recordsByMaturity.get(group.key) ?? [];
+      return (
+        <section class="maturity-section route-shell" data-rail-label={group.heading} id={`stage-${group.key}`}>
+          <header class="maturity-heading">
+            <span>{String(groupIndex + 1).padStart(2, "0")}</span>
+            <div>
+              <h2>{group.heading}</h2>
+              <p>{group.note}</p>
+            </div>
+            <strong>{String(records.length).padStart(2, "0")} records</strong>
+          </header>
 
-  <section id="papers" class="section" aria-labelledby="papers-title">
-    <div class="section-heading">
-      <div>
-        <span class="section-label">Papers</span>
-        <h2 id="papers-title">Research record.</h2>
-      </div>
-      <p>Statuses are stated plainly. Draft pages describe the design and program; they do not imply a finished or accepted result.</p>
-    </div>
-
-    <ul class="h-row-list">
-      {papers.map((paper) => (
-        <li class="h-row">
-          <div class="h-row-meta">
-            {paper.data.year} · {paper.data.status}
-            {paper.data.venue ? ` · ${paper.data.venue}` : ""}
-            {paper.data.tags.length > 0 ? ` · ${paper.data.tags.join(" · ")}` : ""}
+          <div class="research-list">
+            {records.map((record, index) => {
+              const artifact = sourceLink(record);
+              return (
+                <article class="research-row" id={`record-${record.id}`} data-fieldbook-reveal>
+                  <div class="research-row__accession" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
+                  <div class="research-row__main">
+                    <p class="status-line">{record.data.displayStatus} · {record.data.year}</p>
+                    <h3><a href={`/research/${record.id}`}>{record.data.title}</a></h3>
+                    <p class="research-question">{record.data.question}</p>
+                    <p><strong>Role:</strong> {record.data.role}</p>
+                    <nav aria-label={`${record.data.title} links`}>
+                      <a href={`/research/${record.id}`}>Research record →</a>
+                      {artifact && <a href={artifact.href} target={/^https?:/.test(artifact.href) ? "_blank" : undefined} rel={/^https?:/.test(artifact.href) ? "noopener" : undefined}>{artifact.label}{/^https?:/.test(artifact.href) ? " ↗" : " →"}</a>}
+                    </nav>
+                  </div>
+                  <aside class="research-row__margin">
+                    <p><span>Method</span>{record.data.method.join(" · ")}</p>
+                    <p class="limit"><span>Limit</span>{record.data.limit}</p>
+                  </aside>
+                </article>
+              );
+            })}
+            {group.key === "working" && (
+              <article class="research-row supporting-record" data-fieldbook-reveal>
+                <div class="research-row__accession" aria-hidden="true">B</div>
+                <div class="research-row__main">
+                  <p class="status-line">Book and workbook in progress · August 2026</p>
+                  <h3><a href="/projects/pictures-of-inference">Pictures of Inference</a></h3>
+                  <p class="research-question">How can visual models make estimators, sampling variation, and causal comparisons easier to reason about?</p>
+                  <p><strong>Role:</strong> With Elizaveta Gonchar. Part One, chapters 1–10 drafted as of August 14, 2026.</p>
+                  <nav aria-label="Pictures of Inference link"><a href="/projects/pictures-of-inference">Project record →</a></nav>
+                </div>
+                <aside class="research-row__margin">
+                  <p><span>Method</span>Visual explanation · simulation · workbook construction</p>
+                  <p class="limit"><span>Limit</span>The book is in progress. It is not described as complete or forthcoming.</p>
+                </aside>
+              </article>
+            )}
           </div>
-          <h3 class="h-row-title"><a href={`/research/${paper.id}`}>{paper.data.title}</a></h3>
-          <p class="h-row-summary"><em>{paper.data.authors.join(", ")}.</em> {paper.data.abstract}</p>
-          <div style="margin-top: 0.55rem; font-family: var(--font-sans); font-size: 0.8rem;">
-            <a href={`/research/${paper.id}`}>Research page →</a>
-            {paper.data.pdf && <span> · <a href={paper.data.pdf} target="_blank" rel="noopener">PDF</a></span>}
-            {paper.data.ssrn && <span> · <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN</a></span>}
-            {paper.data.repo && <span> · <a href={paper.data.repo} target="_blank" rel="noopener">Code & data</a></span>}
-          </div>
-        </li>
-      ))}
-    </ul>
+        </section>
+      );
+    })}
+  </div>
+
+  <section class="research-map route-band" data-rail-label="Research map">
+    <div class="route-shell route-shell--compact">
+      <header class="section-intro">
+        <div>
+          <p class="record-label">Secondary view</p>
+          <h2>Shared methods across the public record</h2>
+        </div>
+        <p>The complete maturity list above remains the canonical view. The graph offers another way to explore explicit method tags without implying that every record belongs to one finished program.</p>
+      </header>
+      <ResearchGraph papers={research} />
+    </div>
   </section>
 
-  <section class="cta-panel">
-    <span class="section-label">Collaboration and discussion</span>
-    <h2>Working on an adjacent question?</h2>
-    <p>Send the paper title or project description, the connection you see, and the specific conversation you are proposing.</p>
-    <div class="button-row">
-      <a class="button" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry">Send a research inquiry</a>
+  <section class="research-close route-grid" data-rail-label="Contact">
+    <div>
+      <p class="record-label">Research conversation</p>
+      <h2>Working on an adjacent question?</h2>
+    </div>
+    <div>
+      <p>Send the paper title or project description, the connection you see, and the specific conversation you are proposing.</p>
+      <a class="fieldbook-action" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry">Email Ian</a>
     </div>
   </section>
 </Base>
 
-<script is:inline type="application/json" id="pgm-data" set:html={JSON.stringify(mapData)} />
-
-<script>
-  // The program map. A force layout over real frontmatter data: repulsion
-  // between all papers, springs along shared-tag edges (more shared methods,
-  // shorter rest length), weak centering. The solve runs visibly and stops at
-  // equilibrium; dragging a node re-poses the problem and it resolves again.
-  // Motion therefore keeps to the two licensed causes: a calculation
-  // resolving, and a visitor changing state.
-  const svg = document.getElementById("pgm") as unknown as SVGSVGElement | null;
-  const dataEl = document.getElementById("pgm-data");
-  const readout = document.getElementById("pgm-readout");
-  if (svg && dataEl) {
-    const { nodes, edges } = JSON.parse(dataEl.textContent || "{}");
-    const Wv = 1000, Hv = 560, CX = Wv / 2, CY = Hv / 2 - 14;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const N = nodes.length;
-    const X = new Float64Array(N), Y = new Float64Array(N);
-    const VX = new Float64Array(N), VY = new Float64Array(N);
-    const GOLD = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < N; i++) {
-      const a = i * GOLD, r = 150 + 18 * i;
-      X[i] = CX + Math.cos(a) * r; Y[i] = CY + Math.sin(a) * r * 0.72;
-    }
-
-    const NS = "http://www.w3.org/2000/svg";
-    const edgeEls: SVGLineElement[] = [], nodeEls: SVGGElement[] = [];
-    for (const e of edges) {
-      const l = document.createElementNS(NS, "line");
-      l.setAttribute("stroke", "rgba(17,17,19,0.22)");
-      l.setAttribute("stroke-width", String(0.8 + e.w * 0.9));
-      svg.appendChild(l); edgeEls.push(l as SVGLineElement);
-    }
-    nodes.forEach((n: any, i: number) => {
-      const g = document.createElementNS(NS, "g");
-      g.setAttribute("cursor", "pointer");
-      g.setAttribute("tabindex", "0");
-      g.setAttribute("role", "link");
-      g.setAttribute("aria-label", n.title);
-      const c = document.createElementNS(NS, "circle");
-      c.setAttribute("r", "7");
-      c.setAttribute("fill", "#111113");
-      const halo = document.createElementNS(NS, "circle");
-      halo.setAttribute("r", "17");
-      halo.setAttribute("fill", "transparent");
-      const t = document.createElementNS(NS, "text");
-      t.textContent = n.short;
-      t.setAttribute("text-anchor", "middle");
-      t.setAttribute("fill", "#66666c");
-      t.setAttribute("style", "font: 520 11px var(--ih-mono); pointer-events: none;");
-      const title = document.createElementNS(NS, "title");
-      title.textContent = `${n.title} (${n.year})`;
-      g.append(halo, c, t, title);
-      svg.appendChild(g); nodeEls.push(g as SVGGElement);
-    });
-
-    let running = false, raf = 0, dragging = -1, dragMoved = 0;
-    function step() {
-      let energy = 0;
-      for (let i = 0; i < N; i++) {
-        if (i === dragging) continue;
-        let fx = (CX - X[i]) * 0.009, fy = (CY - Y[i]) * 0.009;
-        for (let j = 0; j < N; j++) {
-          if (j === i) continue;
-          const dx = X[i] - X[j], dy = Y[i] - Y[j];
-          const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
-          const f = 8600 / d2;
-          fx += (dx / d) * f; fy += (dy / d) * f;
-        }
-        VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
-      }
-      for (const [k, e] of edges.entries()) {
-        void k;
-        const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
-        const d = Math.max(1, Math.hypot(dx, dy));
-        const rest = 205 - 38 * Math.min(3, e.w);
-        const f = (d - rest) * 0.016 * e.w;
-        const ux = dx / d, uy = dy / d;
-        if (e.a !== dragging) { VX[e.a] += ux * f; VY[e.a] += uy * f; }
-        if (e.b !== dragging) { VX[e.b] -= ux * f; VY[e.b] -= uy * f; }
-      }
-      for (let i = 0; i < N; i++) {
-        if (i === dragging) continue;
-        X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
-        Y[i] = Math.min(Hv - 46, Math.max(34, Y[i] + VY[i]));
-        energy += VX[i] * VX[i] + VY[i] * VY[i];
-      }
-      render();
-      if (energy < 0.02 && dragging < 0) { running = false; return; }
-      raf = requestAnimationFrame(step);
-    }
-    function render() {
-      edges.forEach((e: any, k: number) => {
-        edgeEls[k].setAttribute("x1", String(X[e.a])); edgeEls[k].setAttribute("y1", String(Y[e.a]));
-        edgeEls[k].setAttribute("x2", String(X[e.b])); edgeEls[k].setAttribute("y2", String(Y[e.b]));
-      });
-      nodeEls.forEach((g, i) => {
-        g.setAttribute("transform", `translate(${X[i]},${Y[i]})`);
-        (g.children[2] as SVGTextElement).setAttribute("y", "24");
-      });
-    }
-    function wake() { if (!running) { running = true; raf = requestAnimationFrame(step); } }
-
-    function svgPoint(ev: PointerEvent) {
-      const m = svg.getScreenCTM();
-      if (!m) return { x: 0, y: 0 };
-      const inv = m.inverse();
-      return { x: ev.clientX * inv.a + ev.clientY * inv.c + inv.e, y: ev.clientX * inv.b + ev.clientY * inv.d + inv.f };
-    }
-    nodeEls.forEach((g, i) => {
-      g.addEventListener("pointerdown", (ev) => {
-        dragging = i; dragMoved = 0;
-        g.setPointerCapture(ev.pointerId);
-        ev.preventDefault();
-        wake();
-      });
-      g.addEventListener("pointermove", (ev) => {
-        if (dragging !== i) return;
-        const p = svgPoint(ev);
-        dragMoved += Math.abs(p.x - X[i]) + Math.abs(p.y - Y[i]);
-        X[i] = p.x; Y[i] = p.y; VX[i] = 0; VY[i] = 0;
-        wake();
-      });
-      g.addEventListener("pointerup", () => {
-        const wasDrag = dragMoved > 6;
-        dragging = -1; wake();
-        if (!wasDrag) window.location.href = `/research/${nodes[i].id}`;
-      });
-      g.addEventListener("keydown", (ev) => {
-        if ((ev as KeyboardEvent).key === "Enter") window.location.href = `/research/${nodes[i].id}`;
-      });
-      g.addEventListener("mouseenter", () => {
-        (g.children[1] as SVGCircleElement).setAttribute("fill", "#2852e8");
-        edges.forEach((e: any, k: number) => {
-          if (e.a === i || e.b === i) edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
-        });
-        if (readout) { readout.textContent = `${nodes[i].title} (${nodes[i].year}) · ${nodes[i].tags.join(" · ")}`; readout.parentElement?.classList.add("is-live"); }
-      });
-      g.addEventListener("mouseleave", () => {
-        (g.children[1] as SVGCircleElement).setAttribute("fill", "#111113");
-        edgeEls.forEach((l) => l.setAttribute("stroke", "rgba(17,17,19,0.22)"));
-        if (readout) { readout.textContent = "hover a node for its paper; hover an edge for the methods it shares"; readout.parentElement?.classList.remove("is-live"); }
-      });
-    });
-    edges.forEach((e: any, k: number) => {
-      edgeEls[k].addEventListener("mouseenter", () => {
-        edgeEls[k].setAttribute("stroke", "rgba(40,82,232,0.6)");
-        if (readout) { readout.textContent = `${nodes[e.a].short} ↔ ${nodes[e.b].short} · shared: ${e.shared.join(", ")}`; readout.parentElement?.classList.add("is-live"); }
-      });
-      edgeEls[k].addEventListener("mouseleave", () => {
-        edgeEls[k].setAttribute("stroke", "rgba(17,17,19,0.22)");
-        if (readout) { readout.textContent = "hover a node for its paper; hover an edge for the methods it shares"; readout.parentElement?.classList.remove("is-live"); }
-      });
-    });
-
-    if (reduced) {
-      for (let s = 0; s < 700; s++) {
-        running = true;
-        // synchronous settle: same physics, no visible animation
-        let energy = 0;
-        for (let i = 0; i < N; i++) {
-          let fx = (CX - X[i]) * 0.009, fy = (CY - Y[i]) * 0.009;
-          for (let j = 0; j < N; j++) {
-            if (j === i) continue;
-            const dx = X[i] - X[j], dy = Y[i] - Y[j];
-            const d2 = Math.max(140, dx * dx + dy * dy), d = Math.sqrt(d2);
-            fx += (dx / d) * (8600 / d2); fy += (dy / d) * (8600 / d2);
-          }
-          VX[i] = (VX[i] + fx) * 0.85; VY[i] = (VY[i] + fy) * 0.85;
-        }
-        for (const e of edges) {
-          const dx = X[e.b] - X[e.a], dy = Y[e.b] - Y[e.a];
-          const d = Math.max(1, Math.hypot(dx, dy));
-          const f = (d - (205 - 38 * Math.min(3, e.w))) * 0.016 * e.w;
-          VX[e.a] += (dx / d) * f; VY[e.a] += (dy / d) * f;
-          VX[e.b] -= (dx / d) * f; VY[e.b] -= (dy / d) * f;
-        }
-        for (let i = 0; i < N; i++) {
-          X[i] = Math.min(Wv - 60, Math.max(60, X[i] + VX[i]));
-          Y[i] = Math.min(Hv - 46, Math.max(34, Y[i] + VY[i]));
-          energy += VX[i] * VX[i] + VY[i] * VY[i];
-        }
-        if (energy < 0.02) break;
-      }
-      running = false;
-      render();
-    } else {
-      render();
-      wake();
-    }
-  }
-</script>
-
 <style>
-  .inst-panel svg g:focus { outline: none; }
-  .inst-panel svg g:focus > circle:nth-child(2) { fill: #2852e8; }
+  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
+  .route-shell--compact { padding-block: 0; }
+  .route-grid { display: grid; width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ef-gutter); }
+  .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
+  .record-label,
+  .status-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .research-hero { min-height: 39rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .research-hero__copy { grid-column: 2 / span 7; }
+  .research-hero h1 { max-width: 10ch; }
+  .research-hero__copy > p:last-child { max-width: 62ch; font-size: 1.25rem; }
+  .research-hero__key { grid-column: 9 / span 3; padding-top: 0.6rem; border-top: 2px solid var(--ef-signal); }
+  .research-hero__key dl { margin: 0; }
+  .research-hero__key dl > div { padding-block: 0.65rem; border-bottom: 1px solid var(--rule); }
+  .research-hero__key dt { font: 650 0.7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .research-hero__key dd { margin: 0.2rem 0 0; }
+  .maturity-section + .maturity-section { border-top: 1px solid var(--ef-ink); }
+  .maturity-heading { display: grid; padding-bottom: var(--ef-space-5); align-items: start; grid-template-columns: 4rem minmax(0, 1fr) auto; gap: var(--ef-space-4); }
+  .maturity-heading > span { color: var(--ef-signal); font: 560 1.5rem/1 var(--font-data); }
+  .maturity-heading h2 { margin: 0; }
+  .maturity-heading p { max-width: 54ch; margin-top: 0.6rem; }
+  .maturity-heading > strong { color: var(--muted); font: 620 0.7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .research-list { border-top: 1px solid var(--ef-ink); }
+  .research-row { display: grid; padding-block: var(--ef-space-5); grid-template-columns: 3rem minmax(0, 2fr) minmax(15rem, 0.85fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
+  .research-row__accession { color: var(--ef-signal); font: 560 0.9rem/1.4 var(--font-data); }
+  .research-row h3 { margin: 0 0 0.85rem; font-size: clamp(1.45rem, 2.7vw, 2.35rem); line-height: 1.08; }
+  .research-row h3 a { color: var(--ef-ink); text-decoration: none; }
+  .research-row h3 a:hover { color: var(--ef-signal); }
+  .research-question { max-width: 65ch; font-size: 1.15rem; }
+  .research-row nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font: 620 0.72rem/1.4 var(--font-data); }
+  .research-row__margin { padding-left: 1rem; border-left: 1px solid var(--rule); font-size: 0.95rem; }
+  .research-row__margin p { margin: 0; }
+  .research-row__margin p + p { margin-top: 1.25rem; }
+  .research-row__margin span { display: block; margin-bottom: 0.35rem; color: var(--muted); font: 650 0.68rem/1.4 var(--font-data); letter-spacing: 0.06em; text-transform: uppercase; }
+  .research-row__margin .limit { padding-top: 0.75rem; color: var(--ef-oxide); border-top: 2px solid currentColor; }
+  .supporting-record { background: color-mix(in srgb, var(--ef-figure) 62%, transparent); }
+  .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
+  .section-intro h2 { margin: 0; }
+  .section-intro > p { margin: 0; }
+  .research-map :global(.evidence-aperture) { margin-top: var(--ef-space-6); }
+  .research-close { padding-block: var(--ef-space-7); }
+  .research-close > div:first-child { grid-column: 2 / span 7; }
+  .research-close > div:last-child { grid-column: 9 / span 3; }
+  .research-close h2 { margin: 0; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; margin-top: 1rem; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.76rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  @media (max-width: 60rem) {
+    .research-hero__copy { grid-column: 1 / span 5; }
+    .research-hero__key { grid-column: 6 / span 3; }
+    .research-row { grid-template-columns: 2.5rem minmax(0, 1.7fr) minmax(13rem, 0.9fr); }
+    .section-intro { grid-template-columns: 1fr; }
+    .research-close > div:first-child { grid-column: 1 / span 5; }
+    .research-close > div:last-child { grid-column: 6 / span 3; }
+  }
+  @media (max-width: 45rem) {
+    .route-grid { display: block; }
+    .research-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .research-hero__key { margin-top: var(--ef-space-5); }
+    .route-shell { padding-block: var(--ef-space-6); }
+    .maturity-heading { grid-template-columns: 2.5rem 1fr; }
+    .maturity-heading > strong { grid-column: 2; }
+    .research-row { grid-template-columns: 2.5rem 1fr; }
+    .research-row__margin { grid-column: 2; padding: 1rem 0 0; border-top: 1px solid var(--rule); border-left: 0; }
+  }
 </style>

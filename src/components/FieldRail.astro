@@ -1,38 +1,62 @@
-<aside class="field-rail" aria-label="Page position" data-field-rail>
-  <span class="field-rail-current" data-field-current>OPENING FIELD</span>
-  <div class="field-rail-track"><i data-field-progress aria-hidden="true"></i><nav aria-label="Sections on this page" data-field-markers></nav></div>
-  <output data-field-coordinate>000</output>
+<aside class="field-rail" aria-label="Sections on this page" data-field-rail hidden>
+  <span class="field-rail-current" data-field-current>Overview</span>
+  <div class="field-rail-track">
+    <i data-field-progress aria-hidden="true"></i>
+    <nav aria-label="Jump to a section" data-field-markers></nav>
+  </div>
+  <output data-field-progress-text aria-live="off">0%</output>
 </aside>
 
 <script is:inline>
   (() => {
     const rail = document.querySelector("[data-field-rail]");
-    if (!rail) return;
+    if (!(rail instanceof HTMLElement)) return;
     const current = rail.querySelector("[data-field-current]");
     const progress = rail.querySelector("[data-field-progress]");
     const markers = rail.querySelector("[data-field-markers]");
-    const coordinate = rail.querySelector("[data-field-coordinate]");
+    const progressText = rail.querySelector("[data-field-progress-text]");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
     let sections = [];
     let frame = 0;
 
     const labelFor = (section, index) => {
       const heading = section.querySelector("h1, h2");
-      return section.dataset.railLabel || heading?.textContent?.replace(/\s+/g, " ").trim() || `FIELD ${index + 1}`;
+      return section.dataset.railLabel || heading?.textContent?.replace(/\s+/g, " ").trim() || `Section ${index + 1}`;
+    };
+
+    const ensureId = (section, index) => {
+      if (section.id) return section.id;
+      const stem = labelFor(section, index).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      section.id = stem || `section-${index + 1}`;
+      return section.id;
     };
 
     const build = () => {
-      sections = Array.from(document.querySelectorAll("main > section, main > div > section"))
-        .filter((section) => section.querySelector("h1, h2") && section.getBoundingClientRect().height > 120)
-        .map((section, index) => ({ section, label: labelFor(section, index), top: section.offsetTop }));
-      if (!markers) return;
+      sections = Array.from(document.querySelectorAll("main section[data-rail-label], main > section, main > div > section"))
+        .filter((section) => section.querySelector("h1, h2") && section.getBoundingClientRect().height > 160)
+        .map((section, index) => ({
+          section,
+          id: ensureId(section, index),
+          label: labelFor(section, index),
+          top: section.getBoundingClientRect().top + scrollY,
+        }));
+      if (sections.length < 2 || !(markers instanceof HTMLElement)) {
+        rail.hidden = true;
+        return;
+      }
+      rail.hidden = false;
       markers.replaceChildren(...sections.map((entry, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.setAttribute("aria-label", `Go to ${entry.label}`);
-        button.title = entry.label;
-        button.style.top = `${sections.length > 1 ? index / (sections.length - 1) * 100 : 0}%`;
-        button.addEventListener("click", () => entry.section.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
-        return button;
+        const link = document.createElement("a");
+        link.href = `#${entry.id}`;
+        link.setAttribute("aria-label", `Go to ${entry.label}`);
+        link.title = entry.label;
+        link.style.top = `${index / (sections.length - 1) * 100}%`;
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          entry.section.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+          history.replaceState(null, "", `#${entry.id}`);
+        });
+        return link;
       }));
       update();
     };
@@ -42,12 +66,17 @@
       const available = document.documentElement.scrollHeight - innerHeight;
       const ratio = available > 0 ? Math.max(0, Math.min(1, scrollY / available)) : 0;
       if (progress) progress.style.transform = `scaleY(${ratio})`;
-      if (coordinate) coordinate.textContent = String(Math.round(ratio * 999)).padStart(3, "0");
+      const percent = Math.round(ratio * 100);
+      if (progressText) progressText.textContent = `${percent}%`;
       const probe = scrollY + innerHeight * .38;
       let active = 0;
       sections.forEach((entry, index) => { if (entry.top <= probe) active = index; });
       if (current && sections[active]) current.textContent = sections[active].label;
-      markers?.querySelectorAll("button").forEach((marker, index) => marker.classList.toggle("is-active", index === active));
+      markers?.querySelectorAll("a").forEach((marker, index) => {
+        marker.classList.toggle("is-active", index === active);
+        if (index === active) marker.setAttribute("aria-current", "location");
+        else marker.removeAttribute("aria-current");
+      });
     };
 
     addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
@@ -55,3 +84,21 @@
     if (document.fonts?.ready) document.fonts.ready.then(build); else build();
   })();
 </script>
+
+<style>
+  .field-rail[hidden] { display: none !important; }
+  .field-rail-track nav a {
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: 9px;
+    height: 9px;
+    color: inherit;
+    background: var(--ef-paper);
+    border: 1px solid var(--ef-ink);
+    transform: translate(-50%, -50%);
+  }
+  .field-rail-track nav a::before { position: absolute; inset: -17px; content: ""; }
+  .field-rail-track nav a:is(:hover, :focus-visible, .is-active) { background: var(--ef-signal); border-color: var(--ef-signal); }
+  .field-rail output { font: 600 0.45rem/1 var(--font-data); text-align: center; }
+</style>
