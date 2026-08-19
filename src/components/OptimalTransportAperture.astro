@@ -7,7 +7,7 @@ import EvidenceAperture from "./EvidenceAperture.astro";
   liveRegionId="optimal-transport-live"
   class="optimal-transport-aperture"
   question="How does a mass distribution reallocate toward a new spatial target?"
-  caption="Choose a target density and focus, then solve a discretized entropic transport coupling from the same fixed source."
+  caption="Choose the shape and location of a target distribution, then compute transport from the same fixed source."
   status="Live browser calculation"
   method="Entropic optimal transport; symmetric Gaussian-kernel Sinkhorn scaling; barycentric display map"
   role="Research and implementation by Ian Helfrich"
@@ -44,8 +44,13 @@ import EvidenceAperture from "./EvidenceAperture.astro";
     <button type="button" data-ot-run>Run transport</button>
   </div>
 
+  <p class="ot-lead">The first number summarizes how far mass moves. The remaining figures separate movement of conditional means from residual spread and report solver accuracy.</p>
   <p><output data-ot-readout>Not run. Choose a target and activate Run transport.</output></p>
-  <p data-ot-detail>The reported RMS includes both displacement of each conditional mean and the coupling's conditional variance. Source and target marginals must converge to the displayed numerical tolerance.</p>
+  <details class="ot-specialist-note">
+    <summary>Specialist diagnostics</summary>
+    <p data-ot-diagnostics>Run transport to see the regularized W₂ approximation, iteration count, and marginal error.</p>
+    <p data-ot-detail>The reported RMS includes both displacement of each conditional mean and the coupling's conditional variance. Source and target marginals must converge to the displayed numerical tolerance.</p>
+  </details>
 </EvidenceAperture>
 
 <script>
@@ -59,6 +64,7 @@ import EvidenceAperture from "./EvidenceAperture.astro";
     const yControl = aperture.querySelector("[data-ot-y]");
     const runButton = aperture.querySelector("[data-ot-run]");
     const readout = aperture.querySelector("[data-ot-readout]");
+    const diagnostics = aperture.querySelector("[data-ot-diagnostics]");
     const detail = aperture.querySelector("[data-ot-detail]");
     const live = aperture.querySelector("#optimal-transport-live");
     if (!(stage instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement) || !(modeControl instanceof HTMLSelectElement)
@@ -164,19 +170,23 @@ import EvidenceAperture from "./EvidenceAperture.astro";
       draw(1);
       runButton.disabled = false;
       const resultText = formatSinkhornReadout(result, { sampleSize });
-      if (readout) readout.textContent = resultText;
+      const primaryText = `Regularized transport RMS: ${result.normalizedRms.toFixed(3)} viewport diagonals.`;
+      if (readout) readout.textContent = primaryText;
+      if (diagnostics) diagnostics.textContent = resultText;
       if (detail) detail.textContent = `Squared-cost components: barycentric ${result.normalizedBarycentricRms.toFixed(3)} and conditional spread ${result.normalizedConditionalRms.toFixed(3)} viewport diagonals in RMS units. Source L1 ${result.sourceMarginalL1.toExponential(1)}; target L1 ${result.targetMarginalL1.toExponential(1)}.`;
-      if (live) live.textContent = `Transport complete. ${resultText}`;
+      if (live) live.textContent = `Transport complete. ${primaryText}`;
     };
     const run = () => {
       cancelAnimationFrame(animationFrame);
       runButton.disabled = true;
-      if (readout) readout.textContent = "Resolving the selected transport…";
+      if (readout) readout.textContent = "Solving the selected transport…";
       const result = solve();
       draw(0);
       if (!result.converged) {
         runButton.disabled = false;
-        if (readout) readout.textContent = `Solver stopped before the ${result.tolerance.toExponential(1)} marginal tolerance; maximum error ${result.maxMarginalError.toExponential(1)}.`;
+        const failureText = `Solver stopped before the ${result.tolerance.toExponential(1)} marginal tolerance; maximum error ${result.maxMarginalError.toExponential(1)}.`;
+        if (readout) readout.textContent = failureText;
+        if (diagnostics) diagnostics.textContent = failureText;
         if (live) live.textContent = "Transport did not reach the required marginal tolerance.";
         return;
       }
@@ -227,5 +237,6 @@ import EvidenceAperture from "./EvidenceAperture.astro";
   .ot-controls { align-items: end; display: flex; flex-wrap: wrap; gap: 0.75rem; }
   .ot-controls label { display: grid; font-weight: 650; gap: 0.25rem; }
   .ot-controls :is(select, input, button) { min-height: 44px; }
+  .ot-specialist-note summary { align-items: center; cursor: pointer; display: flex; font-weight: 650; min-height: 44px; }
   @media (prefers-reduced-motion: reduce) { .ot-figure * { transition: none !important; } }
 </style>

@@ -1,34 +1,45 @@
 ---
 import Base from "../layouts/Base.astro";
-// Facts only; update the date line when this changes.
+import { availabilityRecord } from "../data/public-record.mjs";
 ---
-<Base title="Now" description="What Ian Helfrich is working on right now: the 2026-27 job market, active papers, and teaching.">
-  <header class="page-hero">
-    <span class="eyebrow">Now · August 2026</span>
-    <h1>What is on the desk.</h1>
-    <p class="kicker">A short, dated note on current work. <a href="https://nownownow.com/about" target="_blank" rel="noopener">What is a now page?</a></p>
-  </header>
 
-  <h2>The job market</h2>
-  <p>
-    Applying through the AEA JOE 2026-27 cycle. Fields, the job market paper,
-    availability, and the packet are on the <a href="/job-market">job market page</a>.
-    Interviews through the December signal window and at ASSA in January 2027.
-  </p>
+<Base wide pageClass="quiet-index-page" title="Now" description="A dated record of Ian Helfrich's current research, job-market, and teaching priorities.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div><p class="quiet-label">Current record · August 2026</p><h1>Current work</h1></div>
+      <p class="quiet-lead">A short dated note on the work receiving attention now. Research maturity and availability are stated separately.</p>
+    </header>
 
-  <h2>Research in motion</h2>
-  <p>
-    Elizaveta Gonchar and I are preparing the Ukraine wartime-reorganization
-    paper, and continuing the effective-distance
-    trade-cost panel and the Penumbra observation-equilibria program. The
-    <a href="/program">program page</a> maps the papers;
-    <a href="/reading">/reading</a> has the current reading list.
-  </p>
+    <section class="now-record" aria-labelledby="now-market">
+      <p class="record-number">01</p>
+      <div><p class="record-label">Job search</p><h2 id="now-market">2026–27 economics job market</h2><p>{availabilityRecord.status}. The <a href={availabilityRecord.href}>job-market record</a> contains current papers, fields, documents, and contact information.</p></div>
+      <aside><strong>Updated</strong><span>{availabilityRecord.asOf}</span></aside>
+    </section>
 
-  <h2>Teaching and practice</h2>
-  <p>
-    Private instruction continues through the fall (economics, econometrics,
-    statistics, test preparation), alongside select consulting engagements and
-    the independent lab with Elizaveta Gonchar at <a href="/third-space">Third Space</a>.
-  </p>
+    <section class="now-record" aria-labelledby="now-research">
+      <p class="record-number">02</p>
+      <div><p class="record-label">Research</p><h2 id="now-research">Public work and current analysis</h2><p>The <a href="/research/helfrich-2026-nmtc-rural-gap">NMTC rural financing paper</a> is public. <a href="/research/helfrich-2026-human-or-machine">Human or Machine?</a> is a current working paper on out-of-time validation of AI-exposure ratings. Development-stage records remain labeled as having no results.</p></div>
+      <aside><strong>Index</strong><a href="/research">Research by stage</a></aside>
+    </section>
+
+    <section class="now-record" aria-labelledby="now-teaching">
+      <p class="record-number">03</p>
+      <div><p class="record-label">Teaching and coaching</p><h2 id="now-teaching">Quantitative instruction and research design</h2><p>Independent instruction continues alongside work on <a href="/projects/applied-statistics">Applied Statistics</a> and <a href="/research">research materials</a>. Learner-specific and client-specific work remains private.</p></div>
+      <aside><strong>Details</strong><a href="/teaching">Teaching &amp; Coaching</a></aside>
+    </section>
+  </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .record-label, .record-number, .now-record aside strong { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .quiet-lead { margin: 0; font-size: 1.15rem; }
+  .now-record { display: grid; padding-block: 2.25rem; grid-template-columns: 3rem minmax(0, 1fr) minmax(10rem, 15rem); gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
+  .now-record h2 { max-width: 19ch; margin: .35rem 0 .9rem; font-size: clamp(1.9rem, 4vw, 3.2rem); }
+  .now-record div > p:last-child { max-width: 65ch; }
+  .now-record aside { display: grid; align-content: start; gap: .3rem; }
+  .now-record aside a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 45rem) { .quiet-header, .now-record { grid-template-columns: 1fr; } .record-number { display: none; } }
+</style>

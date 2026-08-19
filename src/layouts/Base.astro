@@ -10,7 +10,7 @@ const {
   description,
   wide = false,
   image = "/og.png",
-  imageAlt = "Ian Helfrich, PhD: applied economist, quantitative research designer, and educator",
+  imageAlt = "Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates",
   noindex = false,
   excludeFromSearch = false,
   pageClass = "",
@@ -18,7 +18,7 @@ const {
 
 const siteTitle = "Ian Helfrich, PhD";
 const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
-const desc = description ?? "Economist working across applied research and quantitative education.";
+const desc = description ?? "Applied economist, quantitative research designer, and educator in St. Louis.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const personImage = new URL("/people/ian-editorial.webp", Astro.site ?? Astro.url.origin);
@@ -48,8 +48,12 @@ const personSchema = {
   ],
   knowsAbout: [
     "Econometrics",
+    "Causal inference",
     "International trade",
-    "Economic networks",
+    "Place-based policy",
+    "Labor and artificial intelligence",
+    "Spatial analysis",
+    "Quantitative research design",
     "Quantitative education",
   ],
 };
@@ -102,7 +106,7 @@ const personSchema = {
             <div class="primary-nav-list" data-primary-nav>
               <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
               <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
-              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
+              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching &amp; coaching</a>
               <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
               <a href="/cv" aria-current={isActive("/cv") ? "page" : undefined}>CV</a>
             </div>
@@ -140,7 +144,7 @@ const personSchema = {
     <div class="site-footer-inner">
       <div class="footer-intro">
         <a href="/" class="footer-brand">Ian Helfrich, PhD</a>
-        <p>Economist working across applied research and quantitative education.</p>
+        <p>Applied economist, quantitative research designer, and educator.</p>
         <p class="footer-location">St. Louis, Missouri</p>
       </div>
 
@@ -149,7 +153,7 @@ const personSchema = {
           <strong>Navigate</strong>
           <a href="/work">Work</a>
           <a href="/research">Research</a>
-          <a href="/teaching">Teaching</a>
+          <a href="/teaching">Teaching &amp; coaching</a>
           <a href="/about">About</a>
           <a href="/cv">CV</a>
         </div>

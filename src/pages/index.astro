@@ -24,8 +24,8 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
   <section class="fieldbook-intro fieldbook-grid" data-rail-label="Introduction">
     <div class="fieldbook-intro__copy" data-fieldbook-reveal>
       <p class="route-kicker">{identityRecord.role}</p>
-      <h1>I build empirical work that makes difficult questions inspectable.</h1>
-      <p class="fieldbook-intro__lead">I work on trade, place-based policy, labor and AI, measurement, and quantitative learning. Across those settings, I build the dataset, comparison, model, or teaching sequence needed to see what the evidence can support.</p>
+      <h1>I build the data, comparisons, and tools that difficult questions require.</h1>
+      <p class="fieldbook-intro__lead">My work spans trade, place-based policy, labor and AI, measurement, and quantitative education. It includes empirical studies, public research tools, university teaching, and advanced quantitative coaching.</p>
       <div class="action-row">
         <a class="fieldbook-action" href="/work">See selected work</a>
         <a class="fieldbook-action fieldbook-action--quiet" href="/cv">CV &amp; contact</a>
@@ -62,11 +62,10 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
 
   <section class="home-records route-shell" data-rail-label="Selected work">
     <header class="section-intro">
-      <p class="record-label">Selected records · 03</p>
-      <h2>Three other questions, three different forms of evidence</h2>
-      <p>Each record states the question, present status, role, method, result, and limit before asking a reader to follow a link.</p>
+      <p class="record-label">Selected work</p>
+      <h2>Research, measurement, and quantitative learning</h2>
+      <p>These projects show how I approach three different problems: validating an AI measure, representing distance in trade models, and making a statistical workflow fully inspectable.</p>
     </header>
-    <p class="selected-record-names">Human or Machine? · Trade in the Spotlight · Applied Statistics</p>
     <div class="case-stack">
       {selectedRecords.map((record, index) => (
         <div class="numbered-case" data-fieldbook-reveal>
@@ -81,7 +80,7 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
     <header class="section-intro">
       <p class="record-label">Teaching &amp; coaching</p>
       <h2>Teaching across classrooms, online courses, and research practice</h2>
-      <p>I have been instructor of record for three semesters at Georgia Tech, supported teaching at Duke and Indiana, taught online microeconomics and macroeconomics, and built an independent practice spanning foundational instruction through executive-level quantitative research-design coaching.</p>
+      <p>I have served as instructor of record for three semesters at Georgia Tech, supported teaching in Duke's Global Executive MBA program and at Indiana University, taught online microeconomics and macroeconomics, and built an independent practice from foundational tutoring through executive-level quantitative research-design coaching.</p>
     </header>
     <div class="teaching-ledger">
       <article>
@@ -107,8 +106,8 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
 
   <section class="home-range route-shell" data-rail-label="Range">
     <header class="section-intro">
-      <p class="record-label">Range, with evidence</p>
-      <h2>Work that crosses research, policy, software, and teaching</h2>
+      <p class="record-label">Additional experience</p>
+      <h2>Research, policy, software, leadership, and teaching</h2>
     </header>
     <dl class="range-ledger">
       <div>
@@ -137,8 +136,8 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
   <section class="home-close route-band" data-rail-label="Contact">
     <div class="fieldbook-grid">
       <div class="fieldbook-narrative">
-        <p class="record-label">Current work and ways to collaborate</p>
-        <h2>Bring the question and the decision it needs to support.</h2>
+        <p class="record-label">Current roles and collaborations</p>
+        <h2>Where this work may be useful</h2>
         <p>I am interested in roles and collaborations where the quality of a decision depends on how evidence is designed, compared, or explained. That includes applied research, economic and policy analysis, quantitative product work, research-methods advising, and advanced teaching or coaching.</p>
         <div class="action-row">
           <a class="fieldbook-action" href="/cv">View CV and availability</a>
@@ -185,7 +184,6 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
   .signature-note p { margin-top: 0.65rem; }
   .signature-aperture { width: min(calc(100% - 2 * var(--ef-edge)), 80rem); margin-inline: auto; }
   .case-stack { margin-top: var(--ef-space-6); border-bottom: 1px solid var(--ef-ink); }
-  .selected-record-names { margin: 1.2rem 0 0; color: var(--muted); font: 560 0.72rem/1.4 var(--font-data); }
   .numbered-case { display: grid; grid-template-columns: minmax(3rem, 0.4fr) minmax(0, 6fr); gap: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
   .numbered-case :global(.case-record) { border-top: 0; padding-block: var(--ef-space-5); }
   .case-number { padding-top: var(--ef-space-5); color: var(--ef-signal); font: 580 clamp(1.5rem, 3vw, 3rem)/1 var(--font-data); }
@@ -205,11 +203,13 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
     .fieldbook-intro__copy { grid-column: 1 / span 8; }
     .fieldbook-intro__status { grid-column: 6 / span 3; }
     .section-intro { grid-template-columns: 1fr; }
-    .section-intro :is(h2, > p:last-child) { grid-column: 1; }
+    .section-intro h2,
+    .section-intro > p:last-child { grid-column: 1; }
     .section-intro > p:last-child { margin-top: 1rem; }
   }
   @media (max-width: 45rem) {
     .fieldbook-intro { display: block; min-height: auto; }
+    .fieldbook-intro h1 { overflow-wrap: normal; word-break: normal; }
     .fieldbook-intro__status { margin-top: 3rem; }
     .route-shell { padding-block: var(--ef-space-6); }
     .route-band { padding-block: var(--ef-space-6); }
@@ -217,5 +217,8 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
     .teaching-ledger article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
     .teaching-recognition { grid-column: 1; }
     .range-ledger > div { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+  @media (max-width: 22rem) {
+    .fieldbook-intro h1 { font-size: 2.625rem; }
   }
 </style>

@@ -35,6 +35,10 @@ jobs:
         continue-on-error: true
       - name: Run factual and voice release gate
         run: npm run check:copy
+      - name: Verify fieldbook routes and evidence components
+        run: |
+          npm run check:fieldbook
+          npm run check:components
       - name: Build hub
         run: npm run build:fast
       - name: Verify rendered headline styles

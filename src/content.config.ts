@@ -59,6 +59,7 @@ const research = defineCollection({
     limit: z.string().min(1),
     discovery: z.enum(['primary', 'secondary', 'withheld']),
     distinctiveQuery: z.string().min(1).optional(),
+    searchTerms: z.array(z.string().min(1)).default([]),
     tags: z.array(z.string()).default([]),
   }).superRefine((data, context) => {
     if (data.discovery === 'withheld' && !data.distinctiveQuery) {

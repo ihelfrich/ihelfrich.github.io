@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import CdeDecomposition from "../../components/CdeDecomposition.astro";
+import OptimalTransportAperture from "../../components/OptimalTransportAperture.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
 
@@ -12,23 +13,100 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const paper = await getEntry("research", slug);
 const { Content } = await render(paper);
+const hasArtifact = Boolean(paper.data.pdf || paper.data.ssrn || paper.data.repo);
+const searchTitle = paper.data.searchTerms.length > 0
+  ? `${paper.data.searchTerms[0]}: ${paper.data.title}`
+  : undefined;
 ---
-<Base wide pageClass="record-page record-paper" title={paper.data.title} description={paper.data.abstract}>
-  <article class="h-article">
-    <header>
-      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>PAPER · {paper.data.year}</span><span><i></i>{paper.data.displayStatus}</span></div>
-      <div class="h-article-meta">{paper.data.venue ?? "INDEPENDENT RESEARCH RECORD"}</div>
-      <h1>{paper.data.title}</h1>
-      <p class="record-authors">{paper.data.authors.join(" · ")}</p>
-      <p class="record-deck">{paper.data.abstract}</p>
-      <div class="record-actions">
-        {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener">PDF →</a>}
-        {paper.data.ssrn && <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN →</a>}
-        {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code & data →</a>}
-      </div>
+
+<Base wide pageClass="quiet-research-detail" title={paper.data.title} description={paper.data.abstract}>
+  <article class="research-shell">
+    <header class="research-header">
+      <a class="back-link" href="/research">Research</a>
+      <Fragment set:html={`<div class="record-topline"><span>Research record</span><span>${paper.data.year}</span><span>${paper.data.displayStatus}</span></div>`} />
+      {paper.data.searchTerms.length > 0 && (
+        <p class="research-subject" data-pagefind-weight="10"><span>Subject</span>{" "}{paper.data.searchTerms.join(" · ")}</p>
+      )}
+      <h1 data-pagefind-meta={searchTitle ? `title:${searchTitle}` : undefined}>{paper.data.title}</h1>
+      <p class="research-question">{paper.data.question}</p>
+
+      <dl class="research-ledger">
+        <div><dt>Status</dt><dd>{paper.data.displayStatus}{paper.data.venue ? ` · ${paper.data.venue}` : ""}</dd></div>
+        <div><dt>Role</dt><dd>{paper.data.role}</dd></div>
+        <div><dt>Authors</dt><dd>{paper.data.authors.join(", ")}</dd></div>
+        <div><dt>Method</dt><dd>{paper.data.method.join(" · ")}</dd></div>
+        <div class="limit"><dt>What this record does not establish</dt><dd>{paper.data.limit}</dd></div>
+      </dl>
+
+      {hasArtifact ? (
+        <div class="artifact-record">
+          <p><strong>Public artifacts</strong><span>{paper.data.displayStatus}</span></p>
+          <nav aria-label="Research artifacts">
+            {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener">Manuscript PDF</a>}
+            {paper.data.ssrn && <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN record</a>}
+            {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code and data</a>}
+          </nav>
+        </div>
+      ) : (
+        <p class="no-artifact"><strong>No public manuscript is linked yet.</strong><span>The title, question, status, method, and limit above are the current public record.</span></p>
+      )}
     </header>
-    {slug === "helfrich-2026-nmtc-rural-gap" && <CdeDecomposition />}
-    <div class="record-body"><Content /></div>
-    <footer class="record-end"><span>END OF PUBLIC RECORD</span><a href="/research">All papers →</a><a href="/library">Complete public index →</a></footer>
+
+    <section class="research-summary" aria-labelledby="summary-title">
+      <p class="section-label">Plain-language record</p>
+      <h2 id="summary-title">Summary</h2>
+      <p>{paper.data.abstract}</p>
+    </section>
+
+    {slug === "helfrich-2026-nmtc-rural-gap" && <div class="evidence-block"><CdeDecomposition /></div>}
+    {slug === "helfrich-2024-ssrn-4772016" && <div class="evidence-block"><OptimalTransportAperture /></div>}
+
+    <details class="methods-record" open={slug === "helfrich-2026-nmtc-rural-gap"}>
+      <summary>Methods and record notes</summary>
+      <div class="record-body"><Content /></div>
+    </details>
+
+    <footer class="research-footer"><a href="/research">Research by stage</a><a href="/library">Public index</a></footer>
   </article>
 </Base>
+
+<style>
+  .research-shell { width: min(100%, 76rem); margin-inline: auto; }
+  .research-header { padding-block: clamp(2rem, 6vw, 5rem); border-block: 1px solid var(--ef-ink); }
+  .back-link, .research-subject span, .research-ledger dt, .artifact-record strong, .artifact-record span, .no-artifact strong, .section-label { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .back-link { display: inline-flex; min-height: 44px; align-items: center; }
+  .research-subject { display: flex; margin: 1rem 0 0; flex-wrap: wrap; gap: .35rem 1rem; color: var(--muted); font: 520 .76rem/1.5 var(--font-data); }
+  .research-subject span { color: var(--ef-ink); }
+  h1 { max-width: 19ch; margin: .75rem 0 1.25rem; font-size: clamp(3rem, 6.8vw, 6.5rem); }
+  .research-question { max-width: 62ch; margin: 0; font-size: clamp(1.2rem, 2.3vw, 1.7rem); }
+  .research-ledger { display: grid; margin: 2.5rem 0 0; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ef-ink); }
+  .research-ledger div { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); }
+  .research-ledger dt { color: var(--muted); }
+  .research-ledger dd { margin: .25rem 0 0; }
+  .research-ledger .limit { grid-column: 1 / -1; color: var(--ef-oxide); border-bottom-color: currentColor; }
+  .artifact-record { display: grid; margin-top: 1.5rem; grid-template-columns: 13rem minmax(0, 1fr); gap: 1rem 2rem; align-items: start; }
+  .artifact-record p { display: grid; gap: .25rem; }
+  .artifact-record span { color: var(--muted); }
+  .artifact-record nav { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  .artifact-record a, .research-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .no-artifact { display: grid; margin-top: 1.5rem; padding: 1rem 0 1rem 1rem; gap: .35rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
+  .research-summary { display: grid; max-width: 70ch; padding-block: clamp(3rem, 7vw, 6rem); grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem 2rem; }
+  .section-label { color: var(--muted); }
+  .research-summary h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); }
+  .research-summary > p:last-child { grid-column: 2; margin: 0; font-size: 1.12rem; }
+  .evidence-block { margin-block: clamp(2rem, 6vw, 5rem); }
+  .methods-record { margin-block: clamp(3rem, 7vw, 6rem); border-block: 1px solid var(--ef-ink); }
+  .methods-record summary { min-height: 56px; padding-block: 1rem; cursor: pointer; font: 650 .76rem/1.4 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .record-body { max-width: 70ch; padding-block: 1rem 3rem; }
+  .record-body :global(h2) { margin-top: 2.5rem; font-size: clamp(1.9rem, 4vw, 3rem); }
+  .record-body :global(h3) { margin-top: 2rem; font-size: 1.55rem; }
+  .research-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }
+  @media (max-width: 45rem) { h1 { font-size: clamp(2.35rem, 12vw, 3rem); overflow-wrap: anywhere; } .research-ledger, .artifact-record, .research-summary { grid-template-columns: 1fr; } .research-ledger .limit, .research-summary > p:last-child { grid-column: 1; } .research-footer { align-items: flex-start; flex-direction: column; } }
+</style>
+
+<style is:global>
+  .quiet-research-detail .record-topline { display: grid; min-height: 44px; margin-top: .75rem; grid-template-columns: 1fr auto auto; gap: 1rem 2rem; align-items: center; color: var(--muted); border-block: 1px solid var(--rule); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .quiet-research-detail .record-topline span:nth-child(2) { text-align: center; }
+  .quiet-research-detail .record-topline span:last-child { color: var(--ef-ink); text-align: right; }
+  @media (max-width: 45rem) { .quiet-research-detail .record-topline { grid-template-columns: 1fr auto; } .quiet-research-detail .record-topline span:nth-child(2) { display: none; } }
+</style>

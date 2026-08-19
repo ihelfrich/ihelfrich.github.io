@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import LeastSquaresLab from "../../components/LeastSquaresLab.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { isArchivalProject } from "../../data/archival-projects.mjs";
 
@@ -12,18 +13,77 @@ const { slug } = Astro.params;
 const project = await getEntry("projects", slug);
 const { Content } = await render(project);
 const archival = isArchivalProject(project.id);
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const statusCopy = { live: "Live public record", "in-progress": "In progress", planned: "Planned", archived: "Archived" };
+const archiveDescription = "This direct-only archive preserves an older route while keeping learner-specific context and artifacts private.";
+const limitCopy = archival
+  ? "Learner-specific context and linked artifacts are not republished. Generalized public work appears in the current project index."
+  : project.data.status === "live"
+    ? "The linked artifact documents the current public release. Research findings require their own paper or dataset record."
+    : project.data.status === "in-progress"
+      ? "This is a development record. Scope, release, and completion claims remain limited to the artifacts linked here."
+      : "This record describes planned or historical work and does not claim a current completed release.";
 ---
-<Base title={project.data.title} description={project.data.blurb} noindex={archival} excludeFromSearch={archival}>
-  <article class="h-article">
-    <header>
-      <div class="h-article-meta">PROJECT · {project.data.tags.join(" · ")}</div>
+
+<Base wide pageClass="quiet-project-detail" title={project.data.title} description={archival ? archiveDescription : project.data.blurb} noindex={archival} excludeFromSearch={archival}>
+  <article class="project-shell">
+    <header class="project-header">
+      <a class="back-link" href="/projects">Public projects</a>
+      <p class="project-status">{archival ? "Direct-only archive" : statusCopy[project.data.status]} · {fmt(project.data.date)}</p>
       <h1>{project.data.title}</h1>
-      <p style="color: var(--ink-soft); font-size: 1.05rem; margin-top: 0.5rem;">{project.data.blurb}</p>
-      <div style="margin-top: 0.8rem;">
-        {project.data.url && <a href={project.data.url} target="_blank" rel="noopener">Live site →</a>}
-        {project.data.repo && <>{project.data.url && <span style="margin: 0 0.6rem; color: var(--muted);">·</span>}<a href={project.data.repo} target="_blank" rel="noopener">Source on GitHub →</a></>}
-      </div>
+      <p class="project-lead">{archival ? archiveDescription : project.data.blurb}</p>
+
+      <dl class="project-ledger">
+        <div><dt>Status</dt><dd>{archival ? "Direct-only archive" : statusCopy[project.data.status]}</dd></div>
+        {!archival && <div><dt>Topics</dt><dd>{project.data.tags.join(" · ")}</dd></div>}
+        <div class="limit"><dt>Boundary</dt><dd>{limitCopy}</dd></div>
+      </dl>
+
+      {!archival && (project.data.url || project.data.repo) && (
+        <nav class="artifact-links" aria-label="Project artifacts">
+          {project.data.url && <a href={project.data.url} target="_blank" rel="noopener">Open public site</a>}
+          {project.data.repo && <a href={project.data.repo} target="_blank" rel="noopener">Source repository</a>}
+        </nav>
+      )}
     </header>
-    <Content />
+
+    {archival ? (
+      <section class="archive-boundary" aria-labelledby="archive-boundary-title">
+        <p class="section-label">Direct-only archive</p>
+        <h2 id="archive-boundary-title">A privacy boundary for an older link</h2>
+        <p>This route remains available so older links do not fail. Learner-specific material and artifact links are not republished. Generalized public work is available through the current project index.</p>
+      </section>
+    ) : (
+      <section class="project-body" aria-label="Project notes"><Content /></section>
+    )}
+
+    {project.id === "applied-statistics" && <div class="project-demonstration"><LeastSquaresLab /></div>}
+
+    <footer class="project-footer"><a href="/projects">Public projects</a><a href="/library">Public index</a></footer>
   </article>
 </Base>
+
+<style>
+  .project-shell { width: min(100%, 76rem); margin-inline: auto; }
+  .project-header { padding-block: clamp(2rem, 6vw, 5rem); border-block: 1px solid var(--ef-ink); }
+  .back-link, .project-status, .project-ledger dt, .section-label { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .back-link { display: inline-flex; min-height: 44px; align-items: center; }
+  .project-status { margin-top: 1rem; color: var(--muted); }
+  h1 { max-width: 18ch; margin: .75rem 0 1rem; font-size: clamp(3rem, 7vw, 6.4rem); }
+  .project-lead { max-width: 68ch; font-size: clamp(1.15rem, 2vw, 1.5rem); }
+  .project-ledger { display: grid; margin-top: 2.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ef-ink); }
+  .project-ledger div { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); }
+  .project-ledger dt { color: var(--muted); }
+  .project-ledger dd { margin: .25rem 0 0; }
+  .project-ledger .limit { grid-column: 1 / -1; color: var(--ef-oxide); }
+  .artifact-links { display: flex; margin-top: 1.5rem; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  .artifact-links a, .project-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .project-body, .archive-boundary { max-width: 70ch; padding-block: clamp(3rem, 7vw, 6rem); }
+  .project-body :global(h2), .archive-boundary h2 { margin-top: 2.5rem; font-size: clamp(1.9rem, 4vw, 3rem); }
+  .project-body :global(h3) { margin-top: 2rem; font-size: 1.55rem; }
+  .archive-boundary h2 { margin: .5rem 0 1rem; }
+  .section-label { color: var(--muted); }
+  .project-demonstration { margin-block: clamp(2rem, 6vw, 5rem); }
+  .project-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }
+  @media (max-width: 45rem) { h1 { font-size: clamp(2.6rem, 13vw, 3.2rem); overflow-wrap: anywhere; } .project-ledger { grid-template-columns: 1fr; } .project-ledger .limit { grid-column: 1; } .project-footer { align-items: flex-start; flex-direction: column; } }
+</style>

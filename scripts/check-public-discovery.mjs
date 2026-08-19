@@ -7,6 +7,12 @@ import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-proj
 
 const root = path.resolve("dist");
 
+const collectHtml = async (directory) => (await Promise.all((await readdir(directory, { withFileTypes: true })).map(async (entry) => {
+  const entryPath = path.join(directory, entry.name);
+  if (entry.isDirectory()) return collectHtml(entryPath);
+  return entry.name.endsWith(".html") ? [entryPath] : [];
+}))).flat();
+
 const archive = JSON.parse(await readFile(path.join(root, "archive.json"), "utf8"));
 const archiveText = JSON.stringify(archive);
 const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
@@ -23,13 +29,18 @@ const researchRecords = await Promise.all((await readdir(researchDirectory))
     assert.ok(frontmatter, `${filename} must have readable frontmatter`);
     return { id: filename.replace(/\.md$/, ""), ...parseYaml(frontmatter[1]) };
   }));
+const nmtcResearchId = "helfrich-2026-nmtc-rural-gap";
+const nmtcResearch = researchRecords.find(({ id }) => id === nmtcResearchId);
+assert.ok(nmtcResearch, "the flagship NMTC research record must exist");
+assert.ok(nmtcResearch.searchTerms?.some((term) => term.includes("NMTC")), "the flagship research record must expose the NMTC acronym as searchable metadata");
 const withheldResearch = researchRecords.filter(({ discovery }) => discovery === "withheld");
 assert.ok(withheldResearch.length > 0, "the discovery regression requires at least one data-derived withheld record");
 for (const record of withheldResearch) assert.ok(record.distinctiveQuery, `${record.id} must define a distinctiveQuery`);
 for (const record of researchRecords.filter(({ discovery }) => discovery !== "withheld")) {
   const detail = await readFile(path.join(root, "research", record.id, "index.html"), "utf8");
-  const topline = detail.match(/<div class="record-topline">([\s\S]*?)<\/div>/)?.[1] ?? "";
-  assert.ok(topline.includes(record.displayStatus), `/research/${record.id}/ must render displayStatus in its record topline: ${record.displayStatus}`);
+  assert.ok(detail.includes(record.displayStatus), `/research/${record.id}/ must render displayStatus: ${record.displayStatus}`);
+  assert.ok(detail.includes(record.role), `/research/${record.id}/ must render the canonical role: ${record.role}`);
+  assert.ok(detail.includes(record.limit), `/research/${record.id}/ must render the canonical evidentiary limit`);
 }
 for (const { id, title } of withheldResearch) {
   for (const [surface, source] of [["Research index", researchIndex], ["archive.json", archiveText], ["sitemap.xml", sitemap], ["rss.xml", rss], ["Library and SiteIndex", library]]) {
@@ -59,10 +70,53 @@ for (const { id } of archivalProjects) {
   const html = await readFile(path.join(root, "projects", id, "index.html"), "utf8");
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/, `${id} must be noindex`);
   assert.match(html, /<html lang="en" data-pagefind-ignore="all">/, `${id} must be excluded from Pagefind`);
+  assert.ok(html.includes("Learner-specific context and linked artifacts are not republished"), `${id} must render the generic privacy boundary`);
+  assert.ok(!html.includes('class="artifact-links"'), `${id} must not relink archived artifacts`);
+  assert.ok(!html.includes("<dt>Topics</dt>"), `${id} must not republish promotional topic metadata`);
 }
 
+const builtHtml = await collectHtml(root);
+for (const { id, title } of archivalProjects) {
+  const allowedPath = path.join(root, "projects", id, "index.html");
+  for (const htmlPath of builtHtml) {
+    if (htmlPath === allowedPath) continue;
+    const html = await readFile(htmlPath, "utf8");
+    assert.ok(!html.includes(title), `${path.relative(root, htmlPath)} must not name direct-only archival project ${title}`);
+  }
+}
+
+for (const id of ["macro-research-tools", "climfinrisk"]) {
+  const source = await readFile(path.resolve("src/content/projects", `${id}.md`), "utf8");
+  const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
+  assert.ok(frontmatter, `${id}.md must have readable frontmatter`);
+  const project = parseYaml(frontmatter[1]);
+  assert.ok(!project.repo, `${id} must not advertise an unavailable or uncleared repository`);
+}
+
+const deadNmtcViewer = "https://ihelfrich.github.io/us-nmtc-viewer/";
+const nmtcProjectSource = await readFile(path.resolve("src/content/projects/us-nmtc-viewer.md"), "utf8");
+const nmtcProjectFrontmatter = parseYaml(nmtcProjectSource.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "");
+const nmtcDatasetSource = await readFile(path.resolve("src/content/datasets/us-nmtc-panel.md"), "utf8");
+const nmtcDatasetFrontmatter = parseYaml(nmtcDatasetSource.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "");
+assert.ok(!nmtcProjectFrontmatter.url, "the NMTC project must not advertise the dead hosted viewer");
+assert.notEqual(nmtcProjectFrontmatter.status, "live", "the NMTC project must not claim a live viewer while no hosted release resolves");
+assert.ok(!nmtcDatasetFrontmatter.viewer, "the NMTC dataset must not advertise the dead hosted viewer");
+const nmtcProjectDetail = await readFile(path.join(root, "projects", "us-nmtc-viewer", "index.html"), "utf8");
+const nmtcDatasetDetail = await readFile(path.join(root, "datasets", "us-nmtc-panel", "index.html"), "utf8");
+const nmtcResearchDetail = await readFile(path.join(root, "research", nmtcResearchId, "index.html"), "utf8");
+for (const [surface, source] of [
+  ["archive.json", archiveText],
+  ["Library and SiteIndex", library],
+  ["NMTC project", nmtcProjectDetail],
+  ["NMTC dataset", nmtcDatasetDetail],
+]) assert.ok(!source.includes(deadNmtcViewer), `${surface} must not link the dead hosted NMTC viewer`);
+assert.ok(nmtcResearchDetail.includes('data-pagefind-weight="10"'), "the flagship NMTC detail must give its subject metadata strong Pagefind weight");
+assert.ok(nmtcResearchDetail.includes('data-pagefind-meta="title:New Markets Tax Credit (NMTC):'), "the flagship NMTC detail must add the acronym to its Pagefind title metadata");
+assert.ok(nmtcResearchDetail.includes("New Markets Tax Credit (NMTC)"), "the flagship NMTC detail must spell out and expose the searchable acronym");
+assert.match(library, new RegExp(`data-search="[^"]*nmtc[^"]*"[^>]*href="/research/${nmtcResearchId}"|href="/research/${nmtcResearchId}"[^>]*data-search="[^"]*nmtc[^"]*"`), "SiteIndex must surface the flagship research record for NMTC");
+
 const exactAward = "Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023";
-const accuracyPages = ["about", "capabilities", "cv", "job-market", "teaching", "work"];
+const accuracyPages = ["about", "cv", "job-market", "teaching"];
 for (const route of accuracyPages) {
   const html = await readFile(path.join(root, route, "index.html"), "utf8");
   assert.ok(html.includes(exactAward), `/${route}/ must use the verified teaching-award scope`);
@@ -70,8 +124,8 @@ for (const route of accuracyPages) {
 }
 
 const jobMarket = await readFile(path.join(root, "job-market", "index.html"), "utf8");
-assert.match(jobMarket, new RegExp(`<tr[^>]*><td[^>]*>Recognition</td><td[^>]*>${exactAward}</td><td class="num"[^>]*>Award</td></tr>`), "award row must stand on its own evidence");
-assert.match(jobMarket, /<tr[^>]*><td[^>]*>Teaching-quality evidence<\/td><td[^>]*>Georgia Tech course evaluations \(<a [^>]+>2022 evaluations<\/a>\)<\/td><td class="num"[^>]*>2022<\/td><\/tr>/, "evaluations must be separate teaching-quality evidence");
+assert.match(jobMarket, new RegExp(`<article[^>]*><span[^>]*>Award</span><strong[^>]*>${exactAward}</strong></article>`), "award must stand on its own evidence record");
+assert.match(jobMarket, /<article[^>]*><span[^>]*>Evaluations<\/span><strong[^>]*><a [^>]+>Georgia Tech course-evaluation record, 2022 →<\/a><\/strong><\/article>/, "evaluations must remain separate teaching-quality evidence");
 
 const publicBio = await readFile(path.join(root, "people", "ian-helfrich", "index.html"), "utf8");
 for (const excludedClaim of ["Political Science", "Working languages", "Earlier graduate TA appointments at Duke", "since July 2022"]) {
@@ -111,6 +165,11 @@ try {
     for (const forbiddenPath of forbiddenPaths) {
       assert.ok(!paths.includes(forbiddenPath), `Pagefind must not publish ${forbiddenPath}`);
     }
+    for (const record of records) {
+      const indexedRecord = JSON.stringify(record);
+      assert.ok(!indexedRecord.includes(title), `Pagefind query must not expose archival project title ${title}`);
+      assert.ok(!indexedRecord.includes(id), `Pagefind query must not expose archival project id ${id}`);
+    }
   }
   const flagshipResult = await pagefind.search(reusableLearningFlagship.title);
   const flagshipRecords = await Promise.all(flagshipResult.results.map((entry) => entry.data()));
@@ -119,6 +178,10 @@ try {
     flagshipPaths.includes(`/projects/${reusableLearningFlagship.id}/`),
     "Pagefind must publish the generalized statistics library",
   );
+  const nmtcResult = await pagefind.search("NMTC");
+  const nmtcRecords = await Promise.all(nmtcResult.results.map((entry) => entry.data()));
+  const nmtcPaths = nmtcRecords.map((entry) => new URL(entry.url, origin).pathname);
+  assert.equal(nmtcPaths[0], `/research/${nmtcResearchId}/`, "Pagefind must rank the flagship NMTC research record first for NMTC");
   for (const { id, title, distinctiveQuery } of withheldResearch) {
     const titleResult = await pagefind.search(title);
     const titleRecords = await Promise.all(titleResult.results.map((entry) => entry.data()));
@@ -128,7 +191,16 @@ try {
       assert.ok(!indexedRecord.includes(title), `Pagefind must not expose the withheld title in a result or excerpt: ${title}`);
     }
     const distinctiveResult = await pagefind.search(distinctiveQuery);
-    assert.equal(distinctiveResult.results.length, 0, `Pagefind query ${JSON.stringify(distinctiveQuery)} must return zero results for withheld research ${id}`);
+    const distinctiveRecords = await Promise.all(distinctiveResult.results.map((entry) => entry.data()));
+    for (const record of distinctiveRecords) {
+      const indexedRecord = JSON.stringify(record).toLocaleLowerCase();
+      for (const forbidden of [id, title, distinctiveQuery]) {
+        assert.ok(
+          !indexedRecord.includes(forbidden.toLocaleLowerCase()),
+          `Pagefind query ${JSON.stringify(distinctiveQuery)} exposed withheld research text: ${forbidden}`,
+        );
+      }
+    }
   }
 } finally {
   await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));

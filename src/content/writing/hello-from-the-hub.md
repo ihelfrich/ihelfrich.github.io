@@ -11,7 +11,7 @@ The problem I kept running into is that my work sat in five different repositori
 
 ## What the hub is
 
-A single front page that links out to the spokes. Each spoke is whatever tool was right for the job. The Inference Lab is a Quarto book because Quarto is the right tool for long-form methods writing with R/Stata code. The NMTC viewer is a Cesium app because Cesium is the right tool for 3D spatial exploration. The hub is Astro because Astro is the right tool for content collections + cross-site search.
+A single front page that links out to the spokes. Each spoke uses the format suited to its job. Quantitative methods material lives in Quarto because it supports long-form writing with R and Stata code. The NMTC repository includes Cesium viewer source because Cesium suits 3D spatial exploration. The hub uses Astro for content collections and cross-site search.
 
 The hub does four things the spokes can't do for themselves:
 

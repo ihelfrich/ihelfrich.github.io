@@ -1,131 +1,107 @@
 ---
 import Base from "../layouts/Base.astro";
-import ThirdSpaceSeam from "../components/ThirdSpaceSeam.astro";
 ---
+
 <Base
   wide
-  pageClass="third-space-page"
+  pageClass="quiet-third-space-page"
   title="Third Space Labs"
-  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizaveta Gonchar, Ph.D., to develop emerging researchers and share research in the open."
+  description="Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizaveta Gonchar."
 >
-  <section class="ts-page-hero" aria-labelledby="ts-page-title">
-    <div class="ts-page-topline">
-      <a class="ts-page-brand" href="/third-space" aria-label="Third Space Labs home">
-        <svg viewBox="0 0 150 92" role="img" aria-label="Third Space mark: two open rings with their shared space filled">
-          <defs><clipPath id="ts-page-ring-clip"><circle cx="90" cy="46" r="34"></circle></clipPath></defs>
-          <circle class="ts-page-overlap" cx="60" cy="46" r="34" clip-path="url(#ts-page-ring-clip)"></circle>
-          <circle class="ts-page-ring" cx="60" cy="46" r="34"></circle>
-          <circle class="ts-page-ring" cx="90" cy="46" r="34"></circle>
-        </svg>
-        <span><strong>Third Space</strong><small>LABS · ST. LOUIS</small></span>
-      </a>
-      <span class="ts-page-status"><i></i>INDEPENDENT · IN FORMATION</span>
-    </div>
-
-    <div class="ts-page-hero-grid">
-      <span class="ts-page-folio">FOUNDING DIRECTION · 2026</span>
-      <h1 id="ts-page-title">The question<br />lives <em>between.</em></h1>
+  <div class="third-space-shell">
+    <header class="third-space-header">
       <div>
-        <p>
-          Third Space Labs is the independent research venture Elizaveta Gonchar and I are building between university and industry. A participant enters with a question. They leave with a method, a public object, and work they can defend under their own name.
-        </p>
-        <a href="#rooms">Explore the four arms ↓</a>
+        <p class="third-space-label">Independent research venture · in formation</p>
+        <h1>Third Space Labs</h1>
       </div>
-    </div>
-  </section>
-
-  <section class="ts-page-thesis" aria-labelledby="ts-thesis-title">
-    <span>THE GAP</span>
-    <h2 id="ts-thesis-title">Ability often arrives<br />before access.</h2>
-    <div>
-      <p>
-        A student can be ready to collect data before anyone is ready to give them a title. An independent researcher can have the question and lack the methods infrastructure, collaborators, or publication path needed to carry it.
-      </p>
-      <p>
-        Third Space is being built for that interval. Participants ask precise questions, expose their design choices, revise when the evidence moves, and share the resulting object in public.
-      </p>
-    </div>
-  </section>
-
-  <section class="ts-principle-strip" aria-label="Third Space principles">
-    <span>Question before credential</span>
-    <span>Method before prestige</span>
-    <span>Authors own their work</span>
-    <span>Versions remain public</span>
-  </section>
-
-  <ThirdSpaceSeam />
-
-  <section id="rooms" class="ts-page-rooms" aria-labelledby="ts-rooms-title">
-    <header>
-      <span>THE ARCHITECTURE</span>
-      <h2 id="ts-rooms-title">Four arms.<br />One research commons.</h2>
-      <p>Each arm leaves a different object behind: a project, a citable record, a method someone else can inspect, or a researcher ready for the next question.</p>
+      <p class="third-space-lead">Third Space Labs is an independent research venture in formation, co-founded by economists Ian Helfrich and Elizaveta Gonchar. Its public record is intentionally small and tied to work that can be attributed clearly.</p>
     </header>
-    <ol>
-      <li>
-        <span>01</span>
-        <div><small>LAB</small><h3>Put a real question on the table.</h3></div>
-        <p>Mentored projects begin with a question whose answer is genuinely unknown and a design the participant can explain.</p>
-      </li>
-      <li>
-        <span>02</span>
-        <div><small>PAPERS</small><h3>Give the work a citable address.</h3></div>
-        <p>The public record includes the question, method, versions, limits, and contribution.</p>
-      </li>
-      <li>
-        <span>03</span>
-        <div><small>METHODS</small><h3>Show the choice inside the method.</h3></div>
-        <p>Protocols, examples, and reusable infrastructure make each research decision available for inspection.</p>
-      </li>
-      <li>
-        <span>04</span>
-        <div><small>FELLOWS</small><h3>Let the researcher arrive early.</h3></div>
-        <p>A mentored path for undergraduates, graduate students, and high-school researchers ready to own the work.</p>
-      </li>
-    </ol>
-  </section>
 
-  <section class="ts-page-process" aria-labelledby="ts-process-title">
-    <header>
-      <span>THE PATH</span>
-      <h2 id="ts-process-title">Question. Method.<br />Public object.</h2>
-    </header>
-    <ol>
-      <li><span>01</span><h3>Name what you do not know.</h3><p>Begin with the smallest version of the question that can meet evidence.</p></li>
-      <li><span>02</span><h3>Build what the question requires.</h3><p>Learn the method, habits, and research infrastructure while using them on the actual object.</p></li>
-      <li><span>03</span><h3>Leave a record someone can inspect.</h3><p>Publish the question, method, limits, versions, and contribution in the open.</p></li>
-    </ol>
-  </section>
+    <section class="status-section" aria-labelledby="third-space-status">
+      <div>
+        <p class="section-label">Current status</p>
+        <h2 id="third-space-status">In formation</h2>
+      </div>
+      <div class="status-copy">
+        <p>The venture provides a home for joint research, methods development, and future educational work. The form of any program, fellowship, or external partnership remains unsettled.</p>
+        <aside><strong>Public boundary</strong><span>No application cycle, fellowship, or institutional affiliation is announced on this page.</span></aside>
+      </div>
+    </section>
 
-  <section class="ts-page-founders" aria-labelledby="ts-founders-title">
-    <header>
-      <span>CO-FOUNDERS</span>
-      <h2 id="ts-founders-title">Two economists.<br />One shared laboratory.</h2>
-    </header>
-    <div class="ts-founder-grid">
-      <article>
-        <span>IAN T. S. HELFRICH · PHD</span>
-        <h3>Research economist.<br />Instrument builder.</h3>
-        <p>Ian works across econometrics, labor, trade, networks, spatial analysis, and quantitative education. He builds the public instrument and traces the choice hiding inside the result.</p>
-        <a href="/about">Ian’s background →</a>
-      </article>
-      <article>
-        <span>ELIZAVETA GONCHAR · PHD</span>
-        <h3>Spatial economist.<br />Methods architect.</h3>
-        <p>Elizaveta is a spatial economist, cofounder, and frequent coauthor. Their joint work covers effective distance, trade, satellite-calibrated measurement, and Ukraine’s wartime economic reorganization.</p>
-        <a href="/people/elizaveta-gonchar">Elizaveta’s research record →</a>
-      </article>
-    </div>
-    <p class="ts-founder-note">Cofounders · coauthors · economists · based in St. Louis</p>
-  </section>
+    <section class="research-section" aria-labelledby="third-space-research">
+      <p class="section-label">Current shared record</p>
+      <h2 id="third-space-research">Joint research with public status</h2>
+      <ol>
+        <li>
+          <p>Preprint · SSRN 5202676 · 2025</p>
+          <article><h3><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the Spotlight</a></h3><span>With Elizaveta Gonchar. Population and night-light information are used to construct economically weighted bilateral distance for gravity models.</span></article>
+          <aside><strong>Limit</strong><span>The preprint does not establish the planned transport-network extension or a completed global panel.</span></aside>
+        </li>
+        <li>
+          <p>Active development · no results yet</p>
+          <article><h3><a href="/research/gonchar-helfrich-2026-effective-distance-panel">Effective distance</a></h3><span>A planned time-varying bilateral trade-cost panel using satellite, population, and transport-network information.</span></article>
+          <aside><strong>Limit</strong><span>No validated panel, coverage claim, or completed result exists yet.</span></aside>
+        </li>
+        <li>
+          <p>Active development · no results yet</p>
+          <article><h3><a href="/research/gonchar-helfrich-2026-ukraine">Ukraine wartime economic measurement</a></h3><span>A proposed spatial measurement program combining several public and administrative source families.</span></article>
+          <aside><strong>Limit</strong><span>No completed index, empirical result, or ratified contribution statement exists yet.</span></aside>
+        </li>
+      </ol>
+    </section>
 
-  <section class="ts-page-invitation" aria-labelledby="ts-invitation-title">
-    <span>THE FOUNDING CONVERSATION</span>
-    <h2 id="ts-invitation-title">Have a question that<br />needs a third space?</h2>
-    <p>
-      The venture is in formation. We are interested in hearing from prospective researchers, mentors, collaborators, and institutions who recognize the gap this lab is being built to fill.
-    </p>
-    <a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs">Begin a conversation</a>
-  </section>
+    <section class="principles-section" aria-labelledby="third-space-principles">
+      <p class="section-label">Working principles</p>
+      <h2 id="third-space-principles">Clear attribution and visible limits</h2>
+      <div>
+        <article><strong>Questions precede formats</strong><p>The research question determines the data, method, and public artifact.</p></article>
+        <article><strong>Contribution is named</strong><p>Authors, coauthors, and contributors are credited using the role supported by each record.</p></article>
+        <article><strong>Status remains literal</strong><p>A design with no result is labeled that way. Drafts and preprints are never presented as publications.</p></article>
+      </div>
+    </section>
+
+    <section class="founders-section" aria-labelledby="third-space-founders">
+      <p class="section-label">Co-founders</p>
+      <h2 id="third-space-founders">Ian Helfrich and Elizaveta Gonchar</h2>
+      <div>
+        <article><span>IAN HELFRICH</span><h3>Applied economist, quantitative research designer, and educator</h3><p>Ian's public work spans place-based policy, trade, labor and AI, spatial measurement, theory, and quantitative education.</p><a href="/about">About Ian</a></article>
+        <article><span>ELIZAVETA GONCHAR</span><h3>Economist, research collaborator, and coauthor</h3><p>Elizaveta Gonchar's joint public record on this site covers trade, effective distance, and development-stage wartime economic measurement.</p><a href="/people/elizaveta-gonchar">Public collaborator record</a></article>
+      </div>
+    </section>
+
+    <footer class="third-space-contact">
+      <div><p class="section-label">Contact</p><h2>Research conversations</h2></div>
+      <div><p>For a research or institutional inquiry connected to Third Space Labs, send a short note describing the question, stage, and proposed relationship.</p><a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs">Email Ian Helfrich</a></div>
+    </footer>
+  </div>
 </Base>
+
+<style>
+  .third-space-shell { width: min(100%, 74rem); margin-inline: auto; }
+  .third-space-header { display: grid; padding-block: clamp(2rem, 7vw, 6rem); grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .75fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .third-space-label, .section-label, .research-section > ol > li > p, .research-section aside strong, .founders-section article > span { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { max-width: 10ch; margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .third-space-lead { margin: 0; font-size: clamp(1.15rem, 2vw, 1.45rem); }
+  .status-section, .third-space-contact { display: grid; padding-block: clamp(3rem, 7vw, 6rem); grid-template-columns: minmax(0, .75fr) minmax(18rem, 1.25fr); gap: 2rem 5rem; border-bottom: 1px solid var(--ef-ink); }
+  .status-section h2, .third-space-contact h2 { margin: .45rem 0 0; font-size: clamp(2rem, 5vw, 4rem); }
+  .status-copy > p, .third-space-contact > div:last-child > p { max-width: 62ch; font-size: 1.1rem; }
+  .status-copy aside { display: grid; max-width: 38rem; margin-top: 2rem; padding-left: 1rem; gap: .35rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
+  .status-copy aside strong { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .research-section, .principles-section, .founders-section { padding-block: clamp(3rem, 7vw, 6rem); border-bottom: 1px solid var(--ef-ink); }
+  .research-section > h2, .principles-section > h2, .founders-section > h2 { max-width: 17ch; margin: .45rem 0 2.5rem; font-size: clamp(2rem, 5vw, 4rem); }
+  .research-section ol { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .research-section li { display: grid; margin: 0; padding-block: 1.5rem; grid-template-columns: 12rem minmax(0, 1fr) minmax(14rem, 20rem); gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
+  .research-section h3 { margin: 0 0 .6rem; font-size: clamp(1.45rem, 3vw, 2.4rem); }
+  .research-section h3 a { color: var(--ef-ink); }
+  .research-section aside { padding-left: 1rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
+  .research-section aside span { display: block; margin-top: .3rem; font-size: .92rem; }
+  .principles-section > div, .founders-section > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--ef-ink); }
+  .principles-section article, .founders-section article { padding: 1.25rem; border-left: 1px solid var(--ef-ink); }
+  .principles-section article:first-child, .founders-section article:first-child { border-left: 0; }
+  .principles-section article strong { font: 620 1.1rem/1.35 var(--font-display); }
+  .principles-section article p, .founders-section article p { margin: .6rem 0 0; color: var(--muted); }
+  .founders-section > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .founders-section h3 { margin: .6rem 0 1rem; font-size: clamp(1.45rem, 3vw, 2.35rem); }
+  .founders-section a, .third-space-contact a { display: inline-flex; min-height: 44px; margin-top: 1rem; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 48rem) { .third-space-header, .status-section, .third-space-contact, .research-section li, .principles-section > div, .founders-section > div { grid-template-columns: 1fr; } .principles-section article, .founders-section article { border-top: 1px solid var(--ef-ink); border-left: 0; } .principles-section article:first-child, .founders-section article:first-child { border-top: 0; } }
+</style>

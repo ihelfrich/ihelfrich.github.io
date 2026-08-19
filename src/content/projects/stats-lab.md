@@ -9,6 +9,6 @@ date: 2026-05-12
 pinned: true
 ---
 
-Sister site to Inference Lab and Macro Prep. Built as a Quarto book with the same SCSS palette and the same hero pattern. Twelve chapters: probability foundations, distributions, sampling and CLT, point estimation, intervals and tests, linear regression, regression diagnostics, GLMs, nonparametrics and the bootstrap, multivariate methods, Bayesian inference, and time series.
+An earlier course-specific teaching site built as a Quarto book. Twelve chapters cover probability foundations, distributions, sampling and CLT, point estimation, intervals and tests, linear regression, regression diagnostics, GLMs, nonparametrics and the bootstrap, multivariate methods, Bayesian inference, and time series.
 
 Every methods chapter pairs Excel (formulas and Solver), Stata (do-file snippets), R (tidyverse and base), and Julia (Distributions.jl, GLM.jl, Turing.jl, etc.) in four parallel code blocks. The companion demos page has Observable JS interactives that run client-side.

@@ -4,194 +4,204 @@ import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
-const [allPapers, datasets, essays, allTools] = await Promise.all([
+const [allResearch, datasets, notes, allProjects] = await Promise.all([
   getCollection("research"),
   getCollection("datasets"),
   getCollection("writing", ({ data }) => !data.draft),
   getCollection("projects"),
 ]);
-const papers = filterDiscoverableResearch(allPapers);
-const tools = allTools.filter((entry) => !isArchivalProject(entry.id));
-
+const research = filterDiscoverableResearch(allResearch);
+const projects = allProjects.filter((entry) => !isArchivalProject(entry.id));
 const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
 const items = [
-  ...papers.map((entry, index) => ({
-    type: "paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-01`),
-    title: entry.data.title, summary: entry.data.abstract, meta: `${entry.data.displayStatus}${entry.data.venue ? ` · ${entry.data.venue}` : ""}`,
-    tags: entry.data.tags, href: `/research/${entry.id}`, action: "Open paper record", status: entry.data.displayStatus,
+  ...research.map((entry) => ({
+    type: "research",
+    typeLabel: "Research",
+    date: new Date(`${entry.data.year}-01-01`),
+    year: entry.data.year,
+    title: entry.data.title,
+    summary: entry.data.question,
+    status: entry.data.displayStatus,
+    detail: entry.data.role,
+    tags: [...entry.data.method, ...entry.data.tags],
+    href: `/research/${entry.id}`,
+    artifact: entry.data.pdf ?? entry.data.ssrn ?? entry.data.repo,
   })),
-  ...datasets.map((entry, index) => ({
-    type: "data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`, date: new Date(`${entry.data.year}-01-02`),
-    title: entry.data.title, summary: entry.data.blurb, meta: `${entry.data.status} · ${entry.data.license}${entry.data.size ? ` · ${entry.data.size}` : ""}`,
-    tags: entry.data.tags, href: `/datasets/${entry.id}`, action: "Open data record", status: entry.data.status,
+  ...datasets.map((entry) => ({
+    type: "dataset",
+    typeLabel: "Dataset",
+    date: new Date(`${entry.data.year}-01-02`),
+    year: entry.data.year,
+    title: entry.data.title,
+    summary: entry.data.blurb,
+    status: entry.data.status,
+    detail: `${entry.data.authors.join(", ")} · ${entry.data.license}`,
+    tags: entry.data.tags,
+    href: `/datasets/${entry.id}`,
+    artifact: entry.data.doi ? `https://doi.org/${entry.data.doi}` : entry.data.zenodo ?? entry.data.viewer ?? entry.data.repo,
   })),
-  ...essays.map((entry, index) => ({
-    type: "essay", code: `W-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
-    title: entry.data.title, summary: entry.data.summary, meta: fmt(entry.data.date), tags: entry.data.tags,
-    href: `/writing/${entry.id}`, action: "Read essay", status: "published",
+  ...notes.map((entry) => ({
+    type: "note",
+    typeLabel: "Note",
+    date: entry.data.date,
+    year: entry.data.date.getFullYear(),
+    title: entry.data.title,
+    summary: entry.data.summary,
+    status: "Published note",
+    detail: fmt(entry.data.date),
+    tags: entry.data.tags,
+    href: `/writing/${entry.id}`,
+    artifact: undefined,
   })),
-  ...tools.map((entry, index) => ({
-    type: "tool", code: `T-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`, date: entry.data.date,
-    title: entry.data.title, summary: entry.data.blurb, meta: `${entry.data.status} · ${fmt(entry.data.date)}`, tags: entry.data.tags,
-    href: entry.data.url ?? `/projects/${entry.id}`, action: entry.data.url ? "Launch tool" : "Open tool record", status: entry.data.status,
-    external: Boolean(entry.data.url),
+  ...projects.map((entry) => ({
+    type: "project",
+    typeLabel: "Project",
+    date: entry.data.date,
+    year: entry.data.date.getFullYear(),
+    title: entry.data.title,
+    summary: entry.data.blurb,
+    status: entry.data.status,
+    detail: fmt(entry.data.date),
+    tags: entry.data.tags,
+    href: `/projects/${entry.id}`,
+    artifact: entry.data.url ?? entry.data.repo,
   })),
 ].sort((a, b) => +b.date - +a.date || a.title.localeCompare(b.title));
 
-const counts = {
-  paper: papers.length,
-  data: datasets.length,
-  essay: essays.length,
-  tool: tools.length,
-};
-
 const channels = [
-  ["paper", "Papers", papers.length],
-  ["data", "Data", datasets.length],
-  ["essay", "Essays", essays.length],
-  ["tool", "Tools", tools.length],
-];
+  ["research", "Research"],
+  ["dataset", "Datasets"],
+  ["project", "Projects"],
+  ["note", "Notes"],
+].map(([type, label]) => ({ type, label, count: items.filter((item) => item.type === type).length }));
 ---
 
-<Base
-  wide
-  pageClass="library-page"
-  title="Public Index"
-  description="The public record of Ian Helfrich's papers, datasets, essays, research tools, and teaching materials."
->
-  <section class="lib-hero" aria-labelledby="library-title">
-    <div class="lib-hero-top">
-      <span>PUBLIC INDEX / IAN T. S. HELFRICH</span>
-      <span>{items.length} RECORDS / 4 CHANNELS</span>
-      <span><i></i>OPEN ACCESS WHERE RIGHTS ALLOW</span>
-    </div>
-    <div class="lib-hero-grid">
-      <div class="lib-hero-copy">
-        <span>THE WORK IS THE INTRODUCTION</span>
-        <h1 id="library-title">Open the<br /><em>drawers.</em></h1>
-        <p>
-          Papers, data, essays, and tools belong in public when I can responsibly put them there. Every item below says what exists, what is still underway, and where the underlying work can be inspected.
-        </p>
-        <div><a href="#records">Search {items.length} records</a><a href="/rss.xml">Follow the feed</a></div>
+<Base wide pageClass="quiet-library-page" title="Public index" description="A searchable index of Ian Helfrich's public research, datasets, projects, and writing.">
+  <div class="library-shell">
+    <header class="library-header">
+      <div>
+        <p class="library-label">Public record · {items.length} entries</p>
+        <h1>Public index</h1>
       </div>
-
-      <div class="lib-signal" data-library-signal>
-        <header><span>OUTPUT FIELD / ALL CHANNELS</span><output data-signal-code>MOVE THROUGH A RECORD</output></header>
-        <div class="lib-signal-readout" aria-live="polite">
-          <span data-signal-type>PUBLIC RECORD</span>
-          <strong data-signal-title>{counts.paper} papers. {counts.data} datasets. {counts.tool} tools.</strong>
-          <p data-signal-meta>Focus a mark to inspect the record behind it.</p>
-        </div>
-        <div class="lib-tracks">
-          {channels.map(([type, label, count]) => (
-            <div class="lib-track" data-channel={type}>
-              <span>{label}<small>{String(count).padStart(2, "0")}</small></span>
-              <div>
-                {items.filter((item) => item.type === type).map((item, index) => (
-                  <a
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noopener" : undefined}
-                    aria-label={`${item.code}: ${item.title}`}
-                    style={`--pulse: ${index % 4}; --weight: ${Math.min(4, 1 + Math.floor(item.title.length / 32))}`}
-                    data-signal-record data-code={item.code} data-type={item.type} data-title={item.title} data-meta={item.meta}
-                  ></a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <footer><span>HEIGHT / TITLE DENSITY</span><span>BLUE / ACTIVE RECORD</span><span>FOCUS + ENTER / OPEN</span></footer>
+      <div class="library-intro">
+        <p>Research, datasets, projects, and dated notes in one index. Each row states its current status and opens a record with context, provenance, or limits.</p>
+        <nav aria-label="Machine-readable and syndicated records"><a href="/archive.json">JSON</a><a href="/rss.xml">RSS</a></nav>
       </div>
-    </div>
-  </section>
-
-  <section id="records" class="lib-records" aria-labelledby="records-title" data-public-index>
-    <header class="lib-records-head">
-      <div><span>CATALOGUE / LIVE FILTER</span><h2 id="records-title">One index.<br />No scavenger hunt.</h2></div>
-      <p>I use this as the public spine for work spread across papers, repositories, datasets, viewers, and field notes. Search by object, method, place, or problem.</p>
     </header>
 
-    <div class="lib-controls">
-      <label><span>QUERY</span><input type="search" placeholder="Try: rural, AI, gravity, econometrics…" data-library-query /></label>
-      <div class="lib-filters" role="group" aria-label="Filter by record type">
-        <button class="is-active" type="button" data-library-filter="all">All <span>{items.length}</span></button>
-        {channels.map(([type, label, count]) => <button type="button" data-library-filter={type}>{label} <span>{count}</span></button>)}
+    <section class="library-controls" aria-labelledby="index-controls-title" data-public-index>
+      <h2 id="index-controls-title" class="sr-only">Filter public records</h2>
+      <label><span>Search records</span><input type="search" placeholder="Title, topic, method, or author" data-library-query /></label>
+      <div class="filter-group" role="group" aria-label="Filter by record type">
+        <button type="button" class="is-active" aria-pressed="true" data-library-filter="all">All <span>{items.length}</span></button>
+        {channels.map((channel) => <button type="button" aria-pressed="false" data-library-filter={channel.type}>{channel.label} <span>{channel.count}</span></button>)}
       </div>
-      <output data-library-count>{items.length} records visible</output>
-    </div>
+      <output data-library-count aria-live="polite">{items.length} records visible</output>
+    </section>
 
-    <div class="lib-table-head" aria-hidden="true"><span>Accession / type</span><span>Record</span><span>Status / date</span><span>Open</span></div>
-    <ol class="lib-record-list">
-      {items.map((item) => (
-        <li data-library-item data-type={item.type} data-search={`${item.code} ${item.type} ${item.title} ${item.summary} ${item.meta} ${item.tags.join(" ")}`.toLowerCase()}>
-          <div><span>{item.code}</span><small>{item.type}</small></div>
-          <article><h3><a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}>{item.title}</a></h3><p>{item.summary}</p><div>{item.tags.map((tag) => <span>{tag}</span>)}</div></article>
-          <div><strong>{item.status}</strong><span>{item.meta}</span></div>
-          <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener" : undefined}><span class="sr-only">{item.action}: {item.title}</span>{item.external ? "↗" : "→"}</a>
+    <ol class="library-list" data-library-list>
+      {items.map((item, index) => (
+        <li data-library-item data-type={item.type} data-search={`${item.typeLabel} ${item.title} ${item.summary} ${item.status} ${item.detail} ${item.tags.join(" ")}`.toLowerCase()}>
+          <p class="accession"><span>{String(index + 1).padStart(2, "0")}</span><small>{item.typeLabel}</small></p>
+          <article>
+            <p class="record-meta">{item.status} · {item.year}</p>
+            <h2><a href={item.href}>{item.title}</a></h2>
+            <p>{item.summary}</p>
+            <ul aria-label="Methods and topics">{item.tags.slice(0, 5).map((tag) => <li>{tag}</li>)}</ul>
+          </article>
+          <aside>
+            <strong>{item.detail}</strong>
+            <a href={item.href}>Open record</a>
+            {item.artifact && <a href={item.artifact} target="_blank" rel="noopener">Public artifact</a>}
+          </aside>
         </li>
       ))}
     </ol>
-    <p class="lib-empty" data-library-empty hidden>No public record matches that combination.</p>
-  </section>
+    <p class="library-empty" data-library-empty hidden>No public record matches this query and record type.</p>
 
-  <section class="lib-protocol" aria-labelledby="protocol-title">
-    <span>PUBLICATION PROTOCOL</span>
-    <h2 id="protocol-title">A status is a claim.<br />I label it accordingly.</h2>
-    <div>
-      <p><strong>Draft means draft.</strong> A project page can document a question, design, or data pipeline before it can support a result. I say which stage it has reached.</p>
-      <p><strong>Data needs a trail.</strong> Releases include a source record, license, construction notes, and a stable citation when the material is ready.</p>
-      <p><strong>Corrections stay visible.</strong> Dates, versions, and updated records let the public object change without pretending it was always finished.</p>
-    </div>
-    <footer><a href="/archive.json">MACHINE-READABLE INDEX / JSON</a><a href="/rss.xml">SYNDICATED UPDATES / RSS</a><a href="https://github.com/ihelfrich" target="_blank" rel="noopener">SOURCE REPOSITORIES / GITHUB ↗</a></footer>
-  </section>
+    <footer class="library-policy">
+      <div><strong>Statuses are literal</strong><p>Draft, development, preprint, public working paper, and published dissertation name different stages.</p></div>
+      <div><strong>Private work stays private</strong><p>Learners, clients, and private advisory relationships are excluded from this public index.</p></div>
+      <div><strong>Changes remain dated</strong><p>Versions and update dates make revisions visible without implying that earlier records were final.</p></div>
+    </footer>
+  </div>
 </Base>
 
 <script is:inline>
-  (() => {
-    document.querySelectorAll("[data-library-signal]").forEach((signal) => {
-      const code = signal.querySelector("[data-signal-code]");
-      const type = signal.querySelector("[data-signal-type]");
-      const title = signal.querySelector("[data-signal-title]");
-      const meta = signal.querySelector("[data-signal-meta]");
-      signal.querySelectorAll("[data-signal-record]").forEach((record) => {
-        const reveal = () => {
-          signal.querySelectorAll("[data-signal-record]").forEach((item) => item.classList.toggle("is-active", item === record));
-          if (code) code.textContent = record.dataset.code;
-          if (type) type.textContent = record.dataset.type.toUpperCase();
-          if (title) title.textContent = record.dataset.title;
-          if (meta) meta.textContent = record.dataset.meta;
-        };
-        record.addEventListener("pointerenter", reveal);
-        record.addEventListener("focus", reveal);
+  document.querySelectorAll("[data-public-index]").forEach((controls) => {
+    const query = controls.querySelector("[data-library-query]");
+    const buttons = Array.from(controls.querySelectorAll("[data-library-filter]"));
+    const count = controls.querySelector("[data-library-count]");
+    const list = document.querySelector("[data-library-list]");
+    const records = Array.from(list?.querySelectorAll("[data-library-item]") ?? []);
+    const empty = document.querySelector("[data-library-empty]");
+    let filter = "all";
+    const update = () => {
+      const needle = query?.value.trim().toLowerCase() ?? "";
+      let visible = 0;
+      records.forEach((record) => {
+        const typeMatches = filter === "all" || record.dataset.type === filter;
+        const queryMatches = !needle || record.dataset.search.includes(needle);
+        record.hidden = !(typeMatches && queryMatches);
+        if (!record.hidden) visible += 1;
       });
-    });
-
-    document.querySelectorAll("[data-public-index]").forEach((index) => {
-      const query = index.querySelector("[data-library-query]");
-      const buttons = Array.from(index.querySelectorAll("[data-library-filter]"));
-      const records = Array.from(index.querySelectorAll("[data-library-item]"));
-      const count = index.querySelector("[data-library-count]");
-      const empty = index.querySelector("[data-library-empty]");
-      let filter = "all";
-      const update = () => {
-        const needle = query?.value.trim().toLowerCase() ?? "";
-        let visible = 0;
-        records.forEach((record) => {
-          const matchType = filter === "all" || record.dataset.type === filter;
-          const matchQuery = !needle || record.dataset.search.includes(needle);
-          record.hidden = !(matchType && matchQuery);
-          if (!record.hidden) visible += 1;
-        });
-        if (count) count.textContent = `${visible} ${visible === 1 ? "record" : "records"} visible`;
-        if (empty) empty.hidden = visible > 0;
-      };
-      buttons.forEach((button) => button.addEventListener("click", () => {
-        filter = button.dataset.libraryFilter;
-        buttons.forEach((candidate) => candidate.classList.toggle("is-active", candidate === button));
-        update();
-      }));
-      query?.addEventListener("input", update);
-    });
-  })();
+      if (count) count.textContent = `${visible} ${visible === 1 ? "record" : "records"} visible`;
+      if (empty) empty.hidden = visible > 0;
+    };
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      filter = button.dataset.libraryFilter;
+      buttons.forEach((candidate) => {
+        const active = candidate === button;
+        candidate.classList.toggle("is-active", active);
+        candidate.setAttribute("aria-pressed", String(active));
+      });
+      update();
+    }));
+    query?.addEventListener("input", update);
+  });
 </script>
+
+<style>
+  .library-shell { width: min(100%, 78rem); margin-inline: auto; }
+  .library-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.3fr) minmax(18rem, .7fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .library-label, .library-controls label span, .library-controls output, .accession, .record-meta { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .library-header h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .library-intro > p { margin: 0; font-size: 1.15rem; }
+  .library-intro nav { display: flex; margin-top: 1rem; gap: 1.25rem; }
+  .library-intro nav a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); }
+  .library-controls { display: grid; margin-top: 3rem; grid-template-columns: minmax(16rem, 1fr) auto; border: 1px solid var(--ef-ink); }
+  .library-controls label { display: grid; min-width: 0; padding: .75rem 1rem; gap: .2rem; }
+  .library-controls input { width: 100%; min-height: 44px; padding: 0; color: var(--ef-ink); background: transparent; border: 0; border-radius: 0; font: 560 1rem/1.4 var(--font-display); }
+  .library-controls input:focus-visible { outline-offset: -2px; }
+  .filter-group { display: flex; border-left: 1px solid var(--ef-ink); }
+  .filter-group button { min-width: 78px; min-height: 68px; padding: .6rem; color: var(--ef-ink); background: transparent; border: 0; border-left: 1px solid var(--rule); border-radius: 0; cursor: pointer; font: 620 .64rem/1.4 var(--font-data); text-transform: uppercase; }
+  .filter-group button:first-child { border-left: 0; }
+  .filter-group button span { display: block; margin-top: .2rem; color: inherit; }
+  .filter-group button:hover, .filter-group button.is-active { color: var(--ef-figure); background: var(--ef-signal); }
+  .library-controls output { grid-column: 1 / -1; min-height: 44px; padding: .75rem 1rem; border-top: 1px solid var(--ef-ink); }
+  .library-list { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .library-list > li { display: grid; margin: 0; padding-block: 1.75rem; grid-template-columns: 4rem minmax(0, 1fr) minmax(13rem, 18rem); gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
+  .library-list > li[hidden] { display: none; }
+  .accession { display: grid; align-content: start; gap: .25rem; }
+  .accession span { color: var(--ef-signal); }
+  .accession small { font: inherit; }
+  .library-list h2 { max-width: 28ch; margin: .35rem 0 .65rem; font-size: clamp(1.5rem, 3vw, 2.5rem); }
+  .library-list h2 a { color: var(--ef-ink); text-decoration-color: transparent; }
+  .library-list h2 a:hover { color: var(--ef-signal); text-decoration-color: currentColor; }
+  .library-list article > p:not(.record-meta) { max-width: 68ch; }
+  .library-list article ul { display: flex; margin: 1rem 0 0; padding: 0; flex-wrap: wrap; gap: .35rem .8rem; list-style: none; }
+  .library-list article ul li { margin: 0; color: var(--muted); font: 560 .63rem/1.4 var(--font-data); }
+  .library-list aside { display: grid; align-content: start; gap: .45rem; }
+  .library-list aside strong { font: 580 .76rem/1.55 var(--font-data); }
+  .library-list aside a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .library-empty { margin: 0; padding: 2rem; border-bottom: 1px solid var(--ef-ink); }
+  .library-policy { display: grid; margin-block: clamp(3rem, 7vw, 6rem); grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--ef-ink); }
+  .library-policy div { padding: 1.25rem; border-left: 1px solid var(--ef-ink); }
+  .library-policy div:first-child { border-left: 0; }
+  .library-policy strong { font: 620 1rem/1.4 var(--font-display); }
+  .library-policy p { margin: .5rem 0 0; color: var(--muted); font-size: .94rem; }
+  @media (max-width: 64rem) { .library-controls { grid-template-columns: 1fr; } .filter-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); overflow: visible; border-top: 1px solid var(--ef-ink); border-left: 0; } .filter-group button { min-width: 0; } }
+  @media (max-width: 45rem) { .library-header, .library-list > li, .library-policy { grid-template-columns: 1fr; } .accession { display: none; } .library-list aside { padding-top: 1rem; border-top: 1px solid var(--rule); } .library-policy div { border-top: 1px solid var(--ef-ink); border-left: 0; } .library-policy div:first-child { border-top: 0; } }
+  @media (prefers-reduced-motion: reduce) { .filter-group button { transition: none; } }
+</style>

@@ -1,18 +1,33 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
+
 <Base
+  wide
+  pageClass="quiet-compatibility-page"
   title="Start an inquiry"
-  description="Projects with Ian Helfrich begin with a structured, private fit and scope brief."
+  description="A direct route for research, quantitative coaching, teaching, and collaboration inquiries with Ian Helfrich."
   noindex
+  excludeFromSearch
 >
-  <header class="page-hero">
-    <span class="eyebrow">Booking has changed</span>
-    <h1>Private work now begins with fit.</h1>
-    <p class="kicker">Instead of opening a calendar before I understand the problem, I now start with a short inquiry. That lets me recommend the right format, quote clearly, or refer you elsewhere without wasting your time.</p>
-    <div class="button-row">
-      <a class="button" href="/start">Open the project starter</a>
-      <a class="button secondary" href="/capabilities">See capabilities</a>
+  <section class="quiet-compatibility" aria-labelledby="inquiry-title">
+    <p class="quiet-label">Compatibility route · private inquiry</p>
+    <h1 id="inquiry-title">Start an inquiry</h1>
+    <p class="quiet-lead">Send a short note describing the question, current materials, timeline, and the kind of help you need. I will reply with the most useful next step.</p>
+    <div class="quiet-actions">
+      <a href="/contact">Contact Ian</a>
+      <a href="/work">Review selected work</a>
     </div>
-  </header>
+    <p class="quiet-note">This page remains available for older links. Current availability and contact information live on <a href="/cv#contact">CV &amp; Contact</a>.</p>
+  </section>
 </Base>
+
+<style>
+  .quiet-compatibility { width: min(100%, 68rem); margin-inline: auto; padding-block: clamp(3rem, 9vw, 8rem); border-block: 1px solid var(--ef-ink); }
+  .quiet-label { color: var(--muted); font: 620 .7rem/1.5 var(--font-data); letter-spacing: .08em; text-transform: uppercase; }
+  h1 { max-width: 11ch; margin-block: 1rem; font-size: clamp(3.4rem, 8vw, 7rem); }
+  .quiet-lead { max-width: 62ch; font-size: clamp(1.2rem, 2vw, 1.55rem); }
+  .quiet-actions { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 2rem; }
+  .quiet-actions a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .75rem/1.4 var(--font-data); text-transform: uppercase; }
+  .quiet-note { max-width: 62ch; margin-top: 3rem; padding-top: 1rem; color: var(--muted); border-top: 1px solid var(--rule); }
+</style>

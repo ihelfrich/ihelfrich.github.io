@@ -6,19 +6,48 @@ import { isArchivalProject } from "../../data/archival-projects.mjs";
 const projects = (await getCollection("projects"))
   .filter((entry) => !isArchivalProject(entry.id))
   .sort((a, b) => +b.data.date - +a.data.date);
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+const statusCopy = { live: "Live public record", "in-progress": "In progress", planned: "Planned", archived: "Archived" };
 ---
-<Base title="Projects" description="Sites, datasets, viewers, and analysis tools.">
-  <h1>Projects</h1>
-  <p>Sites, datasets, viewers, and analysis tools organized around reusable research, evidence, and teaching systems. This index foregrounds work designed to travel across contexts.</p>
 
-  <div class="h-card-grid">
-    {projects.map(p => (
-      <a class="h-card" href={p.data.url ?? `/projects/${p.id}`} target={p.data.url ? "_blank" : undefined} rel={p.data.url ? "noopener" : undefined}>
-        <div class="h-card-tag">{p.data.tags.join(" · ")}</div>
-        <div class="h-card-title">{p.data.title}</div>
-        <div class="h-card-blurb">{p.data.blurb}</div>
-        <span class="h-card-status" data-status={p.data.status}>{p.data.status}</span>
-      </a>
-    ))}
+<Base wide pageClass="quiet-index-page" title="Projects" description="Reusable public research, data, and learning systems by Ian Helfrich.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div><p class="quiet-label">Supporting record · public systems</p><h1>Projects</h1></div>
+      <p class="quiet-lead">Reusable research, data, and learning systems with a public record. Learner-specific builds and archived course implementations are excluded from this index.</p>
+    </header>
+
+    <ol class="project-list">
+      {projects.map((project) => (
+        <li>
+          <p class="record-date">{fmt(project.data.date)}</p>
+          <article>
+            <p class="record-status">{statusCopy[project.data.status]}</p>
+            <h2><a href={`/projects/${project.id}`}>{project.data.title}</a></h2>
+            <p>{project.data.blurb}</p>
+            <ul aria-label="Topics">{project.data.tags.map((tag) => <li>{tag}</li>)}</ul>
+          </article>
+          <aside><a href={`/projects/${project.id}`}>Open project record</a>{project.data.repo && <span>Repository linked in record</span>}</aside>
+        </li>
+      ))}
+    </ol>
   </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .record-date, .record-status, .project-list aside span, .project-list article ul { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .quiet-lead { margin: 0; font-size: 1.15rem; }
+  .project-list { margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .project-list > li { display: grid; margin: 0; padding-block: 1.75rem; grid-template-columns: 9rem minmax(0, 1fr) minmax(11rem, 15rem); gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
+  .project-list h2 { max-width: 26ch; margin: .35rem 0 .7rem; font-size: clamp(1.6rem, 3vw, 2.6rem); }
+  .project-list h2 a { color: var(--ef-ink); }
+  .project-list article > p:not(.record-status) { max-width: 66ch; }
+  .project-list article ul { display: flex; margin: 1rem 0 0; padding: 0; flex-wrap: wrap; gap: .3rem .8rem; list-style: none; }
+  .project-list article ul li { margin: 0; }
+  .project-list aside { display: grid; align-content: start; gap: .4rem; }
+  .project-list aside a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 45rem) { .quiet-header, .project-list > li { grid-template-columns: 1fr; } }
+</style>

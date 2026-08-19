@@ -1,6 +1,8 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
+import { identityRecord } from "../../data/public-record.mjs";
 
 export async function getStaticPaths() {
   const people = await getCollection("people");
@@ -9,38 +11,92 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const person = await getEntry("people", slug);
-const { Content } = await render(person);
+const canonicalName = person.id === "ian-helfrich" ? "Ian Helfrich" : "Elizaveta Gonchar";
+const relatedResearch = filterDiscoverableResearch(await getCollection("research"))
+  .filter((entry) => entry.data.authors.includes(canonicalName))
+  .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
+const profile = person.id === "ian-helfrich"
+  ? {
+      role: identityRecord.role,
+      summary: "Economist based in St. Louis working across applied research, quantitative design, and education. The primary biography, full research record, and current documents are linked below.",
+      boundary: "This supporting profile omits private relationships and unverified personal details. The About and CV pages are the canonical professional records.",
+    }
+  : {
+      role: "Research collaborator and coauthor",
+      summary: "Elizaveta Gonchar is an economist and research collaborator whose joint public work with Ian Helfrich includes trade, spatial measurement, and development-stage economic research.",
+      boundary: "This page covers the joint work visible on this site. Broader biography, affiliation, and contact details remain hers to publish.",
+    };
 ---
-<Base title={person.data.name} description={person.data.bio.slice(0, 160)}>
-  <article class="h-article">
-    <header>
-      {person.data.photo && (
-        <img src={person.data.photo} alt={person.data.name} style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%; float: right; margin: 0 0 1rem 1.4rem; border: 3px solid var(--paper-2); box-shadow: 0 4px 14px rgba(13, 59, 102, 0.12);" loading="lazy" />
-      )}
-      <div class="h-article-meta">{person.data.role}{person.data.affiliation ? ` · ${person.data.affiliation}` : ''}</div>
-      <h1>{person.data.name}</h1>
-      <p style="color: var(--ink-soft); font-size: 1.05rem; margin-top: 0.6rem;">{person.data.bio}</p>
 
-      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem; font-family: var(--font-sans); font-size: 0.9rem;">
-        {person.data.email && <a href={`mailto:${person.data.email}`}>Email</a>}
-        {person.data.website && <a href={person.data.website} target="_blank" rel="noopener">Website</a>}
-        {person.data.github && <a href={person.data.github} target="_blank" rel="noopener">GitHub</a>}
-        {person.data.orcid && <a href={person.data.orcid} target="_blank" rel="noopener">ORCID</a>}
-        {person.data.googleScholar && <a href={person.data.googleScholar} target="_blank" rel="noopener">Google Scholar</a>}
-        {person.data.ssrn && <a href={person.data.ssrn} target="_blank" rel="noopener">SSRN</a>}
-        {person.data.bluesky && <a href={person.data.bluesky} target="_blank" rel="noopener">Bluesky</a>}
-        {person.data.linkedin && <a href={person.data.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+<Base wide pageClass="quiet-detail-page" title={person.data.name} description={profile.summary}>
+  <article class="detail-shell">
+    <header class="person-header">
+      <div class="person-copy">
+        <a class="back-link" href="/people">People</a>
+        <p class="detail-status">{profile.role}</p>
+        <h1>{person.data.name}</h1>
+        <p class="detail-lead">{profile.summary}</p>
+        <p class="boundary"><strong>Scope of this record</strong>{profile.boundary}</p>
+        {person.id === "ian-helfrich" && (
+          <>
+            <dl class="public-scope">
+              <div><dt>Undergraduate training</dt><dd>BA in Economics from UNC Chapel Hill</dd></div>
+              <div><dt>Executive education</dt><dd>Teaching support in the Duke Global Executive MBA program, 2016-17</dd></div>
+              <div><dt>Online teaching</dt><dd>Online instructor for Campus / MTI College cohorts, 2022-23</dd></div>
+            </dl>
+            <nav class="artifact-links" aria-label="Canonical Ian Helfrich records">
+              <a href="/about">About</a><a href="/research">Research</a><a href="/cv">CV &amp; Contact</a>
+            </nav>
+          </>
+        )}
       </div>
-
-      {person.data.interests.length > 0 && (
-        <div style="margin-top: 1rem;">
-          <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--rust); margin-bottom: 0.4rem;">Research interests</div>
-          <ul style="margin: 0; padding-left: 1.2rem; color: var(--ink-soft); font-size: 0.95rem;">
-            {person.data.interests.map(i => <li>{i}</li>)}
-          </ul>
-        </div>
-      )}
+      {person.data.photo && <img src={person.data.photo} alt={`Portrait of ${person.data.name}`} loading="lazy" />}
     </header>
-    <Content />
+
+    <section class="related-records" aria-labelledby="related-title">
+      <p class="section-label">Public attribution</p>
+      <h2 id="related-title">Research on this site</h2>
+      <ol>
+        {relatedResearch.map((entry) => (
+          <li>
+            <article><p>{entry.data.displayStatus} · {entry.data.year}</p><h3><a href={`/research/${entry.id}`}>{entry.data.title}</a></h3><span>{entry.data.role}</span></article>
+            <aside><strong>Limit</strong><p>{entry.data.limit}</p></aside>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <footer class="detail-footer"><a href="/people">All public profiles</a><a href="/research">Research by stage</a></footer>
   </article>
 </Base>
+
+<style>
+  .detail-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .person-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1fr) minmax(13rem, 20rem); gap: 2rem 5rem; align-items: start; border-block: 1px solid var(--ef-ink); }
+  .person-header img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--ef-ink); }
+  .back-link, .detail-status, .section-label, .boundary strong, .related-records li article > p, .related-records li article > span, .related-records aside strong { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .back-link { display: inline-flex; min-height: 44px; align-items: center; }
+  .detail-status { margin-top: 1rem; color: var(--muted); }
+  h1 { max-width: 14ch; margin: .75rem 0 1rem; font-size: clamp(3rem, 7vw, 6.4rem); }
+  .detail-lead { max-width: 62ch; font-size: clamp(1.15rem, 2vw, 1.5rem); }
+  .boundary { display: grid; max-width: 62ch; margin-top: 2rem; padding: 1rem 0 1rem 1rem; gap: .3rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
+  .public-scope { display: grid; margin-top: 2rem; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ef-ink); }
+  .public-scope div { padding: .8rem .8rem .8rem 0; border-bottom: 1px solid var(--rule); }
+  .public-scope dt { color: var(--muted); font: 620 .64rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .public-scope dd { margin: .3rem 0 0; font-size: .92rem; }
+  .artifact-links, .detail-footer { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  .artifact-links { margin-top: 1.5rem; }
+  .artifact-links a, .detail-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .related-records { padding-block: clamp(3rem, 7vw, 6rem); }
+  .section-label { color: var(--muted); }
+  .related-records h2 { margin: .45rem 0 2rem; font-size: clamp(2rem, 5vw, 4rem); }
+  .related-records ol { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .related-records li { display: grid; margin: 0; padding-block: 1.5rem; grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem); gap: 2rem 4rem; border-bottom: 1px solid var(--ef-ink); }
+  .related-records li article > p, .related-records li article > span { color: var(--muted); }
+  .related-records h3 { margin: .35rem 0 .6rem; font-size: clamp(1.45rem, 3vw, 2.4rem); }
+  .related-records h3 a { color: var(--ef-ink); }
+  .related-records aside { padding-left: 1rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
+  .related-records aside p { margin: .3rem 0 0; font-size: .92rem; }
+  .detail-footer { padding-block: 1.5rem; justify-content: space-between; border-top: 1px solid var(--ef-ink); }
+  @media (max-width: 45rem) { .person-header, .related-records li, .public-scope { grid-template-columns: 1fr; } .person-header img { max-width: 18rem; grid-row: 1; } .detail-footer { align-items: flex-start; flex-direction: column; } }
+</style>

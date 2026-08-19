@@ -11,15 +11,15 @@ const y = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
   liveRegionId="cde-decomposition-live"
   class="cde-aperture"
   question="Does the rural private-leverage gap persist within the same Community Development Entity?"
-  caption="Choose a comparison to move from the raw rural gap to the paper's mean within-CDE estimate, exact reported interval, or separate descriptive decomposition."
-  status="Circulating sole-authored working paper"
+  caption="Choose a comparison. Within CDE compares rural and urban projects handled by the same Community Development Entity. The confidence interval and decomposition are reported separately."
+  status="Public working paper · August 2026"
   method={["Community Development Entity fixed effects", "order-invariant decomposition", "bunching test"]}
-  role="Sole author; Katia Antunes and Elizaveta Gonchar are acknowledged contributors"
-  limit="The design is descriptive and noncausal, does not identify why intermediaries differ, and leaves the mechanism unresolved."
+  role="Sole author and originator; Katia Antunes and Elizaveta Gonchar are contributors, not coauthors"
+  limit="The analysis is descriptive and noncausal. It does not identify why intermediaries differ, and the mechanism remains unresolved."
   links={[
     { label: "Research record", href: "/research/helfrich-2026-nmtc-rural-gap" },
     { label: "Working paper", href: "/research/ian-helfrich-nmtc-working-paper.pdf" },
-    { label: "Repository and viewer", href: "https://github.com/ihelfrich/us-nmtc-viewer", external: true },
+    { label: "Repository and evidence files", href: "https://github.com/ihelfrich/us-nmtc-viewer", external: true },
   ]}
 >
   <figure slot="figure" class="cde-fig inst-panel" data-cde-decomposition>
@@ -37,13 +37,13 @@ const y = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
       <circle cx="520" cy={y(CDE_FACTS.rawGap)} r="9" data-cde-dot data-cde-coefficient></circle>
       <text x="542" y={y(CDE_FACTS.rawGap) + 4} data-cde-label data-cde-coefficient>raw rural gap −0.262</text>
       <g data-cde-composition opacity="0">
-        <text x="90" y="264">Base descriptive decomposition: observed CDE composition</text>
+        <text x="90" y="264">Estimated movement associated with CDE composition</text>
         <line x1="90" x2="850" y1="280" y2="280" class="cde-composition-track"></line>
         <line x1="90" x2="90" y1="280" y2="280" class="cde-composition-fill" data-cde-composition-fill></line>
         <text x="860" y="284">−0.185 / 86%</text>
       </g>
     </svg>
-    <figcaption>The coefficient view is redundant with the numerical record below; no result depends on reading position, color, or motion.</figcaption>
+    <figcaption>The numerical table below reports the same estimates, interval, and decomposition.</figcaption>
   </figure>
 
   <fieldset slot="controls" class="cde-states">

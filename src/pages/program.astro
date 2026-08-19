@@ -10,15 +10,15 @@ const records = filterDiscoverableResearch(await getCollection("research"))
 <Base
   wide
   title="Research questions and connections"
-  description="A secondary view of Ian Helfrich's public research record, with maturity and limits preserved."
+  description="Browse Ian Helfrich's research questions and connections by current stage."
   pageClass="fieldbook-program"
 >
   <section class="program-page">
     <header>
-      <p class="record-label">Secondary research view</p>
+      <p class="record-label">Browse research</p>
       <h1>Research questions and connections</h1>
-      <p>This page gathers the public research questions in one compact sequence. Shared subjects or methods can help a reader navigate between records; they do not turn active designs into completed findings.</p>
-      <a class="fieldbook-action" href="/research">Research by stage of evidence</a>
+      <p>Browse current and earlier projects by question. Each entry retains its present status and links to the corresponding research record.</p>
+      <a class="fieldbook-action" href="/research">View research by current stage</a>
     </header>
     <div class="program-register">
       {records.map((record, index) => (

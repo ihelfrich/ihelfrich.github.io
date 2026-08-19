@@ -3,24 +3,63 @@ import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
 const datasets = (await getCollection("datasets")).sort((a, b) => b.data.year - a.data.year);
+const statusCopy = {
+  released: "Public release",
+  "in-progress": "In progress",
+  planned: "Planned",
+  archived: "Archived",
+};
 ---
-<Base title="Datasets" description="Research datasets I've built and released.">
-  <h1>Datasets</h1>
-  <p>Cleaned, geocoded, linked, and citable. Most are pre-release; once a companion paper goes up, the dataset goes to Zenodo with a DOI.</p>
 
-  <ul class="h-row-list">
-    {datasets.map(d => (
-      <li class="h-row">
-        <div class="h-row-meta">{d.data.year} · {d.data.status} · {d.data.license}{d.data.size ? ` · ${d.data.size}` : ''}{d.data.tags.length > 0 ? ` · ${d.data.tags.join(', ')}` : ''}</div>
-        <h3 class="h-row-title"><a href={`/datasets/${d.id}`}>{d.data.title}</a></h3>
-        <p class="h-row-summary"><em>{d.data.authors.join(', ')}.</em> {d.data.blurb}</p>
-        <div style="margin-top: 0.4rem; font-family: var(--font-sans); font-size: 0.85rem;">
-          {d.data.doi && <a href={`https://doi.org/${d.data.doi}`} target="_blank" rel="noopener">DOI</a>}
-          {d.data.zenodo && <>{d.data.doi && <span style="color: var(--muted);"> · </span>}<a href={d.data.zenodo} target="_blank" rel="noopener">Zenodo</a></>}
-          {d.data.repo && <>{(d.data.doi || d.data.zenodo) && <span style="color: var(--muted);"> · </span>}<a href={d.data.repo} target="_blank" rel="noopener">Source code</a></>}
-          {d.data.viewer && <>{(d.data.doi || d.data.zenodo || d.data.repo) && <span style="color: var(--muted);"> · </span>}<a href={d.data.viewer} target="_blank" rel="noopener">Viewer</a></>}
-        </div>
-      </li>
-    ))}
-  </ul>
+<Base wide pageClass="quiet-index-page" title="Datasets" description="Public and in-progress dataset records supporting Ian Helfrich's research.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div>
+        <p class="quiet-label">Supporting evidence · data records</p>
+        <h1>Datasets</h1>
+      </div>
+      <p class="quiet-lead">Dataset records state what has been assembled, what remains in development, and which public artifacts can be used now. A planned release is labeled as planned.</p>
+    </header>
+
+    <ol class="record-index">
+      {datasets.map((dataset) => (
+        <li class="record-row">
+          <article>
+            <p class="record-meta">{dataset.data.year} · {statusCopy[dataset.data.status]} · {dataset.data.authors.join(", ")}</p>
+            <h2><a href={`/datasets/${dataset.id}`}>{dataset.data.title}</a></h2>
+            <p>{dataset.data.blurb}</p>
+            <ul class="tag-list" aria-label="Topics">
+              {dataset.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          </article>
+          <aside>
+            <span>License</span>
+            <strong>{dataset.data.license}</strong>
+            {dataset.data.size && <small>{dataset.data.size}</small>}
+            <a href={`/datasets/${dataset.id}`}>Open record</a>
+          </aside>
+        </li>
+      ))}
+    </ol>
+  </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; margin-bottom: 3rem; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .record-meta, .record-row aside span, .record-row aside small { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .quiet-header h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .quiet-lead { max-width: 42ch; margin: 0; font-size: 1.15rem; }
+  .record-index { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .record-row { display: grid; margin: 0; padding-block: 2rem; grid-template-columns: minmax(0, 1fr) minmax(12rem, 16rem); gap: 2rem 4rem; border-bottom: 1px solid var(--ef-ink); }
+  .record-row h2 { max-width: 24ch; margin: .35rem 0 .7rem; font-size: clamp(1.65rem, 3vw, 2.7rem); }
+  .record-row h2 a { color: var(--ef-ink); text-decoration-color: transparent; }
+  .record-row h2 a:hover { color: var(--ef-signal); text-decoration-color: currentColor; }
+  .record-row article > p:not(.record-meta) { max-width: 66ch; }
+  .record-row aside { display: grid; align-content: start; gap: .35rem; padding-top: .2rem; }
+  .record-row aside strong { font: 600 .82rem/1.5 var(--font-data); }
+  .record-row aside a { display: inline-flex; min-height: 44px; margin-top: .75rem; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .tag-list { display: flex; margin: 1rem 0 0; padding: 0; flex-wrap: wrap; gap: .4rem .8rem; list-style: none; }
+  .tag-list li { margin: 0; color: var(--muted); font: 560 .65rem/1.4 var(--font-data); }
+  @media (max-width: 45rem) { .quiet-header, .record-row { grid-template-columns: 1fr; gap: 1.5rem; } .record-row aside { border-top: 1px solid var(--rule); padding-top: 1rem; } }
+</style>

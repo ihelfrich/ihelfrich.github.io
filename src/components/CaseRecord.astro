@@ -9,10 +9,15 @@ interface Case {
   id: string;
   title: string;
   question: string;
+  whyLabel?: string;
+  why?: string;
+  builtLabel?: string;
+  built?: string;
   status: string;
   role: string;
   method: readonly string[];
-  result: string;
+  stateLabel?: string;
+  state: string;
   limit: string;
   links?: readonly Link[];
 }
@@ -29,15 +34,17 @@ const linkIsExternal = (link: Link) => link.external ?? /^https?:\/\//.test(link
 
 <article class="case-record" id={`case-${record.id}`} aria-labelledby={`case-${record.id}-title`}>
   <header>
-    <p class="case-record__accession">Case record</p>
+    <p class="case-record__accession">Selected work</p>
     <Heading id={`case-${record.id}-title`}>{record.title}</Heading>
   </header>
   <dl class="case-record__fields">
     <div><dt>Question</dt><dd>{record.question}</dd></div>
+    {record.why && <div><dt>{record.whyLabel ?? "Why it matters"}</dt><dd>{record.why}</dd></div>}
+    {record.built && <div><dt>{record.builtLabel ?? "What I built"}</dt><dd>{record.built}</dd></div>}
     <div><dt>Status</dt><dd>{record.status}</dd></div>
     <div><dt>Role</dt><dd>{record.role}</dd></div>
     <div><dt>Method</dt><dd>{record.method.join(" · ")}</dd></div>
-    <div><dt>Result</dt><dd>{record.result}</dd></div>
+    <div><dt>{record.stateLabel ?? "Finding or current state"}</dt><dd>{record.state}</dd></div>
     <div class="case-record__limit"><dt>Limit</dt><dd>{record.limit}</dd></div>
   </dl>
   {record.links && record.links.length > 0 && (

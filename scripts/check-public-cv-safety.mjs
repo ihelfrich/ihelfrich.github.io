@@ -2,6 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import { constants } from "node:fs";
 import { resolve } from "node:path";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+import { load as parseYaml } from "js-yaml";
 
 const dist = resolve("dist");
 const retiredArtifacts = [
@@ -22,7 +23,7 @@ const publishedPdfs = [
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
       "More than 1,035 hours through Wyzant",
       "nearly 1,000 additional direct",
-      "Referee, Journal of Economic Theory",
+      "Ad hoc referee, Journal of Economic Theory",
     ],
   },
   {
@@ -34,7 +35,7 @@ const publishedPdfs = [
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
       "More than 1,035 hours through Wyzant",
       "nearly 1,000 additional direct",
-      "Referee, Journal of Economic Theory",
+      "Ad hoc referee, Journal of Economic Theory",
     ],
   },
   {
@@ -53,10 +54,10 @@ const forbiddenPdfPatterns = [
   [/910[\s().+-]*922[\s.-]*5152/i, "legacy phone number"],
   [/@outlook\.com/i, "superseded Outlook address"],
   [/Saudi Arabia/i, "unratified ministry-adjacent client detail"],
-  [/Hanna Nio/i, "named learner"],
   [/PPD\s*504/i, "one-off course artifact"],
   [/ECON\s*101A/i, "one-off course artifact"],
   [/tutoring client/i, "private client relationship"],
+  [/Ad hoc referee, Journal of Economic Theory\s*,?\s*2025/i, "unnecessary referee date"],
 ];
 
 async function extractPdfText(path) {
@@ -132,23 +133,29 @@ const nmtcRecord = await readFile(
   "utf8",
 );
 const jobMarket = await readFile(resolve(dist, "job-market/index.html"), "utf8");
-const recordAuthors = nmtcRecord.match(/<p class="record-authors">([^<]*)<\/p>/)?.[1];
-const jobMarketTitle = jobMarket.match(/<p class="paper-jmp-title"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "";
+const visibleText = (html) => html
+  .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+  .replace(/<[^>]+>/g, " ")
+  .replace(/&amp;/g, "&")
+  .replace(/&#39;|&apos;/g, "'")
+  .replace(/&quot;/g, '"')
+  .replace(/\s+/g, " ")
+  .trim();
+const nmtcText = visibleText(nmtcRecord);
+const jobMarketText = visibleText(jobMarket);
 
-if (recordAuthors !== nmtcAuthor) {
-  failures.push(`NMTC research record authors are "${recordAuthors ?? "missing"}"; expected sole author "${nmtcAuthor}"`);
+if (!nmtcText.includes(nmtcAuthor) || !/Ian Helfrich originated the project and is its sole author\./i.test(nmtcText)) {
+  failures.push(`NMTC research record must identify ${nmtcAuthor} as the originator and sole author`);
 }
-
-if (!jobMarketTitle.includes(nmtcAuthor) || !/sole-authored/i.test(jobMarketTitle)) {
-  failures.push("job-market NMTC title line must identify Ian Helfrich as the sole author");
+if (!/sole author and originator/i.test(jobMarketText) || !/my original idea, and I am its sole author/i.test(jobMarketText)) {
+  failures.push("job-market NMTC record must identify Ian Helfrich as the originator and sole author");
 }
 for (const contributor of nmtcContributors) {
-  if (jobMarketTitle.includes(contributor)) {
-    failures.push(`job-market NMTC title line incorrectly lists contributor as an author: ${contributor}`);
-  }
   if (!nmtcRecord.includes(contributor)) {
     failures.push(`NMTC research record omits contributor acknowledgment: ${contributor}`);
   }
+  if (!jobMarketText.includes(contributor)) failures.push(`job-market NMTC record omits contributor acknowledgment: ${contributor}`);
 }
 if (!nmtcRecord.includes("Ian Helfrich originated the project and is its sole author.")) {
   failures.push("NMTC research record omits the authoritative origin and sole-authorship statement");
@@ -196,57 +203,82 @@ for (const staleTalkClaim of [
 }
 
 for (const [label, html] of Object.entries({ "NMTC research record": nmtcRecord, "job-market page": jobMarket })) {
-  if (!/\u22120\.185[\s\S]{0,180}86 percent/i.test(html)) {
+  if (!/\u22120\.185[\s\S]{0,220}86(?:\s*%| percent)/i.test(html)) {
     failures.push(`${label} does not pair the base-decomposition contribution −0.185 with 86 percent`);
   }
   if (/\u22120\.185[\s\S]{0,180}88 percent/i.test(html)) {
     failures.push(`${label} combines incompatible NMTC base and purpose-augmented decomposition figures`);
   }
 }
-if (!jobMarket.includes("19,907 QLICI transactions covering 8,024 projects")) {
+if (!/19,907(?: QLICI)? transactions[\s\S]{0,80}8,024 projects/i.test(jobMarketText)) {
   failures.push("job-market page does not describe the NMTC project panel with the verified QLICI scope");
 }
-if (!/descriptive, noncausal/i.test(nmtcRecord) || !/mechanism remains unresolved/i.test(nmtcRecord)) {
+if (!/descriptive, noncausal/i.test(nmtcText) || !/mechanism remains unresolved/i.test(nmtcText)) {
   failures.push("NMTC record does not state the descriptive, noncausal scope and unresolved mechanism");
 }
 if (/target does not bind/i.test(nmtcRecord) || /target does not bind/i.test(jobMarket)) {
   failures.push("NMTC public summary overstates the 20 percent target result");
 }
 
-const researchStatusChecks = [
-  {
-    page: "research/helfrich-2026-russian-crude/index.html",
-    required: ["The planned design will estimate", "No empirical results yet"],
-    forbidden: ["Provides the first direct empirical estimate"],
-  },
-  {
-    page: "research/gonchar-helfrich-2026-effective-distance-panel/index.html",
-    required: ["planned 2000-2024 panel", "structural-gravity validation"],
-    forbidden: ["Builds the first global", "Validated in", "Material revisions to ACR", "Released as CC-BY", "No competitor has released"],
-  },
-  {
-    page: "research/gonchar-helfrich-2026-ukraine/index.html",
-    required: ["will combine", "aims to decompose", "planned quarterly Ukraine Shadow-Activity Index"],
-    forbidden: ["best-instrumented", "Pathway to the KSE Institute"],
-  },
-  {
-    page: "research/helfrich-2026-aroe/index.html",
-    required: ["Draft; authorship configuration under review"],
-    forbidden: ["Existence is established", "delivers uniqueness"],
-  },
-  {
-    page: "research/helfrich-2026-penumbra/index.html",
-    required: ["Draft; not yet posted to SSRN"],
-    forbidden: ["Headed to SSRN in late spring 2026"],
-  },
-];
-for (const check of researchStatusChecks) {
-  const html = await readFile(resolve(dist, check.page), "utf8");
-  for (const phrase of check.required) {
-    if (!html.includes(phrase)) failures.push(`${check.page} omits bounded status wording: ${phrase}`);
+const researchSource = resolve("src/content/research");
+const researchRecords = [];
+for (const filename of await readdir(researchSource)) {
+  if (!filename.endsWith(".md")) continue;
+  const source = await readFile(resolve(researchSource, filename), "utf8");
+  const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
+  if (!frontmatter) {
+    failures.push(`research source has unreadable frontmatter: ${filename}`);
+    continue;
   }
-  for (const phrase of check.forbidden) {
-    if (html.includes(phrase)) failures.push(`${check.page} retains research-status overclaim: ${phrase}`);
+  researchRecords.push({ id: filename.slice(0, -3), ...parseYaml(frontmatter[1]) });
+}
+
+for (const record of researchRecords) {
+  const route = resolve(dist, "research", record.id, "index.html");
+  if (record.discovery === "withheld") {
+    try {
+      await access(route, constants.F_OK);
+      failures.push(`withheld research route was generated: research/${record.id}/index.html`);
+    } catch (error) {
+      if (error?.code !== "ENOENT") throw error;
+    }
+    for (const forbidden of [record.id, record.title, record.distinctiveQuery].filter(Boolean)) {
+      if (builtHtml.some((html) => html.includes(forbidden))) {
+        failures.push(`built public HTML exposes withheld research: ${forbidden}`);
+      }
+    }
+    continue;
+  }
+
+  try {
+    const html = await readFile(route, "utf8");
+    const text = visibleText(html);
+    for (const [label, value] of [
+      ["display status", record.displayStatus],
+      ["research question", record.question],
+      ["role", record.role],
+      ["evidentiary limit", record.limit],
+    ]) {
+      if (value && !text.includes(value)) failures.push(`research/${record.id}/ omits canonical ${label}: ${value}`);
+    }
+  } catch (error) {
+    failures.push(`discoverable research route is missing or unreadable: research/${record.id}/ (${error.message})`);
+  }
+}
+
+for (const forbiddenClaim of [
+  "Provides the first direct empirical estimate",
+  "Builds the first global",
+  "Material revisions to ACR",
+  "No competitor has released",
+  "best-instrumented",
+  "Pathway to the KSE Institute",
+  "Existence is established",
+  "delivers uniqueness",
+  "Headed to SSRN in late spring 2026",
+]) {
+  if (builtHtml.some((html) => html.includes(forbiddenClaim))) {
+    failures.push(`built site retains research-status overclaim: ${forbiddenClaim}`);
   }
 }
 

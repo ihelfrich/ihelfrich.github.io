@@ -3,27 +3,28 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import ResearchGraph from "../../components/ResearchGraph.astro";
 import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
+import { picturesOfInferenceRecord } from "../../data/public-record.mjs";
 
 const maturityGroups = [
   {
     key: "circulating",
     heading: "Public and circulating",
-    note: "A manuscript or institutional record is available now.",
+    note: "A manuscript or institutional publication is available.",
   },
   {
     key: "working",
     heading: "Current work",
-    note: "The analysis is documented; only cleared public artifacts are linked.",
+    note: "Analysis is underway, with public material linked where available.",
   },
   {
     key: "development",
     heading: "Active development",
-    note: "No results yet. These records describe a question, design, or data build without an empirical result claim.",
+    note: "These are questions, designs, or data builds; no completed results are claimed.",
   },
   {
     key: "earlier",
     heading: "Earlier work",
-    note: "Completed institutional work with its original date and boundary intact.",
+    note: "Completed institutional work from earlier stages of the research.",
   },
 ] as const;
 
@@ -46,20 +47,20 @@ const sourceLink = (record) => record.data.pdf
 <Base
   wide
   title="Research"
-  description="Research by Ian Helfrich, organized by what is public, what has evidence available, and what remains under development."
+  description="Research by Ian Helfrich, organized by current stage."
   pageClass="fieldbook-research"
 >
   <section class="research-hero route-grid" data-rail-label="Research overview">
     <div class="research-hero__copy">
-      <p class="record-label">Research ledger · status first</p>
-      <h1>Research, by stage of evidence</h1>
-      <p>My research spans trade, spatial measurement, place-based policy, labor and AI, and economic theory. This page separates work a reader can inspect now from working papers and designs still under development, because the status is part of the claim.</p>
+      <p class="record-label">Research</p>
+      <h1>Research by current stage</h1>
+      <p>My research spans trade, spatial measurement, place-based policy, labor and AI, and economic theory. The projects below are grouped by their current stage so that published work, circulating manuscripts, ongoing analyses, and early designs remain easy to distinguish.</p>
     </div>
     <aside class="research-hero__key" aria-label="Status definitions">
       <dl>
-        <div><dt>Public</dt><dd>A manuscript or institutional record is available.</dd></div>
-        <div><dt>Current</dt><dd>The analysis is documented; links are limited to cleared artifacts.</dd></div>
-        <div><dt>Development</dt><dd>No results yet.</dd></div>
+        <div><dt>Public</dt><dd>A manuscript or institutional publication is available.</dd></div>
+        <div><dt>Current</dt><dd>Analysis is underway, with public material linked where available.</dd></div>
+        <div><dt>Development</dt><dd>Questions and designs with no completed results.</dd></div>
       </dl>
     </aside>
   </section>
@@ -105,15 +106,15 @@ const sourceLink = (record) => record.data.pdf
               <article class="research-row supporting-record" data-fieldbook-reveal>
                 <div class="research-row__accession" aria-hidden="true">B</div>
                 <div class="research-row__main">
-                  <p class="status-line">Book and workbook in progress · August 2026</p>
-                  <h3><a href="/projects/pictures-of-inference">Pictures of Inference</a></h3>
+                  <p class="status-line">{picturesOfInferenceRecord.status} · {picturesOfInferenceRecord.asOf}</p>
+                  <h3><a href={picturesOfInferenceRecord.href}>{picturesOfInferenceRecord.title}</a></h3>
                   <p class="research-question">How can visual models make estimators, sampling variation, and causal comparisons easier to reason about?</p>
-                  <p><strong>Role:</strong> With Elizaveta Gonchar. Part One, chapters 1–10 drafted as of August 14, 2026.</p>
-                  <nav aria-label="Pictures of Inference link"><a href="/projects/pictures-of-inference">Project record →</a></nav>
+                  <p><strong>Role:</strong> {picturesOfInferenceRecord.collaborators}. {picturesOfInferenceRecord.part}, {picturesOfInferenceRecord.chapters}, drafted as of {picturesOfInferenceRecord.draftedAsOf}.</p>
+                  <nav aria-label="Pictures of Inference link"><a href={picturesOfInferenceRecord.href}>Project record →</a></nav>
                 </div>
                 <aside class="research-row__margin">
                   <p><span>Method</span>Visual explanation · simulation · workbook construction</p>
-                  <p class="limit"><span>Limit</span>The book is in progress. It is not described as complete or forthcoming.</p>
+                  <p class="limit"><span>Limit</span>{picturesOfInferenceRecord.limit}</p>
                 </aside>
               </article>
             )}
@@ -127,10 +128,10 @@ const sourceLink = (record) => record.data.pdf
     <div class="route-shell route-shell--compact">
       <header class="section-intro">
         <div>
-          <p class="record-label">Secondary view</p>
-          <h2>Shared methods across the public record</h2>
+          <p class="record-label">Explore by connection</p>
+          <h2>Shared methods across projects</h2>
         </div>
-        <p>The complete maturity list above remains the canonical view. The graph offers another way to explore explicit method tags without implying that every record belongs to one finished program.</p>
+        <p>Use the map to follow shared tags across projects. Each title still links to the full research record and its current status.</p>
       </header>
       <ResearchGraph papers={research} />
     </div>
@@ -138,11 +139,11 @@ const sourceLink = (record) => record.data.pdf
 
   <section class="research-close route-grid" data-rail-label="Contact">
     <div>
-      <p class="record-label">Research conversation</p>
-      <h2>Working on an adjacent question?</h2>
+      <p class="record-label">Research inquiries</p>
+      <h2>See a connection to your work?</h2>
     </div>
     <div>
-      <p>Send the paper title or project description, the connection you see, and the specific conversation you are proposing.</p>
+      <p>Please include the paper or project, the connection you see, and the question you would like to discuss.</p>
       <a class="fieldbook-action" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry">Email Ian</a>
     </div>
   </section>

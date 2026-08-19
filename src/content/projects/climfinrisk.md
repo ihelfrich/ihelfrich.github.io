@@ -2,7 +2,6 @@
 title: "ClimFinRisk"
 blurb: "Models for the analysis of physical and financial risks linked to geospatial climate exposures. A toolkit for combining IPCC scenario gridded data with bank-balance-sheet and insurance-portfolio exposures."
 status: in-progress
-repo: "https://github.com/ihelfrich/ClimFinRIsk"
 tags: ["climate", "finance", "geospatial", "risk"]
 date: 2025-07-17
 pinned: false

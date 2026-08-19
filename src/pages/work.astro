@@ -30,14 +30,14 @@ const filterOptions = [
 >
   <section class="work-hero route-grid" data-rail-label="Selected work">
     <div class="work-hero__copy">
-      <p class="record-label">Case index · 2023–2026</p>
+      <p class="record-label">Selected cases</p>
       <h1>Selected work</h1>
-      <p>These cases show the work between an interesting question and a defensible answer: choosing the comparison, building the evidence, checking the interpretation, and leaving a record another person can inspect.</p>
+      <p>The five cases below cover applied economics, measurement, spatial analysis, policy, and quantitative learning. Each one gives the question, the work completed, the present finding or status, and the limit of the claim.</p>
     </div>
     <aside class="work-hero__key">
-      <span>Each case records</span>
+      <span>Each case includes</span>
       <ol>
-        <li>Question</li><li>Status</li><li>Role</li><li>Method</li><li>Result</li><li>Limit</li>
+        <li>Question</li><li>Why it matters</li><li>What was built</li><li>Role and method</li><li>Finding or status</li><li>Limit</li>
       </ol>
     </aside>
   </section>
@@ -45,10 +45,10 @@ const filterOptions = [
   <section class="work-index route-shell" data-rail-label="Case index">
     <header class="section-intro">
       <div>
-        <p class="record-label">Five public records</p>
-        <h2>Filter the index</h2>
+        <p class="record-label">Selected public work</p>
+        <h2>Filter by area</h2>
       </div>
-      <p>The filter changes the visible index only. Each case keeps one canonical record and its stated evidentiary boundary.</p>
+      <p>Choose a topic to narrow the list. Filtering leaves each case and its stated scope unchanged.</p>
     </header>
     <div class="case-filters" role="group" aria-label="Filter selected work" data-work-filters>
       {filterOptions.map((option, index) => (
@@ -68,8 +68,8 @@ const filterOptions = [
     </nav>
   </section>
 
-  <section class="case-register route-shell" data-rail-label="Case records">
-    <h2 class="sr-only">Case records</h2>
+  <section class="case-register route-shell" data-rail-label="Selected cases">
+    <h2 class="sr-only">Selected cases</h2>
     {workCases.map((record, index) => (
       <div
         class="case-entry"
@@ -86,27 +86,27 @@ const filterOptions = [
   <section class="additional-practice route-shell" data-rail-label="Additional practice">
     <div class="section-intro">
       <div>
-        <p class="record-label">Additional practice</p>
-        <h2>Related methods, kept within their public record</h2>
+        <p class="record-label">Additional experience</p>
+        <h2>Related work and methods</h2>
       </div>
-      <p>My formal training and public work also span geographic information science, remote sensing, research software, industrial-sector diagnostics, and browser-based econometrics instruction. Public examples appear where a reusable artifact exists. Private and learner-specific builds are excluded.</p>
+      <p>My training and public work also include geographic information science, remote sensing, research software, industrial-sector diagnostics, and browser-based econometrics instruction. The links below lead to reusable public work; learner-specific materials remain private.</p>
     </div>
     <dl class="practice-ledger">
       <div><dt>Spatial measurement</dt><dd><a href="/research/gonchar-helfrich-2025-spotlight"><cite>Trade in the Spotlight</cite></a>, the <a href="/research/helfrich-2024-dissertation">doctoral dissertation</a>, and public GIS records.</dd></div>
-      <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC viewer and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
+      <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC research repository and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
       <div><dt>Industrial diagnostics</dt><dd>Indicator selection, analytical sequencing, composite diagnostics, and international benchmarking. Private client identities, geographies, and outcomes are not published.</dd></div>
-      <div><dt>Quantitative instruction</dt><dd>Generalized browser-based sequences that connect a question, data, calculation, diagnostics, and interpretation.</dd></div>
+      <div><dt>Quantitative instruction</dt><dd>Applied Statistics and related public materials connect questions, data, calculations, diagnostics, and interpretation in one workflow.</dd></div>
       <div><dt>Independent teaching practice</dt><dd>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} Wyzant hours and {tutoringRecord.privatePractice.hoursProse} additional private-practice hours as of {tutoringRecord.asOf}; the two sources remain separate. <a href="/teaching">Teaching record →</a></dd></div>
     </dl>
   </section>
 
   <section class="work-close route-grid" data-rail-label="Contact">
     <div>
-      <p class="record-label">Next conversation</p>
-      <h2>Start with the question and the record you need.</h2>
+      <p class="record-label">Inquiries</p>
+      <h2>Discuss a role, project, or teaching engagement</h2>
     </div>
     <div>
-      <p>For a research, advisory, or teaching inquiry, include the context, timeline, and decision or output the work must support.</p>
+      <p>For research, advisory, or teaching inquiries, include the context, timeline, and decision or output the work must support.</p>
       <a class="fieldbook-action" href="/contact">Contact Ian</a>
     </div>
   </section>

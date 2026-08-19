@@ -22,21 +22,21 @@ const teachingFamilies = [
 ];
 
 const records = [
-  { kind: "Go", code: "GO-01", title: "Start a project", detail: "Project fit, scope, recommendation, brief, and scheduling handoff", href: "/start" },
+  { kind: "Go", code: "GO-01", title: "Contact", detail: "Hiring, research, teaching, coaching, and applied quantitative inquiries", href: "/contact" },
   { kind: "Go", code: "GO-02", title: "Selected work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", href: "/work" },
-  { kind: "Go", code: "GO-03", title: "Capabilities", detail: "Research audit, evidence products, spatial intelligence, and team methods", href: "/capabilities" },
   { kind: "Go", code: "GO-04", title: "Interactive lab", detail: "Working analytical instruments with methods and decision context", href: "/lab" },
   { kind: "Go", code: "GO-05", title: "Research", detail: "Papers, programs, methods, data, and current questions", href: "/research" },
-  { kind: "Go", code: "GO-06", title: "Teaching", detail: "Open teaching tools, training, private mentorship, and pedagogy", href: "/teaching" },
+  { kind: "Go", code: "GO-06", title: "Teaching", detail: "University teaching, online instruction, independent tutoring, and quantitative research-design coaching", href: "/teaching" },
   { kind: "Go", code: "GO-07", title: "Public index", detail: "Papers, data, essays, and tools in one searchable record", href: "/library" },
   { kind: "Go", code: "GO-08", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
-  { kind: "Go", code: "GO-09", title: "About Ian", detail: "Background, research program, and current work", href: "/about" },
-  { kind: "Go", code: "GO-10", title: "Curriculum vitae", detail: "Appointments, teaching, papers, awards, and methods", href: "/cv" },
+  { kind: "Go", code: "GO-09", title: "About Ian", detail: "Education, current practice, leadership, and service", href: "/about" },
+  { kind: "Go", code: "GO-10", title: "Curriculum vitae", detail: "Executive resume, academic CV, career summary, availability, and contact", href: "/cv" },
   { kind: "Go", code: "GO-11", title: "Job market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability", href: "/job-market" },
   { kind: "Go", code: "GO-12", title: "Colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack", href: "/colophon" },
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
-    title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.displayStatus}`, href: `/research/${entry.id}`,
+    title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.displayStatus}`,
+    search: entry.data.searchTerms.join(" "), href: `/research/${entry.id}`,
   })),
   ...datasets.map((entry, index) => ({
     kind: "Data", code: `D-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
@@ -51,9 +51,9 @@ const records = [
     title: entry.data.title, detail: `${entry.data.status} · ${entry.data.blurb}`, href: entry.data.url ?? `/projects/${entry.id}`,
     external: Boolean(entry.data.url),
   })),
-  ...teachingFamilies.map(([title, detail, id], index) => ({
+  ...teachingFamilies.map(([title, detail], index) => ({
     kind: "Teach", code: `L-2026-${String(index + 1).padStart(2, "0")}`,
-    title, detail, href: `/teaching#${id}`,
+    title, detail, href: "/teaching",
   })),
 ];
 ---
@@ -62,7 +62,7 @@ const records = [
   <div class="site-index-shell">
     <header class="site-index-head">
       <div>
-        <span>IAN HELFRICH / PUBLIC WORKSTATION</span>
+        <span>IAN HELFRICH / SITE INDEX</span>
         <strong id="site-index-title">Find anything.</strong>
       </div>
       <button type="button" data-index-close aria-label="Close site index">ESC <i>×</i></button>
@@ -85,7 +85,7 @@ const records = [
           target={record.external ? "_blank" : undefined}
           rel={record.external ? "noopener" : undefined}
           data-index-record
-          data-search={`${record.kind} ${record.code} ${record.title} ${record.detail}`.toLowerCase()}
+          data-search={`${record.kind} ${record.code} ${record.title} ${record.detail} ${record.search ?? ""}`.toLowerCase()}
         >
           <span>{record.code}</span>
           <small>{record.kind}</small>

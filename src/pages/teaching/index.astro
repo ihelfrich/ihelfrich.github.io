@@ -1,14 +1,14 @@
 ---
 import Base from "../../layouts/Base.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
-import { publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
+import { picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
 const institutions = [
   {
     years: "2017–2023",
     institution: "Georgia Institute of Technology",
     role: "Instructor of record and teaching assistant",
-    detail: "Instructor of record for three semesters in economics. Teaching-assistant service in Economics; inaugural Graduate Teaching Fellow cohort, 2018–19, with professional-development curriculum and orientation leadership.",
+    detail: "Instructor of record for three economics semesters. Additional service as a teaching assistant in Economics and as a member of the inaugural Graduate Teaching Fellow cohort, including curriculum design and orientation leadership.",
   },
   {
     years: "2016–2017",
@@ -49,12 +49,12 @@ const subjectFamilies = [
 >
   <section class="teaching-hero route-grid" data-rail-label="Teaching overview">
     <div class="teaching-hero__copy">
-      <p class="record-label">Institutional teaching · independent practice · public tools</p>
+      <p class="record-label">University teaching · executive education · independent practice</p>
       <h1>Teaching &amp; Coaching</h1>
-      <p>I teach economics, statistics, econometrics, programming, and research design in two connected modes: helping someone build the underlying intuition, and helping a researcher turn an open-ended question into a defensible empirical design.</p>
+      <p>I teach economics, statistics, econometrics, programming, and research design. My work ranges from foundational instruction to advising doctoral researchers and executives on empirical design, analysis, and communication.</p>
     </div>
     <aside class="teaching-hero__margin">
-      <p>That work has taken place in university classrooms, an executive MBA program, online courses, Wyzant, and a separate private practice. The audiences and subjects vary; the records below keep the roles and sources distinct.</p>
+      <p>I have taught in university classrooms, supported Duke's Global Executive MBA program, led online courses, and worked through Wyzant and a separate private practice. The chronology and independently sourced hour totals appear below.</p>
     </aside>
   </section>
 
@@ -74,10 +74,10 @@ const subjectFamilies = [
   <section class="practice-record route-shell" data-rail-label="Independent practice">
     <header class="section-intro">
       <div>
-        <p class="record-label">Independent-practice record · {tutoringRecord.asOf}</p>
-        <h2>Two sources, kept separate</h2>
+        <p class="record-label">Independent practice · {tutoringRecord.asOf}</p>
+        <h2>Independent instruction, by source</h2>
       </div>
-      <p>The platform record and private-practice ledger describe different work. They are never converted into a combined exact total.</p>
+      <p>Wyzant reports platform hours; the private-practice figure comes from a separate practice ledger. The two figures are shown independently.</p>
     </header>
     <div class="hours-pair">
       <article>
@@ -93,7 +93,7 @@ const subjectFamilies = [
         <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours, separate from Wyzant.</p>
       </article>
     </div>
-    <p class="practice-range">I work with students, doctoral researchers, professionals, and executives across economics, statistics, econometrics, research design, Python, SQL, data analysis, policy and GIS, Stata, finance, marketing analytics, strategy, and quantitative test preparation. Engagements range from focused tutoring to ongoing executive-level quantitative research-design coaching.</p>
+    <p class="practice-range">I work with students, doctoral researchers, professionals, and executives. Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. Engagements range from focused tutoring to ongoing quantitative research-design coaching.</p>
     <div class="subject-families" aria-label="Teaching subject families">
       {subjectFamilies.map(([title, detail]) => (
         <article>
@@ -108,9 +108,9 @@ const subjectFamilies = [
     <header class="section-intro">
       <div>
         <p class="record-label">Research-design coaching</p>
-        <h2>From a substantive question to an analysis another person can defend</h2>
+        <h2>From research question to empirical design</h2>
       </div>
-      <p>A coaching engagement begins before software or estimator choice. The analysis follows the question, available evidence, and decision it must support.</p>
+      <p>A coaching engagement begins by clarifying the claim or decision, the target quantity, and the available evidence. Software and estimator choices follow from those decisions.</p>
     </header>
     <ol class="coaching-sequence">
       <li><span>01</span><div><strong>Decision</strong><p>Identify the decision, claim, or scholarly contribution the analysis needs to inform.</p></div></li>
@@ -130,7 +130,7 @@ const subjectFamilies = [
           <p class="record-label">Institutional chronology</p>
           <h2>Classrooms, executive education, and online instruction</h2>
         </div>
-        <p>Roles and scope are stated conservatively. Teaching support is distinguished from an instructor-of-record appointment.</p>
+        <p>The chronology distinguishes instructor-of-record appointments from teaching-support roles.</p>
       </header>
       <div class="chronology">
         {institutions.map((entry) => (
@@ -164,7 +164,7 @@ const subjectFamilies = [
         <p class="record-label">Durable learning systems</p>
         <h2>Reusable public materials</h2>
       </div>
-      <p>The public portfolio emphasizes generalized tools and books. It does not display individual course commissions or bespoke learner repositories.</p>
+      <p>The portfolio focuses on generalized public tools and books. Learner-specific work remains private.</p>
     </header>
     <div class="system-register">
       <article>
@@ -174,10 +174,10 @@ const subjectFamilies = [
         <a href="/projects/applied-statistics">Open the system and least-squares lab →</a>
       </article>
       <article>
-        <p class="source-line">Book and workbook in progress</p>
-        <h3><a href="/projects/pictures-of-inference">Pictures of Inference</a></h3>
-        <p>With Elizaveta Gonchar. A visual route into estimators, sampling variation, and causal comparisons; Part One, chapters 1–10 drafted as of August 14, 2026.</p>
-        <a href="/projects/pictures-of-inference">Project record →</a>
+        <p class="source-line">{picturesOfInferenceRecord.status}</p>
+        <h3><a href={picturesOfInferenceRecord.href}>Pictures of Inference</a></h3>
+        <p>{picturesOfInferenceRecord.collaborators}. A visual route into estimators, sampling variation, and causal comparisons; {picturesOfInferenceRecord.part}, {picturesOfInferenceRecord.chapters}, drafted as of {picturesOfInferenceRecord.draftedAsOf}.</p>
+        <a href={picturesOfInferenceRecord.href}>Project record →</a>
       </article>
       <article>
         <p class="source-line">Open supporting resources</p>
@@ -191,7 +191,7 @@ const subjectFamilies = [
   <section class="teaching-close route-grid" data-rail-label="Contact">
     <div>
       <p class="record-label">Teaching and coaching inquiries</p>
-      <h2>Include the subject, level, timeline, and kind of help you need.</h2>
+      <h2>Tell me the subject, level, timeline, and kind of help you need.</h2>
     </div>
     <div>
       <p>I am available for advanced tutoring, quantitative research-design coaching, curriculum and learning-system work, and institutional teaching.</p>

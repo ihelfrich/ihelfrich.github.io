@@ -9,7 +9,7 @@ const SEED = [
 ];
 const initialFit = fitLeastSquares(SEED);
 const initialSummary = initialFit
-  ? `n=${initialFit.n} · display slope ${(-initialFit.b1 * 10).toFixed(2)} upward SVG units per 10 horizontal SVG units · HC1 slope SE ${(initialFit.seHC1 * 10).toFixed(2)} on the same scale · R² ${initialFit.r2.toFixed(2)} · shaded band: conventional 95% conditional-mean band`
+  ? `n=${initialFit.n} · fitted slope ${(-initialFit.b1 * 10).toFixed(2)} per 10 horizontal units · robust slope SE (HC1) ${(initialFit.seHC1 * 10).toFixed(2)} · R² ${initialFit.r2.toFixed(2)} · shaded area: conventional 95% confidence band for the fitted mean`
   : "Add at least three points.";
 const bandPath = initialFit ? (() => {
   const yAt = (x: number) => initialFit.b0 + initialFit.b1 * x;
@@ -28,8 +28,8 @@ const bandPath = initialFit ? (() => {
   id="least-squares-lab"
   liveRegionId="least-squares-live"
   class="least-squares-aperture"
-  question="How does one point change an OLS fit and its robust uncertainty?"
-  caption="Add, move, or remove observations. The line, conditional-mean band, slope, HC1 standard error, and R² recompute together."
+  question="How much can one observation change a fitted line and its uncertainty?"
+  caption="Add, move, or remove observations. The fitted line, confidence band, slope, robust standard error, and R² update together."
   status="Live teaching demonstration"
   method={["ordinary least squares", "HC1 robust standard error", "95% conditional-mean band"]}
   role="Designed and developed by Ian Helfrich"
@@ -49,9 +49,12 @@ const bandPath = initialFit ? (() => {
       style={`--svg-hit-target:${MINIMUM_SVG_TARGET_CSS_PX}px`}
     >
       <title id="least-squares-title">Editable least-squares scatterplot</title>
-      <desc id="least-squares-desc">Nine initial points with a fitted line and conditional-mean band. Pointer users can add or drag points; equivalent add, remove, and reset buttons follow the figure.</desc>
+      <desc id="least-squares-desc">Nine initial points on axes labeled Illustrative x and Illustrative outcome, with a fitted line and confidence band. Pointer users can add or drag points; equivalent add, remove, and reset buttons follow the figure.</desc>
       {[120, 240, 360].map((gridY) => <line x1="24" x2="976" y1={gridY} y2={gridY} class="est-grid"></line>)}
+      <line x1="24" x2="24" y1="20" y2="456" class="est-axis"></line>
       <line x1="24" x2="976" y1="456" y2="456" class="est-axis"></line>
+      <text x="500" y="476" text-anchor="middle" class="est-axis-label">Illustrative x</text>
+      <text transform="translate(13 238) rotate(-90)" text-anchor="middle" class="est-axis-label">Illustrative outcome</text>
       <path d={bandPath} class="est-band" data-est-band></path>
       {initialFit && <line x1="24" y1={initialFit.b0 + initialFit.b1 * 24} x2="976" y2={initialFit.b0 + initialFit.b1 * 976} class="est-line" data-est-line></line>}
       <g data-est-points>
@@ -63,7 +66,7 @@ const bandPath = initialFit ? (() => {
         ))}
       </g>
     </svg>
-    <figcaption>Pointer: select empty space to add a point, drag a point to move it, or select a point without dragging to remove it. Keyboard: use the controls below to add a tail point, remove the last point, or restore the fixture.</figcaption>
+    <figcaption>The axes are illustrative. Pointer: select empty space to add a point, drag a point to move it, or select a point without dragging to remove it. Keyboard: use the controls below to add a tail point, remove the last point, or restore the fixture.</figcaption>
   </figure>
 
   <div slot="controls" class="est-controls">
@@ -119,7 +122,7 @@ const bandPath = initialFit ? (() => {
     const summary = () => {
       const fit = fitLeastSquares(points);
       if (!fit) return "Add at least three points with varying horizontal positions.";
-      return `n=${fit.n} · display slope ${(-fit.b1 * 10).toFixed(2)} upward SVG units per 10 horizontal SVG units · HC1 slope SE ${(fit.seHC1 * 10).toFixed(2)} on the same scale · R² ${fit.r2.toFixed(2)} · shaded band: conventional 95% conditional-mean band`;
+      return `n=${fit.n} · fitted slope ${(-fit.b1 * 10).toFixed(2)} per 10 horizontal units · robust slope SE (HC1) ${(fit.seHC1 * 10).toFixed(2)} · R² ${fit.r2.toFixed(2)} · shaded area: conventional 95% confidence band for the fitted mean`;
     };
     const render = (resolving = false) => {
       const fit = fitLeastSquares(points);
@@ -263,6 +266,7 @@ const bandPath = initialFit ? (() => {
   .least-squares-lab svg { display: block; width: 100%; touch-action: pan-y; }
   .est-grid { stroke: color-mix(in srgb, var(--ef-ink) 7%, transparent); }
   .est-axis { stroke: color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); }
+  .est-axis-label { fill: color-mix(in srgb, var(--ef-ink) 68%, transparent); font: 520 11px var(--font-data); }
   .est-band { fill: color-mix(in srgb, var(--ef-ink) 6%, transparent); stroke: none; }
   .est-line { stroke: var(--ef-ink); stroke-width: 1.7; }
   [data-est-points] :global(.est-hit) {

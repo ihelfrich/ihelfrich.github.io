@@ -1,8 +1,7 @@
 ---
 name: "Dr. Elizaveta Gonchar"
-role: "Co-author on Penumbra-program trade and trade-cost work"
-affiliation: "Co-PI and collaborator"
-bio: "Frequent research co-author with Ian Helfrich. Joint work covers the Effective Distance bilateral trade-cost panel (Paper 5), the 2025 SSRN preprint Trade in the Spotlight (5202676), and the Joint Paper 1 application to Ukrainian wartime economic reorganization. Russian-language source access supports the joint work on Ukrainian and Russian-language primary materials."
+role: "Research collaborator and coauthor"
+bio: "Economist and research collaborator. Joint public work with Ian Helfrich includes the 2025 preprint Trade in the Spotlight and development-stage research on effective distance and wartime economic measurement."
 interests:
   - "trade and effective distance"
   - "spatial economics and externality networks"
@@ -11,10 +10,10 @@ interests:
 order: 2
 ---
 
-## Joint work with Ian
+## Joint public work with Ian
 
-- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)** (Paper 5). In preparation; coverage, validation, release, and submission venue remain to be verified.
-- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)** (Joint Paper 1 of the Penumbra program). In preparation; no posting or submission date is currently claimed.
-- **[Trade in the Spotlight (2025)](/research/gonchar-helfrich-2025-spotlight)** (SSRN 5202676). April 2025 preprint introducing the OVDL distance measure. Foundation for Paper 5.
+- **[Effective distance: a satellite-calibrated bilateral trade-cost panel, 2000-2024](/research/gonchar-helfrich-2026-effective-distance-panel)**. Active development with no completed results yet; coverage, validation, release, and submission venue remain open.
+- **[Occlusion and adaptation: Ukraine's wartime economic reorganization, 2022-2025](/research/gonchar-helfrich-2026-ukraine)**. Active development with no completed results yet; no posting or submission date is claimed.
+- **[Trade in the Spotlight (2025)](/research/gonchar-helfrich-2025-spotlight)**. SSRN 5202676, an April 2025 preprint introducing the OVDL distance measure.
 
 A full personal page with CV, affiliation, contact, and photo will live here at her preference. Until then, correspondence about joint work can come through Ian.

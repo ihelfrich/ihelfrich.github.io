@@ -1,8 +1,8 @@
 ---
 name: "Dr. Ian T. S. Helfrich"
-role: "Research economist · educator · instrument builder"
+role: "Applied economist · quantitative research designer · educator"
 affiliation: "Independent. PhD Economics, Georgia Institute of Technology, 2024."
-bio: "Research economist, educator, and instrument builder working across international trade, labor, geospatial analysis, networks, and microeconomic theory. PhD in Economics from Georgia Tech (2024) under Tibor Besedes and Usha Nair-Reichert. Master's degrees from Georgia Tech (Economics 2019, Geographic Information Science and Technology 2022), Indiana University Bloomington (Economics 2018), and Barcelona School of Economics (Specialized Economic Analysis, Public Policy, 2015). BA in Economics from UNC Chapel Hill (2014). Based in St. Louis, Missouri."
+bio: "Applied economist, quantitative research designer, and educator working across international trade, place-based policy, labor and AI, spatial measurement, economic theory, and quantitative education. PhD in Economics from Georgia Tech (2024) under Tibor Besedes and Usha Nair-Reichert. Master's degrees from Georgia Tech (Economics 2019, Geographic Information Science and Technology 2022), Indiana University Bloomington (Economics 2018), and Barcelona School of Economics (Specialized Economic Analysis, Public Policy, 2015). BA in Economics from UNC Chapel Hill (2014). Based in St. Louis, Missouri."
 email: "ianthelfrich@gmail.com"
 website: "https://ianhelfrich.com"
 github: "https://github.com/ihelfrich"

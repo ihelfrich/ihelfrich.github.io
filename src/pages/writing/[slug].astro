@@ -4,24 +4,53 @@ import { getCollection, getEntry, render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("writing")).filter((post) => !post.data.draft);
-  return posts.map(p => ({ params: { slug: p.id } }));
+  return posts.map(post => ({ params: { slug: post.id } }));
 }
 
 const { slug } = Astro.params;
 const post = await getEntry("writing", slug);
 const { Content } = await render(post);
-const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 ---
-<Base wide pageClass="record-page record-writing" title={post.data.title} description={post.data.summary}>
-  <article class="h-article">
-    <header>
-      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>ESSAY / NOTE</span><span><i></i>PUBLISHED</span></div>
-      <div class="h-article-meta">{fmt(post.data.date)}{post.data.updated ? ` · updated ${fmt(post.data.updated)}` : ""}{post.data.tags.length > 0 ? ` · ${post.data.tags.join(" · ")}` : ""}</div>
+
+<Base wide pageClass="quiet-detail-page" title={post.data.title} description={post.data.summary}>
+  <article class="detail-shell">
+    <header class="detail-header">
+      <a class="back-link" href="/writing">Writing</a>
+      <p class="detail-status">Published note · {fmt(post.data.date)}{post.data.updated ? ` · updated ${fmt(post.data.updated)}` : ""}</p>
       <h1>{post.data.title}</h1>
-      <p class="record-authors">Ian Helfrich</p>
-      <p class="record-deck">{post.data.subtitle ?? post.data.summary}</p>
+      <p class="detail-lead">{post.data.subtitle ?? post.data.summary}</p>
+      <dl class="note-ledger">
+        <div><dt>Author</dt><dd>Ian Helfrich</dd></div>
+        <div><dt>Status</dt><dd>Published note</dd></div>
+        <div><dt>Topics</dt><dd>{post.data.tags.join(" · ") || "General"}</dd></div>
+        <div class="limit"><dt>Reading note</dt><dd>This entry records its publication context. Later revisions are dated explicitly.</dd></div>
+      </dl>
     </header>
-    <div class="record-body"><Content /></div>
-    <footer class="record-end"><span>END OF NOTE</span><a href="/writing">All essays + notes →</a><a href="/rss.xml">Follow by RSS →</a></footer>
+
+    <section class="detail-body" aria-label="Article"><Content /></section>
+
+    <footer class="detail-footer"><a href="/writing">All writing</a><a href="/rss.xml">RSS updates</a></footer>
   </article>
 </Base>
+
+<style>
+  .detail-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .detail-header { padding-block: clamp(2rem, 6vw, 5rem); border-block: 1px solid var(--ef-ink); }
+  .back-link, .detail-status, .note-ledger dt { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .back-link { display: inline-flex; min-height: 44px; align-items: center; }
+  .detail-status { margin-top: 1rem; color: var(--muted); }
+  h1 { max-width: 18ch; margin: .75rem 0 1rem; font-size: clamp(3rem, 7vw, 6.4rem); }
+  .detail-lead { max-width: 64ch; font-size: clamp(1.15rem, 2vw, 1.5rem); }
+  .note-ledger { display: grid; margin-top: 2.5rem; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ef-ink); }
+  .note-ledger div { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); }
+  .note-ledger dt { color: var(--muted); }
+  .note-ledger dd { margin: .25rem 0 0; }
+  .note-ledger .limit { grid-column: 1 / -1; color: var(--ef-oxide); }
+  .detail-body { max-width: 70ch; padding-block: clamp(3rem, 7vw, 6rem); }
+  .detail-body :global(h2) { margin-top: 3rem; font-size: clamp(2rem, 4vw, 3.2rem); }
+  .detail-body :global(h3) { margin-top: 2rem; font-size: 1.6rem; }
+  .detail-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }
+  .detail-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 45rem) { .note-ledger { grid-template-columns: 1fr; } .note-ledger .limit { grid-column: 1; } .detail-footer { align-items: flex-start; flex-direction: column; } }
+</style>

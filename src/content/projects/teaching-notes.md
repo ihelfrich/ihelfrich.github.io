@@ -10,4 +10,4 @@ pinned: false
 
 Years of lecture notes, worked problems, and LaTeX templates consolidated into a reusable starting point for economics instruction and quantitative coaching. The value is not any one course or learner: it is a maintained base that can be adapted across levels and contexts without rebuilding the underlying explanations each time.
 
-Public. If you teach any of the courses Inference Lab or Macro Prep covers, this is the underlying material I draw from.
+Public. The repository supplies reusable material for statistics, macroeconomics, and quantitative research-design instruction.

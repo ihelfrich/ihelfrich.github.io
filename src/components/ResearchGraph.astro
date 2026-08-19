@@ -15,7 +15,6 @@ const SHORT: Record<string, string> = {
   "gonchar-helfrich-2026-effective-distance-panel": "Effective distance",
   "gonchar-helfrich-2026-ukraine": "Ukraine",
   "helfrich-2024-ssrn-4772016": "OT equilibrium",
-  "helfrich-2026-aroe": "AROE",
   "helfrich-2026-penumbra": "Penumbra",
   "helfrich-2026-russian-crude": "Russian crude",
   "helfrich-2026-nmtc-rural-gap": "NMTC",
@@ -49,10 +48,10 @@ const maturities = maturityOrder.filter((value) => graph.nodes.some((node) => no
   liveRegionId="research-graph-live"
   class="research-graph-aperture"
   question="Which research records share explicit metadata tags?"
-  caption="Filter by tag or maturity, then inspect the metadata-derived connections. Line weight records the number of shared tags."
+  caption="Filter by metadata tag or maturity to see which projects share an explicit connection. Line weight shows how many tags they share."
   status="Secondary view of public research records"
   method="Metadata-tag co-occurrence with a force-directed layout"
-  role="Visualization and record curation by Ian Helfrich"
+  role="Built by Ian Helfrich from the public research metadata"
   limit="A shared tag records a metadata overlap. It does not establish one unified research program, causal relation, or substantive dependence."
   links={[{ label: "Research record", href: "/research" }]}
 >
@@ -92,7 +91,7 @@ const maturities = maturityOrder.filter((value) => graph.nodes.some((node) => no
         ))}
       </g>
     </svg>
-    <figcaption>The server-rendered layout remains still until you filter or drag. Activate a focused record with Enter or Space. The tables below provide every record, tag, connection, and link without relying on the graph.</figcaption>
+    <figcaption>Filter by tag or maturity, or drag a record to explore its connections. The tables below provide the same records, tags, connections, and links in text.</figcaption>
     <script type="application/json" data-graph-data set:html={JSON.stringify(graph)} />
   </figure>
 
@@ -365,7 +364,7 @@ const maturities = maturityOrder.filter((value) => graph.nodes.some((node) => no
   .graph-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; }
   .graph-controls label { display: grid; font-weight: 650; gap: 0.25rem; }
   .graph-controls :is(select, button) { min-height: 44px; }
-  .graph-equivalent summary { cursor: pointer; font-weight: 650; }
+  .graph-equivalent summary { min-height: 44px; cursor: pointer; font-weight: 650; }
   .graph-table-wrap { overflow-x: auto; }
   .graph-equivalent table { border-collapse: collapse; margin-block: 1rem; min-width: 44rem; width: 100%; }
   .graph-equivalent caption { font-weight: 650; text-align: left; }

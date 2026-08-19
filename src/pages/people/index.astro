@@ -3,18 +3,55 @@ import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 
 const people = (await getCollection("people")).sort((a, b) => a.data.order - b.data.order);
+const publicProfiles = {
+  "ian-helfrich": {
+    role: "Applied economist, quantitative research designer, and educator",
+    summary: "Sole and joint research across trade, place-based policy, labor and AI, spatial measurement, economic theory, and quantitative education.",
+  },
+  "elizaveta-gonchar": {
+    role: "Research collaborator and coauthor",
+    summary: "Joint public work with Ian Helfrich includes Trade in the Spotlight and development-stage research on effective distance and wartime economic measurement.",
+  },
+};
 ---
-<Base title="People" description="Research collaborators and co-authors.">
-  <h1>People</h1>
-  <p>I work across a small set of long-term research collaborations. This page records public collaborators; private coaching and advisory relationships remain private.</p>
 
-  <div class="h-card-grid">
-    {people.map(p => (
-      <a class="h-card" href={`/people/${p.id}`}>
-        <div class="h-card-tag">{p.data.role}</div>
-        <div class="h-card-title">{p.data.name}</div>
-        <div class="h-card-blurb">{p.data.bio.slice(0, 200)}{p.data.bio.length > 200 ? '…' : ''}</div>
-      </a>
-    ))}
+<Base wide pageClass="quiet-index-page" title="People" description="Public collaborator records connected to Ian Helfrich's research.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div><p class="quiet-label">Supporting record · public attribution</p><h1>People</h1></div>
+      <p class="quiet-lead">This directory records public research relationships. Tutoring, coaching, advisory, and private client relationships do not appear here.</p>
+    </header>
+
+    <ol class="people-list">
+      {people.map((person) => {
+        const profile = publicProfiles[person.id] ?? { role: person.data.role, summary: person.data.bio };
+        return (
+          <li>
+            <p class="record-number">{String(person.data.order).padStart(2, "0")}</p>
+            <article>
+              <p class="record-label">{profile.role}</p>
+              <h2><a href={`/people/${person.id}`}>{person.data.name}</a></h2>
+              <p>{profile.summary}</p>
+            </article>
+            <a class="record-action" href={`/people/${person.id}`}>Open record</a>
+          </li>
+        );
+      })}
+    </ol>
   </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .record-label, .record-number { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .quiet-lead { margin: 0; font-size: 1.15rem; }
+  .people-list { margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .people-list li { display: grid; margin: 0; padding-block: 2rem; grid-template-columns: 3rem minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: start; border-bottom: 1px solid var(--ef-ink); }
+  .people-list h2 { margin: .35rem 0 .75rem; font-size: clamp(2rem, 4vw, 3.5rem); }
+  .people-list h2 a { color: var(--ef-ink); }
+  .people-list article > p:last-child { max-width: 62ch; }
+  .record-action { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  @media (max-width: 45rem) { .quiet-header, .people-list li { grid-template-columns: 1fr; } .record-number { display: none; } }
+</style>

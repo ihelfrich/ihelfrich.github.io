@@ -68,7 +68,7 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
       <nav class="paper-links" aria-label="Primary paper links">
         <a href="/research/ian-helfrich-nmtc-working-paper.pdf" target="_blank" rel="noopener">Working paper · PDF ↗</a>
         <a href="/research/helfrich-2026-nmtc-rural-gap">Research record →</a>
-        <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Repository and viewer ↗</a>
+        <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Repository and evidence files ↗</a>
       </nav>
     </div>
   </section>
@@ -76,10 +76,10 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   <section class="market-research route-shell" data-rail-label="Research record">
     <header class="section-intro">
       <div>
-        <p class="record-label">Selected research record</p>
-        <h2>Questions, status, role, and limits</h2>
+        <p class="record-label">Selected research</p>
+        <h2>Research and current status</h2>
       </div>
-      <p>This page uses the same public-discovery rules as the research index. Work under development does not acquire a result claim by appearing in a hiring dossier.</p>
+      <p>The list uses the same statuses as the research page. Early-stage projects appear as designs with no result claims.</p>
     </header>
     <div class="dossier-list">
       {dossierResearch.map((record, index) => (
@@ -122,12 +122,12 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   <section class="market-close route-grid" data-rail-label="Documents and contact">
     <div>
       <p class="record-label">Documents and contact</p>
-      <h2>For a complete review</h2>
+      <h2>Review the full materials</h2>
     </div>
     <div class="market-links">
       <a href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Academic CV · PDF ↗</a>
       <a href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener">Executive resume · PDF ↗</a>
-      <a href="/cv">Evidence-linked CV and contact →</a>
+      <a href="/cv">CV, career summary, and contact →</a>
       <a href={publicLinks.email}>Email Ian →</a>
     </div>
   </section>

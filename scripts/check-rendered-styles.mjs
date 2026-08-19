@@ -430,6 +430,15 @@ const homeHTML = await readFile(resolve("dist/index.html"), "utf8");
 const { document: interactiveHome } = await inlineStylesheets(homeHTML, "index.html");
 const noScriptWindow = new Window({ url: "https://example.test/" });
 noScriptWindow.document.write(interactiveHome);
+const researchHTML = await readFile(resolve("dist/research/index.html"), "utf8");
+const { document: interactiveResearch } = await inlineStylesheets(researchHTML, "research/index.html");
+const researchWindow = new Window({ url: "https://example.test/research/" });
+researchWindow.document.write(interactiveResearch);
+const researchEquivalentSummary = researchWindow.document.querySelector(".graph-equivalent summary");
+if (!researchEquivalentSummary || researchWindow.getComputedStyle(researchEquivalentSummary).minHeight !== "44px") {
+  failures.push("research graph disclosure does not provide a 44px touch target");
+}
+researchWindow.close();
 const siteTitle = baseSource.match(/const siteTitle = "([^"]+)";/)?.[1] ?? "";
 const fullTitleExpression = baseSource.match(/const fullTitle = ([^;]+);/)?.[1] ?? "";
 const defaultTitlePosition = fullTitleExpression.match(/:\s*`\$\{siteTitle\}\s*\|\s*([^`$]+)`\s*$/)?.[1].trim() ?? "";
@@ -442,7 +451,17 @@ const personJSON = [...noScriptWindow.document.querySelectorAll("script[type='ap
 if (!siteTitle || !defaultTitlePosition || /[,;&|]/.test(defaultTitlePosition)) failures.push("Base default title must use one conservative canonical position");
 if (!defaultDescription || defaultDescription.length > 100) failures.push("default description must be concise natural language");
 if (!personJSON || (Array.isArray(personJSON.jobTitle) ? personJSON.jobTitle.length > 2 : typeof personJSON.jobTitle !== "string")) failures.push("Person metadata has an inflated jobTitle inventory");
-if (!Array.isArray(personJSON?.knowsAbout) || personJSON.knowsAbout.length > 5) failures.push("Person metadata has an inflated knowsAbout inventory");
+const expectedKnowledge = [
+  "Econometrics",
+  "Causal inference",
+  "International trade",
+  "Place-based policy",
+  "Labor and artificial intelligence",
+  "Spatial analysis",
+  "Quantitative research design",
+  "Quantitative education",
+];
+if (JSON.stringify(personJSON?.knowsAbout) !== JSON.stringify(expectedKnowledge)) failures.push("Person metadata must use the approved eight-topic knowledge inventory");
 const footerLocations = noScriptWindow.document.querySelector(".site-footer")?.textContent.match(/St\. Louis, Missouri/g)?.length ?? 0;
 if (footerLocations !== 1) failures.push(`footer must state St. Louis, Missouri once; found ${footerLocations}`);
 for (const token of ["--ef-motion-fast", "--ef-motion-medium", "--ef-ease-standard"]) {
@@ -504,6 +523,19 @@ for (const width of [390, 320]) {
   }
 }
 
+const homeMobileHeading = noScriptWindow.document.querySelector(".fieldbook-intro h1");
+const homeMobileSectionNarrative = noScriptWindow.document.querySelector(".home-records .section-intro > p:last-child");
+if (!homeMobileHeading || !homeMobileSectionNarrative) {
+  failures.push("homepage mobile overflow probes are missing");
+} else {
+  const headingLayout = cascadedPropertiesAtWidth(noScriptWindow, homeMobileHeading, 320, ["font-size", "overflow-wrap", "word-break"]);
+  if (headingLayout["font-size"] !== "2.625rem" || headingLayout["overflow-wrap"] !== "normal" || headingLayout["word-break"] !== "normal") {
+    failures.push("320px homepage heading does not use the narrow type scale with intact words");
+  }
+  const narrativeLayout = cascadedPropertiesAtWidth(noScriptWindow, homeMobileSectionNarrative, 320, ["grid-column"]);
+  if (narrativeLayout["grid-column"] !== "1") failures.push("320px homepage section narrative creates an implicit second grid column");
+}
+
 for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button"]) {
   if (!hasDeclarationContract(noScriptWindow, selector, { "min-width": "44px", "min-height": "44px" })) {
     failures.push(`${selector} does not declare a 44 by 44 CSS-pixel touch target`);
@@ -530,7 +562,7 @@ const backdrop = window.document.querySelector("[data-nav-backdrop]");
 const visibleLabel = toggle?.querySelector(".nav-toggle-label");
 const primaryLinks = [...(sheet?.querySelectorAll("[data-primary-nav] > a") ?? [])];
 const primaryContract = primaryLinks.map((link) => `${link.textContent.trim()}:${link.getAttribute("href")}`);
-const expectedPrimary = ["Work:/work", "Research:/research", "Teaching:/teaching", "About:/about", "CV:/cv"];
+const expectedPrimary = ["Work:/work", "Research:/research", "Teaching & coaching:/teaching", "About:/about", "CV:/cv"];
 
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");

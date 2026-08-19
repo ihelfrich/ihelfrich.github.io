@@ -12,7 +12,7 @@ role: "Authorship configuration under review"
 method: ["2-Wasserstein fixed point", "measure-dependent transport cost", "stochastic observation operator"]
 limit: "No results or authorship configuration are presented as settled; this record is withheld from public discovery pending ratification."
 discovery: "withheld"
-distinctiveQuery: "AROE fixed-point"
+distinctiveQuery: "AROE"
 tags: ["optimal-transport", "fixed-point", "spatial-equilibrium", "satellite-economics"]
 ---
 

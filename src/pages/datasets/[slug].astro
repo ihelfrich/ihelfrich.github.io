@@ -10,26 +10,68 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const dataset = await getEntry("datasets", slug);
 const { Content } = await render(dataset);
+const statusCopy = {
+  released: "Public release",
+  "in-progress": "In progress",
+  planned: "Planned",
+  archived: "Archived",
+};
+const limitCopy = dataset.data.status === "released"
+  ? "Use the version, license, and coverage notes recorded here when citing or reusing this material."
+  : "This record does not claim a completed public release. Coverage, versioning, and access remain limited to the artifacts linked here.";
 ---
-<Base wide pageClass="record-page record-data" title={dataset.data.title} description={dataset.data.blurb}>
-  <article class="h-article">
-    <header>
-      <div class="record-topline"><a href="/library">PUBLIC INDEX</a><span>DATASET · {dataset.data.year}</span><span><i></i>{dataset.data.status}</span></div>
-      <div class="h-article-meta">{dataset.data.license}{dataset.data.size ? ` · ${dataset.data.size}` : ""}</div>
+
+<Base wide pageClass="quiet-detail-page" title={dataset.data.title} description={dataset.data.blurb}>
+  <article class="detail-shell">
+    <header class="detail-header">
+      <a class="back-link" href="/datasets">Datasets</a>
+      <p class="detail-status">{statusCopy[dataset.data.status]} · {dataset.data.year}</p>
       <h1>{dataset.data.title}</h1>
-      <p class="record-authors">{dataset.data.authors.join(" · ")}</p>
-      <p class="record-deck">{dataset.data.blurb}</p>
-      <div class="record-actions">
-        {dataset.data.doi && <a href={`https://doi.org/${dataset.data.doi}`} target="_blank" rel="noopener">DOI →</a>}
-        {dataset.data.zenodo && <a href={dataset.data.zenodo} target="_blank" rel="noopener">Zenodo →</a>}
-        {dataset.data.repo && <a href={dataset.data.repo} target="_blank" rel="noopener">Source code →</a>}
-        {dataset.data.viewer && <a href={dataset.data.viewer} target="_blank" rel="noopener">Viewer →</a>}
-      </div>
-      {dataset.data.citation && (
-        <div class="record-citation"><strong>CITE AS</strong><span>{dataset.data.citation}</span></div>
+      <p class="detail-lead">{dataset.data.blurb}</p>
+      <dl class="evidence-ledger">
+        <div><dt>Authors</dt><dd>{dataset.data.authors.join(", ")}</dd></div>
+        <div><dt>Status</dt><dd>{statusCopy[dataset.data.status]}</dd></div>
+        <div><dt>License</dt><dd>{dataset.data.license}</dd></div>
+        {dataset.data.size && <div><dt>Coverage</dt><dd>{dataset.data.size}</dd></div>}
+        <div class="limit"><dt>Limit</dt><dd>{limitCopy}</dd></div>
+      </dl>
+      {(dataset.data.doi || dataset.data.zenodo || dataset.data.repo || dataset.data.viewer) && (
+        <nav class="artifact-links" aria-label="Dataset artifacts">
+          {dataset.data.doi && <a href={`https://doi.org/${dataset.data.doi}`} target="_blank" rel="noopener">DOI</a>}
+          {dataset.data.zenodo && <a href={dataset.data.zenodo} target="_blank" rel="noopener">Zenodo</a>}
+          {dataset.data.repo && <a href={dataset.data.repo} target="_blank" rel="noopener">Source repository</a>}
+          {dataset.data.viewer && <a href={dataset.data.viewer} target="_blank" rel="noopener">Public viewer</a>}
+        </nav>
       )}
+      {dataset.data.citation && <p class="citation"><strong>Suggested citation</strong><span>{dataset.data.citation}</span></p>}
     </header>
-    <div class="record-body"><Content /></div>
-    <footer class="record-end"><span>END OF DATA RECORD</span><a href="/datasets">All datasets →</a><a href="/library">Complete public index →</a></footer>
+
+    <section class="detail-body" aria-label="Dataset notes">
+      <Content />
+    </section>
+
+    <footer class="detail-footer"><a href="/datasets">All datasets</a><a href="/library">Public index</a></footer>
   </article>
 </Base>
+
+<style>
+  .detail-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .detail-header { padding-block: clamp(2rem, 6vw, 5rem); border-block: 1px solid var(--ef-ink); }
+  .back-link, .detail-status, .evidence-ledger dt, .citation strong { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  .back-link { display: inline-flex; min-height: 44px; align-items: center; }
+  .detail-status { margin-top: 1rem; color: var(--muted); }
+  h1 { max-width: 18ch; margin: .75rem 0 1rem; font-size: clamp(3rem, 7vw, 6.4rem); }
+  .detail-lead { max-width: 68ch; font-size: clamp(1.15rem, 2vw, 1.5rem); }
+  .evidence-ledger { display: grid; margin: 2.5rem 0 0; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ef-ink); }
+  .evidence-ledger div { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); }
+  .evidence-ledger dt { color: var(--muted); }
+  .evidence-ledger dd { margin: .25rem 0 0; }
+  .evidence-ledger .limit { grid-column: 1 / -1; color: var(--ef-oxide); border-bottom-color: currentColor; }
+  .artifact-links { display: flex; margin-top: 1.5rem; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  .artifact-links a, .detail-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .citation { display: grid; margin-top: 1.5rem; gap: .3rem; }
+  .detail-body { max-width: 70ch; padding-block: clamp(3rem, 7vw, 6rem); }
+  .detail-body :global(h2) { margin-top: 2.5rem; font-size: clamp(1.9rem, 4vw, 3rem); }
+  .detail-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }
+  @media (max-width: 45rem) { .evidence-ledger { grid-template-columns: 1fr; } .evidence-ledger .limit { grid-column: 1; } .detail-footer { align-items: flex-start; flex-direction: column; } }
+</style>

@@ -8,40 +8,61 @@ let sources = { generated_at: null, sources: [] };
 try {
   items = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/reading.json"), "utf8"));
   sources = JSON.parse(fs.readFileSync(path.resolve("./public/data/feeds/_sources.json"), "utf8"));
-} catch (e) {
-  // first build before the feed runs
+} catch (error) {
+  // A first local build may run before the feed cache exists.
 }
 
-const fmt = (d) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-const okCount = sources.sources.filter(s => s.ok).length;
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const okCount = sources.sources.filter(source => source.ok).length;
 const totalCount = sources.sources.length;
 ---
-<Base title="Reading" description="What I'm reading: the working-paper and dev-econ feed I follow.">
-  <h1>Reading</h1>
 
-  <p>What I'm reading. The page aggregates the working-paper and applied-econ feeds I follow into one rolling list. Refreshes daily.</p>
+<Base wide pageClass="quiet-index-page" title="Reading" description="A dated feed of working papers and applied-economics sources followed by Ian Helfrich.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div><p class="quiet-label">Utility page · external sources</p><h1>Reading</h1></div>
+      <p class="quiet-lead">A rolling feed of working-paper and applied-economics sources I follow. Titles, summaries, dates, and links come from the named publishers.</p>
+    </header>
 
-  <p style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);">
-    Feeds: NBER, World Bank Development Impact, VoxDev, VoxEU, CGD, Marginal Revolution, Bruegel, J-PAL, IPA, IFS, BIS, IMF.
-    {sources.generated_at && (<>Last refresh: {fmt(sources.generated_at)} · {okCount}/{totalCount} feeds healthy.</>)}
-  </p>
+    <aside class="source-note">
+      <div><strong>Sources</strong><span>NBER, World Bank Development Impact, VoxDev, VoxEU, CGD, Marginal Revolution, Bruegel, J-PAL, IPA, IFS, BIS, and IMF.</span></div>
+      <div><strong>Refresh</strong><span>{sources.generated_at ? `${fmt(sources.generated_at)} · ${okCount} of ${totalCount} feeds available` : "No local refresh record in this build"}</span></div>
+    </aside>
 
-  <ul class="h-row-list">
-    {items.map(item => (
-      <li class="h-row">
-        <div class="h-row-meta"><a href={item.link} target="_blank" rel="noopener" style="color: var(--rust); border: none;">{item.source}</a> · {fmt(item.date)}{item.category ? ` · ${item.category}` : ''}</div>
-        <h3 class="h-row-title"><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h3>
-        {item.summary && <p class="h-row-summary">{item.summary}</p>}
-      </li>
-    ))}
-  </ul>
+    {items.length > 0 ? (
+      <ol class="reading-list">
+        {items.map(item => (
+          <li>
+            <p>{item.source} · {fmt(item.date)}{item.category ? ` · ${item.category}` : ""}</p>
+            <h2><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h2>
+            {item.summary && <div>{item.summary}</div>}
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <p class="empty-note"><strong>Feed cache unavailable.</strong> This local build does not contain a current feed snapshot. The deployed page refreshes from its scheduled source cache.</p>
+    )}
 
-  {items.length === 0 && (
-    <p style="color: var(--muted); padding: 1.2rem; background: var(--paper-2); border-radius: 4px;">
-      No items in cache yet. The aggregator runs daily via the GitHub Action; first run produces output within minutes.
-    </p>
-  )}
-
-  <h2>How to subscribe</h2>
-  <p>For my own writing only, <a href="/rss.xml">subscribe to the hub's RSS feed</a>. For the underlying sources here, subscribe to each individually with your favourite RSS reader (NetNewsWire and Feedbin are both excellent).</p>
+    <footer class="reading-footer"><p>For Ian Helfrich's own research and writing updates, use the <a href="/rss.xml">site RSS feed</a>. Subscribe to the publishers above directly for their complete records.</p></footer>
+  </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .source-note strong, .reading-list > li > p { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { margin: .6rem 0 0; font-size: clamp(3.6rem, 8vw, 7rem); }
+  .quiet-lead { margin: 0; font-size: 1.15rem; }
+  .source-note { display: grid; margin-block: 2rem; grid-template-columns: 1fr 1fr; gap: 1rem 3rem; }
+  .source-note div { display: grid; gap: .3rem; padding-left: 1rem; border-left: 3px solid var(--ef-signal); }
+  .reading-list { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .reading-list li { margin: 0; padding-block: 1.5rem; border-bottom: 1px solid var(--ef-ink); }
+  .reading-list h2 { max-width: 30ch; margin: .35rem 0 .6rem; font-size: clamp(1.45rem, 3vw, 2.35rem); }
+  .reading-list h2 a { color: var(--ef-ink); }
+  .reading-list li > div { max-width: 68ch; color: var(--muted); }
+  .empty-note { margin-block: 2rem; padding: 1.25rem 0 1.25rem 1.25rem; border-left: 3px solid var(--ef-oxide); }
+  .empty-note strong { display: block; }
+  .reading-footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ef-ink); }
+  .reading-footer p { max-width: 65ch; }
+  @media (max-width: 45rem) { .quiet-header, .source-note { grid-template-columns: 1fr; } }
+</style>

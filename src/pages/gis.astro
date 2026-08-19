@@ -1,22 +1,84 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="GIS portfolio" description="Geographic information systems work: remote sensing, planning visualization, hazard analysis.">
-  <h1>GIS portfolio</h1>
 
-  <p>I have a master's in GIS and most of my research has a geographic-scale aggregation problem hiding inside it somewhere. The pieces below are the parts of that work that stand on their own outside of a paper.</p>
+<Base wide pageClass="quiet-index-page" title="Spatial and GIS record" description="Selected spatial measurement, remote-sensing, and academic GIS work by Ian Helfrich.">
+  <div class="quiet-shell">
+    <header class="quiet-header">
+      <div>
+        <p class="quiet-label">Supporting record · geographic information science</p>
+        <h1>Spatial and GIS work</h1>
+      </div>
+      <p class="quiet-lead">Spatial measurement enters my research when geography is part of the economic question. This page keeps current research separate from earlier academic portfolio work.</p>
+    </header>
 
-  <h2>Texas snowstorm impact analysis</h2>
-  <p>Class project from the planning sequence: looking at the spatial pattern of power outages in Texas after the February 2021 cold snap, geocoded against utility-territory boundaries and tract-level demographics. The headline finding (which is now established in the published literature too) is that the outage spatial pattern was orthogonal to the temperature pattern, which is a polite way of saying the grid failed where the political map said it would fail, not where the cold map said it would fail. <a href="/portfolio/Helfrich_CP6521_FinalProject_Texas.pdf">Final project PDF</a>.</p>
+    <section class="record-section" aria-labelledby="research-linked">
+      <p class="section-label">Current public research</p>
+      <h2 id="research-linked">Spatial measures inside economic models</h2>
+      <div class="record-pair">
+        <article>
+          <p class="record-meta">Preprint · 2025 · with Elizaveta Gonchar</p>
+          <h3><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the Spotlight</a></h3>
+          <p>Annual population and night-light information are used to construct economically weighted distance for gravity models of trade.</p>
+          <p class="limit">Limit: the preprint does not establish the planned transport-network extension or a completed global panel.</p>
+        </article>
+        <article>
+          <p class="record-meta">Published dissertation · Georgia Tech · 2024</p>
+          <h3><a href="/research/helfrich-2024-dissertation">Redefining Trade Dynamics</a></h3>
+          <p>The dissertation connects network position, within-country spatial heterogeneity, gravity econometrics, and optimal-transport theory.</p>
+          <p class="limit">Limit: later papers and datasets retain their own public status and should be read separately.</p>
+        </article>
+      </div>
+    </section>
 
-  <h2>Visualization for planning (group project)</h2>
-  <p>A municipal planning project that asked the team to produce the kind of dossier an actual municipal client could read end-to-end: spatial analysis, design concepts, supporting figures, narrative. The deliverable was the kind of thing I now ask MBA students to imitate when they need to produce a public-facing brief from technical work. <a href="/portfolio/CP6006_FinalSubmission_Report.pdf">Final submission PDF</a>.</p>
+    <section class="record-section" aria-labelledby="academic-records">
+      <p class="section-label">Earlier academic portfolio</p>
+      <h2 id="academic-records">Course and group submissions</h2>
+      <p class="section-intro">These artifacts document training and execution. They are presented as academic work, with no claim that they are peer-reviewed research or client engagements.</p>
+      <ol class="artifact-list">
+        <li>
+          <div><span>Individual academic submission</span><strong>Texas snowstorm spatial analysis</strong><p>Geocoded utility-territory, outage, weather, and tract-level information assembled for a planning course project.</p></div>
+          <a href="/portfolio/Helfrich_CP6521_FinalProject_Texas.pdf">Open PDF</a>
+        </li>
+        <li>
+          <div><span>Group academic submission</span><strong>Visualization for planning</strong><p>A municipal planning dossier combining spatial analysis, design concepts, figures, and narrative. Collaborators are credited in the report.</p></div>
+          <a href="/portfolio/CP6006_FinalSubmission_Report.pdf">Open PDF</a>
+        </li>
+        <li>
+          <figure>
+            <img src="/portfolio/Helfrich_EnglishAveLiDAR2.jpg" alt="LiDAR-derived building identification map from an academic GIS exercise" loading="lazy" />
+            <figcaption><span>Academic exercise</span><strong>LiDAR building identification</strong><p>A small pipeline exercise using elevation data to identify building footprints.</p></figcaption>
+          </figure>
+        </li>
+      </ol>
+    </section>
 
-  <h2>LiDAR building identification</h2>
-  <p>A small piece on using LiDAR-derived elevation data to identify building footprints. Mostly a demonstration of the data pipeline; the underlying problem (deriving footprints from raw point clouds) is a solved one in the literature but a useful one to have run from scratch. The point of the exercise is that I have, in fact, run it from scratch.</p>
-
-  <h2>Ongoing geospatial work</h2>
-  <p>The bigger geospatial projects are now embedded in the research papers themselves. <a href="/research/gonchar-helfrich-2026-effective-distance-panel">Paper 5 (Effective Distance)</a> is an in-preparation design for a multi-modal least-cost-path construction using gridded population, nightlights, and transport networks. Proposed coverage and validation remain to be verified. The <a href="/datasets/effdist-v2026">EffDist V2026 dataset</a> page has the current status.</p>
-
-  <p style="color: var(--muted); font-size: 0.92rem; margin-top: 2rem;">The PDFs above are migrating from the older ianhelfrich.com WordPress site. If a link is broken, <a href="mailto:ianthelfrich@gmail.com">email me</a> and I'll send the file directly.</p>
+    <aside class="closing-note">The <a href="/datasets/effdist-v2026">EffDist V2026 record</a> documents planned data work. It does not claim a completed release.</aside>
+  </div>
 </Base>
+
+<style>
+  .quiet-shell { width: min(100%, 72rem); margin-inline: auto; }
+  .quiet-header { display: grid; padding-block: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 1.3fr) minmax(18rem, .7fr); gap: 2rem 5rem; align-items: end; border-block: 1px solid var(--ef-ink); }
+  .quiet-label, .section-label, .record-meta, .artifact-list span { color: var(--muted); font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
+  h1 { max-width: 10ch; margin: .6rem 0 0; font-size: clamp(3.4rem, 8vw, 7rem); }
+  .quiet-lead { margin: 0; font-size: 1.15rem; }
+  .record-section { padding-block: clamp(3rem, 7vw, 6rem); border-bottom: 1px solid var(--ef-ink); }
+  .record-section h2 { max-width: 17ch; margin: .5rem 0 2rem; font-size: clamp(2rem, 5vw, 4rem); }
+  .section-intro { max-width: 64ch; }
+  .record-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--ef-ink); border: 1px solid var(--ef-ink); }
+  .record-pair article { padding: 1.5rem; background: var(--ef-paper); }
+  .record-pair h3 { margin: .5rem 0 1rem; font-size: 1.65rem; }
+  .record-pair h3 a { color: var(--ef-ink); }
+  .limit { margin-top: 1.5rem; color: var(--ef-oxide); }
+  .artifact-list { margin: 2rem 0 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
+  .artifact-list > li { margin: 0; padding-block: 1.5rem; border-bottom: 1px solid var(--ef-ink); }
+  .artifact-list > li:not(:last-child) { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem 3rem; }
+  .artifact-list strong { display: block; margin-top: .3rem; font: 600 1.35rem/1.3 var(--font-display); }
+  .artifact-list p { max-width: 65ch; margin: .4rem 0 0; }
+  .artifact-list a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .artifact-list figure { display: grid; margin: 0; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1fr); gap: 1.5rem 3rem; align-items: center; }
+  .artifact-list img { display: block; width: 100%; border: 1px solid var(--ef-ink); }
+  .closing-note { margin-block: 2rem; padding: 1.25rem 0 1.25rem 1.25rem; border-left: 3px solid var(--ef-oxide); }
+  @media (max-width: 45rem) { .quiet-header, .record-pair, .artifact-list figure, .artifact-list > li:not(:last-child) { grid-template-columns: 1fr; } }
+</style>

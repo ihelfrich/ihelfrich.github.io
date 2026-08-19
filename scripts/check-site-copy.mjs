@@ -153,7 +153,7 @@ if (publicRecordData.tutoringRecord?.privateHoursProse !== "nearly 1,000") failu
 if ("combinedHours" in (publicRecordData.tutoringRecord ?? {})) failures.push("Wyzant and private-practice hours must not be presented as a combined exact total.");
 if (publicRecordData.teachingRecognition?.award !== "Georgia Tech Economics Graduate Teaching Assistant of the Year") failures.push("The canonical teaching recognition must retain its verified departmental scope.");
 if (publicRecordData.identityRecord?.role !== "Applied economist, quantitative research designer, and educator") failures.push("The canonical identity role does not use the approved public positioning.");
-if (publicRecordData.identityRecord?.compact !== "Ian Helfrich — Applied economist, quantitative research designer, and educator") failures.push("The canonical compact identity does not use the approved wording.");
+if (publicRecordData.identityRecord?.compact !== "Ian Helfrich: Applied economist, quantitative research designer, and educator") failures.push("The canonical compact identity does not use the approved wording.");
 if (publicRecordData.serviceRecord?.journalReferee !== "Ad hoc referee, Journal of Economic Theory") failures.push("The canonical service record must expose only the approved Journal of Economic Theory statement.");
 
 const nncta = workCases.find(({ id }) => id === "nncta-semiconductor-demonstration");
@@ -168,6 +168,15 @@ if (!thirdSpace.includes("ELIZAVETA GONCHAR") || !thirdSpace.includes("Elizaveta
   failures.push("Third Space must name Elizaveta Gonchar, Ph.D., in both display and prose.");
 }
 if (/Vardanyan/i.test(thirdSpace)) failures.push("A Vardanyan reference appears in Third Space source.");
+const ianProfile = await readFile("src/content/people/ian-helfrich.md", "utf8");
+if (!ianProfile.includes('role: "Applied economist · quantitative research designer · educator"')) {
+  failures.push("Ian's people record must use the approved public positioning.");
+}
+if (/instrument builder/i.test(ianProfile)) failures.push("Ian's people record retains the obsolete instrument-builder label.");
+const elizavetaProfile = await readFile("src/content/people/elizaveta-gonchar.md", "utf8");
+for (const claim of [/Penumbra-program/i, /Co-PI and collaborator/i, /Paper 5/i, /Joint Paper 1/i]) {
+  if (claim.test(elizavetaProfile)) failures.push(`Elizaveta's people record retains an unverified internal program label: ${claim}.`);
+}
 const shanePaper = await readFile("src/content/research/helfrich-vardanyan-2026-ai-entry-level-labor.md", "utf8");
 if (!shanePaper.includes('"Shane Vardanyan"')) failures.push("The AI labor paper must spell out Shane Vardanyan's name.");
 
@@ -193,6 +202,9 @@ try {
 }
 for (const required of ["1,035+", "more than 1,035", "nearly 1,000", "August 2026", 'publicRating: "5.0"']) {
   if (publicRecord && !publicRecord.includes(required)) failures.push(`The canonical public record is missing: ${required}.`);
+}
+if (/wyzantHoursHeadline:\s*"1,000\+"|hoursHeadline:\s*"1,000\+"/.test(publicRecord)) {
+  failures.push("The canonical Wyzant headline must not retain the stale 1,000+ shorthand.");
 }
 
 for (const surface of [
