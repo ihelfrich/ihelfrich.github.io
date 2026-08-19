@@ -58,19 +58,21 @@ if (/<nav id="primary-nav"[\s\S]*?<a href="\/job-market"/.test(base)) {
 requireText(base, basePath, 'href="/contact"', "the Contact primary action");
 
 requireText(home, homePath, "selectedRecordIds", "the explicit selected-record list");
-for (const id of ["human-or-machine", "trade-in-the-spotlight", "applied-statistics"]) {
+for (const id of ["trade-in-the-spotlight", "applied-statistics", "nncta-semiconductor-demonstration"]) {
   requireText(home, homePath, id, `the ${id} selected record`);
 }
 for (const text of ["Journal of Economic Theory", "Securing America's Future"]) {
   requireText(home, homePath, text);
 }
-requireText(home, homePath, "CdeDecomposition", "the NMTC evidence component");
+requireText(home, homePath, "ResearchGraph", "the interactive research-range component");
+forbidText(home, homePath, "CdeDecomposition", "the NMTC-first homepage signature");
+forbidText(home, homePath, "Signature research record", "the single-paper homepage framing");
 requireText(home, homePath, "tutoringRecord", "canonical tutoring evidence");
 forbidText(home, homePath, "Hiring committees", "the audience-choice front door");
 forbidText(home, homePath, "quiet-routes", "the audience-choice card wall");
 
 requireText(work, workPath, "workCases", "the canonical work-case data");
-for (const id of ["nmtc-rural-gap", "human-or-machine", "trade-in-the-spotlight", "applied-statistics", "nncta"]) {
+for (const id of ["nmtc-rural-gap", "trade-in-the-spotlight", "applied-statistics", "nncta"]) {
   requireText(work, workPath, id, `the ${id} case`);
 }
 forbidText(work, workPath, "The same six moves", "the proprietary-looking six-move synthesis");

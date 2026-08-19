@@ -1,7 +1,8 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import CaseRecord from "../components/CaseRecord.astro";
-import CdeDecomposition from "../components/CdeDecomposition.astro";
+import ResearchGraph from "../components/ResearchGraph.astro";
 import {
   availabilityRecord,
   identityRecord,
@@ -10,9 +11,11 @@ import {
   tutoringRecord,
 } from "../data/public-record.mjs";
 import { workCases } from "../data/work-cases.mjs";
+import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
-const selectedRecordIds = ["human-or-machine", "trade-in-the-spotlight", "applied-statistics"];
+const selectedRecordIds = ["trade-in-the-spotlight", "applied-statistics", "nncta-semiconductor-demonstration"];
 const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(record.id));
+const researchRecords = filterDiscoverableResearch(await getCollection("research"));
 ---
 
 <Base
@@ -43,20 +46,20 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
     </aside>
   </section>
 
-  <section class="home-signature route-band" data-rail-label="NMTC working paper">
+  <section class="home-signature route-band" data-rail-label="Research connections">
     <div class="route-band__heading fieldbook-grid">
       <div class="fieldbook-narrative">
-        <p class="record-label">Signature research record · August 2026</p>
-        <h2>Does the rural financing gap survive a fairer comparison?</h2>
-        <p>The New Markets Tax Credit is meant to attract investment to low-income communities. I assembled 19,907 financing transactions covering 8,024 projects and asked whether the apparent rural and urban difference persists when the projects are handled by the same intermediary.</p>
+        <p class="record-label">Research record</p>
+        <h2>Trade, place, measurement, labor, and economic theory</h2>
+        <p>The research spans several distinct questions. This map connects the public records only when their published metadata share a field, method, or substantive topic.</p>
       </div>
       <aside class="fieldbook-margin signature-note">
-        <strong>Sole author and originator</strong>
-        <p>This project was my original idea, and I am its sole author. Katia Antunes and Elizaveta Gonchar contributed to it; they are not coauthors.</p>
+        <strong>How to read the map</strong>
+        <p>Filter by topic or stage. A line records shared metadata, not a claim that every project belongs to one research program.</p>
       </aside>
     </div>
     <div class="signature-aperture" data-fieldbook-reveal>
-      <CdeDecomposition />
+      <ResearchGraph papers={researchRecords} />
     </div>
   </section>
 
@@ -64,7 +67,7 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
     <header class="section-intro">
       <p class="record-label">Selected work</p>
       <h2>Research, measurement, and quantitative learning</h2>
-      <p>These projects show how I approach three different problems: validating an AI measure, representing distance in trade models, and making a statistical workflow fully inspectable.</p>
+      <p>These projects cover spatial measurement in trade, an inspectable statistical workflow, and a documented contribution to national critical-technology assessment.</p>
     </header>
     <div class="case-stack">
       {selectedRecords.map((record, index) => (
@@ -110,6 +113,14 @@ const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(
       <h2>Research, policy, software, leadership, and teaching</h2>
     </header>
     <dl class="range-ledger">
+      <div>
+        <dt>Industrial and trade diagnostics</dt>
+        <dd>Independent Saudi Arabia-focused work on sector performance, economic complexity, import localization, firm productivity, and growth constraints. <a href="/work#additional-experience">Experience record →</a></dd>
+      </div>
+      <div>
+        <dt>Location strategy</dt>
+        <dd>North America-wide electric-vehicle manufacturing site analysis for Carnegie Mellon University and Toyota Research Institute. <a href="/work#additional-experience">Experience record →</a></dd>
+      </div>
       <div>
         <dt>Critical-technology assessment</dt>
         <dd>Additional contributor to the semiconductor demonstration in the 2023 NNCTA report <cite>Securing America's Future</cite>. <a href="/work#case-nncta-semiconductor-demonstration">Contribution record →</a></dd>

@@ -6,14 +6,13 @@ import { workCases } from "../data/work-cases.mjs";
 
 const caseCategories = {
   "nmtc-rural-gap": ["applied", "policy", "measurement"],
-  "human-or-machine": ["applied", "measurement"],
   "trade-in-the-spotlight": ["applied", "measurement", "spatial"],
   "applied-statistics": ["learning", "measurement"],
   "nncta-semiconductor-demonstration": ["policy", "applied"],
 };
 
 const filterOptions = [
-  { value: "all", label: "All five cases" },
+  { value: "all", label: "All four cases" },
   { value: "applied", label: "Applied research" },
   { value: "measurement", label: "Measurement" },
   { value: "policy", label: "Policy" },
@@ -32,7 +31,7 @@ const filterOptions = [
     <div class="work-hero__copy">
       <p class="record-label">Selected cases</p>
       <h1>Selected work</h1>
-      <p>The five cases below cover applied economics, measurement, spatial analysis, policy, and quantitative learning. Each one gives the question, the work completed, the present finding or status, and the limit of the claim.</p>
+      <p>The four cases below cover applied economics, measurement, spatial analysis, policy, and quantitative learning. Each one gives the question, the work completed, the present finding or status, and the limit of the claim.</p>
     </div>
     <aside class="work-hero__key">
       <span>Each case includes</span>
@@ -55,7 +54,7 @@ const filterOptions = [
         <button type="button" data-work-filter={option.value} aria-pressed={index === 0 ? "true" : "false"}>{option.label}</button>
       ))}
     </div>
-    <p class="filter-result" data-work-filter-result aria-live="polite">Showing all five cases.</p>
+    <p class="filter-result" data-work-filter-result aria-live="polite">Showing all four cases.</p>
 
     <nav class="quiet-index" aria-label="Selected case links">
       {workCases.map((record, index) => (
@@ -83,7 +82,7 @@ const filterOptions = [
     ))}
   </section>
 
-  <section class="additional-practice route-shell" data-rail-label="Additional practice">
+  <section class="additional-practice route-shell" id="additional-experience" data-rail-label="Additional practice">
     <div class="section-intro">
       <div>
         <p class="record-label">Additional experience</p>
@@ -94,7 +93,8 @@ const filterOptions = [
     <dl class="practice-ledger">
       <div><dt>Spatial measurement</dt><dd><a href="/research/gonchar-helfrich-2025-spotlight"><cite>Trade in the Spotlight</cite></a>, the <a href="/research/helfrich-2024-dissertation">doctoral dissertation</a>, and public GIS records.</dd></div>
       <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC research repository and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
-      <div><dt>Industrial diagnostics</dt><dd>Indicator selection, analytical sequencing, composite diagnostics, and international benchmarking. Private client identities, geographies, and outcomes are not published.</dd></div>
+      <div><dt>Saudi industrial-sector diagnostics</dt><dd>Independent advisory and quantitative-coaching work on sector performance, economic complexity, import localization, firm productivity, and growth constraints. This was private work, not a Saudi government commission.</dd></div>
+      <div><dt>CMU / Toyota Research Institute</dt><dd>North America-wide electric-vehicle manufacturing site-suitability analysis integrating labor markets, infrastructure, supply chains, environmental and disaster risk, and spatial competition.</dd></div>
       <div><dt>Quantitative instruction</dt><dd>Applied Statistics and related public materials connect questions, data, calculations, diagnostics, and interpretation in one workflow.</dd></div>
       <div><dt>Independent teaching practice</dt><dd>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} Wyzant hours and {tutoringRecord.privatePractice.hoursProse} additional private-practice hours as of {tutoringRecord.asOf}; the two sources remain separate. <a href="/teaching">Teaching record →</a></dd></div>
     </dl>
@@ -133,7 +133,7 @@ const filterOptions = [
         const entry = cases.find((candidate) => candidate.getAttribute("data-work-case") === record);
         if (link instanceof HTMLElement) link.hidden = entry instanceof HTMLElement ? entry.hidden : false;
       });
-      if (result) result.textContent = value === "all" ? "Showing all five cases." : `Showing ${count} ${count === 1 ? "case" : "cases"}.`;
+      if (result) result.textContent = value === "all" ? "Showing all four cases." : `Showing ${count} ${count === 1 ? "case" : "cases"}.`;
     }));
   });
 </script>

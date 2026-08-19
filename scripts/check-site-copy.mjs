@@ -102,6 +102,29 @@ const withheldResearch = researchRecords.filter(({ data }) => data?.discovery ==
 for (const record of withheldResearch) {
   if (!record.data.distinctiveQuery?.trim()) failures.push(`${record.filename} must provide a distinctiveQuery for public-discovery regression testing.`);
 }
+
+const humanOrMachine = researchRecords.find(({ id }) => id === "helfrich-2026-human-or-machine");
+if (humanOrMachine?.data?.discovery !== "withheld") {
+  failures.push("Human or Machine must remain withheld until Ian verifies the manuscript and authorship record.");
+}
+if (workCases.some(({ id }) => id === "human-or-machine")) {
+  failures.push("Human or Machine must not be presented as a selected public work case while its manuscript status is disputed.");
+}
+for (const surface of [
+  "src/pages/index.astro",
+  "src/pages/about.astro",
+  "src/pages/now.astro",
+  "src/pages/cv.astro",
+  "src/pages/work.astro",
+  "src/pages/job-market.astro",
+]) {
+  const source = await readFile(surface, "utf8");
+  for (const forbidden of ["Human or Machine", "helfrich-2026-human-or-machine", "out-of-time validation of AI-exposure"]) {
+    if (source.toLocaleLowerCase().includes(forbidden.toLocaleLowerCase())) {
+      failures.push(`${surface} publicly presents disputed research: ${forbidden}.`);
+    }
+  }
+}
 for (const record of researchRecords.filter(({ data }) => data?.discovery !== "withheld")) {
   for (const withheld of withheldResearch) {
     for (const forbidden of [withheld.id, withheld.data.title, withheld.data.distinctiveQuery].filter(Boolean)) {
@@ -181,7 +204,7 @@ const shanePaper = await readFile("src/content/research/helfrich-vardanyan-2026-
 if (!shanePaper.includes('"Shane Vardanyan"')) failures.push("The AI labor paper must spell out Shane Vardanyan's name.");
 
 for (const [path, label] of [
-  ["src/content/research/helfrich-2026-human-or-machine.md", "the sole-authored Human or Machine working paper"],
+  ["src/content/research/helfrich-2026-human-or-machine.md", "the withheld Human or Machine research record pending verification"],
   ["src/content/research/helfrich-2024-dissertation.md", "the Georgia Tech doctoral dissertation"],
 ]) {
   try {
