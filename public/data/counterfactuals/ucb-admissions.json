@@ -1,0 +1,153 @@
+{
+  "id": "ucb-admissions",
+  "title": "UC Berkeley admissions, 1973",
+  "question": "How can aggregation reverse the comparison?",
+  "analysis_kind": "admissions",
+  "source": {
+    "data_documentation": "https://stat.ethz.ch/R-manual/R-patched/library/datasets/html/UCBAdmissions.html",
+    "primary_article": "https://doi.org/10.1126/science.187.4175.398",
+    "primary_article_title": "Sex Bias in Graduate Admissions: Data from Berkeley"
+  },
+  "source_url": "https://stat.ethz.ch/R-manual/R-patched/library/datasets/html/UCBAdmissions.html",
+  "source_file": "ucb-admissions-1973.json",
+  "source_sha256": "21b61e5aa99e41ad2b4eabe219bb2bf042ab85062a4e212d3d6d3616001b7f90",
+  "license": "See source documentation",
+  "interpretation_boundary": "These aggregate application records establish an aggregation reversal. They do not identify a causal effect of gender or department without a causal model for application, admission, and omitted qualifications.",
+  "default_x": "applications",
+  "default_y": "admission_rate",
+  "default_group": "gender",
+  "columns": [
+    "row",
+    "department",
+    "gender",
+    "admitted",
+    "rejected",
+    "applications",
+    "admission_rate"
+  ],
+  "numeric_columns": [
+    "row",
+    "admitted",
+    "rejected",
+    "applications",
+    "admission_rate"
+  ],
+  "categorical_columns": [
+    "department",
+    "gender"
+  ],
+  "groupable_columns": [
+    "department",
+    "gender"
+  ],
+  "rows": [
+    {
+      "row": 1,
+      "department": "A",
+      "gender": "Male",
+      "admitted": 512,
+      "rejected": 313,
+      "applications": 825,
+      "admission_rate": 0.6206060606060606
+    },
+    {
+      "row": 2,
+      "department": "A",
+      "gender": "Female",
+      "admitted": 89,
+      "rejected": 19,
+      "applications": 108,
+      "admission_rate": 0.8240740740740741
+    },
+    {
+      "row": 3,
+      "department": "B",
+      "gender": "Male",
+      "admitted": 353,
+      "rejected": 207,
+      "applications": 560,
+      "admission_rate": 0.6303571428571428
+    },
+    {
+      "row": 4,
+      "department": "B",
+      "gender": "Female",
+      "admitted": 17,
+      "rejected": 8,
+      "applications": 25,
+      "admission_rate": 0.68
+    },
+    {
+      "row": 5,
+      "department": "C",
+      "gender": "Male",
+      "admitted": 120,
+      "rejected": 205,
+      "applications": 325,
+      "admission_rate": 0.36923076923076925
+    },
+    {
+      "row": 6,
+      "department": "C",
+      "gender": "Female",
+      "admitted": 202,
+      "rejected": 391,
+      "applications": 593,
+      "admission_rate": 0.3406408094435076
+    },
+    {
+      "row": 7,
+      "department": "D",
+      "gender": "Male",
+      "admitted": 138,
+      "rejected": 279,
+      "applications": 417,
+      "admission_rate": 0.33093525179856115
+    },
+    {
+      "row": 8,
+      "department": "D",
+      "gender": "Female",
+      "admitted": 131,
+      "rejected": 244,
+      "applications": 375,
+      "admission_rate": 0.34933333333333333
+    },
+    {
+      "row": 9,
+      "department": "E",
+      "gender": "Male",
+      "admitted": 53,
+      "rejected": 138,
+      "applications": 191,
+      "admission_rate": 0.2774869109947644
+    },
+    {
+      "row": 10,
+      "department": "E",
+      "gender": "Female",
+      "admitted": 94,
+      "rejected": 299,
+      "applications": 393,
+      "admission_rate": 0.23918575063613232
+    },
+    {
+      "row": 11,
+      "department": "F",
+      "gender": "Male",
+      "admitted": 22,
+      "rejected": 351,
+      "applications": 373,
+      "admission_rate": 0.058981233243967826
+    },
+    {
+      "row": 12,
+      "department": "F",
+      "gender": "Female",
+      "admitted": 24,
+      "rejected": 317,
+      "applications": 341,
+      "admission_rate": 0.07038123167155426
+    }
+  ]
+}
