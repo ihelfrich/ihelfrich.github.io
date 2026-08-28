@@ -168,6 +168,12 @@ const subjectFamilies = [
     </header>
     <div class="system-register">
       <article>
+        <p class="source-line">Living book · open data lab</p>
+        <h3><a href="https://helfrich-causal-inference.pr0digal.chatgpt.site/">Counterfactuals</a></h3>
+        <p>A causal-inference book built from questions, assignment mechanisms, estimands, and evidence. Its public data lab lets readers inspect, plot, filter, and download the rows.</p>
+        <a href="https://helfrich-causal-inference.pr0digal.chatgpt.site/data">Open the book and data lab →</a>
+      </article>
+      <article>
         <p class="source-line">Live public system · version 0.1</p>
         <h3><a href="/projects/applied-statistics">Applied Statistics</a></h3>
         <p>One complete two-group inference workflow, with a synchronized question, data, derivation, diagnostics, interpretation, and implementations in JavaScript, Python, R, and Julia.</p>
@@ -243,9 +249,11 @@ const subjectFamilies = [
   .recognition-pair article { padding: var(--ef-space-5); }
   .recognition-pair article + article { border-left: 1px solid var(--ef-ink); }
   .recognition-pair h3 { margin: 0; }
-  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ef-ink); }
+  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(2, 1fr); border: 1px solid var(--ef-ink); }
   .system-register article { padding: var(--ef-space-5); }
-  .system-register article + article { border-left: 1px solid var(--ef-ink); }
+  .system-register article { border-bottom: 1px solid var(--ef-ink); }
+  .system-register article:nth-child(even) { border-left: 1px solid var(--ef-ink); }
+  .system-register article:nth-last-child(-n+2) { border-bottom: 0; }
   .system-register h3 { margin-top: 0; font-size: 1.45rem; }
   .teaching-close { padding-block: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
   .teaching-close > div:first-child { grid-column: 2 / span 7; }
