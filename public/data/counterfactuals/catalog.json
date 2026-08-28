@@ -1,12 +1,13 @@
 {
   "title": "Counterfactuals teaching data catalogue",
-  "catalog_version": 1,
+  "catalog_version": 2,
   "dataset_count": 9,
   "datasets": [
     {
       "id": "anscombe",
       "title": "Anscombe's quartet",
       "question": "Can identical summaries hide different data geometry?",
+      "analysis_kind": "scatter",
       "row_count": 44,
       "columns": [
         "row",
@@ -22,11 +23,15 @@
       "categorical_columns": [
         "series"
       ],
+      "groupable_columns": [
+        "series",
+        "x"
+      ],
       "default_x": "x",
       "default_y": "y",
       "default_group": "series",
-      "json_url": "/data/lab/anscombe.json",
-      "csv_url": "/data/lab/anscombe.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/anscombe.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/anscombe.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "6905a130e55c2bef066107982832a71a3d75ed4c6f09e239c99b4723636a7b1e",
       "license": "GPL-2-or-later",
@@ -36,6 +41,7 @@
       "id": "insect-sprays",
       "title": "Insect spray counts",
       "question": "How much do group summaries conceal within-spray variation?",
+      "analysis_kind": "scatter",
       "row_count": 72,
       "columns": [
         "row",
@@ -49,11 +55,14 @@
       "categorical_columns": [
         "spray"
       ],
+      "groupable_columns": [
+        "spray"
+      ],
       "default_x": "row",
       "default_y": "count",
       "default_group": "spray",
-      "json_url": "/data/lab/insect-sprays.json",
-      "csv_url": "/data/lab/insect-sprays.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/insect-sprays.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/insect-sprays.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "82c8f5b10fcd75b9b96b290338cf23b2410e220fe719eb02ffa63e5bef4960f3",
       "license": "GPL-2-or-later",
@@ -63,6 +72,7 @@
       "id": "npk-factorial",
       "title": "NPK factorial pea experiment",
       "question": "What does blocking reveal that a pooled comparison hides?",
+      "analysis_kind": "scatter",
       "row_count": 24,
       "columns": [
         "row",
@@ -81,11 +91,17 @@
         "yield"
       ],
       "categorical_columns": [],
+      "groupable_columns": [
+        "block",
+        "N",
+        "P",
+        "K"
+      ],
       "default_x": "block",
       "default_y": "yield",
       "default_group": "N",
-      "json_url": "/data/lab/npk-factorial.json",
-      "csv_url": "/data/lab/npk-factorial.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/npk-factorial.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/npk-factorial.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "002e05973b2f6edc9d4ab76f69ab638f031955939b318179c35ba9285f4622af",
       "license": "GPL-2-or-later",
@@ -95,6 +111,7 @@
       "id": "orchard-sprays",
       "title": "Orchard spray Latin square",
       "question": "How does spatial design change the comparison?",
+      "analysis_kind": "scatter",
       "row_count": 64,
       "columns": [
         "row",
@@ -112,11 +129,16 @@
       "categorical_columns": [
         "treatment"
       ],
+      "groupable_columns": [
+        "row_position",
+        "column_position",
+        "treatment"
+      ],
       "default_x": "column_position",
       "default_y": "decrease",
       "default_group": "treatment",
-      "json_url": "/data/lab/orchard-sprays.json",
-      "csv_url": "/data/lab/orchard-sprays.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/orchard-sprays.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/orchard-sprays.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "c5ba25597495ff7bba1ee24f2301bc007b88a8d0e49047c2d61d4161c080adec",
       "license": "GPL-2-or-later",
@@ -126,6 +148,7 @@
       "id": "plant-growth",
       "title": "Plant growth",
       "question": "Which contrast do you mean when there are two treatments?",
+      "analysis_kind": "scatter",
       "row_count": 30,
       "columns": [
         "row",
@@ -139,11 +162,14 @@
       "categorical_columns": [
         "group"
       ],
+      "groupable_columns": [
+        "group"
+      ],
       "default_x": "row",
       "default_y": "weight",
       "default_group": "group",
-      "json_url": "/data/lab/plant-growth.json",
-      "csv_url": "/data/lab/plant-growth.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/plant-growth.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/plant-growth.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "30c852e21ebb96c437a3f38cfe32a9ff372a9f1273f713c6ec4bf92c75ccab68",
       "license": "GPL-2-or-later",
@@ -153,6 +179,7 @@
       "id": "sleep-paired",
       "title": "Student's paired sleep data",
       "question": "What do paired observations preserve that two independent means discard?",
+      "analysis_kind": "scatter",
       "row_count": 10,
       "columns": [
         "row",
@@ -169,11 +196,18 @@
         "difference"
       ],
       "categorical_columns": [],
+      "groupable_columns": [
+        "row",
+        "id",
+        "drug_1",
+        "drug_2",
+        "difference"
+      ],
       "default_x": "drug_1",
       "default_y": "drug_2",
       "default_group": "id",
-      "json_url": "/data/lab/sleep-paired.json",
-      "csv_url": "/data/lab/sleep-paired.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/sleep-paired.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/sleep-paired.csv",
       "source_url": "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sleep.html",
       "source_sha256": "b0780f4363c44529fff9ab3e599ec78b9a48f913e997e4be268a9578c0ae42da",
       "license": "See source documentation",
@@ -183,6 +217,7 @@
       "id": "tooth-growth",
       "title": "Guinea-pig tooth growth",
       "question": "How do dose and supplement interact in the observed outcomes?",
+      "analysis_kind": "scatter",
       "row_count": 60,
       "columns": [
         "row",
@@ -198,11 +233,15 @@
       "categorical_columns": [
         "supplement"
       ],
+      "groupable_columns": [
+        "supplement",
+        "dose"
+      ],
       "default_x": "dose",
       "default_y": "length",
       "default_group": "supplement",
-      "json_url": "/data/lab/tooth-growth.json",
-      "csv_url": "/data/lab/tooth-growth.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/tooth-growth.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/tooth-growth.csv",
       "source_url": "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/ToothGrowth.html",
       "source_sha256": "8e3b3a590815272b050b4ef712b807086ab72c54be726a88badfe702a5ef9b15",
       "license": "See source documentation",
@@ -212,28 +251,42 @@
       "id": "ucb-admissions",
       "title": "UC Berkeley admissions, 1973",
       "question": "How can aggregation reverse the comparison?",
-      "row_count": 24,
+      "analysis_kind": "admissions",
+      "row_count": 12,
       "columns": [
         "row",
         "department",
         "gender",
-        "decision",
-        "applications"
+        "admitted",
+        "rejected",
+        "applications",
+        "admission_rate"
       ],
       "numeric_columns": [
         "row",
-        "applications"
+        "admitted",
+        "rejected",
+        "applications",
+        "admission_rate"
       ],
       "categorical_columns": [
         "department",
-        "gender",
-        "decision"
+        "gender"
       ],
-      "default_x": "row",
-      "default_y": "applications",
+      "groupable_columns": [
+        "row",
+        "department",
+        "gender",
+        "admitted",
+        "rejected",
+        "applications",
+        "admission_rate"
+      ],
+      "default_x": "applications",
+      "default_y": "admission_rate",
       "default_group": "gender",
-      "json_url": "/data/lab/ucb-admissions.json",
-      "csv_url": "/data/lab/ucb-admissions.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/ucb-admissions.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/ucb-admissions.csv",
       "source_url": "https://stat.ethz.ch/R-manual/R-patched/library/datasets/html/UCBAdmissions.html",
       "source_sha256": "21b61e5aa99e41ad2b4eabe219bb2bf042ab85062a4e212d3d6d3616001b7f90",
       "license": "See source documentation",
@@ -243,6 +296,7 @@
       "id": "warp-breaks",
       "title": "Warp-break counts",
       "question": "What changes when wool type and tension are examined together?",
+      "analysis_kind": "scatter",
       "row_count": 54,
       "columns": [
         "row",
@@ -258,11 +312,15 @@
         "wool",
         "tension"
       ],
+      "groupable_columns": [
+        "wool",
+        "tension"
+      ],
       "default_x": "row",
       "default_y": "breaks",
       "default_group": "wool",
-      "json_url": "/data/lab/warp-breaks.json",
-      "csv_url": "/data/lab/warp-breaks.csv",
+      "json_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/warp-breaks.json",
+      "csv_url": "https://helfrich-causal-inference.pr0digal.chatgpt.site/data/lab/warp-breaks.csv",
       "source_url": "https://cran.r-project.org/src/base/R-4/R-4.6.0.tar.gz",
       "source_sha256": "c5507081e169b009fc3bf59f2974f861f5aaa7635e1b897ea57d8f94ed5a778c",
       "license": "GPL-2-or-later",
