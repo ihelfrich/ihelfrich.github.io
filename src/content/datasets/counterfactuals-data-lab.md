@@ -11,9 +11,9 @@ citation: "Helfrich, Ian. Counterfactuals teaching data lab. Living public teach
 tags: ["causal inference", "teaching data", "econometrics", "open data", "interactive"]
 ---
 
-Each dataset record includes its original source, source-file SHA-256 hash, license note, normalized columns, row count, and an explicit interpretation boundary. The files are public teaching data. They contain no student, client, or private records.
+Each dataset record includes its source identity, SHA-256 evidence, license, normalized columns, row count, and an explicit interpretation boundary. The Berkeley admissions record additionally separates the official R archive hash, exact data-member hash, documentation-member hash, normalized-input hash, and download hashes. The files are public teaching data. They contain no student, client, or private records.
 
-The catalogue is mirrored here so the teaching hub can verify what the live book currently exposes: [machine-readable catalogue](/data/counterfactuals/catalog.json).
+The catalogue is mirrored here so the teaching hub can verify what the live book currently exposes: [machine-readable catalogue](/data/counterfactuals/catalog.json). The [synchronization receipt](/data/counterfactuals/sync.json) records the source catalogue version, dataset count, catalogue hash, and last successful refresh.
 
 The browser lab performs its summaries and filtering locally. Downloaded CSV files remain usable in R, Python, Stata, Julia, spreadsheets, or any other ordinary data tool.
 
