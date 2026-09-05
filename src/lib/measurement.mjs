@@ -102,9 +102,13 @@ export function compare(A, B, weights) {
       left[dimension][1] - right[dimension][0],
     ]]),
   );
+  // Affine intercept form lands on the declared rational crossover weights
+  // without the cancellation caused by summing two opposing weighted terms.
+  // Returned endpoints use 15 significant digits with no epsilon zero-band,
+  // so representable values immediately beside a boundary remain strict.
   const weightedGap = (accessWeight, endpoint) => (
-    accessWeight * differences.access[endpoint]
-    + (1 - accessWeight) * differences.control[endpoint]
+    differences.control[endpoint]
+    + accessWeight * (differences.access[endpoint] - differences.control[endpoint])
   );
   const lower = cleanFloat(Math.min(
     weightedGap(weightLower, 0),

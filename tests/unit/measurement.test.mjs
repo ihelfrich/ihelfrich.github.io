@@ -110,6 +110,36 @@ test('comparison distinguishes strict, weak, equal, and unresolved states', () =
   );
 });
 
+test('comparison classifies analytical zero boundaries as weak states', () => {
+  const base = profiles();
+  assert.deepEqual(compare(base.A, base.B, [1 / 3, 1 / 3]), {
+    lower: -36.6666666666667,
+    upper: 0,
+    status: 'weak-B',
+  });
+  assert.deepEqual(compare(base.A, base.B, [6 / 7, 6 / 7]), {
+    lower: 0,
+    upper: 31.4285714285714,
+    status: 'weak-A',
+  });
+});
+
+test('comparison preserves strict states adjacent to analytical boundaries', () => {
+  const base = profiles();
+  const strictB = compare(base.A, base.B, [
+    1 / 3 - Number.EPSILON,
+    1 / 3 - Number.EPSILON,
+  ]);
+  const strictA = compare(base.A, base.B, [
+    6 / 7 + Number.EPSILON,
+    6 / 7 + Number.EPSILON,
+  ]);
+  assert.ok(strictB.upper < 0);
+  assert.equal(strictB.status, 'B');
+  assert.ok(strictA.lower > 0);
+  assert.equal(strictA.status, 'A');
+});
+
 test('narrowing profile boxes cannot widen comparison bounds on a fixed weight grid', () => {
   const base = profiles();
   const audit = profiles(true);
