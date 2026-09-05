@@ -1,5 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { checkPrediction } from "../../public/learn/policy-statistics/challenges.mjs";
+
+test("predictions provide correct feedback and reject invalid choices", () => {
+  assert.equal(checkPrediction("outlier", 0).correct, true);
+  assert.equal(checkPrediction("outlier", 2).correct, false);
+  assert.equal(checkPrediction("spread", 1).correct, true);
+  assert.equal(checkPrediction("median", 1).correct, true);
+  assert.equal(checkPrediction("simpson", 0).correct, true);
+  assert.equal(checkPrediction("shapes", 1).correct, true);
+  assert.equal(checkPrediction("shapes", 99), null);
+  assert.equal(checkPrediction("unknown", 0), null);
+});
 import {
   villageData,
   summarize,

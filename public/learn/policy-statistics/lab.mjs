@@ -1,3 +1,4 @@
+import { challenges, checkPrediction } from "./challenges.mjs";
 import {
   groupedCounts,
   groupedSummary,
@@ -12,10 +13,10 @@ const $ = (s) => document.querySelector(s),
   controls = $("#controls"),
   metrics = $("#metrics");
 const colors = {
-  blue: "#435cd5",
+  blue: "#246dac",
   orange: "#ba481a",
   green: "#167654",
-  light: "#dce4ff",
+  light: "#d4edf8",
   muted: "#58647b",
   line: "#d8dfec",
 };
@@ -47,6 +48,26 @@ let state = defaults(),
   )
     ? location.hash.slice(1)
     : "shapes";
+const predictions = {};
+function house(cx, bottom, size, color) {
+  return `<svg x="${cx - size / 2}" y="${bottom - size}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10L12 2l9 8v12H3z" fill="${color}"/><path d="M1 11L12 1l11 10" stroke="${color}" stroke-width="2" fill="none"/><rect x="6" y="11" width="4" height="4" rx=".5" fill="white" opacity=".85"/><rect x="14" y="11" width="4" height="4" rx=".5" fill="white" opacity=".85"/><path d="M10 22v-5h4v5" fill="white" opacity=".85"/></svg>`;
+}
+function renderPrediction() {
+  const q = challenges[active],
+    chosen = predictions[active],
+    result = chosen === undefined ? null : checkPrediction(active, chosen);
+  $("#prediction").innerHTML =
+    `<p class="prediction-question">${q.question}</p><div class="prediction-choices">${q.choices.map((label, i) => `<button type="button" data-prediction="${i}" aria-pressed="${chosen === i}" class="${chosen === i ? (result.correct ? "correct" : "reconsider") : ""}">${label}</button>`).join("")}</div><div class="prediction-feedback ${result?.correct ? "correct" : ""}" aria-live="polite">${result ? (result.correct ? "Exactly. " : "Try another prediction. ") + (result.correct ? result.explanation : "Then use the experiment to check it.") : "Choose one, then test it."}</div>`;
+  $("#prediction")
+    .querySelectorAll("[data-prediction]")
+    .forEach(
+      (b) =>
+        (b.onclick = () => {
+          predictions[active] = +b.dataset.prediction;
+          renderPrediction();
+        }),
+    );
+}
 const activities = {
   shapes: {
     title: "Give the data a shape.",
@@ -71,9 +92,9 @@ const activities = {
     source: "Lecture exercise · 230 villages in order",
     challenge:
       "Cross off one village from the small end and one from the large end. Keep going. Where do the two sides meet?",
-    next: "Tap a square to see its population. Why are there two middle villages instead of one?",
+    next: "Tap a house to see its population. Why are there two middle villages instead of one?",
     why: "<p>There are 230 observations: an even number. After crossing off 114 from each end, positions 115 and 116 remain.</p><p>Both have 450 people. Their average is 450, the median of the original 230 villages.</p>",
-    note: "Read left to right, then continue on the next row. Each square is one village, not one person. Crossing off is a counting trick; it does not change the dataset.",
+    note: "Read left to right, then continue on the next row. Each house is one village, not one person. Crossing off is a counting trick; it does not change the dataset.",
   },
   spread: {
     title: "Same center. Different spread.",
@@ -82,7 +103,7 @@ const activities = {
       "Stretch the villages apart without moving the center. If the distances double, what happens to variance? What happens to standard deviation?",
     next: "Pull the spread all the way to zero. Now try twice the original spread. Watch the blue squares grow.",
     why: "<p>Each blue square has area proportional to one squared distance from the mean. Variance averages those squared distances.</p><p>Double every distance: variance becomes four times as large. Standard deviation becomes twice as large, returning to the original units.</p>",
-    note: "These seven villages are an illustration, not the lecture exercise. Every village has equal weight. All displayed variances use the population denominator.",
+    note: "Drag toward or away from the center to stretch the outer villages, or use the slider. These seven villages are an illustration, not the lecture exercise. Every village has equal weight. All displayed variances use the population denominator.",
   },
   simpson: {
     title: "Change the mix. Flip the headline.",
@@ -142,6 +163,8 @@ function bindRange(id, callback) {
   });
 }
 function begin() {
+  $("#workspace").dataset.activity = active;
+  renderPrediction();
   const a = activities[active];
   $("#activity-title").textContent = a.title;
   $("#provenance").textContent = a.source;
@@ -261,9 +284,23 @@ function drawShapes() {
   s.counts.forEach((v, i) => {
     const x = c.x(start + i * width);
     out += `<rect x="${x + 1}" y="${c.y(v)}" width="${barwidth - 2}" height="${c.bottom - c.y(v)}" fill="${i === s.selected ? "#7957af" : colors.blue}"/>`;
+    for (let level = 5; level < v; level += 5)
+      out += `<line x1="${x + 2}" x2="${x + barwidth - 2}" y1="${c.y(level)}" y2="${c.y(level)}" stroke="white" opacity=".22"/>`;
     if (c.w > 450 || s.counts.length <= 7)
       out += text(x + barwidth / 2, c.y(v) - 7, v, "middle");
   });
+  const centers = groupedSummary(s.counts, start, width);
+  if (centers.n) {
+    out += line(
+      c.x(centers.mean),
+      c.top,
+      c.x(centers.mean),
+      c.bottom,
+      colors.orange,
+      "4 4",
+    );
+    out += `<path d="M${c.x(centers.median) - 6},${c.bottom + 1}l6,-10l6,10z" fill="${colors.green}"/>`;
+  }
   chart.innerHTML = out;
   chart.setAttribute("aria-label", "Histogram counts: " + s.counts.join(", "));
   const q = groupedSummary(s.counts, start, width),
@@ -355,7 +392,8 @@ function drawOutlier() {
   });
   out +=
     line(c.x(value), c.top + 9, c.x(value), c.bottom, colors.orange, "3 4") +
-    `<circle cx="${c.x(value)}" cy="${c.top + 9}" r="9" fill="${colors.orange}"/><circle cx="${c.x(value)}" cy="${c.top + 9}" r="23" fill="transparent"/>`;
+    house(c.x(value), c.top + 17, 26, colors.orange) +
+    `<circle cx="${c.x(value)}" cy="${c.top + 9}" r="23" fill="transparent"/>`;
   el.innerHTML = out;
   el.setAttribute(
     "aria-label",
@@ -364,7 +402,8 @@ function drawOutlier() {
   const ruler = $("#center-chart"),
     rc = setupChart(ruler, 150, [395, 455], 1);
   let r =
-    line(rc.left, 105, rc.right, 105) + text(rc.left, 18, "Center, magnified");
+    line(rc.left, 105, rc.right, 105) +
+    text(rc.left, 18, "Mean = balance point · center magnified");
   [400, 420, 440].forEach(
     (v) =>
       (r += line(rc.x(v), 105, rc.x(v), 110) + text(rc.x(v), 125, v, "middle")),
@@ -375,7 +414,9 @@ function drawOutlier() {
   ].forEach(([v, color, y, label]) => {
     r +=
       line(rc.x(v), y, rc.x(v), 105, color, "3 3") +
-      `<circle cx="${rc.x(v)}" cy="${y}" r="7" fill="${color}"/>` +
+      (label === "Mean"
+        ? `<path d="M${rc.x(v) - 9},${y + 7}l9,-16l9,16z" fill="${color}"/>`
+        : `<circle cx="${rc.x(v)}" cy="${y}" r="7" fill="${color}"/>`) +
       text(rc.x(v), y - 13, label, "middle", color);
   });
   r += text(
@@ -463,7 +504,9 @@ function drawMedian() {
       y = 18 + Math.floor(i / cols) * cell,
       size = cell - 3,
       middle = s.pairs === 114 && !crossed;
-    out += `<rect x="${x}" y="${y}" width="${size}" height="${size}" rx="2" fill="${middle ? colors.green : colors.blue}" opacity="${crossed ? 0.13 : 1}" ${s.selected === i ? 'stroke="#202d49" stroke-width="2"' : ""}><title>Position ${i + 1}: ${fmt(v, 0)} people</title></rect>`;
+    out += `<g opacity="${crossed ? 0.12 : 1}" class="${middle ? "middle-house" : ""}"><title>Position ${i + 1}: ${fmt(v, 0)} people</title>${house(x + size / 2, y + size, size, middle ? colors.green : colors.blue)}</g>`;
+    if (s.selected === i)
+      out += `<rect x="${x - 1}" y="${y - 1}" width="${size + 2}" height="${size + 2}" fill="none" stroke="${colors.orange}" stroke-width="2"/>`;
     if (crossed)
       out += `<path d="M${x + 3} ${y + 3}l${size - 6} ${size - 6}m0 -${size - 6}l-${size - 6} ${size - 6}" stroke="${colors.muted}" opacity=".4" fill="none"/>`;
   });
@@ -497,16 +540,39 @@ function initSpread() {
   controls.innerHTML =
     '<div class="control-row"><label for="spread-value">Stretch factor</label><input id="spread-value" type="range" min="0" max="3" step="0.25"><output id="spread-output"></output></div>';
   stage.innerHTML =
-    svg("spread-chart", 260) +
+    svg("spread-chart", 260, true) +
     '<div class="status-line">Squared distances from the mean</div><div id="squares" class="square-row"></div>';
   bindRange("#spread-value", (v) => (state.spread.scale = v));
+  let held = false;
+  const chart = $("#spread-chart");
+  function pull(e) {
+    const r = chart.getBoundingClientRect(),
+      c = spreadCoords,
+      px = ((e.clientX - r.left) * c.w) / r.width;
+    const population = 75 + ((px - c.left) / (c.right - c.left)) * 500;
+    state.spread.scale = Math.max(
+      0,
+      Math.min(3, Math.round((Math.abs(population - 325) / 75) * 4) / 4),
+    );
+    drawSpread();
+  }
+  chart.onpointerdown = (e) => {
+    held = true;
+    chart.setPointerCapture(e.pointerId);
+    pull(e);
+  };
+  chart.onpointermove = (e) => {
+    if (held) pull(e);
+  };
+  chart.onpointerup = chart.onpointercancel = () => (held = false);
 }
+let spreadCoords;
 function drawSpread() {
   const k = state.spread.scale,
     d = [-75, -50, -25, 0, 25, 50, 75].map((v) => 325 + v * k),
     q = summarize(d),
     el = $("#spread-chart"),
-    c = setupChart(el, 260, [75, 575], 1);
+    c = (spreadCoords = setupChart(el, 260, [75, 575], 1));
   let out = "";
   [100, 250, 400, 550].forEach(
     (v) =>
@@ -522,7 +588,7 @@ function drawSpread() {
     const y = 40 + i * 24;
     out +=
       line(c.x(325), y, c.x(v), y, colors.blue) +
-      `<circle cx="${c.x(v)}" cy="${y}" r="6" fill="${colors.blue}"/>`;
+      house(c.x(v), y + 8, 18, colors.blue);
     out += text(
       c.x(v) + (v < 325 || c.x(v) > c.right - 45 ? -11 : 11),
       y + 4,
@@ -579,7 +645,7 @@ function drawSimpson() {
   ]
     .map(
       ([name, v]) =>
-        `<div class="mix-label">Group ${name}: ${v} easier / ${100 - v} harder</div><div class="mix-strip" role="img" aria-label="Group ${name}: ${v} applicants to easier, ${100 - v} to harder"><span style="width:${v}%;background:#435cd5">${v >= 20 ? v : ""}</span><span style="width:${100 - v}%;background:#7957af">${v <= 80 ? 100 - v : ""}</span></div>`,
+        `<div class="mix-label">Group ${name}: ${v} easier / ${100 - v} harder</div><div class="applicant-grid" role="img" aria-label="100 applicants in group ${name}: ${v} easier, ${100 - v} harder">${Array.from({ length: 100 }, (_, i) => `<span class="applicant" style="--person:${i < v ? "#435cd5" : "#7957af"}"></span>`).join("")}</div>`,
     )
     .join("");
   const row = (name, v, c) =>
@@ -632,6 +698,7 @@ document
   .querySelectorAll("[data-activity]")
   .forEach((b) => (b.onclick = () => choose(b.dataset.activity)));
 $("#reset").onclick = () => {
+  delete predictions[active];
   state[active] = defaults()[active];
   begin();
 };
@@ -660,3 +727,14 @@ window.addEventListener("hashchange", () => {
 });
 new ResizeObserver(() => draw()).observe(stage);
 begin();
+
+const focusButton = $("#focus-mode");
+focusButton.onclick = () => {
+  const on = document.body.classList.toggle("focus-mode");
+  focusButton.setAttribute("aria-pressed", String(on));
+  focusButton.textContent = on ? "Exit focus" : "Focus mode";
+};
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.body.classList.contains("focus-mode"))
+    focusButton.click();
+});

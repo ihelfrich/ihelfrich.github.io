@@ -22,7 +22,13 @@
             fill="currentColor"
           /></svg
         >Policy Statistics Lab</a
-      ><span class="byline">With Dr. Ian Helfrich</span>
+      >
+      <div class="header-actions">
+        <span class="byline">With Dr. Ian Helfrich</span
+        ><button type="button" id="focus-mode" aria-pressed="false">
+          Focus mode
+        </button>
+      </div>
     </header>
     <main>
       <div class="intro">
@@ -31,23 +37,57 @@
       </div>
       <nav class="activities" aria-label="Choose an activity">
         <button type="button" data-activity="shapes" aria-pressed="true">
-          <span class="nav-icon" aria-hidden="true">▂▅█▅▂</span
+          <span class="nav-icon" aria-hidden="true"
+            ><svg viewBox="0 0 48 40" fill="currentColor">
+              <rect x="3" y="20" width="8" height="17" rx="2" />
+              <rect x="15" y="10" width="8" height="27" rx="2" />
+              <rect x="27" y="3" width="8" height="34" rx="2" />
+              <rect x="39" y="23" width="6" height="14" rx="2" /></svg></span
           ><span>Shape it</span>
         </button>
         <button type="button" data-activity="outlier" aria-pressed="false">
-          <span class="nav-icon" aria-hidden="true">● · · →</span
+          <span class="nav-icon" aria-hidden="true"
+            ><svg viewBox="0 0 48 40" fill="currentColor">
+              <circle cx="9" cy="25" r="6" />
+              <circle cx="22" cy="25" r="4" />
+              <path
+                d="M29 15h15m-6-6l6 6-6 6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              /></svg></span
           ><span>Pull the mean</span>
         </button>
         <button type="button" data-activity="median" aria-pressed="false">
-          <span class="nav-icon" aria-hidden="true">× ● ×</span
+          <span class="nav-icon" aria-hidden="true"
+            ><svg viewBox="0 0 48 40" fill="currentColor">
+              <path d="M3 21l7-7 7 7v13H3zM31 21l7-7 7 7v13H31z" opacity=".4" />
+              <path d="M16 12l8-8 8 8v22H16z" /></svg></span
           ><span>Find the middle</span>
         </button>
         <button type="button" data-activity="spread" aria-pressed="false">
-          <span class="nav-icon" aria-hidden="true">← ● →</span
+          <span class="nav-icon" aria-hidden="true"
+            ><svg viewBox="0 0 48 40" fill="currentColor">
+              <circle cx="24" cy="20" r="6" />
+              <path
+                d="M15 20H2l6-6m-6 6l6 6M33 20h13l-6-6m6 6l-6 6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              /></svg></span
           ><span>Stretch the spread</span>
         </button>
         <button type="button" data-activity="simpson" aria-pressed="false">
-          <span class="nav-icon" aria-hidden="true">⇄</span
+          <span class="nav-icon" aria-hidden="true"
+            ><svg viewBox="0 0 48 40" fill="currentColor">
+              <rect x="2" y="5" width="15" height="12" rx="3" />
+              <rect x="31" y="23" width="15" height="12" rx="3" />
+              <path
+                d="M23 10h20l-5-5m5 5-5 5M25 29H5l5-5m-5 5 5 5"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              /></svg></span
           ><span>Mix the groups</span>
         </button>
       </nav>
@@ -71,8 +111,12 @@
             ></div>
           </div>
           <aside class="coach">
-            <div class="challenge-symbol" aria-hidden="true">✳</div>
-            <h3>Your move</h3>
+            <div class="challenge-heading">
+              <span class="challenge-symbol" aria-hidden="true">✳</span>
+              <h3>Make your prediction</h3>
+            </div>
+            <div id="prediction"></div>
+            <h3 class="move-heading">Now try it</h3>
             <p id="challenge"></p>
             <button
               type="button"

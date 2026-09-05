@@ -2,6 +2,8 @@
 
 Standalone browser activities at `/learn/policy-statistics/`. No third-party runtime dependencies, data requests, accounts, or persistence. Serve the repository’s public folder over HTTP; `index.html` imports `lab.mjs` and `stats.mjs` using relative URLs. The stylesheet and local fonts use site-root URLs.
 
+Each activity has a prediction question with immediate feedback. Focus mode hides the teaching sidebar and enlarges the experiment; Escape exits it. Median observations are drawn as individual village houses, and the admissions mix uses one figure per applicant.
+
 ## Activities and data
 
 - Shape it: the supplied September 2, 2026 policy-statistics lecture, slide 4. Seven grouped bins with 245 villages. Mean/variance/SD use bin midpoints. Median uses uniform within-bin interpolation. Other shape presets and user drawings are labeled separately.
