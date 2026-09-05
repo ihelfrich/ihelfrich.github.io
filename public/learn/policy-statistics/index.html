@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-pagefind-ignore="all">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Policy Statistics Lab · Learn by moving things</title>
+    <meta
+      name="description"
+      content="A hands-on statistics playground: draw histograms, move outliers, find the median, stretch a distribution, and explore Simpson’s paradox."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="/learn/policy-statistics/style.css" />
+    <script type="module" src="./lab.mjs"></script>
+  </head>
+  <body>
+    <a class="skip" href="#workspace">Skip to the activity</a>
+    <header>
+      <a class="brand" href="./" aria-label="Policy Statistics Lab home"
+        ><svg viewBox="0 0 36 32" aria-hidden="true">
+          <path
+            d="M2 30V22h6v8zm9 0V12h6v18zm9 0V2h6v28zm9 0V17h6v13z"
+            fill="currentColor"
+          /></svg
+        >Policy Statistics Lab</a
+      ><span class="byline">With Dr. Ian Helfrich</span>
+    </header>
+    <main>
+      <div class="intro">
+        <h1>Statistics you can move.</h1>
+        <p>Make a prediction. Move something. See what changes.</p>
+      </div>
+      <nav class="activities" aria-label="Choose an activity">
+        <button type="button" data-activity="shapes" aria-pressed="true">
+          <span class="nav-icon" aria-hidden="true">▂▅█▅▂</span
+          ><span>Shape it</span>
+        </button>
+        <button type="button" data-activity="outlier" aria-pressed="false">
+          <span class="nav-icon" aria-hidden="true">● · · →</span
+          ><span>Pull the mean</span>
+        </button>
+        <button type="button" data-activity="median" aria-pressed="false">
+          <span class="nav-icon" aria-hidden="true">× ● ×</span
+          ><span>Find the middle</span>
+        </button>
+        <button type="button" data-activity="spread" aria-pressed="false">
+          <span class="nav-icon" aria-hidden="true">← ● →</span
+          ><span>Stretch the spread</span>
+        </button>
+        <button type="button" data-activity="simpson" aria-pressed="false">
+          <span class="nav-icon" aria-hidden="true">⇄</span
+          ><span>Mix the groups</span>
+        </button>
+      </nav>
+      <section id="workspace" aria-label="Statistics activity">
+        <div class="activity-top">
+          <div>
+            <p id="provenance" class="provenance"></p>
+            <h2 id="activity-title"></h2>
+          </div>
+          <button type="button" id="reset" class="quiet">Start over</button>
+        </div>
+        <div class="lab-layout">
+          <div class="experiment">
+            <div id="controls"></div>
+            <div id="stage"></div>
+            <div
+              id="metrics"
+              class="metrics"
+              aria-live="polite"
+              aria-atomic="true"
+            ></div>
+          </div>
+          <aside class="coach">
+            <div class="challenge-symbol" aria-hidden="true">✳</div>
+            <h3>Your move</h3>
+            <p id="challenge"></p>
+            <button
+              type="button"
+              id="explain"
+              class="explain"
+              aria-expanded="false"
+              aria-controls="explanation"
+            >
+              Show me why
+            </button>
+            <div id="explanation" hidden></div>
+            <div class="try-next">
+              <span>Then try</span>
+              <p id="next-challenge"></p>
+            </div>
+          </aside>
+        </div>
+        <div id="activity-note" class="activity-note"></div>
+        <details class="math">
+          <summary>Look under the hood: data and calculations</summary>
+          <div id="math-content"></div>
+        </details>
+      </section>
+      <div class="lesson-route">
+        <p>
+          Tell it back:
+          <strong>“I changed ___, and ___ happened because ___.”</strong>
+        </p>
+        <button type="button" id="next-activity">
+          Next activity <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </main>
+    <footer>
+      <p>
+        Village tables: policy-statistics lecture, September 2, 2026. Other
+        examples are labeled illustrations.
+      </p>
+      <p>Built for practice. Your changes stay in this page.</p>
+    </footer>
+    <noscript
+      >This playground needs JavaScript enabled to move the data and update the
+      charts.</noscript
+    >
+  </body>
+</html>
