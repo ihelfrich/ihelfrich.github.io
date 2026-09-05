@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import CourseFeature from "../../components/econometrics/CourseFeature.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
 import { picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
@@ -57,6 +58,8 @@ const subjectFamilies = [
       <p>I have taught in university classrooms, supported Duke's Global Executive MBA program, led online courses, and worked through Wyzant and a separate private practice. The chronology and independently sourced hour totals appear below.</p>
     </aside>
   </section>
+
+  <CourseFeature />
 
   <section class="relay-section route-band" data-rail-label="Representation relay">
     <div class="route-shell route-shell--compact">

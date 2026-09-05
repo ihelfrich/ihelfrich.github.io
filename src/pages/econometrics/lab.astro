@@ -1,0 +1,15 @@
+---
+import Econometrics from '../../layouts/Econometrics.astro';
+import Worlds from '../../components/econometrics/Worlds.astro';
+import Sampling from '../../components/econometrics/Sampling.astro';
+import Design from '../../components/econometrics/Design.astro';
+---
+<Econometrics title="Experiments in econometric reasoning" section="lab">
+  <header class="ea-shell ea-page-intro"><p class="ea-kicker">Three experiments · inspect the model before trusting the picture</p><h1>Change one thing.<br/>See what follows.</h1><p class="ea-lead">The data, the sample size, and the assumption are different levers. These experiments let you pull them separately.</p><div class="ea-actions"><a href="#worlds">Identification</a><a href="#sampling">Uncertainty</a><a href="#design">Decision sensitivity</a></div></header>
+  <div class="ea-shell ea-experiments">
+    <section class="ea-experiment" id="worlds"><div><p class="ea-kicker">Identification / Chapter 1</p><h2>The dots cannot settle it.</h2><p class="ea-lead">Try to make the causal effect negative. Now look for something in the observed data that changed.</p><p>The difficulty is the lesson. Every setting is a different model of how outcomes are produced. Every setting gives the same distribution of observed X and Y.</p><a href="/econometrics/01-argument/">Read the argument and proof →</a></div><Worlds /></section>
+    <section class="ea-experiment" id="sampling"><div><p class="ea-kicker">Uncertainty / Chapter 4</p><h2>More data.<br/>Still the wrong target.</h2><p class="ea-lead">First leave bias at zero and increase sample size. Then add a little bias and try again.</p><p>The first change buys precision. The second breaks the connection between the sampled population and the target. Notice what increasing sample size can and cannot repair.</p><a href="/econometrics/04-uncertainty/">Work through coverage and bias →</a></div><Sampling /></section>
+    <section class="ea-experiment" id="design"><div><p class="ea-kicker">Identification to action / Chapters 8 &amp; 12</p><h2>How much doubt<br/>can the decision bear?</h2><p class="ea-lead">A rollout appears to raise output. Allow the two groups to have different untreated trends. How far can they differ before buying the program becomes a judgment call?</p><p>Move M to 3. That is the break-even boundary in this example. Explaining why a smaller bound is credible is an empirical task the slider cannot do for you.</p><a href="/econometrics/08-panels/">Work through the identifying restriction →</a></div><Design /></section>
+    <div class="ea-alert">These are deliberately small teaching models with known synthetic data-generating processes. They do not implement a production DML estimator, HonestDiD, or an evaluation of an actual training program. Each experiment includes its equations and limits.</div>
+  </div>
+</Econometrics>

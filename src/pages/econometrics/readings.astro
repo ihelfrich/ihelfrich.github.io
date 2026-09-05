@@ -1,0 +1,132 @@
+---
+import Econometrics from '../../layouts/Econometrics.astro';
+
+const readings = [
+  {
+    title: 'Econometrics',
+    authors: 'Bruce E. Hansen',
+    status: '2022 · Graduate reference',
+    url: 'https://users.ssc.wisc.edu/~behansen/econometrics/',
+    purpose: 'Open this when a projection argument or asymptotic approximation needs its full mathematical setting. Hansen pairs this volume with Probability and Statistics for Economists. The author also provides separate data, analysis programs, and source-data processing archives.',
+    condition: 'Work through the assumptions attached to the result you use. A formula surviving a change of notation does not establish that it survives a change of sampling process.',
+  },
+  {
+    title: 'Causal Inference: The Remix',
+    authors: 'Scott Cunningham',
+    status: 'Live online edition · Development in progress',
+    url: 'https://mixtape.scunning.com/',
+    purpose: 'An accessible companion for potential outcomes, DAGs, experiments, RD, IV, panels, and synthetic control. Use it for a second explanation of the designs in chapters 5 through 9.',
+    condition: 'The official online edition currently carries a work-in-progress notice. Check its corrections and the original methodological papers when implementing an estimator. Causal identification is one substantial part of econometrics; forecasting and statistical modeling ask additional questions.',
+  },
+  {
+    title: 'Difference-in-Differences with Multiple Time Periods',
+    authors: 'Brantly Callaway and Pedro H. C. Sant’Anna',
+    status: '2021 · Established modern core',
+    url: 'https://arxiv.org/abs/1803.09015',
+    purpose: 'Read after the two-group, two-period calculation. Cohort-by-time effects make the target and comparison group visible when treatment begins at different dates.',
+    condition: 'Identification still needs a valid untreated comparison, suitable parallel trends, overlap, and restrictions on anticipation. Aggregation weights determine which effect a reported average describes. Distinguish simultaneous inference from separate pointwise intervals.',
+  },
+  {
+    title: 'A More Credible Approach to Parallel Trends',
+    authors: 'Ashesh Rambachan and Jonathan Roth',
+    status: '2023 · Sensitivity and partial identification',
+    url: 'https://www.jonathandroth.com/assets/files/HonestParallelTrends_Main.pdf',
+    purpose: 'A route from asking whether pre-trends look flat to stating how much departure from parallel trends a conclusion can withstand.',
+    condition: 'The restrictions connecting pre-treatment and post-treatment deviations require economic justification. The procedure accounts for statistical and identification uncertainty. Our design experiment illustrates a simple population-level bound; it does not implement HonestDiD.',
+  },
+  {
+    title: 'Double/Debiased Machine Learning for Treatment and Structural Parameters',
+    authors: 'Victor Chernozhukov and coauthors',
+    status: '2018 · Theory reference',
+    url: 'https://economics.mit.edu/research/publications/doubledebiased-machine-learning-treatment-and-structural-parameters',
+    purpose: 'The original framework behind the orthogonal-score and cross-fitting discussion in chapter 10. Read the score construction alongside the assumptions supporting its limiting distribution.',
+    condition: 'Orthogonality reduces local sensitivity to nuisance estimation. Cross-fitting controls a different overfitting problem. The underlying identifying conditions, nuisance convergence rates, moments, and nondegeneracy requirements remain essential. Prediction quality alone does not establish these conditions.',
+  },
+  {
+    title: 'Weak Instruments in IV Regression: Theory and Practice',
+    authors: 'Isaiah Andrews, James H. Stock, and Liyang Sun',
+    status: '2019 · Inference reference',
+    url: 'https://stock.scholars.harvard.edu/publications/weak-instruments-iv-regression-theory-and-practice',
+    purpose: 'Read when an IV estimate appears precise despite a weak first stage. The review treats identification-robust inference and the complications introduced by heteroskedastic, serially correlated, and clustered observations.',
+    condition: 'Instrument strength and instrument validity are separate questions. A first-stage F threshold does not test exclusion and does not supply a universal inference guarantee. Match the robust procedure to the design and error structure.',
+  },
+  {
+    title: 'A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification',
+    authors: 'Anastasios N. Angelopoulos and Stephen Bates',
+    status: '2021; revised 2022 · Prediction reference',
+    url: 'https://arxiv.org/abs/2107.07511',
+    purpose: 'A practical introduction to prediction sets and their coverage guarantees. Pair it with chapter 11 and ask exactly which randomness the advertised coverage averages over.',
+    condition: 'Ordinary split conformal relies on exchangeability of calibration and test observations. Marginal coverage does not imply coverage at every covariate value. Time dependence and distribution shift require additional treatment. A predictive interval is distinct from a confidence interval for a causal effect.',
+  },
+  {
+    title: 'Generalizing Causal Inferences from Individuals in Randomized Trials to All Trial-Eligible Individuals',
+    authors: 'Issa J. Dahabreh and coauthors',
+    status: '2019 · Target-population reference',
+    url: 'https://arxiv.org/abs/1709.04589',
+    purpose: 'Read when a result from enrolled participants is being used to justify a wider rollout. The paper combines trial outcomes with baseline information about the eligible population.',
+    condition: 'Beyond trial randomization, the argument needs conditional mean exchangeability across participation and participation positivity over the target population. The specified intervention and trial-engagement assumptions also matter. Random assignment within a trial does not establish its representativeness.',
+  },
+  {
+    title: 'Policy Learning with Observational Data',
+    authors: 'Susan Athey and Stefan Wager',
+    status: '2021 · Decision reference',
+    url: 'https://arxiv.org/abs/1702.02896',
+    purpose: 'A bridge from estimating effects to learning a feasible treatment rule. It makes room for constraints such as budget, simplicity, and the information available when a decision is made.',
+    condition: 'The welfare objective, policy class, identifying strategy, and nuisance-estimation conditions are inputs to the argument. Evaluate a learned policy using held-out information. A ranking of predicted outcomes is insufficient evidence for a treatment-allocation rule.',
+  },
+  {
+    title: 'An Introduction to Double/Debiased Machine Learning',
+    authors: 'Achim Ahrens, Victor Chernozhukov, Christian Hansen, Damian Kozbur, Mark Schaffer, and Thomas Wiemann',
+    status: 'Revised 12 February 2026 · Current exposition',
+    url: 'https://arxiv.org/abs/2504.08324',
+    purpose: 'A recent explanatory bridge between nuisance functions and a target parameter. Read this alongside the original DML paper when the notation obscures the estimation problem.',
+    condition: 'This is a current introduction to an established framework. Keep the nuisance definitions consistent across residual-on-residual and structural-score formulations. Changing a nuisance parameterization changes the equation you must derive.',
+  },
+  {
+    title: 'Evaluating Counterfactual Policies Using Instruments',
+    authors: 'Michal Kolesár, José Luis Montiel Olea, and Jonathan Roth',
+    status: 'Draft dated 12 March 2026 · Research frontier',
+    url: 'https://www.jonathandroth.com/assets/files/EvaluatingCounterfactualsWithIV.pdf',
+    purpose: 'An advanced reading on sharp bounds for policies that change treatment assignment. The paper shows why the policy question can differ materially from the question answered by an IV coefficient.',
+    condition: 'Its framework avoids IV monotonicity while retaining other restrictions. Conclusions depend on the specified policy and invariance assumptions. The author’s status page lists revisions requested at Econometrica; this is a working paper, and its scope should be read accordingly.',
+  },
+];
+---
+
+<Econometrics title="The reading room" description="A selective econometrics reading spine with the purpose, assumptions, and current status of each source." section="readings">
+  <header class="ea-narrow ea-page-intro">
+    <p class="ea-kicker">Sources checked 4 September 2026</p>
+    <h1>The reading room</h1>
+    <p class="ea-lead">Open a paper with a question. Leave knowing which part of your argument it can support.</p>
+    <p>These eleven sources give the book a route into longer treatments and original results. Start with the chapter you are working through. Use the reading to settle a particular difficulty, then return to your own calculation.</p>
+  </header>
+
+  <div class="ea-narrow ea-reading-list">
+    {readings.map((reading) => (
+      <article>
+        <small>{reading.status}</small>
+        <h2><a href={reading.url}>{reading.title} ↗</a></h2>
+        <p class="ea-small">{reading.authors}</p>
+        <p>{reading.purpose}</p>
+        <p><strong>Keep in view.</strong> {reading.condition}</p>
+      </article>
+    ))}
+  </div>
+
+  <section class="ea-narrow ea-band ea-prose" aria-labelledby="companions-heading">
+    <h2 id="companions-heading">Work already on the shelf</h2>
+    <p>These existing sites remain separate companions. Their scope, authorship, and development stage vary. A link here does not imply that every older exercise or software example has been revalidated for this edition.</p>
+    <ul>
+      <li><a href="https://ihelfrich.github.io/pictures-of-inference/">Pictures of Inference</a>, by Ian Helfrich and Elizaveta Gonchar. A visual book in development, with introductory chapters and workbooks. Its coauthored prose and figures have their own provenance and licensing.</li>
+      <li><a href="https://ihelfrich.github.io/applied-statistics/">Applied Statistics</a>. A companion for reasoning about two-group comparisons, regression, and uncertainty.</li>
+      <li><a href="https://ihelfrich.github.io/inference-lab/">Causal and spatial methods</a>. An existing companion for readers choosing a design-specific next investigation.</li>
+      <li><a href="https://ihelfrich.github.io/STATAverse/">STATAverse</a>. A Stata companion when the immediate obstacle is implementing a workflow.</li>
+      <li><a href="https://ihelfrich.github.io/stats-lab/">Statistics practice</a>. A broader route for revisiting prerequisites and software practice.</li>
+      <li><a href="https://ihelfrich.github.io/american-policy-atlas/">American Policy Atlas</a>. Real public-data questions about measurement, suppression, aggregation, and geography. County associations require care when the intended claim concerns individuals.</li>
+    </ul>
+    <h2>A current paper earns its place</h2>
+    <p>A recent date is useful when it changes a calculation, an interpretation, or a decision. The final two readings supply a current DML explanation and an active research question about IV policy evaluation. They supplement the foundational work. This bibliography makes no claim to cover every recent development.</p>
+    <p>Books and papers are linked through author or institutional sources. Downloaded textbook files are not distributed with this course. See the <a href="/econometrics/edition/">edition note</a> for the boundaries of the material.</p>
+    <a class="ea-top-link" href="/econometrics/#contents">Return to the chapters →</a>
+  </section>
+</Econometrics>

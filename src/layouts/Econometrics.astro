@@ -1,0 +1,48 @@
+---
+import '../styles/econometrics.css';
+import 'katex/dist/katex.min.css';
+const { title = 'The Econometric Argument', description = 'A course in applied econometrics and quantitative reasoning: build a claim, inspect its assumptions, and work out what the evidence permits.', section = 'course', noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" data-pagefind-ignore={noindex ? 'all' : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#142b49" />
+    <meta name="author" content="Ian Helfrich" />
+    <title>{title} · Ian Helfrich</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={`${title} · Ian Helfrich`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://ihelfrich.github.io/econometrics/cover.svg" />
+  </head>
+  <body class="ea">
+    <a class="ea-skip" href="#main-content">Skip to content</a>
+    <header class="ea-header">
+      <a class="ea-brand" href="/econometrics/" aria-label="The Econometric Argument home"><span class="ea-mark" aria-hidden="true">∴</span><span>The Econometric<br /><strong>Argument</strong></span></a>
+      <nav aria-label="Course navigation">
+        <a href="/econometrics/#contents" aria-current={section === 'course' ? 'page' : undefined}>The book</a>
+        <a href="/econometrics/lab/" aria-current={section === 'lab' ? 'page' : undefined}>Experiments</a>
+        <a href="/econometrics/teach/" aria-current={section === 'teach' ? 'page' : undefined}>Teach &amp; apply</a>
+        <a href="/econometrics/readings/" aria-current={section === 'readings' ? 'page' : undefined}>Reading room</a>
+      </nav>
+      <a class="ea-author" href="/">Ian Helfrich <span>PhD ↗</span></a>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="ea-footer">
+      <div><strong>The Econometric Argument</strong><p>Applied work. Explicit assumptions. Consequences you can explain.</p></div>
+      <div><a href="/econometrics/edition/">Edition &amp; methods</a><a href="https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/content/econometrics">Read the source ↗</a><a href="/contact">Work with Ian →</a></div>
+      <p class="ea-small">Development edition · September 2026. Synthetic lab data. No account required.</p>
+    </footer>
+    <script>
+      import { initializeReading } from '../scripts/econometrics-reading';
+      initializeReading();
+    </script>
+  </body>
+</html>

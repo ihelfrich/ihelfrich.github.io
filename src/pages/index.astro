@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
+import CourseFeature from "../components/econometrics/CourseFeature.astro";
 import CaseRecord from "../components/CaseRecord.astro";
 import ResearchGraph from "../components/ResearchGraph.astro";
 import {
@@ -45,6 +46,8 @@ const researchRecords = filterDiscoverableResearch(await getCollection("research
       <a href="/job-market">Academic job-market materials →</a>
     </aside>
   </section>
+
+  <CourseFeature />
 
   <section class="home-signature route-band" data-rail-label="Research connections">
     <div class="route-band__heading fieldbook-grid">

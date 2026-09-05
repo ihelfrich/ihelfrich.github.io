@@ -1,0 +1,137 @@
+---
+import Econometrics from '../../layouts/Econometrics.astro';
+
+const weeks = [
+  ['1', 'Frame the argument', '1', 'Write a target in one sentence. Construct two mechanisms that fit the same observations and imply different intervention effects.'],
+  ['2', 'Condition and average', '2', 'Rebuild a joint probability table. Explain how selection changes an average and verify the law of iterated expectations.'],
+  ['3', 'Work through projection', '3', 'Derive the normal equations, check residual orthogonality, and reproduce a partial-regression calculation.'],
+  ['4', 'Describe uncertainty', '4', 'Run a repeated-sampling experiment. Identify the randomness, interval guarantee, and assumption that would invalidate it.'],
+  ['5', 'Design the comparison', '5', 'Specify a randomized offer, a target population, and an attrition plan. Work a small randomization calculation by hand.'],
+  ['6', 'Audit the measurement', '6', 'Build a variable dictionary and missingness log. Derive attenuation under stated conditions and supply a case where it fails.'],
+  ['7', 'Use an instrument carefully', '7', 'Calculate a Wald ratio. State the LATE assumptions and quantify how a direct instrument effect changes the result.'],
+  ['8', 'Compare changes', '8', 'Calculate a two-by-two DiD. Name the untreated comparison and find the trend deviation that reverses a decision.'],
+  ['9', 'Defend a local design', '9', 'Write an RD or synthetic-control design note. Separate fit diagnostics from the assumptions supporting a causal interpretation.'],
+  ['10', 'Learn nuisance functions', '10', 'Derive an orthogonal score and sketch a cross-fitting split. Keep prediction loss separate from the target of inference.'],
+  ['11', 'Move across time and populations', '11', 'Build a time-ordered validation plan. State what must remain stable for a forecast or target-population claim.'],
+  ['12', 'Make and defend a decision', '12', 'Submit the capstone memo, a reproducible arithmetic check, and a sensitivity analysis. Review a peer’s identifying argument.'],
+];
+
+const workshop = [
+  ['0–10 min', 'Name the decision', 'Specify who receives the offer, the six-month outcome, and the break-even effect.'],
+  ['10–25 min', 'Inspect rival explanations', 'Use the causal-worlds experiment. Record what can remain identical while an intervention effect changes.'],
+  ['25–40 min', 'Build the comparison', 'Calculate the training example below. Write the parallel-trends assumption in the firm’s language.'],
+  ['40–55 min', 'Stress-test the conclusion', 'Vary the allowed untreated-trend gap. Locate the decision-reversal threshold.'],
+  ['55–70 min', 'Request the missing evidence', 'List the unit-level data, implementation details, and dependence information needed for inference.'],
+  ['70–90 min', 'Write and challenge the memo', 'Exchange recommendations. Each reviewer must identify one assumption carrying a material part of the decision.'],
+];
+---
+
+<Econometrics title="Teach and apply the argument" description="A twelve-week econometrics course plan, a ninety-minute company workshop, and a synthetic capstone with a transparent assessment rubric." section="teach">
+  <header class="ea-narrow ea-page-intro">
+    <p class="ea-kicker">For classrooms, independent study, and analytical teams</p>
+    <h1>Put an argument on the table.</h1>
+    <p class="ea-lead">A useful course leaves someone able to say what the evidence supports, what it leaves open, and what to do next.</p>
+    <p>The schedules below are teaching plans for this development edition. They have not been evaluated as a completed course. Adjust the mathematical depth and time for computation to the learners in the room.</p>
+  </header>
+
+  <div class="ea-narrow ea-prose">
+    <section aria-labelledby="starting-heading">
+      <h2 id="starting-heading">Choose a starting depth</h2>
+      <dl>
+        <dt><strong>Beginning with evidence</strong></dt>
+        <dd><p>Fractions, percentages, graphs, and basic algebra are enough to enter chapters 1 and 2. Read the worked examples aloud, redraw the comparison, and use the expandable solutions after a written attempt. Expect to pause for probability and algebra practice.</p></dd>
+        <dt><strong>Ready for applied estimation</strong></dt>
+        <dd><p>Bring introductory probability, regression experience, and a working language or spreadsheet. Complete the numerical exercises, label the estimand, and reproduce each result from the stated inputs. Some later arguments require derivatives and matrix notation.</p></dd>
+        <dt><strong>Working at graduate depth</strong></dt>
+        <dd><p>Bring linear algebra, multivariable calculus, and probability with limits. Derive the formal results, construct counterexamples, and follow the original papers. These compact chapters provide a common argument to investigate; a graduate course will need additional proofs, readings, and problem sets.</p></dd>
+      </dl>
+      <p>Pair learners across strengths when possible. One person can interrogate the design while another checks the calculation, then exchange roles. Both must be able to explain the final claim without depending on the other person’s specialty.</p>
+    </section>
+
+    <section aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading">A twelve-week course</h2>
+      <p>Plan for one discussion and one working session each week. Assign the chapter before the discussion. Use the working session to produce the deliverable and expose a failure case. The capstone begins in week 1 and is revised as the tools become available.</p>
+      <table>
+        <caption>Suggested progression. Chapter numbers refer to the <a href="/econometrics/#contents">book’s contents</a>.</caption>
+        <thead><tr><th scope="col">Week</th><th scope="col">Focus</th><th scope="col">Read</th><th scope="col">Bring back</th></tr></thead>
+        <tbody>{weeks.map(([week, topic, chapter, deliverable]) => <tr><th scope="row">{week}</th><td>{topic}</td><td>Ch. {chapter}</td><td>{deliverable}</td></tr>)}</tbody>
+      </table>
+      <p>For a short introductory course, concentrate on weeks 1 through 6 and the decision memo. For an advanced group, shorten the prerequisite review and add full-paper discussions to weeks 7 through 12. Keep the deliverable requirement in both versions.</p>
+    </section>
+
+    <section aria-labelledby="workshop-heading">
+      <h2 id="workshop-heading">A ninety-minute company workshop</h2>
+      <p><strong>Question:</strong> should the firm expand an optional training offer? Analysts, managers, and domain specialists can work from the same brief. No coding is required for the session; participants can use the browser experiments and a calculator.</p>
+      <table>
+        <thead><tr><th scope="col">Time</th><th scope="col">Work</th><th scope="col">Output</th></tr></thead>
+        <tbody>{workshop.map(([time, work, output]) => <tr><th scope="row">{time}</th><td>{work}</td><td>{output}</td></tr>)}</tbody>
+      </table>
+      <p>The take-home artifact is a one-page decision memo, a transparent calculation, and a ranked request for additional evidence. A follow-up technical session can implement a design once the real data and business constraints have been established.</p>
+    </section>
+
+    <section id="capstone" aria-labelledby="capstone-heading">
+      <h2 id="capstone-heading">Capstone: the training offer</h2>
+      <p>This is an original, synthetic case. The firm, observations, costs, and prices are invented for instruction. They represent no company or student’s data.</p>
+      <p>A firm offers optional training to all eligible workers in one operational group. A second group receives no offer. Assignment of the offer was not randomized. Management wants to know whether the offer raised six-month output enough to cover its cost, and whether a wider rollout is justified.</p>
+      <table>
+        <caption>Synthetic group means, measured in output units per eligible worker over equal six-month windows.</caption>
+        <thead><tr><th scope="col">Group</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Change</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Offer group</th><td>50</td><td>62</td><td>12</td></tr>
+          <tr><th scope="row">Comparison group</th><td>40</td><td>46</td><td>6</td></tr>
+        </tbody>
+      </table>
+      <p>For this exercise, one additional output unit contributes $100. The average program cost is $300 per eligible worker in the offer group, including nonparticipants in that denominator. Treat those two amounts as known and assume no spillovers, capacity constraints, or change in unit contribution. The effect concerns offering the program to that group. A per-participant effect would require a separate argument.</p>
+
+      <h3>Your assignment</h3>
+      <ol>
+        <li><strong>Target.</strong> Define the six-month average causal effect of the offer for eligible workers in the offer group. Separate this target from the effect of a future rollout to other workers.</li>
+        <li><strong>Design.</strong> Calculate DiD. State the untreated-trend assumption, the composition assumptions, and how anticipation or spillovers could undermine the comparison.</li>
+        <li><strong>Threat.</strong> Describe one concrete reason the groups’ untreated output changes might differ. Turn it into a parameter with the same units as the outcome.</li>
+        <li><strong>Sensitivity.</strong> Let the untreated offer-group trend exceed the comparison trend by an unknown amount δ, with |δ| ≤ M. Calculate effect and net-value bounds for M = 0, 3, and 4. Check the result in the <a href="/econometrics/lab/#design">design experiment</a>.</li>
+        <li><strong>Inference.</strong> Explain why this table cannot supply a defensible standard error. Request the records, assignment details, and dependence information needed to proceed.</li>
+        <li><strong>Decision.</strong> Write a recommendation conditional on M. Name the additional evidence that would most change it, including information needed for a wider rollout.</li>
+      </ol>
+
+      <details class="solution">
+        <summary>Check the arithmetic after writing your argument</summary>
+        <p>The observed difference in changes is (62 − 50) − (46 − 40) = 6 output units per eligible worker. If the untreated trend gap is δ, the causal effect consistent with this decomposition is 6 − δ. Restricting |δ| ≤ M therefore gives [6 − M, 6 + M].</p>
+        <p>The net contribution per eligible offered worker is $100 × effect − $300. The following ranges reflect the specified trend restriction alone. They contain no allowance for sampling uncertainty.</p>
+        <table>
+          <thead><tr><th scope="col">Allowed gap M</th><th scope="col">Effect range</th><th scope="col">Net-value range</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0</th><td>[6, 6]</td><td>[$300, $300]</td></tr>
+            <tr><th scope="row">3</th><td>[3, 9]</td><td>[$0, $600]</td></tr>
+            <tr><th scope="row">4</th><td>[2, 10]</td><td>[−$100, $700]</td></tr>
+          </tbody>
+        </table>
+        <p>Break-even requires 3 output units. A gap of δ = 3 erases the estimated surplus. Strictly positive net value for every allowed trend gap requires M &lt; 3 under the exercise’s other assumptions. At M = 4, the available restriction permits both a loss and a gain.</p>
+        <p>None of this establishes a wider-rollout effect. Differences in workers, training delivery, capacity, or spillovers can change it. There is also no worker-level variation, group count, or assignment distribution here from which to justify a sampling interval.</p>
+      </details>
+
+      <h3>What to submit</h3>
+      <p>A memo of at most 700 words, one figure or table, and a runnable arithmetic check in a language or spreadsheet of your choice. Include a short appendix that defines the target, identifies every substantive assumption, and distinguishes synthetic inputs from quantities you derived. Keep an evidence-request list separate from the conclusions supported by the current brief.</p>
+    </section>
+
+    <section aria-labelledby="rubric-heading">
+      <h2 id="rubric-heading">Assessment rubric</h2>
+      <p>The recommendation can differ across submissions. The grading object is the argument supporting it.</p>
+      <table>
+        <thead><tr><th scope="col">Criterion</th><th scope="col">Weight</th><th scope="col">Strong work makes this visible</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Target and units</th><td>15%</td><td>Population, intervention, comparison, horizon, and economic units are consistent.</td></tr>
+          <tr><th scope="row">Identification and threats</th><td>30%</td><td>The proposed comparison has explicit assumptions and a plausible rival explanation.</td></tr>
+          <tr><th scope="row">Calculation and reproducibility</th><td>20%</td><td>Inputs, transformations, and outputs can be checked without guessing.</td></tr>
+          <tr><th scope="row">Uncertainty and sensitivity</th><td>20%</td><td>Sampling and identification uncertainty are distinguished; the reversal threshold is correct.</td></tr>
+          <tr><th scope="row">Decision and communication</th><td>15%</td><td>The recommendation follows from the stated objective and evidence; limits and next evidence are specific.</td></tr>
+        </tbody>
+      </table>
+      <p>For independent study, score your first submission before opening the solution. Then revise it and record the most consequential change. For a class, exchange anonymous memos and require reviewers to reproduce the arithmetic before evaluating the recommendation.</p>
+      <div class="ea-actions">
+        <a class="ea-button" href="/econometrics/lab/">Open the experiments →</a>
+        <a class="ea-button secondary" href="/contact">Discuss a course or workshop →</a>
+      </div>
+      <a class="ea-top-link" href="/econometrics/edition/">Read the edition’s scope and limitations →</a>
+    </section>
+  </div>
+</Econometrics>

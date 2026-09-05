@@ -1,0 +1,29 @@
+---
+import { observationSample, ols } from '../../lib/econometrics.mjs';
+const { compact = false } = Astro.props;
+const data=observationSample();
+const px=(x)=>45+(x+3.5)/7*440, py=(y)=>270-(y+5)/10*240;
+---
+<section class:list={['ea-lab', compact && 'ea-lab-compact']} data-worlds aria-label="Observational equivalence experiment">
+  <header class="ea-lab-heading"><div><h3>Same data. Different causal effects.</h3><p>The dots will stay exactly where they are.</p></div><span class="ea-live">Live model</span></header>
+  <figure class="ea-figure">
+    <svg viewBox="0 0 530 310" role="img" aria-label="Observed X and Y with population association and intervention lines">
+      <defs><clipPath id="world-clip"><rect x="45" y="30" width="440" height="240" /></clipPath></defs>
+      {[-4,-2,0,2,4].map(y=><g><line x1="45" x2="485" y1={py(y)} y2={py(y)} stroke="#e3eaf4"/><text x="33" y={py(y)+3} text-anchor="end" font-size="10" fill="#506379">{y}</text></g>)}
+      {[-3,-2,-1,0,1,2,3].map(x=><g><line x1={px(x)} x2={px(x)} y1="30" y2="270" stroke="#e3eaf4"/><text x={px(x)} y="288" text-anchor="middle" font-size="10" fill="#506379">{x}</text></g>)}
+      <g clip-path="url(#world-clip)">
+        {data.map(p=><circle cx={px(p.x)} cy={py(p.y)} r="2.5" fill="#142b49" opacity=".38"/>)}
+        <line x1={px(-3.5)} x2={px(3.5)} y1={py(-3.5)} y2={py(3.5)} stroke="#2459d3" stroke-width="2.5" />
+        <line data-intervention-line x1={px(-3.5)} x2={px(3.5)} y1={py(-1.75)} y2={py(1.75)} stroke="#ad422e" stroke-width="3" stroke-dasharray="7 5" />
+      </g>
+      <text x="48" y="18" fill="#506379" font-size="11">Outcome Y</text><text x="490" y="288" fill="#506379" font-size="11">X</text>
+    </svg>
+    <figcaption><span style="color:#2459d3">━━ Observed population relationship</span> &nbsp; <span style="color:#ad422e">┄┄ Intervention mean</span><br/>160 synthetic observations · seed 2026 · standardized units</figcaption>
+  </figure>
+  <div class="ea-controls"><label class="ea-control">Causal effect per unit of X <output data-b-value for="world-b">0.50</output><input id="world-b" data-world-b type="range" min="-1" max="2" step=".05" value=".5" /></label></div>
+  <div class="ea-lab-readouts" aria-live="polite"><div>Observed population slope<strong>1.00</strong></div><div>Causal slope<strong data-causal-slope>0.50</strong></div></div>
+  <div class="ea-lab-foot"><p data-world-verdict>A one-unit intervention raises the mean outcome by 0.50. The observational distribution has not changed.</p><p class="ea-small">Sample OLS slope: {ols(data).slope.toFixed(3)}. Sampling noise explains its distance from 1; it cannot select the causal world.</p>{compact ? <a href="/econometrics/01-argument/">Why the data cannot choose →</a> : <div class="ea-lab-buttons"><button class="ea-button secondary" data-world-download>Download observed CSV</button><a class="ea-button secondary" href="/econometrics/reproduce.py" download>Python reproduction</a><a class="ea-button secondary" href="/econometrics/reproduce.R" download>R reproduction</a></div>}</div>
+  <details><summary>Inspect the model and its limits</summary><p>Let U and V be independent standard normal variables. Set X = U and Y = bX + (1 − b)U + V. Observationally, Y = X + V for every b. Under do(X = x), U is unchanged and the mean is bx. The orange line is a model implication, never an estimate from these dots.</p><p>The slider range [−1, 2] is chosen for display. The observed distribution does not restrict b to that range. U is an unobserved cause; its equality with observed X in this deliberately stark construction makes conditional causal overlap fail.</p><p>Each unit's observed values remain fixed as b changes. No animation, fitting algorithm, or larger sample can identify b from this observational law alone.</p></details>
+  <noscript><p class="ea-lab-foot">The initial figure is readable without JavaScript. Enable JavaScript to change the causal effect or download this sample.</p></noscript>
+</section>
+<script>import { initializeWorlds } from '../../scripts/econometrics-labs'; initializeWorlds();</script>

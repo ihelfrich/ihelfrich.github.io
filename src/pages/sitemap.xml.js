@@ -22,6 +22,11 @@ const staticRoutes = [
   "/gis/",
   "/now/",
   "/reading/",
+  "/econometrics/",
+  "/econometrics/lab/",
+  "/econometrics/readings/",
+  "/econometrics/teach/",
+  "/econometrics/edition/",
 ];
 
 const escapeXml = (value) => value
@@ -41,7 +46,9 @@ export async function GET({ site }) {
     getCollection("people"),
   ]);
   const research = filterDiscoverableResearch(allResearch);
+  const chapters = await getCollection('econometrics');
   const dynamicRoutes = [
+    ...chapters.map((entry) => `/econometrics/${entry.id}/`),
     ...research.map((entry) => `/research/${entry.id}/`),
     ...projects.filter((entry) => !isArchivalProject(entry.id)).map((entry) => `/projects/${entry.id}/`),
     ...datasets.map((entry) => `/datasets/${entry.id}/`),

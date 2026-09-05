@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Econometrics from '../../layouts/Econometrics.astro';
+import Worlds from '../../components/econometrics/Worlds.astro';
+import {chapterTopics} from '../../data/econometrics.mjs';
+const chapters=(await getCollection('econometrics')).sort((a,b)=>a.data.order-b.data.order);
+const spine=[['Target','What would the answer mean?'],['Observe','Who enters the data?'],['Identify','Which rival worlds remain?'],['Estimate','What does the procedure recover?'],['Quantify','How could this answer fail?'],['Decide','What action survives the uncertainty?']];
+---
+<Econometrics>
+  <section class="ea-shell ea-hero">
+    <div>
+      <p class="ea-kicker">An open course in econometrics · Ian Helfrich</p>
+      <h1>What does<br/>the evidence<br/>actually say?</h1>
+      <p class="ea-lead">A regression gives you a number. An econometric argument explains what that number can bear.</p>
+      <p class="ea-small">Start with a question someone has to answer. Follow it through the data, the mathematics, and the assumptions. Then decide what you would be willing to claim.</p>
+      <div class="ea-actions"><a class="ea-button" href="/econometrics/01-argument/">Open the first chapter <span>→</span></a><a class="ea-button secondary" href="#contents">Find your starting point</a></div>
+      <p class="ea-small">12 compact chapters · 3 experiments · worked problems<br/>Development edition, September 2026</p>
+    </div>
+    <Worlds compact />
+  </section>
+  <section class="ea-shell ea-band">
+    <div class="ea-split"><h2>Follow the argument.<br/>Keep the loose ends visible.</h2><div><p>An analyst notices that workers who take more training produce more. Should the firm buy more training? Perhaps. Perhaps its strongest workers are the ones signing up.</p><p>That small disagreement leads a long way: into probability, projection, experiments, instruments, machine learning, and the economics of a decision. Each chapter gives you something to calculate and something to challenge.</p></div></div>
+    <ol class="ea-spine">{spine.map(([label,detail])=><li><strong>{label}</strong><span>{detail}</span></li>)}</ol>
+  </section>
+  <section class="ea-shell ea-band" id="contents" data-course-index>
+    <div class="ea-contents-head"><div><p class="ea-kicker">The book</p><h2>Enter where the question is.</h2></div><div><p class="ea-small" data-course-progress>Reading progress is optional and stays on this device.</p><a class="ea-small" href="/econometrics/print/">Open the printable edition →</a></div></div>
+    <div class="ea-route-picks" role="group" aria-label="Choose a suggested reading path"><button data-path="all" aria-pressed="true">The full argument</button><button data-path="first" aria-pressed="false">My first course</button><button data-path="applied" aria-pressed="false">I work with data</button><button data-path="theory" aria-pressed="false">Take me to the theory</button></div>
+    <p class="ea-small" data-path-description>Read in order, or follow a question. Every chapter states its prerequisites and links to the next step.</p>
+    <label class="ea-small" for="chapter-search">Find a topic</label><input id="chapter-search" type="search" placeholder="Try identification, inference, or machine learning" data-chapter-search style="display:block;width:100%;max-width:38rem;padding:.8rem 1rem;border:1px solid var(--line);background:white;border-radius:3px;margin-top:.4rem;color:var(--ink);font-size:.85rem;" />
+    <ol class="ea-chapters">{chapters.map(c=><li data-chapter-order={c.data.order} data-chapter-record data-search={`${c.data.title} ${c.data.description} ${c.data.question} ${c.data.part} ${chapterTopics[c.data.order]}`.toLowerCase()}><a href={`/econometrics/${c.id}/`}><span class="ea-number">{String(c.data.order).padStart(2,'0')}</span><div><strong>{c.data.title}</strong><p>{c.data.description}</p><small>{chapterTopics[c.data.order]}</small><br/><small>{c.data.part} · about {c.data.minutes} min · <span data-chapter-status={c.id}>ready to read</span></small></div><span aria-hidden="true">↗</span></a></li>)}</ol>
+    <p hidden data-no-chapters>No chapter matches that search. Try a broader term.</p>
+  </section>
+  <section class="ea-dark"><div class="ea-shell ea-split"><div><p class="ea-kicker" style="color:#c2d2e6">For classrooms and working analysts</p><h2>Leave with an analysis you can defend.</h2></div><div><p>A student can bring a worked argument to a tutorial. A research team can bring a design memo to a review. The same standards apply: a defined target, a credible comparison, reproducible calculations, and an honest account of what remains unknown.</p><p><a href="/econometrics/teach/">Teaching plans, workshop, and capstone →</a></p><p><a href="/contact">Discuss training or quantitative research work →</a></p></div></div></section>
+  <section class="ea-shell ea-band ea-split"><div><h2>A book with company.</h2><p>This edition sits alongside the books and teaching tools that helped shape it. Their results keep their names and sources. The examples here have their own workings.</p><a href="/econometrics/readings/">Visit the reading room →</a></div><div><h3>What this edition is ready for</h3><p>Use it for guided study, tutorials, and design discussions. The advanced chapters are short entry points with deeper reading, not a substitute for a graduate sequence. The course has not been evaluated in a teaching trial.</p><a href="/econometrics/edition/">Scope, provenance, and known limits →</a></div></section>
+</Econometrics>

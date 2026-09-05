@@ -1,0 +1,54 @@
+---
+import Econometrics from '../../layouts/Econometrics.astro';
+---
+
+<Econometrics title="Edition and methods" description="Scope, provenance, mathematical conventions, and limits of The Econometric Argument development edition." section="edition">
+  <header class="ea-narrow ea-page-intro">
+    <p class="ea-kicker">Development edition · September 2026</p>
+    <h1>What this edition can support.</h1>
+    <p class="ea-lead">A course about evidence should make its own boundaries easy to inspect.</p>
+    <p>The Econometric Argument is a web course by Ian Helfrich, published within his existing teaching and research site. Its organizing unit is an empirical argument: a target, observations, identifying assumptions, an estimator, uncertainty, and a decision.</p>
+  </header>
+
+  <article class="ea-narrow ea-prose">
+    <h2>The first release</h2>
+    <p>This edition contains twelve compact chapters, three linked browser experiments, worked numerical examples, exercises with expandable solutions, a reading spine, and a teaching plan. The capstone connects a synthetic training decision to an explicit sensitivity calculation.</p>
+    <p>The mathematical route moves from expectation and projection to identification, inference, and decisions. Later chapters introduce instruments, panels, local designs, orthogonal scores, dependence, and generalization. Those chapters are entry points to substantial literatures. They cannot replace the proofs and practice of a full graduate sequence.</p>
+    <p>The browser experiments have deliberately small scopes:</p>
+    <ul>
+      <li><strong>Causal worlds.</strong> The same observed relation is compatible with different intervention responses. Its allowed parameter range is chosen for teaching; it is not a data-derived identified set.</li>
+      <li><strong>Repeated sampling.</strong> The experiment studies confidence-interval behavior in a stated Gaussian model with known variance. Extensions to estimated variance, dependence, and misspecification require additional arguments.</li>
+      <li><strong>Design sensitivity.</strong> A bound on an untreated-trend difference produces a range of effects. That range represents the chosen identifying restriction and excludes sampling uncertainty.</li>
+    </ul>
+    <p>These are instructional implementations. They are not research replications, implementations of every method discussed, or substitutes for validated analysis software.</p>
+
+    <h2>Where the material comes from</h2>
+    <p>The prose, worked teaching cases, and browser experiments in this course were prepared for this edition. Established results are attributed through chapter-level references and the <a href="/econometrics/readings/">reading room</a>. Author-hosted texts and original papers provide the route to fuller statements and proofs.</p>
+    <p>The course links earlier public work as companion material. <a href="https://ihelfrich.github.io/pictures-of-inference/">Pictures of Inference</a> is a separate, coauthored project by Ian Helfrich and Elizaveta Gonchar. Its authorship and licensing remain attached to that work. Links to older sites do not imply that their full contents were incorporated or independently revalidated here.</p>
+    <p>No downloaded textbook PDF is distributed with this edition. No private student exercise, submission, or dataset is used as public course evidence. Synthetic examples are labeled where they appear, and invented business quantities should never be quoted as empirical findings.</p>
+
+    <h2>What has to be checked</h2>
+    <p>The <a href="https://github.com/ihelfrich/ihelfrich.github.io">public repository</a> contains the source and verification code. Numerical checks can establish that an implementation satisfies specified identities and reproduces its stated examples. They cannot establish the validity of an empirical identifying assumption.</p>
+    <p>This is a development edition. Its pedagogy has not been evaluated in a controlled teaching study, and it has not undergone external scholarly peer review as a complete book. A correct calculation also leaves room for a confusing explanation. Both kinds of correction matter.</p>
+    <p>Coverage of likelihood, Bayesian modeling, structural estimation, time series, spatial methods, and current causal research is selective. Additional readings are needed for specialist work. A recent paper is marked as a reading path with its status; inclusion does not imply that its method is implemented in the browser.</p>
+
+    <h2>Conventions worth keeping straight</h2>
+    <ul>
+      <li>Population quantities, sample estimators, and realized estimates have distinct roles. Each worked argument defines the relevant objects.</li>
+      <li>A fitted association receives a causal interpretation only through an explicit model or design.</li>
+      <li>A confidence interval, a prediction interval, and an identified set answer different questions. The accompanying assumptions determine which guarantee applies.</li>
+      <li>A numerical decision requires an objective, units, and a target population. Statistical significance supplies none of these by itself.</li>
+      <li>Optional reading progress and notes are stored in the browser. No account is required. Keep a separate copy of notes you need to retain.</li>
+    </ul>
+
+    <h2>Using and improving the course</h2>
+    <p>You can link to a chapter, work through the public examples, and inspect the <a href="https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/content/econometrics">chapter source</a> when preparing a session. Source availability does not change the separate rights attached to linked books, papers, data, or companion projects. Consult the repository’s license terms before redistributing or adapting material.</p>
+    <p>For a correction, send the page address, the disputed equation or sentence, and a small reproducible example if computation is involved. Explain the assumptions under which you think the result fails. A proposed counterexample is especially useful.</p>
+    <p>Development dates and substantive corrections should remain visible as the edition changes. Links and publication status can age; the reading room records when its sources were checked. The source history provides the record of changes to this site.</p>
+    <div class="ea-actions">
+      <a class="ea-button" href="/contact">Report an error or discuss teaching →</a>
+      <a class="ea-button secondary" href="/econometrics/#contents">Read the book →</a>
+    </div>
+    <a class="ea-top-link" href="/econometrics/teach/#capstone">Inspect the synthetic capstone →</a>
+  </article>
+</Econometrics>

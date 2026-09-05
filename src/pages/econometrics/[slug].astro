@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from 'astro:content';
+import Econometrics from '../../layouts/Econometrics.astro';
+import {chapterTopics} from '../../data/econometrics.mjs';
+export async function getStaticPaths(){const chapters=(await getCollection('econometrics')).sort((a,b)=>a.data.order-b.data.order);return chapters.map((chapter,i)=>({params:{slug:chapter.id},props:{chapter,chapters,previous:chapters[i-1],next:chapters[i+1]}}));}
+const {chapter,chapters,previous,next}=Astro.props;
+const {Content,headings}=await render(chapter);
+---
+<Econometrics title={chapter.data.title} description={chapter.data.description}>
+  <div class="ea-reading-grid" data-reading-chapter={chapter.id}>
+    <aside class="ea-book-nav" aria-label="Book contents"><details open data-mobile-contents><summary>Chapters &amp; your progress</summary><a href="/econometrics/">← The whole argument</a><ol>{chapters.map(c=><li><a href={`/econometrics/${c.id}/`} aria-current={c.id===chapter.id?'page':undefined}><span class="ea-small">{String(c.data.order).padStart(2,'0')} / {c.data.part}</span><br/>{c.data.title}</a></li>)}</ol><a href="/econometrics/print/">Printable edition ↗</a></details></aside>
+    <article>
+      <header class="ea-chapter-heading"><p class="ea-kicker">{chapter.data.part} · Chapter {chapter.data.order} of {chapters.length}</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-kicker">{chapterTopics[chapter.data.order]}</p><p class="ea-prereq">Before you begin: {chapter.data.prerequisites}<br/>About {chapter.data.minutes} minutes, plus the exercises.</p>{chapter.data.lab&&<a class="ea-button secondary" href={`/econometrics/lab/#${chapter.data.lab}`}>Open the related experiment ↗</a>}</header>
+      <div class="ea-prose" data-chapter-prose><Content /></div>
+      <section class="ea-note" aria-label="Personal study notes"><label for="argument-note">What would you now be willing to claim?</label><p class="ea-small">Write the claim and the assumption doing the most work. Saved only in this browser on this device; avoid sensitive information. Private browsing or clearing site data can erase it.</p><textarea id="argument-note" data-reading-note placeholder="My claim is… It depends on… I would change my mind if…"></textarea><p class="ea-small" data-save-state role="status">Notes are optional.</p><div class="ea-actions"><button class="ea-button" data-reading-complete aria-pressed="false">Mark chapter explored</button><button class="ea-button secondary" data-export-notes>Export my notes</button><button class="ea-button secondary" data-clear-note>Clear this note</button></div><p class="ea-small">“Explored” records your choice, not a score or a claim of mastery.</p></section>
+      <nav class="ea-chapter-next" aria-label="Adjacent chapters">{previous?<a href={`/econometrics/${previous.id}/`}>← {previous.data.title}</a>:<a href="/econometrics/">← Contents</a>}{next?<a href={`/econometrics/${next.id}/`}>{next.data.title} →</a>:<a href="/econometrics/teach/#capstone">Try the capstone →</a>}</nav>
+    </article>
+    <aside class="ea-margin" aria-label="On this page"><p>In this chapter</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href="/econometrics/readings/">Sources &amp; further reading ↗</a></aside>
+  </div>
+</Econometrics>

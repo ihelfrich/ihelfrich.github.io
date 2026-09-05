@@ -43,6 +43,8 @@ jobs:
           npm run check:components
       - name: Build hub
         run: npm run build:fast
+      - name: Verify econometrics edition
+        run: npm run check:econometrics
       - name: Verify rendered headline styles
         run: npm run check:styles
       - name: Verify public career and research artifacts

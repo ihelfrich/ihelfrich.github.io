@@ -124,4 +124,14 @@ const datasets = defineCollection({
   }),
 });
 
-export const collections = { projects, writing, research, teaching, people, datasets };
+const econometrics = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/econometrics' }),
+  schema: z.object({
+    title: z.string(), order: z.number().int().min(1).max(12),
+    part: z.enum(['Frame', 'Estimate', 'Identify', 'Generalize']),
+    description: z.string(), question: z.string(), prerequisites: z.string(),
+    minutes: z.number().positive(), lab: z.enum(['worlds', 'sampling', 'design']).optional(),
+  }),
+});
+
+export const collections = { projects, writing, research, teaching, people, datasets, econometrics };
