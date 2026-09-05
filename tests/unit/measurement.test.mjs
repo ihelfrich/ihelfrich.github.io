@@ -21,9 +21,9 @@ test('profiles expose the declared synthetic scenario boxes without shared mutab
   assert.equal(profiles().A.access[0], 75);
 });
 
-test('anchored ordinal recoding has hand-checked values at q=1', () => {
+test('anchored ordinal recoding returns categories 1 through 4 in natural order', () => {
   const result = ordinal(1);
-  assert.deepEqual(result.values, [0, 1, 1 / 3, 2 / 3]);
+  assert.deepEqual(result.values, [0, 1 / 3, 2 / 3, 1]);
   assert.equal(result.meanA, 0.5);
   assert.equal(result.meanB, 0.5);
   assert.equal(result.gap, 0);
@@ -49,10 +49,10 @@ test('ordinal recoding preserves anchors and strict order across its allowed ran
   for (const q of [0.25, 0.5, 1, 2, 4]) {
     const { values } = ordinal(q);
     assert.equal(values[0], 0);
-    assert.equal(values[1], 1);
-    assert.ok(values[0] < values[2]);
+    assert.equal(values[3], 1);
+    assert.ok(values[0] < values[1]);
+    assert.ok(values[1] < values[2]);
     assert.ok(values[2] < values[3]);
-    assert.ok(values[3] < values[1]);
   }
 });
 

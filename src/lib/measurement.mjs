@@ -69,13 +69,15 @@ export function ordinal(q) {
   const recode = q === 1
     ? (score) => (score - 1) / 3
     : (score) => Math.expm1(q * Math.log(score)) / Math.expm1(q * Math.log(4));
-  const values = [recode(1), recode(4), recode(2), recode(3)];
-  const meanA = (values[0] + values[1]) / 2;
-  const meanB = (values[2] + values[3]) / 2;
+  const values = [recode(1), recode(2), recode(3), recode(4)];
+  const profileA = [values[0], values[3]];
+  const profileB = [values[1], values[2]];
+  const meanA = (profileA[0] + profileA[1]) / 2;
+  const meanB = (profileB[0] + profileB[1]) / 2;
   let wins = 0;
   let ties = 0;
-  for (const a of values.slice(0, 2)) {
-    for (const b of values.slice(2)) {
+  for (const a of profileA) {
+    for (const b of profileB) {
       if (a > b) wins += 1;
       else if (a === b) ties += 1;
     }
