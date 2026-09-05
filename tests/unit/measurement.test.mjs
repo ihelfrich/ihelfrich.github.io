@@ -140,6 +140,18 @@ test('comparison preserves strict states adjacent to analytical boundaries', () 
   assert.equal(strictA.status, 'A');
 });
 
+test('comparison preserves tiny strict differences at pure-dimension weights', () => {
+  const zero = { access: [0, 0], control: [0, 0] };
+  assert.deepEqual(
+    compare({ access: [1e-15, 1e-15], control: [100, 100] }, zero, [1, 1]),
+    { lower: 1e-15, upper: 1e-15, status: 'A' },
+  );
+  assert.deepEqual(
+    compare({ access: [100, 100], control: [1e-15, 1e-15] }, zero, [0, 0]),
+    { lower: 1e-15, upper: 1e-15, status: 'A' },
+  );
+});
+
 test('narrowing profile boxes cannot widen comparison bounds on a fixed weight grid', () => {
   const base = profiles();
   const audit = profiles(true);
