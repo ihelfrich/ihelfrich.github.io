@@ -24,10 +24,28 @@ for(const file of files){
   for(const match of body.matchAll(/(?<!\\)\$([^$\n]+?)(?<!\\)\$/g)){katex.renderToString(match[1],{throwOnError:true,strict:'error'});expressions++;}
 }
 assert.deepEqual(orders,[1,2,3,4,5,6,7,8,9,10,11,12]);
+const measurementSource=path.join(root,'src/content/measurement');
+const measurementFiles=(await readdir(measurementSource)).filter(f=>f.endsWith('.md')).sort();
+assert.deepEqual(measurementFiles,['field-guide.md','story.md','technical.md']);
+let measurementWords=0,measurementMath=0,measurementSolutions=0;
+const measurementOrders=[];
+for(const file of measurementFiles){
+  const raw=await readFile(path.join(measurementSource,file),'utf8');
+  const front=raw.match(/^---\n([\s\S]*?)\n---/);assert.ok(front,`${file}: frontmatter`);
+  const meta=load(front[1]);measurementOrders.push(meta.order);
+  assert.ok(meta.title&&meta.description,`${file}: reading metadata`);
+  let body=raw.slice(front[0].length);const count=body.split(/\s+/).length;measurementWords+=count;
+  assert.ok(count>=1200,`${file}: substantive companion`);
+  const solved=(body.match(/class="solution"/g)||[]).length;measurementSolutions+=solved;
+  if(file!=='story.md')assert.ok(solved>=3,`${file}: three fully solved exercises`);
+  body=body.replace(/\$\$([\s\S]*?)\$\$/g,(_,math)=>{katex.renderToString(math,{throwOnError:true,strict:'error',displayMode:true});measurementMath++;return '';});
+  for(const match of body.matchAll(/(?<!\\)\$([^$\n]+?)(?<!\\)\$/g)){katex.renderToString(match[1],{throwOnError:true,strict:'error'});measurementMath++;}
+}
+assert.deepEqual(measurementOrders.sort(),[1,2,3]);
 const dist=path.join(root,'dist'),pages=[];
 async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const p=path.join(dir,entry.name);if(entry.isDirectory())await walk(p);else if(entry.name.endsWith('.html'))pages.push(p);}}
 await walk(path.join(dist,'econometrics'));
-assert.equal(pages.length,18,'12 chapters and 6 course/support routes');
+assert.equal(pages.length,22,'12 chapters, 6 course/support routes, and 4 measurement routes');
 const docs=new Map();
 async function documentFor(p){if(!docs.has(p)){const w=new Window();w.document.write(await readFile(p,'utf8'));docs.set(p,w);}return docs.get(p).document;}
 for(const p of pages){
@@ -48,3 +66,4 @@ for(const route of ['index.html','teaching/index.html'])assert.ok((await readFil
 assert.ok((await readFile(path.join(dist,'sitemap.xml'),'utf8')).includes('/econometrics/10-learning/'),'chapters in sitemap');
 for(const w of docs.values())w.happyDOM.abort();
 console.log(`Econometrics checks passed: ${files.length} chapters, ${words} source words, ${expressions} math expressions, ${solutions} solved exercises, ${pages.length} rendered routes and their course links.`);
+console.log(`Measurement extension: ${measurementWords} source words, ${measurementMath} math expressions, ${measurementSolutions} solved exercises, three reading companions.`);

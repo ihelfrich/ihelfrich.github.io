@@ -12,7 +12,7 @@
     "check:copy": "node scripts/check-site-copy.mjs",
     "check:fieldbook": "node scripts/check-fieldbook-content.mjs",
     "check:components": "node --test tests/unit/instruments.test.mjs",
-    "check:econometrics": "node --test tests/unit/econometrics.test.mjs && node scripts/check-econometrics.mjs",
+    "check:econometrics": "node --test tests/unit/econometrics.test.mjs tests/unit/measurement.test.mjs tests/unit/measurement-ui.test.mjs && node scripts/check-econometrics.mjs",
     "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
     "check": "npm run check:copy && npm run check:fieldbook && npm run check:components && npm run build:fast && npm run check:styles && npm run check:public-cv",

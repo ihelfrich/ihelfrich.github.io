@@ -134,4 +134,9 @@ const econometrics = defineCollection({
   }),
 });
 
-export const collections = { projects, writing, research, teaching, people, datasets, econometrics };
+const measurement = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/measurement' }),
+  schema: z.object({title:z.string(),description:z.string(),order:z.number().int().min(1).max(3)}),
+});
+
+export const collections = { projects, writing, research, teaching, people, datasets, econometrics, measurement };

@@ -1,0 +1,85 @@
+---
+import '../../styles/measurement.css';
+const ticks=[-60,-40,-20,0,20,40];
+const y=(g)=>300-(g+60)*2.4;
+---
+<div data-measurement class="m-investigation">
+  <section class="m-stage ea-shell" aria-labelledby="measurement-title">
+    <div class="m-opening">
+      <a class="m-series" href="/econometrics/">The Econometric Argument / Measurement</a>
+      <h1 id="measurement-title">What did<br/>the number<br/>leave out?</h1>
+      <p class="m-deck">A faster appointment.<br/>Less say in what happens next.<br/>Which service is better?</p>
+      <p class="m-context">Two hypothetical designs. One gives people quicker access; the other gives them more control. A single score can settle the argument. Watch what it takes to make that score.</p>
+      <a class="m-story-link" href="/econometrics/measurement/story/">Read the opening story <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="m-instrument">
+      <div class="m-figure-heading"><h2>A conclusion with room inside it.</h2><p>Every point in the violet band is compatible with the stated evidence and scoring rule.</p></div>
+      <figure class="m-figure">
+        <svg viewBox="0 0 830 365" role="img" aria-labelledby="measurement-plot-title measurement-plot-desc">
+          <title id="measurement-plot-title">Compatible score gaps as the access weight changes</title>
+          <desc id="measurement-plot-desc" data-m-plot-description>With equal weights the score gap A minus B ranges from -25 to 10. Both rankings remain possible.</desc>
+          <defs><pattern id="measurement-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><line x1="0" x2="0" y1="0" y2="8" stroke="#6845b7" stroke-opacity=".14" stroke-width="2" /></pattern></defs>
+          {ticks.map(g=><g><line x1="68" x2="688" y1={y(g)} y2={y(g)} stroke={g===0?'#142b49':'#c7d2e2'} stroke-dasharray={g===0?undefined:'2 7'}/><text x="53" y={y(g)+5} text-anchor="end" fill="#506379" font-size="14">{g}</text></g>)}
+          <text x="68" y="26" fill="#142b49" font-size="14">Score gap A − B</text>
+          <text x="688" y="26" fill="#506379" font-size="13" text-anchor="end">A ahead above zero</text>
+          <path data-m-envelope d="M 68 300 L 688 132 L 688 60 L 68 204 Z" fill="#eae6f6" stroke="#6845b7" stroke-width="2" />
+          <line x1="68" x2="688" y1={y(0)} y2={y(0)} stroke="#142b49" stroke-opacity=".55" stroke-dasharray="3 5" />
+          <rect data-m-selection x="378" y="42" width="1" height="258" fill="url(#measurement-hatch)" />
+          <line data-m-cursor x1="378" x2="378" y1="42" y2="300" stroke="#2459d3" stroke-width="2" stroke-dasharray="4 5" />
+          <line x1="714" x2="714" y1="42" y2="300" stroke="#c7d2e2" />
+          <line data-m-range x1="714" x2="714" y1={y(-25)} y2={y(10)} stroke="#2459d3" stroke-width="5" />
+          <line data-m-low-cap x1="703" x2="725" y1={y(-25)} y2={y(-25)} stroke="#2459d3" stroke-width="3" />
+          <line data-m-high-cap x1="703" x2="725" y1={y(10)} y2={y(10)} stroke="#2459d3" stroke-width="3" />
+          <text data-m-low-label x="738" y={y(-25)+5} fill="#2459d3" font-size="16">−25</text>
+          <text data-m-high-label x="738" y={y(10)+5} fill="#2459d3" font-size="16">10</text>
+          {[0,.25,.5,.75,1].map(w=><text x={68+w*620} y="324" text-anchor="middle" fill="#506379" font-size="14">{w*100}%</text>)}
+          <text x="378" y="353" text-anchor="middle" fill="#142b49" font-size="14">Weight assigned to access</text>
+        </svg>
+        <figcaption>Violet: all compatible gaps at each weight. Blue bracket: the full range over your allowed weights. These are scenario bounds, not confidence intervals.</figcaption>
+      </figure>
+      <div class="m-controls">
+        <label for="m-weight">Priority given to access <output id="m-weight-value" data-m-weight-value for="m-weight">50%</output><input id="m-weight" data-m-weight type="range" min="0" max="100" step="1" value="50" /></label>
+        <label for="m-spread">Allow disagreement around that priority <output data-m-spread-value for="m-spread">50–50% allowed</output><input id="m-spread" data-m-spread type="range" min="0" max="50" step="1" value="0" /></label>
+      </div>
+      <div class="m-verdict" aria-live="polite"><span>Compatible gap</span><strong data-m-gap>[-25, 10]</strong><p data-m-verdict>Both rankings remain possible. The evidence and allowed trade-offs do not settle the comparison.</p></div>
+      <div class="m-presets" aria-label="Try a different priority"><button data-m-preset="10">Prioritize control</button><button data-m-preset="50">Equal weights</button><button data-m-preset="90">Prioritize access</button></div>
+    </div>
+  </section>
+
+  <section class="m-evidence ea-shell" aria-labelledby="evidence-heading">
+    <div><h2 id="evidence-heading">Change the evidence.<br/>Then change the rule.</h2><p>The two moves answer different questions. An audit narrows what is compatible. A minimum standard changes what is acceptable.</p><p class="m-note">Assumed 0–100 rubrics. Higher is better within each dimension. These invented scales describe service designs, never a person's worth.</p></div>
+    <div class="m-evidence-work">
+      <table><caption>Compatible profiles, without assigned probabilities</caption><thead><tr><th scope="col">Design</th><th scope="col">Access</th><th scope="col">Participant control</th></tr></thead><tbody><tr><th scope="row">A</th><td>75–85</td><td data-m-profile-a>25–45</td></tr><tr><th scope="row">B</th><td>45–65</td><td data-m-profile-b>65–85</td></tr></tbody></table>
+      <label class="m-check"><input data-m-audit type="checkbox" /><span><strong>Inspect the control evidence more closely</strong><small>A hypothetical audit narrows A to 30–40 and B to 70–80.</small></span></label>
+      <label class="m-check"><input data-m-veto type="checkbox" /><span><strong>Require a control score of at least 50</strong><small>A declared floor, even if another dimension scores well.</small></span></label>
+      <p data-m-veto-result class="m-rule-result" role="status">No eligibility floor is imposed. Access can compensate for lower participant control in this scoring rule.</p>
+      <details class="m-assumptions"><summary>What makes these calculations legitimate?</summary><p>For this exercise we assume meaningful differences on two anchored rubrics, an additive score, nonnegative weights, and all combinations within the profile ranges. Weights and profiles vary independently. Those assumptions make the displayed bounds sharp for this rectangular scenario set. Dependencies could narrow the true range; invalid assumptions could change it entirely.</p><p>More observations do not choose a stakeholder's priorities. A hard floor is a separate rule, not a finding hidden inside the data.</p><a href="/econometrics/measurement/technical/#sources">Mathematics and sources</a></details>
+    </div>
+  </section>
+
+  <nav class="m-reading-paths ea-shell" aria-label="Three ways into this investigation">
+    <a class="m-path-story" href="/econometrics/measurement/story/"><span>Read the story</span><strong>What a number<br/>leaves out</strong><p>Begin with the people and decisions that a tidy dataset can lose.</p></a>
+    <a href="/econometrics/measurement/field-guide/"><span>Work it through</span><strong>A field guide to<br/>defensible measurement</strong><p>Follow the arithmetic, solve three problems, and lead the investigation in class.</p></a>
+    <a href="/econometrics/measurement/technical/"><span>Test the theory</span><strong>Representations,<br/>models, decisions</strong><p>Assumptions, proofs, doctoral exercises, and a research agenda with its limits stated.</p></a>
+  </nav>
+
+  <section class="m-recoding ea-shell" aria-labelledby="recoding-heading">
+    <div class="m-recoding-intro"><h2 id="recoding-heading">The order stays.<br/>The average moves.</h2><p>Now use a separate dataset: A received categories 1 and 4; B received 2 and 3. Only their order is established. Change the spacing while keeping every ranking and both endpoints intact.</p><p class="m-note">If a conclusion reverses under an admissible recoding, the original order facts did not determine it.</p></div>
+    <div class="m-recoding-work">
+      <figure class="m-ordinal-figure"><svg viewBox="0 0 720 260" role="img" aria-label="The four ordered categories keep their order as their numerical spacing changes">
+        <text x="60" y="26" font-size="14" fill="#506379">Equal spacing</text><text x="660" y="26" text-anchor="end" font-size="14" fill="#506379">Anchored endpoints 0 and 1</text>
+        <line x1="60" x2="660" y1="60" y2="60" stroke="#c7d2e2" />
+        <line x1="60" x2="660" y1="205" y2="205" stroke="#c7d2e2" />
+        {[0,1,2,3].map(i=><g><line data-m-recode-line={i} x1={60+i*200} x2={60+i*200} y1="68" y2="194" stroke={i===0||i===3?'#2459d3':'#6845b7'} stroke-width="2" opacity=".55"/><circle cx={60+i*200} cy="60" r="7" fill={i===0||i===3?'#2459d3':'#6845b7'}/><text x={60+i*200} y="91" text-anchor="middle" font-size="14" fill="#142b49">{i+1}</text><circle data-m-recode-point={i} cx={60+i*200} cy="205" r="7" fill={i===0||i===3?'#2459d3':'#6845b7'}/><text data-m-recode-label={i} x={60+i*200} y="237" text-anchor="middle" fill="#142b49" font-size="14">{i+1}</text></g>)}
+      </svg><figcaption>Blue endpoints belong to A. Violet interior categories belong to B. The connecting lines track identical categories across codings.</figcaption></figure>
+      <label class="m-q-control" for="m-q">Curvature of the recoding <output data-m-q-value for="m-q">1</output><input id="m-q" data-m-q type="range" min=".25" max="4" step=".05" value="1" /></label>
+      <div class="m-presets"><button data-m-q-preset=".5">Compress the upper end</button><button data-m-q-preset="1">Equal spacing</button><button data-m-q-preset="2">Stretch the upper end</button></div>
+      <div class="m-means"><p>A's recoded mean <strong data-m-mean-a>0.500</strong></p><p>B's recoded mean <strong data-m-mean-b>0.500</strong></p></div>
+      <p data-m-ordinal-result class="m-rule-result" role="status">The arithmetic means tie with equal category spacing. Order alone does not require that spacing.</p>
+      <details class="m-assumptions"><summary>The recoding and what survives it</summary><p>For category s, use f(s) = (sᵠ − 1) / (4ᵠ − 1), with q between 0.25 and 4. Every function shown is strictly increasing, and f(1) = 0, f(4) = 1. The recoded means average f(1), f(4) for A and f(2), f(3) for B.</p><p>A outranks B in two of the four cross-group pairings under every recoding. That invariant comparison does not establish equal value. Additional interval-scale or utility assumptions can justify other comparisons; they have to be supplied.</p><a href="/econometrics/measurement/field-guide/">See the worked example</a></details>
+    </div>
+  </section>
+  <section class="m-export ea-shell" aria-label="Keep an inspectable analysis record"><div><h2>Take the assumptions with you.</h2><p>The record includes your ranges, priorities, coding rule, and conditional conclusions. Everything runs in this browser. No account, uploads, or model-generated assessments.</p></div><div><button class="ea-button" data-m-export>Download this analysis</button> <button class="ea-button secondary" data-m-reset>Reset both experiments</button><p class="m-note" data-m-export-status role="status">JSON format. Synthetic scenario, not a validated assessment.</p></div><details class="m-record"><summary>Inspect the record before downloading</summary><pre data-m-record>Enable JavaScript to generate a record from the controls.</pre></details></section>
+  <noscript><p class="ea-shell">The figures show the initial scenario. Enable JavaScript to use the controls and export an analysis; all three reading companions work without it.</p></noscript>
+</div>
+<script>import {initializeMeasurement} from '../../scripts/measurement-lab.mjs';initializeMeasurement();</script>

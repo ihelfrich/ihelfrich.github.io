@@ -135,4 +135,6 @@ Usually that requires changing the question or giving a specific causal argument
 
 ## Read further
 
+The [measurement investigation](/econometrics/measurement/) asks an earlier question: what makes an observation a measure of the thing we care about? Enter through a narrative essay, work the undergraduate examples, or examine the doctoral companion's proofs and research proposals. Its two browser experiments separate ordinal recoding, empirical uncertainty, and disagreement about values.
+
 Rubin's [Inference and Missing Data](https://doi.org/10.1093/biomet/63.3.581) established the missingness framework. Cunningham's [Directed Acyclic Graphs](https://mixtape.scunning.com/03-directed_acyclical_graphs) and Hernán and Robins's [Causal Inference: What If](https://miguelhernan.org/whatifbook) develop graphical reasoning about selection and adjustment.
