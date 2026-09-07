@@ -65,6 +65,7 @@ for (const text of ["Journal of Economic Theory", "Securing America's Future"]) 
   requireText(home, homePath, text);
 }
 requireText(home, homePath, 'href="/research"', "the complete research record link");
+for (const component of ["ResearchContinuum", "HomepageInstruments"]) requireText(home, homePath, component, "the interactive homepage experience");
 requireText(home, homePath, "mountHomepage", "the progressive homepage controls");
 requireText(home, homePath, "portrait", "the verified portrait record");
 forbidText(home, homePath, "CdeDecomposition", "the NMTC-first homepage signature");
