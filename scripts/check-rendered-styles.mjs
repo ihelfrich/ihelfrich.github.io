@@ -523,17 +523,16 @@ for (const width of [390, 320]) {
   }
 }
 
-const homeMobileHeading = noScriptWindow.document.querySelector(".fieldbook-intro h1");
-const homeMobileSectionNarrative = noScriptWindow.document.querySelector(".home-records .section-intro > p:last-child");
-if (!homeMobileHeading || !homeMobileSectionNarrative) {
-  failures.push("homepage mobile overflow probes are missing");
-} else {
-  const headingLayout = cascadedPropertiesAtWidth(noScriptWindow, homeMobileHeading, 320, ["font-size", "overflow-wrap", "word-break"]);
-  if (headingLayout["font-size"] !== "2.625rem" || headingLayout["overflow-wrap"] !== "normal" || headingLayout["word-break"] !== "normal") {
-    failures.push("320px homepage heading does not use the narrow type scale with intact words");
-  }
-  const narrativeLayout = cascadedPropertiesAtWidth(noScriptWindow, homeMobileSectionNarrative, 320, ["grid-column"]);
-  if (narrativeLayout["grid-column"] !== "1") failures.push("320px homepage section narrative creates an implicit second grid column");
+const homeMobileHeading = noScriptWindow.document.querySelector(".st-name h1");
+if (!homeMobileHeading) failures.push("portrait homepage heading is missing");
+else {
+ const layout=cascadedPropertiesAtWidth(noScriptWindow,homeMobileHeading,320,["font-size","overflow-wrap","word-break"]);
+ if(layout["font-size"]!=="17.3vw"||layout["overflow-wrap"]!=="normal"||layout["word-break"]!=="normal") failures.push("320px studio masthead must scale without breaking the name");
+}
+const portrait=noScriptWindow.document.querySelector('.st-portrait img');
+if(portrait?.getAttribute('src')!=='/people/ian-zoom-portrait.png') failures.push('homepage must retain the verified Zoom portrait');
+for(const target of ['/econometrics/','/econometrics/lab/','/learn/policy-statistics/','/library','/job-market']) {
+ if(!noScriptWindow.document.querySelector(`a[href="${target}"]`)) failures.push(`homepage is missing useful destination ${target}`);
 }
 
 for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button"]) {

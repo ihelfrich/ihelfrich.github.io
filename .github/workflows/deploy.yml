@@ -45,6 +45,8 @@ jobs:
         run: node --test tests/unit/policy-statistics.test.mjs
       - name: Build hub
         run: npm run build:fast
+      - name: Verify homepage interactions and portrait
+        run: node --test tests/unit/homepage-data.test.mjs tests/unit/homepage-ui.test.mjs
       - name: Verify econometrics edition
         run: npm run check:econometrics
       - name: Verify rendered headline styles

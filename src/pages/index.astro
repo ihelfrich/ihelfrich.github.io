@@ -1,238 +1,43 @@
 ---
-import { getCollection } from "astro:content";
-import Base from "../layouts/Base.astro";
-import CourseFeature from "../components/econometrics/CourseFeature.astro";
-import CaseRecord from "../components/CaseRecord.astro";
-import ResearchGraph from "../components/ResearchGraph.astro";
-import {
-  availabilityRecord,
-  identityRecord,
-  publicLinks,
-  teachingRecognition,
-  tutoringRecord,
-} from "../data/public-record.mjs";
-import { workCases } from "../data/work-cases.mjs";
-import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
-
-const selectedRecordIds = ["trade-in-the-spotlight", "applied-statistics", "nncta-semiconductor-demonstration"];
-const selectedRecords = workCases.filter((record) => selectedRecordIds.includes(record.id));
-const researchRecords = filterDiscoverableResearch(await getCollection("research"));
+import Base from '../layouts/Base.astro';
+import '../styles/homepage-studio.css';
+import {identityRecord,publicLinks,teachingRecognition,tutoringRecord,availabilityRecord} from '../data/public-record.mjs';
+import {workCases} from '../data/work-cases.mjs';
+import {portrait,nmtc,coefficientX} from '../data/homepage-studio.mjs';
+const selectedRecordIds=['nmtc-rural-gap','trade-in-the-spotlight','applied-statistics'];
+const selectedRecords=selectedRecordIds.map(id=>workCases.find(record=>record.id===id));
+const tabs=['Place & policy','Trade & measurement','Learning & methods'];
+const titles=['The rural mobilization gap.','Where economic activity happens.','Follow the whole argument.'];
 ---
-
-<Base
-  wide
-  title="Applied economist and quantitative research designer"
-  description="Research, quantitative design, teaching, and public analytical tools by economist Ian Helfrich."
-  pageClass="fieldbook-home"
->
-  <section class="fieldbook-intro fieldbook-grid" data-rail-label="Introduction">
-    <div class="fieldbook-intro__copy" data-fieldbook-reveal>
-      <p class="route-kicker">{identityRecord.role}</p>
-      <h1>I build the data, comparisons, and tools that difficult questions require.</h1>
-      <p class="fieldbook-intro__lead">My work spans trade, place-based policy, labor and AI, measurement, and quantitative education. It includes empirical studies, public research tools, university teaching, and advanced quantitative coaching.</p>
-      <div class="action-row">
-        <a class="fieldbook-action" href="/work">See selected work</a>
-        <a class="fieldbook-action fieldbook-action--quiet" href="/cv">CV &amp; contact</a>
-      </div>
-    </div>
-    <aside class="fieldbook-intro__status" aria-label="Current record" data-fieldbook-reveal>
-      <p class="record-label">Current record</p>
-      <dl>
-        <div><dt>Training</dt><dd>PhD in Economics, Georgia Tech, 2024</dd></div>
-        <div><dt>Location</dt><dd>{identityRecord.location}</dd></div>
-        <div><dt>Availability</dt><dd>{availabilityRecord.status}</dd></div>
-        <div><dt>Updated</dt><dd>{availabilityRecord.asOf}</dd></div>
-      </dl>
-      <a href="/job-market">Academic job-market materials →</a>
-    </aside>
-  </section>
-
-  <CourseFeature />
-
-  <section class="home-signature route-band" data-rail-label="Research connections">
-    <div class="route-band__heading fieldbook-grid">
-      <div class="fieldbook-narrative">
-        <p class="record-label">Research record</p>
-        <h2>Trade, place, measurement, labor, and economic theory</h2>
-        <p>The research spans several distinct questions. This map connects the public records only when their published metadata share a field, method, or substantive topic.</p>
-      </div>
-      <aside class="fieldbook-margin signature-note">
-        <strong>How to read the map</strong>
-        <p>Filter by topic or stage. A line records shared metadata, not a claim that every project belongs to one research program.</p>
-      </aside>
-    </div>
-    <div class="signature-aperture" data-fieldbook-reveal>
-      <ResearchGraph papers={researchRecords} />
-    </div>
-  </section>
-
-  <section class="home-records route-shell" data-rail-label="Selected work">
-    <header class="section-intro">
-      <p class="record-label">Selected work</p>
-      <h2>Research, measurement, and quantitative learning</h2>
-      <p>These projects cover spatial measurement in trade, an inspectable statistical workflow, and a documented contribution to national critical-technology assessment.</p>
-    </header>
-    <div class="case-stack">
-      {selectedRecords.map((record, index) => (
-        <div class="numbered-case" data-fieldbook-reveal>
-          <span class="case-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-          <CaseRecord record={record} />
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="home-teaching route-shell" data-rail-label="Teaching">
-    <header class="section-intro">
-      <p class="record-label">Teaching &amp; coaching</p>
-      <h2>Teaching across classrooms, online courses, and research practice</h2>
-      <p>I have served as instructor of record for three semesters at Georgia Tech, supported teaching in Duke's Global Executive MBA program and at Indiana University, taught online microeconomics and macroeconomics, and built an independent practice from foundational tutoring through executive-level quantitative research-design coaching.</p>
-    </header>
-    <div class="teaching-ledger">
-      <article>
-        <p class="evidence-source">platform-recorded · {tutoringRecord.wyzant.asOf}</p>
-        <strong>{tutoringRecord.wyzant.hoursDisplay}</strong>
-        <h3>Wyzant instruction</h3>
-        <p>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} hours of instruction recorded through Wyzant.</p>
-      </article>
-      <article>
-        <p class="evidence-source">practice-recorded · {tutoringRecord.privatePractice.asOf}</p>
-        <strong>{tutoringRecord.privatePractice.hoursDisplay}</strong>
-        <h3>Independent private practice</h3>
-        <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours in a separate independent practice.</p>
-      </article>
-      <article class="teaching-recognition">
-        <p class="evidence-source">award</p>
-        <h3>{teachingRecognition.award}, {teachingRecognition.year}</h3>
-        <p><a href={teachingRecognition.evaluations.href}>View the {teachingRecognition.evaluations.year} Georgia Tech course-evaluation record →</a></p>
-      </article>
-    </div>
-    <a class="text-route" href="/teaching">Teaching &amp; coaching →</a>
-  </section>
-
-  <section class="home-range route-shell" data-rail-label="Range">
-    <header class="section-intro">
-      <p class="record-label">Additional experience</p>
-      <h2>Research, policy, software, leadership, and teaching</h2>
-    </header>
-    <dl class="range-ledger">
-      <div>
-        <dt>Industrial and trade diagnostics</dt>
-        <dd>Independent Saudi Arabia-focused work on sector performance, economic complexity, import localization, firm productivity, and growth constraints. <a href="/work#additional-experience">Experience record →</a></dd>
-      </div>
-      <div>
-        <dt>Location strategy</dt>
-        <dd>North America-wide electric-vehicle manufacturing site analysis for Carnegie Mellon University and Toyota Research Institute. <a href="/work#additional-experience">Experience record →</a></dd>
-      </div>
-      <div>
-        <dt>Critical-technology assessment</dt>
-        <dd>Additional contributor to the semiconductor demonstration in the 2023 NNCTA report <cite>Securing America's Future</cite>. <a href="/work#case-nncta-semiconductor-demonstration">Contribution record →</a></dd>
-      </div>
-      <div>
-        <dt>Spatial measurement</dt>
-        <dd>MS in Geographic Information Science and Technology; remote-sensing and spatial measures in the dissertation and <cite>Trade in the Spotlight</cite>. <a href="/research/gonchar-helfrich-2025-spotlight">Research record →</a></dd>
-      </div>
-      <div>
-        <dt>Research software</dt>
-        <dd>Public viewers, reproducible pipelines, browser-based analytical tools, and multi-language learning systems. <a href="/projects">Public projects →</a></dd>
-      </div>
-      <div>
-        <dt>Leadership</dt>
-        <dd>Georgia Tech Graduate Student Government Vice President for Campus Services; Graduate Senator; Senator of the Year, 2020. <a href="/about#service">Service record →</a></dd>
-      </div>
-      <div>
-        <dt>Academic service</dt>
-        <dd>Ad hoc referee, Journal of Economic Theory. <a href="/cv#service">CV record →</a></dd>
-      </div>
-    </dl>
-  </section>
-
-  <section class="home-close route-band" data-rail-label="Contact">
-    <div class="fieldbook-grid">
-      <div class="fieldbook-narrative">
-        <p class="record-label">Current roles and collaborations</p>
-        <h2>Where this work may be useful</h2>
-        <p>I am interested in roles and collaborations where the quality of a decision depends on how evidence is designed, compared, or explained. That includes applied research, economic and policy analysis, quantitative product work, research-methods advising, and advanced teaching or coaching.</p>
-        <div class="action-row">
-          <a class="fieldbook-action" href="/cv">View CV and availability</a>
-          <a class="fieldbook-action fieldbook-action--quiet" href="/contact">Get in touch</a>
-        </div>
-      </div>
-      <aside class="fieldbook-margin closing-links">
-        <a href={publicLinks.github} target="_blank" rel="noopener">GitHub ↗</a>
-        <a href={publicLinks.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="/job-market">Academic job-market materials →</a>
-      </aside>
-    </div>
-  </section>
+<Base wide title="Research is a practice. Pass it on." description="The research and teaching practice of economist Ian Helfrich. Explore the work, develop your methods, and bring a question of your own." image={portrait.src} imageAlt={portrait.alt} pageClass="studio studio-home">
+ <section class="st-intro">
+  <div class="st-name"><h1>Ian Helfrich</h1><span>PhD in Economics<br/>Georgia Tech, 2024</span></div>
+  <div class="st-hero">
+   <div class="st-hero-copy"><p class="st-kicker">Research is a practice. Pass it on.</p><h2>Make sense <br/>of the world.<br/>Help others <br/>do the same.</h2><p>I study how we learn from incomplete observations, and help people develop the judgment to ask better questions of their own.</p><div class="st-hero-actions"><a class="st-button" href="#selected-work">Step into the work <span aria-hidden="true">↓</span></a><a class="st-underlink" href="#practice">Learn with me</a></div></div>
+   <div class="st-portrait-stage"><div class="st-field" data-line-field><canvas aria-hidden="true"></canvas><svg class="st-field-fallback" viewBox="0 0 500 500" aria-hidden="true">{Array.from({length:22},(_,i)=><path d={`M0 ${100+i*13} C180 ${40+i*9} 300 ${330+i*5} 500 ${120+i*14}`}/>)}</svg></div><button class="st-motion" type="button" hidden>Pause motion</button><figure class="st-portrait"><img {...portrait} fetchpriority="high" decoding="async"/><figcaption><span>{identityRecord.name}</span><span>{identityRecord.location}</span></figcaption></figure><p class="st-photo-note">A rigorous mind.<br/>A generous practice.</p></div>
+  </div>
+  <div class="st-entry-paths"><a href="#practice"><span>For students &amp; researchers<small>Build your methods and your judgment</small></span><span class="st-arrow" aria-hidden="true">↗</span></a><a href="#inquiry" data-inquiry-intent="collaborate"><span>For research teams<small>Bring a question worth working through</small></span><span class="st-arrow" aria-hidden="true">↗</span></a><a href="/job-market"><span>For hiring &amp; collaboration<small>Experience, research record, and CV</small></span><span class="st-arrow" aria-hidden="true">↗</span></a></div>
+ </section>
+ <section id="selected-work" class="st-work st-section" data-projects>
+  <div class="st-section-top"><p>Selected work</p><a href="/research">The full research record <span aria-hidden="true">↗</span></a></div><h2>Look closely.<br/>The comparison matters.</h2>
+  <div class="st-projects"><div class="st-project-tabs" role="tablist" aria-label="Explore selected projects" hidden>{selectedRecords.map((r,i)=><button id={`project-tab-${i}`} role="tab" aria-controls={`project-panel-${i}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1}>{tabs[i]}</button>)}</div>
+  {selectedRecords.map((record,i)=><section class="st-project" id={`project-panel-${i}`} aria-labelledby={`project-title-${i}`}>
+   {i===0?<figure class="st-coeff"><div class="st-figure-head"><span>Rural–urban comparison</span><span>NMTC</span></div><svg viewBox="0 0 550 310" role="img" aria-labelledby="coefficient-title coefficient-desc"><title id="coefficient-title">Pooled and within-intermediary rural coefficients</title><desc id="coefficient-desc">Pooled coefficient minus 0.262. Within-CDE coefficient minus 0.047; 95 percent confidence interval from minus 0.245 to plus 0.152. Descriptive comparisons, not causal effects. No pooled confidence interval is shown.</desc>{[-.3,-.2,-.1,0,.1,.2].map(v=><g><line x1={coefficientX(v)} x2={coefficientX(v)} y1="55" y2="253" stroke={v===0?'#a5a5a5':'#4a4a4a'} stroke-dasharray={v===0?'3 5':undefined}/><text x={coefficientX(v)} y="278" text-anchor="middle">{v===0?'0':v.toFixed(1)}</text></g>)}<text x="55" y="35">Pooled comparison</text><circle cx={coefficientX(nmtc.pooled)} cy="85" r="7" fill="#ccc"/><text x={coefficientX(nmtc.pooled)+16} y="90" class="st-coeff-value">−0.262</text><text x="55" y="144">Within the same intermediary</text><line x1={coefficientX(nmtc.lower)} x2={coefficientX(nmtc.upper)} y1="194" y2="194" stroke="#ddd" stroke-width="3"/>{[nmtc.lower,nmtc.upper].map(v=><line x1={coefficientX(v)} x2={coefficientX(v)} y1="187" y2="201" stroke="#ddd" stroke-width="2"/>)}<circle cx={coefficientX(nmtc.within)} cy="194" r="7" fill="#fff"/><text x={coefficientX(nmtc.within)} y="226" text-anchor="middle" class="st-coeff-value">−0.047</text></svg><figcaption>Within-CDE bar: 95% confidence interval.<br/>Descriptive comparisons; no causal effect is identified.</figcaption></figure>:i===1?<div class="st-trade-art"><span>Trade in the Spotlight</span><div class="st-trade-question">A country is<br/>more than<br/>its centroid.</div><div class="st-trade-terms"><span>Population</span><span>Night lights</span><span>Distance</span></div></div>:<div class="st-method-art"><span>Applied Statistics</span><div class="st-method-chain"><span>Question</span><i aria-hidden="true">↓</i><span>Estimand</span><i aria-hidden="true">↓</i><span>Evidence</span><i aria-hidden="true">↓</i><span>Interpretation</span></div><small>One argument. Inspectable steps.</small></div>}
+   <div class="st-project-copy"><p class="st-status">{record.status}</p><h3 id={`project-title-${i}`}>{titles[i]}</h3><p>{record.question}</p><p>{record.built}</p><p class="st-credit">{record.role}</p><div class="st-project-links">{record.links.slice(0,2).map(link=><a href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>)}</div></div>
+  </section>)}
+  </div>
+  <p class="st-supporting">Also in the record: additional contributor to the semiconductor demonstration in <a href="/work#case-nncta-semiconductor-demonstration"><cite>Securing America's Future</cite></a>; ad hoc referee, <a href="/cv#service">Journal of Economic Theory</a>. <a href="/work">See the wider body of work</a>.</p>
+ </section>
+ <section id="practice" class="st-practice st-section"><div class="st-practice-heading"><p class="st-kicker">The way I work</p><h2>High standards.<br/>Room to grow.</h2><p>We can take a difficult idea seriously and still make it approachable. Start with a question. Work through a small example. Then return to the general case and see what survives.</p><a class="st-underlink" href="/teaching">My teaching record <span aria-hidden="true">↗</span></a><a class="st-button" href="#inquiry" data-inquiry-intent="learn">Work through it with me <span aria-hidden="true">↗</span></a></div><div class="st-practice-list">{[['Find the real question.','Clarify what you want to learn, what you can measure, and which comparison would actually be informative.'],['Make the reasoning visible.','Connect the mathematics, the code, and the interpretation. Work through the step that still feels mysterious.'],['Build your independence.','Learn to diagnose problems, defend your choices, and recognize when the evidence asks you to change your mind.']].map(([title,body],i)=><article><span>0{i+1}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}</div><div class="st-teaching-note"><div><strong>Teaching, with a record behind it.</strong><p>{teachingRecognition.award}, {teachingRecognition.year}. {tutoringRecord.wyzant.hoursDisplay} platform-recorded Wyzant hours as of {tutoringRecord.wyzant.asOf}. Instructor of record for three semesters at Georgia Tech.</p></div><a href={publicLinks.wyzant}>Find me on Wyzant <span aria-hidden="true">↗</span></a></div></section>
+ <section class="st-resource st-section"><div class="st-resource-title"><p>A place to begin</p><h2>Follow the argument.<br/>Try it for yourself.</h2></div><div><p>Start with the open econometrics course, work through an experiment, or explore the public research archive.</p>{[['/econometrics/','The Econometric Argument','Open course · September 2026 development edition'],['/econometrics/lab/','Interactive investigations','Explore the assumptions behind the answer'],['/learn/policy-statistics/','Policy Statistics Lab','Hands-on work with actual policy questions'],['/library','The public library','Search papers, projects, data, and writing']].map(([url,title,desc])=><a href={url}><span>{title}<small>{desc}</small></span><span aria-hidden="true">↗</span></a>)}</div></section>
+ <section class="st-mission"><div class="st-mission-inner"><p>The ambition</p><h2>Train the researchers<br/>who train the<br/>next generation.</h2><div><p>I want the work to travel further than I can. Through people who think rigorously, teach generously, and help others become capable of doing the same.</p><span>Pass it on.</span></div></div><div class="st-mission-rules" aria-hidden="true">{Array.from({length:12},()=> <i/> )}</div></section>
+ <section id="inquiry" class="st-contact st-section"><div><p class="st-kicker">Bring a question</p><h2>Let’s see where<br/>it takes us.</h2><p class="st-contact-note">Tell me what you’re working on, where you’re getting stuck, and what you want to be able to do.</p><a class="st-direct" href={publicLinks.email}>ianthelfrich@gmail.com <span aria-hidden="true">↗</span></a><p class="st-supporting">{availabilityRecord.status}. <a href="/cv">CV and background</a>.</p></div><form class="st-inquiry" data-inquiry hidden><label for="st-intent">I’d like to talk about</label><select id="st-intent" name="intent"><option value="learn">Learning and quantitative coaching</option><option value="collaborate">Research collaboration or advisory work</option><option value="hire">Academic or industry opportunity</option></select><label for="st-name">Your name</label><input id="st-name" name="name" autocomplete="name" required maxlength="120" placeholder="How should I address you?"/><label for="st-question">What are you working on?</label><textarea id="st-question" name="question" required maxlength="3000" rows="4" placeholder="The question, the context, and what would help…"></textarea><button class="st-button" type="submit">Open email draft <span aria-hidden="true">↗</span></button><p class="st-form-note" role="status">Opens your email app. Nothing is sent from this page.</p></form></section>
 </Base>
-
-<style>
-  :global(.fieldbook-home main) { padding-top: 0; }
-  .route-shell { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-7); }
-  .route-band { padding-block: var(--ef-space-7); border-block: 1px solid var(--ef-ink); background: var(--ef-figure); }
-  .record-label,
-  .route-kicker,
-  .evidence-source { margin: 0 0 0.75rem; color: color-mix(in srgb, var(--ef-ink) 64%, transparent); font: 620 0.72rem/1.4 var(--font-data); letter-spacing: 0.08em; text-transform: uppercase; }
-  .fieldbook-intro { min-height: min(48rem, calc(100vh - 4.5rem)); padding-block: clamp(4rem, 10vw, 8.5rem); align-items: end; }
-  .fieldbook-intro__copy { grid-column: 2 / span 7; }
-  .fieldbook-intro h1 { max-width: 11ch; margin-bottom: 1.5rem; font-size: clamp(3.25rem, 7.6vw, 7.5rem); }
-  .fieldbook-intro__lead { max-width: 62ch; font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.5; }
-  .fieldbook-intro__status { grid-column: 9 / span 3; padding-top: 1rem; border-top: 2px solid var(--ef-signal); font-family: var(--font-data); font-size: 0.8rem; }
-  .fieldbook-intro__status dl { margin: 0 0 1rem; }
-  .fieldbook-intro__status dl > div { padding-block: 0.65rem; border-bottom: 1px solid var(--rule); }
-  .fieldbook-intro__status dt { color: var(--muted); }
-  .fieldbook-intro__status dd { margin: 0.15rem 0 0; }
-  .action-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
-  .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; justify-content: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.76rem/1 var(--font-data); letter-spacing: 0.04em; text-decoration: none; text-transform: uppercase; }
-  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
-  .fieldbook-action--quiet { color: var(--ef-ink); background: transparent; border-color: var(--ef-ink); }
-  .fieldbook-action--quiet:hover { color: var(--ef-figure); }
-  .route-band__heading { margin-bottom: var(--ef-space-5); }
-  .section-intro { display: grid; max-width: 72rem; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); column-gap: var(--ef-space-6); }
-  .section-intro .record-label { grid-column: 1 / -1; }
-  .section-intro h2 { grid-column: 1; margin: 0; }
-  .section-intro > p:last-child { grid-column: 2; margin: 0; align-self: end; }
-  .signature-note { padding-top: 0.9rem; border-top: 2px solid var(--ef-oxide); }
-  .signature-note strong { font: 650 0.76rem/1.4 var(--font-data); text-transform: uppercase; }
-  .signature-note p { margin-top: 0.65rem; }
-  .signature-aperture { width: min(calc(100% - 2 * var(--ef-edge)), 80rem); margin-inline: auto; }
-  .case-stack { margin-top: var(--ef-space-6); border-bottom: 1px solid var(--ef-ink); }
-  .numbered-case { display: grid; grid-template-columns: minmax(3rem, 0.4fr) minmax(0, 6fr); gap: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
-  .numbered-case :global(.case-record) { border-top: 0; padding-block: var(--ef-space-5); }
-  .case-number { padding-top: var(--ef-space-5); color: var(--ef-signal); font: 580 clamp(1.5rem, 3vw, 3rem)/1 var(--font-data); }
-  .teaching-ledger { display: grid; margin-block: var(--ef-space-6) var(--ef-space-4); grid-template-columns: 1fr 1fr; border: 1px solid var(--ef-ink); }
-  .teaching-ledger article { min-height: 18rem; padding: var(--ef-space-5); }
-  .teaching-ledger article + article { border-left: 1px solid var(--ef-ink); }
-  .teaching-ledger article > strong { display: block; margin-block: 1rem; font: 570 clamp(3rem, 7vw, 6.5rem)/0.9 var(--font-display); letter-spacing: -0.06em; }
-  .teaching-ledger h3 { font-size: clamp(1.25rem, 2vw, 1.7rem); }
-  .teaching-recognition { grid-column: 1 / -1; min-height: auto !important; border-top: 1px solid var(--ef-ink); border-left: 0 !important; }
-  .text-route { font: 650 0.78rem/1 var(--font-data); text-transform: uppercase; }
-  .range-ledger { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
-  .range-ledger > div { display: grid; padding-block: 1.2rem; grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
-  .range-ledger dt { font: 650 0.76rem/1.4 var(--font-data); text-transform: uppercase; }
-  .range-ledger dd { margin: 0; }
-  .closing-links { display: grid; align-content: end; gap: 0.7rem; font: 600 0.76rem/1.4 var(--font-data); }
-  @media (max-width: 60rem) {
-    .fieldbook-intro__copy { grid-column: 1 / span 8; }
-    .fieldbook-intro__status { grid-column: 6 / span 3; }
-    .section-intro { grid-template-columns: 1fr; }
-    .section-intro h2,
-    .section-intro > p:last-child { grid-column: 1; }
-    .section-intro > p:last-child { margin-top: 1rem; }
-  }
-  @media (max-width: 45rem) {
-    .fieldbook-intro { display: block; min-height: auto; }
-    .fieldbook-intro h1 { overflow-wrap: normal; word-break: normal; }
-    .fieldbook-intro__status { margin-top: 3rem; }
-    .route-shell { padding-block: var(--ef-space-6); }
-    .route-band { padding-block: var(--ef-space-6); }
-    .teaching-ledger { grid-template-columns: 1fr; }
-    .teaching-ledger article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
-    .teaching-recognition { grid-column: 1; }
-    .range-ledger > div { grid-template-columns: 1fr; gap: 0.5rem; }
-  }
-  @media (max-width: 22rem) {
-    .fieldbook-intro h1 { font-size: 2.625rem; }
-  }
-</style>
+<script>
+ import {mountHomepage} from '../scripts/homepage-studio.mjs';
+ let dispose=mountHomepage(document);
+ window.addEventListener('pagehide',()=>dispose());
+ window.addEventListener('pageshow',(event)=>{
+  if(event.persisted) dispose=mountHomepage(document);
+ });
+</script>

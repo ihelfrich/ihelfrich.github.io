@@ -58,13 +58,15 @@ if (/<nav id="primary-nav"[\s\S]*?<a href="\/job-market"/.test(base)) {
 requireText(base, basePath, 'href="/contact"', "the Contact primary action");
 
 requireText(home, homePath, "selectedRecordIds", "the explicit selected-record list");
-for (const id of ["trade-in-the-spotlight", "applied-statistics", "nncta-semiconductor-demonstration"]) {
+for (const id of ["nmtc-rural-gap", "trade-in-the-spotlight", "applied-statistics"]) {
   requireText(home, homePath, id, `the ${id} selected record`);
 }
 for (const text of ["Journal of Economic Theory", "Securing America's Future"]) {
   requireText(home, homePath, text);
 }
-requireText(home, homePath, "ResearchGraph", "the interactive research-range component");
+requireText(home, homePath, 'href="/research"', "the complete research record link");
+requireText(home, homePath, "mountHomepage", "the progressive homepage controls");
+requireText(home, homePath, "portrait", "the verified portrait record");
 forbidText(home, homePath, "CdeDecomposition", "the NMTC-first homepage signature");
 forbidText(home, homePath, "Signature research record", "the single-paper homepage framing");
 requireText(home, homePath, "tutoringRecord", "canonical tutoring evidence");
