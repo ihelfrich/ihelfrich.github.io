@@ -40,6 +40,10 @@ const titles=['The rural mobilization gap.','Where economic activity happens.','
 </Base>
 <script>
  import {mountHomepage} from '../scripts/homepage-studio.mjs';
+ import {mountFluidSurface} from '../scripts/homepage-fluid.mjs';
+ let disposeFluid=mountFluidSurface(document);
+ window.addEventListener('pagehide',()=>disposeFluid());
+ window.addEventListener('pageshow',event=>{if(event.persisted)disposeFluid=mountFluidSurface(document);});
  let dispose=mountHomepage(document);
  window.addEventListener('pagehide',()=>dispose());
  window.addEventListener('pageshow',(event)=>{

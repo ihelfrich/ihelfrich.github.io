@@ -28,3 +28,10 @@ test('line field stays finite and within its declared vertical bounds over time'
  const [x,y]=fieldPoint(i/100,j/41,t);assert.equal(x,i/100);assert.ok(Number.isFinite(y));assert.ok(y>=-.245&&y<=1.245);
  }
 });
+
+test('Space Grotesk masthead ships its pinned local font and license',async()=>{
+ const {readFile}=await import('node:fs/promises');const {createHash}=await import('node:crypto');
+ const bytes=await readFile('public/fonts/space-grotesk-variable.woff2');
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),'8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07');
+ assert.match(await readFile('public/fonts/OFL-SpaceGrotesk.txt','utf8'),/SIL OPEN FONT LICENSE/);
+});

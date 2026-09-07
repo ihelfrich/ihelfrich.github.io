@@ -526,7 +526,8 @@ for (const width of [390, 320]) {
 const homeMobileHeading = noScriptWindow.document.querySelector(".st-name h1");
 if (!homeMobileHeading) failures.push("portrait homepage heading is missing");
 else {
- const layout=cascadedPropertiesAtWidth(noScriptWindow,homeMobileHeading,320,["font-size","overflow-wrap","word-break"]);
+ const layout=cascadedPropertiesAtWidth(noScriptWindow,homeMobileHeading,320,["font-size","overflow-wrap","word-break","font-family"]);
+ if(!layout["font-family"]?.includes("Space Grotesk")) failures.push("homepage masthead must use the approved Space Grotesk treatment");
  if(layout["font-size"]!=="17.3vw"||layout["overflow-wrap"]!=="normal"||layout["word-break"]!=="normal") failures.push("320px studio masthead must scale without breaking the name");
 }
 const portrait=noScriptWindow.document.querySelector('.st-portrait img');

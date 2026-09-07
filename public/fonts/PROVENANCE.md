@@ -28,3 +28,12 @@ All three webfonts are served from this directory. The site makes no remote font
 - License: SIL Open Font License 1.1; see `OFL-Newsreader.txt`.
 
 Verification performed 2026-08-18 with `file`, SHA-256, and fontTools `TTFont`. The license texts are unmodified copies from the pinned upstream revisions.
+
+## Space Grotesk masthead
+
+Source: https://github.com/floriankarsten/space-grotesk
+Pinned commit: 03507d024a01282884232081fc6011c09ff4e849
+Upstream file: fonts/woff2/SpaceGrotesk[wght].woff2
+Local file: space-grotesk-variable.woff2
+SHA-256: 8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07
+License: OFL-SpaceGrotesk.txt (SIL Open Font License 1.1). Unmodified upstream font.

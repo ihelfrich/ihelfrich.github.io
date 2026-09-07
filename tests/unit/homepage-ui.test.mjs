@@ -27,3 +27,17 @@ test('built homepage retains no-JS content and enhances keyboard, inquiry and mo
  for(const a of doc.querySelectorAll('a[href^="#"]')){const href=a.getAttribute('href');if(href!=='#')assert.ok(doc.querySelector(href),href);}
  dispose();assert.equal(frames.size,0);await w.happyDOM.abort();
 });
+
+test('fluid portrait and section navigation reset correctly on preference changes and disposal',async()=>{
+ const {mountFluidSurface}=await import('../../src/scripts/homepage-fluid.mjs');
+ const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
+ const media=Object.assign(new w.EventTarget(),{matches:false});w.matchMedia=()=>media;let notify,disconnected=false;
+ w.IntersectionObserver=class{constructor(fn){notify=fn;}observe(){}disconnect(){disconnected=true;}};
+ const portrait=d.querySelector('.st-portrait'),stage=d.querySelector('.st-portrait-stage');stage.getBoundingClientRect=()=>({left:0,top:0,width:500,height:500});
+ const dispose=mountFluidSurface(d);
+ stage.dispatchEvent(new w.PointerEvent('pointermove',{clientX:500,clientY:0,pointerType:'mouse'}));assert.equal(portrait.style.getPropertyValue('--portrait-x'),'3deg');
+ media.matches=true;media.dispatchEvent(new w.Event('change'));assert.equal(portrait.style.getPropertyValue('--portrait-x'),'');
+ stage.dispatchEvent(new w.PointerEvent('pointermove',{clientX:500,clientY:0,pointerType:'mouse'}));assert.equal(portrait.style.getPropertyValue('--portrait-x'),'');
+ const section=d.getElementById('instruments');notify([{target:section,isIntersecting:true,boundingClientRect:{top:80}}]);assert.equal(d.querySelector('.st-experience-nav [aria-current]').hash,'#instruments');
+ dispose();assert.ok(disconnected);assert.equal(d.querySelector('.st-experience-nav [aria-current]'),null);await w.happyDOM.abort();
+});
