@@ -11,6 +11,7 @@ const papers=filterDiscoverableResearch(await getCollection('research'));
  <div class="st-section-top"><span>Working instruments</span><a href="/econometrics/lab/">Explore the full lab ↗</a></div>
  <h2>Get your hands<br/>on the question.</h2>
  <p class="st-instruments-intro">Move an observation. Reallocate a distribution. Redraw a boundary. These tools calculate the consequences as you work.</p>
+ <nav class="st-tool-picker" aria-label="Choose an instrument"><a href="#tool-transport">Transport</a><a href="#tool-regression">Regression</a><a href="#tool-spatial">Spatial allocation</a></nav>
  <details class="st-tool" id="tool-transport" open><summary><span>Optimal transport<small>Move mass between spatial distributions</small></span><span class="st-tool-symbol" aria-hidden="true">+</span></summary><div class="st-tool-body"><OptimalTransportAperture/></div></details>
  <details class="st-tool" id="tool-regression"><summary><span>Regression sensitivity<small>Move the data. Watch the inference change.</small></span><span class="st-tool-symbol" aria-hidden="true">+</span></summary><div class="st-tool-body"><LeastSquaresLab/></div></details>
  <details class="st-tool" id="tool-spatial"><summary><span>Spatial allocation<small>Change the metric, boundaries, and map</small></span><span class="st-tool-symbol" aria-hidden="true">+</span></summary><div class="st-tool-body"><SpatialAllocationStudio headingLevel="h3"/></div></details>

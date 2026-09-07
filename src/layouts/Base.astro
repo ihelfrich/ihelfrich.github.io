@@ -3,6 +3,7 @@ import "../styles/global.css";
 import "../styles/instrument.css";
 import "../styles/fieldbook.css";
 import "../styles/site-motion.css";
+import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
 
@@ -295,5 +296,11 @@ const personSchema = {
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
   </script>
+<script>
+ import {mountSiteScroll} from "../scripts/site-scroll.mjs";
+ let disposeScroll=mountSiteScroll(document);
+ window.addEventListener("pagehide",()=>disposeScroll());
+ window.addEventListener("pageshow",event=>{if(event.persisted)disposeScroll=mountSiteScroll(document);});
+</script>
 </body>
 </html>

@@ -89,7 +89,10 @@ for (const heading of [
 requireText(research, researchPath, "research-discovery", "the canonical discovery rules");
 forbidText(research, researchPath, "Nine papers", "the obsolete paper-count claim");
 
-requireText(teaching, teachingPath, "Teaching &amp; Coaching", "the Teaching & Coaching H1");
+requireText(teaching, teachingPath, "<h1>Think clearly.<br/>Then teach it.</h1>", "the teaching headline");
+requireText(teaching, teachingPath, "Teaching &amp; quantitative coaching", "the teaching and coaching context");
+requireText(teaching, teachingPath, 'href="/econometrics/"', "the course entry link");
+requireText(teaching, teachingPath, 'href="#teaching-relay"', "the live explanation entry link");
 requireText(teaching, teachingPath, "RepresentationRelay", "the flagship representation relay");
 requireText(teaching, teachingPath, "platform-recorded", "the Wyzant source label");
 requireText(teaching, teachingPath, "practice-recorded", "the private-practice source label");

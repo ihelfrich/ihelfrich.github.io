@@ -41,3 +41,29 @@ test('fluid portrait and section navigation reset correctly on preference change
  const section=d.getElementById('instruments');notify([{target:section,isIntersecting:true,boundingClientRect:{top:80}}]);assert.equal(d.querySelector('.st-experience-nav [aria-current]').hash,'#instruments');
  dispose();assert.ok(disconnected);assert.equal(d.querySelector('.st-experience-nav [aria-current]'),null);await w.happyDOM.abort();
 });
+
+test('scroll enhancement wakes only on demand, reveals tools, and releases its listeners',async()=>{
+ const {mountSiteScroll}=await import('../../src/scripts/site-scroll.mjs');
+ const w=new Window({url:'https://example.test/#tool-regression'}),d=w.document;
+ d.body.innerHTML='<header class="site-header"></header><nav class="st-experience-nav"></nav><a href="#tool-spatial">Spatial</a><details id="tool-regression"></details><details id="tool-spatial"></details><textarea></textarea>';
+ d.querySelector('.site-header').getBoundingClientRect=()=>({height:72});
+ d.querySelector('.st-experience-nav').getBoundingClientRect=()=>({height:60});
+ const frames=new Map();let next=0,engine,disconnected=false;
+ w.requestAnimationFrame=fn=>{frames.set(++next,fn);return next;};w.cancelAnimationFrame=id=>frames.delete(id);
+ w.ResizeObserver=class{observe(){}disconnect(){disconnected=true;}};
+ class Engine{constructor(options){this.options=options;this.events={};this.isScrolling=false;engine=this;}on(name,fn){this.events[name]=fn;}raf(){this.ticks=(this.ticks||0)+1;}destroy(){this.destroyed=true;}}
+ const dispose=mountSiteScroll(d,Engine);
+ assert.equal(frames.size,0);assert.equal(d.getElementById('tool-regression').open,true);
+ assert.equal(d.documentElement.style.getPropertyValue('--site-anchor-offset'),'150px');
+ assert.equal(engine.options.anchors,true);assert.equal(engine.options.syncTouch,false);assert.equal(engine.options.autoRaf,false);
+ assert.equal(engine.options.prevent(d.querySelector('textarea')),true);
+ d.body.classList.add('nav-open');assert.equal(engine.options.prevent(d.body),true);d.body.classList.remove('nav-open');
+ d.querySelector('a').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));assert.equal(d.getElementById('tool-spatial').open,true);
+ const step=()=>{const [id,fn]=frames.entries().next().value;frames.delete(id);fn(16);};
+ engine.isScrolling='smooth';step();assert.equal(frames.size,1);
+ engine.isScrolling=false;step();assert.equal(frames.size,0);
+ engine.events['virtual-scroll']();assert.equal(frames.size,1);
+ dispose();assert.equal(frames.size,0);assert.ok(disconnected&&engine.destroyed);assert.equal(d.documentElement.dataset.scrollEngine,undefined);
+ assert.equal(d.documentElement.style.getPropertyValue('--site-anchor-offset'),'');
+ engine.events.scroll();assert.equal(frames.size,0);await w.happyDOM.abort();
+});

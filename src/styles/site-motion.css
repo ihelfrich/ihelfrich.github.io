@@ -1,3 +1,4 @@
+@font-face{font-family:"Space Grotesk";src:url('/fonts/space-grotesk-variable.woff2') format('woff2');font-style:normal;font-weight:300 700;font-display:swap}
 /* Shared spatial continuity across ordinary document navigations. */
 @view-transition { navigation: auto; }
 .site-header { view-transition-name: site-header; }
@@ -12,3 +13,7 @@
  @view-transition { navigation: none; }
  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation: none!important; }
 }
+html.lenis,html.lenis body{scroll-behavior:auto!important}
+html{scroll-padding-top:var(--site-anchor-offset,90px)}
+body:not(.studio) main [id]{scroll-margin-top:20px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
