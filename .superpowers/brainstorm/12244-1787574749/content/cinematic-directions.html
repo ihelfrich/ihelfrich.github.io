@@ -1,0 +1,41 @@
+<style>
+  .cinematic-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:26px; }
+  .cinematic-card { cursor:pointer; border:1px solid rgba(220,210,190,.24); border-radius:18px; overflow:hidden; background:#11100f; transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+  .cinematic-card:hover,.cinematic-card.selected { transform:translateY(-5px); border-color:#e6c46c; box-shadow:0 20px 55px rgba(0,0,0,.42),0 0 0 1px rgba(230,196,108,.3); }
+  .direction-art { position:relative; height:265px; overflow:hidden; isolation:isolate; }
+  .direction-copy { padding:18px 19px 20px; }
+  .direction-copy h3 { margin:0 0 7px; font-family:Georgia,serif; font-size:1.25rem; color:#fbf5e7; }
+  .direction-copy p { margin:0; color:#bdb6aa; line-height:1.45; font-size:.91rem; }
+  .direction-kicker { margin:0 0 7px; color:#e6c46c; font-size:.68rem; font-weight:700; letter-spacing:.13em; }
+  .luminous { background:radial-gradient(circle at 48% 48%,#19374d 0%,#07101b 40%,#03070c 100%); }
+  .luminous:before { content:""; position:absolute; width:228px; height:228px; top:25px; left:calc(50% - 114px); border-radius:50%; background:radial-gradient(circle at 32% 25%,#517e98 0 2%,#244658 22%,#0c2636 55%,#061520 76%); box-shadow:inset -30px -18px 44px #020a10,0 0 65px rgba(61,150,195,.28); }
+  .luminous:after { content:""; position:absolute; inset:0; background:repeating-radial-gradient(ellipse at 50% 49%,transparent 0 38px,rgba(236,199,100,.40) 39px 40px,transparent 41px 62px); mix-blend-mode:screen; opacity:.82; transform:rotate(-17deg) scale(1.3); }
+  .route { position:absolute; z-index:2; height:1px; transform-origin:left center; background:linear-gradient(90deg,transparent,#f5d77d 20%,#fff6ca 48%,#efba42 78%,transparent); box-shadow:0 0 8px #e5a92f; }
+  .route.r1 { width:188px; left:43px; top:126px; transform:rotate(-18deg); } .route.r2 { width:146px; left:89px; top:174px; transform:rotate(-46deg); } .route.r3 { width:160px; left:113px; top:85px; transform:rotate(34deg); }
+  .art-label { position:absolute; z-index:3; left:18px; bottom:15px; color:#fff2c6; font:600 .65rem/1.4 ui-monospace,monospace; letter-spacing:.11em; }
+  .earth { background:linear-gradient(145deg,#e6d4b2,#8d6549 45%,#261b1a); }
+  .earth:before { content:""; position:absolute; inset:-32px -16px 15px; background:repeating-radial-gradient(ellipse at 55% 70%,rgba(40,22,18,.58) 0 1px,transparent 2px 17px),linear-gradient(154deg,transparent 0 36%,rgba(248,220,158,.5) 37% 38%,transparent 39% 56%,rgba(42,22,20,.5) 57% 58%,transparent 59%); transform:rotate(-12deg) scale(1.24); }
+  .earth:after { content:""; position:absolute; width:160px; height:160px; left:calc(50% - 80px); top:50px; border-radius:48% 52% 50% 45%; background:linear-gradient(135deg,#223b36,#759376 45%,#35463c); box-shadow:inset -22px -16px 35px rgba(11,19,15,.7),0 16px 34px rgba(18,7,5,.45); transform:rotate(19deg); }
+  .earth .beam { position:absolute; z-index:2; left:50%; top:38px; width:5px; height:185px; background:linear-gradient(#fff8d3,rgba(255,219,113,.15)); box-shadow:0 0 24px #ffe796; transform:rotate(9deg); }
+  .engine { background:radial-gradient(circle at 50% 48%,#2f3445 0,#0c0d13 42%,#040406 78%); }
+  .engine:before { content:""; position:absolute; width:170px; height:170px; left:calc(50% - 85px); top:48px; transform:rotate(45deg); border:1px solid rgba(196,210,238,.72); box-shadow:0 0 0 18px rgba(140,162,204,.05),0 0 0 42px rgba(140,162,204,.035),0 0 44px rgba(95,131,211,.32),inset 0 0 34px rgba(113,142,221,.18); }
+  .engine:after { content:""; position:absolute; left:calc(50% - 48px); top:85px; width:96px; height:96px; background:linear-gradient(135deg,#ebdfc3,#65718e 42%,#192132 55%,#d8af65); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); box-shadow:0 0 28px #89a9ff; }
+  .engine .line { position:absolute; z-index:2; height:1px; background:linear-gradient(90deg,transparent,#aac7ff,#f2d58d,transparent); opacity:.85; }.engine .line.a{width:230px;left:27px;top:130px}.engine .line.b{width:174px;left:48px;top:91px;transform:rotate(51deg)}.engine .line.c{width:174px;right:46px;top:91px;transform:rotate(-51deg)}
+  @media(max-width:800px){.cinematic-grid{grid-template-columns:1fr}.direction-art{height:190px}}
+</style>
+<h2>Choose the film language</h2>
+<p class="subtitle">Each direction teaches the same economic idea—distance changes the feasible economy—but produces a completely different emotional and technical experience.</p>
+<div class="cinematic-grid">
+  <article class="cinematic-card" data-choice="luminous-network" onclick="toggleSelect(this)">
+    <div class="direction-art luminous"><span class="route r1"></span><span class="route r2"></span><span class="route r3"></span><span class="art-label">THE WORLD REWEAVES</span></div>
+    <div class="direction-copy"><p class="direction-kicker">RECOMMENDED · CINEMATIC SYSTEM</p><h3>The Luminous Network</h3><p>A dark, living globe: routes flare, bend, fail, and re-form as the visitor changes economic distance. Intimate, large-scale, and inherently explanatory.</p></div>
+  </article>
+  <article class="cinematic-card" data-choice="tactile-earth" onclick="toggleSelect(this)">
+    <div class="direction-art earth"><span class="beam"></span><span class="art-label">WEIGHT / TERRAIN / FRICTION</span></div>
+    <div class="direction-copy"><p class="direction-kicker">MATERIAL · HUMAN</p><h3>The Tactile Earth</h3><p>A miniature relief world, photographed like a model. Trade feels costly because every route crosses terrain, weather, borders, and finite infrastructure.</p></div>
+  </article>
+  <article class="cinematic-card" data-choice="exchange-engine" onclick="toggleSelect(this)">
+    <div class="direction-art engine"><span class="line a"></span><span class="line b"></span><span class="line c"></span><span class="art-label">CONSTRAINTS BECOME FLOWS</span></div>
+    <div class="direction-copy"><p class="direction-kicker">ABSTRACT · PRECISE</p><h3>The Exchange Engine</h3><p>An impossible instrument where mass, capacity, and constraint assemble into an equilibrium. Strongest for optimal transport; coolest and least geographically immediate.</p></div>
+  </article>
+</div>
