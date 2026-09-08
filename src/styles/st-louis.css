@@ -1185,10 +1185,11 @@ dialog dd {
   );
 }
 .photographic-view .cesium-viewer-bottom {
-  left: auto;
-  right: 22px;
-  bottom: 125px;
-  max-width: calc(100% - 390px);
+  /* Cesium writes inline offsets for its own toolbar; reserve space for ours. */
+  left: auto !important;
+  right: 22px !important;
+  bottom: 125px !important;
+  max-width: calc(100% - 430px);
   background: #172126bb;
   padding: 3px 6px;
   border-radius: 4px;
@@ -1215,7 +1216,7 @@ dialog dd {
     width: 320px;
   }
   .photographic-view .cesium-viewer-bottom {
-    max-width: calc(100% - 350px);
+    max-width: calc(100% - 380px);
   }
 }
 @media (max-width: 650px) {
@@ -1234,9 +1235,9 @@ dialog dd {
     height: 17px;
   }
   .photographic-view .cesium-viewer-bottom {
-    left: 16px;
-    right: 16px;
-    bottom: 112px;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 112px !important;
     max-width: none;
   }
   .photographic-view .cesium-widget-credits {
@@ -1510,8 +1511,9 @@ h1 {
     max-height: calc(100% - 334px);
   }
   .photographic-view .explorer.estate-open {
-    max-height: calc(100% - 359px);
+    max-height: calc(100% - 441px);
   }
+  .photographic-view .explorer:not(.collapsed) { max-height:calc(100% - 441px); }
   .explorer.estate-open ~ .light-controls,
   .explorer.estate-open ~ .camera-controls {
     display: none;
