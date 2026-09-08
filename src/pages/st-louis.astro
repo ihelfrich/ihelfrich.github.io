@@ -1,0 +1,81 @@
+---
+import '../styles/st-louis.css';
+const title = 'St. Louis | A living spatial study by Ian Helfrich';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title><meta name="description" content="Explore real downtown St. Louis in 3D. Inspect buildings, follow walking routes, and compare the places within reach." />
+  <meta name="theme-color" content="#181e20" /><link rel="canonical" href="https://ihelfrich.github.io/st-louis" /><link rel="icon" href="/favicon.svg" />
+</head>
+<body>
+<main id="city-app">
+  <div id="city-viewport" role="region" aria-label="Interactive 3D model of downtown St. Louis" tabindex="0"></div>
+  <div class="edge-shade" aria-hidden="true"></div>
+  <div id="loading" class="loading"><span class="loading-orbit"></span><p>Finding our place.</p><span id="load-detail">Preparing downtown St. Louis</span></div>
+  <div id="fallback" class="fallback" hidden><h2>The city is available in a lighter view.</h2><p id="fallback-message">Your browser could not open the 3D scene. You can still explore the mapped places and comparisons.</p><button id="retry">Try 3D again</button></div>
+  <header class="city-header">
+    <a class="city-brand" href="/st-louis" aria-label="St. Louis spatial study"><span class="brand-mark" aria-hidden="true">∩</span><div><h1>ST. LOUIS</h1><p>A spatial study by <span>Ian Helfrich</span></p></div></a>
+    <a class="back-link" href="/work"><span aria-hidden="true">↗</span> Back to portfolio</a>
+  </header>
+  <aside class="explorer glass" aria-label="City explorer" id="explorer">
+    <div class="panel-heading"><span class="eyebrow" id="panel-kicker">THE RIVER CITY</span><button id="collapse-panel" class="icon-button" aria-label="Collapse explorer" aria-expanded="true">−</button></div>
+    <div id="panel-content">
+      <section id="explore-panel">
+        <h2>Find your perspective.</h2><p class="panel-intro">A familiar place. A closer look.</p>
+        <label class="search-label" for="place-search"><span aria-hidden="true">⌕</span><input id="place-search" type="search" aria-label="Find a mapped place or building" placeholder="Find a place or building" autocomplete="off" /></label>
+        <div id="place-list" class="place-list" aria-label="Mapped places"></div>
+        <div id="building-details" class="building-details" hidden></div>
+        <p class="small-note">Select a building to inspect its mapped geometry.</p>
+      </section>
+      <section id="compare-panel" hidden>
+        <h2>What’s within reach?</h2><p class="panel-intro">Two places. The same walking budget.</p>
+        <label class="field-label" for="origin-a"><span class="pin-dot amber">A</span> Starting point<select id="origin-a"></select></label>
+        <label class="field-label" for="origin-b"><span class="pin-dot blue">B</span> Compare with<select id="origin-b"></select></label>
+        <div class="range-label"><label for="walk-minutes">Walking time</label><output id="minutes-label" for="walk-minutes">15 min</output></div>
+        <input id="walk-minutes" type="range" min="5" max="30" step="5" value="15" />
+        <div id="comparison-summary" aria-live="polite"></div>
+        <div id="destination-list" class="destination-list"></div>
+        <p class="small-note">Mapped destinations on the walking network. Estimated at 1.3 m/s; crossings and entrance connections need local verification.</p>
+        <div class="button-row"><button class="primary-button" id="share-comparison">Copy comparison link</button><button class="secondary-button" id="download-comparison" aria-label="Download comparison as JSON">↓ JSON</button></div>
+      </section>
+      <section id="layers-panel" hidden>
+        <h2>A different light.</h2><p class="panel-intro">Shape the view. Keep the geography.</p>
+        <div class="segmented" aria-label="Representation"><button id="show-city" aria-pressed="true">City</button><button id="show-network" aria-pressed="false">Street network</button></div>
+        <label class="switch-row"><span>Buildings</span><input type="checkbox" id="toggle-buildings" checked /></label>
+        <label class="switch-row"><span>Trees &amp; parks</span><input type="checkbox" id="toggle-green" checked /></label>
+        <label class="switch-row"><span>Ambient traffic</span><input type="checkbox" id="toggle-traffic" checked /></label>
+        <label class="field-label" for="quality">Rendering detail<select id="quality"><option value="auto">Adaptive</option><option value="high">High</option><option value="low">Lightweight</option></select></label>
+        <p class="small-note">Light, vegetation detail, water and traffic are artistic interpretations. Traffic does not represent live conditions.</p>
+        <button class="secondary-button wide" id="open-methods">Sources &amp; methods ↗</button>
+      </section>
+    </div>
+  </aside>
+  <div class="camera-controls glass" aria-label="Camera controls">
+    <button id="north" title="Face north" aria-label="Face north"><span id="compass">N ↑</span></button>
+    <button id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button><button id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+    <button id="reset-view" title="Return to riverfront" aria-label="Return to riverfront">⌂</button>
+  </div>
+  <div id="scene-label" class="scene-label"><span class="live-dot"></span>DOWNTOWN &amp; RIVERFRONT<span class="scene-sub">38.628° N · 90.193° W</span></div>
+  <nav class="mode-bar glass" aria-label="Explore the city">
+    <button data-mode="explore" class="active" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 5v8l-8 5-8-5V8Z M4 8l8 5 8-5 M12 13v8"/></svg>Explore</button>
+    <button data-mode="compare" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V9h5v11 M14 20V4h5v16 M3 20h19"/></svg>Compare</button>
+    <button data-mode="layers" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 9-5 9 5-9 5Z M3 12l9 5 9-5 M3 16l9 5 9-5"/></svg>Layers</button>
+  </nav>
+  <div class="light-controls glass"><span aria-hidden="true">☀</span><div><div class="range-label"><label for="sun-hour">Light study</label><output for="sun-hour" id="sun-label">Golden hour</output></div><input type="range" id="sun-hour" min="6" max="22" value="17" step="0.25" /></div><button id="pause-motion" class="icon-button" aria-label="Pause ambient motion" aria-pressed="false">Ⅱ</button></div>
+  <footer class="city-footer"><div><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a><button id="data-info">Data &amp; methods</button></div><span class="controls-hint">Drag to orbit · Scroll to zoom · Right-drag to pan</span></footer>
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <dialog id="methods-dialog"><div class="dialog-top"><span class="eyebrow">BEHIND THE SCENE</span><button id="close-methods" class="icon-button" aria-label="Close sources and methods">×</button></div><h2>A real place.<br />An open process.</h2>
+    <p>This scene uses a dated OpenStreetMap extract of downtown St. Louis. Building footprints and street connections come from mapped geometry. Facades, vegetation detail, lighting, river effects and ambient traffic are illustrative.</p>
+    <dl id="source-statistics"></dl>
+    <h3>Walking comparisons</h3><p>Shortest paths follow the extracted walking graph at 1.3 metres per second, plus straight-line connections from mapped points to nearby graph nodes. These connections, crossings, access restrictions and destination completeness require local verification. Results describe the downloaded network and mapped destinations. Routes near its edge may be truncated. They are exploratory estimates.</p>
+    <h3>Building detail</h3><p>Heights use mapped height tags, then floor counts multiplied by 3.2 metres, then an explicitly identified visual default. Supplied tags are not independently surveyed measurements. The Arch and selected landmark details are authored interpretations.</p>
+    <p><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap attribution and ODbL</a> · <a id="snapshot-link" href="/st-louis/city.json" download>Download geographic snapshot</a> · <a href="/st-louis/data-manifest.json" download>Source manifest</a></p>
+    <div class="learn-link"><h3>Learn how to ask the next question.</h3><p>Explore spatial reasoning, quantitative research design, and the choices behind a defensible analysis.</p><a href="/teaching">Teaching &amp; research coaching ↗</a></div>
+  </dialog>
+  <noscript><div class="noscript-message">JavaScript is needed for the interactive city. <a href="/st-louis/city.json">Download the geographic data</a> or <a href="/teaching">explore teaching resources</a>.</div></noscript>
+</main>
+<script>import '../scripts/city/city-app.mjs';</script>
+</body>
+</html>
