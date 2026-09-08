@@ -1,4 +1,6 @@
 import { createCityScene } from "./city-scene.mjs";
+import { createEstatePanel } from "./city-estate.mjs";
+import { getConditions, solarPosition } from "../../lib/city-conditions.mjs";
 import {
   walkingComparison,
   encodeCityState,
@@ -17,6 +19,159 @@ let city = null,
   origins = [],
   selectedDestination = null;
 let toastTimer;
+let connectionSerial = 0,
+  openSceneSerial = 0,
+  pendingReality = null,
+  realityHost = null;
+const estate = createEstatePanel($("properties-panel"), {
+  getCity: () => city,
+  onOpen: () => setMode("properties"),
+  notice,
+});
+let regionManifest = null,
+  conditions = null,
+  environmentMode = "now";
+const localTime = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Chicago",
+  hour: "numeric",
+  minute: "2-digit",
+  timeZoneName: "short",
+});
+function localHour(now) {
+  const p = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  return (
+    Number(p.find((p) => p.type === "hour").value) +
+    Number(p.find((p) => p.type === "minute").value) / 60
+  );
+}
+async function refreshConditions(force = false) {
+  $("refresh-weather").disabled = true;
+  try {
+    conditions = await getConditions({ force });
+    const p = conditions.presentation,
+      o = conditions.observation;
+    $("weather-temperature").textContent =
+      p?.temperatureC !== null && p?.temperatureC !== undefined
+        ? `${Math.round((p.temperatureC * 9) / 5 + 32)}°F`
+        : "—";
+    $("weather-description").textContent = p?.usable
+      ? p.description || "Conditions partly reported"
+      : conditions.status === "stale"
+        ? "Report is stale"
+        : "Weather unavailable";
+    $("weather-wind").textContent =
+      p?.windSpeedMps !== null && p?.windSpeedMps !== undefined
+        ? `Wind ${Math.round(p.windSpeedMps * 2.23694)} mph`
+        : "Wind not reported";
+    $("weather-time").textContent = o?.observedAt
+      ? `KCPS · ${localTime.format(new Date(o.observedAt))}`
+      : "NWS · KCPS";
+    if (o?.observedAt) $("weather-time").dateTime = o.observedAt;
+    $("weather-status").textContent = p?.usable
+      ? "Observed"
+      : conditions.status === "stale"
+        ? "Stale"
+        : "Unavailable";
+    $("conditions-card").title =
+      "National Weather Service · St. Louis Downtown Airport, about 8 km from downtown. Airport conditions may differ from individual neighborhoods.";
+    $("weather-symbol").textContent = !p?.usable
+      ? "◌"
+      : ["rain", "mixed"].includes(p.precipitationKind)
+        ? "☂"
+        : p.precipitationKind === "snow"
+          ? "❄"
+          : p.cloudCoverFraction === null || p.cloudCoverFraction === undefined
+            ? "◌"
+            : p.cloudCoverFraction > 0.6
+              ? "☁"
+              : "☀";
+  } catch {
+    $("weather-description").textContent = "Weather unavailable";
+    $("weather-status").textContent = "Unavailable";
+  } finally {
+    $("refresh-weather").disabled = false;
+    updateLight();
+  }
+}
+function regionReady(manifest, restore = true) {
+  regionManifest = manifest;
+  const select = $("district-select");
+  select.querySelectorAll("option[data-regional]").forEach((n) => n.remove());
+  for (const p of manifest.places) {
+    const o = new Option(p.name, p.id);
+    o.dataset.regional = "true";
+    select.append(o);
+  }
+  const row = make("div");
+  $("source-statistics").querySelector("[data-region-stat]")?.remove();
+  row.dataset.regionStat = "true";
+  row.append(
+    make("dt", "", "City & County"),
+    make(
+      "dd",
+      "",
+      `${manifest.counts.buildings.toLocaleString()} mapped buildings · ${manifest.tiles.length} sections`,
+    ),
+  );
+  $("source-statistics").append(row);
+  if (restore && location.hash.startsWith("#district=")) {
+    try {
+      const id = decodeURIComponent(location.hash.slice(10));
+      if (id === "overview" || manifest.places.some((p) => p.id === id)) {
+        select.value = id;
+        visitDistrict(id, false);
+      }
+    } catch {}
+  }
+}
+function regionStatus(status) {
+  if (status.engine === "cesium") {
+    $("region-status").textContent =
+      status.message || "Streaming captured photographic geometry";
+    return;
+  }
+  if (city?.engine === "cesium") return;
+  if (status.error) {
+    $("region-status").textContent =
+      "Regional map unavailable. Downtown remains available.";
+    return;
+  }
+  const count = status.manifest?.counts?.buildings || 0;
+  $("region-status").textContent = status.pending
+    ? `Loading ${status.pending} map sections…`
+    : status.failed
+      ? "Some map sections could not load. They will retry."
+      : `${count.toLocaleString()} mapped buildings · ${status.level === "overview" ? "Zoom in for building detail" : "City & County"}`;
+}
+function visitDistrict(id, write = true) {
+  if (id === "riverfront") {
+    city?.reset();
+    $("district-name").textContent = "DOWNTOWN & RIVERFRONT";
+  } else if (id === "overview" && regionManifest) {
+    const b = regionManifest.bounds;
+    city?.flyTo((b[0] + b[2]) / 2, (b[1] + b[3]) / 2, 0.014);
+    $("district-name").textContent = "ST. LOUIS CITY & COUNTY";
+  } else {
+    const p = regionManifest?.places.find((p) => p.id === id);
+    if (!p) return;
+    city?.flyTo(p.x, p.z, 0.8);
+    $("district-name").textContent = p.name.toUpperCase();
+  }
+  $("district-select").value = id;
+  city?.clearRoutes();
+  $("scene-coordinate").textContent =
+    id === "riverfront" ? "38.628° N · 90.193° W" : "OPENSTREETMAP · MISSOURI";
+  if (write) {
+    const url = new URL(location.href);
+    url.hash = id === "riverfront" ? "" : `district=${encodeURIComponent(id)}`;
+    history.replaceState(null, "", url);
+  }
+}
 function notice(text) {
   $("notice").textContent = text;
   $("notice").classList.add("visible");
@@ -52,11 +207,12 @@ function state() {
     minutes: Number($("walk-minutes").value),
     light: Number($("sun-hour").value),
     layer: activeLayer,
+    environment: environmentMode,
   };
 }
 function setMode(next) {
   mode = next;
-  for (const n of ["explore", "compare", "layers"])
+  for (const n of ["explore", "compare", "layers", "properties"])
     $(n + "-panel").hidden = n !== next;
   document.querySelectorAll("[data-mode]").forEach((b) => {
     const active = b.dataset.mode === next;
@@ -67,7 +223,9 @@ function setMode(next) {
     explore: "THE RIVER CITY",
     compare: "PLACES & CONNECTIONS",
     layers: "ATMOSPHERE & GEOGRAPHY",
+    properties: "PLACE & POSSIBILITY",
   }[next];
+  $("explorer").classList.toggle("estate-open", next === "properties");
   if (!panelOpen) togglePanel();
   if (next === "compare") compare();
   else city?.clearRoutes();
@@ -112,6 +270,46 @@ function selectBuilding(b) {
   link.target = "_blank";
   link.rel = "noopener";
   el.append(link);
+  const polygon = b.polygon;
+  if (
+    polygon?.length >= 3 &&
+    polygon.every((p) => Number.isFinite(p[0]) && Number.isFinite(p[1]))
+  ) {
+    let twiceArea = 0,
+      xMoment = 0,
+      zMoment = 0;
+    for (let i = 0; i < polygon.length; i++) {
+      const a = polygon[i],
+        next = polygon[(i + 1) % polygon.length];
+      const cross = a[0] * next[1] - next[0] * a[1];
+      twiceArea += cross;
+      xMoment += (a[0] + next[0]) * cross;
+      zMoment += (a[1] + next[1]) * cross;
+    }
+    const x =
+      Math.abs(twiceArea) > 1e-8
+        ? xMoment / (3 * twiceArea)
+        : (Math.min(...polygon.map((p) => p[0])) +
+            Math.max(...polygon.map((p) => p[0]))) /
+          2;
+    const z =
+      Math.abs(twiceArea) > 1e-8
+        ? zMoment / (3 * twiceArea)
+        : (Math.min(...polygon.map((p) => p[1])) +
+            Math.max(...polygon.map((p) => p[1]))) /
+          2;
+    const origin = data.origin || [-90.193, 38.628];
+    const scenario = make("button", "", "Test a rental scenario here");
+    scenario.type = "button";
+    scenario.addEventListener("click", () =>
+      estate.selectPoint({
+        longitude:
+          origin[0] + x / (111195 * Math.cos((origin[1] * Math.PI) / 180)),
+        latitude: origin[1] - z / 111195,
+      }),
+    );
+    el.append(scenario);
+  }
   setMode("explore");
 }
 function showPlaces(query = "") {
@@ -119,7 +317,15 @@ function showPlaces(query = "") {
   list.replaceChildren();
   const q = query.trim().toLowerCase();
   let shown = q
-    ? places.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 18)
+    ? [
+        ...(regionManifest?.places || []).map((p) => ({
+          ...p,
+          regional: true,
+        })),
+        ...places,
+      ]
+        .filter((p) => p.name.toLowerCase().includes(q))
+        .slice(0, 18)
     : places.slice(0, 6);
   if (q) {
     for (const b of data.buildings
@@ -144,6 +350,10 @@ function showPlaces(query = "") {
     label.append(make("small", "", p.kind || "Mapped place"));
     b.append(label, make("span", "place-arrow", "↗"));
     b.addEventListener("click", () => {
+      if (p.regional) {
+        visitDistrict(p.id);
+        return;
+      }
       city?.flyTo(p.x, p.z, p.name === "Gateway Arch" ? 2.2 : 2.5);
       list
         .querySelectorAll("button")
@@ -277,20 +487,29 @@ function setLayer(layer) {
   }
 }
 function sunLabel(v) {
-  return v < 9
-    ? "Early morning"
-    : v < 15
-      ? "Daylight"
-      : v < 19
-        ? "Golden hour"
-        : v < 21
-          ? "Blue hour"
-          : "Nightfall";
+  const hour = Math.floor(v),
+    minute = Math.round((v - hour) * 60);
+  return `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
 }
 function updateLight() {
-  const v = Number($("sun-hour").value);
-  $("sun-label").textContent = sunLabel(v);
-  city?.setLight(v);
+  const now = new Date();
+  $("local-clock").textContent = localTime.format(now);
+  $("live-environment").setAttribute(
+    "aria-pressed",
+    String(environmentMode === "now"),
+  );
+  if (environmentMode === "now") {
+    $("sun-hour").value = Math.floor(localHour(now) * 4) / 4;
+    $("sun-label").textContent = "St. Louis now";
+    city?.setEnvironment(solarPosition(now), conditions?.presentation);
+  } else {
+    const v = Number($("sun-hour").value);
+    $("sun-label").textContent = `${sunLabel(v)} · study`;
+    city?.setEnvironment(
+      solarPosition(new Date(now.getTime() + (v - localHour(now)) * 3600000)),
+      conditions?.presentation,
+    );
+  }
 }
 function download(name, payload) {
   const blob = new Blob([JSON.stringify(payload, null, 2)], {
@@ -332,20 +551,293 @@ function showFallback(message) {
   $("fallback").hidden = false;
   $("fallback-message").textContent = message;
 }
-async function openScene() {
-  try {
-    city = await createCityScene($("city-viewport"), data, {
-      onSelect: selectBuilding,
-      onReady() {
-        $("loading").hidden = true;
-        $("fallback").hidden = true;
-        updateLight();
-        setLayer(activeLayer);
-        if (mode === "compare") drawRoutes();
-      },
-      onError: showFallback,
+function rendererUI() {
+  const photo = city?.engine === "cesium";
+  document.body.classList.toggle("photographic-view", photo);
+  $("use-open-map").hidden = !photo;
+  $("open-reality").textContent = photo
+    ? "Change photographic connection ↗"
+    : "Photographic city ↗";
+  $("render-basis").textContent = photo
+    ? "Captured photographic geometry · provider credits below. Select a surface to start a location-based scenario."
+    : "Open map · OSM geometry with authored materials. Connect Cesium ion for captured photographic surfaces.";
+  $("layer-basis").textContent = photo
+    ? "Photographic surfaces contain captured lighting and weather. Current observations remain in the weather panel. Separate building, tree, traffic and light-study controls require the open map."
+    : "Now uses the current sun position and fresh airport weather observations. Surface wetness, water, vegetation and traffic are visual interpretations. Traffic is illustrative.";
+  for (const id of [
+    "show-network",
+    "toggle-buildings",
+    "toggle-green",
+    "toggle-traffic",
+    "sun-hour",
+  ])
+    $(id).disabled = photo;
+  document.querySelector(".light-controls").hidden = photo;
+  city?.setPaused(paused);
+  city?.setQuality($("quality").value);
+  estate.refreshMarkers();
+  if (mode === "compare") drawRoutes();
+  updateLight();
+}
+
+async function connectReality(event) {
+  event.preventDefault();
+  if (!data || pendingReality) return;
+  const token = $("ion-token").value.trim();
+  if (!token) return;
+  const assetId = Number(
+    $("ion-source").value === "custom"
+      ? $("ion-asset").value
+      : $("ion-source").value,
+  );
+  if (!Number.isSafeInteger(assetId) || assetId <= 0) {
+    $("reality-status").textContent =
+      "Enter a positive whole-number 3D Tiles asset ID.";
+    return;
+  }
+  const serial = ++connectionSerial,
+    host = make("div", "reality-host");
+  host.style.visibility = "hidden";
+  $("city-viewport").append(host);
+  const abort = new AbortController();
+  const attempt = {
+    serial,
+    host,
+    adapter: null,
+    abort,
+    timeout: null,
+    phase: "module",
+  };
+  pendingReality = attempt;
+  $("connect-reality").disabled = true;
+  $("reality-status").textContent = "Connecting to Cesium ion…";
+  $("ion-token").value = "";
+  let candidate = null,
+    readyBeforeAssignment = false,
+    connected = false,
+    pendingManifest = null,
+    diagnose = null;
+  const failure = (error) => {
+    if (serial !== connectionSerial) return;
+    ++connectionSerial;
+    clearTimeout(attempt.timeout);
+    abort.abort();
+    candidate?.dispose();
+    host.remove();
+    pendingReality = null;
+    $("connect-reality").disabled = false;
+    const diagnostic = error?.diagnostic || diagnose?.(attempt.phase);
+    const safe =
+      diagnostic &&
+      [
+        "module",
+        "renderer",
+        "authorization",
+        "tileset",
+        "tiles",
+        "surface",
+        "render",
+        "unknown",
+      ].includes(diagnostic.phase);
+    $("reality-status").textContent = safe
+      ? `${diagnostic.message} [Step: ${diagnostic.phase}${diagnostic.status ? `; HTTP ${diagnostic.status}` : ""}]`
+      : "The photographic layer could not connect. Check token permissions, selected asset and network, then enter the token again to retry.";
+    if (safe) {
+      try {
+        sessionStorage.setItem(
+          "stl-reality-check",
+          JSON.stringify({
+            phase: diagnostic.phase,
+            status: diagnostic.status,
+          }),
+        );
+      } catch {}
+    }
+    if (city === candidate) {
+      city = null;
+      realityHost = null;
+      showFallback(
+        "The photographic renderer stopped. Use Try 3D again to return to the open map.",
+      );
+    }
+  };
+  const ready = () => {
+    if (serial !== connectionSerial) {
+      candidate?.dispose();
+      host.remove();
+      return;
+    }
+    if (!candidate) {
+      readyBeforeAssignment = true;
+      return;
+    }
+    if (connected) return;
+    connected = true;
+    clearTimeout(attempt.timeout);
+    ++openSceneSerial;
+    city?.dispose();
+    realityHost?.remove();
+    city = candidate;
+    realityHost = host;
+    host.style.visibility = "visible";
+    pendingReality = null;
+    if (pendingManifest) regionReady(pendingManifest, false);
+    activeLayer = "city";
+    rendererUI();
+    setLayer("city");
+    $("loading").hidden = true;
+    $("fallback").hidden = true;
+    $("connect-reality").disabled = false;
+    $("reality-status").textContent =
+      "Connected. Photographic surfaces retain their captured lighting and weather.";
+    try {
+      sessionStorage.removeItem("stl-reality-check");
+    } catch {}
+    $("methods-dialog").open && $("methods-dialog").close();
+    $("reality-dialog").close();
+    if (assetId === 2275207) {
+      visitDistrict("riverfront");
+      if (mode === "compare") drawRoutes();
+    } else {
+      $("district-name").textContent = "YOUR 3D CAPTURE";
+      $("scene-coordinate").textContent = "USER-SUPPLIED ASSET";
+    }
+    regionStatus({
+      engine: "cesium",
+      message: "Photographic view connected · captured imagery",
     });
+    notice(
+      "Photographic view connected. Imported listings and scenarios remain in this page.",
+    );
+  };
+  attempt.timeout = setTimeout(failure, 60000);
+  try {
+    const { createRealityScene, connectionDiagnostic } = await import(
+      "./city-reality.mjs"
+    );
+    if (typeof connectionDiagnostic === "function")
+      diagnose = connectionDiagnostic;
+    if (serial !== connectionSerial) {
+      host.remove();
+      return;
+    }
+    candidate = await createRealityScene(host, data, {
+      token,
+      assetId,
+      signal: abort.signal,
+      onReady: ready,
+      onError: failure,
+      onSelect: (building) => {
+        if (serial === connectionSerial && candidate && city === candidate)
+          selectBuilding(building);
+      },
+      onMapSelect: (point) => {
+        if (serial === connectionSerial && candidate && city === candidate)
+          estate.selectPoint(point);
+      },
+      onRegionReady: (manifest) => {
+        if (serial !== connectionSerial) return;
+        pendingManifest = manifest;
+        if (candidate && city === candidate) regionReady(manifest, false);
+      },
+      onRegionStatus: (status) => {
+        if (serial !== connectionSerial) return;
+        attempt.phase =
+          {
+            authorizing: "authorization",
+            authorized: "tileset",
+            loading: "surface",
+            streaming: "surface",
+            partial: "tiles",
+          }[status.state] || attempt.phase;
+        if (city === candidate && candidate) regionStatus(status);
+        else
+          $("reality-status").textContent =
+            status.message || "Loading photographic detail…";
+      },
+    });
+    if (serial !== connectionSerial) {
+      candidate.dispose();
+      host.remove();
+      return;
+    }
+    if (pendingReality) pendingReality.adapter = candidate;
+    if (readyBeforeAssignment) ready();
   } catch (error) {
+    failure(error);
+  }
+}
+
+async function returnToOpenMap() {
+  ++connectionSerial;
+  clearTimeout(pendingReality?.timeout);
+  pendingReality?.abort?.abort();
+  pendingReality?.adapter?.dispose();
+  pendingReality?.host?.remove();
+  pendingReality = null;
+  city?.dispose();
+  city = null;
+  realityHost?.remove();
+  realityHost = null;
+  $("city-viewport").replaceChildren();
+  $("loading").hidden = false;
+  $("connect-reality").disabled = false;
+  await openScene();
+}
+async function openScene() {
+  const serial = ++openSceneSerial;
+  let candidate = null,
+    readyBeforeAssignment = false,
+    pendingManifest = null,
+    pendingStatus = null;
+  const current = () => serial === openSceneSerial;
+  const ready = () => {
+    if (!current()) return;
+    if (!candidate) {
+      readyBeforeAssignment = true;
+      return;
+    }
+    if (city !== candidate) return;
+    $("loading").hidden = true;
+    $("fallback").hidden = true;
+    updateLight();
+    rendererUI();
+    city.toggle("buildings", $("toggle-buildings").checked);
+    setLayer(activeLayer);
+    if (mode === "compare") drawRoutes();
+  };
+  try {
+    candidate = await createCityScene($("city-viewport"), data, {
+      onSelect: (building) => {
+        if (current() && candidate && city === candidate)
+          selectBuilding(building);
+      },
+      onReady: ready,
+      onError: (message) => {
+        if (current()) showFallback(message);
+      },
+      onRegionReady: (manifest) => {
+        if (!current()) return;
+        pendingManifest = manifest;
+        if (candidate && city === candidate) regionReady(manifest);
+      },
+      onRegionStatus: (status) => {
+        if (!current()) return;
+        pendingStatus = status;
+        if (candidate && city === candidate) regionStatus(status);
+      },
+    });
+    if (!current()) {
+      candidate.dispose();
+      return;
+    }
+    if (city && city !== candidate) city.dispose();
+    city = candidate;
+    if (pendingManifest) regionReady(pendingManifest);
+    if (pendingStatus) regionStatus(pendingStatus);
+    if (readyBeforeAssignment) ready();
+  } catch (error) {
+    if (!current()) return;
     console.error("City renderer:", error);
     showFallback(
       "The 3D scene could not start on this device. Place search and walking comparisons are still available.",
@@ -407,6 +899,7 @@ async function start() {
       if (origins.some((p) => p.id === saved.b)) $("origin-b").value = saved.b;
       $("walk-minutes").value = saved.minutes;
       $("sun-hour").value = saved.light;
+      environmentMode = saved.environment || "study";
       activeLayer = saved.layer;
       selectedDestination = saved.destination || null;
       if (
@@ -437,6 +930,17 @@ async function start() {
 document
   .querySelectorAll("[data-mode]")
   .forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+$("open-reality").addEventListener("click", () =>
+  $("reality-dialog").showModal(),
+);
+$("close-reality").addEventListener("click", () => $("reality-dialog").close());
+$("reality-form").addEventListener("submit", connectReality);
+$("ion-source").addEventListener("change", () => {
+  const custom = $("ion-source").value === "custom";
+  $("custom-asset-label").hidden = !custom;
+  $("ion-asset").required = custom;
+});
+$("use-open-map").addEventListener("click", returnToOpenMap);
 $("collapse-panel").addEventListener("click", togglePanel);
 $("place-search").addEventListener("input", (e) => showPlaces(e.target.value));
 for (const id of ["origin-a", "origin-b", "walk-minutes"])
@@ -457,7 +961,25 @@ $("download-comparison").addEventListener("click", () =>
     b: bResult?.places.map(({ path, ...p }) => p),
   }),
 );
-$("sun-hour").addEventListener("input", updateLight);
+$("sun-hour").addEventListener("input", () => {
+  environmentMode = "study";
+  updateLight();
+});
+$("live-environment").addEventListener("click", () => {
+  environmentMode = "now";
+  updateLight();
+});
+$("refresh-weather").addEventListener("click", () => refreshConditions(true));
+$("district-select").addEventListener("change", (e) =>
+  visitDistrict(e.target.value),
+);
+$("county-overview").addEventListener("click", () => visitDistrict("overview"));
+$("street-detail").addEventListener("click", () => {
+  if (city) {
+    city.flyTo(city.controls.target.x, city.controls.target.z, 5);
+    if (panelOpen) togglePanel();
+  }
+});
 $("pause-motion").addEventListener("click", setPause);
 $("show-city").addEventListener("click", () => setLayer("city"));
 $("show-network").addEventListener("click", () => setLayer("network"));
@@ -490,9 +1012,7 @@ $("methods-dialog").addEventListener("click", (e) => {
   }
 });
 $("retry").addEventListener("click", () => {
-  city?.dispose();
-  $("city-viewport").replaceChildren();
-  if (data) openScene();
+  if (data) returnToOpenMap();
   else start();
 });
 if (paused) {
@@ -500,4 +1020,25 @@ if (paused) {
   $("pause-motion").setAttribute("aria-pressed", "true");
   $("pause-motion").setAttribute("aria-label", "Resume ambient motion");
 }
+$("ion-allowed-origin").textContent = location.origin;
+try {
+  const previous = JSON.parse(
+    sessionStorage.getItem("stl-reality-check") || "null",
+  );
+  if (previous)
+    import("./city-reality.mjs")
+      .then(({ connectionDiagnostic }) => {
+        if (pendingReality || city?.engine === "cesium") return;
+        const d = connectionDiagnostic(previous.phase, {
+          statusCode: previous.status,
+        });
+        $("reality-status").textContent =
+          `Previous attempt: ${d.message} [Step: ${d.phase}${d.status ? `; HTTP ${d.status}` : ""}]`;
+      })
+      .catch(() => {});
+} catch {}
 start();
+refreshConditions();
+setInterval(() => {
+  if (!document.hidden) refreshConditions();
+}, 60000);

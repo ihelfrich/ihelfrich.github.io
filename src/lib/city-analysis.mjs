@@ -132,8 +132,10 @@ export function decodeCityState(hash) {
       s.minutes < 5 ||
       s.minutes > 30 ||
       !Number.isFinite(s.light) ||
-      s.light < 6 ||
-      s.light > 22 ||
+      s.light < 0 ||
+      s.light > 23.75 ||
+      (s.environment !== undefined &&
+        !["now", "study"].includes(s.environment)) ||
       !["city", "network"].includes(s.layer)
     )
       return null;
@@ -157,6 +159,7 @@ export function decodeCityState(hash) {
       minutes: s.minutes,
       light: s.light,
       layer: s.layer,
+      ...(s.environment !== undefined ? { environment: s.environment } : {}),
       ...(s.destination !== undefined ? { destination: s.destination } : {}),
     };
   } catch {

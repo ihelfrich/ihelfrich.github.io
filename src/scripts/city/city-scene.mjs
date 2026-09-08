@@ -1,168 +1,90 @@
 import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { Sky } from "three/addons/objects/Sky.js";
-
+import {
+  contains,
+  centroid,
+  rand,
+  hash,
+  shapeOf,
+  flatGeometry,
+  ribbon,
+  mergedMesh,
+  buildingGeometry,
+  splitBuildingGeometry,
+  facadeStyle,
+} from "./city-geometry.mjs";
+import { createCityMaterials } from "./city-materials.mjs";
+import { createCityDetail } from "./city-detail.mjs";
+import { createRegionScene } from "./city-region-scene.mjs";
+import { solarPosition } from "../../lib/city-conditions.mjs";
+import { regionViewDirection } from "../../lib/city-region.mjs";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { GTAOPass } from "three/addons/postprocessing/GTAOPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 const clamp = T.MathUtils.clamp;
-const rand = (seed) => {
-  let s = seed >>> 0;
-  return () => {
-    s = (1664525 * s + 1013904223) >>> 0;
-    return s / 4294967296;
+export { contains } from "./city-geometry.mjs";
+
+// One instanced draw call for imported coordinates; no geocoding or inferred locations.
+export function createListingLayer(scene, origin) {
+  const group = new T.Group();
+  group.name = "listing-markers";
+  scene.add(group);
+  let mesh = null, items = [], onSelect = () => {}, currentScale = null;
+  const material = new T.MeshBasicMaterial({depthTest:false,depthWrite:false});
+  const matrix = new T.Matrix4(), position = new T.Vector3(), scale = new T.Vector3();
+  const rotation = new T.Quaternion();
+  function update(zoom = 1) {
+    if (!mesh) return;
+    const size = clamp(1 / zoom, .35, 80);
+    if (size === currentScale) return;
+    currentScale = size;
+    scale.setScalar(size);
+    items.forEach((listing, i) => {
+      position.set(
+        (listing.longitude - origin[0]) * 111195 * Math.cos(origin[1] * Math.PI / 180),
+        44,
+        -(listing.latitude - origin[1]) * 111195,
+      );
+      matrix.compose(position, rotation, scale);
+      mesh.setMatrixAt(i, matrix);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.computeBoundingSphere();
+  }
+  return {
+    setListings(listings, select = () => {}) {
+      if (mesh) {mesh.geometry.dispose();mesh.dispose();group.remove(mesh);mesh=null;}
+      onSelect = typeof select === "function" ? select : () => {};
+      items = (Array.isArray(listings) ? listings : []).filter(listing =>
+        Number.isFinite(listing?.latitude) && Math.abs(listing.latitude) <= 90 &&
+        Number.isFinite(listing?.longitude) && Math.abs(listing.longitude) <= 180);
+      currentScale = null;
+      if (!items.length) return;
+      mesh = new T.InstancedMesh(new T.SphereGeometry(8,12,8), material, items.length);
+      mesh.renderOrder = 20;
+      items.forEach((listing,i) => mesh.setColorAt(i, new T.Color(
+        ({active:"#e98648",pending:"#eac476",sold:"#91a9ae",withdrawn:"#969693"})[listing.status] || "#e98648")));
+      group.add(mesh);
+      update();
+    },
+    update,
+    pick(raycaster) {
+      if (!mesh) return false;
+      group.updateMatrixWorld(true);
+      const hit = raycaster.intersectObject(mesh, false)[0];
+      if (!hit || !items[hit.instanceId]) return false;
+      onSelect(items[hit.instanceId]);
+      return true;
+    },
+    dispose() {
+      if (mesh) {mesh.geometry.dispose();mesh.dispose();}
+      material.dispose();group.clear();group.removeFromParent();mesh=null;items=[];
+    },
   };
-};
-const hash = (s) => {
-  let h = 2166136261;
-  for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
-  return h >>> 0;
-};
-export function contains(p, ring) {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const a = ring[i],
-      b = ring[j];
-    if (
-      a[1] > p[1] !== b[1] > p[1] &&
-      p[0] < ((b[0] - a[0]) * (p[1] - a[1])) / (b[1] - a[1]) + a[0]
-    )
-      inside = !inside;
-  }
-  return inside;
-}
-const centroid = (p) => {
-  const b = new T.Box2().setFromPoints(p.map((q) => new T.Vector2(...q)));
-  return [(b.min.x + b.max.x) / 2, (b.min.y + b.max.y) / 2];
-};
-function shapeOf(polygon, holes = []) {
-  const s = new T.Shape(polygon.map((p) => new T.Vector2(p[0], -p[1])));
-  for (const ring of holes)
-    s.holes.push(new T.Path(ring.map((p) => new T.Vector2(p[0], -p[1]))));
-  return s;
-}
-function flatGeometry(polygon, holes = [], y = 0.1) {
-  const g = new T.ShapeGeometry(shapeOf(polygon, holes));
-  g.rotateX(-Math.PI / 2);
-  g.translate(0, y, 0);
-  return g;
-}
-function ribbon(points, width, y = 0.3) {
-  const pos = [];
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1],
-      b = points[i],
-      dx = b[0] - a[0],
-      dz = b[1] - a[1],
-      l = Math.hypot(dx, dz);
-    if (l < 0.01) continue;
-    const nx = ((-dz / l) * width) / 2,
-      nz = ((dx / l) * width) / 2;
-    pos.push(
-      a[0] + nx,
-      y,
-      a[1] + nz,
-      b[0] + nx,
-      y,
-      b[1] + nz,
-      a[0] - nx,
-      y,
-      a[1] - nz,
-      a[0] - nx,
-      y,
-      a[1] - nz,
-      b[0] + nx,
-      y,
-      b[1] + nz,
-      b[0] - nx,
-      y,
-      b[1] - nz,
-    );
-  }
-  const g = new T.BufferGeometry();
-  g.setAttribute("position", new T.Float32BufferAttribute(pos, 3));
-  g.computeVertexNormals();
-  return g;
-}
-function mergedMesh(geometries, material, group, shadow = false) {
-  if (!geometries.length) return null;
-  const merged = mergeGeometries(geometries, false);
-  if (!merged) return null;
-  const mesh = new T.Mesh(merged, material);
-  mesh.castShadow = shadow;
-  mesh.receiveShadow = true;
-  group.add(mesh);
-  for (const g of geometries) g.dispose();
-  return mesh;
-}
-function facade(style) {
-  const c = document.createElement("canvas");
-  c.width = 128;
-  c.height = 128;
-  const ctx = c.getContext("2d"),
-    r = rand(style + 31);
-  const colors = [
-    "#a8947c",
-    "#806151",
-    "#b0a794",
-    "#6d7978",
-    "#776f63",
-    "#9b8670",
-  ];
-  ctx.fillStyle = colors[style % colors.length];
-  ctx.fillRect(0, 0, 128, 128);
-  for (let y = 0; y < 128; y += 8) {
-    for (let x = -16; x < 128; x += 32) {
-      ctx.fillStyle = `rgba(35,28,21,${0.04 + r() * 0.08})`;
-      ctx.fillRect(x + (y % 16 ? 16 : 0), y, 31, 7);
-    }
-  }
-  const glass = style === 3;
-  ctx.fillStyle = glass ? "#344955" : "#243335";
-  ctx.fillRect(glass ? 3 : 24, 12, glass ? 122 : 80, 88);
-  const gradient = ctx.createLinearGradient(0, 12, 0, 100);
-  gradient.addColorStop(0, "#69808a");
-  gradient.addColorStop(0.45, "#41545a");
-  gradient.addColorStop(1, "#202e33");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(glass ? 5 : 27, 15, glass ? 118 : 74, 80);
-  ctx.fillStyle = "rgba(207,204,171,.28)";
-  ctx.fillRect(32, 20, 2, 72);
-  ctx.fillRect(66, 16, 2, 80);
-  ctx.fillStyle = glass ? "#89918c" : "#beb5a0";
-  ctx.fillRect(glass ? 0 : 19, 102, glass ? 128 : 90, 4);
-  ctx.fillStyle = "#313735";
-  ctx.fillRect(0, 125, 128, 3);
-  const texture = new T.CanvasTexture(c);
-  texture.colorSpace = T.SRGBColorSpace;
-  texture.wrapS = texture.wrapT = T.RepeatWrapping;
-  texture.repeat.set(0.24, 0.27);
-  texture.anisotropy = 4;
-  return texture;
 }
 
-function facadeLights(style) {
-  const c = document.createElement("canvas");
-  c.width = c.height = 512;
-  const ctx = c.getContext("2d"),
-    r = rand(style + 190);
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, 512, 512);
-  for (let y = 0; y < 4; y++)
-    for (let x = 0; x < 4; x++)
-      if (r() > 0.68) {
-        ctx.fillStyle = r() > 0.5 ? "#ffe6af" : "#fff7dc";
-        ctx.fillRect(
-          x * 128 + (style === 3 ? 5 : 27),
-          y * 128 + 15,
-          style === 3 ? 118 : 74,
-          80,
-        );
-      }
-  const t = new T.CanvasTexture(c);
-  t.colorSpace = T.SRGBColorSpace;
-  t.wrapS = t.wrapT = T.RepeatWrapping;
-  t.repeat.set(0.06, 0.0675);
-  return t;
-}
 function grainTexture() {
   const c = document.createElement("canvas");
   c.width = c.height = 128;
@@ -177,14 +99,20 @@ function grainTexture() {
   const t = new T.CanvasTexture(c);
   t.colorSpace = T.SRGBColorSpace;
   t.wrapS = t.wrapT = T.RepeatWrapping;
-  t.repeat.set(150, 150);
+  t.repeat.set(6000, 6000);
   return t;
 }
 
 export async function createCityScene(
   container,
   data,
-  { onSelect = () => {}, onReady = () => {}, onError = () => {} } = {},
+  {
+    onSelect = () => {},
+    onReady = () => {},
+    onError = () => {},
+    onRegionReady = () => {},
+    onRegionStatus = () => {},
+  } = {},
 ) {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const renderer = new T.WebGLRenderer({
@@ -209,6 +137,7 @@ export async function createCityScene(
     );
   });
   const scene = new T.Scene();
+  const listingsLayer = createListingLayer(scene, data.origin || [-90.193,38.628]);
   scene.background = new T.Color("#aebfc1");
   scene.fog = new T.FogExp2("#b8c4bd", 0.000095);
   const aspect = container.clientWidth / container.clientHeight,
@@ -219,17 +148,34 @@ export async function createCityScene(
     frustum / 2,
     -frustum / 2,
     2,
-    28000,
+    350000,
   );
   camera.position.set(2100, 1100, 1700);
   camera.zoom = aspect < 0.8 ? 0.62 : 1;
   camera.updateProjectionMatrix();
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const ao = new GTAOPass(
+    scene,
+    camera,
+    container.clientWidth,
+    container.clientHeight,
+    {},
+    { radius: 16, thickness: 4, distanceFallOff: 1, scale: 1.15, samples: 8 },
+  );
+  ao.blendIntensity = 0.78;
+  composer.addPass(ao);
+  composer.addPass(new OutputPass());
+  let ambientOcclusion = true;
   const controls = new OrbitControls(camera, renderer.domElement);
+  const cameraDistance = camera.position.length();
+  let region = null,
+    detail = null;
   controls.target.set(aspect < 0.8 ? 350 : 150, 35, 140);
   controls.enableDamping = !reduced;
   controls.dampingFactor = 0.07;
-  controls.minZoom = 0.38;
-  controls.maxZoom = 5;
+  controls.minZoom = 0.013;
+  controls.maxZoom = 12;
   controls.maxPolarAngle = Math.PI * 0.43;
   controls.minPolarAngle = 0.18;
   controls.enablePan = true;
@@ -240,8 +186,11 @@ export async function createCityScene(
     RIGHT: T.MOUSE.PAN,
   };
   controls.update();
+  const invalidateShadows = () => { renderer.shadowMap.needsUpdate = true; };
+  controls.addEventListener("change", invalidateShadows);
   const sun = new T.DirectionalLight("#ffe4b4", 3.4);
   sun.position.set(-2200, 1700, 600);
+  const sunDirection = sun.position.clone().normalize();
   sun.castShadow = true;
   sun.shadow.mapSize.set(4096, 4096);
   Object.assign(sun.shadow.camera, {
@@ -261,7 +210,7 @@ export async function createCityScene(
   const hemi = new T.HemisphereLight("#dbe7ee", "#777451", 1.3);
   scene.add(hemi);
   const sky = new Sky();
-  sky.scale.setScalar(15000);
+  sky.scale.setScalar(250000);
   scene.add(sky);
   const su = sky.material.uniforms;
   su.turbidity.value = 3;
@@ -274,9 +223,9 @@ export async function createCityScene(
   scene.environmentIntensity = 0.14;
   pmrem.dispose();
   const terrain = new T.Mesh(
-    new T.PlaneGeometry(24000, 24000),
+    new T.PlaneGeometry(180000, 180000),
     new T.MeshStandardMaterial({
-      color: "#b7b6a5",
+      color: "#7a8a65",
       map: grainTexture(),
       roughness: 1,
     }),
@@ -292,109 +241,26 @@ export async function createCityScene(
     overlays = new T.Group(),
     landmarks = new T.Group();
   scene.add(buildings, green, roads, traffic, overlays, landmarks);
-  const wallMaterials = Array.from(
-    { length: 6 },
-    (_, i) =>
-      new T.MeshStandardMaterial({
-        map: facade(i),
-        roughness: i === 3 ? 0.32 : 0.86,
-        metalness: i === 3 ? 0.25 : 0.04,
-        color: 0xffffff,
-        emissive: "#ffc06b",
-        emissiveMap: facadeLights(i),
-        emissiveIntensity: 0.015,
-      }),
-  );
-  const roofMat = new T.MeshStandardMaterial({
-      color: "#aaa899",
-      roughness: 0.95,
-    }),
+  const materials = await createCityMaterials(renderer);
+  const wallMaterials = materials.wallMaterials,
+    roofMat = materials.roof,
     wallBuckets = wallMaterials.map(() => []),
     roofs = [],
-    pickMeshes = [],
-    roofProps = [];
-  const roofDetailMat = new T.MeshStandardMaterial({
-    color: "#787d76",
-    roughness: 0.85,
-  });
-  const uv = {
-    generateTopUV(g, v, a, b, c) {
-      return [a, b, c].map((i) => new T.Vector2(v[i * 3], v[i * 3 + 1]));
-    },
-    generateSideWallUV(g, v, a, b, c, d) {
-      const x =
-        Math.abs(v[a * 3] - v[b * 3]) > Math.abs(v[a * 3 + 1] - v[b * 3 + 1]);
-      return [a, b, c, d].map(
-        (i) => new T.Vector2(v[i * 3 + (x ? 0 : 1)], v[i * 3 + 2]),
-      );
-    },
-  };
+    pickMeshes = [];
   for (const b of data.buildings) {
     if (!b.polygon?.length || b.polygon.length < 3) continue;
     const center = centroid(b.polygon),
-      style = b.height > 70 ? 3 : hash(b.id) % 6;
-    const geo = new T.ExtrudeGeometry(shapeOf(b.polygon, b.holes), {
-      depth: Math.max(0.1, b.height - (b.minHeight || 0)),
-      bevelEnabled: false,
-      steps: 1,
-      UVGenerator: uv,
-    });
-    geo.rotateX(-Math.PI / 2);
-    geo.translate(0, 0.3 + (b.minHeight || 0), 0);
+      style = facadeStyle(b);
+    const geo = buildingGeometry(b);
     const pick = new T.Mesh(geo);
     pick.userData = b;
     pickMeshes.push(pick);
-    for (const group of geo.groups) {
-      const part = new T.BufferGeometry();
-      for (const [key, attr] of Object.entries(geo.attributes))
-        part.setAttribute(
-          key,
-          new T.BufferAttribute(
-            attr.array.slice(
-              group.start * attr.itemSize,
-              (group.start + group.count) * attr.itemSize,
-            ),
-            attr.itemSize,
-          ),
-        );
-      (group.materialIndex === 0 ? roofs : wallBuckets[style]).push(part);
-    }
-    const rng = rand(hash(b.id));
-    const bounds = new T.Box2().setFromPoints(
-      b.polygon.map((p) => new T.Vector2(...p)),
-    );
-    const w = bounds.max.x - bounds.min.x,
-      d = bounds.max.y - bounds.min.y;
-    if (
-      w > 14 &&
-      d > 14 &&
-      contains(center, b.polygon) &&
-      !(b.holes || []).some((r) => contains(center, r))
-    ) {
-      const prop = new T.BoxGeometry(
-        Math.min(12, w * 0.25),
-        2.4,
-        Math.min(8, d * 0.25),
-      );
-      prop.translate(center[0], b.height + 1.5, center[1]);
-      roofProps.push(prop);
-    }
-    if (b.height > 70) {
-      const crown = new T.BoxGeometry(
-        Math.min(14, w * 0.35),
-        4,
-        Math.min(14, d * 0.35),
-      );
-      if (contains(center, b.polygon)) {
-        crown.translate(center[0], b.height + 2, center[1]);
-        roofProps.push(crown);
-      }
-    }
+    splitBuildingGeometry(geo, roofs, wallBuckets[style]);
   }
   for (let i = 0; i < wallBuckets.length; i++)
     mergedMesh(wallBuckets[i], wallMaterials[i], buildings, true);
   mergedMesh(roofs, roofMat, buildings, true);
-  mergedMesh(roofProps, roofDetailMat, buildings, true);
+
   const parkMat = new T.MeshStandardMaterial({
     color: "#597344",
     roughness: 1,
@@ -466,21 +332,9 @@ export async function createCityScene(
         }
       }
   }
-  mergedMesh(
-    sidewalkGeo,
-    new T.MeshStandardMaterial({ color: "#b8b4a5", roughness: 1 }),
-    roads,
-  );
-  mergedMesh(
-    roadGeo,
-    new T.MeshStandardMaterial({ color: "#525551", roughness: 0.95 }),
-    roads,
-  );
-  mergedMesh(
-    pathGeo,
-    new T.MeshStandardMaterial({ color: "#b7ab91", roughness: 1 }),
-    roads,
-  );
+  mergedMesh(sidewalkGeo, materials.concrete, roads);
+  mergedMesh(roadGeo, materials.asphalt, roads);
+  mergedMesh(pathGeo, materials.path, roads);
   mergedMesh(lineGeo, new T.MeshBasicMaterial({ color: "#d3c9a1" }), roads);
   // Procedural foliage decorates mapped green areas. Its position is not a tree inventory.
   const treePositions = (data.trees || []).map((p) => [p[0], p[1], 1]);
@@ -541,10 +395,12 @@ export async function createCityScene(
       sun: { value: new T.Vector3(-0.7, 0.5, 0.2) },
       warm: { value: 1 },
       lightGain: { value: 1 },
+      waveGain: { value: 1 },
+      fogDensity: { value: 0.000045 },
       fogColor: { value: new T.Color("#b8c4bd") },
     },
     vertexShader: `varying vec3 vWorld;void main(){vec4 world=modelMatrix*vec4(position,1.);vWorld=world.xyz;gl_Position=projectionMatrix*viewMatrix*world;}`,
-    fragmentShader: `precision highp float;varying vec3 vWorld;uniform float time;uniform float warm;uniform float lightGain;uniform vec3 sun;uniform vec3 fogColor;void main(){vec2 p=vWorld.xz;float s1=sin(p.x*.09+p.y*.055+time*.75),s2=cos(p.y*.15-p.x*.04+time*.4);vec3 n=normalize(vec3((s1+s2*.43)*.06,1.,(s2+sin(p.x*.33+time)*.3)*.06));vec3 v=normalize(cameraPosition-vWorld);float fres=pow(1.-max(dot(n,v),0.),3.);vec3 base=mix(vec3(.19,.25,.25),vec3(.46,.49,.43),fres);float glint=pow(max(dot(reflect(-normalize(sun),n),v),0.),95.);vec3 col=base*lightGain+vec3(1.,.80,.48)*glint*.6*warm;float fog=1.-exp(-length(cameraPosition-vWorld)*.000045);gl_FragColor=vec4(mix(col,fogColor,fog),1.);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>}`,
+    fragmentShader: `precision highp float;varying vec3 vWorld;uniform float time;uniform float warm;uniform float lightGain;uniform float waveGain;uniform float fogDensity;uniform vec3 sun;uniform vec3 fogColor;void main(){vec2 p=vWorld.xz;float s1=sin(p.x*.09+p.y*.055+time*.75),s2=cos(p.y*.15-p.x*.04+time*.4);vec3 n=normalize(vec3((s1+s2*.43)*.06*waveGain,1.,(s2+sin(p.x*.33+time)*.3)*.06*waveGain));vec3 v=normalize(cameraPosition-vWorld);float fres=pow(1.-max(dot(n,v),0.),3.);vec3 base=mix(vec3(.19,.25,.25),vec3(.46,.49,.43),fres);float glint=pow(max(dot(reflect(-normalize(sun),n),v),0.),95.);vec3 col=base*lightGain+vec3(1.,.80,.48)*glint*.6*warm;float fog=1.-exp(-length(cameraPosition-vWorld)*fogDensity);gl_FragColor=vec4(mix(col,fogColor,fog),1.);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>}`,
   });
   const waterGeos = [];
   for (const w of data.water || [])
@@ -639,6 +495,8 @@ export async function createCityScene(
   arch.add(am);
   arch.rotation.y = Math.PI / 2 - 0.32;
   landmarks.add(arch);
+  detail = await createCityDetail(data, materials);
+  scene.add(detail.group);
   // Road-following ambient vehicles are decoration, with reproducible placement.
   const vehicleRoutes = (data.roads || [])
     .filter(
@@ -740,7 +598,6 @@ export async function createCityScene(
   });
   renderer.domElement.addEventListener("pointerup", (e) => {
     if (
-      !buildings.visible ||
       !down ||
       Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5
     )
@@ -751,9 +608,13 @@ export async function createCityScene(
       (-(e.clientY - rect.top) / rect.height) * 2 + 1,
     );
     raycaster.setFromCamera(pointer, camera);
+    if (listingsLayer.pick(raycaster) || !buildings.visible) return;
     const hits = raycaster.intersectObjects(pickMeshes, false);
-    if (hits[0]) {
-      const b = hits[0].object.userData;
+    const regionalHit = region?.raycast(raycaster);
+    const b = regionalHit && (!hits[0] || regionalHit.distance < hits[0].distance)
+      ? regionalHit.building
+      : hits[0]?.object.userData;
+    if (b) {
       selectBuilding(b);
       onSelect(b);
     }
@@ -792,57 +653,135 @@ export async function createCityScene(
     slowFrames = 0,
     quality = "auto",
     flatMix = 0;
-  function setLight(hour) {
+  let fogDensity = 0.00006,
+    weatherState = null;
+  const rainCount = 800,
+    rainSeeds = rand(90311),
+    rainBase = Array.from({ length: rainCount }, () => [
+      rainSeeds() * 1100 - 550,
+      rainSeeds() * 450,
+      rainSeeds() * 1100 - 550,
+    ]);
+  const rainGeometry = new T.BufferGeometry(),
+    rainPositions = new Float32Array(rainCount * 6);
+  rainGeometry.setAttribute(
+    "position",
+    new T.BufferAttribute(rainPositions, 3),
+  );
+  const rain = new T.LineSegments(
+    rainGeometry,
+    new T.LineBasicMaterial({
+      color: "#d0dce2",
+      transparent: true,
+      opacity: 0.32,
+      depthWrite: false,
+    }),
+  );
+  rain.frustumCulled = false;
+  rain.visible = false;
+  scene.add(rain);
+  function setEnvironment(solar, weather = null) {
+    weatherState = weather?.usable ? weather : null;
+    const elevation = solar.direction.y,
+      day = T.MathUtils.smoothstep(elevation, -0.09, 0.18),
+      night = 1 - T.MathUtils.smoothstep(elevation, -0.07, 0.08),
+      cloud = weatherState?.cloudCoverFraction ?? 0.15;
+    sunDirection
+      .set(solar.direction.x, solar.direction.y, solar.direction.z)
+      .normalize();
+    sun.position.copy(controls.target).addScaledVector(sunDirection, 6000);
+    sun.target.position.copy(controls.target);
+    sun.intensity =
+      Math.max(0, elevation) > 0.001
+        ? (2.5 + Math.sqrt(Math.max(0, elevation)) * 2.2) * (1 - cloud * 0.86)
+        : 0;
+    sun.color.set(elevation < 0.28 ? "#ffddaf" : "#fff4e5");
+    hemi.intensity = 0.18 + day * 0.93;
+    hemi.color.set(night > 0.6 ? "#6a87ad" : "#d8e4ed");
+    hemi.groundColor.set(night > 0.6 ? "#333b46" : "#6a715b");
+    scene.environmentIntensity = 0.035 + day * 0.18;
+    wallMaterials.forEach((m) => (m.emissiveIntensity = 0.006 + night * 1.65));
+    detail?.setNight(night);
+    am.material.emissive.set("#c3d5e4");
+    am.material.emissiveIntensity = night * 0.28;
+    su.sunPosition.value.copy(sunDirection);
+    su.turbidity.value = 2 + cloud * 9;
+    su.rayleigh.value = 1.7;
+    waterMat.uniforms.sun.value.copy(sunDirection);
+    waterMat.uniforms.warm.value = day;
+    waterMat.uniforms.lightGain.value = 0.08 + day * 0.92;
+    waterMat.uniforms.waveGain.value =
+      weatherState?.windSpeedMps === null ||
+      weatherState?.windSpeedMps === undefined
+        ? 1
+        : clamp(0.4 + weatherState.windSpeedMps * 0.15, 0.4, 2.5);
+    const fog = new T.Color(
+      night > 0.8 ? "#172839" : cloud > 0.7 ? "#98a8ae" : "#abbec5",
+    );
+    scene.fog.color.copy(fog);
+    scene.background.copy(fog);
+    waterMat.uniforms.fogColor.value.copy(fog);
+    fogDensity =
+      weatherState?.visibilityMeters > 0
+        ? clamp(1 / weatherState.visibilityMeters, 0.000025, 0.0004)
+        : 0.000045;
+    materials.setWetness(
+      weatherState?.precipitationLastHourMm > 0
+        ? Math.min(1, 0.35 + weatherState.precipitationLastHourMm * 0.16)
+        : weatherState?.precipitationKind === "rain"
+          ? 0.7
+          : 0,
+    );
+    rain.visible =
+      ["rain", "mixed", "snow"].includes(weatherState?.precipitationKind) &&
+      camera.zoom > 0.3;
+    renderer.toneMappingExposure = 0.95 + day * 0.14;
     renderer.shadowMap.needsUpdate = true;
+  }
+  function setLight(hour) {
     light = hour;
-    const phase = (hour - 6) / 16,
-      alt = Math.max(0.015, Math.sin(phase * Math.PI) * 0.5),
-      theta = (phase - 0.5) * Math.PI * 1.5;
-    sun.position.set(
-      Math.sin(theta) * -3800,
-      alt * 3500,
-      Math.cos(theta) * 1400,
+    const now = new Date(),
+      parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+      }).formatToParts(now),
+      localHour =
+        Number(parts.find((p) => p.type === "hour").value) +
+        Number(parts.find((p) => p.type === "minute").value) / 60;
+    setEnvironment(
+      solarPosition(new Date(now.getTime() + (hour - localHour) * 3600000)),
+      weatherState,
     );
-    sun.intensity = hour > 20 ? 0.18 : 3.5 + alt;
-    sun.color.set(hour > 15 ? "#ffe0ad" : "#fff0d5");
-    hemi.intensity = hour > 20 ? 0.35 : 1.0;
-    scene.environmentIntensity = hour > 20 ? 0.03 : 0.14;
-    wallMaterials.forEach(
-      (m) =>
-        (m.emissiveIntensity =
-          hour > 18 ? Math.min(1.1, (hour - 18) * 0.4) : 0.015),
-    );
-    hemi.color.set(hour > 20 ? "#7f9dad" : "#dce6ec");
-    su.sunPosition.value.copy(sun.position).normalize();
-    waterMat.uniforms.sun.value.copy(sun.position).normalize();
-    waterMat.uniforms.warm.value = hour > 20 ? 0.1 : 1;
-    waterMat.uniforms.lightGain.value = hour > 20 ? 0.22 : 1;
-    am.material.emissive.set("#b4c3bf");
-    am.material.emissiveIntensity = hour > 19 ? 0.16 : 0;
-    scene.fog.color.set(hour > 20 ? "#52636a" : "#b8c4bd");
-    waterMat.uniforms.fogColor.value.copy(scene.fog.color);
-    renderer.toneMappingExposure = hour > 20 ? 0.83 : 1.08;
   }
   function flyTo(x, z, zoom = 1.8) {
     const target = new T.Vector3(x, 20, z);
+    const direction = camera.position.clone().sub(controls.target).normalize();
+    const destinationDirection = new T.Vector3(...regionViewDirection(zoom, direction.toArray()));
+    controls.minPolarAngle = zoom < .075 ? .0005 : .18;
     flying = {
       from: controls.target.clone(),
       to: target,
       start: performance.now(),
       zoomFrom: camera.zoom,
       zoomTo: zoom,
+      directionFrom: direction,
+      directionTo: destinationDirection,
     };
     if (reduced) {
-      const d = target.clone().sub(controls.target);
-      camera.position.add(d);
       controls.target.copy(target);
       camera.zoom = zoom;
+      camera.position.copy(target).addScaledVector(destinationDirection, cameraDistance / Math.min(1, zoom));
       camera.updateProjectionMatrix();
+      controls.update();
+      invalidateShadows();
       flying = null;
     }
   }
   function reset() {
     flying = null;
+    controls.minPolarAngle = .18;
     const mobile = container.clientWidth / container.clientHeight < 0.8;
     camera.position.set(2100, 1100, 1700);
     controls.target.set(mobile ? 350 : 150, 35, 140);
@@ -892,16 +831,19 @@ export async function createCityScene(
   function setNetwork(v) {
     renderer.shadowMap.needsUpdate = true;
     network = v;
+    region?.setNetwork(v);
+    if (detail) detail.group.visible = !v && buildings.visible;
     green.visible = !v;
     traffic.visible = !v;
     landmarks.visible = !v;
-    roofMat.color.set(v ? "#b5bcad" : "#aaa899");
+    roofMat.color.set(v ? "#b5bcad" : "#898b86");
     wallMaterials.forEach((m) => {
       m.color.set(v ? "#99a894" : "#ffffff");
     });
   }
   function setQuality(q) {
     quality = q;
+    ambientOcclusion = q !== "low";
     renderer.setPixelRatio(
       q === "low" ? 1 : Math.min(devicePixelRatio, q === "high" ? 2 : 1.5),
     );
@@ -923,12 +865,18 @@ export async function createCityScene(
     camera.bottom = -frustum / 2;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
+    composer.setPixelRatio(renderer.getPixelRatio());
+    composer.setSize(w, h);
+    ao.setSize(
+      Math.round(w * renderer.getPixelRatio() * 0.75),
+      Math.round(h * renderer.getPixelRatio() * 0.75),
+    );
   }
   const ro = new ResizeObserver(resize);
   ro.observe(container);
   setLight(light);
   moveVehicles(0);
-  container.addEventListener("keydown", (e) => {
+  function onKeyDown(e) {
     if (e.target !== container) return;
     const d = 80 / camera.zoom;
     if (
@@ -945,7 +893,11 @@ export async function createCityScene(
       e.preventDefault();
     if (e.key === "Home") return reset();
     if (e.key === "+" || e.key === "-") {
-      camera.zoom = clamp(camera.zoom * (e.key === "+" ? 1.15 : 0.87), 0.38, 5);
+      camera.zoom = clamp(
+        camera.zoom * (e.key === "+" ? 1.15 : 0.87),
+        0.013,
+        12,
+      );
       camera.updateProjectionMatrix();
     }
     const v = new T.Vector3(
@@ -955,7 +907,8 @@ export async function createCityScene(
     );
     camera.position.add(v);
     controls.target.add(v);
-  });
+  }
+  container.addEventListener("keydown", onKeyDown);
   function frame(now) {
     if (disposed) return;
     requestAnimationFrame(frame);
@@ -964,15 +917,32 @@ export async function createCityScene(
     if (document.hidden) return;
     if (!paused) animTime += dt;
     waterMat.uniforms.time.value = animTime;
+    waterMat.uniforms.fogDensity.value = fogDensity * Math.min(1, camera.zoom);
+    if (rain.visible) {
+      const wind = weatherState?.windVector || { x: 0, z: 0 },
+        snow = weatherState?.precipitationKind === "snow";
+      for (let i = 0; i < rainCount; i++) {
+        const b = rainBase[i],
+          y = (((b[1] - animTime * (snow ? 8 : 80)) % 450) + 450) % 450,
+          x = controls.target.x + b[0] + Math.sin(animTime * 0.3 + i) * 2,
+          z = controls.target.z + b[2];
+        rainPositions.set(
+          [x, y, z, x - wind.x * 0.4, y + (snow ? 1 : 9), z - wind.z * 0.4],
+          i * 6,
+        );
+      }
+      rainGeometry.attributes.position.needsUpdate = true;
+    }
+
     if (!paused && frames % 2 === 0) moveVehicles(animTime);
     if (flying) {
       const p = clamp((now - flying.start) / 1300, 0, 1),
         ease = 1 - Math.pow(1 - p, 3),
         target = flying.from.clone().lerp(flying.to, ease),
-        delta = target.clone().sub(controls.target);
-      camera.position.add(delta);
+        direction = flying.directionFrom.clone().lerp(flying.directionTo, ease).normalize();
       controls.target.copy(target);
       camera.zoom = T.MathUtils.lerp(flying.zoomFrom, flying.zoomTo, ease);
+      camera.position.copy(target).addScaledVector(direction, cameraDistance / Math.min(1,camera.zoom));
       camera.updateProjectionMatrix();
       if (p === 1) flying = null;
     }
@@ -987,11 +957,27 @@ export async function createCityScene(
       pick.updateMatrixWorld();
     }
     controls.update();
-    renderer.render(scene, camera);
+    const offset = camera.position
+      .clone()
+      .sub(controls.target)
+      .normalize()
+      .multiplyScalar(cameraDistance / Math.min(1, camera.zoom));
+    camera.position.copy(controls.target).add(offset);
+    sun.target.position.copy(controls.target);
+    sun.position.copy(controls.target).addScaledVector(sunDirection, 6000);
+    const castShadow = camera.zoom > 0.12;
+    if (castShadow !== sun.castShadow) invalidateShadows();
+    sun.castShadow = castShadow;
+    listingsLayer.update(camera.zoom);
+    scene.fog.density = fogDensity * Math.min(1, camera.zoom);
+    if (region) region.update(now);
+    ao.enabled = ambientOcclusion && camera.zoom > 0.12;
+    composer.render();
     frames++;
     if (frames === 2) onReady();
     if (quality === "auto" && frames < 200 && dt > 0.038) slowFrames++;
     if (quality === "auto" && frames === 200 && slowFrames > 70) {
+      ambientOcclusion = false;
       renderer.setPixelRatio(1);
       sun.shadow.mapSize.set(1024, 1024);
       sun.shadow.map?.dispose();
@@ -1001,18 +987,42 @@ export async function createCityScene(
     }
   }
   requestAnimationFrame(frame);
+  createRegionScene({
+    scene,
+    camera,
+    controls,
+    materials,
+    data,
+    waterMaterial: waterMat,
+    onStatus: onRegionStatus,
+    onManifest: onRegionReady,
+    onSceneChange: invalidateShadows,
+  })
+    .then((value) => {
+      if (disposed) value.dispose();
+      else {
+        region = value;
+        region.setNetwork(network);
+        region.toggle("buildings", buildings.visible);
+        region.toggle("green", green.visible);
+      }
+    })
+    .catch((error) => onRegionStatus({ error: error.message }));
   return {
+    engine: "three",
     scene,
     camera,
     renderer,
     controls,
     flyTo,
+    setListings: listingsLayer.setListings,
     reset,
     route,
     pin,
     clearRoutes,
     selectBuilding,
     setLight,
+    setEnvironment,
     setNetwork,
     setQuality,
     setPaused(v) {
@@ -1020,10 +1030,12 @@ export async function createCityScene(
     },
     toggle(name, v) {
       (({ buildings, green, traffic })[name] || scene).visible = v;
+      region?.toggle(name, v);
+      if (name === "buildings" && detail) detail.group.visible = v && !network;
       renderer.shadowMap.needsUpdate = true;
     },
     zoom(factor) {
-      camera.zoom = clamp(camera.zoom * factor, 0.38, 5);
+      camera.zoom = clamp(camera.zoom * factor, 0.013, 12);
       camera.updateProjectionMatrix();
     },
     north() {
@@ -1035,6 +1047,14 @@ export async function createCityScene(
     dispose() {
       disposed = true;
       ro.disconnect();
+      container.removeEventListener("keydown", onKeyDown);
+      controls.removeEventListener("change", invalidateShadows);
+      listingsLayer.dispose();
+      region?.dispose();
+      detail?.dispose();
+      materials.dispose();
+      ao.dispose();
+      composer.dispose();
       controls.dispose();
       renderer.dispose();
       scene.traverse((o) => {

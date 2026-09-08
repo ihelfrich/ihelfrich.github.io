@@ -105,3 +105,16 @@ test("shared comparison preserves the selected destination route", () => {
   };
   assert.deepEqual(decodeCityState(encodeCityState(s)), s);
 });
+test("a midnight light study can be shared without losing its environment mode", () => {
+  const s = {
+    v: 1,
+    data: "osm",
+    a: "n1",
+    b: "n2",
+    minutes: 15,
+    light: 0,
+    layer: "city",
+    environment: "study",
+  };
+  assert.deepEqual(decodeCityState(encodeCityState(s)), s);
+});
