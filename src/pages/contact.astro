@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import VisitorPath from "../components/VisitorPath.astro";
 import { publicLinks } from "../data/public-record.mjs";
 ---
 
@@ -12,32 +13,11 @@ import { publicLinks } from "../data/public-record.mjs";
   <section class="contact-hero" data-rail-label="Contact">
     <div class="contact-heading">
       <p class="record-label">Contact · St. Louis, Missouri</p>
-      <h1>Start with the question, context, and timeline.</h1>
-      <p>I welcome focused inquiries about academic or industry roles, collaborative research, applied quantitative work, and advanced teaching or research-design coaching.</p>
-      <div class="contact-actions">
-        <a class="fieldbook-action" href={publicLinks.email}>Email Ian</a>
-        <a class="text-route" href="/cv#contact">CV and current availability →</a>
-      </div>
+      <h1>Let’s start a conversation.</h1>
+      <p>Research, quantitative teaching, advisory work, or a professional opportunity. Start with what you need, and we can work out the next step.</p>
+      <div class="contact-actions"><a class="text-route" href={publicLinks.email}>Email Ian directly</a><a class="text-route" href="/cv#contact">CV and current availability</a></div>
     </div>
-
-    <div class="inquiry-register" aria-label="Inquiry categories">
-      <article>
-        <span>01</span>
-        <h2>Hiring and collaboration</h2>
-        <p>Include the role or project, the decision or output the work must support, the timeline, and who will use the result.</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h2>Teaching and coaching</h2>
-        <p>Include the subject, current level, deadline, and whether you need focused instruction, design review, or ongoing coaching.</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h2>Research and media</h2>
-        <p>Name the paper, project, or subject and the specific question you would like to discuss.</p>
-      </article>
-    </div>
-
+    <VisitorPath compose/>
     <aside class="privacy-note">
       <strong>Before sending sensitive material</strong>
       <p>Please do not include confidential or regulated data in an initial message. We can establish an appropriate review workflow before sensitive material is shared.</p>

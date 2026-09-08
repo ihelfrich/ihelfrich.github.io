@@ -1,0 +1,123 @@
+/* The first screen answers who, what, and where to go next. */
+body.studio-home .st-name h1{font-size:clamp(70px,8vw,118px)}
+body.studio-home .st-name{padding-block:24px 18px}
+body.studio-home .st-hero{grid-template-columns:1.2fr 1fr;gap:7%;padding-block:24px 58px;align-items:center}
+body.studio-home .st-hero-copy h2{font:500 clamp(34px,4.3vw,62px)/1.09 "Space Grotesk",sans-serif;letter-spacing:-.05em;margin-block:16px 22px}
+body.studio-home .st-hero-copy>p:last-of-type{max-width:49ch;font:400 17px/1.75 "Geist Variable",sans-serif}
+body.studio-home .st-hero-copy .st-kicker{font-size:12px;line-height:1.7;letter-spacing:0}
+body.studio-home .st-portrait-stage{max-width:420px;width:100%;margin-left:auto}
+body.studio-home .st-photo-note{display:none}
+body.studio-home .st-hero-actions{gap:20px;margin-top:28px;flex-wrap:wrap}
+body.studio-home .st-path-section{padding-block:55px}
+.visitor-path{color:#171717;font:400 16px/1.65 "Geist Variable",sans-serif}
+.visitor-path [hidden]{display:none!important}
+.visitor-path-heading{display:grid;grid-template-columns:1.2fr 1fr;gap:35px;align-items:end;margin-bottom:28px}
+body .visitor-path h2{font:500 clamp(30px,3.6vw,48px)/1.12 "Space Grotesk",sans-serif;letter-spacing:-.045em;margin:0;max-width:22ch}
+.visitor-path-heading p{margin:0;max-width:48ch;color:#626262;font-size:15px}
+.visitor-choices{border:0;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.visitor-choices label{position:relative;display:flex;border:1px solid #bcbcbc;border-radius:16px;cursor:pointer;min-height:128px;background:#fafafa;padding:22px;gap:12px;transition:background .2s,border-color .2s}
+.visitor-choices label:has(input:checked){background:#171717;color:#fff;border-color:#171717}
+.visitor-choices label:has(input:focus-visible){outline:3px solid #777;outline-offset:4px}
+.visitor-choices input{accent-color:#171717;flex:none;width:18px;height:18px;margin:3px 0 0}
+.visitor-choices label:has(input:checked) input{accent-color:white}
+.visitor-choices strong{display:block;font-weight:500;font-size:17px;line-height:1.35}
+.visitor-choices small{display:block;margin-top:9px;line-height:1.5;font-size:13px;color:#666}
+.visitor-choices label:has(input:checked) small{color:#ccc}
+.visitor-next{display:grid;grid-template-columns:1fr 1.25fr;gap:50px;padding-top:30px;margin-top:28px;border-top:1px solid #ccc;align-items:start}
+.visitor-focus>label,.visitor-compose label{display:block;font-size:14px;font-weight:500;margin-bottom:10px}
+.visitor-path select,.visitor-path input:not([type=radio]),.visitor-path textarea{width:100%;min-width:0;border:1px solid #aaa;border-radius:9px;padding:13px 14px;background:#fff;color:#171717;font:400 16px/1.55 "Geist Variable",sans-serif;box-sizing:border-box}
+.visitor-path textarea{resize:vertical;min-height:150px}
+body .visitor-path h3{font:500 clamp(23px,2.7vw,32px)/1.15 "Space Grotesk",sans-serif;letter-spacing:-.035em;margin:0 0 13px}
+.visitor-result>p{margin:0 0 20px;max-width:55ch;font-size:15px;color:#555}
+.visitor-result-links{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
+.visitor-result-links a{min-height:44px;display:inline-flex;align-items:center;font-size:14px;text-decoration:underline;text-underline-offset:4px}
+body .visitor-primary{display:inline-flex;justify-content:center;align-items:center;gap:18px;min-height:48px;padding:12px 21px;box-sizing:border-box;background:#171717;color:#fff;border-radius:28px;text-decoration:none;font:500 14px/1.5 "Geist Variable",sans-serif}
+.visitor-path .visitor-hint{font:400 12px/1.65 "Geist Variable",sans-serif;color:#666;margin-top:12px;max-width:52ch}
+.visitor-compose{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;margin-top:36px;padding-top:30px;border-top:1px solid #ccc}
+.visitor-compose label span{font-weight:400;color:#777}
+.visitor-compose input{margin-bottom:22px}
+.visitor-draft{background:#efefef;padding:26px;border-radius:14px;min-width:0}
+.visitor-draft>strong{font:500 19px/1.3 "Space Grotesk",sans-serif}
+.visitor-draft [data-draft-subject]{font-size:13px;color:#555}
+.visitor-draft pre{white-space:pre-wrap;overflow-wrap:anywhere;border:0;background:transparent;padding:0;margin:20px 0;max-height:none;font:400 14px/1.7 "Geist Variable",sans-serif;color:#171717}
+.visitor-fallback{display:flex;flex-wrap:wrap;gap:16px 24px}
+.visitor-fallback a{min-height:44px}
+body.studio-home .st-lab-disclosure{margin:0 5%;border:1px solid #ccc;border-radius:20px;overflow:clip}
+body.studio-home .st-lab-disclosure>summary{padding:26px 30px}
+body.studio-home .st-lab-disclosure .disclosure-body{padding-block:0}
+body.studio-home .st-lab-disclosure .st-continuum{border-radius:0}
+body.studio-home .st-home-close{display:flex;align-items:center;justify-content:space-between;gap:40px}
+body.studio-home .st-home-close h2{font:500 clamp(32px,4vw,52px)/1.1 "Space Grotesk",sans-serif;letter-spacing:-.04em;margin-bottom:15px}
+.st-home-close p{font-size:15px;line-height:1.7;max-width:49ch;color:#666}
+.st-home-close>div:last-child{display:flex;flex-wrap:wrap;align-items:center;gap:20px}
+.st-resource-shelf{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:center;padding:20px 5% 32px;border-top:1px solid #ccc;font-size:12px}
+.st-resource-shelf span{color:#666;margin-right:auto}
+.st-resource-shelf a{min-height:44px;display:inline-flex;align-items:center}
+/* Shared orientation across the public site's supporting pages. */
+body[class*="fieldbook-"],body.quiet-index-page{--ef-ink:#171717;--ef-paper:#fafafa;--ef-figure:#f2f2f2;--ef-signal:#171717;--ef-oxide:#555;--ink:#171717;--paper:#fafafa;--muted:#666;background:#fafafa;color:#171717}
+body[class*="fieldbook-"] .field-rail{display:none}
+body[class*="fieldbook-"] .h-scroll-progress{background:#171717}
+body .site-header,body .site-footer{background:#fafafa;color:#171717}
+body.fieldbook-contact .contact-hero{min-height:0;padding-block:50px}
+body.fieldbook-contact .contact-heading{align-items:center;gap:25px 60px}
+body.fieldbook-contact .contact-heading h1{max-width:15ch;font:500 clamp(42px,5.5vw,76px)/1.08 "Space Grotesk",sans-serif;letter-spacing:-.05em}
+body.fieldbook-contact .contact-heading>p:not(.record-label){font:400 16px/1.75 "Geist Variable",sans-serif}
+body.fieldbook-contact .contact-actions{margin-top:5px;grid-column:1/-1}
+body.fieldbook-contact .visitor-path{margin-top:48px;padding-top:35px;border-top:1px solid #bbb}
+body.fieldbook-contact .privacy-note{margin-top:40px;border-top:1px solid #aaa;font-size:13px}
+body:is(.fieldbook-work,.fieldbook-about) :is(.work-hero,.about-hero){min-height:0;padding-block:50px;align-items:center}
+body:is(.fieldbook-work,.fieldbook-about) h1{font:500 clamp(46px,6vw,84px)/1.08 "Space Grotesk",sans-serif;letter-spacing:-.055em}
+body.fieldbook-work .work-hero__copy{grid-column:1/-1}
+body.fieldbook-work .work-hero__copy>p:last-child{max-width:68ch;font-size:17px;line-height:1.7}
+body.fieldbook-work .work-index{padding-block:28px}
+body.fieldbook-work .case-register{padding-top:0}
+body.fieldbook-work .case-entry{display:block}
+body.fieldbook-work .case-entry__number{display:none}
+body.fieldbook-work .case-entry .content-disclosure>summary{font-family:"Space Grotesk",sans-serif}
+body.fieldbook-about .about-hero__copy .lead{font:400 18px/1.7 "Geist Variable",sans-serif;max-width:55ch}
+body.fieldbook-about .about-portrait{border-radius:18px 18px 70px 18px;overflow:hidden}
+body.fieldbook-about .route-band{background:#fafafa}
+.site-index-results>a>span:first-child{display:none}
+.site-index-results>a{grid-template-columns:70px minmax(0,1fr) 24px!important}
+.site-index-columns{display:none!important}
+@media(max-width:720px){
+ body.studio-home .st-name h1{font-size:17.3vw}
+ body.studio-home .st-hero{display:flex;flex-direction:column;gap:32px;padding-block:28px 34px}
+ body.studio-home .st-hero-copy{order:0;width:100%}
+ body.studio-home .st-hero-copy h2{font-size:clamp(32px,8.7vw,52px);line-height:1.14}
+ body.studio-home .st-hero-copy>p:last-of-type{font-size:16px;line-height:1.7}
+ body.studio-home .st-portrait-stage{order:1;max-width:330px;margin:0 auto}
+ body.studio-home .st-hero-actions .st-button{font-size:13px}
+ .visitor-path-heading,.visitor-next,.visitor-compose{grid-template-columns:1fr;gap:20px}
+ .visitor-choices{grid-template-columns:1fr;gap:9px}
+ .visitor-choices label{min-height:0;padding:17px 19px;gap:14px}
+ .visitor-choices strong{font-size:16px}
+ .visitor-choices small{margin-top:5px}
+ .visitor-compose{gap:26px}
+ .visitor-draft{padding:22px}
+ body.studio-home .st-home-close{display:block}
+ .st-home-close>div:last-child{margin-top:24px}
+ .st-resource-shelf span{flex-basis:100%}
+ body.studio-home .st-lab-disclosure>summary{padding:24px 20px}
+ body.fieldbook-contact .contact-hero{padding-block:32px}
+ body.fieldbook-contact .contact-heading h1{font-size:43px}
+ body.fieldbook-contact .contact-heading>p:not(.record-label){margin-top:0}
+ body.fieldbook-contact .privacy-note{display:block}
+ .site-index-results>a{grid-template-columns:minmax(0,1fr) 24px!important}
+ .site-index-results>a>small{display:none}
+}
+@media(prefers-reduced-motion:reduce){.visitor-choices label{transition:none}}
+.visitor-choices label:has(input:checked) strong{color:#fff}
+.visitor-path a.visitor-primary,.visitor-path a.visitor-primary:visited{color:#fff;text-decoration:none}
+body.studio-home .st-hero-copy h2{ text-wrap:normal; }
+body.studio-home .st-hero-copy h2 br{display:revert}
+.visitor-picker>summary{cursor:pointer;min-height:44px;padding-block:12px;font-weight:500;font-size:16px}
+.visitor-picker[open]>summary{margin-bottom:20px}
+.visitor-path[data-compose=true] .visitor-result{display:none}
+.visitor-path[data-compose=true] .visitor-next{grid-template-columns:1fr;margin-top:22px;padding-top:22px}
+.visitor-path[data-compose=true] .visitor-focus{max-width:560px}
+.visitor-path[data-compose=true] .visitor-choices label{min-height:0}
+body .site-footer .footer-brand,body .site-footer .footer-links strong{color:#171717}
+body .site-footer .footer-intro p,body .site-footer .footer-links a,body .site-footer .site-footer-bottom,body .site-footer .site-footer-bottom a{color:#555}
+body .site-footer .footer-links a:hover{color:#171717}
+body .site-footer .site-footer-bottom button{color:#171717;border-color:#aaa;background:transparent}

@@ -563,7 +563,7 @@ const backdrop = window.document.querySelector("[data-nav-backdrop]");
 const visibleLabel = toggle?.querySelector(".nav-toggle-label");
 const primaryLinks = [...(sheet?.querySelectorAll("[data-primary-nav] > a") ?? [])];
 const primaryContract = primaryLinks.map((link) => `${link.textContent.trim()}:${link.getAttribute("href")}`);
-const expectedPrimary = ["Work:/work", "Research:/research", "Teaching & coaching:/teaching", "About:/about", "CV:/cv"];
+const expectedPrimary = ["Selected work:/work", "Research:/research", "Teaching:/teaching", "About:/about", "Tools:/lab"];
 
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");

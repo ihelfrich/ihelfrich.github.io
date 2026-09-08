@@ -31,14 +31,8 @@ const filterOptions = [
     <div class="work-hero__copy">
       <p class="record-label">Selected cases</p>
       <h1>Selected work</h1>
-      <p>The four cases below cover applied economics, measurement, spatial analysis, policy, and quantitative learning. Each one gives the question, the work completed, the present finding or status, and the limit of the claim.</p>
+      <p>I design empirical studies, build research software, and develop tools for quantitative learning. Open a case to see the methods, my contribution, and the evidence behind it.</p>
     </div>
-    <aside class="work-hero__key">
-      <span>Each case includes</span>
-      <ol>
-        <li>Question</li><li>Why it matters</li><li>What was built</li><li>Role and method</li><li>Finding or status</li><li>Limit</li>
-      </ol>
-    </aside>
   </section>
 
   <section class="work-index route-shell" data-rail-label="Case index">
@@ -47,7 +41,7 @@ const filterOptions = [
         <p class="record-label">Selected public work</p>
         <h2>Filter by area</h2>
       </div>
-      <p>Choose a topic to narrow the list. Filtering leaves each case and its stated scope unchanged.</p>
+      <p>Four examples of research, measurement, and quantitative education.</p>
     </header>
     <div class="case-filters" role="group" aria-label="Filter selected work" data-work-filters>
       {filterOptions.map((option, index) => (
@@ -55,16 +49,6 @@ const filterOptions = [
       ))}
     </div>
     <p class="filter-result" data-work-filter-result aria-live="polite">Showing all four cases.</p>
-
-    <nav class="quiet-index" aria-label="Selected case links">
-      {workCases.map((record, index) => (
-        <a href={`#case-${record.id}`} data-work-index={record.id}>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <strong>{record.title}</strong>
-          <small>{record.status}</small>
-        </a>
-      ))}
-    </nav>
   </section>
 
   <section class="case-register route-shell" data-rail-label="Selected cases">
@@ -77,27 +61,35 @@ const filterOptions = [
         data-fieldbook-reveal
       >
         <div class="case-entry__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
-        <CaseRecord record={record} />
+        <div class="case-entry__content">
+          <details class="content-disclosure">
+            <summary>
+              <span>{record.title}<small>{record.question}</small><small>{record.status}</small></span>
+              <span class="disclosure-symbol" aria-hidden="true">+</span>
+            </summary>
+            <div class="disclosure-body"><CaseRecord record={record} /></div>
+          </details>
+          <p class="case-entry__scope"><strong>Scope:</strong> {record.limit}</p>
+        </div>
       </div>
     ))}
   </section>
 
-  <section class="additional-practice route-shell" id="additional-experience" data-rail-label="Additional practice">
-    <div class="section-intro">
-      <div>
-        <p class="record-label">Additional experience</p>
-        <h2>Related work and methods</h2>
+  <section class="additional-practice route-shell" data-rail-label="Additional practice">
+    <details class="content-disclosure" id="additional-experience">
+      <summary><span>Related work and methods<small>Spatial analysis, research software, advisory work, and teaching experience</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary>
+      <div class="disclosure-body">
+        <p>My training and public work also include geographic information science, remote sensing, research software, industrial-sector diagnostics, and browser-based econometrics instruction. The links below lead to reusable public work; learner-specific materials remain private.</p>
+        <dl class="practice-ledger">
+          <div><dt>Spatial measurement</dt><dd><a href="/research/gonchar-helfrich-2025-spotlight"><cite>Trade in the Spotlight</cite></a>, the <a href="/research/helfrich-2024-dissertation">doctoral dissertation</a>, and public GIS records.</dd></div>
+          <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC research repository and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
+          <div><dt>Saudi industrial-sector diagnostics</dt><dd>Independent advisory and quantitative-coaching work on sector performance, economic complexity, import localization, firm productivity, and growth constraints. This was private work, not a Saudi government commission.</dd></div>
+          <div><dt>CMU / Toyota Research Institute</dt><dd>North America-wide electric-vehicle manufacturing site-suitability analysis integrating labor markets, infrastructure, supply chains, environmental and disaster risk, and spatial competition.</dd></div>
+          <div><dt>Quantitative instruction</dt><dd>Applied Statistics and related public materials connect questions, data, calculations, diagnostics, and interpretation in one workflow.</dd></div>
+          <div><dt>Independent teaching practice</dt><dd>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} Wyzant hours and {tutoringRecord.privatePractice.hoursProse} additional private-practice hours as of {tutoringRecord.asOf}; the two sources remain separate. <a href="/teaching">Teaching record →</a></dd></div>
+        </dl>
       </div>
-      <p>My training and public work also include geographic information science, remote sensing, research software, industrial-sector diagnostics, and browser-based econometrics instruction. The links below lead to reusable public work; learner-specific materials remain private.</p>
-    </div>
-    <dl class="practice-ledger">
-      <div><dt>Spatial measurement</dt><dd><a href="/research/gonchar-helfrich-2025-spotlight"><cite>Trade in the Spotlight</cite></a>, the <a href="/research/helfrich-2024-dissertation">doctoral dissertation</a>, and public GIS records.</dd></div>
-      <div><dt>Research systems</dt><dd>The <a href="https://github.com/ihelfrich/us-nmtc-viewer">NMTC research repository and public pipeline ↗</a> and <a href="/projects/applied-statistics">Applied Statistics</a>.</dd></div>
-      <div><dt>Saudi industrial-sector diagnostics</dt><dd>Independent advisory and quantitative-coaching work on sector performance, economic complexity, import localization, firm productivity, and growth constraints. This was private work, not a Saudi government commission.</dd></div>
-      <div><dt>CMU / Toyota Research Institute</dt><dd>North America-wide electric-vehicle manufacturing site-suitability analysis integrating labor markets, infrastructure, supply chains, environmental and disaster risk, and spatial competition.</dd></div>
-      <div><dt>Quantitative instruction</dt><dd>Applied Statistics and related public materials connect questions, data, calculations, diagnostics, and interpretation in one workflow.</dd></div>
-      <div><dt>Independent teaching practice</dt><dd>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} Wyzant hours and {tutoringRecord.privatePractice.hoursProse} additional private-practice hours as of {tutoringRecord.asOf}; the two sources remain separate. <a href="/teaching">Teaching record →</a></dd></div>
-    </dl>
+    </details>
   </section>
 
   <section class="work-close route-grid" data-rail-label="Contact">
@@ -116,7 +108,6 @@ const filterOptions = [
   document.querySelectorAll("[data-work-filters]").forEach((group) => {
     const buttons = Array.from(group.querySelectorAll("[data-work-filter]"));
     const cases = Array.from(document.querySelectorAll("[data-work-case]"));
-    const links = Array.from(document.querySelectorAll("[data-work-index]"));
     const result = document.querySelector("[data-work-filter-result]");
     buttons.forEach((button) => button.addEventListener("click", () => {
       const value = button.getAttribute("data-work-filter") || "all";
@@ -127,11 +118,6 @@ const filterOptions = [
         const visible = value === "all" || categories.includes(value);
         if (entry instanceof HTMLElement) entry.hidden = !visible;
         if (visible) count += 1;
-      });
-      links.forEach((link) => {
-        const record = link.getAttribute("data-work-index");
-        const entry = cases.find((candidate) => candidate.getAttribute("data-work-case") === record);
-        if (link instanceof HTMLElement) link.hidden = entry instanceof HTMLElement ? entry.hidden : false;
       });
       if (result) result.textContent = value === "all" ? "Showing all four cases." : `Showing ${count} ${count === 1 ? "case" : "cases"}.`;
     }));

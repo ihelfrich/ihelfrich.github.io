@@ -85,6 +85,7 @@ const records = [
           target={record.external ? "_blank" : undefined}
           rel={record.external ? "noopener" : undefined}
           data-index-record
+          data-index-start={record.kind === "Go" && ["GO-01","GO-02","GO-04","GO-05","GO-06"].includes(record.code) ? "true" : undefined}
           data-search={`${record.kind} ${record.code} ${record.title} ${record.detail} ${record.search ?? ""}`.toLowerCase()}
         >
           <span>{record.code}</span>
@@ -127,11 +128,11 @@ const records = [
     const filter = () => {
       const query = input?.value.trim().toLowerCase() ?? "";
       visible = records.filter((record) => {
-        const match = !query || record.dataset.search.includes(query);
+        const match = query ? record.dataset.search.includes(query) : record.dataset.indexStart === "true";
         record.hidden = !match;
         return match;
       });
-      if (count) count.textContent = `${visible.length} ${visible.length === 1 ? "record" : "records"}`;
+      if (count) count.textContent = query ? `${visible.length} ${visible.length === 1 ? "result" : "results"}` : "Suggested pages";
       if (empty) empty.hidden = visible.length > 0;
       setActive(visible.length ? 0 : -1);
     };

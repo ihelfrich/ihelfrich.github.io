@@ -4,6 +4,7 @@ import "../styles/instrument.css";
 import "../styles/fieldbook.css";
 import "../styles/site-motion.css";
 import "../styles/content-clarity.css";
+import "../styles/visitor-experience.css";
 import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
@@ -107,11 +108,11 @@ const personSchema = {
         <div id="primary-nav" class="mobile-nav-sheet" data-mobile-nav-sheet>
           <nav class="primary-nav" aria-label="Primary navigation">
             <div class="primary-nav-list" data-primary-nav>
-              <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Work</a>
+              <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Selected work</a>
               <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
-              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching &amp; coaching</a>
+              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
               <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
-              <a href="/cv" aria-current={isActive("/cv") ? "page" : undefined}>CV</a>
+              <a href="/lab" aria-current={isActive("/lab") ? "page" : undefined}>Tools</a>
             </div>
             <div class="nav-utilities">
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
@@ -125,7 +126,7 @@ const personSchema = {
               <a href="/job-market">Job market</a>
               <a href="/projects">Projects</a>
               <a href="/datasets">Datasets</a>
-              <a href="/library">Library</a>
+              <a href="/library">Public index</a>
               <slot name="secondary-nav" />
             </div>
           </nav>
@@ -165,7 +166,7 @@ const personSchema = {
           <a href="/job-market">Job market</a>
           <a href="/projects">Projects</a>
           <a href="/datasets">Datasets</a>
-          <a href="/library">Library</a>
+          <a href="/library">Public index</a>
           <a href="/writing">Writing</a>
         </div>
         <div>

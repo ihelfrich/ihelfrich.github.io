@@ -1,0 +1,29 @@
+---
+import {visitorPaths} from '../data/visitor-paths.mjs';
+const {compose=false}=Astro.props;
+const Picker=compose?"details":"div";
+---
+<section class="visitor-path" data-visitor-path data-compose={String(compose)} aria-labelledby="visitor-path-title">
+ <div class="visitor-path-heading"><h2 id="visitor-path-title">{compose?'What would you like to work on?':'What brings you here?'}</h2><p>{compose?'Choose a starting point. Add as much context as you want.':'Choose a starting point. I’ll point you toward a useful example and a way to continue.'}</p></div>
+ <div data-visitor-controls hidden>
+  <Picker class="visitor-picker" data-visitor-picker open={compose}><Fragment>{compose&&<summary data-visitor-picker-label>Choose your starting point</summary>}</Fragment>
+  <fieldset class="visitor-choices"><legend class="sr-only">Choose your purpose</legend>{Object.entries(visitorPaths).map(([id,path])=><label><input type="radio" name="visitor-intent" value={id}/><span><strong>{path.label}</strong><small>{path.description}</small></span></label>)}</fieldset>
+  <div class="visitor-next" data-visitor-next hidden>
+   <div class="visitor-focus"><label for="visitor-focus" data-focus-label>Where would support help most?</label><select id="visitor-focus" data-visitor-focus></select><p class="visitor-hint">You can change your choice at any time.</p></div>
+   <div class="visitor-result" aria-live="polite" aria-atomic="true"><h3 data-visitor-title></h3><p data-visitor-body></p><div class="visitor-result-links"><a data-visitor-resource></a>{!compose&&<a data-visitor-contact class="visitor-primary">Start a conversation <span aria-hidden="true">↗</span></a>}</div></div>
+  </div>
+  </Picker>
+  {compose&&<div class="visitor-compose" data-visitor-compose hidden>
+   <div><label for="visitor-name">Your name <span>(optional)</span></label><input id="visitor-name" autocomplete="name" maxlength="120" data-visitor-name/><label for="visitor-question">Your question, context, and timeline <span>(optional)</span></label><textarea id="visitor-question" rows="5" maxlength="2000" placeholder="What are you working on, and what would help?" data-visitor-question></textarea></div>
+   <div class="visitor-draft"><strong>Your email draft</strong><p data-draft-subject></p><pre data-draft-body></pre><a class="visitor-primary" data-visitor-email>Open email draft <span aria-hidden="true">↗</span></a><p class="visitor-hint">Opens your email app for review. Nothing is sent or saved by this form.</p></div>
+  </div>}
+ </div>
+ <nav class="visitor-fallback" data-visitor-fallback aria-label="Ways to work with Ian"><a href="/teaching">Teaching and quantitative coaching</a><a href="/work">Applied research and selected work</a><a href="/job-market">Professional background and CV</a><a href="mailto:ianthelfrich@gmail.com">Email Ian</a></nav>
+</section>
+<script>
+ import {mountVisitorPath} from '../scripts/visitor-path.mjs';
+ const root=document.querySelector('[data-visitor-path]');
+ let dispose=mountVisitorPath(root);
+ window.addEventListener('pagehide',()=>dispose());
+ window.addEventListener('pageshow',event=>{if(event.persisted)dispose=mountVisitorPath(root);});
+</script>

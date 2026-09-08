@@ -22,8 +22,8 @@ const education = [
     <div class="about-hero__copy">
       <p class="record-label">Biography</p>
       <h1>About Ian</h1>
-      <p class="lead">My research has asked how a country should be located in a trade model, how economic equilibrium can be represented through optimal transport, and whether a rural financing pattern survives comparison within the same intermediary.</p>
-      <p>In teaching, I use the same discipline: move among words, equations, tables, graphs, and code until the logic is clear and internally consistent.</p>
+      <p class="lead">I am an applied economist, quantitative research designer, and educator based in St. Louis.</p>
+      <p>I work with people to turn economic questions into studies, useful software, and clear explanations.</p>
     </div>
     <figure class="about-portrait">
       <img src="/people/ian-zoom-portrait.png" alt="Portrait of Ian Helfrich" width="1024" height="1024" loading="eager" decoding="async" />
@@ -38,7 +38,7 @@ const education = [
         <h2>Applied economics, quantitative research design, and education</h2>
       </div>
       <div class="reading-column">
-        <p>I am an applied economist and quantitative research designer based in St. Louis. My work combines empirical research, economic theory, spatial analysis, software, and teaching.</p>
+        <p>My work combines empirical research, economic theory, spatial analysis, software, and teaching. I ask how a country should be located in a trade model, how equilibrium can be represented through optimal transport, and whether a rural financing pattern survives comparison within the same intermediary.</p>
         <p>Current work includes trade research using night lights and population, a sole-authored study of rural financing in the New Markets Tax Credit, economic theory connecting equilibrium and optimal transport, and public tools for quantitative learning.</p>
         <p>Advisory work has included Saudi industrial-sector and import-localization diagnostics and a North America-wide electric-vehicle manufacturing site analysis for Carnegie Mellon University and Toyota Research Institute.</p>
       </div>
@@ -47,22 +47,27 @@ const education = [
 
   <section class="about-education route-band" data-rail-label="Education">
     <div class="route-shell route-shell--compact">
-      <header class="section-intro">
-        <div>
-          <p class="record-label">Education</p>
-          <h2>Economics, measurement, geography, and computation</h2>
+      <details class="content-disclosure">
+        <summary><span>Education<small>PhD, Economics · Georgia Tech, 2024 · Doctoral minor in Quantitative Psychology</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary>
+        <div class="disclosure-body">
+          <header class="section-intro">
+            <div>
+              <p class="record-label">Education</p>
+              <h2>Economics, measurement, geography, and computation</h2>
+            </div>
+            <p>My formal training centers on economics and extends to quantitative psychology and geographic information science. The research and teaching pages show how I use those fields in practice.</p>
+          </header>
+          <div class="education-register">
+            {education.map(([year, degree, institution, note]) => (
+              <article data-fieldbook-reveal>
+                <time>{year}</time>
+                <div><h3>{degree}</h3>{note && <p>{note}</p>}</div>
+                <p>{institution}</p>
+              </article>
+            ))}
+          </div>
         </div>
-        <p>My formal training centers on economics and extends to quantitative psychology and geographic information science. The research and teaching pages show how I use those fields in practice.</p>
-      </header>
-      <div class="education-register">
-        {education.map(([year, degree, institution, note]) => (
-          <article data-fieldbook-reveal>
-            <time>{year}</time>
-            <div><h3>{degree}</h3>{note && <p>{note}</p>}</div>
-            <p>{institution}</p>
-          </article>
-        ))}
-      </div>
+      </details>
     </div>
   </section>
 
@@ -73,56 +78,60 @@ const education = [
         <h2>Institutional teaching and independent work</h2>
       </div>
       <div class="reading-column">
+        <p>In teaching, I move among words, equations, tables, graphs, and code until the logic is clear and internally consistent.</p>
         <p>I have taught as instructor of record at Georgia Tech, supported teaching at Duke and Indiana, taught online microeconomics and macroeconomics, and worked independently with learners and researchers.</p>
         <p>Current tutoring figures and the complete institutional chronology appear on <a href="/teaching">Teaching &amp; Coaching</a>; Wyzant and private-practice hours are reported separately.</p>
       </div>
     </div>
   </section>
 
-  <section class="about-service route-band" id="service" data-rail-label="Leadership and service">
+  <section class="about-service route-band" data-rail-label="Leadership and service">
     <div class="route-shell route-shell--compact">
-      <header class="section-intro">
-        <div>
-          <p class="record-label">Leadership and service</p>
-          <h2>Leadership, contribution, awards, and academic service</h2>
+      <details class="content-disclosure" id="service">
+        <summary><span>Leadership, awards, and service<small>Teaching leadership, academic service, and documented contributions</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary>
+        <div class="disclosure-body">
+          <header class="section-intro">
+            <div>
+              <p class="record-label">Leadership and service</p>
+              <h2>Leadership, contribution, awards, and academic service</h2>
+            </div>
+            <p>These entries state the role, date, and documented scope of each appointment or contribution.</p>
+          </header>
+          <dl class="service-ledger">
+            <div>
+              <dt>National Network for Critical Technology Assessment</dt>
+              <dd>Additional contributor to the semiconductor demonstration in the 2023 report <cite>Securing America's Future</cite>; not an author of the full report.</dd>
+            </div>
+            <div>
+              <dt>Georgia Tech Graduate Student Government</dt>
+              <dd>Vice President for Campus Services, 2019–20; Graduate Senator, 2018–20; Senator of the Year, 2020.</dd>
+            </div>
+            <div>
+              <dt>Teaching leadership</dt>
+              <dd>Inaugural Graduate Teaching Fellow cohort, 2018–19; designed professional-development curriculum and co-led orientation.</dd>
+            </div>
+            <div>
+              <dt>Teaching award</dt>
+              <dd>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023.</dd>
+            </div>
+            <div>
+              <dt>Academic service</dt>
+              <dd>Ad hoc referee, Journal of Economic Theory.</dd>
+            </div>
+          </dl>
         </div>
-        <p>These entries state the role, date, and documented scope of each appointment or contribution.</p>
-      </header>
-      <dl class="service-ledger">
-        <div>
-          <dt>National Network for Critical Technology Assessment</dt>
-          <dd>Additional contributor to the semiconductor demonstration in the 2023 report <cite>Securing America's Future</cite>; not an author of the full report.</dd>
-        </div>
-        <div>
-          <dt>Georgia Tech Graduate Student Government</dt>
-          <dd>Vice President for Campus Services, 2019–20; Graduate Senator, 2018–20; Senator of the Year, 2020.</dd>
-        </div>
-        <div>
-          <dt>Teaching leadership</dt>
-          <dd>Inaugural Graduate Teaching Fellow cohort, 2018–19; designed professional-development curriculum and co-led orientation.</dd>
-        </div>
-        <div>
-          <dt>Teaching award</dt>
-          <dd>Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023.</dd>
-        </div>
-        <div>
-          <dt>Academic service</dt>
-          <dd>Ad hoc referee, Journal of Economic Theory.</dd>
-        </div>
-      </dl>
+      </details>
     </div>
   </section>
 
   <section class="about-close route-grid" data-rail-label="Explore the record">
     <div>
       <p class="record-label">Continue</p>
-      <h2>Explore the work, research, teaching, and full career record.</h2>
+      <h2>Have a research or teaching question?</h2>
     </div>
     <nav aria-label="About page next steps">
-      <a href="/work">Selected work →</a>
-      <a href="/research">Research →</a>
-      <a href="/teaching">Teaching &amp; coaching →</a>
-      <a href="/cv">CV &amp; contact →</a>
+      <a href="/contact">Start a conversation →</a>
+      <a href="/cv">View the full CV →</a>
     </nav>
   </section>
 </Base>

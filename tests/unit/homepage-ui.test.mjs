@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Window} from 'happy-dom';
 import {mountHomepage} from '../../src/scripts/homepage-studio.mjs';
-test('built homepage retains no-JS content and enhances keyboard, inquiry and motion controls',async()=>{
+test('built homepage retains no-JS content and enhances keyboard and motion controls',async()=>{
  const w=new Window({url:'https://example.test'});w.document.write(await readFile('dist/index.html','utf8'));
  const doc=w.document,frames=new Map();let id=0;const observers=[];
  const media=Object.assign(new w.EventTarget(),{matches:false});w.matchMedia=()=>media;
@@ -13,14 +13,12 @@ test('built homepage retains no-JS content and enhances keyboard, inquiry and mo
  w.IntersectionObserver=class{constructor(fn){this.fn=fn;observers.push(this)}observe(){this.fn([{isIntersecting:true}])}disconnect(){}};
  assert.equal([...doc.querySelectorAll('.st-project')].filter(p=>!p.hidden).length,3);
  assert.ok(doc.querySelector('[role=tablist]').hidden);
- assert.ok(doc.querySelector('[data-inquiry]').hidden);
  const dispose=mountHomepage(doc);
  const tabs=[...doc.querySelectorAll('[role=tab]')];
  assert.equal(doc.querySelectorAll('[role=tabpanel]:not([hidden])').length,1);
  tabs[1].click();assert.equal(tabs[1].getAttribute('aria-selected'),'true');assert.equal(doc.querySelector('[role=tabpanel]:not([hidden])').id,'project-panel-1');
  tabs[1].dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));assert.equal(doc.activeElement,tabs[2]);
  tabs[2].dispatchEvent(new w.KeyboardEvent('keydown',{key:'Home',bubbles:true}));assert.equal(doc.activeElement,tabs[0]);
- doc.querySelector('[data-inquiry-intent=collaborate]').click();assert.equal(doc.querySelector('#st-intent').value,'collaborate');
  assert.ok(frames.size);doc.querySelector('.st-motion').click();assert.equal(frames.size,0);doc.querySelector('.st-motion').click();assert.ok(frames.size);
  observers[0].fn([{isIntersecting:false}]);assert.equal(frames.size,0);observers[0].fn([{isIntersecting:true}]);assert.ok(frames.size);
  media.matches=true;media.dispatchEvent(new w.Event('change'));assert.equal(frames.size,0);assert.ok(doc.querySelector('.st-motion').disabled);
@@ -88,5 +86,41 @@ test('overview pages preserve detail and functional routes without opening every
   for(const link of d.querySelectorAll('.page-guide a,.st-experience-nav a'))assert.ok(d.getElementById(link.hash.slice(1)),link.hash);
   if(route==='index.html')assert.equal(d.querySelectorAll('.st-tool[open]').length,0);
   await w.happyDOM.abort();
+ }
+});
+
+
+test('visitor choices produce relevant routes and compose an editable email without sending',async()=>{
+ const {mountVisitorPath}=await import('../../src/scripts/visitor-path.mjs');
+ const {visitorPaths,resolveVisitorPath,visitorDraft}=await import('../../src/data/visitor-paths.mjs');
+ assert.equal(resolveVisitorPath('__proto__','x'),null);assert.equal(resolveVisitorPath('constructor','x'),null);
+ for(const [route,url] of [['index.html','https://example.test/'],['contact/index.html','https://example.test/contact?intent=research&focus=spatial']]){
+  const w=new Window({url}),d=w.document;d.write(await readFile(`dist/${route}`,'utf8'));
+  const root=d.querySelector('[data-visitor-path]');assert.ok(root.querySelector('[data-visitor-controls]').hidden);assert.equal(root.querySelector('[data-visitor-fallback]').hidden,false);
+  let dispose=mountVisitorPath(root);const select=root.querySelector('[data-visitor-focus]');
+  if(route.startsWith('contact')){assert.equal(select.value,'spatial');assert.equal(root.querySelector('[data-visitor-title]').textContent,visitorPaths.research.options[1].title);}
+  for(const [id,path] of Object.entries(visitorPaths)){
+   const radio=root.querySelector(`[value="${id}"]`);radio.checked=true;radio.dispatchEvent(new w.Event('change'));
+   for(const option of path.options){select.value=option.id;select.dispatchEvent(new w.Event('change'));assert.equal(root.querySelector('[data-visitor-resource]').getAttribute('href'),option.href);assert.equal(root.querySelector('[data-visitor-title]').textContent,option.title);}
+  }
+  if(route.startsWith('contact')){
+   const question=root.querySelector('[data-visitor-question]');question.value='<img src=x onerror=alert(1)>\nBcc: unwanted@example.test';question.dispatchEvent(new w.Event('input'));
+   assert.equal(root.querySelector('[data-draft-body] img'),null);assert.ok(root.querySelector('[data-draft-body]').textContent.includes(question.value));
+   const href=new URL(root.querySelector('[data-visitor-email]').href);assert.equal(href.searchParams.has('bcc'),false);assert.ok(href.searchParams.get('body').includes(question.value));
+   dispose();dispose=mountVisitorPath(root);assert.equal(select.value,'teaching');assert.ok(root.querySelector('[data-draft-body]').textContent.includes(question.value));
+  }else assert.ok(root.querySelector('[data-visitor-contact]').href.endsWith('/contact?intent=opportunity&focus=teaching'));
+  dispose();await w.happyDOM.abort();
+ }
+ const draft=visitorDraft('learn','ideas','Zoë','How does β change?');assert.ok(decodeURIComponent(draft.href).includes('Zoë'));assert.ok(decodeURIComponent(draft.href).includes('β'));
+});
+
+
+test('every suggested visitor resource resolves to a built page and destination',async()=>{
+ const {visitorPaths}=await import('../../src/data/visitor-paths.mjs');
+ const seen=new Map();
+ for(const path of Object.values(visitorPaths))for(const option of path.options){
+  const url=new URL(option.href,'https://example.test');const file=`dist${url.pathname.replace(/\/$/,'')}/index.html`;
+  if(!seen.has(file))seen.set(file,await readFile(file,'utf8'));
+  if(url.hash){const w=new Window();w.document.write(seen.get(file));assert.ok(w.document.getElementById(url.hash.slice(1)),option.href);await w.happyDOM.abort();}
  }
 });
