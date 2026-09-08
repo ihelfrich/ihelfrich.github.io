@@ -1,5 +1,13 @@
 import Lenis from 'lenis';
 
+// Shared links remain useful even when their destination starts inside a closed section.
+export function revealAnchorTarget(doc,hash){
+ let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return null;}
+ const target=doc.getElementById(id);
+ for(let node=target;node;node=node.parentElement)if(node.matches('details'))node.open=true;
+ return target;
+}
+
 // Keep the browser's scroll container, touch handling, history and keyboard navigation.
 // Run animation frames only while input or an animated scroll needs them.
 export function mountSiteScroll(doc,ScrollEngine=Lenis){
@@ -10,11 +18,11 @@ export function mountSiteScroll(doc,ScrollEngine=Lenis){
  const tick=time=>{frame=0;if(disposed||doc.hidden)return;engine.raf(time);if(engine.isScrolling==='smooth')wake();};
  const on=(el,type,fn,options)=>{el.addEventListener(type,fn,options);cleanups.push(()=>el.removeEventListener(type,fn,options));};
  const measure=()=>{const header=doc.querySelector('.site-header')?.getBoundingClientRect().height||0,dock=doc.querySelector('.st-experience-nav')?.getBoundingClientRect().height||0;doc.documentElement.style.setProperty('--site-header-height',`${header}px`);doc.documentElement.style.setProperty('--site-anchor-offset',`${header+dock+18}px`);};
- const revealHash=()=>{let id;try{id=decodeURIComponent(win.location.hash.slice(1));}catch{return;}const target=doc.getElementById(id);if(target?.matches('details'))target.open=true;};
- const prepareAnchor=e=>{const a=e.target.closest?.('a[href]');if(!a)return;let url;try{url=new URL(a.href,win.location.href);}catch{return;}if(url.origin!==win.location.origin||url.pathname!==win.location.pathname||!url.hash)return;let target;try{target=doc.getElementById(decodeURIComponent(url.hash.slice(1)));}catch{return;}if(target?.matches('details'))target.open=true;measure();wake();};
+ const revealHash=(initial=false)=>{const closed=[...doc.querySelectorAll('details:not([open])')];const target=revealAnchorTarget(doc,win.location.hash);if(target&&(initial===true||closed.some(node=>node.contains(target)))){engine.resize();engine.scrollTo(target,{immediate:true});}};
+ const prepareAnchor=e=>{const a=e.target.closest?.('a[href]');if(!a||e.defaultPrevented||e.button>0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;let url;try{url=new URL(a.href,win.location.href);}catch{return;}if(url.origin!==win.location.origin||url.pathname!==win.location.pathname||!url.hash)return;revealAnchorTarget(doc,url.hash);measure();engine.resize();wake();};
  engine.on('virtual-scroll',wake);engine.on('scroll',wake);
  on(doc,'click',prepareAnchor,true);on(win,'hashchange',revealHash);on(doc,'visibilitychange',()=>{if(doc.hidden){win.cancelAnimationFrame(frame);frame=0;}else wake();});
  const resize=new win.ResizeObserver(measure);for(const element of doc.querySelectorAll('.site-header,.st-experience-nav'))resize.observe(element);
- measure();revealHash();doc.documentElement.dataset.scrollEngine='lenis';
+ measure();revealHash(true);doc.documentElement.dataset.scrollEngine='lenis';
  return()=>{disposed=true;win.cancelAnimationFrame(frame);resize.disconnect();engine.destroy();cleanups.forEach(fn=>fn());delete doc.documentElement.dataset.scrollEngine;doc.documentElement.style.removeProperty('--site-anchor-offset');doc.documentElement.style.removeProperty('--site-header-height');};
 }

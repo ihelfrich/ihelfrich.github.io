@@ -324,8 +324,9 @@ const linkedBuiltCSS = (await Promise.all([...linkedStylesheetPaths].map(async (
 }))).join("\n");
 const activeBuiltCSS = stripCSSComments(linkedBuiltCSS);
 
+// Validate the canonical fieldbook tokens, independently of page-scoped palettes.
 for (const [token, expected] of Object.entries(palette)) {
-  const match = activeSourceCSS.match(new RegExp(`${token}\\s*:\\s*(#[\\da-f]{6})`, "i"));
+  const match = activeFieldbookCSS.match(new RegExp(`${token}\\s*:\\s*(#[\\da-f]{6})`, "i"));
   if (!match || match[1].toUpperCase() !== expected.toUpperCase()) {
     failures.push(`${token} must resolve to ${expected}`);
   }

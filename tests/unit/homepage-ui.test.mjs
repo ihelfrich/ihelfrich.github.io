@@ -51,7 +51,7 @@ test('scroll enhancement wakes only on demand, reveals tools, and releases its l
  const frames=new Map();let next=0,engine,disconnected=false;
  w.requestAnimationFrame=fn=>{frames.set(++next,fn);return next;};w.cancelAnimationFrame=id=>frames.delete(id);
  w.ResizeObserver=class{observe(){}disconnect(){disconnected=true;}};
- class Engine{constructor(options){this.options=options;this.events={};this.isScrolling=false;engine=this;}on(name,fn){this.events[name]=fn;}raf(){this.ticks=(this.ticks||0)+1;}destroy(){this.destroyed=true;}}
+ class Engine{constructor(options){this.options=options;this.events={};this.isScrolling=false;engine=this;}on(name,fn){this.events[name]=fn;}resize(){}scrollTo(){}raf(){this.ticks=(this.ticks||0)+1;}destroy(){this.destroyed=true;}}
  const dispose=mountSiteScroll(d,Engine);
  assert.equal(frames.size,0);assert.equal(d.getElementById('tool-regression').open,true);
  assert.equal(d.documentElement.style.getPropertyValue('--site-anchor-offset'),'150px');
@@ -66,4 +66,27 @@ test('scroll enhancement wakes only on demand, reveals tools, and releases its l
  dispose();assert.equal(frames.size,0);assert.ok(disconnected&&engine.destroyed);assert.equal(d.documentElement.dataset.scrollEngine,undefined);
  assert.equal(d.documentElement.style.getPropertyValue('--site-anchor-offset'),'');
  engine.events.scroll();assert.equal(frames.size,0);await w.happyDOM.abort();
+});
+
+
+test('direct links reveal every containing disclosure and keep unrelated detail closed',async()=>{
+ const {revealAnchorTarget}=await import('../../src/scripts/site-scroll.mjs');
+ const w=new Window(),d=w.document;
+ d.body.innerHTML='<details id="outer"><summary>Methods</summary><details id="inner"><summary>Example</summary><p id="target">Evidence</p></details></details><details id="unrelated"><summary>Other</summary></details>';
+ assert.equal(revealAnchorTarget(d,'#target'),d.getElementById('target'));
+ assert.ok(d.getElementById('outer').open&&d.getElementById('inner').open);
+ assert.equal(d.getElementById('unrelated').open,false);
+ assert.equal(revealAnchorTarget(d,'#missing'),null);assert.equal(revealAnchorTarget(d,'#%invalid'),null);
+ await w.happyDOM.abort();
+});
+
+test('overview pages preserve detail and functional routes without opening everything at once',async()=>{
+ for(const route of ['index.html','teaching/index.html','research/index.html']){
+  const w=new Window(),d=w.document;d.write(await readFile(`dist/${route}`,'utf8'));
+  assert.ok(d.querySelectorAll('details.content-disclosure').length,route);
+  assert.equal(d.querySelectorAll('details.content-disclosure[open]').length,0,route);
+  for(const link of d.querySelectorAll('.page-guide a,.st-experience-nav a'))assert.ok(d.getElementById(link.hash.slice(1)),link.hash);
+  if(route==='index.html')assert.equal(d.querySelectorAll('.st-tool[open]').length,0);
+  await w.happyDOM.abort();
+ }
 });
