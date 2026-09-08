@@ -1,0 +1,19 @@
+@font-face{font-family:"Space Grotesk";src:url('/fonts/space-grotesk-variable.woff2') format('woff2');font-style:normal;font-weight:300 700;font-display:swap}
+/* Shared spatial continuity across ordinary document navigations. */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+.st-portrait img, .about-portrait img { view-transition-name: ian-portrait; }
+::view-transition-group(*) { animation-duration: 460ms; animation-timing-function: cubic-bezier(.22,1,.36,1); }
+::view-transition-old(root) { animation: page-leave 200ms ease both; }
+::view-transition-new(root) { animation: page-arrive 460ms cubic-bezier(.22,1,.36,1) both; }
+::view-transition-old(site-header), ::view-transition-new(site-header) { animation: none; mix-blend-mode: normal; }
+@keyframes page-leave { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes page-arrive { from { opacity: 0; transform: translateY(14px); } }
+@media(prefers-reduced-motion:reduce) {
+ @view-transition { navigation: none; }
+ ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation: none!important; }
+}
+html.lenis,html.lenis body{scroll-behavior:auto!important}
+html{scroll-padding-top:var(--site-anchor-offset,90px)}
+body:not(.studio) main [id]{scroll-margin-top:20px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}

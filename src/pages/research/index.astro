@@ -54,17 +54,18 @@ const sourceLink = (record) => record.data.pdf
     <div class="research-hero__copy">
       <p class="record-label">Research</p>
       <h1>Research by current stage</h1>
-      <p>My research spans trade, spatial measurement, place-based policy, labor and AI, and economic theory. The projects below are grouped by their current stage so that published work, circulating manuscripts, ongoing analyses, and early designs remain easy to distinguish.</p>
+      <p>Trade, spatial measurement, place-based policy, labor and AI, and economic theory. Start with a question below; open its record for the full argument, sources, and limitations.</p>
     </div>
     <aside class="research-hero__key" aria-label="Status definitions">
-      <dl>
+      <p>Browse by stage. A public manuscript, an ongoing analysis, and an early design represent different kinds of evidence.</p><details class="record-detail"><summary>What the stages mean</summary><dl>
         <div><dt>Public</dt><dd>A manuscript or institutional publication is available.</dd></div>
         <div><dt>Current</dt><dd>Analysis is underway, with public material linked where available.</dd></div>
         <div><dt>Development</dt><dd>Questions and designs with no completed results.</dd></div>
-      </dl>
+      </dl></details>
     </aside>
   </section>
 
+  <nav class="page-guide route-shell" aria-label="Research page guide"><span>Browse research</span>{maturityGroups.map(group=><a href={`#stage-${group.key}`}>{group.heading}</a>)}<a href="#research-map">Topic map</a></nav>
   <div class="maturity-register">
     {maturityGroups.map((group, groupIndex) => {
       const records = recordsByMaturity.get(group.key) ?? [];
@@ -89,14 +90,13 @@ const sourceLink = (record) => record.data.pdf
                     <p class="status-line">{record.data.displayStatus} · {record.data.year}</p>
                     <h3><a href={`/research/${record.id}`}>{record.data.title}</a></h3>
                     <p class="research-question">{record.data.question}</p>
-                    <p><strong>Role:</strong> {record.data.role}</p>
+                    <details class="record-detail"><summary>Role and methods</summary><p>{record.data.role}</p><p>{record.data.method.join(" · ")}</p></details>
                     <nav aria-label={`${record.data.title} links`}>
                       <a href={`/research/${record.id}`}>Research record →</a>
                       {artifact && <a href={artifact.href} target={/^https?:/.test(artifact.href) ? "_blank" : undefined} rel={/^https?:/.test(artifact.href) ? "noopener" : undefined}>{artifact.label}{/^https?:/.test(artifact.href) ? " ↗" : " →"}</a>}
                     </nav>
                   </div>
                   <aside class="research-row__margin">
-                    <p><span>Method</span>{record.data.method.join(" · ")}</p>
                     <p class="limit"><span>Limit</span>{record.data.limit}</p>
                   </aside>
                 </article>
@@ -124,7 +124,7 @@ const sourceLink = (record) => record.data.pdf
     })}
   </div>
 
-  <section class="research-map route-band" data-rail-label="Research map">
+  <section id="research-map" class="research-map route-band" data-rail-label="Research map">
     <div class="route-shell route-shell--compact">
       <header class="section-intro">
         <div>
@@ -133,7 +133,7 @@ const sourceLink = (record) => record.data.pdf
         </div>
         <p>Use the map to follow shared tags across projects. Each title still links to the full research record and its current status.</p>
       </header>
-      <ResearchGraph papers={research} />
+      <details class="content-disclosure"><summary><span>Open the topic map<small>Filter and explore the connections between research records</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><ResearchGraph papers={research} /></div></details>
     </div>
   </section>
 

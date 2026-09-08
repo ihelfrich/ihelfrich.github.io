@@ -1,0 +1,72 @@
+/* Quiet overview surfaces; detail stays available at the point of interest. */
+.content-disclosure { border-block:1px solid #c9c9c9; margin-block:24px; }
+.content-disclosure > summary { display:flex; align-items:center; justify-content:space-between; gap:24px; min-height:88px; padding:22px 0; cursor:pointer; list-style:none; font:500 clamp(19px,2.2vw,27px)/1.25 "Space Grotesk",sans-serif; color:#171717; }
+.content-disclosure > summary::-webkit-details-marker { display:none; }
+.content-disclosure > summary small { display:block; max-width:65ch; margin-top:9px; font:400 14px/1.6 "Geist Variable",sans-serif; color:#666; }
+.disclosure-symbol { flex:none; font:300 28px/1 sans-serif; transition:transform .25s; }
+.content-disclosure[open] > summary .disclosure-symbol { transform:rotate(45deg); }
+.disclosure-body { padding-block:10px 30px; min-width:0; }
+.content-disclosure > summary:focus-visible,.record-detail > summary:focus-visible { outline:2px solid #171717; outline-offset:5px; }
+.record-detail { margin-block:16px; font:400 14px/1.65 "Geist Variable",sans-serif; }
+.record-detail > summary { cursor:pointer; min-height:44px; padding-block:10px; color:#444; text-decoration:underline; text-underline-offset:4px; }
+.record-detail p { max-width:68ch; }
+body .page-guide { display:flex; align-items:center; flex-wrap:wrap; gap:8px 24px; padding-block:18px; margin-block:0 32px; border-block:1px solid #d4d4d4; font:400 13px/1.5 "Geist Variable",sans-serif; }
+.page-guide > span { color:#666; margin-right:auto; }
+.page-guide a { color:#171717; min-height:44px; display:inline-flex; align-items:center; text-decoration:none; border-bottom:1px solid transparent; }
+.page-guide a:hover,.page-guide a:focus-visible { border-color:currentColor; }
+body.studio .st-section { padding-block:78px; }
+body.studio .st-work > h2 { font-size:clamp(38px,4.5vw,64px); max-width:20ch; }
+body.studio .st-connections { padding-top:15px; }
+body.studio .st-practice { border-top:1px solid #d4d4d4; }
+body.studio .st-instruments-intro { margin-bottom:24px!important; }
+body.studio .st-supporting { max-width:85ch; }
+body.studio .st-tool > summary small { font-size:14px; }
+body.studio .st-connections > h2 { font-size:clamp(36px,4vw,56px); }
+body.studio .st-resource h2 { font-size:clamp(36px,4vw,56px); }
+body.fieldbook-teaching .teaching-hero { min-height:0; padding-block:52px; }
+body.fieldbook-teaching .teaching-hero__copy > p:not(.record-label) { max-width:58ch; }
+body.fieldbook-teaching .relay-section,body.fieldbook-teaching .institutional-record { background:#fafafa; padding-block:52px; }
+body.fieldbook-teaching .practice-record,body.fieldbook-teaching .coaching-method,body.fieldbook-teaching .learning-systems { padding-block:52px; }
+body.fieldbook-teaching .section-intro { gap:30px; }
+body.fieldbook-teaching .section-intro h2 { font-size:clamp(28px,3.1vw,43px); line-height:1.12; }
+body.fieldbook-teaching .system-register { gap:26px; }
+body.fieldbook-teaching .system-register article { padding:24px; background:#f0f0f0; border:0; border-radius:14px; }
+body.fieldbook-teaching .system-register h3 { font-size:25px; }
+body.fieldbook-research { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#f0f0f0; --ef-signal:#171717; --ef-oxide:#555; --ef-teal:#555; --ink:#171717; --paper:#fafafa; --muted:#666; background:#fafafa; color:#171717; }
+body.fieldbook-research .field-rail { display:none; }
+body.fieldbook-research .h-scroll-progress { background:#171717; }
+body.fieldbook-research .research-hero { min-height:0; padding-block:58px; border:0; align-items:center; }
+body.fieldbook-research .research-hero__copy { grid-column:1/span 8; }
+body.fieldbook-research .research-hero__key { grid-column:10/span 3; font:400 14px/1.7 "Geist Variable",sans-serif; border-top:1px solid #aaa; }
+body.fieldbook-research .research-hero h1 { font:500 clamp(48px,6vw,86px)/1.03 "Space Grotesk",sans-serif; letter-spacing:-.055em; max-width:15ch; }
+body.fieldbook-research .research-hero .research-hero__copy > p:last-child { max-width:58ch; font:400 17px/1.75 "Geist Variable",sans-serif; }
+body.fieldbook-research .record-label,body.fieldbook-research .status-line { font:400 12px/1.6 "Geist Variable",sans-serif; text-transform:none; letter-spacing:0; }
+body.fieldbook-research .maturity-section { padding-block:44px; }
+body.fieldbook-research .maturity-heading { grid-template-columns:minmax(0,1fr) auto; gap:20px; padding-bottom:26px; }
+body.fieldbook-research .maturity-heading > span,body.fieldbook-research .research-row__accession { display:none; }
+body.fieldbook-research .maturity-heading h2 { font:500 clamp(26px,3vw,38px)/1.15 "Space Grotesk",sans-serif; letter-spacing:-.035em; }
+body.fieldbook-research .maturity-heading > strong { font:400 12px/1.5 "Geist Variable",sans-serif; text-transform:none; }
+body.fieldbook-research .research-row { grid-template-columns:minmax(0,2fr) minmax(180px,1fr); gap:35px; padding-block:30px; }
+body.fieldbook-research .research-row h3 { font:500 clamp(24px,2.6vw,32px)/1.2 "Space Grotesk",sans-serif; letter-spacing:-.035em; max-width:38ch; }
+body.fieldbook-research .research-question { font-size:16px; line-height:1.75; max-width:65ch; }
+body.fieldbook-research .research-row__margin { font:400 13px/1.7 "Geist Variable",sans-serif; align-self:start; border:0; padding:0; }
+body.fieldbook-research .research-row__margin .limit { border:0; padding-top:0; }
+body.fieldbook-research .research-row nav { font:500 13px/1.5 "Geist Variable",sans-serif; }
+body.fieldbook-research .research-row nav a { display:inline-flex; align-items:center; min-height:44px; }
+body.fieldbook-research .research-map { background:#fafafa; padding-block:44px; }
+body.fieldbook-research .research-map .section-intro h2 { font-size:clamp(30px,3.5vw,44px); }
+@media(max-width:720px) {
+ body .page-guide { gap:4px 20px; padding-block:14px; }
+ .page-guide > span { flex-basis:100%; }
+ body.studio .st-section { padding-block:50px; }
+ body.studio .st-connections { padding-top:0; }
+ body.fieldbook-research .research-hero { padding-block:36px; }
+ body.fieldbook-research .research-hero__key { margin-top:26px; }
+ body.fieldbook-research .research-row { grid-template-columns:1fr; gap:14px; }
+ body.fieldbook-research .research-row__margin { grid-column:1; }
+ body.fieldbook-research .maturity-heading > strong { grid-column:auto; }
+ body.fieldbook-teaching .teaching-hero { padding-block:30px; }
+ .content-disclosure > summary { font-size:21px; gap:16px; }
+}
+@media(prefers-reduced-motion:reduce) { .disclosure-symbol { transition:none; } }
+@media print { .content-disclosure::details-content { content-visibility:visible; } }

@@ -1,5 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
+import "../../styles/teaching-studio.css";
+import CourseFeature from "../../components/econometrics/CourseFeature.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
 import { picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
@@ -49,14 +51,18 @@ const subjectFamilies = [
 >
   <section class="teaching-hero route-grid" data-rail-label="Teaching overview">
     <div class="teaching-hero__copy">
-      <p class="record-label">University teaching · executive education · independent practice</p>
-      <h1>Teaching &amp; Coaching</h1>
+      <p class="record-label">Teaching &amp; quantitative coaching</p>
+      <h1>Think clearly.<br/>Then teach it.</h1>
       <p>I teach economics, statistics, econometrics, programming, and research design. My work ranges from foundational instruction to advising doctoral researchers and executives on empirical design, analysis, and communication.</p>
+      <div class="teaching-entry-actions"><a href="/econometrics/">Open the course <span aria-hidden="true">↗</span></a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a></div>
     </div>
     <aside class="teaching-hero__margin">
       <p>I have taught in university classrooms, supported Duke's Global Executive MBA program, led online courses, and worked through Wyzant and a separate private practice. The chronology and independently sourced hour totals appear below.</p>
     </aside>
   </section>
+
+  <nav class="page-guide route-shell" aria-label="Teaching page guide"><span>Find what you need</span><a href="#course-start">Open course</a><a href="#teaching-relay">Try a demonstration</a><a href="#coaching">Coaching</a><a href="#teaching-record">Teaching record</a></nav>
+  <div id="course-start"><CourseFeature /></div>
 
   <section class="relay-section route-band" data-rail-label="Representation relay">
     <div class="route-shell route-shell--compact">
@@ -67,11 +73,11 @@ const subjectFamilies = [
         </div>
         <p>Change the price. The sentence, equation, table, graph, and code update together. The point is to make inconsistencies visible, while keeping the underlying result fixed.</p>
       </header>
-      <RepresentationRelay />
+      <details class="content-disclosure" id="teaching-relay"><summary><span>Open the live demonstration<small>Explore one relationship through a sentence, equation, table, graph, and code</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><RepresentationRelay /></div></details>
     </div>
   </section>
 
-  <section class="practice-record route-shell" data-rail-label="Independent practice">
+  <section id="coaching" class="practice-record route-shell" data-rail-label="Independent practice">
     <header class="section-intro">
       <div>
         <p class="record-label">Independent practice · {tutoringRecord.asOf}</p>
@@ -93,7 +99,7 @@ const subjectFamilies = [
         <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours, separate from Wyzant.</p>
       </article>
     </div>
-    <p class="practice-range">I work with students, doctoral researchers, professionals, and executives. Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. Engagements range from focused tutoring to ongoing quantitative research-design coaching.</p>
+    <details class="content-disclosure"><summary><span>Subjects and kinds of support<small>From focused tutoring to ongoing research-design coaching</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><p class="practice-range">I work with students, doctoral researchers, professionals, and executives. Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. Engagements range from focused tutoring to ongoing quantitative research-design coaching.</p>
     <div class="subject-families" aria-label="Teaching subject families">
       {subjectFamilies.map(([title, detail]) => (
         <article>
@@ -102,6 +108,7 @@ const subjectFamilies = [
         </article>
       ))}
     </div>
+    </div></details>
   </section>
 
   <section class="coaching-method route-shell" data-rail-label="Research-design coaching">
@@ -112,7 +119,7 @@ const subjectFamilies = [
       </div>
       <p>A coaching engagement begins by clarifying the claim or decision, the target quantity, and the available evidence. Software and estimator choices follow from those decisions.</p>
     </header>
-    <ol class="coaching-sequence">
+    <details class="content-disclosure"><summary><span>How we work through a research question<small>Six steps from the decision to a defensible interpretation</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><ol class="coaching-sequence">
       <li><span>01</span><div><strong>Decision</strong><p>Identify the decision, claim, or scholarly contribution the analysis needs to inform.</p></div></li>
       <li><span>02</span><div><strong>Estimand</strong><p>Define the population, treatment or exposure, outcome, time frame, and quantity of interest.</p></div></li>
       <li><span>03</span><div><strong>Evidence</strong><p>Test whether the available data match the question and document the construction.</p></div></li>
@@ -121,9 +128,10 @@ const subjectFamilies = [
       <li><span>06</span><div><strong>Communication</strong><p>State the result, uncertainty, scope, and limit in language suited to the audience.</p></div></li>
     </ol>
     <p class="composite-note">For example, “Did this program work?” becomes a set of explicit choices about target population, timing, outcome, comparison group, and plausible threats to identification. This is a composite illustration, not an account of an individual learner or client project.</p>
+    </div></details>
   </section>
 
-  <section class="institutional-record route-band" data-rail-label="Institutional record">
+  <section id="teaching-record" class="institutional-record route-band" data-rail-label="Institutional record">
     <div class="route-shell route-shell--compact">
       <header class="section-intro">
         <div>
@@ -132,7 +140,7 @@ const subjectFamilies = [
         </div>
         <p>The chronology distinguishes instructor-of-record appointments from teaching-support roles.</p>
       </header>
-      <div class="chronology">
+      <details class="content-disclosure"><summary><span>View appointments and teaching evidence<small>Roles, chronology, recognition, and source records</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><div class="chronology">
         {institutions.map((entry) => (
           <article data-fieldbook-reveal>
             <time>{entry.years}</time>
@@ -155,6 +163,7 @@ const subjectFamilies = [
           <a href={teachingRecognition.evaluations.href}>View source PDF →</a>
         </article>
       </div>
+      </div></details>
     </div>
   </section>
 
@@ -167,6 +176,12 @@ const subjectFamilies = [
       <p>The portfolio focuses on generalized public tools and books. Learner-specific work remains private.</p>
     </header>
     <div class="system-register">
+      <article>
+        <p class="source-line">Living book · open data lab</p>
+        <h3><a href="https://helfrich-causal-inference.pr0digal.chatgpt.site/">Counterfactuals</a></h3>
+        <p>A causal-inference book built from questions, assignment mechanisms, estimands, and evidence. Its public data lab lets readers inspect, plot, filter, and download the rows.</p>
+        <a href="https://helfrich-causal-inference.pr0digal.chatgpt.site/data">Open the book and data lab →</a>
+      </article>
       <article>
         <p class="source-line">Live public system · version 0.1</p>
         <h3><a href="/projects/applied-statistics">Applied Statistics</a></h3>
@@ -243,9 +258,11 @@ const subjectFamilies = [
   .recognition-pair article { padding: var(--ef-space-5); }
   .recognition-pair article + article { border-left: 1px solid var(--ef-ink); }
   .recognition-pair h3 { margin: 0; }
-  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ef-ink); }
+  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(2, 1fr); border: 1px solid var(--ef-ink); }
   .system-register article { padding: var(--ef-space-5); }
-  .system-register article + article { border-left: 1px solid var(--ef-ink); }
+  .system-register article { border-bottom: 1px solid var(--ef-ink); }
+  .system-register article:nth-child(even) { border-left: 1px solid var(--ef-ink); }
+  .system-register article:nth-last-child(-n+2) { border-bottom: 0; }
   .system-register h3 { margin-top: 0; font-size: 1.45rem; }
   .teaching-close { padding-block: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
   .teaching-close > div:first-child { grid-column: 2 / span 7; }

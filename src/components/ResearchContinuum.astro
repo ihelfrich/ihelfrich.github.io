@@ -1,0 +1,12 @@
+<section class="st-continuum" id="continuum" data-continuum aria-label="Explore space, structure, and uncertainty">
+ <div class="st-continuum-top"><p>Economics in motion</p><span>Space / Structure / Uncertainty</span></div>
+ <div class="st-continuum-stage"><canvas aria-hidden="true"></canvas><svg class="st-continuum-fallback" viewBox="0 0 1000 450" aria-hidden="true">{Array.from({length:30},(_,i)=><ellipse cx="590" cy="225" rx={80+i*8} ry={160-i*3} transform={`rotate(${i*3} 590 225)`}/>)}</svg><div class="st-continuum-copy"><h2>Different questions.<br/>Connected thinking.</h2><p data-continuum-description>Distance, distribution, and the shape of economic activity.</p><a href="#tool-transport" data-continuum-link>Work with space <span aria-hidden="true">↗</span></a></div></div>
+ <div class="st-continuum-bottom"><div class="st-continuum-modes" role="group" aria-label="Visual form"><button type="button" data-form="0" aria-pressed="true">Space</button><button type="button" data-form="1" aria-pressed="false">Structure</button><button type="button" data-form="2" aria-pressed="false">Uncertainty</button></div><button type="button" data-continuum-pause hidden>Pause motion</button></div>
+ <p class="st-continuum-note">An abstract visual landscape. Explore the calculations in the instruments below.</p>
+</section>
+<script>
+ import {mountContinuum} from '../scripts/research-continuum.mjs';
+ let dispose=mountContinuum(document.querySelector('[data-continuum]'));
+ window.addEventListener('pagehide',()=>dispose());
+ window.addEventListener('pageshow',e=>{if(e.persisted)dispose=mountContinuum(document.querySelector('[data-continuum]'));});
+</script>

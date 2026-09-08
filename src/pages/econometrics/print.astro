@@ -1,0 +1,9 @@
+---
+import {getCollection,render} from 'astro:content';
+import Econometrics from '../../layouts/Econometrics.astro';
+const chapters=await Promise.all((await getCollection('econometrics')).sort((a,b)=>a.data.order-b.data.order).map(async c=>({...c,...await render(c)})));
+---
+<Econometrics title="The Econometric Argument · print edition" noindex>
+  <div class="ea-narrow ea-page-intro"><p class="ea-kicker">September 2026 · development edition</p><h1>The Econometric Argument</h1><p class="ea-lead">An applied and theoretical introduction by Ian Helfrich.</p><p>12 compact chapters. Original synthetic examples, formal derivations, exercises, and worked solutions. Advanced topics are introductions with reading paths.</p><p class="ea-no-print">This page contains the full text. Use your browser’s Print command to print or save as PDF. The print button opens all solutions first. Interactive experiments remain available in the online edition.</p><button class="ea-button ea-no-print" data-print-book>Print all chapters with solutions</button><ol class="ea-no-print">{chapters.map(c=><li><a href={`#chapter-${c.data.order}`}>{c.data.title}</a></li>)}</ol></div>
+  <div class="ea-narrow">{chapters.map(({Content,data})=><article class="ea-print-chapter ea-band" id={`chapter-${data.order}`}><header class="ea-chapter-heading"><p class="ea-kicker">Chapter {data.order} · {data.part}</p><h2>{data.title}</h2><p class="ea-lead">{data.question}</p></header><div class="ea-prose"><Content /></div></article>)}</div>
+</Econometrics>

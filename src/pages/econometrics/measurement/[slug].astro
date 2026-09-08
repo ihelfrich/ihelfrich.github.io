@@ -1,0 +1,15 @@
+---
+import {getCollection,render} from 'astro:content';
+import Econometrics from '../../../layouts/Econometrics.astro';
+import '../../../styles/measurement.css';
+const labels=['The story','Work it through','The technical companion'];
+export async function getStaticPaths(){const entries=(await getCollection('measurement')).sort((a,b)=>a.data.order-b.data.order);return entries.map((entry,i)=>({params:{slug:entry.id},props:{entry,entries,next:entries[i+1]}}));}
+const {entry,entries,next}=Astro.props;
+const {Content}=await render(entry);
+---
+<Econometrics title={entry.data.title} description={entry.data.description} section="measurement">
+  <div class="m-reader">
+    <nav class="m-reader-nav" aria-label="Reading depth"><small>One investigation.<br/>Three ways to read it.</small><a href="/econometrics/measurement/">The experiments</a>{entries.map((e,i)=><a href={`/econometrics/measurement/${e.id}/`} aria-current={e.id===entry.id?'page':undefined}>{labels[i]}</a>)}<a href="/econometrics/#contents">The whole course</a></nav>
+    <article><header class="m-reader-heading"><p class="m-mode">{labels[entry.data.order-1]} / Measurement</p><h1>{entry.data.title}</h1><p class="ea-lead">{entry.data.description}</p></header><div class="ea-prose"><Content /></div><nav class="m-reader-next" aria-label="Continue the investigation"><a href="/econometrics/measurement/">Return to the experiments</a>{next&&<a href={`/econometrics/measurement/${next.id}/`}>{labels[next.data.order-1]}</a>}</nav></article>
+  </div>
+</Econometrics>

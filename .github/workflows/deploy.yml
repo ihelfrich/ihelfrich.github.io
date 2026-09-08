@@ -33,14 +33,22 @@ jobs:
       - name: Refresh reading aggregator
         run: python3 scripts/fetch_reading.py
         continue-on-error: true
+      - name: Refresh Counterfactuals data catalogue
+        run: node scripts/sync-counterfactuals.mjs
       - name: Run factual and voice release gate
         run: npm run check:copy
       - name: Verify fieldbook routes and evidence components
         run: |
           npm run check:fieldbook
           npm run check:components
+      - name: Check policy statistics calculations
+        run: node --test tests/unit/policy-statistics.test.mjs
       - name: Build hub
         run: npm run build:fast
+      - name: Verify homepage interactions and portrait
+        run: node --test tests/unit/homepage-data.test.mjs tests/unit/homepage-ui.test.mjs tests/unit/homepage-continuum.test.mjs
+      - name: Verify econometrics edition
+        run: npm run check:econometrics
       - name: Verify rendered headline styles
         run: npm run check:styles
       - name: Verify public career and research artifacts
@@ -58,14 +66,14 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - name: Commit refreshed feed cache
+      - name: Commit refreshed public data caches
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/feeds/*.json
-          git diff --staged --quiet || git commit -m "chore: refresh reading feed cache"
-          git push || true
+          git add public/data/feeds/*.json public/data/counterfactuals
+          git diff --staged --quiet || git commit -m "chore: refresh public data caches"
+          git push
 
   deploy:
     needs: build
