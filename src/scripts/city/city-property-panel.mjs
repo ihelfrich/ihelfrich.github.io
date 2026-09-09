@@ -17,6 +17,7 @@ export function createPropertyPanel(root,{
   section.innerHTML=`
     <div class="property-tabs" role="tablist" aria-label="Property workspace">
       <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Evidence</button>
+      <button type="button" id="property-tab-site" data-property-tab="site" role="tab" aria-controls="property-panel-site" aria-selected="false" tabindex="-1">Site</button>
       <button type="button" id="property-tab-inventory" data-property-tab="inventory" role="tab" aria-controls="property-panel-inventory" aria-selected="false" tabindex="-1">Inventory</button>
       <button type="button" id="property-tab-scenario" data-property-tab="scenario" role="tab" aria-controls="property-panel-scenario" aria-selected="false" tabindex="-1">Scenario</button>
       <button type="button" id="property-tab-develop" data-property-tab="develop" role="tab" aria-controls="property-panel-develop" aria-selected="false" tabindex="-1">Develop</button>
@@ -40,13 +41,14 @@ export function createPropertyPanel(root,{
       <details class="property-source-details"><summary>Public inventory source & coverage</summary><div id="property-public-source" class="small-note">Load public inventory to see snapshot dates and source details.</div></details>
     </section></div>
     <div id="property-panel-scenario" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-scenario" tabindex="0" hidden></div>
-    <div id="property-panel-develop" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-develop" tabindex="0" hidden></div>`;
+    <div id="property-panel-develop" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-develop" tabindex="0" hidden></div>
+    <div id="property-panel-site" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-site" tabindex="0" hidden></div>`;
   const intro=root.querySelector('.panel-intro');if(intro)intro.after(section);else root.prepend(section);
   const $=id=>section.querySelector('#property-'+id);
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
   if(imported)$('panel-inventory').append(imported);
   if(scenario)$('panel-scenario').append(scenario);
-  const tabNames=['evidence','inventory','scenario','develop'];
+  const tabNames=['evidence','site','inventory','scenario','develop'];
   function selectTab(name) {
     if(!tabNames.includes(name))return false;
     for(const key of tabNames) {

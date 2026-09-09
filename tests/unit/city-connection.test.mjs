@@ -62,6 +62,7 @@ function harness() {
     return nodes.get(id);
   };
   $("ion-source").value = "2275207";
+  $("ion-remember").checked = false;
   const initial = adapter("three");
   const context = vm.createContext({
     $,
@@ -72,6 +73,7 @@ function harness() {
     openSceneSerial: 0,
     pendingReality: null,
     realityHost: null,
+    savedReality: null,
     activeLayer: "city",
     mode: "explore",
     AbortController,
@@ -158,6 +160,42 @@ test("a canceled attempt clears its deadline and a queued stale timeout cannot i
   assert.equal(h.adapters[1].disposed, false);
   assert.equal(h.context.pendingReality, null);
   assert.equal(h.$("connect-reality").disabled, false);
+});
+
+test("saved credentials restore once after real base readiness and persist only after a rendered surface", async () => {
+  const h=harness(),saved={token:"synthetic-saved-credential",assetId:42},commits=[];
+  let consumed=false,callbacks;
+  h.context.savedReality={
+    takeRestore(){if(consumed)return null;consumed=true;return saved},
+    consumeRestore(){consumed=true},
+    prepareAttempt(value){return ()=>commits.push({...value})},
+  };
+  h.context.createCityScene=async(_,__,options)=>{callbacks=options;return adapter("three")};
+  await h.context.openScene();
+  assert.equal(h.calls.length,0,"factory resolution is not visible readiness");
+  callbacks.onReady();await flush();
+  assert.equal(h.calls.length,1);assert.equal(h.calls[0].token,saved.token);assert.equal(h.calls[0].assetId,42);
+  assert.equal(h.$("ion-token").value,"");assert.equal(commits.length,0);
+  callbacks.onReady();await flush();assert.equal(h.calls.length,1);
+  h.calls[0].onReady();assert.deepEqual(commits,[saved]);
+  assert.equal(h.context.city,h.adapters[0]);
+});
+
+test("a failed restored attempt does not persist or automatically loop", async () => {
+  const h=harness();let commits=0,restores=0;
+  h.context.savedReality={takeRestore(){restores++;return {token:"synthetic-saved",assetId:42}},consumeRestore(){},prepareAttempt(){return ()=>commits++}};
+  h.context.restoreSavedReality();await flush();h.calls[0].onError(new Error("synthetic failure"));
+  h.context.restoreSavedReality();await flush();
+  assert.equal(commits,0);assert.equal(restores,1);assert.equal(h.calls.length,1);assert.equal(h.context.city,h.initial);assert.equal(h.initial.disposed,false);
+});
+
+test("open-map choice consumes pending restore and a storage write failure preserves a connected renderer", async () => {
+  const h=harness();let consumed=false,callbacks;
+  h.context.savedReality={takeRestore(){return consumed?null:{token:"synthetic-saved",assetId:42}},consumeRestore(){consumed=true},prepareAttempt(){return ()=>{throw new Error("synthetic quota")}}};
+  h.context.createCityScene=async(_,__,options)=>{callbacks=options;return adapter("three")};
+  await h.context.returnToOpenMap();callbacks.onReady();await flush();assert.equal(h.calls.length,0);assert.equal(consumed,true);
+  await h.connect();h.calls[0].onReady();
+  assert.equal(h.context.city,h.adapters[0]);assert.equal(h.adapters[0].disposed,false);assert.equal(h.events.includes("fallback"),false);
 });
 
 test("a late Three result is disposed and cannot replace a newer photographic scene or emit stale UI callbacks", async () => {

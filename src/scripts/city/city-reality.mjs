@@ -215,8 +215,9 @@ function installWidgetStyles() {
 
 /**
  * Real photographic geometry is streamed by the provider. The credential remains
- * inside Cesium's per-connection resource, and is never persisted, returned,
- * logged, interpolated into our UI, or included in an error/callback payload.
+ * inside Cesium's per-connection resource. This adapter never persists, returns,
+ * logs or includes it in UI/error/callback payloads. The separate preferences
+ * controller may remember it locally only after the user's explicit opt-in.
  */
 export async function createRealityScene(
   container,

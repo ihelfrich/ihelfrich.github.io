@@ -6,6 +6,8 @@ import { createLivePanel } from "./city-live-panel.mjs";
 import { createDevelopmentPanel } from "./city-development-panel.mjs";
 import { createSpatialPanel } from "./city-spatial-panel.mjs";
 import { createHeightStudy } from "./city-height-study.mjs";
+import { createRealityPreferences } from "./city-reality-preferences.mjs";
+import { createSitePanel } from "./city-site-panel.mjs";
 import { getConditions, solarPosition } from "../../lib/city-conditions.mjs";
 import {
   walkingComparison,
@@ -30,7 +32,8 @@ let connectionSerial = 0,
   pendingReality = null,
   realityHost = null;
 let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
-let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false;
+let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
+let savedReality=null;
 let selectImportedMarker = () => {}, selectPublicMarker = () => {};
 function syncPropertyMarkers() {
   const records=[],actions=new Map();
@@ -50,7 +53,7 @@ const estate = createEstatePanel($("properties-panel"), {
 property = createPropertyPanel($("properties-panel"), {
   estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),
   onEvidence:evidence=>{
-    selectedEvidence=evidence;development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);
+    selectedEvidence=evidence;development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||"SELECTED LOCATION");
     else if(city?.controls?.target) {
       const p=city.controls.target;
@@ -65,6 +68,7 @@ developRoot.innerHTML='<div id="spatial-workspace"></div><details class="height-
 development=createDevelopmentPanel($("development-workspace"),{getEvidence:()=>selectedEvidence,getScenario:()=>estate.getScenario(),notice});
 spatial=createSpatialPanel($("spatial-workspace"),{getEvidence:()=>selectedEvidence,onLocate:locateMapPoint});
 heightStudy=createHeightStudy($("height-study-workspace"),{getCity:()=>city,getEvidence:()=>selectedEvidence,onChange:visible=>{heightStudyVisible=visible;workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:visible})}});
+sitePanel=createSitePanel($("property-panel-site"),{getEvidence:()=>selectedEvidence});
 const livePanel = createLivePanel($("live-panel"), {
   onLocate:locateMapPoint,
   onSummary:summary=>{
@@ -642,21 +646,24 @@ function rendererUI() {
   updateLight();
 }
 
-async function connectReality(event) {
-  event.preventDefault();
+async function connectReality(event, restored = null) {
+  event?.preventDefault();
+  if(event)savedReality?.consumeRestore();
   if (!data || pendingReality) return;
-  const token = $("ion-token").value.trim();
+  const token = (typeof restored?.token==="string"?restored.token:$("ion-token").value).trim();
   if (!token) return;
-  const assetId = Number(
+  if(token.length>8192){$("reality-status").textContent="The token exceeds the supported length. Check the copied token.";return}
+  const assetId = Number(restored?.assetId ?? (
     $("ion-source").value === "custom"
       ? $("ion-asset").value
-      : $("ion-source").value,
-  );
+      : $("ion-source").value
+  ));
   if (!Number.isSafeInteger(assetId) || assetId <= 0) {
     $("reality-status").textContent =
       "Enter a positive whole-number 3D Tiles asset ID.";
     return;
   }
+  const persistConnection=savedReality?.prepareAttempt({token,assetId});
   const serial = ++connectionSerial,
     host = make("div", "reality-host");
   host.style.visibility = "hidden";
@@ -704,6 +711,7 @@ async function connectReality(event) {
     $("reality-status").textContent = safe
       ? `${diagnostic.message} [Step: ${diagnostic.phase}${diagnostic.status ? `; HTTP ${diagnostic.status}` : ""}]`
       : "The photographic layer could not connect. Check token permissions, selected asset and network, then enter the token again to retry.";
+    if(restored)notice("The saved Cesium connection could not open. Check its settings in Photographic city; it will not retry automatically during this visit.");
     if (safe) {
       try {
         sessionStorage.setItem(
@@ -752,6 +760,8 @@ async function connectReality(event) {
     $("connect-reality").disabled = false;
     $("reality-status").textContent =
       "Connected. Photographic surfaces retain their captured lighting and weather.";
+    // Persistence errors must never discard a successfully rendered connection.
+    try {persistConnection?.()} catch {}
     try {
       sessionStorage.removeItem("stl-reality-check");
     } catch {}
@@ -831,6 +841,7 @@ async function connectReality(event) {
 }
 
 async function returnToOpenMap() {
+  savedReality?.consumeRestore();
   ++connectionSerial;
   clearTimeout(pendingReality?.timeout);
   pendingReality?.abort?.abort();
@@ -845,6 +856,11 @@ async function returnToOpenMap() {
   $("loading").hidden = false;
   $("connect-reality").disabled = false;
   await openScene();
+}
+function restoreSavedReality() {
+  if(connectionSerial!==0||pendingReality||$("reality-dialog").open) {savedReality?.consumeRestore();return}
+  const restored=savedReality?.takeRestore();
+  if(restored)void connectReality(null,restored);
 }
 async function openScene() {
   const serial = ++openSceneSerial;
@@ -867,6 +883,7 @@ async function openScene() {
     city.toggle("buildings", $("toggle-buildings").checked);
     setLayer(activeLayer);
     if (mode === "compare") drawRoutes();
+    restoreSavedReality();
   };
   try {
     candidate = await createCityScene($("city-viewport"), data, {
@@ -992,9 +1009,10 @@ async function start() {
 document
   .querySelectorAll("[data-mode]")
   .forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
-$("open-reality").addEventListener("click", () =>
-  $("reality-dialog").showModal(),
-);
+savedReality=createRealityPreferences(document,{onReconnect:credentials=>{savedReality.consumeRestore();void connectReality(null,credentials)}});
+$("open-reality").addEventListener("click", () => {
+  savedReality.consumeRestore();$("reality-dialog").showModal();
+});
 $("close-reality").addEventListener("click", () => $("reality-dialog").close());
 $("reality-form").addEventListener("submit", connectReality);
 $("ion-source").addEventListener("change", () => {
