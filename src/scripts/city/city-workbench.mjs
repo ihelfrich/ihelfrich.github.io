@@ -3,7 +3,7 @@ import {normalizeTone} from '../../lib/city-tone.mjs';
 /** Presentation controls stay independent of the selected rendering engine. */
 export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,showPlaces=()=>{},onNow=()=>{}}={}) {
   const $=id=>doc.getElementById(id),listeners=[];
-  let tone=normalizeTone(),parcelVisible=true,focused=false;
+  let tone=normalizeTone(),parcelVisible=true,streetLabels=true,focused=false;
   const listen=(node,event,handler)=>{if(node){node.addEventListener(event,handler);listeners.push(()=>node.removeEventListener(event,handler))}};
   function focus(value) {
     focused=Boolean(value);doc.body.classList.toggle('focus-mode',focused);
@@ -23,6 +23,11 @@ export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,sh
   }
   function refreshRenderer() {
     const photo=getCity()?.engine==='cesium';
+    const labels=Boolean(getCity()?.capabilities?.streetLabels);
+    if($('toggle-street-labels')){$('toggle-street-labels').disabled=!labels;$('toggle-street-labels').checked=streetLabels}
+    if($('street-labels-quick')){$('street-labels-quick').hidden=!labels;$('street-labels-quick').setAttribute('aria-pressed',String(streetLabels))}
+    getCity()?.setStreetLabels?.(streetLabels);
+    setStreetLabelStatus(labels?(getCity()?.getStreetLabelStatus?.()||{status:streetLabels?'loading':'disabled'}):{status:'open-map'});
     if($('sun-study-controls'))$('sun-study-controls').hidden=photo;
     if($('photo-tone-controls'))$('photo-tone-controls').hidden=!photo;
     if($('light-now'))$('light-now').hidden=photo;
@@ -31,6 +36,15 @@ export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,sh
       ?'Scene color and exposure only. Captured shadows and weather remain in the imagery; provider credits are unchanged.'
       :'Color and exposure treatment, combined with the selected sun and observed airport conditions.';
     getCity()?.setParcelVisible?.(parcelVisible);applyTone(tone);
+  }
+  function setStreetLabelStatus(value={}) {
+    const status=$('street-label-status');if(!status)return;
+    status.textContent=!streetLabels&&getCity()?.capabilities?.streetLabels?'Street names hidden.':value.status==='open-map'?'Connect photographic view to use the street-name overlay.':value.status==='unavailable'?'Street names could not load. Toggle the overlay to retry.':value.status==='disabled'?'Street names hidden.':value.status==='loading'?'Loading mapped street names…':value.status==='partial'?`${value.visibleCount||0} mapped street labels in view. Some street tiles could not load; coverage is partial.`:Number.isFinite(value.visibleCount)&&value.visibleCount>0?`${value.visibleCount} mapped street labels in view. Labels thin out with distance.`:'Street names are enabled. Zoom toward streets for local detail.';
+  }
+  function applyStreetLabels(value) {
+    streetLabels=Boolean(value);if($('toggle-street-labels'))$('toggle-street-labels').checked=streetLabels;
+    $('street-labels-quick')?.setAttribute('aria-pressed',String(streetLabels));getCity()?.setStreetLabels?.(streetLabels);
+    setStreetLabelStatus(getCity()?.getStreetLabelStatus?.()||{status:streetLabels?'loading':'disabled'});
   }
   listen($('city-search-form'),'submit',event=>{
     event.preventDefault();const query=$('city-search-query').value.trim();if(!query)return;
@@ -50,6 +64,8 @@ export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,sh
   listen($('tone-exposure'),'input',()=>applyTone({exposure:Number($('tone-exposure').value)}));
   listen($('reset-tone'),'click',()=>applyTone({preset:'natural',exposure:0}));
   listen($('toggle-parcel'),'change',()=>{parcelVisible=$('toggle-parcel').checked;getCity()?.setParcelVisible?.(parcelVisible)});
+  listen($('toggle-street-labels'),'change',()=>applyStreetLabels($('toggle-street-labels').checked));
+  listen($('street-labels-quick'),'click',()=>applyStreetLabels(!streetLabels));
   listen($('studio-inventory'),'click',()=>{setMode('properties');property?.selectTab('inventory')});
   listen($('open-studio'),'click',()=>setMode('layers'));
   listen($('light-now'),'click',onNow);
@@ -66,7 +82,7 @@ export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,sh
     }
   });
   return {
-    refreshRenderer,focus,
+    refreshRenderer,focus,setStreetLabelStatus,
     updateSolar(hour,isNow) {
       // A schematic daily arc, not a survey of the solar azimuth or altitude.
       const angle=(Math.max(6,Math.min(18,hour))-6)/12*Math.PI;

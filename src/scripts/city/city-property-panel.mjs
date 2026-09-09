@@ -1,4 +1,4 @@
-import {searchParcels} from '../../lib/city-parcels.mjs';
+import {searchRegionalAddresses} from '../../lib/city-regional-search.mjs';
 import {createPropertyLookup} from '../../lib/city-property-context.mjs';
 import {loadPublicListings} from '../../lib/city-public-listings.mjs';
 import {inventoryView} from '../../lib/city-inventory-view.mjs';
@@ -11,7 +11,7 @@ const date=value=>value!=null&&value!==''&&Number.isFinite(Date.parse(value))?ne
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
   estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},
-  search=searchParcels,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=250,
+  search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
   section.innerHTML=`
@@ -23,8 +23,8 @@ export function createPropertyPanel(root,{
       <button type="button" id="property-tab-develop" data-property-tab="develop" role="tab" aria-controls="property-panel-develop" aria-selected="false" tabindex="-1">Develop</button>
     </div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
-      <div class="estate-filters"><label>City address<input id="property-search" type="search" placeholder="Enter at least 3 characters" autocomplete="off" /></label></div>
-      <p class="small-note">City parcel evidence only. Search an address or select a map location.</p>
+      <div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
+      <p class="small-note">Search across St. Louis City and County. Results distinguish City parcel records from County address locations.</p>
       <p id="property-search-status" class="small-note" role="status">Enter at least 3 characters to search.</p>
       <div id="property-search-results" class="estate-list"></div>
       <div id="property-evidence" aria-live="polite"></div>
@@ -85,7 +85,7 @@ export function createPropertyPanel(root,{
   let inventoryPromise=null,cachedInventory=null;
   const getInventory=()=>inventoryPromise ||= Promise.resolve(inventoryLoader()).then(snapshot=>{cachedInventory=snapshot;onInventory(snapshot);return snapshot}).catch(error=>{inventoryPromise=null;throw error});
   const lookup=providedLookup||createPropertyLookup({inventoryLoader:getInventory});
-  let generation=0,controller=null,selectedParcel=null,searchGeneration=0,searchTimer=null;
+  let generation=0,controller=null,selectedParcel=null,searchGeneration=0,searchTimer=null,searchController=null;
   let inventoryGeneration=0,inventorySnapshot=null,overlayEnabled=false;
   function clearSelection() {
     generation++;controller?.abort();controller=null;selectedParcel=null;
@@ -101,7 +101,16 @@ export function createPropertyPanel(root,{
   function renderEvidence(evidence) {
     const body=$('evidence');body.replaceChildren();
     const parcels=evidence.parcels||{},p=parcels.parcel?.properties,z=evidence.zoning||{},sale=evidence.inventory||{};
-    body.append(element('span',p?'OFFICIAL PARCEL':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||'Selected location'));
+    body.append(element('span',p?'OFFICIAL PARCEL':evidence.point?.resultKind==='address'?'COUNTY ADDRESS LOCATION':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||evidence.point?.address||'Selected location'));
+    if(evidence.point?.resultKind==='address') {
+      paragraph(body,[evidence.point.municipality,evidence.point.postalCode,'St. Louis County'].filter(Boolean).join(' · '));
+      paragraph(body,'This is an address point. Parcel boundaries, ownership, assessment and sale availability have not been established. Open Site for terrain and flood evidence at this point.');
+      const addressDetails=element('details',undefined,'property-source-details');addressDetails.append(element('summary','Address location source'));
+      paragraph(addressDetails,`Address source record: ${evidence.point.sourceAddressId||'Unknown'}. This is not a parcel identifier.`);
+      paragraph(addressDetails,`Address record edited: ${date(evidence.point.sourceRecordUpdatedAt)}. Address publication field: ${date(evidence.point.sourceRecordPublishedAt)}. These dates do not establish a survey or assessment year.`);
+      if(evidence.point.mailingCity)paragraph(addressDetails,`Mailing city: ${evidence.point.mailingCity}. Mailing city and municipality can differ.`);
+      sourceInfo(addressDetails,evidence.point.addressSource,'Official address source');body.append(addressDetails);
+    }
     paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
     const action=element('button','Test this property','primary-button wide');action.type='button';
     action.addEventListener('click',()=>{selectTab('scenario');root.querySelector('#estate-purchasePrice')?.focus()});body.append(action);
@@ -158,7 +167,9 @@ export function createPropertyPanel(root,{
   async function inspectPoint(input) {
     if(!validPoint(input)){notice('A valid map coordinate is required for property evidence.');return null}
     const point={longitude:input.longitude,latitude:input.latitude};
-    for(const key of ['recordKey','parcelKey','parcelId'])if(typeof input[key]==='string')point[key]=input[key];
+    for(const key of ['recordKey','parcelKey','parcelId','address','municipality','mailingCity','postalCode','jurisdiction','resultKind','sourceAddressId','sourceRecordUpdatedAt','sourceRecordPublishedAt'])if(typeof input[key]==='string')point[key]=input[key];
+    if(input.source&&typeof input.source==='object')point.addressSource={...input.source};
+    else if(input.addressSource&&typeof input.addressSource==='object')point.addressSource={...input.addressSource};
     if(Number.isFinite(input.height))point.height=input.height;
     // Estate reset can synchronously call clearSelection; establish our request afterward.
     estate.selectPoint(point);const serial=++generation;controller?.abort();const request=new AbortController();controller=request;
@@ -180,25 +191,36 @@ export function createPropertyPanel(root,{
     }
   }
   async function runSearch(query,serial) {
-    $('search-status').textContent='Searching City parcel addresses…';
+    searchController?.abort();const request=new AbortController();searchController=request;
+    $('search-status').textContent='Searching City and County addresses…';
     try {
-      const rows=await search(query,{limit:12});if(serial!==searchGeneration)return;
-      $('search-results').replaceChildren();$('search-status').textContent=rows.length?`${rows.length} matching City addresses. Choose an exact source record.`:'No matching City addresses in this index. County addresses are not included.';
+      const response=await search(query,{limit:12,signal:request.signal});if(serial!==searchGeneration||request.signal.aborted)return;
+      const rows=Array.isArray(response)?response:response.results;
+      if(!Array.isArray(rows))throw new TypeError('Invalid regional search response.');
+      const sources=Array.isArray(response.sources)?response.sources:[],unavailable=sources.filter(s=>s.status==='unavailable');
+      const coverage=unavailable.map(s=>s.jurisdiction==='st-louis-county'?'County':'City').join(' and ');
+      $('search-results').replaceChildren();$('search-status').textContent=(rows.length?`${rows.length} address match${rows.length===1?'':'es'}. Choose a location.`:unavailable.length?'No matches in the responding source.':'No matching addresses. Try the street number and name, or add a municipality or ZIP.')+(unavailable.length?` ${coverage} search is unavailable; coverage is partial. Retry to search both sources.`:'');
       for(const row of rows) {
-        const button=element('button',undefined,'estate-listing');button.type='button';button.dataset.recordKey=row.recordKey||'';button.append(element('strong',row.address||'Address unknown'),element('small',`Parcel ${row.parcelId||'Unknown'} · account ${account(row)}`));
-        button.addEventListener('click',()=>{void inspectPoint(row);getCity()?.flyTo?.((row.longitude-ORIGIN[0])*X_SCALE,-(row.latitude-ORIGIN[1])*METRES,3)});$('search-results').append(button);
+        if(!validPoint(row))continue;
+        const county=row.resultKind==='address',button=element('button',undefined,'estate-listing property-address-result');button.type='button';button.dataset.recordKey=row.recordKey||'';
+        button.append(element('span',county?'COUNTY · ADDRESS':'CITY · PARCEL','property-result-kind'),element('strong',row.address||'Address unknown'),element('small',county?[row.municipality,row.postalCode,'Address location only'].filter(Boolean).join(' · '):`Parcel ${row.parcelId||'Unknown'} · account ${account(row)}`));
+        button.addEventListener('click',()=>{void inspectPoint(row);const x=(row.longitude-ORIGIN[0])*X_SCALE,z=-(row.latitude-ORIGIN[1])*METRES;getCity()?.flyTo?.(x,z,3);getCity()?.pin?.(x,z,'#e3bc76')});$('search-results').append(button);
       }
-      if(rows[0]?.source)sourceInfo($('search-results'),rows[0].source,'Address index source');
-    } catch {if(serial===searchGeneration){$('search-results').replaceChildren();$('search-status').textContent='City parcel address search is unavailable. Select a map point or retry.'}}
+      const detail=element('details',undefined,'property-source-details');detail.append(element('summary','Search sources & coverage'));
+      if(sources.length)for(const source of sources){paragraph(detail,`${source.jurisdiction==='st-louis-county'?'St. Louis County':'City of St. Louis'}: ${source.skipped?'not queried':source.status==='ready'?'responded':'unavailable'}.`);if(source.reason)paragraph(detail,source.reason);sourceInfo(detail,source.source,'Address source')}
+      else if(rows[0]?.source)sourceInfo(detail,rows[0].source,'Address index source');
+      if(response.partial&&!unavailable.length)paragraph(detail,'The provider returned partial results. Refine the address to narrow the search.');
+      if(sources.length||rows[0]?.source)$('search-results').append(detail);
+    } catch {if(serial===searchGeneration&&!request.signal.aborted){$('search-results').replaceChildren();$('search-status').textContent='City and County address search is unavailable. Select a map point or retry.'}}
   }
   $('search').addEventListener('input',()=>{
-    const query=$('search').value.trim(),serial=++searchGeneration;clearTimeout(searchTimer);$('search-results').replaceChildren();
+    const query=$('search').value.trim(),serial=++searchGeneration;clearTimeout(searchTimer);searchController?.abort();$('search-results').replaceChildren();
     if(query.length<3){$('search-status').textContent='Enter at least 3 characters to search.';return}
     $('search-status').textContent='Waiting to search…';searchTimer=setTimeout(()=>void runSearch(query,serial),debounceMs);
   });
   async function searchAddress(value) {
     const query=String(value??'').trim(),serial=++searchGeneration;
-    clearTimeout(searchTimer);$('search').value=query;$('search-results').replaceChildren();focusSearch();
+    clearTimeout(searchTimer);searchController?.abort();$('search').value=query;$('search-results').replaceChildren();focusSearch();
     if(query.length<3){$('search-status').textContent='Enter at least 3 characters to search.';return}
     return runSearch(query,serial);
   }

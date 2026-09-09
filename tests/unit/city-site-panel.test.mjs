@@ -40,3 +40,12 @@ test('an inadequate interior grid withholds terrain sampling while preserving FE
  assert.match(f.$('terrain').textContent,/Fewer than six|narrow|collinear/);
  assert.match(f.$('flood').textContent,/Zone X/);
 });
+test('a County address can load point evidence without inventing a parcel, area or grade',async t=>{
+ let request;
+ const f=fixture(t,async input=>{request=input;return {terrain:{status:'ready',units:'m',samples:[{...input.points[0],elevationMetres:177}],sources:[{id:'test',verticalDatum:'NAVD 88',acquisitionDate:'2017-02-27',resolutionMetres:1}],requestedCount:1,availableCount:1},flood:{status:'ready',zones:[{zone:'X'}]}}});
+ const selected={longitude:-90.4,latitude:38.7,address:'Synthetic County address'};
+ f.panel.setEvidence({point:selected,parcels:{status:'unsupported',parcel:null}});
+ assert.equal(f.$('load').disabled,false);assert.match(f.$('geometry').textContent,/point only/);assert.equal(f.$('plot').textContent,'');
+ f.$('load').click();await settle();assert.deepEqual(request.points,[{longitude:-90.4,latitude:38.7}]);
+ assert.match(f.$('terrain').textContent,/Elevation at address point177 m/);assert.doesNotMatch(f.$('terrain').textContent,/Fitted plane grade|Lowest sample/);assert.match(f.$('flood').textContent,/Zone X/);assert.equal(f.$('export').disabled,false);
+});

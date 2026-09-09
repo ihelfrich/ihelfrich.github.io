@@ -4,6 +4,8 @@ Contract/model version: `st-louis-site-analysis-v1`. Classification: determinist
 
 **Scope:** One selected parcel account, bounded source geometry and at most 25 requested terrain observations. No city-wide mesh processing or legal entitlement calculation.
 
+The UI also supports selected address/map points without connected parcel geometry. This mode requests one elevation and FEMA evidence at that location, reports no parcel dimensions or fitted grade, and exports `preliminary-point-evidence` with null geometry and plane analysis. It does not run `measureSite`, `prepareTerrainPoints` or `fitTerrainPlane` on a fabricated polygon.
+
 ## Implemented contracts
 
 `measureSite(parcel)` and `prepareTerrainPoints(parcel, {maxPoints: 25})` consume one GeoJSON Feature containing WGS84 two-dimensional Polygon or MultiPolygon coordinates. They preserve the selected source account's `recordKey`, `parcelKey`, `parcelId`, `handle` and source object ID. The source account's `areaSqFt` is reported independently; it is never summed over shared accounts or substituted for polygon area. Source record identity remains a dated GIS account identity, not proof of a legal lot.

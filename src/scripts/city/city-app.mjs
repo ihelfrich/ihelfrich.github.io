@@ -54,7 +54,7 @@ property = createPropertyPanel($("properties-panel"), {
   estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),
   onEvidence:evidence=>{
     selectedEvidence=evidence;development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
-    if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||"SELECTED LOCATION");
+    if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
     else if(city?.controls?.target) {
       const p=city.controls.target;
       showSceneLocation({longitude:p.x/(111195*Math.cos(38.628*Math.PI/180))-90.193,latitude:38.628-p.z/111195},"MAP CENTER");
@@ -806,6 +806,10 @@ async function connectReality(event, restored = null) {
       onMapSelect: (point) => {
         if (serial === connectionSerial && candidate && city === candidate)
           property.inspectPoint(point);
+      },
+      onStreetLabelStatus: (status) => {
+        if (serial === connectionSerial && candidate && city === candidate)
+          workbench?.setStreetLabelStatus(status);
       },
       onRegionReady: (manifest) => {
         if (serial !== connectionSerial) return;

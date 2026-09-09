@@ -466,9 +466,11 @@ export function createEstatePanel(
       };
       if (Number.isFinite(point.height)) selectedMapPoint.height = point.height;
       if (typeof point.recordKey === "string") selectedMapPoint.recordKey = point.recordKey;
+      if (typeof point.address === "string") selectedMapPoint.address = point.address;
+      if (point.addressSource) selectedMapPoint.addressSource = structuredClone(point.addressSource);
       scenarioKind = "map-location";
       onOpen();
-      $("estate-selection").textContent = "Selected map location";
+      $("estate-selection").textContent = point.address || "Selected map location";
       $("estate-selected-source").textContent =
         `${Math.abs(point.latitude).toFixed(5)}° ${point.latitude < 0 ? "S" : "N"}, ${Math.abs(point.longitude).toFixed(5)}° ${point.longitude < 0 ? "W" : "E"}. Location only; no parcel, availability or value has been verified.`;
     },

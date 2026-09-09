@@ -76,11 +76,13 @@ async function fixture(resource) {
   const tone = new vm.SourceTextModule(toneSource, {context});
   const volume = new vm.SourceTextModule(volumeSource, {context});
   const parcels = new vm.SourceTextModule(parcelsSource, {context});
+  const streetLabels = new vm.SyntheticModule(['createStreetLabelLayer'],function(){this.setExport('createStreetLabelLayer',()=>({setStreetLabels(){},getStreetLabelStatus(){return {status:'ready',visibleCount:0}},dispose(){}}))},{context});
   await overlay.link(() => {});
   await tone.link(() => {});
   await parcels.link(() => {});
   await volume.link(() => parcels);
-  await module.link(specifier => specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
+  await streetLabels.link(()=>{});
+  await module.link(specifier => specifier.endsWith("city-street-labels.mjs") ? streetLabels : specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
   await module.evaluate();
   return { api: module.namespace, counts: () => ({ created, destroyed }) };
 }

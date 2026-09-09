@@ -118,6 +118,10 @@ body.city-workbench {
 .property-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin:-6px -20px 20px; padding:0 12px; position:sticky; top:-20px; background:#1b2123; z-index:2; }
 .property-tabs [role=tab] { flex:1; padding:12px 4px; background:transparent; font-size:10px; border-bottom:2px solid transparent; color:#aeb5b1; border-radius:0; }
 .property-tabs [aria-selected=true] { border-color:var(--gold); color:#f3f0e5; }
+.property-address-result .property-result-kind { color:var(--gold); font:8px var(--font-data); letter-spacing:.09em; margin-bottom:4px; }
+.property-address-result strong,.property-address-result small { overflow-wrap:anywhere; }
+.city-workbench #street-labels-quick { font-family:inherit; font-size:13px; }
+.city-workbench #street-labels-quick[aria-pressed=true] { color:var(--gold); background:#c5a77419; }
 .city-workbench .property-tab-panel { min-width:0; }
 .city-workbench .property-tab-panel > .estate-source { margin:0; padding:0; border:0; background:transparent; }
 .city-workbench .property-tab-panel .estate-source { border-radius:8px; }

@@ -118,3 +118,20 @@ test('import controls retain their listeners after moving and an imported select
  assert.equal(f.root.querySelector('#estate-selection').textContent,'Imported fixture');
  assert.equal(f.outlines.at(-1),null);assert.match(f.$('evidence').textContent,/No parcel selected/);
 });
+
+test('County address results retain source identity and label the location without fabricating a parcel',async t=>{
+ const address={longitude:-90.337,latitude:38.649,address:'41 S CENTRAL AVE',municipality:'Clayton',postalCode:'63105',jurisdiction:'st-louis-county',resultKind:'address',source:{name:'Synthetic County address source',url:'https://maps.stlouisco.com/',retrievedAt:'2026-09-09T00:00:00Z'}};
+ const f=fixture(t,{withEstate:true,search:async()=>({results:[address],sources:[{jurisdiction:'st-louis-county',status:'ready',source:address.source},{jurisdiction:'st-louis-city',status:'ready'}],partial:false}),lookup:async p=>({point:p,parcels:{status:'unsupported',parcel:null,reason:'outside-city'},zoning:{status:'unsupported-municipality',districts:[]},inventory:{status:'unresolved',listings:[]}})});
+ await f.panel.searchAddress('41 S Central');
+ const result=f.$('search-results').querySelector('button');assert.match(result.textContent,/COUNTY · ADDRESS/);assert.match(result.textContent,/Clayton · 63105/);assert.doesNotMatch(result.textContent,/account|Parcel /);
+ result.click();await settle();assert.equal(f.outlines.at(-1),null);assert.match(f.$('evidence').textContent,/41 S CENTRAL AVE/);assert.match(f.$('evidence').textContent,/address point/);assert.equal(f.root.querySelector('#estate-selection').textContent,address.address);
+});
+
+test('partial search preserves usable matches and cancelled requests cannot overwrite a later query',async t=>{
+ const pending=[];const f=fixture(t,{search:(q,{signal})=>new Promise(resolve=>pending.push({q,signal,resolve}))});
+ const first=f.panel.searchAddress('earlier'),second=f.panel.searchAddress('later');assert.equal(pending[0].signal.aborted,true);
+ pending[1].resolve({results:[{...point,address:'Usable City result',resultKind:'parcel'}],sources:[{jurisdiction:'st-louis-city',status:'ready'},{jurisdiction:'st-louis-county',status:'unavailable'}],partial:true});await second;
+ pending[0].resolve({results:[],sources:[],partial:false});await first;
+ assert.match(f.$('search-results').textContent,/Usable City result/);assert.match(f.$('search-status').textContent,/County search is unavailable; coverage is partial/);
+ f.type('search','ab');assert.equal(pending[1].signal.aborted,true);assert.match(f.$('search-status').textContent,/3 characters/);
+});

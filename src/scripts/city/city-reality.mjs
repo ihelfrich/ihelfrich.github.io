@@ -1,6 +1,7 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
+import { createStreetLabelLayer } from "./city-street-labels.mjs";
 const ORIGIN = [-90.193, 38.628];
 const METRES_PER_DEGREE = 111195;
 const LONGITUDE_SCALE =
@@ -66,6 +67,7 @@ export const REALITY_CAPABILITIES = Object.freeze({
   visualTone: true,
   parcelVisibility: true,
   developmentVolume: true,
+  streetLabels: true,
   routes: true,
   listings: true,
   mapSelection: true,
@@ -232,6 +234,7 @@ export async function createRealityScene(
     onMapSelect = () => {},
     onRegionReady = () => {},
     onRegionStatus = () => {},
+    onStreetLabelStatus = () => {},
   } = {},
 ) {
   if (typeof token !== "string" || !token.trim()) {
@@ -250,6 +253,7 @@ export async function createRealityScene(
   let viewer;
   let tone;
   let developmentLayer;
+  let streetLabels;
   let tileset;
   let tilesetAttached = false;
   let input;
@@ -317,6 +321,7 @@ export async function createRealityScene(
     listingEntities.clear();
     tone?.dispose();
     developmentLayer?.dispose();
+    streetLabels?.dispose();
     if (
       tileset &&
       !tileset.isDestroyed() &&
@@ -501,6 +506,10 @@ export async function createRealityScene(
       });
     }, C.ScreenSpaceEventType.LEFT_CLICK);
     removers.push(viewer.camera.moveEnd.addEventListener(updateCenter));
+    streetLabels = createStreetLabelLayer(C, viewer, container, {
+      getCenter: () => ({ ...controls.target }),
+      onStatus: onStreetLabelStatus,
+    });
     if (typeof ResizeObserver !== "undefined") {
       observer = new ResizeObserver(() => {
         if (!disposed) {
@@ -831,6 +840,8 @@ export async function createRealityScene(
     },
     setTone: tone.setTone,
     setDevelopmentVolume: developmentLayer.setDevelopmentVolume,
+    setStreetLabels: streetLabels.setStreetLabels,
+    getStreetLabelStatus: streetLabels.getStreetLabelStatus,
     setEnvironment,
     setLight() {},
     setNetwork() {},
