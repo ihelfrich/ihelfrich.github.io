@@ -103,6 +103,7 @@ export function createPropertyPanel(root,{
       for(const listing of sale.listings||[])link(body,'Official sale record',listing.sourceUrl);
       sourceInfo(body,{...sale.source,retrievedAt:sale.retrievedAt},'Public inventory source');
     } else paragraph(body,(sale.reason?sale.reason+' ':'')+'Private sale status and asking price are unknown. Absence from public LRA inventory does not establish that a property is unavailable.');
+    body.scrollIntoView?.({block:"start",behavior:"auto"});
   }
   async function inspectPoint(input) {
     if(!validPoint(input)){notice('A valid map coordinate is required for property evidence.');return null}
