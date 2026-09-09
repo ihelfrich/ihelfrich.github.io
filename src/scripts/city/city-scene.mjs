@@ -1,4 +1,6 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
+import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
+import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { Sky } from "three/addons/objects/Sky.js";
@@ -24,8 +26,107 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { GTAOPass } from "three/addons/postprocessing/GTAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 const clamp = T.MathUtils.clamp;
 export { contains } from "./city-geometry.mjs";
+
+export function createDevelopmentVolumeLayer(scene, origin = [-90.193, 38.628]) {
+  const group = new T.Group();
+  group.name = "parcel-height-study";
+  scene.add(group);
+  let disposed = false;
+  const fill = new T.MeshBasicMaterial({ color: "#f1c576", transparent: true, opacity: 0.16, depthWrite: false, side: T.DoubleSide });
+  const stroke = new T.LineBasicMaterial({ color: "#7bd8e6", transparent: true, opacity: 0.8, depthTest: false, depthWrite: false });
+  const longitudeScale = 111195 * Math.cos(origin[1] * Math.PI / 180);
+  function clear() {
+    for (const object of [...group.children]) {
+      object.geometry.dispose();
+      group.remove(object);
+    }
+  }
+  return {
+    setDevelopmentVolume(value) {
+      if (disposed) return { status: "unavailable", reason: "disposed", message: "The map renderer is no longer active." };
+      clear();
+      const study = developmentVolume(value);
+      if (study.status !== "ready") return study;
+      try {
+        for (const rings of study.polygons) {
+          const paths = rings.map(ring => ring.slice(0, -1).map(([lon, lat]) => new T.Vector2((lon - origin[0]) * longitudeScale, (lat - origin[1]) * 111195)));
+          const shape = new T.Shape(paths[0]);
+          shape.holes = paths.slice(1).map(points => new T.Path(points));
+          const geometry = new T.ExtrudeGeometry(shape, { depth: study.heightMetres, steps: 1, bevelEnabled: false, curveSegments: 1 });
+          geometry.rotateX(-Math.PI / 2);
+          geometry.translate(0, 2, 0);
+          const body = new T.Mesh(geometry, fill);
+          body.renderOrder = 17;
+          group.add(body);
+          const edge = new T.LineSegments(new T.EdgesGeometry(geometry), stroke);
+          edge.renderOrder = 18;
+          group.add(edge);
+        }
+      } catch {
+        clear();
+        return { status: "unavailable", reason: "render-geometry", message: "This parcel geometry could not be drawn as a height study." };
+      }
+      return { status: "shown", heightMetres: study.heightMetres, recordKey: study.recordKey,
+        reference: "Map display plane; not surveyed ground. The full parcel is a height-study graphic, not a proposed footprint or entitlement." };
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      clear(); fill.dispose(); stroke.dispose(); group.removeFromParent();
+    },
+  };
+}
+
+// Insert before OutputPass: color grading operates on the linear scene buffer,
+// while Three's existing output transform handles exposure and highlight rolloff.
+export function createSceneTone(renderer, composer) {
+  let tone = { ...DEFAULT_TONE }, disposed = false;
+  let baseExposure = renderer.toneMappingExposure;
+  const pass = new ShaderPass({
+    uniforms: {
+      tDiffuse: { value: null },
+      toneGain: { value: new T.Vector3(1, 1, 1) },
+      toneSaturation: { value: 1 },
+    },
+    vertexShader: `varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `uniform sampler2D tDiffuse;
+      varying vec2 vUv;
+      ${TONE_GRADE_GLSL}
+      void main() {
+        vec4 color = texture2D(tDiffuse, vUv);
+        gl_FragColor = vec4(cityGradeLinear(color.rgb), color.a);
+      }`,
+  });
+  pass.enabled = false;
+  composer.addPass(pass);
+  return {
+    setTone(value) {
+      if (disposed) return { ...tone };
+      tone = normalizeTone(value, tone);
+      const parameters = toneParameters(tone);
+      renderer.toneMappingExposure = baseExposure * parameters.multiplier;
+      pass.uniforms.toneGain.value.fromArray(parameters.gain);
+      pass.uniforms.toneSaturation.value = parameters.saturation;
+      pass.enabled = tone.preset !== "natural";
+      return { ...tone };
+    },
+    setBaseExposure(value) {
+      if (disposed || !Number.isFinite(value) || value <= 0) return;
+      baseExposure = value;
+      renderer.toneMappingExposure = baseExposure * toneParameters(tone).multiplier;
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      composer.removePass(pass);
+      pass.dispose();
+    },
+  };
+}
 
 // One instanced draw call for imported coordinates; no geocoding or inferred locations.
 export function createListingLayer(scene, origin) {
@@ -150,6 +251,7 @@ export async function createCityScene(
     }
   }
   const listingsLayer = createListingLayer(scene, data.origin || [-90.193,38.628]);
+  const developmentLayer = createDevelopmentVolumeLayer(scene, data.origin || [-90.193,38.628]);
   scene.background = new T.Color("#aebfc1");
   scene.fog = new T.FogExp2("#b8c4bd", 0.000095);
   const aspect = container.clientWidth / container.clientHeight,
@@ -177,7 +279,9 @@ export async function createCityScene(
   );
   ao.blendIntensity = 0.78;
   composer.addPass(ao);
-  composer.addPass(new OutputPass());
+  const tone = createSceneTone(renderer, composer);
+  const outputPass = new OutputPass();
+  composer.addPass(outputPass);
   let ambientOcclusion = true;
   const controls = new OrbitControls(camera, renderer.domElement);
   const cameraDistance = camera.position.length();
@@ -747,7 +851,7 @@ export async function createCityScene(
     rain.visible =
       ["rain", "mixed", "snow"].includes(weatherState?.precipitationKind) &&
       camera.zoom > 0.3;
-    renderer.toneMappingExposure = 0.95 + day * 0.14;
+    tone.setBaseExposure(0.95 + day * 0.14);
     renderer.shadowMap.needsUpdate = true;
   }
   function setLight(hour) {
@@ -1029,6 +1133,11 @@ export async function createCityScene(
     flyTo,
     setListings: listingsLayer.setListings,
     setParcel,
+    setParcelVisible(value) {
+      if (!disposed) parcelOutline.visible = Boolean(value);
+    },
+    setTone: tone.setTone,
+    setDevelopmentVolume: developmentLayer.setDevelopmentVolume,
     reset,
     route,
     pin,
@@ -1058,16 +1167,20 @@ export async function createCityScene(
       controls.update();
     },
     dispose() {
+      if (disposed) return;
       disposed = true;
       ro.disconnect();
       container.removeEventListener("keydown", onKeyDown);
       controls.removeEventListener("change", invalidateShadows);
       listingsLayer.dispose();
+      developmentLayer.dispose();
       setParcel(null);
       region?.dispose();
       detail?.dispose();
       materials.dispose();
       ao.dispose();
+      tone.dispose();
+      outputPass.dispose();
       composer.dispose();
       controls.dispose();
       renderer.dispose();

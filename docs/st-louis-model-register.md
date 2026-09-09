@@ -136,6 +136,16 @@ Undefined zero-denominator ratios are null. Negative cash flow/returns and break
 
 ## Failure behavior
 
+The Develop workspace extends these contracts with [development and income-value scenarios](st-louis-development-models.md) and [bounded neighborhood statistics](st-louis-spatial-statistics.md). Development capacity is the smaller of assumed FAR area and assumed coverage × stories area. Income valuation discounts explicit annual NOI and an explicit terminal sale; growth sensitivities are user scenarios, not confidence bands. Empirical AI valuation remains **Not trained**; no predictive accuracy is established. A future private model requires a separately operated inference service because this public static site's JavaScript is inspectable.
+
+Neighborhood summaries fetch all intersecting same-origin parcel tiles within a 12-tile, 15 MB measured-response and 5,000-account budget. Accounts and shared HANDLEs remain separate; assessment medians are account-weighted administrative values with unknown assessment year. Source lot-area conflicts are excluded and counted. Radius intersection honors polygon holes and marks City-boundary crossings as partial geographic coverage. The source is a dated snapshot, not a live property market.
+
+The optional parcel height study preserves full selected polygon rings and holes. Height equals integer stories (1–100) × floor height (2–6 m); both inputs are explicit assumptions. The open renderer uses its display plane. The photographic renderer samples at most four loaded boundary surfaces and uses one common captured-surface reference, which may be a roof. Neither reference is surveyed ground. Bounds are 16 parts, 64 rings and 4,096 source vertices. Missing surface, invalid geometry or input limits clear the previous volume and return unavailable. This graphic is not a proposed footprint, setback calculation or entitlement.
+
+The Live panel independently refreshes [NWS alerts](https://www.weather.gov/documentation/services-web-alerts) for MOC189/MOC510, an hourly downtown LSX/95,74 forecast, and [NOAA NWPS](https://water.noaa.gov/about/api) EADM7/VLLM7 stage products. Five-minute transport caching is separate from product freshness. Alert expiration, forecast issuance/valid time, gauge observation time and fetch time remain distinct. A river gauge's feet are height relative to its local datum, not water depth or parcel flood exposure. Absent as-needed forecasts are not zero stage. Every feed has separate current, stale, empty/expired, invalid or unavailable behavior.
+
+Visual tone presets and −1…+1 exposure stops are scene display grading, implemented within each renderer. Provider credits remain outside the grading. Photographic texture shadows/weather remain captured. Motion honors reduced-motion preferences; focus mode preserves provider attribution and an accessible restore control. Model arithmetic never depends on frame cadence, tone, lighting or animation.
+
 Invalid shared state, missing snapshots/destinations, disconnected routes, stale observations, source outages and photographic authorization failures remain visible. WebGL failure should leave ordinary DOM controls usable. Missing geographic detail must not be interpreted as an absent hazard, absent property or complete source inventory.
 
 ## Verification entry points

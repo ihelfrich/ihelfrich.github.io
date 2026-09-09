@@ -7,10 +7,18 @@ const source = await readFile(
   new URL("../../src/scripts/city/city-reality.mjs", import.meta.url),
   "utf8",
 );
+const overlaySource = await readFile(new URL("../../src/lib/city-parcel-overlay.mjs", import.meta.url), "utf8");
+const toneSource = await readFile(new URL("../../src/lib/city-tone.mjs", import.meta.url), "utf8");
+const volumeSource = await readFile(new URL("../../src/lib/city-development-volume.mjs", import.meta.url), "utf8");
+const parcelsSource = await readFile(new URL("../../src/lib/city-parcels.mjs", import.meta.url), "utf8");
 async function fixture(resource) {
   let created = 0,
     destroyed = 0;
   const event = { addEventListener: () => () => {} };
+  class PostProcessStage {
+    constructor(options) { Object.assign(this, options); }
+    isDestroyed() { return !!this.dead; }
+  }
   class Viewer {
     constructor() {
       created++;
@@ -18,6 +26,7 @@ async function fixture(resource) {
         screenSpaceCameraController: {},
         fog: {},
         renderError: event,
+        postProcessStages: { add: value => value, remove: value => { value.dead = true; } },
       };
       this.canvas = { setAttribute() {} };
       this.screenSpaceEventHandler = { removeInputAction() {} };
@@ -44,9 +53,11 @@ async function fixture(resource) {
     matchMedia: () => ({ matches: false }),
   });
   const dependency = new vm.SyntheticModule(
-    ["Viewer", "IonResource", "ScreenSpaceEventType"],
+    ["Viewer", "IonResource", "ScreenSpaceEventType", "PostProcessStage", "Cartesian3"],
     function () {
       this.setExport("Viewer", Viewer);
+      this.setExport("PostProcessStage", PostProcessStage);
+      this.setExport("Cartesian3", class { constructor(x, y, z) { Object.assign(this, { x, y, z }); } });
       this.setExport("IonResource", { fromAssetId: resource });
       this.setExport("ScreenSpaceEventType", {
         LEFT_CLICK: 1,
@@ -61,9 +72,15 @@ async function fixture(resource) {
     context,
     importModuleDynamically: async () => dependency,
   });
-  const overlay = new vm.SourceTextModule(await readFile(new URL("../../src/lib/city-parcel-overlay.mjs", import.meta.url), "utf8"), {context});
+  const overlay = new vm.SourceTextModule(overlaySource, {context});
+  const tone = new vm.SourceTextModule(toneSource, {context});
+  const volume = new vm.SourceTextModule(volumeSource, {context});
+  const parcels = new vm.SourceTextModule(parcelsSource, {context});
   await overlay.link(() => {});
-  await module.link(() => overlay);
+  await tone.link(() => {});
+  await parcels.link(() => {});
+  await volume.link(() => parcels);
+  await module.link(specifier => specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
   await module.evaluate();
   return { api: module.namespace, counts: () => ({ created, destroyed }) };
 }

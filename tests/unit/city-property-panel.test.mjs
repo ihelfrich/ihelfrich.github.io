@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Window} from 'happy-dom';
 import {createPropertyPanel} from '../../src/scripts/city/city-property-panel.mjs';
+import {createEstatePanel} from '../../src/scripts/city/city-estate.mjs';
 const point={longitude:-90.193,latitude:38.628};
 const parcel=(id='one',patch={})=>({type:'Feature',geometry:{type:'Polygon',coordinates:[[[-90.194,38.627],[-90.192,38.627],[-90.192,38.629],[-90.194,38.627]]]},properties:{parcelKey:'st-louis-city:h',parcelId:id,recordKey:'record:'+id,sourceObjectId:1,address:'10 Fixture Place',assessedValueUSD:0,assessmentYear:null,sourceRecordDate:null,...patch}});
 const evidence=(p=point,selected=parcel())=>({point:{...p},parcels:{status:'found',parcel:selected,candidates:[selected],source:{url:'https://www.stlouis-mo.gov/data/',retrievedAt:'2026-09-08T12:00:00Z',catalogPublishedAt:'2026-08-27'}},zoning:{status:'matched',complete:false,jurisdiction:{label:'City of St. Louis'},districts:[{code:'A',label:'Single-Family Dwelling District'}],overlays:[],overlayStatus:'unavailable',effectiveDate:null,codeUrl:'https://example.org/zoning',sources:[{sourceId:'city-base',sourceUrl:'https://example.org/layer',retrievedAt:'2026-09-08T12:00:00Z',sourceDate:null}]},inventory:{status:'not-in-public-inventory',listings:[],reason:'No matching land-bank record; private sale status is unknown.'}});
@@ -9,15 +10,16 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,8));
 const listing=(id='lra-one',patch={})=>({id,parcelKey:'st-louis-city:h',parcelId:id,address:'Fixture parcel '+id,...point,askingPrice:null,priceStatus:'not-published',status:'available',usage:'Vacant Lot',...patch});
 const snapshot=listings=>({listings,source:{name:'Official LRA',url:'https://www.stlouis-mo.gov/data/',termsUrl:'https://example.org/terms'},retrievedAt:'2026-09-08T12:00:00Z',sourceUpdatedAt:null,snapshotStatus:'recent',counts:{listings:listings.length}});
 function fixture(t,options={}) {
+ const {withEstate=false,...panelOptions}=options;
  const window=new Window(),prior=globalThis.document;globalThis.document=window.document;
  const root=document.createElement('section'),original=document.createElement('p');original.id='existing-estate';root.append(original);document.body.append(root);
  const selected=[],applied=[],outlines=[],markers=[],notices=[];let panel;
  const city={controls:{target:{x:0,z:0}},setParcel(p){outlines.push(p)},setListings(){throw new Error('Public panel must not replace imported markers')},flyTo(){}};
- const estate={selectPoint(p){selected.push(p);panel?.clearSelection()},setPropertyEvidence(e){applied.push(e);return true}};
- panel=createPropertyPanel(root,{estate,getCity:()=>city,notice:m=>notices.push(m),onPublicMarkers:(records,select)=>markers.push({records,select}),lookup:async p=>evidence(p),search:async()=>[],inventoryLoader:async()=>snapshot([]),debounceMs:0,...options});
+ const estate=withEstate?createEstatePanel(root,{getCity:()=>city,onMarkers(){},onSelectionChange(){panel?.clearSelection()}}):{selectPoint(p){selected.push(p);panel?.clearSelection()},setPropertyEvidence(e){applied.push(e);return true}};
+ panel=createPropertyPanel(root,{estate,getCity:()=>city,notice:m=>notices.push(m),onPublicMarkers:(records,select)=>markers.push({records,select}),lookup:async p=>evidence(p),search:async()=>[],inventoryLoader:async()=>snapshot([]),debounceMs:0,...panelOptions});
  t.after(async()=>{panel.clearSelection();await window.happyDOM.abort();globalThis.document=prior});
  const $=id=>root.querySelector('#property-'+id),type=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new window.Event('input',{bubbles:true}))};
- return {root,original,panel,$,type,window,city,selected,applied,outlines,markers,notices};
+ return {root,original,panel,$,type,window,city,estate,selected,applied,outlines,markers,notices};
 }
 
 test('prepends native controls while preserving the estate panel and the three-character search threshold',async t=>{
@@ -73,4 +75,44 @@ test('clearing an in-flight public overlay request prevents late marker re-enabl
 test('clearSelection cancels outstanding evidence without clearing imported or public marker channels',async t=>{
  let resolve;const f=fixture(t,{lookup:p=>new Promise(r=>{resolve=r})});const waiting=f.panel.inspectPoint(point);const count=f.markers.length;f.panel.clearSelection();resolve(evidence(point));await waiting;
  assert.equal(f.applied.length,0);assert.equal(f.outlines.at(-1),null);assert.equal(f.markers.length,count);
+});
+
+test('workspace keyboard navigation and scenario action preserve selected evidence and entered assumptions',async t=>{
+ const f=fixture(t,{withEstate:true}),input=f.root.querySelector('#estate-purchasePrice');
+ const evidenceTab=f.$('tab-evidence');evidenceTab.focus();
+ evidenceTab.dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-inventory').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-inventory'));assert.equal(evidenceTab.tabIndex,-1);
+ f.$('tab-inventory').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'End',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-develop').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-develop'));
+ await f.panel.inspectPoint(point);assert.equal(f.$('panel-evidence').hidden,false);
+ input.value='125000';input.dispatchEvent(new f.window.Event('input',{bubbles:true}));
+ f.$('evidence').querySelector('button').click();
+ assert.equal(f.$('panel-scenario').hidden,false);assert.equal(f.window.document.activeElement,input);
+ assert.equal(input.value,'125000');assert.equal(f.root.querySelector('#estate-selection').textContent,'10 Fixture Place');
+ f.panel.selectTab('evidence');assert.match(f.$('evidence').textContent,/10 Fixture Place/);
+ assert.equal(f.outlines.at(-1).properties.recordKey,'record:one');
+ assert.equal(f.root.querySelectorAll('#estate-purchasePrice').length,1);
+});
+
+test('shell search opens Evidence and preserves exact-record choice without showing composite keys in result labels',async t=>{
+ const key='st-louis-city:123456789:1234567890000:9876',queries=[];
+ const f=fixture(t,{search:async query=>{queries.push(query);return [{...point,recordKey:key,parcelId:'1234567890000',address:'Exact Fixture'}]}});
+ f.panel.selectTab('inventory');await f.panel.searchAddress('  Exact Fixture  ');
+ assert.deepEqual(queries,['Exact Fixture']);assert.equal(f.$('panel-evidence').hidden,false);
+ assert.equal(f.window.document.activeElement,f.$('search'));assert.equal(f.selected.length,0);
+ const result=f.$('search-results').querySelector('button');assert.equal(result.dataset.recordKey,key);
+ assert.match(result.textContent,/account 9876/);assert.equal(result.textContent.includes(key),false);
+});
+
+test('import controls retain their listeners after moving and an imported selection opens Scenario and clears stale evidence',async t=>{
+ const f=fixture(t,{withEstate:true});await f.panel.inspectPoint(point);
+ const file=f.root.querySelector('#estate-file');
+ Object.defineProperty(file,'files',{configurable:true,value:[{name:'fixture.csv',size:250,text:async()=>
+  'listing_id,address,latitude,longitude,asking_price,status,source,as_of,parcel_id\nfixture,Imported fixture,38.628,-90.193,225000,active,Fixture source,2026-09-08,fixture-parcel\n'}]});
+ file.dispatchEvent(new f.window.Event('change',{bubbles:true}));await settle();
+ await f.panel.inspectPoint(point);f.panel.selectTab('inventory');
+ f.root.querySelector('#estate-list button').click();
+ assert.equal(f.$('panel-scenario').hidden,false);assert.equal(f.root.querySelector('#estate-purchasePrice').value,'225000');
+ assert.equal(f.root.querySelector('#estate-selection').textContent,'Imported fixture');
+ assert.equal(f.outlines.at(-1),null);assert.match(f.$('evidence').textContent,/No parcel selected/);
 });

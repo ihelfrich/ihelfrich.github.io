@@ -1,5 +1,6 @@
 ---
 import '../styles/st-louis.css';
+import '../styles/st-louis-workbench.css';
 const title = 'St. Louis | City & property lab by Ian Helfrich';
 ---
 <!doctype html>
@@ -9,26 +10,33 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
   <title>{title}</title><meta name="description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." />
   <meta name="theme-color" content="#181e20" /><link rel="canonical" href="https://ihelfrich.github.io/st-louis" /><link rel="icon" href="/favicon.svg" />
 </head>
-<body>
+<body class="city-workbench">
 <main id="city-app">
   <div id="city-viewport" role="region" aria-label="Interactive 3D map of St. Louis City and County" tabindex="0"></div>
   <div class="edge-shade" aria-hidden="true"></div>
   <div id="loading" class="loading"><span class="loading-orbit"></span><p>Finding our place.</p><span id="load-detail">Preparing downtown St. Louis</span></div>
   <div id="fallback" class="fallback" hidden><h2>The city is available in a lighter view.</h2><p id="fallback-message">Your browser could not open the 3D scene. You can still explore the mapped places and comparisons.</p><button id="retry">Try 3D again</button></div>
   <header class="city-header">
-    <a class="city-brand" href="/st-louis" aria-label="St. Louis spatial study"><span class="brand-mark" aria-hidden="true">∩</span><div><h1>ST. LOUIS</h1><p>A spatial study by <span>Ian Helfrich</span></p></div></a>
-    <a class="back-link" href="/work"><span aria-hidden="true">↗</span> Back to portfolio</a>
+    <a class="city-brand" href="/st-louis" aria-label="St. Louis city and property lab"><span class="brand-mark" aria-hidden="true">∩</span><div><h1>ST. LOUIS</h1><p>City &amp; property lab <span>by Ian Helfrich</span></p></div></a>
+    <span class="workspace-edition">CITY / COUNTY</span>
   </header>
+  <form id="city-search-form" class="workspace-command" role="search" aria-label="Search St. Louis">
+    <label class="sr-only" for="city-search-domain">Search type</label><select id="city-search-domain"><option value="address">Address</option><option value="place">Place</option></select>
+    <label class="sr-only" for="city-search-query">Address or mapped place</label><input id="city-search-query" type="search" placeholder="Find your next perspective" autocomplete="off" />
+    <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></button><kbd title="Focus search">⌘K</kbd>
+  </form>
   <section id="conditions-card" class="conditions-card glass" aria-label="Current weather near St. Louis">
-    <div class="conditions-top"><span id="weather-symbol" aria-hidden="true">◌</span><strong id="weather-temperature">N/A</strong><span id="weather-description">Checking local conditions</span><button id="refresh-weather" class="icon-button" aria-label="Refresh current weather">↻</button></div>
-    <div class="conditions-meta"><span id="weather-wind">Airport observation</span><time id="weather-time">NWS · KCPS</time></div>
+    <button id="weather-toggle" class="conditions-top" aria-expanded="false" aria-controls="weather-expanded"><span id="weather-symbol" aria-hidden="true">◌</span><strong id="weather-temperature">…</strong><span id="weather-description">Checking observations</span><span aria-hidden="true">⌄</span></button>
+    <div id="weather-expanded" hidden><div class="conditions-meta"><span id="weather-wind">Airport observation</span><time id="weather-time">NWS · KCPS</time></div>
     <div class="conditions-clock"><span id="local-clock">St. Louis time</span><button id="live-environment" aria-pressed="true">Now</button><span id="weather-status">Connecting</span></div>
+    <div class="button-row"><button id="refresh-weather" class="text-button">Refresh observation</button><button data-mode="live" class="text-button">All live feeds ↗</button></div></div>
   </section>
+  <button id="focus-view" class="focus-button glass" aria-pressed="false" title="Focus on the city (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5 M16 3h5v5 M21 16v5h-5 M3 16v5h5"/></svg><span>Focus</span></button>
   <aside class="explorer glass" aria-label="City explorer" id="explorer">
-    <div class="panel-heading"><span class="eyebrow" id="panel-kicker">THE RIVER CITY</span><button id="collapse-panel" class="icon-button" aria-label="Collapse explorer" aria-expanded="true">−</button></div>
+    <div class="panel-heading"><span class="eyebrow" id="panel-kicker">EXPLORE THE REGION</span><button id="sheet-size" class="text-button" aria-label="Expand inspector height" title="Change inspector height">↕</button><button id="collapse-panel" class="icon-button" aria-label="Collapse explorer" aria-expanded="true">−</button></div>
     <div id="panel-content">
       <section id="explore-panel">
-        <h2>Find your perspective.</h2><p class="panel-intro">A familiar place. A closer look.</p>
+        <h2>A city worth<br />looking closer.</h2><p class="panel-intro">Real places. Visible evidence. New possibilities.</p>
         <div class="reality-callout"><button id="open-reality" class="primary-button wide">Photographic city ↗</button><button id="use-open-map" class="secondary-button wide" hidden>Return to open map</button><p id="render-basis" class="small-note">Open map · OSM geometry with authored materials. Connect Cesium ion for captured photographic surfaces.</p></div>
         <label class="district-label" for="district-select">CITY &amp; COUNTY<select id="district-select"><option value="riverfront">Downtown &amp; Riverfront</option><option value="overview">All City &amp; County</option></select></label>
         <div class="view-presets"><button id="county-overview">County overview ↗</button><button id="street-detail">Closer look ↗</button></div>
@@ -36,7 +44,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
         <label class="search-label" for="place-search"><span aria-hidden="true">⌕</span><input id="place-search" type="search" aria-label="Find a mapped place or building" placeholder="Find a place or building" autocomplete="off" /></label>
         <div id="place-list" class="place-list" aria-label="Mapped places"></div>
         <div id="building-details" class="building-details" hidden></div>
-        <p class="small-note">Select a building to inspect its mapped geometry.</p>
+        <div class="explore-next"><span class="eyebrow">START WITH A QUESTION</span><button data-mode="properties" class="secondary-button wide">What could this property become? <span>↗</span></button><button data-mode="live" class="secondary-button wide">What is happening around it? <span>↗</span></button></div><p class="small-note">Select a building to inspect its mapped geometry.</p>
       </section>
       <section id="compare-panel" hidden>
         <h2>What’s within reach?</h2><p class="panel-intro">Two downtown places. The same walking budget.</p>
@@ -50,16 +58,21 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
         <div class="button-row"><button class="primary-button" id="share-comparison">Copy comparison link</button><button class="secondary-button" id="download-comparison" aria-label="Download comparison as JSON">↓ JSON</button></div>
       </section>
       <section id="layers-panel" hidden>
-        <h2>A different light.</h2><p class="panel-intro">Shape the view. Keep the geography.</p>
+        <h2>Your city studio.</h2><p class="panel-intro">Tune the atmosphere. Keep the evidence in view.</p>
+        <div class="studio-section"><h3>Visual tone</h3><div class="tone-presets" role="group" aria-label="Visual tone"><button data-tone="natural" aria-pressed="true"><span class="tone-swatch natural"></span>Natural</button><button data-tone="warm" aria-pressed="false"><span class="tone-swatch warm"></span>Warm</button><button data-tone="cool" aria-pressed="false"><span class="tone-swatch cool"></span>Cool</button><button data-tone="mono" aria-pressed="false"><span class="tone-swatch mono"></span>Mono</button></div>
+        <div class="range-label"><label for="tone-exposure">Exposure</label><output id="tone-exposure-label" for="tone-exposure">0.0 stops</output></div><input id="tone-exposure" type="range" min="-1" max="1" value="0" step="0.1" /><button id="reset-tone" class="text-button">Reset visual tone</button><p class="small-note" id="tone-basis">Color and exposure treatment of the scene. Source data stays the same.</p></div>
+        <div class="studio-section"><h3>Evidence overlays</h3><label class="switch-row"><span><i class="legend-dot parcel"></i>Selected parcel</span><input id="toggle-parcel" type="checkbox" checked /></label><button id="studio-inventory" class="secondary-button wide">Manage inventory overlay ↗</button><p class="small-note">Parcel boundaries and inventory markers are independent of visual tone.</p></div>
+        <div class="studio-section"><h3>Open-map representation</h3>
         <div class="segmented" aria-label="Representation"><button id="show-city" aria-pressed="true">City</button><button id="show-network" aria-pressed="false">Street network</button></div>
         <label class="switch-row"><span>Buildings</span><input type="checkbox" id="toggle-buildings" checked /></label>
         <label class="switch-row"><span>Trees &amp; parks</span><input type="checkbox" id="toggle-green" checked /></label>
         <label class="switch-row"><span>Ambient traffic</span><input type="checkbox" id="toggle-traffic" checked /></label>
         <label class="field-label" for="quality">Rendering detail<select id="quality"><option value="auto">Adaptive</option><option value="high">High</option><option value="low">Lightweight</option></select></label>
         <p class="small-note" id="layer-basis">Now uses the current sun position and fresh airport weather observations. Surface wetness, water, vegetation and traffic are visual interpretations. Traffic is illustrative.</p>
-        <button class="secondary-button wide" id="open-methods">Sources &amp; methods ↗</button>
+        </div><button class="secondary-button wide" id="open-methods">Sources &amp; methods ↗</button>
       </section>
       <section id="properties-panel" hidden></section>
+      <section id="live-panel" hidden></section>
     </div>
   </aside>
   <div class="camera-controls glass" aria-label="Camera controls">
@@ -68,15 +81,24 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
     <button id="reset-view" title="Return to riverfront" aria-label="Return to riverfront">⌂</button>
   </div>
   <div id="scene-label" class="scene-label"><span class="live-dot"></span><span id="district-name">DOWNTOWN &amp; RIVERFRONT</span><span class="scene-sub" id="scene-coordinate">38.628° N · 90.193° W</span></div>
-  <nav class="mode-bar glass" aria-label="Explore the city">
-    <button data-mode="explore" class="active" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 5v8l-8 5-8-5V8Z M4 8l8 5 8-5 M12 13v8"/></svg>Explore</button>
-    <button data-mode="compare" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V9h5v11 M14 20V4h5v16 M3 20h19"/></svg>Compare</button>
-    <button data-mode="properties" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8 M5 10v11h14V10 M10 21v-7h4v7"/></svg>Properties</button>
-    <button data-mode="layers" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 9-5 9 5-9 5Z M3 12l9 5 9-5 M3 16l9 5 9-5"/></svg>Layers</button>
+  <nav class="mode-bar glass" aria-label="City workbench">
+    <a class="back-link" href="/work" aria-label="Back to portfolio" title="Back to portfolio">↖</a>
+    <button data-mode="explore" class="active" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 5v8l-8 5-8-5V8Z M4 8l8 5 8-5 M12 13v8"/></svg><span>Explore</span></button>
+    <button data-mode="properties" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8 M5 10v11h14V10 M10 21v-7h4v7"/></svg><span>Properties</span></button>
+    <button data-mode="compare" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V9h5v11 M14 20V4h5v16 M3 20h19"/></svg><span>Compare</span></button>
+    <button data-mode="live" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h5l3-8 4 16 3-8h5"/></svg><span>Live data</span><span id="live-feed-count" class="nav-count" hidden></span></button>
+    <button data-mode="layers" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 9-5 9 5-9 5Z M3 12l9 5 9-5 M3 16l9 5 9-5"/></svg><span>Studio</span></button>
+    <button id="keyboard-help" class="rail-help" aria-label="Keyboard shortcuts">?</button>
   </nav>
-  <div class="light-controls glass"><span aria-hidden="true">☀</span><div><div class="range-label"><label for="sun-hour">Sun &amp; light</label><output for="sun-hour" id="sun-label">St. Louis now</output></div><input type="range" id="sun-hour" min="0" max="23.75" value="17" step="0.25" /></div><button id="pause-motion" class="icon-button" aria-label="Pause ambient motion" aria-pressed="false">Ⅱ</button></div>
+  <div class="light-controls glass" id="lighting-dock">
+    <div class="light-dock-heading"><span class="eyebrow" id="light-mode-label">SOLAR TIME</span><button id="light-now" class="text-button">Now</button><button id="open-studio" class="text-button" aria-label="Open city studio">Tune ↗</button></div>
+    <div id="sun-study-controls" class="sun-study-controls"><svg class="solar-arc" viewBox="0 0 90 44" aria-hidden="true"><path d="M8 36H82 M14 34A31 31 0 0 1 76 34"/><circle id="solar-marker" cx="45" cy="7" r="4"/></svg><div><div class="range-label"><label for="sun-hour">Sun &amp; light</label><output for="sun-hour" id="sun-label">St. Louis now</output></div><input type="range" id="sun-hour" min="0" max="23.75" value="17" step="0.25" /></div><button id="pause-motion" class="icon-button" aria-label="Pause ambient motion" aria-pressed="false">Ⅱ</button></div>
+    <div id="photo-tone-controls" hidden><label for="dock-tone">Captured city · visual tone</label><select id="dock-tone"><option value="natural">Natural</option><option value="warm">Warm</option><option value="cool">Cool</option><option value="mono">Monochrome</option></select></div>
+  </div>
+  <div id="map-legend" class="map-legend glass" aria-label="Map overlay legend" hidden><span id="legend-public" hidden><i class="legend-dot public"></i>Public LRA inventory</span><span id="legend-import" hidden><i class="legend-dot imported"></i>Imported listings</span><span id="legend-height" hidden><i class="legend-dot height"></i>Parcel height study · assumed</span></div>
   <footer class="city-footer"><div><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a><button id="data-info">Data &amp; methods</button></div><span class="controls-hint">Drag to orbit · Scroll to zoom · Right-drag to pan</span></footer>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <dialog id="shortcuts-dialog"><div class="dialog-top"><span class="eyebrow">MOVE THROUGH THE CITY</span><button id="close-shortcuts" class="icon-button" aria-label="Close keyboard shortcuts">×</button></div><h2>A few useful shortcuts.</h2><dl class="shortcut-list"><div><dt>⌘ / Ctrl + K</dt><dd>Find an address or place</dd></div><div><dt>F</dt><dd>Enter or leave focus mode</dd></div><div><dt>Escape</dt><dd>Leave focus mode</dd></div><div><dt>Tab</dt><dd>Move between controls</dd></div><div><dt>Arrow keys</dt><dd>Switch property tabs when a tab is focused</dd></div></dl><p>Drag the map to orbit, scroll to zoom, and right-drag to pan.</p></dialog>
   <dialog id="reality-dialog"><div class="dialog-top"><span class="eyebrow">A CAPTURED CITY</span><button id="close-reality" class="icon-button" aria-label="Close photographic connection">×</button></div>
     <h2>See the real surfaces.</h2><p>Stream photographic 3D geometry through your Cesium ion account. Downtown St. Louis is available in Google’s photographic tiles; detail and capture dates vary across the region.</p>
     <details class="connection-help"><summary>Check your ion setup</summary><ol><li>Enable <strong>Google Photorealistic 3D Tiles</strong> in your ion account’s assets.</li><li>The token needs <strong>assets:read</strong> and access to that asset.</li><li>If the token restricts allowed URLs, include this site: <code id="ion-allowed-origin">the current browser address</code>. The protocol, hostname and port must match.</li></ol><p><a href="https://cesium.com/learn/cesiumjs-learn/cesiumjs-photorealistic-3d-tiles/" target="_blank" rel="noopener">Official photographic setup guide ↗</a></p></details>
@@ -99,7 +121,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
     <p>The sun direction uses NOAA solar equations for the current time and location of downtown St. Louis. Moving the slider enters a light study for today's date; press Now to return to the current sun. Shadows are a visualization, not a survey-grade solar analysis. <a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener">NWS API documentation ↗</a></p>
     <h3>Walking comparisons</h3><p>Shortest paths follow the extracted walking graph at 1.3 metres per second, plus straight-line connections from mapped points to nearby graph nodes. These connections, crossings, access restrictions and destination completeness require local verification. Results describe the downloaded network and mapped destinations. Routes near its edge may be truncated. They are exploratory estimates.</p>
     <h3>Building detail</h3><p>Heights use mapped height tags, then floor counts multiplied by 3.2 metres, then an explicitly identified visual default. Supplied tags are not independently surveyed measurements. The Arch and selected landmark details are authored interpretations.</p>
-    <h3>Photographic view</h3><p>When connected, Cesium streams the selected provider’s captured 3D Tiles. This is a separate representation with its own capture dates, coverage and on-screen credits. Downtown Google photographic coverage has been visually checked; that does not verify every location in the county. Mesh surfaces are not legal parcel boundaries. Lighting in the textures is baked in, so synthetic light and traffic controls are unavailable in this view.</p>
+    <h3>Photographic view</h3><p>When connected, Cesium streams the selected provider’s captured 3D Tiles. This is a separate representation with its own capture dates, coverage and on-screen credits. Downtown Google photographic coverage has been visually checked; that does not verify every location in the county. Mesh surfaces are not legal parcel boundaries. Lighting in the textures is baked in. Studio adjusts color and exposure; the photographic view does not support a physical sun study or synthetic traffic.</p>
     <h3>Official property evidence</h3><p>Official City parcel geometry and address search come from a dated public GIS snapshot. A shared footprint can contain multiple accounts: select an exact source record before using its attributes. Parcel GIS is not a legal survey. Assessments have no supplied assessment year and are never treated as asking prices. One invalid source geometry is flagged and excluded from exact parcel confirmation.</p><p>City zoning assignments join by source HANDLE; split districts and overlay polygons are retained. Effective ordinance dates and dimensional development rules are not established by this lookup. County parcels and current zoning are unavailable; a dated municipal boundary lookup is identified separately. <a href="/st-louis/parcels/manifest.json">Parcel provenance</a> · <a href="/st-louis/zoning/manifest.json">Zoning provenance</a></p><p>Public inventory includes only City Land Reutilization Authority records explicitly marked Available. It is partial land-bank coverage, with no private MLS feed. Asking prices are not published by this connection. Retrieval time is separate from source record age; availability requires confirmation with the linked official record. Map display limits do not change matching inventory counts. <a href="https://www.stlouis-mo.gov/data/datasets/dataset.cfm?id=30" target="_blank" rel="noopener">Official inventory source</a> · <a href="https://dynamic.stlouis-mo.gov/opendata/terms.cfm" target="_blank" rel="noopener">City public-data terms</a></p>
     <h3>Properties &amp; scenarios</h3><p>CSV listings are processed locally and retain their source, status and as-of date. Asking volume sums active listing records; duplicate parcel IDs can double-count a property. There is no complete listing inventory or denominator for a citywide share-for-sale estimate. Imported parcel identifiers are not externally verified.</p><p>The rental calculator uses explicit user assumptions. NOI is income after vacancy and operating expenses, before reserves and debt. Cash flow deducts both. Debt is financed against purchase price; equity also covers entered rehab and closing costs. The displayed DSCR is NOI divided by debt service. Exported scenarios include inputs, conventions and unresolved limits.</p>
     <p>Brick, concrete, asphalt and gravel surface maps are CC0 assets from <a href="https://polyhaven.com" target="_blank" rel="noopener">Poly Haven</a>. Windows, facade assignments and roof equipment are authored; these are not photographs of the individual buildings. <a href="/st-louis/materials/manifest.json" download>Material provenance</a> · <a href="/st-louis/region/manifest.json" download>Regional data manifest</a></p>

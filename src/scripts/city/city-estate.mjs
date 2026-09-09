@@ -47,22 +47,35 @@ export function createEstatePanel(
     scenarioKind = "manual",
     importGeneration = 0;
   root.innerHTML = `
-    <h2>Place meets possibility.</h2><p class="panel-intro">Explore listings. Test the assumptions.</p>
-    <div class="estate-source"><span class="eyebrow">YOUR FILE IMPORT</span><strong id="estate-feed-label">No imported listings</strong><p>Import a CSV you have permission to use. It stays in this page; nothing is uploaded.</p>
-    <div class="button-row"><label class="primary-button upload-button">Import listings<input id="estate-file" type="file" accept=".csv,text/csv" /></label><a class="secondary-button" href="/st-louis/listing-import-template.csv" download>CSV template ↓</a></div>
-    <p class="small-note">Up to 5 MB / 5,000 rows. Source, status, coordinates and as_of are required. Each import replaces this page’s dataset.</p></div>
+    <h2>Property workspace</h2><p class="panel-intro">Inspect the evidence. Explore inventory. Test a scenario.</p>
+    <section id="estate-inventory" aria-label="Imported inventory">
+    <div class="estate-source"><span class="eyebrow">YOUR IMPORTED INVENTORY</span><h3 id="estate-feed-label">No imported listings</h3><p>Import a CSV you have permission to use. It stays in this page; nothing is uploaded.</p>
+    <div class="button-row"><label class="primary-button upload-button">Import your CSV<input id="estate-file" type="file" accept=".csv,text/csv" /></label><a class="secondary-button" href="/st-louis/listing-import-template.csv" download>Download CSV template ↓</a></div>
+    <details class="property-source-details"><summary>Import format & limits</summary><p class="small-note">Up to 5 MB / 5,000 rows. Source, status, coordinates and as_of are required. Each import replaces this page’s dataset.</p></details></div>
     <div id="estate-import-status" class="small-note" role="status"></div>
     <div id="estate-market" hidden>
       <div class="estate-filters"><label>Listing status<select id="estate-status"><option value="active">Active</option><option value="pending">Pending</option><option value="sold">Sold</option><option value="withdrawn">Withdrawn</option><option value="all">All statuses</option></select></label><label>Address or source<input id="estate-query" type="search" placeholder="Filter imported listings" /></label></div>
       <div class="estate-metrics" id="estate-totals"></div><p id="estate-coverage" class="small-note"></p>
       <div id="estate-list" class="estate-list"></div><button id="estate-clear" class="text-button">Clear imported data</button>
-    </div>
+    </div></section>
     <div class="estate-scenario"><span class="eyebrow">RENTAL SCENARIO</span><h3 id="estate-selection">Start with your assumptions.</h3><p id="estate-selected-source" class="small-note">Select an imported listing, or enter a purchase price below.</p>
     <div class="button-row"><button id="estate-example" class="secondary-button">Try illustrative numbers</button><button id="estate-reset" class="text-button">Reset</button></div>
-    <form id="estate-form"><div id="estate-fields" class="estate-fields"></div><p class="small-note">Operating costs should include taxes, insurance, maintenance, management and other expenses. Exclude the separate reserve and debt payment. Enter 0 explicitly where appropriate.</p><button class="primary-button wide" type="submit">Calculate scenario</button></form>
+    <form id="estate-form"><div id="estate-fields"></div><button class="primary-button wide" type="submit">Calculate scenario</button></form>
     <p id="estate-error" class="estate-error" role="status"></p><div id="estate-results" hidden></div>
     <p class="small-note">Stabilized annual scenario, in USD. No rent forecast, tax model, exit value or verified valuation is implied.</p></div>`;
   const $ = (id) => root.querySelector(`#${id}`);
+  const groups = [
+    {label:"Purchase & upfront costs", keys:["purchasePrice","rehab","closingCosts"], note:"Enter a purchase price you want to test. Assessment evidence does not supply an asking price."},
+    {label:"Income & operating costs", keys:["rentMonthly","otherIncomeMonthly","vacancyPct","operatingExpensesAnnual","capexReserveAnnual"], note:"Operating costs should include taxes, insurance, maintenance and management. Exclude the separate reserve and debt payment. Enter 0 explicitly where appropriate."},
+    {label:"Financing", keys:["ltvPct","interestPct","loanYears"], note:"Loan amount is based on purchase price. Enter 0 for loan / purchase price to test an unfinanced purchase."},
+  ];
+  const fieldParents = new Map();
+  for(const group of groups) {
+    const fieldset=el("fieldset",undefined,"scenario-group"), container=el("div",undefined,"estate-fields");
+    fieldset.append(el("legend",group.label),el("p",group.note,"small-note"),container);
+    $("estate-fields").append(fieldset);
+    for(const key of group.keys)fieldParents.set(key,container);
+  }
   for (const [key, title] of fields) {
     const label = el("label", title),
       input = el("input");
@@ -75,7 +88,7 @@ export function createEstatePanel(
     if (key.endsWith("Pct")) input.max = "100";
     label.htmlFor = input.id;
     label.append(input);
-    $("estate-fields").append(label);
+    fieldParents.get(key).append(label);
   }
   const inputs = () =>
     Object.fromEntries(
@@ -108,6 +121,7 @@ export function createEstatePanel(
     $("estate-selected-source").textContent =
       `${listing.status} · ${listing.source} · as of ${listing.asOf} · ${listing.parcelId ? `supplied parcel ${listing.parcelId}` : "parcel not supplied"}. Enter your other assumptions for this listing.`;
     $(`estate-purchasePrice`).value = listing.askingPrice;
+    root.dispatchEvent(new root.ownerDocument.defaultView.CustomEvent("estate:scenario", {detail:{kind:"listing"}}));
     if (fly) {
       const x =
         (listing.longitude + 90.193) *
@@ -138,7 +152,7 @@ export function createEstatePanel(
       totals.append(card);
     }
     $("estate-coverage").textContent =
-      `Imported records only. ${summary.activeListingCount} active; ${summary.uniqueIdentifiedActiveParcels} distinct supplied active parcel IDs; ${summary.activeListingsWithoutParcelId} active without a parcel ID. Availability is as reported on each source date. Citywide coverage and share for sale are unknown.${summary.possibleDuplicateParcelGroups.length > 0 ? " Repeated parcel IDs may double-count asking volume." : ""}`;
+      `Imported records only. ${Math.min(visible.length,100)} of ${visible.length} matching rows shown (100 maximum); ${visible.length} matching locations mapped. ${summary.activeListingCount} active; ${summary.uniqueIdentifiedActiveParcels} distinct supplied active parcel IDs; ${summary.activeListingsWithoutParcelId} active without a parcel ID. Availability is as reported on each source date. Citywide coverage and share for sale are unknown.${summary.possibleDuplicateParcelGroups.length > 0 ? " Repeated parcel IDs may double-count asking volume." : ""}`;
     const list = $("estate-list");
     list.replaceChildren();
     for (const listing of visible.slice(0, 100)) {
@@ -414,6 +428,15 @@ export function createEstatePanel(
   });
   return {
     refreshMarkers,
+    getScenario() {
+      if(!result)return null;
+      return structuredClone({
+        label:$("estate-selection").textContent,scenarioKind,illustrative:scenarioKind.startsWith("illustrative"),
+        selectedListing:selected,selectedPropertyEvidence,selectedMapPoint,
+        importFile:selected?inputName||null:null,importIssues:selected?importIssues:[],result,
+        limitations:["Imported source dates do not establish current availability.","Scenario arithmetic is not a forecast or appraisal.",...(scenarioKind.startsWith("illustrative")?["Illustrative inputs are invented and do not describe a real property or market terms."]:[])],
+      });
+    },
     setPropertyEvidence(evidence) {
       // A late lookup must not relabel a different selection or illustrative scenario.
       if(!selectedMapPoint || !evidence?.point || selectedMapPoint.longitude!==evidence.point.longitude || selectedMapPoint.latitude!==evidence.point.latitude || (selectedMapPoint.recordKey||null)!==(evidence.point.recordKey||null)) return false;

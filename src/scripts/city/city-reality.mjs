@@ -1,4 +1,6 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
+import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
+import { developmentVolume } from "../../lib/city-development-volume.mjs";
 const ORIGIN = [-90.193, 38.628];
 const METRES_PER_DEGREE = 111195;
 const LONGITUDE_SCALE =
@@ -61,6 +63,9 @@ export function connectionDiagnostic(stage, error) {
 export const REALITY_CAPABILITIES = Object.freeze({
   photographic: true,
   capturedLighting: true,
+  visualTone: true,
+  parcelVisibility: true,
+  developmentVolume: true,
   routes: true,
   listings: true,
   mapSelection: true,
@@ -73,6 +78,113 @@ export const REALITY_CAPABILITIES = Object.freeze({
   liveWeatherImagery: false,
   meshExport: false,
 });
+
+export function createRealityDevelopmentVolume(C, viewer) {
+  const entities = new Set();
+  let disposed = false;
+  function clear() {
+    for (const entity of entities) viewer.entities.remove(entity);
+    entities.clear();
+  }
+  return {
+    setDevelopmentVolume(value) {
+      if (disposed || viewer.isDestroyed()) return { status: "unavailable", reason: "disposed", message: "The map renderer is no longer active." };
+      clear();
+      const study = developmentVolume(value);
+      const result = value => { viewer.scene.requestRender(); return value; };
+      if (study.status !== "ready") return result(study);
+      let baseHeight, referencePoint;
+      // Sample only already-rendered photographic surfaces. Never infer ground
+      // elevation, download additional terrain, or sample our overlay entities.
+      if (viewer.scene.sampleHeightSupported) {
+        const ring = study.polygons[0][0];
+        for (let i = 0; i < Math.min(4, ring.length - 1); i++) {
+          const point = ring[Math.floor(i * (ring.length - 1) / Math.min(4, ring.length - 1))];
+          try {
+            const height = viewer.scene.sampleHeight(C.Cartographic.fromDegrees(...point), [...viewer.entities.values]);
+            if (Number.isFinite(height)) { baseHeight = height; referencePoint = point; break; }
+          } catch { /* A missing loaded surface is an explicit unavailable result. */ }
+        }
+      }
+      if (!Number.isFinite(baseHeight)) return result({ status: "unavailable", reason: "surface-unavailable",
+        message: "Zoom in until the parcel's photographic surface has loaded, then show the height study again." });
+      try {
+        for (const rings of study.polygons) {
+          const hierarchies = rings.map(ring => new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(ring.slice(0, -1).flat())));
+          hierarchies[0].holes = hierarchies.slice(1);
+          const entity = viewer.entities.add({
+            name: "Parcel height study — full source boundary",
+            polygon: {
+              hierarchy: hierarchies[0], height: baseHeight + study.heightMetres, extrudedHeight: baseHeight,
+              material: C.Color.fromCssColorString("#f1c576").withAlpha(0.16),
+              outline: true, outlineColor: C.Color.fromCssColorString("#7bd8e6").withAlpha(0.8),
+              closeTop: true, closeBottom: false,
+            },
+          });
+          entities.add(entity);
+        }
+      } catch {
+        clear();
+        return result({ status: "unavailable", reason: "render-geometry", message: "This parcel geometry could not be drawn as a height study." });
+      }
+      return result({ status: "shown", heightMetres: study.heightMetres, recordKey: study.recordKey,
+        baseHeightMetres: baseHeight, referencePoint: [...referencePoint],
+        reference: "Captured surface at one parcel boundary point; may be a roof, not surveyed ground. The full parcel is a height-study graphic, not a proposed footprint or entitlement." });
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      if (!viewer.isDestroyed()) clear();
+      else entities.clear();
+    },
+  };
+}
+
+// A postprocess stage grades scene pixels only. The provider's DOM credits keep
+// their original colors. No sun, weather, texture or captured shadow is replaced.
+export function createRealityTone(C, scene) {
+  let tone = { ...DEFAULT_TONE }, disposed = false;
+  const stage = scene.postProcessStages.add(new C.PostProcessStage({
+    name: "city-visual-tone",
+    uniforms: {
+      toneGain: new C.Cartesian3(1, 1, 1),
+      toneSaturation: 1,
+      toneExposure: 1,
+    },
+    fragmentShader: `uniform sampler2D colorTexture;
+      uniform float toneExposure;
+      in vec2 v_textureCoordinates;
+      ${TONE_GRADE_GLSL}
+      void main() {
+        vec4 color = texture(colorTexture, v_textureCoordinates);
+        // Cesium custom stages follow its output tone mapper. Decode its gamma
+        // before exposure/white balance, then encode for display again.
+        vec3 linearColor = pow(max(color.rgb, vec3(0.0)), vec3(czm_gamma));
+        linearColor = cityGradeLinear(linearColor) * toneExposure;
+        out_FragColor = vec4(pow(max(linearColor, vec3(0.0)), vec3(1.0 / czm_gamma)), color.a);
+      }`,
+  }));
+  stage.enabled = false;
+  return {
+    setTone(value) {
+      if (disposed || stage.isDestroyed()) return { ...tone };
+      tone = normalizeTone(value, tone);
+      const parameters = toneParameters(tone);
+      const [x, y, z] = parameters.gain;
+      stage.uniforms.toneGain = new C.Cartesian3(x, y, z);
+      stage.uniforms.toneSaturation = parameters.saturation;
+      stage.uniforms.toneExposure = parameters.multiplier;
+      stage.enabled = tone.preset !== "natural" || tone.exposure !== 0;
+      scene.requestRender();
+      return { ...tone };
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      if (!stage.isDestroyed()) scene.postProcessStages.remove(stage);
+    },
+  };
+}
 
 export function localToGeographic(x, z) {
   return {
@@ -135,6 +247,8 @@ export async function createRealityScene(
 
   let C;
   let viewer;
+  let tone;
+  let developmentLayer;
   let tileset;
   let tilesetAttached = false;
   let input;
@@ -151,6 +265,7 @@ export async function createRealityScene(
   let phase = "module";
   let listingCallback = () => {};
   let listingSerial = 0;
+  let parcelVisible = true;
   const removers = [];
   const abort = new AbortController();
   const controls = { target: { x: 0, z: 0 } };
@@ -199,6 +314,8 @@ export async function createRealityScene(
     selectionEntities.clear();
     parcelEntities.clear();
     listingEntities.clear();
+    tone?.dispose();
+    developmentLayer?.dispose();
     if (
       tileset &&
       !tileset.isDestroyed() &&
@@ -255,6 +372,8 @@ export async function createRealityScene(
     viewer.scene.screenSpaceCameraController.minimumZoomDistance = 20;
     viewer.scene.screenSpaceCameraController.maximumZoomDistance = 200000;
     viewer.scene.fog.enabled = false;
+    tone = createRealityTone(C, viewer.scene);
+    developmentLayer = createRealityDevelopmentVolume(C, viewer);
     viewer.canvas.setAttribute(
       "aria-label",
       "Photographic St. Louis map. Drag to explore, scroll to zoom.",
@@ -595,7 +714,7 @@ export async function createRealityScene(
     if(disposed)return;
     removeEntities(parcelEntities);
     for(const ring of parcelOutlineRings(feature)) {
-      const entity=viewer.entities.add({polyline:{
+      const entity=viewer.entities.add({show:parcelVisible,polyline:{
         positions:C.Cartesian3.fromDegreesArray(ring.flatMap(p=>[p[0],p[1]])),
         width:3,material:C.Color.fromCssColorString("#f4cf82"),clampToGround:true,
         classificationType:C.ClassificationType.CESIUM_3D_TILE,
@@ -703,6 +822,14 @@ export async function createRealityScene(
     selectBuilding,
     setListings,
     setParcel,
+    setParcelVisible(value) {
+      if (disposed) return;
+      parcelVisible = Boolean(value);
+      for (const entity of parcelEntities) entity.show = parcelVisible;
+      requestRender();
+    },
+    setTone: tone.setTone,
+    setDevelopmentVolume: developmentLayer.setDevelopmentVolume,
     setEnvironment,
     setLight() {},
     setNetwork() {},

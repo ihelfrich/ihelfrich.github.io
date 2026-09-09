@@ -1,6 +1,11 @@
 import { createCityScene } from "./city-scene.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
 import { createPropertyPanel } from "./city-property-panel.mjs";
+import { createWorkbench } from "./city-workbench.mjs";
+import { createLivePanel } from "./city-live-panel.mjs";
+import { createDevelopmentPanel } from "./city-development-panel.mjs";
+import { createSpatialPanel } from "./city-spatial-panel.mjs";
+import { createHeightStudy } from "./city-height-study.mjs";
 import { getConditions, solarPosition } from "../../lib/city-conditions.mjs";
 import {
   walkingComparison,
@@ -24,7 +29,8 @@ let connectionSerial = 0,
   openSceneSerial = 0,
   pendingReality = null,
   realityHost = null;
-let property = null, importedMarkers = [], publicMarkers = [];
+let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
+let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false;
 let selectImportedMarker = () => {}, selectPublicMarker = () => {};
 function syncPropertyMarkers() {
   const records=[],actions=new Map();
@@ -32,6 +38,7 @@ function syncPropertyMarkers() {
     for(const item of items) {const id=`${prefix}:${item.id}`;records.push({...item,id});actions.set(id,()=>select(item));}
   }
   city?.setListings?.(records,record=>actions.get(record.id)?.());
+  workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:heightStudyVisible});
 }
 const estate = createEstatePanel($("properties-panel"), {
   getCity: () => city,
@@ -42,8 +49,41 @@ const estate = createEstatePanel($("properties-panel"), {
 });
 property = createPropertyPanel($("properties-panel"), {
   estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),
+  onEvidence:evidence=>{
+    selectedEvidence=evidence;development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);
+    if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||"SELECTED LOCATION");
+    else if(city?.controls?.target) {
+      const p=city.controls.target;
+      showSceneLocation({longitude:p.x/(111195*Math.cos(38.628*Math.PI/180))-90.193,latitude:38.628-p.z/111195},"MAP CENTER");
+    }
+  },
+  onInventory:snapshot=>{if(selectedEvidence){selectedEvidence={...selectedEvidence,inventorySnapshot:snapshot};spatial?.setEvidence(selectedEvidence)}},
   onPublicMarkers:(records,select)=>{publicMarkers=records;selectPublicMarker=select;syncPropertyMarkers();},
 });
+const developRoot=$("property-panel-develop");
+developRoot.innerHTML='<div id="spatial-workspace"></div><details class="height-study-section"><summary>Visualize a parcel height study</summary><div id="height-study-workspace"></div></details><div id="development-workspace"></div>';
+development=createDevelopmentPanel($("development-workspace"),{getEvidence:()=>selectedEvidence,getScenario:()=>estate.getScenario(),notice});
+spatial=createSpatialPanel($("spatial-workspace"),{getEvidence:()=>selectedEvidence,onLocate:locateMapPoint});
+heightStudy=createHeightStudy($("height-study-workspace"),{getCity:()=>city,getEvidence:()=>selectedEvidence,onChange:visible=>{heightStudyVisible=visible;workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:visible})}});
+const livePanel = createLivePanel($("live-panel"), {
+  onLocate:locateMapPoint,
+  onSummary:summary=>{
+    const alert=summary.alerts,badge=$("live-feed-count");
+    badge.hidden=alert.status!=="current"||!Number.isFinite(alert.count)||alert.count===0;
+    badge.textContent=Number.isFinite(alert.count)?String(alert.count):"";
+    badge.title="Active NWS alerts for St. Louis City and County";
+  },
+});
+workbench=createWorkbench(document,{getCity:()=>city,setMode,property,showPlaces,onNow:()=>{environmentMode="now";updateLight()}});
+function locateMapPoint({longitude,latitude,label}) {
+  if(!city||!Number.isFinite(longitude)||!Number.isFinite(latitude))return;
+  const x=(longitude+90.193)*111195*Math.cos(38.628*Math.PI/180),z=(38.628-latitude)*111195;
+  city.flyTo(x,z,3);city.pin?.(x,z,"#e3bc76");showSceneLocation({longitude,latitude},label);notice(label);
+}
+function showSceneLocation(point,label) {
+  $("district-name").textContent=label;
+  $("scene-coordinate").textContent=`${Math.abs(point.latitude).toFixed(5)}° ${point.latitude<0?"S":"N"} · ${Math.abs(point.longitude).toFixed(5)}° ${point.longitude<0?"W":"E"}`;
+}
 let regionManifest = null,
   conditions = null,
   environmentMode = "now";
@@ -227,8 +267,9 @@ function state() {
   };
 }
 function setMode(next) {
+  if(!["explore","compare","layers","properties","live"].includes(next))return;
   mode = next;
-  for (const n of ["explore", "compare", "layers", "properties"])
+  for (const n of ["explore", "compare", "layers", "properties", "live"])
     $(n + "-panel").hidden = n !== next;
   document.querySelectorAll("[data-mode]").forEach((b) => {
     const active = b.dataset.mode === next;
@@ -240,11 +281,13 @@ function setMode(next) {
     compare: "PLACES & CONNECTIONS",
     layers: "ATMOSPHERE & GEOGRAPHY",
     properties: "PLACE & POSSIBILITY",
+    live: "THE REGION, RIGHT NOW",
   }[next];
   $("explorer").classList.toggle("estate-open", next === "properties");
   if (!panelOpen) togglePanel();
   if (next === "compare") compare();
   else city?.clearRoutes();
+  if(next==="live")livePanel.refresh();
 }
 function togglePanel() {
   panelOpen = !panelOpen;
@@ -526,6 +569,7 @@ function updateLight() {
       conditions?.presentation,
     );
   }
+  workbench?.updateSolar(Number($("sun-hour").value),environmentMode==="now");
 }
 function download(name, payload) {
   const blob = new Blob([JSON.stringify(payload, null, 2)], {
@@ -588,11 +632,12 @@ function rendererUI() {
     "sun-hour",
   ])
     $(id).disabled = photo;
-  document.querySelector(".light-controls").hidden = photo;
+  workbench?.refreshRenderer();
   city?.setPaused(paused);
   city?.setQuality($("quality").value);
   estate.refreshMarkers();
   property.refreshMarkers();
+  heightStudy?.refreshRenderer();
   if (mode === "compare") drawRoutes();
   updateLight();
 }
@@ -930,7 +975,7 @@ async function start() {
       }
       setMode("compare");
     }
-    if (matchMedia("(max-width:650px)").matches && !saved && panelOpen)
+    if (matchMedia("(max-width:720px)").matches && !saved && panelOpen && mode==="explore" && !$("city-search-query").value && !$("place-search").value)
       togglePanel();
     $("load-detail").textContent =
       `Placing ${data.buildings.length.toLocaleString()} mapped building objects`;
@@ -1057,5 +1102,8 @@ try {
 start();
 refreshConditions();
 setInterval(() => {
-  if (!document.hidden) refreshConditions();
+  if (!document.hidden) {
+    refreshConditions();
+    if(mode==="live")livePanel.refresh();
+  }
 }, 60000);
