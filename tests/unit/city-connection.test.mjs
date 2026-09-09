@@ -335,8 +335,8 @@ test("mapped-building scenario uses polygon centroid coordinates and omits estim
     },
     sourceUrl: () => "https://www.openstreetmap.org/way/1",
     setMode() {},
-    estate: {
-      selectPoint(point) {
+    property: {
+      inspectPoint(point) {
         selected = point;
       },
     },

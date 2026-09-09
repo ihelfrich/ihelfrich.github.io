@@ -366,3 +366,16 @@ test("an out-of-range sensitivity case does not prevent the valid base export", 
   assert.equal(evidence.result.assumptions.rentMonthly, 1.4e307);
   assert.ok(Number.isFinite(evidence.result.cashFlowAnnual));
 });
+
+test('official property evidence preserves entered price and cannot relabel a newer account', async(t)=>{
+  const f=fixture(t),point={longitude:-90.2,latitude:38.6,recordKey:'fixture:A'};
+  f.panel.selectPoint(point);f.fill();
+  const evidence={point,parcels:{status:'found',parcel:{type:'Feature',properties:{recordKey:'fixture:A',parcelId:'A',address:'Synthetic Parcel A',assessedValueUSD:900000},geometry:null},source:{retrievedAt:'2026-09-08T00:00:00Z'}},zoning:{status:'unknown'},inventory:{status:'not-in-public-inventory',listings:[]}};
+  assert.equal(f.panel.setPropertyEvidence(evidence),true);
+  assert.equal(f.$('purchasePrice').value,String(assumptions.purchasePrice));
+  f.submit();const payload=await f.download();
+  assert.equal(payload.scenarioKind,'official-parcel');assert.equal(payload.selectedPropertyEvidence.parcel.properties.parcelId,'A');
+  f.panel.selectPoint({...point,recordKey:'fixture:B'});
+  assert.equal(f.panel.setPropertyEvidence(evidence),false);assert.equal(f.$('selection').textContent,'Selected map location');
+  f.$('example').click();assert.equal(f.panel.setPropertyEvidence(evidence),false);
+});

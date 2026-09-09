@@ -34,12 +34,13 @@ const fields = [
 
 export function createEstatePanel(
   root,
-  { getCity = () => null, onOpen = () => {}, notice = () => {} } = {},
+  { getCity = () => null, onOpen = () => {}, notice = () => {}, onMarkers = null, onSelectionChange = () => {} } = {},
 ) {
   let listings = [],
     visible = [],
     selected = null,
-    selectedMapPoint = null;
+    selectedMapPoint = null,
+    selectedPropertyEvidence = null;
   let result = null,
     inputName = "",
     importIssues = [],
@@ -47,7 +48,7 @@ export function createEstatePanel(
     importGeneration = 0;
   root.innerHTML = `
     <h2>Place meets possibility.</h2><p class="panel-intro">Explore listings. Test the assumptions.</p>
-    <div class="estate-source"><span class="eyebrow">YOUR MARKET DATA</span><strong id="estate-feed-label">No listing feed connected</strong><p>Import a CSV you have permission to use. It stays in this page; nothing is uploaded.</p>
+    <div class="estate-source"><span class="eyebrow">YOUR FILE IMPORT</span><strong id="estate-feed-label">No imported listings</strong><p>Import a CSV you have permission to use. It stays in this page; nothing is uploaded.</p>
     <div class="button-row"><label class="primary-button upload-button">Import listings<input id="estate-file" type="file" accept=".csv,text/csv" /></label><a class="secondary-button" href="/st-louis/listing-import-template.csv" download>CSV template ↓</a></div>
     <p class="small-note">Up to 5 MB / 5,000 rows. Source, status, coordinates and as_of are required. Each import replaces this page’s dataset.</p></div>
     <div id="estate-import-status" class="small-note" role="status"></div>
@@ -170,7 +171,8 @@ export function createEstatePanel(
     refreshMarkers();
   }
   function refreshMarkers() {
-    getCity()?.setListings?.(visible, (listing) => choose(listing, false));
+    if(onMarkers) onMarkers(visible, (listing) => choose(listing, false));
+    else getCity()?.setListings?.(visible, (listing) => choose(listing, false));
   }
   for (const id of ["estate-status", "estate-query"])
     $(id).addEventListener("input", renderListings);
@@ -234,14 +236,16 @@ export function createEstatePanel(
     selected = null;
     refreshMarkers();
     $("estate-market").hidden = true;
-    $("estate-feed-label").textContent = "No listing feed connected";
+    $("estate-feed-label").textContent = "No imported listings";
     $("estate-import-status").textContent =
       "Imported records cleared from this page.";
     reset();
   });
   function reset() {
+    onSelectionChange();
     selected = null;
     selectedMapPoint = null;
+    selectedPropertyEvidence = null;
     scenarioKind = "manual";
     $("estate-form").reset();
     invalidate();
@@ -361,6 +365,7 @@ export function createEstatePanel(
       illustrative: scenarioKind.startsWith("illustrative"),
       selectedListing: selected ? structuredClone(selected) : null,
       selectedMapPoint: selectedMapPoint ? { ...selectedMapPoint } : null,
+      selectedPropertyEvidence: selectedPropertyEvidence ? structuredClone(selectedPropertyEvidence) : null,
       importFile: selected ? inputName || null : null,
       importIssues: selected ? structuredClone(importIssues) : [],
       result: r,
@@ -368,7 +373,7 @@ export function createEstatePanel(
         "Imported source dates do not establish current availability.",
         "No complete citywide listing inventory or coverage percentage.",
         "OSM footprints are not verified legal parcels.",
-        "A selected map coordinate is a location, not a verified parcel or listing.",
+        selectedPropertyEvidence?.parcel ? "Selected parcel identity is from the cited City GIS snapshot; boundaries are not a legal survey." : "A selected map coordinate is a location, not a verified parcel or listing.",
         "Scenario arithmetic is not a forecast or appraisal.",
         ...(scenarioKind.startsWith("illustrative")
           ? [
@@ -409,6 +414,19 @@ export function createEstatePanel(
   });
   return {
     refreshMarkers,
+    setPropertyEvidence(evidence) {
+      // A late lookup must not relabel a different selection or illustrative scenario.
+      if(!selectedMapPoint || !evidence?.point || selectedMapPoint.longitude!==evidence.point.longitude || selectedMapPoint.latitude!==evidence.point.latitude || (selectedMapPoint.recordKey||null)!==(evidence.point.recordKey||null)) return false;
+      const parcel=evidence.parcels?.parcel;
+      selectedPropertyEvidence={parcel:parcel?structuredClone(parcel):null,parcelStatus:evidence.parcels?.status,parcelSource:evidence.parcels?.source||null,candidateCount:evidence.parcels?.candidates?.length||0,zoning:structuredClone(evidence.zoning),publicInventory:structuredClone(evidence.inventory)};
+      if(parcel) {
+        scenarioKind="official-parcel";
+        $("estate-selection").textContent=parcel.properties.address||"Selected official parcel";
+        $("estate-selected-source").textContent=`City parcel ${parcel.properties.parcelId}. Enter your own purchase price and operating assumptions. Assessed value is not an asking price.`;
+      }
+      invalidate();
+      return true;
+    },
     selectPoint(point) {
       if (
         !point ||
@@ -424,6 +442,7 @@ export function createEstatePanel(
         latitude: point.latitude,
       };
       if (Number.isFinite(point.height)) selectedMapPoint.height = point.height;
+      if (typeof point.recordKey === "string") selectedMapPoint.recordKey = point.recordKey;
       scenarioKind = "map-location";
       onOpen();
       $("estate-selection").textContent = "Selected map location";

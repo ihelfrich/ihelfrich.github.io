@@ -1,3 +1,4 @@
+import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
 const ORIGIN = [-90.193, 38.628];
 const METRES_PER_DEGREE = 111195;
 const LONGITUDE_SCALE =
@@ -155,6 +156,7 @@ export async function createRealityScene(
   const controls = { target: { x: 0, z: 0 } };
   const routeEntities = new Set();
   const selectionEntities = new Set();
+  const parcelEntities = new Set();
   const listingEntities = new Map();
   const durations = () =>
     paused ||
@@ -195,6 +197,7 @@ export async function createRealityScene(
     if (input && !input.isDestroyed()) input.destroy();
     routeEntities.clear();
     selectionEntities.clear();
+    parcelEntities.clear();
     listingEntities.clear();
     if (
       tileset &&
@@ -588,6 +591,20 @@ export async function createRealityScene(
     // Selection refers to the supplied OSM record, never a fabricated mesh ID.
   }
 
+  function setParcel(feature) {
+    if(disposed)return;
+    removeEntities(parcelEntities);
+    for(const ring of parcelOutlineRings(feature)) {
+      const entity=viewer.entities.add({polyline:{
+        positions:C.Cartesian3.fromDegreesArray(ring.flatMap(p=>[p[0],p[1]])),
+        width:3,material:C.Color.fromCssColorString("#f4cf82"),clampToGround:true,
+        classificationType:C.ClassificationType.CESIUM_3D_TILE,
+      }});
+      parcelEntities.add(entity);
+    }
+    requestRender();
+  }
+
   function setListings(listings, select = () => {}) {
     if (disposed) return;
     for (const entity of listingEntities.keys()) viewer.entities.remove(entity);
@@ -635,13 +652,14 @@ export async function createRealityScene(
         position: C.Cartesian3.fromDegrees(longitude, latitude),
         point: {
           pixelSize: 10,
-          color: C.Color.fromCssColorString("#61d5a5"),
+          color: C.Color.fromCssColorString(({available:"#61d5a5",active:"#e98648",pending:"#eac476",sold:"#91a9ae",withdrawn:"#969693"})[listing.status] || "#e98648"),
           outlineColor: C.Color.WHITE,
           outlineWidth: 2,
           heightReference: C.HeightReference.CLAMP_TO_3D_TILE,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
         label: {
+          show: hasPrice && Number.isFinite(price) && price > 0,
           text: label,
           font: "600 13px system-ui",
           fillColor: C.Color.WHITE,
@@ -650,7 +668,7 @@ export async function createRealityScene(
           pixelOffset: new C.Cartesian2(0, -20),
           heightReference: C.HeightReference.CLAMP_TO_3D_TILE,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          distanceDisplayCondition: new C.DistanceDisplayCondition(0, 30000),
+          distanceDisplayCondition: new C.DistanceDisplayCondition(0, 5000),
         },
       });
       listingEntities.set(entity, listing);
@@ -684,6 +702,7 @@ export async function createRealityScene(
     pin,
     selectBuilding,
     setListings,
+    setParcel,
     setEnvironment,
     setLight() {},
     setNetwork() {},

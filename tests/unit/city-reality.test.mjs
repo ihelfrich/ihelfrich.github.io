@@ -61,7 +61,9 @@ async function fixture(resource) {
     context,
     importModuleDynamically: async () => dependency,
   });
-  await module.link(() => {});
+  const overlay = new vm.SourceTextModule(await readFile(new URL("../../src/lib/city-parcel-overlay.mjs", import.meta.url), "utf8"), {context});
+  await overlay.link(() => {});
+  await module.link(() => overlay);
   await module.evaluate();
   return { api: module.namespace, counts: () => ({ created, destroyed }) };
 }

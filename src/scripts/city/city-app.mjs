@@ -1,5 +1,6 @@
 import { createCityScene } from "./city-scene.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
+import { createPropertyPanel } from "./city-property-panel.mjs";
 import { getConditions, solarPosition } from "../../lib/city-conditions.mjs";
 import {
   walkingComparison,
@@ -23,10 +24,25 @@ let connectionSerial = 0,
   openSceneSerial = 0,
   pendingReality = null,
   realityHost = null;
+let property = null, importedMarkers = [], publicMarkers = [];
+let selectImportedMarker = () => {}, selectPublicMarker = () => {};
+function syncPropertyMarkers() {
+  const records=[],actions=new Map();
+  for(const [prefix,items,select] of [["import",importedMarkers,selectImportedMarker],["public",publicMarkers,selectPublicMarker]]) {
+    for(const item of items) {const id=`${prefix}:${item.id}`;records.push({...item,id});actions.set(id,()=>select(item));}
+  }
+  city?.setListings?.(records,record=>actions.get(record.id)?.());
+}
 const estate = createEstatePanel($("properties-panel"), {
   getCity: () => city,
   onOpen: () => setMode("properties"),
+  onMarkers: (records,select) => {importedMarkers=records;selectImportedMarker=select;syncPropertyMarkers();},
+  onSelectionChange: () => property?.clearSelection(),
   notice,
+});
+property = createPropertyPanel($("properties-panel"), {
+  estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),
+  onPublicMarkers:(records,select)=>{publicMarkers=records;selectPublicMarker=select;syncPropertyMarkers();},
 });
 let regionManifest = null,
   conditions = null,
@@ -302,7 +318,7 @@ function selectBuilding(b) {
     const scenario = make("button", "", "Test a rental scenario here");
     scenario.type = "button";
     scenario.addEventListener("click", () =>
-      estate.selectPoint({
+      property.inspectPoint({
         longitude:
           origin[0] + x / (111195 * Math.cos((origin[1] * Math.PI) / 180)),
         latitude: origin[1] - z / 111195,
@@ -576,6 +592,7 @@ function rendererUI() {
   city?.setPaused(paused);
   city?.setQuality($("quality").value);
   estate.refreshMarkers();
+  property.refreshMarkers();
   if (mode === "compare") drawRoutes();
   updateLight();
 }
@@ -733,7 +750,7 @@ async function connectReality(event) {
       },
       onMapSelect: (point) => {
         if (serial === connectionSerial && candidate && city === candidate)
-          estate.selectPoint(point);
+          property.inspectPoint(point);
       },
       onRegionReady: (manifest) => {
         if (serial !== connectionSerial) return;

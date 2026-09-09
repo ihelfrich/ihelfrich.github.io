@@ -1,3 +1,4 @@
+import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
 import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { Sky } from "three/addons/objects/Sky.js";
@@ -65,7 +66,7 @@ export function createListingLayer(scene, origin) {
       mesh = new T.InstancedMesh(new T.SphereGeometry(8,12,8), material, items.length);
       mesh.renderOrder = 20;
       items.forEach((listing,i) => mesh.setColorAt(i, new T.Color(
-        ({active:"#e98648",pending:"#eac476",sold:"#91a9ae",withdrawn:"#969693"})[listing.status] || "#e98648")));
+        ({available:"#61d5a5",active:"#e98648",pending:"#eac476",sold:"#91a9ae",withdrawn:"#969693"})[listing.status] || "#e98648")));
       group.add(mesh);
       update();
     },
@@ -137,6 +138,17 @@ export async function createCityScene(
     );
   });
   const scene = new T.Scene();
+  const parcelOutline = new T.Group();
+  scene.add(parcelOutline);
+  function setParcel(feature) {
+    if (disposed && feature) return;
+    for(const line of [...parcelOutline.children]) {line.geometry.dispose();line.material.dispose();parcelOutline.remove(line);}
+    for(const ring of parcelOutlineRings(feature)) {
+      const vertices=ring.map(([lon,lat])=>new T.Vector3((lon-(data.origin?.[0]??-90.193))*111195*Math.cos((data.origin?.[1]??38.628)*Math.PI/180),2,-(lat-(data.origin?.[1]??38.628))*111195));
+      const line=new T.Line(new T.BufferGeometry().setFromPoints(vertices),new T.LineBasicMaterial({color:"#f4cf82",depthTest:false,depthWrite:false}));
+      line.renderOrder=19;parcelOutline.add(line);
+    }
+  }
   const listingsLayer = createListingLayer(scene, data.origin || [-90.193,38.628]);
   scene.background = new T.Color("#aebfc1");
   scene.fog = new T.FogExp2("#b8c4bd", 0.000095);
@@ -1016,6 +1028,7 @@ export async function createCityScene(
     controls,
     flyTo,
     setListings: listingsLayer.setListings,
+    setParcel,
     reset,
     route,
     pin,
@@ -1050,6 +1063,7 @@ export async function createCityScene(
       container.removeEventListener("keydown", onKeyDown);
       controls.removeEventListener("change", invalidateShadows);
       listingsLayer.dispose();
+      setParcel(null);
       region?.dispose();
       detail?.dispose();
       materials.dispose();
