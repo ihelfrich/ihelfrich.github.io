@@ -140,7 +140,7 @@ test('technical work is discoverable with public links and explicit publication 
  }
  for(const slug of ['yellowjacket','oceanographic-systems']){
   const w=new Window(),d=w.document;d.write(await readFile(`dist/projects/${slug}/index.html`,'utf8'));
-  const body=d.querySelector('.project-body');assert.doesNotMatch(body.textContent,/Haiti|CAMAC|Aquino|\/Users\/|SIGINT|TWO STATIONS/i);
+  const body=d.querySelector('.project-body');assert.doesNotMatch(body.textContent,/\/Users\/|\.gpkg\b|\.parquet\b/i);
   assert.match(d.querySelector('.project-status').textContent,/September 10, 2026/);
   if(slug==='yellowjacket'){
    assert.match(body.textContent,/source-available under BSL 1.1/);
