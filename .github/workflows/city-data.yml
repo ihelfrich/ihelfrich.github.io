@@ -1,0 +1,104 @@
+name: Refresh official city sale inventory
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Daily after the source's documented nightly refresh; UTC.
+    - cron: "17 11 * * *"
+
+permissions:
+  contents: write
+  actions: write
+
+# Share the Pages lock because deploy.yml also commits generated public caches.
+# Dispatch below only queues deployment; it does not wait while holding this lock.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DATA_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing site dependencies
+        run: timeout 300 npm ci
+      - name: Verify official inventory normalization
+        run: timeout 60 node --test tests/unit/city-public-listings.test.mjs
+      - name: Fetch complete available LRA inventory
+        id: refresh
+        # The fetcher stages, validates and atomically replaces latest.json only
+        # after every bounded source batch succeeds. An error retains the old file.
+        run: timeout 600 python3 scripts/st-louis/fetch_public_listings.py
+      - name: Validate snapshot and record source limitations
+        run: |
+          timeout 30 node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {loadPublicListings} from './src/lib/city-public-listings.mjs';
+          const snapshot=JSON.parse(fs.readFileSync('public/st-louis/public-listings/latest.json','utf8'));
+          const verified=await loadPublicListings({fetchImpl:async()=>({ok:true,json:async()=>snapshot})});
+          if(verified.snapshotStatus!=='recent' || verified.counts.listings!==verified.listings.length)
+            throw new Error('The refreshed inventory failed snapshot validation.');
+          const lines=[
+            '## Official LRA inventory refresh',
+            '',
+            `Retrieved: ${verified.retrievedAt}`,
+            `Inventory records: ${verified.counts.listings}; distinct parcel handles: ${verified.counts.uniqueParcelKeys}.`,
+            `Unknown asking prices: ${verified.counts.unknownAskingPrices}.`,
+            '',
+            'This is explicitly Available LRA public inventory, not complete market coverage. Individual source-update dates and verified asking prices are not supplied.',
+            `[Official source](${verified.source.url}) · [Public-data terms](${verified.source.termsUrl}) · [Pricing and offer requirements](${verified.source.pricingUrl})`,
+            '',
+            'The public-data terms disclaim accuracy/completeness and permit source changes. Free data access does not imply a free property or automatic approval of an offer.',
+          ];
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,lines.join('\n')+'\n');
+          JS
+      - name: Commit and normally push only the inventory snapshot
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- public/st-louis/public-listings/latest.json
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "The inventory snapshot did not change." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m "data: refresh official LRA available inventory"
+          # No force push or automatic conflict resolution. A concurrent external
+          # branch update safely rejects this push; the next run can refresh again.
+          timeout 60 git push origin "HEAD:$DATA_BRANCH"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      - name: Request the existing Pages deployment
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # GITHUB_TOKEN pushes do not trigger push workflows; workflow_dispatch does.
+        run: |
+          timeout 30 gh workflow run deploy.yml --ref "$DATA_BRANCH" --repo "$GITHUB_REPOSITORY"
+          echo "The snapshot was pushed and the existing Pages workflow was requested. Deployment completion is reported by that workflow." >> "$GITHUB_STEP_SUMMARY"
+      - name: Report refresh or handoff failure
+        if: failure()
+        env:
+          SNAPSHOT_PUSHED: ${{ steps.commit.outputs.pushed }}
+        run: |
+          if [ "$SNAPSHOT_PUSHED" = "true" ]; then
+            echo "::error::The snapshot was committed, but the Pages handoff failed. Run Build and deploy hub manually after inspecting the failing step."
+            echo "The repository contains the refreshed snapshot; the published site retains its previous version until Pages completes a deployment." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::Inventory refresh or normal push failed. The published snapshot was not replaced by this run."
+            echo "No inventory update was pushed. The last successful public snapshot remains available with its original retrieval timestamp. Inspect the failed step before retrying; source errors must not be relabeled as an empty inventory." >> "$GITHUB_STEP_SUMMARY"
+          fi

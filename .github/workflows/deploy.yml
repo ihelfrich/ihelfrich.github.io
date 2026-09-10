@@ -43,6 +43,8 @@ jobs:
           npm run check:components
       - name: Check policy statistics calculations
         run: node --test tests/unit/policy-statistics.test.mjs
+      - name: Verify city walking comparisons
+        run: npm run check:city
       - name: Build hub
         run: npm run build:fast
       - name: Verify homepage interactions and portrait

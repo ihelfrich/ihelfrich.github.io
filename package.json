@@ -6,16 +6,20 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "predev": "node scripts/copy-cesium.mjs",
+    "prebuild": "node scripts/copy-cesium.mjs",
+    "prebuild:fast": "node scripts/copy-cesium.mjs",
     "dev": "astro dev",
     "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes && npm run check:discovery",
     "build:fast": "astro build",
     "check:copy": "node scripts/check-site-copy.mjs",
     "check:fieldbook": "node scripts/check-fieldbook-content.mjs",
     "check:components": "node --test tests/unit/instruments.test.mjs",
+    "check:city": "node --experimental-vm-modules --test tests/unit/city-*.test.mjs tests/unit/estate-analysis.test.mjs",
     "check:econometrics": "node --test tests/unit/econometrics.test.mjs tests/unit/measurement.test.mjs tests/unit/measurement-ui.test.mjs tests/unit/math-rendering.test.mjs && node scripts/check-econometrics.mjs",
     "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
-    "check": "npm run check:copy && npm run check:fieldbook && npm run check:components && npm run build:fast && npm run check:styles && npm run check:public-cv",
+    "check": "npm run check:copy && npm run check:fieldbook && npm run check:components && npm run check:city && npm run build:fast && npm run check:styles && npm run check:public-cv",
     "check:styles": "node scripts/check-rendered-styles.mjs",
     "preview": "astro preview",
     "astro": "astro",
@@ -24,22 +28,24 @@
     "clean-spokes": "node scripts/clean-spokes.mjs"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "7.2.2",
-    "astro": "7.2.0",
+    "@astrojs/markdown-remark": "7.3.1",
+    "astro": "7.3.2",
+    "cesium": "1.145.0",
     "katex": "0.16.47",
     "lenis": "1.3.26",
     "rehype-katex": "7.0.1",
-    "remark-math": "6.0.0"
+    "remark-math": "6.0.0",
+    "three": "0.186.0"
   },
   "devDependencies": {
     "@astrojs/rss": "4.0.19",
     "happy-dom": "^20.11.2",
-    "js-yaml": "^4.3.1",
+    "js-yaml": "^4.3.2",
     "pagefind": "^1.5.2",
     "pdfjs-dist": "^6.2.108"
   },
   "overrides": {
-    "sharp": "0.35.3",
-    "svgo": "4.0.2"
+    "sharp": "0.35.4",
+    "svgo": "4.1.0"
   }
 }
