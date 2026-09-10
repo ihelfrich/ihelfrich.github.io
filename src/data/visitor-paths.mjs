@@ -8,10 +8,12 @@ export const visitorPaths = {
   ]
  },
  research:{
-  label:'Work on a research problem',description:'Study design, spatial analysis, or quantitative evidence.',question:'What kind of problem?',
+  label:'Work on a research problem',description:'Study design, spatial environments, or analytical software.',question:'What kind of problem?',
   options:[
    {id:'design',label:'Empirical design or policy analysis',title:'Start with the comparison.',body:'A useful first conversation identifies the decision, the evidence you have, and the uncertainty that matters.',href:'/work#case-nmtc-rural-gap',resource:'See a place-based policy research example'},
    {id:'spatial',label:'Geography, trade, or measurement',title:'Make the geography part of the question.',body:'My work connects economic activity, distance, spatial data, and the choices that turn observations into measures.',href:'/work#case-trade-in-the-spotlight',resource:'See the trade and spatial measurement work'},
+   {id:'environment',label:'Ocean mapping or environmental visualization',title:'Connect the environment to the analysis.',body:'I work with 3D terrain, bathymetry, ocean-current fields, and scientific model outputs. Bring the environmental question and the kind of visualization or analysis you need.',href:'/projects/oceanographic-systems',resource:'Explore oceanographic systems'},
+   {id:'software',label:'Scientific software or audio tools',title:'Build a tool people can use.',body:'Yellowjacket connects audio processing, transcription, and music production in a browser. Bring the workflow you want to improve or the scientific output you want to make usable.',href:'/projects/yellowjacket',resource:'Explore Yellowjacket'},
    {id:'analysis',label:'An analysis or research workflow',title:'Connect the result to its reasoning.',body:'Bring the question, the intended output, and a description of your data or workflow. We can identify where a quantitative contribution would help.',href:'/work',resource:'Browse selected work'}
   ]
  },

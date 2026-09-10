@@ -12,7 +12,7 @@ const [allResearch, datasets, notes, allProjects] = await Promise.all([
 ]);
 const research = filterDiscoverableResearch(allResearch);
 const projects = allProjects.filter((entry) => !isArchivalProject(entry.id));
-const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { timeZone: "UTC", year: "numeric", month: "short", day: "numeric" });
 
 const items = [
   ...research.map((entry) => ({

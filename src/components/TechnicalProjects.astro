@@ -1,0 +1,38 @@
+---
+import ProjectDrawing from './ProjectDrawing.astro';
+interface Props { heading?:string; moreHref?:string; moreLabel?:string; }
+const {heading='I also build.',moreHref='/projects',moreLabel='Explore all projects'}=Astro.props;
+---
+<section class="technical-projects" id="technical-projects" aria-labelledby="technical-projects-title">
+ <header><div><p class="technical-eyebrow">Software &amp; scientific visualization</p><h2 id="technical-projects-title">{heading}</h2></div><p>From the structure of sound to the shape of the ocean: tools that make complex data usable.</p></header>
+ <div class="technical-pair">
+  <a class="technical-project" href="/projects/yellowjacket">
+   <ProjectDrawing kind="audio"/>
+   <div class="technical-copy"><p class="technical-eyebrow">Live browser application</p><h3>Yellowjacket <span aria-hidden="true">↗</span></h3><p>Transcript editing, signal analysis, and music production in one audio workbench.</p><span class="technical-methods">Audio DSP · browser software · interaction design</span></div>
+  </a>
+  <a class="technical-project" href="/projects/oceanographic-systems">
+   <ProjectDrawing kind="ocean"/>
+   <div class="technical-copy"><p class="technical-eyebrow">Applied work &amp; ongoing development</p><h3>Oceanographic systems <span aria-hidden="true">↗</span></h3><p>3D seafloor mapping, ocean-current analysis, and scientific visualization.</p><span class="technical-methods">Geospatial Python · 3D environments · model integration</span></div>
+  </a>
+ </div>
+ <a class="technical-more" href={moreHref}>{moreLabel} <span aria-hidden="true">→</span></a>
+</section>
+<style>
+ .technical-projects{width:100%;margin:3rem auto 4rem;padding-top:2.5rem;border-top:1px solid #bdbdbd;color:#171717}
+ :global(body.studio-home) .technical-projects{width:min(90%,1296px)}
+ header{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:2rem;margin-bottom:1.6rem}
+ .technical-eyebrow{margin:0 0 .55rem;color:#606060;font:600 .66rem/1.6 var(--font-data);letter-spacing:.04em;text-transform:uppercase}
+ header h2{margin:0;color:#171717;font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.045em;line-height:1.05}
+ header>p{max-width:41ch;margin:0;color:#555;font-size:1rem;line-height:1.6}
+ .technical-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+ .technical-project{display:block;min-width:0;text-decoration:none;color:inherit;border-bottom:1px solid #bdbdbd;transition:border-color .2s}
+ .technical-project:hover{border-color:#171717}.technical-project:focus-visible{outline:2px solid #171717;outline-offset:6px}
+ .technical-copy{padding:1.35rem 0 1.5rem}
+ .technical-copy h3{display:flex;justify-content:space-between;gap:1rem;margin:.5rem 0 .7rem;color:#171717;font-family:var(--font-display);font-size:clamp(1.3rem,2.3vw,1.85rem);letter-spacing:-.025em;line-height:1.2}
+ h3 span{font-size:1.1rem;transition:transform .2s}.technical-project:hover h3 span{transform:translate(2px,-2px)}
+ .technical-copy>p:not(.technical-eyebrow){max-width:43ch;margin:.5rem 0 .8rem;color:#444;font-size:1rem;line-height:1.6}
+ .technical-methods{display:block;color:#666;font:500 .65rem/1.7 var(--font-data)}
+ .technical-more{display:inline-flex;align-items:center;gap:1.5rem;min-height:44px;margin-top:1rem;color:#171717;font-size:.85rem;text-underline-offset:4px}
+ @media(max-width:40rem){header,.technical-pair{grid-template-columns:1fr}header{gap:1rem}.technical-projects{margin-block:2rem}.technical-pair{gap:2rem}}
+ @media(prefers-reduced-motion:reduce){.technical-project,h3 span{transition:none}}
+</style>

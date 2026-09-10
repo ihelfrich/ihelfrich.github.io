@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import TechnicalProjects from "../components/TechnicalProjects.astro";
 import CaseRecord from "../components/CaseRecord.astro";
 import { tutoringRecord } from "../data/public-record.mjs";
 import { workCases } from "../data/work-cases.mjs";
@@ -31,11 +32,13 @@ const filterOptions = [
     <div class="work-hero__copy">
       <p class="record-label">Selected cases</p>
       <h1>Selected work</h1>
-      <p>I design empirical studies, build research software, and develop tools for quantitative learning. Open a case to see the methods, my contribution, and the evidence behind it.</p>
+      <p>I design empirical studies, build research software, and develop tools for quantitative learning. Explore the research cases or the software and environmental projects below.</p>
     </div>
   </section>
 
-  <section class="work-index route-shell" data-rail-label="Case index">
+  <nav class="page-guide route-shell" aria-label="Work sections"><a href="#research-cases">Research cases</a><a href="#technical-projects">Software &amp; environmental work</a></nav>
+
+  <section id="research-cases" class="work-index route-shell" data-rail-label="Case index">
     <header class="section-intro">
       <div>
         <p class="record-label">Selected public work</p>
@@ -74,6 +77,8 @@ const filterOptions = [
       </div>
     ))}
   </section>
+
+  <div class="route-shell"><TechnicalProjects heading="Software, sound, and spatial systems."/></div>
 
   <section class="additional-practice route-shell" data-rail-label="Additional practice">
     <details class="content-disclosure" id="additional-experience">

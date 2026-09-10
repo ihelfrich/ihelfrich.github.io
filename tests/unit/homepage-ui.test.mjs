@@ -124,3 +124,32 @@ test('every suggested visitor resource resolves to a built page and destination'
   if(url.hash){const w=new Window();w.document.write(seen.get(file));assert.ok(w.document.getElementById(url.hash.slice(1)),option.href);await w.happyDOM.abort();}
  }
 });
+
+test('technical work is discoverable with public links and explicit publication boundaries',async()=>{
+ for(const route of ['index.html','work/index.html','projects/index.html']){
+  const w=new Window(),d=w.document;d.write(await readFile(`dist/${route}`,'utf8'));
+  const section=d.getElementById('technical-projects');assert.ok(section,route);
+  assert.deepEqual([...section.querySelectorAll('.technical-project')].map(a=>a.getAttribute('href')),['/projects/yellowjacket','/projects/oceanographic-systems']);
+  assert.equal(section.closest('details'),null,'the new capabilities should be visible without opening the lab');
+  const search=d.querySelector('[data-site-index]');assert.match(search.textContent,/Yellowjacket/);assert.match(search.textContent,/Oceanographic systems/);
+  for(const [term,href] of [['unreal','/projects/oceanographic-systems'],['bellhop','/projects/oceanographic-systems'],['spectrogram','/projects/yellowjacket'],['transcription','/projects/yellowjacket']]){
+   const record=[...search.querySelectorAll('[data-search]')].find(e=>e.getAttribute('href')===href);
+   assert.ok(record?.getAttribute('data-search').includes(term),`${term} should find its project record`);
+  }
+  await w.happyDOM.abort();
+ }
+ for(const slug of ['yellowjacket','oceanographic-systems']){
+  const w=new Window(),d=w.document;d.write(await readFile(`dist/projects/${slug}/index.html`,'utf8'));
+  const body=d.querySelector('.project-body');assert.doesNotMatch(body.textContent,/Haiti|CAMAC|Aquino|\/Users\/|SIGINT|TWO STATIONS/i);
+  assert.match(d.querySelector('.project-status').textContent,/September 10, 2026/);
+  if(slug==='yellowjacket'){
+   assert.match(body.textContent,/source-available under BSL 1.1/);
+   assert.ok(d.querySelector('a[href="https://ihelfrich.github.io/yellowjacket/"]'));
+  }else{
+   assert.match(body.textContent,/climatology, not live forecasts/);
+   assert.match(body.textContent,/not navigation systems/);
+   assert.ok(body.querySelector('a[href="/contact?intent=research&focus=environment"]'));
+  }
+  await w.happyDOM.abort();
+ }
+});

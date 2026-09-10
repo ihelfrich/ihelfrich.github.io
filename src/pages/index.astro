@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import ResearchContinuum from '../components/ResearchContinuum.astro';
 import HomepageInstruments from '../components/HomepageInstruments.astro';
 import VisitorPath from '../components/VisitorPath.astro';
+import TechnicalProjects from '../components/TechnicalProjects.astro';
 import '../styles/homepage-studio.css';
 import {identityRecord,publicLinks,tutoringRecord} from '../data/public-record.mjs';
 import {workCases} from '../data/work-cases.mjs';
@@ -16,7 +17,7 @@ const titles=['The rural mobilization gap.','Where economic activity happens.','
  <section class="st-intro">
   <div class="st-name"><h1>Ian Helfrich</h1><span>PhD in Economics<br/>Georgia Tech, 2024</span></div>
   <div class="st-hero">
-   <div class="st-hero-copy"><p class="st-kicker">Economics · Research design · Quantitative teaching</p><h2>Applied economist.<br/>Researcher &amp; educator.</h2><p>I study economic questions, build quantitative analyses, and teach people to do both. I work with students, researchers, and teams to turn complex problems into clear, defensible answers.</p><div class="st-hero-actions"><a class="st-button" href="#practice">Find your starting point <span aria-hidden="true">↓</span></a><a class="st-underlink" href="/work">See my work</a></div></div>
+   <div class="st-hero-copy"><p class="st-kicker">Economics · Research design · Quantitative teaching</p><h2>Applied economist.<br/>Researcher &amp; educator.</h2><p>I study economic questions, build analytical software, and teach people to do both. My work connects econometrics with spatial data, scientific visualization, and tools people can use.</p><div class="st-hero-actions"><a class="st-button" href="#practice">Find your starting point <span aria-hidden="true">↓</span></a><a class="st-underlink" href="/work">See my work</a></div></div>
    <div class="st-portrait-stage"><div class="st-field" data-line-field><canvas aria-hidden="true"></canvas><svg class="st-field-fallback" viewBox="0 0 500 500" aria-hidden="true">{Array.from({length:22},(_,i)=><path d={`M0 ${100+i*13} C180 ${40+i*9} 300 ${330+i*5} 500 ${120+i*14}`}/>)}</svg></div><button class="st-motion" type="button" hidden>Pause motion</button><figure class="st-portrait"><img {...portrait} fetchpriority="high" decoding="async"/><figcaption><span>{identityRecord.name}</span><span>{identityRecord.location}</span></figcaption></figure><p class="st-photo-note">A rigorous mind.<br/>A generous practice.</p></div>
   </div>
 
@@ -33,6 +34,7 @@ const titles=['The rural mobilization gap.','Where economic activity happens.','
   </div>
   <p class="st-supporting">Also in the record: additional contributor to the semiconductor demonstration in <a href="/work#case-nncta-semiconductor-demonstration"><cite>Securing America's Future</cite></a>; ad hoc referee, <a href="/cv#service">Journal of Economic Theory</a>. <a href="/work">See the wider body of work</a>.</p>
  </section>
+ <TechnicalProjects/>
  <details id="explore" class="st-lab-disclosure content-disclosure"><summary><span>Explore the interactive lab<small>Move the data, change a model, and see what follows.</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><ResearchContinuum/><HomepageInstruments/></div></details>
  <section id="inquiry" class="st-home-close st-section"><div><h2>Bring a question.</h2><p>For research, quantitative teaching, advisory work, or a professional opportunity.</p></div><div><a class="st-button" href="/contact">Start a conversation <span aria-hidden="true">↗</span></a><a class="st-underlink" href={publicLinks.email}>Email Ian directly</a></div></section>
  <nav class="st-resource-shelf" aria-label="Open resources"><span>Explore independently</span><a href="/econometrics/">Open course</a><a href="/econometrics/lab/">Econometrics experiments</a><a href="/learn/policy-statistics/">Policy Statistics Lab</a><a href="/library">Public index</a><a href="/job-market">Candidate page &amp; CV</a></nav>

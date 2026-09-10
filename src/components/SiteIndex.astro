@@ -48,8 +48,8 @@ const records = [
   })),
   ...projects.map((entry, index) => ({
     kind: "Tool", code: `T-${entry.data.date.getFullYear()}-${String(index + 1).padStart(2, "0")}`,
-    title: entry.data.title, detail: `${entry.data.status} · ${entry.data.blurb}`, href: entry.data.url ?? `/projects/${entry.id}`,
-    external: Boolean(entry.data.url),
+    title: entry.data.title, detail: `${entry.data.status} · ${entry.data.blurb}`, href: `/projects/${entry.id}`,
+    search: [...entry.data.tags, ...entry.data.searchTerms].join(' '),
   })),
   ...teachingFamilies.map(([title, detail], index) => ({
     kind: "Teach", code: `L-2026-${String(index + 1).padStart(2, "0")}`,
