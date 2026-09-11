@@ -188,3 +188,8 @@ test("aborting the first selection cannot cancel the shared snapshot for a later
   assert.equal(manifestRequests, 1);
   assert.equal(fixture.calls.length, 4);
 });
+test('a found County parcel cannot be misclassified as City zoning evidence', async () => {
+  const {fetchImpl,calls}=transport({jurisdiction:response({MUNICIPALITY:'OVERLAND',MUNI:'OVR'})});
+  const result=await createZoningLookup({fetchImpl})(point,{parcelResult:{status:'found',source:{jurisdiction:'st-louis-county'},parcel:{properties:{jurisdiction:'st-louis-county',handle:'county-handle'}}}});
+  assert.equal(result.status,'unsupported-municipality');assert.equal(result.jurisdiction.label,'OVERLAND');assert.equal(result.districts.length,0);assert.equal(calls.length,1);assert.ok(!calls.includes('/st-louis/zoning/manifest.json'));
+});

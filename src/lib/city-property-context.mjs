@@ -1,10 +1,13 @@
 import { lookupZoning } from "./city-zoning.mjs";
 import { lookupParcel } from './city-parcels.mjs';
+import { lookupCountyParcel } from './county-parcels.mjs';
+const regionalParcelLookup=async(point,options)=>{const city=await lookupParcel(point,options);return city.status==='unsupported'?lookupCountyParcel(point,options):city;};
 import { loadPublicListings } from './city-public-listings.mjs';
 
 /** A listing joins a selected source record on both identifiers, never geometry or address alone. */
 export function matchPublicInventory(parcelResult, snapshot) {
   const p=parcelResult?.parcel?.properties;
+  if(p?.jurisdiction==='st-louis-county')return {status:'outside-coverage',listings:[],reason:'The connected land-bank sale inventory covers the independent City, not County properties. Sale availability is unknown.'};
   if (!p) return {status:'unresolved',listings:[],reason:'Select an exact parcel record first.'};
   if (!snapshot) return {status:'unavailable',listings:[],reason:'Public inventory could not be loaded.'};
   const listings=snapshot.listings.filter(l=>l.parcelKey===p.parcelKey && l.parcelId===p.parcelId);
@@ -15,7 +18,7 @@ export function matchPublicInventory(parcelResult, snapshot) {
   };
 }
 
-export function createPropertyLookup({parcelLookup=lookupParcel,zoningLookup=lookupZoning,inventoryLoader=loadPublicListings}={}) {
+export function createPropertyLookup({parcelLookup=regionalParcelLookup,zoningLookup=lookupZoning,inventoryLoader=loadPublicListings}={}) {
   let inventoryPromise;
   const inventory=()=>inventoryPromise ||= inventoryLoader().catch(error=>{inventoryPromise=null;throw error;});
   return async function inspectProperty(point,{signal}={}) {

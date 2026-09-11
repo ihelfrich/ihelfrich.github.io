@@ -222,7 +222,7 @@ export function createZoningLookup({
     checkAbort();
     const parcels = parcelResult || await parcelLookup(point);
     checkAbort();
-    if (parcels?.reason === "outside-city") {
+    if (parcels?.reason === "outside-city" || parcels?.source?.jurisdiction === "st-louis-county" || parcels?.parcel?.properties?.jurisdiction === "st-louis-county") {
       const controller = new AbortController();
       const abort = () => controller.abort();
       signal?.addEventListener("abort", abort, { once: true });
@@ -243,7 +243,7 @@ export function createZoningLookup({
     if (!["found", "not-found"].includes(parcels?.status)) {
       return { ...combineZoningResults(null), status: "unavailable", reason: "parcel-coverage-unavailable" };
     }
-    // The parcel module checks the exact official City boundary before either status.
+    // County results are routed above; City results require the exact City coverage check.
     const jurisdiction = resolveZoningJurisdiction({ cityBoundary: { features: [{ attributes: {} }] } });
     let data;
     try { data = await snapshot(); checkAbort(); }

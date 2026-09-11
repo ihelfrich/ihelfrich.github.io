@@ -445,7 +445,7 @@ export function createEstatePanel(
       if(parcel) {
         scenarioKind="official-parcel";
         $("estate-selection").textContent=parcel.properties.address||"Selected official parcel";
-        $("estate-selected-source").textContent=`City parcel ${parcel.properties.parcelId}. Enter your own purchase price and operating assumptions. Assessed value is not an asking price.`;
+        $("estate-selected-source").textContent=`${parcel.properties.jurisdiction==="st-louis-county"?"County":"City"} parcel ${parcel.properties.parcelId}. Enter your own purchase price and operating assumptions. Assessed value is not an asking price.`;
       }
       invalidate();
       return true;
