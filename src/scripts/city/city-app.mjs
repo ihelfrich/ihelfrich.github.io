@@ -1,3 +1,4 @@
+import { createResidentPanel } from "./city-resident-panel.mjs";
 import { createProFormaPanel } from "./city-proforma-panel.mjs";
 import { createCityScene } from "./city-scene.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
@@ -33,7 +34,7 @@ let connectionSerial = 0,
   pendingReality = null,
   realityHost = null;
 let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
-let proforma=null;
+let proforma=null,resident=null;
 let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
 let savedReality=null;
 let selectImportedMarker = () => {}, selectPublicMarker = () => {};
@@ -53,9 +54,9 @@ const estate = createEstatePanel($("properties-panel"), {
   notice,
 });
 property = createPropertyPanel($("properties-panel"), {
-  estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),
+  estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
-    selectedEvidence=evidence;proforma?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
+    selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
     else if(city?.controls?.target) {
       const p=city.controls.target;
@@ -68,7 +69,8 @@ property = createPropertyPanel($("properties-panel"), {
 const scenarioRoot=$("property-panel-scenario"),quickScenario=scenarioRoot.querySelector('.estate-scenario');
 const underwritingRoot=document.createElement('div');underwritingRoot.id='property-proforma';scenarioRoot.prepend(underwritingRoot);
 if(quickScenario){const quick=document.createElement('details');quick.className='pf-quick-check';quick.innerHTML='<summary>Quick one-year calculator &amp; development inputs</summary>';quick.append(quickScenario);scenarioRoot.append(quick);}
-proforma=createProFormaPanel(underwritingRoot);
+proforma=createProFormaPanel(underwritingRoot,{onChange:()=>resident?.invalidateScenario()});
+resident=createResidentPanel($("property-panel-resident"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario(),onLocate:point=>{void property.inspectPoint(point);locateMapPoint({...point,label:point.address})}});
 const developRoot=$("property-panel-develop");
 developRoot.innerHTML='<div id="spatial-workspace"></div><details class="height-study-section"><summary>Visualize a parcel height study</summary><div id="height-study-workspace"></div></details><div id="development-workspace"></div>';
 development=createDevelopmentPanel($("development-workspace"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario()||estate.getScenario(),notice});
@@ -982,7 +984,6 @@ async function start() {
     }
     const saved = decodeCityState(location.hash);
     const requestedArea=new URLSearchParams(location.search).get('area');
-    if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
     if (saved) {
       if (saved.data !== version())
         notice(`This link used ${saved.data}; results use ${version()}.`);
@@ -1010,6 +1011,8 @@ async function start() {
       `Placing ${data.buildings.length.toLocaleString()} mapped building objects`;
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await openScene();
+    if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
+    if(new URLSearchParams(location.search).get('purpose')==='resident'){setMode('properties');property.selectTab('resident');}
   } catch (error) {
     console.error("City data:", error);
     showFallback(

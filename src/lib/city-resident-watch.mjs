@@ -1,0 +1,42 @@
+import {calculatePropertyProForma} from './property-proforma.mjs';
+export const RESIDENT_SCHEMA='st-louis-resident-watch-v1';
+export const EVENT_TYPES={transfer:'Deed / acquisition record',organization:'Organization / affiliation record',planning:'Planning or redevelopment record','asking-rent':'Advertised rent',assessment:'Assessment record',lead:'Question or unverified lead'};
+const text=(v,max=1200)=>String(v??'').trim().slice(0,max);
+export function publicUrl(value,required=false){const raw=text(value,2000);if(!raw&&!required)return '';try{const u=new URL(raw);if(!['http:','https:'].includes(u.protocol)||u.username||u.password)throw Error();return u.href;}catch{throw Error('Enter a public http(s) source URL without credentials.');}}
+function date(value){const v=text(value,10),d=new Date(v+'T12:00:00Z');if(!/^\d{4}-\d{2}-\d{2}$/.test(v)||!Number.isFinite(d.getTime())||d.toISOString().slice(0,10)!==v)throw Error('Enter a valid record date.');return v;}
+export function normalizeWatchEvent(raw){
+ const type=text(raw.type,30);if(!Object.hasOwn(EVENT_TYPES,type))throw Error('Choose a record type.');
+ const event={id:text(raw.id,100),superseded:raw.superseded===true,replacedBy:text(raw.replacedBy,100),type,date:date(raw.date),title:text(raw.title,180),summary:text(raw.summary,1800),sourceUrl:publicUrl(raw.sourceUrl,type!=='lead'),organization:text(raw.organization,180),registrationId:text(raw.registrationId,100),registryUrl:publicUrl(raw.registryUrl),affiliation:text(raw.affiliation,180),affiliationUrl:publicUrl(raw.affiliationUrl),amount:raw.amount===''||raw.amount==null?null:Number(raw.amount),amountBasis:text(raw.amountBasis,30)||'unknown'};
+ if(!event.id||!event.title)throw Error('Each record needs an ID and a title.');
+ if(event.amount!==null&&(!Number.isFinite(event.amount)||event.amount<0||event.amount>1e11))throw Error('Enter a nonnegative amount, or leave it unknown.');
+ if(!['unknown','reported-sale','consideration','asking-rent','assessment'].includes(event.amountBasis))throw Error('Choose what the amount represents.');
+ if(event.amountBasis==='reported-sale'&&type!=='transfer')throw Error('A reported sale price must belong to an acquisition record.');
+ if(event.registrationId&&(!event.registryUrl||!event.organization))throw Error('A registration ID needs the organization name and its registry source. Include the jurisdiction in the ID.');
+ if(event.registrationId&&!/^[a-z]{2,5}:[a-z0-9][a-z0-9 ._-]*$/i.test(event.registrationId))throw Error('Use a jurisdiction-qualified registration ID, such as MO: followed by the exact registry ID.');
+ if(event.affiliation&&(!event.affiliationUrl||!event.organization))throw Error('An affiliation needs an organization name and a separate supporting source.');
+ return event;
+}
+export function watchProperty(evidence){const p=evidence?.parcels?.parcel?.properties,s=evidence?.parcels?.source;if(!p?.recordKey)throw Error('Select an exact source parcel first.');return {recordKey:text(p.recordKey,180),parcelId:text(p.parcelId,100),address:text(p.address,250)||'Address unknown',municipality:text(p.municipality,100)||text(evidence.zoning?.jurisdiction?.label,100),sourceUrl:publicUrl(s?.url),snapshotDate:text(s?.sourceDataEditedAt||s?.retrievedAt,60),assessmentYear:p.assessmentYear??null,longitude:evidence.point?.longitude??null,latitude:evidence.point?.latitude??null,events:[]};}
+export function normalizeNotebook(raw){
+ if(raw?.schema!==RESIDENT_SCHEMA||!Array.isArray(raw.properties)||raw.properties.length>500)throw Error('Invalid resident notebook or more than 500 properties.');
+ const seen=new Set();const properties=raw.properties.map(p=>{const recordKey=text(p.recordKey,180);if(!recordKey||seen.has(recordKey))throw Error('Duplicate or missing property identity.');seen.add(recordKey);if(!Array.isArray(p.events)||p.events.length>100)throw Error('A property may contain at most 100 records.');const ids=new Set();const events=p.events.map(rawEvent=>{const e=normalizeWatchEvent(rawEvent);if(ids.has(e.id))throw Error('Duplicate event ID.');ids.add(e.id);return e;});const longitude=Number(p.longitude),latitude=Number(p.latitude);return {recordKey,parcelId:text(p.parcelId,100),address:text(p.address,250),municipality:text(p.municipality,100),sourceUrl:publicUrl(p.sourceUrl),snapshotDate:text(p.snapshotDate,60),assessmentYear:Number.isInteger(p.assessmentYear)?p.assessmentYear:null,longitude:p.longitude!=null&&Number.isFinite(longitude)&&Math.abs(longitude)<=180?longitude:null,latitude:p.latitude!=null&&Number.isFinite(latitude)&&Math.abs(latitude)<=90?latitude:null,events};});
+ return {schema:RESIDENT_SCHEMA,properties};
+}
+/** Only exact, source-linked registration IDs join companies. Names/agents never establish common control. */
+export function summarizeNotebook(notebook,{asOf=new Date().toISOString().slice(0,10)}={}){
+ const groups=new Map();let withoutAcquisition=0,ambiguous=0,acquisitionRecords=0;
+ for(const p of notebook.properties){const transfers=p.events.filter(e=>e.type==='transfer'&&!e.superseded&&e.sourceUrl&&e.date<=asOf);acquisitionRecords+=transfers.length;if(!transfers.length){withoutAcquisition++;continue;}const latestDate=transfers.map(e=>e.date).sort().at(-1),latest=transfers.filter(e=>e.date===latestDate);const ids=new Set(latest.map(e=>e.registrationId.trim().toUpperCase()));if(ids.size!==1||ids.has('')){ambiguous++;continue;}const id=[...ids][0],event=latest[0];if(!event.registryUrl){ambiguous++;continue;}if(!groups.has(id))groups.set(id,{registrationId:id,organization:event.organization,properties:[],registryUrl:event.registryUrl});groups.get(id).properties.push({recordKey:p.recordKey,address:p.address,date:latestDate});}
+ return {watched:notebook.properties.length,acquisitionRecords,withoutAcquisition,unresolvedOrganization:ambiguous,groups:[...groups.values()].sort((a,b)=>b.properties.length-a.properties.length||a.registrationId.localeCompare(b.registrationId))};
+}
+export function preservationScenario(assumptions,targetMonthlyRent){if(!Number.isFinite(targetMonthlyRent)||targetMonthlyRent<0)throw Error('Enter a nonnegative target monthly rent per unit.');const base=calculatePropertyProForma(assumptions),target=calculatePropertyProForma({...assumptions,rentMonthly:targetMonthlyRent});return {base,target,upfrontSupportForZeroNpv:Math.max(0,-target.returns.npv),worstOperatingYear:Math.min(...target.annual.map(y=>y.cashBeforeCapital)),rentChangeMonthly:targetMonthlyRent-assumptions.rentMonthly};}
+export const RESIDENT_SOURCE_LINKS=[
+ ['County property search','https://revenue.stlouisco.com/IAS/SearchInput.aspx','Locate a property and inspect the records available for that parcel.'],
+ ['County Recorder of Deeds','https://stlouiscountymo.gov/st-louis-county-departments/revenue/recorder-of-deeds/','Find recorded instruments; access to the County website may vary.'],
+ ['Missouri business records','https://www.sos.mo.gov/business/corporations','Find an organization registration and source its exact identity. A registered agent does not establish ownership or common control.'],
+ ['Overland agendas and minutes','https://www.overlandmo.org/AgendaCenter','Check notices, cancellations, minutes, ordinances and case attachments. An agenda item does not establish approval.'],
+];
+export const RESIDENT_NOTICES={checkedAt:'2026-09-11',items:[
+ {date:'2026-09-29',title:'September Planning & Zoning meeting cancelled',status:'Cancellation notice',summary:'A September 3 memorandum cancels the September 29 meeting for lack of an agenda. Recheck the City agenda center for later notices.',sourceUrl:'https://www.overlandmo.org/AgendaCenter/ViewFile/Agenda/_09292026-879'},
+ {date:'2026-08-25',title:'9509 Lackland Road and 2554 Woodson Road',status:'Hearing agenda; outcome not checked',summary:'The amended agenda lists conditional-use and site-plan reviews for these two addresses. The document does not establish acquisitions, private-equity affiliation or displacement.',sourceUrl:'https://www.overlandmo.org/AgendaCenter/ViewFile/Agenda/_08252026-873'},
+ {date:'2026-07-28',title:'9025 Page Avenue site-plan review',status:'Commission action recorded in minutes',summary:'The minutes record approval with stipulations for a replacement dumpster enclosure/tire shed. This item is not evidence of residential conversion or a private-equity acquisition.',sourceUrl:'https://www.overlandmo.org/AgendaCenter/ViewFile/Minutes/_07282026-865'},
+]};

@@ -11,18 +11,20 @@ const date=value=>value!=null&&value!==''&&Number.isFinite(Date.parse(value))?ne
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
-  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},
+  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},
   search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
   section.innerHTML=`
     <div class="property-tabs" role="tablist" aria-label="Property workspace">
+      <button type="button" id="property-tab-resident" data-property-tab="resident" role="tab" aria-controls="property-panel-resident" aria-selected="false" tabindex="-1">Resident watch</button>
       <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Evidence</button>
       <button type="button" id="property-tab-site" data-property-tab="site" role="tab" aria-controls="property-panel-site" aria-selected="false" tabindex="-1">Site</button>
       <button type="button" id="property-tab-inventory" data-property-tab="inventory" role="tab" aria-controls="property-panel-inventory" aria-selected="false" tabindex="-1">Inventory</button>
       <button type="button" id="property-tab-scenario" data-property-tab="scenario" role="tab" aria-controls="property-panel-scenario" aria-selected="false" tabindex="-1">Pro forma</button>
       <button type="button" id="property-tab-develop" data-property-tab="develop" role="tab" aria-controls="property-panel-develop" aria-selected="false" tabindex="-1">Develop</button>
     </div>
+    <div id="property-panel-resident" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-resident" tabindex="0" hidden></div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
       <div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
       <p class="small-note">Search across St. Louis City and County. Results distinguish City parcel records from County address locations.</p>
@@ -50,8 +52,8 @@ export function createPropertyPanel(root,{
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
   if(imported)$('panel-inventory').append(imported);
   if(scenario)$('panel-scenario').append(scenario);
-  const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{const point=scope==='overland'?[-90.369,38.699]:[-90.35418,38.686435];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);}});
-  const tabNames=['evidence','site','inventory','scenario','develop'];
+  const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{const point=scope==='overland'?[-90.369,38.699]:[-90.35418,38.686435];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':'PAGE AVENUE / I-170'});}});
+  const tabNames=['resident','evidence','site','inventory','scenario','develop'];
   function selectTab(name) {
     if(!tabNames.includes(name))return false;
     for(const key of tabNames) {
@@ -117,6 +119,7 @@ export function createPropertyPanel(root,{
     paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
     const action=element('button','Build pro forma','primary-button wide');action.type='button';
     action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});body.append(action);
+    const residentAction=element('button','Track this parcel for residents','secondary-button wide');residentAction.type='button';residentAction.addEventListener('click',()=>selectTab('resident'));body.append(residentAction);
     const facts=element('div',undefined,'property-facts'),assessment=element('section',undefined,'property-fact-card'),zoning=element('section',undefined,'property-fact-card');
     assessment.append(element('h4','Assessment'),element('strong',Number.isFinite(p?.assessedValueUSD)?usd.format(p.assessedValueUSD):'Unknown'));
     paragraph(assessment,`Assessment year: ${p?.assessmentYear??'Unknown'}`);
