@@ -26,15 +26,16 @@ export function createPropertyPanel(root,{
       <button type="button" id="property-tab-scenario" data-property-tab="scenario" role="tab" aria-controls="property-panel-scenario" aria-selected="false" tabindex="-1">Pro forma</button>
       <button type="button" id="property-tab-develop" data-property-tab="develop" role="tab" aria-controls="property-panel-develop" aria-selected="false" tabindex="-1">Develop</button>
     </div>
-    <div id="property-context" class="property-context" hidden><div><strong id="property-context-address"></strong><small id="property-context-id"></small></div><button type="button" id="property-context-save" class="secondary-button">Save to notebook</button></div>
+    <div id="property-context" class="property-context" hidden><div><strong id="property-context-address"></strong><small id="property-context-id"></small></div><button type="button" id="property-context-results" class="text-button" hidden>Back to results</button><button type="button" id="property-context-save" class="secondary-button">Save to notebook</button></div>
     </div>
     <div id="property-panel-resident" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-resident" tabindex="0" hidden></div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
-      <div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
+      <div id="county-parcel-browser"></div>
+      <details id="property-regional-search" class="property-regional-search" open><summary>Search anywhere in City or County</summary><div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
       <p class="small-note">Search across St. Louis City and County. Results distinguish City parcel records from County address locations.</p>
       <p id="property-search-status" class="small-note" role="status">Enter at least 3 characters to search.</p>
       <div id="property-search-results" class="estate-list"></div>
-      <div id="county-parcel-browser"></div>
+      </details>
       <div id="property-evidence" aria-live="polite"></div>
     </div>
     <div id="property-panel-inventory" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-inventory" tabindex="0" hidden>
@@ -58,7 +59,8 @@ export function createPropertyPanel(root,{
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
   if(imported)$('panel-inventory').append(imported);
   if(scenario)$('panel-scenario').append(scenario);
-  const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{const point=scope==='overland'?[-90.369,38.699]:[-90.35418,38.686435];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':'PAGE AVENUE / I-170'});}});
+  const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{$('regional-search').open=false;$('context-results').hidden=false;const point=scope==='overland'?[-90.369,38.699]:scope==='page-i170'?[-90.35418,38.686435]:[-90.362,38.693];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':scope==='page-i170'?'PAGE AVENUE / I-170':'OVERLAND + PAGE / I-170'});}});
+  $('context-results').addEventListener('click',()=>{selectTab('evidence');countyBrowser.focusResults();});
   const tabNames=['resident','evidence','site','inventory','scenario','develop'];
   function selectTab(name) {
     if(!tabNames.includes(name))return false;
@@ -79,7 +81,7 @@ export function createPropertyPanel(root,{
     });
   }
   root.addEventListener('estate:scenario',()=>selectTab('scenario'));
-  function focusSearch(){onOpen();selectTab('evidence');$('search').focus()}
+  function focusSearch(){onOpen();selectTab('evidence');$('regional-search').open=true;$('search').focus()}
   const element=(tag,text,cls)=>{const e=doc.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
   const paragraph=(parent,text)=>parent.append(element('p',text,'small-note'));
   function link(parent,label,value) {
