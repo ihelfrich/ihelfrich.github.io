@@ -1,7 +1,7 @@
 import { lookupZoning } from "./city-zoning.mjs";
 import { lookupParcel } from './city-parcels.mjs';
 import { lookupCountyParcel } from './county-parcels.mjs';
-const regionalParcelLookup=async(point,options)=>{const city=await lookupParcel(point,options);return city.status==='unsupported'?lookupCountyParcel(point,options):city;};
+const regionalParcelLookup=async(point,options)=>{if(point?.jurisdiction==='st-louis-county'||point?.recordKey?.startsWith('st-louis-county'))return lookupCountyParcel(point,options);const city=await lookupParcel(point,options);return city.status==='unsupported'&&!point?.recordKey?.startsWith('st-louis-city:')?lookupCountyParcel(point,options):city;};
 import { loadPublicListings } from './city-public-listings.mjs';
 
 /** A listing joins a selected source record on both identifiers, never geometry or address alone. */

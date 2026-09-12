@@ -1,11 +1,53 @@
 import {createParcelLookup} from './city-parcels.mjs';
+import {createCountyLiveLookup} from './county-live-parcels.mjs';
 export const COUNTY_MANIFEST='/st-louis/county-parcels/manifest.json';
 export const CURRENT_COUNTY_MANIFEST='/st-louis/county-current/manifest.json';
-export function createCountyLookup({fetchImpl=(...args)=>fetch(...args)}={}){
- const current=createParcelLookup({manifestUrl:CURRENT_COUNTY_MANIFEST,fetchImpl});
- const historical=createParcelLookup({manifestUrl:COUNTY_MANIFEST,fetchImpl});
- // Saved historical identities must continue resolving to their original source snapshot.
- return (point,options)=>point?.recordKey?.startsWith('st-louis-county:')?historical(point,options):current(point,options);
+const aborted=()=>new DOMException('Aborted','AbortError');
+function abortable(promise,signal){
+ if(signal?.aborted)return Promise.reject(aborted());
+ if(!signal)return promise;
+ return new Promise((resolve,reject)=>{const stop=()=>{cleanup();reject(aborted());};const cleanup=()=>signal.removeEventListener('abort',stop);signal.addEventListener('abort',stop,{once:true});Promise.resolve(promise).then(value=>{cleanup();resolve(value);},error=>{cleanup();reject(error);});});
+}
+function matchesIdentity(properties,point){return !!properties&&['recordKey','parcelKey','parcelId','sourceObjectId'].every(key=>point[key]==null||properties[key]===point[key]);}
+function exactLocalResult(result,point){
+ if(result.status!=='found')return result;
+ if(result.parcel&&matchesIdentity(result.parcel.properties,point))return result;
+ const candidates=(result.candidates||[]).filter(feature=>matchesIdentity(feature.properties,point));
+ if(candidates.length)return {...result,parcel:candidates.length===1?candidates[0]:null,candidates,ambiguous:candidates.length>1};
+ return {...result,status:'unavailable',parcel:null,candidates:[],ambiguous:false,reason:'requested-source-unresolved'};
+}
+export function createCountyLookup({fetchImpl=(...args)=>fetch(...args),snapshotTimeoutMs=8000,liveTimeoutMs=15000}={}){
+ // Snapshot reads are shared by createParcelLookup. A cancelled caller stops waiting,
+ // while the reusable read still has its own deadline, including response-body parsing.
+ const snapshotFetch=async(url,options={})=>{
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),snapshotTimeoutMs);
+  try{
+   const response=await abortable(fetchImpl(url,{...options,signal:controller.signal}),controller.signal);
+   if(!response.ok){clearTimeout(timer);return response;}
+   return {ok:response.ok,status:response.status,json:async()=>{try{return await abortable(response.json(),controller.signal);}finally{clearTimeout(timer);}}};
+  }catch(error){clearTimeout(timer);throw error;}
+ };
+ const current=createParcelLookup({manifestUrl:CURRENT_COUNTY_MANIFEST,fetchImpl:snapshotFetch});
+ const historical=createParcelLookup({manifestUrl:COUNTY_MANIFEST,fetchImpl:snapshotFetch});
+ const live=createCountyLiveLookup({fetchImpl:async(url,options)=>{const response=await abortable(fetchImpl(url,options),options?.signal);return {ok:response.ok,status:response.status,text:()=>abortable(response.text(),options?.signal)};}});
+ return async(point,options={})=>{
+  const {signal}=options;if(signal?.aborted)throw aborted();
+  // A saved historical source identity always resolves within that dated snapshot.
+  if(point?.recordKey?.startsWith('st-louis-county:'))return exactLocalResult(await abortable(historical(point),signal),point);
+  const controller=new AbortController(),stop=()=>controller.abort(),timer=setTimeout(stop,liveTimeoutMs);signal?.addEventListener('abort',stop,{once:true});
+  let fresh;
+  try{fresh=await abortable(live(point,{...options,signal:controller.signal}),controller.signal);}
+  catch(error){if(signal?.aborted)throw aborted();fresh={status:'unavailable',parcel:null,reason:'county-service-unavailable'};}
+  finally{clearTimeout(timer);signal?.removeEventListener('abort',stop);}
+  if(signal?.aborted)throw aborted();
+  // A responding source's missing/ambiguous result is evidence; an outage alone uses the snapshot.
+  if(fresh.status!=='unavailable'||fresh.reason==='requested-source-unresolved')return exactLocalResult(fresh,point);
+  const local=exactLocalResult(await abortable(current(point),signal),point);
+  // This fallback covers selected study areas, not the entire County. A local miss
+  // cannot turn a live-service outage into evidence of jurisdiction-wide absence.
+  if(local.status==='unsupported'||local.status==='not-found')return {...fresh,status:'unavailable',parcel:null,candidates:[],snapshotStatus:local.status,snapshotReason:local.reason,snapshotSource:local.source,liveStatus:'unavailable',liveReason:fresh.reason,snapshotFallback:true};
+  return {...local,liveStatus:'unavailable',liveReason:fresh.reason,snapshotFallback:true};
+ };
 }
 export const lookupCountyParcel=createCountyLookup();
 export {filterCountyParcels} from './county-parcel-query.mjs';

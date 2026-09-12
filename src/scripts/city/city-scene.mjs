@@ -1,4 +1,5 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
+import { createThreePropertyAtlas, threeViewportBounds, threeAtlasFit, threeAtlasLocalPosition, propertyAtlasViewport } from "./city-property-atlas.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import * as T from "three";
@@ -251,6 +252,7 @@ export async function createCityScene(
     }
   }
   const listingsLayer = createListingLayer(scene, data.origin || [-90.193,38.628]);
+  const propertyAtlas = createThreePropertyAtlas(scene, data.origin || [-90.193,38.628], { getPixelRatio: () => renderer.getPixelRatio() });
   const developmentLayer = createDevelopmentVolumeLayer(scene, data.origin || [-90.193,38.628]);
   scene.background = new T.Color("#aebfc1");
   scene.fog = new T.FogExp2("#b8c4bd", 0.000095);
@@ -724,7 +726,7 @@ export async function createCityScene(
       (-(e.clientY - rect.top) / rect.height) * 2 + 1,
     );
     raycaster.setFromCamera(pointer, camera);
-    if (listingsLayer.pick(raycaster) || !buildings.visible) return;
+    if (listingsLayer.pick(raycaster) || propertyAtlas.pick(pointer, camera, rect) || !buildings.visible) return;
     const hits = raycaster.intersectObjects(pickMeshes, false);
     const regionalHit = region?.raycast(raycaster);
     const b = regionalHit && (!hits[0] || regionalHit.distance < hits[0].distance)
@@ -871,11 +873,11 @@ export async function createCityScene(
       weatherState,
     );
   }
-  function flyTo(x, z, zoom = 1.8) {
+  function flyTo(x, z, zoom = 1.8, { northUp = false } = {}) {
     const target = new T.Vector3(x, 20, z);
     const direction = camera.position.clone().sub(controls.target).normalize();
-    const destinationDirection = new T.Vector3(...regionViewDirection(zoom, direction.toArray()));
-    controls.minPolarAngle = zoom < .075 ? .0005 : .18;
+    const destinationDirection = northUp ? new T.Vector3(0, 1, .001).normalize() : new T.Vector3(...regionViewDirection(zoom, direction.toArray()));
+    controls.minPolarAngle = northUp || zoom < .075 ? .0005 : .18;
     flying = {
       from: controls.target.clone(),
       to: target,
@@ -1132,6 +1134,39 @@ export async function createCityScene(
     controls,
     flyTo,
     setListings: listingsLayer.setListings,
+    setPropertyAtlas: propertyAtlas.setPropertyAtlas,
+    clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
+    getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    getViewportBounds() {
+      const viewport = disposed ? null : propertyAtlasViewport(container);
+      return viewport ? threeViewportBounds(camera, data.origin || [-90.193,38.628], viewport) : null;
+    },
+    fitPropertyAtlasBounds(bounds) {
+      if (disposed) return false;
+      const viewport = propertyAtlasViewport(container);
+      if (!viewport) return false;
+      const fit = threeAtlasFit(camera, bounds, data.origin || [-90.193,38.628], viewport);
+      if (!fit) return false;
+      // A portrait County overview needs a smaller zoom than the old minimum.
+      // The orthographic flight also moves the camera back, so extend its far
+      // plane with that range instead of clipping the map out of the scene.
+      controls.minZoom = Math.min(controls.minZoom, fit.zoom * 0.5);
+      camera.far = Math.max(camera.far, cameraDistance / controls.minZoom + Math.max(fit.widthMetres, fit.heightMetres) * 2);
+      camera.updateProjectionMatrix();
+      flyTo(fit.x, fit.z, fit.zoom, { northUp: true });
+      return true;
+    },
+    flyToPropertyAtlasFeature(feature) {
+      if (disposed) return false;
+      const point = threeAtlasLocalPosition(feature?.longitude, feature?.latitude, data.origin || [-90.193,38.628]);
+      if (!point) return false;
+      const viewport = propertyAtlasViewport(container);
+      if (!viewport) return false;
+      const fit = threeAtlasFit(camera, [Math.max(-180, feature.longitude - .0006), Math.max(-90, feature.latitude - .0006),
+        Math.min(180, feature.longitude + .0006), Math.min(90, feature.latitude + .0006)], data.origin || [-90.193,38.628], viewport);
+      if (!fit) return false;
+      flyTo(fit.x, fit.z, fit.zoom, { northUp: true }); return true;
+    },
     setParcel,
     setParcelVisible(value) {
       if (!disposed) parcelOutline.visible = Boolean(value);
@@ -1157,7 +1192,7 @@ export async function createCityScene(
       renderer.shadowMap.needsUpdate = true;
     },
     zoom(factor) {
-      camera.zoom = clamp(camera.zoom * factor, 0.013, 12);
+      camera.zoom = clamp(camera.zoom * factor, controls.minZoom, 12);
       camera.updateProjectionMatrix();
     },
     north() {
@@ -1173,6 +1208,7 @@ export async function createCityScene(
       container.removeEventListener("keydown", onKeyDown);
       controls.removeEventListener("change", invalidateShadows);
       listingsLayer.dispose();
+      propertyAtlas.dispose();
       developmentLayer.dispose();
       setParcel(null);
       region?.dispose();

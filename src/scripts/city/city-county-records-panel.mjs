@@ -31,7 +31,7 @@ function histories(data){
  return sections.join('');
 }
 
-export function createCountyRecordsPanel(root,{parcel,source,onTaxEvidence=()=>{},onScenario=()=>{},load=loadCountyPropertyRecords}={}){
+export function createCountyRecordsPanel(root,{parcel,source,regionalTransfer=null,onTaxEvidence=()=>{},onScenario=()=>{},load=loadCountyPropertyRecords}={}){
  let disposed=false,serial=0,current=null,controller=null;
  const downloads=new Set(),official=countyTaxLink(parcel.parcelId);
  root.innerHTML=`<section class="county-records" aria-label="Understand this property"><div class="cr-heading"><span>UNDERSTAND THIS PROPERTY</span><button type="button" data-cr-refresh class="text-button">Refresh County record</button></div><p data-cr-summary></p><p data-cr-status class="cr-status" role="status">Checking the County’s published record…</p><div data-cr-values></div><div data-cr-bill></div><div class="cr-next"><a href="${e(official)}" target="_blank" rel="noopener">Open official tax bill ↗</a><button type="button" data-cr-scenario class="secondary-button">Build a rental budget</button></div><details class="cr-help"><summary>How to read these numbers</summary><ol><li><strong>Appraised value:</strong> the County’s value for assessment purposes. A buyer’s offer or an independent appraisal can differ.</li><li><strong>Assessed value:</strong> the value used in the tax calculation. It is not the amount you pay.</li><li><strong>Annual tax:</strong> a charge for a specific tax year. Fees, payments and unpaid balances are different amounts.</li></ol><p>For a rental budget, enter your purchase price, expected rent and actual operating costs. County values do not fill those assumptions automatically.</p></details><div data-cr-history></div><details class="cr-detail"><summary>Detailed record &amp; source fields</summary><div data-cr-details></div></details><div class="cr-export"><button type="button" data-cr-export class="text-button">Download property evidence JSON</button><span data-cr-export-status class="small-note" role="status"></span></div></section>`;
@@ -63,7 +63,8 @@ export function createCountyRecordsPanel(root,{parcel,source,onTaxEvidence=()=>{
  const handleRefresh=()=>void refresh(),handleScenario=event=>{if(!disposed)onScenario(event);};
  function handleExport(){
   if(disposed||!current)return;
-  const bundle={...current,schema:'county-property-evidence-v1',parcelId:parcel.parcelId,selectedRecordKey:parcel.recordKey,exportedAt:new Date().toISOString()};
+  const matchedRegional=regionalTransfer?.recordKey===parcel.recordKey&&regionalTransfer?.parcelId===parcel.parcelId&&regionalTransfer?.jurisdiction===parcel.jurisdiction?regionalTransfer:null;
+  const bundle={...current,schema:'county-property-evidence-v1',parcelId:parcel.parcelId,selectedRecordKey:parcel.recordKey,regionalTransfer:matchedRegional,exportedAt:new Date().toISOString()};
   const url=URL.createObjectURL(new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'})),a=root.ownerDocument.createElement('a');
   a.href=url;a.download=`${parcel.parcelId}-property-evidence.json`;root.ownerDocument.body.append(a);a.click();a.remove();
   const entry={url,timer:setTimeout(()=>{URL.revokeObjectURL(url);downloads.delete(entry);},60000)};downloads.add(entry);

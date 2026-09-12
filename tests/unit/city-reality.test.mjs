@@ -77,12 +77,19 @@ async function fixture(resource) {
   const volume = new vm.SourceTextModule(volumeSource, {context});
   const parcels = new vm.SourceTextModule(parcelsSource, {context});
   const streetLabels = new vm.SyntheticModule(['createStreetLabelLayer'],function(){this.setExport('createStreetLabelLayer',()=>({setStreetLabels(){},getStreetLabelStatus(){return {status:'ready',visibleCount:0}},dispose(){}}))},{context});
+  const propertyAtlas = new vm.SyntheticModule(['createCesiumPropertyAtlas', 'cesiumViewportBounds', 'cesiumAtlasFit', 'propertyAtlasViewport'], function() {
+    this.setExport('createCesiumPropertyAtlas', () => ({ setPropertyAtlas() {}, clearPropertyAtlas() {}, getPropertyAtlasStatus() { return { status: 'cleared', shown: 0 }; }, pick() { return false; }, dispose() {} }));
+    this.setExport('cesiumViewportBounds', () => null);
+    this.setExport('cesiumAtlasFit', () => false);
+    this.setExport('propertyAtlasViewport', () => null);
+  }, {context});
   await overlay.link(() => {});
   await tone.link(() => {});
   await parcels.link(() => {});
   await volume.link(() => parcels);
   await streetLabels.link(()=>{});
-  await module.link(specifier => specifier.endsWith("city-street-labels.mjs") ? streetLabels : specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
+  await propertyAtlas.link(()=>{});
+  await module.link(specifier => specifier.endsWith("city-property-atlas.mjs") ? propertyAtlas : specifier.endsWith("city-street-labels.mjs") ? streetLabels : specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
   await module.evaluate();
   return { api: module.namespace, counts: () => ({ created, destroyed }) };
 }

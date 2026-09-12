@@ -1,4 +1,5 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
+import { createCesiumPropertyAtlas, cesiumViewportBounds, cesiumAtlasFit, propertyAtlasViewport } from "./city-property-atlas.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import { createStreetLabelLayer } from "./city-street-labels.mjs";
@@ -253,6 +254,7 @@ export async function createRealityScene(
   let viewer;
   let tone;
   let developmentLayer;
+  let propertyAtlas;
   let streetLabels;
   let tileset;
   let tilesetAttached = false;
@@ -321,6 +323,7 @@ export async function createRealityScene(
     listingEntities.clear();
     tone?.dispose();
     developmentLayer?.dispose();
+    propertyAtlas?.dispose();
     streetLabels?.dispose();
     if (
       tileset &&
@@ -380,6 +383,7 @@ export async function createRealityScene(
     viewer.scene.fog.enabled = false;
     tone = createRealityTone(C, viewer.scene);
     developmentLayer = createRealityDevelopmentVolume(C, viewer);
+    propertyAtlas = createCesiumPropertyAtlas(C, viewer);
     viewer.canvas.setAttribute(
       "aria-label",
       "Photographic St. Louis map. Drag to explore, scroll to zoom.",
@@ -496,6 +500,7 @@ export async function createRealityScene(
         listingCallback(listing);
         return;
       }
+      if (propertyAtlas.pick(picked)) return;
       const point = pickPhotographicPosition(event.position);
       if (!point) return;
       const position = C.Cartographic.fromCartesian(point);
@@ -831,6 +836,25 @@ export async function createRealityScene(
     pin,
     selectBuilding,
     setListings,
+    setPropertyAtlas: propertyAtlas.setPropertyAtlas,
+    clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
+    getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    getViewportBounds() {
+      const viewport = disposed ? null : propertyAtlasViewport(container);
+      return viewport ? cesiumViewportBounds(C, viewer, viewport) : null;
+    },
+    fitPropertyAtlasBounds(bounds) {
+      const viewport = disposed ? null : propertyAtlasViewport(container);
+      return viewport ? cesiumAtlasFit(C, viewer, bounds, { duration: durations(), complete: updateCenter, viewport }) : false;
+    },
+    flyToPropertyAtlasFeature(feature) {
+      if (disposed || !Number.isFinite(feature?.longitude) || !Number.isFinite(feature?.latitude) ||
+        Math.abs(feature.longitude) > 180 || Math.abs(feature.latitude) > 90) return false;
+      const viewport = propertyAtlasViewport(container);
+      if (!viewport) return false;
+      return cesiumAtlasFit(C, viewer, [Math.max(-180, feature.longitude - .0006), Math.max(-90, feature.latitude - .0006),
+        Math.min(180, feature.longitude + .0006), Math.min(90, feature.latitude + .0006)], { duration: durations(), complete: updateCenter, viewport });
+    },
     setParcel,
     setParcelVisible(value) {
       if (disposed) return;

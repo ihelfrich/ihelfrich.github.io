@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import licenseText from '../../../public/st-louis/LICENSE.txt?raw';
+---
+<Base title="Property Lab commercial licensing" description="Commercial use of Ian Helfrich’s Property Lab requires a signed license with a base fee and a percentage-of-sales royalty.">
+  <article class="property-license">
+    <p class="eyebrow">St. Louis City &amp; Property Lab</p>
+    <h1>Commercial use requires a license.</h1>
+    <p class="license-lead">Business, investment, development and paid client work require a written agreement with Dr. Ian Helfrich before using this tool commercially.</p>
+    <div class="license-tariff"><strong>Base license fee <span>+</span> percentage of sales</strong><p>The agreement specifies the fee, royalty rate, covered sales and reporting period. These amounts have not been set in the public terms.</p></div>
+    <p>Personal, educational and community research without a commercial purpose may use the hosted tool without a fee. Dr. Helfrich’s own use is exempt from both charges.</p>
+    <p>Public records and third-party software keep their own terms. The commercial requirement covers use of this tool; it does not make public facts proprietary.</p>
+    <nav aria-label="Licensing actions"><a class="license-action" href="/contact/">Request a commercial agreement ↗</a><a href="/st-louis/?area=region">Return to the map</a></nav>
+    <details><summary>Read the complete component license</summary><pre>{licenseText}</pre><a href="/st-louis/LICENSE.txt" download>Download license text</a></details>
+  </article>
+</Base>
+<style>
+.property-license{max-width:800px;margin:0 auto;padding:clamp(40px,7vw,90px) 24px}.property-license h1{font-size:clamp(36px,5vw,64px);line-height:1.08;max-width:15ch}.license-lead{font-size:1.2rem;line-height:1.65}.license-tariff{border-block:1px solid var(--border);padding:24px 0;margin:28px 0}.license-tariff strong{font-size:1.4rem}.license-tariff span{padding:0 12px}.property-license p{line-height:1.7}.property-license nav{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:32px 0}.license-action{padding:13px 17px;border:1px solid currentColor}.property-license details{border-top:1px solid var(--border);padding-top:20px}.property-license summary{cursor:pointer}.property-license pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.7 monospace;margin:24px 0}
+</style>

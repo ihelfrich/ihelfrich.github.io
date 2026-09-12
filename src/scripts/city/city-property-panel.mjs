@@ -1,5 +1,8 @@
 import {createCountyRecordsPanel} from './city-county-records-panel.mjs';
 import {createCountyPanel} from './city-county-panel.mjs';
+import {createPropertyRegionPanel} from './city-property-region-panel.mjs';
+import {propertyRegionData} from '../../lib/property-region-data.mjs';
+import {createPropertyActivityPanel} from './city-property-activity-panel.mjs';
 import {searchRegionalAddresses} from '../../lib/city-regional-search.mjs';
 import {createPropertyLookup} from '../../lib/city-property-context.mjs';
 import {loadPublicListings} from '../../lib/city-public-listings.mjs';
@@ -9,6 +12,7 @@ const ORIGIN=[-90.193,38.628], METRES=111195, X_SCALE=METRES*Math.cos(ORIGIN[1]*
 const validPoint=p=>p&&Number.isFinite(p.longitude)&&Number.isFinite(p.latitude)&&Math.abs(p.longitude)<=180&&Math.abs(p.latitude)<=90;
 const usd=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
 const date=value=>value!=null&&value!==''&&Number.isFinite(Date.parse(value))?new Date(value).toISOString():'Unknown';
+const regionalTransfer=r=>({recordKey:r.recordKey,parcelId:r.parcelId,jurisdiction:r.jurisdiction,dateISO:r.latestSaleDateISO||null,dateRaw:r.latestSaleDateRaw||null,dateCenturyInferred:r.latestSaleDateCenturyInferred??null,priceUSD:r.latestSalePriceUSD??null,reportedPriceUSD:r.latestSaleReportedPriceUSD??null,priceStatus:r.latestSalePriceStatus||null,validityCode:r.latestSaleValidityCode||null,marketValidityCode:r.latestSaleMarketValidityCode||null,sourceId:r.latestSaleSourceId||(r.jurisdiction==='st-louis-county'?'stlco-real-billing-2025-sales':'City regional transfer snapshot'),manifestUrl:`/st-louis/regions/${r.jurisdiction}/manifest.json`});
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
@@ -20,8 +24,9 @@ export function createPropertyPanel(root,{
     <div class="property-sticky">
     <div class="property-workspace-tools"><span>Property workspace</span><button type="button" id="property-expand" class="text-button" aria-pressed="false">Expand workspace</button></div>
     <div class="property-tabs" role="tablist" aria-label="Property workspace">
+      <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Map</button>
+      <button type="button" id="property-tab-activity" data-property-tab="activity" role="tab" aria-controls="property-panel-activity" aria-selected="false" tabindex="-1">Activity</button>
       <button type="button" id="property-tab-resident" data-property-tab="resident" role="tab" aria-controls="property-panel-resident" aria-selected="false" tabindex="-1">Notebook</button>
-      <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Find &amp; inspect</button>
       <button type="button" id="property-tab-site" data-property-tab="site" role="tab" aria-controls="property-panel-site" aria-selected="false" tabindex="-1">Site</button>
       <button type="button" id="property-tab-inventory" data-property-tab="inventory" role="tab" aria-controls="property-panel-inventory" aria-selected="false" tabindex="-1">Inventory</button>
       <button type="button" id="property-tab-scenario" data-property-tab="scenario" role="tab" aria-controls="property-panel-scenario" aria-selected="false" tabindex="-1">Pro forma</button>
@@ -30,14 +35,16 @@ export function createPropertyPanel(root,{
     <div id="property-context" class="property-context" hidden><div><strong id="property-context-address"></strong><small id="property-context-id"></small></div><button type="button" id="property-context-results" class="text-button" hidden>Back to results</button><button type="button" id="property-context-save" class="secondary-button">Save to notebook</button></div>
     </div>
     <div id="property-panel-resident" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-resident" tabindex="0" hidden></div>
+    <div id="property-panel-activity" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-activity" tabindex="0" hidden></div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
-      <div id="county-parcel-browser"></div>
-      <details id="property-regional-search" class="property-regional-search" open><summary>Search anywhere in City or County</summary><div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
+      <div id="property-region-browser"></div>
+      <details id="property-regional-search" class="property-regional-search"><summary>Find an address anywhere in City or County</summary><div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
       <p class="small-note">Search across St. Louis City and County. Results distinguish City parcel records from County address locations.</p>
       <p id="property-search-status" class="small-note" role="status">Enter at least 3 characters to search.</p>
       <div id="property-search-results" class="estate-list"></div>
       </details>
       <div id="property-evidence" aria-live="polite"></div>
+      <details id="property-study-areas" class="property-source-details"><summary>Saved study areas · Overland &amp; Page / I-170</summary><div id="county-parcel-browser"></div></details>
     </div>
     <div id="property-panel-inventory" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-inventory" tabindex="0" hidden>
     <section class="estate-source property-public-inventory" aria-labelledby="property-public-title">
@@ -61,14 +68,18 @@ export function createPropertyPanel(root,{
   if(imported)$('panel-inventory').append(imported);
   if(scenario)$('panel-scenario').append(scenario);
   const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{$('regional-search').open=false;$('context-results').hidden=false;const point=scope==='overland'?[-90.369,38.699]:scope==='page-i170'?[-90.35418,38.686435]:[-90.362,38.693];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':scope==='page-i170'?'PAGE AVENUE / I-170':'OVERLAND + PAGE / I-170'});}});
-  $('context-results').addEventListener('click',()=>{selectTab('evidence');countyBrowser.focusResults();});
-  const tabNames=['resident','evidence','site','inventory','scenario','develop'];
+  let activityBrowser=null;
+  const regionBrowser=createPropertyRegionPanel(section.querySelector('#property-region-browser'),{getCity,onSelect:point=>{$('context-results').hidden=false;void inspectPoint(point);},onLocate:onAreaLocate,onView:view=>activityBrowser?.setViewport(view.bounds,view.level),onActivitySelect:feature=>{selectTab('activity');activityBrowser?.openFeature(feature);}});
+  activityBrowser=createPropertyActivityPanel($('panel-activity'),{onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point);},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
+  $('context-results').addEventListener('click',()=>{selectTab('evidence');regionBrowser.focusResults();});
+  const tabNames=['evidence','activity','resident','site','inventory','scenario','develop'];
   function selectTab(name) {
     if(!tabNames.includes(name))return false;
     for(const key of tabNames) {
       const active=key===name,tab=$('tab-'+key);
       tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;$('panel-'+key).hidden=!active;
     }
+    if(name==='activity')activityBrowser?.activate();
     section.scrollIntoView?.({block:'start',behavior:'auto'});
     return true;
   }
@@ -129,13 +140,16 @@ export function createPropertyPanel(root,{
     }
     if(p?.jurisdiction!=='st-louis-county')paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
     const isCounty=p?.jurisdiction==='st-louis-county';
-    if(isCounty){const holder=element('div');body.append(holder);recordsPanel=recordsPanelFactory(holder,{parcel:p,source:parcels.source,onTaxEvidence,onScenario:()=>{selectTab('scenario');root.querySelector('#pf-purchasePrice')?.focus();}});}
+    if(isCounty&&p.parcelId){const holder=element('div');body.append(holder);recordsPanel=recordsPanelFactory(holder,{parcel:p,source:parcels.source,regionalTransfer:evidence.point?.atlasTransfer,onTaxEvidence,onScenario:()=>{selectTab('scenario');root.querySelector('#pf-purchasePrice')?.focus();}});}
+    else if(isCounty){body.append(element('h3',p.address||'County source record'));paragraph(body,'This GIS record has no County locator. Tax and transfer records cannot be joined to it. Its source object ID and boundary remain available below.');}
+    if(evidence.point?.atlasTransfer){const transfer=evidence.point.atlasTransfer;const latest=element('section',undefined,'property-fact-card');latest.append(element('h4','Latest transfer in the regional snapshot'),element('strong',Number.isFinite(transfer.priceUSD)?usd.format(transfer.priceUSD):'Amount unknown or unusable'));paragraph(latest,`Recorded date: ${transfer.dateISO||'Not supplied'}. Price status: ${transfer.priceStatus||'Not supplied'}. This record is not necessarily an open-market sale.`);if(transfer.validityCode)paragraph(latest,`Source validity code: ${transfer.validityCode}${transfer.marketValidityCode?' · market validity code: '+transfer.marketValidityCode:''}.`);paragraph(latest,`Source: ${transfer.sourceId||'Jurisdiction transfer snapshot'}. See the regional dataset manifest for source dates and interpretation.`);body.append(latest);}
     const action=element('button','Build pro forma','primary-button wide');action.type='button';
     action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});if(!isCounty)body.append(action);
     const residentAction=element('button','Save to property notebook','secondary-button wide');residentAction.type='button';residentAction.disabled=!p?.recordKey;residentAction.addEventListener('click',()=>{selectTab('resident');onNotebook();});body.append(residentAction);
     const facts=element('div',undefined,'property-facts'),assessment=element('section',undefined,'property-fact-card'),zoning=element('section',undefined,'property-fact-card');
     assessment.append(element('h4','Assessment'),element('strong',Number.isFinite(p?.assessedValueUSD)?usd.format(p.assessedValueUSD):'Unknown'));
     paragraph(assessment,`Assessment year: ${p?.assessmentYear??'Unknown'}`);
+    if(parcels.assessmentSource)sourceInfo(assessment,parcels.assessmentSource,'Assessed value source');
     paragraph(assessment,`Lot area: ${Number.isFinite(p?.areaSqFt)?`${p.areaSqFt.toLocaleString()} sq ft`:'Unknown'}`);
     if(p?.jurisdiction==='st-louis-county'){paragraph(assessment,`Living area: ${p.livingAreaSqFt?.toLocaleString()||'Unknown'} sq ft. Year built: ${p.yearBuilt||'Unknown'}. Dwelling units: ${p.dwellingUnits??'Unknown'}.`);paragraph(assessment,`County study snapshot · source edited ${parcels.source?.sourceDataEditedAt?.slice(0,10)||'Unknown'}. Building attributes may have changed.`);}
     paragraph(assessment,'Assessed value is not an asking price or a verified market value.');
@@ -161,7 +175,7 @@ export function createPropertyPanel(root,{
       paragraph(body,parcels.reason==='requested-source-unresolved'
         ?'The supplied source parcel was not resolved at this coordinate. A public inventory centroid can fall outside its parcel; search the address or choose an exact matching source record.'
         :parcels.ambiguous?'Several source records intersect this point. Choose the exact record before treating it as a selected parcel.'
-        :parcels.status==='unsupported'?'This point is outside the connected City and Overland / Page-I-170 parcel snapshots.'
+        :parcels.status==='unsupported'?'This point is outside the connected St. Louis City and County jurisdiction coverage.'
         :parcels.status==='not-found'?'No source parcel was resolved here; parcel identity and ownership remain unknown.'
         :'Parcel evidence is unavailable or unknown for this location.');
       for(const candidate of parcels.candidates||[]) {
@@ -191,6 +205,9 @@ export function createPropertyPanel(root,{
     if(!validPoint(input)){notice('A valid map coordinate is required for property evidence.');return null}
     const point={longitude:input.longitude,latitude:input.latitude};
     for(const key of ['recordKey','parcelKey','parcelId','address','municipality','mailingCity','postalCode','jurisdiction','resultKind','sourceAddressId','sourceRecordUpdatedAt','sourceRecordPublishedAt'])if(typeof input[key]==='string')point[key]=input[key];
+    if(Number.isSafeInteger(input.sourceObjectId))point.sourceObjectId=input.sourceObjectId;
+    if(input.kind==='parcel'&&input.jurisdiction==='st-louis-city'&&input.assessmentSource&&Number.isFinite(Date.parse(input.assessmentSource.retrievedAt)))point.atlasAssessment={recordKey:input.recordKey,valueUSD:input.assessedValueUSD,source:{...input.assessmentSource}};
+    if(input.kind==='parcel')point.atlasTransfer=regionalTransfer(input);
     if(input.source&&typeof input.source==='object')point.addressSource={...input.source};
     else if(input.addressSource&&typeof input.addressSource==='object')point.addressSource={...input.addressSource};
     if(Number.isFinite(input.height))point.height=input.height;
@@ -200,11 +217,18 @@ export function createPropertyPanel(root,{
     $('evidence').replaceChildren();paragraph($('evidence'),'Loading official parcel, zoning and public inventory evidence…');
     try {
       let result=await lookup(point,{signal:request.signal});if(serial!==generation||request.signal.aborted)return null;
+      if(!providedLookup&&result.parcels?.parcel){
+        try{const record=await propertyRegionData.findRecord(result.parcels.parcel,{signal:request.signal});if(serial!==generation||request.signal.aborted)return null;if(record){
+          point.atlasTransfer=regionalTransfer(record);
+          if(record.jurisdiction==='st-louis-city')point.atlasAssessment={recordKey:record.recordKey,valueUSD:record.assessedValueUSD,source:record.assessmentSource};
+        }}catch{ /* Current parcel evidence survives a regional snapshot outage. */ }
+      }
       const requested=result.parcels?.parcel?.properties;
       if(requested&&!pointIdentityMatches(requested,point)) {
         result={...result,parcels:{...result.parcels,parcel:null,candidates:(result.parcels.candidates||[]).filter(c=>pointIdentityMatches(c.properties,point)),reason:'requested-source-unresolved'},inventory:{status:'unresolved',listings:[],reason:'The supplied inventory parcel is unresolved at this coordinate.'}};
       }
       result={...result,point:{...point}};
+      if(point.atlasAssessment&&result.parcels?.parcel?.properties.recordKey===point.atlasAssessment.recordKey){const a=point.atlasAssessment;result={...result,parcels:{...result.parcels,assessmentSource:a.source,parcel:{...result.parcels.parcel,properties:{...result.parcels.parcel.properties,assessedValueUSD:a.valueUSD??null,assessmentYear:null}}}};}
       if(estate.setPropertyEvidence(result)===false){clearSelection();return null}
       selectedParcel=result.parcels?.parcel||null;getCity()?.setParcel?.(selectedParcel);renderEvidence(result);onEvidence({...result,inventorySnapshot:cachedInventory});return result;
     } catch {
@@ -284,5 +308,5 @@ export function createPropertyPanel(root,{
   $('public-clear').addEventListener('click',()=>{inventoryGeneration++;overlayEnabled=false;onPublicMarkers([],choosePublic);$('public-clear').disabled=true;$('public-map').disabled=false;$('public-load').disabled=false;if(inventorySnapshot)renderInventory();else $('public-status').textContent='Public markers are hidden. Load inventory to update the list.'});
   $('public-query').addEventListener('input',renderInventory);$('public-radius').addEventListener('change',renderInventory);
   clearSelection();
-  return {inspectPoint,clearSelection,selectTab,focusSearch,searchAddress,openCounty(scope){onOpen();selectTab('evidence');return countyBrowser.start(scope)},refreshMarkers(){getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
+  return {inspectPoint,clearSelection,selectTab,focusSearch,searchAddress,setMapActive:active=>regionBrowser.activate(active),openRegion(){onOpen();selectTab('evidence');return regionBrowser.start();},openCounty(scope){onOpen();selectTab('evidence');$('study-areas').open=true;return countyBrowser.start(scope)},refreshMarkers(){regionBrowser.refresh();getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
 }

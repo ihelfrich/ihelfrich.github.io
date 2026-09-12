@@ -298,6 +298,7 @@ function setMode(next) {
     live: "THE REGION, RIGHT NOW",
   }[next];
   $("explorer").classList.toggle("estate-open", next === "properties");
+  property?.setMapActive?.(next==='properties');
   if (!panelOpen) togglePanel();
   if (next === "compare") compare();
   else city?.clearRoutes();
@@ -1014,6 +1015,7 @@ async function start() {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await openScene();
     if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
+    else if(!saved){setMode('properties');void property.openRegion();}
     const workspaceUrl=new URL(location.href);
     if(workspaceUrl.searchParams.get('workspace')==='notebook'||workspaceUrl.searchParams.get('purpose')==='resident'){setMode('properties');property.selectTab('resident');if(workspaceUrl.searchParams.get('purpose')==='resident'){workspaceUrl.searchParams.delete('purpose');workspaceUrl.searchParams.set('workspace','notebook');history.replaceState(history.state,'',workspaceUrl);}}
   } catch (error) {

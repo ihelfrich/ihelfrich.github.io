@@ -94,6 +94,10 @@ test('workspace keyboard navigation and scenario action preserve selected eviden
  const f=fixture(t,{withEstate:true}),input=f.root.querySelector('#estate-purchasePrice');
  const evidenceTab=f.$('tab-evidence');evidenceTab.focus();
  evidenceTab.dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-activity').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-activity'));
+ f.$('tab-activity').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-resident').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-resident'));
+ f.$('tab-resident').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
  assert.equal(f.$('panel-site').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-site'));
  f.$('tab-site').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
  assert.equal(f.$('panel-inventory').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-inventory'));assert.equal(evidenceTab.tabIndex,-1);
