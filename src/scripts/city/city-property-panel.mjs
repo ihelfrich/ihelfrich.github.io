@@ -11,18 +11,22 @@ const date=value=>value!=null&&value!==''&&Number.isFinite(Date.parse(value))?ne
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
-  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},
+  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},
   search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
   section.innerHTML=`
+    <div class="property-sticky">
+    <div class="property-workspace-tools"><span>Property workspace</span><button type="button" id="property-expand" class="text-button" aria-pressed="false">Expand workspace</button></div>
     <div class="property-tabs" role="tablist" aria-label="Property workspace">
-      <button type="button" id="property-tab-resident" data-property-tab="resident" role="tab" aria-controls="property-panel-resident" aria-selected="false" tabindex="-1">Resident watch</button>
-      <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Evidence</button>
+      <button type="button" id="property-tab-resident" data-property-tab="resident" role="tab" aria-controls="property-panel-resident" aria-selected="false" tabindex="-1">Notebook</button>
+      <button type="button" id="property-tab-evidence" data-property-tab="evidence" role="tab" aria-controls="property-panel-evidence" aria-selected="true">Find &amp; inspect</button>
       <button type="button" id="property-tab-site" data-property-tab="site" role="tab" aria-controls="property-panel-site" aria-selected="false" tabindex="-1">Site</button>
       <button type="button" id="property-tab-inventory" data-property-tab="inventory" role="tab" aria-controls="property-panel-inventory" aria-selected="false" tabindex="-1">Inventory</button>
       <button type="button" id="property-tab-scenario" data-property-tab="scenario" role="tab" aria-controls="property-panel-scenario" aria-selected="false" tabindex="-1">Pro forma</button>
       <button type="button" id="property-tab-develop" data-property-tab="develop" role="tab" aria-controls="property-panel-develop" aria-selected="false" tabindex="-1">Develop</button>
+    </div>
+    <div id="property-context" class="property-context" hidden><div><strong id="property-context-address"></strong><small id="property-context-id"></small></div><button type="button" id="property-context-save" class="secondary-button">Save to notebook</button></div>
     </div>
     <div id="property-panel-resident" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-resident" tabindex="0" hidden></div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
@@ -49,6 +53,8 @@ export function createPropertyPanel(root,{
     <div id="property-panel-site" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-site" tabindex="0" hidden></div>`;
   const intro=root.querySelector('.panel-intro');if(intro)intro.after(section);else root.prepend(section);
   const $=id=>section.querySelector('#property-'+id);
+  $('expand').addEventListener('click',()=>{const wide=doc.body.classList.toggle('property-wide');$('expand').setAttribute('aria-pressed',String(wide));$('expand').textContent=wide?'Compact workspace':'Expand workspace';});
+  $('context-save').addEventListener('click',()=>{selectTab('resident');onNotebook();});
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
   if(imported)$('panel-inventory').append(imported);
   if(scenario)$('panel-scenario').append(scenario);
@@ -93,7 +99,7 @@ export function createPropertyPanel(root,{
   let generation=0,controller=null,selectedParcel=null,searchGeneration=0,searchTimer=null,searchController=null;
   let inventoryGeneration=0,inventorySnapshot=null,overlayEnabled=false;
   function clearSelection() {
-    generation++;controller?.abort();controller=null;selectedParcel=null;
+    generation++;controller?.abort();controller=null;selectedParcel=null;$('context').hidden=true;
     getCity()?.setParcel?.(null);$('evidence').replaceChildren();
     onEvidence(null);
     paragraph($('evidence'),'No parcel selected. Search an address or select a location to inspect official evidence.');
@@ -106,6 +112,7 @@ export function createPropertyPanel(root,{
   function renderEvidence(evidence) {
     const body=$('evidence');body.replaceChildren();
     const parcels=evidence.parcels||{},p=parcels.parcel?.properties,z=evidence.zoning||{},sale=evidence.inventory||{};
+    $('context').hidden=!p?.recordKey;$('context-address').textContent=p?.address||'Selected parcel';$('context-id').textContent=p?`Map selection · parcel ${p.parcelId} · ${p.assessmentYear??'Unknown'} assessment year`:'';
     body.append(element('span',p?'OFFICIAL PARCEL':evidence.point?.resultKind==='address'?'COUNTY ADDRESS LOCATION':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||evidence.point?.address||'Selected location'));
     if(evidence.point?.resultKind==='address'&&!p) {
       paragraph(body,[evidence.point.municipality,evidence.point.postalCode,'St. Louis County'].filter(Boolean).join(' · '));
@@ -119,7 +126,7 @@ export function createPropertyPanel(root,{
     paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
     const action=element('button','Build pro forma','primary-button wide');action.type='button';
     action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});body.append(action);
-    const residentAction=element('button','Track this parcel for residents','secondary-button wide');residentAction.type='button';residentAction.addEventListener('click',()=>selectTab('resident'));body.append(residentAction);
+    const residentAction=element('button','Save to property notebook','secondary-button wide');residentAction.type='button';residentAction.disabled=!p?.recordKey;residentAction.addEventListener('click',()=>{selectTab('resident');onNotebook();});body.append(residentAction);
     const facts=element('div',undefined,'property-facts'),assessment=element('section',undefined,'property-fact-card'),zoning=element('section',undefined,'property-fact-card');
     assessment.append(element('h4','Assessment'),element('strong',Number.isFinite(p?.assessedValueUSD)?usd.format(p.assessedValueUSD):'Unknown'));
     paragraph(assessment,`Assessment year: ${p?.assessmentYear??'Unknown'}`);
@@ -180,7 +187,7 @@ export function createPropertyPanel(root,{
     if(Number.isFinite(input.height))point.height=input.height;
     // Estate reset can synchronously call clearSelection; establish our request afterward.
     estate.selectPoint(point);const serial=++generation;controller?.abort();const request=new AbortController();controller=request;
-    selectedParcel=null;getCity()?.setParcel?.(null);onOpen();selectTab('evidence');
+    selectedParcel=null;$('context').hidden=true;getCity()?.setParcel?.(null);onOpen();selectTab('evidence');
     $('evidence').replaceChildren();paragraph($('evidence'),'Loading official parcel, zoning and public inventory evidence…');
     try {
       let result=await lookup(point,{signal:request.signal});if(serial!==generation||request.signal.aborted)return null;

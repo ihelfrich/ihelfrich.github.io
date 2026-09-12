@@ -47,7 +47,7 @@ export function createEstatePanel(
     scenarioKind = "manual",
     importGeneration = 0;
   root.innerHTML = `
-    <h2>Neighborhood evidence</h2><p class="panel-intro">Track property changes. Document ownership. Explore housing-preservation options.</p>
+    <h2>Property workspace</h2><p class="panel-intro">Find a parcel. Organize its records. Compare financial scenarios.</p>
     <section id="estate-inventory" aria-label="Imported inventory">
     <div class="estate-source"><span class="eyebrow">YOUR IMPORTED INVENTORY</span><h3 id="estate-feed-label">No imported listings</h3><p>Import a CSV you have permission to use. It stays in this page; nothing is uploaded.</p>
     <div class="button-row"><label class="primary-button upload-button">Import your CSV<input id="estate-file" type="file" accept=".csv,text/csv" /></label><a class="secondary-button" href="/st-louis/listing-import-template.csv" download>Download CSV template ↓</a></div>

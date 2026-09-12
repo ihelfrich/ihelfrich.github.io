@@ -63,6 +63,7 @@ property = createPropertyPanel($("properties-panel"), {
       showSceneLocation({longitude:p.x/(111195*Math.cos(38.628*Math.PI/180))-90.193,latitude:38.628-p.z/111195},"MAP CENTER");
     }
   },
+  onNotebook:()=>resident?.addEvidence(),
   onInventory:snapshot=>{if(selectedEvidence){selectedEvidence={...selectedEvidence,inventorySnapshot:snapshot};spatial?.setEvidence(selectedEvidence)}},
   onPublicMarkers:(records,select)=>{publicMarkers=records;selectPublicMarker=select;syncPropertyMarkers();},
 });
@@ -70,7 +71,7 @@ const scenarioRoot=$("property-panel-scenario"),quickScenario=scenarioRoot.query
 const underwritingRoot=document.createElement('div');underwritingRoot.id='property-proforma';scenarioRoot.prepend(underwritingRoot);
 if(quickScenario){const quick=document.createElement('details');quick.className='pf-quick-check';quick.innerHTML='<summary>Quick one-year calculator &amp; development inputs</summary>';quick.append(quickScenario);scenarioRoot.append(quick);}
 proforma=createProFormaPanel(underwritingRoot,{onChange:()=>resident?.invalidateScenario()});
-resident=createResidentPanel($("property-panel-resident"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario(),onLocate:point=>{void property.inspectPoint(point);locateMapPoint({...point,label:point.address})}});
+resident=createResidentPanel($("property-panel-resident"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario(),onFind:()=>property.focusSearch(),onArea:scope=>void property.openCounty(scope),onScenario:()=>property.selectTab('scenario'),onLocate:point=>{void property.inspectPoint(point);locateMapPoint({...point,label:point.address})}});
 const developRoot=$("property-panel-develop");
 developRoot.innerHTML='<div id="spatial-workspace"></div><details class="height-study-section"><summary>Visualize a parcel height study</summary><div id="height-study-workspace"></div></details><div id="development-workspace"></div>';
 development=createDevelopmentPanel($("development-workspace"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario()||estate.getScenario(),notice});
@@ -1012,7 +1013,8 @@ async function start() {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await openScene();
     if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
-    if(new URLSearchParams(location.search).get('purpose')==='resident'){setMode('properties');property.selectTab('resident');}
+    const workspaceUrl=new URL(location.href);
+    if(workspaceUrl.searchParams.get('workspace')==='notebook'||workspaceUrl.searchParams.get('purpose')==='resident'){setMode('properties');property.selectTab('resident');if(workspaceUrl.searchParams.get('purpose')==='resident'){workspaceUrl.searchParams.delete('purpose');workspaceUrl.searchParams.set('workspace','notebook');history.replaceState(history.state,'',workspaceUrl);}}
   } catch (error) {
     console.error("City data:", error);
     showFallback(

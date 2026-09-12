@@ -135,3 +135,12 @@ test('partial search preserves usable matches and cancelled requests cannot over
  assert.match(f.$('search-results').textContent,/Usable City result/);assert.match(f.$('search-status').textContent,/County search is unavailable; coverage is partial/);
  f.type('search','ab');assert.equal(pending[1].signal.aborted,true);assert.match(f.$('search-status').textContent,/3 characters/);
 });
+
+test('selected property context persists across tabs and supports one-click notebook saving',async t=>{
+ let saved=0;const f=fixture(t,{onNotebook:()=>saved++});await f.panel.inspectPoint(point);
+ assert.equal(f.$('context').hidden,false);assert.match(f.$('context-address').textContent,/Fixture Place/);
+ f.panel.selectTab('site');assert.equal(f.$('context').hidden,false);f.$('context-save').click();assert.equal(saved,1);assert.equal(f.$('panel-resident').hidden,false);
+ f.$('expand').click();assert.equal(f.window.document.body.classList.contains('property-wide'),true);assert.equal(f.$('expand').getAttribute('aria-pressed'),'true');
+ f.$('expand').click();assert.equal(f.window.document.body.classList.contains('property-wide'),false);
+ f.panel.clearSelection();assert.equal(f.$('context').hidden,true);
+});

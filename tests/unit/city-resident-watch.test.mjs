@@ -18,3 +18,47 @@ test('selected parcels save locally with no invented owners and render without H
 test('failed storage cannot claim a saved watchlist case',()=>{const w=new Window(),root=w.document.createElement('div');const p=createResidentPanel(root,{storage:()=>({getItem:()=>null,setItem:()=>{throw Error('Storage blocked');}})});p.setEvidence({parcels:{parcel:{properties:{recordKey:'a',parcelId:'a',address:'A'}},source:{url:'https://example.org'}}});root.querySelector('[data-rw-add]').click();assert.equal(p.getNotebook().properties.length,0);assert.match(root.querySelector('[data-rw-status]').textContent,/Storage blocked/);});
 test('superseded acquisition records are retained but excluded from organization connections',()=>{const a=event({registrationId:'MO:OLD',registryUrl:'https://example.org/old',superseded:true,replacedBy:'b'}),b=event({id:'b',registrationId:'MO:NEW',registryUrl:'https://example.org/new'});const n=notebook([property('one',[a,b])]),s=summarizeNotebook(n,{asOf:'2026-09-11'});assert.equal(n.properties[0].events.length,2);assert.equal(s.acquisitionRecords,1);assert.equal(s.groups[0].registrationId,'MO:NEW');});
 test('case corrections preserve the original source record and append a new version',()=>{const f=ui();f.p.setEvidence({parcels:{parcel:{properties:{recordKey:'a',parcelId:'a',address:'A'}},source:{url:'https://example.org'}}});f.q('add').click();const form=f.q('form'),fill=patch=>Object.entries(patch).forEach(([k,v])=>form.elements.namedItem(k).value=v),submit=()=>form.dispatchEvent(new f.w.Event('submit',{bubbles:true,cancelable:true}));fill({type:'planning',date:'2026-08-25',title:'Original title',sourceUrl:'https://example.org/agenda',summary:'Agenda only.'});submit();assert.equal(f.p.getNotebook().properties[0].events.length,1);f.root.querySelector('[data-rw-edit]').click();fill({title:'Corrected title',summary:'Outcome remains unknown.'});submit();const events=f.p.getNotebook().properties[0].events;assert.equal(events.length,2);assert.equal(events[0].superseded,true);assert.equal(events[0].replacedBy,events[1].id);assert.equal(events[1].title,'Corrected title');assert.equal(events[1].superseded,false);});
+
+test('existing notebooks restore into searchable lists without changing stored records',()=>{
+ const w=new Window(),root=w.document.createElement('div');w.document.body.append(root);
+ const original=notebook([property('100 Page',[event({organization:'Example Holdings'})]),property('200 Woodson',[event({type:'planning',title:'Site plan'})]),property('300 Lackland')]);
+ let stored=JSON.stringify(original);const p=createResidentPanel(root,{storage:()=>({getItem:()=>stored,setItem:(_,v)=>stored=v})}),q=s=>root.querySelector(`[data-rw-${s}]`);
+ assert.equal(root.querySelectorAll('[data-rw-choose]').length,3);
+ q('search').value='holdings';q('search').dispatchEvent(new w.Event('input'));
+ assert.equal(root.querySelectorAll('[data-rw-choose]').length,1);assert.match(q('list').textContent,/100 Page/);
+ q('search').value='';q('search').dispatchEvent(new w.Event('input'));q('filter').value='empty';q('filter').dispatchEvent(new w.Event('change'));
+ assert.match(q('list').textContent,/300 Lackland/);assert.equal(root.querySelectorAll('[data-rw-choose]').length,1);
+ assert.deepEqual(p.getNotebook(),original);assert.deepEqual(JSON.parse(stored),original);
+ assert.doesNotMatch(root.textContent,/private.equity|resident workspace|displacement|preservation|Keep neighborhoods/i);
+});
+test('switching notebook properties retains unsaved drafts and correction targets',()=>{
+ const f=ui(),pick=id=>f.p.setEvidence({parcels:{parcel:{properties:{recordKey:id,parcelId:id,address:id}},source:{url:'https://example.org'}}});
+ pick('first');f.p.addEvidence();const form=f.q('form');form.elements.namedItem('title').value='Unfinished first record';form.closest('details').open=true;
+ pick('second');f.p.addEvidence();assert.equal(form.elements.namedItem('title').value,'');form.elements.namedItem('title').value='Second draft';
+ f.root.querySelector('[data-rw-choose="first"]').click();assert.equal(form.elements.namedItem('title').value,'Unfinished first record');assert.equal(form.closest('details').open,true);
+ f.root.querySelector('[data-rw-choose="second"]').click();assert.equal(form.elements.namedItem('title').value,'Second draft');assert.equal(f.p.getNotebook().properties.every(p=>p.events.length===0),true);
+});
+test('record filters do not delete evidence and cancelling a correction retains the original',()=>{
+ const f=ui();f.p.setEvidence({parcels:{parcel:{properties:{recordKey:'a',parcelId:'a',address:'A'}},source:{url:'https://example.org'}}});f.p.addEvidence();
+ const form=f.q('form');for(const [k,v]of Object.entries({type:'planning',date:'2026-08-25',title:'Source agenda',sourceUrl:'https://example.org/agenda'}))form.elements.namedItem(k).value=v;
+ form.dispatchEvent(new f.w.Event('submit',{bubbles:true,cancelable:true}));f.q('event-filter').value='transfer';f.q('event-filter').dispatchEvent(new f.w.Event('change'));
+ assert.match(f.q('timeline').textContent,/No records of this type/);assert.equal(f.p.getNotebook().properties[0].events.length,1);
+ f.q('event-filter').value='all';f.q('event-filter').dispatchEvent(new f.w.Event('change'));f.root.querySelector('[data-rw-edit]').click();form.elements.namedItem('title').value='Uncommitted correction';f.q('cancel-edit').click();
+ assert.equal(f.p.getNotebook().properties[0].events[0].title,'Source agenda');assert.equal(f.p.getNotebook().properties[0].events[0].superseded,false);
+ f.p.addEvidence();assert.equal(f.p.getNotebook().properties.length,1);assert.equal(f.p.getNotebook().properties[0].events.length,1);
+});
+test('notebook shortcuts route to connected tools and absent coordinates disable View parcel',()=>{
+ const w=new Window(),root=w.document.createElement('div'),actions=[];
+ const p=createResidentPanel(root,{onFind:()=>actions.push('find'),onArea:s=>actions.push(s),onScenario:()=>actions.push('scenario'),storage:()=>({getItem:()=>null,setItem(){}})});
+ for(const selector of ['[data-rw-find]','[data-rw-area="overland"]','[data-rw-area="page-i170"]','[data-rw-scenario]'])root.querySelector(selector).click();
+ assert.deepEqual(actions,['find','overland','page-i170','scenario']);
+ p.setEvidence({parcels:{parcel:{properties:{recordKey:'a',parcelId:'a',address:'A'}},source:{url:'https://example.org'}}});p.addEvidence();assert.equal(root.querySelector('[data-rw-locate]').disabled,true);
+});
+test('keyboard selection transfers focus to the selected case instead of the removed list row',()=>{
+ const f=ui();for(const id of ['a','b']){f.p.setEvidence({parcels:{parcel:{properties:{recordKey:id,parcelId:id,address:id}},source:{url:'https://example.org'}}});f.p.addEvidence();}
+ const button=f.root.querySelector('[data-rw-choose="a"]');button.focus();button.click();assert.equal(f.w.document.activeElement,f.q('case-title'));assert.equal(f.q('case-title').textContent,'a');
+});
+test('rent comparison displays both baselines and clears stale outputs when assumptions change',()=>{
+ const w=new Window(),root=w.document.createElement('div'),assumptions=illustrativeProForma();const p=createResidentPanel(root,{getScenario:()=>({assumptions,name:'Illustrative fixture'}),storage:()=>({getItem:()=>null,setItem(){}})});
+ root.querySelector('[data-rw-rent]').value='1500';root.querySelector('[data-rw-preserve]').click();const output=root.querySelector('[data-rw-preservation]');assert.match(output.textContent,/Current.*Target rent.*Change/s);assert.match(output.textContent,/\$1,500/);assert.equal(output.querySelectorAll('tbody tr').length,4);p.invalidateScenario();assert.equal(output.textContent,'');
+});
