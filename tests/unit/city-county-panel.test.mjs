@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Window} from 'happy-dom';
+import {readFile} from 'node:fs/promises';
 import {createCountyPanel} from '../../src/scripts/city/city-county-panel.mjs';
 
 const viewKey = 'st-louis-parcel-views-v1';
@@ -250,4 +251,23 @@ test('removing the last comparison pin returns keyboard focus to the visible par
   const remove = f.root.querySelector('[data-county-remove="fixture-record-1"]');remove.focus();remove.click();
   assert.equal(f.panel.getComparison().length, 0);assert.equal(f.q('comparison').hidden, true);
   assert.equal(f.window.document.activeElement, f.q('query'));
+});
+
+test('real current County metadata renders unknown edit dates and source tax years without conflating valuation dates', async t => {
+  const json=async path=>JSON.parse(await readFile(new URL('../../public'+path,import.meta.url),'utf8'));
+  const manifest=await json('/st-louis/county-current/manifest.json'),index=await json(manifest.indexUrl);
+  const f=fixture(t,{load:async()=>({manifest,records:index.records,source:index.source})});
+  const exports=captureDownloads(t,f);
+  assert.equal(index.source.sourceDataEditedAt,null);assert.equal(index.source.assessmentYears,undefined);
+  await f.panel.start('overland');
+  assert.equal(f.q('controls').hidden,false);assert.equal(f.keys().length,20);assert.equal(f.q('export').disabled,false);
+  assert.doesNotMatch(f.q('status').textContent,/could not load/);
+  assert.match(f.root.querySelector('.parcel-source-line').textContent,/Source tax roll: 2026, unknown/);
+  assert.match(f.q('source').textContent,/Source edited unknown/);assert.match(f.q('source').textContent,/Tax-roll year does not establish a valuation date/);
+  const record=index.records.find(r=>r.taxYear===2026&&r.scope.includes('overland')&&r.dwellingUnits>0);
+  f.set('query',record.parcelId);assert.ok(f.keys().includes(record.recordKey));f.inspect(record.recordKey);
+  assert.equal(f.selected.at(-1).recordKey,record.recordKey);assert.equal(f.selected.at(-1).taxYear,2026);assert.equal(f.selected.at(-1).assessmentYear,null);
+  f.pin(record.recordKey);
+  assert.match(f.q('compare-table').textContent,/Source tax year2026/);assert.match(f.q('compare-table').textContent,/Valuation yearUnknown/);assert.match(f.q('compare-table').textContent,/Source edit dateUnknown/);
+  f.q('export').click();const csv=await exports.blobs[0].text();assert.match(csv,/"taxYear","assessmentYear"/);assert.match(csv,/,2026,"",/);
 });

@@ -1,0 +1,37 @@
+/* A property brief first; deeper evidence stays one disclosure away. */
+.county-records{--record-line:#ffffff1f;--record-muted:#b7c5ce;color:#edf3f7;margin:22px 0 16px;font-size:13px;line-height:1.6}
+.cr-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--record-line);padding-top:18px}
+.cr-heading>span{font-size:10px;letter-spacing:.12em;color:#b4cee0;font-weight:600}
+.cr-heading button{font-size:10px;line-height:1.4}
+.county-records [data-cr-summary]{font-size:13px;color:#e0e8ed;margin:14px 0 6px}
+.cr-status{font-size:11px;color:var(--record-muted);margin:0 0 20px}
+.cr-value-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--record-line);border:1px solid var(--record-line);border-radius:7px;overflow:hidden}
+.cr-value-grid article{background:#19242c;padding:17px 13px;min-width:0}
+.county-records small{display:block;font-size:10px;line-height:1.5;color:var(--record-muted)}
+.cr-value-grid strong{display:block;font-size:clamp(20px,2vw,29px);font-weight:500;letter-spacing:-.045em;font-variant-numeric:tabular-nums;margin:6px 0}
+.cr-value-grid p{font-size:10px;margin:0;color:var(--record-muted)}
+.cr-bill{margin:12px 0;padding:19px 17px;background:#a0cff008;border:1px solid #8fbdd342;border-radius:7px}
+.cr-bill strong{display:block;font-size:31px;letter-spacing:-.04em;font-weight:500;margin:4px 0 8px;font-variant-numeric:tabular-nums;color:#d6edff}
+.cr-bill p{font-size:12px;margin:9px 0;color:#c2cfd7}
+.cr-bill small{letter-spacing:.07em;color:#a7c7dd}
+.cr-bill a,.cr-next a,.county-records .cr-detail a{color:#badfff;text-underline-offset:3px;font-size:12px;overflow-wrap:anywhere}
+.cr-missing strong{font-size:19px;letter-spacing:-.02em}
+.cr-next{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;padding:10px 0 20px}
+.cr-next button{font-size:12px;min-height:40px}
+.cr-help,.cr-detail{border-top:1px solid var(--record-line);padding:13px 0}
+.county-records summary{font-size:12px;cursor:pointer;color:#dce7ee;font-weight:500;line-height:1.5}
+.county-records details p,.cr-help li{font-size:12px;color:var(--record-muted);line-height:1.65}
+.cr-help ol{padding-left:21px}.cr-help li+li{margin-top:9px}
+.cr-detail dl{margin:16px 0}.cr-detail dl>div{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:8px 0;border-bottom:1px solid #ffffff0c;font-size:11px}
+.cr-detail dt{color:var(--record-muted)}.cr-detail dd{margin:0;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.cr-table-wrap{overflow:auto;max-width:100%;margin:13px 0;border:1px solid var(--record-line);border-radius:5px;overscroll-behavior:contain}
+.cr-table-wrap table{border-collapse:collapse;white-space:nowrap;width:100%;font-size:11px;font-variant-numeric:tabular-nums}
+.cr-table-wrap th,.cr-table-wrap td{padding:10px;text-align:right;border-bottom:1px solid #ffffff10}
+.cr-table-wrap th:first-child{text-align:left}.cr-table-wrap thead{background:#ffffff07}.cr-table-wrap tbody th{font-weight:400}
+.cr-table-wrap small{font-size:9px}.cr-export{border-top:1px solid var(--record-line);padding-top:14px}.cr-export button{font-size:11px}
+.county-records :is(button,a,summary):focus-visible,.pf-readiness :is(button,summary):focus-visible{outline:2px solid #badfff;outline-offset:4px}
+.pf-readiness{border:1px solid #9bbdd43b;background:#9ecded08;border-radius:7px;padding:15px 14px;margin:18px 0}
+.pf-tax-evidence{padding:16px;border:1px solid #9bbdd43b;border-radius:7px;background:#9ecded05}.pf-tax-evidence>p{font-size:12px;line-height:1.6}.pf-tax-evidence>a{display:inline-block;color:#badfff;font-size:12px;margin-right:16px}.pf-tax-evidence>button{margin-top:8px}
+.pf-result-brief{font-size:13px;line-height:1.75;color:#c7d5df;border-left:2px solid #9ecded;padding:4px 14px}.pf-result-brief strong{font-weight:500;color:#edf5ff;font-variant-numeric:tabular-nums}.pf-glossary>div{margin:12px 0}.pf-glossary dt{font-size:12px;font-weight:500;color:#e4edf5}.pf-glossary dd{font-size:12px;color:#b9c8d1;margin:4px 0;line-height:1.6}
+.pf-readiness p{font-size:12px;line-height:1.6;color:#c7d5df}.pf-readiness strong{font-weight:500;color:#e4eef6}.pf-readiness button{font-size:12px;min-height:36px}.pf-readiness summary{font-size:12px;cursor:pointer;margin:10px 0}.pf-readiness ul{list-style:none;padding:0;margin:12px 0}.pf-readiness li{border-top:1px solid #ffffff12;padding:6px 0;font-size:12px}.pf-readiness li button{width:100%;text-align:left}
+@media(max-width:420px){.cr-value-grid article{padding:13px 10px}.cr-value-grid strong{font-size:22px}.cr-heading{align-items:flex-start}.cr-heading>span{max-width:150px}.cr-next{align-items:stretch;flex-direction:column}.cr-next button{width:100%}.cr-bill{padding:16px 13px}}

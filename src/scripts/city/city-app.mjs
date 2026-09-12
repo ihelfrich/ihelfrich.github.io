@@ -63,6 +63,7 @@ property = createPropertyPanel($("properties-panel"), {
       showSceneLocation({longitude:p.x/(111195*Math.cos(38.628*Math.PI/180))-90.193,latitude:38.628-p.z/111195},"MAP CENTER");
     }
   },
+  onTaxEvidence:bill=>proforma?.setTaxEvidence(bill),
   onNotebook:()=>resident?.addEvidence(),
   onInventory:snapshot=>{if(selectedEvidence){selectedEvidence={...selectedEvidence,inventorySnapshot:snapshot};spatial?.setEvidence(selectedEvidence)}},
   onPublicMarkers:(records,select)=>{publicMarkers=records;selectPublicMarker=select;syncPropertyMarkers();},

@@ -7,6 +7,19 @@ const point={longitude:-90.193,latitude:38.628};
 const parcel=(id='one',patch={})=>({type:'Feature',geometry:{type:'Polygon',coordinates:[[[-90.194,38.627],[-90.192,38.627],[-90.192,38.629],[-90.194,38.627]]]},properties:{parcelKey:'st-louis-city:h',parcelId:id,recordKey:'record:'+id,sourceObjectId:1,address:'10 Fixture Place',assessedValueUSD:0,assessmentYear:null,sourceRecordDate:null,...patch}});
 const evidence=(p=point,selected=parcel())=>({point:{...p},parcels:{status:'found',parcel:selected,candidates:[selected],source:{url:'https://www.stlouis-mo.gov/data/',retrievedAt:'2026-09-08T12:00:00Z',catalogPublishedAt:'2026-08-27'}},zoning:{status:'matched',complete:false,jurisdiction:{label:'City of St. Louis'},districts:[{code:'A',label:'Single-Family Dwelling District'}],overlays:[],overlayStatus:'unavailable',effectiveDate:null,codeUrl:'https://example.org/zoning',sources:[{sourceId:'city-base',sourceUrl:'https://example.org/layer',retrievedAt:'2026-09-08T12:00:00Z',sourceDate:null}]},inventory:{status:'not-in-public-inventory',listings:[],reason:'No matching land-bank record; private sale status is unknown.'}});
 const settle=()=>new Promise(resolve=>setTimeout(resolve,8));
+test('County records are attached to the exact selection and disposed before replacing property context',async t=>{
+ const mounts=[],taxes=[];let disposed=0;
+ const county=parcel('16L640291',{jurisdiction:'st-louis-county',recordKey:'st-louis-county-current:16L640291:143368',parcelKey:'st-louis-county:16L640291',taxYear:2026});
+ const f=fixture(t,{lookup:async p=>evidence(p,county),onTaxEvidence:b=>taxes.push(b),recordsPanelFactory:(root,options)=>{mounts.push(options);root.textContent='County record fixture';return {dispose(){disposed++;}};}});
+ await f.panel.inspectPoint(point);
+ assert.equal(mounts.length,1);assert.equal(mounts[0].parcel.recordKey,county.properties.recordKey);
+ assert.match(f.$('context-id').textContent,/2026 source tax year/);
+ assert.equal(f.$('evidence').querySelector('h3'),null,'Selected address already appears in the sticky property context');
+ assert.equal(f.$('evidence').querySelector('details').open,false);
+ mounts[0].onTaxEvidence({parcelId:'16L640291'});assert.equal(taxes.at(-1).parcelId,'16L640291');
+ mounts[0].onScenario();assert.equal(f.$('tab-scenario').getAttribute('aria-selected'),'true');
+ f.panel.clearSelection();assert.equal(disposed,1);assert.equal(taxes.at(-1),null);
+});
 const listing=(id='lra-one',patch={})=>({id,parcelKey:'st-louis-city:h',parcelId:id,address:'Fixture parcel '+id,...point,askingPrice:null,priceStatus:'not-published',status:'available',usage:'Vacant Lot',...patch});
 const snapshot=listings=>({listings,source:{name:'Official LRA',url:'https://www.stlouis-mo.gov/data/',termsUrl:'https://example.org/terms'},retrievedAt:'2026-09-08T12:00:00Z',sourceUpdatedAt:null,snapshotStatus:'recent',counts:{listings:listings.length}});
 function fixture(t,options={}) {

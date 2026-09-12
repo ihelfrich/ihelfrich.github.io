@@ -1,3 +1,4 @@
+import {createCountyRecordsPanel} from './city-county-records-panel.mjs';
 import {createCountyPanel} from './city-county-panel.mjs';
 import {searchRegionalAddresses} from '../../lib/city-regional-search.mjs';
 import {createPropertyLookup} from '../../lib/city-property-context.mjs';
@@ -11,7 +12,7 @@ const date=value=>value!=null&&value!==''&&Number.isFinite(Date.parse(value))?ne
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
-  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},
+  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},onTaxEvidence=()=>{},recordsPanelFactory=createCountyRecordsPanel,
   search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
@@ -54,7 +55,7 @@ export function createPropertyPanel(root,{
     <div id="property-panel-site" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-site" tabindex="0" hidden></div>`;
   const intro=root.querySelector('.panel-intro');if(intro)intro.after(section);else root.prepend(section);
   const $=id=>section.querySelector('#property-'+id);
-  $('expand').addEventListener('click',()=>{const wide=doc.body.classList.toggle('property-wide');$('expand').setAttribute('aria-pressed',String(wide));$('expand').textContent=wide?'Compact workspace':'Expand workspace';});
+  $('expand').addEventListener('click',()=>{const wide=doc.body.classList.toggle('property-wide');$('expand').setAttribute('aria-pressed',String(wide));$('expand').textContent=wide?'Compact workspace':'Expand workspace';const active=section.querySelector('.property-tab-panel:not([hidden])');const target=active?.id==='property-panel-evidence'&&$('context').hidden===false?$('evidence'):active;target?.scrollIntoView?.({block:'start',behavior:'auto'});});
   $('context-save').addEventListener('click',()=>{selectTab('resident');onNotebook();});
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
   if(imported)$('panel-inventory').append(imported);
@@ -99,9 +100,9 @@ export function createPropertyPanel(root,{
   const getInventory=()=>inventoryPromise ||= Promise.resolve(inventoryLoader()).then(snapshot=>{cachedInventory=snapshot;onInventory(snapshot);return snapshot}).catch(error=>{inventoryPromise=null;throw error});
   const lookup=providedLookup||createPropertyLookup({inventoryLoader:getInventory});
   let generation=0,controller=null,selectedParcel=null,searchGeneration=0,searchTimer=null,searchController=null;
-  let inventoryGeneration=0,inventorySnapshot=null,overlayEnabled=false;
+  let inventoryGeneration=0,inventorySnapshot=null,overlayEnabled=false,recordsPanel=null;
   function clearSelection() {
-    generation++;controller?.abort();controller=null;selectedParcel=null;$('context').hidden=true;
+    generation++;controller?.abort();controller=null;recordsPanel?.dispose();recordsPanel=null;onTaxEvidence(null);selectedParcel=null;$('context').hidden=true;
     getCity()?.setParcel?.(null);$('evidence').replaceChildren();
     onEvidence(null);
     paragraph($('evidence'),'No parcel selected. Search an address or select a location to inspect official evidence.');
@@ -112,10 +113,11 @@ export function createPropertyPanel(root,{
   // The index uses parcelKey:parcelId:OBJECTID; keep its composite identity out of the headline.
   const account=record=>record.sourceObjectId??record.recordKey?.split(':').at(-1)??'Unknown';
   function renderEvidence(evidence) {
+    recordsPanel?.dispose();recordsPanel=null;
     const body=$('evidence');body.replaceChildren();
     const parcels=evidence.parcels||{},p=parcels.parcel?.properties,z=evidence.zoning||{},sale=evidence.inventory||{};
-    $('context').hidden=!p?.recordKey;$('context-address').textContent=p?.address||'Selected parcel';$('context-id').textContent=p?`Map selection · parcel ${p.parcelId} · ${p.assessmentYear??'Unknown'} assessment year`:'';
-    body.append(element('span',p?'OFFICIAL PARCEL':evidence.point?.resultKind==='address'?'COUNTY ADDRESS LOCATION':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||evidence.point?.address||'Selected location'));
+    $('context').hidden=!p?.recordKey;$('context-address').textContent=p?.address||'Selected parcel';$('context-id').textContent=p?`Map selection · parcel ${p.parcelId} · ${p.taxYear??p.assessmentYear??'Unknown'} ${p.jurisdiction==='st-louis-county'?'source tax year':'assessment year'}`:'';
+    if(p?.jurisdiction!=='st-louis-county')body.append(element('span',p?'OFFICIAL PARCEL':evidence.point?.resultKind==='address'?'COUNTY ADDRESS LOCATION':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||evidence.point?.address||'Selected location'));
     if(evidence.point?.resultKind==='address'&&!p) {
       paragraph(body,[evidence.point.municipality,evidence.point.postalCode,'St. Louis County'].filter(Boolean).join(' · '));
       paragraph(body,'This is an address point. Parcel boundaries, ownership, assessment and sale availability have not been established. Open Site for terrain and flood evidence at this point.');
@@ -125,9 +127,11 @@ export function createPropertyPanel(root,{
       if(evidence.point.mailingCity)paragraph(addressDetails,`Mailing city: ${evidence.point.mailingCity}. Mailing city and municipality can differ.`);
       sourceInfo(addressDetails,evidence.point.addressSource,'Official address source');body.append(addressDetails);
     }
-    paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
+    if(p?.jurisdiction!=='st-louis-county')paragraph(body,`Parcel ID: ${p?.parcelId||'Unknown'}`);
+    const isCounty=p?.jurisdiction==='st-louis-county';
+    if(isCounty){const holder=element('div');body.append(holder);recordsPanel=recordsPanelFactory(holder,{parcel:p,source:parcels.source,onTaxEvidence,onScenario:()=>{selectTab('scenario');root.querySelector('#pf-purchasePrice')?.focus();}});}
     const action=element('button','Build pro forma','primary-button wide');action.type='button';
-    action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});body.append(action);
+    action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});if(!isCounty)body.append(action);
     const residentAction=element('button','Save to property notebook','secondary-button wide');residentAction.type='button';residentAction.disabled=!p?.recordKey;residentAction.addEventListener('click',()=>{selectTab('resident');onNotebook();});body.append(residentAction);
     const facts=element('div',undefined,'property-facts'),assessment=element('section',undefined,'property-fact-card'),zoning=element('section',undefined,'property-fact-card');
     assessment.append(element('h4','Assessment'),element('strong',Number.isFinite(p?.assessedValueUSD)?usd.format(p.assessedValueUSD):'Unknown'));
@@ -142,7 +146,10 @@ export function createPropertyPanel(root,{
     if(z.status==='unsupported-municipality')paragraph(zoning,'This municipality’s zoning rules are not connected. County zoning cannot be substituted.');
     else if(['unavailable','outside-coverage','unknown'].includes(z.status)||!z.status)paragraph(zoning,'Zoning coverage is unavailable or not established for this location.');
     if(z.status==='ambiguous')paragraph(zoning,'Multiple zoning districts were reported; no single district is assumed.');
-    facts.append(assessment,zoning);body.append(facts);
+    facts.append(...(isCounty?[]:[assessment]),zoning);
+    const extra=isCounty?element('details',undefined,'property-source-details'):body;
+    if(isCounty){extra.append(element('summary','Map, zoning & sale availability'));body.append(extra);}
+    extra.append(facts);
     const sourceDetails=element('details',undefined,'property-source-details');sourceDetails.append(element('summary','Parcel source & record details'));
     if(p) {
       const dl=element('dl');
@@ -177,7 +184,7 @@ export function createPropertyPanel(root,{
       for(const listing of sale.listings||[])link(saleDetails,'Official sale record',listing.sourceUrl);
       sourceInfo(saleDetails,{...sale.source,retrievedAt:sale.retrievedAt},'Public inventory source');saleCard.append(saleDetails);
     } else paragraph(saleCard,(sale.reason?sale.reason+' ':'')+'Private sale status and asking price are unknown. Absence from public LRA inventory does not establish that a property is unavailable.');
-    body.append(saleCard,sourceDetails,zoningDetails);
+    extra.append(saleCard,sourceDetails,zoningDetails);
     body.scrollIntoView?.({block:"start",behavior:"auto"});
   }
   async function inspectPoint(input) {
@@ -189,7 +196,7 @@ export function createPropertyPanel(root,{
     if(Number.isFinite(input.height))point.height=input.height;
     // Estate reset can synchronously call clearSelection; establish our request afterward.
     estate.selectPoint(point);const serial=++generation;controller?.abort();const request=new AbortController();controller=request;
-    selectedParcel=null;$('context').hidden=true;getCity()?.setParcel?.(null);onOpen();selectTab('evidence');
+    recordsPanel?.dispose();recordsPanel=null;onTaxEvidence(null);selectedParcel=null;$('context').hidden=true;getCity()?.setParcel?.(null);onOpen();selectTab('evidence');
     $('evidence').replaceChildren();paragraph($('evidence'),'Loading official parcel, zoning and public inventory evidence…');
     try {
       let result=await lookup(point,{signal:request.signal});if(serial!==generation||request.signal.aborted)return null;
