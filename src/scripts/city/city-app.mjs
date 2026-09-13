@@ -3,6 +3,7 @@ import { createProFormaPanel } from "./city-proforma-panel.mjs";
 import { createPendingMapActions } from "./city-startup.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
 import { createPropertyPanel } from "./city-property-panel.mjs";
+import { createMapLayersPanel } from "./city-map-layers-panel.mjs";
 import { createWorkbench } from "./city-workbench.mjs";
 import { createLivePanel } from "./city-live-panel.mjs";
 import { createDevelopmentPanel } from "./city-development-panel.mjs";
@@ -36,7 +37,7 @@ let connectionSerial = 0,
 let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
 let proforma=null,resident=null;
 let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
-let savedReality=null;
+let savedReality=null,mapLayers=null,ifcPanel=null,ifcPending=null,selectedTool='evidence';
 const pendingMapActions=createPendingMapActions();
 let initialWorkspaceStarted=false;
 let cityReady=false;
@@ -58,7 +59,7 @@ const estate = createEstatePanel($("properties-panel"), {
   notice,
 });
 property = createPropertyPanel($("properties-panel"), {
-  estate,getCity:getPropertyMap,notice,onOpen:()=>setMode("properties"),onSearchQuery:query=>{if($('city-search-domain').value==='address')$('city-search-query').value=query;},onAreaLocate:point=>showSceneLocation(point,point.label),
+  estate,getCity:getPropertyMap,notice,onLayers:()=>setMode('layers'),onViewChange:selectPropertyTool,onOpen:()=>setMode("properties"),onSearchQuery:query=>{if($('city-search-domain').value==='address')$('city-search-query').value=query;},onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
     selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
@@ -83,6 +84,7 @@ development=createDevelopmentPanel($("development-workspace"),{getEvidence:()=>s
 spatial=createSpatialPanel($("spatial-workspace"),{getEvidence:()=>selectedEvidence,onLocate:locateMapPoint});
 heightStudy=createHeightStudy($("height-study-workspace"),{getCity:()=>city,getEvidence:()=>selectedEvidence,onChange:visible=>{heightStudyVisible=visible;workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:visible})}});
 sitePanel=createSitePanel($("property-panel-site"),{getEvidence:()=>selectedEvidence});
+mapLayers=createMapLayersPanel($('map-layers-workspace'),{getCity:getPropertyMap,onOpen:()=>setMode('layers'),onInspect:point=>property.inspectPoint(point),onModel:()=>{setMode('properties');property.selectTab('model');},onSite:()=>{setMode('properties');property.selectTab('site');},onActivity:()=>property.openActivity('utilities')});
 const livePanel = createLivePanel($("live-panel"), {
   onLocate:locateMapPoint,
   onSummary:summary=>{
@@ -93,6 +95,15 @@ const livePanel = createLivePanel($("live-panel"), {
   },
 });
 workbench=createWorkbench(document,{getCity:()=>city,setMode,property,showPlaces,onNow:()=>{environmentMode="now";updateLight()}});
+function syncIfcActive(){ifcPanel?.setActive(mode==='properties'&&selectedTool==='model');}
+function selectPropertyTool(name){
+  selectedTool=name;syncIfcActive();
+  if(name!=='model'||ifcPanel||ifcPending)return;
+  const target=$('property-panel-model');target.textContent='Opening the local building-model workspace…';
+  ifcPending=import('./city-ifc-panel.mjs').then(({createCityIfcPanel})=>{ifcPanel=createCityIfcPanel({document,target});syncIfcActive();}).catch(()=>{
+    target.replaceChildren();const message=document.createElement('p');message.textContent='The model workspace could not load. Select Building model again to retry.';target.append(message);
+  }).finally(()=>{ifcPending=null;});
+}
 function locateMapPoint({longitude,latitude,label}) {
   if(!Number.isFinite(longitude)||!Number.isFinite(latitude))return;
   const x=(longitude+90.193)*111195*Math.cos(38.628*Math.PI/180),z=(38.628-latitude)*111195;
@@ -298,11 +309,13 @@ function setMode(next) {
   $("panel-kicker").textContent = {
     explore: "THE RIVER CITY",
     compare: "PLACES & CONNECTIONS",
-    layers: "ATMOSPHERE & GEOGRAPHY",
+    layers: "Map layers",
     properties: "Property workspace",
     live: "THE REGION, RIGHT NOW",
   }[next];
   $("explorer").classList.toggle("estate-open", next === "properties");
+  $("explorer").classList.toggle("layers-open", next === "layers");
+  syncIfcActive();if(next==='layers')mapLayers?.activate();
   property?.setMapActive?.(next==='properties');
   if (!panelOpen) togglePanel();
   if (next === "compare") compare();
@@ -652,7 +665,7 @@ function rendererUI() {
     "sun-hour",
   ])
     $(id).disabled = photo;
-  workbench?.refreshRenderer();
+  workbench?.refreshRenderer();mapLayers?.refreshRenderer();
   city?.setPaused(paused);
   city?.setQuality($("quality").value);
   estate.refreshMarkers();

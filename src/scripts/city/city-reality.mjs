@@ -1,5 +1,6 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
 import { createCesiumPropertyAtlas, cesiumViewportBounds, cesiumAtlasFit, propertyAtlasViewport, propertySelectionSurface, propertyScreenViewport } from "./city-property-atlas.mjs";
+import { createCesiumMapLayers } from "./city-map-layers-renderer.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import { createStreetLabelLayer } from "./city-street-labels.mjs";
@@ -255,6 +256,7 @@ export async function createRealityScene(
   let tone;
   let developmentLayer;
   let propertyAtlas;
+  let mapLayers;
   let streetLabels;
   let tileset;
   let tilesetAttached = false;
@@ -324,6 +326,7 @@ export async function createRealityScene(
     tone?.dispose();
     developmentLayer?.dispose();
     propertyAtlas?.dispose();
+    mapLayers?.dispose();
     streetLabels?.dispose();
     if (
       tileset &&
@@ -384,6 +387,7 @@ export async function createRealityScene(
     tone = createRealityTone(C, viewer.scene);
     developmentLayer = createRealityDevelopmentVolume(C, viewer);
     propertyAtlas = createCesiumPropertyAtlas(C, viewer);
+    mapLayers = createCesiumMapLayers(C, viewer);
     viewer.canvas.setAttribute(
       "aria-label",
       "Photographic St. Louis map. Drag to explore, scroll to zoom.",
@@ -495,6 +499,7 @@ export async function createRealityScene(
     input.setInputAction((event) => {
       if (disposed) return;
       const picked = viewer.scene.pick(event.position);
+      if (mapLayers.pick(picked)) return;
       const listing = picked?.id && listingEntities.get(picked.id);
       if (listing) {
         listingCallback(listing);
@@ -839,6 +844,9 @@ export async function createRealityScene(
     setPropertyAtlas: propertyAtlas.setPropertyAtlas,
     clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
     getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    setMapLayers: mapLayers.setMapLayers,
+    clearMapLayers: mapLayers.clearMapLayers,
+    getMapLayersStatus: mapLayers.getMapLayersStatus,
     getPropertySelectionSurface() { return disposed?null:propertySelectionSurface(container); },
     propertyBoundsForScreenRectangle(rect) {
       const viewport=disposed?null:propertyScreenViewport(container,rect);

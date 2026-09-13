@@ -1,5 +1,6 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
 import { createThreePropertyAtlas, threeViewportBounds, threeAtlasFit, threeAtlasLocalPosition, propertyAtlasViewport, propertySelectionSurface, propertyScreenViewport } from "./city-property-atlas.mjs";
+import { createThreeMapLayers } from "./city-map-layers-renderer.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import * as T from "three";
@@ -253,6 +254,7 @@ export async function createCityScene(
   }
   const listingsLayer = createListingLayer(scene, data.origin || [-90.193,38.628]);
   const propertyAtlas = createThreePropertyAtlas(scene, data.origin || [-90.193,38.628], { getPixelRatio: () => renderer.getPixelRatio() });
+  const mapLayers = createThreeMapLayers(scene, data.origin || [-90.193,38.628], { getPixelRatio: () => renderer.getPixelRatio() });
   const developmentLayer = createDevelopmentVolumeLayer(scene, data.origin || [-90.193,38.628]);
   scene.background = new T.Color("#aebfc1");
   scene.fog = new T.FogExp2("#b8c4bd", 0.000095);
@@ -726,7 +728,7 @@ export async function createCityScene(
       (-(e.clientY - rect.top) / rect.height) * 2 + 1,
     );
     raycaster.setFromCamera(pointer, camera);
-    if (listingsLayer.pick(raycaster) || propertyAtlas.pick(pointer, camera, rect) || !buildings.visible) return;
+    if (mapLayers.pick(pointer, camera, rect) || listingsLayer.pick(raycaster) || propertyAtlas.pick(pointer, camera, rect) || !buildings.visible) return;
     const hits = raycaster.intersectObjects(pickMeshes, false);
     const regionalHit = region?.raycast(raycaster);
     const b = regionalHit && (!hits[0] || regionalHit.distance < hits[0].distance)
@@ -1137,6 +1139,9 @@ export async function createCityScene(
     setPropertyAtlas: propertyAtlas.setPropertyAtlas,
     clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
     getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    setMapLayers: mapLayers.setMapLayers,
+    clearMapLayers: mapLayers.clearMapLayers,
+    getMapLayersStatus: mapLayers.getMapLayersStatus,
     getPropertySelectionSurface() { return disposed?null:propertySelectionSurface(container); },
     propertyBoundsForScreenRectangle(rect) {
       const viewport=disposed?null:propertyScreenViewport(container,rect);
@@ -1214,6 +1219,7 @@ export async function createCityScene(
       controls.removeEventListener("change", invalidateShadows);
       listingsLayer.dispose();
       propertyAtlas.dispose();
+      mapLayers.dispose();
       developmentLayer.dispose();
       setParcel(null);
       region?.dispose();

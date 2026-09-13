@@ -85,13 +85,17 @@ async function fixture(resource) {
     this.setExport('propertySelectionSurface', () => null);
     this.setExport('propertyScreenViewport', () => null);
   }, {context});
+  const mapLayers = new vm.SyntheticModule(['createCesiumMapLayers'], function() {
+    this.setExport('createCesiumMapLayers', () => ({ setMapLayers() {}, clearMapLayers() {}, getMapLayersStatus() { return { status:'cleared', shown:0 }; }, pick() { return false; }, dispose() {} }));
+  }, {context});
   await overlay.link(() => {});
   await tone.link(() => {});
   await parcels.link(() => {});
   await volume.link(() => parcels);
   await streetLabels.link(()=>{});
   await propertyAtlas.link(()=>{});
-  await module.link(specifier => specifier.endsWith("city-property-atlas.mjs") ? propertyAtlas : specifier.endsWith("city-street-labels.mjs") ? streetLabels : specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
+  await mapLayers.link(()=>{});
+  await module.link(specifier => specifier.endsWith("city-map-layers-renderer.mjs") ? mapLayers : specifier.endsWith("city-property-atlas.mjs") ? propertyAtlas : specifier.endsWith("city-street-labels.mjs") ? streetLabels : specifier.endsWith("city-tone.mjs") ? tone : specifier.endsWith("city-development-volume.mjs") ? volume : overlay);
   await module.evaluate();
   return { api: module.namespace, counts: () => ({ created, destroyed }) };
 }

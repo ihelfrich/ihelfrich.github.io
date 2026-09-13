@@ -16,7 +16,7 @@ const regionalTransfer=r=>({recordKey:r.recordKey,parcelId:r.parcelId,jurisdicti
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
-  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},onTaxEvidence=()=>{},onSearchQuery=()=>{},recordsPanelFactory=createCountyRecordsPanel,
+  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},onTaxEvidence=()=>{},onSearchQuery=()=>{},onViewChange=()=>{},onLayers=()=>{},recordsPanelFactory=createCountyRecordsPanel,
   search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
@@ -48,6 +48,7 @@ export function createPropertyPanel(root,{
       <h3>Choose a tool</h3><p class="small-note">Explore a site, work with listings, or test a property scenario.</p>
       <div class="property-tools-grid">
         <button type="button" id="property-tab-site" class="property-tool-link" data-property-tool="site" aria-controls="property-panel-site"><strong>Site</strong><span>Terrain, flood &amp; location evidence</span></button>
+        <button type="button" id="property-tab-model" class="property-tool-link" data-property-tool="model" aria-controls="property-panel-model"><strong>Building model</strong><span>Local IFC models &amp; element properties</span></button>
         <button type="button" id="property-tab-inventory" class="property-tool-link" data-property-tool="inventory" aria-controls="property-panel-inventory"><strong>Inventory</strong><span>Public listings &amp; your imports</span></button>
         <button type="button" id="property-tab-scenario" class="property-tool-link" data-property-tool="scenario" aria-controls="property-panel-scenario"><strong>Pro forma</strong><span>Cash flow, financing &amp; scenarios</span></button>
         <button type="button" id="property-tab-develop" class="property-tool-link" data-property-tool="develop" aria-controls="property-panel-develop"><strong>Develop</strong><span>Massing &amp; development feasibility</span></button>
@@ -67,11 +68,12 @@ export function createPropertyPanel(root,{
     </section></div>
     <div id="property-panel-scenario" class="property-tool-panel" role="region" aria-label="Pro forma tool" tabindex="-1" hidden></div>
     <div id="property-panel-develop" class="property-tool-panel" role="region" aria-label="Develop tool" tabindex="-1" hidden></div>
+    <div id="property-panel-model" class="property-tool-panel" role="region" aria-label="Building model tool" tabindex="-1" hidden></div>
     <div id="property-panel-site" class="property-tool-panel" role="region" aria-label="Site tool" tabindex="-1" hidden></div></div>`;
   const intro=root.querySelector('.panel-intro');if(intro)intro.after(section);else root.prepend(section);
   const $=id=>section.querySelector('#property-'+id);
   const expandButton=$('expand'),heading=doc.querySelector('#explorer > .panel-heading'),mapBack=doc.createElement('button');mapBack.type='button';mapBack.className='property-map-back text-button';mapBack.textContent='←';mapBack.setAttribute('aria-label','Previous map area');mapBack.title='Previous map area';mapBack.hidden=true;
-  if(heading){const toolbar=expandButton.parentElement;heading.append(mapBack,expandButton);toolbar.remove();}else expandButton.before(mapBack);
+  if(heading){const toolbar=expandButton.parentElement,layerButton=doc.createElement('button');layerButton.type='button';layerButton.id='property-open-layers';layerButton.className='text-button';layerButton.textContent='Layers';layerButton.setAttribute('aria-label','Open map layers');layerButton.addEventListener('click',onLayers);heading.append(layerButton,mapBack,expandButton);toolbar.remove();}else expandButton.before(mapBack);
   expandButton.addEventListener('click',()=>{const wide=doc.body.classList.toggle('property-wide'),label=wide?'Compact workspace':'Expand workspace';expandButton.setAttribute('aria-pressed',String(wide));expandButton.setAttribute('aria-label',label);expandButton.title=label;expandButton.textContent=wide?'Compact':'Expand';});
   $('context-save').addEventListener('click',()=>{selectTab('resident');onNotebook();});
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
@@ -84,12 +86,12 @@ export function createPropertyPanel(root,{
   activityBrowser=createPropertyActivityPanel($('panel-activity'),{getCity,onFit:bounds=>getCity()?.fitPropertyAtlasBounds?.(bounds),onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point,{origin:'activity'});},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
   $('context-results').addEventListener('click',()=>{if(selectionOrigin==='activity'){selectTab('activity');$('panel-activity').focus({preventScroll:true});}else if(selectionOrigin==='search'){showAddressMatches();}else{selectTab('evidence');regionBrowser.focusResults();}});
   const tabNames=['evidence','activity','resident','tools'];
-  const toolNames={site:'Site',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
+  const toolNames={site:'Site',model:'Building model',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
   let activeView='evidence',lastTool=null,selectionOrigin='evidence',searchReturnTrigger=null,searchNavigation=0;
   function selectTab(name) {
     const isTool=Object.hasOwn(toolNames,name),primary=isTool?'tools':name;
     if(!tabNames.includes(primary))return false;
-    activeView=name;
+    activeView=name;onViewChange(name);
     for(const key of tabNames) {
       const active=key===primary,tab=$('tab-'+key);
       tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;$('panel-'+key).hidden=!active;
@@ -341,5 +343,5 @@ export function createPropertyPanel(root,{
   $('public-clear').addEventListener('click',()=>{inventoryGeneration++;overlayEnabled=false;onPublicMarkers([],choosePublic);$('public-clear').disabled=true;$('public-map').disabled=false;$('public-load').disabled=false;if(inventorySnapshot)renderInventory();else $('public-status').textContent='Public markers are hidden. Load inventory to update the list.'});
   $('public-query').addEventListener('input',renderInventory);$('public-radius').addEventListener('change',renderInventory);
   clearSelection();
-  return {inspectPoint,clearSelection,selectTab,focusSearch,searchAddress,setMapActive:active=>regionBrowser.activate(active),openRegion(){onOpen();selectTab('evidence');return regionBrowser.start();},openCounty(scope){onOpen();selectTab('evidence');$('study-areas').open=true;return countyBrowser.start(scope)},refreshMarkers(){regionBrowser.refresh();getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
+  return {inspectPoint,clearSelection,selectTab,openActivity(lens){onOpen();selectTab('activity');activityBrowser.selectLens(lens);},focusSearch,searchAddress,setMapActive:active=>regionBrowser.activate(active),openRegion(){onOpen();selectTab('evidence');return regionBrowser.start();},openCounty(scope){onOpen();selectTab('evidence');$('study-areas').open=true;return countyBrowser.start(scope)},refreshMarkers(){regionBrowser.refresh();getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
 }

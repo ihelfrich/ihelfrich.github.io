@@ -6,9 +6,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "predev": "node scripts/copy-cesium.mjs",
-    "prebuild": "node scripts/copy-cesium.mjs",
-    "prebuild:fast": "node scripts/copy-cesium.mjs",
+    "predev": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
+    "prebuild": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
+    "prebuild:fast": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
     "dev": "astro dev",
     "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes && npm run check:discovery",
     "build:fast": "astro build",
@@ -36,7 +36,8 @@
     "lenis": "1.3.26",
     "rehype-katex": "7.0.1",
     "remark-math": "6.0.0",
-    "three": "0.186.0"
+    "three": "0.186.0",
+    "web-ifc": "0.0.77"
   },
   "devDependencies": {
     "@astrojs/rss": "4.0.19",
