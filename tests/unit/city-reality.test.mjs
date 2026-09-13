@@ -77,11 +77,13 @@ async function fixture(resource) {
   const volume = new vm.SourceTextModule(volumeSource, {context});
   const parcels = new vm.SourceTextModule(parcelsSource, {context});
   const streetLabels = new vm.SyntheticModule(['createStreetLabelLayer'],function(){this.setExport('createStreetLabelLayer',()=>({setStreetLabels(){},getStreetLabelStatus(){return {status:'ready',visibleCount:0}},dispose(){}}))},{context});
-  const propertyAtlas = new vm.SyntheticModule(['createCesiumPropertyAtlas', 'cesiumViewportBounds', 'cesiumAtlasFit', 'propertyAtlasViewport'], function() {
+  const propertyAtlas = new vm.SyntheticModule(['createCesiumPropertyAtlas', 'cesiumViewportBounds', 'cesiumAtlasFit', 'propertyAtlasViewport', 'propertySelectionSurface', 'propertyScreenViewport'], function() {
     this.setExport('createCesiumPropertyAtlas', () => ({ setPropertyAtlas() {}, clearPropertyAtlas() {}, getPropertyAtlasStatus() { return { status: 'cleared', shown: 0 }; }, pick() { return false; }, dispose() {} }));
     this.setExport('cesiumViewportBounds', () => null);
     this.setExport('cesiumAtlasFit', () => false);
     this.setExport('propertyAtlasViewport', () => null);
+    this.setExport('propertySelectionSurface', () => null);
+    this.setExport('propertyScreenViewport', () => null);
   }, {context});
   await overlay.link(() => {});
   await tone.link(() => {});

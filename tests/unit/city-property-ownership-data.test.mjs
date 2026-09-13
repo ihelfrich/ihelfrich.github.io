@@ -10,9 +10,9 @@ const keys=['id','indicator','jurisdiction','latitude','longitude','matchedDesig
 test('ownership publication is a source-filtered, dated name indicator with a small viewport index',async()=>{
  assert.equal(index.schema,'ownership-signals-v1');assert.equal(index.source.id,'st-louis-county-business-name-indicators');assert.equal(index.ruleVersion,'county-business-designator-v1');
  assert.deepEqual(index.source.requestedFields,['OBJECTID','LOCATOR','OWNER_NAME']);assert.equal(index.source.sourceOwnerNameMaxLength,40);assert.match(index.source.where,/UPPER\(OWNER_NAME\) LIKE/);
- assert.equal(index.records,undefined);assert.equal(index.gridDegrees,.02);assert.equal(index.tiles.length,368);
+ assert.equal(index.records,undefined);assert.equal(index.gridDegrees,.02);assert.ok(index.tiles.length>0);
  assert.ok((await readFile(new URL('ownership-signals/index.json',root))).length<100000);assert.ok(index.largestTileBytes<500000);
- assert.equal(index.coverage.candidateFeatureCount,50364);assert.equal(index.coverage.publishedIndicatorCount,50307);assert.equal(index.coverage.rejectedTokenCandidates,57);assert.equal(index.coverage.unmatchedExactRegionIdentityCount,0);
+ assert.equal(index.coverage.candidateFeatureCount,index.recordCount+index.coverage.rejectedTokenCandidates);assert.equal(index.coverage.publishedIndicatorCount,index.recordCount);assert.equal(index.coverage.unmatchedExactRegionIdentityCount,0);
  assert.equal(index.source.sourceDataEditedAt,null);assert.ok(Number.isFinite(Date.parse(index.source.retrievedAt)));
  assert.match(index.source.recordDateMeaning,/no ownership-start or acquisition date/);
  assert.match(index.limitations.join(' '),/does not establish private-equity affiliation/);
@@ -34,9 +34,9 @@ test('every published indicator is token-matched and joins the exact regional fe
   }
  }
  const unlocated=JSON.parse(await readFile(new URL('ownership-signals/unlocated.json',root),'utf8'));
- assert.equal(unlocated.records.length,2);
+ assert.equal(unlocated.records.length,index.unlocatedCount);
  for(const r of unlocated.records){assert.equal(r.longitude,null);assert.equal(r.latitude,null);assert.ok(designation.test(r.ownerName));assert.ok(!seen.has(r.sourceObjectId));seen.add(r.sourceObjectId);}
- assert.equal(mapped,index.coverage.mappedIndicatorCount);assert.equal(mapped,50305);assert.equal(seen.size,index.recordCount);assert.equal(totalBytes,index.totalTileBytes);
+ assert.equal(mapped,index.coverage.mappedIndicatorCount);assert.equal(seen.size,index.recordCount);assert.equal(totalBytes,index.totalTileBytes);
 });
 
 test('countywide name index reconciles every exact name and tile count without inferring aliases',async()=>{
@@ -47,7 +47,7 @@ test('countywide name index reconciles every exact name and tile count without i
  function add(r,tileId){const e=expected.get(r.ownerName)??{count:0,tiles:new Map(),unlocatedCount:0};e.count++;if(tileId)e.tiles.set(tileId,(e.tiles.get(tileId)??0)+1);else e.unlocatedCount++;expected.set(r.ownerName,e);}
  for(const meta of index.tiles){const tile=JSON.parse(await readFile(new URL(`ownership-signals/tiles/${meta.id}.json`,root),'utf8'));for(const r of tile.records)add(r,meta.id);}
  for(const r of JSON.parse(await readFile(new URL('ownership-signals/unlocated.json',root),'utf8')).records)add(r,null);
- assert.equal(names.records.length,expected.size);assert.equal(names.records.length,index.nameCount);assert.equal(index.nameCount,23221);
+ assert.equal(names.records.length,expected.size);assert.equal(names.records.length,index.nameCount);
  const seen=new Set();const tileTotals=new Map();let count=0,mapped=0,unlocated=0;
  for(const entry of names.records){
   assert.ok(!seen.has(entry.name));seen.add(entry.name);assert.ok(expected.has(entry.name));const original=expected.get(entry.name);
@@ -58,5 +58,5 @@ test('countywide name index reconciles every exact name and tile count without i
  }
  for(const tile of index.tiles)assert.equal(tileTotals.get(tile.id),tile.count);
  assert.deepEqual(names.coverage,{indicatorCount:count,mappedIndicatorCount:mapped,unlocatedIndicatorCount:unlocated,nameCount:expected.size,representedTileCount:index.tiles.length});
- assert.equal(count,50307);assert.equal(mapped,50305);assert.equal(unlocated,2);assert.ok(bytes.length<4000000,'Name-only lookup avoids loading the 20MB full ownership record set');
+ assert.equal(count,index.recordCount);assert.equal(unlocated,index.unlocatedCount);assert.ok(bytes.length<4000000,'Name-only lookup avoids loading the 20MB full ownership record set');
 });

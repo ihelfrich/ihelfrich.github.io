@@ -1,0 +1,83 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {Window} from 'happy-dom';
+import {OrthographicCamera} from 'three';
+import {createPropertyActivityPanel} from '../../src/scripts/city/city-property-activity-panel.mjs';
+import {createPropertyAreaSelection} from '../../src/scripts/city/city-property-area-selection.mjs';
+import {propertyScreenViewport,threeViewportBounds} from '../../src/scripts/city/city-property-atlas.mjs';
+import {createPropertyHistoryData} from '../../src/lib/property-history-data.mjs';
+
+const bounds=[-90.5,38.5,-90.2,38.8],settle=()=>new Promise(r=>setTimeout(r,8));
+const row=(id='one')=>({id,layerId:'ownership-signals',kind:'ownership',title:id,ownerName:id,longitude:-90.3,latitude:38.6,date:null,dateBasis:'current-observation-not-acquisition',sourceURL:'https://example.org/source'});
+const answer=(records=[row()])=>({records,features:records,layers:[{id:'ownership-signals',label:'Names',status:'ready',count:records.length,coverage:'Fixture only'}],counts:{records:records.length},partial:false});
+function fixture(t,{query=async()=>answer(),saved=null}={}){
+ const window=new Window({url:'https://ihelfrich.github.io/st-louis/'}),doc=window.document,root=doc.createElement('section');doc.body.append(root);
+ if(saved)window.localStorage.setItem('property-observation-workspace-v1',JSON.stringify(saved));
+ const markers=[],selected=[],fits=[],calls=[];
+ const data={query:o=>{calls.push(o);return query(o);},health:async()=>({sources:[]}),entities:async()=>null,dispose(){}};
+ const panel=createPropertyActivityPanel(root,{data,onFeatures:(features,layers)=>markers.push({features,layers}),onFeature:r=>selected.push(r),onFit:b=>fits.push(b),getCity:()=>({getViewportBounds:()=>bounds})});
+ const $=key=>root.querySelector(`[data-activity="${key}"]`);
+ t.after(async()=>{panel.dispose();await window.happyDOM.abort();});
+ return {window,doc,root,panel,$,calls,markers,selected,fits};
+}
+test('superseded queries and disposed requests cannot restore stale markers or evidence',async t=>{
+ const pending=[],f=fixture(t,{query:()=>new Promise(resolve=>pending.push(resolve))});f.panel.activate();
+ f.$('query').value='second';f.$('form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));
+ assert.equal(f.calls[0].signal.aborted,true);pending[1](answer([row('new')]));await settle();pending[0](answer([row('old')]));await settle();
+ assert.equal(f.$('feed').textContent.includes('old'),false);assert.equal(f.markers.at(-1).features[0].id,'new');
+ f.$('form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));f.panel.dispose();pending[2](answer([row('late')]));await settle();assert.equal(f.markers.at(-1).features.length,0);assert.doesNotMatch(f.$('feed').textContent,/late/);
+});
+test('export retains the filters actually sent even if fields change while their request is loading',async t=>{
+ let resolve;const f=fixture(t,{query:()=>new Promise(r=>{resolve=r;})});f.$('query').value='accepted query';f.panel.activate();
+ assert.equal(f.calls[0].query,'accepted query');f.$('query').value='unsubmitted edit';resolve(answer());await settle();
+ const prior=URL.createObjectURL;let blob;URL.createObjectURL=value=>{blob=value;return 'blob:fixture';};t.after(()=>{URL.createObjectURL=prior;});
+ f.$('export').click();const payload=JSON.parse(await blob.text());assert.equal(payload.query,'accepted query');
+});
+test('moving the map clears actionable old evidence throughout the debounce window',async t=>{
+ const f=fixture(t);f.panel.activate();await settle();assert.equal(f.$('export').disabled,false);
+ f.panel.setViewport([-90.8,38.5,-90.6,38.7],'properties');
+ assert.equal(f.markers.at(-1).features.length,0);assert.equal(f.$('feed').children.length,0);assert.equal(f.$('export').disabled,true);
+});
+test('restoring a saved area preserves valid filters and cannot import foreign lens layers',async t=>{
+ const saved=[{name:'Fixture area',bounds,lens:'ownership',layers:['ownership-signals','water-materials','invented'],query:'a literal name',period:'custom',from:'2026-09-01',to:'2026-09-12',material:'all'},{name:'bad',bounds:[5,4,3,2],lens:'ownership'}];
+ const f=fixture(t,{saved});f.panel.activate();await settle();assert.equal(f.$('saved').children.length,1);f.$('saved').querySelector('button').click();await settle();
+ assert.deepEqual(f.calls.at(-1).layers,['ownership-signals']);assert.deepEqual(f.calls.at(-1).bounds,bounds);assert.equal(f.calls.at(-1).fromDate,'2026-09-01');assert.deepEqual(f.fits,[bounds]);
+ const n=f.calls.length;f.panel.setViewport([-91,38,-90,39],'areas');await settle();assert.equal(f.calls.length,n,'Fixed geographic area must not follow camera bounds');
+});
+test('area drawing clamps pointers to the visible surface, rejects tiny drags, cancels and restores focus',async t=>{
+ const window=new Window(),doc=window.document,button=doc.createElement('button');doc.body.append(button);button.focus();const selections=[],rectangles=[],statuses=[];
+ const drawing=createPropertyAreaSelection(doc,{getCity:()=>({getPropertySelectionSurface:()=>({left:20,top:30,width:200,height:100}),propertyBoundsForScreenRectangle:r=>{rectangles.push(r);return bounds;}}),onSelect:b=>selections.push(b),onStatus:s=>statuses.push(s)});t.after(async()=>{drawing.dispose();await window.happyDOM.abort();});
+ drawing.begin();let overlay=doc.querySelector('.property-area-draw');overlay.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:50,clientY:50,button:0,pointerId:1}));overlay.dispatchEvent(new window.PointerEvent('pointerup',{clientX:500,clientY:500,button:0,pointerId:1}));
+ assert.deepEqual(rectangles,[{left:50,top:50,width:170,height:80}]);assert.deepEqual(selections,[bounds]);assert.equal(doc.querySelector('.property-area-draw'),null);assert.equal(doc.activeElement,button);
+ drawing.begin();overlay=doc.querySelector('.property-area-draw');overlay.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:50,clientY:50,button:0}));overlay.dispatchEvent(new window.PointerEvent('pointerup',{clientX:53,clientY:55,button:0}));assert.equal(selections.length,1);
+ drawing.begin();doc.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape',cancelable:true}));assert.equal(doc.querySelector('.property-area-draw'),null);assert.match(statuses.at(-1),/canceled/);
+});
+test('renderer rectangle conversion accounts for a nonzero canvas origin and rejects off-canvas pixels',()=>{
+ const container={getBoundingClientRect:()=>({left:100,top:200,width:400,height:300})};
+ assert.deepEqual(propertyScreenViewport(container,{left:120,top:230,width:100,height:90}),{left:20,top:30,width:100,height:90,fullWidth:400,fullHeight:300});
+ assert.equal(propertyScreenViewport(container,{left:99,top:200,width:100,height:90}),null);assert.equal(propertyScreenViewport(container,{left:120,top:230,width:500,height:90}),null);
+});
+test('drawn rectangle projects through the actual Three camera to the selected ground footprint',()=>{
+ const camera=new OrthographicCamera(-500,500,500,-500,1,10000);camera.position.set(0,1000,0);camera.up.set(0,0,-1);camera.lookAt(0,0,0);camera.updateMatrixWorld(true);
+ const container={getBoundingClientRect:()=>({left:100,top:200,width:400,height:300})};
+ const viewport=propertyScreenViewport(container,{left:200,top:275,width:200,height:150}),origin=[-90.193,38.628];
+ const projected=threeViewportBounds(camera,origin,viewport),lonDelta=250/(111195*Math.cos(origin[1]*Math.PI/180)),latDelta=250/111195;
+ const expected=[origin[0]-lonDelta,origin[1]-latDelta,origin[0]+lonDelta,origin[1]+latDelta];
+ projected.forEach((value,i)=>assert.ok(Math.abs(value-expected[i])<1e-9,`Selected ground corner ${i} is based on the selected pixels`));
+});
+
+const sourceId='st-louis-county-business-name-indicators',observedAt='2026-09-12T14:00:00Z';
+const event=(patch={})=>({id:'change1',sourceId,kind:'owner-observation-changed',recordKey:'st-louis-county-current:ABC:1',parcelKey:'st-louis-county:ABC',parcelId:'ABC',sourceObjectId:1,longitude:-90.3,latitude:38.6,observedAt,before:{recordKey:'st-louis-county-current:ABC:1',ownerName:'A LLC'},after:{recordKey:'st-louis-county-current:ABC:1',ownerName:'B LLC'},...patch});
+function history(events){const url='/st-louis/history/events/fixture.json',raw=JSON.stringify({schema:'property-observation-events-v1',sourceId,observedAt,events}),sha256=createHash('sha256').update(raw).digest('hex');const manifest={schema:'property-observation-history-v1',sources:[{id:sourceId,status:'healthy',lastSuccessAt:observedAt,events:[{url,observedAt,eventCount:events.length,sha256}]}]};return createPropertyHistoryData({fetchImpl:async path=>new Response(path===url?raw:JSON.stringify(manifest))});}
+test('a malformed event invalidates the complete partition instead of leaking its earlier records',async()=>{
+ const data=history([event(),event({id:'wrong-source',sourceId:'foreign-source'})]);const result=await data.query({bounds,level:'properties'});data.dispose();assert.equal(result.partial,true);assert.equal(result.records.length,0);assert.equal(result.features.length,0);
+});
+test('County observation events reject a foreign exact parcel key despite a valid source envelope',async()=>{
+ const data=history([event({recordKey:'st-louis-city:ABC:1',parcelKey:'st-louis-city:ABC',jurisdiction:'st-louis-city'})]);const result=await data.query({bounds,level:'properties'});data.dispose();assert.equal(result.records.length,0);assert.equal(result.partial,true);
+});
+test('history dates and before/after identities must match the observation partition and exact record',async()=>{
+ for(const patch of [{observedAt:'2026-02-30T14:00:00Z'},{observedAt:'2025-09-12T14:00:00Z'},{after:{recordKey:'st-louis-county-current:OTHER:2',ownerName:'B LLC'}}]){
+  const data=history([event(patch)]),result=await data.query({bounds,level:'properties'});data.dispose();assert.equal(result.records.length,0,JSON.stringify(patch));assert.equal(result.partial,true);
+ }
+});

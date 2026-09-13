@@ -1,5 +1,5 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
-import { createCesiumPropertyAtlas, cesiumViewportBounds, cesiumAtlasFit, propertyAtlasViewport } from "./city-property-atlas.mjs";
+import { createCesiumPropertyAtlas, cesiumViewportBounds, cesiumAtlasFit, propertyAtlasViewport, propertySelectionSurface, propertyScreenViewport } from "./city-property-atlas.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import { createStreetLabelLayer } from "./city-street-labels.mjs";
@@ -839,6 +839,11 @@ export async function createRealityScene(
     setPropertyAtlas: propertyAtlas.setPropertyAtlas,
     clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
     getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    getPropertySelectionSurface() { return disposed?null:propertySelectionSurface(container); },
+    propertyBoundsForScreenRectangle(rect) {
+      const viewport=disposed?null:propertyScreenViewport(container,rect);
+      return viewport?cesiumViewportBounds(C,viewer,viewport):null;
+    },
     getViewportBounds() {
       const viewport = disposed ? null : propertyAtlasViewport(container);
       return viewport ? cesiumViewportBounds(C, viewer, viewport) : null;

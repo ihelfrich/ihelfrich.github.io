@@ -53,3 +53,24 @@
 @media (max-width:720px) {
  .city-workbench .property-sticky { position:static; }
 }
+
+/* One question, one area, one evidence trail. Secondary detail stays folded. */
+.activity-lenses { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;padding:4px;margin:18px 0;background:#ffffff06;border:1px solid #ffffff16;border-radius:8px; }
+.city-workbench .activity-lenses button { min-height:44px;border:0;border-radius:5px;background:transparent;color:#a8bfcc;font:11px CityDisplay,sans-serif; }
+.city-workbench .activity-lenses button[aria-pressed=true] { background:#c1dce718;color:#ecf4f7;box-shadow:inset 0 0 0 1px #b8dce837; }
+.property-activity .activity-scope { border:1px solid #abc5d02b;border-radius:7px;padding:14px;margin:20px 0;display:grid;gap:10px; }
+.activity-scope>strong { color:#dfedf3;font:500 14px CityDisplay,sans-serif; }
+.activity-area-actions { display:flex;flex-wrap:wrap;gap:7px; }.city-workbench .activity-area-actions button { min-height:40px;font-size:11px;flex:1;white-space:nowrap; }
+.activity-scope .small-note { margin:0;font-size:10px;line-height:1.6;overflow-wrap:anywhere; }
+.activity-saved { border-top:1px solid #abc5d022;padding-top:12px; }.property-activity :is(.activity-saved,.activity-source-picker,.activity-context)>summary { font:11px/1.5 CityDisplay,sans-serif;color:#c0d4df;cursor:pointer;min-height:32px;display:list-item; }
+.city-workbench .activity-saved label { display:grid;gap:7px;font-size:11px;margin:12px 0; }.city-workbench .activity-saved input { min-width:0;width:100%;padding:10px;background:#111c22;color:#e4eff5;border:1px solid #5a6f7c;border-radius:5px; }
+.activity-saved-row { display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #ffffff12;margin-top:10px; }.activity-saved-row button:first-child { overflow-wrap:anywhere;text-align:left; }
+.city-workbench .activity-filter select { min-width:0;width:100%;min-height:42px;padding:9px;background:#111c22;color:#e4eff5;border:1px solid #5a6f7c;border-radius:5px;font:12px CityDisplay,sans-serif; }
+.city-workbench .activity-filter input { min-height:42px; }.activity-period,.activity-materials,.activity-custom-dates { grid-column:1/-1; }.activity-custom-dates { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+.activity-source-picker { border-block:1px solid #ffffff1a;padding:12px 0;margin:12px 0; }.activity-source-picker .activity-layer-list { margin:0;border:0; }.activity-feed-heading { display:flex;align-items:center;justify-content:space-between;gap:10px; }.activity-feed-heading h4 { font-size:10px;letter-spacing:.08em;color:#b6c9d3; }.activity-feed-heading button { font-size:10px; }
+.activity-context { padding:16px 0;border-top:1px solid #ffffff1a; }.activity-context>div { padding-top:10px; }.activity-context a { font:11px/1.6 CityDisplay,sans-serif; }.activity-context section { margin-block:12px; }.activity-context .small-note,.activity-empty { font:11px/1.65 CityDisplay,sans-serif;color:#afc6d2; }.activity-empty { padding:16px;background:#c1dce708;border-radius:6px; }
+.activity-health-card { padding-bottom:12px;border-bottom:1px solid #ffffff1a; }.activity-health-card strong { font-size:11px;color:#d3e5ec; }.activity-relationship { display:grid;gap:10px;padding:14px;background:#b8cfe206;border-left:2px solid #d9a6bf77; }.activity-relationship strong { font:500 12px/1.5 CityDisplay,sans-serif;color:#e0ebf1; }.activity-relationship>span { font-size:10px;color:#b9a7b0; }
+.activity-material-table { width:100%;border-collapse:collapse;font:10px/1.5 CityDisplay,sans-serif;margin:18px 0;table-layout:fixed; }.activity-material-table :is(td,th) { padding:9px 5px;text-align:left;border-bottom:1px solid #ffffff20;vertical-align:top;overflow-wrap:anywhere; }.activity-material-table th { color:#c9dae3;font-weight:500; }.activity-material-table td { color:#acc4cf; }
+.property-area-draw { position:fixed;z-index:1200;cursor:crosshair;touch-action:none;background:#7bc9d308;outline:1px dashed #b8dce866; }.property-area-draw>span { position:absolute;top:10px;left:10px;background:#101c25ed;color:#e0f1f7;padding:10px 14px;pointer-events:none;font:12px/1.4 system-ui;border-radius:5px; }.property-area-box { position:absolute;border:2px solid #b8dce8;background:#b8dce82b;pointer-events:none; }
+.property-activity select:focus-visible { outline:2px solid #b8dce8;outline-offset:3px; }
+@media(max-width:720px){.activity-lenses{margin:12px 0}.city-workbench .activity-lenses button{font-size:10px}.activity-scope{margin:15px 0}.activity-area-actions button{min-height:44px}.activity-feed{max-height:350px}}

@@ -1,5 +1,5 @@
 import { parcelOutlineRings } from "../../lib/city-parcel-overlay.mjs";
-import { createThreePropertyAtlas, threeViewportBounds, threeAtlasFit, threeAtlasLocalPosition, propertyAtlasViewport } from "./city-property-atlas.mjs";
+import { createThreePropertyAtlas, threeViewportBounds, threeAtlasFit, threeAtlasLocalPosition, propertyAtlasViewport, propertySelectionSurface, propertyScreenViewport } from "./city-property-atlas.mjs";
 import { DEFAULT_TONE, normalizeTone, toneParameters, TONE_GRADE_GLSL } from "../../lib/city-tone.mjs";
 import { developmentVolume } from "../../lib/city-development-volume.mjs";
 import * as T from "three";
@@ -1137,6 +1137,11 @@ export async function createCityScene(
     setPropertyAtlas: propertyAtlas.setPropertyAtlas,
     clearPropertyAtlas: propertyAtlas.clearPropertyAtlas,
     getPropertyAtlasStatus: propertyAtlas.getPropertyAtlasStatus,
+    getPropertySelectionSurface() { return disposed?null:propertySelectionSurface(container); },
+    propertyBoundsForScreenRectangle(rect) {
+      const viewport=disposed?null:propertyScreenViewport(container,rect);
+      return viewport?threeViewportBounds(camera,data.origin||[-90.193,38.628],viewport):null;
+    },
     getViewportBounds() {
       const viewport = disposed ? null : propertyAtlasViewport(container);
       return viewport ? threeViewportBounds(camera, data.origin || [-90.193,38.628], viewport) : null;

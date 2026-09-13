@@ -19,6 +19,20 @@ export function propertyAtlasViewport(container) {
   return propertyAtlasAvailableViewport(viewport, blockers);
 }
 
+export function propertySelectionSurface(container) {
+  const viewport=propertyAtlasViewport(container),rect=container?.getBoundingClientRect?.();
+  return viewport&&rect?{left:rect.left+viewport.left,top:rect.top+viewport.top,width:viewport.width,height:viewport.height}:null;
+}
+/** Convert a client-pixel rectangle to the same canvas-relative footprint used
+ * by viewport queries. Reject UI/out-of-canvas coordinates, not clamp guesses. */
+export function propertyScreenViewport(container,selection) {
+  const rect=container?.getBoundingClientRect?.();
+  if(!rect||![selection?.left,selection?.top,selection?.width,selection?.height,rect.width,rect.height].every(Number.isFinite)||selection.width<=0||selection.height<=0||rect.width<=0||rect.height<=0)return null;
+  const left=selection.left-rect.left,top=selection.top-rect.top;
+  if(left<0||top<0||left+selection.width>rect.width+.01||top+selection.height>rect.height+.01)return null;
+  return {left,top,width:selection.width,height:selection.height,fullWidth:rect.width,fullHeight:rect.height};
+}
+
 /** A static single-draw-call point buffer. Selection is a bounded screen-space
  * lookup on click only; no per-point DOM, meshes, animation, or render polling. */
 export function createThreePropertyAtlas(scene, origin = [-90.193, 38.628], { getPixelRatio = () => 1 } = {}) {

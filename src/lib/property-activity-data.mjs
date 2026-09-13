@@ -40,6 +40,10 @@ function select(records, options, supportsDates) {
       const year = row.date ? Number(row.date.slice(0,4)) : null;
       if (year == null || (options.fromYear != null && year < options.fromYear) || (options.toYear != null && year > options.toYear)) return false;
     }
+    if (supportsDates && (options.fromDate || options.toDate)) {
+      const day = row.date?.slice(0,10);
+      if (!day || (options.fromDate && day < options.fromDate) || (options.toDate && day > options.toDate)) return false;
+    }
     return true;
   });
 }
@@ -242,12 +246,14 @@ export function createPropertyActivityData({ fetchImpl=(...args)=>fetch(...args)
       count:mappedCount+unmappedCount,mappedCount,unmappedCount,sourceCount,source,retrievedAt:source.retrievedAt,partial:false,stale:false,
       dateFilterApplied:false,searchApplied:true,groupCount:records.length,aggregation:'literal-name-groups-and-source-cell-counts'}};
   }
-  async function query({layers=['permits','planning-notices'],bounds,level='areas',query='',fromYear=null,toYear=null,signal}={}){
+  async function query({layers=['permits','planning-notices'],bounds,level='areas',query='',fromYear=null,toYear=null,fromDate=null,toDate=null,signal}={}){
     if(disposed)throw new DOMException('Aborted','AbortError');
     signal=signal?AbortSignal.any([signal,lifecycle.signal]):lifecycle.signal;
     if(!Array.isArray(layers)||layers.some(id=>!Object.hasOwn(PATHS,id))||!validBounds(bounds)||!['areas','properties'].includes(level)||typeof query!=='string'||query.length>300)throw new RangeError('Choose valid activity layers and map bounds.');
     if([fromYear,toYear].some(value=>value!==null&&(!Number.isInteger(value)||value<1800||value>2200))||(fromYear!==null&&toYear!==null&&fromYear>toYear))throw new RangeError('Choose a valid activity date range.');
-    const unique=[...new Set(layers)],options={bounds,level,query,fromYear,toYear,signal};aborted(signal);
+    const validDay = day => day == null || (/^\d{4}-\d{2}-\d{2}$/.test(day) && Number.isFinite(Date.parse(day)) && new Date(day).toISOString().slice(0,10) === day);
+    if (!validDay(fromDate) || !validDay(toDate) || (fromDate && toDate && fromDate > toDate)) throw new RangeError('Choose valid calendar dates.');
+    const unique=[...new Set(layers)],options={bounds,level,query,fromYear,toYear,fromDate,toDate,signal};aborted(signal);
     const settled=await waitWithSignal(Promise.allSettled(unique.map(id=>load(id,options))),signal);aborted(signal);
     const summaries=[],records=[],points=[];
     settled.forEach((result,index)=>{

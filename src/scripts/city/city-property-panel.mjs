@@ -70,7 +70,7 @@ export function createPropertyPanel(root,{
   const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{$('regional-search').open=false;$('context-results').hidden=false;const point=scope==='overland'?[-90.369,38.699]:scope==='page-i170'?[-90.35418,38.686435]:[-90.362,38.693];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':scope==='page-i170'?'PAGE AVENUE / I-170':'OVERLAND + PAGE / I-170'});}});
   let activityBrowser=null;
   const regionBrowser=createPropertyRegionPanel(section.querySelector('#property-region-browser'),{getCity,onSelect:point=>{$('context-results').hidden=false;void inspectPoint(point);},onLocate:onAreaLocate,onView:view=>activityBrowser?.setViewport(view.bounds,view.level),onActivitySelect:feature=>{selectTab('activity');activityBrowser?.openFeature(feature);}});
-  activityBrowser=createPropertyActivityPanel($('panel-activity'),{onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point);},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
+  activityBrowser=createPropertyActivityPanel($('panel-activity'),{getCity,onFit:bounds=>getCity()?.fitPropertyAtlasBounds?.(bounds),onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point);},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
   $('context-results').addEventListener('click',()=>{selectTab('evidence');regionBrowser.focusResults();});
   const tabNames=['evidence','activity','resident','site','inventory','scenario','develop'];
   function selectTab(name) {
@@ -79,6 +79,7 @@ export function createPropertyPanel(root,{
       const active=key===name,tab=$('tab-'+key);
       tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;$('panel-'+key).hidden=!active;
     }
+    regionBrowser?.setActivityFocus(name==='activity');
     if(name==='activity')activityBrowser?.activate();
     section.scrollIntoView?.({block:'start',behavior:'auto'});
     return true;
