@@ -6,13 +6,14 @@ import {OrthographicCamera} from 'three';
 import {createPropertyActivityPanel} from '../../src/scripts/city/city-property-activity-panel.mjs';
 import {createPropertyAreaSelection} from '../../src/scripts/city/city-property-area-selection.mjs';
 import {propertyScreenViewport,threeViewportBounds} from '../../src/scripts/city/city-property-atlas.mjs';
+import {createPropertyViewUrl,readPropertyViewHash} from '../../src/lib/property-view-link.mjs';
 import {createPropertyHistoryData} from '../../src/lib/property-history-data.mjs';
 
 const bounds=[-90.5,38.5,-90.2,38.8],settle=()=>new Promise(r=>setTimeout(r,8));
 const row=(id='one')=>({id,layerId:'ownership-signals',kind:'ownership',title:id,ownerName:id,longitude:-90.3,latitude:38.6,date:null,dateBasis:'current-observation-not-acquisition',sourceURL:'https://example.org/source'});
 const answer=(records=[row()])=>({records,features:records,layers:[{id:'ownership-signals',label:'Names',status:'ready',count:records.length,coverage:'Fixture only'}],counts:{records:records.length},partial:false});
-function fixture(t,{query=async()=>answer(),saved=null}={}){
- const window=new Window({url:'https://ihelfrich.github.io/st-louis/'}),doc=window.document,root=doc.createElement('section');doc.body.append(root);
+function fixture(t,{query=async()=>answer(),saved=null,url='https://ihelfrich.github.io/st-louis/'}={}){
+ const window=new Window({url}),doc=window.document,root=doc.createElement('section');doc.body.append(root);
  if(saved)window.localStorage.setItem('property-observation-workspace-v1',JSON.stringify(saved));
  const markers=[],selected=[],fits=[],calls=[];
  const data={query:o=>{calls.push(o);return query(o);},health:async()=>({sources:[]}),entities:async()=>null,dispose(){}};
@@ -103,4 +104,58 @@ test('history dates and before/after identities must match the observation parti
  for(const patch of [{observedAt:'2026-02-30T14:00:00Z'},{observedAt:'2025-09-12T14:00:00Z'},{after:{recordKey:'st-louis-county-current:OTHER:2',ownerName:'B LLC'}}]){
   const data=history([event(patch)]),result=await data.query({bounds,level:'properties'});data.dispose();assert.equal(result.records.length,0,JSON.stringify(patch));assert.equal(result.partial,true);
  }
+});
+
+const sharedState={version:1,lens:'ownership',bounds,layers:['ownership-signals'],query:'VINEBROOK',fromDate:'2026-08-01',toDate:null,material:'all',level:'properties'};
+const sharedURL=state=>createPropertyViewUrl(state,'https://ihelfrich.github.io/st-louis/');
+function clipboard(f,writeText){Object.defineProperty(f.window.navigator,'clipboard',{configurable:true,value:{writeText}});}
+test('shared evidence restores validated criteria, fixed geography and display level',async t=>{
+ const f=fixture(t,{url:sharedURL(sharedState)});f.panel.activate();await settle();
+ assert.equal(f.calls.length,1);const request=f.calls[0];
+ for(const key of ['bounds','layers','query','fromDate','toDate','material','level'])assert.deepEqual(request[key],sharedState[key],key);
+ assert.deepEqual(f.fits,[bounds]);assert.equal(f.$('period').value,'custom');assert.equal(f.$('query').value,'VINEBROOK');
+ assert.match(f.$('chips').textContent,/Any end/);assert.match(f.$('chips').textContent,/Fixed search area/);assert.equal(f.$('link-notice').hidden,false);
+ f.panel.setViewport([-91,38,-90,39],'areas');await settle();assert.equal(f.calls.length,1,'Shared area must remain fixed while the camera moves');
+});
+test('copy link captures accepted criteria despite unsubmitted form edits and excludes loaded evidence',async t=>{
+ let resolve;const f=fixture(t,{query:()=>new Promise(r=>{resolve=r;})});let copied;
+ clipboard(f,async url=>{copied=url;});f.$('query').value='accepted company';f.panel.activate();assert.equal(f.$('share').disabled,true);
+ f.$('query').value='unsubmitted company';resolve(answer());await settle();f.$('share').click();await settle();
+ const state=readPropertyViewHash(new URL(copied).hash).state;assert.equal(state.query,'accepted company');assert.equal('records' in state,false);assert.match(copied,/workspace=activity#evidence=/);
+ assert.equal(f.$('share-status').hidden,false);assert.equal(f.$('share-fallback').hidden,true);
+});
+test('clipboard denial exposes a selected view URL with the same accepted request',async t=>{
+ const f=fixture(t,{url:sharedURL(sharedState)});clipboard(f,async()=>{throw new Error('denied');});f.panel.activate();await settle();f.$('share').click();await settle();
+ assert.equal(f.$('share-fallback').hidden,false);assert.equal(f.doc.activeElement,f.$('share-url'));assert.deepEqual(readPropertyViewHash(new URL(f.$('share-url').value).hash).state,sharedState);
+});
+test('removing an applied search chip retains accepted dates, layers and area without applying a draft',async t=>{
+ const f=fixture(t,{url:sharedURL(sharedState)});f.panel.activate();await settle();f.$('from').value='2020-01-01';f.$('query').value='unsubmitted';
+ f.root.querySelector('[aria-label="Remove filter: Search: VINEBROOK"]').click();await settle();const request=f.calls.at(-1);
+ assert.equal(request.query,'');assert.equal(request.fromDate,'2026-08-01');assert.deepEqual(request.layers,['ownership-signals']);assert.deepEqual(request.bounds,bounds);assert.equal(f.doc.activeElement,f.$('query'));
+ assert.equal(f.$('link-notice').hidden,true,'Shared-view banner no longer describes the edited view');
+});
+test('removing fixed-area chip follows the current map while retaining the other accepted filters',async t=>{
+ const f=fixture(t,{url:sharedURL(sharedState)});f.panel.activate();await settle();const current=[-90.6,38.6,-90.4,38.7];f.panel.setViewport(current,'areas');
+ f.root.querySelector('[aria-label="Remove filter: Fixed search area"]').click();await settle();assert.deepEqual(f.calls.at(-1).bounds,current);assert.equal(f.calls.at(-1).level,'areas');assert.equal(f.calls.at(-1).query,'VINEBROOK');assert.equal(f.$('follow').hidden,true);
+});
+test('invalid owned link never falls back to a broad query until explicit action',async t=>{
+ const f=fixture(t,{url:'https://ihelfrich.github.io/st-louis/#evidence=%7Bbad'});f.panel.activate();f.panel.setViewport(bounds,'properties');await new Promise(r=>setTimeout(r,230));
+ assert.equal(f.calls.length,0);assert.match(f.$('status').textContent,/not loaded/);assert.equal(f.$('share').disabled,true);
+ f.$('form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));await settle();assert.equal(f.calls.length,1);assert.equal(f.$('link-notice').hidden,true);
+});
+test('hash changes supersede a pending map debounce and disposal removes the listener',async t=>{
+ const f=fixture(t);f.panel.activate();await settle();f.panel.setViewport(bounds,'properties');f.window.location.hash='#evidence=%7Bbad';await new Promise(r=>setTimeout(r,230));assert.equal(f.calls.length,1,'A queued map refresh must not bypass invalid-link validation');
+ f.window.location.hash=new URL(sharedURL(sharedState)).hash;await settle();assert.equal(f.calls.length,2);assert.equal(f.calls.at(-1).query,'VINEBROOK');
+ f.panel.dispose();f.window.location.hash=new URL(sharedURL({...sharedState,query:'later'})).hash;await settle();assert.equal(f.calls.length,2);
+});
+test('explicit area drill advances fixed evidence to the resolved detail level but a free pan does not',async t=>{
+ const f=fixture(t,{url:sharedURL({...sharedState,level:'areas'})});f.panel.activate();await settle();const drill=[-90.28,38.70,-90.26,38.72];
+ f.panel.navigateArea(drill);await settle();assert.deepEqual(f.calls.at(-1).bounds,drill);
+ f.panel.setViewport(drill,'properties');await settle();assert.equal(f.calls.at(-1).level,'properties');assert.deepEqual(f.calls.at(-1).bounds,drill);
+ const count=f.calls.length;f.panel.setViewport([-91,38,-90,39],'areas');await settle();assert.equal(f.calls.length,count);
+});
+test('late clipboard failures cannot reopen fallback after refresh or disposal',async t=>{
+ const f=fixture(t);let reject;clipboard(f,()=>new Promise((_,r)=>{reject=r;}));f.panel.activate();await settle();f.$('share').click();
+ f.$('form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));reject(new Error('late'));await settle();assert.equal(f.$('share-status').hidden,true);assert.equal(f.$('share-fallback').hidden,true);
+ f.$('share').click();f.panel.dispose();reject(new Error('disposed'));await settle();assert.equal(f.$('share-fallback').hidden,true);
 });

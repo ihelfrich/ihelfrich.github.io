@@ -174,6 +174,44 @@ test('shell search opens Evidence and preserves exact-record choice without show
  assert.match(result.textContent,/account 9876/);assert.equal(result.textContent.includes(key),false);
 });
 
+test('address inspection returns to its original matches without refetching or clearing selected evidence',async t=>{
+ let searches=0;const a=parcel('one'),b=parcel('two');
+ const f=fixture(t,{search:async()=>{searches++;return [a,b].map(p=>({...point,...p.properties}));},lookup:async p=>evidence(p,p.recordKey===b.properties.recordKey?b:a)});
+ await f.panel.searchAddress('Fixture Place');const result=f.$('search-results').querySelectorAll('button')[1];result.focus();result.click();await settle();
+ assert.equal(f.$('context-results').textContent,'Back to address matches');assert.equal(f.outlines.at(-1).properties.recordKey,b.properties.recordKey);
+ f.$('regional-search').open=false;f.panel.selectTab('site');f.$('context-results').click();
+ assert.equal(f.$('panel-evidence').hidden,false);assert.equal(f.$('regional-search').open,true);assert.equal(f.window.document.activeElement,result);assert.equal(f.$('search').value,'Fixture Place');assert.equal(searches,1);assert.equal(f.outlines.at(-1).properties.recordKey,b.properties.recordKey);
+ assert.equal(f.$('search-results').querySelectorAll('button').length,2);
+});
+
+test('address-only ambiguity retains the search return path through an exact candidate choice',async t=>{
+ const exact=parcel('specific'),address={...point,address:'County source location',resultKind:'address',jurisdiction:'st-louis-county'};
+ const f=fixture(t,{search:async()=>[address],lookup:async p=>p.recordKey?evidence(p,exact):{...evidence(p),parcels:{parcel:null,candidates:[exact],ambiguous:true}}});
+ await f.panel.searchAddress('County source');const original=f.$('search-results').querySelector('button');original.click();await settle();
+ assert.equal(f.$('context').hidden,false);assert.equal(f.$('context-save').disabled,true);assert.equal(f.$('context-results').textContent,'Back to address matches');
+ f.$('evidence').querySelector('button[data-record-key]').click();await settle();assert.equal(f.outlines.at(-1).properties.recordKey,exact.properties.recordKey);assert.equal(f.$('context-results').textContent,'Back to address matches');
+ f.$('context-results').click();assert.equal(f.window.document.activeElement,original);assert.equal(f.$('search').value,'County source');
+});
+
+test('returning to address matches during lookup prevents late inspection scrolling while retaining its evidence',async t=>{
+ let resolve;const f=fixture(t,{search:async()=>[{...point,...parcel().properties}],lookup:p=>new Promise(r=>{resolve=()=>r(evidence(p));})});
+ await f.panel.searchAddress('Fixture');const original=f.$('search-results').querySelector('button');original.click();
+ assert.equal(f.$('context').hidden,false);assert.equal(f.$('context-results').textContent,'Back to address matches');
+ f.$('context-results').click();let scrolls=0;f.$('evidence').scrollIntoView=()=>scrolls++;resolve();await settle();
+ assert.equal(scrolls,0);assert.equal(f.window.document.activeElement,original);assert.equal(f.applied.at(-1).parcels.parcel.properties.recordKey,'record:one');
+});
+
+test('replaced address results fall back to the current query without a detached focus target',async t=>{
+ const f=fixture(t,{search:async q=>[{...point,...parcel().properties,address:q}]});await f.panel.searchAddress('earlier');f.$('search-results').querySelector('button').click();await settle();
+ await f.panel.searchAddress('later');f.$('context-results').click();assert.equal(f.window.document.activeElement,f.$('search'));assert.equal(f.$('search').value,'later');assert.equal(f.$('regional-search').open,true);
+});
+
+test('address query state is exposed to the shell while the contextual search stays before the regional browser',async t=>{
+ const changes=[],f=fixture(t,{onSearchQuery:q=>changes.push(q)});await f.panel.searchAddress('  <Fixture> address  ');
+ assert.equal(f.$('panel-evidence').firstElementChild,f.$('regional-search'));assert.equal(f.$('regional-search').nextElementSibling,f.$('region-browser'));assert.equal(f.$('regional-search').querySelector('summary').textContent,'Address search · <Fixture> address');assert.equal(f.$('regional-search').querySelector('summary').children.length,0);
+ f.type('search','updated address');await settle();f.type('search','');assert.deepEqual(changes,['<Fixture> address','updated address','']);assert.equal(f.$('regional-search').querySelector('summary').textContent,'Find an address anywhere in City or County');
+});
+
 test('import controls retain their listeners after moving and an imported selection opens Scenario and clears stale evidence',async t=>{
  const f=fixture(t,{withEstate:true});await f.panel.inspectPoint(point);
  const file=f.root.querySelector('#estate-file');

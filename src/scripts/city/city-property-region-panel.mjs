@@ -2,7 +2,7 @@ import {PROPERTY_REGIONS,PROPERTY_REGION_BOUNDS} from '../../lib/property-region
 import {ATLAS_METRICS,propertyRegionData,propertyAtlasCsv,validAtlasBounds} from '../../lib/property-region-data.mjs';
 const money=v=>Number.isFinite(v)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',notation:'compact',maximumFractionDigits:1}).format(v):'Unknown';
 const number=v=>(v||0).toLocaleString();
-export function createPropertyRegionPanel(root,{getCity=()=>null,onSelect=()=>{},onLocate=()=>{},onView=()=>{},onActivitySelect=()=>{},data=propertyRegionData}={}){
+export function createPropertyRegionPanel(root,{getCity=()=>null,onSelect=()=>{},onLocate=()=>{},onView=()=>{},onActivitySelect=()=>{},onNavigation=()=>{},onNavigateArea=()=>{},data=propertyRegionData}={}){
  const doc=root.ownerDocument;root.className='property-atlas';
  root.innerHTML=`<div class="atlas-heading"><h3>Property values &amp; transfers</h3><p>Select a map area to explore its properties.</p></div>
  <div class="atlas-jurisdictions" role="group" aria-label="Property geography"><button type="button" data-region="all" aria-pressed="true">City + County</button><button type="button" data-region="st-louis-county" aria-pressed="false">County</button><button type="button" data-region="st-louis-city" aria-pressed="false">City</button></div>
@@ -10,25 +10,51 @@ export function createPropertyRegionPanel(root,{getCity=()=>null,onSelect=()=>{}
  <div data-atlas="time" class="atlas-time" hidden><label>Latest transfer from year<input data-atlas="from" type="number" min="1800" max="2200" step="1" placeholder="Any" /></label><label>Through year<input data-atlas="to" type="number" min="1800" max="2200" step="1" placeholder="Any" /></label><button data-atlas="dates" type="button" class="secondary-button">Apply years</button></div>
  <div class="atlas-status"><strong data-atlas="count">Connecting regional records…</strong><span data-atlas="status" role="status">Loading geographic coverage</span><span data-atlas="vintage"></span></div>
  <div class="atlas-key"><div class="atlas-key-bar"></div><div><span data-atlas="low">Lower</span><span data-atlas="high">Higher</span></div></div>
- <div class="atlas-actions"><button data-atlas="search-map" class="secondary-button" type="button">Search this map</button><button data-atlas="reset" class="text-button" type="button">Fit selected region ↗</button></div>
+ <div class="atlas-actions"><button data-atlas="back" class="text-button" type="button" disabled>← Previous area</button><button data-atlas="search-map" class="secondary-button" type="button">Search this map</button><button data-atlas="reset" class="text-button" type="button">Fit selected region ↗</button></div>
  <details class="atlas-explainer"><summary>What these values mean</summary><p data-atlas="legend" class="small-note">Zoom into an area to reveal individual properties.</p><p data-atlas="meaning" class="small-note"></p></details>
  <details class="atlas-results" open><summary data-atlas="results-label">Browse mapped areas</summary><p class="small-note" data-atlas="list-note"></p><div data-atlas="list" class="atlas-list"></div><button data-atlas="more" type="button" class="text-button" hidden>Show more results</button><button data-atlas="export" type="button" class="secondary-button" disabled>Export this view · CSV</button></details>
  <details class="atlas-sources"><summary>Coverage, source dates &amp; methods</summary><div data-atlas="sources"></div><p class="small-note">The atlas currently connects St. Louis City and County. Additional U.S. jurisdictions require their own verified data connections; national coverage is not connected.</p></details>`;
  const $=name=>root.querySelector(`[data-atlas="${name}"]`),el=(tag,text)=>{const e=doc.createElement(tag);if(text!=null)e.textContent=text;return e;};
  let activityFeatures=[],activityLayers=[],activityFocused=false;
+ const previousAreas=[];let disposed=false;
  let jurisdiction='all',metric='assessedValueUSD',fromYear=null,toYear=null,view=null,active=false,started=false,sequence=0,controller=null,lastBounds=null,lastKey='',poll=null,observedKey='',settledTicks=0,listLimit=40,pauseUntil=0,lastScene=null;
  const floating=el('aside');floating.className='atlas-map-key';floating.hidden=true;floating.setAttribute('aria-label','Property map legend');doc.querySelector('#city-app')?.append(floating);
+ const sameArea=(a,b)=>validAtlasBounds(a)&&validAtlasBounds(b)&&a.every((value,index)=>Math.abs(value-b[index])<1e-7);
+ function getNavigationState(){return {canGoBack:!disposed&&previousAreas.length>0,depth:previousAreas.length,previousBounds:previousAreas.length?[...previousAreas.at(-1)]:null};}
+ function navigationChanged(){const state=getNavigationState();$('back').disabled=!state.canGoBack;onNavigation(state);}
+ function rememberArea(destination=null){
+  const viewport=getCity()?.getViewportBounds?.();
+  // During a camera flight, the last requested area is more useful than an
+  // arbitrary intermediate animation frame. Once settled, honor manual pans.
+  const area=Date.now()<pauseUntil&&validAtlasBounds(lastBounds)?lastBounds:validAtlasBounds(viewport)?viewport:lastBounds;
+  if(!validAtlasBounds(area)||sameArea(area,destination)||sameArea(area,previousAreas.at(-1)))return;
+  previousAreas.push([...area]);if(previousAreas.length>20)previousAreas.shift();navigationChanged();
+ }
+ function clearNavigation(){previousAreas.length=0;navigationChanged();}
  function fit(bounds){
-  getCity()?.fitPropertyAtlasBounds?.(bounds);
-  pauseUntil=Date.now()+2000;lastBounds=bounds;
+  if(disposed||!validAtlasBounds(bounds))return false;
+  const target=[...bounds];getCity()?.fitPropertyAtlasBounds?.([...target]);
+  pauseUntil=Date.now()+2000;lastBounds=target;
   onLocate({longitude:(bounds[0]+bounds[2])/2,latitude:(bounds[1]+bounds[3])/2,label:jurisdiction==='all'?'ST. LOUIS CITY + COUNTY':PROPERTY_REGIONS.find(r=>r.id===jurisdiction)?.name.toUpperCase()});
+  return true;
  }
  function pick(feature){
-  if(feature.kind==='cell'||feature.kind==='activity-cell'){fit(feature.bounds);void refresh(feature.bounds);if(feature.kind==='cell')root.querySelector('.atlas-heading')?.scrollIntoView?.({block:'start'});}
-  else{if(feature.kind==='parcel')onSelect(feature);else onActivitySelect(feature);getCity()?.flyToPropertyAtlasFeature?.(feature);pauseUntil=Date.now()+1600;}
+  if(disposed||!feature)return false;
+  if(feature.kind==='cell'||feature.kind==='activity-cell'){
+   if(!validAtlasBounds(feature.bounds))return false;
+   const target=[...feature.bounds];rememberArea(target);fit(target);onNavigateArea([...target]);void refresh(target);if(feature.kind==='cell')root.querySelector('.atlas-heading')?.scrollIntoView?.({block:'start'});
+  }else{
+   if(!Number.isFinite(feature.longitude)||!Number.isFinite(feature.latitude)||Math.abs(feature.longitude)>180||Math.abs(feature.latitude)>90)return false;
+   rememberArea();if(feature.kind==='parcel')onSelect(feature);else onActivitySelect(feature);getCity()?.flyToPropertyAtlasFeature?.(feature);pauseUntil=Date.now()+1600;
+  }
+  return true;
+ }
+ async function back(){
+  if(disposed||!previousAreas.length)return false;
+  const bounds=previousAreas.pop();navigationChanged();fit(bounds);onNavigateArea([...bounds]);await refresh(bounds);return true;
  }
  function renderMap(){
-  if(!active||!view)return;const small=doc.defaultView?.innerWidth<=720;
+  if(disposed||!active||!view)return;const small=doc.defaultView?.innerWidth<=720;
   const features=activityFocused?activityFeatures.map(f=>f.kind==='activity-cell'?{...f,pixelSize:Math.min(small?15:25,(small?4:7)+Math.log2(1+(f.count||1))*1.3)}:f):view.features.map(f=>f.kind==='cell'?{...f,pixelSize:small?5:12}:f);
   getCity()?.setPropertyAtlas?.({features,onSelect:pick,domain:view.domain});lastScene=getCity();floating.hidden=false;
   floating.replaceChildren(el('strong',activityFocused?'Public-source evidence':ATLAS_METRICS[metric].label));
@@ -57,7 +83,7 @@ export function createPropertyRegionPanel(root,{getCity=()=>null,onSelect=()=>{}
   const note=el('p','Annual tax bills, multi-year assessment histories and detailed transfer histories have separate, limited coverage. A mapped record does not mean every underlying document is imported. Open a property for source-specific status and official records.');note.className='small-note';$('sources').append(note);
  }
  async function refresh(bounds=lastBounds||PROPERTY_REGION_BOUNDS){
-  if(!validAtlasBounds(bounds))return;const serial=++sequence;controller?.abort();controller=new AbortController();lastBounds=bounds;
+  if(disposed||!validAtlasBounds(bounds))return;bounds=[...bounds];const serial=++sequence;controller?.abort();controller=new AbortController();lastBounds=bounds;
   $('status').textContent='Updating the visible area…';root.setAttribute('aria-busy','true');$('export').disabled=true;
   try{
    const result=await data.query({jurisdiction,metric,fromYear,toYear,bounds,signal:controller.signal});if(serial!==sequence)return;view=result;listLimit=40;
@@ -74,13 +100,15 @@ export function createPropertyRegionPanel(root,{getCity=()=>null,onSelect=()=>{}
   finally{if(serial===sequence)root.removeAttribute('aria-busy');}
  }
  const regionBounds=()=>jurisdiction==='all'?PROPERTY_REGION_BOUNDS:PROPERTY_REGIONS.find(r=>r.id===jurisdiction).bounds;
- for(const button of root.querySelectorAll('[data-region]'))button.addEventListener('click',()=>{jurisdiction=button.dataset.region;for(const other of root.querySelectorAll('[data-region]'))other.setAttribute('aria-pressed',String(other===button));fit(regionBounds());void refresh(regionBounds());});
+ for(const button of root.querySelectorAll('[data-region]'))button.addEventListener('click',()=>{jurisdiction=button.dataset.region;clearNavigation();for(const other of root.querySelectorAll('[data-region]'))other.setAttribute('aria-pressed',String(other===button));fit(regionBounds());void refresh(regionBounds());});
  $('metric').addEventListener('change',()=>{metric=$('metric').value;$('time').hidden=metric!=='latestSalePriceUSD';void refresh();});
  $('dates').addEventListener('click',()=>{const a=$('from').value,b=$('to').value;fromYear=a?Number(a):null;toYear=b?Number(b):null;void refresh();});
  $('search-map').addEventListener('click',()=>{const bounds=getCity()?.getViewportBounds?.();void refresh(validAtlasBounds(bounds)?bounds:lastBounds||regionBounds());});
- $('reset').addEventListener('click',()=>{fit(regionBounds());void refresh(regionBounds());});
+ $('back').addEventListener('click',()=>void back());
+ $('reset').addEventListener('click',()=>{clearNavigation();fit(regionBounds());void refresh(regionBounds());});
  $('more').addEventListener('click',()=>{listLimit+=40;renderList();});
  $('export').addEventListener('click',()=>{if(!view)return;const content=propertyAtlasCsv(view),url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'})),a=el('a');a.href=url;a.download=`st-louis-${jurisdiction}-${metric}-${view.level}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
- function activate(value=true){active=value;if(!value){getCity()?.clearPropertyAtlas?.();floating.hidden=true;return;}if(!started){started=true;void refresh(regionBounds());poll=setInterval(()=>{if(!active||doc.hidden||Date.now()<pauseUntil)return;if(getCity()!==lastScene)renderMap();const bounds=getCity()?.getViewportBounds?.();if(!validAtlasBounds(bounds))return;const key=bounds.map(n=>n.toFixed(4)).join(',');if(key!==observedKey){observedKey=key;settledTicks=0;return;}if(++settledTicks>=1&&key!==lastKey){lastKey=key;void refresh(bounds);}},900);poll.unref?.();}else renderMap();}
- return {activate,start(){activate(true);fit(regionBounds());return refresh(regionBounds());},setActivityFocus(value){activityFocused=Boolean(value);renderMap();},setActivityLayers(features,layers){activityFeatures=features;activityLayers=layers;renderMap();},focusFeature(feature){pick(feature);},refresh(){renderMap();},focusResults(){root.scrollIntoView?.({block:'start'});$('metric').focus();},dispose(){active=false;sequence++;controller?.abort();clearInterval(poll);getCity()?.clearPropertyAtlas?.();floating.remove();}};
+ function activate(value=true){if(disposed)return;active=value;if(!value){getCity()?.clearPropertyAtlas?.();floating.hidden=true;return;}if(!started){started=true;void refresh(regionBounds());poll=setInterval(()=>{if(!active||doc.hidden||Date.now()<pauseUntil)return;if(getCity()!==lastScene)renderMap();const bounds=getCity()?.getViewportBounds?.();if(!validAtlasBounds(bounds))return;const key=bounds.map(n=>n.toFixed(4)).join(',');if(key!==observedKey){observedKey=key;settledTicks=0;return;}if(++settledTicks>=1&&key!==lastKey){lastKey=key;void refresh(bounds);}},900);poll.unref?.();}else renderMap();}
+ navigationChanged();
+ return {activate,start(){clearNavigation();activate(true);fit(regionBounds());return refresh(regionBounds());},back,getNavigationState,setActivityFocus(value){activityFocused=Boolean(value);renderMap();},setActivityLayers(features,layers){activityFeatures=features;activityLayers=layers;renderMap();},focusFeature:pick,refresh(){renderMap();},focusResults(){root.scrollIntoView?.({block:'start'});$('metric').focus();},dispose(){if(disposed)return;disposed=true;active=false;sequence++;controller?.abort();clearInterval(poll);clearNavigation();getCity()?.clearPropertyAtlas?.();floating.remove();}};
 }

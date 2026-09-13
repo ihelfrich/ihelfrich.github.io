@@ -29,6 +29,9 @@ body.city-workbench {
 .city-workbench .panel-heading .text-button { min-height: 32px; font-size: 12px; }
 .city-workbench .explorer.estate-open .panel-heading .eyebrow { font-size: 13px; letter-spacing: -.02em; text-transform: none; }
 .city-workbench .explorer:not(.estate-open) #property-expand { display: none; }
+.city-workbench .explorer:not(.estate-open) .property-map-back { display: none; }
+.city-workbench .panel-heading .property-map-back { width: 36px; min-height: 36px; flex: none; font-size: 21px; text-decoration: none; border: 1px solid var(--border); border-radius: 6px; }
+.city-workbench .property-map-back:hover { background: #c8e6ee12; }
 .city-workbench #panel-content { padding: 14px 18px 24px; scroll-padding-top: 66px; }
 .city-workbench .small-note { font-size: 12px; line-height: 1.6; }
 .city-workbench :is(.primary-button, .secondary-button) { font-size: 13px; min-height: 40px; }
@@ -89,6 +92,15 @@ body.city-workbench {
 .activity-result-summary { display: flex; gap: 12px; align-items: start; margin-top: 12px; }
 .city-workbench .activity-result-summary .activity-status { flex: 1; margin: 0; padding: 0; font-size: 12px; line-height: 1.65; color: #d2e1e8; }
 .city-workbench .activity-result-summary button { flex: none; padding: 2px 0; font-size: 11px; }
+.activity-filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 4px; }
+.city-workbench .activity-filter-chip { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; min-height: 34px; padding: 5px 9px; border: 1px solid #c8e6ee30; border-radius: 5px; background: #c8e6ee0b; color: #d2e1e8; text-align: left; font-size: 11px; }
+.activity-filter-chip > :first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.activity-filter-chip > :last-child { flex: none; font-size: 17px; color: #a8c6d6; }
+.city-workbench .activity-filter-chip:hover { background: #c8e6ee1c; border-color: #c8e6ee70; }
+.activity-link-notice { margin-top: 12px; padding-left: 10px; border-left: 2px solid #a8c6d6; color: #b9cdd7; font-size: 12px; line-height: 1.6; }
+.activity-share-fallback { display: grid; gap: 6px; font-size: 12px; margin: 10px 0; }
+.city-workbench .activity-share-fallback input { width: 100%; min-width: 0; font-size: 12px; }
+.activity-explainer > .secondary-button { margin: 0 0 12px; }
 .activity-explainer { padding: 6px 0 12px; }
 .activity-explainer summary { cursor: pointer; font-size: 11px; color: #a8becb; }
 .city-workbench .activity-intro { font-size: 12px; line-height: 1.65; }
@@ -120,6 +132,11 @@ body.city-workbench {
 .city-workbench .atlas-status strong { font-size: 23px; }
 .city-workbench .atlas-status span { font-size: 12px; }
 .city-workbench .atlas-actions button { font-size: 12px; }
+.city-workbench .atlas-actions { flex-wrap: wrap; gap: 8px 14px; }
+.city-workbench .atlas-actions button:disabled { display: none; }
+.city-workbench .property-regional-search { margin: 0 0 18px; padding: 0 0 12px; border-bottom: 1px solid var(--border); }
+.city-workbench .property-regional-search > summary { min-height: 38px; padding: 7px 0; font-size: 13px; overflow-wrap: anywhere; cursor: pointer; color: #c8e6ee; }
+.city-workbench .property-regional-search .estate-filters { margin-top: 12px; }
 .city-workbench .atlas-key { margin: 12px 0; }
 .city-workbench .atlas-explainer { margin: 12px 0 0; }
 .city-workbench .atlas-explainer > summary { font-size: 11px; color: var(--muted); }
@@ -161,6 +178,7 @@ body.city-workbench {
   .city-workbench .activity-search-row button { padding-inline: 12px; }
   .city-workbench .property-activity :is(.activity-source-picker, .activity-scope) > summary { font-size: 11px; min-height: 40px; }
   .city-workbench .activity-result-summary button { font-size: 10px; }
+  .city-workbench .activity-filter-chip { min-height: 40px; }
   .city-workbench .activity-result-summary .activity-status { font-size: 11px; }
   .city-workbench .mode-bar button { font-size: 10px; }
   .city-workbench .atlas-heading p { display: block; font-size: 12px; }

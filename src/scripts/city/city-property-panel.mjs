@@ -16,7 +16,7 @@ const regionalTransfer=r=>({recordKey:r.recordKey,parcelId:r.parcelId,jurisdicti
 
 /** One property workspace; original estate controls retain their listeners and marker channel. */
 export function createPropertyPanel(root,{
-  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},onTaxEvidence=()=>{},recordsPanelFactory=createCountyRecordsPanel,
+  estate,getCity=()=>null,notice=()=>{},onOpen=()=>{},onAreaLocate=()=>{},onPublicMarkers=()=>{},onEvidence=()=>{},onInventory=()=>{},onNotebook=()=>{},onTaxEvidence=()=>{},onSearchQuery=()=>{},recordsPanelFactory=createCountyRecordsPanel,
   search=searchRegionalAddresses,lookup:providedLookup=null,inventoryLoader=loadPublicListings,debounceMs=450,
 }={}) {
   const doc=root.ownerDocument,section=doc.createElement('section');section.className='property-workspace';
@@ -34,12 +34,12 @@ export function createPropertyPanel(root,{
     <div id="property-panel-resident" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-resident" tabindex="0" hidden></div>
     <div id="property-panel-activity" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-activity" tabindex="0" hidden></div>
     <div id="property-panel-evidence" class="property-tab-panel" role="tabpanel" aria-labelledby="property-tab-evidence" tabindex="0">
-      <div id="property-region-browser"></div>
       <details id="property-regional-search" class="property-regional-search"><summary>Find an address anywhere in City or County</summary><div class="estate-filters"><label>City or County address<input id="property-search" type="search" placeholder="Street address, municipality or ZIP" maxlength="160" autocomplete="off" /></label></div>
       <p class="small-note">Search across St. Louis City and County. Results distinguish City parcel records from County address locations.</p>
       <p id="property-search-status" class="small-note" role="status">Enter at least 3 characters to search.</p>
       <div id="property-search-results" class="estate-list"></div>
       </details>
+      <div id="property-region-browser"></div>
       <div id="property-evidence" aria-live="polite"></div>
       <details id="property-study-areas" class="property-source-details"><summary>Saved study areas · Overland &amp; Page / I-170</summary><div id="county-parcel-browser"></div></details>
     </div>
@@ -70,8 +70,8 @@ export function createPropertyPanel(root,{
     <div id="property-panel-site" class="property-tool-panel" role="region" aria-label="Site tool" tabindex="-1" hidden></div></div>`;
   const intro=root.querySelector('.panel-intro');if(intro)intro.after(section);else root.prepend(section);
   const $=id=>section.querySelector('#property-'+id);
-  const expandButton=$('expand'),heading=doc.querySelector('#explorer > .panel-heading');
-  if(heading){const toolbar=expandButton.parentElement;heading.append(expandButton);toolbar.remove();}
+  const expandButton=$('expand'),heading=doc.querySelector('#explorer > .panel-heading'),mapBack=doc.createElement('button');mapBack.type='button';mapBack.className='property-map-back text-button';mapBack.textContent='←';mapBack.setAttribute('aria-label','Previous map area');mapBack.title='Previous map area';mapBack.hidden=true;
+  if(heading){const toolbar=expandButton.parentElement;heading.append(mapBack,expandButton);toolbar.remove();}else expandButton.before(mapBack);
   expandButton.addEventListener('click',()=>{const wide=doc.body.classList.toggle('property-wide'),label=wide?'Compact workspace':'Expand workspace';expandButton.setAttribute('aria-pressed',String(wide));expandButton.setAttribute('aria-label',label);expandButton.title=label;expandButton.textContent=wide?'Compact':'Expand';});
   $('context-save').addEventListener('click',()=>{selectTab('resident');onNotebook();});
   const imported=root.querySelector('#estate-inventory'),scenario=root.querySelector('.estate-scenario');
@@ -79,12 +79,13 @@ export function createPropertyPanel(root,{
   if(scenario)$('panel-scenario').append(scenario);
   const countyBrowser=createCountyPanel(section.querySelector('#county-parcel-browser'),{onSelect:point=>{void inspectPoint(point);getCity()?.flyTo?.((point.longitude-ORIGIN[0])*X_SCALE,-(point.latitude-ORIGIN[1])*METRES,3);},onLocate:scope=>{$('regional-search').open=false;$('context-results').hidden=false;const point=scope==='overland'?[-90.369,38.699]:scope==='page-i170'?[-90.35418,38.686435]:[-90.362,38.693];getCity()?.flyTo?.((point[0]-ORIGIN[0])*X_SCALE,-(point[1]-ORIGIN[1])*METRES,.6);onAreaLocate({longitude:point[0],latitude:point[1],label:scope==='overland'?'OVERLAND':scope==='page-i170'?'PAGE AVENUE / I-170':'OVERLAND + PAGE / I-170'});}});
   let activityBrowser=null;
-  const regionBrowser=createPropertyRegionPanel(section.querySelector('#property-region-browser'),{getCity,onSelect:point=>{$('context-results').hidden=false;void inspectPoint(point);},onLocate:onAreaLocate,onView:view=>activityBrowser?.setViewport(view.bounds,view.level),onActivitySelect:feature=>{selectTab('activity');activityBrowser?.openFeature(feature);}});
+  const regionBrowser=createPropertyRegionPanel(section.querySelector('#property-region-browser'),{getCity,onSelect:point=>{$('context-results').hidden=false;void inspectPoint(point);},onLocate:onAreaLocate,onNavigation:state=>{mapBack.hidden=!state.canGoBack;mapBack.disabled=!state.canGoBack;mapBack.title=state.canGoBack?`Previous map area (${state.depth} ${state.depth===1?'step':'steps'} available)`:'Previous map area';},onNavigateArea:area=>activityBrowser?.navigateArea(area),onView:view=>activityBrowser?.setViewport(view.bounds,view.level),onActivitySelect:feature=>{selectTab('activity');activityBrowser?.openFeature(feature);}});
+  mapBack.addEventListener('click',()=>{void regionBrowser.back();});
   activityBrowser=createPropertyActivityPanel($('panel-activity'),{getCity,onFit:bounds=>getCity()?.fitPropertyAtlasBounds?.(bounds),onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point,{origin:'activity'});},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
-  $('context-results').addEventListener('click',()=>{if(selectionOrigin==='activity'){selectTab('activity');$('panel-activity').focus({preventScroll:true});}else{selectTab('evidence');regionBrowser.focusResults();}});
+  $('context-results').addEventListener('click',()=>{if(selectionOrigin==='activity'){selectTab('activity');$('panel-activity').focus({preventScroll:true});}else if(selectionOrigin==='search'){showAddressMatches();}else{selectTab('evidence');regionBrowser.focusResults();}});
   const tabNames=['evidence','activity','resident','tools'];
   const toolNames={site:'Site',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
-  let activeView='evidence',lastTool=null,selectionOrigin='evidence';
+  let activeView='evidence',lastTool=null,selectionOrigin='evidence',searchReturnTrigger=null,searchNavigation=0;
   function selectTab(name) {
     const isTool=Object.hasOwn(toolNames,name),primary=isTool?'tools':name;
     if(!tabNames.includes(primary))return false;
@@ -114,7 +115,14 @@ export function createPropertyPanel(root,{
     });
   }
   root.addEventListener('estate:scenario',()=>selectTab('scenario'));
-  function focusSearch(){onOpen();selectTab('evidence');$('regional-search').open=true;$('search').focus()}
+  function focusSearch(){searchNavigation++;onOpen();selectTab('evidence');$('regional-search').open=true;$('search').focus()}
+  function showAddressMatches(){
+    searchNavigation++;onOpen();selectTab('evidence');$('regional-search').open=true;
+    const target=searchReturnTrigger?.isConnected&&$('search-results').contains(searchReturnTrigger)?searchReturnTrigger:$('search');target.focus();
+  }
+  function updateSearchQuery(){
+    const query=$('search').value.trim();$('regional-search').querySelector('summary').textContent=query?`Address search · ${query}`:'Find an address anywhere in City or County';onSearchQuery(query);
+  }
   const element=(tag,text,cls)=>{const e=doc.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
   const paragraph=(parent,text)=>parent.append(element('p',text,'small-note'));
   function link(parent,label,value) {
@@ -144,11 +152,12 @@ export function createPropertyPanel(root,{
   }
   // The index uses parcelKey:parcelId:OBJECTID; keep its composite identity out of the headline.
   const account=record=>record.sourceObjectId??record.recordKey?.split(':').at(-1)??'Unknown';
-  function renderEvidence(evidence) {
+  function renderEvidence(evidence,reveal=true) {
     recordsPanel?.dispose();recordsPanel=null;
     const body=$('evidence');body.replaceChildren();
     const parcels=evidence.parcels||{},p=parcels.parcel?.properties,z=evidence.zoning||{},sale=evidence.inventory||{};
-    $('context').hidden=!(p?.recordKey||selectionOrigin==='activity');$('context-address').textContent=p?.address||evidence.point?.address||'Selected location';$('context-id').textContent=p?`Map selection · parcel ${p.parcelId} · ${p.taxYear??p.assessmentYear??'Unknown'} ${p.jurisdiction==='st-louis-county'?'source tax year':'assessment year'}`:selectionOrigin==='activity'?'Selected source location · parcel not resolved':'';$('context-save').disabled=!p?.recordKey;
+    const hasReturnRoute=selectionOrigin==='activity'||selectionOrigin==='search';
+    $('context').hidden=!(p?.recordKey||hasReturnRoute);$('context-address').textContent=p?.address||evidence.point?.address||'Selected location';$('context-id').textContent=p?`Map selection · parcel ${p.parcelId} · ${p.taxYear??p.assessmentYear??'Unknown'} ${p.jurisdiction==='st-louis-county'?'source tax year':'assessment year'}`:hasReturnRoute?'Selected source location · parcel not resolved':'';$('context-save').disabled=!p?.recordKey;
     if(p?.jurisdiction!=='st-louis-county')body.append(element('span',p?'OFFICIAL PARCEL':evidence.point?.resultKind==='address'?'COUNTY ADDRESS LOCATION':'SELECTED LOCATION','eyebrow'),element('h3',p?.address||evidence.point?.address||'Selected location'));
     if(evidence.point?.resultKind==='address'&&!p) {
       paragraph(body,[evidence.point.municipality,evidence.point.postalCode,'St. Louis County'].filter(Boolean).join(' · '));
@@ -220,11 +229,11 @@ export function createPropertyPanel(root,{
       sourceInfo(saleDetails,{...sale.source,retrievedAt:sale.retrievedAt},'Public inventory source');saleCard.append(saleDetails);
     } else paragraph(saleCard,(sale.reason?sale.reason+' ':'')+'Private sale status and asking price are unknown. Absence from public LRA inventory does not establish that a property is unavailable.');
     extra.append(saleCard,sourceDetails,zoningDetails);
-    body.scrollIntoView?.({block:"start",behavior:"auto"});
+    if(reveal)body.scrollIntoView?.({block:"start",behavior:"auto"});
   }
   async function inspectPoint(input,{origin}={}) {
     if(!validPoint(input)){notice('A valid map coordinate is required for property evidence.');return null}
-    const returnTo=origin==='activity'||(!origin&&activeView==='activity')?'activity':'evidence';
+    const returnTo=origin==='search'?'search':origin==='activity'||(!origin&&activeView==='activity')?'activity':'evidence',inspectionSearchNavigation=searchNavigation;
     const point={longitude:input.longitude,latitude:input.latitude};
     for(const key of ['recordKey','parcelKey','parcelId','address','municipality','mailingCity','postalCode','jurisdiction','resultKind','sourceAddressId','sourceRecordUpdatedAt','sourceRecordPublishedAt'])if(typeof input[key]==='string')point[key]=input[key];
     if(Number.isSafeInteger(input.sourceObjectId))point.sourceObjectId=input.sourceObjectId;
@@ -234,9 +243,10 @@ export function createPropertyPanel(root,{
     else if(input.addressSource&&typeof input.addressSource==='object')point.addressSource={...input.addressSource};
     if(Number.isFinite(input.height))point.height=input.height;
     // Estate reset can synchronously call clearSelection; establish our request afterward.
-    estate.selectPoint(point);selectionOrigin=returnTo;$('context-results').textContent=returnTo==='activity'?'Back to Activity':'Back to results';$('context-results').hidden=false;const serial=++generation;controller?.abort();const request=new AbortController();controller=request;
+    estate.selectPoint(point);selectionOrigin=returnTo;$('context-results').textContent=returnTo==='activity'?'Back to Activity':returnTo==='search'?'Back to address matches':'Back to results';$('context-results').hidden=false;const serial=++generation;controller?.abort();const request=new AbortController();controller=request;
     recordsPanel?.dispose();recordsPanel=null;onTaxEvidence(null);selectedParcel=null;$('context').hidden=true;getCity()?.setParcel?.(null);onOpen();selectTab('evidence');
     $('evidence').replaceChildren();paragraph($('evidence'),'Loading official parcel, zoning and public inventory evidence…');
+    if(returnTo==='search'){$('context').hidden=false;$('context-address').textContent=point.address||'Selected address';$('context-id').textContent='Resolving official parcel evidence…';$('context-save').disabled=true;}
     try {
       let result=await lookup(point,{signal:request.signal});if(serial!==generation||request.signal.aborted)return null;
       if(!providedLookup&&result.parcels?.parcel){
@@ -252,11 +262,11 @@ export function createPropertyPanel(root,{
       result={...result,point:{...point}};
       if(point.atlasAssessment&&result.parcels?.parcel?.properties.recordKey===point.atlasAssessment.recordKey){const a=point.atlasAssessment;result={...result,parcels:{...result.parcels,assessmentSource:a.source,parcel:{...result.parcels.parcel,properties:{...result.parcels.parcel.properties,assessedValueUSD:a.valueUSD??null,assessmentYear:null}}}};}
       if(estate.setPropertyEvidence(result)===false){clearSelection();return null}
-      selectedParcel=result.parcels?.parcel||null;getCity()?.setParcel?.(selectedParcel);renderEvidence(result);onEvidence({...result,inventorySnapshot:cachedInventory});return result;
+      selectedParcel=result.parcels?.parcel||null;getCity()?.setParcel?.(selectedParcel);renderEvidence(result,searchNavigation===inspectionSearchNavigation);onEvidence({...result,inventorySnapshot:cachedInventory});return result;
     } catch {
       if(serial!==generation||request.signal.aborted)return null;
       const failed={point,parcels:{status:'unavailable',parcel:null},zoning:{status:'unavailable',districts:[],overlays:[]},inventory:{status:'unavailable',listings:[]}};
-      estate.setPropertyEvidence(failed);renderEvidence(failed);onEvidence(failed);return failed;
+      estate.setPropertyEvidence(failed);renderEvidence(failed,searchNavigation===inspectionSearchNavigation);onEvidence(failed);return failed;
     }
   }
   async function runSearch(query,serial) {
@@ -273,7 +283,7 @@ export function createPropertyPanel(root,{
         if(!validPoint(row))continue;
         const county=row.resultKind==='address',button=element('button',undefined,'estate-listing property-address-result');button.type='button';button.dataset.recordKey=row.recordKey||'';
         button.append(element('span',county?'COUNTY · ADDRESS':row.jurisdiction==='st-louis-county'?'COUNTY · PARCEL':'CITY · PARCEL','property-result-kind'),element('strong',row.address||'Address unknown'),element('small',county?[row.municipality,row.postalCode,'Address location only'].filter(Boolean).join(' · '):`Parcel ${row.parcelId||'Unknown'} · account ${account(row)}`));
-        button.addEventListener('click',()=>{void inspectPoint(row);const x=(row.longitude-ORIGIN[0])*X_SCALE,z=-(row.latitude-ORIGIN[1])*METRES;getCity()?.flyTo?.(x,z,3);getCity()?.pin?.(x,z,'#e3bc76')});$('search-results').append(button);
+        button.addEventListener('click',()=>{searchReturnTrigger=button;void inspectPoint(row,{origin:'search'});const x=(row.longitude-ORIGIN[0])*X_SCALE,z=-(row.latitude-ORIGIN[1])*METRES;getCity()?.flyTo?.(x,z,3);getCity()?.pin?.(x,z,'#e3bc76')});$('search-results').append(button);
       }
       const detail=element('details',undefined,'property-source-details');detail.append(element('summary','Search sources & coverage'));
       if(sources.length)for(const source of sources){paragraph(detail,`${source.jurisdiction==='st-louis-county'?'St. Louis County':'City of St. Louis'}: ${source.skipped?'not queried':source.status==='ready'?'responded':'unavailable'}.`);if(source.reason)paragraph(detail,source.reason);sourceInfo(detail,source.source,'Address source')}
@@ -283,13 +293,14 @@ export function createPropertyPanel(root,{
     } catch {if(serial===searchGeneration&&!request.signal.aborted){$('search-results').replaceChildren();$('search-status').textContent='City and County address search is unavailable. Select a map point or retry.'}}
   }
   $('search').addEventListener('input',()=>{
+    searchNavigation++;updateSearchQuery();
     const query=$('search').value.trim(),serial=++searchGeneration;clearTimeout(searchTimer);searchController?.abort();$('search-results').replaceChildren();
     if(query.length<3){$('search-status').textContent='Enter at least 3 characters to search.';return}
     $('search-status').textContent='Waiting to search…';searchTimer=setTimeout(()=>void runSearch(query,serial),debounceMs);
   });
   async function searchAddress(value) {
     const query=String(value??'').trim(),serial=++searchGeneration;
-    clearTimeout(searchTimer);searchController?.abort();$('search').value=query;$('search-results').replaceChildren();focusSearch();
+    clearTimeout(searchTimer);searchController?.abort();$('search').value=query;updateSearchQuery();$('search-results').replaceChildren();focusSearch();
     if(query.length<3){$('search-status').textContent='Enter at least 3 characters to search.';return}
     return runSearch(query,serial);
   }

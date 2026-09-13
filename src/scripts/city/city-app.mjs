@@ -58,7 +58,7 @@ const estate = createEstatePanel($("properties-panel"), {
   notice,
 });
 property = createPropertyPanel($("properties-panel"), {
-  estate,getCity:getPropertyMap,notice,onOpen:()=>setMode("properties"),onAreaLocate:point=>showSceneLocation(point,point.label),
+  estate,getCity:getPropertyMap,notice,onOpen:()=>setMode("properties"),onSearchQuery:query=>{if($('city-search-domain').value==='address')$('city-search-query').value=query;},onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
     selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
@@ -962,11 +962,13 @@ function initializeWorkspace() {
   if(saved)setMode('compare');
   if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
   else if(!saved){setMode('properties');void property.openRegion();}
+  if(workspaceUrl.searchParams.get('workspace')==='activity'||location.hash.startsWith('#evidence=')){setMode('properties');property.selectTab('activity');}
   if(workspaceUrl.searchParams.get('workspace')==='notebook'||workspaceUrl.searchParams.get('purpose')==='resident'){
     setMode('properties');property.selectTab('resident');
     if(workspaceUrl.searchParams.get('purpose')==='resident'){workspaceUrl.searchParams.delete('purpose');workspaceUrl.searchParams.set('workspace','notebook');history.replaceState(history.state,'',workspaceUrl);}
   }
 }
+window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#evidence=')){setMode('properties');property.selectTab('activity');}});
 async function start() {
   initializeWorkspace();
   try {

@@ -1,6 +1,7 @@
 import {PROPERTY_REGIONS,PROPERTY_REGION_BOUNDS} from './property-region-catalog.mjs';
 export const ATLAS_METRICS=Object.freeze({assessedValueUSD:{label:'Assessed value',explanation:'The tax assessment attached to a source record. It is not an asking price or a market valuation.'},assessorAppraisedValueUSD:{label:'County appraised value',explanation:'The County assessor’s appraised total. A comparable total is not connected for City records.'},latestSalePriceUSD:{label:'Latest recorded transfer',explanation:'The latest dated transfer per source record, including non-market transfers. This is not a complete sales-volume series.'}});
 const intersects=(a,b)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];
+const overlapFraction=(a,b)=>Math.max(0,Math.min(a[2],b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[3],b[3])-Math.max(a[1],b[1]))/((a[2]-a[0])*(a[3]-a[1]));
 const inside=(r,b)=>r.longitude>=b[0]&&r.longitude<=b[2]&&r.latitude>=b[1]&&r.latitude<=b[3];
 const finite=v=>typeof v==='number'&&Number.isFinite(v);
 export function validAtlasBounds(b){return Array.isArray(b)&&b.length===4&&b.every(finite)&&b[0]<b[2]&&b[1]<b[3]&&b[0]>=-180&&b[2]<=180&&b[1]>=-90&&b[3]<=90;}
@@ -28,7 +29,7 @@ export function atlasRows(rows,manifest,{bounds,metric,fromYear,toYear}){
 export function createPropertyRegionData({fetchImpl=(...args)=>fetch(...args),regions=PROPERTY_REGIONS,maxPoints=8000,maxTiles=20,cacheSize=24}={}){
  const cache=new Map();let manifestsPromise;
  async function read(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const r=await fetchImpl(url,{signal:controller.signal});if(!r.ok)throw Error(`Property data unavailable (${r.status}).`);return await r.json();}finally{clearTimeout(timer);}}
- function tile(url){if(cache.has(url)){const p=cache.get(url);cache.delete(url);cache.set(url,p);return p;}const p=read(url).catch(error=>{cache.delete(url);throw error;});cache.set(url,p);while(cache.size>cacheSize)cache.delete(cache.keys().next().value);return p;}
+ function tile(url){if(cache.has(url)){const p=cache.get(url);cache.delete(url);cache.set(url,p);return p;}const p=read(url).catch(error=>{if(cache.get(url)===p)cache.delete(url);throw error;});cache.set(url,p);while(cache.size>cacheSize)cache.delete(cache.keys().next().value);return p;}
  async function manifests(){return manifestsPromise||=(async()=>{
   const results=await Promise.allSettled(regions.map(async region=>{const m=await read(region.manifestUrl);if(m.schema!=='property-region-v1'||m.jurisdiction!==region.id||!Array.isArray(m.fields)||!Array.isArray(m.tiles)||m.tiles.some(t=>!validAtlasBounds(t.bounds)||!Number.isSafeInteger(t.count)||t.count<0||typeof t.url!=='string'))throw Error(`${region.name} manifest cannot be verified.`);return {...m,region};}));
   const available=results.filter(r=>r.status==='fulfilled').map(r=>r.value),unavailable=regions.filter((_,i)=>results[i].status==='rejected').map(r=>r.name);
@@ -36,6 +37,19 @@ export function createPropertyRegionData({fetchImpl=(...args)=>fetch(...args),re
   if(unavailable.length)manifestsPromise=null;
   return {available,unavailable};
  })().catch(error=>{manifestsPromise=null;throw error;});}
+ async function verifiedTile(t,m,project){
+  const pending=tile(t.url);
+  try{
+   const data=await pending;
+   if(data.schema!=='property-region-tile-v1'||data.id!==t.id||data.jurisdiction!==m.jurisdiction||data.sourceId!==m.source.id||JSON.stringify(data.fields)!==JSON.stringify(m.fields)||!Array.isArray(data.rows)||data.rows.length!==t.count)throw Error('Property tile cannot be verified.');
+   return project(data.rows);
+  }catch(error){
+   // Parsed but invalid content must not poison Search this map retries. Only
+   // evict this read, never a newer request installed after clear() or eviction.
+   if(cache.get(t.url)===pending)cache.delete(t.url);
+   throw error;
+  }
+ }
  async function query({jurisdiction='all',bounds=PROPERTY_REGION_BOUNDS,metric='assessedValueUSD',fromYear=null,toYear=null,signal}={}){
   if(!validAtlasBounds(bounds)||!ATLAS_METRICS[metric]||!(jurisdiction==='all'||regions.some(r=>r.id===jurisdiction)))throw Error('Invalid regional view.');
   if(metric!=='latestSalePriceUSD'){fromYear=null;toYear=null;}
@@ -43,14 +57,24 @@ export function createPropertyRegionData({fetchImpl=(...args)=>fetch(...args),re
   const aborted=()=>{if(signal?.aborted)throw new DOMException('Aborted','AbortError');};aborted();
   const catalog=await manifests();aborted();const sources=catalog.available.filter(m=>jurisdiction==='all'||m.jurisdiction===jurisdiction);
   const matches=sources.flatMap(m=>m.tiles.filter(t=>intersects(t.bounds,bounds)).map(t=>({m,t}))),inputCount=matches.reduce((n,{t})=>n+t.count,0);
-  const detailed=inputCount<=maxPoints&&matches.length<=maxTiles;
+  // A closed viewport can touch neighboring grid tiles along a single edge.
+  // Their full counts should not trap a smaller cell in overview forever.
+  // Area overlap also accommodates the renderer's fit padding. This density
+  // estimate only decides whether a bounded read is worth trying: it is never
+  // displayed as a record count, and exact filtered rows decide display mode.
+  // Keep those tiles in the read set so exact-boundary points remain visible,
+  // but permit only a bounded over-read and verify the actual display count.
+  const estimatedVisible=matches.reduce((n,{t})=>n+t.count*overlapFraction(t.bounds,bounds),0);
+  const boundaryReadLimit=Math.min(32000,maxPoints*4);
+  let detailed=matches.length<=maxTiles&&(inputCount<=maxPoints||estimatedVisible<=maxPoints&&inputCount<=boundaryReadLimit);
   let features,failedTiles=0;
   if(detailed){
    const all=[];
    // Four requests at a time; shared tiles remain reusable after a stale view is abandoned.
-   for(let i=0;i<matches.length;i+=4){aborted();const batch=await Promise.allSettled(matches.slice(i,i+4).map(async({m,t})=>{const data=await tile(t.url);if(data.schema!=='property-region-tile-v1'||data.id!==t.id||data.jurisdiction!==m.jurisdiction||data.sourceId!==m.source.id||JSON.stringify(data.fields)!==JSON.stringify(m.fields)||!Array.isArray(data.rows)||data.rows.length!==t.count)throw Error('Property tile cannot be verified.');return atlasRows(data.rows,m,{bounds,metric,fromYear,toYear});}));for(const result of batch)if(result.status==='fulfilled')all.push(...result.value);else failedTiles++;}
-   features=all;
-  }else features=matches.map(({m,t})=>atlasCell(t,m,{metric,fromYear,toYear})).filter(f=>f.count>0);
+   for(let i=0;i<matches.length;i+=4){aborted();const batch=await Promise.allSettled(matches.slice(i,i+4).map(({m,t})=>verifiedTile(t,m,rows=>atlasRows(rows,m,{bounds,metric,fromYear,toYear}))));for(const result of batch)if(result.status==='fulfilled')all.push(...result.value);else failedTiles++;}
+   features=all;if(features.length>maxPoints)detailed=false;
+  }
+  if(!detailed)features=matches.map(({m,t})=>atlasCell(t,m,{metric,fromYear,toYear})).filter(f=>f.count>0);
   aborted();const known=features.filter(f=>finite(f.value));
   const values=known.map(f=>f.value).sort((a,b)=>a-b);
   const domain=values.length?[values[0],values[Math.min(values.length-1,Math.floor(values.length*.95))]]:[0,1];
@@ -62,7 +86,7 @@ export function createPropertyRegionData({fetchImpl=(...args)=>fetch(...args),re
   const {available}=await manifests(),m=available.find(r=>r.jurisdiction===p.jurisdiction);if(!m||signal?.aborted)return null;
   const matches=m.tiles.filter(t=>intersects(t.bounds,parcel.bbox));if(matches.length>maxTiles)return null;
   let found=null;
-  for(let i=0;i<matches.length;i+=4){if(signal?.aborted)return null;const batch=await Promise.allSettled(matches.slice(i,i+4).map(async t=>{const data=await tile(t.url);if(data.schema!=='property-region-tile-v1'||data.id!==t.id||data.jurisdiction!==m.jurisdiction||data.sourceId!==m.source.id||JSON.stringify(data.fields)!==JSON.stringify(m.fields)||data.rows?.length!==t.count)throw Error('Property tile cannot be verified.');return data.rows;}));for(const r of batch)if(r.status==='fulfilled'){const row=r.value.find(row=>row[m.fields.indexOf('recordKey')]===p.recordKey);if(row){const candidate=decodeAtlasRow(row,m);if(candidate.sourceObjectId!==p.sourceObjectId||candidate.parcelKey!==p.parcelKey||candidate.parcelId!==p.parcelId)return null;found=candidate;}}}
+  for(let i=0;i<matches.length;i+=4){if(signal?.aborted)return null;const batch=await Promise.allSettled(matches.slice(i,i+4).map(t=>verifiedTile(t,m,rows=>{const row=rows.find(row=>row[m.fields.indexOf('recordKey')]===p.recordKey);return row?decodeAtlasRow(row,m):null;})));for(const r of batch)if(r.status==='fulfilled'&&r.value){const candidate=r.value;if(candidate.sourceObjectId!==p.sourceObjectId||candidate.parcelKey!==p.parcelKey||candidate.parcelId!==p.parcelId)return null;found=candidate;}}
   return signal?.aborted?null:found;
  }
  return {query,manifests,findRecord,clear(){cache.clear();manifestsPromise=null;}};
