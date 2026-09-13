@@ -1,0 +1,168 @@
+/* Property Lab interface: Space Grotesk, four destinations, one scroll surface.
+   Geometry, map colors and source semantics belong to their existing layers. */
+body.city-workbench {
+  font-family: CityDisplay, system-ui, sans-serif;
+  --font-display: CityDisplay, system-ui, sans-serif;
+  --muted: #b4c2c6;
+  --glass: #192329f7;
+  --border: #b8d1de26;
+  --gold: #c8e6ee;
+  --interface-accent: #c8e6ee;
+  font-size: 14px;
+  font-synthesis: none;
+}
+.city-workbench :is(button, input, select) { font-family: inherit; }
+.city-workbench :is(button, a, input, select, summary):focus-visible { outline: 2px solid var(--interface-accent); outline-offset: 3px; }
+.city-workbench .city-brand h1 { font-size: 21px; letter-spacing: -.04em; }
+.city-workbench .city-brand p { font-size: 11px; }
+.city-workbench .city-header { height: 54px; padding: 11px 18px; }
+.city-workbench .workspace-command { top: 70px; height: 56px; padding: 5px 12px 10px; }
+.city-workbench .workspace-command :is(input, select, button) { height: 40px; font-size: 13px; }
+.city-workbench .workspace-command select { width: 87px; }
+.city-workbench .workspace-command button { width: 40px; }
+.city-workbench .workspace-command kbd { font-size: 10px; }
+.city-workbench .workspace-edition { display: none; }
+.city-workbench .explorer, .city-workbench .explorer.estate-open { top: 126px; }
+.city-workbench .panel-heading { min-height: 42px; padding: 5px 16px; gap: 10px; }
+.city-workbench .panel-heading .eyebrow { font-size: 11px; letter-spacing: .03em; }
+.city-workbench .panel-heading .icon-button { width: 32px; height: 32px; }
+.city-workbench .panel-heading .text-button { min-height: 32px; font-size: 12px; }
+.city-workbench .explorer.estate-open .panel-heading .eyebrow { font-size: 13px; letter-spacing: -.02em; text-transform: none; }
+.city-workbench .explorer:not(.estate-open) #property-expand { display: none; }
+.city-workbench #panel-content { padding: 14px 18px 24px; scroll-padding-top: 66px; }
+.city-workbench .small-note { font-size: 12px; line-height: 1.6; }
+.city-workbench :is(.primary-button, .secondary-button) { font-size: 13px; min-height: 40px; }
+.city-workbench .primary-button { background: var(--interface-accent); color: #15262e; }
+.city-workbench .text-button { font-size: 12px; }
+.city-workbench :is(.estate-filters, .estate-fields) label { font-size: 12px; }
+.city-workbench :is(.estate-filters, .estate-fields) :is(input, select) { font-size: 14px; min-height: 42px; }
+.city-workbench .property-sticky { top: -14px; margin: -14px -18px 14px; padding: 0 12px; background: #192329; }
+.city-workbench .property-workspace-tools { padding: 4px 0; }
+.city-workbench .property-workspace-tools:empty { display: none; }
+.city-workbench .property-sticky .property-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; gap: 4px; }
+.city-workbench .explorer.estate-open .property-tabs [role=tab] { min-width: 0; min-height: 46px; padding: 10px 4px; font-size: 14px; letter-spacing: -.02em; }
+.city-workbench .property-tabs [aria-selected=true] { color: #eef7fb; border-color: var(--interface-accent); }
+.city-workbench .property-tabs [role=tab]:hover { background: #c8e6ee09; }
+.city-workbench .property-context { gap: 8px; padding: 10px 2px; }
+.city-workbench .property-context small { font-size: 11px; }
+.city-workbench .property-context strong { font-size: 15px; }
+.property-tools-grid { display: grid; gap: 0; margin: 16px 0; }
+.city-workbench .property-tool-link { display: grid; grid-template-columns: 1fr auto; gap: 7px 16px; padding: 20px 4px; width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: transparent; }
+.property-tool-link::after { content: '↗'; grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--interface-accent); font-size: 22px; }
+.city-workbench .property-tool-link strong { font-size: 20px; font-weight: 500; letter-spacing: -.035em; color: #f1f6f8; }
+.city-workbench .property-tool-link span { grid-column: 1; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.city-workbench .property-tool-link:hover { background: #c8e6ee09; }
+.property-tool-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 0 16px; margin-bottom: 18px; border-bottom: 1px solid var(--border); }
+.property-tool-header strong { font-size: 16px; font-weight: 500; }
+.city-workbench .property-source-details summary { font-size: 12px; min-height: 32px; }
+
+/* Activity starts with a search, then the data. Scope and source controls disclose on demand. */
+.city-workbench .activity-lenses { margin: 0 0 14px; padding: 3px; gap: 2px; background: #111b2080; border-color: var(--border); }
+.city-workbench .activity-lenses button { min-height: 42px; font-size: 13px; }
+.city-workbench .property-activity h3 { font-size: 23px; letter-spacing: -.045em; margin: 0 0 15px; }
+.city-workbench .activity-filter { display: block; }
+.activity-search-row { display: flex; gap: 7px; align-items: center; }
+.activity-search-row > label { flex: 1; min-width: 0; }
+.city-workbench .activity-search-row input { font-size: 14px; height: 44px; padding: 10px 12px; border-color: #6c859188; background: #101b22; }
+.city-workbench .activity-search-row button { height: 44px; }
+.city-workbench .activity-filter label { font-size: 12px; }
+.city-workbench .activity-source-picker { margin: 10px 0 0; padding: 0; border-top: 0; }
+.city-workbench .property-activity :is(.activity-source-picker, .activity-scope) > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 42px; cursor: pointer; list-style: none; font-size: 12px; color: #c2d1d9; }
+.property-activity :is(.activity-source-picker, .activity-scope) > summary::-webkit-details-marker { display: none; }
+.property-activity :is(.activity-source-picker, .activity-scope) > summary::after { content: '+'; font-size: 18px; flex: none; color: #b8d6e4; }
+.property-activity :is(.activity-source-picker, .activity-scope)[open] > summary::after { content: '−'; }
+.property-activity :is(.activity-source-picker, .activity-scope) > summary > :first-child { margin-right: auto; }
+.property-activity :is(.activity-source-picker, .activity-scope) > summary > span:last-of-type { color: #93acb9; }
+.activity-filter-options { padding: 12px 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.activity-filter-options > :is(p, .activity-layer-list) { grid-column: 1 / -1; margin: 0; }
+.city-workbench .activity-filter-options select { font-size: 13px; }
+.city-workbench .property-activity .activity-scope { display: block; padding: 0; margin: 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; }
+.activity-scope summary strong { font-weight: 500; }
+.activity-scope[open] { padding-bottom: 14px !important; }
+.activity-scope .activity-area-actions { margin: 12px 0; }
+.city-workbench .activity-scope .small-note { font-size: 12px; }
+.city-workbench .activity-scope .activity-saved { margin-top: 14px; }
+.city-workbench .activity-area-actions button { font-size: 12px; }
+.city-workbench .activity-layer { padding: 12px 0; }
+.city-workbench .activity-layer strong { font-size: 13px; }
+.city-workbench .activity-layer small { font-size: 11px; }
+.activity-result-summary { display: flex; gap: 12px; align-items: start; margin-top: 12px; }
+.city-workbench .activity-result-summary .activity-status { flex: 1; margin: 0; padding: 0; font-size: 12px; line-height: 1.65; color: #d2e1e8; }
+.city-workbench .activity-result-summary button { flex: none; padding: 2px 0; font-size: 11px; }
+.activity-explainer { padding: 6px 0 12px; }
+.activity-explainer summary { cursor: pointer; font-size: 11px; color: #a8becb; }
+.city-workbench .activity-intro { font-size: 12px; line-height: 1.65; }
+.city-workbench .activity-feed { max-height: none; overflow: visible; }
+.city-workbench .activity-record { position: relative; padding: 16px 24px 16px 0; gap: 6px; }
+.activity-record::after { content: '↗'; position: absolute; top: 38px; right: 2px; color: #a8c6d6; font-size: 18px; }
+.city-workbench .activity-record .eyebrow { font-size: 10px; letter-spacing: .025em; text-transform: none; }
+.city-workbench .activity-record strong { font-size: 15px; letter-spacing: -.025em; font-weight: 500; }
+.city-workbench .activity-record small { font-size: 11px; line-height: 1.5; }
+.city-workbench .activity-selected { padding: 0; border: 0; background: transparent; margin: 14px 0; }
+.city-workbench .activity-selected > .text-button { display: block; margin-bottom: 18px; min-height: 36px; }
+.city-workbench .activity-selected > .eyebrow { display: block; font-size: 11px; }
+.city-workbench .activity-selected h4 { font-size: 24px; line-height: 1.2; overflow-wrap: anywhere; }
+.city-workbench .activity-selected :is(p, a, summary) { font-size: 13px; }
+.city-workbench .activity-selected > .secondary-button { display: block; width: 100%; margin: 12px 0; }
+.city-workbench .activity-material-table { font-size: 12px; }
+.city-workbench .activity-context > summary { font-size: 12px; }
+.city-workbench [data-activity=more] { min-height: 44px; width: 100%; text-align: center; }
+.city-workbench [hidden] { display: none !important; }
+
+/* Keep the map's controls in the same visual language. */
+.city-workbench .atlas-heading h3 { font-size: 23px; margin: 0 0 12px; letter-spacing: -.04em; }
+.city-workbench .atlas-heading > .eyebrow { display: none; }
+.city-workbench .atlas-jurisdictions { margin: 14px 0; }
+.city-workbench .atlas-jurisdictions button { font-size: 13px; min-height: 42px; }
+.city-workbench .property-atlas label { font-size: 12px; }
+.city-workbench .property-atlas :is(input, select) { min-height: 42px; font-family: inherit; font-size: 14px; }
+.city-workbench .atlas-status { margin-top: 16px; }
+.city-workbench .atlas-status strong { font-size: 23px; }
+.city-workbench .atlas-status span { font-size: 12px; }
+.city-workbench .atlas-actions button { font-size: 12px; }
+.city-workbench .atlas-key { margin: 12px 0; }
+.city-workbench .atlas-explainer { margin: 12px 0 0; }
+.city-workbench .atlas-explainer > summary { font-size: 11px; color: var(--muted); }
+.city-workbench .property-atlas summary { font-size: 13px; min-height: 32px; }
+.city-workbench .atlas-list { max-height: none; overflow: visible; }
+.city-workbench .atlas-result { padding: 16px 2px; }
+.city-workbench .atlas-result strong { font-size: 14px; }
+.city-workbench .atlas-result small { font-size: 12px; }
+.city-workbench .atlas-map-key { border-color: var(--border); }
+.city-workbench .mode-bar button { font-size: 10px; }
+.city-workbench .mode-bar button.active { background: #c8e6ee12; box-shadow: inset 0 0 0 1px #c8e6ee25; }
+
+@media (min-width: 1024px) {
+  body.city-workbench:not(.property-wide):has(.explorer.estate-open) { --panel-width: 420px; }
+  body.city-workbench:not(.property-wide):has(.explorer.estate-open):has(:is(#property-panel-evidence, #property-panel-activity):not([hidden])) { --panel-width: 420px; }
+}
+@media (max-width: 720px) {
+  .city-workbench .city-header { top: 14px; height: 44px; padding: 0; }
+  .city-workbench .city-brand h1 { font-size: 20px; }
+  .city-workbench .city-brand p { font-size: 9px; }
+  .city-workbench .workspace-command { top: 70px; height: 46px; padding: 3px; }
+  .city-workbench .workspace-command :is(input, select, button) { height: 38px; }
+  .city-workbench .workspace-command input { font-size: 16px; }
+  .city-workbench .explorer.estate-open:not(.collapsed):not(.sheet-expanded) { top: auto; bottom: 106px; height: 55svh; max-height: calc(100svh - 300px); }
+  .city-workbench.property-wide .explorer.estate-open:not(.collapsed) { top: 122px; bottom: 106px; height: auto; max-height: none; }
+  .city-workbench .explorer.sheet-expanded, .city-workbench .explorer.estate-open.sheet-expanded { top: 122px; bottom: 106px; height: auto; max-height: none; }
+  .city-workbench .explorer.collapsed, .city-workbench .explorer.estate-open.collapsed { top: auto; }
+  .city-workbench .explorer.sheet-expanded ~ .camera-controls { display: none; }
+  .city-workbench #panel-content { padding: 12px 14px 20px; scroll-padding-top: 12px; }
+  .city-workbench .property-sticky { position: static; margin: -12px -14px 12px; padding: 0 8px; }
+  .city-workbench .explorer.estate-open .property-tabs [role=tab] { font-size: 13px; min-height: 44px; }
+  .city-workbench .panel-heading { min-height: 40px; padding: 4px 12px; gap: 6px; }
+  .city-workbench #sheet-size { margin-right: 0; }
+  .city-workbench .explorer.estate-open #sheet-size { display: none; }
+  .city-workbench .property-activity h3 { font-size: 22px; margin-bottom: 12px; }
+  .city-workbench .activity-lenses { margin-bottom: 12px; }
+  .city-workbench .activity-lenses button { font-size: 12px; min-height: 40px; }
+  .city-workbench .activity-search-row input { font-size: 16px; }
+  .city-workbench .activity-search-row button { padding-inline: 12px; }
+  .city-workbench .property-activity :is(.activity-source-picker, .activity-scope) > summary { font-size: 11px; min-height: 40px; }
+  .city-workbench .activity-result-summary button { font-size: 10px; }
+  .city-workbench .activity-result-summary .activity-status { font-size: 11px; }
+  .city-workbench .mode-bar button { font-size: 10px; }
+  .city-workbench .atlas-heading p { display: block; font-size: 12px; }
+  .city-workbench .activity-material-table { font-size: 11px; }
+}

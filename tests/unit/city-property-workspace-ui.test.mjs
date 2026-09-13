@@ -39,10 +39,33 @@ test('moving the map clears actionable old evidence throughout the debounce wind
  f.panel.setViewport([-90.8,38.5,-90.6,38.7],'properties');
  assert.equal(f.markers.at(-1).features.length,0);assert.equal(f.$('feed').children.length,0);assert.equal(f.$('export').disabled,true);
 });
+test('opening evidence is stable and keyboard return restores the originating result',async t=>{
+ const f=fixture(t);f.panel.activate();await settle();const button=f.$('feed').querySelector('button');button.focus();button.click();
+ assert.equal(f.selected.length,0,'Reading a result must not move the camera and clear its detail');
+ assert.equal(f.$('results').hidden,true);assert.match(f.doc.activeElement.textContent,/Back to results/);
+ f.$('detail').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
+ assert.equal(f.$('results').hidden,false);assert.equal(f.doc.activeElement,button);assert.equal(f.$('detail').children.length,0);
+ button.click();[...f.$('detail').querySelectorAll('button')].find(b=>b.textContent==='Show on map').click();assert.equal(f.selected[0].id,'one');
+});
+test('switching evidence questions retains the address and a reset explicitly clears filters',async t=>{
+ const f=fixture(t);f.$('query').value='123 Example Street';f.panel.activate();await settle();
+ f.root.querySelector('[data-lens="development"]').click();await settle();assert.equal(f.calls.at(-1).query,'123 Example Street');
+ f.$('period').value='90';f.$('reset').click();await settle();assert.equal(f.calls.at(-1).query,'');assert.equal(f.$('period').value,'all');assert.equal(f.calls.at(-1).fromDate,null);
+});
+test('aggregate rows drill into the map while a subsequent refresh restores the result list',async t=>{
+ const f=fixture(t,{query:async()=>answer([{...row('group'),kind:'activity-cell',count:12,bounds}])});f.panel.activate();await settle();
+ f.$('feed').querySelector('button').click();assert.equal(f.selected[0].kind,'activity-cell');assert.equal(f.$('detail').children.length,0);
+ f.panel.openFeature(row());assert.equal(f.$('results').hidden,true);f.$('form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));await settle();assert.equal(f.$('results').hidden,false);
+});
+test('applying filters returns focus to the disclosure instead of a newly hidden submit button',async t=>{
+ const f=fixture(t);f.panel.activate();await settle();const filters=f.root.querySelector('.activity-source-picker'),apply=filters.querySelector('[type="submit"]');filters.open=true;apply.focus();apply.click();await settle();
+ assert.equal(filters.open,false);assert.equal(f.doc.activeElement,filters.querySelector('summary'));
+});
 test('restoring a saved area preserves valid filters and cannot import foreign lens layers',async t=>{
  const saved=[{name:'Fixture area',bounds,lens:'ownership',layers:['ownership-signals','water-materials','invented'],query:'a literal name',period:'custom',from:'2026-09-01',to:'2026-09-12',material:'all'},{name:'bad',bounds:[5,4,3,2],lens:'ownership'}];
  const f=fixture(t,{saved});f.panel.activate();await settle();assert.equal(f.$('saved').children.length,1);f.$('saved').querySelector('button').click();await settle();
  assert.deepEqual(f.calls.at(-1).layers,['ownership-signals']);assert.deepEqual(f.calls.at(-1).bounds,bounds);assert.equal(f.calls.at(-1).fromDate,'2026-09-01');assert.deepEqual(f.fits,[bounds]);
+ assert.match(f.$('selected-label').textContent,/Custom dates/,'Collapsed filter label must describe the restored request');
  const n=f.calls.length;f.panel.setViewport([-91,38,-90,39],'areas');await settle();assert.equal(f.calls.length,n,'Fixed geographic area must not follow camera bounds');
 });
 test('area drawing clamps pointers to the visible surface, rejects tiny drags, cancels and restores focus',async t=>{

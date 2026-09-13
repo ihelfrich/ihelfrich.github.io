@@ -1,6 +1,6 @@
 import { createResidentPanel } from "./city-resident-panel.mjs";
 import { createProFormaPanel } from "./city-proforma-panel.mjs";
-import { createCityScene } from "./city-scene.mjs";
+import { createPendingMapActions } from "./city-startup.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
 import { createPropertyPanel } from "./city-property-panel.mjs";
 import { createWorkbench } from "./city-workbench.mjs";
@@ -37,6 +37,10 @@ let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
 let proforma=null,resident=null;
 let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
 let savedReality=null;
+const pendingMapActions=createPendingMapActions();
+let initialWorkspaceStarted=false;
+let cityReady=false;
+function getPropertyMap(){return city&&cityReady?city:pendingMapActions.map;}
 let selectImportedMarker = () => {}, selectPublicMarker = () => {};
 function syncPropertyMarkers() {
   const records=[],actions=new Map();
@@ -47,14 +51,14 @@ function syncPropertyMarkers() {
   workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:heightStudyVisible});
 }
 const estate = createEstatePanel($("properties-panel"), {
-  getCity: () => city,
+  getCity: getPropertyMap,
   onOpen: () => setMode("properties"),
   onMarkers: (records,select) => {importedMarkers=records;selectImportedMarker=select;syncPropertyMarkers();},
   onSelectionChange: () => property?.clearSelection(),
   notice,
 });
 property = createPropertyPanel($("properties-panel"), {
-  estate,getCity:()=>city,notice,onOpen:()=>setMode("properties"),onAreaLocate:point=>showSceneLocation(point,point.label),
+  estate,getCity:getPropertyMap,notice,onOpen:()=>setMode("properties"),onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
     selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
@@ -90,9 +94,10 @@ const livePanel = createLivePanel($("live-panel"), {
 });
 workbench=createWorkbench(document,{getCity:()=>city,setMode,property,showPlaces,onNow:()=>{environmentMode="now";updateLight()}});
 function locateMapPoint({longitude,latitude,label}) {
-  if(!city||!Number.isFinite(longitude)||!Number.isFinite(latitude))return;
+  if(!Number.isFinite(longitude)||!Number.isFinite(latitude))return;
   const x=(longitude+90.193)*111195*Math.cos(38.628*Math.PI/180),z=(38.628-latitude)*111195;
-  city.flyTo(x,z,3);city.pin?.(x,z,"#e3bc76");showSceneLocation({longitude,latitude},label);notice(label);
+  const map=getPropertyMap();
+  map.flyTo(x,z,3);map.pin?.(x,z,"#e3bc76");showSceneLocation({longitude,latitude},label);notice(label);
 }
 function showSceneLocation(point,label) {
   $("district-name").textContent=label;
@@ -294,7 +299,7 @@ function setMode(next) {
     explore: "THE RIVER CITY",
     compare: "PLACES & CONNECTIONS",
     layers: "ATMOSPHERE & GEOGRAPHY",
-    properties: "PLACE & POSSIBILITY",
+    properties: "Property workspace",
     live: "THE REGION, RIGHT NOW",
   }[next];
   $("explorer").classList.toggle("estate-open", next === "properties");
@@ -759,6 +764,7 @@ async function connectReality(event, restored = null) {
     city?.dispose();
     realityHost?.remove();
     city = candidate;
+    cityReady=true;
     realityHost = host;
     host.style.visibility = "visible";
     pendingReality = null;
@@ -785,6 +791,9 @@ async function connectReality(event, restored = null) {
       $("district-name").textContent = "YOUR 3D CAPTURE";
       $("scene-coordinate").textContent = "USER-SUPPLIED ASSET";
     }
+    // A photographic connection can win while the initial map is still loading.
+    // Replay the latest property destination after the default camera reset.
+    pendingMapActions.apply(city);
     regionStatus({
       engine: "cesium",
       message: "Photographic view connected · captured imagery",
@@ -865,6 +874,7 @@ async function returnToOpenMap() {
   pendingReality = null;
   city?.dispose();
   city = null;
+  cityReady=false;
   realityHost?.remove();
   realityHost = null;
   $("city-viewport").replaceChildren();
@@ -891,6 +901,7 @@ async function openScene() {
       return;
     }
     if (city !== candidate) return;
+    cityReady=true;
     $("loading").hidden = true;
     $("fallback").hidden = true;
     updateLight();
@@ -898,9 +909,12 @@ async function openScene() {
     city.toggle("buildings", $("toggle-buildings").checked);
     setLayer(activeLayer);
     if (mode === "compare") drawRoutes();
+    pendingMapActions.apply(city);
     restoreSavedReality();
   };
   try {
+    const {createCityScene}=await import("./city-scene.mjs");
+    if(!current())return;
     candidate = await createCityScene($("city-viewport"), data, {
       onSelect: (building) => {
         if (current() && candidate && city === candidate)
@@ -938,7 +952,23 @@ async function openScene() {
     );
   }
 }
+function initializeWorkspace() {
+  if(initialWorkspaceStarted)return;
+  initialWorkspaceStarted=true;
+  // Property records, searches and scenarios do not depend on the downtown
+  // geometry snapshot or GPU. Start them before either is available.
+  const workspaceUrl=new URL(location.href),requestedArea=workspaceUrl.searchParams.get('area');
+  const saved=decodeCityState(location.hash);
+  if(saved)setMode('compare');
+  if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
+  else if(!saved){setMode('properties');void property.openRegion();}
+  if(workspaceUrl.searchParams.get('workspace')==='notebook'||workspaceUrl.searchParams.get('purpose')==='resident'){
+    setMode('properties');property.selectTab('resident');
+    if(workspaceUrl.searchParams.get('purpose')==='resident'){workspaceUrl.searchParams.delete('purpose');workspaceUrl.searchParams.set('workspace','notebook');history.replaceState(history.state,'',workspaceUrl);}
+  }
+}
 async function start() {
+  initializeWorkspace();
   try {
     const response = await fetch("/st-louis/city.json");
     if (!response.ok) throw new Error("The city snapshot could not be loaded.");
@@ -986,7 +1016,6 @@ async function start() {
       stats.append(row);
     }
     const saved = decodeCityState(location.hash);
-    const requestedArea=new URLSearchParams(location.search).get('area');
     if (saved) {
       if (saved.data !== version())
         notice(`This link used ${saved.data}; results use ${version()}.`);
@@ -1006,7 +1035,7 @@ async function start() {
         );
         selectedDestination = null;
       }
-      setMode("compare");
+      if(mode==='compare')compare();
     }
     if (matchMedia("(max-width:720px)").matches && !saved && panelOpen && mode==="explore" && !$("city-search-query").value && !$("place-search").value)
       togglePanel();
@@ -1014,16 +1043,11 @@ async function start() {
       `Placing ${data.buildings.length.toLocaleString()} mapped building objects`;
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await openScene();
-    if(['overland','page-i170'].includes(requestedArea)){setMode('properties');void property.openCounty(requestedArea);}
-    else if(!saved){setMode('properties');void property.openRegion();}
-    const workspaceUrl=new URL(location.href);
-    if(workspaceUrl.searchParams.get('workspace')==='notebook'||workspaceUrl.searchParams.get('purpose')==='resident'){setMode('properties');property.selectTab('resident');if(workspaceUrl.searchParams.get('purpose')==='resident'){workspaceUrl.searchParams.delete('purpose');workspaceUrl.searchParams.set('workspace','notebook');history.replaceState(history.state,'',workspaceUrl);}}
   } catch (error) {
     console.error("City data:", error);
     showFallback(
-      "The city data could not be loaded. Please reload the page or return to the portfolio.",
+      "The 3D city snapshot could not be loaded. Property search, public records and scenarios remain available. Try the map again when the connection returns.",
     );
-    $("explorer").hidden = true;
   }
 }
 document

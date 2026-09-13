@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
 import { Window } from "happy-dom";
+import { createPendingMapActions } from "../../src/scripts/city/city-startup.mjs";
 
 // Execute the production lifecycle functions without invoking page startup or a real provider.
 const source = fs.readFileSync(
@@ -12,8 +13,9 @@ const source = fs.readFileSync(
 const functions = source
   .slice(
     source.indexOf("async function connectReality"),
-    source.indexOf("async function start()"),
+    source.indexOf("function initializeWorkspace()"),
   )
+  .replace(/await import\(\s*["']\.\/city-scene\.mjs["']\s*,?\s*\)/u, "await getCityModule()")
   .replace(/await import\(\s*["']\.\/city-reality\.mjs["']\s*,?\s*\)/u, "await getRealityModule()");
 const adapter = (engine) => ({
   engine,
@@ -74,6 +76,7 @@ function harness() {
     pendingReality: null,
     realityHost: null,
     savedReality: null,
+    pendingMapActions: {apply(){}},
     activeLayer: "city",
     mode: "explore",
     AbortController,
@@ -117,6 +120,7 @@ function harness() {
     },
   });
   context.createCityScene = async () => adapter("three");
+  context.getCityModule = async () => ({createCityScene:context.createCityScene});
   context.createRealityScene = async (host, data, options) => {
     const a = adapter("cesium");
     calls.push(options);
@@ -142,6 +146,34 @@ function harness() {
     },
   };
 }
+
+test("photographic readiness applies and consumes the latest pending property camera after its default reset", async () => {
+  const h = harness(), pending = createPendingMapActions(), cameraCalls = [];
+  h.context.city = null;
+  h.context.cityReady = false;
+  h.context.pendingMapActions = pending;
+  let resolveOpenMap;
+  h.context.createCityScene = () => new Promise(resolve => { resolveOpenMap = resolve; });
+  const openMap = h.context.openScene();
+  await flush();
+  pending.map.flyTo(1000, 2000, 2);
+  pending.map.flyTo(14000, 28000, 3);
+  pending.map.pin(14000, 28000, "#aabbcc");
+  await h.connect();
+  const photo = h.adapters[0];
+  photo.flyTo = (...args) => { cameraCalls.push(args); h.events.push("pending-camera"); };
+  photo.pin = (...args) => { h.events.push("pending-pin"); assert.deepEqual(args, [14000, 28000, "#aabbcc"]); };
+  h.calls[0].onReady();
+  assert.deepEqual(cameraCalls, [[14000, 28000, 3, undefined]]);
+  assert.ok(h.events.indexOf("pending-camera") > h.events.indexOf("visit-clears-routes"), "Default riverfront reset must precede the visitor's destination");
+  assert.equal(pending.apply(photo), false, "A later renderer must not inherit an already applied destination");
+  const late = adapter("three");
+  resolveOpenMap(late);
+  await openMap;
+  assert.equal(late.disposed, true);
+  assert.equal(h.context.city, photo);
+  assert.equal(cameraCalls.length, 1);
+});
 
 test("a canceled attempt clears its deadline and a queued stale timeout cannot invalidate a retry", async () => {
   const h = harness();
@@ -299,8 +331,10 @@ test("concurrent open-map starts dispose the older result and keep the newest sc
     resolvers = [];
   h.context.createCityScene = () =>
     new Promise((resolve) => resolvers.push(resolve));
-  const first = h.context.openScene(),
-    second = h.context.openScene();
+  const first = h.context.openScene();
+  await flush();
+  const second = h.context.openScene();
+  await flush();
   const older = adapter("older"),
     newer = adapter("newer");
   resolvers[1](newer);

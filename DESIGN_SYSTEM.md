@@ -81,3 +81,11 @@ Focus is always visible in signal blue. Shell links and controls provide at leas
 ## Release contract
 
 `npm run check:styles` blocks missing/malformed local fonts, remote font requests, incorrect palette values, unresolved canonical type roles, dark-title contrast failures, and regressions in the mobile navigation contract. The build remains readable when webfonts are blocked and functional when JavaScript is disabled; enhanced navigation behavior is verified with JavaScript enabled.
+
+## Property Lab workspace
+
+The full-screen `/st-louis/` application uses the locally hosted Space Grotesk variable font (`CityDisplay`, weights 300–700) for interface text, navigation, and headings, following Dr. Helfrich's September 2026 preference. Data exports and evidence semantics retain their existing contracts. The application requires JavaScript; the portfolio shell's no-JavaScript contract does not imply a working 3D renderer.
+
+`st-louis-interface.css` owns the workspace presentation. Keep four primary destinations: Map, Activity, Notebook, and Tools. The Tools landing exposes Site, Inventory, Pro forma, and Develop with descriptive actions. Reading a record must not move the camera; showing it on the map is an explicit action. Topic changes preserve the query, while Reset filters clears it. Search and the first result must be visible in the default desktop and phone layouts. Results use the panel's scroll surface rather than another nested scroller.
+
+Property controls become available before geometry and renderer loading. No camera initialization may replace a newer user destination. Verify the rendered desktop and mobile workspace, keyboard return paths, stale-request isolation, and exact parcel identity before release.

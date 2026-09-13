@@ -17,15 +17,16 @@ test('County records are attached to the exact selection and disposed before rep
  assert.equal(f.$('evidence').querySelector('h3'),null,'Selected address already appears in the sticky property context');
  assert.equal(f.$('evidence').querySelector('details').open,false);
  mounts[0].onTaxEvidence({parcelId:'16L640291'});assert.equal(taxes.at(-1).parcelId,'16L640291');
- mounts[0].onScenario();assert.equal(f.$('tab-scenario').getAttribute('aria-selected'),'true');
+ mounts[0].onScenario();assert.equal(f.$('tab-tools').getAttribute('aria-selected'),'true');assert.equal(f.$('panel-scenario').hidden,false);
  f.panel.clearSelection();assert.equal(disposed,1);assert.equal(taxes.at(-1),null);
 });
 const listing=(id='lra-one',patch={})=>({id,parcelKey:'st-louis-city:h',parcelId:id,address:'Fixture parcel '+id,...point,askingPrice:null,priceStatus:'not-published',status:'available',usage:'Vacant Lot',...patch});
 const snapshot=listings=>({listings,source:{name:'Official LRA',url:'https://www.stlouis-mo.gov/data/',termsUrl:'https://example.org/terms'},retrievedAt:'2026-09-08T12:00:00Z',sourceUpdatedAt:null,snapshotStatus:'recent',counts:{listings:listings.length}});
 function fixture(t,options={}) {
- const {withEstate=false,...panelOptions}=options;
+ const {withEstate=false,withHeading=false,...panelOptions}=options;
  const window=new Window(),prior=globalThis.document;globalThis.document=window.document;
  const root=document.createElement('section'),original=document.createElement('p');original.id='existing-estate';root.append(original);document.body.append(root);
+ if(withHeading){root.id='explorer';const heading=document.createElement('div');heading.className='panel-heading';heading.innerHTML='<h2>Property explorer</h2><button id="existing-collapse">Collapse</button><button id="existing-height">Height</button>';root.prepend(heading);}
  const selected=[],applied=[],outlines=[],markers=[],notices=[];let panel;
  const city={controls:{target:{x:0,z:0}},setParcel(p){outlines.push(p)},setListings(){throw new Error('Public panel must not replace imported markers')},flyTo(){}};
  const estate=withEstate?createEstatePanel(root,{getCity:()=>city,onMarkers(){},onSelectionChange(){panel?.clearSelection()}}):{selectPoint(p){selected.push(p);panel?.clearSelection()},setPropertyEvidence(e){applied.push(e);return true}};
@@ -98,11 +99,13 @@ test('workspace keyboard navigation and scenario action preserve selected eviden
  f.$('tab-activity').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
  assert.equal(f.$('panel-resident').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-resident'));
  f.$('tab-resident').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
- assert.equal(f.$('panel-site').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-site'));
- f.$('tab-site').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
- assert.equal(f.$('panel-inventory').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-inventory'));assert.equal(evidenceTab.tabIndex,-1);
- f.$('tab-inventory').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'End',bubbles:true,cancelable:true}));
- assert.equal(f.$('panel-develop').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-develop'));
+ assert.equal(f.$('panel-tools').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-tools'));
+ f.$('tab-tools').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-evidence').hidden,false);assert.equal(f.window.document.activeElement,evidenceTab);
+ evidenceTab.dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'End',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-tools').hidden,false);assert.equal(f.window.document.activeElement,f.$('tab-tools'));assert.equal(evidenceTab.tabIndex,-1);
+ f.$('tab-tools').dispatchEvent(new f.window.KeyboardEvent('keydown',{key:'Home',bubbles:true,cancelable:true}));
+ assert.equal(f.$('panel-evidence').hidden,false);assert.equal(f.window.document.activeElement,evidenceTab);
  await f.panel.inspectPoint(point);assert.equal(f.$('panel-evidence').hidden,false);
  input.value='125000';input.dispatchEvent(new f.window.Event('input',{bubbles:true}));
  f.$('evidence').querySelector('button').click();
@@ -111,6 +114,54 @@ test('workspace keyboard navigation and scenario action preserve selected eviden
  f.panel.selectTab('evidence');assert.match(f.$('evidence').textContent,/10 Fixture Place/);
  assert.equal(f.outlines.at(-1).properties.recordKey,'record:one');
  assert.equal(f.root.querySelectorAll('#estate-purchasePrice').length,1);
+});
+
+test('four primary tabs expose every tool through one accessible launcher without replacing original controls',async t=>{
+ let lookups=0,inventoryLoads=0;const f=fixture(t,{withEstate:true,lookup:async p=>{lookups++;return evidence(p);},inventoryLoader:async()=>{inventoryLoads++;return snapshot([]);}});
+ const tabs=[...f.root.querySelectorAll('.property-tabs [role="tab"]')];assert.deepEqual(tabs.map(x=>x.textContent),['Map','Activity','Notebook','Tools']);assert.equal(f.root.querySelectorAll('[role="tabpanel"]').length,4);
+ const originalInput=f.root.querySelector('#estate-purchasePrice');originalInput.value='186500';
+ f.$('tab-tools').click();assert.equal(f.$('tools-home').hidden,false);assert.equal(f.$('tool-header').hidden,true);
+ for(const [key,label] of [['site','Site'],['inventory','Inventory'],['scenario','Pro forma'],['develop','Develop']]){
+  const launcher=f.$('tab-'+key);assert.equal(launcher.getAttribute('role'),null);assert.equal(launcher.getAttribute('aria-controls'),'property-panel-'+key);launcher.click();
+  assert.equal(f.$('panel-tools').hidden,false);assert.equal(f.$('tab-tools').getAttribute('aria-selected'),'true');assert.equal(f.$('tools-home').hidden,true);assert.equal(f.$('tool-header').hidden,false);assert.equal(f.$('tool-title').textContent,label);
+  const panel=f.$('panel-'+key);assert.equal(panel.hidden,false);assert.equal(panel.getAttribute('role'),'region');assert.equal(f.window.document.activeElement,panel);
+  assert.equal(f.root.querySelectorAll('.property-tool-panel:not([hidden])').length,1);assert.equal(f.root.querySelectorAll('.property-tabs [aria-selected="true"]').length,1);
+  f.$('tools-back').click();assert.equal(f.$('tools-home').hidden,false);assert.equal(f.window.document.activeElement,launcher);assert.equal(f.root.querySelectorAll('.property-tool-panel:not([hidden])').length,0);
+ }
+ assert.equal(f.root.querySelector('#estate-purchasePrice'),originalInput);assert.equal(originalInput.value,'186500');assert.equal(lookups,0);assert.equal(inventoryLoads,0);
+ assert.equal(f.panel.selectTab('nonexistent'),false);assert.equal(f.$('panel-tools').hidden,false);
+});
+
+test('programmatic tool routes retain exact selection, assumptions, Tools state and return keyboard focus',async t=>{
+ const f=fixture(t,{withEstate:true});await f.panel.inspectPoint(point);const input=f.root.querySelector('#estate-purchasePrice');input.value='157000';
+ for(const name of ['site','inventory','scenario','develop']){assert.equal(f.panel.selectTab(name),true);assert.equal(f.$('tab-tools').getAttribute('aria-selected'),'true');assert.equal(f.$('panel-'+name).hidden,false);assert.equal(f.$('context').hidden,false);assert.equal(f.outlines.at(-1).properties.recordKey,'record:one');}
+ f.panel.selectTab('scenario');input.focus();f.panel.selectTab('scenario');assert.equal(f.window.document.activeElement,input,'Reselecting the active tool must not steal input focus');
+ assert.equal(input.value,'157000');f.$('tools-back').click();assert.equal(f.window.document.activeElement,f.$('tab-scenario'));
+ f.panel.selectTab('resident');assert.equal(f.$('panel-resident').hidden,false);assert.equal(f.$('panel-tools').hidden,true);assert.equal(input.value,'157000');
+});
+
+test('inspection from Activity returns to its existing filters instead of sending the visitor to Map results',async t=>{
+ const f=fixture(t);f.panel.selectTab('activity');const query=f.root.querySelector('[data-activity="query"]');query.value='same research question';
+ await f.panel.inspectPoint(point);assert.equal(f.$('panel-evidence').hidden,false);assert.equal(f.$('context-results').hidden,false);assert.equal(f.$('context-results').textContent,'Back to Activity');
+ f.$('context-results').click();assert.equal(f.$('panel-activity').hidden,false);assert.equal(f.window.document.activeElement,f.$('panel-activity'));assert.equal(f.root.querySelector('[data-activity="query"]'),query);assert.equal(query.value,'same research question');
+ assert.equal(f.outlines.at(-1).properties.recordKey,'record:one');
+ f.panel.selectTab('evidence');await f.panel.inspectPoint(point);assert.equal(f.$('context-results').textContent,'Back to results');
+});
+
+test('Activity-origin ambiguous candidates retain their return route after exact parcel choice',async t=>{
+ const a=parcel('one'),b=parcel('two'),calls=[];
+ const f=fixture(t,{lookup:async p=>{calls.push(p);return p.recordKey?evidence(p,p.recordKey===b.properties.recordKey?b:a):{...evidence(p),parcels:{...evidence(p).parcels,parcel:null,candidates:[a,b],ambiguous:true}}}});
+ f.panel.selectTab('activity');const query=f.root.querySelector('[data-activity="query"]');query.value='retained address';await f.panel.inspectPoint(point);
+ assert.equal(f.$('panel-evidence').hidden,false);assert.equal(f.$('context-results').textContent,'Back to Activity');assert.equal(f.outlines.at(-1),null);
+ const choices=f.$('evidence').querySelectorAll('button[data-record-key]');assert.equal(choices.length,2);choices[1].click();await settle();
+ assert.equal(calls.at(-1).recordKey,b.properties.recordKey);assert.equal(f.outlines.at(-1).properties.recordKey,b.properties.recordKey);assert.equal(f.$('context-results').textContent,'Back to Activity');
+ f.$('context-results').click();assert.equal(f.$('panel-activity').hidden,false);assert.equal(f.window.document.activeElement,f.$('panel-activity'));assert.equal(query.value,'retained address');assert.equal(f.outlines.at(-1).properties.recordKey,b.properties.recordKey);
+});
+
+test('unresolved Activity source locations retain a return route without enabling notebook saving',async t=>{
+ let saved=0;const f=fixture(t,{onNotebook:()=>saved++,lookup:async p=>({...evidence(p),parcels:{status:'not-found',parcel:null,candidates:[]}})});f.panel.selectTab('activity');await f.panel.inspectPoint({...point,address:'Source location only'});
+ assert.equal(f.$('context').hidden,false);assert.equal(f.$('context-address').textContent,'Source location only');assert.match(f.$('context-id').textContent,/parcel not resolved/);assert.equal(f.$('context-save').disabled,true);f.$('context-save').click();assert.equal(saved,0);
+ f.$('context-results').click();assert.equal(f.$('panel-activity').hidden,false);f.panel.clearSelection();assert.equal(f.$('context').hidden,true);
 });
 
 test('shell search opens Evidence and preserves exact-record choice without showing composite keys in result labels',async t=>{
@@ -160,4 +211,11 @@ test('selected property context persists across tabs and supports one-click note
  f.$('expand').click();assert.equal(f.window.document.body.classList.contains('property-wide'),true);assert.equal(f.$('expand').getAttribute('aria-pressed'),'true');
  f.$('expand').click();assert.equal(f.window.document.body.classList.contains('property-wide'),false);
  f.panel.clearSelection();assert.equal(f.$('context').hidden,true);
+});
+
+test('workspace expansion shares the existing explorer heading and preserves its other controls',async t=>{
+ const f=fixture(t,{withHeading:true}),heading=f.root.querySelector('.panel-heading'),button=f.$('expand'),collapse=f.root.querySelector('#existing-collapse'),height=f.root.querySelector('#existing-height');
+ assert.equal(button.parentElement,heading);assert.equal(f.root.querySelector('.property-workspace-tools'),null);assert.equal(f.root.querySelectorAll('#property-expand').length,1);assert.equal(button.textContent,'Expand');assert.equal(button.getAttribute('aria-label'),'Expand workspace');
+ let clicks=0;collapse.addEventListener('click',()=>clicks++);height.addEventListener('click',()=>clicks++);button.click();assert.equal(button.textContent,'Compact');assert.equal(button.title,'Compact workspace');assert.equal(button.getAttribute('aria-pressed'),'true');
+ collapse.click();height.click();assert.equal(clicks,2);assert.equal(collapse.parentElement,heading);assert.equal(height.parentElement,heading);button.click();assert.equal(button.getAttribute('aria-label'),'Expand workspace');
 });
