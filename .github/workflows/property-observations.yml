@@ -34,6 +34,8 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - name: Verify observation invariants before collection
         run: timeout 90 node --test tests/unit/city-property-history.test.mjs
+      - name: Verify utility acquisition on the runner's Python version
+        run: timeout 90 uv run --no-project python scripts/st-louis/test_property_utilities.py
       - name: Collect bounded authoritative sources
         id: collect
         # A failed source records public health while retaining its last good data.

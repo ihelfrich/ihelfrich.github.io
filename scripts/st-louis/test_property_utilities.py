@@ -2,6 +2,8 @@ import copy
 import importlib.util
 import json
 import unittest
+import tempfile
+from unittest.mock import patch
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('utilities',Path(__file__).with_name('fetch_property_utilities.py'))
 u=importlib.util.module_from_spec(spec);spec.loader.exec_module(u)
@@ -9,6 +11,23 @@ meta=json.loads((u.ROOT/'tests/fixtures/utilities/city-water-metadata.json').rea
 def feature(**patch):
     return {'attributes':{'OBJECTID':27,'GlobalID':'{11111111-2222-3333-4444-555555555555}','address':'100 FIXTURE ST','utilmaterial':84,'utilsource':1,'utilstatus':2,'custmaterial':84,'custsource':3,'custstatus':2,**patch},'geometry':{'x':-90.2,'y':38.6}}
 class InventoryTests(unittest.TestCase):
+    def test_acquisition_limits_pending_batches_without_python314_executor_arguments(self):
+        source_ids=list(range(1,2002));submitted=[]
+        class Executor:
+            def __init__(self,max_workers):self.workers=max_workers
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+            def map(self,callback,chunks):
+                submitted.append(len(chunks))
+                return map(callback,chunks)
+        def request(url,params=None):
+            if params and 'objectIds' in params:
+                return {'features':[feature(OBJECTID=int(oid))for oid in params['objectIds'].split(',')]}
+            return meta
+        with tempfile.TemporaryDirectory()as folder,patch.object(u,'RESEARCH',Path(folder)),patch.object(u,'ids',return_value=source_ids),patch.object(u,'request',side_effect=request),patch.object(u.concurrent.futures,'ThreadPoolExecutor',Executor):
+            snapshot=u.fetch_source()
+        self.assertEqual(submitted,[2,1]);self.assertEqual(snapshot['recordCount'],2001)
+        self.assertTrue(snapshot['exactObjectIdsVerified']);self.assertTrue(snapshot['sourceEpochUnchanged'])
     def test_unknown_is_not_nonlead_and_private_fields_never_escape(self):
         f=feature(custstatus=0,custmaterial=None,accountid='private',owner='private')
         r=u.normalize(f,u.domains(meta))

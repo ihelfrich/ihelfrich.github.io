@@ -112,7 +112,12 @@ def fetch_source():
                 for row in features]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-        features = [feature for chunk in executor.map(read_chunk, chunks, buffersize=2) for feature in chunk]
+        # Executor.map(buffersize=...) was only added in Python 3.14. Submit
+        # two batches at a time to preserve the bound on our Python 3.12 runner.
+        features = []
+        for offset in range(0, len(chunks), 2):
+            for batch in executor.map(read_chunk, chunks[offset:offset+2]):
+                features.extend(batch)
     after = request(URL)
     if ids() != source_ids or before.get('editingInfo') != after.get('editingInfo') or domains(after) != code_domains:
         raise ValueError('Source changed during acquisition; prior published inventory is preserved')
