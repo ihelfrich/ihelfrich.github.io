@@ -4,10 +4,12 @@
 export const MAX_LISTING_ROWS = 5000;
 export const MAX_CSV_BYTES = 5000000;
 export const LISTING_STATUSES = Object.freeze(['active', 'pending', 'sold', 'withdrawn']);
+export const LISTING_PROPERTY_TYPES = Object.freeze(['house', 'condo', 'townhouse', 'multifamily', 'land', 'other']);
 const COST_FIELDS = ['purchasePrice', 'rehab', 'closingCosts', 'rentMonthly', 'otherIncomeMonthly', 'operatingExpensesAnnual', 'capexReserveAnnual'];
 const PCT_FIELDS = ['vacancyPct', 'ltvPct', 'interestPct'];
 const REQUIRED_HEADERS = ['listing_id', 'address', 'latitude', 'longitude', 'asking_price', 'status', 'source', 'as_of'];
-const KNOWN_HEADERS = new Set([...REQUIRED_HEADERS, 'parcel_id']);
+const OPTIONAL_HEADERS = new Set(['parcel_id', 'beds', 'baths', 'living_area_sqft', 'property_type']);
+const KNOWN_HEADERS = new Set([...REQUIRED_HEADERS, ...OPTIONAL_HEADERS]);
 const MAX_CSV_COLUMNS = 256;
 function inputError(errors) {
   const error = new RangeError(errors.map(e => `${e.field}: ${e.message}`).join('; '));
@@ -137,7 +139,7 @@ function csvRecords(text) {
 }
 const identity = (source, listingId) => `${encodeURIComponent(source.trim().toLowerCase())}::${encodeURIComponent(listingId.trim())}`;
 function listingSignature(p) {
-  return JSON.stringify([p.address, p.latitude, p.longitude, p.askingPrice, p.status, p.parcelId, p.metadata]);
+  return JSON.stringify([p.address, p.latitude, p.longitude, p.askingPrice, p.status, p.parcelId, p.beds, p.baths, p.livingAreaSqFt, p.propertyType, p.metadata]);
 }
 
 /** No network or storage access. Unsupported/ambiguous records are not invented. */
@@ -166,7 +168,7 @@ export function parseListingsCsv(text) {
     const fail = (field, code, message) => errors.push({ row: record.row, line: record.line, field, code, message });
     if (record.syntaxError) { fail(null, 'csv-syntax', record.syntaxError); continue; }
     let values = record.values;
-    if (values.length === headers.length - 1 && headers.at(-1) === 'parcel_id') values = [...values, ''];
+    if (values.length < headers.length && headers.slice(values.length).every(name => OPTIONAL_HEADERS.has(name))) values = [...values, ...Array(headers.length - values.length).fill('')];
     if (values.length !== headers.length) { fail(null, 'column-count', `Expected ${headers.length} fields, received ${values.length}.`); continue; }
     const raw = Object.fromEntries(headers.map((name, i) => [name, values[i]]));
     const before = errors.length;
@@ -179,10 +181,21 @@ export function parseListingsCsv(text) {
     if (askingPrice === null || askingPrice <= 0) fail('asking_price', 'invalid-price', 'Asking price must be a positive finite USD number, without currency symbols or thousands separators.');
     if (!LISTING_STATUSES.includes(status)) fail('status', 'invalid-status', 'Status must explicitly be active, pending, sold or withdrawn.');
     if (!date) fail('as_of', 'invalid-date', 'Use a valid YYYY-MM-DD date or an ISO timestamp with an explicit UTC offset.');
+    const optionalNumber = (field, valid, message) => {
+      if (raw[field] == null || raw[field].trim() === '') return null;
+      const value = numeric(raw[field]);
+      if (value === null || !valid(value)) fail(field, 'invalid-housing-attribute', message);
+      return value === 0 ? 0 : value;
+    };
+    const beds = optionalNumber('beds', n => Number.isInteger(n) && n >= 0 && n <= 100, 'Beds must be a whole number from 0 through 100, or blank when unknown.');
+    const baths = optionalNumber('baths', n => n >= 0 && n <= 100, 'Baths must be a finite number from 0 through 100, or blank when unknown.');
+    const livingAreaSqFt = optionalNumber('living_area_sqft', n => n > 0 && n <= 10000000, 'Living area must be a positive finite number no greater than 10000000 square feet, or blank when unknown.');
+    const propertyType = raw.property_type?.trim().toLowerCase() || null;
+    if (propertyType !== null && !LISTING_PROPERTY_TYPES.includes(propertyType)) fail('property_type', 'invalid-property-type', `Property type must be ${LISTING_PROPERTY_TYPES.join(', ')}, or blank when unknown.`);
     if (errors.length !== before) continue;
     const metadata = Object.fromEntries(headers.flatMap((name, i) => KNOWN_HEADERS.has(name) ? [] : [[rawHeaders[i], values[i]]]));
     const listing = { id: identity(source, listingId), listingId, address: raw.address.trim(), latitude, longitude, askingPrice, status, source,
-      asOf: date.text, asOfTimestampMs: date.ms, asOfPrecision: date.precision, parcelId: raw.parcel_id?.trim() || null, metadata,
+      asOf: date.text, asOfTimestampMs: date.ms, asOfPrecision: date.precision, parcelId: raw.parcel_id?.trim() || null, beds, baths, livingAreaSqFt, propertyType, metadata,
       importRow: record.row, importLine: record.line };
     if (!listing.address) warnings.push({ row: record.row, code: 'address-missing', message: 'Address is not supplied; the listing ID and provided coordinates are retained.' });
     if (!groups.has(listing.id)) groups.set(listing.id, []);

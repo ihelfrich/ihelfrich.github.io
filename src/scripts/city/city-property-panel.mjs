@@ -47,6 +47,7 @@ export function createPropertyPanel(root,{
     <section id="property-tools-home" aria-label="Property tools">
       <h3>Choose a tool</h3><p class="small-note">Explore a site, work with listings, or test a property scenario.</p>
       <div class="property-tools-grid">
+        <button type="button" id="property-tab-homes" class="property-tool-link" data-property-tool="homes" aria-controls="property-panel-homes"><strong>Commute search</strong><span>Property criteria &amp; road-based driving limits</span></button>
         <button type="button" id="property-tab-value" class="property-tool-link" data-property-tool="value" aria-controls="property-panel-value"><strong>Value &amp; offers</strong><span>Sale evidence, seller proceeds &amp; value scenarios</span></button>
         <button type="button" id="property-tab-site" class="property-tool-link" data-property-tool="site" aria-controls="property-panel-site"><strong>Site</strong><span>Terrain, flood &amp; location evidence</span></button>
         <button type="button" id="property-tab-model" class="property-tool-link" data-property-tool="model" aria-controls="property-panel-model"><strong>Building model</strong><span>Local IFC models &amp; element properties</span></button>
@@ -67,6 +68,7 @@ export function createPropertyPanel(root,{
       <div id="property-public-list" class="estate-list"></div>
       <details class="property-source-details"><summary>Public inventory source & coverage</summary><div id="property-public-source" class="small-note">Load public inventory to see snapshot dates and source details.</div></details>
     </section></div>
+    <div id="property-panel-homes" class="property-tool-panel" role="region" aria-label="Commute search tool" tabindex="-1" hidden></div>
     <div id="property-panel-value" class="property-tool-panel" role="region" aria-label="Value and offers tool" tabindex="-1" hidden></div>
     <div id="property-panel-scenario" class="property-tool-panel" role="region" aria-label="Pro forma tool" tabindex="-1" hidden></div>
     <div id="property-panel-develop" class="property-tool-panel" role="region" aria-label="Develop tool" tabindex="-1" hidden></div>
@@ -88,7 +90,7 @@ export function createPropertyPanel(root,{
   activityBrowser=createPropertyActivityPanel($('panel-activity'),{getCity,onFit:bounds=>getCity()?.fitPropertyAtlasBounds?.(bounds),onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point,{origin:'activity'});},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
   $('context-results').addEventListener('click',()=>{if(selectionOrigin==='activity'){selectTab('activity');$('panel-activity').focus({preventScroll:true});}else if(selectionOrigin==='search'){showAddressMatches();}else{selectTab('evidence');regionBrowser.focusResults();}});
   const tabNames=['evidence','activity','resident','tools'];
-  const toolNames={value:'Value & offers',site:'Site',model:'Building model',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
+  const toolNames={homes:'Commute search',value:'Value & offers',site:'Site',model:'Building model',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
   let activeView='evidence',lastTool=null,selectionOrigin='evidence',searchReturnTrigger=null,searchNavigation=0;
   function selectTab(name) {
     const isTool=Object.hasOwn(toolNames,name),primary=isTool?'tools':name;
@@ -346,5 +348,5 @@ export function createPropertyPanel(root,{
   $('public-clear').addEventListener('click',()=>{inventoryGeneration++;overlayEnabled=false;onPublicMarkers([],choosePublic);$('public-clear').disabled=true;$('public-map').disabled=false;$('public-load').disabled=false;if(inventorySnapshot)renderInventory();else $('public-status').textContent='Public markers are hidden. Load inventory to update the list.'});
   $('public-query').addEventListener('input',renderInventory);$('public-radius').addEventListener('change',renderInventory);
   clearSelection();
-  return {inspectPoint,clearSelection,selectTab,openActivity(lens){onOpen();selectTab('activity');activityBrowser.selectLens(lens);},focusSearch,searchAddress,setMapActive:active=>regionBrowser.activate(active),openRegion(){onOpen();selectTab('evidence');return regionBrowser.start();},openCounty(scope){onOpen();selectTab('evidence');$('study-areas').open=true;return countyBrowser.start(scope)},refreshMarkers(){regionBrowser.refresh();getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
+  return {getPublicInventory:getInventory,inspectPoint,clearSelection,selectTab,openActivity(lens){onOpen();selectTab('activity');activityBrowser.selectLens(lens);},focusSearch,searchAddress,setMapActive:active=>regionBrowser.activate(active),openRegion(){onOpen();selectTab('evidence');return regionBrowser.start();},openCounty(scope){onOpen();selectTab('evidence');$('study-areas').open=true;return countyBrowser.start(scope)},refreshMarkers(){regionBrowser.refresh();getCity()?.setParcel?.(selectedParcel);if(inventorySnapshot)renderInventory();if(!overlayEnabled)onPublicMarkers([],choosePublic)}};
 }

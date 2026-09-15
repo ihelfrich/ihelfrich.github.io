@@ -121,7 +121,7 @@ test('four primary tabs expose every tool through one accessible launcher withou
  const tabs=[...f.root.querySelectorAll('.property-tabs [role="tab"]')];assert.deepEqual(tabs.map(x=>x.textContent),['Map','Activity','Notebook','Tools']);assert.equal(f.root.querySelectorAll('[role="tabpanel"]').length,4);
  const originalInput=f.root.querySelector('#estate-purchasePrice');originalInput.value='186500';
  f.$('tab-tools').click();assert.equal(f.$('tools-home').hidden,false);assert.equal(f.$('tool-header').hidden,true);
- for(const [key,label] of [['value','Value & offers'],['site','Site'],['inventory','Inventory'],['scenario','Pro forma'],['develop','Develop']]){
+ for(const [key,label] of [['homes','Commute search'],['value','Value & offers'],['site','Site'],['inventory','Inventory'],['scenario','Pro forma'],['develop','Develop']]){
   const launcher=f.$('tab-'+key);assert.equal(launcher.getAttribute('role'),null);assert.equal(launcher.getAttribute('aria-controls'),'property-panel-'+key);launcher.click();
   assert.equal(f.$('panel-tools').hidden,false);assert.equal(f.$('tab-tools').getAttribute('aria-selected'),'true');assert.equal(f.$('tools-home').hidden,true);assert.equal(f.$('tool-header').hidden,false);assert.equal(f.$('tool-title').textContent,label);
   const panel=f.$('panel-'+key);assert.equal(panel.hidden,false);assert.equal(panel.getAttribute('role'),'region');assert.equal(f.window.document.activeElement,panel);

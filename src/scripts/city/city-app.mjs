@@ -1,5 +1,6 @@
 import { createResidentPanel } from "./city-resident-panel.mjs";
 import { createProFormaPanel } from "./city-proforma-panel.mjs";
+import { createHomeSearchPanel } from "./city-home-search-panel.mjs";
 import { createResidentValuePanel } from "./city-resident-value-panel.mjs";
 import { createPendingMapActions } from "./city-startup.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
@@ -36,33 +37,34 @@ let connectionSerial = 0,
   pendingReality = null,
   realityHost = null;
 let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
-let proforma=null,resident=null,residentValue=null;
+let proforma=null,resident=null,residentValue=null,homeSearch=null,homeMarkers=[];
 let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
 let savedReality=null,mapLayers=null,ifcPanel=null,ifcPending=null,selectedTool='evidence';
 const pendingMapActions=createPendingMapActions();
 let initialWorkspaceStarted=false;
 let cityReady=false;
 function getPropertyMap(){return city&&cityReady?city:pendingMapActions.map;}
-let selectImportedMarker = () => {}, selectPublicMarker = () => {};
+let selectImportedMarker = () => {}, selectPublicMarker = () => {}, selectHomeMarker = () => {};
 function syncPropertyMarkers() {
   const records=[],actions=new Map();
-  for(const [prefix,items,select] of [["import",importedMarkers,selectImportedMarker],["public",publicMarkers,selectPublicMarker]]) {
+  for(const [prefix,items,select] of [["import",importedMarkers,selectImportedMarker],["public",publicMarkers,selectPublicMarker],["home",homeMarkers,selectHomeMarker]]) {
     for(const item of items) {const id=`${prefix}:${item.id}`;records.push({...item,id});actions.set(id,()=>select(item));}
   }
   city?.setListings?.(records,record=>actions.get(record.id)?.());
-  workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,heightStudy:heightStudyVisible});
+  workbench?.updateLegend({publicCount:publicMarkers.length,importCount:importedMarkers.length,homeCount:homeMarkers.length,heightStudy:heightStudyVisible});
 }
 const estate = createEstatePanel($("properties-panel"), {
   getCity: getPropertyMap,
   onOpen: () => setMode("properties"),
   onMarkers: (records,select) => {importedMarkers=records;selectImportedMarker=select;syncPropertyMarkers();},
   onSelectionChange: () => property?.clearSelection(),
+  onListingsChanged: () => homeSearch?.invalidateInventory(),
   notice,
 });
 property = createPropertyPanel($("properties-panel"), {
   estate,getCity:getPropertyMap,notice,onLayers:()=>setMode('layers'),onViewChange:selectPropertyTool,onOpen:()=>setMode("properties"),onSearchQuery:query=>{if($('city-search-domain').value==='address')$('city-search-query').value=query;},onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
-    selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);residentValue?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
+    selectedEvidence=evidence;homeSearch?.setEvidence(evidence);proforma?.setEvidence(evidence);resident?.setEvidence(evidence);residentValue?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
     else if(city?.controls?.target) {
       const p=city.controls.target;
@@ -78,6 +80,7 @@ const scenarioRoot=$("property-panel-scenario"),quickScenario=scenarioRoot.query
 const underwritingRoot=document.createElement('div');underwritingRoot.id='property-proforma';scenarioRoot.prepend(underwritingRoot);
 if(quickScenario){const quick=document.createElement('details');quick.className='pf-quick-check';quick.innerHTML='<summary>Quick one-year calculator &amp; development inputs</summary>';quick.append(quickScenario);scenarioRoot.append(quick);}
 proforma=createProFormaPanel(underwritingRoot,{onChange:()=>resident?.invalidateScenario()});
+homeSearch=createHomeSearchPanel($("property-panel-homes"),{getListings:()=>estate.getListingsSnapshot(),getPublicInventory:()=>property.getPublicInventory(),onImport:()=>property.selectTab('inventory'),onInspect:listing=>{const point={longitude:listing.longitude,latitude:listing.latitude,address:listing.address};if(listing.sourceId==='st-louis-city-lra'){point.jurisdiction='st-louis-city';point.parcelKey=listing.parcelKey;point.parcelId=listing.parcelId;}void property.inspectPoint(point);locateMapPoint({...point,label:listing.address||"PROPERTY LOCATION"});},onFit:records=>{if(!records.length)return;const xs=records.map(r=>r.longitude),ys=records.map(r=>r.latitude);getPropertyMap()?.fitPropertyAtlasBounds?.([Math.min(...xs)-.006,Math.min(...ys)-.006,Math.max(...xs)+.006,Math.max(...ys)+.006]);},onMarkers:(records,select)=>{homeMarkers=records;selectHomeMarker=select;syncPropertyMarkers();}});
 residentValue=createResidentValuePanel($("property-panel-value"),{onFind:()=>property.focusSearch(),onProforma:()=>property.selectTab('scenario')});
 resident=createResidentPanel($("property-panel-resident"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario(),onFind:()=>property.focusSearch(),onArea:scope=>void property.openCounty(scope),onScenario:()=>property.selectTab('scenario'),onLocate:point=>{void property.inspectPoint(point);locateMapPoint({...point,label:point.address})}});
 const developRoot=$("property-panel-develop");
@@ -97,7 +100,7 @@ const livePanel = createLivePanel($("live-panel"), {
   },
 });
 workbench=createWorkbench(document,{getCity:()=>city,setMode,property,showPlaces,onNow:()=>{environmentMode="now";updateLight()}});
-function syncIfcActive(){ifcPanel?.setActive(mode==='properties'&&selectedTool==='model');residentValue?.setActive(mode==='properties'&&selectedTool==='value');}
+function syncIfcActive(){ifcPanel?.setActive(mode==='properties'&&selectedTool==='model');residentValue?.setActive(mode==='properties'&&selectedTool==='value');homeSearch?.setActive(mode==='properties'&&selectedTool==='homes');}
 function selectPropertyTool(name){
   selectedTool=name;syncIfcActive();
   if(name!=='model'||ifcPanel||ifcPending)return;

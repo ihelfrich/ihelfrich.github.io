@@ -34,7 +34,7 @@ const fields = [
 
 export function createEstatePanel(
   root,
-  { getCity = () => null, onOpen = () => {}, notice = () => {}, onMarkers = null, onSelectionChange = () => {} } = {},
+  { getCity = () => null, onOpen = () => {}, notice = () => {}, onMarkers = null, onSelectionChange = () => {}, onListingsChanged = () => {} } = {},
 ) {
   let listings = [],
     visible = [],
@@ -229,6 +229,7 @@ export function createEstatePanel(
           .map((i) => i.message || String(i))
           .join(" ")}`;
       renderListings();
+      onListingsChanged();
       notice("Listings imported into this page. Source dates remain visible.");
     } catch (error) {
       if (generation === importGeneration)
@@ -254,6 +255,7 @@ export function createEstatePanel(
     $("estate-import-status").textContent =
       "Imported records cleared from this page.";
     reset();
+    onListingsChanged();
   });
   function reset() {
     onSelectionChange();
@@ -427,6 +429,7 @@ export function createEstatePanel(
     calculate();
   });
   return {
+    getListingsSnapshot(){return {listings:structuredClone(listings),fileName:inputName||null};},
     refreshMarkers,
     getScenario() {
       if(!result)return null;

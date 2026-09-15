@@ -379,3 +379,12 @@ test('official property evidence preserves entered price and cannot relabel a ne
   assert.equal(f.panel.setPropertyEvidence(evidence),false);assert.equal(f.$('selection').textContent,'Selected map location');
   f.$('example').click();assert.equal(f.panel.setPropertyEvidence(evidence),false);
 });
+
+
+test('home-search inventory snapshot is complete, detached from form filters and safe to inspect',async t=>{
+ const f=fixture(t);await f.importFile(csv([record(),record({listing_id:'SYNTHETIC-B',address:'2 Fictional Fixture Way',status:'pending'})]));
+ const snapshot=f.panel.getListingsSnapshot();assert.equal(snapshot.listings.length,2);assert.equal(snapshot.fileName,'synthetic-fixture.csv');snapshot.listings[0].askingPrice=1;
+ assert.equal(f.panel.getListingsSnapshot().listings[0].askingPrice,250000);
+ f.$('status').value='sold';f.$('status').dispatchEvent(new f.window.Event('input',{bubbles:true}));assert.equal(f.panel.getListingsSnapshot().listings.length,2);
+ f.$('clear').click();assert.deepEqual(f.panel.getListingsSnapshot(),{listings:[],fileName:null});
+});

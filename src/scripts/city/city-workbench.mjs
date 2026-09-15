@@ -91,10 +91,11 @@ export function createWorkbench(doc,{getCity=()=>null,setMode=()=>{},property,sh
       $('solar-marker')?.setAttribute('opacity',hour<6||hour>18?'0.3':'1');
       $('light-now')?.setAttribute('aria-pressed',String(isNow));
     },
-    updateLegend({publicCount=0,importCount=0,heightStudy=false}={}) {
-      if($('map-legend'))$('map-legend').hidden=publicCount+importCount===0&&!heightStudy;
+    updateLegend({publicCount=0,importCount=0,homeCount=0,heightStudy=false}={}) {
+      if($('map-legend'))$('map-legend').hidden=publicCount+importCount+homeCount===0&&!heightStudy;
       if($('legend-public'))$('legend-public').hidden=publicCount===0;
       if($('legend-import'))$('legend-import').hidden=importCount===0;
+      if($('legend-homes')){$('legend-homes').hidden=homeCount===0;$('legend-homes').textContent=`Commute matches: ${homeCount}`;}
       if($('legend-height'))$('legend-height').hidden=!heightStudy;
     },
     dispose(){listeners.forEach(remove=>remove());focus(false)},

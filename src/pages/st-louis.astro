@@ -4,6 +4,7 @@ import '../styles/st-louis-workbench.css';
 import '../styles/st-louis-proforma.css';
 import '../styles/st-louis-resident.css';
 import '../styles/st-louis-resident-value.css';
+import '../styles/st-louis-home-search.css';
 import '../styles/st-louis-parcels.css';
 import '../styles/st-louis-atlas.css';
 import '../styles/st-louis-records.css';
@@ -105,7 +106,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
     <div id="sun-study-controls" class="sun-study-controls"><svg class="solar-arc" viewBox="0 0 90 44" aria-hidden="true"><path d="M8 36H82 M14 34A31 31 0 0 1 76 34"/><circle id="solar-marker" cx="45" cy="7" r="4"/></svg><div><div class="range-label"><label for="sun-hour">Sun &amp; light</label><output for="sun-hour" id="sun-label">St. Louis now</output></div><input type="range" id="sun-hour" min="0" max="23.75" value="17" step="0.25" /></div><button id="pause-motion" class="icon-button" aria-label="Pause ambient motion" aria-pressed="false">Ⅱ</button></div>
     <div id="photo-tone-controls" hidden><label for="dock-tone">Captured city · visual tone</label><select id="dock-tone"><option value="natural">Natural</option><option value="warm">Warm</option><option value="cool">Cool</option><option value="mono">Monochrome</option></select></div>
   </div>
-  <div id="map-legend" class="map-legend glass" aria-label="Map overlay legend" hidden><span id="legend-public" hidden><i class="legend-dot public"></i>Public LRA inventory</span><span id="legend-import" hidden><i class="legend-dot imported"></i>Imported listings</span><span id="legend-height" hidden><i class="legend-dot height"></i>Parcel height study · assumed</span></div>
+  <div id="map-legend" class="map-legend glass" aria-label="Map overlay legend" hidden><span id="legend-public" hidden><i class="legend-dot public"></i>Public LRA inventory</span><span id="legend-import" hidden><i class="legend-dot imported"></i>Imported listings</span><span id="legend-homes" hidden>Commute matches</span><span id="legend-height" hidden><i class="legend-dot height"></i>Parcel height study · assumed</span></div>
   <footer class="city-footer"><div><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a><button id="data-info">Data &amp; methods</button><a href="/st-louis/license/">Commercial license required</a></div><span class="controls-hint">Drag to orbit · Scroll to zoom · Right-drag to pan</span></footer>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
   <dialog id="shortcuts-dialog"><div class="dialog-top"><span class="eyebrow">MOVE THROUGH THE CITY</span><button id="close-shortcuts" class="icon-button" aria-label="Close keyboard shortcuts">×</button></div><h2>A few useful shortcuts.</h2><dl class="shortcut-list"><div><dt>⌘ / Ctrl + K</dt><dd>Find an address or place</dd></div><div><dt>F</dt><dd>Enter or leave focus mode</dd></div><div><dt>Escape</dt><dd>Leave focus mode</dd></div><div><dt>Tab</dt><dd>Move between controls</dd></div><div><dt>Arrow keys</dt><dd>Switch property tabs when a tab is focused</dd></div></dl><p>Drag the map to orbit, scroll to zoom, and right-drag to pan.</p></dialog>
