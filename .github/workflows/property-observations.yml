@@ -36,6 +36,13 @@ jobs:
         run: timeout 90 node --test tests/unit/city-property-history.test.mjs
       - name: Verify utility acquisition on the runner's Python version
         run: timeout 90 uv run --no-project python scripts/st-louis/test_property_utilities.py
+      - name: Verify historical market context acquisition
+        run: timeout 90 uv run --no-project python scripts/st-louis/test_property_hpi.py
+      - name: Refresh official regional house-price history
+        id: market
+        continue-on-error: true
+        # Validation and atomic replacement preserve the last good dated snapshot.
+        run: timeout 90 uv run --no-project python scripts/st-louis/fetch_property_hpi.py
       - name: Collect bounded authoritative sources
         id: collect
         # A failed source records public health while retaining its last good data.
@@ -48,7 +55,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for directory in history ownership-signals planning-documents incentives utilities; do
+          for directory in history ownership-signals planning-documents incentives utilities valuation; do
             if [ -d "public/st-louis/$directory" ]; then
               git add -- "public/st-louis/$directory"
             fi
@@ -72,4 +79,9 @@ jobs:
         run: |
           echo "::error::At least one source was unavailable or invalid. Its previous complete evidence was retained; inspect the published source-health receipt."
           echo "Source retrieval failure is not an empty result or an ownership change. No acquisition is inferred by this collector." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+      - name: Report retained market context
+        if: always() && steps.market.outcome == 'failure'
+        run: |
+          echo "::error::FHFA history could not be refreshed. The previous dated snapshot was retained; no forecast or new observation was inferred."
           exit 1

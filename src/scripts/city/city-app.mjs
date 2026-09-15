@@ -1,5 +1,6 @@
 import { createResidentPanel } from "./city-resident-panel.mjs";
 import { createProFormaPanel } from "./city-proforma-panel.mjs";
+import { createResidentValuePanel } from "./city-resident-value-panel.mjs";
 import { createPendingMapActions } from "./city-startup.mjs";
 import { createEstatePanel } from "./city-estate.mjs";
 import { createPropertyPanel } from "./city-property-panel.mjs";
@@ -35,7 +36,7 @@ let connectionSerial = 0,
   pendingReality = null,
   realityHost = null;
 let property = null, workbench = null, importedMarkers = [], publicMarkers = [];
-let proforma=null,resident=null;
+let proforma=null,resident=null,residentValue=null;
 let selectedEvidence=null,development=null,spatial=null,heightStudy=null,heightStudyVisible=false,sitePanel=null;
 let savedReality=null,mapLayers=null,ifcPanel=null,ifcPending=null,selectedTool='evidence';
 const pendingMapActions=createPendingMapActions();
@@ -61,7 +62,7 @@ const estate = createEstatePanel($("properties-panel"), {
 property = createPropertyPanel($("properties-panel"), {
   estate,getCity:getPropertyMap,notice,onLayers:()=>setMode('layers'),onViewChange:selectPropertyTool,onOpen:()=>setMode("properties"),onSearchQuery:query=>{if($('city-search-domain').value==='address')$('city-search-query').value=query;},onAreaLocate:point=>showSceneLocation(point,point.label),
   onEvidence:evidence=>{
-    selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
+    selectedEvidence=evidence;proforma?.setEvidence(evidence);resident?.setEvidence(evidence);residentValue?.setEvidence(evidence);development?.setEvidence(evidence);spatial?.setEvidence(evidence);heightStudy?.setEvidence(evidence);sitePanel?.setEvidence(evidence);
     if(evidence?.point)showSceneLocation(evidence.point,evidence.parcels?.parcel?.properties?.address||evidence.point.address||"SELECTED LOCATION");
     else if(city?.controls?.target) {
       const p=city.controls.target;
@@ -77,6 +78,7 @@ const scenarioRoot=$("property-panel-scenario"),quickScenario=scenarioRoot.query
 const underwritingRoot=document.createElement('div');underwritingRoot.id='property-proforma';scenarioRoot.prepend(underwritingRoot);
 if(quickScenario){const quick=document.createElement('details');quick.className='pf-quick-check';quick.innerHTML='<summary>Quick one-year calculator &amp; development inputs</summary>';quick.append(quickScenario);scenarioRoot.append(quick);}
 proforma=createProFormaPanel(underwritingRoot,{onChange:()=>resident?.invalidateScenario()});
+residentValue=createResidentValuePanel($("property-panel-value"),{onFind:()=>property.focusSearch(),onProforma:()=>property.selectTab('scenario')});
 resident=createResidentPanel($("property-panel-resident"),{getEvidence:()=>selectedEvidence,getScenario:()=>proforma?.getScenario(),onFind:()=>property.focusSearch(),onArea:scope=>void property.openCounty(scope),onScenario:()=>property.selectTab('scenario'),onLocate:point=>{void property.inspectPoint(point);locateMapPoint({...point,label:point.address})}});
 const developRoot=$("property-panel-develop");
 developRoot.innerHTML='<div id="spatial-workspace"></div><details class="height-study-section"><summary>Visualize a parcel height study</summary><div id="height-study-workspace"></div></details><div id="development-workspace"></div>';
@@ -95,7 +97,7 @@ const livePanel = createLivePanel($("live-panel"), {
   },
 });
 workbench=createWorkbench(document,{getCity:()=>city,setMode,property,showPlaces,onNow:()=>{environmentMode="now";updateLight()}});
-function syncIfcActive(){ifcPanel?.setActive(mode==='properties'&&selectedTool==='model');}
+function syncIfcActive(){ifcPanel?.setActive(mode==='properties'&&selectedTool==='model');residentValue?.setActive(mode==='properties'&&selectedTool==='value');}
 function selectPropertyTool(name){
   selectedTool=name;syncIfcActive();
   if(name!=='model'||ifcPanel||ifcPending)return;

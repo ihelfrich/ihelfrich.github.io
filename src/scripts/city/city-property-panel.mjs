@@ -47,6 +47,7 @@ export function createPropertyPanel(root,{
     <section id="property-tools-home" aria-label="Property tools">
       <h3>Choose a tool</h3><p class="small-note">Explore a site, work with listings, or test a property scenario.</p>
       <div class="property-tools-grid">
+        <button type="button" id="property-tab-value" class="property-tool-link" data-property-tool="value" aria-controls="property-panel-value"><strong>Value &amp; offers</strong><span>Sale evidence, seller proceeds &amp; value scenarios</span></button>
         <button type="button" id="property-tab-site" class="property-tool-link" data-property-tool="site" aria-controls="property-panel-site"><strong>Site</strong><span>Terrain, flood &amp; location evidence</span></button>
         <button type="button" id="property-tab-model" class="property-tool-link" data-property-tool="model" aria-controls="property-panel-model"><strong>Building model</strong><span>Local IFC models &amp; element properties</span></button>
         <button type="button" id="property-tab-inventory" class="property-tool-link" data-property-tool="inventory" aria-controls="property-panel-inventory"><strong>Inventory</strong><span>Public listings &amp; your imports</span></button>
@@ -66,6 +67,7 @@ export function createPropertyPanel(root,{
       <div id="property-public-list" class="estate-list"></div>
       <details class="property-source-details"><summary>Public inventory source & coverage</summary><div id="property-public-source" class="small-note">Load public inventory to see snapshot dates and source details.</div></details>
     </section></div>
+    <div id="property-panel-value" class="property-tool-panel" role="region" aria-label="Value and offers tool" tabindex="-1" hidden></div>
     <div id="property-panel-scenario" class="property-tool-panel" role="region" aria-label="Pro forma tool" tabindex="-1" hidden></div>
     <div id="property-panel-develop" class="property-tool-panel" role="region" aria-label="Develop tool" tabindex="-1" hidden></div>
     <div id="property-panel-model" class="property-tool-panel" role="region" aria-label="Building model tool" tabindex="-1" hidden></div>
@@ -86,7 +88,7 @@ export function createPropertyPanel(root,{
   activityBrowser=createPropertyActivityPanel($('panel-activity'),{getCity,onFit:bounds=>getCity()?.fitPropertyAtlasBounds?.(bounds),onFeatures:(features,layers)=>regionBrowser.setActivityLayers(features,layers),onFeature:feature=>{if(Number.isFinite(feature.longitude)&&Number.isFinite(feature.latitude))regionBrowser.focusFeature(feature);},onInspect:record=>{const point={longitude:record.longitude,latitude:record.latitude,jurisdiction:record.jurisdiction,address:record.address};if(record.kind==='ownership')for(const key of ['recordKey','parcelKey','parcelId','sourceObjectId'])point[key]=record[key];void inspectPoint(point,{origin:'activity'});},onInventory:()=>selectTab('inventory'),onSite:()=>selectTab('site')});
   $('context-results').addEventListener('click',()=>{if(selectionOrigin==='activity'){selectTab('activity');$('panel-activity').focus({preventScroll:true});}else if(selectionOrigin==='search'){showAddressMatches();}else{selectTab('evidence');regionBrowser.focusResults();}});
   const tabNames=['evidence','activity','resident','tools'];
-  const toolNames={site:'Site',model:'Building model',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
+  const toolNames={value:'Value & offers',site:'Site',model:'Building model',inventory:'Inventory',scenario:'Pro forma',develop:'Develop'};
   let activeView='evidence',lastTool=null,selectionOrigin='evidence',searchReturnTrigger=null,searchNavigation=0;
   function selectTab(name) {
     const isTool=Object.hasOwn(toolNames,name),primary=isTool?'tools':name;
@@ -175,7 +177,8 @@ export function createPropertyPanel(root,{
     if(isCounty&&p.parcelId){const holder=element('div');body.append(holder);recordsPanel=recordsPanelFactory(holder,{parcel:p,source:parcels.source,regionalTransfer:evidence.point?.atlasTransfer,onTaxEvidence,onScenario:()=>{selectTab('scenario');root.querySelector('#pf-purchasePrice')?.focus();}});}
     else if(isCounty){body.append(element('h3',p.address||'County source record'));paragraph(body,'This GIS record has no County locator. Tax and transfer records cannot be joined to it. Its source object ID and boundary remain available below.');}
     if(evidence.point?.atlasTransfer){const transfer=evidence.point.atlasTransfer;const latest=element('section',undefined,'property-fact-card');latest.append(element('h4','Latest transfer in the regional snapshot'),element('strong',Number.isFinite(transfer.priceUSD)?usd.format(transfer.priceUSD):'Amount unknown or unusable'));paragraph(latest,`Recorded date: ${transfer.dateISO||'Not supplied'}. Price status: ${transfer.priceStatus||'Not supplied'}. This record is not necessarily an open-market sale.`);if(transfer.validityCode)paragraph(latest,`Source validity code: ${transfer.validityCode}${transfer.marketValidityCode?' · market validity code: '+transfer.marketValidityCode:''}.`);paragraph(latest,`Source: ${transfer.sourceId||'Jurisdiction transfer snapshot'}. See the regional dataset manifest for source dates and interpretation.`);body.append(latest);}
-    const action=element('button','Build pro forma','primary-button wide');action.type='button';
+    const valueAction=element('button','Review value & offers','primary-button wide');valueAction.type='button';valueAction.disabled=!p?.recordKey;valueAction.addEventListener('click',()=>selectTab('value'));body.append(valueAction);
+    const action=element('button','Build pro forma','secondary-button wide');action.type='button';
     action.addEventListener('click',()=>{selectTab('scenario');(root.querySelector('#pf-purchasePrice')||root.querySelector('#estate-purchasePrice'))?.focus()});if(!isCounty)body.append(action);
     const residentAction=element('button','Save to property notebook','secondary-button wide');residentAction.type='button';residentAction.disabled=!p?.recordKey;residentAction.addEventListener('click',()=>{selectTab('resident');onNotebook();});body.append(residentAction);
     const facts=element('div',undefined,'property-facts'),assessment=element('section',undefined,'property-fact-card'),zoning=element('section',undefined,'property-fact-card');
