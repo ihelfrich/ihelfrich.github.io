@@ -89,10 +89,17 @@ test('abort and disposal promptly reject a pending view; failed fetches retry ra
  assert.equal((await retry.loader.query({layers:['permits'],bounds})).layers[0].status,'ready');assert.equal(calls,2);retry.loader.dispose();
 });
 test('actual public permit and LRA snapshots project their complete record counts into bounded overview cells',async()=>{
+ const permits=JSON.parse(await readFile(new URL('../../public'+permitPath,import.meta.url),'utf8'));
+ const inventory=JSON.parse(await readFile(new URL('../../public'+publicPath,import.meta.url),'utf8'));
+ assert.ok(permits.records.length>0);assert.ok(inventory.listings.length>0);
+ assert.equal(permits.records.length,permits.recordCount);
+ assert.equal(inventory.listings.length,inventory.counts.listings);
+ assert.equal(inventory.counts.sourceFeatures,inventory.source.expectedSourceRecords);
+ assert.equal(inventory.counts.listings+inventory.counts.excluded,inventory.counts.sourceFeatures);
  const loader=createPropertyActivityData({fetchImpl:async url=>new Response(await readFile(new URL('../../public'+url,import.meta.url),'utf8')),now:()=>Date.parse(retrievedAt)});
  const result=await loader.query({layers:['permits','public-inventory'],bounds:[-90.8,38.3,-90,39],level:'areas'});
- assert.equal(result.layers.find(layer=>layer.id==='permits').count,4581);assert.equal(result.layers.find(layer=>layer.id==='public-inventory').count,8555);
- assert.equal(result.features.reduce((n,cell)=>n+cell.count,0),13136);assert.ok(result.features.length<=2000);
+ assert.equal(result.layers.find(layer=>layer.id==='permits').count,permits.records.length);assert.equal(result.layers.find(layer=>layer.id==='public-inventory').count,inventory.listings.length);
+ assert.equal(result.features.reduce((n,cell)=>n+cell.count,0),permits.records.length+inventory.listings.length);assert.ok(result.features.length<=2000);
  assert.equal(result.records.filter(r=>r.kind==='permit').every(r=>r.original.issuedDate.startsWith('2025-')&&r.recordKey===null),true);loader.dispose();
 });
 test('actual countywide name search reconciles literal groups and tile counts without a parcel-tile download',async()=>{
