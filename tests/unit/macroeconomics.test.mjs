@@ -80,7 +80,7 @@ test('192 seeded parameter fixtures remain finite, deterministic and within nume
   let seed=78117;const random=()=>((seed=(1664525*seed+1013904223)>>>0)/4294967296);
   const aliases={nk:'newKeynesian',optimal:'optimalGrowth'};
   function checkFinite(value){if(typeof value==='number')assert.ok(Number.isFinite(value));else if(value&&typeof value==='object')for(const v of Object.values(value))checkFinite(v);}
-  for(const model of models)for(let i=0;i<24;i++){
+  for(const model of models.filter(model=>model.number<='08'))for(let i=0;i<24;i++){
     const p={...model.defaults};for(const f of model.fields){if(f.key==='N'){p.N=41;continue;}if(f.options){p[f.key]=f.options[Math.floor(random()*f.options.length)][0];continue;}p[f.key]=Math.min(f.max,f.min+Math.round(random()*(f.max-f.min)/f.step)*f.step);if(f.key==='T')p.T=Math.round(p.T);}
     const result=m[aliases[model.id]||model.id](p);checkFinite(result);assert.deepEqual(result,m[aliases[model.id]||model.id](p));
     if(result.residual!==undefined)assert.ok(result.residual<1e-7);

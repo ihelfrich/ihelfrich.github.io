@@ -99,3 +99,38 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 @media (max-width:380px) { .macro-directory nav { grid-template-columns:1fr; } .macro-metrics { grid-template-columns:1fr; } .macro-metrics > div { display:flex; gap:1rem; justify-content:space-between; align-items:center; } .macro-metrics span { min-height:0; } .macro-ledgers { gap:.7rem; } .macro-ledgers dl > div { flex-wrap:wrap; } [data-controls] { grid-template-columns:1fr; } }
 @media (prefers-reduced-motion:reduce) { .macro-page * { scroll-behavior:auto; } }
 @media (max-width:700px) { .macro-mobile-model { display:block; } .macro-directory nav { display:none; } .macro-results { order:0; } .macro-parameters { order:1; } }
+/* Shared selection and mathematical inspection. */
+.macro-selection { margin-top:1rem; border-bottom:1px solid var(--rule); }
+.macro-selection .macro-note { margin:0 0 .9rem; }
+.macro-income-picker { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; font:400 .875rem/1.5 var(--font-display); padding-bottom:.75rem; }
+.macro-income-picker select { font:inherit; padding:.45rem; background:var(--white); border:1px solid var(--rule); }
+.macro-live-math { margin-top:1.25rem; padding:1.1rem 0; border-bottom:1px solid var(--ink); }
+.macro-live-math header { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.9rem; }
+.macro-live-math h3 { font:500 1rem/1.5 var(--font-display); margin:0; }
+.macro-live-math header output { font:400 .875rem/1.5 var(--font-data); color:var(--macro-blue); }
+.macro-live-math .macro-equation { font-size:.95rem; margin:0 0 .5rem; }
+.macro-substitution { color:var(--macro-blue); }
+.macro-rounding { font:400 .75rem/1.5 var(--font-data); color:var(--muted); margin:0 0 1rem; }
+.macro-contributions { display:grid; gap:.25rem; }
+.macro-contribution { display:grid; grid-template-columns:minmax(100px,1fr) minmax(70px,1.5fr) minmax(65px,.8fr); gap:.75rem; align-items:center; padding:.6rem .4rem; min-height:44px; border:1px solid transparent; background:none; text-align:left; color:var(--ink); cursor:pointer; font:400 .875rem/1.4 var(--font-display); }
+.macro-contribution i { height:8px; width:var(--amount); min-width:1px; background:var(--bar); }
+.macro-contribution strong { text-align:right; font:500 .875rem/1.5 var(--font-data); }
+.macro-contribution[aria-pressed=true] { border-color:var(--ink); }
+.macro-term-explanation { font:400 .875rem/1.5 var(--font-display); min-height:3em; color:var(--muted); }
+.macro-equation-controls,.macro-related { display:flex; gap:.5rem; flex-wrap:wrap; }
+.macro-equation-controls button,.macro-related button { padding:.4rem .6rem; min-height:40px; font:400 .875rem/1.5 var(--font-data); border:1px solid var(--rule); color:var(--ink); background:var(--white); cursor:pointer; }
+.macro-equation-controls span { color:var(--muted); font:400 .75rem/1.5 var(--font-display); }
+.macro-term-active { stroke:var(--macro-blue) !important; stroke-width:3px; }
+.macro-chart svg:focus-visible,.macro-matrix [role=button]:focus-visible,.macro-lab button:focus-visible,.macro-lab input:focus-visible,.macro-lab select:focus-visible { outline:2px solid var(--macro-blue); outline-offset:3px; }
+.macro-data [data-selected=true] { background:#e9edff; }
+.macro-data button { padding:.3rem .6rem; min-height:36px; border:1px solid var(--rule); color:var(--ink); background:var(--white); font:400 .8rem/1.4 var(--font-display); cursor:pointer; }
+.macro-matrix { margin:1.5rem 0 2rem; }
+.macro-matrix figcaption { font:500 1rem/1.5 var(--font-display); }
+.macro-matrix svg { display:block; width:100%; max-width:620px; margin:.75rem auto; }
+.macro-matrix [role=button] { cursor:pointer; }
+.macro-research > h3 { max-width:40ch; }
+.macro-related { align-items:center; border-block:1px solid var(--rule); padding:1rem 0; margin:1.5rem 0; }
+.macro-related > span { flex:1 0 100%; font-weight:500; }
+.macro-research details summary { cursor:pointer; padding:.7rem 0; }
+@media (max-width:700px) { .macro-live-math .macro-equation { font-size:.85rem; } .macro-contribution { grid-template-columns:minmax(95px,1fr) minmax(45px,1fr) minmax(60px,.8fr); gap:.5rem; } }
+.macro-ledgers .macro-term-active { background:#e9edff; outline:1px solid var(--macro-blue); }
