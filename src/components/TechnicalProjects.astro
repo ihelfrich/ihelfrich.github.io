@@ -1,10 +1,10 @@
 ---
 import ProjectDrawing from './ProjectDrawing.astro';
 interface Props { heading?:string; moreHref?:string; moreLabel?:string; }
-const {heading='I also build.',moreHref='/projects',moreLabel='Explore all projects'}=Astro.props;
+const {heading='Software and scientific visualization',moreHref='/projects',moreLabel='All projects'}=Astro.props;
 ---
 <section class="technical-projects" id="technical-projects" aria-labelledby="technical-projects-title">
- <header><div><p class="technical-eyebrow">Software &amp; scientific visualization</p><h2 id="technical-projects-title">{heading}</h2></div><p>From the structure of sound to the shape of the ocean: tools that make complex data usable.</p></header>
+ <header><div><p class="technical-eyebrow">Software &amp; scientific visualization</p><h2 id="technical-projects-title">{heading}</h2></div><p>Audio software and oceanographic mapping.</p></header>
  <div class="technical-pair">
   <a class="technical-project" href="/projects/yellowjacket">
    <ProjectDrawing kind="audio"/>

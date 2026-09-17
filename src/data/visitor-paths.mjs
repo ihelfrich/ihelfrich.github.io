@@ -2,27 +2,27 @@ export const visitorPaths = {
  learn: {
   label:'Learn or get unstuck', description:'Economics, statistics, research design, or code.', question:'Where would support help most?',
   options:[
-   {id:'ideas',label:'Understanding a difficult idea',title:'Connect the idea to an example.',body:'Start with an explanation you can change and inspect. For individual support, bring the step that stops making sense.',href:'/econometrics/',resource:'Explore the open econometrics course'},
-   {id:'code',label:'Working with data or code',title:'Make the analysis inspectable.',body:'See a complete inference workflow, then bring your own question about Python, SQL, statistical software, or interpretation.',href:'/projects/applied-statistics',resource:'Try the Applied Statistics workflow'},
-   {id:'study',label:'Designing a study or dissertation',title:'Clarify the claim before the estimator.',body:'We can work through the question, target quantity, available evidence, and comparison your argument needs.',href:'/teaching#coaching',resource:'See how research-design coaching works'}
+   {id:'ideas',label:'Understanding a difficult idea',title:'Economics and statistics tutoring',body:'Individual instruction in economics, statistics, and econometrics. The open course includes worked examples and exercises.',href:'/econometrics/',resource:'Explore the open econometrics course'},
+   {id:'code',label:'Working with data or code',title:'Programming and data analysis',body:'Help with Python, SQL, statistical software, debugging, and interpreting results.',href:'/projects/applied-statistics',resource:'Try the Applied Statistics workflow'},
+   {id:'study',label:'Designing a study or dissertation',title:'Study and dissertation design',body:'Review the question, study design, data requirements, and analysis for a dissertation or research project.',href:'/teaching#coaching',resource:'See how research-design coaching works'}
   ]
  },
  research:{
   label:'Work on a research problem',description:'Study design, spatial environments, or analytical software.',question:'What kind of problem?',
   options:[
-   {id:'design',label:'Empirical design or policy analysis',title:'Start with the comparison.',body:'A useful first conversation identifies the decision, the evidence you have, and the uncertainty that matters.',href:'/work#case-nmtc-rural-gap',resource:'See a place-based policy research example'},
-   {id:'spatial',label:'Geography, trade, or measurement',title:'Make the geography part of the question.',body:'My work connects economic activity, distance, spatial data, and the choices that turn observations into measures.',href:'/work#case-trade-in-the-spotlight',resource:'See the trade and spatial measurement work'},
-   {id:'environment',label:'Ocean mapping or environmental visualization',title:'Connect the environment to the analysis.',body:'I work with 3D terrain, bathymetry, ocean-current fields, and scientific model outputs. Bring the environmental question and the kind of visualization or analysis you need.',href:'/projects/oceanographic-systems',resource:'Explore oceanographic systems'},
-   {id:'software',label:'Scientific software or audio tools',title:'Build a tool people can use.',body:'Yellowjacket connects audio processing, transcription, and music production in a browser. Bring the workflow you want to improve or the scientific output you want to make usable.',href:'/projects/yellowjacket',resource:'Explore Yellowjacket'},
-   {id:'analysis',label:'An analysis or research workflow',title:'Connect the result to its reasoning.',body:'Bring the question, the intended output, and a description of your data or workflow. We can identify where a quantitative contribution would help.',href:'/work',resource:'Browse selected work'}
+   {id:'design',label:'Empirical design or policy analysis',title:'Empirical research',body:'Research design and policy analysis. My NMTC paper compares rural and urban financing within the same intermediaries.',href:'/work#case-nmtc-rural-gap',resource:'See a place-based policy research example'},
+   {id:'spatial',label:'Geography, trade, or measurement',title:'Trade and spatial measurement',body:'I study bilateral distance using population and night-light data and their role in gravity models of trade.',href:'/work#case-trade-in-the-spotlight',resource:'See the trade and spatial measurement work'},
+   {id:'environment',label:'Ocean mapping or environmental visualization',title:'Oceanographic mapping',body:'3D seafloor mapping, ocean-current analysis, and visualization of scientific model outputs.',href:'/projects/oceanographic-systems',resource:'Explore oceanographic systems'},
+   {id:'software',label:'Scientific software or audio tools',title:'Scientific and audio software',body:'Yellowjacket combines transcript editing, signal analysis, and music production in a browser.',href:'/projects/yellowjacket',resource:'Explore Yellowjacket'},
+   {id:'analysis',label:'An analysis or research workflow',title:'Quantitative analysis',body:'Data preparation, quantitative analysis, and research software. Please describe the question, available data, and deadline.',href:'/work',resource:'Browse selected work'}
   ]
  },
  opportunity:{
   label:'Discuss a role or partnership',description:'Research, teaching, advisory work, or collaboration.',question:'What would you like to discuss?',
   options:[
-   {id:'academic',label:'An academic or research role',title:'Start with the research record.',body:'My background combines econometrics, applied economics, spatial analysis, and quantitative teaching.',href:'/job-market',resource:'View the candidate page and CV'},
-   {id:'applied',label:'An applied role or project',title:'See how I approach real questions.',body:'The selected cases describe the question, my contribution, the available evidence, and the limits of each result.',href:'/work',resource:'Explore selected cases'},
-   {id:'teaching',label:'Teaching, a workshop, or a partnership',title:'Build researchers who can teach others.',body:'I work across individual coaching, institutional teaching, quantitative methods, and reusable public learning tools.',href:'/teaching',resource:'Explore teaching and coaching'}
+   {id:'academic',label:'An academic or research role',title:'Academic and research roles',body:'My CV and research pages cover econometrics, applied economics, spatial analysis, and teaching.',href:'/job-market',resource:'View the candidate page and CV'},
+   {id:'applied',label:'An applied role or project',title:'Applied research and consulting',body:'Selected research and software projects, with papers, code, and my role in each.',href:'/work',resource:'Explore selected cases'},
+   {id:'teaching',label:'Teaching, a workshop, or a partnership',title:'Teaching and workshops',body:'Individual instruction, quantitative-methods workshops, and institutional teaching.',href:'/teaching',resource:'Explore teaching and coaching'}
   ]
  }
 };

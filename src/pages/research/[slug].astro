@@ -48,12 +48,12 @@ const searchTitle = paper.data.searchTerms.length > 0
           </nav>
         </div>
       ) : (
-        <p class="no-artifact"><strong>No public manuscript is linked yet.</strong><span>The title, question, status, method, and limit above are the current public record.</span></p>
+        <p class="no-artifact">A public manuscript is not yet available.</p>
       )}
     </header>
 
     <section class="research-summary" aria-labelledby="summary-title">
-      <p class="section-label">Plain-language record</p>
+      <p class="section-label">Abstract</p>
       <h2 id="summary-title">Summary</h2>
       <p>{paper.data.abstract}</p>
     </section>
@@ -62,7 +62,7 @@ const searchTitle = paper.data.searchTerms.length > 0
     {slug === "helfrich-2024-ssrn-4772016" && <div class="evidence-block"><OptimalTransportAperture /></div>}
 
     <details class="methods-record" open={slug === "helfrich-2026-nmtc-rural-gap"}>
-      <summary>Methods and record notes</summary>
+      <summary>Methods and notes</summary>
       <div class="record-body"><Content /></div>
     </details>
 

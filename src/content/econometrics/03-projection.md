@@ -8,9 +8,9 @@ prerequisites: 'Algebra and averages; optional derivations use derivatives and m
 minutes: 30
 ---
 
-## First, account for what the calculation does
+## Least squares
 
-Least squares chooses coefficients to make squared residuals as small as possible. It does not inspect the hiring process, interview the training manager, or determine which variables preceded treatment. Those jobs remain ours.
+Least squares minimizes the sum of squared residuals. Interpreting the fitted coefficients requires assumptions about how the data were generated.
 
 The six-person example below can be followed with averages and arithmetic. The derivative and matrix steps explain why its calculation generalizes; readers new to those tools can return to them after working through the numbers.
 
@@ -146,7 +146,7 @@ print(sum(a*b for a, b in zip(rx, ry))
       / sum(a*a for a in rx))  # 2.0
 ~~~
 
-## Try it
+## Exercises
 
 **1.** Does a regression fitted without an intercept necessarily have residuals that sum to zero?
 
@@ -164,6 +164,6 @@ Symmetry gives $E[X]=E[X^3]=0$, so the slope is zero. The intercept is $E[X^2]=1
 
 </details>
 
-## Read further
+## Further reading
 
 Bruce Hansen's [Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) develops population projection, least squares, and their sampling theory. Angrist and Pischke's [Mostly Harmless Econometrics resources](https://economics.mit.edu/people/faculty/josh-angrist/mhe-data-archive) provide a route from regression arguments to inspectable empirical applications.

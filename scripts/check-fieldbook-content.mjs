@@ -84,8 +84,8 @@ for (const heading of [
 requireText(research, researchPath, "research-discovery", "the canonical discovery rules");
 forbidText(research, researchPath, "Nine papers", "the obsolete paper-count claim");
 
-requireText(teaching, teachingPath, "<h1>Think clearly.<br/>Then teach it.</h1>", "the teaching headline");
-requireText(teaching, teachingPath, "Teaching &amp; quantitative coaching", "the teaching and coaching context");
+requireText(teaching, teachingPath, "<h1>Teaching</h1>", "the teaching headline");
+requireText(teaching, teachingPath, "Economics and quantitative methods", "the teaching and coaching context");
 requireText(teaching, teachingPath, 'href="/econometrics/"', "the course entry link");
 requireText(teaching, teachingPath, 'href="#teaching-relay"', "the live explanation entry link");
 requireText(teaching, teachingPath, "RepresentationRelay", "the flagship representation relay");

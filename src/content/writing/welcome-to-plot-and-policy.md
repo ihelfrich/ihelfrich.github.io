@@ -1,34 +1,15 @@
 ---
 title: "Welcome to Plot & Policy"
-subtitle: "Charting my journey through spatial economics and beyond"
-summary: "Migrated from the old WordPress site. A short note on why I started a public lab notebook in March 2025, what was supposed to live there, and how the project drifted into the broader hub you're reading now."
+subtitle: "Notes on spatial economics, research, and software"
+summary: "An edited version of the introduction to my former WordPress research blog."
 date: 2025-03-07
 tags: ["meta", "archive"]
 ---
 
-*This is a migration of the inaugural post from the older ianhelfrich.com WordPress site, dated March 7, 2025. Kept here as an honest archive of where the public writing started. The Plot & Policy framing has since merged into this hub's [/writing](/writing) section.*
+I started Plot & Policy in March 2025 as a place to write about spatial economics, research software, and the academic job market. The original site was on WordPress at ianhelfrich.com. Its writing now lives here.
 
----
+I wanted room for work that was too small for a paper: a useful coding example, a problem with a geographic dataset, notes on a method, or a question raised by something I was reading. Writing those notes also made me check steps I might otherwise leave implicit in code.
 
-Hi there, and welcome to my corner of the internet.
+By May 2026, independent research and teaching had become a larger part of my work. The site grew to include working papers, datasets, and software. In August I returned to the academic market for the 2026–27 cycle while continuing the independent practice.
 
-I'm Ian, a spatial economist navigating the thrilling (and occasionally chaotic) waters of the job market. This blog, Plot & Policy, is my digital lab notebook. A space to document my research, share lessons learned, and spark conversations with peers, mentors, and curious minds alike.
-
-## What to expect here
-
-- **Research in progress.** From half-baked ideas to polished project updates, I'll unpack the how and why behind my work in spatial economics. Urban labor markets, regional policy impacts, the quirks of geospatial data.
-- **Tools of the trade.** Coding snippets (Python, R, Julia, ArcPy), workflow notes, GIS mapping experiments. Even economists need to debug sometimes.
-- **Job market diaries.** Honest reflections on applications, interviews, and the surreal art of selling your research.
-- **Literature in focus.** Sharp but fair critiques of new papers, plus deep dives into classic economic theory through a spatial lens.
-
-## Why I'm doing this
-
-The job market is equal parts exhilarating and exhausting. By sharing the journey, the successes and the stumbles, I hope to demystify the process for others while building a community of thinkers who care about *where* economics happens, not just *how*.
-
-Plus, writing about my work forces me to think harder, code cleaner, and map smarter. Cheaper than therapy, more legible than a notebook in a drawer.
-
----
-
-*Postscript, May 2026: the "job market" framing dated. I went independent and the writing here became less about applications and more about working papers. The spirit holds.*
-
-*Second postscript, August 2026: the market came back around. I am applying through the AEA JOE 2026-27 cycle while the independent practice continues. Both things are true at once, which is very much the spirit of this blog.*
+*Originally published March 2025; revised September 2026. This is an edited version of the introductory post, not a verbatim archive.*

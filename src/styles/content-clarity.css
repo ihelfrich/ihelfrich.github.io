@@ -70,3 +70,11 @@ body.fieldbook-research .research-map .section-intro h2 { font-size:clamp(30px,3
 }
 @media(prefers-reduced-motion:reduce) { .disclosure-symbol { transition:none; } }
 @media print { .content-disclosure::details-content { content-visibility:visible; } }
+
+/* Editorial typography: labels identify sections without duplicating headlines. */
+.record-label,.section-label,.quiet-label,.st-kicker,.technical-eyebrow{letter-spacing:0;text-transform:none}
+.coaching-sequence{display:block!important;list-style:none;padding:0}
+.coaching-sequence>li{display:block!important;border:0;background:transparent;padding:.75rem 0}
+.coaching-sequence>li>span{display:none}
+.coaching-sequence strong{font-weight:500}
+.coaching-sequence p{margin:.25rem 0}

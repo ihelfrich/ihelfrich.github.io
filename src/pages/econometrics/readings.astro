@@ -97,8 +97,8 @@ const readings = [
   <header class="ea-narrow ea-page-intro">
     <p class="ea-kicker">Sources checked 4 September 2026</p>
     <h1>The reading room</h1>
-    <p class="ea-lead">Open a paper with a question. Leave knowing which part of your argument it can support.</p>
-    <p>These eleven sources give the book a route into longer treatments and original results. Start with the chapter you are working through. Use the reading to settle a particular difficulty, then return to your own calculation.</p>
+    <p class="ea-lead">References and further reading</p>
+    <p>Textbooks and original papers for the topics covered in the course.</p>
   </header>
 
   <div class="ea-narrow ea-reading-list">
@@ -108,13 +108,13 @@ const readings = [
         <h2><a href={reading.url}>{reading.title} ↗</a></h2>
         <p class="ea-small">{reading.authors}</p>
         <p>{reading.purpose}</p>
-        <p><strong>Keep in view.</strong> {reading.condition}</p>
+        <p> {reading.condition}</p>
       </article>
     ))}
   </div>
 
   <section class="ea-narrow ea-band ea-prose" aria-labelledby="companions-heading">
-    <h2 id="companions-heading">Work already on the shelf</h2>
+    <h2 id="companions-heading">Related teaching projects</h2>
     <p>These existing sites remain separate companions. Their scope, authorship, and development stage vary. A link here does not imply that every older exercise or software example has been revalidated for this edition.</p>
     <ul>
       <li><a href="https://ihelfrich.github.io/pictures-of-inference/">Pictures of Inference</a>, by Ian Helfrich and Elizaveta Gonchar. A visual book in development, with introductory chapters and workbooks. Its coauthored prose and figures have their own provenance and licensing.</li>
@@ -124,8 +124,8 @@ const readings = [
       <li><a href="https://ihelfrich.github.io/stats-lab/">Statistics practice</a>. A broader route for revisiting prerequisites and software practice.</li>
       <li><a href="https://ihelfrich.github.io/american-policy-atlas/">American Policy Atlas</a>. Real public-data questions about measurement, suppression, aggregation, and geography. County associations require care when the intended claim concerns individuals.</li>
     </ul>
-    <h2>A current paper earns its place</h2>
-    <p>A recent date is useful when it changes a calculation, an interpretation, or a decision. The final two readings supply a current DML explanation and an active research question about IV policy evaluation. They supplement the foundational work. This bibliography makes no claim to cover every recent development.</p>
+    <h2>Recent papers</h2>
+    <p>The final two readings cover DML estimation and bounds for counterfactual policy evaluation using instruments.</p>
     <p>Books and papers are linked through author or institutional sources. Downloaded textbook files are not distributed with this course. See the <a href="/econometrics/edition/">edition note</a> for the boundaries of the material.</p>
     <a class="ea-top-link" href="/econometrics/#contents">Return to the chapters →</a>
   </section>

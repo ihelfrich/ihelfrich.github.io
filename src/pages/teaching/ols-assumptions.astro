@@ -14,20 +14,20 @@ const assumptions = [
     protects: "Unbiasedness",
     question: "What does a straight line cost you when the policy actually has diminishing returns?",
     caption:
-      "The truth here bends: each additional dollar per pupil buys less than the last. We fit a straight line anyway and watch where the slope lands.",
+      "A quadratic spending relationship fitted with a straight line. The slider controls the omitted curvature.",
     strengthLabel: "Curvature in the true relationship",
     domain: [0.4, 4.2] as [number, number],
     method: ["OLS on a quadratic truth", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "The regressor is uniform on the unit interval, which makes the bias exactly equal to the omitted curvature. Skewed regressors move the number; they do not change the direction.",
+      "With this uniform regressor, the difference between the fitted slope and the linear-term coefficient equals the omitted curvature. Other regressor distributions change that relationship.",
     setting:
       "Spending per pupil raises test scores, and the first thousand dollars does more than the tenth. A budget office fits a line and reports a single per-dollar effect.",
     breaks:
-      "The omitted squared term is correlated with the regressor that remains, so its influence loads onto the slope. The estimate stops answering the question that was asked. With a uniform regressor the bias equals the curvature exactly: set the slider to full and the average estimate sits at 3.4 when the truth is 1.",
+      "The omitted squared term contributes to the fitted slope. At full curvature, the average estimate is 3.4, while the coefficient of the linear term is 1.",
     detect:
-      "Plot residuals against the fitted values and against each regressor. Curvature shows as a U or an arch where a formless band belongs. A RESET test formalises it.",
+      "Plot residuals against fitted values and regressors. Systematic curvature can indicate a missing nonlinear term; RESET tests for certain specification errors.",
     fix:
-      "Respecify. Add the squared term, take logs, or use a spline. No standard-error correction repairs this, because the coefficient itself is answering a different question.",
+      "Consider a squared term, a log specification, or a spline, according to the relationship being modeled. Changing standard errors leaves the misspecified coefficient unchanged.",
   },
   {
     id: "a2-zero-mean",
@@ -36,23 +36,23 @@ const assumptions = [
     kicker: "Zero-mean error",
     heading: "The error term has a population mean of zero",
     notation: "E(εᵢ) = 0",
-    protects: "Nothing, once a constant is in the model",
+    protects: "Intercept normalization",
     question: "If every household understates its spending by the same amount, what happens to the slope?",
     caption:
-      "A constant offset is added to every observation. Watch the slope. The point of this panel is that nothing moves.",
+      "A common offset shifts the intercept and leaves the slope unchanged.",
     strengthLabel: "Size of the constant offset",
     domain: [0.5, 1.5] as [number, number],
     method: ["OLS with a shifted error", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "This holds only for an offset common to all observations. An offset that varies with a regressor is assumption 3 in disguise, and that one does real damage.",
+      "This result concerns an offset common to every observation. An error component correlated with a regressor can bias the slope.",
     setting:
       "A benefits survey collects self-reported spending. Respondents understate by roughly the same amount regardless of income, so every observation sits below its true value.",
     breaks:
-      "Nothing that matters. The intercept absorbs the offset and the slope is untouched. Write β₀* = β₀ + 4 and ε* = ε − 4 and the model satisfies the assumption again with an identical slope.",
+      "The intercept absorbs the offset. Replacing the intercept by β₀ + 4 and the error by ε − 4 gives the same model with a zero-mean error.",
     detect:
-      "You cannot detect it and you do not need to. OLS residuals sum to zero by construction whenever a constant is included, so the sample gives no signal either way.",
+      "OLS residuals sum to zero when a constant is included. That identity cannot establish the mean of the population error.",
     fix:
-      "Include a constant. That is the whole fix. The intercept is rarely the estimate anyone cares about, which is why this assumption is the cheapest of the seven.",
+      "Include an intercept to absorb the common offset. Its interpretation depends on the outcome scale.",
   },
   {
     id: "a3-exogeneity",
@@ -62,22 +62,22 @@ const assumptions = [
     heading: "No regressor is correlated with the error term",
     notation: "Cov(Xⱼᵢ, εᵢ) = 0 for every j",
     protects: "Unbiasedness",
-    question: "Who signs up for the programme, and what else do they bring with them?",
+    question: "How does selection into training affect the estimated earnings effect?",
     caption:
       "An unmeasured driver raises earnings and also predicts who enrols. The slider is how strongly enrolment and that driver move together.",
     strengthLabel: "Correlation between enrolment and the omitted driver",
     domain: [0.4, 2.6] as [number, number],
     method: ["OLS with an omitted confounder", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "Simulation can show the size of the bias because the truth is known. In a real evaluation the confounder is unobserved, which is exactly why this assumption is defended by design and never by test.",
+      "The confounder is known in this simulation. In an empirical study, the identification argument must address unobserved selection.",
     setting:
       "A job-training programme is evaluated on earnings. Motivation is unmeasured, raises earnings on its own, and predicts who enrols in the first place.",
     breaks:
-      "The slope absorbs the confounder. At full strength the average estimate is 2.2 against a true effect of 1, so the programme looks more than twice as effective as it is. The rejection rate goes to 100%, meaning the false answer arrives with total confidence.",
+      "At full strength, the average estimate is 2.2 against a true effect of 1. The simulation rejects the true null in nearly every repetition.",
     detect:
-      "No residual plot will show you this, and no test of the fitted model can. The evidence is institutional: who selected in, what determined that, and whether anything in the data measures it.",
+      "Residual diagnostics alone cannot establish exogeneity. Examine how enrollment was determined and which common causes of enrollment and earnings were measured.",
     fix:
-      "Design, not estimation. Randomise, find an instrument, exploit a discontinuity, or use a difference-in-differences comparison. Adding controls helps only to the extent that they capture the confounder.",
+      "A randomized assignment, valid instrument, discontinuity, or credible difference-in-differences design may address selection. Each requires its own identifying assumptions.",
   },
   {
     id: "a4-independence",
@@ -87,22 +87,22 @@ const assumptions = [
     heading: "Observations of the error term are uncorrelated with each other",
     notation: "Corr(εᵢ, εⱼ) = 0 for i ≠ j",
     protects: "Efficiency and valid standard errors",
-    question: "If this quarter's shock is still with you next quarter, how many observations do you really have?",
+    question: "How does serial correlation affect the standard error?",
     caption:
       "Errors follow an AR(1) process along a time trend. Total error variance is held fixed, so the only thing the slider changes is persistence.",
     strengthLabel: "Persistence of the shock",
     domain: [-0.9, 2.9] as [number, number],
     method: ["OLS with AR(1) errors", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "The HC1 toggle is on this panel to demonstrate that it fails here. Heteroskedasticity-robust errors do not correct serial correlation; Newey-West is the tool that does.",
+      "HC1 allows heteroskedasticity but ignores serial correlation. Newey-West estimates account for both under the relevant regularity conditions.",
     setting:
       "State unemployment is tracked quarterly after a stimulus. A bad quarter does not clear by the next one, so the shock persists.",
     breaks:
-      "The slope stays unbiased and the standard error collapses. At full persistence the estimates spread about six times wider than the regression admits, and a test you believe rejects 5% of the time actually rejects roughly 70%. Most of your significant findings would be noise.",
+      "In this simulation, the slope remains unbiased. At full persistence, its sampling spread is about six times the reported standard error, and the nominal 5% test rejects roughly 70% of the time.",
     detect:
-      "Plot residuals in time order. Positive serial correlation shows as long runs on one side of zero where signs should alternate. Durbin-Watson and Breusch-Godfrey formalise it.",
+      "Plot residuals in time order and inspect their autocorrelation. Durbin-Watson and Breusch-Godfrey tests address specified forms of serial correlation.",
     fix:
-      "Newey-West standard errors, which allow both serial correlation and heteroskedasticity. Turn on the HC1 toggle above and watch the rejection rate refuse to move, which is the clearest argument for matching the correction to the violation you actually have.",
+      "Use a dependence-appropriate variance estimator, such as Newey-West. HC1 alone does not account for correlation across periods.",
   },
   {
     id: "a5-homoskedasticity",
@@ -127,7 +127,7 @@ const assumptions = [
     detect:
       "Plot residuals against fitted values and look for a fan opening to the right. The White and Breusch-Pagan tests formalise it, with White the more general and Breusch-Pagan the cheaper in degrees of freedom.",
     fix:
-      "Robust standard errors. Turn on the HC1 toggle and watch the rejection rate fall from about 22% to about 9%. Rescaling to per-capita terms can also work when the heteroskedasticity comes from unit size, though getting the functional form right matters more than removing the symptom.",
+      "HC1 reduces the rejection rate from about 22% to about 9% in this example. Its finite-sample performance can remain imperfect; the choice of variance estimator and functional form needs further checking.",
   },
   {
     id: "a6-collinearity",
@@ -139,7 +139,7 @@ const assumptions = [
     protects: "Identification, and then precision",
     question: "If two predictors say almost the same thing, which one gets the credit?",
     caption:
-      "Two regressors are pushed toward each other. The slider is their correlation. Watch the spread explode while the reported standard error keeps pace with it.",
+      "Increasing the correlation between regressors widens the coefficient distribution and its reported standard error.",
     strengthLabel: "Correlation between the two regressors",
     domain: [-0.6, 2.6] as [number, number],
     method: ["Two-regressor OLS", "variance inflation", "500-sample Monte Carlo"],
@@ -148,11 +148,11 @@ const assumptions = [
     setting:
       "Programme need is modelled on both the poverty rate and median household income across census tracts. The two are close to mirror images of each other.",
     breaks:
-      "Precision, and nothing else. The estimate stays centred on the truth and the spread grows about tenfold. The defining feature is the third reading: the rejection rate stays at 5%, because the standard error grows along with the true spread.",
+      "In this near-collinearity example, the estimate stays centered on the true coefficient while its spread grows about tenfold. The rejection rate remains near 5%.",
     detect:
       "Variance inflation factors, and the tell-tale pattern of a jointly significant F with no individually significant t. Wide confidence intervals on coefficients you expected to be sharp.",
     fix:
-      "Often nothing. Collinearity is honest about its own imprecision, which makes it the least dangerous violation on this page. Collect more data, combine the predictors into one index, or accept that the sample cannot separate two things that move together.",
+      "Additional independent variation can improve precision. Combining predictors changes the estimand; dropping one may change the specification. Exact collinearity prevents a unique coefficient estimate.",
   },
   {
     id: "a7-normality",
@@ -161,10 +161,10 @@ const assumptions = [
     kicker: "Normal errors",
     heading: "The error term is normally distributed",
     notation: "εᵢ ~ N(0, σ²)",
-    protects: "Exact finite-sample inference, and less than you expect",
+    protects: "Exact finite-sample inference",
     question: "Disaster payouts are wildly skewed. Does that invalidate the t-test?",
     caption:
-      "Errors are drawn from a badly skewed lognormal, recentred so only the shape departs from normal. The measured answer here contradicts the intuition.",
+      "Mean-zero lognormal errors vary in skewness and tail weight.",
     strengthLabel: "Skew and tail weight of the errors",
     defaultN: 20,
     domain: [0.1, 1.9] as [number, number],
@@ -174,11 +174,11 @@ const assumptions = [
     setting:
       "Disaster relief payouts are regressed on damage assessments. Most claims are modest and a few are enormous, so the errors are nothing like a bell curve.",
     breaks:
-      "Less than the assumption's reputation suggests. Drag the sample size down to 10 and the rejection rate stays at or below 5%. This is the most droppable assumption of the seven for ordinary two-sided slope tests.",
+      "For the sample sizes and error distributions shown here, the two-sided rejection rate stays near or below 5%. Other nonnormal distributions or test statistics can behave differently.",
     detect:
       "A QQ plot of the residuals, or Jarque-Bera. Both will correctly tell you the errors are not normal, which is a different question from whether it matters.",
     fix:
-      "Usually nothing, for a slope test at a reasonable sample size. The assumption still earns its keep for prediction intervals on an individual unit, for small-sample one-sided tests, and wherever the shape of the error distribution is itself the object of interest.",
+      "Check the behavior of the statistic for the relevant sample size and error distribution. Normality also affects prediction intervals and other distribution-dependent calculations.",
   },
 ];
 
@@ -207,27 +207,19 @@ const overview = assumptions.map((item) => {
 <Base
   wide
   title="The seven classical assumptions of OLS"
-  description="An interactive companion to the classical assumptions of ordinary least squares, built on public-policy examples. Each assumption is broken on purpose and the damage is measured."
+  description="An interactive companion to the classical assumptions of ordinary least squares, built on public-policy examples. Simulations compare coefficient bias, standard errors, and rejection rates."
 >
   <article class="ols-page">
     <header class="ols-hero">
       <p class="ols-kicker">Teaching · applied econometrics</p>
-      <h1>The seven classical assumptions, broken on purpose</h1>
-      <p class="ols-lede">
-        Every regression table in a policy brief rests on seven assumptions, and most briefs never say which ones
-        they checked. This page breaks each assumption deliberately, in a setting where the true answer is known,
-        and measures what the breakage costs. The measurement is the argument.
-      </p>
+      <h1>OLS assumptions</h1>
+      <p class="ols-lede">Seven simulations of classical linear-regression assumptions. Each changes one feature of the data-generating process and measures its effect on estimation and inference.</p>
     </header>
 
     <section class="ols-frame" aria-labelledby="three-questions">
-      <h2 id="three-questions">Three questions, asked of every assumption</h2>
+      <h2 id="three-questions">Bias, precision, and test size</h2>
       <p>
-        A sample estimator has two properties worth caring about. <strong>Bias</strong> is a property of its mean:
-        does E(β̂) equal β? <strong>Efficiency</strong> is a property of its variance: among unbiased
-        estimators, is this one the tightest? The Gauss-Markov theorem says that if the first six assumptions hold,
-        OLS is the best linear unbiased estimator. Every panel below asks what happens to that guarantee when one
-        assumption fails.
+        Bias is the difference between the expected estimate and the target coefficient. Under the Gauss-Markov conditions, OLS has the smallest variance among linear unbiased estimators. The simulations compare coefficient bias, the reported standard error, and the frequency of rejecting a true null.
       </p>
       <p>
         Each panel runs the same experiment. It builds a world where the true slope is exactly 1, draws 500 samples
@@ -244,27 +236,22 @@ const overview = assumptions.map((item) => {
           estimate actually moves between samples. The rust bar is how much the regression claims it moves.
         </li>
         <li>
-          <strong>How often does a 5% test reject a true null?</strong> It should be 5%. What it actually is, is the
-          cost of the violation stated in the units a policy audience already understands.
+          <strong>How often does a 5% test reject a true null?</strong> A correctly sized test rejects in 5% of repetitions; simulation estimates that frequency with sampling variation.
         </li>
       </ol>
-      <p class="ols-note">
-        That third reading is the one to watch. Saying that standard errors are biased downward is abstract. Saying
-        that you reject a true null 70% of the time while believing you reject it 5% of the time is a statement about
-        how often a brief will report a finding that is not there.
-      </p>
+
     </section>
 
     <section class="ols-map" aria-labelledby="what-breaks">
-      <h2 id="what-breaks">What each violation actually costs</h2>
+      <h2 id="what-breaks">Simulation results</h2>
       <div class="ols-table-scroll">
         <table>
-          <caption>Measured on this page. Every figure comes from the engine below, not from a textbook.</caption>
+          <caption>Results at the maximum violation setting.</caption>
           <thead>
             <tr>
               <th scope="col">Assumption broken</th>
               <th scope="col">Estimate still centred?</th>
-              <th scope="col">Standard error honest?</th>
+              <th scope="col">Standard error accurate?</th>
               <th scope="col">Actual size of a 5% test</th>
             </tr>
           </thead>
@@ -280,19 +267,14 @@ const overview = assumptions.map((item) => {
         </table>
       </div>
       <p class="ols-note">
-        Two patterns organise the whole page. Assumptions 1 and 3 move the answer, and no standard-error correction
-        can rescue them. Assumptions 4 and 5 leave the answer alone and corrupt the uncertainty around it, which is
-        why both are repaired by changing how the standard error is computed while the coefficient stands.
-        Assumptions 2, 6, and 7 are the ones whose reputations exceed their damage.
+        Specification and exogeneity failures bias the coefficient in these examples. Serial correlation and heteroskedasticity affect inference without shifting the coefficient’s mean. The remaining examples concern intercept normalization, near-collinearity, and nonnormal errors.
       </p>
     </section>
 
     <section class="ols-atlas" aria-labelledby="atlas">
       <h2 id="atlas">Seven experiments at a glance</h2>
       <p>
-        Each thumbnail runs the same experiment at full violation: forty 95% intervals drawn against the true slope,
-        sorted smallest to largest. Intervals that fail to cover the truth are marked. Three of the seven barely
-        bleed, and those three are the assumptions whose reputations outrun their damage.
+        Each graph shows forty simulated 95% intervals at the maximum setting, ordered by their coefficient estimate. Highlighted intervals exclude the true coefficient.
       </p>
       <ol class="ols-atlas__grid">
         {overview.map((entry) => (
@@ -354,19 +336,11 @@ const overview = assumptions.map((item) => {
     ))}
 
     <section class="ols-close" aria-labelledby="closing">
-      <h2 id="closing">What the seven add up to</h2>
+      <h2 id="closing">Implications for applied work</h2>
       <p>
-        The assumptions are not a checklist to clear before the real work starts. They are a map of the ways a
-        regression can be wrong, and they sort into two kinds of wrong that call for different responses. If the
-        coefficient is answering the wrong question, the answer is design: a better specification, a credible source
-        of variation, a comparison that earns the causal claim. If the coefficient is right and the uncertainty is
-        wrong, the answer is arithmetic: the appropriate standard error, matched to the violation you actually have.
-      </p>
+        Specification and identification determine what a coefficient estimates. Variance assumptions determine whether the reported uncertainty is appropriate. These examples isolate one issue at a time; an empirical analysis may face several together.</p>
       <p>
-        The common failure in applied policy work is reaching for the arithmetic when the problem is design. Robust
-        standard errors are cheap and they repair assumption 5. They do nothing for assumption 3, and assumption 3 is
-        the one that decides whether a programme evaluation is worth reading.
-      </p>
+        Heteroskedasticity-robust standard errors address unequal error variance. They do not remove omitted-variable bias or establish a causal interpretation.</p>
     </section>
   </article>
 </Base>

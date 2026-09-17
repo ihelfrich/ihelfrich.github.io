@@ -9,7 +9,7 @@ minutes: 25
 lab: 'worlds'
 ---
 
-## The decision hiding inside the graph
+## Association and intervention
 
 A firm offers optional training. Employees who take more of it tend to produce more. A manager asks whether another training hour would pay for itself.
 
@@ -19,7 +19,7 @@ Start by writing the target in a sentence: “The average change in next month's
 
 An **estimand** is the mathematical quantity corresponding to that target. An **estimator** is a rule for calculating a number from observations. An **estimate** is the number the rule produces this time. A spreadsheet can return an estimate before anybody has agreed on an estimand. That is an efficient way to answer the wrong question.
 
-## Build two worlds before fitting one model
+## Observationally equivalent models
 
 <details><summary>A quick notation bridge</summary>
 
@@ -58,9 +58,7 @@ $$
 
 At $b=1$, moving training from zero to one increases expected output by one unit. At $b=0$, it changes nothing. At $b=-1$, it reduces expected output by one unit. The observational regression is upward-sloping in all three cases.
 
-The arithmetic is simple. The important move is deciding which equation an action replaces.
-
-## What identification actually promises
+## Identification
 
 A target is **identified** within a stated model class if every model in that class consistent with the observable distribution gives the same target value. Identification is therefore a joint statement about data and restrictions.
 
@@ -70,7 +68,7 @@ The [same-data experiment](/econometrics/lab/#worlds) lets you change $b$ while 
 
 There is plenty of variation in observed training: the normal distribution has support on the entire real line. That does not remove confounding. Conditional on $U$, training is deterministic. Even measuring $U$ would leave no within-$U$ training variation in this toy economy. A credible randomized intervention would add the variation needed to distinguish these worlds.
 
-## A small reproducible check
+## Numerical check
 
 Run this with Python and NumPy. Reusing the same shocks is essential: it shows that changing $b$ preserves every observed point, not merely a rounded correlation.
 
@@ -91,7 +89,7 @@ for b in (-1.0, 0.0, 1.0, 2.0):
 
 The maximum observed-data difference is zero up to floating-point rounding. The simulated intervention mean is close to $b$, with sampling error from the finite draws. The observed fitted slope is close to one and identical across worlds. Its finite-sample departure from one is an estimation issue; its inability to reveal $b$ is an identification issue.
 
-## Carry an argument, not just a coefficient
+## Components of an empirical analysis
 
 For each investigation, keep six linked statements:
 
@@ -104,9 +102,9 @@ For each investigation, keep six linked statements:
 
 These statements can disagree. A prediction may be excellent while a causal claim remains unidentified. A causal effect may be precisely estimated while the business case fails because implementation costs are high.
 
-The failure to watch for is quiet substitution: reporting the coefficient that is easy to calculate as the effect somebody wanted to know.
+Reporting a regression coefficient as a causal effect requires an identification argument.
 
-## Try it
+## Exercises
 
 **1.** In the synthetic model, the observational mean rises by two units when $X$ rises from zero to two. What is the corresponding intervention contrast when $b=0.4$?
 
@@ -124,6 +122,6 @@ The joint distribution of observed training and output can be estimated more pre
 
 </details>
 
-## Read further
+## Further reading
 
 For an alternative introduction to causal questions, see Scott Cunningham's [Foundational Ideas in Causal Inference](https://mixtape.scunning.com/01-introduction). For the distinction between association and intervention developed through potential outcomes, see Hernán and Robins's [Causal Inference: What If](https://miguelhernan.org/whatifbook). These established frameworks inform the course; the recurring training example and its teaching sequence are original constructions.

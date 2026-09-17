@@ -8,7 +8,7 @@ prerequisites: 'Conditional expectation, regression, and potential outcomes.'
 minutes: 30
 ---
 
-## Open the data dictionary before the regression
+## Variable definitions
 
 The firm's records contain a column called training hours. One employee reports hours scheduled, another reports hours attended, and a third includes time practicing afterward. Output is recorded only for employees still present at the next performance review.
 
@@ -16,7 +16,7 @@ Those details change the problem. They define the measured exposure, determine w
 
 An estimator operates on the variables supplied to it. A careful measurement model explains how those variables relate to the quantities in the question.
 
-## A derivation with a narrow scope
+## Classical measurement error
 
 Suppose true, centered training intensity is $X$, but the recorded value is
 
@@ -109,13 +109,13 @@ means = {d: sum(r["y"] for r in rows if r["d"] == d)
 print(means[1] - means[0])  # -0.5
 ~~~
 
-## Leave an audit trail someone else can use
+## Documenting variable construction
 
 For each analysis variable, record its substantive definition, units, measurement window, source system, transformations, missing-value codes, and whether it precedes assignment. For each exclusion, record the rule and the number removed by treatment group. Retain raw values separately from derived fields.
 
 Then ask a harder question: could the outcome or treatment have affected the variable used to select these rows? A clean-looking dataset can represent a badly selected comparison.
 
-## Try it
+## Exercises
 
 **1.** True-hour variance remains 9, but measurement-error variance rises from 3 to 9. Under the classical assumptions above, what happens to the slope when $\beta=2$?
 
@@ -133,7 +133,7 @@ Usually that requires changing the question or giving a specific causal argument
 
 </details>
 
-## Read further
+## Further reading
 
 The [measurement investigation](/econometrics/measurement/) asks an earlier question: what makes an observation a measure of the thing we care about? Enter through a narrative essay, work the undergraduate examples, or examine the doctoral companion's proofs and research proposals. Its two browser experiments separate ordinal recoding, empirical uncertainty, and disagreement about values.
 

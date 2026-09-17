@@ -7,71 +7,64 @@ const demonstrations = [
     title: "The seven classical assumptions of OLS",
     href: "/teaching/ols-assumptions/",
     description: "Break each classical assumption on purpose with a public-policy example and measure what it does to the estimate.",
-    limit: "Simulated teaching designs with stated data-generating processes; no empirical claim about any program.",
   },
   {
     label: "Interactive mathematics",
     title: "Calculus in motion",
     href: "/calculus/",
     description: "Move probes, grow rectangles, and explore log rulers and contour maps to connect derivatives with changes you can see.",
-    limit: "Nine analytic teaching experiments with explicit domains and approximation errors.",
   },
   {
     label: "Macroeconomics education",
     title: "Macroeconomics lab",
     href: "/macroeconomics/",
     description: "Explore growth, generations, monetary policy, debt and dynamic optimization through live models, equations and worked exercises.",
-    limit: "Specified teaching economies with illustrative parameters and numerical diagnostics.",
   },
   {
     label: "Geospatial exploration",
     title: "St. Louis: a living spatial study",
     href: "/st-louis",
     description: "Explore downtown in 3D, inspect mapped buildings, and compare walking access from two places.",
-    limit: "OpenStreetMap snapshot, estimated walking access, and illustrative materials and motion.",
   },
   {
     label: "Place-based policy",
     title: "NMTC coefficient decomposition",
     href: "/research/helfrich-2026-nmtc-rural-gap#cde-decomposition",
     description: "Compare the pooled rural gap, the mean within-CDE estimate, and the separate descriptive decomposition.",
-    limit: "Descriptive and noncausal; the mechanism remains unresolved.",
   },
   {
     label: "Statistics education",
     title: "Least-squares sensitivity lab",
     href: "/projects/applied-statistics#least-squares-lab",
     description: "Add, move, or remove observations while the OLS fit and robust uncertainty recompute together.",
-    limit: "Editable teaching fixture; no population or causal claim.",
   },
   {
     label: "Teaching practice",
     title: "Representation relay",
     href: "/teaching#representation-relay",
     description: "Follow one quantitative relationship through words, a table, an equation, a graph, and an interpretation.",
-    limit: "A pedagogical demonstration, separate from learner-specific work.",
   },
 ];
 ---
 
-<Base wide pageClass="quiet-index-page" title="Lab" description="Evidence-linked interactive demonstrations in Ian Helfrich's research and teaching record.">
+<Base wide pageClass="quiet-index-page" title="Lab" description="Interactive models for economics, statistics, and calculus.">
   <div class="quiet-shell">
     <header class="quiet-header">
-      <div><p class="quiet-label">Explore by doing</p><h1>Lab</h1></div>
-      <p class="quiet-lead">Try an idea, change an assumption, and inspect the result. Choose a short demonstration below or open the full interactive collection.</p>
+      <div><h1>Lab</h1></div>
+      <p class="quiet-lead">Models for calculus, economics, statistics, and spatial analysis.</p>
     </header>
 
     <p><a class="fieldbook-action" href="/#instruments">Open transport, regression, and spatial allocation tools</a></p>
     <ol class="demo-list">
-      {demonstrations.map((demo, index) => (
+      {demonstrations.map((demo) => (
         <li>
-          <span>{String(index + 1).padStart(2, "0")}</span>
+
           <article>
             <p class="demo-label">{demo.label}</p>
             <h2><a href={demo.href}>{demo.title}</a></h2>
             <p>{demo.description}</p>
           </article>
-          <aside><strong>Boundary</strong><p>{demo.limit}</p><a href={demo.href}>Open demonstration</a></aside>
+          <a class="demo-open" href={demo.href}>Open →</a>
         </li>
       ))}
     </ol>
@@ -85,11 +78,11 @@ const demonstrations = [
   h1 { max-width: 12ch; margin: .6rem 0 0; font-size: clamp(3.4rem, 8vw, 7rem); }
   .quiet-lead { margin: 0; font-size: 1.15rem; }
   .demo-list { margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }
-  .demo-list > li { display: grid; margin: 0; padding-block: 2rem; grid-template-columns: 3rem minmax(0, 1fr) minmax(14rem, 18rem); gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
+  .demo-list > li { display: grid; margin: 0; padding-block: 2rem; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; border-bottom: 1px solid var(--ef-ink); }
   .demo-list h2 { margin: .35rem 0 .75rem; font-size: clamp(1.8rem, 4vw, 3.2rem); }
   .demo-list h2 a { color: var(--ef-ink); }
   .demo-list article > p:last-child { max-width: 60ch; }
-  .demo-list aside { padding-left: 1rem; border-left: 3px solid var(--ef-oxide); }
+  .demo-open { align-self:center; padding: .75rem; }
   .demo-list aside p { font-size: .95rem; }
   .demo-list aside a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
   @media (max-width: 45rem) { .quiet-header, .demo-list > li { grid-template-columns: 1fr; } .quiet-header > * { min-width: 0; } h1 { font-size: clamp(2.65rem, 12vw, 3.4rem); } .demo-list > li > span { display: none; } }

@@ -8,9 +8,9 @@ prerequisites: 'Conditional expectation, sample means, and confidence intervals.
 minutes: 30
 ---
 
-## The expensive part is the comparison
+## Treatment and comparison groups
 
-A firm can buy a sophisticated analysis after collecting its data. It cannot buy back a credible control group that its implementation destroyed.
+The assignment process determines which treatment comparisons the data can support.
 
 Suppose 100 employees are eligible for the same four-hour training session. Before enrollment, the firm randomly selects 50 to receive it this month; the others receive it later. Output is measured for everyone over the same following month. The intervention, eligibility rule, outcome window, and assignment mechanism have now become concrete.
 
@@ -101,7 +101,7 @@ print(sum(abs(t) >= 4 for t in statistics) / len(statistics))
 
 This test targets the sharp null. A null of zero average effect permits positive and negative individual effects and does not reveal every missing potential outcome. The same enumeration cannot be carried over without justification.
 
-## Design choices that survive implementation
+## Noncompliance and attrition
 
 **Covariates.** Measure experience before assignment. Blocking randomization by experience can improve balance. Prespecified regression adjustment can improve precision too. A useful large-sample approach includes centered baseline covariates and their treatment interactions, with appropriate robust uncertainty. It does not make finite-sample bias impossible, and a large search over adjustments compromises the advertised analysis.
 
@@ -111,7 +111,7 @@ This test targets the sharp null. A null of zero average effect permits positive
 
 **Power.** Under an independent, equal-variance approximation, 200 people in each arm with outcome standard deviation 4 give a difference-in-means standard error of $4\sqrt{1/200+1/200}=0.4$. Approximate 80% power for a two-sided 5% test requires an effect of $(1.96+0.84)(0.4)=1.12$. Clustering, attrition, unequal allocation, and baseline adjustment alter this planning calculation.
 
-## Try it
+## Exercises
 
 **1.** In the four-person example, what is the exact one-sided $p$-value for a prespecified positive-effect alternative?
 
@@ -129,6 +129,6 @@ The full treatment mean lies between $(18\cdot8+2\cdot0)/20=7.2$ and $(18\cdot8+
 
 </details>
 
-## Read further
+## Further reading
 
 Cunningham's [Potential Outcomes and Randomization](https://mixtape.scunning.com/04-potential_outcomes_and_randomization) develops the design-based argument. Winston Lin's [Agnostic Notes on Regression Adjustments to Experimental Data](https://arxiv.org/abs/1208.2301) supplies the formal basis and qualifications for fully interacted adjustment.

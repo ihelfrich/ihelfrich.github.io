@@ -8,7 +8,7 @@ import {models} from '../data/macroeconomics.mjs';
     <nav data-model-nav aria-label="Macroeconomic model">
       {models.map(m=><button type="button" data-model={m.id} aria-pressed={m.id==='solow'}><span>{m.number}</span>{m.title}</button>)}
     </nav>
-    <p class="macro-directory-note">One selection connects the views.<br />Explore the mechanism, then inspect its mathematics and research limits.</p>
+
   </aside>
   <article class="macro-workspace">
     <header class="macro-model-header"><p class="macro-eyebrow" data-level>Undergraduate → graduate</p><h2 data-model-title>Solow growth</h2><p data-model-question>When does new investment become better equipment per worker?</p></header>
@@ -25,7 +25,7 @@ import {models} from '../data/macroeconomics.mjs';
         <p class="macro-live" data-live aria-live="polite">Investment and upkeep balance at these starting values.</p>
       </div>
     </div>
-    <div class="macro-reading-nav" data-reading-nav aria-label="Explanation depth"><button type="button" data-mode="explore" aria-pressed="true">Explore</button><button type="button" data-mode="equations" aria-pressed="false">Equations</button><button type="button" data-mode="computation" aria-pressed="false">Computation</button></div>
+    <div class="macro-reading-nav" data-reading-nav aria-label="Explanation depth"><button type="button" data-mode="explore" aria-pressed="true">Explanation</button><button type="button" data-mode="equations" aria-pressed="false">Equations</button><button type="button" data-mode="computation" aria-pressed="false">Computation</button></div>
     <div class="macro-reading" data-reading></div>
     <noscript><p>Enable JavaScript to calculate the models and change their parameters. The suite covers growth, optimization, monetary and fiscal policy, open economies, labor markets, heterogeneous households and sequence-space methods.</p></noscript>
   </article>

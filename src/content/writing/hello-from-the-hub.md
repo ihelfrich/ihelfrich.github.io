@@ -1,37 +1,16 @@
 ---
-title: "Why a hub, and not another framework"
-summary: "Notes from the rebuild. Why I picked Astro + Pagefind over Docusaurus, what the hub is for, and what comes next."
+title: "Rebuilding the research site"
+summary: "How Astro and Pagefind connect my research, datasets, and teaching sites."
 date: 2026-05-11
 tags: ["meta", "tooling"]
 ---
 
-A research career produces a lot of artifacts. Papers, datasets, viewers, teaching sites, blog posts, conference talks, fieldwork notes. Most of them deserve their own home with the right tool. None of them deserve to live alone.
+My papers, datasets, and teaching materials were spread across several repositories. Some used Quarto, others Cesium or Jekyll. Someone arriving at one project had little help finding the others, and search stopped at each site's boundary.
 
-The problem I kept running into is that my work sat in five different repositories under five different rendering pipelines (Quarto book here, Cesium app there, a half-finished Jekyll site somewhere else) and nothing tied it together. Visitors who found one thing had no path to the rest. Search worked inside a site but never across them. The hub fixes that.
+I built this site in Astro to provide a common index. Research, project, dataset, and writing entries live in versioned content files. [Pagefind](https://pagefind.app) searches the published pages, including indexed copies of the linked teaching sites. The RSS feed collects updates from this site.
 
-## What the hub is
+The individual projects keep the software they need. Quarto supports longer teaching material with executable analysis; Cesium supports spatial visualization. Moving them all to Astro would add maintenance work without improving those capabilities.
 
-A single front page that links out to the spokes. Each spoke uses the format suited to its job. Quantitative methods material lives in Quarto because it supports long-form writing with R and Stata code. The NMTC repository includes Cesium viewer source because Cesium suits 3D spatial exploration. The hub uses Astro for content collections and cross-site search.
+The source is edited in a text editor and committed to Git. There is no separate content-management system. Papers, data releases, software, and teaching materials each have their own entry and release status.
 
-The hub does four things the spokes can't do for themselves:
-
-- It introduces me, briefly. One paragraph, no preamble.
-- It surfaces what's new across all the spokes.
-- It runs cross-site search via [Pagefind](https://pagefind.app).
-- It produces a single RSS feed so people who care can subscribe.
-
-It's deliberately not a portfolio. Portfolios are for jobs. This is a working surface for ongoing research.
-
-## What I didn't build
-
-I didn't build a CMS. Markdown files in `src/content/` committed via Git is the authoring interface. If I want to write a blog post, I open a text editor.
-
-I didn't build particle effects, animated heroes, or carousels. A serious research site doesn't need them. The Atul Gawandes and Adam Toozes of the world have austere sites, because their substance is what's interesting.
-
-I didn't migrate off Quarto. Migrating four working sites to a unified framework is a tax I'm not willing to pay, and the visitor-facing benefit is small. Better to let each tool be the best version of itself, and add the connective tissue here.
-
-## What comes next
-
-In rough order: real blog content (not this meta post), a `/chat` page that hits the Anthropic API with the Pagefind index as the retrieval layer, a `dataset/` collection for the EffDist V2026 release, and a dark mode that respects the system preference. The chat layer is the one I'm most curious about. Search is useful but answers are better.
-
-For now the hub is live, the search works across the three spokes I already have, and the rest is incremental.
+*Originally published May 2026; revised September 2026.*

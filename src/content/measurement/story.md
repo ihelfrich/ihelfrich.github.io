@@ -12,9 +12,7 @@ Someone must choose. The budget will not fund both designs indefinitely. A commi
 
 This sounds like the moment for analysis to begin. It is already well underway. The appointment system has decided when waiting starts. The booking menu has decided which problems exist. The database has decided that a student who never completed the form is different from a student who waited for an appointment. A column of apparently ordinary observations contains the accumulated consequences of those decisions.
 
-An analyst who ignores them can produce a wonderfully precise answer to a question nobody meant to ask.
-
-## Before the first column
+## Defining access
 
 Suppose the service records the time between a submitted request and an appointment. That is a useful duration. It leaves out the student who opened the form repeatedly before submitting it, the student who needed help understanding it, and the student who abandoned it because none of its categories fitted.
 
@@ -24,15 +22,11 @@ More accurate timestamps will not recover the missing attempts. A larger sample 
 
 Now consider participant control. A booking system might record the number of options presented. Five unusable options do not necessarily offer more control than one suitable option that a student can freely decline. An interface might permit rescheduling while making the consequences of doing so unclear. A form might offer an open text box after every consequential decision has already been made.
 
-Counting remains useful. The difficult work is establishing what a count represents.
-
 For this case, we can begin with observable features: whether an adviser can be changed, whether a question can be skipped, whether an appointment can be declined without losing access, whether the consequences are explained. Each feature is open to inspection. Their relationship to a broader idea of participant control requires argument and evidence.
 
 Calling the resulting total an autonomy score would not supply that evidence. Calling it a dignity score would create an even larger obligation. Human worth is not the quantity under construction here. The proposed object is a service and the opportunities it affords.
 
-That distinction changes what an analyst is entitled to say.
-
-## The average that changes its mind
+## Averages on an ordinal scale
 
 Imagine that a separate exercise asks reviewers to place service encounters into four ordered categories. Category 4 is preferred to category 3, which is preferred to category 2, which is preferred to category 1. Nothing establishes equal distances between them.
 
@@ -46,9 +40,7 @@ The [field guide](/econometrics/measurement/field-guide/) works through the arit
 
 Some conclusions survive this recoding. A contains both the lowest-ranked and the highest-ranked encounter. B contains the two middle encounters. Those are facts about order. Whether a design should be rewarded for its best encounter or penalized for its worst is a further question.
 
-We have reached the edge between describing a pattern and deciding what matters about it. The edge does not disappear when both activities occur in the same formula.
-
-## The place disagreement goes
+## Weights and uncertainty
 
 Return to the service designs. For a classroom investigation, assume that we have constructed two comparable, anchored rubrics running from 0 to 100: one for access and one for participant control. Higher is better within each rubric. Treating the intervals as meaningful is an explicit assumption of this exercise. These are invented scenario scales, with no claim to validate a real instrument.
 
@@ -66,11 +58,9 @@ Put nine-tenths of the weight on access, and every compatible profile favors A: 
 
 Better evidence about the designs could narrow the profile ranges. It would not, by itself, tell the committee how much access should be exchanged for participant control. A study of preferences might inform that discussion. Choosing whose preferences count, and under what constraints, remains part of the decision.
 
-This is a useful separation. Uncertainty about the service and disagreement about its purposes require different work. A survey cannot resolve every value dispute. A vote cannot establish a missing fact.
+The service measurements and the weights raise separate questions. Additional observations may narrow the score ranges while leaving disagreement over the weights unresolved.
 
-## An account that changes the instrument
-
-What should the analyst do next?
+## Revising the measurement procedure
 
 One possibility is to inspect the features responsible for the wide control intervals. Another is to examine the assumed boundaries of the instrument itself.
 
@@ -86,9 +76,7 @@ Language models might help locate passages for human review in a suitably govern
 
 No personal accounts or automated psychological assessments are collected by the browser experiments accompanying this essay. Their purpose is to make the structure of these choices inspectable with synthetic inputs.
 
-## When a boundary is the answer
-
-There is no requirement that every investigation end in a league table.
+## Incomplete rankings and minimum standards
 
 If the committee cannot justify a common trade-off, the access and control profiles can remain separate. They still convey information. If one design were at least as good on both dimensions and better on one, an agreed preference for higher values would support a dominance comparison. In this example, the dimensions pull in opposite directions.
 
@@ -98,9 +86,7 @@ The committee might also set a requirement that cannot be compensated by faster 
 
 An institution still has to act. It can use a provisional rule, revise a design, gather targeted evidence, or explain a decision made under unresolved disagreement. Analysis can clarify the consequences of these choices without pretending that the available information has settled them.
 
-To report an unresolved comparison is sometimes to give the most exact answer the evidence permits.
-
-## A different ambition for measurement
+## Further study
 
 The support-service problem crosses several fields. Econometrics asks what the observations identify. Measurement theory asks which relationships a scale represents and which statements survive legitimate recoding. Qualitative inquiry can uncover distinctions the observation system cannot yet express. Decision theory makes uncertainty, preferences, and constraints visible in the choice itself.
 
@@ -108,6 +94,4 @@ The connections are established intellectual resources. The proposed teaching pr
 
 A first-year student can discover the problem by watching an average reverse. An undergraduate can derive the set of compatible score gaps. A doctoral researcher can ask whether those bounds are sharp, whether the model survives outside its original setting, and which new observation would be worth collecting. They can be working on the same question without pretending to have the same preparation.
 
-The ambition is expansive, but it places limits on the claims. We can try to study experiences that familiar databases handle badly. We can build better observation systems and more revealing models. We can sometimes learn that a vector, a range, an ordering, or an explicit boundary carries the information more faithfully than a single number.
-
-Before asking how precisely we have measured the world, we need to ask what our measurement has allowed the world to say.
+The examples distinguish three sources of uncertainty: incomplete observation, unsupported assumptions about a scale, and unresolved value judgments. Each requires different evidence or deliberation.

@@ -9,7 +9,7 @@ minutes: 30
 lab: 'design'
 ---
 
-## Two changes, one missing change
+## Difference-in-differences
 
 In a synthetic firm, offices adopting training increase output from 50 to 62 units per employee. Comparison offices increase from 40 to 46. The trained offices improve by 12; the comparison offices improve by 6. Difference-in-differences reports $12-6=6$.
 
@@ -76,7 +76,7 @@ A conventional two-way fixed-effects coefficient can compare newly treated units
 
 Aggregation itself answers a question. Weighting each office equally, each worker equally, or each cohort equally produces different targets. State the weights and which cohort-time cells are supported by untreated comparisons.
 
-## An event-study picture cannot certify the future
+## Pre-trend diagnostics
 
 Pre-treatment outcomes can expose implausible comparisons. A visible differential pre-trend is a warning. An insignificant pre-trend test, however, may simply be imprecise. It cannot demonstrate that an unobserved post-treatment counterfactual satisfies parallel trends.
 
@@ -84,7 +84,7 @@ Every plotted coefficient also has a construction: reference period, comparison 
 
 Inference must reflect the dependence structure. Repeated observations in an office are not independent replications of the treatment assignment. Clustered inference often matters; few assignment clusters require methods and caution suited to that design. A large employee count does not manufacture a large number of independently treated offices.
 
-## Put the trend assumption on a scale
+## Sensitivity to parallel trends
 
 Suppose substantive knowledge supports $|\delta|\leq M$ output units. Since $ATT=DD-\delta$, the population sensitivity interval is
 
@@ -104,9 +104,9 @@ net_bounds = tuple(100 * effect - 300 for effect in effect_bounds)
 print(dd, effect_bounds, net_bounds)  # 6 (2, 10) (-100, 700)
 ```
 
-The [design experiment](/econometrics/lab/#design) exposes this calculation. Its interval excludes sampling uncertainty. It is **not an implementation of HonestDiD**. [Rambachan and Roth](https://www.jonathandroth.com/assets/files/HonestParallelTrends_Main.pdf) develop formal restrictions and inference that connect pre-treatment evidence to allowed post-treatment violations. Choosing a restriction remains substantive work.
+The [design experiment](/econometrics/lab/#design) exposes this calculation. Its interval excludes sampling uncertainty. It does not implement HonestDiD. [Rambachan and Roth](https://www.jonathandroth.com/assets/files/HonestParallelTrends_Main.pdf) develop formal restrictions and inference that connect pre-treatment evidence to allowed post-treatment violations. Choosing a restriction remains substantive work.
 
-## Try the argument
+## Exercises
 
 **1.** A firm's $DD$ is 6. Suppose the training offices would have improved two units more than comparison offices without training. What is $ATT$?
 
@@ -124,6 +124,6 @@ The worst permitted effect is $6-M$. Require $100(6-M)-300\geq0$, so $M\leq3$. A
 
 </details>
 
-## Read alongside this chapter
+## Further reading
 
-Use [The Remix](https://mixtape.scunning.com/) for extended design examples, [Callaway and Sant'Anna](https://arxiv.org/abs/1803.09015) for multiple-period targets, and [Rambachan and Roth](https://www.jonathandroth.com/assets/files/HonestParallelTrends_Main.pdf) for structured sensitivity. These address different parts of the argument; no single regression option replaces them all.
+Use [The Remix](https://mixtape.scunning.com/) for extended design examples, [Callaway and Sant'Anna](https://arxiv.org/abs/1803.09015) for multiple-period targets, and [Rambachan and Roth](https://www.jonathandroth.com/assets/files/HonestParallelTrends_Main.pdf) for structured sensitivity.

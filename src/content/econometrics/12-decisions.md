@@ -8,13 +8,13 @@ prerequisites: 'Treatment effects, identification, uncertainty, heterogeneity, a
 minutes: 30
 ---
 
-## A coefficient does not sign the purchase order
+## Effects, costs, and decisions
 
 Training may raise output and still cost more than it produces. It may benefit one group while harming another. It may work in a small voluntary pilot and fail when every office adopts it.
 
-A decision therefore needs an action set, a target population, a consequence model, and an objective. These inputs are partly empirical and partly substantive. Writing them down prevents a significance threshold from making choices it was never designed to make.
+A decision therefore needs an action set, a target population, a consequence model, and an objective. These inputs are partly empirical and partly substantive. Statistical significance alone does not determine a preferred action.
 
-## Start with one transparent decision
+## The training decision
 
 Suppose the firm can train or not train an employee. Continuing the synthetic example from chapter 8 and the design experiment, training costs \$300 and each additional output unit contributes \$100 after variable production costs. Let $\tau$ be the average output effect in the target population. Expected incremental net benefit is
 
@@ -97,13 +97,11 @@ Training employees may affect coworkers, wages, customer allocation, and manager
 
 At larger scales, prices or equilibrium behavior may change. A structural model can express those responses, but its counterfactual predictions inherit assumptions about preferences, constraints, information, and policy invariance. Calibration or close fit to historical outcomes does not by itself identify a new-policy counterfactual.
 
-## Build the capstone as an argument
+## Capstone assignment
 
 Produce a two-page decision memo and an executable appendix. Include the target action and population; a data dictionary and provenance record; the estimand; a rival explanation; the design and its weakest assumption; an estimate with the right uncertainty calculation; sensitivity and a decision-reversal threshold; and an account of who might be harmed or omitted. The appendix should regenerate every reported number and label synthetic inputs clearly.
 
-An employer can inspect analytical judgment in that package. A student can see exactly where an objection changes the conclusion. Neither audience needs unsupported claims that the analysis is definitive.
-
-## Try the argument
+## Exercises
 
 **1.** Costs rise to \$700 while margin remains \$100. What happens to the threshold and the decision at a known effect of 7?
 

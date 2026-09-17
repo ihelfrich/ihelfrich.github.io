@@ -8,7 +8,7 @@ prerequisites: 'Conditional means, potential outcomes, local comparisons, and di
 minutes: 30
 ---
 
-## An administrative rule leaves a seam
+## Treatment at a cutoff
 
 A synthetic firm guarantees training to employees whose assessment score reaches 70. People scoring 69.9 and 70.1 may differ little in underlying skill, yet the rule changes their access sharply. A regression discontinuity design asks whether the outcome has a jump at that same threshold.
 
@@ -51,13 +51,13 @@ The bandwidth controls a real tradeoff. A wide neighborhood supplies more observ
 
 Balancing squared bias and variance gives $h$ of order $n^{-1/5}$. At that rate, bias and standard error both have order $n^{-2/5}$. Consequently, ignoring bias in a conventional interval is generally unjustified at a mean-squared-error-optimal bandwidth. Bias-aware inference, including properly constructed robust bias correction, addresses this problem. A plot with two fitted lines does not implement that inference. See [Cattaneo, Idrobo, and Titiunik's Foundations](https://arxiv.org/abs/1911.09511).
 
-## Which story about the neighborhood?
+## Continuity and local randomization
 
 Continuity-based RD and local-randomization RD make different commitments. Continuity-based analysis takes limits as the score approaches the cutoff. Local randomization posits a window in which assignment behaves according to a specified randomization mechanism and potential outcomes satisfy the corresponding restrictions. Selecting a narrow window does not establish random assignment within it.
 
 Inspect score manipulation, heaping, covariate jumps, other rules at the cutoff, and sensitivity to reasonable analysis choices. A density discontinuity may undermine the institutional story; a nonsignificant density test does not prove it. Discrete scores also demand care: if only integer values are possible, one cannot observe arbitrarily close scores on either side. Extrapolation or finite-window assumptions must then be made explicit.
 
-## When there is one treated place
+## Synthetic control
 
 A different institution may introduce training throughout one region at once, leaving no score threshold. Synthetic control constructs a comparison from untreated regions:
 
@@ -96,7 +96,7 @@ Exact loading balance and this conditional restriction yield a zero expected unt
 
 Donor contamination, spillovers, anticipation, and a post-treatment shock unique to the treated unit can all break the interpretation. Placebo comparisons are informative diagnostics; their inferential meaning depends on an exchangeability or assignment argument. [Abadie's methodological review](https://economics.mit.edu/sites/default/files/publications/jel.20191450.pdf) emphasizes feasibility and contextual requirements.
 
-## Try the argument
+## Exercises
 
 **1.** Training and a cash bonus both start at score 70. Output jumps by 8 units. What does the sharp RD identify?
 

@@ -8,7 +8,7 @@ prerequisites: 'Fractions and the distinction between association and interventi
 minutes: 25
 ---
 
-## An average has an address
+## Group composition and aggregate averages
 
 Suppose a report says that 68% of training participants meet their output target, compared with 32% of nonparticipants. Before explaining the difference, find out who is inside each denominator.
 
@@ -122,7 +122,7 @@ Now suppose experienced employees answer a follow-up survey with probability 0.8
 
 A million responses produced by the same selection mechanism would estimate the respondent rate with great precision. It would not turn respondents into a representative workforce.
 
-## Check the weights yourself
+## Calculating the weighted average
 
 ~~~python
 # Standard Python; all quantities describe the synthetic table.
@@ -136,7 +136,7 @@ for name, w in weights.items():
     print(name, sum(p*q for p, q in zip(rates, w)))
 ~~~
 
-## Try it
+## Exercises
 
 **1.** A future workforce is 75% experienced. Keep the two group-specific success rates fixed. What success rate should you predict?
 
@@ -154,6 +154,6 @@ No. Let $X$ be equally likely to equal $-1,0,1$ and let $Z=X^2$. Then $E[X]=0$ a
 
 </details>
 
-## Read further
+## Further reading
 
-Blitzstein and Hwang's [Introduction to Probability](https://probabilitybook.net/) develops conditioning, expectation, and their calculations. For the econometric use of conditional expectations and projections, see Bruce Hansen's [Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/). Return to the table when the notation gets crowded: every expectation still needs an outcome and a population.
+Blitzstein and Hwang's [Introduction to Probability](https://probabilitybook.net/) develops conditioning, expectation, and their calculations. For the econometric use of conditional expectations and projections, see Bruce Hansen's [Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/).

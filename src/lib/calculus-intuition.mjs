@@ -14,7 +14,7 @@ export const intuition = {
   feedback: 'Coming from the left you go downhill; leaving to the right you go uphill. A single slope cannot describe both, even as your step shrinks.'
  },
  product: {
-  title:'Grow both sides. Count every piece.',
+  title:'Growing a rectangle',
   idea:'Make a rectangular garden longer and wider. You add a strip along each edge and a little square where the two new edges meet.',
   picture:'The purple rectangle is what you already had. Separate the pieces to see the two strips and the gold corner; drag the gold handle to grow them.',
   controls:{x:'Original short side',h:'Extra length on each side'},labels:['Total new area','Two edge strips','Little corner'],
@@ -23,9 +23,9 @@ export const intuition = {
   feedback:'Both edges add area. For a tiny extension the corner is much smaller than the strips, which is why the derivative counts two contributions.'
  },
  chain: {
-  title:'A nudge goes through two machines.',
+  title:'Two functions in sequence',
   idea:'The first machine squares your input and adds one. The second takes its log. A tiny nudge gets scaled at each step: multiply the two local effects.',
-  picture:'Read the boxes left to right. On the graph, purple shows the full result and the gold straight line predicts nearby changes from the starting point.',
+  picture:'Purple: the composed function. Gold: its tangent at the starting point.',
   controls:{x:'Starting input',h:'Size of your nudge'},labels:['Local response per input unit','What actually changed','Small-nudge prediction'],
   examples:[{label:'Reverse the response',params:{x:-1,h:.2}},{label:'Try a flat starting point',params:{x:0,h:.2}},{label:'Start with a positive input',params:{x:1,h:.2}}],
   question:'At input zero, the first machine is locally flat. What is the final local response?',answers:['Zero','One','It cannot be defined'],
@@ -41,7 +41,7 @@ export const intuition = {
   feedback:'Both 2 → 4 and 4 → 8 move about 0.693 log units. Treating a percentage as a log change works well only for small percentage changes.'
  },
  partials: {
-  title:'Change one thing. Hold the other still.',
+  title:'Change one input at a time',
   idea:'A workshop uses equipment and workers. To isolate the effect of equipment, hold the workforce fixed. If both change, start by adding their separate small-change contributions.',
   picture:'Capital means equipment here; labor means workers. The slice freezes labor. The gold move on the map or surface shows what happens when both inputs change.',
   controls:{x:'Equipment available',y:'Workers available',alpha:'Equipment exponent (elasticity)',dx:'Change in equipment',dy:'Change in workers'},labels:['Output per extra equipment unit','Output per extra worker unit','Equipment elasticity'],
@@ -59,7 +59,7 @@ export const intuition = {
   feedback:'A saddle is flat right at its center but curves up in one direction and down in another. Slope tells you about the immediate response; bending tells you more.'
  },
  taylor: {
-  title:'Guess the path. Then let it bend.',
+  title:'Approximating a curve',
   idea:'A straight-line guess uses the slope where you start. A bend-aware guess also uses how that slope is changing. Neither knows the whole curve.',
   picture:'Purple is the true curve, mint is the straight guess, and gold adds bending. Move the endpoint farther away to see where the guesses miss.',
   controls:{fn:'Choose a curve',x:'Where you build the guess',h:'How far away to predict'},labels:['Actual endpoint value','Straight-guess error','Bend-aware error'],
@@ -90,7 +90,7 @@ export const intuition = {
 export function intuitionStory(id,p,r) {
  let steps,note;
  if(id==='slope') {
-  steps=[step('Take a step',`${number(p.x)} → ${number(p.x+p.h)}`,`Move ${number(p.h)} input units to the right.`),step('Measure the climb',signed(r.actual),'This is the actual output change over that whole step.'),step('Climb per step unit',number(r.secant),'Divide the output change by the input change: the average slope.')];
+  steps=[step('Input change',`${number(p.x)} → ${number(p.x+p.h)}`,`Move ${number(p.h)} input units to the right.`),step('Measure the climb',signed(r.actual),'This is the actual output change over that whole step.'),step('Climb per step unit',number(r.secant),'Divide the output change by the input change: the average slope.')];
   note=r.slope===null?'At this corner the left and right slopes disagree. Shrinking the step cannot produce one slope that fits both sides.':`The slope right at your starting point is ${number(r.slope)}. Shrink the step to bring its average slope toward this local rate; a finite step need not match it.`;
  }
  if(id==='product') {
@@ -98,8 +98,8 @@ export function intuitionStory(id,p,r) {
   note=`The strips predict ${number(r.linear)} new area. The corner adds ${number(r.corner)} more. Halving the extension halves each strip but quarters the corner; this is why the two-strip rule captures tiny changes.`;
  }
  if(id==='chain') {
-  steps=[step('Nudge the input',`+${number(p.h)}`,`Start at ${number(p.x)}. The first machine is “square, then add one.”`),step('First local response',signed(r.innerSlope*p.h),`Scale the nudge by ${number(r.innerSlope)}. The actual intermediate change is ${signed(r.innerChange)}.`),step('Second local response',signed(r.linear),`Scale that prediction by ${number(r.outerSlope)}. The actual final change is ${signed(r.actual)}.`)];
-  note=Math.abs(p.x)<1e-12?'The local response is zero here, but a finite nudge still changes the output. The first machine bends away from its flat starting point.':`${p.x<0?'The first machine reverses the local response: an infinitesimal increase in input lowers its output.':'The first machine passes a tiny positive nudge forward as a positive change.'} Multiply the local scale factors to get ${number(r.slope)} output units per input unit. Those starting rates are predictions for a finite move, not its exact result.`;
+  steps=[step('Nudge the input',`+${number(p.h)}`,`Start at ${number(p.x)}. The first machine is “square, then add one.”`),step('First function',signed(r.innerSlope*p.h),`Scale the nudge by ${number(r.innerSlope)}. The actual intermediate change is ${signed(r.innerChange)}.`),step('Second function',signed(r.linear),`Scale that prediction by ${number(r.outerSlope)}. The actual final change is ${signed(r.actual)}.`)];
+  note=Math.abs(p.x)<1e-12?'The local response is zero here, but a finite nudge still changes the output. The first machine bends away from its flat starting point.':`${p.x<0?'The first machine reverses the local response: an infinitesimal increase in input lowers its output.':'Both functions have positive slopes here.'} Their product is ${number(r.slope)} output units per input unit.`;
  }
  if(id==='logs') {
   steps=[step('Change the amount',`${number(p.x)} → ${number(r.end)}`,`A ${number(p.pct)}% change multiplies the amount by ${number(r.ratio)}.`),step('Read the log ruler',signed(r.actual),'The log distance depends on that multiplier, not the starting amount.'),step('Try the shortcut',signed(r.linear),`This small-percentage estimate differs from the true log change by ${number(Math.abs(r.actual-r.linear))}.`)];
@@ -115,15 +115,15 @@ export function intuitionStory(id,p,r) {
  }
  if(id==='taylor') {
   steps=[step('Use the starting slope',number(r.linear),`Starting value ${number(r.value)}, plus slope × your move: the straight guess.`),step('Account for bending',number(r.quadratic),`The bending correction changes that guess by ${signed(r.quadratic-r.linear)}.`),step('Check the actual curve',number(r.end),`Absolute misses: straight ${number(Math.abs(r.error1))}; bend-aware ${number(Math.abs(r.error2))}.`)];
-  note='The extra bending information helps locally as the move becomes small. It does not promise that the bend-aware guess wins at every distance. Halve the distance and compare both errors.';
+  note='The curvature correction improves the approximation near the starting point. Farther away, either approximation may be poor.';
  }
  if(id==='optimize') {
   steps=[step('Benefit of a tiny increase',number(12/p.x),'Benefit per extra unit, evaluated at your current quantity.'),step('Cost of that increase',number(p.c),'Cost per extra unit, on the same scale.'),step('Keep the difference',signed(r.slope),'Local net benefit per unit: benefit minus cost.')];
-  note=`${Math.abs(r.slope)<1e-10?'The two balance: you are at the best quantity.':r.slope>0?'A little more improves payoff here.':'A little less improves payoff here.'} The best quantity is ${number(r.optimum)} in this example. The action moves to the nearest slider step, which may not land exactly on that value.`;
+  note=`${Math.abs(r.slope)<1e-10?'The two balance: you are at the best quantity.':r.slope>0?'A little more improves payoff here.':'A little less improves payoff here.'} The best quantity is ${number(r.optimum)} in this example. The slider rounds to the nearest step.`;
  }
  if(id==='integral') {
   steps=[step('Read the current rate',number(r.slope),`The curve’s height at the current endpoint ${number(p.x)}.`),step('Build a thin rectangle',number(r.linear),`Rate × extra interval: ${number(r.slope)} × ${number(p.h)}.`),step('Count the actual addition',number(r.actual),'The rate varies over the new interval, so the curved strip can differ from the rectangle.')];
-  note=p.x<0?'Here the endpoint is left of zero. The signed total is negative because accumulation runs in reverse, even though the rate is positive. This is an oriented integral, not negative water in a tank.':'A thinner strip makes the rectangle estimate more accurate. The derivative of the accumulated total is the rate at its endpoint: it tells you how fast the total changes.';
+  note=p.x<0?'Here the endpoint is left of zero. The signed total is negative because accumulation runs in reverse, even though the rate is positive. The sign records the direction of integration.':'A thinner strip makes the rectangle estimate more accurate. The derivative of the accumulated total is the rate at its endpoint: it tells you how fast the total changes.';
  }
  if(!steps)throw new RangeError('Unknown intuition lesson.');
  return {steps,note};

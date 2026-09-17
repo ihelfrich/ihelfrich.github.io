@@ -45,6 +45,30 @@ const rules = [
 ];
 
 const failures = [];
+// Specific wording rejected by the site owner. This guards against reintroducing
+// known copy; the rest of the prose still requires editorial review.
+const rejectedCopy = [
+  "Start with a situation above, then change one slider and watch what follows.",
+  "Your move, explained",
+  "Those starting rates are predictions for a finite move, not its exact result.",
+  "Keep the question in mind: which inputs change, and which stay fixed?",
+  "Functions and parameters are teaching examples. Colored maps and curves are sampled displays of analytic functions; they are not numerical proofs.",
+];
+async function checkRejectedCopy(directory) {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) await checkRejectedCopy(path);
+    else if (/\.(astro|md|mjs|js|ts|html)$/.test(entry.name)) {
+      const source = (await readFile(path, "utf8")).replace(/\s+/g, " ");
+      for (const phrase of rejectedCopy) {
+        if (source.includes(phrase)) failures.push(`${path}: reintroduces rejected public copy: ${phrase}`);
+      }
+    }
+  }
+}
+for (const directory of ["src", "public/learn/policy-statistics", "public/teaching/market-mechanics"]) {
+  await checkRejectedCopy(directory);
+}
 const packageManifest = JSON.parse(await readFile("package.json", "utf8"));
 if (!packageManifest.devDependencies?.["js-yaml"]) {
   failures.push("package.json must declare js-yaml directly because the public-copy and discovery gates import it.");

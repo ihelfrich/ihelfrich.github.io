@@ -16,7 +16,7 @@ In a synthetic population, participation is 60% among invited employees and 20% 
 
 The ratio $8/0.40=20$ has a different interpretation. Obtaining that interpretation requires an argument about how the invitation works.
 
-## Who changes their mind?
+## Compliance types
 
 Let $Z\in\{0,1\}$ indicate invitation, $D(z)$ indicate participation under invitation status $z$, and $Y(d)$ denote output under participation status $d$. Observed participation is $D=D(Z)$ and observed output is $Y=Y(D)$ under exclusion and consistency. The latter equality says the invitation affects output through participation alone.
 
@@ -96,7 +96,7 @@ print(((reduced_form - direct_bound) / first_stage,
 
 The denominator also magnifies exclusion violations. With a 0.02 first stage, a one-unit direct effect shifts the inferred coefficient by 50 units.
 
-## Try the argument
+## Exercises
 
 **1.** The same invitation effects are observed, but always-participants gain 5 units and never-participants gain 0. What is the population average treatment effect?
 
@@ -114,6 +114,6 @@ The ratio is $1/0.02=50$. With the specified direct effect, the adjusted value i
 
 </details>
 
-## Read alongside this chapter
+## Further reading
 
-[Cunningham's IV treatment in The Remix](https://mixtape.scunning.com/) develops the compliance argument. [Hansen's Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) supplies the formal IV/GMM framework. Keep the policy target visible when moving between them: the coefficient a design identifies may differ from the effect a decision requires.
+[Cunningham's IV treatment in The Remix](https://mixtape.scunning.com/) develops the compliance argument. [Hansen's Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) supplies the formal IV/GMM framework.

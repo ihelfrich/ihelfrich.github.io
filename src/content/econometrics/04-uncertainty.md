@@ -9,13 +9,13 @@ minutes: 30
 lab: 'sampling'
 ---
 
-## Ask what could have been different
+## The sampling process
 
 An estimate is a number from one dataset. A standard error describes how that estimate would vary across repetitions of a specified sampling or assignment process.
 
 That process matters. Repeatedly sampling employees differs from repeatedly randomizing training across the same employees. Sampling 1,000 employees from one office differs from sampling one employee from each of 1,000 independent offices.
 
-Before calculating uncertainty, finish this sentence: “If we repeated the process, we would keep ___ fixed and redraw ___.” An uncertainty formula is an answer to that sentence, even when software leaves the sentence unwritten.
+A standard-error calculation depends on which quantities are fixed and which are random across repetitions.
 
 ## A case where the interval is exact
 
@@ -55,7 +55,7 @@ Convergence in probability concerns closeness to a target. Convergence in distri
 
 The same distinction carries into regression. Under suitable sampling and moment conditions, a coefficient becomes increasingly precise around its population projection. That projection can differ from the causal parameter a manager cares about.
 
-## More data can make a bad interval worse
+## Confidence-interval coverage under bias
 
 Suppose the desired target is $\theta$, but the observations satisfy
 
@@ -116,7 +116,7 @@ This displays the uncorrected form; software often adds finite-sample adjustment
 
 As an illustration for a simple mean with equally sized independent clusters, cluster size $m=25$ and within-cluster correlation $\rho=0.1$ inflate variance relative to independent observations by $1+(m-1)\rho=3.4$. This formula depends on that exchangeable covariance structure; it is not a universal regression correction.
 
-## Try it
+## Exercises
 
 **1.** How much must sample size increase to halve the standard error of an independent sample mean, keeping population variance fixed?
 
@@ -134,6 +134,6 @@ No. Ignoring sampling variation for the moment, subtracting the selection contri
 
 </details>
 
-## Read further
+## Further reading
 
 Hansen's [Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) develops asymptotic regression theory. Cameron and Miller's [A Practitioner's Guide to Cluster-Robust Inference](https://doi.org/10.3368/jhr.50.2.317) explains why the clustering level and the number of clusters deserve substantive attention.

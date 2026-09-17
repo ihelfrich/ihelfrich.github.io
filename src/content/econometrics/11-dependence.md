@@ -8,7 +8,7 @@ prerequisites: 'Conditional expectation, variance, estimation, and the distincti
 minutes: 35
 ---
 
-## Name the future observation
+## Forecasting and generalization
 
 A firm wants next month's demand forecast, an employee's probability of leaving, and the effect of exporting its training program to a new division. Each request concerns an unobserved outcome. The required arguments differ.
 
@@ -34,7 +34,7 @@ A coefficient shifts log odds, not probability by a constant amount. Starting at
 
 If the observations are dependent, multiplying their marginal conditional probabilities need not be the joint likelihood. Conditional-mean estimation may remain useful under justified quasi-likelihood and dependence-robust conditions, but the independence-based uncertainty calculation needs reconsideration.
 
-## Derive a forecast with memory
+## An AR(1) forecast
 
 Consider a synthetic output series following
 
@@ -75,7 +75,7 @@ for h in (1, 2):
 
 These are intervals for future observations. An interval for the stationary mean $\mu$ concerns a different random quantity and a different estimator.
 
-## Preserve the information clock
+## Temporal validation
 
 Forecast evaluation should imitate deployment: train through a date, predict subsequent dates, advance the training window, and repeat. Never let future labels, later revisions, or full-sample normalization enter an earlier forecast. A downloaded time-series snapshot can contain revised historical values unavailable at the original forecast date.
 
@@ -97,7 +97,7 @@ If calibration and test observations are exchangeable conditional on the trainin
 
 Ordinary chronological dependence or distribution shift can break exchangeability. Applying the formula to a time series does not restore its guarantee. [Angelopoulos and Bates](https://arxiv.org/abs/2107.07511) explain the basic result and its scope.
 
-## A trial can travel only under assumptions
+## Generalizing trial results
 
 Let $S=1$ denote trial participation and $S=0$ the target population. Randomization can identify $\mu_a(x)=E[Y\mid A=a,X=x,S=1]$ within the trial. To identify target potential-outcome means through
 
@@ -109,7 +109,7 @@ we additionally need conditional mean exchangeability across participation, $E[Y
 
 Different division cultures may alter training effects even after measured adjustment. Spatial spillovers can also change the intervention itself. Reweighting addresses observed population composition under assumptions; it cannot manufacture missing support or policy invariance.
 
-## Try the argument
+## Exercises
 
 **1.** With $\phi=0$, what happens to the known-parameter forecast and variance at every positive horizon?
 
@@ -127,6 +127,6 @@ No. Trial-participation positivity fails for those roles. A target-wide effect r
 
 </details>
 
-## Read alongside this chapter
+## Further reading
 
 [Hansen's Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) supplies likelihood and dependent-data foundations. Keep the conformal and transport references beside their assumptions: a portable algorithm does not imply a portable guarantee.

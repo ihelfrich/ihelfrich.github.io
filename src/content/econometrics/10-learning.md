@@ -8,13 +8,13 @@ prerequisites: 'Projection, conditional expectation, exogeneity, and asymptotic 
 minutes: 35
 ---
 
-## A good prediction can answer the wrong question
+## Prediction and causal estimation
 
 A model predicts employee output extremely well from past performance, job role, manager ratings, and training participation. That may help staffing. It does not establish what would happen if the firm changed training assignments.
 
 Prediction evaluates a forecast against an observed outcome under a stated data distribution and loss. Causal estimation needs a target and identifying restrictions. Flexible learning is valuable within that argument: it can estimate complicated conditional relationships that would be difficult to specify by hand. It cannot supply missing randomization or remove unmeasured confounding by predictive accuracy alone.
 
-## Protect the evaluation before choosing the model
+## Training and evaluation samples
 
 For squared-error prediction, define risk as $E[(Y-\hat f(X))^2]$ for a new observation and the specified training procedure. More flexibility can reduce approximation bias while increasing estimation variability. The direction of the net change is an empirical question for honest evaluation.
 
@@ -109,7 +109,7 @@ $$
 
 Dependence or clustered assignment needs an appropriate extension. None of these calculations measures uncertainty from omitted confounding.
 
-## A small calculation, and its limits
+## Residual regression example
 
 Suppose held-out residuals in a synthetic example are $\tilde D=(-2,-1,1,2)$ and $\tilde Y=(-5,-1,2,4)$. Their cross-product sums to 21 and squared treatment residuals sum to 10, so $\hat\theta=2.1$.
 
@@ -119,9 +119,9 @@ theta = sum(a * b for a, b in zip(d, y)) / sum(a * a for a in d)
 print(theta)  # 2.1
 ```
 
-This demonstrates the final residual regression, not a complete DML analysis. Four supplied residual pairs do not establish nuisance quality, asymptotic precision, or causal validity.
+This example calculates the final residual regression. A full DML analysis also requires nuisance estimation, cross-fitting, and inference.
 
-## Try the argument
+## Exercises
 
 **1.** Suppose $\|a\|_2$ has order $n^{-0.3}$ and $\|b\|_2$ has order $n^{-0.2}$. Do the displayed sufficient remainder conditions follow?
 
@@ -139,6 +139,6 @@ If motivation affects output beyond recorded $X$, the disturbance may satisfy $E
 
 </details>
 
-## Read alongside this chapter
+## Further reading
 
 [Chernozhukov and coauthors' original DML paper](https://economics.mit.edu/research/publications/doubledebiased-machine-learning-treatment-and-structural-parameters) provides the framework and regularity conditions. [Ahrens and coauthors' introduction](https://arxiv.org/abs/2504.08324), revised in February 2026, is a current explanatory companion to this established methodology.

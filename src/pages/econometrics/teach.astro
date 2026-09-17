@@ -29,14 +29,14 @@ const workshop = [
 <Econometrics title="Teach and apply the argument" description="A twelve-week econometrics course plan, a ninety-minute company workshop, and a synthetic capstone with a transparent assessment rubric." section="teach">
   <header class="ea-narrow ea-page-intro">
     <p class="ea-kicker">For classrooms, independent study, and analytical teams</p>
-    <h1>Put an argument on the table.</h1>
-    <p class="ea-lead">A useful course leaves someone able to say what the evidence supports, what it leaves open, and what to do next.</p>
-    <p>The schedules below are teaching plans for this development edition. They have not been evaluated as a completed course. Adjust the mathematical depth and time for computation to the learners in the room.</p>
+    <h1>Teaching guide</h1>
+    <p class="ea-lead">Schedules, exercises, and a capstone assignment for teaching from this course.</p>
+    <p>Adjust the schedules to students’ mathematical preparation and time for computation.</p>
   </header>
 
   <div class="ea-narrow ea-prose">
     <section aria-labelledby="starting-heading">
-      <h2 id="starting-heading">Choose a starting depth</h2>
+      <h2 id="starting-heading">Prerequisites</h2>
       <dl>
         <dt><strong>Beginning with evidence</strong></dt>
         <dd><p>Fractions, percentages, graphs, and basic algebra are enough to enter chapters 1 and 2. Read the worked examples aloud, redraw the comparison, and use the expandable solutions after a written attempt. Expect to pause for probability and algebra practice.</p></dd>
@@ -68,12 +68,12 @@ const workshop = [
         <thead><tr><th scope="col">Time</th><th scope="col">Work</th><th scope="col">Output</th></tr></thead>
         <tbody>{workshop.map(([time, work, output]) => <tr><th scope="row">{time}</th><td>{work}</td><td>{output}</td></tr>)}</tbody>
       </table>
-      <p>The take-home artifact is a one-page decision memo, a transparent calculation, and a ranked request for additional evidence. A follow-up technical session can implement a design once the real data and business constraints have been established.</p>
+      <p>Participants write a one-page decision memo, show the calculation, and specify the additional evidence they would request. A follow-up technical session can implement a design once the real data and business constraints have been established.</p>
     </section>
 
     <section id="capstone" aria-labelledby="capstone-heading">
       <h2 id="capstone-heading">Capstone: the training offer</h2>
-      <p>This is an original, synthetic case. The firm, observations, costs, and prices are invented for instruction. They represent no company or student’s data.</p>
+      <p>The firm and data in this exercise are fictional.</p>
       <p>A firm offers optional training to all eligible workers in one operational group. A second group receives no offer. Assignment of the offer was not randomized. Management wants to know whether the offer raised six-month output enough to cover its cost, and whether a wider rollout is justified.</p>
       <table>
         <caption>Synthetic group means, measured in output units per eligible worker over equal six-month windows.</caption>
@@ -117,7 +117,7 @@ const workshop = [
 
     <section aria-labelledby="rubric-heading">
       <h2 id="rubric-heading">Assessment rubric</h2>
-      <p>The recommendation can differ across submissions. The grading object is the argument supporting it.</p>
+      <p>Grade the reasoning and calculations; more than one recommendation may be justified.</p>
       <table>
         <thead><tr><th scope="col">Criterion</th><th scope="col">Weight</th><th scope="col">Strong work makes this visible</th></tr></thead>
         <tbody>

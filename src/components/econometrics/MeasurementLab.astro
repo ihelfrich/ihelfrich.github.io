@@ -8,12 +8,12 @@ const y=(g)=>300-(g+60)*2.4;
     <div class="m-opening">
       <a class="m-series" href="/econometrics/">The Econometric Argument / Measurement</a>
       <h1 id="measurement-title">What did <br/>the number <br/>leave out?</h1>
-      <p class="m-deck">A faster appointment.<br/>Less say in what happens next.<br/>Which service is better?</p>
-      <p class="m-context">Two hypothetical designs. One gives people quicker access; the other gives them more control. A single score can settle the argument. Watch what it takes to make that score.</p>
+      <p class="m-deck">Faster appointments or more choice?</p>
+      <p class="m-context">Compare two hypothetical services using access and participant control. Adjust the weights to see which service ranks higher.</p>
       <a class="m-story-link" href="/econometrics/measurement/story/">Read the opening story <span aria-hidden="true">↗</span></a>
     </div>
     <div class="m-instrument">
-      <div class="m-figure-heading"><h2>A conclusion with room inside it.</h2><p>Every point in the violet band is compatible with the stated evidence and scoring rule.</p></div>
+      <div class="m-figure-heading"><h2>Possible score differences</h2><p>Every point in the violet band is compatible with the stated evidence and scoring rule.</p></div>
       <figure class="m-figure">
         <svg viewBox="0 0 830 365" role="img" aria-labelledby="measurement-plot-title measurement-plot-desc">
           <title id="measurement-plot-title">Compatible score gaps as the access weight changes</title>
@@ -47,24 +47,24 @@ const y=(g)=>300-(g+60)*2.4;
   </section>
 
   <section class="m-evidence ea-shell" aria-labelledby="evidence-heading">
-    <div><h2 id="evidence-heading">Change the evidence.<br/>Then change the rule.</h2><p>The two moves answer different questions. An audit narrows what is compatible. A minimum standard changes what is acceptable.</p><p class="m-note">Assumed 0–100 rubrics. Higher is better within each dimension. These invented scales describe service designs, never a person's worth.</p></div>
+    <div><h2 id="evidence-heading">Evidence and scoring rules</h2><p>The two moves answer different questions. An audit narrows what is compatible. A minimum standard changes what is acceptable.</p><p class="m-note">Assumed 0–100 rubrics. Higher is better within each dimension. The scores describe the services.</p></div>
     <div class="m-evidence-work">
       <table><caption>Compatible profiles, without assigned probabilities</caption><thead><tr><th scope="col">Design</th><th scope="col">Access</th><th scope="col">Participant control</th></tr></thead><tbody><tr><th scope="row">A</th><td>75–85</td><td data-m-profile-a>25–45</td></tr><tr><th scope="row">B</th><td>45–65</td><td data-m-profile-b>65–85</td></tr></tbody></table>
       <label class="m-check"><input data-m-audit type="checkbox" /><span><strong>Inspect the control evidence more closely</strong><small>A hypothetical audit narrows A to 30–40 and B to 70–80.</small></span></label>
       <label class="m-check"><input data-m-veto type="checkbox" /><span><strong>Require a control score of at least 50</strong><small>A declared floor, even if another dimension scores well.</small></span></label>
       <p data-m-veto-result class="m-rule-result" role="status">No eligibility floor is imposed. Access can compensate for lower participant control in this scoring rule.</p>
-      <details class="m-assumptions"><summary>What makes these calculations legitimate?</summary><p>For this exercise we assume meaningful differences on two anchored rubrics, an additive score, nonnegative weights, and all combinations within the profile ranges. Weights and profiles vary independently. Those assumptions make the displayed bounds sharp for this rectangular scenario set. Dependencies could narrow the true range; invalid assumptions could change it entirely.</p><p>More observations do not choose a stakeholder's priorities. A hard floor is a separate rule, not a finding hidden inside the data.</p><a href="/econometrics/measurement/technical/#sources">Mathematics and sources</a></details>
+      <details class="m-assumptions"><summary>Scoring assumptions</summary><p>For this exercise we assume meaningful differences on two anchored rubrics, an additive score, nonnegative weights, and all combinations within the profile ranges. Weights and profiles vary independently. Those assumptions make the displayed bounds sharp for this rectangular scenario set. Dependencies could narrow the true range; invalid assumptions could change it entirely.</p><a href="/econometrics/measurement/technical/#sources">Mathematics and sources</a></details>
     </div>
   </section>
 
   <nav class="m-reading-paths ea-shell" aria-label="Three ways into this investigation">
-    <a class="m-path-story" href="/econometrics/measurement/story/"><span>Read the story</span><strong>What a number<br/>leaves out</strong><p>Begin with the people and decisions that a tidy dataset can lose.</p></a>
+    <a class="m-path-story" href="/econometrics/measurement/story/"><span>Read the story</span><strong>What a number<br/>leaves out</strong><p>How booking records can omit failed attempts to get help.</p></a>
     <a href="/econometrics/measurement/field-guide/"><span>Work it through</span><strong>A field guide to<br/>defensible measurement</strong><p>Follow the arithmetic, solve three problems, and lead the investigation in class.</p></a>
-    <a href="/econometrics/measurement/technical/"><span>Test the theory</span><strong>Representations,<br/>models, decisions</strong><p>Assumptions, proofs, doctoral exercises, and a research agenda with its limits stated.</p></a>
+    <a href="/econometrics/measurement/technical/"><span>Test the theory</span><strong>Representations,<br/>models, decisions</strong><p>Proofs, doctoral exercises, and proposed research.</p></a>
   </nav>
 
   <section class="m-recoding ea-shell" aria-labelledby="recoding-heading">
-    <div class="m-recoding-intro"><h2 id="recoding-heading">The order stays.<br/>The average moves.</h2><p>Now use a separate dataset: A received categories 1 and 4; B received 2 and 3. Only their order is established. Change the spacing while keeping every ranking and both endpoints intact.</p><p class="m-note">If a conclusion reverses under an admissible recoding, the original order facts did not determine it.</p></div>
+    <div class="m-recoding-intro"><h2 id="recoding-heading">Ordinal recoding</h2><p>Now use a separate dataset: A received categories 1 and 4; B received 2 and 3. Only their order is established. Change the spacing while keeping every ranking and both endpoints intact.</p><p class="m-note">If a conclusion reverses under an admissible recoding, the original order facts did not determine it.</p></div>
     <div class="m-recoding-work">
       <figure class="m-ordinal-figure"><svg viewBox="0 0 720 260" role="img" aria-label="The four ordered categories keep their order as their numerical spacing changes">
         <text x="60" y="26" font-size="14" fill="#506379">Equal spacing</text><text x="660" y="26" text-anchor="end" font-size="14" fill="#506379">Anchored endpoints 0 and 1</text>
@@ -79,7 +79,7 @@ const y=(g)=>300-(g+60)*2.4;
       <details class="m-assumptions"><summary>The recoding and what survives it</summary><p>For category s, use f(s) = (sᵠ − 1) / (4ᵠ − 1), with q between 0.25 and 4. Every function shown is strictly increasing, and f(1) = 0, f(4) = 1. The recoded means average f(1), f(4) for A and f(2), f(3) for B.</p><p>A outranks B in two of the four cross-group pairings under every recoding. That invariant comparison does not establish equal value. Additional interval-scale or utility assumptions can justify other comparisons; they have to be supplied.</p><a href="/econometrics/measurement/field-guide/">See the worked example</a></details>
     </div>
   </section>
-  <section class="m-export ea-shell" aria-label="Keep an inspectable analysis record"><div><h2>Take the assumptions with you.</h2><p>The record includes your ranges, priorities, coding rule, and conditional conclusions. Everything runs in this browser. No account, uploads, or model-generated assessments.</p></div><div><button class="ea-button" data-m-export>Download this analysis</button> <button class="ea-button secondary" data-m-reset>Reset both experiments</button><p class="m-note" data-m-export-status role="status">JSON format. Synthetic scenario, not a validated assessment.</p></div><details class="m-record"><summary>Inspect the record before downloading</summary><pre data-m-record>Enable JavaScript to generate a record from the controls.</pre></details></section>
+  <section class="m-export ea-shell" aria-label="Keep an inspectable analysis record"><div><h2>Export the scenario</h2><p>Download the ranges, weights, coding rule, and calculated bounds as JSON.</p></div><div><button class="ea-button" data-m-export>Download this analysis</button> <button class="ea-button secondary" data-m-reset>Reset both experiments</button><p class="m-note" data-m-export-status role="status">Synthetic data.</p></div><details class="m-record"><summary>Inspect the record before downloading</summary><pre data-m-record>Enable JavaScript to generate a record from the controls.</pre></details></section>
   <noscript><p class="ea-shell">The figures show the initial scenario. Enable JavaScript to use the controls and export an analysis; all three reading companions work without it.</p></noscript>
 </div>
 <script>import {initializeMeasurement} from '../../scripts/measurement-lab.mjs';initializeMeasurement();</script>

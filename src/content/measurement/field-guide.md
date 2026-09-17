@@ -4,11 +4,11 @@ description: Work through a service-design decision, distinguish evidence from t
 order: 2
 ---
 
-The [opening essay](/econometrics/measurement/story/) follows a hypothetical university choosing between two support-service designs. A offers faster access with more constrained choices. B gives participants more control but takes longer to arrange. This guide turns that problem into a calculation you can inspect and challenge.
+The [opening essay](/econometrics/measurement/story/) follows a hypothetical university choosing between two support-service designs. A offers faster access with more constrained choices. B gives participants more control but takes longer to arrange. This guide calculates the compatible score differences.
 
 You need averages, inequalities, and ordinary algebra. The [technical companion](/econometrics/measurement/technical/) develops the identification and decision-theoretic details.
 
-## Begin with a claim you could defend
+## The comparison
 
 Write the proposed conclusion before opening a spreadsheet: **Under what evidence and priorities would A be preferable to B?**
 
@@ -20,7 +20,7 @@ For a real investigation, each dimension needs a construct definition, anchors, 
 
 Here we assume comparable 0–100 scenario rubrics with meaningful score differences and a preference for higher values. They are invented teaching scales. They do not measure actual students' autonomy, trust, dignity, or worth.
 
-## Work the decision in full
+## Calculating the score difference
 
 The information supplied by the exercise is:
 
@@ -76,7 +76,7 @@ $$
 
 Allow all weights from 0 to 1 and the result is $[-60,40]$. This is a report about the evidence and permitted priorities together. It is not a probability that either design wins.
 
-## Check whether arithmetic belongs on your scale
+## Ordinal and interval scales
 
 A separate rubric exercise assigns ordered categories: A has observations $[1,4]$ and B has $[2,3]$. Both arithmetic means are 2.5. Suppose the categories support order only, with no claim of equal gaps.
 
@@ -102,7 +102,7 @@ Our earlier weighted calculation explicitly assumed meaningful score gaps. These
 
 Try each exercise before opening its solution. Use the [browser experiments](/econometrics/measurement/) to test your calculations afterward.
 
-### 1. Keep the order; change the verdict
+### 1. Ordinal recoding
 
 Calculate the recoded B mean for $q=2$ and $q=0.5$. Why can A's mean stay fixed? Then compare each A observation with each B observation. How many of the four comparisons favor A? Can that count change under the stated recodings?
 
