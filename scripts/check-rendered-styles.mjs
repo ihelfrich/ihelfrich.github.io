@@ -330,11 +330,21 @@ const linkedBuiltCSS = (await Promise.all([...linkedStylesheetPaths].map(async (
 }))).join("\n");
 const activeBuiltCSS = stripCSSComments(linkedBuiltCSS);
 
-// Validate the canonical fieldbook tokens, independently of page-scoped palettes.
+// Validate the canonical brand tokens in tokens.css: each --ef-* alias must resolve, through
+// roles and primitives declared on bare :root, to its brand hex.
+const tokensCSS = stripCSSComments(await readFile(resolve("src/styles/tokens.css"), "utf8"));
+const tokensRoot = tokensCSS.match(/\n:root\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+const tokenValue = (name) => tokensRoot.match(new RegExp(`${name}\\s*:\\s*([^;]+);`))?.[1].trim() ?? "";
+const resolveTokenSource = (name, seen = new Set()) => {
+  if (seen.has(name)) return "";
+  seen.add(name);
+  const value = tokenValue(name);
+  const reference = value.match(/^var\(\s*(--[\w-]+)\s*\)$/)?.[1];
+  return reference ? resolveTokenSource(reference, seen) : value;
+};
 for (const [token, expected] of Object.entries(palette)) {
-  const match = activeFieldbookCSS.match(new RegExp(`${token}\\s*:\\s*(#[\\da-f]{6})`, "i"));
-  if (!match || match[1].toUpperCase() !== expected.toUpperCase()) {
-    failures.push(`${token} must resolve to ${expected}`);
+  if (resolveTokenSource(token).toUpperCase() !== expected.toUpperCase()) {
+    failures.push(`${token} must resolve to ${expected} through src/styles/tokens.css`);
   }
 }
 
