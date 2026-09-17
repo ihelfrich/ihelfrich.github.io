@@ -1,0 +1,128 @@
+/* src/styles/tokens.css
+   The one place the site's appearance is defined. Three tiers:
+   1. Primitives  --p-*                              raw colors. Only this file may declare them.
+   2. Roles       --surface, --ink, --accent, ...    what components use.
+   3. Scales      type, space, radius, motion, layout.
+   Surfaces ([data-surface="..."]) override roles only. See DESIGN_SYSTEM.md, "Tokens". */
+
+:root {
+  /* 1. Primitives: brand */
+  --p-ink: #11131D;
+  --p-paper: #F1F3F2;
+  --p-figure: #FFFFFF;
+  --p-signal: #3156E8;
+  --p-teal: #28706B;
+  --p-oxide: #9E4D38;
+  /* 1. Primitives: migrated from the stylesheets by scripts/migrate-colors.mjs.
+     Names are hue family + CIE lightness; a letter suffix disambiguates. */
+  /* @primitives */
+
+  /* 2. Roles: light */
+  --surface: var(--p-paper);
+  --surface-raised: var(--p-figure);
+  --surface-sunken: color-mix(in srgb, var(--p-paper) 92%, var(--p-ink));
+  --ink: var(--p-ink);
+  --ink-muted: color-mix(in srgb, var(--p-ink) 62%, var(--p-paper));
+  --rule: color-mix(in srgb, var(--p-ink) 18%, var(--p-paper));
+  --rule-strong: color-mix(in srgb, var(--p-ink) 38%, var(--p-paper));
+  --accent: var(--p-signal);
+  --accent-ink: var(--p-figure);
+  --highlight: var(--p-signal);
+  --positive: var(--p-teal);
+  --caution: var(--p-oxide);
+  --focus-ring: var(--p-signal);
+
+  /* 2. Roles: deprecated aliases, kept for one release. Do not add uses. */
+  --ef-ink: var(--ink);
+  --ef-paper: var(--surface);
+  --ef-figure: var(--surface-raised);
+  --ef-signal: var(--accent);
+  --ef-teal: var(--positive);
+  --ef-oxide: var(--caution);
+
+  /* 3. Scales: type */
+  --font-display: "Geist Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-data: "Geist Mono Variable", "SFMono-Regular", Consolas, monospace;
+  --font-serif: var(--font-text);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-data);
+  --ih-display: var(--font-display);
+  --ih-serif: var(--font-text);
+  --ih-sans: var(--font-display);
+  --ih-mono: var(--font-data);
+
+  /* 3. Scales: space (4, 8, 12, 20, 32, 52, 84, 136 px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1.25rem;
+  --space-5: 2rem;
+  --space-6: 3.25rem;
+  --space-7: 5.25rem;
+  --space-8: 8.5rem;
+  --ef-space-1: var(--space-1);
+  --ef-space-2: var(--space-2);
+  --ef-space-3: var(--space-3);
+  --ef-space-4: var(--space-4);
+  --ef-space-5: var(--space-5);
+  --ef-space-6: var(--space-6);
+  --ef-space-7: var(--space-7);
+  --ef-space-8: var(--space-8);
+
+  /* 3. Scales: radius, motion, layout */
+  --radius-control: 6px;
+  --ef-control-radius: var(--radius-control);
+  --motion-fast: 140ms;
+  --motion-medium: 240ms;
+  --motion-slow: 420ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ef-motion-fast: var(--motion-fast);
+  --ef-motion-medium: var(--motion-medium);
+  --ef-motion-slow: var(--motion-slow);
+  --ef-ease-standard: var(--ease-standard);
+  --ef-ease-enter: var(--ease-enter);
+  --layout-gutter: clamp(1rem, 2vw, 1.5rem);
+  --layout-edge: clamp(1.25rem, 4vw, 4rem);
+  --layout-grid-max: 90rem;
+  --layout-reading: 68ch;
+  --ef-gutter: var(--layout-gutter);
+  --ef-edge: var(--layout-edge);
+  --ef-grid-max: var(--layout-grid-max);
+  --ef-reading: var(--layout-reading);
+
+  /* Legacy names still read by global.css and instrument.css; they resolve to roles. */
+  --paper: var(--surface);
+  --paper-2: color-mix(in srgb, var(--surface) 92%, var(--ink));
+  --paper-3: color-mix(in srgb, var(--surface) 84%, var(--ink));
+  --white: var(--surface-raised);
+  --ink-2: color-mix(in srgb, var(--ink) 84%, var(--surface));
+  --ink-3: color-mix(in srgb, var(--ink) 66%, var(--surface));
+  --copper: var(--accent);
+  --copper-dark: color-mix(in srgb, var(--accent) 78%, var(--ink));
+  --teal: var(--positive);
+  --muted: var(--ink-muted);
+  --rule-dark: var(--rule-strong);
+  --success: var(--positive);
+  --content-max: var(--layout-reading);
+  --wide-max: var(--layout-grid-max);
+  --radius-sm: var(--radius-control);
+}
+
+/* A dark hub palette is not designed yet. The blocks exist so that when it is,
+   it lands here and nowhere else. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --focus-ring: var(--p-signal);
+  }
+}
+:root[data-theme="dark"] {
+  --focus-ring: var(--p-signal);
+}
+
+/* Surfaces override roles only. */
+[data-surface="course"] {
+  /* Filled after the migration names the course primitives. */
+  --focus-ring: var(--highlight);
+}

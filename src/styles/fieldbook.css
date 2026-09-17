@@ -22,64 +22,7 @@
   font-display: swap;
 }
 
-:root {
-  --ef-ink: #11131D;
-  --ef-paper: #F1F3F2;
-  --ef-figure: #FFFFFF;
-  --ef-signal: #3156E8;
-  --ef-teal: #28706B;
-  --ef-oxide: #9E4D38;
-
-  --font-display: "Geist Variable", "Helvetica Neue", Arial, sans-serif;
-  --font-text: "Newsreader Variable", Georgia, "Times New Roman", serif;
-  --font-data: "Geist Mono Variable", "SFMono-Regular", Consolas, monospace;
-
-  /* Compatibility aliases remain until route-level styles migrate. */
-  --font-serif: var(--font-text);
-  --font-sans: var(--font-display);
-  --font-mono: var(--font-data);
-  --ih-display: var(--font-display);
-  --ih-serif: var(--font-text);
-  --ih-sans: var(--font-display);
-  --ih-mono: var(--font-data);
-
-  --ef-space-1: 0.25rem;
-  --ef-space-2: 0.5rem;
-  --ef-space-3: 0.75rem;
-  --ef-space-4: 1.25rem;
-  --ef-space-5: 2rem;
-  --ef-space-6: 3.25rem;
-  --ef-space-7: 5.25rem;
-  --ef-space-8: 8.5rem;
-  --ef-gutter: clamp(1rem, 2vw, 1.5rem);
-  --ef-edge: clamp(1.25rem, 4vw, 4rem);
-  --ef-grid-max: 90rem;
-  --ef-reading: 68ch;
-  --ef-control-radius: 6px;
-  --ef-motion-fast: 140ms;
-  --ef-motion-medium: 240ms;
-  --ef-motion-slow: 420ms;
-  --ef-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ef-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
-
-  --paper: var(--ef-paper);
-  --paper-2: color-mix(in srgb, var(--ef-paper) 92%, var(--ef-ink));
-  --paper-3: color-mix(in srgb, var(--ef-paper) 84%, var(--ef-ink));
-  --white: var(--ef-figure);
-  --ink: var(--ef-ink);
-  --ink-2: color-mix(in srgb, var(--ef-ink) 84%, var(--ef-paper));
-  --ink-3: color-mix(in srgb, var(--ef-ink) 66%, var(--ef-paper));
-  --copper: var(--ef-signal);
-  --copper-dark: color-mix(in srgb, var(--ef-signal) 78%, var(--ef-ink));
-  --teal: var(--ef-teal);
-  --muted: color-mix(in srgb, var(--ef-ink) 62%, var(--ef-paper));
-  --rule: color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper));
-  --rule-dark: color-mix(in srgb, var(--ef-ink) 38%, var(--ef-paper));
-  --success: var(--ef-teal);
-  --content-max: var(--ef-reading);
-  --wide-max: var(--ef-grid-max);
-  --radius-sm: var(--ef-control-radius);
-}
+/* Tokens live in tokens.css (imported before this file). */
 
 html {
   color-scheme: light;
