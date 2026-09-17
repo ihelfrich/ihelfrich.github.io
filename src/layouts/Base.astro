@@ -8,6 +8,7 @@ import "../styles/visitor-experience.css";
 import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
+import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
 
 const {
   title,
@@ -108,25 +109,22 @@ const personSchema = {
         <div id="primary-nav" class="mobile-nav-sheet" data-mobile-nav-sheet>
           <nav class="primary-nav" aria-label="Primary navigation">
             <div class="primary-nav-list" data-primary-nav>
-              <a href="/work" aria-current={isActive("/work") ? "page" : undefined}>Selected work</a>
-              <a href="/research" aria-current={isActive("/research") ? "page" : undefined}>Research</a>
-              <a href="/teaching" aria-current={isActive("/teaching") ? "page" : undefined}>Teaching</a>
-              <a href="/about" aria-current={isActive("/about") ? "page" : undefined}>About</a>
-              <a href="/lab" aria-current={isActive("/lab") ? "page" : undefined}>Tools</a>
+              {PRIMARY.map(({ label, href }) => (
+                <a href={href} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
+              ))}
             </div>
             <div class="nav-utilities">
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
-              <a href="/contact" class="nav-cta" aria-current={isActive("/contact") ? "page" : undefined}>Contact</a>
+              <a href={CONTACT.href} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
             </div>
           </nav>
 
           <nav class="secondary-nav" data-secondary-nav aria-label="Secondary records">
             <span class="secondary-nav-label">Records</span>
             <div class="secondary-nav-links">
-              <a href="/job-market">Job market</a>
-              <a href="/projects">Projects</a>
-              <a href="/datasets">Datasets</a>
-              <a href="/library">Public index</a>
+              {RECORDS.map(({ label, href }) => (
+                <a href={href} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
+              ))}
               <slot name="secondary-nav" />
             </div>
           </nav>
@@ -155,26 +153,18 @@ const personSchema = {
       <div class="footer-links">
         <div>
           <strong>Navigate</strong>
-          <a href="/work">Work</a>
-          <a href="/research">Research</a>
-          <a href="/teaching">Teaching &amp; coaching</a>
-          <a href="/about">About</a>
-          <a href="/cv">CV</a>
+          {PRIMARY.map(({ label, href }) => <a href={href}>{label}</a>)}
         </div>
         <div>
           <strong>Records</strong>
-          <a href="/job-market">Job market</a>
-          <a href="/projects">Projects</a>
-          <a href="/datasets">Datasets</a>
-          <a href="/library">Public index</a>
-          <a href="/writing">Writing</a>
+          {RECORDS.map(({ label, href }) => <a href={href}>{label}</a>)}
         </div>
         <div>
           <strong>Connect</strong>
-          <a href="/contact">Contact</a>
-          <a href="mailto:ianthelfrich@gmail.com">Email</a>
-          <a href="https://www.linkedin.com/in/ian-helfrich" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/ihelfrich" target="_blank" rel="noopener">GitHub</a>
+          <a href={CONTACT.href}>{CONTACT.label}</a>
+          {CONNECT.map(({ label, href, external }) => (
+            <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>{label}</a>
+          ))}
         </div>
       </div>
     </div>

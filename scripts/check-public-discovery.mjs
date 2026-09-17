@@ -4,6 +4,7 @@ import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-projects.mjs";
+import { navRoutes, REDIRECTS } from "../src/data/navigation.mjs";
 
 const root = path.resolve("dist");
 
@@ -19,6 +20,31 @@ const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
 const rss = await readFile(path.join(root, "rss.xml"), "utf8");
 const library = await readFile(path.join(root, "library", "index.html"), "utf8");
 const researchIndex = await readFile(path.join(root, "research", "index.html"), "utf8");
+
+// Navigation, sitemap, and redirects must agree: every nav route is listed, nothing
+// listed asks crawlers to leave, and every retired route still lands somewhere listed.
+const sitemapRoutes = [...sitemap.matchAll(/<loc>https:\/\/ihelfrich\.github\.io(\/[^<]*)<\/loc>/g)].map(([, route]) => route);
+assert.equal(new Set(sitemapRoutes).size, sitemapRoutes.length, "/sitemap.xml must not repeat a route");
+for (const route of navRoutes()) assert.ok(sitemapRoutes.includes(route), `/sitemap.xml must publish navigation route ${route}`);
+for (const route of sitemapRoutes) {
+  const html = await readFile(path.join(root, route, "index.html"), "utf8").catch(() => null);
+  assert.ok(html !== null, `${route} is in /sitemap.xml but was not built`);
+  assert.doesNotMatch(html, /<meta name="robots" content="noindex/, `${route} is in /sitemap.xml but declares noindex`);
+}
+// Every built teaching lab that allows indexing must be discoverable through the sitemap.
+for (const entry of await readdir(path.join(root, "teaching"), { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  const html = await readFile(path.join(root, "teaching", entry.name, "index.html"), "utf8").catch(() => null);
+  if (html === null || /<meta name="robots" content="noindex/.test(html)) continue;
+  assert.ok(sitemapRoutes.includes(`/teaching/${entry.name}/`), `/sitemap.xml must publish the teaching lab /teaching/${entry.name}/`);
+}
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  const html = await readFile(path.join(root, from, "index.html"), "utf8").catch(() => null);
+  assert.ok(html !== null, `${from} must build as a redirect page`);
+  assert.ok(html.includes(`url=${to}`), `${from} must redirect to ${to}`);
+  assert.ok(!sitemapRoutes.includes(`${from}/`), `${from} is redirected and must not be in /sitemap.xml`);
+  assert.ok(sitemapRoutes.includes(`${to}/`), `${from} redirects to ${to}, which /sitemap.xml must publish`);
+}
 
 const researchDirectory = path.resolve("src/content/research");
 const researchRecords = await Promise.all((await readdir(researchDirectory))

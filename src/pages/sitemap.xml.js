@@ -1,35 +1,24 @@
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
+import { sitemapStaticRoutes } from "../data/navigation.mjs";
+import { readdirSync, existsSync } from "node:fs";
+import { resolve } from "node:path";
 
-const staticRoutes = [
-  "/",
-  "/about/",
-  "/contact/",
-  "/cv/",
-  "/job-market/",
-  "/colophon/",
-  "/work-with-me/",
-  "/teaching/",
-  "/macroeconomics/",
-  "/third-space/",
-  "/research/",
-  "/projects/",
-  "/datasets/",
-  "/writing/",
-  "/library/",
-  "/people/",
-  "/program/",
-  "/gis/",
-  "/now/",
-  "/reading/",
-  "/econometrics/",
-  "/econometrics/lab/",
-  "/econometrics/readings/",
-  "/econometrics/teach/",
-  "/econometrics/edition/",
-  "/econometrics/measurement/",
-];
+// Teaching labs are not a content collection. They arrive two ways, and both are
+// discovered from the file system so a new lab never needs a manual sitemap edit:
+//   src/pages/teaching/<name>.astro          -> /teaching/<name>/
+//   public/teaching/<name>/index.html        -> /teaching/<name>/
+const pageLabRoutes = Object.keys(import.meta.glob("./teaching/*.astro"))
+  .map((file) => file.replace(/^\.\/teaching\//, "").replace(/\.astro$/, ""))
+  .filter((name) => name !== "index");
+const staticLabDirectory = resolve("public/teaching");
+const staticLabRoutes = existsSync(staticLabDirectory)
+  ? readdirSync(staticLabDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && existsSync(resolve(staticLabDirectory, entry.name, "index.html")))
+    .map((entry) => entry.name)
+  : [];
+const teachingLabRoutes = [...new Set([...pageLabRoutes, ...staticLabRoutes])].sort().map((name) => `/teaching/${name}/`);
 
 const escapeXml = (value) => value
   .replaceAll("&", "&amp;")
@@ -51,6 +40,7 @@ export async function GET({ site }) {
   const chapters = await getCollection('econometrics');
   const measurement = await getCollection('measurement');
   const dynamicRoutes = [
+    ...teachingLabRoutes,
     ...chapters.map((entry) => `/econometrics/${entry.id}/`),
     ...measurement.map((entry) => `/econometrics/measurement/${entry.id}/`),
     ...research.map((entry) => `/research/${entry.id}/`),
@@ -60,7 +50,7 @@ export async function GET({ site }) {
     ...people.map((entry) => `/people/${entry.id}/`),
   ];
 
-  const urls = [...new Set([...staticRoutes, ...dynamicRoutes])]
+  const urls = [...new Set([...sitemapStaticRoutes(), ...dynamicRoutes])]
     .map((route) => `  <url><loc>${escapeXml(new URL(route, base).toString())}</loc></url>`)
     .join("\n");
 

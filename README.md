@@ -31,6 +31,7 @@ npm run preview
 - `src/content/talks/` — talks, seminars, and workshops
 - `src/pages/library.astro` — unified public index
 - `src/pages/archive.json.js` — machine-readable public catalogue
+- `src/data/navigation.mjs` — the one place navigation labels, routes, redirects, and sitemap static routes are defined
 - `src/layouts/Base.astro` — global metadata, navigation, and footer
 - `src/styles/instrument.css` — editorial, interaction, and responsive design system
 - `public/cv/` — public CV documents

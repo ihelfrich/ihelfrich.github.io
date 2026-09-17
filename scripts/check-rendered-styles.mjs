@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { Window } from "happy-dom";
+import { PRIMARY, CONTACT } from "../src/data/navigation.mjs";
 
 const palette = {
   "--ef-ink": "#11131D",
@@ -309,7 +310,12 @@ const fieldbookCSS = await readFile(resolve("src/styles/fieldbook.css"), "utf8")
 const baseSource = await readFile(resolve("src/layouts/Base.astro"), "utf8");
 const activeSourceCSS = stripCSSComments(sourceCSS);
 const activeFieldbookCSS = stripCSSComments(fieldbookCSS);
-const htmlFiles = await collectFiles(resolve("dist"), ".html");
+// Astro emits a bare meta-refresh document for each redirect in astro.config.mjs;
+// those carry no shell, so they are not subject to the rendered-style contract.
+const isRedirectDocument = (html) => /<meta http-equiv="refresh"/i.test(html);
+const htmlFiles = (await Promise.all((await collectFiles(resolve("dist"), ".html")).map(async (htmlPath) => (
+  isRedirectDocument(await readFile(htmlPath, "utf8")) ? [] : [htmlPath]
+)))).flat();
 const linkedStylesheetPaths = new Set();
 for (const htmlPath of htmlFiles) {
   const html = await readFile(htmlPath, "utf8");
@@ -563,14 +569,14 @@ const backdrop = window.document.querySelector("[data-nav-backdrop]");
 const visibleLabel = toggle?.querySelector(".nav-toggle-label");
 const primaryLinks = [...(sheet?.querySelectorAll("[data-primary-nav] > a") ?? [])];
 const primaryContract = primaryLinks.map((link) => `${link.textContent.trim()}:${link.getAttribute("href")}`);
-const expectedPrimary = ["Selected work:/work", "Research:/research", "Teaching:/teaching", "About:/about", "Tools:/lab"];
+const expectedPrimary = PRIMARY.map(({ label, href }) => `${label}:${href}`);
 
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");
 if (JSON.stringify(primaryContract) !== JSON.stringify(expectedPrimary)) failures.push(`primary navigation must be ${expectedPrimary.join(", ")}`);
 if (!sheet?.querySelector("[data-secondary-nav] a[href='/job-market']")) failures.push("mobile navigation needs a secondary Job market record link");
 if (!sheet?.querySelector("button[data-index-open]")) failures.push("mobile navigation needs Index as a utility control");
-if (!sheet?.querySelector("a.nav-cta[href='/contact']")) failures.push("mobile navigation needs Contact as its single action");
+if (!sheet?.querySelector(`a.nav-cta[href='${CONTACT.href}']`)) failures.push("mobile navigation needs Contact as its single action");
 if (!backdrop || backdrop.tagName !== "BUTTON" || backdrop.getAttribute("aria-hidden") !== "true" || backdrop.getAttribute("tabindex") !== "-1") failures.push("mobile navigation needs a pointer-only backdrop outside the focus order");
 
 if (toggle && sheet && navSurface && visibleLabel && backdrop) {

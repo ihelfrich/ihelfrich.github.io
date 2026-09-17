@@ -233,7 +233,6 @@ if (/wyzantHoursHeadline:\s*"1,000\+"|hoursHeadline:\s*"1,000\+"/.test(publicRec
 for (const surface of [
   "src/pages/index.astro",
   "src/pages/about.astro",
-  "src/pages/capabilities.astro",
   "src/pages/cv.astro",
   "src/pages/job-market.astro",
   "src/pages/teaching/index.astro",
