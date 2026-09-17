@@ -12,6 +12,7 @@ const staticRoutes = [
   "/work-with-me/",
   "/teaching/",
   "/macroeconomics/",
+  "/calculus/",
   "/third-space/",
   "/research/",
   "/projects/",
