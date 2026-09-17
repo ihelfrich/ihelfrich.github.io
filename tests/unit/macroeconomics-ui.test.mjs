@@ -9,7 +9,7 @@ test('every model has explicit assumptions, equations, exercises, sources and ad
 });
 function fixture(){
   assert.equal(typeof ui.initializeMacro,'function');const window=new Window({url:'http://localhost/macroeconomics/'});
-  window.document.body.innerHTML=`<section data-macro><select data-model-select></select><nav data-model-nav></nav><h2 data-model-title></h2><p data-model-question></p><span data-level></span><div data-controls></div><button data-reset>Reset</button><p data-error hidden></p><div data-metrics></div><div data-plots></div><div data-flow></div><p data-live></p><div data-reading-nav></div><div data-reading></div></section>`;
+  window.document.body.innerHTML=`<section data-macro><select data-model-select></select><nav data-model-nav></nav><h2 data-model-title></h2><p data-model-question></p><span data-level></span><aside data-parameter-panel><button type="button" data-toggle-parameters aria-expanded="false">Adjust parameters</button><div data-controls></div></aside><button data-reset>Reset</button><p data-error hidden></p><div data-metrics></div><div data-plots></div><div data-flow></div><p data-live></p><div data-reading-nav></div><div data-reading></div></section>`;
   const app=ui.initializeMacro(window.document);const root=window.document.querySelector('[data-macro]');return {window,root,app};
 }
 test('controls update the same ledger, view and accessible data',()=>{
@@ -69,4 +69,16 @@ test('selected stochastic state changes the Bellman evaluation while preserving 
 test('switching income state also highlights the corresponding policy curve',()=>{
  const f=fixture();f.root.querySelector('[data-model="household"]').click();let active=f.root.querySelector('[data-chart-name="Assets carried into the next period"] [data-series-active="true"]');assert.equal(active?.dataset.seriesIndex,'0');
  const input=f.root.querySelector('[data-productivity]');input.value='1';input.dispatchEvent(new f.window.Event('change',{bubbles:true}));active=f.root.querySelector('[data-chart-name="Assets carried into the next period"] [data-series-active="true"]');assert.equal(active?.dataset.seriesIndex,'1');f.window.happyDOM.abort();
+});
+test('model-specific companion views change with the model and follow the shared selection',()=>{
+ const f=fixture();let host=f.root.querySelector('[data-insight]');assert.ok(host);assert.equal(host.dataset.insightModel,'solow');assert.match(host.textContent,/consumption/i);
+ f.root.querySelector('[data-model="ak"]').click();const slider=f.root.querySelector('[data-inspect-step]');slider.value='10';slider.dispatchEvent(new f.window.Event('input',{bubbles:true}));host=f.root.querySelector('[data-insight]');assert.equal(host.dataset.insightModel,'ak');assert.equal(host.dataset.insightStep,'10');assert.ok(host.querySelector('[data-selected-x="10"]'));
+ f.root.querySelector('[data-model="debt"]').click();assert.equal(host.querySelectorAll('[data-insight-part]').length,3);const button=host.querySelector('[data-insight-part="growth"]');button.click();assert.equal(button.getAttribute('aria-pressed'),'true');assert.match(host.querySelector('[data-insight-explanation]').textContent,/denominator/);f.window.happyDOM.abort();
+});
+test('all model-specific companions render without stale math or empty chart data',()=>{
+ const f=fixture();for(const model of data.models){f.root.querySelector(`[data-model="${model.id}"]`).click();const host=f.root.querySelector('[data-insight]');assert.equal(f.root.querySelector('[data-error]').hidden,true);assert.equal(host.dataset.insightModel,model.id);assert.ok(host.querySelector('.katex'));assert.doesNotMatch(host.textContent,/NaN|undefined|Infinity/);assert.ok(host.querySelector('svg, [data-insight-part]'));}f.window.happyDOM.abort();
+});
+
+test('compact parameter panel expands from either its button or an equation parameter',()=>{
+ const f=fixture(),panel=f.root.querySelector('[data-parameter-panel]'),button=f.root.querySelector('[data-toggle-parameters]');button.click();assert.equal(button.getAttribute('aria-expanded'),'true');assert.ok(panel.classList.contains('is-expanded'));button.click();assert.equal(button.getAttribute('aria-expanded'),'false');f.root.querySelector('[data-focus-param="s"]').click();assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(f.window.document.activeElement,f.root.querySelector('[data-param="s"]'));f.window.happyDOM.abort();
 });

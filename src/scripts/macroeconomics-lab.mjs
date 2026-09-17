@@ -3,6 +3,7 @@ import {research,researchSources} from '../data/macroeconomics-research.mjs';
 import {models,byId} from '../data/macroeconomics.mjs';
 import * as engine from '../lib/macroeconomics.mjs';
 import * as extended from '../lib/macroeconomics-extended.mjs';
+import {renderInsight} from './macroeconomics-insights.mjs';
 import {renderInspection} from './macroeconomics-inspector.mjs';
 import {extendedPlots,extendedMetrics,extendedInterpretation} from './macroeconomics-views.mjs';
 const NS='http://www.w3.org/2000/svg';
@@ -138,7 +139,7 @@ export function initializeMacro(doc){
  const state={model,params:{...byId[model].defaults},validParams:null,result:null,mode:'explore',view:'linked',step:0,productivity:0,term:null};
  const $=s=>root.querySelector(s);
  // A single inspector owns the selection for flows, trajectories, equations and tables.
- for(const [key,className]of [['selection','macro-selection'],['live-math','macro-live-math']])if(!$(`[data-${key}]`)){const host=doc.createElement('div');host.setAttribute(`data-${key}`,'');host.className=className;$('[data-flow]').before(host);}
+ for(const [key,className]of [['selection','macro-selection'],['insight','macro-insight'],['live-math','macro-live-math']])if(!$(`[data-${key}]`)){const host=doc.createElement('div');host.setAttribute(`data-${key}`,'');host.className=className;$('[data-flow]').before(host);}
  $('[data-selection]').innerHTML='<label class="macro-period"><span data-inspect-label>Inspect period <strong>0</strong></span><input data-inspect-step type="range" min="0" step="1" value="0" aria-label="Selected period or state"></label><label class="macro-income-picker" hidden>Income / productivity state <select data-productivity><option value="0">Low</option><option value="1">High</option></select></label><p class="macro-note">Select a point, move this slider, or choose a table row. The equations and other views follow.</p>';
  $('[data-model-nav]').innerHTML=[...new Set(models.map(m=>m.group))].map(g=>`<div class="macro-model-group"><p>${g}</p>${models.filter(m=>m.group===g).map(m=>`<button type="button" data-model="${m.id}" aria-pressed="${m.id===model}"><span>${m.number}</span>${m.title}</button>`).join('')}</div>`).join('');
  $('[data-reading-nav]').innerHTML=['explore','equations','computation','research'].map((mode,i)=>`<button type="button" data-mode="${mode}" aria-pressed="${i===0}">${mode[0].toUpperCase()+mode.slice(1)}</button>`).join('');
@@ -158,7 +159,7 @@ export function initializeMacro(doc){
   $('[data-productivity]').parentElement.hidden=!['optimal','household'].includes(state.model);$('[data-productivity]').value=state.productivity;
   $('[data-metrics]').innerHTML=metrics(s).map(([label,value])=>`<div><span>${escape(label)}</span><strong>${escape(value)}</strong></div>`).join('');
   if(['solow','ak'].includes(state.model)){flow.hidden=false;drawFlow(flow,result.rows[state.step],state.step,state.params.T,select,state.model==='ak');}else flow.hidden=true;
-  host.hidden=false;plots(host,s,select,parameter);renderInspection($('[data-live-math]'),s,format);
+  host.hidden=false;renderInsight($('[data-insight]'),s,{drawChart,select,parameter,format});plots(host,s,select,parameter);renderInspection($('[data-live-math]'),s,format);
   const chips=doc.createElement('div');chips.className='macro-equation-controls';chips.innerHTML=byId[state.model].fields.filter(f=>!f.advanced&&!f.options).slice(0,4).map(f=>`<button type="button" data-focus-param="${f.key}">${escape(f.key)} = ${format(s.params[f.key],4)} <span>adjust ↗</span></button>`).join('');$('[data-live-math]').append(chips);
   $('[data-live]').textContent=interpretation(s);renderReading($('[data-reading]'),s);if(details&&$('[data-reading] details'))$('[data-reading] details').open=true;
   const views=$('[data-view-nav]');if(views)views.hidden=true;
@@ -187,7 +188,8 @@ export function initializeMacro(doc){
   if(button.dataset.mode){state.mode=button.dataset.mode;root.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));renderReading($('[data-reading]'),snapshot());}
   if(button.dataset.row!==undefined)select(Number(button.dataset.row));
   if(button.dataset.term){state.term=button.dataset.term;root.querySelectorAll('[data-term]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));$('[data-term-explanation]').textContent=button.dataset.explanation;highlightTerm();}
-  if(button.dataset.focusParam){const input=$(`[data-param="${button.dataset.focusParam}"]`);input?.closest('details')?.setAttribute('open','');input?.focus();input?.scrollIntoView?.({block:'nearest',behavior:'auto'});}
+  if(button.hasAttribute('data-toggle-parameters')){const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));$('[data-parameter-panel]')?.classList.toggle('is-expanded',open);}
+  if(button.dataset.focusParam){$('[data-parameter-panel]')?.classList.add('is-expanded');$('[data-toggle-parameters]')?.setAttribute('aria-expanded','true');const input=$(`[data-param="${button.dataset.focusParam}"]`);input?.closest('details')?.setAttribute('open','');input?.focus();input?.scrollIntoView?.({block:'nearest',behavior:'auto'});}
   if(button.hasAttribute('data-reset')){state.params={...byId[state.model].defaults};state.step=0;state.term=null;controls();update();}
  });
  root.addEventListener('change',event=>{if(event.target.matches('[data-model-select]'))root.querySelector(`[data-model="${event.target.value}"]`)?.click();if(event.target.matches('[data-productivity]')){state.productivity=Number(event.target.value);render();}});

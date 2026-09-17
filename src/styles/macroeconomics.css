@@ -134,3 +134,41 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 .macro-research details summary { cursor:pointer; padding:.7rem 0; }
 @media (max-width:700px) { .macro-live-math .macro-equation { font-size:.85rem; } .macro-contribution { grid-template-columns:minmax(95px,1fr) minmax(45px,1fr) minmax(60px,.8fr); gap:.5rem; } }
 .macro-ledgers .macro-term-active { background:#e9edff; outline:1px solid var(--macro-blue); }
+/* Questions choose the visualization: counterfactuals, decompositions, decisions, or flows. */
+.macro-insight { padding:1.4rem 0 1rem; border-bottom:1px solid var(--ink); }
+.macro-insight > .macro-eyebrow { color:var(--macro-blue); }
+.macro-insight > h3 { font:450 clamp(1.5rem,2.4vw,2rem)/1.16 var(--font-text); margin:0 0 .75rem; max-width:32ch; }
+.macro-insight-answer { font:400 1rem/1.6 var(--font-display); margin:0 0 1rem; }
+.macro-insight .macro-chart { margin-bottom:.8rem; }
+.macro-insight .macro-equation { font-size:.95rem; margin:.8rem 0 .4rem; }
+.macro-insight-unit { font:400 .8rem/1.5 var(--font-data); color:var(--muted); }
+.macro-insight-bars { display:grid; gap:.35rem; padding:.5rem 0; }
+.macro-insight-bar { display:grid; grid-template-columns:minmax(100px,1fr) minmax(90px,1.5fr) minmax(60px,.6fr); gap:.8rem; align-items:center; padding:.65rem .4rem; min-height:48px; border:1px solid transparent; background:var(--white); color:var(--ink); text-align:left; cursor:pointer; font:400 .875rem/1.4 var(--font-display); }
+.macro-insight-bar[aria-pressed=true],.macro-workforce-flow button[aria-pressed=true] { border-color:var(--macro-blue); }
+.macro-insight-bar strong { font:500 .875rem/1.4 var(--font-data); text-align:right; }
+.macro-insight-track { position:relative; display:block; height:28px; }
+.macro-insight-track::before { position:absolute; content:''; width:1px; height:100%; left:50%; background:var(--rule); }
+.macro-insight-track > i { display:block; position:absolute; height:12px; top:8px; left:var(--bar-start); width:var(--bar-amount); background:var(--bar-color); }
+.macro-insight-bar-grouped .macro-insight-track::before { left:0; }
+.macro-insight-total { display:flex; justify-content:space-between; gap:1rem; padding:.8rem .4rem; border-top:1px solid var(--rule); font:500 .875rem/1.5 var(--font-display); }
+.macro-insight-total strong { font-family:var(--font-data); }
+.macro-insight-explanation { min-height:3em; font:400 .875rem/1.5 var(--font-display); color:var(--muted); margin:.7rem 0; }
+[data-insight-visual] > h4 { font:500 .875rem/1.5 var(--font-display); margin:1rem 0 .25rem; }
+.macro-workforce-flow { display:grid; grid-template-columns:1fr 1fr; gap:.65rem 1rem; padding:.7rem 0; }
+.macro-workforce-stock { border:1px solid var(--rule); background:var(--white); padding:.9rem; }
+.macro-workforce-stock > span { display:block; font:400 .875rem/1.4 var(--font-display); }
+.macro-workforce-stock strong { display:block; font:500 1.8rem/1.5 var(--font-data); }
+.macro-workforce-stock small { display:block; font:400 .75rem/1.4 var(--font-data); color:var(--muted); }
+.macro-workforce-flow button { display:flex; align-items:center; justify-content:space-between; gap:.5rem; padding:.8rem; border:1px solid var(--rule); background:var(--paper); color:var(--ink); font:400 .875rem/1.4 var(--font-display); cursor:pointer; }
+.macro-workforce-next { border-top:2px solid var(--ink); }
+@media (max-width:500px) { .macro-insight-bar { grid-template-columns:minmax(95px,1.2fr) minmax(65px,1fr) minmax(50px,.6fr); gap:.4rem; } .macro-workforce-flow { gap:.5rem; } .macro-workforce-stock { padding:.65rem; } .macro-insight .macro-equation { font-size:.85rem; } }
+.macro-parameter-toggle { display:none; }
+@media (max-width:700px) {
+ .macro-parameters { order:0; }
+ .macro-results { order:1; }
+ .macro-control-heading > h3 { display:none; }
+ .macro-control-heading > .macro-parameter-toggle { display:block; text-decoration:none; font-weight:500; color:var(--ink); min-height:44px; }
+ .macro-parameter-toggle::after { content:' +'; }
+ .macro-parameter-toggle[aria-expanded=true]::after { content:' −'; }
+ .macro-parameters:not(.is-expanded) [data-controls] { display:none; }
+}

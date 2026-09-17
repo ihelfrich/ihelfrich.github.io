@@ -13,11 +13,12 @@ import {models} from '../data/macroeconomics.mjs';
   <article class="macro-workspace">
     <header class="macro-model-header"><p class="macro-eyebrow" data-level>Undergraduate → graduate</p><h2 data-model-title>Solow growth</h2><p data-model-question>When does new investment become better equipment per worker?</p></header>
     <div class="macro-experiment">
-      <aside class="macro-parameters"><div class="macro-control-heading"><h3>Parameters</h3><button type="button" data-reset>Reset</button></div><div data-controls></div></aside>
+      <aside class="macro-parameters" data-parameter-panel><div class="macro-control-heading"><h3>Parameters</h3><button class="macro-parameter-toggle" type="button" data-toggle-parameters aria-expanded="false" aria-controls="macro-parameter-controls">Adjust parameters</button><button type="button" data-reset>Reset</button></div><div id="macro-parameter-controls" data-controls></div></aside>
       <div class="macro-results">
         <p class="macro-error" data-error role="alert" hidden></p>
         <div class="macro-metrics" data-metrics><div><span>Initial capital / worker</span><strong>16</strong></div><div><span>After one period</span><strong>16</strong></div><div><span>Steady capital / effective worker</span><strong>16</strong></div></div>
         <div class="macro-selection" data-selection></div>
+        <section class="macro-insight" data-insight aria-label="Model-specific comparison"></section>
         <div class="macro-live-math" data-live-math></div>
         <div class="macro-flow" data-flow></div>
         <div class="macro-plots" data-plots></div>
