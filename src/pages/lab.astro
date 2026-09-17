@@ -10,6 +10,13 @@ const demonstrations = [
     limit: "Specified teaching economies with illustrative parameters and numerical diagnostics.",
   },
   {
+    label: "Geospatial exploration",
+    title: "St. Louis: a living spatial study",
+    href: "/st-louis",
+    description: "Explore downtown in 3D, inspect mapped buildings, and compare walking access from two places.",
+    limit: "OpenStreetMap snapshot, estimated walking access, and illustrative materials and motion.",
+  },
+  {
     label: "Place-based policy",
     title: "NMTC coefficient decomposition",
     href: "/research/helfrich-2026-nmtc-rural-gap#cde-decomposition",
@@ -36,10 +43,11 @@ const demonstrations = [
 <Base wide pageClass="quiet-index-page" title="Interactive demonstrations" description="Evidence-linked interactive demonstrations in Ian Helfrich's research and teaching record.">
   <div class="quiet-shell">
     <header class="quiet-header">
-      <div><p class="quiet-label">Supporting route · live demonstrations</p><h1>Interactive demonstrations</h1></div>
-      <p class="quiet-lead">Each demonstration lives beside the paper, project, or teaching record it explains. This page provides a compact directory.</p>
+      <div><p class="quiet-label">Explore by doing</p><h1>Interactive demonstrations</h1></div>
+      <p class="quiet-lead">Try an idea, change an assumption, and inspect the result. Choose a short demonstration below or open the full interactive collection.</p>
     </header>
 
+    <p><a class="fieldbook-action" href="/#instruments">Open transport, regression, and spatial allocation tools</a></p>
     <ol class="demo-list">
       {demonstrations.map((demo, index) => (
         <li>

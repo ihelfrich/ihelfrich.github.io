@@ -1,4 +1,5 @@
 ---
+import TechnicalProjects from "../../components/TechnicalProjects.astro";
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../../data/archival-projects.mjs";
@@ -6,19 +7,21 @@ import { isArchivalProject } from "../../data/archival-projects.mjs";
 const projects = (await getCollection("projects"))
   .filter((entry) => !isArchivalProject(entry.id))
   .sort((a, b) => +b.data.date - +a.data.date);
-const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { timeZone: "UTC", year: "numeric", month: "short" });
 const statusCopy = { live: "Live public record", "in-progress": "In progress", planned: "Planned", archived: "Archived" };
 ---
 
-<Base wide pageClass="quiet-index-page" title="Projects" description="Reusable public research, data, and learning systems by Ian Helfrich.">
+<Base wide pageClass="quiet-index-page" title="Projects" description="Audio software, 3D oceanographic mapping, research tools, and learning systems by Ian Helfrich.">
   <div class="quiet-shell">
     <header class="quiet-header">
-      <div><p class="quiet-label">Supporting record · public systems</p><h1>Projects</h1></div>
-      <p class="quiet-lead">Reusable research, data, and learning systems with a public record. Learner-specific builds and archived course implementations are excluded from this index.</p>
+      <div><p class="quiet-label">Software · science · learning</p><h1>Projects</h1></div>
+      <p class="quiet-lead">I build software for working with sound, understanding spatial environments, and making quantitative ideas usable. Explore two featured projects, then the wider collection.</p>
     </header>
 
+    <TechnicalProjects heading="Sound. Space. Software." moreHref="#more-projects" moreLabel="More research & learning tools"/>
+    <h2 id="more-projects">Research &amp; learning tools</h2>
     <ol class="project-list">
-      {projects.map((project) => (
+      {projects.filter(project => !["yellowjacket", "oceanographic-systems"].includes(project.id)).map((project) => (
         <li>
           <p class="record-date">{fmt(project.data.date)}</p>
           <article>

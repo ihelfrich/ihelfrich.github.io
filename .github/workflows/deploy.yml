@@ -44,6 +44,10 @@ jobs:
           npm run check:macroeconomics
       - name: Check policy statistics calculations
         run: node --test tests/unit/policy-statistics.test.mjs
+      - name: Check market mechanics calculations and rendering
+        run: node tests/unit/market-mechanics.test.cjs
+      - name: Verify city walking comparisons
+        run: npm run check:city
       - name: Build hub
         run: npm run build:fast
       - name: Verify homepage interactions and portrait

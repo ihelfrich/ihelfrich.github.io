@@ -1,0 +1,82 @@
+{
+  "source": "OpenStreetMap",
+  "sourceUrl": "https://overpass-api.de/api/interpreter",
+  "bbox": [
+    -90.215,
+    38.615,
+    -90.17,
+    38.646
+  ],
+  "retrievedAt": "2026-09-08T21:31:39.744816+00:00",
+  "license": "ODbL-1.0",
+  "attribution": "\u00a9 OpenStreetMap contributors",
+  "licenseUrl": "https://www.openstreetmap.org/copyright",
+  "fetchStatus": "ok",
+  "previousFetch": {
+    "sourceUrl": "https://api.openstreetmap.org/api/0.6/map?bbox=-90.215,38.615,-90.17,38.646",
+    "fetchStatus": "failed",
+    "error": "HTTP Error 400: Bad Request"
+  },
+  "queryFile": "source-query.overpass",
+  "rawBytes": 40187602,
+  "osmSnapshotTimestamp": "2026-09-08T21:30:28Z",
+  "version": "osm-2026-09-08",
+  "buildTimestamp": "2026-09-08T21:37:38.850185+00:00",
+  "inputCounts": {
+    "nodes": 157462,
+    "ways": 25078,
+    "relations": 218
+  },
+  "outputCounts": {
+    "buildings": 2658,
+    "roads": 12228,
+    "parks": 4540,
+    "water": 45,
+    "trees": 13868,
+    "railway": 182,
+    "pois": 238,
+    "graphNodes": 34347,
+    "graphEdges": 40258
+  },
+  "validationCounts": {
+    "resolvedRelations": 36,
+    "waterClippedToDisplayBbox": 7,
+    "height_levels": 1033,
+    "height_tagged": 126,
+    "height_default": 1499,
+    "suppressedParentOutlines": 24,
+    "excludedDirectionalWalkingWays": 0,
+    "unresolvedRelations": 0,
+    "repairedGeometries": 0,
+    "excludedInvalidGeometries": 0,
+    "excludedTinyOrInvalidGeometries": 0,
+    "excludedOpenOrMissingWays": 0,
+    "poisExcludedBeyond100m": 0
+  },
+  "unresolvedGeometryDetails": [],
+  "heightDefaultsMeters": {
+    "house": 6.4,
+    "shed_or_garage": 3.2,
+    "industrial_or_retail": 6.4,
+    "apartments_or_commercial": 12.8,
+    "other": 9.6
+  },
+  "limitations": [
+    "The walking graph is a bounded extract; routes and amenity counts near its boundary may be truncated.",
+    "Complete intersecting OSM ways can extend beyond the requested bbox; water polygons are clipped to the display bbox.",
+    "Mapped POIs are incomplete. Nearest-node snaps do not establish traversable entrances or cross-barrier connections.",
+    "Walking edges preserve shared OSM node identity. Geometric crossings alone do not connect paths.",
+    "No traffic, transit vehicles, jobs, observed pedestrian flows or live measurements are present.",
+    "Height tags are source assertions. Levels are multiplied by 3.2 m. Missing heights use explicit display defaults.",
+    "Incomplete multipolygon relations and their member ways are excluded.",
+    "Walking times are not supplied. Any speed or travel-time claim needs a separate model.",
+    "Conditional access, schedules, stairs accessibility, temporary closures and routing across open pedestrian areas are unmodeled.",
+    "Asymmetric pedestrian restrictions are excluded because graph edges are bidirectional."
+  ],
+  "cityJsonBytes": 5586352,
+  "sourceSha256": "d9ef1dfc39439b3bcf45f87beb9a18faf6f88bd4ac035586bcfa8d0a1c2911f0",
+  "citySha256": "b36ae86978da05398365249b77e77298955086e8f0ad79d97c9747a1027625e6",
+  "gzipBytes": 1510455,
+  "fixtureTestsPassed": 6,
+  "datasetValidationPassed": true
+}

@@ -10,6 +10,7 @@ const projects = defineCollection({
     url: z.string().optional(),
     repo: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    searchTerms: z.array(z.string()).default([]),
     cover: z.string().optional(),
     date: z.coerce.date(),
     pinned: z.boolean().default(false),

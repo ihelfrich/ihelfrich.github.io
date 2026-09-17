@@ -1,0 +1,115 @@
+{
+  "schema": "property-entity-evidence-v1",
+  "version": 1,
+  "reviewedAt": "2026-09-12",
+  "reviewDatePrecision": "day",
+  "scope": "A small documentary evidence registry. It does not classify private-equity ownership or identify natural-person beneficial owners.",
+  "sources": [
+    {
+      "id": "vinebrook-2025-exhibit-21",
+      "title": "VineBrook Homes Trust — fiscal-2025 Exhibit 21.1, subsidiaries",
+      "url": "https://www.sec.gov/Archives/edgar/data/1755755/000119312526102071/ck0001755755-ex21_1.htm",
+      "accessedAt": "2026-09-12",
+      "reportPeriodEnd": "2025-12-31",
+      "filedAt": null,
+      "sourceType": "issuer-filed SEC exhibit"
+    },
+    {
+      "id": "vinebrook-2025-q1",
+      "title": "VineBrook Homes Trust — March 31, 2025 Form 10-Q",
+      "url": "https://www.sec.gov/Archives/edgar/data/1755755/000175575525000010/vhti-20250331.htm",
+      "accessedAt": "2026-09-12",
+      "reportPeriodEnd": "2025-03-31",
+      "filedAt": null,
+      "sourceType": "issuer-filed SEC quarterly report"
+    },
+    {
+      "id": "county-owner-label-2026-09-12",
+      "title": "St. Louis County public parcel owner-name observations",
+      "url": "https://maps.stlouisco.com/hosting/rest/services/Maps/AGS_Parcels/MapServer/0",
+      "accessedAt": "2026-09-12",
+      "observedAt": "2026-09-12T18:29:23.745785+00:00",
+      "sourceDataEditedAt": null,
+      "sourceType": "official tax-roll parcel label; no acquisition date"
+    }
+  ],
+  "entities": [
+    {
+      "id": "sec-cik-0001755755",
+      "legalName": "VineBrook Homes Trust, Inc.",
+      "identifiers": {"secCIK": "0001755755"},
+      "jurisdiction": "Maryland",
+      "status": "issuer-identified",
+      "classifications": [{"kind": "reit-election", "status": "issuer-reported", "asOf": "2025-03-31", "sourceId": "vinebrook-2025-q1"}]
+    },
+    {
+      "id": "issuer-entity-vinebrook-operating-partnership",
+      "legalName": "VineBrook Homes Operating Partnership, L.P.",
+      "identifiers": {},
+      "jurisdiction": "Delaware",
+      "status": "issuer-identified; state entity number unresolved",
+      "classifications": []
+    },
+    {
+      "id": "issuer-entity-vinebrook-borrower-1",
+      "legalName": "VineBrook Homes Borrower 1, LLC",
+      "identifiers": {},
+      "jurisdiction": "Delaware",
+      "status": "issuer-identified; state entity number unresolved",
+      "classifications": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "vinebrook-borrower1-indirect-op-subsidiary",
+      "subjectId": "issuer-entity-vinebrook-borrower-1",
+      "predicate": "indirect-subsidiary-of",
+      "objectId": "issuer-entity-vinebrook-operating-partnership",
+      "status": "documented-issuer-claim",
+      "sourceId": "vinebrook-2025-q1",
+      "asOf": "2025-03-31",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "observedAt": "2026-09-12",
+      "evidence": "The ABS I section explicitly identifies Borrower 1 as an indirect special-purpose subsidiary of the operating partnership.",
+      "limitations": ["This is a dated issuer statement, not an independently verified current title or natural-person control determination."]
+    },
+    {
+      "id": "vinebrook-op-listed-subsidiary",
+      "subjectId": "issuer-entity-vinebrook-operating-partnership",
+      "predicate": "listed-subsidiary-of",
+      "objectId": "sec-cik-0001755755",
+      "status": "documented-issuer-claim",
+      "sourceId": "vinebrook-2025-exhibit-21",
+      "asOf": "2025-12-31",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "observedAt": "2026-09-12",
+      "evidence": "Exhibit 21.1 lists the operating partnership among VineBrook subsidiaries.",
+      "limitations": ["The exhibit does not supply this edge's ownership percentage, start date or September-2026 status."]
+    }
+  ],
+  "parcelCandidates": [
+    {
+      "id": "county-09D510625-vinebrook-borrower1-candidate",
+      "recordKey": "st-louis-county-current:09D510625:6153",
+      "parcelKey": "st-louis-county:09D510625",
+      "parcelId": "09D510625",
+      "sourceObjectId": 6153,
+      "observedOwnerName": "VINEBROOK HOMES BORROWER 1 LLC",
+      "candidateEntityId": "issuer-entity-vinebrook-borrower-1",
+      "sourceId": "county-owner-label-2026-09-12",
+      "observedAt": "2026-09-12T18:29:23.745785+00:00",
+      "status": "unresolved",
+      "matchBasis": "Case-and-punctuation-normalized name candidate only; no aliases or control inference.",
+      "requiredEvidence": ["Recorded deed with matching parcel/legal description and grantee", "State entity-number confirmation", "Applicable relationship dates"],
+      "acquisitionDate": null
+    }
+  ],
+  "limitations": [
+    "Corporate ownership, institutional investment, REIT status, private-equity backing and natural-person beneficial ownership are distinct claims.",
+    "Shared registered agents, mailing addresses and normalized names are research leads, not proof of common control.",
+    "The County owner label does not establish the buyer on an earlier transfer or an acquisition date.",
+    "Unresolved parcel candidates must not be counted as verified holdings of a parent or fund."
+  ]
+}

@@ -1,6 +1,6 @@
 # Local font provenance
 
-All three webfonts are served from this directory. The site makes no remote font request.
+All four webfonts are served from this directory. The site makes no remote font request.
 
 ## Geist Variable and Geist Mono Variable
 
@@ -29,7 +29,7 @@ All three webfonts are served from this directory. The site makes no remote font
 
 Verification performed 2026-08-18 with `file`, SHA-256, and fontTools `TTFont`. The license texts are unmodified copies from the pinned upstream revisions.
 
-## Space Grotesk masthead
+## Space Grotesk masthead and Property Lab interface
 
 Source: https://github.com/floriankarsten/space-grotesk
 Pinned commit: 03507d024a01282884232081fc6011c09ff4e849

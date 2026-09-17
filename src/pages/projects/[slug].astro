@@ -1,4 +1,5 @@
 ---
+import ProjectDrawing from "../../components/ProjectDrawing.astro";
 import Base from "../../layouts/Base.astro";
 import LeastSquaresLab from "../../components/LeastSquaresLab.astro";
 import { getCollection, getEntry, render } from "astro:content";
@@ -13,7 +14,8 @@ const { slug } = Astro.params;
 const project = await getEntry("projects", slug);
 const { Content } = await render(project);
 const archival = isArchivalProject(project.id);
-const fmt = (date) => new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const featured = ['yellowjacket', 'oceanographic-systems'].includes(project.id);
+const fmt = (date) => new Date(date).toLocaleDateString("en-US", { timeZone: "UTC", year: "numeric", month: "long", day: "numeric" });
 const statusCopy = { live: "Live public record", "in-progress": "In progress", planned: "Planned", archived: "Archived" };
 const archiveDescription = "This direct-only archive preserves an older route while keeping learner-specific context and artifacts private.";
 const limitCopy = archival
@@ -25,19 +27,19 @@ const limitCopy = archival
       : "This record describes planned or historical work and does not claim a current completed release.";
 ---
 
-<Base wide pageClass="quiet-project-detail" title={project.data.title} description={archival ? archiveDescription : project.data.blurb} noindex={archival} excludeFromSearch={archival}>
-  <article class="project-shell">
+<Base wide pageClass={featured ? "quiet-project-detail technical-record" : "quiet-project-detail"} title={project.data.title} description={archival ? archiveDescription : project.data.blurb} noindex={archival} excludeFromSearch={archival}>
+  <article class:list={['project-shell', {'project-shell--featured': featured}]}>
     <header class="project-header">
       <a class="back-link" href="/projects">Public projects</a>
       <p class="project-status">{archival ? "Direct-only archive" : statusCopy[project.data.status]} · {fmt(project.data.date)}</p>
       <h1>{project.data.title}</h1>
       <p class="project-lead">{archival ? archiveDescription : project.data.blurb}</p>
 
-      <dl class="project-ledger">
+      {!featured && <dl class="project-ledger">
         <div><dt>Status</dt><dd>{archival ? "Direct-only archive" : statusCopy[project.data.status]}</dd></div>
         {!archival && <div><dt>Topics</dt><dd>{project.data.tags.join(" · ")}</dd></div>}
         <div class="limit"><dt>Boundary</dt><dd>{limitCopy}</dd></div>
-      </dl>
+      </dl>}
 
       {!archival && (project.data.url || project.data.repo) && (
         <nav class="artifact-links" aria-label="Project artifacts">
@@ -45,7 +47,10 @@ const limitCopy = archival
           {project.data.repo && <a href={project.data.repo} target="_blank" rel="noopener">Source repository</a>}
         </nav>
       )}
+      {project.id === 'oceanographic-systems' && <nav class="artifact-links" aria-label="Project inquiry"><a href="/contact?intent=research&focus=environment">Discuss this kind of work →</a></nav>}
     </header>
+
+    {featured && <ProjectDrawing kind={project.id === "yellowjacket" ? "audio" : "ocean"}/>}
 
     {archival ? (
       <section class="archive-boundary" aria-labelledby="archive-boundary-title">
@@ -64,7 +69,13 @@ const limitCopy = archival
 </Base>
 
 <style>
+  :global(body.technical-record){--ef-signal:#171717;--ef-ink:#171717;--ink:#171717;--ef-oxide:#555}
   .project-shell { width: min(100%, 76rem); margin-inline: auto; }
+  .project-shell--featured{width:min(100%,66rem);color:#171717}
+  .project-shell--featured :global(a){color:#171717;text-underline-offset:4px}
+  .project-shell--featured .project-header{padding-block:1.5rem 2.5rem;border-bottom:0}
+  .project-shell--featured .project-status{color:#606060}
+  .project-shell--featured .project-body{margin-inline:auto;padding-block:2.5rem 3rem}
   .project-header { padding-block: clamp(2rem, 6vw, 5rem); border-block: 1px solid var(--ef-ink); }
   .back-link, .project-status, .project-ledger dt, .section-label { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
   .back-link { display: inline-flex; min-height: 44px; align-items: center; }
