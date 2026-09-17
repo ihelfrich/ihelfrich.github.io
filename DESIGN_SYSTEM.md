@@ -68,7 +68,7 @@ The shell is a semantic frame, not a decorative card. Important meaning remains 
 
 ## Shell and navigation
 
-Primary navigation is fixed in this order: Work, Research, Teaching, About, CV. Index is a utility; Contact is the single action. Job market and other records remain contextual and in the restrained footer.
+Primary navigation is fixed in this order: Work, Research, Teaching, Lab, Writing, About. Search is a utility; Contact is the single action. Job market, Projects, Datasets, Public index, and CV form the secondary Records strip and repeat in the restrained footer. Every label and destination lives once in `src/data/navigation.mjs`, which also feeds the command-K index, the sitemap, and the redirect table; edit it there, not in the layout.
 
 On mobile, navigation opens as a full-width modal sheet below the masthead. The button visibly changes from Menu to Close and remains inside the managed focus order. Opening locks body scroll, isolates background regions with `inert` plus an `aria-hidden` fallback, and moves focus into the sheet; focus is trapped; Escape, backdrop, and selection close it; Escape and backdrop restore focus. Without JavaScript, the same navigation remains in normal flow. Primary links, secondary records, Index, and Contact are grouped rather than flattened into one list.
 

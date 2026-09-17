@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
+import { GO_RECORDS } from "../data/navigation.mjs";
 
 const [allResearch, writing, datasets, allProjects] = await Promise.all([
   getCollection("research"),
@@ -24,17 +25,7 @@ const teachingFamilies = [
 const records = [
   { kind: "Tool", code: "C-2026-01", title: "Calculus in motion", detail: "Interactive slopes, logs, partial derivatives, gradients, curvature and accumulation", href: "/calculus/" },
   { kind: "Tool", code: "M-2026-01", title: "Macroeconomics lab", detail: "Solow, AK, growth traps, overlapping generations, IS-LM, New Keynesian policy, public debt and stochastic optimal growth", href: "/macroeconomics/" },
-  { kind: "Go", code: "GO-01", title: "Contact", detail: "Hiring, research, teaching, coaching, and applied quantitative inquiries", href: "/contact" },
-  { kind: "Go", code: "GO-02", title: "Selected work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", href: "/work" },
-  { kind: "Go", code: "GO-04", title: "Interactive lab", detail: "Working analytical instruments with methods and decision context", href: "/lab" },
-  { kind: "Go", code: "GO-05", title: "Research", detail: "Papers, programs, methods, data, and current questions", href: "/research" },
-  { kind: "Go", code: "GO-06", title: "Teaching", detail: "University teaching, online instruction, independent tutoring, and quantitative research-design coaching", href: "/teaching" },
-  { kind: "Go", code: "GO-07", title: "Public index", detail: "Papers, data, essays, and tools in one searchable record", href: "/library" },
-  { kind: "Go", code: "GO-08", title: "Third Space Labs", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D.", href: "/third-space" },
-  { kind: "Go", code: "GO-09", title: "About Ian", detail: "Education, current practice, leadership, and service", href: "/about" },
-  { kind: "Go", code: "GO-10", title: "Curriculum vitae", detail: "Executive resume, academic CV, career summary, availability, and contact", href: "/cv" },
-  { kind: "Go", code: "GO-11", title: "Job market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability", href: "/job-market" },
-  { kind: "Go", code: "GO-12", title: "Colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack", href: "/colophon" },
+  ...GO_RECORDS.map(({ code, label, detail, href, start }) => ({ kind: "Go", code, title: label, detail, href, start })),
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
     title: entry.data.title, detail: `${entry.data.authors.join(", ")} · ${entry.data.displayStatus}`,
@@ -87,7 +78,7 @@ const records = [
           target={record.external ? "_blank" : undefined}
           rel={record.external ? "noopener" : undefined}
           data-index-record
-          data-index-start={record.kind === "Go" && ["GO-01","GO-02","GO-04","GO-05","GO-06"].includes(record.code) ? "true" : undefined}
+          data-index-start={record.start ? "true" : undefined}
           data-search={`${record.kind} ${record.code} ${record.title} ${record.detail} ${record.search ?? ""}`.toLowerCase()}
         >
           <span>{record.code}</span>

@@ -1,6 +1,6 @@
 ---
-title: "Counterfactuals: Causal Inference from First Principles"
-blurb: "A living, open book that starts with the causal question, follows the assignment and observation processes, and lets readers inspect the data instead of merely admiring the answer."
+title: "Counting, Factually: Causal Inference and the Logic of Quantitative Evidence"
+blurb: "A living, open book that starts with the causal question, follows the assignment and observation processes, and lets readers inspect the data instead of merely admiring the answer. Formerly titled Counterfactuals: Causal Inference from First Principles."
 url: "https://helfrich-causal-inference.pr0digal.chatgpt.site/"
 audience: "Students, researchers, and applied analysts learning to define causal questions before choosing estimators."
 tags: ["causal inference", "econometrics", "research design", "interactive learning", "open data"]
