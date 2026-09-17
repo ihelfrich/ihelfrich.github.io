@@ -1,0 +1,418 @@
+---
+import EvidenceAperture from "./EvidenceAperture.astro";
+import { histogram, readVerdicts, runExperiment } from "../lib/ols-assumptions.mjs";
+
+export interface Props {
+  id: string;
+  assumption: string;
+  number: number;
+  kicker: string;
+  question: string;
+  caption: string;
+  strengthLabel: string;
+  defaultStrength?: number;
+  defaultN?: number;
+  domain: [number, number];
+  limit: string;
+  method: string[];
+}
+
+const {
+  id,
+  assumption,
+  number,
+  kicker,
+  question,
+  caption,
+  strengthLabel,
+  defaultStrength = 1,
+  defaultN = 60,
+  domain,
+  limit,
+  method,
+} = Astro.props;
+
+const REPS = 500;
+const initial = runExperiment({ assumption, strength: defaultStrength, n: defaultN, reps: REPS });
+const verdict = readVerdicts(initial, { robust: false });
+const bins = histogram(initial.estimates, { min: domain[0], max: domain[1], bins: 40 });
+
+// Region A: the sampling distribution. Region B: one hundred intervals.
+const PLOT = { left: 66, right: 966, distBase: 214, combTop: 320, combBase: 556 };
+const span = domain[1] - domain[0];
+const toX = (value: number) => PLOT.left + ((value - domain[0]) / span) * (PLOT.right - PLOT.left);
+const clampX = (value: number) => Math.max(PLOT.left - 8, Math.min(PLOT.right + 8, toX(value)));
+// The comb runs left-to-right across a hundred samples; the vertical axis carries the estimate.
+const toY = (value: number) => {
+  const t = (value - domain[0]) / span;
+  return PLOT.combBase - Math.max(-0.08, Math.min(1.08, t)) * (PLOT.combBase - PLOT.combTop);
+};
+const sortedIntervals = [...initial.intervals].sort((a, b) => a.b1 - b.b1);
+const combX = (index: number) => PLOT.left + ((index + 0.5) / 100) * (PLOT.right - PLOT.left);
+const initialBands = sortedIntervals.map((interval, index) => {
+  const half = interval.tcrit * interval.se;
+  const lo = interval.b1 - half;
+  const hi = interval.b1 + half;
+  return { x: combX(index), lo, hi, covers: lo <= initial.trueB1 && hi >= initial.trueB1 };
+});
+const ticks = [domain[0], (domain[0] + domain[1]) / 2, domain[1]];
+---
+
+<EvidenceAperture
+  id={id}
+  liveRegionId={`${id}-live`}
+  class="assumption-lab"
+  question={question}
+  caption={caption}
+  status={`Live Monte Carlo · ${REPS} samples per setting`}
+  method={method}
+  role="Designed and developed by Ian Helfrich"
+  limit={limit}
+  links={[
+    { label: "All seven assumptions", href: "/teaching/ols-assumptions" },
+    { label: "Engine source", href: "https://github.com/ihelfrich/ihelfrich.github.io/blob/main/src/lib/ols-assumptions.mjs", external: true },
+  ]}
+>
+  <figure slot="figure" class="lab" data-lab data-assumption={assumption} data-domain={domain.join(",")} data-reps={REPS} data-truth={initial.trueB1}>
+    <p class="lab-kicker"><span>{String(number).padStart(2, "0")}</span> {kicker}</p>
+
+    <svg viewBox="0 0 1000 580" role="img" aria-labelledby={`${id}-t ${id}-d`} class="lab-svg">
+      <title id={`${id}-t`}>{`Where five hundred estimates land, and whether one hundred confidence intervals cover the true slope`}</title>
+      <desc id={`${id}-d`}>
+        The upper panel is the distribution of the estimated slope across repeated samples, against the true slope.
+        The lower panel draws one hundred confidence intervals as vertical lines; those that fail to cross the true
+        slope are marked as misses. Every quantity is repeated in the text below the figure.
+      </desc>
+
+      <text x={PLOT.left} y="24" class="lab-head">Where five hundred estimates land</text>
+      <g data-lab-bars>
+        {bins.counts.map((count, index) => {
+          const h = (count / bins.peak) * 150;
+          return <rect x={PLOT.left + (index / bins.counts.length) * (PLOT.right - PLOT.left)} y={PLOT.distBase - h} width={Math.max(1, (PLOT.right - PLOT.left) / bins.counts.length - 1.2)} height={h} class="lab-bar" />;
+        })}
+      </g>
+      <line x1={PLOT.left} x2={PLOT.right} y1={PLOT.distBase} y2={PLOT.distBase} class="lab-axis" />
+      {ticks.map((tick) => <text x={toX(tick)} y={PLOT.distBase + 18} class="lab-axis-tick" text-anchor="middle">{tick.toFixed(1)}</text>)}
+
+      <line x1={toX(initial.trueB1)} x2={toX(initial.trueB1)} y1="36" y2={PLOT.distBase + 6} class="lab-truth" />
+      <text x={toX(initial.trueB1)} y="32" class="lab-flag lab-flag--truth" text-anchor="middle">true β₁ = 1</text>
+      <line x1={clampX(initial.meanB1)} x2={clampX(initial.meanB1)} y1="52" y2={PLOT.distBase} class="lab-mean" data-lab-mean />
+      <text x={clampX(initial.meanB1)} y="66" class="lab-flag lab-flag--mean" text-anchor="middle" data-lab-mean-flag>average</text>
+
+      <g class="lab-spans">
+        <line x1={clampX(initial.trueB1 - initial.sdB1)} x2={clampX(initial.trueB1 + initial.sdB1)} y1="248" y2="248" class="lab-span lab-span--actual" data-lab-actual />
+        <text x={PLOT.left} y="266" class="lab-span-label lab-span-label--actual" data-lab-actual-label>{`how far estimates really move: ±${initial.sdB1.toFixed(3)}`}</text>
+        <line x1={clampX(initial.trueB1 - initial.meanReportedSe)} x2={clampX(initial.trueB1 + initial.meanReportedSe)} y1="288" y2="288" class="lab-span lab-span--reported" data-lab-reported />
+        <text x={PLOT.left} y="306" class="lab-span-label lab-span-label--reported" data-lab-reported-label>{`how far the regression says they move: ±${initial.meanReportedSe.toFixed(3)}`}</text>
+      </g>
+
+      <text x={PLOT.left} y="348" class="lab-head">One hundred 95% intervals, one per study</text>
+      <text x={PLOT.right} y="348" class="lab-head lab-head--count" text-anchor="end" data-lab-miss-head>{`${verdict.misses} of these 100 miss`}</text>
+      <line x1={PLOT.left} x2={PLOT.right} y1={toY(initial.trueB1)} y2={toY(initial.trueB1)} class="lab-truth-rule" data-lab-truth-rule />
+      <g data-lab-comb>
+        {initialBands.map((band) => (
+          <line x1={band.x} x2={band.x} y1={toY(band.lo)} y2={toY(band.hi)} class={`lab-ci${band.covers ? "" : " lab-ci--miss"}`} />
+        ))}
+      </g>
+      <text x={PLOT.left} y={PLOT.combBase + 20} class="lab-axis-tick">sorted by estimate, smallest to largest</text>
+      <text x={PLOT.right} y={toY(initial.trueB1) - 8} class="lab-flag lab-flag--truth" text-anchor="end">the truth</text>
+    </svg>
+
+    <figcaption>
+      Each vertical line is one study's 95% interval. A line that fails to cross the horizontal rule is a study that
+      would have reported a confidently wrong answer. Five in a hundred is the promise. These hundred are themselves
+      a sample, so they wobble around the rate in the verdict, which uses all five hundred.
+    </figcaption>
+  </figure>
+
+  <div slot="controls" class="lab-controls">
+    <label class="lab-control">
+      <span class="lab-control__name">{strengthLabel}</span>
+      <input type="range" min="0" max="100" value={defaultStrength * 100} step="1" data-lab-strength />
+      <output class="lab-control__value" data-lab-strength-out>{defaultStrength === 0 ? "assumption holds" : `${Math.round(defaultStrength * 100)}%`}</output>
+    </label>
+    <label class="lab-control">
+      <span class="lab-control__name">Sample size</span>
+      <input type="range" min="10" max="400" value={defaultN} step="5" data-lab-n />
+      <output class="lab-control__value" data-lab-n-out>{`n = ${defaultN}`}</output>
+    </label>
+    <label class="lab-control lab-control--toggle">
+      <input type="checkbox" data-lab-robust />
+      <span>Robust (HC1) standard errors</span>
+    </label>
+  </div>
+
+  <div class="lab-receipt" data-lab-receipt>
+    <ol class="lab-chips">
+      <li class="lab-chip" data-state={verdict.centre.state} data-lab-chip="centre">
+        <p class="lab-chip__axis">Centre</p>
+        <p class="lab-chip__verdict" data-lab-chip-label>{verdict.centre.label}</p>
+        <p class="lab-chip__detail" data-lab-chip-detail>{verdict.centre.detail}</p>
+      </li>
+      <li class="lab-chip" data-state={verdict.honesty.state} data-lab-chip="honesty">
+        <p class="lab-chip__axis">Honesty</p>
+        <p class="lab-chip__verdict" data-lab-chip-label>{verdict.honesty.label}</p>
+        <p class="lab-chip__detail" data-lab-chip-detail>{verdict.honesty.detail}</p>
+      </li>
+      <li class="lab-chip" data-state={verdict.size.state} data-lab-chip="size">
+        <p class="lab-chip__axis">The test</p>
+        <p class="lab-chip__verdict" data-lab-chip-label>{verdict.size.label}</p>
+        <p class="lab-chip__detail" data-lab-chip-detail>{verdict.size.detail}</p>
+      </li>
+    </ol>
+    <p class="lab-reading" data-lab-reading>{verdict.reading}</p>
+  </div>
+
+  <noscript>
+    <p class="lab-noscript">
+      The figure is rendered at {Math.round(defaultStrength * 100)}% violation and n = {defaultN}. The sliders need
+      JavaScript; the figure, the verdicts, and the reading of them do not.
+    </p>
+  </noscript>
+</EvidenceAperture>
+
+<style>
+  .assumption-lab .lab {
+    background: var(--ef-figure);
+    border: 1px solid color-mix(in srgb, var(--ef-ink) 16%, var(--ef-paper));
+    margin: 0;
+    padding: 0.9rem 1rem 0.7rem;
+  }
+  .lab-kicker {
+    align-items: baseline;
+    color: color-mix(in srgb, var(--ef-ink) 58%, transparent);
+    display: flex;
+    font: 600 0.68rem/1.4 var(--font-data);
+    gap: 0.6rem;
+    letter-spacing: 0.12em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+  }
+  .lab-kicker span { color: var(--ef-signal); font-weight: 700; }
+  .lab-svg { display: block; height: auto; width: 100%; }
+
+  .lab-head {
+    fill: color-mix(in srgb, var(--ef-ink) 72%, transparent);
+    font: 600 13px/1.4 var(--font-data);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .lab-head--count { fill: var(--ef-oxide); font-weight: 700; }
+  .lab-axis-tick {
+    fill: color-mix(in srgb, var(--ef-ink) 52%, transparent);
+    font: 500 11px/1.3 var(--font-data);
+    font-variant-numeric: tabular-nums;
+  }
+  .lab-flag { font: 600 12px/1.3 var(--font-data); font-variant-numeric: tabular-nums; }
+  .lab-flag--truth { fill: var(--ef-ink); }
+  .lab-flag--mean { fill: var(--ef-signal); }
+  .lab-bar { fill: color-mix(in srgb, var(--ef-signal) 30%, var(--ef-paper)); }
+  .lab-axis { stroke: color-mix(in srgb, var(--ef-ink) 40%, transparent); }
+  .lab-truth { stroke: var(--ef-ink); stroke-dasharray: 7 5; stroke-width: 2; }
+  .lab-truth-rule { stroke: var(--ef-ink); stroke-width: 2; }
+  .lab-mean { stroke: var(--ef-signal); stroke-width: 2.5; }
+  .lab-span { stroke-linecap: butt; stroke-width: 8; }
+  .lab-span--actual { stroke: var(--ef-teal); }
+  .lab-span--reported { stroke: var(--ef-oxide); }
+  .lab-span-label { font: 500 12px/1.3 var(--font-data); font-variant-numeric: tabular-nums; }
+  .lab-span-label--actual { fill: var(--ef-teal); }
+  .lab-span-label--reported { fill: var(--ef-oxide); }
+  .lab-ci { stroke: color-mix(in srgb, var(--ef-ink) 34%, var(--ef-paper)); stroke-width: 4; }
+  .lab-ci--miss { stroke: var(--ef-oxide); stroke-width: 5; }
+
+  .assumption-lab figcaption {
+    color: color-mix(in srgb, var(--ef-ink) 66%, transparent);
+    font: 500 0.76rem/1.55 var(--font-data);
+    margin-top: 0.5rem;
+    max-width: 70ch;
+  }
+
+  .lab-controls { display: flex; flex-wrap: wrap; gap: 1rem 1.8rem; align-items: end; }
+  .lab-control { display: grid; gap: 0.2rem; font: 500 0.74rem/1.4 var(--font-data); min-width: 14rem; }
+  .lab-control__name {
+    color: color-mix(in srgb, var(--ef-ink) 64%, transparent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .lab-control input[type="range"] { accent-color: var(--ef-signal); min-height: 44px; width: 100%; }
+  .lab-control__value { color: var(--ef-signal); font-variant-numeric: tabular-nums; font-weight: 650; }
+  .lab-control--toggle { align-items: center; display: flex; gap: 0.55rem; min-height: 44px; }
+  .lab-control--toggle input { accent-color: var(--ef-signal); height: 20px; width: 20px; }
+
+  .lab-receipt { display: grid; gap: 0.85rem; }
+  .lab-chips { display: grid; gap: 0.6rem; list-style: none; margin: 0; padding: 0; }
+  .lab-chip {
+    border-left: 4px solid color-mix(in srgb, var(--ef-ink) 30%, var(--ef-paper));
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.35rem 0 0.35rem 0.7rem;
+  }
+  .lab-chip p { margin: 0; }
+  .lab-chip__axis {
+    color: color-mix(in srgb, var(--ef-ink) 55%, transparent);
+    font: 600 0.64rem/1.4 var(--font-data);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .lab-chip__verdict { font: 650 1rem/1.3 var(--font-display); }
+  .lab-chip__detail {
+    color: color-mix(in srgb, var(--ef-ink) 68%, transparent);
+    font: 500 0.74rem/1.45 var(--font-data);
+    font-variant-numeric: tabular-nums;
+  }
+  .lab-chip[data-state="clean"] { border-left-color: var(--ef-teal); }
+  .lab-chip[data-state="clean"] .lab-chip__verdict { color: var(--ef-teal); }
+  .lab-chip[data-state="warn"] { border-left-color: var(--ef-signal); }
+  .lab-chip[data-state="warn"] .lab-chip__verdict { color: var(--ef-signal); }
+  .lab-chip[data-state="broken"] { border-left-color: var(--ef-oxide); }
+  .lab-chip[data-state="broken"] .lab-chip__verdict { color: var(--ef-oxide); }
+  .lab-reading {
+    border-top: 1px solid color-mix(in srgb, var(--ef-ink) 16%, var(--ef-paper));
+    font: 400 1rem/1.6 var(--font-text);
+    max-width: 66ch;
+    padding-top: 0.7rem;
+  }
+  .lab-noscript { color: color-mix(in srgb, var(--ef-ink) 70%, transparent); font: 500 0.78rem/1.55 var(--font-data); }
+
+  @media (min-width: 34rem) {
+    .lab-chips { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-bar, .lab-mean, .lab-span, .lab-ci { transition: all 140ms ease-out; }
+  }
+</style>
+
+<script>
+  import { histogram, readVerdicts, runExperiment } from "../lib/ols-assumptions.mjs";
+
+  const PLOT = { left: 66, right: 966, distBase: 214, combTop: 320, combBase: 556 };
+  const NS = "http://www.w3.org/2000/svg";
+
+  document.querySelectorAll("[data-lab]").forEach((panel) => {
+    const assumption = panel.getAttribute("data-assumption");
+    const reps = Number(panel.getAttribute("data-reps")) || 500;
+    const [dMin, dMax] = (panel.getAttribute("data-domain") || "0,2").split(",").map(Number);
+    const aperture = panel.closest(".evidence-aperture");
+    if (!assumption || !aperture) return;
+
+    const q = (selector) => aperture.querySelector(selector);
+    const strength = q("[data-lab-strength]");
+    const nInput = q("[data-lab-n]");
+    const robust = q("[data-lab-robust]");
+    const bars = q("[data-lab-bars]");
+    const comb = q("[data-lab-comb]");
+    const reading = q("[data-lab-reading]");
+    const live = q(`#${aperture.id}-live`);
+    if (!(strength instanceof HTMLInputElement) || !(nInput instanceof HTMLInputElement) || !bars || !comb) return;
+
+    const span = dMax - dMin;
+    const toX = (value) => PLOT.left + ((value - dMin) / span) * (PLOT.right - PLOT.left);
+    const clampX = (value) => Math.max(PLOT.left - 8, Math.min(PLOT.right + 8, toX(value)));
+    const toY = (value) => {
+      const t = (value - dMin) / span;
+      return PLOT.combBase - Math.max(-0.08, Math.min(1.08, t)) * (PLOT.combBase - PLOT.combTop);
+    };
+    const combX = (index) => PLOT.left + ((index + 0.5) / 100) * (PLOT.right - PLOT.left);
+    let frame = 0;
+
+    const draw = () => {
+      const s = Number(strength.value) / 100;
+      const n = Number(nInput.value);
+      const useRobust = robust instanceof HTMLInputElement && robust.checked;
+      const result = runExperiment({ assumption, strength: s, n, reps });
+      if (!result) return;
+      const verdict = readVerdicts(result, { robust: useRobust });
+      const reportedSe = useRobust ? result.meanRobustSe : result.meanReportedSe;
+
+      const bins = histogram(result.estimates, { min: dMin, max: dMax, bins: 40 });
+      bars.replaceChildren();
+      bins.counts.forEach((count, index) => {
+        const h = (count / bins.peak) * 150;
+        const rect = document.createElementNS(NS, "rect");
+        rect.setAttribute("x", String(PLOT.left + (index / bins.counts.length) * (PLOT.right - PLOT.left)));
+        rect.setAttribute("y", String(PLOT.distBase - h));
+        rect.setAttribute("width", String(Math.max(1, (PLOT.right - PLOT.left) / bins.counts.length - 1.2)));
+        rect.setAttribute("height", String(h));
+        rect.setAttribute("class", "lab-bar");
+        bars.appendChild(rect);
+      });
+
+      const sorted = [...result.intervals].sort((a, b) => a.b1 - b.b1);
+      comb.replaceChildren();
+      let misses = 0;
+      sorted.forEach((interval, index) => {
+        const half = interval.tcrit * (useRobust ? interval.seRobust : interval.se);
+        const lo = interval.b1 - half;
+        const hi = interval.b1 + half;
+        const covers = lo <= result.trueB1 && hi >= result.trueB1;
+        if (!covers) misses += 1;
+        const line = document.createElementNS(NS, "line");
+        const x = combX(index);
+        line.setAttribute("x1", String(x));
+        line.setAttribute("x2", String(x));
+        line.setAttribute("y1", String(toY(lo)));
+        line.setAttribute("y2", String(toY(hi)));
+        line.setAttribute("class", covers ? "lab-ci" : "lab-ci lab-ci--miss");
+        comb.appendChild(line);
+      });
+
+      const set = (selector, attrs, text) => {
+        const element = q(selector);
+        if (!element) return;
+        for (const [key, value] of Object.entries(attrs || {})) element.setAttribute(key, String(value));
+        if (text !== undefined) element.textContent = text;
+      };
+      set("[data-lab-mean]", { x1: clampX(result.meanB1), x2: clampX(result.meanB1) });
+      set("[data-lab-mean-flag]", { x: clampX(result.meanB1) });
+      set("[data-lab-actual]", { x1: clampX(result.trueB1 - result.sdB1), x2: clampX(result.trueB1 + result.sdB1) });
+      set("[data-lab-reported]", { x1: clampX(result.trueB1 - reportedSe), x2: clampX(result.trueB1 + reportedSe) });
+      set("[data-lab-actual-label]", null, `how far estimates really move: ±${result.sdB1.toFixed(3)}`);
+      set("[data-lab-reported-label]", null, `${useRobust ? "how far the robust standard error says they move" : "how far the regression says they move"}: ±${reportedSe.toFixed(3)}`);
+      set("[data-lab-truth-rule]", { y1: toY(result.trueB1), y2: toY(result.trueB1) });
+      set("[data-lab-miss-head]", null, `${misses} of these 100 miss`);
+
+      const chips = { centre: verdict.centre, honesty: verdict.honesty, size: verdict.size };
+      for (const [key, value] of Object.entries(chips)) {
+        const chip = q(`[data-lab-chip="${key}"]`);
+        if (!chip) continue;
+        chip.setAttribute("data-state", value.state);
+        const label = chip.querySelector("[data-lab-chip-label]");
+        const detail = chip.querySelector("[data-lab-chip-detail]");
+        if (label) label.textContent = value.label;
+        if (detail) detail.textContent = value.detail;
+      }
+      if (reading) reading.textContent = verdict.reading;
+      if (live) {
+        live.textContent =
+          `${verdict.centre.label}. ${verdict.honesty.label}. ${verdict.size.label}. ` +
+          `${misses} of one hundred intervals miss the true slope.`;
+      }
+    };
+
+    let pending = false;
+    const schedule = () => {
+      pending = true;
+      window.cancelAnimationFrame(frame);
+      // Animation frames are suspended while the tab is hidden, so a change made
+      // on the way out would otherwise leave a stale figure behind.
+      frame = window.requestAnimationFrame(() => {
+        pending = false;
+        draw();
+      });
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && pending) schedule();
+    });
+    strength.addEventListener("input", () => {
+      const out = q("[data-lab-strength-out]");
+      if (out) out.textContent = strength.value === "0" ? "assumption holds" : `${strength.value}%`;
+      schedule();
+    });
+    nInput.addEventListener("input", () => {
+      const out = q("[data-lab-n-out]");
+      if (out) out.textContent = `n = ${nInput.value}`;
+      schedule();
+    });
+    if (robust instanceof HTMLInputElement) robust.addEventListener("change", schedule);
+  });
+</script>

@@ -20,7 +20,7 @@
     "check:econometrics": "node --test tests/unit/econometrics.test.mjs tests/unit/measurement.test.mjs tests/unit/measurement-ui.test.mjs tests/unit/math-rendering.test.mjs && node scripts/check-econometrics.mjs",
     "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
-    "check": "npm run check:copy && npm run check:fieldbook && npm run check:navigation && npm run check:components && npm run check:city && npm run check:macroeconomics && npm run check:calculus && npm run build:fast && npm run check:styles && npm run check:public-cv",
+    "check": "npm run check:copy && npm run check:fieldbook && npm run check:navigation && npm run check:components && npm run check:city && npm run check:macroeconomics && npm run check:calculus && npm run check:ols && npm run build:fast && npm run check:styles && npm run check:public-cv",
     "check:styles": "node scripts/check-rendered-styles.mjs",
     "preview": "astro preview",
     "astro": "astro",
@@ -28,7 +28,8 @@
     "pagefind": "pagefind --site dist --output-path dist/pagefind",
     "clean-spokes": "node scripts/clean-spokes.mjs",
     "check:macroeconomics": "node --test tests/unit/macroeconomics*.test.mjs",
-    "check:calculus": "node --test tests/unit/calculus*.test.mjs"
+    "check:calculus": "node --test tests/unit/calculus*.test.mjs",
+    "check:ols": "node --test tests/unit/ols-assumptions.test.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.1",
