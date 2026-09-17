@@ -1,0 +1,53 @@
+---
+import Base from "../layouts/Base.astro";
+import { PRIMARY, RECORDS, CONTACT } from "../data/navigation.mjs";
+---
+
+<Base
+  wide
+  noindex
+  excludeFromSearch
+  title="Page not found"
+  description="The page you asked for is not on this site. Use the navigation or the site index to find the record you need."
+  pageClass="fieldbook-not-found"
+>
+  <section class="not-found" data-rail-label="Not found">
+    <p class="record-label">404 · Page not found</p>
+    <h1>That page is not here.</h1>
+    <p class="lead">The address may have changed, or the record may never have existed. Everything public on this site is reachable from the routes below or from the site index.</p>
+    <div class="not-found-actions">
+      <button type="button" class="fieldbook-action" data-index-open>Search the site index</button>
+      <a class="text-route" href="/library">Open the complete public index →</a>
+    </div>
+    <nav class="not-found-routes" aria-label="Main routes">
+      <div>
+        <strong>Navigate</strong>
+        {PRIMARY.map(({ label, href }) => <a href={href}>{label}</a>)}
+      </div>
+      <div>
+        <strong>Records</strong>
+        {RECORDS.map(({ label, href }) => <a href={href}>{label}</a>)}
+        <a href={CONTACT.href}>{CONTACT.label}</a>
+      </div>
+    </nav>
+  </section>
+</Base>
+
+<style>
+  .not-found { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); min-height: calc(100vh - 4.5rem); margin-inline: auto; padding-block: var(--ef-space-8); }
+  .record-label { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .not-found h1 { max-width: 12ch; margin: 0; }
+  .lead { max-width: 60ch; margin: var(--ef-space-4) 0 0; font-size: 1.16rem; }
+  .not-found-actions { display: flex; flex-wrap: wrap; margin-top: var(--ef-space-5); align-items: center; gap: 0.8rem 1.2rem; }
+  .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; cursor: pointer; }
+  .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
+  .text-route { font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .not-found-routes { display: grid; margin-top: var(--ef-space-7); padding-top: var(--ef-space-5); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ef-space-5); border-top: 1px solid var(--ef-ink); }
+  .not-found-routes div { display: grid; gap: 0.35rem; align-content: start; }
+  .not-found-routes strong { margin-bottom: 0.4rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .not-found-routes a { display: inline-flex; min-height: 44px; align-items: center; color: var(--ef-ink); font: 500 1rem/1.4 var(--font-display); }
+  @media (max-width: 45rem) {
+    .not-found { min-height: auto; padding-block: var(--ef-space-7); }
+    .not-found-routes { grid-template-columns: 1fr; }
+  }
+</style>

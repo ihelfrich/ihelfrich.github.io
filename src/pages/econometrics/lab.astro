@@ -4,7 +4,7 @@ import Worlds from '../../components/econometrics/Worlds.astro';
 import Sampling from '../../components/econometrics/Sampling.astro';
 import Design from '../../components/econometrics/Design.astro';
 ---
-<Econometrics title="Experiments in econometric reasoning" section="lab">
+<Econometrics title="Experiments in econometric reasoning" description="Three interactive investigations from The Econometric Argument: change an assumption, watch the estimate move, and decide what the evidence can support." section="lab">
   <header class="ea-shell ea-page-intro"><p class="ea-kicker">Three experiments · inspect the model before trusting the picture</p><h1>Change one thing.<br/>See what follows.</h1><p class="ea-lead">The data, the sample size, and the assumption are different levers. These experiments let you pull them separately.</p><div class="ea-actions"><a href="#worlds">Identification</a><a href="#sampling">Uncertainty</a><a href="#design">Decision sensitivity</a></div></header>
   <div class="ea-shell ea-experiments">
     <section class="ea-experiment" id="worlds"><div><p class="ea-kicker">Identification / Chapter 1</p><h2>The dots cannot settle it.</h2><p class="ea-lead">Try to make the causal effect negative. Now look for something in the observed data that changed.</p><p>The difficulty is the lesson. Every setting is a different model of how outcomes are produced. Every setting gives the same distribution of observed X and Y.</p><a href="/econometrics/01-argument/">Read the argument and proof →</a></div><Worlds /></section>
