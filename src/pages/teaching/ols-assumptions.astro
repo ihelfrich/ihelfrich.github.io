@@ -1,0 +1,484 @@
+---
+import Base from "../../layouts/Base.astro";
+import AssumptionLab from "../../components/AssumptionLab.astro";
+import { readVerdicts, runExperiment } from "../../lib/ols-assumptions.mjs";
+
+const assumptions = [
+  {
+    id: "a1-specification",
+    assumption: "specification",
+    number: 1,
+    kicker: "Correct specification",
+    heading: "The model is linear, correctly specified, and has an additive error",
+    notation: "Yᵢ = β₀ + β₁X₁ᵢ + ⋯ + βₖXₖᵢ + εᵢ",
+    protects: "Unbiasedness",
+    question: "What does a straight line cost you when the policy actually has diminishing returns?",
+    caption:
+      "The truth here bends: each additional dollar per pupil buys less than the last. We fit a straight line anyway and watch where the slope lands.",
+    strengthLabel: "Curvature in the true relationship",
+    domain: [0.4, 4.2] as [number, number],
+    method: ["OLS on a quadratic truth", "500-sample Monte Carlo", "true null tested at 5%"],
+    limit:
+      "The regressor is uniform on the unit interval, which makes the bias exactly equal to the omitted curvature. Skewed regressors move the number; they do not change the direction.",
+    setting:
+      "Spending per pupil raises test scores, and the first thousand dollars does more than the tenth. A budget office fits a line and reports a single per-dollar effect.",
+    breaks:
+      "The omitted squared term is correlated with the regressor that remains, so its influence loads onto the slope. The estimate stops answering the question that was asked. With a uniform regressor the bias equals the curvature exactly: set the slider to full and the average estimate sits at 3.4 when the truth is 1.",
+    detect:
+      "Plot residuals against the fitted values and against each regressor. Curvature shows as a U or an arch where a formless band belongs. A RESET test formalises it.",
+    fix:
+      "Respecify. Add the squared term, take logs, or use a spline. No standard-error correction repairs this, because the coefficient itself is answering a different question.",
+  },
+  {
+    id: "a2-zero-mean",
+    assumption: "zeroMean",
+    number: 2,
+    kicker: "Zero-mean error",
+    heading: "The error term has a population mean of zero",
+    notation: "E(εᵢ) = 0",
+    protects: "Nothing, once a constant is in the model",
+    question: "If every household understates its spending by the same amount, what happens to the slope?",
+    caption:
+      "A constant offset is added to every observation. Watch the slope. The point of this panel is that nothing moves.",
+    strengthLabel: "Size of the constant offset",
+    domain: [0.5, 1.5] as [number, number],
+    method: ["OLS with a shifted error", "500-sample Monte Carlo", "true null tested at 5%"],
+    limit:
+      "This holds only for an offset common to all observations. An offset that varies with a regressor is assumption 3 in disguise, and that one does real damage.",
+    setting:
+      "A benefits survey collects self-reported spending. Respondents understate by roughly the same amount regardless of income, so every observation sits below its true value.",
+    breaks:
+      "Nothing that matters. The intercept absorbs the offset and the slope is untouched. Write β₀* = β₀ + 4 and ε* = ε − 4 and the model satisfies the assumption again with an identical slope.",
+    detect:
+      "You cannot detect it and you do not need to. OLS residuals sum to zero by construction whenever a constant is included, so the sample gives no signal either way.",
+    fix:
+      "Include a constant. That is the whole fix. The intercept is rarely the estimate anyone cares about, which is why this assumption is the cheapest of the seven.",
+  },
+  {
+    id: "a3-exogeneity",
+    assumption: "exogeneity",
+    number: 3,
+    kicker: "Exogeneity",
+    heading: "No regressor is correlated with the error term",
+    notation: "Cov(Xⱼᵢ, εᵢ) = 0 for every j",
+    protects: "Unbiasedness",
+    question: "Who signs up for the programme, and what else do they bring with them?",
+    caption:
+      "An unmeasured driver raises earnings and also predicts who enrols. The slider is how strongly enrolment and that driver move together.",
+    strengthLabel: "Correlation between enrolment and the omitted driver",
+    domain: [0.4, 2.6] as [number, number],
+    method: ["OLS with an omitted confounder", "500-sample Monte Carlo", "true null tested at 5%"],
+    limit:
+      "Simulation can show the size of the bias because the truth is known. In a real evaluation the confounder is unobserved, which is exactly why this assumption is defended by design and never by test.",
+    setting:
+      "A job-training programme is evaluated on earnings. Motivation is unmeasured, raises earnings on its own, and predicts who enrols in the first place.",
+    breaks:
+      "The slope absorbs the confounder. At full strength the average estimate is 2.2 against a true effect of 1, so the programme looks more than twice as effective as it is. The rejection rate goes to 100%, meaning the false answer arrives with total confidence.",
+    detect:
+      "No residual plot will show you this, and no test of the fitted model can. The evidence is institutional: who selected in, what determined that, and whether anything in the data measures it.",
+    fix:
+      "Design, not estimation. Randomise, find an instrument, exploit a discontinuity, or use a difference-in-differences comparison. Adding controls helps only to the extent that they capture the confounder.",
+  },
+  {
+    id: "a4-independence",
+    assumption: "independence",
+    number: 4,
+    kicker: "Independent errors",
+    heading: "Observations of the error term are uncorrelated with each other",
+    notation: "Corr(εᵢ, εⱼ) = 0 for i ≠ j",
+    protects: "Efficiency and valid standard errors",
+    question: "If this quarter's shock is still with you next quarter, how many observations do you really have?",
+    caption:
+      "Errors follow an AR(1) process along a time trend. Total error variance is held fixed, so the only thing the slider changes is persistence.",
+    strengthLabel: "Persistence of the shock",
+    domain: [-0.9, 2.9] as [number, number],
+    method: ["OLS with AR(1) errors", "500-sample Monte Carlo", "true null tested at 5%"],
+    limit:
+      "The HC1 toggle is on this panel to demonstrate that it fails here. Heteroskedasticity-robust errors do not correct serial correlation; Newey-West is the tool that does.",
+    setting:
+      "State unemployment is tracked quarterly after a stimulus. A bad quarter does not clear by the next one, so the shock persists.",
+    breaks:
+      "The slope stays unbiased and the standard error collapses. At full persistence the estimates spread about six times wider than the regression admits, and a test you believe rejects 5% of the time actually rejects roughly 70%. Most of your significant findings would be noise.",
+    detect:
+      "Plot residuals in time order. Positive serial correlation shows as long runs on one side of zero where signs should alternate. Durbin-Watson and Breusch-Godfrey formalise it.",
+    fix:
+      "Newey-West standard errors, which allow both serial correlation and heteroskedasticity. Turn on the HC1 toggle above and watch the rejection rate refuse to move, which is the clearest argument for matching the correction to the violation you actually have.",
+  },
+  {
+    id: "a5-homoskedasticity",
+    assumption: "homoskedasticity",
+    number: 5,
+    kicker: "Constant variance",
+    heading: "The error term has constant variance",
+    notation: "Var(εᵢ) = σ² for every i",
+    protects: "Efficiency and valid standard errors",
+    question: "Large cities are noisier than small ones. What does that do to a significance test?",
+    caption:
+      "Error spread grows with the regressor, and the regressor is skewed the way municipal data actually is: many small units, a few very large ones.",
+    strengthLabel: "How fast the spread grows with size",
+    domain: [-0.6, 2.6] as [number, number],
+    method: ["OLS with size-dependent error variance", "HC1 robust standard errors", "500-sample Monte Carlo"],
+    limit:
+      "HC1 reduces the distortion without eliminating it at this sample size, because robust standard errors are an asymptotic correction. HC3 does better in small samples.",
+    setting:
+      "Municipal expenditure is regressed on resident income across cities. A town of four thousand and a city of four million are one observation each, and the large ones vary enormously.",
+    breaks:
+      "The slope stays unbiased and the reported standard error reports only about 60% of the true spread. A nominal 5% test rejects a true null roughly 22% of the time. The noisiest observations are also the highest-leverage ones, which is what makes the distortion this severe.",
+    detect:
+      "Plot residuals against fitted values and look for a fan opening to the right. The White and Breusch-Pagan tests formalise it, with White the more general and Breusch-Pagan the cheaper in degrees of freedom.",
+    fix:
+      "Robust standard errors. Turn on the HC1 toggle and watch the rejection rate fall from about 22% to about 9%. Rescaling to per-capita terms can also work when the heteroskedasticity comes from unit size, though getting the functional form right matters more than removing the symptom.",
+  },
+  {
+    id: "a6-collinearity",
+    assumption: "noCollinearity",
+    number: 6,
+    kicker: "No exact collinearity",
+    heading: "No exact linear relationship between regressors",
+    notation: "No Xⱼ is an exact linear combination of the others",
+    protects: "Identification, and then precision",
+    question: "If two predictors say almost the same thing, which one gets the credit?",
+    caption:
+      "Two regressors are pushed toward each other. The slider is their correlation. Watch the spread explode while the reported standard error keeps pace with it.",
+    strengthLabel: "Correlation between the two regressors",
+    domain: [-0.6, 2.6] as [number, number],
+    method: ["Two-regressor OLS", "variance inflation", "500-sample Monte Carlo"],
+    limit:
+      "This panel shows near-collinearity. Exact collinearity is not a matter of degree: the estimator has no unique solution at all, and software drops a variable instead of reporting one.",
+    setting:
+      "Programme need is modelled on both the poverty rate and median household income across census tracts. The two are close to mirror images of each other.",
+    breaks:
+      "Precision, and nothing else. The estimate stays centred on the truth and the spread grows about tenfold. The defining feature is the third reading: the rejection rate stays at 5%, because the standard error grows along with the true spread.",
+    detect:
+      "Variance inflation factors, and the tell-tale pattern of a jointly significant F with no individually significant t. Wide confidence intervals on coefficients you expected to be sharp.",
+    fix:
+      "Often nothing. Collinearity is honest about its own imprecision, which makes it the least dangerous violation on this page. Collect more data, combine the predictors into one index, or accept that the sample cannot separate two things that move together.",
+  },
+  {
+    id: "a7-normality",
+    assumption: "normality",
+    number: 7,
+    kicker: "Normal errors",
+    heading: "The error term is normally distributed",
+    notation: "εᵢ ~ N(0, σ²)",
+    protects: "Exact finite-sample inference, and less than you expect",
+    question: "Disaster payouts are wildly skewed. Does that invalidate the t-test?",
+    caption:
+      "Errors are drawn from a badly skewed lognormal, recentred so only the shape departs from normal. The measured answer here contradicts the intuition.",
+    strengthLabel: "Skew and tail weight of the errors",
+    defaultN: 20,
+    domain: [0.1, 1.9] as [number, number],
+    method: ["OLS with lognormal errors", "500-sample Monte Carlo", "true null tested at 5%"],
+    limit:
+      "The reported standard error does understate the average spread here, yet the test keeps its size, because the standard error errs in the same direction as the estimate in the same sample. The ratio and the rejection rate are not the same diagnostic.",
+    setting:
+      "Disaster relief payouts are regressed on damage assessments. Most claims are modest and a few are enormous, so the errors are nothing like a bell curve.",
+    breaks:
+      "Less than the assumption's reputation suggests. Drag the sample size down to 10 and the rejection rate stays at or below 5%. This is the most droppable assumption of the seven for ordinary two-sided slope tests.",
+    detect:
+      "A QQ plot of the residuals, or Jarque-Bera. Both will correctly tell you the errors are not normal, which is a different question from whether it matters.",
+    fix:
+      "Usually nothing, for a slope test at a reasonable sample size. The assumption still earns its keep for prediction intervals on an individual unit, for small-sample one-sided tests, and wherever the shape of the error distribution is itself the object of interest.",
+  },
+];
+
+/**
+ * Seven thumbnails, each the same experiment at full violation: forty intervals
+ * against the truth. The ones that bleed are the ones that cost you an answer.
+ */
+const overview = assumptions.map((item) => {
+  const result = runExperiment({ assumption: item.assumption, strength: 1, n: item.defaultN ?? 60, reps: 240 });
+  const verdict = readVerdicts(result, { robust: false });
+  const [lo, hi] = item.domain;
+  const y = (value: number) => 74 - Math.max(-0.06, Math.min(1.06, (value - lo) / (hi - lo))) * 64;
+  const bands = [...result.intervals].sort((a, b) => a.b1 - b.b1).slice(0, 40).map((interval, index) => {
+    const half = interval.tcrit * interval.se;
+    return {
+      x: 4 + index * 4.8,
+      y1: y(interval.b1 - half),
+      y2: y(interval.b1 + half),
+      covers: interval.b1 - half <= result.trueB1 && interval.b1 + half >= result.trueB1,
+    };
+  });
+  return { item, bands, truthY: y(result.trueB1), misses: verdict.misses, worst: verdict.centre.state === "broken" ? "estimate" : verdict.size.state === "clean" ? "nothing" : "test" };
+});
+---
+
+<Base
+  wide
+  title="The seven classical assumptions of OLS"
+  description="An interactive companion to the classical assumptions of ordinary least squares, built on public-policy examples. Each assumption is broken on purpose and the damage is measured."
+>
+  <article class="ols-page">
+    <header class="ols-hero">
+      <p class="ols-kicker">Teaching · applied econometrics</p>
+      <h1>The seven classical assumptions, broken on purpose</h1>
+      <p class="ols-lede">
+        Every regression table in a policy brief rests on seven assumptions, and most briefs never say which ones
+        they checked. This page breaks each assumption deliberately, in a setting where the true answer is known,
+        and measures what the breakage costs. The measurement is the argument.
+      </p>
+    </header>
+
+    <section class="ols-frame" aria-labelledby="three-questions">
+      <h2 id="three-questions">Three questions, asked of every assumption</h2>
+      <p>
+        A sample estimator has two properties worth caring about. <strong>Bias</strong> is a property of its mean:
+        does E(β̂) equal β? <strong>Efficiency</strong> is a property of its variance: among unbiased
+        estimators, is this one the tightest? The Gauss-Markov theorem says that if the first six assumptions hold,
+        OLS is the best linear unbiased estimator. Every panel below asks what happens to that guarantee when one
+        assumption fails.
+      </p>
+      <p>
+        Each panel runs the same experiment. It builds a world where the true slope is exactly 1, draws 500 samples
+        from it, estimates the slope in each, and tests a hypothesis that is true by construction. That gives three
+        readings:
+      </p>
+      <ol class="ols-questions">
+        <li>
+          <strong>Does the estimate still centre on the truth?</strong> The gap between the dashed line and the blue
+          line is bias.
+        </li>
+        <li>
+          <strong>Does the reported standard error match the real spread?</strong> The teal bar is how much the
+          estimate actually moves between samples. The rust bar is how much the regression claims it moves.
+        </li>
+        <li>
+          <strong>How often does a 5% test reject a true null?</strong> It should be 5%. What it actually is, is the
+          cost of the violation stated in the units a policy audience already understands.
+        </li>
+      </ol>
+      <p class="ols-note">
+        That third reading is the one to watch. Saying that standard errors are biased downward is abstract. Saying
+        that you reject a true null 70% of the time while believing you reject it 5% of the time is a statement about
+        how often a brief will report a finding that is not there.
+      </p>
+    </section>
+
+    <section class="ols-map" aria-labelledby="what-breaks">
+      <h2 id="what-breaks">What each violation actually costs</h2>
+      <div class="ols-table-scroll">
+        <table>
+          <caption>Measured on this page. Every figure comes from the engine below, not from a textbook.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Assumption broken</th>
+              <th scope="col">Estimate still centred?</th>
+              <th scope="col">Standard error honest?</th>
+              <th scope="col">Actual size of a 5% test</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">1 · Specification</th><td class="is-bad">No, bias +2.4</td><td>Roughly</td><td class="is-bad">~100%</td></tr>
+            <tr><th scope="row">2 · Zero-mean error</th><td class="is-good">Yes</td><td class="is-good">Yes</td><td class="is-good">5%</td></tr>
+            <tr><th scope="row">3 · Exogeneity</th><td class="is-bad">No, bias +1.2</td><td>Roughly</td><td class="is-bad">~100%</td></tr>
+            <tr><th scope="row">4 · Independence</th><td class="is-good">Yes</td><td class="is-bad">No, understates 6×</td><td class="is-bad">~70%</td></tr>
+            <tr><th scope="row">5 · Homoskedasticity</th><td class="is-good">Yes</td><td class="is-bad">No, understates 1.6×</td><td class="is-bad">~22%</td></tr>
+            <tr><th scope="row">6 · No collinearity</th><td class="is-good">Yes</td><td class="is-good">Yes</td><td class="is-good">5%</td></tr>
+            <tr><th scope="row">7 · Normality</th><td class="is-good">Yes</td><td>Understates on average</td><td class="is-good">5% or below</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ols-note">
+        Two patterns organise the whole page. Assumptions 1 and 3 move the answer, and no standard-error correction
+        can rescue them. Assumptions 4 and 5 leave the answer alone and corrupt the uncertainty around it, which is
+        why both are repaired by changing how the standard error is computed while the coefficient stands.
+        Assumptions 2, 6, and 7 are the ones whose reputations exceed their damage.
+      </p>
+    </section>
+
+    <section class="ols-atlas" aria-labelledby="atlas">
+      <h2 id="atlas">Seven experiments at a glance</h2>
+      <p>
+        Each thumbnail runs the same experiment at full violation: forty 95% intervals drawn against the true slope,
+        sorted smallest to largest. Intervals that fail to cover the truth are marked. Three of the seven barely
+        bleed, and those three are the assumptions whose reputations outrun their damage.
+      </p>
+      <ol class="ols-atlas__grid">
+        {overview.map((entry) => (
+          <li>
+            <a href={`#${entry.item.id}`}>
+              <span class="ols-atlas__n">{String(entry.item.number).padStart(2, "0")}</span>
+              <span class="ols-atlas__name">{entry.item.kicker}</span>
+              <svg viewBox="0 0 200 84" role="img" aria-label={`${entry.item.kicker}: ${entry.misses} intervals in a hundred miss the true slope`}>
+                <line x1="2" x2="198" y1={entry.truthY} y2={entry.truthY} class="ols-atlas__truth"></line>
+                {entry.bands.map((band) => (
+                  <line x1={band.x} x2={band.x} y1={band.y1} y2={band.y2} class={band.covers ? "ols-atlas__ci" : "ols-atlas__ci is-miss"}></line>
+                ))}
+              </svg>
+              <span class={`ols-atlas__stat${entry.misses > 8 ? " is-bad" : ""}`}>{entry.misses} in 100 miss</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    {assumptions.map((item) => (
+      <section class="ols-assumption" id={item.id} aria-labelledby={`${item.id}-heading`}>
+        <header class="ols-assumption__head">
+          <p class="ols-number">Assumption {item.number}</p>
+          <h2 id={`${item.id}-heading`}>{item.heading}</h2>
+          <p class="ols-notation">{item.notation}</p>
+          <p class="ols-protects"><span>Protects</span> {item.protects}</p>
+        </header>
+
+        <div class="ols-assumption__body">
+          <div class="ols-prose">
+            <h3>The policy setting</h3>
+            <p>{item.setting}</p>
+            <h3>What breaks</h3>
+            <p>{item.breaks}</p>
+          </div>
+          <div class="ols-prose">
+            <h3>How you detect it</h3>
+            <p>{item.detect}</p>
+            <h3>What you do about it</h3>
+            <p>{item.fix}</p>
+          </div>
+        </div>
+
+        <AssumptionLab
+          id={item.id + "-lab"}
+          assumption={item.assumption}
+          number={item.number}
+          kicker={item.kicker}
+          question={item.question}
+          caption={item.caption}
+          strengthLabel={item.strengthLabel}
+          defaultN={item.defaultN ?? 60}
+          domain={item.domain}
+          limit={item.limit}
+          method={item.method}
+        />
+      </section>
+    ))}
+
+    <section class="ols-close" aria-labelledby="closing">
+      <h2 id="closing">What the seven add up to</h2>
+      <p>
+        The assumptions are not a checklist to clear before the real work starts. They are a map of the ways a
+        regression can be wrong, and they sort into two kinds of wrong that call for different responses. If the
+        coefficient is answering the wrong question, the answer is design: a better specification, a credible source
+        of variation, a comparison that earns the causal claim. If the coefficient is right and the uncertainty is
+        wrong, the answer is arithmetic: the appropriate standard error, matched to the violation you actually have.
+      </p>
+      <p>
+        The common failure in applied policy work is reaching for the arithmetic when the problem is design. Robust
+        standard errors are cheap and they repair assumption 5. They do nothing for assumption 3, and assumption 3 is
+        the one that decides whether a programme evaluation is worth reading.
+      </p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .ols-page { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+  .ols-hero { max-width: 68ch; }
+  .ols-kicker {
+    color: color-mix(in srgb, var(--ef-ink) 62%, transparent);
+    font: 600 0.7rem/1.4 var(--font-data);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .ols-hero h1 { margin-block: 0.4rem 0.8rem; }
+  .ols-lede { font: 400 clamp(1.1rem, 1.6vw, 1.35rem)/1.6 var(--font-text); max-width: 62ch; }
+  .ols-frame, .ols-map, .ols-close { display: grid; gap: 0.9rem; max-width: 72rem; }
+  .ols-frame p, .ols-close p, .ols-note { max-width: 68ch; }
+  .ols-questions { display: grid; gap: 0.6rem; max-width: 68ch; padding-left: 1.2rem; }
+  .ols-note {
+    border-left: 3px solid var(--ef-signal);
+    color: color-mix(in srgb, var(--ef-ink) 82%, transparent);
+    padding-left: 0.8rem;
+  }
+  .ols-table-scroll { overflow-x: auto; }
+  .ols-map table { border-collapse: collapse; font: 500 0.82rem/1.5 var(--font-data); min-width: 44rem; width: 100%; }
+  .ols-map caption {
+    color: color-mix(in srgb, var(--ef-ink) 62%, transparent);
+    font-size: 0.74rem;
+    padding-bottom: 0.5rem;
+    text-align: left;
+  }
+  .ols-map th, .ols-map td {
+    border-bottom: 1px solid color-mix(in srgb, var(--ef-ink) 16%, var(--ef-paper));
+    padding: 0.55rem 0.7rem 0.55rem 0;
+    text-align: left;
+  }
+  .ols-map thead th {
+    border-bottom-color: color-mix(in srgb, var(--ef-ink) 42%, var(--ef-paper));
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ols-map .is-bad { color: var(--ef-oxide); font-weight: 650; }
+  .ols-map .is-good { color: var(--ef-teal); font-weight: 650; }
+  .ols-atlas { display: grid; gap: 0.9rem; }
+  .ols-atlas > p { max-width: 68ch; }
+  .ols-atlas__grid {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ols-atlas__grid a {
+    background: var(--ef-figure);
+    border: 1px solid color-mix(in srgb, var(--ef-ink) 16%, var(--ef-paper));
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.6rem 0.7rem 0.7rem;
+    text-decoration: none;
+  }
+  .ols-atlas__grid a:hover { border-color: var(--ef-signal); }
+  .ols-atlas__n { color: var(--ef-signal); font: 700 0.66rem/1.3 var(--font-data); letter-spacing: 0.1em; }
+  .ols-atlas__name { color: var(--ef-ink); font: 600 0.86rem/1.3 var(--font-display); }
+  .ols-atlas__grid svg { display: block; height: auto; margin-block: 0.3rem; width: 100%; }
+  .ols-atlas__truth { stroke: var(--ef-ink); stroke-width: 1.5; }
+  .ols-atlas__ci { stroke: color-mix(in srgb, var(--ef-ink) 30%, var(--ef-paper)); stroke-width: 2.4; }
+  .ols-atlas__ci.is-miss { stroke: var(--ef-oxide); stroke-width: 3; }
+  .ols-atlas__stat {
+    color: color-mix(in srgb, var(--ef-ink) 62%, transparent);
+    font: 600 0.7rem/1.4 var(--font-data);
+    font-variant-numeric: tabular-nums;
+  }
+  .ols-atlas__stat.is-bad { color: var(--ef-oxide); }
+  .ols-assumption {
+    border-top: 2px solid var(--ef-ink);
+    display: grid;
+    gap: 1.4rem;
+    padding-top: 1.1rem;
+  }
+  .ols-number {
+    color: var(--ef-signal);
+    font: 650 0.72rem/1.4 var(--font-data);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .ols-assumption__head h2 { margin-block: 0.3rem 0.5rem; max-width: 26ch; }
+  .ols-notation {
+    background: var(--ef-figure);
+    border: 1px solid color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper));
+    display: inline-block;
+    font: 500 0.92rem/1.5 var(--font-data);
+    padding: 0.35rem 0.7rem;
+  }
+  .ols-protects { font: 500 0.78rem/1.5 var(--font-data); margin-top: 0.6rem; }
+  .ols-protects span {
+    color: color-mix(in srgb, var(--ef-ink) 60%, transparent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .ols-assumption__body { display: grid; gap: 1.4rem 2.4rem; }
+  .ols-prose h3 {
+    color: color-mix(in srgb, var(--ef-ink) 66%, transparent);
+    font: 600 0.72rem/1.4 var(--font-data);
+    letter-spacing: 0.08em;
+    margin-block: 0.9rem 0.3rem;
+    text-transform: uppercase;
+  }
+  .ols-prose h3:first-child { margin-top: 0; }
+  .ols-prose p { max-width: 62ch; }
+  @media (min-width: 58rem) {
+    .ols-assumption__body { grid-template-columns: 1fr 1fr; }
+  }
+</style>

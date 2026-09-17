@@ -23,6 +23,7 @@ const teachingFamilies = [
 ];
 
 const records = [
+  { kind: "Tool", code: "E-2026-01", title: "Seven classical assumptions of OLS", detail: "Break specification, exogeneity, homoskedasticity, independence, and normality on purpose and measure the damage", href: "/teaching/ols-assumptions/" },
   { kind: "Tool", code: "C-2026-01", title: "Calculus in motion", detail: "Interactive slopes, logs, partial derivatives, gradients, curvature and accumulation", href: "/calculus/" },
   { kind: "Tool", code: "M-2026-01", title: "Macroeconomics lab", detail: "Solow, AK, growth traps, overlapping generations, IS-LM, New Keynesian policy, public debt and stochastic optimal growth", href: "/macroeconomics/" },
   ...GO_RECORDS.map(({ code, label, detail, href, start }) => ({ kind: "Go", code, title: label, detail, href, start })),
