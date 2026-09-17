@@ -43,6 +43,7 @@ jobs:
           npm run check:navigation
           npm run check:components
           npm run check:macroeconomics
+          npm run check:calculus
       - name: Check policy statistics calculations
         run: node --test tests/unit/policy-statistics.test.mjs
       - name: Check market mechanics calculations and rendering

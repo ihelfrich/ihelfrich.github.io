@@ -79,6 +79,7 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/reading/",
   "/search/",
   "/macroeconomics/",
+  "/calculus/",
   "/st-louis/",
   "/st-louis/license/",
   "/econometrics/",
