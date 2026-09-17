@@ -21,7 +21,7 @@ const limitCopy = dataset.data.status === "released"
   : "This record does not claim a completed public release. Coverage, versioning, and access remain limited to the artifacts linked here.";
 ---
 
-<Base wide pageClass="quiet-detail-page" title={dataset.data.title} description={dataset.data.blurb}>
+<Base wide pageClass="quiet-detail-page" title={`${dataset.data.title} · dataset`} description={dataset.data.blurb}>
   <article class="detail-shell">
     <header class="detail-header">
       <a class="back-link" href="/datasets">Datasets</a>
