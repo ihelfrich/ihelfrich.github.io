@@ -41,6 +41,7 @@ jobs:
         run: |
           npm run check:fieldbook
           npm run check:components
+          npm run check:macroeconomics
       - name: Check policy statistics calculations
         run: node --test tests/unit/policy-statistics.test.mjs
       - name: Build hub

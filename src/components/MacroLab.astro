@@ -1,0 +1,34 @@
+---
+import {models} from '../data/macroeconomics.mjs';
+---
+<section class="macro-lab" data-macro aria-label="Interactive macroeconomics models">
+  <aside class="macro-directory">
+    <label class="macro-mobile-model">Model<select data-model-select>{models.map(m=><option value={m.id}>{m.title}</option>)}</select></label>
+    <p class="macro-eyebrow">Choose a model</p>
+    <nav data-model-nav aria-label="Macroeconomic model">
+      {models.map(m=><button type="button" data-model={m.id} aria-pressed={m.id==='solow'}><span>{m.number}</span>{m.title}</button>)}
+    </nav>
+    <p class="macro-directory-note">Start with a mechanism.<br />Go deeper through its equations and computation.</p>
+  </aside>
+  <article class="macro-workspace">
+    <header class="macro-model-header"><p class="macro-eyebrow" data-level>Undergraduate → graduate</p><h2 data-model-title>Solow growth</h2><p data-model-question>When does new investment become better equipment per worker?</p></header>
+    <div class="macro-experiment">
+      <aside class="macro-parameters"><div class="macro-control-heading"><h3>Parameters</h3><button type="button" data-reset>Reset</button></div><div data-controls></div></aside>
+      <div class="macro-results">
+        <p class="macro-error" data-error role="alert" hidden></p>
+        <div class="macro-metrics" data-metrics><div><span>Initial capital / worker</span><strong>16</strong></div><div><span>After one period</span><strong>16</strong></div><div><span>Steady capital / effective worker</span><strong>16</strong></div></div>
+        <div class="macro-view-nav" data-view-nav aria-label="Growth visualization"><button type="button" data-view="flow" aria-pressed="true">Follow the flows</button><button type="button" data-view="dynamics" aria-pressed="false">See the dynamics</button></div>
+        <div class="macro-flow" data-flow></div>
+        <div class="macro-plots" data-plots hidden></div>
+        <p class="macro-live" data-live aria-live="polite">Investment and upkeep balance at these starting values.</p>
+      </div>
+    </div>
+    <div class="macro-reading-nav" data-reading-nav aria-label="Explanation depth"><button type="button" data-mode="explore" aria-pressed="true">Explore</button><button type="button" data-mode="equations" aria-pressed="false">Equations</button><button type="button" data-mode="computation" aria-pressed="false">Computation</button></div>
+    <div class="macro-reading" data-reading></div>
+    <noscript><p>Enable JavaScript to calculate the models and change their parameters. The lab contains Solow and AK growth, growth traps, overlapping generations, IS–LM, New Keynesian policy, debt dynamics, and stochastic optimal growth.</p></noscript>
+  </article>
+</section>
+<script>
+  import {initializeMacro} from '../scripts/macroeconomics-lab.mjs';
+  initializeMacro(document);
+</script>

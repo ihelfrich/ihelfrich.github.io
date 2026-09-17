@@ -11,6 +11,7 @@ const staticRoutes = [
   "/colophon/",
   "/work-with-me/",
   "/teaching/",
+  "/macroeconomics/",
   "/third-space/",
   "/research/",
   "/projects/",
