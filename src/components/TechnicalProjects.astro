@@ -18,21 +18,21 @@ const {heading='Software and scientific visualization',moreHref='/projects',more
  <a class="technical-more" href={moreHref}>{moreLabel} <span aria-hidden="true">→</span></a>
 </section>
 <style>
- .technical-projects{width:100%;margin:3rem auto 4rem;padding-top:2.5rem;border-top:1px solid #bdbdbd;color:#171717}
+ .technical-projects{width:100%;margin:3rem auto 4rem;padding-top:2.5rem;border-top:1px solid var(--p-neutral-76b);color:var(--p-neutral-08b)}
  :global(body.studio-home) .technical-projects{width:min(90%,1296px)}
  header{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:2rem;margin-bottom:1.6rem}
- .technical-eyebrow{margin:0 0 .55rem;color:#606060;font:600 .66rem/1.6 var(--font-data);letter-spacing:.04em;text-transform:uppercase}
- header h2{margin:0;color:#171717;font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.045em;line-height:1.05}
- header>p{max-width:41ch;margin:0;color:#555;font-size:1rem;line-height:1.6}
+ .technical-eyebrow{margin:0 0 .55rem;color:var(--p-neutral-41);font:600 .66rem/1.6 var(--font-data);letter-spacing:.04em;text-transform:uppercase}
+ header h2{margin:0;color:var(--p-neutral-08b);font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.045em;line-height:1.05}
+ header>p{max-width:41ch;margin:0;color:var(--p-neutral-36);font-size:1rem;line-height:1.6}
  .technical-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
- .technical-project{display:block;min-width:0;text-decoration:none;color:inherit;border-bottom:1px solid #bdbdbd;transition:border-color .2s}
- .technical-project:hover{border-color:#171717}.technical-project:focus-visible{outline:2px solid #171717;outline-offset:6px}
+ .technical-project{display:block;min-width:0;text-decoration:none;color:inherit;border-bottom:1px solid var(--p-neutral-76b);transition:border-color .2s}
+ .technical-project:hover{border-color:var(--p-neutral-08b)}.technical-project:focus-visible{outline:2px solid var(--p-neutral-08b);outline-offset:6px}
  .technical-copy{padding:1.35rem 0 1.5rem}
- .technical-copy h3{display:flex;justify-content:space-between;gap:1rem;margin:.5rem 0 .7rem;color:#171717;font-family:var(--font-display);font-size:clamp(1.3rem,2.3vw,1.85rem);letter-spacing:-.025em;line-height:1.2}
+ .technical-copy h3{display:flex;justify-content:space-between;gap:1rem;margin:.5rem 0 .7rem;color:var(--p-neutral-08b);font-family:var(--font-display);font-size:clamp(1.3rem,2.3vw,1.85rem);letter-spacing:-.025em;line-height:1.2}
  h3 span{font-size:1.1rem;transition:transform .2s}.technical-project:hover h3 span{transform:translate(2px,-2px)}
- .technical-copy>p:not(.technical-eyebrow){max-width:43ch;margin:.5rem 0 .8rem;color:#444;font-size:1rem;line-height:1.6}
- .technical-methods{display:block;color:#666;font:500 .65rem/1.7 var(--font-data)}
- .technical-more{display:inline-flex;align-items:center;gap:1.5rem;min-height:44px;margin-top:1rem;color:#171717;font-size:.85rem;text-underline-offset:4px}
+ .technical-copy>p:not(.technical-eyebrow){max-width:43ch;margin:.5rem 0 .8rem;color:var(--p-neutral-29);font-size:1rem;line-height:1.6}
+ .technical-methods{display:block;color:var(--p-neutral-43);font:500 .65rem/1.7 var(--font-data)}
+ .technical-more{display:inline-flex;align-items:center;gap:1.5rem;min-height:44px;margin-top:1rem;color:var(--p-neutral-08b);font-size:.85rem;text-underline-offset:4px}
  @media(max-width:40rem){header,.technical-pair{grid-template-columns:1fr}header{gap:1rem}.technical-projects{margin-block:2rem}.technical-pair{gap:2rem}}
  @media(prefers-reduced-motion:reduce){.technical-project,h3 span{transition:none}}
 </style>

@@ -1,4 +1,5 @@
 ---
+import "../styles/tokens.css";
 import "../styles/global.css";
 import "../styles/instrument.css";
 import "../styles/fieldbook.css";
@@ -9,6 +10,7 @@ import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
 import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
+import { THEME_COLOR } from "../data/theme.mjs";
 
 const {
   title,
@@ -70,7 +72,7 @@ const personSchema = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={desc} />
   <meta name="author" content="Dr. Ian Helfrich" />
-  <meta name="theme-color" content="#F1F3F2" />
+  <meta name="theme-color" content={THEME_COLOR.hub} />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />

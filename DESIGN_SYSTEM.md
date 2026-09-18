@@ -2,20 +2,21 @@
 
 The site is one evidence fieldbook across research, teaching, software, and advisory work. Its visual authority comes from legible hierarchy, disciplined evidence, and explicit limits—not page-specific brands or decorative effects.
 
-## Palette
+## Tokens
 
-The brand layer has exactly six colors.
+`src/styles/tokens.css` is the one place the site's appearance is defined. Every layout imports it first.
 
-| Token | Value | Role |
-| --- | --- | --- |
-| `--ef-ink` | `#11131D` | Text, rules, and dark fields |
-| `--ef-paper` | `#F1F3F2` | Cool mineral page field |
-| `--ef-figure` | `#FFFFFF` | Figures, tables, code, and focused reading |
-| `--ef-signal` | `#3156E8` | Links, focus, current selection, and live calculation |
-| `--ef-teal` | `#28706B` | Positive or comparative annotation |
-| `--ef-oxide` | `#9E4D38` | Limits, caveats, and negative annotation |
+1. **Primitives** (`--p-*`) are raw colors. Only `tokens.css` declares them. Names describe hue family and CIE lightness (`--p-blue-47`), never use. The six brand colors keep readable aliases: `--p-ink` `#11131D`, `--p-paper` `#F1F3F2`, `--p-figure` `#FFFFFF`, `--p-signal` `#3156E8`, `--p-teal` `#28706B`, `--p-oxide` `#9E4D38`.
+2. **Roles** are what components use: `--surface`, `--surface-raised`, `--surface-sunken`, `--ink`, `--ink-muted`, `--rule`, `--rule-strong`, `--accent`, `--accent-ink`, `--highlight`, `--positive`, `--caution`, `--focus-ring`. A role points at a primitive or a `color-mix()` of primitives.
+3. **Scales** carry the type roles, spacing (`--space-1` … `--space-8` = 4, 8, 12, 20, 32, 52, 84, 136 px), `--radius-control`, motion durations and easings, and layout constants.
 
-Derived rules and muted text use `color-mix()` from these six tokens. Do not add named brand colors. No gradient is part of the brand layer. Color never carries status alone; pair it with text, shape, line style, or an icon.
+A **surface** is a region with its own role palette, declared with `data-surface="name"` on its root and defined in `tokens.css` as role overrides only. Surfaces: `course` (the econometrics layout) and, after the Property Lab recomposition, `lab`.
+
+Rules enforced by `npm run check:tokens`: no hex, `rgb()`, `hsl()`, or named color outside `tokens.css`; no new `--ef-*` declarations. The `--ef-*` names are deprecated aliases kept for one release. Seven stylesheets that predate the token file still override `--ef-*` on a body class; they are grandfathered by name in `scripts/check-tokens.mjs` until each becomes a surface. To add a color: add a primitive in `tokens.css`, expose it through a role or a surface, then use the role. Never redefine a role in terms of its own alias (`--ink: var(--ef-ink)`): that is a cycle, which browsers treat as invalid.
+
+The vocabulary mirrors `~/Developer/templates/typst/tokens.typ` (ink, muted, hairline → `--rule`, accent, highlight, wash → `--surface`) so print and web share one model.
+
+Color never carries status alone; pair it with text, shape, line style, or an icon. Migration record and the pending consolidation proposal: `docs/superpowers/reports/2026-09-17-color-migration.md`.
 
 ## Typography
 
