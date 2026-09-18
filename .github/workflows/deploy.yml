@@ -49,7 +49,7 @@ jobs:
       - name: Check policy statistics calculations
         run: node --test tests/unit/policy-statistics.test.mjs
       - name: Check market mechanics calculations and rendering
-        run: node tests/unit/market-mechanics.test.cjs
+        run: node --test tests/unit/market-mechanics*.test.cjs
       - name: Verify city walking comparisons
         run: npm run check:city
       - name: Build hub
