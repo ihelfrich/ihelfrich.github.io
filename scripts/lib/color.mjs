@@ -5,6 +5,7 @@ const clamp255 = (n) => Math.max(0, Math.min(255, Math.round(n)));
 
 export function parseColor(text) {
   const s = String(text).trim();
+  if (/\b(?:var|calc|env|min|max|clamp)\(/i.test(s)) return null;
   let m;
   if ((m = /^#([0-9a-f]{3,8})$/i.exec(s))) {
     const h = m[1];
@@ -18,7 +19,8 @@ export function parseColor(text) {
     if (parts.length < 3) return null;
     const ch = (v) => (v.endsWith("%") ? (parseFloat(v) / 100) * 255 : parseFloat(v));
     const a = parts[3] === undefined ? 1 : parts[3].endsWith("%") ? parseFloat(parts[3]) / 100 : parseFloat(parts[3]);
-    return { r: clamp255(ch(parts[0])), g: clamp255(ch(parts[1])), b: clamp255(ch(parts[2])), a };
+    const out = { r: clamp255(ch(parts[0])), g: clamp255(ch(parts[1])), b: clamp255(ch(parts[2])), a };
+    return Number.isFinite(out.r + out.g + out.b + out.a) ? out : null;
   }
   if ((m = /^hsla?\(\s*([^)]+)\)$/i.exec(s))) {
     const parts = m[1].replace(/\//g, " ").split(/[\s,]+/).filter(Boolean);
@@ -31,7 +33,8 @@ export function parseColor(text) {
     const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m0 = l - c / 2;
     const [r1, g1, b1] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
-    return { r: clamp255((r1 + m0) * 255), g: clamp255((g1 + m0) * 255), b: clamp255((b1 + m0) * 255), a };
+    const out = { r: clamp255((r1 + m0) * 255), g: clamp255((g1 + m0) * 255), b: clamp255((b1 + m0) * 255), a };
+    return Number.isFinite(out.r + out.g + out.b + out.a) ? out : null;
   }
   return null;
 }

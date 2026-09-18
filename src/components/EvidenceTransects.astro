@@ -662,19 +662,19 @@ const relayStates = [
 
 <style>
   .evidence-transects {
-    --atlas-night: #0f302a;
-    --atlas-night-deep: #0a211e;
-    --atlas-paper: #f5f0e6;
-    --atlas-paper-high: #fffdf7;
-    --atlas-ink: #161915;
-    --atlas-graphite: #3a3f39;
-    --atlas-muted: #6a6c64;
-    --atlas-rule: #c9c0af;
-    --atlas-signal: #f15a37;
-    --atlas-signal-dark: #a9361f;
-    --atlas-water: #78a7a0;
-    --atlas-interval: #e0bd68;
-    --atlas-on-dark: #f7f2e9;
+    --atlas-night: var(--p-teal-17);
+    --atlas-night-deep: var(--p-teal-11);
+    --atlas-paper: var(--p-neutral-95);
+    --atlas-paper-high: var(--p-neutral-99);
+    --atlas-ink: var(--p-neutral-08);
+    --atlas-graphite: var(--p-neutral-26);
+    --atlas-muted: var(--p-neutral-45);
+    --atlas-rule: var(--p-gold-78);
+    --atlas-signal: var(--p-red-58);
+    --atlas-signal-dark: var(--p-red-40);
+    --atlas-water: var(--p-teal-65);
+    --atlas-interval: var(--p-gold-78b);
+    --atlas-on-dark: var(--p-neutral-95);
     color: var(--atlas-ink);
     background: var(--atlas-paper);
     border-bottom: 1px solid var(--atlas-ink);
@@ -896,7 +896,7 @@ const relayStates = [
   }
 
   .transect__controls button:last-child { border-right: 0; }
-  .transect__controls button:hover { color: var(--atlas-ink); background: rgba(120, 167, 160, .1); }
+  .transect__controls button:hover { color: var(--atlas-ink); background: color-mix(in srgb, var(--p-teal-65) 10%, transparent); }
   .transect__controls button.is-active { color: var(--atlas-ink); background: var(--atlas-signal); }
   .transect__controls button span { font: 600 .7rem var(--ih-mono, "Geist Mono", monospace); }
   .transect__controls button strong { font-size: clamp(.72rem, .9vw, .88rem); font-weight: 600; }
@@ -912,25 +912,25 @@ const relayStates = [
     border-top-color: var(--atlas-on-dark);
   }
 
-  .transect--distance::before { background: rgba(247, 242, 233, .28); }
+  .transect--distance::before { background: color-mix(in srgb, var(--p-neutral-95) 28%, transparent); }
   .transect--distance .transect__copy,
   .transect--distance .transect__instrument { background: var(--atlas-night); }
-  .transect--distance .transect__instrument { border-left-color: rgba(247, 242, 233, .48); }
+  .transect--distance .transect__instrument { border-left-color: color-mix(in srgb, var(--p-neutral-95) 48%, transparent); }
   .transect--distance .transect__case { color: var(--atlas-interval); }
   .transect--distance .transect__copy h3,
   .transect--distance .transect__copy > a,
   .transect--distance .transect__readout strong { color: var(--atlas-on-dark); }
   .transect--distance .transect__copy > p,
-  .transect--distance .transect__readout p { color: rgba(247, 242, 233, .82); }
+  .transect--distance .transect__readout p { color: color-mix(in srgb, var(--p-neutral-95) 82%, transparent); }
   .transect--distance .transect__copy > a { border-bottom-color: var(--atlas-signal); }
   .transect--distance .transect__copy > a:hover { border-bottom-color: var(--atlas-on-dark); }
   .transect--distance .transect__instrument-head,
-  .transect--distance .transect__readout span { color: rgba(247, 242, 233, .68); }
+  .transect--distance .transect__readout span { color: color-mix(in srgb, var(--p-neutral-95) 68%, transparent); }
   .transect--distance .transect__readout em { color: var(--atlas-interval); }
   .transect--distance .transect__canvas-stage,
-  .transect--distance .transect__readout { border-color: rgba(247, 242, 233, .28); }
-  .transect--distance .transect__controls button { color: rgba(247, 242, 233, .72); border-right-color: rgba(247, 242, 233, .25); }
-  .transect--distance .transect__controls button:hover { color: var(--atlas-on-dark); background: rgba(120, 167, 160, .16); }
+  .transect--distance .transect__readout { border-color: color-mix(in srgb, var(--p-neutral-95) 28%, transparent); }
+  .transect--distance .transect__controls button { color: color-mix(in srgb, var(--p-neutral-95) 72%, transparent); border-right-color: color-mix(in srgb, var(--p-neutral-95) 25%, transparent); }
+  .transect--distance .transect__controls button:hover { color: var(--atlas-on-dark); background: color-mix(in srgb, var(--p-teal-65) 16%, transparent); }
   .transect--distance .transect__controls button.is-active { color: var(--atlas-ink); background: var(--atlas-signal); }
 
   .transect__instrument--relay {
@@ -1013,7 +1013,7 @@ const relayStates = [
   .is-shifting .relay-pulse { animation: relay-travel 500ms cubic-bezier(.2, .76, .2, 1); }
 
   [data-relay-state="estimate"] .relay-view--equation,
-  [data-relay-state="decision"] .relay-view--sentence { background: rgba(224, 189, 104, .17); }
+  [data-relay-state="decision"] .relay-view--sentence { background: color-mix(in srgb, var(--p-gold-78b) 17%, transparent); }
 
   [data-relay-state="estimate"] .relay-chart i:first-child { background: var(--atlas-signal); }
   [data-relay-state="decision"] .relay-chart i { background: var(--atlas-signal); }
@@ -1051,7 +1051,7 @@ const relayStates = [
       border-bottom: 1px solid var(--atlas-ink);
     }
 
-    .transect--distance .transect__instrument { border-bottom-color: rgba(247, 242, 233, .48); }
+    .transect--distance .transect__instrument { border-bottom-color: color-mix(in srgb, var(--p-neutral-95) 48%, transparent); }
     .transect__copy { min-height: 440px; }
     .transect__copy > a { margin-top: 2.5rem; }
   }

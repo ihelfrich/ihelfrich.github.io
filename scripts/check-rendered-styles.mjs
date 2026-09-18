@@ -232,12 +232,19 @@ const cascadedPropertiesAtWidth = (window, element, width, properties) => {
   return Object.fromEntries([...resolved].map(([property, candidate]) => [property, candidate.value]));
 };
 
+// happy-dom recomputes the root style on every getComputedStyle call; with several hundred
+// custom properties in tokens.css that dominates the run, so cache one declaration per window.
+const rootStyles = new WeakMap();
+const rootStyle = (window) => {
+  if (!rootStyles.has(window)) rootStyles.set(window, window.getComputedStyle(window.document.documentElement));
+  return rootStyles.get(window);
+};
+const rootProperty = (window, name) => rootStyle(window).getPropertyValue(name).trim();
+
 const resolveCustomProperty = (window, name, seen = new Set()) => {
   if (seen.has(name)) return "";
   seen.add(name);
-  const value = window.getComputedStyle(window.document.documentElement)
-    .getPropertyValue(name)
-    .trim();
+  const value = rootProperty(window, name);
   const reference = value.match(/^var\(\s*(--[\w-]+)/)?.[1];
   return reference ? resolveCustomProperty(window, reference, seen) : value;
 };
@@ -246,9 +253,7 @@ const resolveColor = (window, value, seen = new Set()) => {
   const reference = value.match(/var\(\s*(--[\w-]+)/)?.[1];
   if (!reference || seen.has(reference)) return parseColor(value);
   seen.add(reference);
-  const token = window.getComputedStyle(window.document.documentElement)
-    .getPropertyValue(reference)
-    .trim();
+  const token = rootProperty(window, reference);
   return resolveColor(window, token, seen);
 };
 

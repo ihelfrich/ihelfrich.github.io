@@ -11,6 +11,8 @@ test("parses every literal form the stylesheets use", () => {
   assert.deepEqual(parseColor("hsl(0 0% 100%)"), { r: 255, g: 255, b: 255, a: 1 });
   assert.equal(parseColor("var(--ef-ink)"), null);
   assert.equal(parseColor("#12"), null);
+  assert.equal(parseColor("hsl(calc(218 + var(--z) * 18) 88% 50%)"), null);
+  assert.equal(parseColor("rgb(var(--x) / 0.5)"), null);
 });
 
 test("lab distance separates brand colors and joins near-duplicates", () => {

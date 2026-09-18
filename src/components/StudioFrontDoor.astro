@@ -273,14 +273,14 @@ const cases = [
 <style>
   .studio-hero,
   .studio-cases {
-    --studio-blue: #2852e8;
-    --studio-blue-deep: #1737a5;
-    --studio-bone: #f2eade;
-    --studio-paper: #faf5ed;
-    --studio-ink: #121426;
-    --studio-graphite: #30313d;
-    --studio-muted: #66636a;
-    --studio-rule: #c7bdb0;
+    --studio-blue: var(--p-blue-42);
+    --studio-blue-deep: var(--p-blue-28);
+    --studio-bone: var(--p-neutral-93);
+    --studio-paper: var(--p-neutral-95);
+    --studio-ink: var(--p-blue-07);
+    --studio-graphite: var(--p-blue-21);
+    --studio-muted: var(--p-neutral-42);
+    --studio-rule: var(--p-neutral-77);
     color: var(--studio-ink);
     background: var(--studio-bone);
   }
@@ -308,7 +308,7 @@ const cases = [
 
   .studio-hero__topline > span:nth-child(2) { text-align: center; }
   .studio-hero__topline > span:last-child { border-right: 0; text-align: right; }
-  .studio-hero__status i { display: inline-block; width: 6px; height: 6px; margin-right: .45rem; background: #2b9c6f; border-radius: 50%; }
+  .studio-hero__status i { display: inline-block; width: 6px; height: 6px; margin-right: .45rem; background: var(--p-teal-57); border-radius: 50%; }
 
   .studio-hero__grid {
     display: grid;
@@ -355,7 +355,7 @@ const cases = [
     align-items: center;
     justify-content: space-between;
     gap: 1.4rem;
-    color: white;
+    color: var(--surface-raised);
     background: var(--studio-blue);
     border: 1px solid var(--studio-blue);
     font: 600 .68rem/1 var(--ih-mono);
@@ -395,7 +395,7 @@ const cases = [
     padding: 0 1.15rem;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(242, 234, 222, .24);
+    border-bottom: 1px solid color-mix(in srgb, var(--p-neutral-93) 24%, transparent);
     font-family: var(--ih-mono);
   }
 
@@ -404,7 +404,7 @@ const cases = [
   .studio-router__head strong { color: var(--studio-bone); font-size: .67rem; letter-spacing: .05em; }
   .studio-router__head output { color: var(--studio-bone); font: 500 .62rem var(--ih-mono); }
 
-  .studio-router__field { position: relative; min-height: 350px; overflow: hidden; border-bottom: 1px solid rgba(242, 234, 222, .24); isolation: isolate; }
+  .studio-router__field { position: relative; min-height: 350px; overflow: hidden; border-bottom: 1px solid color-mix(in srgb, var(--p-neutral-93) 24%, transparent); isolation: isolate; }
 
   .studio-router__field::before,
   .studio-router__field::after {
@@ -417,7 +417,7 @@ const cases = [
   .studio-router__field::before {
     inset: 0;
     opacity: .22;
-    background-image: linear-gradient(rgba(185, 192, 216, .2) 1px, transparent 1px), linear-gradient(90deg, rgba(185, 192, 216, .2) 1px, transparent 1px);
+    background-image: linear-gradient(color-mix(in srgb, var(--p-blue-78) 20%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--p-blue-78) 20%, transparent) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -427,18 +427,18 @@ const cases = [
     top: 50%;
     left: 18%;
     transform: translate(-50%, -50%);
-    border: 1px solid rgba(40, 82, 232, .6);
+    border: 1px solid color-mix(in srgb, var(--p-blue-42) 60%, transparent);
     border-radius: 50%;
-    box-shadow: 0 0 90px rgba(40, 82, 232, .18), inset 0 0 70px rgba(40, 82, 232, .12);
+    box-shadow: 0 0 90px color-mix(in srgb, var(--p-blue-42) 18%, transparent), inset 0 0 70px color-mix(in srgb, var(--p-blue-42) 12%, transparent);
   }
 
   .studio-router__signal { position: absolute; top: 50%; left: 18%; width: 210px; height: 210px; transform: translate(-50%, -50%); }
-  .signal-node { position: absolute; z-index: 2; display: grid; width: 38px; height: 38px; place-items: center; color: var(--studio-bone); background: var(--studio-ink); border: 1px solid rgba(242, 234, 222, .55); font: 600 .72rem var(--ih-mono); }
+  .signal-node { position: absolute; z-index: 2; display: grid; width: 38px; height: 38px; place-items: center; color: var(--studio-bone); background: var(--studio-ink); border: 1px solid color-mix(in srgb, var(--p-neutral-93) 55%, transparent); font: 600 .72rem var(--ih-mono); }
   .signal-node--question { top: 6px; left: 84px; }
   .signal-node--design { top: 84px; right: 6px; }
   .signal-node--model { right: 84px; bottom: 6px; }
   .signal-node--artifact { top: 84px; left: 6px; }
-  .signal-line { position: absolute; z-index: 1; width: 88px; height: 1px; top: 104px; left: 61px; background: rgba(242, 234, 222, .45); transform-origin: center; }
+  .signal-line { position: absolute; z-index: 1; width: 88px; height: 1px; top: 104px; left: 61px; background: color-mix(in srgb, var(--p-neutral-93) 45%, transparent); transform-origin: center; }
   .signal-line--one { transform: rotate(45deg) translateY(-58px); }
   .signal-line--two { transform: rotate(-45deg) translateX(58px); }
   .signal-line--three { transform: rotate(45deg) translateY(58px); }
@@ -447,27 +447,27 @@ const cases = [
   [data-active-lane="spatial"] .signal-scan { transform: rotate(135deg) scale(1.15); }
   [data-active-lane="team"] .signal-scan { transform: rotate(180deg) scale(.9); }
 
-  .studio-router__verb { position: absolute; right: 1.2rem; bottom: -.1em; color: rgba(242, 234, 222, .055); font: 700 clamp(4.5rem, 10vw, 10rem)/.8 var(--ih-sans); letter-spacing: -.08em; pointer-events: none; }
+  .studio-router__verb { position: absolute; right: 1.2rem; bottom: -.1em; color: color-mix(in srgb, var(--p-neutral-93) 5.5%, transparent); font: 700 clamp(4.5rem, 10vw, 10rem)/.8 var(--ih-sans); letter-spacing: -.08em; pointer-events: none; }
 
   .studio-router__readout { position: absolute; z-index: 3; top: 50%; right: clamp(1.2rem, 4vw, 3.5rem); width: min(55%, 580px); transform: translateY(-50%); }
   .studio-router__readout > span { color: var(--ih-smoke-blue); font: 500 .59rem var(--ih-mono); letter-spacing: .08em; }
   .studio-router__readout h2 { margin: .75rem 0 1rem; color: var(--studio-bone); font: 500 clamp(1.9rem, 3.4vw, 3.7rem)/.98 var(--ih-serif); letter-spacing: -.045em; }
   .studio-router__readout p { color: var(--ih-smoke-blue); font: 500 .61rem/1.7 var(--ih-mono); letter-spacing: .03em; text-transform: uppercase; }
 
-  .studio-router__tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid rgba(242, 234, 222, .24); }
-  .studio-router__tabs button { display: grid; min-height: 100px; padding: .8rem; align-content: start; gap: .65rem; color: var(--ih-smoke-blue); background: transparent; border: 0; border-right: 1px solid rgba(242, 234, 222, .16); cursor: pointer; text-align: left; }
+  .studio-router__tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid color-mix(in srgb, var(--p-neutral-93) 24%, transparent); }
+  .studio-router__tabs button { display: grid; min-height: 100px; padding: .8rem; align-content: start; gap: .65rem; color: var(--ih-smoke-blue); background: transparent; border: 0; border-right: 1px solid color-mix(in srgb, var(--p-neutral-93) 16%, transparent); cursor: pointer; text-align: left; }
   .studio-router__tabs button:last-child { border-right: 0; }
   .studio-router__tabs button span { font: 500 .54rem var(--ih-mono); }
   .studio-router__tabs button strong { color: inherit; font: 500 .68rem/1.3 var(--ih-sans); }
   .studio-router__tabs button:hover,
-  .studio-router__tabs button.is-active { color: white; background: var(--studio-blue); }
+  .studio-router__tabs button.is-active { color: var(--surface-raised); background: var(--studio-blue); }
 
   .studio-router__result { display: grid; grid-template-columns: .8fr 1.2fr; padding: 1rem 1.15rem; gap: 1rem 1.5rem; }
   .studio-router__result > div:first-child { display: grid; gap: .25rem; }
   .studio-router__result span { color: var(--ih-smoke-blue); font: 500 .52rem var(--ih-mono); letter-spacing: .07em; }
   .studio-router__result strong { color: var(--studio-bone); font: 500 1.05rem var(--ih-serif); }
   .studio-router__result p { margin: 0; color: var(--ih-smoke-blue); font: 400 .82rem/1.45 var(--ih-sans); }
-  .studio-router__links { grid-column: 1 / -1; display: flex; padding-top: .8rem; justify-content: space-between; gap: 1rem; border-top: 1px solid rgba(242, 234, 222, .16); }
+  .studio-router__links { grid-column: 1 / -1; display: flex; padding-top: .8rem; justify-content: space-between; gap: 1rem; border-top: 1px solid color-mix(in srgb, var(--p-neutral-93) 16%, transparent); }
   .studio-router__links a { color: var(--studio-bone); font: 600 .58rem var(--ih-mono); text-underline-offset: .3em; }
 
   .studio-proof-rail { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--studio-ink); }
@@ -483,7 +483,7 @@ const cases = [
 
   .studio-case-grid { display: grid; max-width: 1500px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--studio-ink); border-left: 1px solid var(--studio-ink); }
   .studio-case { position: relative; display: flex; min-height: 590px; padding: 1.25rem; flex-direction: column; border-right: 1px solid var(--studio-ink); border-bottom: 1px solid var(--studio-ink); overflow: hidden; }
-  .studio-case::before { position: absolute; right: -2rem; bottom: -4.5rem; content: counter(case-counter, decimal-leading-zero); color: rgba(40, 82, 232, .055); font: 700 15rem/.8 var(--ih-sans); letter-spacing: -.12em; pointer-events: none; }
+  .studio-case::before { position: absolute; right: -2rem; bottom: -4.5rem; content: counter(case-counter, decimal-leading-zero); color: color-mix(in srgb, var(--p-blue-42) 5.5%, transparent); font: 700 15rem/.8 var(--ih-sans); letter-spacing: -.12em; pointer-events: none; }
   .studio-case-grid { counter-reset: case-counter; }
   .studio-case { counter-increment: case-counter; }
   .studio-case header { display: flex; padding-bottom: 1rem; justify-content: space-between; border-bottom: 1px solid var(--studio-rule); font: 500 .53rem var(--ih-mono); letter-spacing: .07em; }
@@ -520,7 +520,7 @@ const cases = [
     .studio-router__readout h2 { font-size: 2rem; }
     .studio-router__verb { display: none; }
     .studio-router__tabs { grid-template-columns: 1fr 1fr; }
-    .studio-router__tabs button { min-height: 88px; border-bottom: 1px solid rgba(242, 234, 222, .16); }
+    .studio-router__tabs button { min-height: 88px; border-bottom: 1px solid color-mix(in srgb, var(--p-neutral-93) 16%, transparent); }
     .studio-router__result { grid-template-columns: 1fr; }
     .studio-router__links { flex-direction: column; }
     .studio-proof-rail { grid-template-columns: 1fr 1fr; }

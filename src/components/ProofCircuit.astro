@@ -824,19 +824,19 @@ const edges = [
 
 <style>
   .proof-circuit {
-    --atlas-night: #0f302a;
-    --atlas-night-deep: #0a211e;
-    --atlas-paper: #f5f0e6;
-    --atlas-paper-high: #fffdf7;
-    --atlas-ink: #161915;
-    --atlas-graphite: #3a3f39;
-    --atlas-muted: #6a6c64;
-    --atlas-rule: #c9c0af;
-    --atlas-signal: #f15a37;
-    --atlas-signal-dark: #a9361f;
-    --atlas-water: #78a7a0;
-    --atlas-interval: #e0bd68;
-    --atlas-on-dark: #f7f2e9;
+    --atlas-night: var(--p-teal-17);
+    --atlas-night-deep: var(--p-teal-11);
+    --atlas-paper: var(--p-neutral-95);
+    --atlas-paper-high: var(--p-neutral-99);
+    --atlas-ink: var(--p-neutral-08);
+    --atlas-graphite: var(--p-neutral-26);
+    --atlas-muted: var(--p-neutral-45);
+    --atlas-rule: var(--p-gold-78);
+    --atlas-signal: var(--p-red-58);
+    --atlas-signal-dark: var(--p-red-40);
+    --atlas-water: var(--p-teal-65);
+    --atlas-interval: var(--p-gold-78b);
+    --atlas-on-dark: var(--p-neutral-95);
     position: relative;
     color: var(--atlas-ink);
     background: var(--atlas-paper);
@@ -963,15 +963,15 @@ const edges = [
   .proof-circuit__stage::before {
     opacity: .22;
     background-image:
-      linear-gradient(rgba(120, 167, 160, .22) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(120, 167, 160, .22) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--p-teal-65) 22%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--p-teal-65) 22%, transparent) 1px, transparent 1px);
     background-size: 42px 42px;
-    mask-image: linear-gradient(to bottom, black, transparent 92%);
+    mask-image: linear-gradient(to bottom, var(--p-neutral-00), transparent 92%);
   }
 
   .proof-circuit__stage::after {
     inset: 1.1rem;
-    border: 1px solid rgba(120, 167, 160, .2);
+    border: 1px solid color-mix(in srgb, var(--p-teal-65) 20%, transparent);
   }
 
   .proof-circuit__canvas {
@@ -1005,7 +1005,7 @@ const edges = [
     padding-bottom: .9rem;
     grid-template-columns: 28px 1fr;
     gap: .65rem;
-    border-bottom: 1px solid rgba(247, 242, 233, .2);
+    border-bottom: 1px solid color-mix(in srgb, var(--p-neutral-95) 20%, transparent);
   }
 
   .proof-circuit__column > header > span {
@@ -1020,7 +1020,7 @@ const edges = [
   }
   .proof-circuit__column header p {
     margin: .35rem 0 0;
-    color: rgba(247, 242, 233, .58);
+    color: color-mix(in srgb, var(--p-neutral-95) 58%, transparent);
     font: 440 .61rem/1.35 var(--ih-sans);
   }
 
@@ -1042,9 +1042,9 @@ const edges = [
     padding: .75rem 1.65rem .75rem .75rem;
     align-content: start;
     gap: .28rem;
-    color: rgba(247, 242, 233, .5);
-    background: rgba(10, 33, 30, .88);
-    border: 1px solid rgba(201, 192, 175, .18);
+    color: color-mix(in srgb, var(--p-neutral-95) 50%, transparent);
+    background: color-mix(in srgb, var(--p-teal-11) 88%, transparent);
+    border: 1px solid color-mix(in srgb, var(--p-gold-78) 18%, transparent);
     cursor: pointer;
     text-align: left;
     text-decoration: none;
@@ -1063,7 +1063,7 @@ const edges = [
   }
   .proof-circuit__node > small {
     display: none;
-    color: rgba(247, 242, 233, .7);
+    color: color-mix(in srgb, var(--p-neutral-95) 70%, transparent);
     font: 420 .6rem/1.4 var(--ih-sans);
   }
   .proof-circuit__node > i {
@@ -1076,7 +1076,7 @@ const edges = [
 
   .proof-circuit__node.is-route-member {
     color: var(--atlas-on-dark);
-    border-color: rgba(120, 167, 160, .62);
+    border-color: color-mix(in srgb, var(--p-teal-65) 62%, transparent);
     opacity: 1;
   }
   .proof-circuit__node.is-route-member::before {

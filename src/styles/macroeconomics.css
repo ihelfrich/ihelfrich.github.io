@@ -1,4 +1,4 @@
-body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-signal:#171717; --ef-oxide:#555; --ink:#171717; --paper:#fafafa; --white:#fff; --muted:#606060; --rule:#d8d8d8; --macro-blue:#3156e8; --macro-rust:#9e4d38; --macro-teal:#28706b; color:var(--ink); background:var(--paper); }
+body.macro-page { --ef-ink:var(--p-neutral-08b); --ef-paper:var(--p-neutral-98); --ef-figure:var(--surface-raised); --ef-signal:var(--p-neutral-08b); --ef-oxide:var(--p-neutral-36); --ink:var(--p-neutral-08b); --paper:var(--p-neutral-98); --white:var(--surface-raised); --muted:var(--p-neutral-41); --rule:var(--p-neutral-87); --macro-blue:var(--accent); --macro-rust:var(--caution); --macro-teal:var(--positive); color:var(--ink); background:var(--paper); }
 .macro-page #main-content { max-width:1440px; width:calc(100% - 4rem); padding-top:0; }
 .macro-shell { width:100%; margin:auto; }
 .macro-header { padding:2rem 0 1.5rem; border-bottom:1px solid var(--ink); }
@@ -18,8 +18,8 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 .macro-model-group > p { font:500 .75rem/1.5 var(--font-data); color:var(--muted); margin:0 0 .5rem; }
 .macro-directory button { display:flex; gap:.6rem; width:100%; padding:.7rem .45rem; border:0; border-left:2px solid transparent; background:transparent; color:var(--ink); text-align:left; font:450 .9rem/1.35 var(--font-display); min-height:44px; cursor:pointer; }
 .macro-directory button span { flex:0 0 1.4rem; font:400 .75rem/1.6 var(--font-data); color:var(--muted); }
-.macro-directory button:hover { background:#eee; }
-.macro-directory button[aria-pressed=true] { border-left-color:var(--ink); background:#ebebeb; }
+.macro-directory button:hover { background:var(--p-neutral-93d); }
+.macro-directory button[aria-pressed=true] { border-left-color:var(--ink); background:var(--p-neutral-93d); }
 .macro-directory-note { font:400 .875rem/1.55 var(--font-display); max-width:22ch; color:var(--muted); border-top:1px solid var(--rule); padding-top:1rem; }
 .macro-workspace { min-width:0; }
 .macro-model-header { margin-bottom:1.75rem; }
@@ -63,7 +63,7 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 .macro-ledgers p { font:400 .875rem/1.5 var(--font-display); margin:.7rem 0 0; }
 .macro-note { font:400 .875rem/1.5 var(--font-display); color:var(--muted); margin:.6rem 0; }
 .macro-live { font:400 1rem/1.5 var(--font-display); margin:1rem 0; padding-left:1rem; border-left:2px solid var(--macro-blue); }
-.macro-error { border-left:3px solid var(--macro-rust); padding:.7rem 1rem; background:#f6eeeb; font:400 1rem/1.5 var(--font-display); }
+.macro-error { border-left:3px solid var(--macro-rust); padding:.7rem 1rem; background:var(--p-neutral-95d); font:400 1rem/1.5 var(--font-display); }
 .macro-chart { margin:1.25rem 0 2rem; }
 .macro-chart figcaption { font:500 1rem/1.4 var(--font-display); margin:0 0 .7rem; }
 .macro-legend { display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; font:400 .8rem/1.4 var(--font-display); margin-top:.4rem; }
@@ -122,7 +122,7 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 .macro-equation-controls span { color:var(--muted); font:400 .75rem/1.5 var(--font-display); }
 .macro-term-active { stroke:var(--macro-blue) !important; stroke-width:3px; }
 .macro-chart svg:focus-visible,.macro-matrix [role=button]:focus-visible,.macro-lab button:focus-visible,.macro-lab input:focus-visible,.macro-lab select:focus-visible { outline:2px solid var(--macro-blue); outline-offset:3px; }
-.macro-data [data-selected=true] { background:#e9edff; }
+.macro-data [data-selected=true] { background:var(--p-blue-94); }
 .macro-data button { padding:.3rem .6rem; min-height:36px; border:1px solid var(--rule); color:var(--ink); background:var(--white); font:400 .8rem/1.4 var(--font-display); cursor:pointer; }
 .macro-matrix { margin:1.5rem 0 2rem; }
 .macro-matrix figcaption { font:500 1rem/1.5 var(--font-display); }
@@ -133,7 +133,7 @@ body.macro-page { --ef-ink:#171717; --ef-paper:#fafafa; --ef-figure:#fff; --ef-s
 .macro-related > span { flex:1 0 100%; font-weight:500; }
 .macro-research details summary { cursor:pointer; padding:.7rem 0; }
 @media (max-width:700px) { .macro-live-math .macro-equation { font-size:.85rem; } .macro-contribution { grid-template-columns:minmax(95px,1fr) minmax(45px,1fr) minmax(60px,.8fr); gap:.5rem; } }
-.macro-ledgers .macro-term-active { background:#e9edff; outline:1px solid var(--macro-blue); }
+.macro-ledgers .macro-term-active { background:var(--p-blue-94); outline:1px solid var(--macro-blue); }
 /* Questions choose the visualization: counterfactuals, decompositions, decisions, or flows. */
 .macro-insight { padding:1.4rem 0 1rem; border-bottom:1px solid var(--ink); }
 .macro-insight > .macro-eyebrow { color:var(--macro-blue); }

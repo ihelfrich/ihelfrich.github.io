@@ -216,10 +216,10 @@ const lanes = [
 
 <style>
   .cap-matrix {
-    --cap-ink: #11131d;
-    --cap-paper: #f4f1e9;
+    --cap-ink: var(--ink);
+    --cap-paper: var(--p-neutral-95);
     --cap-line: color-mix(in srgb, var(--cap-ink) 18%, transparent);
-    --cap-accent: #bb4e30;
+    --cap-accent: var(--p-red-47);
     padding: clamp(4.5rem, 8vw, 8rem) max(1.25rem, calc((100vw - 1440px) / 2));
     color: var(--cap-ink);
     background:
@@ -317,7 +317,7 @@ const lanes = [
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     border: 1px solid var(--cap-line);
-    background: color-mix(in srgb, white 26%, transparent);
+    background: color-mix(in srgb, var(--surface-raised) 26%, transparent);
   }
 
   .cap-lane__flow section {
@@ -444,7 +444,7 @@ const lanes = [
     align-items: center;
     min-height: 3.4rem;
     padding: 0.4rem 0.45rem 0.4rem 1.2rem;
-    color: white;
+    color: var(--surface-raised);
     background: var(--cap-ink);
     text-decoration: none;
     font: 650 0.75rem/1 var(--font-sans, sans-serif);
