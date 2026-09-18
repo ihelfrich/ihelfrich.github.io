@@ -1,0 +1,114 @@
+/* Property Lab surface: the hub's faces, the `lab` role palette (tokens.css), base element rules,
+   and the small motion vocabulary. Frame geometry is in st-louis-map.css; panel components in
+   st-louis-rail.css. Only roles and scales from tokens.css are referenced here. */
+
+@font-face {
+  font-family: "Geist Variable";
+  src: url("/fonts/geist-variable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader Variable";
+  src: url("/fonts/newsreader-variable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono Variable";
+  src: url("/fonts/geist-mono-variable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+body.city-workbench {
+  /* Legacy names the rail components still read. They resolve to roles; nothing else may define them. */
+  --gold: var(--accent);
+  --interface-accent: var(--accent);
+  --glass: var(--surface-raised);
+  --border: var(--rule);
+  --muted: var(--ink-muted);
+  /* Frame geometry shared by st-louis-map.css and the rail's sticky elements. */
+  --lab-masthead: 56px;
+  --lab-destinations: 52px;
+  --lab-gap: 16px;
+  --panel-width: 24rem;
+  --rail-width: 0px;
+  --panel-left: 0px;
+  margin: 0;
+  color: var(--ink);
+  background: var(--surface);
+  color-scheme: light;
+  font: 400 14px/1.5 var(--font-display);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+.city-workbench *, .city-workbench *::before, .city-workbench *::after { box-sizing: border-box; }
+.city-workbench :is(button, input, select, textarea) { font: inherit; color: inherit; }
+.city-workbench :is(button, a, input, select) { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.city-workbench button { border: 0; background: none; cursor: pointer; }
+.city-workbench button:disabled { opacity: 0.45; cursor: default; }
+.city-workbench a { color: var(--accent); text-decoration: none; }
+.city-workbench a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+.city-workbench :is(button, a, input, select, summary, [tabindex]):focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: var(--radius-control); }
+.city-workbench [hidden] { display: none !important; }
+.city-workbench .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.city-workbench button svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Type roles: interface in Geist, record prose in Newsreader, data in Geist Mono. */
+.city-workbench h1, .city-workbench h2, .city-workbench h3, .city-workbench h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin: 0; color: var(--ink); }
+.city-workbench :is(#panel-content, dialog) p:not(.small-note):not(.eyebrow):not(.panel-intro):not(.region-status),
+.city-workbench :is(#panel-content, dialog) :is(dd, li) { font-family: var(--font-text); font-size: 15px; line-height: 1.6; }
+.city-workbench :is(.eyebrow, .range-label, .scene-label, .city-footer, .nav-count, kbd, .small-note, output, time, .place-number, .field-label > span:first-child) { font-family: var(--font-data); }
+.city-workbench .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+.city-workbench .small-note { font-size: 12px; line-height: 1.55; color: var(--ink-muted); }
+.city-workbench .panel-intro { font-family: var(--font-text); font-size: 16px; line-height: 1.55; color: var(--ink-muted); margin: 0 0 var(--space-4); }
+.city-workbench ::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.city-workbench ::placeholder { color: var(--ink-muted); }
+
+/* Controls share one grammar: 6 px radius, hairline rule, raised surface, accent for the primary action. */
+.city-workbench :is(input:not([type="range"]):not([type="checkbox"]), select, textarea) { min-height: 40px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--ink); }
+.city-workbench :is(input, select, textarea):focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.city-workbench .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: var(--radius-control); background: var(--accent); color: var(--accent-ink); font-weight: 500; }
+.city-workbench .primary-button:hover { background: color-mix(in srgb, var(--accent) 86%, var(--ink)); }
+.city-workbench .secondary-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--ink); }
+.city-workbench .secondary-button:hover { border-color: var(--ink); }
+.city-workbench .text-button { min-height: 32px; padding: 0 2px; color: var(--accent); font-weight: 500; }
+.city-workbench .text-button:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+.city-workbench .icon-button { display: inline-grid; place-items: center; min-width: 32px; min-height: 32px; border-radius: var(--radius-control); color: var(--ink-muted); }
+.city-workbench .icon-button:hover { background: var(--surface-sunken); color: var(--ink); }
+.city-workbench .wide { width: 100%; }
+.city-workbench .button-row { display: flex; flex-wrap: wrap; gap: 8px 12px; margin: var(--space-3) 0; }
+.city-workbench input[type="range"] { appearance: none; width: 100%; height: 2px; margin: 14px 0 10px; background: var(--rule-strong); border-radius: 2px; }
+.city-workbench input[type="range"]::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--surface-raised); border: 2px solid var(--accent); }
+.city-workbench input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-raised); border: 2px solid var(--accent); }
+.city-workbench .segmented { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-sunken); }
+.city-workbench .segmented button { min-height: 32px; padding: 0 12px; border-radius: 4px; color: var(--ink-muted); }
+.city-workbench .segmented [aria-pressed="true"] { background: var(--surface-raised); color: var(--ink); box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 12%, transparent); }
+.city-workbench .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; border-bottom: 1px solid var(--rule); font-size: 13px; }
+.city-workbench .field-label { display: block; margin: var(--space-3) 0; font-size: 12px; color: var(--ink-muted); }
+.city-workbench .field-label :is(select, input) { display: block; width: 100%; margin-top: 6px; color: var(--ink); }
+.city-workbench .range-label { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--ink-muted); }
+.city-workbench .range-label output { color: var(--ink); }
+.city-workbench table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.city-workbench :is(th, td) { padding: 6px 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.city-workbench th { font-family: var(--font-data); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.city-workbench details > summary { cursor: pointer; list-style: none; }
+.city-workbench details > summary::-webkit-details-marker { display: none; }
+.city-workbench kbd { font-size: 10px; padding: 1px 5px; border: 1px solid var(--rule-strong); border-radius: 4px; color: var(--ink-muted); }
+
+/* Motion: five transitions, all on the motion tokens. */
+@media (prefers-reduced-motion: no-preference) {
+  .city-workbench #panel-content > section:not([hidden]) { animation: lab-arrive var(--motion-medium) var(--ease-enter) both; }
+  .city-workbench .explorer { transition: transform var(--motion-medium) var(--ease-enter), opacity var(--motion-fast) var(--ease-standard); }
+  .city-workbench .mode-bar button, .city-workbench .primary-button, .city-workbench .secondary-button, .city-workbench .icon-button { transition: background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard); }
+  .city-workbench .notice { transition: opacity var(--motion-fast) var(--ease-standard), transform var(--motion-medium) var(--ease-enter); }
+}
+@keyframes lab-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes lab-orbit { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .city-workbench * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}

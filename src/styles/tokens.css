@@ -435,6 +435,13 @@
   --positive: var(--p-teal);
   --caution: var(--p-oxide);
   --focus-ring: var(--p-signal);
+  /* Map-layer roles (used by the Property Lab; defined here so surfaces only override). */
+  --layer-public: var(--p-gold-80);
+  --layer-imported: var(--p-blue-80c);
+  --layer-height: var(--p-teal-78);
+  --layer-parcel: var(--p-signal);
+  --pin-a: var(--p-gold-79);
+  --pin-b: var(--p-signal);
 
   /* 2. Roles: deprecated aliases, kept for one release. Do not add uses. */
   --ef-ink: var(--ink);
@@ -526,6 +533,30 @@
 }
 
 /* Surfaces override roles only. */
+[data-surface="lab"] {
+  /* The Property Lab reads the hub's light palette; the map canvas keeps its own rendering. */
+  --surface: var(--p-paper);
+  --surface-raised: var(--p-figure);
+  --surface-sunken: color-mix(in srgb, var(--p-paper) 90%, var(--p-ink));
+  --ink: var(--p-ink);
+  --ink-muted: color-mix(in srgb, var(--p-ink) 60%, var(--p-paper));
+  --rule: color-mix(in srgb, var(--p-ink) 16%, var(--p-paper));
+  --rule-strong: color-mix(in srgb, var(--p-ink) 34%, var(--p-paper));
+  --accent: var(--p-signal);
+  --accent-ink: var(--p-figure);
+  --highlight: var(--p-gold-80);
+  --positive: var(--p-teal);
+  --caution: var(--p-oxide);
+  --focus-ring: var(--p-signal);
+  /* Map-layer semantics: the legend and the renderer read the same names. */
+  --layer-public: var(--p-gold-80);
+  --layer-imported: var(--p-blue-80c);
+  --layer-height: var(--p-teal-78);
+  --layer-parcel: var(--p-signal);
+  --pin-a: var(--p-gold-79);
+  --pin-b: var(--p-signal);
+}
+
 [data-surface="course"] {
   --surface: var(--p-blue-17);          /* #142b49 */
   --surface-raised: var(--p-blue-12);   /* #0c2235 */

@@ -30,7 +30,7 @@ test("every role, scale, and alias is declared on bare :root", () => {
 
 test("dark blocks and surfaces redefine only roles that exist on :root, never primitives", () => {
   const root = declared(block("\n:root"));
-  for (const selector of [':root:not([data-theme="light"])', ':root[data-theme="dark"]', '[data-surface="course"]']) {
+  for (const selector of [':root:not([data-theme="light"])', ':root[data-theme="dark"]', '[data-surface="course"]', '[data-surface="lab"]']) {
     const names = declared(block(selector));
     assert.ok(names.size > 0, `${selector} redefines something`);
     for (const name of names) {
