@@ -17,6 +17,13 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/space-grotesk-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
   font-family: "Geist Mono Variable";
   src: url("/fonts/geist-mono-variable.woff2") format("woff2-variations");
   font-style: normal;
@@ -58,8 +65,10 @@ body.city-workbench {
 .city-workbench .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .city-workbench button svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Type roles: interface in Geist, record prose in Newsreader, data in Geist Mono. */
+/* Type roles: interface in Geist, hero headings in Space Grotesk as on the hub's primary pages,
+   record prose in Newsreader, data in Geist Mono. */
 .city-workbench h1, .city-workbench h2, .city-workbench h3, .city-workbench h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin: 0; color: var(--ink); }
+.city-workbench h2, .city-workbench .loading p, .city-workbench .fallback h2 { font-family: "Space Grotesk", var(--font-display); letter-spacing: -0.04em; }
 .city-workbench :is(#panel-content, dialog) p:not(.small-note):not(.eyebrow):not(.panel-intro):not(.region-status),
 .city-workbench :is(#panel-content, dialog) :is(dd, li) { font-family: var(--font-text); font-size: 15px; line-height: 1.6; }
 .city-workbench :is(.eyebrow, .range-label, .scene-label, .city-footer, .nav-count, kbd, .small-note, output, time, .place-number, .field-label > span:first-child) { font-family: var(--font-data); }
