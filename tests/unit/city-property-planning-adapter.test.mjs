@@ -30,9 +30,17 @@ test('abatement periods overlap filter years without manufacturing exact start o
  const client=createPropertyPlanningData({fetchImpl:async()=>response(selected)});const r=await client.query({layers:['tax-abatements'],fromDate:'2026-12-31',toDate:'2026-12-31'});
  assert.equal(r.records.length,1);assert.equal(r.records[0].date,null);assert.equal(r.records[0].datePrecision,'year');assert.equal(r.layers[0].dateBasis,'recorded-year-interval-overlap');client.dispose();
 });
-test('documents stay unmapped regardless of viewport and can be filtered by an explicit hearing day',async()=>{
+test('documents stay unmapped and filter by their source date without relabeling meetings as hearings',async()=>{
  const client=createPropertyPlanningData({fetchImpl:fetcher});const r=await client.query({layers:['planning-documents'],bounds:[-90.4,38.5,-90.3,38.6],fromDate:'2026-09-21',toDate:'2026-09-21'});
- assert.ok(r.records.length>=2);assert.equal(r.features.length,0);assert.ok(r.records.every(r=>r.hearingDate==='2026-09-21'&&r.longitude===null&&r.recordKey===null));assert.equal(r.layers[0].status,'unmapped');client.dispose();
+ assert.ok(r.records.length>=2);assert.equal(r.features.length,0);
+ assert.ok(r.records.every(r=>r.date==='2026-09-21'&&r.longitude===null&&r.recordKey===null));
+ for(const row of r.records){
+  if(row.hearingDate){assert.equal(row.hearingDate,row.date);assert.equal(row.dateBasis,'verified-hearing-date');}
+  else{assert.equal(row.hearingDate,null);assert.equal(row.meetingDate,row.date);assert.equal(row.dateBasis,'source-associated-meeting-date');}
+ }
+ assert.ok(r.records.some(row=>row.dateBasis==='verified-hearing-date'));
+ assert.ok(r.records.some(row=>row.dateBasis==='source-associated-meeting-date'));
+ assert.equal(r.layers[0].status,'unmapped');client.dispose();
 });
 test('unavailable source reports null counts, does not cache failure, and respects byte bounds',async()=>{
  let calls=0;const client=createPropertyPlanningData({fetchImpl:async()=>++calls===1?{ok:false}:response(fixtures['tif-districts'])});
