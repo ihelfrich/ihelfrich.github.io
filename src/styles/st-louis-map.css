@@ -1,0 +1,199 @@
+/* Property Lab frame. The map is the figure; one masthead above it, one inspector rail beside it,
+   one cluster of camera controls, one footer line. Every id the city scripts bind to is unchanged.
+   Geometry variables come from st-louis-surface.css; colors are roles from tokens.css. */
+
+.city-workbench #city-app { position: relative; height: 100svh; min-height: 480px; overflow: hidden; background: var(--surface); }
+
+/* Figure */
+.city-workbench #city-viewport { position: absolute; top: var(--lab-masthead); right: var(--panel-width); bottom: 0; left: 0; touch-action: none; background: var(--surface-sunken); }
+.city-workbench #city-viewport canvas { display: block; width: 100%; height: 100%; }
+.city-workbench .edge-shade { position: absolute; top: var(--lab-masthead); right: var(--panel-width); bottom: 0; left: 0; pointer-events: none; background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 55%, transparent), transparent 18%, transparent 80%, color-mix(in srgb, var(--surface) 70%, transparent)); }
+
+/* Masthead */
+.city-workbench .city-header { position: absolute; top: 0; left: 0; right: 0; z-index: 6; display: flex; align-items: center; gap: var(--lab-gap); height: var(--lab-masthead); padding: 0 var(--lab-gap); background: var(--surface-raised); border-bottom: 1px solid var(--rule); }
+.city-workbench .city-brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+.city-workbench .city-brand:hover { text-decoration: none; }
+.city-workbench .brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--ink); border-radius: 50%; font: 500 16px/1 var(--font-display); color: var(--ink); }
+.city-workbench .city-brand h1 { font: 600 15px/1 var(--font-display); letter-spacing: 0.02em; text-transform: none; margin: 0 0 3px; }
+.city-workbench .city-brand p { margin: 0; font: 400 11px/1.2 var(--font-data); color: var(--ink-muted); letter-spacing: 0.02em; }
+.city-workbench .city-brand p span { color: var(--ink-muted); }
+.city-workbench .workspace-edition { display: none; }
+
+/* Address search sits in the masthead's centre. */
+.city-workbench .workspace-command { position: absolute; z-index: 7; top: 8px; left: 272px; transform: none; display: flex; align-items: center; width: min(460px, calc(100% - var(--panel-width) - 272px - 372px)); height: 40px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); overflow: hidden; }
+.city-workbench .workspace-command:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.city-workbench .workspace-command :is(input:not([type="range"]), select, button) { height: 100%; min-height: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; }
+.city-workbench .workspace-command select { width: 92px; padding: 0 6px 0 12px; border-right: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--font-data); font-size: 11px; }
+.city-workbench .workspace-command input { flex: 1; min-width: 0; padding: 0 10px; }
+.city-workbench .workspace-command button { width: 40px; color: var(--ink-muted); }
+.city-workbench .workspace-command button:hover { color: var(--accent); }
+.city-workbench .workspace-command button svg { width: 17px; height: 17px; }
+.city-workbench .workspace-command kbd { margin-right: 10px; }
+
+/* Conditions readout: one quiet line at the masthead's right, expanding downward on demand. */
+.city-workbench .conditions-card { position: absolute; z-index: 8; top: 8px; right: calc(var(--panel-width) + var(--lab-gap) + 52px + 12px); width: 240px; border: 1px solid transparent; border-radius: var(--radius-control); background: transparent; }
+.city-workbench .conditions-card:has(#weather-expanded:not([hidden])) { background: var(--surface-raised); border-color: var(--rule); box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 12%, transparent); }
+.city-workbench .conditions-top { display: flex; align-items: center; gap: 8px; width: 100%; height: 38px; padding: 0 10px; text-align: left; font-size: 12px; color: var(--ink-muted); }
+.city-workbench .conditions-top strong { font: 500 13px/1 var(--font-data); color: var(--ink); }
+.city-workbench #weather-symbol { font-size: 15px; color: var(--accent); }
+.city-workbench #weather-description { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.city-workbench #weather-expanded { padding: 4px 10px 10px; font-size: 12px; color: var(--ink-muted); }
+.city-workbench .conditions-meta, .city-workbench .conditions-clock { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-data); font-size: 11px; line-height: 1.6; }
+.city-workbench #live-environment { color: var(--accent); font-weight: 500; }
+.city-workbench #live-environment[aria-pressed="true"] { text-decoration: underline; text-underline-offset: 0.15em; }
+.city-workbench #weather-expanded .button-row { margin: 8px 0 0; justify-content: space-between; }
+.city-workbench #weather-expanded .text-button { font-size: 11px; min-height: 28px; }
+
+.city-workbench .focus-button { position: absolute; z-index: 20; top: 8px; right: calc(var(--panel-width) + var(--lab-gap)); display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--ink-muted); font-size: 12px; }
+.city-workbench .focus-button:hover { color: var(--ink); border-color: var(--ink); }
+.city-workbench .focus-button svg { width: 16px; height: 16px; }
+
+/* Rail: destinations on top, then the inspector. */
+.city-workbench .mode-bar { position: absolute; z-index: 6; top: var(--lab-masthead); right: 0; width: var(--panel-width); height: var(--lab-destinations); display: flex; align-items: center; gap: 0; padding: 8px 8px; border-left: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--surface-raised); transform: none; left: auto; bottom: auto; }
+.city-workbench .mode-bar button { display: flex; flex: 1 1 0; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 38px; padding: 0 2px; border-radius: 4px; color: var(--ink-muted); font: 500 9px/1 var(--font-data); letter-spacing: 0; white-space: nowrap; position: relative; }
+.city-workbench .mode-bar button span:not(.nav-count) { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.city-workbench .mode-bar button svg { width: 16px; height: 16px; stroke-width: 1.4; }
+.city-workbench .mode-bar button:hover { color: var(--ink); background: var(--surface-sunken); }
+.city-workbench .mode-bar button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); box-shadow: none; }
+.city-workbench .mode-bar .back-link, .city-workbench .mode-bar .rail-help { flex: 0 0 auto; display: grid; place-items: center; width: 26px; height: 26px; margin: 0; padding: 0; border: 1px solid var(--rule); border-radius: 50%; background: var(--surface-raised); color: var(--ink-muted); font: 500 12px/1 var(--font-data); text-decoration: none; }
+.city-workbench .mode-bar .back-link { margin-right: 6px; }
+.city-workbench .mode-bar .rail-help { margin-left: 6px; margin-top: 0; }
+.city-workbench .mode-bar :is(.back-link, .rail-help):hover { color: var(--ink); border-color: var(--ink); text-decoration: none; }
+.city-workbench .nav-count { position: absolute; top: 2px; right: 6px; min-width: 14px; padding: 1px 4px; border-radius: 7px; background: var(--accent); color: var(--accent-ink); font: 600 8px/1.4 var(--font-data); }
+
+.city-workbench .explorer, .city-workbench .explorer.estate-open { position: absolute; z-index: 5; top: calc(var(--lab-masthead) + var(--lab-destinations)); right: 0; bottom: 0; left: auto; width: var(--panel-width); max-width: none; height: auto; max-height: none; padding: 0; border: 0; border-left: 1px solid var(--rule); border-radius: 0; background: var(--surface-raised); box-shadow: none; overflow: hidden; display: flex; flex-direction: column; }
+.city-workbench .panel-heading { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 12px 4px 20px; margin: 0; border-bottom: 1px solid var(--rule); }
+.city-workbench .panel-heading .eyebrow { flex: 1; font-size: 10px; letter-spacing: 0.1em; }
+.city-workbench .panel-heading .icon-button { width: 28px; height: 28px; min-width: 0; min-height: 0; font-size: 18px; }
+.city-workbench #sheet-size { display: none; }
+.city-workbench #panel-content { flex: 1; overflow: auto; overscroll-behavior: contain; padding: var(--space-4) 20px var(--space-6); scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; scroll-padding-top: 64px; }
+.city-workbench .explorer h2 { font: 500 clamp(22px, 2vw, 26px)/1.12 var(--font-display); letter-spacing: -0.02em; margin: 0 0 8px; }
+.city-workbench .explorer.collapsed { bottom: auto; height: 40px; }
+.city-workbench .explorer.collapsed #panel-content { display: none; }
+.city-workbench .property-sticky { position: sticky; top: calc(-1 * var(--space-4)); z-index: 2; margin: calc(-1 * var(--space-4)) -20px var(--space-3); padding: 0 12px; background: var(--surface-raised); border-bottom: 1px solid var(--rule); }
+
+/* Camera controls: one vertical cluster at the figure's bottom-right. */
+.city-workbench .camera-controls { position: absolute; z-index: 4; right: calc(var(--panel-width) + var(--lab-gap)); bottom: 44px; top: auto; left: auto; display: flex; flex-direction: column; width: 40px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); overflow: hidden; box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 10%, transparent); }
+.city-workbench .camera-controls button { width: 100%; height: 38px; min-width: 0; min-height: 0; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; color: var(--ink); font-size: 18px; }
+.city-workbench .camera-controls button:first-child { font: 500 10px/1 var(--font-data); height: 44px; }
+.city-workbench .camera-controls button:last-child { border-bottom: 0; }
+.city-workbench .camera-controls button:hover { background: var(--surface-sunken); color: var(--accent); }
+
+/* Scene label and legend live over the figure, in data type. */
+.city-workbench .scene-label { position: absolute; z-index: 3; left: var(--lab-gap); bottom: 40px; right: auto; top: auto; transform: none; display: inline-flex; align-items: center; gap: 8px; max-width: 60%; padding: 5px 10px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); font: 500 11px/1.4 var(--font-data); letter-spacing: 0.06em; color: var(--ink); text-align: left; }
+.city-workbench .scene-sub { display: inline; margin: 0; font-weight: 400; letter-spacing: 0.02em; color: var(--ink-muted); }
+.city-workbench .live-dot { display: inline-block; width: 6px; height: 6px; margin: 0; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.city-workbench .map-legend { position: absolute; z-index: 3; left: var(--lab-gap); top: calc(var(--lab-masthead) + var(--lab-gap)); display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 8px 12px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); font: 400 11px/1.4 var(--font-data); color: var(--ink-muted); }
+.city-workbench .legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; vertical-align: middle; }
+.city-workbench .legend-dot.public { background: var(--layer-public); }
+.city-workbench .legend-dot.imported { background: var(--layer-imported); }
+.city-workbench .legend-dot.height { background: var(--layer-height); }
+.city-workbench .legend-dot.parcel { background: var(--layer-parcel); }
+.city-workbench .pin-dot { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 6px; border-radius: 50%; font: 600 10px/1 var(--font-data); color: var(--accent-ink); }
+.city-workbench .pin-dot.amber { background: var(--pin-a); }
+.city-workbench .pin-dot.blue { background: var(--pin-b); }
+
+/* Light and tone dock: bottom-left card, collapsed to essentials. */
+.city-workbench .light-controls { position: absolute; z-index: 4; left: var(--lab-gap); bottom: 84px; width: 300px; display: block; padding: 10px 14px 12px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 8%, transparent); }
+.city-workbench .light-dock-heading { display: flex; align-items: center; gap: 10px; min-height: 28px; }
+.city-workbench .light-dock-heading .eyebrow { flex: 1; }
+.city-workbench .light-dock-heading .text-button { min-height: 28px; font-size: 11px; }
+.city-workbench .sun-study-controls { display: flex; align-items: center; gap: 12px; }
+.city-workbench .sun-study-controls > div { flex: 1; min-width: 0; }
+.city-workbench .solar-arc { width: 64px; height: 32px; flex: none; stroke: var(--rule-strong); fill: none; stroke-width: 1.2; }
+.city-workbench .solar-arc circle { fill: var(--accent); stroke: none; }
+.city-workbench .light-controls input[type="range"] { margin: 8px 0 2px; }
+.city-workbench .light-controls .icon-button { border: 1px solid var(--rule); font-size: 12px; min-width: 28px; min-height: 28px; }
+.city-workbench #photo-tone-controls { display: grid; gap: 6px; font-size: 12px; color: var(--ink-muted); }
+
+/* Footer line. */
+.city-workbench .city-footer { position: absolute; z-index: 3; left: 0; right: var(--panel-width); bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 6px var(--lab-gap); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); border-top: 1px solid var(--rule); font: 400 11px/1.4 var(--font-data); color: var(--ink-muted); }
+.city-workbench .city-footer > div { display: flex; align-items: center; gap: 14px; }
+.city-workbench .city-footer a, .city-workbench .city-footer button { color: var(--ink-muted); font: inherit; padding: 0; }
+.city-workbench .city-footer :is(a, button):hover { color: var(--accent); text-decoration: underline; text-underline-offset: 0.15em; }
+.city-workbench .controls-hint { letter-spacing: 0.02em; }
+
+/* Loading, fallback, notices: centred in the figure. */
+.city-workbench .loading { position: absolute; z-index: 9; top: calc(50% + var(--lab-masthead) / 2); left: calc((100% - var(--panel-width)) / 2); transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 10px; text-align: center; color: var(--ink); }
+.city-workbench .loading p { margin: 0; font: 500 clamp(22px, 2.4vw, 30px)/1.1 var(--font-display); letter-spacing: -0.02em; }
+.city-workbench .loading > span:last-child { font: 400 11px/1.4 var(--font-data); color: var(--ink-muted); }
+.city-workbench .loading-orbit { display: block; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--rule); border-top-color: var(--accent); animation: lab-orbit 1.1s linear infinite; }
+.city-workbench .fallback { position: absolute; z-index: 9; top: 30%; left: calc((100% - var(--panel-width)) / 2); transform: translateX(-50%); width: min(420px, 90%); padding: var(--space-5); border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); }
+.city-workbench .fallback h2 { font-size: 22px; margin-bottom: 8px; }
+.city-workbench .fallback button { margin-top: var(--space-3); }
+.city-workbench .notice { position: absolute; z-index: 30; left: 50%; bottom: 48px; transform: translate(-50%, 8px); max-width: min(520px, 90%); padding: 10px 14px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--ink); color: var(--surface-raised); font-size: 13px; opacity: 0; pointer-events: none; }
+.city-workbench .notice.visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.city-workbench .noscript-message { position: absolute; inset: auto var(--lab-gap) var(--lab-gap); padding: var(--space-4); border: 1px solid var(--rule); background: var(--surface-raised); }
+
+/* Dialogs share the shell's document voice. */
+.city-workbench dialog { width: min(40rem, calc(100% - 2 * var(--lab-gap))); max-height: min(85svh, 60rem); padding: var(--space-5); border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); color: var(--ink); box-shadow: 0 24px 64px color-mix(in srgb, var(--ink) 18%, transparent); }
+.city-workbench dialog::backdrop { background: color-mix(in srgb, var(--ink) 40%, transparent); }
+.city-workbench dialog h2 { font-size: clamp(22px, 2.2vw, 28px); margin: 0 0 var(--space-3); }
+.city-workbench dialog h3 { font-size: 15px; font-weight: 600; margin: var(--space-4) 0 6px; }
+.city-workbench .dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: var(--space-3); }
+.city-workbench .shortcut-list { display: grid; gap: 10px; margin: var(--space-3) 0; }
+.city-workbench .shortcut-list > div { display: grid; grid-template-columns: 9rem 1fr; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+.city-workbench .shortcut-list dt { font-family: var(--font-data); font-size: 12px; color: var(--accent); }
+.city-workbench .shortcut-list dd { margin: 0; }
+.city-workbench .connection-help { margin: var(--space-3) 0; padding: 0 0 var(--space-3); border-bottom: 1px solid var(--rule); }
+.city-workbench .connection-help summary { font-size: 13px; color: var(--accent); min-height: 32px; }
+.city-workbench .ion-save-options { display: grid; gap: 8px; margin: var(--space-3) 0; padding: var(--space-3); border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface); }
+.city-workbench .ion-save-options label { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.city-workbench .learn-link { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--ink); }
+.city-workbench #source-statistics { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 12px; margin: var(--space-3) 0; }
+.city-workbench #source-statistics dt { font: 500 11px/1.4 var(--font-data); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.city-workbench #source-statistics dd { margin: 0; font-family: var(--font-display); font-size: 18px; }
+
+/* Focus mode: the figure alone. */
+.city-workbench.focus-mode :is(.city-header, .workspace-command, .explorer, .mode-bar, .conditions-card, .light-controls, .map-legend, .city-footer, .scene-label, .camera-controls) { opacity: 0; pointer-events: none; }
+.city-workbench.focus-mode #city-viewport, .city-workbench.focus-mode .edge-shade { inset: 0; }
+.city-workbench.focus-mode .focus-button { top: var(--lab-gap); right: var(--lab-gap); }
+
+/* Wider inspector when a property record is open and space allows. */
+@media (min-width: 1280px) {
+  body.city-workbench:has(.explorer.estate-open) { --panel-width: 27rem; }
+  body.city-workbench.property-wide:has(.explorer.estate-open) { --panel-width: 34rem; }
+}
+@media (max-width: 1100px) and (min-width: 721px) {
+  body.city-workbench { --panel-width: 21rem; }
+  .city-workbench .workspace-command { left: 232px; width: min(360px, calc(100% - var(--panel-width) - 232px - 332px)); }
+  .city-workbench .city-brand p { display: none; }
+  .city-workbench .conditions-card { width: 200px; }
+  .city-workbench .light-controls { width: 260px; }
+}
+
+/* Phones: masthead, then search, the figure, and the rail as a bottom sheet with destinations beneath it. */
+@media (max-width: 720px) {
+  body.city-workbench { --panel-width: 100%; --lab-masthead: 52px; --lab-gap: 12px; --lab-destinations: 56px; }
+  .city-workbench #city-viewport, .city-workbench .edge-shade { top: calc(var(--lab-masthead) + 48px); right: 0; bottom: var(--lab-destinations); }
+  .city-workbench .city-header { padding: 0 var(--lab-gap); }
+  .city-workbench .city-brand p { display: none; }
+  .city-workbench .workspace-command { top: var(--lab-masthead); left: 0; right: 0; transform: none; width: 100%; height: 48px; border-radius: 0; border-width: 0 0 1px; }
+  .city-workbench .workspace-command input { font-size: 16px; }
+  .city-workbench .conditions-card { top: 6px; right: 56px; width: auto; max-width: 46%; }
+  .city-workbench #weather-description { display: none; }
+  .city-workbench .focus-button { top: 6px; right: var(--lab-gap); height: 40px; width: 40px; padding: 0; justify-content: center; }
+  .city-workbench .focus-button span { display: none; }
+  .city-workbench .mode-bar { top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: var(--lab-destinations); padding: 6px var(--lab-gap) calc(6px + env(safe-area-inset-bottom, 0px)); border-left: 0; border-top: 1px solid var(--rule); border-bottom: 0; }
+  .city-workbench .mode-bar button { height: 44px; font-size: 9px; }
+  .city-workbench .mode-bar .back-link, .city-workbench .mode-bar .rail-help { width: 28px; height: 28px; }
+  .city-workbench .explorer, .city-workbench .explorer.estate-open { top: auto; right: 0; bottom: var(--lab-destinations); left: 0; width: 100%; height: 46svh; border-left: 0; border-top: 1px solid var(--rule); border-radius: 12px 12px 0 0; box-shadow: 0 -12px 32px color-mix(in srgb, var(--ink) 10%, transparent); }
+  .city-workbench .explorer.sheet-expanded, .city-workbench .explorer.estate-open.sheet-expanded { top: calc(var(--lab-masthead) + 48px); height: auto; border-radius: 0; }
+  .city-workbench .explorer.collapsed, .city-workbench .explorer.estate-open.collapsed { height: 40px; }
+  .city-workbench #sheet-size { display: inline-grid; }
+  .city-workbench .panel-heading { padding-left: var(--lab-gap); }
+  .city-workbench #panel-content { padding: var(--space-3) var(--lab-gap) var(--space-5); }
+  .city-workbench .property-sticky { position: static; margin-inline: calc(-1 * var(--lab-gap)); }
+  .city-workbench .camera-controls { right: var(--lab-gap); top: calc(var(--lab-masthead) + 48px + var(--lab-gap)); bottom: auto; width: 36px; }
+  .city-workbench .camera-controls button { height: 34px; }
+  .city-workbench .explorer.sheet-expanded ~ .camera-controls { display: none; }
+  .city-workbench .light-controls, .city-workbench .scene-label, .city-workbench .city-footer, .city-workbench .map-legend { display: none; }
+  .city-workbench .explorer.collapsed ~ .scene-label { display: flex; bottom: calc(var(--lab-destinations) + 52px); }
+  .city-workbench .loading { z-index: 4; left: 50%; top: calc(var(--lab-masthead) + 48px + 22svh); width: 90%; }
+  .city-workbench .mode-bar button { font-size: 8px; }
+  .city-workbench .light-controls, .city-workbench .explorer.estate-open ~ .light-controls, .city-workbench #lighting-dock { display: none; }
+  .city-workbench .fallback { left: 50%; }
+  .city-workbench .notice { bottom: calc(var(--lab-destinations) + 12px); }
+  .city-workbench dialog { padding: var(--space-4); }
+  .city-workbench .shortcut-list > div { grid-template-columns: 1fr; gap: 2px; }
+}

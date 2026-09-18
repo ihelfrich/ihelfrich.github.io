@@ -1,29 +1,21 @@
 ---
 import '../styles/tokens.css';
 import { THEME_COLOR } from '../data/theme.mjs';
-import '../styles/st-louis.css';
-import '../styles/st-louis-workbench.css';
-import '../styles/st-louis-proforma.css';
-import '../styles/st-louis-resident.css';
-import '../styles/st-louis-resident-value.css';
-import '../styles/st-louis-home-search.css';
-import '../styles/st-louis-parcels.css';
-import '../styles/st-louis-atlas.css';
-import '../styles/st-louis-records.css';
-import '../styles/st-louis-interface.css';
-import '../styles/st-louis-map-layers.css';
+import '../styles/st-louis-surface.css';
+import '../styles/st-louis-rail.css';
+import '../styles/st-louis-map.css';
 const title = 'St. Louis | City & property lab by Ian Helfrich';
 ---
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preload" href="/fonts/space-grotesk-variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin />
   <title>{title}</title><meta name="description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." />
   <meta name="theme-color" content={THEME_COLOR.lab} /><link rel="canonical" href="https://ihelfrich.github.io/st-louis" /><link rel="icon" href="/favicon.svg" />
 </head>
 <body class="city-workbench">
-<main id="city-app">
+<main id="city-app" data-surface="lab">
   <div id="city-viewport" role="region" aria-label="Interactive 3D map of St. Louis City and County" tabindex="0"></div>
   <div class="edge-shade" aria-hidden="true"></div>
   <div id="loading" class="loading"><span class="loading-orbit"></span><p>Finding our place.</p><span id="load-detail">Preparing St. Louis City and County</span></div>
