@@ -1,6 +1,6 @@
 # Design tokens and the Property Lab recomposition
 
-Date: 2026-09-17. Status: approved in conversation by Dr. Helfrich; implementation follows this document.
+Date: 2026-09-17. Status: approved in conversation by Dr. Helfrich. Part 1 (token layer) implemented on branch design-tokens, PR pending; Part 2 (Property Lab) not started.
 
 ## Problem
 
