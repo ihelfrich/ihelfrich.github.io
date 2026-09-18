@@ -35,7 +35,7 @@
 .city-workbench .conditions-card:has(#weather-expanded:not([hidden])) { background: var(--surface-raised); border-color: var(--rule); box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 12%, transparent); }
 .city-workbench .conditions-top { display: flex; align-items: center; gap: 8px; width: 100%; height: 38px; padding: 0 10px; text-align: left; font-size: 12px; color: var(--ink-muted); }
 .city-workbench .conditions-top strong { font: 500 13px/1 var(--font-data); color: var(--ink); }
-.city-workbench #weather-symbol { font-size: 15px; color: var(--accent); }
+.city-workbench #weather-symbol { font-size: 15px; color: var(--ink-muted); }
 .city-workbench #weather-description { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .city-workbench #weather-expanded { padding: 4px 10px 10px; font-size: 12px; color: var(--ink-muted); }
 .city-workbench .conditions-meta, .city-workbench .conditions-clock { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-data); font-size: 11px; line-height: 1.6; }
@@ -54,7 +54,7 @@
 .city-workbench .mode-bar button span:not(.nav-count) { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .city-workbench .mode-bar button svg { width: 16px; height: 16px; stroke-width: 1.4; }
 .city-workbench .mode-bar button:hover { color: var(--ink); background: var(--surface-sunken); }
-.city-workbench .mode-bar button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); box-shadow: none; }
+.city-workbench .mode-bar button.active { color: var(--ink); background: var(--surface-sunken); box-shadow: inset 0 -2px 0 var(--ink); border-radius: 4px 4px 0 0; }
 .city-workbench .mode-bar .back-link, .city-workbench .mode-bar .rail-help { flex: 0 0 auto; display: grid; place-items: center; width: 26px; height: 26px; margin: 0; padding: 0; border: 1px solid var(--rule); border-radius: 50%; background: var(--surface-raised); color: var(--ink-muted); font: 500 12px/1 var(--font-data); text-decoration: none; }
 .city-workbench .mode-bar .back-link { margin-right: 6px; }
 .city-workbench .mode-bar .rail-help { margin-left: 6px; margin-top: 0; }
@@ -67,7 +67,7 @@
 .city-workbench .panel-heading .icon-button { width: 28px; height: 28px; min-width: 0; min-height: 0; font-size: 18px; }
 .city-workbench #sheet-size { display: none; }
 .city-workbench #panel-content { flex: 1; overflow: auto; overscroll-behavior: contain; padding: var(--space-4) 20px var(--space-6); scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; scroll-padding-top: 64px; }
-.city-workbench .explorer h2 { font: 500 clamp(22px, 2vw, 26px)/1.12 var(--font-display); letter-spacing: -0.02em; margin: 0 0 8px; }
+.city-workbench .explorer h2 { font: 500 clamp(24px, 2.1vw, 28px)/1.1 "Space Grotesk", var(--font-display); letter-spacing: -0.04em; margin: 0 0 8px; }
 .city-workbench .explorer.collapsed { bottom: auto; height: 40px; }
 .city-workbench .explorer.collapsed #panel-content { display: none; }
 .city-workbench .property-sticky { position: sticky; top: calc(-1 * var(--space-4)); z-index: 2; margin: calc(-1 * var(--space-4)) -20px var(--space-3); padding: 0 12px; background: var(--surface-raised); border-bottom: 1px solid var(--rule); }
@@ -82,7 +82,7 @@
 /* Scene label and legend live over the figure, in data type. */
 .city-workbench .scene-label { position: absolute; z-index: 3; left: var(--lab-gap); bottom: 40px; right: auto; top: auto; transform: none; display: inline-flex; align-items: center; gap: 8px; max-width: 60%; padding: 5px 10px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); font: 500 11px/1.4 var(--font-data); letter-spacing: 0.06em; color: var(--ink); text-align: left; }
 .city-workbench .scene-sub { display: inline; margin: 0; font-weight: 400; letter-spacing: 0.02em; color: var(--ink-muted); }
-.city-workbench .live-dot { display: inline-block; width: 6px; height: 6px; margin: 0; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.city-workbench .live-dot { display: inline-block; width: 6px; height: 6px; margin: 0; border-radius: 50%; background: var(--layer-parcel); box-shadow: 0 0 0 3px color-mix(in srgb, var(--layer-parcel) 18%, transparent); }
 .city-workbench .map-legend { position: absolute; z-index: 3; left: var(--lab-gap); top: calc(var(--lab-masthead) + var(--lab-gap)); display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 8px 12px; border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); font: 400 11px/1.4 var(--font-data); color: var(--ink-muted); }
 .city-workbench .legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; vertical-align: middle; }
 .city-workbench .legend-dot.public { background: var(--layer-public); }
@@ -101,7 +101,7 @@
 .city-workbench .sun-study-controls { display: flex; align-items: center; gap: 12px; }
 .city-workbench .sun-study-controls > div { flex: 1; min-width: 0; }
 .city-workbench .solar-arc { width: 64px; height: 32px; flex: none; stroke: var(--rule-strong); fill: none; stroke-width: 1.2; }
-.city-workbench .solar-arc circle { fill: var(--accent); stroke: none; }
+.city-workbench .solar-arc circle { fill: var(--highlight); stroke: none; }
 .city-workbench .light-controls input[type="range"] { margin: 8px 0 2px; }
 .city-workbench .light-controls .icon-button { border: 1px solid var(--rule); font-size: 12px; min-width: 28px; min-height: 28px; }
 .city-workbench #photo-tone-controls { display: grid; gap: 6px; font-size: 12px; color: var(--ink-muted); }
@@ -117,7 +117,7 @@
 .city-workbench .loading { position: absolute; z-index: 9; top: calc(50% + var(--lab-masthead) / 2); left: calc((100% - var(--panel-width)) / 2); transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 10px; text-align: center; color: var(--ink); }
 .city-workbench .loading p { margin: 0; font: 500 clamp(22px, 2.4vw, 30px)/1.1 var(--font-display); letter-spacing: -0.02em; }
 .city-workbench .loading > span:last-child { font: 400 11px/1.4 var(--font-data); color: var(--ink-muted); }
-.city-workbench .loading-orbit { display: block; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--rule); border-top-color: var(--accent); animation: lab-orbit 1.1s linear infinite; }
+.city-workbench .loading-orbit { display: block; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--rule); border-top-color: var(--ink); animation: lab-orbit 1.1s linear infinite; }
 .city-workbench .fallback { position: absolute; z-index: 9; top: 30%; left: calc((100% - var(--panel-width)) / 2); transform: translateX(-50%); width: min(420px, 90%); padding: var(--space-5); border: 1px solid var(--rule); border-radius: var(--radius-control); background: var(--surface-raised); }
 .city-workbench .fallback h2 { font-size: 22px; margin-bottom: 8px; }
 .city-workbench .fallback button { margin-top: var(--space-3); }

@@ -534,15 +534,17 @@
 
 /* Surfaces override roles only. */
 [data-surface="lab"] {
-  /* The Property Lab reads the hub's light palette; the map canvas keeps its own rendering. */
-  --surface: var(--p-paper);
+  /* The Property Lab reads the palette the hub's pages actually paint (the "studio" overrides:
+     near-black ink on near-white paper, controls in ink). Blue is kept for focus and map marks.
+     The map canvas keeps its own daylight rendering. */
+  --surface: var(--p-neutral-98);
   --surface-raised: var(--p-figure);
-  --surface-sunken: color-mix(in srgb, var(--p-paper) 90%, var(--p-ink));
-  --ink: var(--p-ink);
-  --ink-muted: color-mix(in srgb, var(--p-ink) 60%, var(--p-paper));
-  --rule: color-mix(in srgb, var(--p-ink) 16%, var(--p-paper));
-  --rule-strong: color-mix(in srgb, var(--p-ink) 34%, var(--p-paper));
-  --accent: var(--p-signal);
+  --surface-sunken: color-mix(in srgb, var(--p-neutral-98) 92%, var(--p-neutral-08b));
+  --ink: var(--p-neutral-08b);
+  --ink-muted: var(--p-neutral-43);
+  --rule: color-mix(in srgb, var(--p-neutral-08b) 14%, var(--p-neutral-98));
+  --rule-strong: color-mix(in srgb, var(--p-neutral-08b) 32%, var(--p-neutral-98));
+  --accent: var(--p-neutral-08b);
   --accent-ink: var(--p-figure);
   --highlight: var(--p-gold-80);
   --positive: var(--p-teal);
