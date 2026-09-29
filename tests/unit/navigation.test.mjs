@@ -50,7 +50,7 @@ test("the sitemap static list covers every navigation route exactly once", () =>
   for (const route of routes) assert.match(route, /^\/([a-z0-9-]+\/)*$/, `sitemap routes end with a slash: ${route}`);
   for (const route of navRoutes()) assert.ok(routes.includes(route), `${route} is in the navigation but not the sitemap`);
   assert.ok(routes.includes("/"), "the home page is in the sitemap");
-  for (const retired of ["/work-with-me/", "/start/", "/book/", "/capabilities/"]) {
+  for (const retired of ["/work-with-me/", "/start/", "/capabilities/"]) {
     assert.ok(!routes.includes(retired), `${retired} is redirected and must leave the sitemap`);
   }
 });

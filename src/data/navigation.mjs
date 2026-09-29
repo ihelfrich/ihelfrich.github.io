@@ -38,6 +38,7 @@ export const RECORDS = freezeAll([
 /** Pages that belong in the command-K index but not in the header or footer. */
 export const SECONDARY_PAGES = freezeAll([
   { label: "Third Space Labs", href: "/third-space", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D." },
+  { label: "Book a time", href: "/book", detail: "Tutoring, consulting, and job-market meetings, booked against Ian's open calendar times" },
   { label: "Colophon", href: "/colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack" },
 ]);
 
@@ -62,7 +63,6 @@ export const GO_RECORDS = freezeAll(
 /** Retired routes kept alive as redirects so old links and search results still land. */
 export const REDIRECTS = Object.freeze({
   "/start": "/contact",
-  "/book": "/contact",
   "/work-with-me": "/contact",
   "/capabilities": "/work",
 });

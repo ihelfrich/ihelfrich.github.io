@@ -1,0 +1,66 @@
+---
+import Base from "../layouts/Base.astro";
+import { bookingLinks, publicLinks } from "../data/public-record.mjs";
+---
+
+<Base
+  wide
+  title="Book a time"
+  description="Book a tutoring call, a consulting intro, or a job-market meeting with Ian Helfrich from his open calendar times."
+  pageClass="fieldbook-book"
+>
+  <section class="book-hero" data-rail-label="Book a time">
+    <div class="book-heading">
+      <p class="record-label">Book a time · Times shown in your time zone</p>
+      <h1>Book a time</h1>
+      <p>Each link opens my calendar with the times I have free over the next month. The confirmation email has the Zoom link, and a reminder arrives the day before.</p>
+    </div>
+
+    <ol class="booking-ledger">
+      {bookingLinks.map((link, index) => (
+        <li id={link.id}>
+          <span class="booking-code">{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h2>{link.label}</h2>
+            <p>{link.detail}</p>
+          </div>
+          <span class="booking-minutes">{link.minutes} min</span>
+          <a class="booking-route" href={link.href} target="_blank" rel="noopener">Choose a time <span aria-hidden="true">↗</span></a>
+        </li>
+      ))}
+    </ol>
+
+    <aside class="booking-note">
+      <strong>Wyzant students</strong>
+      <p>If we work together through Wyzant, please keep scheduling lessons on Wyzant. If none of the times above work, <a href={publicLinks.email}>email me</a>.</p>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .book-hero { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-8); }
+  .record-label { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .book-heading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); column-gap: var(--ef-space-7); align-items: end; }
+  .book-heading .record-label { grid-column: 1 / -1; }
+  .book-heading h1 { max-width: 11ch; margin: 0; }
+  .book-heading > p:not(.record-label) { margin: 0; font-size: 1.16rem; }
+  .booking-ledger { margin: var(--ef-space-7) 0 0; padding: 0; list-style: none; }
+  .booking-ledger li { display: grid; grid-template-columns: 3rem minmax(0, 1fr) 6rem 10rem; column-gap: var(--ef-space-5); align-items: baseline; padding-block: var(--ef-space-5); border-top: 1px solid var(--ef-ink); scroll-margin-top: 6rem; }
+  .booking-ledger h2 { margin: 0; font-size: clamp(1.3rem, 2.2vw, 1.9rem); }
+  .booking-ledger p { max-width: 62ch; margin: 0.45rem 0 0; }
+  .booking-code, .booking-minutes { color: var(--muted); font: 600 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .booking-route { justify-self: end; font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; white-space: nowrap; }
+  .booking-note { display: grid; padding-top: var(--ef-space-4); grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-top: 2px solid var(--ef-oxide); }
+  .booking-note strong { font: 650 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .booking-note p { max-width: 68ch; margin: 0; }
+  @media (max-width: 60rem) {
+    .book-heading { grid-template-columns: 1fr; }
+    .book-heading > p:not(.record-label) { margin-top: 1.5rem; }
+  }
+  @media (max-width: 45rem) {
+    .book-hero { padding-block: var(--ef-space-7); }
+    .booking-ledger li { grid-template-columns: 2.25rem minmax(0, 1fr); row-gap: 0.6rem; }
+    .booking-minutes, .booking-route { grid-column: 2; justify-self: start; }
+    .booking-note { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>

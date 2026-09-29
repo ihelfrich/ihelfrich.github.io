@@ -76,3 +76,12 @@ export const publicLinks = Object.freeze({
   cv: "/cv/",
   wyzant: "https://www.wyzant.com/Tutors/GA/Smyrna/10212943/",
 });
+
+/** Public Motion booking pages, listed on /book. Plain links only; no scheduling script loads on this site. */
+export const bookingLinks = Object.freeze([
+  { id: "tutoring-intro", label: "Tutoring intro call", minutes: 20, href: "https://app.usemotion.com/meet/ianhelfrich/tutoring-intro", detail: "A first conversation about the subject, your goals, and how sessions would work." },
+  { id: "tutoring-session", label: "Tutoring session", minutes: 60, href: "https://app.usemotion.com/meet/ianhelfrich/tutoring-session", detail: "One hour of tutoring or research-design coaching. If we have not worked together yet, start with the intro call." },
+  { id: "consulting", label: "Consulting intro call", minutes: 30, href: "https://app.usemotion.com/meet/ianhelfrich/consulting-intro", detail: "For an analysis, study design, or data project. The booking form asks for the question and the deadline." },
+  { id: "job-market", label: "Job-market meeting", minutes: 30, href: "https://app.usemotion.com/meet/ianhelfrich/job-market", detail: "For search committees, hiring managers, and colleagues who want to talk about a role or a paper." },
+  { id: "meeting", label: "Anything else", minutes: 30, href: "https://app.usemotion.com/meet/ianhelfrich/meeting", detail: "A general meeting for whatever the other four do not cover." },
+].map((link) => Object.freeze(link)));
