@@ -33,7 +33,7 @@ const totalCount = sources.sources.length;
       <ol class="reading-list">
         {items.map(item => (
           <li>
-            <p>{item.source} · {fmt(item.date)}{item.category ? ` · ${item.category}` : ""}</p>
+            <p>{String(item.source ?? "").replace(/\s*\u2014\s*/g, ": ")} · {fmt(item.date)}{item.category ? ` · ${item.category}` : ""}</p>
             <h2><a href={item.link} target="_blank" rel="noopener">{item.title}</a></h2>
             {item.summary && <div>{item.summary}</div>}
           </li>

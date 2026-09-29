@@ -1,5 +1,5 @@
 ---
-title: "BUSN 180 — Principles of Macroeconomics"
+title: "BUSN 180: Principles of Macroeconomics"
 blurb: "Online undergraduate principles of macro taught through Campus (MTI College partnership). Spring 2023 cohort, fully asynchronous."
 url: "https://github.com/ihelfrich/TeachingNotes"
 audience: "Undergraduate (online, MTI College)"

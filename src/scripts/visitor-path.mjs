@@ -17,7 +17,7 @@ export function mountVisitorPath(root){
  };
  const choose=(value,focus)=>{
   const selected=resolveVisitorPath(value,focus);if(!selected)return;
-  intent=selected.intent;const pickerLabel=root.querySelector('[data-visitor-picker-label]');if(pickerLabel)pickerLabel.textContent=`${selected.path.label} — change purpose`;for(const radio of radios)radio.checked=radio.value===intent;
+  intent=selected.intent;const pickerLabel=root.querySelector('[data-visitor-picker-label]');if(pickerLabel)pickerLabel.textContent=`${selected.path.label} · change purpose`;for(const radio of radios)radio.checked=radio.value===intent;
   root.querySelector('[data-focus-label]').textContent=selected.path.question;
   select.replaceChildren(...selected.path.options.map(item=>{const option=doc.createElement('option');option.value=item.id;option.textContent=item.label;return option;}));
   select.value=selected.option.id;render();

@@ -117,7 +117,7 @@ export function createRealityDevelopmentVolume(C, viewer) {
           const hierarchies = rings.map(ring => new C.PolygonHierarchy(C.Cartesian3.fromDegreesArray(ring.slice(0, -1).flat())));
           hierarchies[0].holes = hierarchies.slice(1);
           const entity = viewer.entities.add({
-            name: "Parcel height study — full source boundary",
+            name: "Parcel height study: full source boundary",
             polygon: {
               hierarchy: hierarchies[0], height: baseHeight + study.heightMetres, extrudedHeight: baseHeight,
               material: C.Color.fromCssColorString("#f1c576").withAlpha(0.16),

@@ -85,6 +85,40 @@ for (const file of files) {
   }
 }
 
+// Em dashes also reach visitors through content collections, client scripts, and
+// served text files. A bare "—" string literal is a missing-value placeholder in
+// data tables and stays allowed; any other em dash is copy.
+const collectByExtension = async (directory, extensions) => {
+  let entries;
+  try {
+    entries = await readdir(directory, { withFileTypes: true });
+  } catch (error) {
+    if (error?.code === "ENOENT") return [];
+    throw error;
+  }
+  const found = [];
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) found.push(...await collectByExtension(path, extensions));
+    else if (extensions.some((extension) => entry.name.endsWith(extension))) found.push(path);
+  }
+  return found;
+};
+const proseEmDash = /(?<!["'`])\u2014|\u2014(?!["'`])/g;
+const emDashSources = [
+  ...await collectByExtension("src/content", [".md", ".mdx"]),
+  ...await collectByExtension("src/scripts", [".mjs", ".js", ".ts"]),
+  "public/st-louis/LICENSE.txt",
+];
+for (const file of emDashSources) {
+  const source = await readFile(file, "utf8");
+  const lines = source.split("\n");
+  for (const match of source.matchAll(proseEmDash)) {
+    const line = source.slice(0, match.index).split("\n").length;
+    failures.push(`${file}:${line} [em dash] ${lines[line - 1].trim().slice(0, 160)}`);
+  }
+}
+
 const researchDirectory = "src/content/research";
 const researchFiles = (await readdir(researchDirectory)).filter((name) => name.endsWith(".md"));
 const allowedMaturity = new Set(["circulating", "working", "development", "earlier"]);

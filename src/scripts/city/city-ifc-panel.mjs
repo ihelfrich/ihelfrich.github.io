@@ -8,7 +8,7 @@ export function createCityIfcPanel({document:doc=globalThis.document,target='#pr
  let active=false,disposed=false,loading=false,generation=0,selectionSerial=0,model=null,viewer=null,viewerPromise=null,controller=null,selectedId=null;let enabled=new Set();
  root.innerHTML=`<section class="ifc-panel"><div class="ifc-heading"><span class="eyebrow">LOCAL MODEL / OPENBIM</span><h3>Look inside a building model.</h3><p>Open your IFC file to explore its geometry and element records. Your file stays in this browser session.</p></div>
  <div class="ifc-toolbar"><label class="ifc-file-button">Open IFC file<input data-ifc="file" type="file" accept=".ifc" aria-label="Open local IFC file, up to 25 megabytes"></label><button data-ifc="example" type="button">Try example model</button><button data-ifc="close" type="button" disabled>Close model</button></div>
- <p data-ifc="example-label" class="ifc-example-label" hidden>Example model — not a St. Louis building. This pavilion and its records are invented.</p>
+ <p data-ifc="example-label" class="ifc-example-label" hidden>Example model (not a St. Louis building). This pavilion and its records are invented.</p>
  <p data-ifc="source" class="small-note">Uncompressed IFC · up to 25 MB · no upload or automatic parcel placement</p>
  <p data-ifc="status" class="ifc-status" role="status">Choose a file, or try the example to explore walls, columns and a roof.</p>
  <div class="ifc-stage-wrap"><div data-ifc="stage" class="ifc-stage"><div class="ifc-stage-empty"><span>IFC</span><p>A model has more to tell than its outline.</p></div></div><p data-ifc="stage-label" class="ifc-stage-label" hidden></p></div>
@@ -38,7 +38,7 @@ export function createCityIfcPanel({document:doc=globalThis.document,target='#pr
   try{const file=await getFile(controller.signal);if(own!==generation||disposed)return;validateIfcFile(file);const bytes=await file.arrayBuffer();if(own!==generation||disposed)return;
    const data=await client.load(bytes,progress=>{if(own===generation)status(`Reading local geometry · ${progress.current.toLocaleString()} of ${progress.total.toLocaleString()} elements`);});
    if(disposed||own!==generation)return;model=data;enabled=new Set(data.elements.map(e=>e.type));$('search').value='';$('example-label').hidden=!example;$('source').textContent=`${file.name} · ${data.schema} · ${data.elements.length.toLocaleString()} drawable elements · ${data.triangles.toLocaleString()} triangles · local coordinates`;
-   $('stage-label').textContent=example?'Example model — not a St. Louis building':`Local model · ${file.name}`;$('stage-label').hidden=false;
+   $('stage-label').textContent=example?'Example model (not a St. Louis building)':`Local model · ${file.name}`;$('stage-label').hidden=false;
    $('workspace').hidden=false;renderCategories();renderElements();controls(true);status('Model ready. Select an element or isolate a category to explore it.');await display({reveal:true});
   }catch(error){if(own===generation&&!disposed&&error.name!=='AbortError')status(error.message||'The local model could not be opened.');}
   finally{if(own===generation&&!disposed){loading=false;controls(Boolean(model));}}

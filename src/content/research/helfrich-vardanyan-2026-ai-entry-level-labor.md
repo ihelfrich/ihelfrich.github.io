@@ -14,7 +14,7 @@ discovery: "primary"
 tags: ["labor", "artificial-intelligence", "event-study", "cps", "early-career"]
 ---
 
-This project asks whether the diffusion of generative AI has changed employment outcomes differently for workers entering the labor market than for more experienced workers—and whether those changes vary systematically with occupational exposure to AI.
+This project asks whether the diffusion of generative AI has changed employment outcomes differently for workers entering the labor market than for more experienced workers, and whether those changes vary systematically with occupational exposure to AI.
 
 The design uses Current Population Survey microdata and two complementary approaches: a continuous-exposure event study and a triple-difference specification comparing higher- and lower-exposure occupations across experience groups before and after widespread generative-AI adoption.
 
