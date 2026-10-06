@@ -5,3 +5,29 @@
 .ocean-toolbar label{min-width:0}.ocean-toolbar select{width:100%;min-width:0}.ocean-atlas{font-family:var(--font-display)}
 
 .ocean-reading p,.ocean-reading li{font-family:var(--font-text);font-size:1.08rem}
+
+/* Geography and the measurements occupy the same working surface. */
+.ocean-scene{height:clamp(460px,65vw,710px)}
+.ocean-title{padding-bottom:.5rem}.ocean-title>div>p:last-child{font:1.25rem/1.6 var(--font-text);color:var(--ocean-soft)}
+.ocean-toolbar{display:grid;grid-template-columns:1.5fr 1.2fr 1.2fr 1fr auto auto;gap:.75rem}
+.ocean-toolbar select{font-size:.88rem}.ocean-toolbar button{font-size:.88rem}
+.ocean-display-options{display:flex;align-items:center;flex-wrap:wrap;gap:1.3rem;padding:0 0 1rem;font-size:.8rem;color:var(--ocean-soft)}
+.ocean-display-options label{display:flex;align-items:center;gap:.55rem}.ocean-display-options select{font-size:.8rem;padding:.3rem .6rem;min-height:36px}.ocean-display-options input{accent-color:var(--ocean-accent);width:1rem;height:1rem}
+.ocean-scene-status{max-width:calc(100% - 90px);font-family:var(--font-data);font-size:.75rem}
+.ocean-compass{position:absolute;right:24px;top:25px;font:500 .85rem var(--font-data);transform-origin:center;pointer-events:none}
+.ocean-extent{position:absolute;left:1rem;top:3.7rem;font:.7rem var(--font-data);color:var(--ocean-soft);pointer-events:none}
+.ocean-scene-note{max-width:45%;font-size:.75rem;line-height:1.7}.ocean-legend{font-family:var(--font-data);font-size:.72rem}
+.ocean-controls{gap:2rem;padding:1.2rem 0}.ocean-controls input{min-height:24px}
+.ocean-actions{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding-bottom:1.5rem}.ocean-actions button{font-size:.8rem}.ocean-actions span{font-size:.8rem;color:var(--ocean-accent)}
+.ocean-inspector{border-top:1px solid var(--ocean-line);border-bottom:1px solid var(--ocean-line);padding:1.7rem 0;margin-bottom:1.5rem}
+.ocean-inspect-heading{display:flex;justify-content:space-between;align-items:end;gap:2rem}.ocean-inspect-heading h2{font-size:1.5rem;margin:.5rem 0}.ocean-inspect-heading .ocean-kicker{font-size:.7rem;margin:0}
+.ocean-inspect-heading form{display:flex;gap:.7rem;align-items:end;flex-wrap:wrap}.ocean-inspect-heading label{font-size:.75rem;max-width:130px}
+.ocean-atlas input[type=number]{background:var(--ocean-panel);border:1px solid var(--ocean-line);border-radius:4px;color:var(--ocean-ink);padding:.65rem .6rem;width:100%;min-height:44px;font:inherit;box-sizing:border-box}
+.ocean-inspect-heading button{font-size:.8rem}#ocean-inspect-empty{color:var(--ocean-soft);font-size:.9rem;margin-bottom:0}#ocean-inspect-message:empty{display:none}#ocean-inspect-message{color:var(--ocean-accent)}
+.ocean-inspect-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:1rem;align-items:start}.ocean-inspect-grid>*{min-width:0}.ocean-inspect-grid button{font-size:.8rem}
+.ocean-table-wrap{overflow-x:auto}.ocean-atlas table{border-collapse:collapse;width:100%;font:.8rem/1.7 var(--font-data);font-variant-numeric:tabular-nums}.ocean-atlas caption{text-align:left;color:var(--ocean-soft);margin-bottom:.6rem}.ocean-atlas th,.ocean-atlas td{text-align:right;padding:.65rem .3rem;border-bottom:1px solid var(--ocean-line);white-space:nowrap}.ocean-atlas th:first-child{text-align:left}.ocean-atlas thead th{font-weight:400;color:var(--ocean-soft)}
+#ocean-profile{width:100%;height:190px;display:block;overflow:visible}#ocean-profile text{fill:var(--ocean-soft);font:11px var(--font-data)}.profile-grid{stroke:var(--ocean-line);stroke-width:.5}.profile-line{stroke-width:2}.profile-depth-0{color:var(--ocean-layer-0);stroke:var(--ocean-layer-0);fill:var(--ocean-layer-0)}.profile-depth-200{color:var(--ocean-layer-200);stroke:var(--ocean-layer-200);fill:var(--ocean-layer-200)}.profile-depth-1000{color:var(--ocean-layer-1000);stroke:var(--ocean-layer-1000);fill:var(--ocean-layer-1000)}path.profile-line{fill:none}path.profile-depth-200{stroke-dasharray:7 4}path.profile-depth-1000{stroke-dasharray:2 4}
+.ocean-profile-legend{display:flex;gap:1rem;flex-wrap:wrap;font:.75rem var(--font-data)}
+.ocean-atlas [hidden]{display:none!important}
+@media(max-width:1050px){.ocean-toolbar{grid-template-columns:1fr 1fr 1fr}.ocean-inspect-heading{align-items:start;flex-direction:column;gap:1rem}.ocean-inspect-grid{gap:1.5rem}}
+@media(max-width:700px){.ocean-atlas{padding:1rem}.ocean-toolbar{grid-template-columns:1fr 1fr}.ocean-toolbar label{min-width:0}.ocean-scene{height:470px}.ocean-scene-status{font-size:.65rem;line-height:1.5;left:.5rem;top:.5rem}.ocean-extent{font-size:.58rem;left:.9rem;top:3.6rem}.ocean-display-options{gap:.8rem}.ocean-display-options>span{font-size:.75rem}.ocean-inspect-grid{grid-template-columns:1fr}.ocean-inspect-heading form{display:grid;grid-template-columns:1fr 1fr auto;gap:.4rem;width:100%}.ocean-inspect-heading label{max-width:none;min-width:0}.ocean-atlas input[type=number]{font-size:16px}.ocean-controls{grid-template-columns:1fr}.ocean-scene-note{font-size:.65rem;max-width:40%;left:.65rem;bottom:.7rem}.ocean-legend{right:.5rem;bottom:.5rem;width:130px}.ocean-compass{right:15px;top:22px}.ocean-atlas th,.ocean-atlas td{font-size:.7rem;padding:.6rem .2rem}.ocean-title>div>p:last-child{font-size:1.1rem}}

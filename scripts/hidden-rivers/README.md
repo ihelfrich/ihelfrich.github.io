@@ -64,3 +64,28 @@ to original code and prose. This release is not a navigation product.
 interpolation, mask boundaries and the independent solution for a spatially
 constant, linearly changing eastward current. The standard site release gates
 check navigation, content, builds, discovery and rendered headline contrast.
+
+## Inspect and share a location
+
+The explorer now supports a north-up map view, a geographic point inspector,
+spatially interpolated daily speed profiles, and CSV downloads. Enter signed
+longitude and latitude or click the displayed depth plane. With all layers
+visible, picking uses the surface plane and samples the same horizontal location
+at every available depth. Bearing is the direction **toward** which the current
+moves, clockwise from true north. No direction is reported below 0.0005 m/s.
+
+Speed shading samples cell centers; direction arrows are equal length within a
+layer, with color encoding speed. These contextual fields refresh approximately
+every model hour. Particles continue to use the evolving, interpolated velocity
+field. The default common range clips colors above 2 m/s. Regional range uses
+all bundled depths and dates, rounded upward to the next 0.25 m/s. Quantitative
+point values and CSVs are never color-clipped.
+
+A copied view link preserves region, depth, time, palette, vertical exaggeration,
+map/3D choice, shading, color range, and an inspected location. North-up map
+view flattens the terrain and displays a single depth, preserving horizontal
+alignment. Shared snapshots start paused. It does not preserve an arbitrarily
+orbited camera or an individual particle realization. Map-image downloads add
+source attribution, model date, depth selection, vertical scale, and color scale.
+Motion starts paused for reduced-motion users, and simulation/rendering work
+suspends while the map is outside the viewport or the document is hidden.
