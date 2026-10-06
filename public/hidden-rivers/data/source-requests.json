@@ -1,0 +1,113 @@
+{
+  "ocean": {
+    "regions": [
+      {
+        "id": "agulhas",
+        "name": "Agulhas retroflection",
+        "bbox": [
+          10,
+          -43,
+          35,
+          -30
+        ],
+        "depth": 200
+      },
+      {
+        "id": "bahamas",
+        "name": "Florida Current & Bahamas",
+        "bbox": [
+          -82,
+          22,
+          -72,
+          31
+        ],
+        "depth": 200
+      },
+      {
+        "id": "denmark",
+        "name": "Denmark Strait",
+        "bbox": [
+          -44,
+          59,
+          -18,
+          69
+        ],
+        "depth": 1000
+      }
+    ],
+    "requests": [
+      {
+        "file": "agulhas_u.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/u3z/2026?var=water_u&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=200&accept=netcdf4&addLatLon=true"
+      },
+      {
+        "file": "agulhas_v.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/v3z/2026?var=water_v&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=200&accept=netcdf4&addLatLon=true"
+      },
+      {
+        "file": "bahamas_u.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/u3z/2026?var=water_u&north=31&south=22&west=278&east=288&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=200&accept=netcdf4&addLatLon=true"
+      },
+      {
+        "file": "bahamas_v.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/v3z/2026?var=water_v&north=31&south=22&west=278&east=288&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=200&accept=netcdf4&addLatLon=true"
+      },
+      {
+        "file": "denmark_u.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/u3z/2026?var=water_u&north=69&south=59&west=316&east=342&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=1000&accept=netcdf4&addLatLon=true"
+      },
+      {
+        "file": "denmark_v.nc",
+        "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/v3z/2026?var=water_v&north=69&south=59&west=316&east=342&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=1000&accept=netcdf4&addLatLon=true"
+      }
+    ]
+  },
+  "additional_depths": [
+    {
+      "file": "agulhas_0_u.nc",
+      "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/u3z/2026?var=water_u&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=0&accept=netcdf4"
+    },
+    {
+      "file": "agulhas_0_v.nc",
+      "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/v3z/2026?var=water_v&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=0&accept=netcdf4"
+    },
+    {
+      "file": "agulhas_1000_u.nc",
+      "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/u3z/2026?var=water_u&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=1000&accept=netcdf4"
+    },
+    {
+      "file": "agulhas_1000_v.nc",
+      "url": "https://ncss.hycom.org/thredds/ncss/grid/ESPC-D-V02/v3z/2026?var=water_v&north=-30&south=-43&west=10&east=35&horizStride=2&time_start=2026-09-29T00%3A00%3A00Z&time_end=2026-10-04T00%3A00%3A00Z&timeStride=8&vertCoord=1000&accept=netcdf4"
+    }
+  ],
+  "tessera": {
+    "year": 2024,
+    "lon": 18.4,
+    "lat": -34.2,
+    "transform": [
+      10.0,
+      0.0,
+      257860.0,
+      0.0,
+      -10.0,
+      -3784820.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "crs": "EPSG:32634",
+    "shape": [
+      512,
+      512,
+      128
+    ],
+    "dataset": "Dataset(version='1.1', variant='dclimate', description='Complete global run', npy=None, zarr='v1.1-dclimate', icechunk='s3://tessera-embeddings/v1.1/dclimate.icechunk', tile_registry='s3://tessera-embeddings/v1.1/dclimate.registry/parts')"
+  },
+  "bathymetry": {
+    "endpoint": "https://coastwatch.pfeg.noaa.gov/erddap/griddap/etopo180.nc",
+    "variable": "altitude",
+    "stride": 12,
+    "bounds": "same as ocean region bounds"
+  },
+  "accessed": "2026-10-06"
+}

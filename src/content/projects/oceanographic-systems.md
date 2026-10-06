@@ -17,3 +17,5 @@ I develop computational tools that connect marine environments, survey questions
 This work is in progress. The current-field examples use climatology, not live forecasts. The visualizations support research and survey planning; they are not navigation systems. Imported model outputs remain distinct from observations and field validation, and visualization does not replace the acoustic solver.
 
 [Discuss an environmental or spatial research problem](/contact?intent=research&focus=environment)
+
+The [Hidden Rivers atlas](/hidden-rivers/) is a separate released visualization with fixed daily HYCOM analyses, depth controls, real seafloor relief, and a Tessera coastal example. Its source periods and limitations differ from the earlier climatology examples described above.

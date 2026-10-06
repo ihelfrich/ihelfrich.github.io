@@ -34,7 +34,7 @@ test("primary navigation is the approved label set in order", () => {
     "Writing:/writing",
     "About:/about",
   ]);
-  assert.deepEqual(hrefs(RECORDS), ["/job-market", "/projects", "/datasets", "/library", "/cv"]);
+  assert.deepEqual(hrefs(RECORDS), ["/job-market", "/projects", "/hidden-rivers", "/datasets", "/library", "/cv"]);
   assert.equal(CONTACT.href, "/contact");
 });
 
