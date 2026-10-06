@@ -129,7 +129,7 @@ test('technical work is discoverable with public links and explicit publication 
  for(const route of ['index.html','work/index.html','projects/index.html']){
   const w=new Window(),d=w.document;d.write(await readFile(`dist/${route}`,'utf8'));
   const section=d.getElementById('technical-projects');assert.ok(section,route);
-  assert.deepEqual([...section.querySelectorAll('.technical-project')].map(a=>a.getAttribute('href')),['/projects/yellowjacket','/projects/oceanographic-systems']);
+  assert.deepEqual([...section.querySelectorAll('.technical-project')].map(a=>a.getAttribute('href')),['/projects/yellowjacket','/projects/oceanographic-systems','/hidden-rivers/']);
   assert.equal(section.closest('details'),null,'the new capabilities should be visible without opening the lab');
   const search=d.querySelector('[data-site-index]');assert.match(search.textContent,/Yellowjacket/);assert.match(search.textContent,/Oceanographic systems/);
   for(const [term,href] of [['unreal','/projects/oceanographic-systems'],['bellhop','/projects/oceanographic-systems'],['spectrogram','/projects/yellowjacket'],['transcription','/projects/yellowjacket']]){
