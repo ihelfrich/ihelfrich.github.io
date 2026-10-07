@@ -1,6 +1,6 @@
 ---
 title: "Hidden Rivers"
-blurb: "A satellite water atlas connecting Amazon rivers, coastal plumes, reefs, and ocean currents at their actual data depths."
+blurb: "An interactive ocean world for my mom: deep currents, Amazon waters and reefs, seen through satellite spectra and carefully chosen colors."
 status: live
 url: "https://ihelfrich.github.io/hidden-rivers/"
 repo: "https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/scripts/hidden-rivers"
@@ -10,13 +10,15 @@ date: 2026-10-07
 pinned: true
 ---
 
-Hidden Rivers connects inland rivers, estuaries, freshwater plumes and ocean circulation on one continuous satellite map. Standard pan, scroll, pinch and keyboard navigation work across the atlas. A searchable place picker moves between the Amazon basin, North Carolina coast, Guyana, Lighthouse Reef, the Great Barrier Reef and major ocean-current systems.
+Hidden Rivers connects inland rivers, estuaries, freshwater plumes and ocean circulation on a Cesium globe. Six short visual journeys follow deep currents, the meeting of Amazon waters, reef light, the Atlantic freshwater plume, the Cape Fear and the open ocean. A searchable place picker and a flat map provide other ways to explore. Terrain keeps its real vertical scale.
 
-Dated Copernicus Sentinel-2 Level-2A scenes supply natural-color imagery and a green–near-infrared water index. Four-band PCA uses B2/B3/B4/B8, with a shared covariance basis and color stretch across each place’s acquisitions. PC1 controls lightness; PC2 and PC3 supply restrained opponent colors. Clouds and shadows stay masked. The date playback shows separate acquisitions rather than synthesizing intermediate observations.
+Dated Copernicus Sentinel-2 Level-2A scenes supply natural-color imagery and a green–near-infrared water index. Water PCA uses the native 10 m blue, green, red and near-infrared bands, with a shared covariance basis and color stretch across each place’s acquisitions. The first component closely tracks visible brightness; a second component adds the contrast described by that place’s actual band loadings. Three palettes preserve ordered lightness, and two water samples can be compared through their reflectance and component scores. Manaus, Lighthouse Reef and the Great Barrier Reef include source-resolution close-ups. Clouds and shadows stay masked. Date playback shows separate acquisitions.
+
+These optical contrasts help distinguish waters and reveal reef patterns. They do not retrieve sediment concentration, coral health or water depth: the standard land-oriented atmospheric correction, illumination and submerged bottom all affect the signal.
 
 HydroRIVERS supplies drainage geometry and downstream connections derived from elevation data. Moving river marks show verified direction; their display rate is not measured river velocity. The ocean views use NOAA’s drifter-derived monthly current climatology at a 15 m drogue depth, or HYCOM analyses at available surface and interior levels. Depth selection changes the velocity data. Streamlines describe a selected velocity field; they do not reconstruct vertical motion or claim to be observed parcel tracks.
 
-Comparisons keep satellite imagery and spectral layers in the same geographic frame. Clicking inspects a sampled water index or signed ocean velocity. View links retain the place, layer, depth, date and map position. Presentation mode removes the interface, while PNG export saves the visible map with a small source credit.
+Comparisons keep satellite imagery and spectral layers in the same geographic frame. Depth selection changes the modelled current field and the streamlines’ depth coordinates. View links retain the data selection, palette, story and camera position. Presentation mode removes the text and controls; PNG export saves the visible globe or flat map.
 
 The separate research view retains the rotation, finite-time stretching, Tessera similarity, terrain context, downloadable plates and silent films. It includes the source-cadence audit: the Agulhas surface’s 48-hour stretching calculation changes more when three-hour inputs are reduced to daily samples than when the integration step is halved. This is numerical sensitivity, not validation against colocated observations.
 

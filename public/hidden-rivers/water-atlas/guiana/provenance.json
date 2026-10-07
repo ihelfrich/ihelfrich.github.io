@@ -93,7 +93,17 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "guiana/0-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "guiana/0-pca.webp",
+      "lenses": {},
+      "waterPcaFraction": 0.0007606336805555555
     }
   ],
   "pca": {
@@ -167,8 +177,12 @@
       5.41
     ],
     "nativeBandResolutionMetres": 10,
-    "displayPixelMetres": 30.149028756511203
+    "displayPixelMetres": 30.149028756511203,
+    "displayPixelWebMercatorMetres": 30.149028756511203,
+    "displayPixelGroundMetresAtCentre": 30.021102837910824,
+    "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
   },
   "mask": "SCL removes nodata, saturation, cloud shadow, cloud, cirrus and snow; transparent pixels expose the undated basemap.",
-  "rivers": "guiana/rivers.json"
+  "rivers": "guiana/rivers.json",
+  "waterPca": null
 }

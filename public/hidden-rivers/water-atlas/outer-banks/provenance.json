@@ -16,7 +16,7 @@
       "validFraction": 0.94167,
       "tileCloudPercent": 0.004963,
       "rgb": "outer-banks/0-rgb.webp",
-      "pca": "outer-banks/0-pca.webp",
+      "pca": "outer-banks/0-pca-gold-brightness.webp",
       "water": "outer-banks/0-water.webp",
       "index": "outer-banks/0-ndwi.bin",
       "indexShape": [
@@ -89,7 +89,30 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "outer-banks/0-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "outer-banks/0-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "outer-banks/0-pca-gold-brightness.webp",
+          "contrast": "outer-banks/0-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "outer-banks/0-pca-coral-brightness.webp",
+          "contrast": "outer-banks/0-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "outer-banks/0-pca-ice-brightness.webp",
+          "contrast": "outer-banks/0-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.8895768229166666
     },
     {
       "id": "S2A_18SVE_20240226_0_L2A",
@@ -97,7 +120,7 @@
       "validFraction": 0.94218,
       "tileCloudPercent": 0.005209,
       "rgb": "outer-banks/1-rgb.webp",
-      "pca": "outer-banks/1-pca.webp",
+      "pca": "outer-banks/1-pca-gold-brightness.webp",
       "water": "outer-banks/1-water.webp",
       "index": "outer-banks/1-ndwi.bin",
       "indexShape": [
@@ -174,7 +197,30 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "outer-banks/1-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "outer-banks/1-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "outer-banks/1-pca-gold-brightness.webp",
+          "contrast": "outer-banks/1-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "outer-banks/1-pca-coral-brightness.webp",
+          "contrast": "outer-banks/1-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "outer-banks/1-pca-ice-brightness.webp",
+          "contrast": "outer-banks/1-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.8907042100694444
     },
     {
       "id": "S2B_18SVE_20241028_0_L2A",
@@ -182,7 +228,7 @@
       "validFraction": 0.94211,
       "tileCloudPercent": 0.07496,
       "rgb": "outer-banks/2-rgb.webp",
-      "pca": "outer-banks/2-pca.webp",
+      "pca": "outer-banks/2-pca-gold-brightness.webp",
       "water": "outer-banks/2-water.webp",
       "index": "outer-banks/2-ndwi.bin",
       "indexShape": [
@@ -259,7 +305,30 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "outer-banks/2-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "outer-banks/2-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "outer-banks/2-pca-gold-brightness.webp",
+          "contrast": "outer-banks/2-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "outer-banks/2-pca-coral-brightness.webp",
+          "contrast": "outer-banks/2-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "outer-banks/2-pca-ice-brightness.webp",
+          "contrast": "outer-banks/2-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.8899327256944445
     }
   ],
   "pca": {
@@ -333,8 +402,101 @@
       35.7
     ],
     "nativeBandResolutionMetres": 10,
-    "displayPixelMetres": 57.97890145482961
+    "displayPixelMetres": 57.97890145482961,
+    "displayPixelWebMercatorMetres": 57.97890145482961,
+    "displayPixelGroundMetresAtCentre": 47.25435154401726,
+    "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
   },
   "mask": "SCL removes nodata, saturation, cloud shadow, cloud, cirrus and snow; transparent pixels expose the undated basemap.",
-  "rivers": "outer-banks/rivers.json"
+  "rivers": "outer-banks/rivers.json",
+  "waterPca": {
+    "bands": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "mean": [
+      0.03231082856655121,
+      0.036206044256687164,
+      0.01752387173473835,
+      0.0046926457434892654
+    ],
+    "eigenvectors": [
+      [
+        0.4761739197680581,
+        -0.5615528235987488,
+        0.5726988029627789,
+        -0.3604620722433852
+      ],
+      [
+        0.6924927645984236,
+        -0.21250284326798444,
+        -0.46215311754034305,
+        0.5115767865429356
+      ],
+      [
+        0.5175922788626972,
+        0.6614102336978404,
+        -0.11562199433601225,
+        -0.5303454440713629
+      ],
+      [
+        0.16065616070750374,
+        0.44948578472635004,
+        0.66712977107794,
+        0.5719178226783608
+      ]
+    ],
+    "varianceExplained": [
+      0.8897268488285829,
+      0.06726860338182658,
+      0.032590975290123995,
+      0.010413572499466619
+    ],
+    "stretchLow": [
+      -0.03222759935245448,
+      -0.01342336893682595,
+      -0.005934858182514234,
+      -0.004004033794211617
+    ],
+    "stretchHigh": [
+      0.0433119730063575,
+      0.01096154304753223,
+      0.006313776656784974,
+      0.0035791340965824017
+    ],
+    "sampleCount": 820291,
+    "sampleDomain": "SCL water-class pixels after scene exclusions, or positive NDWI, with B8 reflectance < 0.12; every third candidate pixel across all dates.",
+    "correlationTargets": [
+      "Mean B2/B3/B4 reflectance",
+      "(B3-B2)/(B3+B2)",
+      "(B8-B3)/(B8+B3)"
+    ],
+    "correlations": [
+      [
+        0.9995354757692865,
+        0.49099717207916527,
+        0.2716759240681423
+      ],
+      [
+        -0.018359685843258575,
+        0.2755803701565272,
+        0.6154985758321881
+      ],
+      [
+        -0.0005758917258720117,
+        -0.6633760862484168,
+        0.5551762126850351
+      ],
+      [
+        -0.02431918783957725,
+        0.37218085198097434,
+        -0.09397853713012787
+      ]
+    ],
+    "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
+    "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+    "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
+  }
 }

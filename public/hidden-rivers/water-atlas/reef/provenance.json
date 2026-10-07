@@ -16,7 +16,7 @@
       "validFraction": 0.98015,
       "tileCloudPercent": 1.647783,
       "rgb": "reef/0-rgb.webp",
-      "pca": "reef/0-pca.webp",
+      "pca": "reef/0-pca-gold-brightness.webp",
       "water": "reef/0-water.webp",
       "index": "reef/0-ndwi.bin",
       "indexShape": [
@@ -93,7 +93,57 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "reef/0-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "reef/0-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "reef/0-pca-gold-brightness.webp",
+          "contrast": "reef/0-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "reef/0-pca-coral-brightness.webp",
+          "contrast": "reef/0-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "reef/0-pca-ice-brightness.webp",
+          "contrast": "reef/0-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.9568706597222222,
+      "highResolution": {
+        "rgb": "reef/closeup-rgb.webp",
+        "lenses": {
+          "gold": {
+            "brightness": "reef/closeup-gold-brightness.webp",
+            "contrast": "reef/closeup-gold-contrast.webp"
+          },
+          "coral": {
+            "brightness": "reef/closeup-coral-brightness.webp",
+            "contrast": "reef/closeup-coral-contrast.webp"
+          },
+          "ice": {
+            "brightness": "reef/closeup-ice-brightness.webp",
+            "contrast": "reef/closeup-ice-contrast.webp"
+          }
+        },
+        "width": 3840,
+        "height": 3840,
+        "nativeBandResolutionMetres": 10,
+        "crs": "EPSG:3857",
+        "displayPixelMetres": 9.85641324732084,
+        "validFraction": 0.9800980631510416,
+        "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+        "displayPixelWebMercatorMetres": 9.85641324732084,
+        "displayPixelGroundMetresAtCentre": 9.43970507705629,
+        "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
+      }
     },
     {
       "id": "S2A_55KCB_20240616_0_L2A",
@@ -101,7 +151,7 @@
       "validFraction": 0.98177,
       "tileCloudPercent": 0.363752,
       "rgb": "reef/1-rgb.webp",
-      "pca": "reef/1-pca.webp",
+      "pca": "reef/1-pca-gold-brightness.webp",
       "water": "reef/1-water.webp",
       "index": "reef/1-ndwi.bin",
       "indexShape": [
@@ -178,7 +228,30 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "reef/1-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "reef/1-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "reef/1-pca-gold-brightness.webp",
+          "contrast": "reef/1-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "reef/1-pca-coral-brightness.webp",
+          "contrast": "reef/1-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "reef/1-pca-ice-brightness.webp",
+          "contrast": "reef/1-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.9580978732638888
     },
     {
       "id": "S2B_55KCB_20241108_0_L2A",
@@ -186,7 +259,7 @@
       "validFraction": 0.98001,
       "tileCloudPercent": 0.188552,
       "rgb": "reef/2-rgb.webp",
-      "pca": "reef/2-pca.webp",
+      "pca": "reef/2-pca-gold-brightness.webp",
       "water": "reef/2-water.webp",
       "index": "reef/2-ndwi.bin",
       "indexShape": [
@@ -263,7 +336,30 @@
           "effectiveOffset": 0
         }
       },
-      "boaOffsetAlreadyApplied": true
+      "boaOffsetAlreadyApplied": true,
+      "spectra": "reef/2-spectra.bin",
+      "spectraShape": [
+        120,
+        120,
+        4
+      ],
+      "spectraUnits": "Surface reflectance; little-endian float32, pixel-interleaved B2/B3/B4/B8; NaN masked.",
+      "landscape": "reef/2-pca.webp",
+      "lenses": {
+        "gold": {
+          "brightness": "reef/2-pca-gold-brightness.webp",
+          "contrast": "reef/2-pca-gold-contrast.webp"
+        },
+        "coral": {
+          "brightness": "reef/2-pca-coral-brightness.webp",
+          "contrast": "reef/2-pca-coral-contrast.webp"
+        },
+        "ice": {
+          "brightness": "reef/2-pca-ice-brightness.webp",
+          "contrast": "reef/2-pca-ice-contrast.webp"
+        }
+      },
+      "waterPcaFraction": 0.9584038628472222
     }
   ],
   "pca": {
@@ -337,7 +433,100 @@
       -16.53
     ],
     "nativeBandResolutionMetres": 10,
-    "displayPixelMetres": 39.42565298928336
+    "displayPixelMetres": 39.42565298928336,
+    "displayPixelWebMercatorMetres": 39.42565298928336,
+    "displayPixelGroundMetresAtCentre": 37.75882030822516,
+    "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
   },
-  "mask": "SCL removes nodata, saturation, cloud shadow, cloud, cirrus and snow; transparent pixels expose the undated basemap."
+  "mask": "SCL removes nodata, saturation, cloud shadow, cloud, cirrus and snow; transparent pixels expose the undated basemap.",
+  "waterPca": {
+    "bands": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "mean": [
+      0.044141657650470734,
+      0.028317278251051903,
+      0.009737594984471798,
+      0.005557633936405182
+    ],
+    "eigenvectors": [
+      [
+        0.6035900454131623,
+        -0.4206149467181447,
+        0.5674063340398262,
+        -0.3698812995636764
+      ],
+      [
+        0.7591536495011685,
+        0.05557185621465637,
+        -0.48769483577287065,
+        0.427494154821312
+      ],
+      [
+        0.24193678966874596,
+        0.8325345755181309,
+        0.03576038599094465,
+        -0.4970653530124642
+      ],
+      [
+        0.028833718663660822,
+        0.3562036158729943,
+        0.6625141462985802,
+        0.6583028229176088
+      ]
+    ],
+    "varianceExplained": [
+      0.9435017851682131,
+      0.03464781633017178,
+      0.019173831498997585,
+      0.0026765670026174296
+    ],
+    "stretchLow": [
+      -0.034084676432158324,
+      -0.019109003020560733,
+      -0.011622510177568119,
+      -0.004408305712307862
+    ],
+    "stretchHigh": [
+      0.15998529277031162,
+      0.019993559336169923,
+      0.011152083005548078,
+      0.004931341228150646
+    ],
+    "sampleCount": 882701,
+    "sampleDomain": "SCL water-class pixels after scene exclusions, or positive NDWI, with B8 reflectance < 0.12; every third candidate pixel across all dates.",
+    "correlationTargets": [
+      "Mean B2/B3/B4 reflectance",
+      "(B3-B2)/(B3+B2)",
+      "(B8-B3)/(B8+B3)"
+    ],
+    "correlations": [
+      [
+        0.9982870378547153,
+        0.8268105607199816,
+        -0.20789696566770635
+      ],
+      [
+        0.05573230734233139,
+        0.14705309843231898,
+        0.351625677701161
+      ],
+      [
+        0.010240605718238895,
+        -0.06790694588179262,
+        0.7321435000154332
+      ],
+      [
+        -0.014561114600037206,
+        0.2525103990846212,
+        -0.0021114958185473555
+      ]
+    ],
+    "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
+    "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+    "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
+  }
 }

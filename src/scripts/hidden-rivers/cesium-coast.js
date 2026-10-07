@@ -26,6 +26,20 @@ export function cesiumCoastConnectionStatus() {
   const result = savedConnection();
   return { available: result.status === 'saved', status: result.status };
 }
+
+// Reuse the existing browser/deployment connection without exposing credentials.
+export async function connectWaterWorldTerrain(C, viewer, onStatus = () => {}) {
+  const saved = savedConnection();
+  const credential = saved.status === 'saved' ? saved.credentials.token : siteToken;
+  if (!credential) { onStatus('Ellipsoid globe · terrain connection unavailable'); return false; }
+  try {
+    const resource = await C.IonResource.fromAssetId(1, { accessToken: credential });
+    const terrain = await C.CesiumTerrainProvider.fromUrl(resource, { requestVertexNormals: true });
+    if (viewer.isDestroyed()) return false;
+    viewer.terrainProvider = terrain;
+    viewer.scene.requestRender(); onStatus('Cesium World Terrain · 1× vertical scale'); return true;
+  } catch { onStatus('Ellipsoid globe · World Terrain unavailable'); return false; }
+}
 function installStyles() {
   if (document.querySelector('link[data-city-cesium-styles],link[data-coast-cesium-styles]')) return;
   const link = document.createElement('link');

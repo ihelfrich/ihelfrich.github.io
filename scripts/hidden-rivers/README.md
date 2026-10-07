@@ -7,7 +7,7 @@ separate repository.
 
 ## Interactive water atlas
 
-The main `/hidden-rivers/` page is one continuous Leaflet satellite map. The
+The main `/hidden-rivers/` page is a Cesium globe and a linked Leaflet map. The
 former Three.js observatory, diagnostic plates, Tessera microscope, terrain
 browser and films remain at `/hidden-rivers/research/`. Old place links for
 Wilmington and Fayetteville now select their own satellite scene footprints.
@@ -17,9 +17,45 @@ river/coast/reef locations. The builder warps B2/B3/B4/B8 to a shared Web
 Mercator raster per place, applies the COG reflectance calibration, and masks
 SCL nodata, saturation, cloud/shadow, cirrus and snow. A common covariance PCA
 basis and 2–98% stretch across the dates make comparisons consistent. PC1
-controls CIELAB lightness; PC2 and PC3 control restrained opponent-color axes.
-The exact transform, mean, loadings, variance and asset URLs are committed.
+controls the original Landscape PCA lightness; PC2 and PC3 control its hue.
+The featured Water PCA is a separate fit over clear water candidates. PC1 is
+oriented to positive visible-band brightness; PC2 is oriented to positive B8.
+One shared-date basis and 2–98% stretch per place feed three CIELAB palettes.
+The brightness view maps PC1 to an ordered dark-to-light ramp. The contrast
+view blends between two such ramps by PC2. Actual loadings, variance and
+correlations identify the signal; PCs are not assigned universal constituents.
+The exact transforms, means, loadings, masks and asset URLs are committed.
 NDWI remains a spectral index, not a water-quality or velocity estimate.
+
+`build_spectral_stories.py` follows the base builder. It writes water-only PCA,
+the six palette/blend combinations and sampled raw spectra. Guyana has too few
+water samples and intentionally offers Landscape PCA instead. The optional
+`build_spectral_closeups.py` fetches original COG windows for the first Manaus,
+Blue Hole and Great Barrier Reef acquisitions, with 2560–3840 pixels and about
+10 m display pixels. It applies the existing PCA fit; it does not enlarge the
+960-pixel products or claim finer-than-source detail. Run the base builder,
+spectral builder and close-up builder in that order, then validate the outputs.
+
+Band choice follows the [Copernicus MSI specifications](https://s2.pages.eopf.copernicus.eu/pdfs-adfs/MSI/index.html):
+B2/B3/B4/B8 are native 10 m. B5/B11 are 20 m and B1 is 60 m; resampling those
+would not improve reef detail. The selected optical bands support brightness
+and spectral-shape contrasts. Standard [Sen2Cor L2A processing](https://sentinels.copernicus.eu/documents/247904/446933/Sentinel-2-Level-2A-Algorithm-Theoretical-Basis-Document-ATBD.pdf)
+is land-oriented and does not supply an aquatic or sunglint-corrected retrieval.
+PCA colors are exploratory optical signals, not sediment/CDOM/chlorophyll
+concentrations, coral health or bathymetry. Bottom and water-column effects
+are mixed in reef color; see [NASA's Lighthouse Reef example](https://science.nasa.gov/earth/earth-observatory/great-blue-hole-belize-37741/)
+and [ESA's reef-monitoring discussion](https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2/Looking_out_for_coral_bleaching).
+
+Six guided stories connect ocean depths, mixing rivers, reef optical structure,
+the Amazon surface-salinity plume, Cape Fear and global circulation. All layers
+share selected place/date/depth state between globe and map. EPSG:3857 rasters
+use a matching regional Cesium tiling scheme; geographic velocity shading uses
+geographic coordinates. The provider reuses the scheme's exact rectangle to
+avoid a floating-point corner mismatch during scene changes. Global/region
+streamlines use the same strict wet-cell velocity sampling as the flat map,
+with source-depth Cartesian coordinates, drawn through the surface for viewing.
+The scalar shading is projected onto Earth and lightly feathered at its display
+boundary; that does not extend the measured/model field. Terrain is 1×.
 
 Some original Earth Search COG records retain a -0.1 STAC offset after their
 pixels were already corrected. The importer honors the recorded conversion
