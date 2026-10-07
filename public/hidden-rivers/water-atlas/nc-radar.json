@@ -1,0 +1,36 @@
+{
+  "id": "nc-radar",
+  "title": "Hatteras coastal radar",
+  "bounds": [
+    -79,
+    32,
+    -73,
+    37
+  ],
+  "group": "Ocean currents",
+  "note": "Measured surface currents off North Carolina. Radar coverage varies; the gaps remain visible.",
+  "source": "radar",
+  "file": "nc-radar.bin",
+  "shape": [
+    1,
+    94,
+    104
+  ],
+  "lon0": -79.00940704345703,
+  "lat0": 31.984560012817383,
+  "dlon": 0.0580751733872497,
+  "dlat": 0.05394000391806326,
+  "dates": [
+    "2026-09-25T17:00:00Z"
+  ],
+  "depth": 1.399999976158142,
+  "nominalResolutionKm": 6,
+  "validCells": 682,
+  "ncValidCells": 364,
+  "units": "m s-1",
+  "timeStepSeconds": 3600,
+  "sourceRequest": "https://dods.ndbc.noaa.gov/thredds/ncss/grid/hfradar_usegc_6km?var=u&var=v&north=37&south=32&west=-79&east=-73&horizStride=1&time=2026-09-25T17%3A00%3A00Z&vertCoord=0.3&accept=netcdf4&addLatLon=true",
+  "sourceSha256": "f11c5a4530ed05bb24c63e7148a82df93564694add5583b9c397983854c28c43",
+  "sha256": "178b2f2975a916d8fda0abb65e407a21869282b0938ba7c4a2147acb2d5f9ba5",
+  "coverage": "Observed HF radar total vectors at the recorded timestamp, not a complete shoreline product. All returned valid native cells retained. Gaps are not filled from a model."
+}

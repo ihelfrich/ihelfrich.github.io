@@ -46,7 +46,7 @@ for p in catalog['places']:
                     image=np.array(Image.open(ROOT/f['lenses'][palette][blend]).convert('RGBA'))
                     assert np.array_equal(image[:,:,3],alpha[0]),'Palette altered the observation mask'
         if f.get('highResolution'):
-            h=f['highResolution'];assert h['nativeBandResolutionMetres']==10 and 9<h['displayPixelMetres']<11
+            h=f['highResolution'];assert h['nativeBandResolutionMetres']==10 and 9<h['displayPixelGroundMetresAtCentre']<11
             clear=None
             for file in [h['rgb'],*(h['lenses'][k][b] for k in catalog['spectralPalettes'] for b in ['brightness','contrast'])]:
                 im=np.array(Image.open(ROOT/file).convert('RGBA'));assert im.shape[:2]==(h['height'],h['width'])

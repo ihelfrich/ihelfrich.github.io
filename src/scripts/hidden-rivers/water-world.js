@@ -1,9 +1,11 @@
 import { streamline, seeded, sampleAt, indexPixel } from './atlas-math.mjs';
 import { connectWaterWorldTerrain } from './cesium-coast.js';
-import { createRasterProvider } from './raster-provider.mjs';
+import { createRasterProvider, createTiledRasterProvider } from './raster-provider.mjs';
+import { velocityRaster } from './velocity-raster.mjs';
 import { maskedRiverRuns, flowTiming, FLOW_MATERIAL_SOURCE, CURRENT_SAMPLES_PER_SECOND, CURRENT_TIME_SCALE } from './flow-motion.mjs';
 
 export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
+  container.classList.add('atlas-world-loading');
   window.CESIUM_BASE_URL='/vendor/cesium/';
   if(!document.querySelector('link[data-water-world]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/vendor/cesium/Widgets/widgets.css';link.dataset.waterWorld='true';document.head.append(link);}
   const C=await import('cesium');
@@ -13,6 +15,7 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   viewer.scene.globe.enableLighting=false;viewer.scene.globe.depthTestAgainstTerrain=false;
   viewer.scene.globe.maximumScreenSpaceError=1.5;viewer.scene.postProcessStages.fxaa.enabled=true;
   viewer.scene.screenSpaceCameraController.minimumZoomDistance=80;viewer.scene.screenSpaceCameraController.maximumZoomDistance=35000000;
+  viewer.scene.screenSpaceCameraController.inertiaSpin=.92;viewer.scene.screenSpaceCameraController.inertiaZoom=.82;viewer.scene.screenSpaceCameraController.zoomFactor=3;
   // Keep a complete local base underneath network imagery. Cesium cannot
   // display regional overlays until its bottom imagery layer is available.
   const context=await C.TileMapServiceImageryProvider.fromUrl('/vendor/cesium/Assets/Textures/NaturalEarthII/',{credit:'Natural Earth II · local geographic context'});
@@ -21,7 +24,7 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   base.brightness=.92;base.saturation=.9;
   void connectWaterWorldTerrain(C,viewer,onStatus);
   const lines=viewer.scene.primitives.add(new C.PolylineCollection());
-  let overlays=[],paths=[],epoch=0,phase=0,last=0,visible=true,current,orbit=false,pathKey='';
+  let overlays=[],paths=[],epoch=0,phase=0,last=0,visible=true,current,orbit=false,pathKey='',imageryKey='';
   const images=new Map();
   // The saved rasters are EPSG:3857, so their provider must use that projection.
   // A geographic SingleTileImageryProvider would silently displace their rows.
@@ -30,10 +33,8 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   }
   function load(src){if(!images.has(src))images.set(src,new Promise((resolve,reject)=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>resolve(im);im.onerror=()=>{images.delete(src);reject(Error('Globe imagery could not load'));};im.src=src;}));return images.get(src);}
   function scalar(field,color){
-    const canvas=document.createElement('canvas');canvas.width=Math.min(720,field.shape[2]*4);canvas.height=Math.min(400,field.shape[1]*4);const ctx=canvas.getContext('2d'),data=ctx.createImageData(canvas.width,canvas.height);
-    const west=field.lon0,east=west+(field.shape[2]-1)*field.dlon,south=field.lat0,north=south+(field.shape[1]-1)*field.dlat;
-    for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){const v=sampleAt(field,west+(x+.5)/canvas.width*(east-west),north-(y+.5)/canvas.height*(north-south));const edge=Math.min(x,y,canvas.width-1-x,canvas.height-1-y),fade=Math.min(1,edge/Math.max(8,Math.min(canvas.width,canvas.height)*.04));if(v)data.data.set([...color(Math.hypot(...v)),Math.round(105*fade)],4*(y*canvas.width+x));}
-    ctx.putImageData(data,0,0);return {canvas,b:[west,south,east,north]};
+    const raster=velocityRaster(field,color),canvas=document.createElement('canvas');canvas.width=raster.width;canvas.height=raster.height;
+    const ctx=canvas.getContext('2d'),data=ctx.createImageData(raster.width,raster.height);data.data.set(raster.data);ctx.putImageData(data,0,0);return {canvas,b:raster.bounds};
   }
   function position(p,depth){return C.Cartesian3.fromDegrees(p[0],p[1],-depth);}
   function addTrail(pts,col,offset,river=false){
@@ -44,11 +45,11 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
     paths.push({pts,line,material,river,normal});
   }
   function buildPaths(o){
-    const key=[o.place.id,o.frame,o.depth,Boolean(o.field),Boolean(o.waterCandidates)].join(':');
+    const key=[o.place.id,o.frame,o.depth,o.field?.sha256||o.field?.dlon,Boolean(o.waterCandidates)].join(':');
     if(key===pathKey)return;pathKey=key;paths=[];lines.removeAll();
     if(o.field){
       const f=o.field,b=o.place.bounds,rng=seeded(928+o.frame),west=Math.max(b[0],f.lon0),south=Math.max(b[1],f.lat0),east=Math.min(b[2],f.lon0+(f.shape[2]-1)*f.dlon),north=Math.min(b[3],f.lat0+(f.shape[1]-1)*f.dlat),global=o.place.id==='global';
-      for(let i=0;i<1400&&paths.length<(global?300:220);i++){
+      for(let i=0;i<5500&&paths.length<(global?1200:650);i++){
         const lon=west+rng()*(east-west),lat=south+rng()*(north-south),raw=streamline(f,lon,lat,110,1800);if(raw.length<8)continue;
         const pts=raw.map(p=>position(p,o.depth)),rgb=o.color(raw[Math.floor(raw.length/2)][2]),col=new C.Color(...rgb.map(v=>Math.min(1,v/255+.12)),.68);
         addTrail(pts,col,rng());
@@ -63,12 +64,22 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   }
   async function update(o){
     const stamp=++epoch;
-    if(current?.place.id!==o.place.id||current?.frame!==o.frame||current?.depth!==o.depth){current=null;lines.show=false;}
-    const desired=await Promise.all(o.images.map(async (entry,i)=>({provider:provider(await load(entry.src),entry.bbox||o.place.bounds),split:o.compare&&i===1})));
-    if(o.field&&o.layer==='currents'){const s=scalar(o.field,o.color);desired.push({provider:provider(s.canvas,s.b,false,o.place.source==='hycom'?'HYCOM depth-resolved model analysis':'NOAA Global Drifter Program climatology')});}
+    const key=JSON.stringify([o.place.id,o.layer,o.frame,o.depth,o.field?.sha256||o.field?.dlon,o.compare,o.images.map(e=>e.src)]);
+    const desired=key===imageryKey?null:await Promise.all(o.images.map(async (entry,i)=>({provider:entry.tiles?createTiledRasterProvider(C,entry.tiles):provider(await load(entry.src),entry.bbox||o.place.bounds),split:o.compare&&i===1})));
+    if(desired&&o.field&&o.layer==='currents'){const s=scalar(o.field,o.color);desired.push({provider:provider(s.canvas,s.b,false,o.place.source==='hycom'?'HYCOM depth-resolved model analysis':'NOAA Global Drifter Program climatology')});}
     if(stamp!==epoch)return;
     current=o;base.brightness=o.layer==='pca'?.44:.92;base.saturation=o.layer==='pca'?.32:.9;
-    overlays.forEach(l=>viewer.imageryLayers.remove(l));overlays=desired.map(d=>{const l=viewer.imageryLayers.addImageryProvider(d.provider);l.splitDirection=d.split?C.SplitDirection.RIGHT:C.SplitDirection.NONE;return l;});
+    if(desired){
+      const previous=overlays;imageryKey=key;
+      overlays=desired.map(d=>{const l=viewer.imageryLayers.addImageryProvider(d.provider);l.splitDirection=d.split?C.SplitDirection.RIGHT:C.SplitDirection.NONE;return l;});
+      // Retain the old scene beneath incoming tiles until visible tiles load.
+      const incoming=overlays;
+      let unsubscribe;
+      unsubscribe=viewer.scene.globe.tileLoadProgressEvent.addEventListener(count=>{if(count===0){unsubscribe?.();previous.forEach(l=>{if(viewer.imageryLayers.contains(l)&&!overlays.includes(l))viewer.imageryLayers.remove(l);});}});
+      // Overlapping transitions must not leak abandoned imagery layers.
+      for(const l of Array.from({length:viewer.imageryLayers.length},(_,i)=>viewer.imageryLayers.get(i)))if(l!==base&&l.imageryProvider!==context&&!incoming.includes(l)&&!previous.includes(l))viewer.imageryLayers.remove(l);
+      setTimeout(()=>{unsubscribe?.();previous.forEach(l=>{if(viewer.imageryLayers.contains(l)&&!overlays.includes(l))viewer.imageryLayers.remove(l);});},8000);
+    }
     viewer.scene.splitPosition=o.swipe??.5;buildPaths(o);lines.show=o.flow;viewer.scene.requestRender();
   }
   function fit(place,{global=false,tilt=true,immediate=false}={}){
@@ -81,6 +92,11 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   const input=new C.ScreenSpaceEventHandler(viewer.scene.canvas);
   input.setInputAction(e=>{const ray=viewer.camera.getPickRay(e.position),hit=ray&&viewer.scene.globe.pick(ray,viewer.scene)||viewer.camera.pickEllipsoid(e.position);if(hit){const p=C.Cartographic.fromCartesian(hit);onPick?.({lat:C.Math.toDegrees(p.latitude),lng:C.Math.toDegrees(p.longitude)});}},C.ScreenSpaceEventType.LEFT_CLICK);
   const observer=new ResizeObserver(()=>viewer.resize());observer.observe(container);
+  function whenReady(){return new Promise(resolve=>{
+    let frames=0,stop;const finish=()=>{stop?.();clearTimeout(timer);container.classList.remove('atlas-world-loading');resolve();};
+    const timer=setTimeout(finish,8000);
+    stop=viewer.scene.postRender.addEventListener(()=>{if(++frames>3&&viewer.scene.globe.tilesLoaded)finish();else viewer.scene.requestRender();});viewer.scene.requestRender();
+  });}
   function tick(t){const dt=Math.min(.1,(t-last)/1000||0);last=t;
     if(visible&&!document.hidden&&current){
       lines.show=current.flow;
@@ -93,5 +109,5 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
     }
     if(!viewer.isDestroyed())requestAnimationFrame(tick);
   }requestAnimationFrame(tick);
-  return {viewer,update,fit,setVisible(v){visible=v;viewer.useDefaultRenderLoop=v;if(v){viewer.resize();viewer.scene.requestRender();}},setPlaying(v){if(current)current.playing=v;viewer.scene.requestRender();},setFlow(v){if(current)current.flow=v;lines.show=v;viewer.scene.requestRender();},setSwipe(v){viewer.scene.splitPosition=v;viewer.scene.requestRender();},setOrbit(v){orbit=v;},zoom(factor){viewer.camera.zoomIn(viewer.camera.positionCartographic.height*factor);viewer.scene.requestRender();},getCamera(){const p=viewer.camera.positionCartographic;return{lon:C.Math.toDegrees(p.longitude),lat:C.Math.toDegrees(p.latitude),height:p.height,heading:viewer.camera.heading,pitch:viewer.camera.pitch};},setCamera(p){viewer.camera.cancelFlight();viewer.camera.setView({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:p.heading,pitch:p.pitch,roll:0}});viewer.scene.requestRender();},save(){viewer.render();return viewer.scene.canvas.toDataURL('image/png');},getDiagnostics(){return {paths:paths.length,depth:current?.depth,verticalScale:viewer.scene.verticalExaggeration,projection:'EPSG:3857 imagery; geographic velocity',overlays:overlays.length,animation:'continuous fading trails',timeScale:CURRENT_TIME_SCALE,phase};},dispose(){observer.disconnect();input.destroy();viewer.destroy();}};
+  return {viewer,update,fit,whenReady,setVisible(v){visible=v;viewer.useDefaultRenderLoop=v;if(v){viewer.resize();viewer.scene.requestRender();}},setPlaying(v){if(current)current.playing=v;viewer.scene.requestRender();},setFlow(v){if(current)current.flow=v;lines.show=v;viewer.scene.requestRender();},setSwipe(v){viewer.scene.splitPosition=v;viewer.scene.requestRender();},setOrbit(v){orbit=v;},zoom(factor){viewer.camera.zoomIn(viewer.camera.positionCartographic.height*factor);viewer.scene.requestRender();},getCamera(){const p=viewer.camera.positionCartographic;return{lon:C.Math.toDegrees(p.longitude),lat:C.Math.toDegrees(p.latitude),height:p.height,heading:viewer.camera.heading,pitch:viewer.camera.pitch};},setCamera(p){viewer.camera.cancelFlight();viewer.camera.setView({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:p.heading,pitch:p.pitch,roll:0}});viewer.scene.requestRender();},save(){viewer.render();return viewer.scene.canvas.toDataURL('image/png');},getDiagnostics(){return {paths:paths.length,depth:current?.depth,verticalScale:viewer.scene.verticalExaggeration,projection:'EPSG:3857 imagery; geographic velocity',overlays:overlays.length,tiled:current?.images.some(e=>e.tiles),animation:'continuous fading trails',timeScale:CURRENT_TIME_SCALE,phase};},dispose(){observer.disconnect();input.destroy();viewer.destroy();}};
 }

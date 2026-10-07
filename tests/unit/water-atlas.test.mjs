@@ -1,12 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as C from 'cesium';
-import { createRasterProvider } from '../../src/scripts/hidden-rivers/raster-provider.mjs';
+import { createRasterProvider, createTiledRasterProvider } from '../../src/scripts/hidden-rivers/raster-provider.mjs';
+import { velocityRaster } from '../../src/scripts/hidden-rivers/velocity-raster.mjs';
+import { decodeVelocityBytes } from '../../src/scripts/hidden-rivers/velocity-decode.mjs';
+import { atlasQuery, collectionFor } from '../../src/scripts/hidden-rivers/atlas-navigation.mjs';
+import fs from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
+import sharp from 'sharp';
 import { spectralSample } from '../../src/scripts/hidden-rivers/spectral.mjs';
 import { maskedRiverRuns, flowTiming, trailIntervals, CURRENT_TIME_SCALE } from '../../src/scripts/hidden-rivers/flow-motion.mjs';
 import { unpackField, snapshotField, sampleAt, streamline, indexPixel, seeded } from '../../src/scripts/hidden-rivers/atlas-math.mjs';
 import { EARTH_METRES_PER_DEGREE } from '../../src/scripts/hidden-rivers/field.mjs';
 const fixture = () => ({shape:[3,4,4],lon0:0,lat0:0,dlon:1,dlat:1,values:new Int16Array([...Array(16).fill(1000),...Array(16).fill(2000),...Array(16).fill(3000),...Array(48).fill(0)])});
+test('old depth-print links open the live field while PCA and other prints remain reachable',()=>{
+  const q=atlasQuery('?study=depth&image=agulhas-1000');assert.equal(q.get('place'),'agulhas');assert.equal(q.get('depth'),'1000');assert.equal(q.get('layer'),'currents');
+  assert.equal(atlasQuery('?study=density&image=salinity').get('tab'),'prints');
+  assert.equal(atlasQuery('?tab=satellite').get('layer'),'pca');
+  assert.equal(atlasQuery('?place=reef&layer=pca').get('place'),'reef');
+  assert.equal(collectionFor({frames:[]}), 'satellite');assert.equal(collectionFor({source:'hycom'}),'ocean');
+});
+test('regional tile pyramids retain exact raster corners and native pixel dimensions',async()=>{
+  const root='public/hidden-rivers/water-atlas',m=JSON.parse(await fs.readFile(root+'/manifest.json','utf8'));
+  for(const p of m.places){const h=p.frames[0].highResolution;if(!h?.tiles)continue;
+    const tile=h.tiles[h.rgb],count=2**tile.maximumLevel;
+    assert.equal(tile.tileWidth*count,h.width);assert.equal(tile.tileHeight*count,h.height);
+    const provider=createTiledRasterProvider(C,tile,'https://example.test/'),scheme=provider.tilingScheme;
+    for(const [corner,xy] of [[C.Rectangle.northwest(scheme.rectangle),[0,0]],[C.Rectangle.southeast(scheme.rectangle),[count-1,count-1]]])assert.deepEqual(scheme.positionToTileXY(corner,tile.maximumLevel),new C.Cartesian2(...xy));
+    const source=await sharp(root+'/'+h.rgb).ensureAlpha().extract({left:h.width-tile.tileWidth,top:h.height-tile.tileHeight,width:tile.tileWidth,height:tile.tileHeight}).raw().toBuffer();
+    const file=tile.url.replace('{z}',String(tile.maximumLevel)).replace('{x}',String(count-1)).replace('{y}',String(count-1));
+    const finest=await sharp(root+'/'+file).ensureAlpha().raw().toBuffer();assert.equal(finest.length,source.length);
+    let squaredError=0,samples=0;for(let i=0;i<source.length;i+=4){assert.equal(finest[i+3],source[i+3],'tile changed the missing-data mask');if(source[i+3])for(let c=0;c<3;c++){squaredError+=(finest[i+c]-source[i+c])**2;samples++;}}
+    const psnr=10*Math.log10(255**2/(squaredError/Math.max(1,samples)));assert.ok(psnr>32,`Display compression PSNR fell to ${psnr} dB`);
+  }
+});
 test('regional globe rasters retain their projection and include their exact corners',()=>{
   for(const bounds of [[-87.65,17.25,-87.42,17.42],[-60.12,-3.33,-59.78,-2.98],[145.82,-16.91,146.16,-16.53]]){
     const provider=createRasterProvider(C,{width:3840,height:3840},bounds),scheme=provider.tilingScheme;
@@ -15,6 +43,9 @@ test('regional globe rasters retain their projection and include their exact cor
     const mid=C.Rectangle.center(provider.rectangle),native=scheme.projection.project(mid),nativeRect=scheme.tileXYToNativeRectangle(0,0,0);
     assert.ok(native.x>=nativeRect.west&&native.x<=nativeRect.east&&native.y>=nativeRect.south&&native.y<=nativeRect.north);
   }
+});
+test('speed shading keeps valid coastal cells beside gaps without filling the gaps',()=>{
+  const f=snapshotField(fixture(),0);f.values[1]=-32768;const r=velocityRaster(f,()=>[20,40,60]);assert.ok(r.data[4*(3*4)+3]>0);assert.equal(r.data[4*(3*4+1)+3],0);assert.equal(sampleAt(f,.5,.5),null);assert.deepEqual(r.bounds,[-.5,-.5,3.5,3.5]);
 });
 test('spectral inspection centers reflectance and uses the fitted component columns',()=>{
   const p={mean:[.1,.2,.3,.4],eigenvectors:[[0,1,0,0],[1,0,0,0],[0,0,1,0],[0,0,0,1]],stretchLow:[0,0,0,0],stretchHigh:[.4,.2,.6,.8]};
@@ -54,4 +85,16 @@ test('animated tails enter and exit open paths without an end-to-start bridge',(
     assert.ok(trail.start>=0&&trail.end<=10&&trail.end>trail.start);
     assert.ok(trail.head>=trail.end&&trail.head-trail.start<=trail.tail);
   }
+});
+
+test('native ocean releases retain paired masks, exact cell counts and checked source grids',async()=>{
+  const root='public/hidden-rivers/water-atlas/native-hycom',m=JSON.parse(await fs.readFile(root+'/manifest.json','utf8'));
+  for(const r of m.regions)for(const l of r.layers){const packed=await fs.readFile(root+'/'+l.file),raw=gunzipSync(packed);assert.equal(createHash('sha256').update(raw).digest('hex'),l.sha256);assert.equal(l.spatialStride,1);assert.ok(l.dlon<.09&&l.dlat<.05);const v=unpackField(l,raw.buffer.slice(raw.byteOffset,raw.byteOffset+raw.byteLength)).values,[nt,ny,nx]=l.shape,plane=ny*nx;for(let t=0;t<nt;t++){let n=0;for(let i=0;i<plane;i++){const u=v[t*plane+i],w=v[nt*plane+t*plane+i];assert.equal(u===-32768,w===-32768);if(u!==-32768)n++;}assert.equal(n,l.validSourceCellsPerFrame[t]);}}
+  const radar=JSON.parse(await fs.readFile('public/hidden-rivers/water-atlas/nc-radar.json','utf8'));assert.ok(radar.ncValidCells>0);assert.equal(radar.nominalResolutionKm,6);
+});
+
+test('compressed velocities work with both static-host content-encoding behaviors',async()=>{
+  const m=JSON.parse(await fs.readFile('public/hidden-rivers/water-atlas/native-hycom/manifest.json','utf8')),l=m.regions[0].layers[0],packed=await fs.readFile('public/hidden-rivers/water-atlas/native-hycom/'+l.file),raw=gunzipSync(packed);
+  const arrayBuffer=b=>b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength);
+  for(const body of [packed,raw]){const decoded=await decodeVelocityBytes(arrayBuffer(body),'gzip');assert.equal(createHash('sha256').update(new Uint8Array(decoded)).digest('hex'),l.sha256);}
 });

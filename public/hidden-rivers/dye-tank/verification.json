@@ -1,0 +1,205 @@
+{
+  "model": "salinity-dye-tank-v1",
+  "classification": "2D physical approximation; synthetic/numerical verification only",
+  "fixture": {
+    "widthM": 0.24,
+    "heightM": 0.18,
+    "waterSalinityGKg": 30,
+    "dropSalinityGKg": 36,
+    "dropRadiusM": 0.009,
+    "dropPositionM": [
+      0.12,
+      0.09
+    ],
+    "timeS": 1.2
+  },
+  "comparisons": [
+    {
+      "grid": [
+        48,
+        36
+      ],
+      "dtS": 0.01,
+      "time": 1.2000000000000008,
+      "steps": 120,
+      "saltIntegral": 1.2964917009602195,
+      "dyeIntegral": 0.00008195016003657995,
+      "dyeCentroid": {
+        "x": 0.1199999999996161,
+        "y": 0.09600208101600591
+      },
+      "salinityMin": 29.99999971351053,
+      "salinityMax": 32.76213605200135,
+      "dyeMax": 0.460356005430952,
+      "maxSpeed": 0.011330447456717435,
+      "divergenceRms": 9.762820065453334e-9,
+      "vorticityMin": -1.9924931069834242,
+      "vorticityMax": 1.992493107054969,
+      "saltResidual": 0,
+      "dyeResidual": 4.0657581468206416e-20
+    },
+    {
+      "grid": [
+        72,
+        54
+      ],
+      "dtS": 0.01,
+      "time": 1.2000000000000008,
+      "steps": 120,
+      "saltIntegral": 1.2965069216212775,
+      "dyeIntegral": 0.00008448693687958264,
+      "dyeCentroid": {
+        "x": 0.11999999999994218,
+        "y": 0.09692677345475767
+      },
+      "salinityMin": 29.999999712113954,
+      "salinityMax": 33.63273218324845,
+      "dyeMax": 0.6054553570688608,
+      "maxSpeed": 0.0145924660434513,
+      "divergenceRms": 9.618773221585485e-9,
+      "vorticityMin": -3.4402092178307866,
+      "vorticityMax": 3.4402092177779364,
+      "saltResidual": 0,
+      "dyeResidual": 2.710505431213761e-20
+    },
+    {
+      "grid": [
+        96,
+        72
+      ],
+      "dtS": 0.01,
+      "time": 1.2000000000000008,
+      "steps": 120,
+      "saltIntegral": 1.2965086230424097,
+      "dyeIntegral": 0.00008477050706828237,
+      "dyeCentroid": {
+        "x": 0.11999999999999793,
+        "y": 0.09736644412891593
+      },
+      "salinityMin": 29.999999740823533,
+      "salinityMax": 34.056897099862525,
+      "dyeMax": 0.6761494982183498,
+      "maxSpeed": 0.01609619946511831,
+      "divergenceRms": 9.551514835329945e-9,
+      "vorticityMin": -4.149837263429044,
+      "vorticityMax": 4.149837263207297,
+      "saltResidual": 0,
+      "dyeResidual": 2.710505431213761e-20
+    },
+    {
+      "grid": [
+        72,
+        54
+      ],
+      "dtS": 0.005,
+      "time": 1.1999999999999964,
+      "steps": 240,
+      "saltIntegral": 1.2965069216212775,
+      "dyeIntegral": 0.00008448693687958261,
+      "dyeCentroid": {
+        "x": 0.12000000000004407,
+        "y": 0.09690367909674934
+      },
+      "salinityMin": 29.999999708911055,
+      "salinityMax": 33.63842209802368,
+      "dyeMax": 0.6064036818345528,
+      "maxSpeed": 0.014579985794627782,
+      "divergenceRms": 9.901158910145567e-9,
+      "vorticityMin": -3.4373169813593636,
+      "vorticityMax": 3.4373169812269695,
+      "saltResidual": 0,
+      "dyeResidual": 0
+    }
+  ],
+  "extremes": [
+    {
+      "waterSalinityGKg": 0,
+      "dropSalinityGKg": 40,
+      "time": 5.9999999999999165,
+      "steps": 600,
+      "saltIntegral": 0.003390820282731293,
+      "dyeIntegral": 0.00008477050706828233,
+      "dyeCentroid": {
+        "x": 0.11999999999982129,
+        "y": 0.10338034632522468
+      },
+      "salinityMin": 6.17487064367095e-95,
+      "salinityMax": 3.464332062035857,
+      "dyeMax": 0.0866083015508965,
+      "maxSpeed": 0.01976559834933445,
+      "divergenceRms": 9.521467085615127e-9,
+      "vorticityMin": -4.465058432265133,
+      "vorticityMax": 4.465058432240347,
+      "maxDivergenceRms": 9.936593207392949e-9,
+      "maxSaltResidual": 0
+    },
+    {
+      "waterSalinityGKg": 40,
+      "dropSalinityGKg": 0,
+      "time": 5.9999999999999165,
+      "steps": 600,
+      "saltIntegral": 1.7246091797172691,
+      "dyeIntegral": 0.00008477050706828237,
+      "dyeCentroid": {
+        "x": 0.12000000000111928,
+        "y": 0.07661965629463459
+      },
+      "salinityMin": 36.53566795985928,
+      "salinityMax": 40.00000128273108,
+      "dyeMax": 0.0866082995536615,
+      "maxSpeed": 0.019765599912562676,
+      "divergenceRms": 9.521471183578818e-9,
+      "vorticityMin": -4.465058531890628,
+      "vorticityMax": 4.465058531785756,
+      "maxDivergenceRms": 9.936588835816114e-9,
+      "maxSaltResidual": 0
+    },
+    {
+      "waterSalinityGKg": 30,
+      "dropSalinityGKg": 36,
+      "time": 5.9999999999999165,
+      "steps": 600,
+      "saltIntegral": 1.2965086230424097,
+      "dyeIntegral": 0.00008477050706828229,
+      "dyeCentroid": {
+        "x": 0.1199999999999617,
+        "y": 0.0731683642170881
+      },
+      "salinityMin": 29.999998760129266,
+      "salinityMax": 30.965281854458254,
+      "dyeMax": 0.16088030430448258,
+      "maxSpeed": 0.013837654950281362,
+      "divergenceRms": 9.715394891463794e-9,
+      "vorticityMin": -2.718979042450737,
+      "vorticityMax": 2.7189790423521942,
+      "maxDivergenceRms": 9.994665612662324e-9,
+      "maxSaltResidual": 0
+    },
+    {
+      "waterSalinityGKg": 30,
+      "dropSalinityGKg": 24,
+      "time": 5.9999999999999165,
+      "steps": 600,
+      "saltIntegral": 1.2954913769575904,
+      "dyeIntegral": 0.00008477050706828234,
+      "dyeCentroid": {
+        "x": 0.11999999999940722,
+        "y": 0.10683163195695755
+      },
+      "salinityMin": 29.034718181182004,
+      "salinityMax": 30.00000130455229,
+      "dyeMax": 0.16088030713536028,
+      "maxSpeed": 0.013837661639346088,
+      "divergenceRms": 9.715533400764554e-9,
+      "vorticityMin": -2.7189790583416826,
+      "vorticityMax": 2.7189790586964198,
+      "maxDivergenceRms": 9.994676231004978e-9,
+      "maxSaltResidual": 0
+    }
+  ],
+  "momentDifferencesM": {
+    "coarseVsFine": 0.001364363112910022,
+    "mediumVsFine": 0.0004396706741582601,
+    "dtHalving": 0.000023094358008332594
+  }
+}

@@ -12,7 +12,7 @@
         -2.98
       ],
       "group": "Amazon basin",
-      "note": "The dark Rio Negro meets the sediment-rich Solim\u00f5es east of Manaus.",
+      "note": "The dark Rio Negro meets the sediment-rich Solimões east of Manaus.",
       "frames": [
         {
           "id": "S2B_20MRB_20230914_1_L2A",
@@ -142,7 +142,128 @@
             "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
             "displayPixelWebMercatorMetres": 9.856413247321324,
             "displayPixelGroundMetresAtCentre": 9.841473865408197,
-            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "tiles": {
+              "manaus/closeup-rgb.webp": {
+                "url": "manaus/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-gold-brightness.webp": {
+                "url": "manaus/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-gold-contrast.webp": {
+                "url": "manaus/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-coral-brightness.webp": {
+                "url": "manaus/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-coral-contrast.webp": {
+                "url": "manaus/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-ice-brightness.webp": {
+                "url": "manaus/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "manaus/closeup-ice-contrast.webp": {
+                "url": "manaus/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -60.12,
+                  -3.33,
+                  -59.78,
+                  -2.98
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            }
           }
         },
         {
@@ -407,7 +528,7 @@
           0.004119123491790236,
           0.0007018921361224042
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.2318001880236522,
           -0.08656548120407642,
@@ -420,7 +541,7 @@
           0.019682183617544025,
           0.009409208865141497
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -527,13 +648,13 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
     {
       "id": "santarem",
-      "title": "Tapaj\u00f3s & Amazon",
+      "title": "Tapajós & Amazon",
       "bounds": [
         -54.98,
         -2.58,
@@ -541,7 +662,7 @@
         -2.12
       ],
       "group": "Amazon basin",
-      "note": "Clearer Tapaj\u00f3s water joins the Amazon beside Santar\u00e9m.",
+      "note": "Clearer Tapajós water joins the Amazon beside Santarém.",
       "frames": [
         {
           "id": "S2A_21MYT_20230725_0_L2A",
@@ -649,7 +770,157 @@
               "contrast": "santarem/0-pca-ice-contrast.webp"
             }
           },
-          "waterPcaFraction": 0.51869140625
+          "waterPcaFraction": 0.51869140625,
+          "highResolution": {
+            "rgb": "santarem/closeup-rgb.webp",
+            "lenses": {
+              "gold": {
+                "brightness": "santarem/closeup-gold-brightness.webp",
+                "contrast": "santarem/closeup-gold-contrast.webp"
+              },
+              "coral": {
+                "brightness": "santarem/closeup-coral-brightness.webp",
+                "contrast": "santarem/closeup-coral-contrast.webp"
+              },
+              "ice": {
+                "brightness": "santarem/closeup-ice-brightness.webp",
+                "contrast": "santarem/closeup-ice-contrast.webp"
+              }
+            },
+            "width": 4456,
+            "height": 5128,
+            "nativeBandResolutionMetres": 10,
+            "crs": "EPSG:3857",
+            "displayPixelMetres": 9.992772961693943,
+            "validFraction": 0.9610526622590936,
+            "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+            "displayPixelWebMercatorMetres": 9.992772961693943,
+            "displayPixelGroundMetresAtCentre": 9.984368970265038,
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "displayPixelGroundMetresYAtCentre": 9.985784663761152,
+            "tiles": {
+              "santarem/closeup-rgb.webp": {
+                "url": "santarem/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-gold-brightness.webp": {
+                "url": "santarem/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-gold-contrast.webp": {
+                "url": "santarem/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-coral-brightness.webp": {
+                "url": "santarem/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-coral-contrast.webp": {
+                "url": "santarem/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-ice-brightness.webp": {
+                "url": "santarem/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "santarem/closeup-ice-contrast.webp": {
+                "url": "santarem/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 557,
+                "tileHeight": 641,
+                "maximumLevel": 3,
+                "width": 4456,
+                "height": 5128,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -54.98,
+                  -2.58,
+                  -54.58,
+                  -2.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            },
+            "displayEncoding": "WebP quality 86; rendered colors only. Original band calibration and PCA scores are unchanged."
+          }
         },
         {
           "id": "S2A_21MYT_20240808_0_L2A",
@@ -805,7 +1076,7 @@
           0.0013395563419648243,
           0.00043485759332751285
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.1460389736715736,
           -0.049573137489119685,
@@ -818,7 +1089,7 @@
           0.010462291938731097,
           0.007269693611443329
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -925,7 +1196,7 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
@@ -1047,7 +1318,157 @@
               "contrast": "xingu/0-pca-ice-contrast.webp"
             }
           },
-          "waterPcaFraction": 0.14772352430555555
+          "waterPcaFraction": 0.14772352430555555,
+          "highResolution": {
+            "rgb": "xingu/closeup-rgb.webp",
+            "lenses": {
+              "gold": {
+                "brightness": "xingu/closeup-gold-brightness.webp",
+                "contrast": "xingu/closeup-gold-contrast.webp"
+              },
+              "coral": {
+                "brightness": "xingu/closeup-coral-brightness.webp",
+                "contrast": "xingu/closeup-coral-contrast.webp"
+              },
+              "ice": {
+                "brightness": "xingu/closeup-ice-brightness.webp",
+                "contrast": "xingu/closeup-ice-contrast.webp"
+              }
+            },
+            "width": 5008,
+            "height": 4568,
+            "nativeBandResolutionMetres": 10,
+            "crs": "EPSG:3857",
+            "displayPixelMetres": 10.002749771759742,
+            "validFraction": 0.9953229386396827,
+            "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+            "displayPixelWebMercatorMetres": 10.002749771759742,
+            "displayPixelGroundMetresAtCentre": 9.985911188153448,
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "displayPixelGroundMetresYAtCentre": 9.991481887510135,
+            "tiles": {
+              "xingu/closeup-rgb.webp": {
+                "url": "xingu/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-gold-brightness.webp": {
+                "url": "xingu/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-gold-contrast.webp": {
+                "url": "xingu/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-coral-brightness.webp": {
+                "url": "xingu/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-coral-contrast.webp": {
+                "url": "xingu/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-ice-brightness.webp": {
+                "url": "xingu/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "xingu/closeup-ice-contrast.webp": {
+                "url": "xingu/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 626,
+                "tileHeight": 571,
+                "maximumLevel": 3,
+                "width": 5008,
+                "height": 4568,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -52.28,
+                  -3.53,
+                  -51.83,
+                  -3.12
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            },
+            "displayEncoding": "WebP quality 86; rendered colors only. Original band calibration and PCA scores are unchanged."
+          }
         },
         {
           "id": "S2B_22MCB_20240621_0_L2A",
@@ -1311,7 +1732,7 @@
           0.0035876251316014495,
           0.0006764337436497439
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.26060809183078293,
           -0.043061363962842665,
@@ -1324,7 +1745,7 @@
           0.016750576359288435,
           0.007138209282264139
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -1431,7 +1852,7 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
@@ -1588,7 +2009,7 @@
           0.0038485679517051936,
           0.003278819312097381
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.06727944734471873,
           -0.016394457013244344,
@@ -1601,7 +2022,7 @@
           0.004412819461965909,
           0.00472200364205482
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -1737,7 +2158,157 @@
               "contrast": "outer-banks/0-pca-ice-contrast.webp"
             }
           },
-          "waterPcaFraction": 0.8895768229166666
+          "waterPcaFraction": 0.8895768229166666,
+          "highResolution": {
+            "rgb": "outer-banks/closeup-rgb.webp",
+            "lenses": {
+              "gold": {
+                "brightness": "outer-banks/closeup-gold-brightness.webp",
+                "contrast": "outer-banks/closeup-gold-contrast.webp"
+              },
+              "coral": {
+                "brightness": "outer-banks/closeup-coral-brightness.webp",
+                "contrast": "outer-banks/closeup-coral-contrast.webp"
+              },
+              "ice": {
+                "brightness": "outer-banks/closeup-ice-brightness.webp",
+                "contrast": "outer-banks/closeup-ice-contrast.webp"
+              }
+            },
+            "width": 4544,
+            "height": 6464,
+            "nativeBandResolutionMetres": 10,
+            "crs": "EPSG:3857",
+            "displayPixelMetres": 12.249063687640058,
+            "validFraction": 0.9416733373243794,
+            "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+            "displayPixelWebMercatorMetres": 12.249063687640058,
+            "displayPixelGroundMetresAtCentre": 9.98331370648252,
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "displayPixelGroundMetresYAtCentre": 9.98853016807858,
+            "tiles": {
+              "outer-banks/closeup-rgb.webp": {
+                "url": "outer-banks/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-gold-brightness.webp": {
+                "url": "outer-banks/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-gold-contrast.webp": {
+                "url": "outer-banks/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-coral-brightness.webp": {
+                "url": "outer-banks/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-coral-contrast.webp": {
+                "url": "outer-banks/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-ice-brightness.webp": {
+                "url": "outer-banks/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "outer-banks/closeup-ice-contrast.webp": {
+                "url": "outer-banks/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 568,
+                "tileHeight": 808,
+                "maximumLevel": 3,
+                "width": 4544,
+                "height": 6464,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -75.82,
+                  35.12,
+                  -75.32,
+                  35.7
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            },
+            "displayEncoding": "WebP quality 86; rendered colors only. Original band calibration and PCA scores are unchanged."
+          }
         },
         {
           "id": "S2A_18SVE_20240226_0_L2A",
@@ -2001,7 +2572,7 @@
           0.009698033056511091,
           0.0040767621183715125
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.02734908189075018,
           -0.07097093000787796,
@@ -2014,7 +2585,7 @@
           0.011010868322516394,
           0.006559599728027402
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -2121,7 +2692,7 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
@@ -2243,7 +2814,157 @@
               "contrast": "wilmington/0-pca-ice-contrast.webp"
             }
           },
-          "waterPcaFraction": 0.40514105902777775
+          "waterPcaFraction": 0.40514105902777775,
+          "highResolution": {
+            "rgb": "wilmington/closeup-rgb.webp",
+            "lenses": {
+              "gold": {
+                "brightness": "wilmington/closeup-gold-brightness.webp",
+                "contrast": "wilmington/closeup-gold-contrast.webp"
+              },
+              "coral": {
+                "brightness": "wilmington/closeup-coral-brightness.webp",
+                "contrast": "wilmington/closeup-coral-contrast.webp"
+              },
+              "ice": {
+                "brightness": "wilmington/closeup-ice-brightness.webp",
+                "contrast": "wilmington/closeup-ice-contrast.webp"
+              }
+            },
+            "width": 2952,
+            "height": 4680,
+            "nativeBandResolutionMetres": 10,
+            "crs": "EPSG:3857",
+            "displayPixelMetres": 12.067153473526018,
+            "validFraction": 0.999110048525699,
+            "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+            "displayPixelWebMercatorMetres": 12.067153473526018,
+            "displayPixelGroundMetresAtCentre": 9.994692075472114,
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "displayPixelGroundMetresYAtCentre": 9.990253555600725,
+            "tiles": {
+              "wilmington/closeup-rgb.webp": {
+                "url": "wilmington/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-gold-brightness.webp": {
+                "url": "wilmington/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-gold-contrast.webp": {
+                "url": "wilmington/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-coral-brightness.webp": {
+                "url": "wilmington/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-coral-contrast.webp": {
+                "url": "wilmington/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-ice-brightness.webp": {
+                "url": "wilmington/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "wilmington/closeup-ice-contrast.webp": {
+                "url": "wilmington/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 369,
+                "tileHeight": 585,
+                "maximumLevel": 3,
+                "width": 2952,
+                "height": 4680,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.1,
+                  33.87,
+                  -77.78,
+                  34.29
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            },
+            "displayEncoding": "WebP quality 86; rendered colors only. Original band calibration and PCA scores are unchanged."
+          }
         },
         {
           "id": "S2B_18STC_20240214_0_L2A",
@@ -2507,7 +3228,7 @@
           0.005570919685870643,
           0.0007931999682747449
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.14570759165293487,
           -0.07404279426327214,
@@ -2520,7 +3241,7 @@
           0.019651762419872966,
           0.009218480165538154
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -2627,13 +3348,13 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
     {
       "id": "fayetteville",
-      "title": "Fayetteville \u00b7 Cape Fear",
+      "title": "Fayetteville · Cape Fear",
       "bounds": [
         -78.98,
         34.95,
@@ -2749,7 +3470,157 @@
               "contrast": "fayetteville/0-pca-ice-contrast.webp"
             }
           },
-          "waterPcaFraction": 0.0077083333333333335
+          "waterPcaFraction": 0.0077083333333333335,
+          "highResolution": {
+            "rgb": "fayetteville/closeup-rgb.webp",
+            "lenses": {
+              "gold": {
+                "brightness": "fayetteville/closeup-gold-brightness.webp",
+                "contrast": "fayetteville/closeup-gold-contrast.webp"
+              },
+              "coral": {
+                "brightness": "fayetteville/closeup-coral-brightness.webp",
+                "contrast": "fayetteville/closeup-coral-contrast.webp"
+              },
+              "ice": {
+                "brightness": "fayetteville/closeup-ice-brightness.webp",
+                "contrast": "fayetteville/closeup-ice-contrast.webp"
+              }
+            },
+            "width": 2376,
+            "height": 2784,
+            "nativeBandResolutionMetres": 10,
+            "crs": "EPSG:3857",
+            "displayPixelMetres": 12.181425760206938,
+            "validFraction": 0.9999750558748404,
+            "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
+            "displayPixelWebMercatorMetres": 12.181425760206938,
+            "displayPixelGroundMetresAtCentre": 9.969285333715469,
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "displayPixelGroundMetresYAtCentre": 9.996378069003237,
+            "tiles": {
+              "fayetteville/closeup-rgb.webp": {
+                "url": "fayetteville/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-gold-brightness.webp": {
+                "url": "fayetteville/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-gold-contrast.webp": {
+                "url": "fayetteville/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-coral-brightness.webp": {
+                "url": "fayetteville/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-coral-contrast.webp": {
+                "url": "fayetteville/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-ice-brightness.webp": {
+                "url": "fayetteville/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "fayetteville/closeup-ice-contrast.webp": {
+                "url": "fayetteville/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 297,
+                "tileHeight": 348,
+                "maximumLevel": 3,
+                "width": 2376,
+                "height": 2784,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -78.98,
+                  34.95,
+                  -78.72,
+                  35.2
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            },
+            "displayEncoding": "WebP quality 86; rendered colors only. Original band calibration and PCA scores are unchanged."
+          }
         },
         {
           "id": "S2B_17SPU_20240407_0_L2A",
@@ -2863,7 +3734,7 @@
           "id": "S2C_17SPU_20241208_2_L2A",
           "date": "2024-12-08T16:14:09.291000Z",
           "validFraction": 0.99997,
-          "tileCloudPercent": 7e-06,
+          "tileCloudPercent": 0.000007,
           "rgb": "fayetteville/2-rgb.webp",
           "pca": "fayetteville/2-pca-gold-brightness.webp",
           "water": "fayetteville/2-water.webp",
@@ -3009,7 +3880,7 @@
           0.007299543747943965,
           0.0004868798037630246
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.22960523455994347,
           -0.1102662664557315,
@@ -3022,7 +3893,7 @@
           0.033240935766202816,
           0.0076684741301563724
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -3129,7 +4000,7 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
@@ -3277,7 +4148,128 @@
             "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
             "displayPixelWebMercatorMetres": 10.001360500958253,
             "displayPixelGroundMetresAtCentre": 9.547088359630065,
-            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "tiles": {
+              "blue-hole/closeup-rgb.webp": {
+                "url": "blue-hole/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-gold-brightness.webp": {
+                "url": "blue-hole/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-gold-contrast.webp": {
+                "url": "blue-hole/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-coral-brightness.webp": {
+                "url": "blue-hole/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-coral-contrast.webp": {
+                "url": "blue-hole/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-ice-brightness.webp": {
+                "url": "blue-hole/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "blue-hole/closeup-ice-contrast.webp": {
+                "url": "blue-hole/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 320,
+                "tileHeight": 320,
+                "maximumLevel": 3,
+                "width": 2560,
+                "height": 2560,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  -87.65,
+                  17.25,
+                  -87.42,
+                  17.42
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            }
           }
         },
         {
@@ -3542,7 +4534,7 @@
           0.00977724791626268,
           0.0017789177469528824
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.10831111972211718,
           -0.058912323233873416,
@@ -3555,7 +4547,7 @@
           0.01933687447427148,
           0.00844568668964526
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -3661,7 +4653,7 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     },
@@ -3809,7 +4801,128 @@
             "method": "Original georeferenced 10 m COG windows, bilinear reprojection; no enlargement of the low-resolution atlas. Existing shared-date water PCA basis and stretch unchanged.",
             "displayPixelWebMercatorMetres": 9.85641324732084,
             "displayPixelGroundMetresAtCentre": 9.43970507705629,
-            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre."
+            "displayPixelMetresInterpretation": "Legacy field: projected EPSG:3857 pixel width, not ground metres. Ground width reported at AOI centre.",
+            "tiles": {
+              "reef/closeup-rgb.webp": {
+                "url": "reef/closeup-rgb-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 84",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-gold-brightness.webp": {
+                "url": "reef/closeup-gold-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-gold-contrast.webp": {
+                "url": "reef/closeup-gold-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-coral-brightness.webp": {
+                "url": "reef/closeup-coral-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-coral-contrast.webp": {
+                "url": "reef/closeup-coral-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-ice-brightness.webp": {
+                "url": "reef/closeup-ice-brightness-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              },
+              "reef/closeup-ice-contrast.webp": {
+                "url": "reef/closeup-ice-contrast-tiles/{z}/{x}-{y}.webp",
+                "tileWidth": 480,
+                "tileHeight": 480,
+                "maximumLevel": 3,
+                "width": 3840,
+                "height": 3840,
+                "crs": "EPSG:3857",
+                "bounds": [
+                  145.82,
+                  -16.91,
+                  146.16,
+                  -16.53
+                ],
+                "encoding": "WebP quality 90",
+                "method": "Display tiles from the existing raster; finest level retains its pixel grid and lossless alpha mask. Lower levels downsample for navigation. Reflectance calibration, PCA basis and scientific samples are unchanged."
+              }
+            }
           }
         },
         {
@@ -4074,7 +5187,7 @@
           0.016069280811756192,
           0.0058356584231607665
         ],
-        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+        "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2–98% stretch; converted to sRGB.",
         "stretchLow": [
           -0.02540904189531496,
           -0.07956760667902064,
@@ -4087,7 +5200,7 @@
           0.02339790755825032,
           0.009020746880535743
         ],
-        "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+        "method": "Centered surface-reflectance covariance, shared basis and 2–98% stretch across this place’s dates."
       },
       "raster": {
         "crs": "EPSG:3857",
@@ -4193,12 +5306,12 @@
           ]
         ],
         "signRule": "PC1 positive visible-band sum; PC2 positive B8 loading; remaining PCs largest absolute loading positive.",
-        "method": "Centered covariance over water candidates only; one basis and shared 2\u201398% stretches across all dates. Land does not enter the fit.",
+        "method": "Centered covariance over water candidates only; one basis and shared 2–98% stretches across all dates. Land does not enter the fit.",
         "display": "CIELAB-interpolated sequential PC1 palette; contrast blend interpolates between two PC1 ramps by PC2. Muted natural-color land context. Spectral contrast is not a constituent concentration, water depth or health class."
       }
     }
   ],
-  "ndwi": "(B3 \u2212 B8) / (B3 + B8); spectral water index, not confirmed inundation, turbidity, salinity, depth or velocity.",
+  "ndwi": "(B3 − B8) / (B3 + B8); spectral water index, not confirmed inundation, turbidity, salinity, depth or velocity.",
   "imageryPlayback": "Discrete acquisitions, with gaps in time. No synthesized intermediate observations.",
   "spectralPalettes": {
     "gold": {
