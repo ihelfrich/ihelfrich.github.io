@@ -1,0 +1,2463 @@
+{
+  "schemaVersion": 1,
+  "created": "2026-10-07",
+  "source": "HYCOM / ESPC-D-V02 analysis",
+  "earthRadiusMetres": 6371000.0,
+  "encoding": "float32 little-endian; C order [time,latitude,longitude]; NaN is masked",
+  "sourceManifest": "manifest.json",
+  "sourceRequestManifest": "source-requests-3hour.json",
+  "inputTimeStepSeconds": null,
+  "method": {
+    "gradient": "Central differences of the covariant spherical horizontal velocity gradient",
+    "advection": "RK4; bilinear space and linear time interpolation",
+    "integrationStepSeconds": 900,
+    "ftleHorizonHours": 48,
+    "ftlePerturbationSourceGridCells": 0.25,
+    "diagnosticGridStride": 2,
+    "temporalSampling": "Input cadence is recorded per layer. Daily diagnostic display frames; four daily 48 h FTLE starts across the five-day input window. No extrapolation.",
+    "mask": "Gradient center and four neighbors must be valid. FTLE requires central and all four perturbed trajectories to survive the full 48 h within valid interpolation cells. Never reseed FTLE trajectories.",
+    "ftleDefinition": "ln(sqrt(lambda_max(F_transpose F)))/T, with F measured in initial and final local east/north metric bases; displayed in day^-1."
+  },
+  "limitations": [
+    "Depth-fixed horizontal trajectories omit vertical velocity and cross-depth exchange.",
+    "Three-hour input sampling and spatial decimation limit resolved motion; integration accuracy cannot recover unresolved frequencies or scales.",
+    "FTLE indicates finite-time separation, including shear; ridges are not by themselves verified material transport barriers.",
+    "Okubo-Weiss is an instantaneous strain-versus-rotation diagnostic, not a validated eddy boundary.",
+    "Missing trajectories and domain exits reduce coverage; masks must never be displayed as zero.",
+    "Convergence checks quantify numerical sensitivity within these same sampled model fields, not agreement with observations.",
+    "Velocity quantization is 0.001 m/s. Derivatives and trajectories cannot resolve scales finer than the source sampling.",
+    "Tessera coastal embeddings are separate annual land/coastal context, not an ocean velocity measurement."
+  ],
+  "sources": [
+    "https://www.hycom.org/dataserver/espc-d-v02/global-analysis",
+    "https://doi.org/10.1146/annurev-fluid-010313-141322",
+    "https://georgehaller.com/reprints/PhysToday.pdf",
+    "https://ncas-cms.github.io/cf-python/function/cf.relative_vorticity.html",
+    "https://mitgcm.org/public/r2_manual/latest/online_documents/node62.html"
+  ],
+  "regions": [
+    {
+      "id": "agulhas",
+      "layers": [
+        {
+          "depth": 0,
+          "grid": {
+            "shape": [
+              82,
+              79
+            ],
+            "lon0": 10.0,
+            "lat0": -43.0,
+            "dlon": 0.31999949919871795,
+            "dlat": 0.15999998869719328
+          },
+          "fields": {
+            "vorticity": {
+              "file": "diagnostics_agulhas_0_vorticity.bin",
+              "sha256": "a30212a3f56d7c218979e44de0be0eca986af9709995ce5a14191df633e4abf4",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 31560,
+                "total": 38868,
+                "minimum": -0.00013341202970094203,
+                "median": 1.0186532643253928e-06,
+                "p95": 2.8842891628368563e-05,
+                "p99": 4.2255894370608986e-05,
+                "maximum": 6.828058487141689e-05
+              },
+              "frames": [
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -0.00012538421637504053,
+                  "median": 1.1345412940920547e-06,
+                  "p95": 3.011127816172226e-05,
+                  "p99": 4.304713060640154e-05,
+                  "maximum": 6.498884644230742e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -0.00013341202970094203,
+                  "median": 1.0080418902308729e-06,
+                  "p95": 2.905593447895541e-05,
+                  "p99": 4.296492932344598e-05,
+                  "maximum": 6.492236144833634e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -9.607953378736194e-05,
+                  "median": 6.359174261475354e-07,
+                  "p95": 2.8987232841874717e-05,
+                  "p99": 4.235274923260569e-05,
+                  "maximum": 6.363320292153205e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -9.09904884350785e-05,
+                  "median": 9.835548886564967e-07,
+                  "p95": 2.7686552718759344e-05,
+                  "p99": 4.1413010368543993e-05,
+                  "maximum": 6.756667122306047e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -0.00010681132241450942,
+                  "median": 1.1924422498909339e-06,
+                  "p95": 2.847587453387726e-05,
+                  "p99": 4.1104515165570953e-05,
+                  "maximum": 6.828058487141689e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -0.00010080675954959124,
+                  "median": 1.1670295255828578e-06,
+                  "p95": 2.8697953763190594e-05,
+                  "p99": 4.2416996670929735e-05,
+                  "maximum": 5.665788948961777e-05
+                }
+              ],
+              "displayDomain": [
+                -3.9258829929167405e-05,
+                3.9258829929167405e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "strain": {
+              "file": "diagnostics_agulhas_0_strain.bin",
+              "sha256": "52260fb914e8655bff2ca0187a62934e6edc97191ca689451c05acee91a61616",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 31560,
+                "total": 38868,
+                "minimum": 3.201618887623611e-08,
+                "median": 1.3059882659214478e-05,
+                "p95": 3.7359334154785343e-05,
+                "p99": 5.427784053879725e-05,
+                "maximum": 0.00011037825367804636
+              },
+              "frames": [
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 7.265860679451425e-08,
+                  "median": 1.2794252158968434e-05,
+                  "p95": 3.8840189112404583e-05,
+                  "p99": 5.770321298685689e-05,
+                  "maximum": 0.00010080722861333642
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 1.646189147349727e-07,
+                  "median": 1.3166942874613056e-05,
+                  "p95": 3.7699351730295096e-05,
+                  "p99": 5.6753034487877835e-05,
+                  "maximum": 0.00010276804623881966
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 3.0720318694076023e-07,
+                  "median": 1.2991455464776966e-05,
+                  "p95": 3.782482798503813e-05,
+                  "p99": 5.4580644690239143e-05,
+                  "maximum": 0.0001015677076962111
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 3.201618887623611e-08,
+                  "median": 1.2931978491890753e-05,
+                  "p95": 3.633671879155134e-05,
+                  "p99": 5.085563975970133e-05,
+                  "maximum": 9.879938067097933e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 1.8964411425885562e-07,
+                  "median": 1.3104675193070259e-05,
+                  "p95": 3.7346152901673566e-05,
+                  "p99": 5.443310458482279e-05,
+                  "maximum": 0.0001090731969180245
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": 6.566088316622198e-08,
+                  "median": 1.325842203374635e-05,
+                  "p95": 3.656973918556702e-05,
+                  "p99": 5.173115295942341e-05,
+                  "maximum": 0.00011037825367804636
+                }
+              ],
+              "displayDomain": [
+                0,
+                3.7983547372277826e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "divergence": {
+              "file": "diagnostics_agulhas_0_divergence.bin",
+              "sha256": "c5cb8598281ed06012fe3e8b19e2e23cfeb444d5148ffb59cbafe7af0883940e",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 31560,
+                "total": 38868,
+                "minimum": -4.830894055899097e-05,
+                "median": 5.215681390743936e-08,
+                "p95": 8.994373271457676e-06,
+                "p99": 1.4452609623360203e-05,
+                "maximum": 4.1590385547529774e-05
+              },
+              "frames": [
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -3.315028281451387e-05,
+                  "median": 8.950541331885073e-09,
+                  "p95": 8.97611583841931e-06,
+                  "p99": 1.4834737965500317e-05,
+                  "maximum": 3.746093167193109e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -3.9412977086065975e-05,
+                  "median": 3.695032214561583e-09,
+                  "p95": 8.994460554120334e-06,
+                  "p99": 1.45817181589616e-05,
+                  "maximum": 2.928790218748406e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -4.1321588323317987e-05,
+                  "median": 1.344232631911018e-07,
+                  "p95": 9.054902781033647e-06,
+                  "p99": 1.4219494400368273e-05,
+                  "maximum": 3.8154037850859106e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -3.4648495810049996e-05,
+                  "median": 1.196091727667156e-07,
+                  "p95": 8.742983211433819e-06,
+                  "p99": 1.3550498002997853e-05,
+                  "maximum": 4.1590385547529774e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -3.077587886520713e-05,
+                  "median": 1.4907541299393317e-08,
+                  "p95": 9.229253368676499e-06,
+                  "p99": 1.5135289379555698e-05,
+                  "maximum": 3.3514790913546086e-05
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -4.830894055899097e-05,
+                  "median": 6.754004971596466e-08,
+                  "p95": 9.022586313288795e-06,
+                  "p99": 1.4434895861111696e-05,
+                  "maximum": 2.954258260087274e-05
+                }
+              ],
+              "displayDomain": [
+                -1.1348652151355054e-05,
+                1.1348652151355054e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "okuboWeiss": {
+              "file": "diagnostics_agulhas_0_okuboWeiss.bin",
+              "sha256": "356123be342ee7ae2fa450de848e58f31829bd1cf428d947feca2b7a93af445c",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-2",
+              "stats": {
+                "valid": 31560,
+                "total": 38868,
+                "minimum": -1.593421546038684e-08,
+                "median": 3.5859749148888714e-11,
+                "p95": 8.323905739402699e-10,
+                "p99": 1.7184063216951563e-09,
+                "maximum": 7.187386514739327e-09
+              },
+              "frames": [
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -1.5388018457741926e-08,
+                  "median": 3.247243198007427e-11,
+                  "p95": 8.968339478197887e-10,
+                  "p99": 1.9485817208331033e-09,
+                  "maximum": 4.28416147400741e-09
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -1.593421546038684e-08,
+                  "median": 3.6158981777515895e-11,
+                  "p95": 8.371202889327257e-10,
+                  "p99": 1.914948596766504e-09,
+                  "maximum": 7.187386514739327e-09
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -8.216392173473436e-09,
+                  "median": 3.390296004592924e-11,
+                  "p95": 8.538463899640603e-10,
+                  "p99": 1.7105941886107965e-09,
+                  "maximum": 4.600717068692544e-09
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -5.308129989994577e-09,
+                  "median": 3.89278048047216e-11,
+                  "p95": 8.108129765343384e-10,
+                  "p99": 1.448606445281455e-09,
+                  "maximum": 4.784460401459061e-09
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -8.813368546127708e-09,
+                  "median": 3.7131047594017335e-11,
+                  "p95": 8.22348595639083e-10,
+                  "p99": 1.5131853200073665e-09,
+                  "maximum": 3.95576497742351e-09
+                },
+                {
+                  "valid": 5260,
+                  "total": 6478,
+                  "minimum": -8.566384145091555e-09,
+                  "median": 3.572568986024125e-11,
+                  "p95": 7.88038469521148e-10,
+                  "p99": 1.5797942155138233e-09,
+                  "maximum": 5.100191555851738e-09
+                }
+              ],
+              "displayDomain": [
+                -1.2553554862293481e-09,
+                1.2553554862293481e-09
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "ftle": {
+              "file": "diagnostics_agulhas_0_ftle.bin",
+              "sha256": "28bafd0d0e429302fec0713a0fee1131763ca43f8d768fedd70c16b920d529ec",
+              "shape": [
+                4,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z"
+              ],
+              "units": "day^-1",
+              "stats": {
+                "valid": 20204,
+                "total": 25912,
+                "minimum": -0.34469215242141754,
+                "median": 0.39149651547112246,
+                "p95": 0.9478273142069945,
+                "p99": 1.2289180862748383,
+                "maximum": 1.7728813391956861
+              },
+              "frames": [
+                {
+                  "valid": 5061,
+                  "total": 6478,
+                  "minimum": -0.34469215242141754,
+                  "median": 0.3911576129581618,
+                  "p95": 0.9631007557411452,
+                  "p99": 1.2382710326374595,
+                  "maximum": 1.7191690435958664
+                },
+                {
+                  "valid": 5040,
+                  "total": 6478,
+                  "minimum": -0.21911660169749475,
+                  "median": 0.3902296639124092,
+                  "p95": 0.932724065401752,
+                  "p99": 1.2283758408571612,
+                  "maximum": 1.6478630409744586
+                },
+                {
+                  "valid": 5038,
+                  "total": 6478,
+                  "minimum": -0.28001533226345793,
+                  "median": 0.3893897981364106,
+                  "p95": 0.9215294334909717,
+                  "p99": 1.1706722517002093,
+                  "maximum": 1.6956936438791812
+                },
+                {
+                  "valid": 5065,
+                  "total": 6478,
+                  "minimum": -0.253064974581307,
+                  "median": 0.3949293843119533,
+                  "p95": 0.9698703646546881,
+                  "p99": 1.2635838034987117,
+                  "maximum": 1.7728813391956861
+                }
+              ],
+              "horizonHours": 48,
+              "displayDomain": [
+                -0.0037815116811543703,
+                0.9715463519096375
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            }
+          },
+          "sourceFile": "agulhas_0.bin",
+          "sourceSha256": "709c4eefdac341b11b182e11e8af47cac883d6a00c232609d77b91373f139a01",
+          "inputTimeStepSeconds": 10800,
+          "inputFrames": 41,
+          "validation": {
+            "seedGridShape": [
+              21,
+              20
+            ],
+            "startDates": [
+              "2026-09-29T00:00:00Z",
+              "2026-09-30T00:00:00Z",
+              "2026-10-01T00:00:00Z",
+              "2026-10-02T00:00:00Z"
+            ],
+            "timestep900Versus450Seconds": {
+              "commonValid": 1238,
+              "maskDisagreement": 0,
+              "absoluteDifferencePerDay": {
+                "valid": 1238,
+                "total": 1238,
+                "minimum": 2.0726771965406954e-09,
+                "median": 4.619791665660955e-06,
+                "p95": 5.7670967909847854e-05,
+                "p99": 0.00011449118761046579,
+                "maximum": 0.00023230190606160495
+              }
+            },
+            "perturbationQuarterVersusEighthCell": {
+              "commonValid": 1238,
+              "maskDisagreement": 2,
+              "absoluteDifferencePerDay": {
+                "valid": 1238,
+                "total": 1238,
+                "minimum": 2.761300520012777e-05,
+                "median": 0.008695389787273217,
+                "p95": 0.05648781527613094,
+                "p99": 0.10109630467099334,
+                "maximum": 0.2014309085034256
+              }
+            },
+            "inputCadenceVersusDaily": {
+              "commonValid": 1231,
+              "maskDisagreement": 10,
+              "absoluteDifferencePerDay": {
+                "valid": 1231,
+                "total": 1231,
+                "minimum": 5.4494798143289724e-05,
+                "median": 0.11369159561746811,
+                "p95": 0.4272211992556595,
+                "p99": 0.636284475289379,
+                "maximum": 0.9319516114059591
+              }
+            },
+            "inputCadenceComparisonNote": "Same spatial grid, integration settings, seeds, and dates. Three-hour inputs versus every eighth snapshot from those same inputs. Sensitivity to temporal sampling, not an observational error estimate."
+          }
+        },
+        {
+          "depth": 200,
+          "grid": {
+            "shape": [
+              82,
+              79
+            ],
+            "lon0": 10.0,
+            "lat0": -43.0,
+            "dlon": 0.320068359375,
+            "dlat": 0.160003662109375
+          },
+          "fields": {
+            "vorticity": {
+              "file": "diagnostics_agulhas_200_vorticity.bin",
+              "sha256": "2f66871ec9b9aecdb7c4fccb8e79d6300c916596389950646e8ac8a83eb69fb3",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 29952,
+                "total": 38868,
+                "minimum": -0.00010050791366725018,
+                "median": 7.380611589083087e-07,
+                "p95": 2.5374698318792628e-05,
+                "p99": 3.830884177858233e-05,
+                "maximum": 6.595799836802511e-05
+              },
+              "frames": [
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -9.323399782384953e-05,
+                  "median": 9.689289507239226e-07,
+                  "p95": 2.5517127824704573e-05,
+                  "p99": 3.7482293635895267e-05,
+                  "maximum": 5.887620201954532e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -0.00010050791366725018,
+                  "median": 6.00753971025403e-07,
+                  "p95": 2.5354103676661472e-05,
+                  "p99": 3.8465663778522814e-05,
+                  "maximum": 6.328832852940227e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -7.490118544616872e-05,
+                  "median": 5.920393626162187e-07,
+                  "p95": 2.5458786012991062e-05,
+                  "p99": 3.894415121186501e-05,
+                  "maximum": 5.8300093140528765e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -7.109895440239894e-05,
+                  "median": 5.298684961658031e-07,
+                  "p95": 2.521683051230851e-05,
+                  "p99": 3.994395275065428e-05,
+                  "maximum": 6.595799836802511e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -8.83886874476895e-05,
+                  "median": 6.474810284546871e-07,
+                  "p95": 2.577796958051482e-05,
+                  "p99": 3.802937799689151e-05,
+                  "maximum": 6.079501967365584e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -7.202060201821339e-05,
+                  "median": 1.006299024278788e-06,
+                  "p95": 2.4847218314891993e-05,
+                  "p99": 3.674895785330286e-05,
+                  "maximum": 6.435072677433011e-05
+                }
+              ],
+              "displayDomain": [
+                -3.9258829929167405e-05,
+                3.9258829929167405e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "strain": {
+              "file": "diagnostics_agulhas_200_strain.bin",
+              "sha256": "b13bec60eb02cc22f4a0b0080c1a68cb21aef5d20729799090e61e5fd0b6b830",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 29952,
+                "total": 38868,
+                "minimum": 3.901218917741126e-08,
+                "median": 1.134524259032484e-05,
+                "p95": 3.156700939366791e-05,
+                "p99": 4.430931498285765e-05,
+                "maximum": 9.341656910749598e-05
+              },
+              "frames": [
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 3.901218917741126e-08,
+                  "median": 1.1296494196381051e-05,
+                  "p95": 3.207197177312351e-05,
+                  "p99": 4.622953855203672e-05,
+                  "maximum": 9.043245925252077e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 3.359707032772007e-07,
+                  "median": 1.132140148729474e-05,
+                  "p95": 3.1758626029131735e-05,
+                  "p99": 4.4840026175324296e-05,
+                  "maximum": 8.439083662652054e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 6.725200147372862e-08,
+                  "median": 1.1412551127712042e-05,
+                  "p95": 3.128300072413095e-05,
+                  "p99": 4.325344733464404e-05,
+                  "maximum": 8.552408959706488e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 1.2286493358347677e-07,
+                  "median": 1.1278721961303811e-05,
+                  "p95": 3.136239158311058e-05,
+                  "p99": 4.475920376473698e-05,
+                  "maximum": 8.469373453001802e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 5.200854865475895e-08,
+                  "median": 1.1436210600820068e-05,
+                  "p95": 3.105349756457649e-05,
+                  "p99": 4.513155539979901e-05,
+                  "maximum": 9.341656910749598e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": 5.6134958492643606e-08,
+                  "median": 1.1341123214624432e-05,
+                  "p95": 3.1753721303501356e-05,
+                  "p99": 4.197050007601769e-05,
+                  "maximum": 7.93470014516869e-05
+                }
+              ],
+              "displayDomain": [
+                0,
+                3.7983547372277826e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "divergence": {
+              "file": "diagnostics_agulhas_200_divergence.bin",
+              "sha256": "1d105a06a7b0691958fce28193a576321a660e8f4c527fb886045be22d78ddc2",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 29952,
+                "total": 38868,
+                "minimum": -3.08485765610636e-05,
+                "median": 2.4931755371513057e-08,
+                "p95": 6.007012648045837e-06,
+                "p99": 1.0067492677008484e-05,
+                "maximum": 2.7449949359095427e-05
+              },
+              "frames": [
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -2.2574849355315414e-05,
+                  "median": 7.306095677530892e-08,
+                  "p95": 5.8917948201751515e-06,
+                  "p99": 9.798190497620677e-06,
+                  "maximum": 2.6163881394227257e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -2.2201939709210212e-05,
+                  "median": -2.1679643185975714e-09,
+                  "p95": 6.307714056399182e-06,
+                  "p99": 1.0567749209835414e-05,
+                  "maximum": 2.64849890682587e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -2.34646441413523e-05,
+                  "median": 1.2111840533411612e-08,
+                  "p95": 6.3837562786682605e-06,
+                  "p99": 1.0189054538732263e-05,
+                  "maximum": 2.5283254836140293e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -3.08485765610636e-05,
+                  "median": 5.249015595124309e-08,
+                  "p95": 5.660382561728036e-06,
+                  "p99": 9.813114846491088e-06,
+                  "maximum": 2.4936648872321742e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -2.6082029819667564e-05,
+                  "median": -9.629298222938392e-09,
+                  "p95": 6.020909306930669e-06,
+                  "p99": 1.0072518836459787e-05,
+                  "maximum": 2.7449949359095427e-05
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -1.868116313856756e-05,
+                  "median": 3.270977538927158e-08,
+                  "p95": 5.782465067254466e-06,
+                  "p99": 9.847158802827356e-06,
+                  "maximum": 2.4923316124045816e-05
+                }
+              ],
+              "displayDomain": [
+                -1.1348652151355054e-05,
+                1.1348652151355054e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "okuboWeiss": {
+              "file": "diagnostics_agulhas_200_okuboWeiss.bin",
+              "sha256": "6d0f886597d52de381b2c5dc9da374789e5f0d411f1dbd19bc80a178da3b20d8",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-2",
+              "stats": {
+                "valid": 29952,
+                "total": 38868,
+                "minimum": -8.630881187966056e-09,
+                "median": 2.5577357496931826e-11,
+                "p95": 6.070798109022465e-10,
+                "p99": 1.2315433263277958e-09,
+                "maximum": 5.2989231869241244e-09
+              },
+              "frames": [
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -8.468776600853402e-09,
+                  "median": 2.252426430074299e-11,
+                  "p95": 6.119655049174894e-10,
+                  "p99": 1.2494922194685106e-09,
+                  "maximum": 3.2937819427856032e-09
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -8.630881187966056e-09,
+                  "median": 2.796098096074451e-11,
+                  "p95": 6.000592004828289e-10,
+                  "p99": 1.3115927461028046e-09,
+                  "maximum": 3.843894131030207e-09
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -5.351548433694715e-09,
+                  "median": 2.5795602469899914e-11,
+                  "p95": 6.311917163784093e-10,
+                  "p99": 1.2262357395455717e-09,
+                  "maximum": 4.438275158070807e-09
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -4.312209226492343e-09,
+                  "median": 2.7055267343771693e-11,
+                  "p95": 6.109780540319979e-10,
+                  "p99": 1.2295239218213212e-09,
+                  "maximum": 5.2989231869241244e-09
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -5.368944696636863e-09,
+                  "median": 2.643629620234983e-11,
+                  "p95": 6.062510230765667e-10,
+                  "p99": 1.2208425594836384e-09,
+                  "maximum": 2.9690727706559175e-09
+                },
+                {
+                  "valid": 4992,
+                  "total": 6478,
+                  "minimum": -4.878731284390983e-09,
+                  "median": 2.370805625650018e-11,
+                  "p95": 5.839640563537897e-10,
+                  "p99": 1.1317350249815701e-09,
+                  "maximum": 2.566016517055766e-09
+                }
+              ],
+              "displayDomain": [
+                -1.2553554862293481e-09,
+                1.2553554862293481e-09
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "ftle": {
+              "file": "diagnostics_agulhas_200_ftle.bin",
+              "sha256": "effdc6dd03d3e0cc86b647daccf679dc31ceac3c505c18902565bb104e4892f7",
+              "shape": [
+                4,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z"
+              ],
+              "units": "day^-1",
+              "stats": {
+                "valid": 19339,
+                "total": 25912,
+                "minimum": -0.16548424653073565,
+                "median": 0.37133595593184304,
+                "p95": 0.8681150912785573,
+                "p99": 1.1208010417262253,
+                "maximum": 1.8581074411935934
+              },
+              "frames": [
+                {
+                  "valid": 4827,
+                  "total": 6478,
+                  "minimum": -0.16548424653073565,
+                  "median": 0.37033026477654085,
+                  "p95": 0.8730731327252417,
+                  "p99": 1.1378277340954743,
+                  "maximum": 1.669793544376793
+                },
+                {
+                  "valid": 4829,
+                  "total": 6478,
+                  "minimum": -0.16443469620683193,
+                  "median": 0.3679297698989069,
+                  "p95": 0.8601470066101002,
+                  "p99": 1.108881849174883,
+                  "maximum": 1.3977307096157452
+                },
+                {
+                  "valid": 4836,
+                  "total": 6478,
+                  "minimum": -0.12156058082894404,
+                  "median": 0.37205470992132095,
+                  "p95": 0.8681264233330812,
+                  "p99": 1.1257587998480498,
+                  "maximum": 1.8581074411935934
+                },
+                {
+                  "valid": 4847,
+                  "total": 6478,
+                  "minimum": -0.12813968606898044,
+                  "median": 0.3760387283463992,
+                  "p95": 0.8646049021159816,
+                  "p99": 1.1121367589329711,
+                  "maximum": 1.8215986949859433
+                }
+              ],
+              "horizonHours": 48,
+              "displayDomain": [
+                -0.0037815116811543703,
+                0.9715463519096375
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            }
+          },
+          "sourceFile": "agulhas_200.bin",
+          "sourceSha256": "127a47b01456fb6ec7d3c4108f0768a14e9c460a06e65018bad739abc2ee8012",
+          "inputTimeStepSeconds": 86400,
+          "inputFrames": 6,
+          "validation": {
+            "seedGridShape": [
+              21,
+              20
+            ],
+            "startDates": [
+              "2026-09-29T00:00:00Z",
+              "2026-09-30T00:00:00Z",
+              "2026-10-01T00:00:00Z",
+              "2026-10-02T00:00:00Z"
+            ],
+            "timestep900Versus450Seconds": {
+              "commonValid": 1182,
+              "maskDisagreement": 0,
+              "absoluteDifferencePerDay": {
+                "valid": 1182,
+                "total": 1182,
+                "minimum": 6.751593728537841e-11,
+                "median": 2.0501742554815405e-06,
+                "p95": 3.9581926038645416e-05,
+                "p99": 7.582199633902472e-05,
+                "maximum": 0.00018632075078112154
+              }
+            },
+            "perturbationQuarterVersusEighthCell": {
+              "commonValid": 1182,
+              "maskDisagreement": 2,
+              "absoluteDifferencePerDay": {
+                "valid": 1182,
+                "total": 1182,
+                "minimum": 4.67590790960426e-06,
+                "median": 0.006475948258178765,
+                "p95": 0.04467863508087014,
+                "p99": 0.0826378078112821,
+                "maximum": 0.13675976601967277
+              }
+            }
+          }
+        },
+        {
+          "depth": 1000,
+          "grid": {
+            "shape": [
+              82,
+              79
+            ],
+            "lon0": 10.0,
+            "lat0": -43.0,
+            "dlon": 0.320068359375,
+            "dlat": 0.160003662109375
+          },
+          "fields": {
+            "vorticity": {
+              "file": "diagnostics_agulhas_1000_vorticity.bin",
+              "sha256": "d39b6f46b91583458eb9ba51fa9e0de910e61fb217ad93526345c76e59560e66",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 28866,
+                "total": 38868,
+                "minimum": -4.668331373413117e-05,
+                "median": 2.691225967022239e-07,
+                "p95": 1.1950466891996885e-05,
+                "p99": 1.9594886464783722e-05,
+                "maximum": 5.097771391615182e-05
+              },
+              "frames": [
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -4.4846461781770514e-05,
+                  "median": 2.4173900499816563e-07,
+                  "p95": 1.2095464273265573e-05,
+                  "p99": 1.9838068995684524e-05,
+                  "maximum": 4.14982008814975e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -4.059263449835748e-05,
+                  "median": 2.532207082488226e-07,
+                  "p95": 1.2164370862440324e-05,
+                  "p99": 1.9924433515251757e-05,
+                  "maximum": 4.499706069118348e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -4.268746667420844e-05,
+                  "median": 2.291913114574706e-07,
+                  "p95": 1.1934118797659899e-05,
+                  "p99": 2.03148519459738e-05,
+                  "maximum": 4.487332853317961e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -4.668331373413117e-05,
+                  "median": 2.3304982727809632e-07,
+                  "p95": 1.2129899892965914e-05,
+                  "p99": 1.9310143728091084e-05,
+                  "maximum": 5.097771391615182e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -4.488701659148792e-05,
+                  "median": 3.879628542552257e-07,
+                  "p95": 1.183048857775652e-05,
+                  "p99": 1.885240459927164e-05,
+                  "maximum": 4.0564393171218645e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -3.778857399859293e-05,
+                  "median": 2.8086800838637506e-07,
+                  "p95": 1.1513335356711323e-05,
+                  "p99": 1.8492366694893006e-05,
+                  "maximum": 3.755902555972851e-05
+                }
+              ],
+              "displayDomain": [
+                -3.9258829929167405e-05,
+                3.9258829929167405e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "strain": {
+              "file": "diagnostics_agulhas_1000_strain.bin",
+              "sha256": "44b8ea488611979da8ba9e89961bec1c86dd3f09a03377ac7bf608dbcd702786",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 28866,
+                "total": 38868,
+                "minimum": 4.683508959421074e-08,
+                "median": 5.390693119256469e-06,
+                "p95": 1.5427477368583437e-05,
+                "p99": 2.2170172633840074e-05,
+                "maximum": 4.9882385073610234e-05
+              },
+              "frames": [
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 6.645457987686086e-08,
+                  "median": 5.492782865810456e-06,
+                  "p95": 1.5358079971525266e-05,
+                  "p99": 2.227249226945173e-05,
+                  "maximum": 3.773450550315098e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 5.570169748572695e-08,
+                  "median": 5.478462593114058e-06,
+                  "p95": 1.542481950124172e-05,
+                  "p99": 2.214501011231186e-05,
+                  "maximum": 4.304151530164757e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 9.727962911701441e-08,
+                  "median": 5.3316219270077626e-06,
+                  "p95": 1.6000318100272278e-05,
+                  "p99": 2.2779255167012774e-05,
+                  "maximum": 3.5431514288573215e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 4.683508959421074e-08,
+                  "median": 5.331787034356724e-06,
+                  "p95": 1.5490371563490495e-05,
+                  "p99": 2.258113336086833e-05,
+                  "maximum": 4.9882385073610234e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 5.047288217919523e-08,
+                  "median": 5.366268830808435e-06,
+                  "p95": 1.540199819066097e-05,
+                  "p99": 2.2118964573184872e-05,
+                  "maximum": 4.0543130574706356e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": 1.3471555383140119e-07,
+                  "median": 5.322346531339982e-06,
+                  "p95": 1.5147010004357764e-05,
+                  "p99": 2.0829098201692976e-05,
+                  "maximum": 4.447581614498842e-05
+                }
+              ],
+              "displayDomain": [
+                0,
+                3.7983547372277826e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "divergence": {
+              "file": "diagnostics_agulhas_1000_divergence.bin",
+              "sha256": "b6673730f1f5eb5ecb6d6a1898b982b3a39e4007e75b033fb4fb7462ca6b2f3a",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 28866,
+                "total": 38868,
+                "minimum": -3.0608858841318635e-05,
+                "median": -2.305866403317163e-08,
+                "p95": 4.320771679051397e-06,
+                "p99": 7.189769819035406e-06,
+                "maximum": 2.153751626534286e-05
+              },
+              "frames": [
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.8078262170970492e-05,
+                  "median": -6.15315136536435e-08,
+                  "p95": 4.2196279044692366e-06,
+                  "p99": 6.731355422302753e-06,
+                  "maximum": 1.3434242802464241e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -3.0608858841318635e-05,
+                  "median": -6.794330996167494e-08,
+                  "p95": 4.430705360624564e-06,
+                  "p99": 7.811598596010882e-06,
+                  "maximum": 2.153751626534286e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.60723029449393e-05,
+                  "median": -3.388190126176452e-08,
+                  "p95": 4.505075365305813e-06,
+                  "p99": 7.354750628522198e-06,
+                  "maximum": 1.721409680786061e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.591734279180835e-05,
+                  "median": 4.410994680866954e-08,
+                  "p95": 4.25797662222661e-06,
+                  "p99": 6.913316276087624e-06,
+                  "maximum": 1.577675841959896e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.725079875479268e-05,
+                  "median": -1.534684233944874e-09,
+                  "p95": 4.188564719510916e-06,
+                  "p99": 7.026555040419847e-06,
+                  "maximum": 1.7943215165618403e-05
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.4199269062328333e-05,
+                  "median": 4.873532357648086e-09,
+                  "p95": 4.328952979904396e-06,
+                  "p99": 7.292278421021343e-06,
+                  "maximum": 1.3854032122312461e-05
+                }
+              ],
+              "displayDomain": [
+                -1.1348652151355054e-05,
+                1.1348652151355054e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "okuboWeiss": {
+              "file": "diagnostics_agulhas_1000_okuboWeiss.bin",
+              "sha256": "7c2a2953985969370f0570f8aa1dd9c5ea9110c11a182f2cedb1fdb7e3b53d4a",
+              "shape": [
+                6,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-2",
+              "stats": {
+                "valid": 28866,
+                "total": 38868,
+                "minimum": -2.3088479249228705e-09,
+                "median": 6.791585248127936e-12,
+                "p95": 1.5413827327601513e-10,
+                "p99": 3.329753038828828e-10,
+                "maximum": 1.6232593841303303e-09
+              },
+              "frames": [
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.8065679945001926e-09,
+                  "median": 7.27146977244619e-12,
+                  "p95": 1.5666452571429029e-10,
+                  "p99": 3.3563275338207197e-10,
+                  "maximum": 1.1189524521521282e-09
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.6595650646413617e-09,
+                  "median": 6.6602800669050155e-12,
+                  "p95": 1.5177906465794922e-10,
+                  "p99": 3.518263454494752e-10,
+                  "maximum": 1.6232593841303303e-09
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.843966110411303e-09,
+                  "median": 6.911867934308575e-12,
+                  "p95": 1.5552381244573858e-10,
+                  "p99": 3.347214717482071e-10,
+                  "maximum": 1.1298416412836505e-09
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -2.3088479249228705e-09,
+                  "median": 6.746036951868388e-12,
+                  "p95": 1.563672868189879e-10,
+                  "p99": 3.4649313710616383e-10,
+                  "maximum": 1.1535808495842035e-09
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.883439166932563e-09,
+                  "median": 6.929064435225323e-12,
+                  "p95": 1.5283980345902577e-10,
+                  "p99": 3.165326792705853e-10,
+                  "maximum": 1.2474615557676767e-09
+                },
+                {
+                  "valid": 4811,
+                  "total": 6478,
+                  "minimum": -1.2744641364374104e-09,
+                  "median": 6.1073503335438775e-12,
+                  "p95": 1.5202962263129643e-10,
+                  "p99": 2.990047074360776e-10,
+                  "maximum": 1.5436507757680984e-09
+                }
+              ],
+              "displayDomain": [
+                -1.2553554862293481e-09,
+                1.2553554862293481e-09
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "ftle": {
+              "file": "diagnostics_agulhas_1000_ftle.bin",
+              "sha256": "0fa6756c2bf85233067ad16fc988ee6f1ee9478475f941a493571e36f6621003",
+              "shape": [
+                4,
+                82,
+                79
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z"
+              ],
+              "units": "day^-1",
+              "stats": {
+                "valid": 19039,
+                "total": 25912,
+                "minimum": -0.23408566646096876,
+                "median": 0.19432122724168285,
+                "p95": 0.5112964780817268,
+                "p99": 0.6902965964391946,
+                "maximum": 1.0452265080268033
+              },
+              "frames": [
+                {
+                  "valid": 4762,
+                  "total": 6478,
+                  "minimum": -0.16005148919443776,
+                  "median": 0.19698052929744464,
+                  "p95": 0.5016911897311598,
+                  "p99": 0.6792591014164535,
+                  "maximum": 1.0247120249011814
+                },
+                {
+                  "valid": 4763,
+                  "total": 6478,
+                  "minimum": -0.231406730461799,
+                  "median": 0.19342663726724538,
+                  "p95": 0.5210678583969202,
+                  "p99": 0.6807392027005628,
+                  "maximum": 1.0452265080268033
+                },
+                {
+                  "valid": 4754,
+                  "total": 6478,
+                  "minimum": -0.23408566646096876,
+                  "median": 0.19487489365045324,
+                  "p95": 0.5136806721869188,
+                  "p99": 0.693430463534532,
+                  "maximum": 0.9465745880134455
+                },
+                {
+                  "valid": 4760,
+                  "total": 6478,
+                  "minimum": -0.16726239657500172,
+                  "median": 0.1919763760891845,
+                  "p95": 0.5146248787565487,
+                  "p99": 0.6967571672083187,
+                  "maximum": 0.9658933478221392
+                }
+              ],
+              "horizonHours": 48,
+              "displayDomain": [
+                -0.0037815116811543703,
+                0.9715463519096375
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            }
+          },
+          "sourceFile": "agulhas_1000.bin",
+          "sourceSha256": "890ddaa4291ae615830309338a00ec702fd8355721c0cd99e16b7caaeb9ac146",
+          "inputTimeStepSeconds": 86400,
+          "inputFrames": 6,
+          "validation": {
+            "seedGridShape": [
+              21,
+              20
+            ],
+            "startDates": [
+              "2026-09-29T00:00:00Z",
+              "2026-09-30T00:00:00Z",
+              "2026-10-01T00:00:00Z",
+              "2026-10-02T00:00:00Z"
+            ],
+            "timestep900Versus450Seconds": {
+              "commonValid": 1152,
+              "maskDisagreement": 0,
+              "absoluteDifferencePerDay": {
+                "valid": 1152,
+                "total": 1152,
+                "minimum": 1.9548876406538795e-11,
+                "median": 3.2514760750501637e-07,
+                "p95": 5.527703474667023e-06,
+                "p99": 1.5855050788216314e-05,
+                "maximum": 6.056073077198576e-05
+              }
+            },
+            "perturbationQuarterVersusEighthCell": {
+              "commonValid": 1152,
+              "maskDisagreement": 1,
+              "absoluteDifferencePerDay": {
+                "valid": 1152,
+                "total": 1152,
+                "minimum": 1.068512116791931e-05,
+                "median": 0.00684854824873183,
+                "p95": 0.030318870146702974,
+                "p99": 0.05949134795622279,
+                "maximum": 0.11722332266575297
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "bahamas",
+      "layers": [
+        {
+          "depth": 200,
+          "grid": {
+            "shape": [
+              57,
+              32
+            ],
+            "lon0": -82.0,
+            "lat0": 22.0,
+            "dlon": 0.320068359375,
+            "dlat": 0.15999984741210938
+          },
+          "fields": {
+            "vorticity": {
+              "file": "diagnostics_bahamas_200_vorticity.bin",
+              "sha256": "74035e752249b66e4b727d2664401cd854041564b69870dd0e1b2208ecb934ef",
+              "shape": [
+                6,
+                57,
+                32
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 6096,
+                "total": 10944,
+                "minimum": -5.2472792843274454e-05,
+                "median": -4.3096269415457136e-07,
+                "p95": 1.7914625749119918e-05,
+                "p99": 2.99859679729318e-05,
+                "maximum": 5.00599960110941e-05
+              },
+              "frames": [
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -3.970331279294102e-05,
+                  "median": -4.288646577830926e-07,
+                  "p95": 1.8582321592346187e-05,
+                  "p99": 3.179196750711033e-05,
+                  "maximum": 4.171998134499585e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -3.940031561781091e-05,
+                  "median": -1.3261693148959046e-07,
+                  "p95": 1.7953136365050358e-05,
+                  "p99": 2.9901402142928225e-05,
+                  "maximum": 5.00599960110941e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -3.944937118857721e-05,
+                  "median": -6.105840379030029e-07,
+                  "p95": 1.796351068737329e-05,
+                  "p99": 3.1334538996168887e-05,
+                  "maximum": 4.1969807968174256e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -5.2472792843274454e-05,
+                  "median": -6.174295990674886e-07,
+                  "p95": 1.7766166558218083e-05,
+                  "p99": 2.8107432044981067e-05,
+                  "maximum": 4.197561121518386e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -3.927838595525368e-05,
+                  "median": -5.595723576514968e-07,
+                  "p95": 1.8198407727431493e-05,
+                  "p99": 2.7435248040554202e-05,
+                  "maximum": 3.88079774434939e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -4.449311237357102e-05,
+                  "median": -2.7612018306389597e-07,
+                  "p95": 1.647100064621578e-05,
+                  "p99": 2.8467339057908344e-05,
+                  "maximum": 3.644130994717779e-05
+                }
+              ],
+              "displayDomain": [
+                -3.9258829929167405e-05,
+                3.9258829929167405e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "strain": {
+              "file": "diagnostics_bahamas_200_strain.bin",
+              "sha256": "e5926da13b96c49476f35b2b9f0be74b5637438edfabb0e307dcdc2ff9f7a35b",
+              "shape": [
+                6,
+                57,
+                32
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 6096,
+                "total": 10944,
+                "minimum": 1.5977438831087384e-07,
+                "median": 8.196313701653617e-06,
+                "p95": 2.2748742202750498e-05,
+                "p99": 3.1731838588641356e-05,
+                "maximum": 4.620851958312451e-05
+              },
+              "frames": [
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 3.73745831756774e-07,
+                  "median": 8.12754232680432e-06,
+                  "p95": 2.4555977818765415e-05,
+                  "p99": 3.248381758102533e-05,
+                  "maximum": 4.516406232340134e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 1.8016771881686556e-07,
+                  "median": 8.334952794314693e-06,
+                  "p95": 2.28729089458151e-05,
+                  "p99": 3.172643157923841e-05,
+                  "maximum": 4.620851958312451e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 1.5977438831087384e-07,
+                  "median": 7.875100781825583e-06,
+                  "p95": 2.3018869791542294e-05,
+                  "p99": 3.194449479151237e-05,
+                  "maximum": 4.2441828267036035e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 4.801792784085519e-07,
+                  "median": 8.27996566718009e-06,
+                  "p95": 2.2889126814888754e-05,
+                  "p99": 3.0003004996587054e-05,
+                  "maximum": 4.3665835692058444e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 3.056842090285819e-07,
+                  "median": 8.25213438613658e-06,
+                  "p95": 2.1320616431458713e-05,
+                  "p99": 3.166002967333266e-05,
+                  "maximum": 4.176778906047477e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": 1.9852215291547912e-07,
+                  "median": 8.48576979643779e-06,
+                  "p95": 2.1663388923639804e-05,
+                  "p99": 2.899255606913069e-05,
+                  "maximum": 4.303550389986281e-05
+                }
+              ],
+              "displayDomain": [
+                0,
+                3.7983547372277826e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "divergence": {
+              "file": "diagnostics_bahamas_200_divergence.bin",
+              "sha256": "bbd94163af7608a0968e27574df5ded3108f1e4c8e40e8b891e19c66e63eeec7",
+              "shape": [
+                6,
+                57,
+                32
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 6096,
+                "total": 10944,
+                "minimum": -1.520079877313609e-05,
+                "median": 4.81843073726557e-08,
+                "p95": 5.120712729020269e-06,
+                "p99": 8.045865374671673e-06,
+                "maximum": 1.4628331849287332e-05
+              },
+              "frames": [
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.1226595499597107e-05,
+                  "median": 5.217666969651103e-08,
+                  "p95": 5.1864112335364145e-06,
+                  "p99": 8.584610870099514e-06,
+                  "maximum": 1.4447761408484474e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.1861944841660183e-05,
+                  "median": 2.2347627850209962e-08,
+                  "p95": 5.1323160417230375e-06,
+                  "p99": 8.05604598978935e-06,
+                  "maximum": 1.1969350248085963e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.520079877313609e-05,
+                  "median": 1.1865038465184335e-07,
+                  "p95": 5.19566163617211e-06,
+                  "p99": 7.834899861989017e-06,
+                  "maximum": 1.211655748394696e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.0860955936580659e-05,
+                  "median": -3.004387013879993e-08,
+                  "p95": 5.3366096888905055e-06,
+                  "p99": 8.70469817918016e-06,
+                  "maximum": 1.4628331849287332e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.364983771266151e-05,
+                  "median": 9.003274760521105e-08,
+                  "p95": 4.822759756270281e-06,
+                  "p99": 7.402803090324848e-06,
+                  "maximum": 1.200937366631995e-05
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.3235839364393262e-05,
+                  "median": -1.7658309989334715e-08,
+                  "p95": 5.303048081397653e-06,
+                  "p99": 7.3912378128319685e-06,
+                  "maximum": 1.1448449908156094e-05
+                }
+              ],
+              "displayDomain": [
+                -1.1348652151355054e-05,
+                1.1348652151355054e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "okuboWeiss": {
+              "file": "diagnostics_bahamas_200_okuboWeiss.bin",
+              "sha256": "b842aa2b3b958930dc5d3eca67c3a378f1948c7ba73c28c7be03b265361d322c",
+              "shape": [
+                6,
+                57,
+                32
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-2",
+              "stats": {
+                "valid": 6096,
+                "total": 10944,
+                "minimum": -2.3534294775973455e-09,
+                "median": 1.3870994125799348e-11,
+                "p95": 2.7131827479531247e-10,
+                "p99": 5.528062254198254e-10,
+                "maximum": 1.685514322064335e-09
+              },
+              "frames": [
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.487184190489387e-09,
+                  "median": 1.402860642411245e-11,
+                  "p95": 2.2381992321974916e-10,
+                  "p99": 5.784336308360936e-10,
+                  "maximum": 9.134444911165618e-10
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.2462096754129042e-09,
+                  "median": 1.4746143235761558e-11,
+                  "p95": 2.6182961901764194e-10,
+                  "p99": 5.024513904554458e-10,
+                  "maximum": 1.4845736256035187e-09
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.3906962952402773e-09,
+                  "median": 1.2505807069576204e-11,
+                  "p95": 2.660887462845316e-10,
+                  "p99": 5.568298285353217e-10,
+                  "maximum": 1.4355645983766158e-09
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -2.3534294775973455e-09,
+                  "median": 9.526894501850228e-12,
+                  "p95": 3.02375709816896e-10,
+                  "p99": 6.552907876520084e-10,
+                  "maximum": 1.685514322064335e-09
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.4961910801932511e-09,
+                  "median": 1.5629217505119536e-11,
+                  "p95": 2.879979754568797e-10,
+                  "p99": 5.059225826304552e-10,
+                  "maximum": 1.0764285399626332e-09
+                },
+                {
+                  "valid": 1016,
+                  "total": 1824,
+                  "minimum": -1.922945844419825e-09,
+                  "median": 1.5655940747759502e-11,
+                  "p95": 2.7160570620116355e-10,
+                  "p99": 5.105177272769076e-10,
+                  "maximum": 8.347453106183494e-10
+                }
+              ],
+              "displayDomain": [
+                -1.2553554862293481e-09,
+                1.2553554862293481e-09
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "ftle": {
+              "file": "diagnostics_bahamas_200_ftle.bin",
+              "sha256": "91e8e3a10dc92afec3722d6c53b00439489952c39efe8eae7a9b7f61ebb575bb",
+              "shape": [
+                4,
+                57,
+                32
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z"
+              ],
+              "units": "day^-1",
+              "stats": {
+                "valid": 3604,
+                "total": 7296,
+                "minimum": -0.19690462702525285,
+                "median": 0.27994482805316756,
+                "p95": 0.6827772418488881,
+                "p99": 0.8800410328465859,
+                "maximum": 1.244942389913697
+              },
+              "frames": [
+                {
+                  "valid": 895,
+                  "total": 1824,
+                  "minimum": -0.19690462702525285,
+                  "median": 0.2715431473643145,
+                  "p95": 0.6944824237785324,
+                  "p99": 0.9078337352369974,
+                  "maximum": 1.244942389913697
+                },
+                {
+                  "valid": 898,
+                  "total": 1824,
+                  "minimum": -0.14225206164943927,
+                  "median": 0.2752823565851956,
+                  "p95": 0.6930866366324406,
+                  "p99": 0.8573491561205896,
+                  "maximum": 1.080160045475079
+                },
+                {
+                  "valid": 905,
+                  "total": 1824,
+                  "minimum": -0.13070906068143245,
+                  "median": 0.2864024991718809,
+                  "p95": 0.6919559258199351,
+                  "p99": 0.91506976997572,
+                  "maximum": 1.151440844752574
+                },
+                {
+                  "valid": 906,
+                  "total": 1824,
+                  "minimum": -0.1827997672020722,
+                  "median": 0.2853555757951399,
+                  "p95": 0.6542198256077296,
+                  "p99": 0.8818543151133457,
+                  "maximum": 1.1055166048180218
+                }
+              ],
+              "horizonHours": 48,
+              "displayDomain": [
+                -0.0037815116811543703,
+                0.9715463519096375
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            }
+          },
+          "sourceFile": "bahamas_200.bin",
+          "sourceSha256": "c0c4604f612e54ece0a6c2d3b7748a684ac82b85c8304bec05dedcc997575105",
+          "inputTimeStepSeconds": 86400,
+          "inputFrames": 6,
+          "validation": {
+            "seedGridShape": [
+              15,
+              8
+            ],
+            "startDates": [
+              "2026-09-29T00:00:00Z",
+              "2026-09-30T00:00:00Z",
+              "2026-10-01T00:00:00Z",
+              "2026-10-02T00:00:00Z"
+            ],
+            "timestep900Versus450Seconds": {
+              "commonValid": 227,
+              "maskDisagreement": 0,
+              "absoluteDifferencePerDay": {
+                "valid": 227,
+                "total": 227,
+                "minimum": 1.5277382692246988e-09,
+                "median": 1.015219199596018e-06,
+                "p95": 1.1540216651234597e-05,
+                "p99": 2.3493147367557065e-05,
+                "maximum": 3.17039571288702e-05
+              }
+            },
+            "perturbationQuarterVersusEighthCell": {
+              "commonValid": 227,
+              "maskDisagreement": 1,
+              "absoluteDifferencePerDay": {
+                "valid": 227,
+                "total": 227,
+                "minimum": 2.0641232098883577e-05,
+                "median": 0.007533311846156798,
+                "p95": 0.03976821823328098,
+                "p99": 0.07814669592937477,
+                "maximum": 0.14882363563452033
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "denmark",
+      "layers": [
+        {
+          "depth": 1000,
+          "grid": {
+            "shape": [
+              63,
+              82
+            ],
+            "lon0": -44.0,
+            "lat0": 59.0,
+            "dlon": 0.320068359375,
+            "dlat": 0.160003662109375
+          },
+          "fields": {
+            "vorticity": {
+              "file": "diagnostics_denmark_1000_vorticity.bin",
+              "sha256": "c12675b3d7528efd1be714b35cb37ab895ef88d73c75bd8ced80f955692b2907",
+              "shape": [
+                6,
+                63,
+                82
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 13056,
+                "total": 30996,
+                "minimum": -3.7476543855610766e-05,
+                "median": 4.309766159438457e-07,
+                "p95": 7.879856231103689e-06,
+                "p99": 1.515263357201292e-05,
+                "maximum": 4.892040762516313e-05
+              },
+              "frames": [
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -3.6386925851079316e-05,
+                  "median": 3.1459972649715856e-07,
+                  "p95": 7.413777727750107e-06,
+                  "p99": 1.4671633861960931e-05,
+                  "maximum": 3.8292391730403735e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -3.7476543855610766e-05,
+                  "median": 4.116630624665755e-07,
+                  "p95": 7.723332480348441e-06,
+                  "p99": 1.5626714895142957e-05,
+                  "maximum": 3.9102824943650655e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -3.152054506048669e-05,
+                  "median": 4.841065299156975e-07,
+                  "p95": 8.030772664305785e-06,
+                  "p99": 1.4512813573544635e-05,
+                  "maximum": 4.813728434694572e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -2.6901383120170753e-05,
+                  "median": 4.24184831538199e-07,
+                  "p95": 8.10592104695763e-06,
+                  "p99": 1.562099635959194e-05,
+                  "maximum": 4.892040762516313e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -2.7237259545034065e-05,
+                  "median": 4.768614872014682e-07,
+                  "p95": 7.678648634962138e-06,
+                  "p99": 1.6029459562250144e-05,
+                  "maximum": 3.980354542845024e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -3.083966263930873e-05,
+                  "median": 4.2360687339455875e-07,
+                  "p95": 8.137602295673674e-06,
+                  "p99": 1.5143021344837624e-05,
+                  "maximum": 4.002093679181854e-05
+                }
+              ],
+              "displayDomain": [
+                -3.9258829929167405e-05,
+                3.9258829929167405e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "strain": {
+              "file": "diagnostics_denmark_1000_strain.bin",
+              "sha256": "c2a5c2b9b795a7f67d77d0d1a35f2ff060e0e1edf74cbf3a33537a1b15a1a81d",
+              "shape": [
+                6,
+                63,
+                82
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 13056,
+                "total": 30996,
+                "minimum": 2.446622912675424e-08,
+                "median": 2.834806526036908e-06,
+                "p95": 1.0163377016088976e-05,
+                "p99": 1.8728075871335467e-05,
+                "maximum": 6.407870177436543e-05
+              },
+              "frames": [
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 3.291884840408454e-08,
+                  "median": 2.737486015316383e-06,
+                  "p95": 9.751699720312696e-06,
+                  "p99": 1.872078729630141e-05,
+                  "maximum": 4.183730010043048e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 6.301846424089047e-08,
+                  "median": 2.7590191571464762e-06,
+                  "p95": 1.0121922087189996e-05,
+                  "p99": 1.78152325156562e-05,
+                  "maximum": 4.260402113937445e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 2.446622912675424e-08,
+                  "median": 2.881579807171904e-06,
+                  "p95": 1.0157308517560807e-05,
+                  "p99": 1.9236439955394036e-05,
+                  "maximum": 4.294674488187534e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 9.172610888811574e-08,
+                  "median": 2.863669536657858e-06,
+                  "p95": 1.0645993250804743e-05,
+                  "p99": 1.8151806320197103e-05,
+                  "maximum": 6.407870177436543e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 3.629053443388532e-08,
+                  "median": 2.8808826812465535e-06,
+                  "p95": 1.0023232341062887e-05,
+                  "p99": 1.7847573229526543e-05,
+                  "maximum": 5.575714713928805e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": 3.8565304883044996e-08,
+                  "median": 2.8687963071620508e-06,
+                  "p95": 1.0039073589807604e-05,
+                  "p99": 1.8410682676419424e-05,
+                  "maximum": 5.4466084292276355e-05
+                }
+              ],
+              "displayDomain": [
+                0,
+                3.7983547372277826e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "divergence": {
+              "file": "diagnostics_denmark_1000_divergence.bin",
+              "sha256": "9db1eb511b88f8cb1ce24b8d8ad5ebe1568d111003a798da491fdf107c7de0c0",
+              "shape": [
+                6,
+                63,
+                82
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-1",
+              "stats": {
+                "valid": 13056,
+                "total": 30996,
+                "minimum": -1.8057862005008555e-05,
+                "median": 1.094750836903758e-08,
+                "p95": 2.0273456268306405e-06,
+                "p99": 3.887641943021035e-06,
+                "maximum": 1.3348294106201563e-05
+              },
+              "frames": [
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.5199734331551487e-05,
+                  "median": 5.247287273933804e-08,
+                  "p95": 2.0544763839880834e-06,
+                  "p99": 3.906404107414524e-06,
+                  "maximum": 1.3275333534283333e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.8057862005008555e-05,
+                  "median": 4.943816093635675e-08,
+                  "p95": 1.995527448711883e-06,
+                  "p99": 4.156749438582597e-06,
+                  "maximum": 9.205293134749027e-06
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.7076551450757247e-05,
+                  "median": 8.142291871725352e-09,
+                  "p95": 2.111959216712561e-06,
+                  "p99": 3.789031221652923e-06,
+                  "maximum": 8.704144979157435e-06
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.7326859307575413e-05,
+                  "median": -1.2116953622385609e-08,
+                  "p95": 2.1367334433780165e-06,
+                  "p99": 3.902498330860945e-06,
+                  "maximum": 9.904701529893386e-06
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.5224021505130525e-05,
+                  "median": 1.024276782703169e-08,
+                  "p95": 1.9347816108403876e-06,
+                  "p99": 4.04448203846587e-06,
+                  "maximum": 1.3348294106201563e-05
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.755131875700949e-05,
+                  "median": -3.566545063641528e-09,
+                  "p95": 1.8822550042106554e-06,
+                  "p99": 3.618747176159285e-06,
+                  "maximum": 1.1500050512538127e-05
+                }
+              ],
+              "displayDomain": [
+                -1.1348652151355054e-05,
+                1.1348652151355054e-05
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "okuboWeiss": {
+              "file": "diagnostics_denmark_1000_okuboWeiss.bin",
+              "sha256": "2df71e05cec2337c344ac2998116cd3f27e1cd0bccb79c00038b5b0f73e37af1",
+              "shape": [
+                6,
+                63,
+                82
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z",
+                "2026-10-03T00:00:00Z",
+                "2026-10-04T00:00:00Z"
+              ],
+              "units": "s^-2",
+              "stats": {
+                "valid": 13056,
+                "total": 30996,
+                "minimum": -1.5583982886845022e-09,
+                "median": 1.7122808205795213e-12,
+                "p95": 5.199365677091966e-11,
+                "p99": 1.8751533408806772e-10,
+                "maximum": 2.1159913286034195e-09
+              },
+              "frames": [
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -9.924792086889635e-10,
+                  "median": 1.8794100433307634e-12,
+                  "p95": 4.819860027394405e-11,
+                  "p99": 1.967999197790567e-10,
+                  "maximum": 9.551658238034378e-10
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -7.608668136594003e-10,
+                  "median": 1.760888299914647e-12,
+                  "p95": 4.9714737942532335e-11,
+                  "p99": 1.986579835492385e-10,
+                  "maximum": 1.4002399207719047e-09
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.5583982886845022e-09,
+                  "median": 1.7307225983760332e-12,
+                  "p95": 5.404762111799743e-11,
+                  "p99": 1.6962324438517046e-10,
+                  "maximum": 7.390669962968073e-10
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.190950602987721e-09,
+                  "median": 1.760720253196382e-12,
+                  "p95": 5.1972257420382254e-11,
+                  "p99": 1.7583905536103643e-10,
+                  "maximum": 1.712873738875945e-09
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -1.0408644157181714e-09,
+                  "median": 1.7609439452486623e-12,
+                  "p95": 5.193657507104443e-11,
+                  "p99": 1.7939639009549306e-10,
+                  "maximum": 2.1159913286034195e-09
+                },
+                {
+                  "valid": 2176,
+                  "total": 5166,
+                  "minimum": -8.925089625754774e-10,
+                  "median": 1.497159506601103e-12,
+                  "p95": 5.37646783021706e-11,
+                  "p99": 1.792709987293415e-10,
+                  "maximum": 1.364878956438618e-09
+                }
+              ],
+              "displayDomain": [
+                -1.2553554862293481e-09,
+                1.2553554862293481e-09
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            },
+            "ftle": {
+              "file": "diagnostics_denmark_1000_ftle.bin",
+              "sha256": "575c12db2a099657048e03c52f0737463858e445007e76136a0e9caa0f4355f2",
+              "shape": [
+                4,
+                63,
+                82
+              ],
+              "dates": [
+                "2026-09-29T00:00:00Z",
+                "2026-09-30T00:00:00Z",
+                "2026-10-01T00:00:00Z",
+                "2026-10-02T00:00:00Z"
+              ],
+              "units": "day^-1",
+              "stats": {
+                "valid": 8342,
+                "total": 20664,
+                "minimum": -0.18714767761456247,
+                "median": 0.11448806068972105,
+                "p95": 0.3608462080497835,
+                "p99": 0.5340563452559368,
+                "maximum": 1.0122832357989742
+              },
+              "frames": [
+                {
+                  "valid": 2083,
+                  "total": 5166,
+                  "minimum": -0.07042491801590092,
+                  "median": 0.11241927235429378,
+                  "p95": 0.3465151638696126,
+                  "p99": 0.5353942111519621,
+                  "maximum": 1.0122832357989742
+                },
+                {
+                  "valid": 2087,
+                  "total": 5166,
+                  "minimum": -0.1109769739077574,
+                  "median": 0.11442773556639392,
+                  "p95": 0.36516581707874696,
+                  "p99": 0.5366374478400278,
+                  "maximum": 0.8525691947837518
+                },
+                {
+                  "valid": 2083,
+                  "total": 5166,
+                  "minimum": -0.18714767761456247,
+                  "median": 0.11481691847742946,
+                  "p95": 0.36386725270916964,
+                  "p99": 0.5516007613211443,
+                  "maximum": 0.7805512563836902
+                },
+                {
+                  "valid": 2089,
+                  "total": 5166,
+                  "minimum": -0.1588406222162848,
+                  "median": 0.11643813027153571,
+                  "p95": 0.3666808345355879,
+                  "p99": 0.5290972399749652,
+                  "maximum": 1.0110426818575915
+                }
+              ],
+              "horizonHours": 48,
+              "displayDomain": [
+                -0.0037815116811543703,
+                0.9715463519096375
+              ],
+              "displayClipping": "Shared all-region, all-depth, all-date 98th-percentile absolute limit for signed fields; nonnegative fields use p98. FTLE lower bound is min(0,p02). Values outside these display bounds remain available numerically."
+            }
+          },
+          "sourceFile": "denmark_1000.bin",
+          "sourceSha256": "cb0423a652d629297b626c9c9af52aff39bf5074e3b2b35a14ff382e94010b12",
+          "inputTimeStepSeconds": 86400,
+          "inputFrames": 6,
+          "validation": {
+            "seedGridShape": [
+              16,
+              21
+            ],
+            "startDates": [
+              "2026-09-29T00:00:00Z",
+              "2026-09-30T00:00:00Z",
+              "2026-10-01T00:00:00Z",
+              "2026-10-02T00:00:00Z"
+            ],
+            "timestep900Versus450Seconds": {
+              "commonValid": 500,
+              "maskDisagreement": 0,
+              "absoluteDifferencePerDay": {
+                "valid": 500,
+                "total": 500,
+                "minimum": 1.2406742300186124e-14,
+                "median": 4.055306812578152e-08,
+                "p95": 1.2608244276297843e-06,
+                "p99": 6.011684514914467e-06,
+                "maximum": 2.1314643274067402e-05
+              }
+            },
+            "perturbationQuarterVersusEighthCell": {
+              "commonValid": 500,
+              "maskDisagreement": 1,
+              "absoluteDifferencePerDay": {
+                "valid": 500,
+                "total": 500,
+                "minimum": 3.439383882976321e-05,
+                "median": 0.004601161419005025,
+                "p95": 0.0220033479605786,
+                "p99": 0.03689569919745883,
+                "maximum": 0.08566787364183442
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "inputTimeStepsSeconds": [
+    10800,
+    86400
+  ]
+}

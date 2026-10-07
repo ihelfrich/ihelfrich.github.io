@@ -1,6 +1,6 @@
 {
   "source": "HYCOM / ESPC-D-V02 analysis",
-  "created": "2026-10-06",
+  "created": "2026-10-07",
   "velocityScale": 0.001,
   "missing": -32768,
   "regions": [
@@ -18,23 +18,63 @@
           "depth": 0,
           "file": "agulhas_0.bin",
           "shape": [
-            6,
+            41,
             163,
             157
           ],
           "lat0": -43.0,
           "lon0": 10.0,
-          "dlat": 0.0800018310546875,
-          "dlon": 0.1600341796875,
+          "dlat": 0.07999999434859664,
+          "dlon": 0.15999974959935898,
           "dates": [
             "2026-09-29T00:00:00Z",
+            "2026-09-29T03:00:00Z",
+            "2026-09-29T06:00:00Z",
+            "2026-09-29T09:00:00Z",
+            "2026-09-29T12:00:00Z",
+            "2026-09-29T15:00:00Z",
+            "2026-09-29T18:00:00Z",
+            "2026-09-29T21:00:00Z",
             "2026-09-30T00:00:00Z",
+            "2026-09-30T03:00:00Z",
+            "2026-09-30T06:00:00Z",
+            "2026-09-30T09:00:00Z",
+            "2026-09-30T12:00:00Z",
+            "2026-09-30T15:00:00Z",
+            "2026-09-30T18:00:00Z",
+            "2026-09-30T21:00:00Z",
             "2026-10-01T00:00:00Z",
+            "2026-10-01T03:00:00Z",
+            "2026-10-01T06:00:00Z",
+            "2026-10-01T09:00:00Z",
+            "2026-10-01T12:00:00Z",
+            "2026-10-01T15:00:00Z",
+            "2026-10-01T18:00:00Z",
+            "2026-10-01T21:00:00Z",
             "2026-10-02T00:00:00Z",
+            "2026-10-02T03:00:00Z",
+            "2026-10-02T06:00:00Z",
+            "2026-10-02T09:00:00Z",
+            "2026-10-02T12:00:00Z",
+            "2026-10-02T15:00:00Z",
+            "2026-10-02T18:00:00Z",
+            "2026-10-02T21:00:00Z",
             "2026-10-03T00:00:00Z",
+            "2026-10-03T03:00:00Z",
+            "2026-10-03T06:00:00Z",
+            "2026-10-03T09:00:00Z",
+            "2026-10-03T12:00:00Z",
+            "2026-10-03T15:00:00Z",
+            "2026-10-03T18:00:00Z",
+            "2026-10-03T21:00:00Z",
             "2026-10-04T00:00:00Z"
           ],
-          "speedMax": 2.704125165939331
+          "speedMax": 2.704125165939331,
+          "timeStepSeconds": 10800,
+          "coordinateResidualMaxDegrees": 9.390024038680167e-05,
+          "units": "m s-1",
+          "provenance": "source-requests-3hour.json",
+          "sha256": "709c4eefdac341b11b182e11e8af47cac883d6a00c232609d77b91373f139a01"
         },
         {
           "depth": 200,
@@ -56,7 +96,11 @@
             "2026-10-03T00:00:00Z",
             "2026-10-04T00:00:00Z"
           ],
-          "speedMax": 2.1831183433532715
+          "speedMax": 2.1831183433532715,
+          "timeStepSeconds": 86400,
+          "units": "m s-1",
+          "sha256": "127a47b01456fb6ec7d3c4108f0768a14e9c460a06e65018bad739abc2ee8012",
+          "provenance": "source-requests.json"
         },
         {
           "depth": 1000,
@@ -78,7 +122,11 @@
             "2026-10-03T00:00:00Z",
             "2026-10-04T00:00:00Z"
           ],
-          "speedMax": 1.1258819103240967
+          "speedMax": 1.1258819103240967,
+          "timeStepSeconds": 86400,
+          "units": "m s-1",
+          "sha256": "890ddaa4291ae615830309338a00ec702fd8355721c0cd99e16b7caaeb9ac146",
+          "provenance": "source-requests.json"
         }
       ],
       "terrain": {
@@ -124,7 +172,11 @@
             "2026-10-03T00:00:00Z",
             "2026-10-04T00:00:00Z"
           ],
-          "speedMax": 1.3252094984054565
+          "speedMax": 1.3252094984054565,
+          "timeStepSeconds": 86400,
+          "units": "m s-1",
+          "sha256": "c0c4604f612e54ece0a6c2d3b7748a684ac82b85c8304bec05dedcc997575105",
+          "provenance": "source-requests.json"
         }
       ],
       "terrain": {
@@ -170,7 +222,11 @@
             "2026-10-03T00:00:00Z",
             "2026-10-04T00:00:00Z"
           ],
-          "speedMax": 0.8053080439567566
+          "speedMax": 0.8053080439567566,
+          "timeStepSeconds": 86400,
+          "units": "m s-1",
+          "sha256": "cb0423a652d629297b626c9c9af52aff39bf5074e3b2b35a14ff382e94010b12",
+          "provenance": "source-requests.json"
         }
       ],
       "terrain": {
@@ -186,5 +242,8 @@
         "source": "NOAA ETOPO1, subsampled every 12 grid cells (0.2 degrees)"
       }
     }
-  ]
+  ],
+  "encoding": "int16 little-endian [component(u,v),time,latitude,longitude]",
+  "provenance": "source-requests-3hour.json",
+  "temporalSampling": "Per-layer timeStepSeconds and dates are authoritative; source cadence may differ between layers."
 }

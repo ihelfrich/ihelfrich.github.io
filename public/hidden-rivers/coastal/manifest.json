@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "name": "Cape Peninsula, South Africa",
+  "year": 2024,
+  "model": "Tessera v1.1",
+  "variant": "dClimate complete global run",
+  "dimensions": 128,
+  "width": 256,
+  "height": 256,
+  "nativeResolutionMetres": 10,
+  "sampleSpacingMetres": 20,
+  "stride": 2,
+  "nativeWindow": [
+    512,
+    512
+  ],
+  "nativeCRS": "EPSG:32634",
+  "nativeTransform": [
+    10.0,
+    0.0,
+    257860.0,
+    0.0,
+    -10.0,
+    -3784820.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "sampling": "Every second native 10 m pixel retained without resampling; 20 m centre spacing. Native pixel centres at row/column offsets 0.5 + 2k.",
+  "validCount": 65475,
+  "totalCount": 65536,
+  "mask": "Only finite positive store scales and nonzero vectors retained. Invalid store pixels are excluded; the viewer does not infer their reason.",
+  "encoding": "Signed int8 [row,column,component], 128 original published components. Positive per-pixel scale cancels in cosine. No dimensionality reduction or additional quantization.",
+  "coordinates": "Little-endian float32 [row,column,(longitude,latitude)] in WGS84.",
+  "bounds": [
+    18.37142755577092,
+    -34.22357109850691,
+    18.42836030062137,
+    -34.176266009570554
+  ],
+  "validation": {
+    "pairs": 10000,
+    "seed": 20261007,
+    "maxAbsoluteCosineErrorVsFloat32Dequantized": 9.521314625615673e-09,
+    "meanAbsoluteCosineError": 1.8153081400934524e-09,
+    "note": "Numerical agreement with published dequantized vectors, not validation of ecological or oceanographic meaning."
+  },
+  "files": {
+    "vectors.i8": {
+      "bytes": 8388608,
+      "sha256": "2f9bd4b08f360fa618a6fdd53fdd4a1b76ef992bc2d1d2c83ad5dc0b7f60d222"
+    },
+    "valid.u8": {
+      "bytes": 65536,
+      "sha256": "7f4a3be3efbfa2f4e8e9c2aa7fdd5cd297d7d138ca6cf0cc29338b8c6e843999"
+    },
+    "coordinates.f32": {
+      "bytes": 524288,
+      "sha256": "f57a54a7ee0321f29b7faf23616e17b20040c5bd689720abd2f15f336981357b"
+    }
+  },
+  "sources": [
+    {
+      "title": "GeoTessera package and dataset documentation",
+      "url": "https://geotessera.readthedocs.io/en/latest/"
+    },
+    {
+      "title": "Tessera v1.1 dClimate Icechunk store",
+      "url": "https://data.source.coop/tessera/tessera/zarr/v1.1-dclimate"
+    },
+    {
+      "title": "TESSERA model paper",
+      "url": "https://arxiv.org/abs/2506.20380"
+    },
+    {
+      "title": "Esri World Imagery",
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=257860.0%2C6210060.0%2C262980.0%2C6215180.0&bboxSR=32734&imageSR=32734&size=1024%2C1024&format=jpg&f=image",
+      "attribution": "Esri, Maxar, Earthstar Geographics, and the GIS User Community. Context imagery may combine acquisition dates."
+    }
+  ],
+  "use": "Compare annual optical/radar representations within one model version and year. Similarity is a retrieval score, not a class probability, habitat label, or current measurement.",
+  "crossModelWarning": "Do not compare cosine scores across different embedding model versions.",
+  "initialPixel": [
+    122,
+    142
+  ],
+  "embeddingLicense": "CC0-1.0",
+  "licenseSource": "https://github.com/ucam-eo/tessera"
+}

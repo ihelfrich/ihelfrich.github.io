@@ -9,7 +9,7 @@ export function velocityAt(layer, longitude, latitude, seconds) {
 }
 
 export function pointSeries(layers, longitude, latitude) {
-  return layers.flatMap(layer=>layer.dates.map((date,index)=>({date,depth:layer.depth,longitude,latitude,...(velocityAt(layer,longitude,latitude,index*86400)||{east:null,north:null,speed:null,bearing:null})})));
+  return layers.flatMap(layer=>layer.dates.map((date,index)=>({date,depth:layer.depth,longitude,latitude,...(velocityAt(layer,longitude,latitude,(Date.parse(date)-Date.parse(layer.dates[0]))/1000)||{east:null,north:null,speed:null,bearing:null})})));
 }
 
 export function seriesCSV(rows) {

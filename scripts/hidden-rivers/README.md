@@ -1,91 +1,255 @@
 # Hidden Rivers
 
-An independent project route in the `ihelfrich.github.io` GitHub Pages hub:
-https://ihelfrich.github.io/hidden-rivers/
+A project in the `ihelfrich.github.io` GitHub Pages repository, published at
+https://ihelfrich.github.io/hidden-rivers/. Shared navigation and catalogue data
+connect the atlas to Projects, Lab, search, and the archive. This is not a
+separate repository.
 
-The hub's shared catalogue creates the project record, public index and archive
-entry. Its shared navigation creates the header/footer link and search command.
-This release does not create a separate GitHub repository.
+## Build and verify the committed release
 
-## Reproduce
+Scientific subsets and derived fields are committed under
+`public/hidden-rivers`. Building the site requires no ocean-data account or
+runtime request to HYCOM, Tessera, or Esri. Use the committed npm lockfile:
 
-Python dependencies: numpy, scipy, pandas, pillow, matplotlib, netCDF4, imageio,
-imageio-ffmpeg, geotessera (0.11.0 used here), rasterio, pyproj.
+```sh
+npm ci
+python scripts/hidden-rivers/validate-release.py --report /tmp/hidden-rivers-release.json
+python -m unittest discover -s tests/unit -p 'hidden_rivers_release_test.py'
+npm run build
+```
 
-From the repository root:
+The validator uses only Python's standard library. It checks binary lengths,
+dtypes, dimensions, UTC dates, regular velocity cadence, physical units, masks,
+maximum speeds, source-component metadata, source hashes, diagnostic coverage,
+and complete FTLE horizons. The optional report records SHA-256 hashes.
+Deliberately malformed bundles test truncation, irregular timestamps, stale
+diagnostics, infinite values, incorrect coverage, and incomplete horizons.
+
+These checks establish internal consistency. They cannot validate the ocean
+model against observations or reconstruct source coordinates after packing.
+The source importer therefore compares component coordinates and timestamps
+while the original NetCDF variables remain available.
+
+## Velocity release contract
+
+`data/manifest.json` supplies the actual timestamps and dimensions of each layer.
+Do not infer its cadence from the animation frame rate. The release spans
+2026-09-29 00:00 UTC through 2026-10-04 00:00 UTC, five elapsed days. There are
+five region/depth combinations: Agulhas at 0, 200, and 1,000 m; Florida/Bahamas
+at 200 m; Denmark Strait/Irminger Sea at 1,000 m.
+
+Agulhas surface contains **41 three-hour analyses**. The other four layers
+contain **six daily analyses**. The depth-comparison view uses daily subsamples
+of the surface series to align input cadence across depths. Its surface paths
+can consequently differ from the full three-hour surface animation. Sampling
+sensitivity is distinct from a physical difference between depths.
+
+Velocity binaries are little-endian signed int16 in C order
+`[component(u,v), time, latitude, longitude]`. The manifest's `shape` gives the
+last three dimensions. Multiply by `velocityScale`, currently 0.001, for m/s;
+−32768 is missing. Longitude increases eastward and latitude northward.
+Requested spatial stride two yields approximately 0.16° longitude × 0.08°
+latitude. Inputs are instantaneous model analyses, not direct observations.
+
+The original `source-requests.json` records the daily-input release.
+`source-requests-3hour.json` records the higher-cadence retrievals; per-layer
+`provenance` selects the relevant source record. An incomplete downloaded pair
+is not used in a released velocity layer. Read the committed layer dates and
+the release-validation output. The archival daily record contains request URLs
+but lacks decoded source component metadata; the validator reports that limit.
+
+Browser trajectories use bilinear spatial interpolation, linear temporal
+interpolation, and midpoint integration. Deterministic seeds and fixed
+model-time vertices make trail duration independent of rendering frame rate.
+Trajectories remain at fixed depth. Particle count, luminosity, and bloom are
+display choices, not concentration, probability, or volume transport.
+Projection and vertical exaggeration affect display coordinates only.
+
+## Derived physical fields
+
+`diagnostics.py` computes the covariant spherical horizontal velocity gradient,
+relative vorticity, strain magnitude, divergence, and Okubo–Weiss values.
+Gradient products retain daily output frames. Forward FTLE uses four daily
+start dates and a full 48-hour horizon, without extrapolation.
+
+FTLE uses RK4 integration at 900-second steps and central perturbations of
+one quarter of a source grid cell. The flow-map Jacobian uses physical
+east/north metrics at initial and final positions. Invalid interpolation
+stencils and trajectories leaving the domain are masked. FTLE trajectories
+are never reseeded or assigned a shortened integration horizon.
+
+`diagnostics.json` records shapes, dates, units, source SHA-256 hashes, valid
+coverage, shared display ranges, and sensitivity results. Binaries are
+little-endian float32, ordered `[time,latitude,longitude]`, with NaN for missing
+values. FTLE is in day⁻¹; vorticity, strain, and divergence in s⁻¹; Okubo–Weiss
+in s⁻². Stored values remain unclipped.
+
+The Agulhas surface cadence audit compares three-hour inputs against daily
+subsamples of those same inputs. Across 1,231 jointly valid seed/start cases,
+the median absolute FTLE difference is 0.1137 day⁻¹ and the 95th percentile is
+0.4272 day⁻¹. Halving the integrator step gives a much smaller median difference,
+0.00000462 day⁻¹, on 1,238 jointly valid cases. In this experiment, source-time
+sampling changes the diagnostic far more than halving the numerical step.
+This finding does not establish which estimate is closer to observations.
+
+The audit compares 900 versus 450 second integration and quarter versus eighth
+cell perturbations. These checks concern numerical sensitivity within the same
+sampled model. They are not forecast confidence intervals. FTLE can be elevated
+by shear; a ridge alone does not prove a transport barrier. Okubo–Weiss is a
+local strain/rotation diagnostic, not a validated eddy boundary.
+Negative FTLE values indicate contraction of the most-stretched local direction
+over the finite interval. Fixed-depth horizontal fields need not preserve area.
+The shared FTLE display extends from the smaller of zero and its second
+percentile to its 98th percentile. Values outside this range are color-clipped;
+downloads retain them. Formulas and analytic checks are in [SCIENCE.md](SCIENCE.md).
+
+To regenerate from the exact committed velocity inputs, install NumPy and run:
+
+```sh
+python scripts/hidden-rivers/diagnostics.py
+python -m unittest discover -s tests/unit -p 'hidden_rivers_diagnostics_test.py'
+python scripts/hidden-rivers/validate-release.py --report /tmp/hidden-rivers-release.json
+```
+
+Smaller integration steps do not restore variability omitted by source sampling.
+No vertical velocity, density calculation, observational validation, or
+cross-depth exchange is included. In particular, a 1,000 m horizontal slice
+does not reconstruct Denmark Strait overflow descending over a shallower sill.
+
+## Optional source-cadence regeneration
+
+`upgrade_cadence.py` requests 41 three-hour samples over the same five-day
+interval. It requires NumPy and netCDF4, and caches the ten component subsets
+in the sibling `hycom_3hour` directory. It checks units, dimensions, dates,
+depth, paired component grids, packing, and coordinate spacing before export:
+
+```sh
+python scripts/hidden-rivers/upgrade_cadence.py
+python scripts/hidden-rivers/diagnostics.py
+python scripts/hidden-rivers/validate-release.py --report /tmp/hidden-rivers-release.json
+```
+
+Only publish after all three commands succeed. A failed or blocked provider
+request must not be described as an available higher-cadence layer. Old
+diagnostic source hashes intentionally fail validation against changed inputs.
+Keep original NetCDF files when archival research requires them.
+
+The current mixed-cadence release was exported with
+`python scripts/hidden-rivers/upgrade_cadence.py --cached-only`. That option
+imports only complete, validated cached u/v pairs and preserves other existing
+layers. It does not download missing components or fabricate higher-cadence data.
+
+Provider reprocessing can change future download bytes. Compare source hashes
+and record a new release when they change. Python dependency versions are not
+fully locked; the committed public binaries define the exact release, without
+a promise of byte-identical downloads from a future provider response.
+
+## Tessera coastal retrieval
+
+The Cape Peninsula footprint is 5.12 km square, near 18.40° E, 34.20° S. It uses
+Tessera v1.1 dClimate annual embeddings for 2024. The source grid is 512 × 512 at
+10 m. The browser retains every second native pixel without interpolation,
+yielding 256 × 256 samples at 20 m center spacing with all 128 components.
+
+Each published vector has signed int8 components and a positive per-pixel
+scale. That scale cancels in cosine similarity. `vectors.i8` therefore retains
+the original components without PCA compression or additional quantization.
+`valid.u8` masks invalid scales and zero vectors. `coordinates.f32` contains
+retained pixel centers as WGS84 longitude/latitude pairs. The coastal manifest
+records the native transform, sampling convention, hashes, and source links.
+
+An independent check compares 10,000 seeded pixel pairs against dequantized
+vectors. This establishes arithmetic agreement, not ecological meaning.
+Rebuild with Python 3.12+, `geotessera==0.11.0`, NumPy, pyproj, requests, and Pillow:
+
+```sh
+python scripts/hidden-rivers/build_coastal.py --cache /tmp/hidden-rivers-tessera-cache
+```
+
+The script requests public Tessera and Esri assets without a paid API key.
+Provider availability and package compatibility still matter. Context imagery
+may combine acquisition dates.
+
+Cosine is a retrieval score within one model version and year, not a class
+probability, habitat label, or current measurement. Neighboring pixels are
+spatially dependent. The 2024 embeddings and 2026 ocean model are separate
+sources with different temporal support. Google AlphaEarth is not bundled;
+the atlas makes no claim of cross-model fusion.
+
+The original PCA image remains reproducible with `tessera_fetch.py` and
+`prepare.py`: a seeded 25,000-pixel covariance fit, sign-fixed eigenvectors, and
+separate 2nd–98th percentile display stretches. Parameters are in
+`data/tessera_pca.npz`. PCA colors are not physical variables or transferable
+class labels.
+
+## Record the browser-rendered film
+
+`record_observatory.cjs` captures the actual WebGL application at explicit model
+times and camera poses. Its four 12-second chapters show surface motion, local
+rotation, a fixed 48-hour stretching window, and daily-aligned depth comparison.
+The script writes `film-v3.mp4`, its poster, and WebVTT captions to the public
+project directory. The film is 1,920 × 1,080 at 24 fps by default.
+
+Capture requires Playwright, a compatible Chromium executable, and ffmpeg in
+addition to website dependencies. Playwright is an optional capture dependency,
+not installed by the site's `npm ci`. To prepare it without changing the lockfile:
+
+```sh
+npm install --no-save --package-lock=false playwright@1.51.1
+npx playwright install chromium
+npm run build:fast
+node scripts/hidden-rivers/record_observatory.cjs --preview
+node scripts/hidden-rivers/record_observatory.cjs
+```
+
+Set `CHROMIUM` to the absolute browser executable when using a non-default
+installation. The script can also accept `--url` to capture a separately served
+build and `--fps` for a different film sampling rate. Preview writes one still
+per chapter under a temporary directory. Model times and camera paths are
+deterministic; rasterized pixels can differ across GPU, browser, and font
+versions. Run the full website build again after recording to include the new
+film in the deployable output.
+
+## Bathymetry, imagery, and the original film
+
+ETOPO1 is subsampled to 0.2° for regional terrain, not channel-scale survey
+detail. This independent relief and the ocean model's wet mask can disagree
+near steep slopes. Esri World Imagery supplies surface context, attributed to
+Esri, Maxar, Earthstar Geographics, and the GIS User Community.
+
+The downloadable `Hidden_Rivers_Atlas.mp4` is the original 60-second film
+rendered from daily inputs. Its cadence is independent of later interactive
+data upgrades. To regenerate that legacy movie, install NumPy, SciPy, Pillow,
+Matplotlib, netCDF4, imageio, imageio-ffmpeg, GeoTessera, rasterio, and pyproj.
+Run the complete preparation order from the repository root:
 
 ```sh
 mkdir -p ocean_atlas
 python scripts/hidden-rivers/download_ocean.py
 python scripts/hidden-rivers/depths.py
+python scripts/hidden-rivers/bathy.py
+python scripts/hidden-rivers/get_basemaps.py
 python scripts/hidden-rivers/tessera_fetch.py
 python scripts/hidden-rivers/prepare.py
 python scripts/hidden-rivers/animate.py
-python scripts/hidden-rivers/export_web.py ocean_atlas
-npm ci
-npm run build
 ```
 
-For terrain, use the three region bounds in
-`public/hidden-rivers/data/source-requests.json`. Request NOAA ERDDAP `etopo180.nc`
-with `altitude[(south):12:(north)][(west):12:(east)]` and save each as
-`ocean_atlas/{region}_bathy.nc` before exporting. The web assets also include
-fixed Esri contextual imagery with attribution; the fetch routine is provided.
+Legacy fetch scripts report individual failures but may exit zero; verify
+every requested NetCDF and image before rendering. `animate.py` uses DejaVu
+Sans from its standard Linux font path and writes to `ocean_atlas`. It does
+not replace public assets automatically. The legacy `export_web.py ocean_atlas`
+exports daily data; running it over a higher-cadence release would downgrade
+that release and invalidate its derived products.
 
-## Data contract
+## Sources
 
-Binary velocity files are little-endian signed int16, ordered as
-[component(u,v), time, latitude, longitude]. Multiply by 0.001 for m/s;
--32768 is missing. `manifest.json` supplies dimensions, spacing, dates and depth.
-Longitude increases eastward; latitude increases northward.
+- HYCOM/ESPC-D-V02: https://www.hycom.org/dataserver/espc-d-v02/global-analysis
+- NOAA ETOPO1: https://coastwatch.pfeg.noaa.gov/erddap/griddap/etopo180.html
+- GeoTessera: https://geotessera.readthedocs.io/en/stable/index.html
+- FTLE interpretation and uncertainty: https://os.copernicus.org/articles/21/401/2025/
+- Conditions for exponent ridges to identify coherent structures: https://arxiv.org/abs/1307.7888
 
-There are six instantaneous daily analyses from 2026-09-29 through 2026-10-04.
-Original requested spatial stride is two. Browser samples are 0.16° longitude
-by 0.08° latitude. Inputs are model analyses, not direct velocity observations.
-
-The midpoint integrator uses bilinear spatial and linear temporal interpolation,
-with no crossing of cells whose interpolation stencil contains missing values.
-Particles stay on a depth plane. Reseeding maintains coverage but is not a mass
-conservation calculation. No vertical velocity or transport is estimated.
-
-Tessera is v1.1 dClimate, 2024, a 512 x 512 patch centered at 18.40 E, 34.20 S.
-PCA uses a seeded 25,000-pixel fit, unstandardized embedding covariance, and
-2nd–98th percentile channel stretches. It is a separate annual coastal context
-layer. The PCA fit parameters and original spatial metadata are provided under
-public/hidden-rivers/data. Dates differ from the ocean analysis.
-
-Sources and limits are documented in the visible Methods section. Source
-provider terms apply to data and imagery; the site's existing license applies
-to original code and prose. This release is not a navigation product.
-
-## Validation
-
-`node --test tests/unit/hidden-rivers.test.mjs` checks physical units, temporal
-interpolation, mask boundaries and the independent solution for a spatially
-constant, linearly changing eastward current. The standard site release gates
-check navigation, content, builds, discovery and rendered headline contrast.
-
-## Inspect and share a location
-
-The explorer now supports a north-up map view, a geographic point inspector,
-spatially interpolated daily speed profiles, and CSV downloads. Enter signed
-longitude and latitude or click the displayed depth plane. With all layers
-visible, picking uses the surface plane and samples the same horizontal location
-at every available depth. Bearing is the direction **toward** which the current
-moves, clockwise from true north. No direction is reported below 0.0005 m/s.
-
-Speed shading samples cell centers; direction arrows are equal length within a
-layer, with color encoding speed. These contextual fields refresh approximately
-every model hour. Particles continue to use the evolving, interpolated velocity
-field. The default common range clips colors above 2 m/s. Regional range uses
-all bundled depths and dates, rounded upward to the next 0.25 m/s. Quantitative
-point values and CSVs are never color-clipped.
-
-A copied view link preserves region, depth, time, palette, vertical exaggeration,
-map/3D choice, shading, color range, and an inspected location. North-up map
-view flattens the terrain and displays a single depth, preserving horizontal
-alignment. Shared snapshots start paused. It does not preserve an arbitrarily
-orbited camera or an individual particle realization. Map-image downloads add
-source attribution, model date, depth selection, vertical scale, and color scale.
-Motion starts paused for reduced-motion users, and simulation/rendering work
-suspends while the map is outside the viewport or the document is hidden.
+No ADCP, drifter, Argo, or CTD validation is bundled. No navigation, ecological,
+acoustic-propagation, or causal conclusion is established by this animation.
+Provider terms apply to source data and imagery; the site's existing license
+applies to original code and prose.

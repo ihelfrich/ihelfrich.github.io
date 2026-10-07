@@ -30,7 +30,7 @@ export const CONTACT = Object.freeze({
 export const RECORDS = freezeAll([
   { label: "Job market", href: "/job-market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability" },
   { label: "Projects", href: "/projects", detail: "Software, viewers, teaching systems, and research infrastructure" },
-  { label: "Hidden Rivers", href: "/hidden-rivers", detail: "3D ocean currents, seafloor relief, Tessera coastal context, and a reproducible animation" },
+  { label: "Hidden Rivers", href: "/hidden-rivers", detail: "Ocean transport, flow diagnostics, Tessera coastal search, and a reproducible 3D film" },
   { label: "Datasets", href: "/datasets", detail: "Public datasets and release records with provenance" },
   { label: "Public index", href: "/library", detail: "Papers, data, essays, and tools in one searchable record" },
   { label: "CV", href: "/cv", detail: "Executive resume, academic CV, career summary, availability, and contact" },
