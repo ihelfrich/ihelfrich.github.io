@@ -97,6 +97,40 @@ depth and diagnostic bundle at startup.
 
 ## Remote-sensing atlas plates
 
+### Ocean physics folio
+
+`/hidden-rivers/folio/` provides three focused studies for Diane: matched
+Agulhas velocity slices at 0/500/1000/2000 m; surface rotation and 48-hour
+forward FTLE; and a north–south Atlantic hydrographic section at 30.5°W.
+These have physical scales, question prompts, 3840 × 2160 annotated prints,
+image-only exports and a text-free keyboard presentation. The ocean atlas
+and folio link to one another; no source data is fetched during presentation.
+
+`render_ocean_folio.py` reuses the released model arrays and downloads WOA23
+annual all-data temperature/salinity fields only for regeneration (`--fetch`).
+The committed `atlantic-section.npz` contains the exact 1° subset, to 4000 m.
+Temperature/salinity are objectively analyzed climatological means for
+1955–2022. TEOS-10 converts practical to Absolute Salinity and in-situ to
+Conservative Temperature, then computes sigma0. This is density of the mean
+T/S at a 0 dbar reference, not mean observed density, neutral density or
+velocity. Nonuniform standard depths are preserved, and missing cells stay
+masked. Section axes have separate scales; no terrain is exaggerated.
+
+The classroom density control uses a saved TEOS-10 grid at 0 dbar and a
+fixed reference location of 30.5°W/30.5°N; bilinear interpolation is for display.
+It does not simulate mixing, sinking or currents. `ocean-folio/manifest.json`
+records source URLs, checksums, grids, quantity ranges and interpretation.
+Map scalar colors use linear display interpolation within valid source
+stencils, without extending coverage or bridging missing cells. The section
+retains native cells. Export dimensions do not increase source resolution. Perceptually ordered
+cmocean scales encode scalar quantities, and a balanced diverging scale
+encodes signed vorticity. All depth maps use 0–2 m/s, including weak deep flow.
+
+The folio's Denmark Strait, Ross Sea and Congo Canyon notes are researched
+directions, not new data releases or reconstructed flows. The Ross Sea
+altimetry technique is an observation-based, model-tested SSH proxy; satellites
+do not image deep water. Primary sources are linked beside each proposed study.
+
 The committed `remote-atlas` images include Esri World Imagery context, NOAA
 Coral Reef Watch 5 km Degree Heating Weeks for 15 March 2024, and a NOAA
 CoastWatch SMAP daily surface-salinity field at its native 0.25° grid. The

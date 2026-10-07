@@ -428,6 +428,10 @@ for (const htmlPath of htmlFiles) {
         ?? declaredBackground(window, ancestor);
       ancestor = ancestor.parentElement;
     }
+    if (window.document.body.matches('.water-atlas-page, .ocean-folio-page')
+        && (!background || luminance(background) > 0.25)) {
+      failures.push(`${page} lost its required ocean background; check the scoped color tokens`);
+    }
     if (background && luminance(background) <= 0.25) {
       darkHeadingCount += 1;
       if (!foreground) {
