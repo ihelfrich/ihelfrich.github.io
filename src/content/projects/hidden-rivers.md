@@ -1,25 +1,23 @@
 ---
 title: "Hidden Rivers"
-blurb: "A 3D ocean observatory for modeled trajectories, rotation, finite-time stretching, and coastal retrieval across all 128 Tessera dimensions."
+blurb: "A satellite water atlas connecting Amazon rivers, coastal plumes, reefs, and ocean currents at their actual data depths."
 status: live
 url: "https://ihelfrich.github.io/hidden-rivers/"
 repo: "https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/scripts/hidden-rivers"
-tags: ["oceanography", "geospatial analysis", "scientific visualization", "Tessera"]
+tags: ["oceanography", "geospatial analysis", "scientific visualization", "remote sensing", "Sentinel-2", "PCA"]
 searchTerms: ["underwater rivers", "HYCOM", "Agulhas", "Denmark Strait", "Bahamas", "bathymetry", "3D currents", "particle advection", "velocity profiles", "current direction", "CSV export", "FTLE", "finite-time Lyapunov exponent", "vorticity", "deformation", "Tessera embeddings", "cosine similarity", "coastal retrieval", "Cape Peninsula", "Cesium", "sampling sensitivity"]
-date: 2026-10-06
+date: 2026-10-07
 pinned: true
 ---
 
-Hidden Rivers follows modeled ocean currents through time and depth in the Agulhas region, Florida and the Bahamas, and Denmark Strait and the Irminger Sea. Its WebGL observatory combines georeferenced NOAA seafloor relief with deterministic trajectories through HYCOM velocity fields. Rotation and deformation views show relative vorticity and 48-hour forward finite-time stretching. The same seeded paths persist while the user changes time or camera position.
+Hidden Rivers connects inland rivers, estuaries, freshwater plumes and ocean circulation on one continuous satellite map. Standard pan, scroll, pinch and keyboard navigation work across the atlas. A searchable place picker moves between the Amazon basin, North Carolina coast, Guyana, Lighthouse Reef, the Great Barrier Reef and major ocean-current systems.
 
-The Agulhas surface uses 41 three-hour analyses from September 29 through October 4, 2026. Agulhas at 200, 500, 1,000, and 2,000 m, Florida/Bahamas at 200 m, and Denmark Strait/Irminger Sea at 1,000 m use six daily analyses over the same interval. Depth comparison deliberately subsamples the surface to daily inputs, separating temporal sampling from the comparison across depths. A location inspector reports signed velocity, current direction, time series, and downloadable point data.
+Dated Copernicus Sentinel-2 Level-2A scenes supply natural-color imagery and a green–near-infrared water index. Four-band PCA uses B2/B3/B4/B8, with a shared covariance basis and color stretch across each place’s acquisitions. PC1 controls lightness; PC2 and PC3 supply restrained opponent colors. Clouds and shadows stay masked. The date playback shows separate acquisitions rather than synthesizing intermediate observations.
 
-The coastal microscope queries 2024 Tessera representations over a 5.12 km Cape Peninsula footprint. It retains all 128 published dimensions for 65,475 valid sampled pixels. Selecting one reference retrieves similar representations; selecting a second reveals their relative similarity. Spatially separated matches, explicit color scales, and numerical exports make the query inspectable. A selected pixel can also open a linked Cesium terrain and building view using the site’s Cesium ion connection. The landscape browser includes 24 destinations, including Fayetteville on the Cape Fear River.
+HydroRIVERS supplies drainage geometry and downstream connections derived from elevation data. Moving river marks show verified direction; their display rate is not measured river velocity. The ocean views use NOAA’s drifter-derived monthly current climatology at a 15 m drogue depth, or HYCOM analyses at available surface and interior levels. Depth selection changes the velocity data. Streamlines describe a selected velocity field; they do not reconstruct vertical motion or claim to be observed parcel tracks.
 
-The numerical audit compares integration steps, finite-difference perturbations, and source cadence. At the Agulhas surface, three-hour versus daily inputs change the 48-hour stretching diagnostic by a median 0.114 day⁻¹, much more than halving the integration step. This measures sensitivity to sampling, not agreement with observations. Source hashes, masks, formulas, and complete integration windows accompany the downloadable arrays.
+Comparisons keep satellite imagery and spectral layers in the same geographic frame. Clicking inspects a sampled water index or signed ocean velocity. View links retain the place, layer, depth, date and map position. Presentation mode removes the interface, while PNG export saves the visible map with a small source credit.
 
-Six downloadable map plates show quantitative fields independently of the interactive viewer, with explicit color scales, dates, depths, and projections.
+The separate research view retains the rotation, finite-time stretching, Tessera similarity, terrain context, downloadable plates and silent films. It includes the source-cadence audit: the Agulhas surface’s 48-hour stretching calculation changes more when three-hour inputs are reduced to daily samples than when the integration step is halved. This is numerical sensitivity, not validation against colocated observations.
 
-A [48-second film](/hidden-rivers/film-v3.mp4) renders the browser's actual trajectories, local rotation, a fixed stretching window, and aligned depth layers at explicit model times and camera poses. The particles remain on horizontal depth surfaces. They do not reconstruct vertical descent, identify water masses, or establish volume transport. Tessera similarity is a separate annual representation analysis linked by geography; it does not measure currents or certify habitat classes.
-
-[Open the ocean observatory](/hidden-rivers/) · [Query coastal representations](/hidden-rivers/#coastal) · [Methods and sources](/hidden-rivers/#methods) · [Related oceanographic work](/projects/oceanographic-systems)
+[Open the water atlas](/hidden-rivers/) · [Ocean calculations and print maps](/hidden-rivers/research/) · [Related oceanographic work](/projects/oceanographic-systems)

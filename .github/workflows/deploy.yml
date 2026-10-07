@@ -48,7 +48,7 @@ jobs:
           npm run check:ols
       - name: Verify ocean calculations, coastal retrieval, and scientific release files
         run: |
-          node --test tests/unit/hidden-rivers*.test.mjs
+          node --test tests/unit/hidden-rivers*.test.mjs tests/unit/water-atlas.test.mjs
           python3 scripts/hidden-rivers/validate-release.py
           python3 -m unittest discover -s tests/unit -p 'hidden_rivers_release_test.py'
       - name: Check policy statistics calculations

@@ -5,6 +5,56 @@ https://ihelfrich.github.io/hidden-rivers/. Shared navigation and catalogue data
 connect the atlas to Projects, Lab, search, and the archive. This is not a
 separate repository.
 
+## Interactive water atlas
+
+The main `/hidden-rivers/` page is one continuous Leaflet satellite map. The
+former Three.js observatory, diagnostic plates, Tessera microscope, terrain
+browser and films remain at `/hidden-rivers/research/`. Old place links for
+Wilmington and Fayetteville now select their own satellite scene footprints.
+
+`water-atlas/manifest.json` records dated Sentinel-2 L2A acquisitions for nine
+river/coast/reef locations. The builder warps B2/B3/B4/B8 to a shared Web
+Mercator raster per place, applies the COG reflectance calibration, and masks
+SCL nodata, saturation, cloud/shadow, cirrus and snow. A common covariance PCA
+basis and 2–98% stretch across the dates make comparisons consistent. PC1
+controls CIELAB lightness; PC2 and PC3 control restrained opponent-color axes.
+The exact transform, mean, loadings, variance and asset URLs are committed.
+NDWI remains a spectral index, not a water-quality or velocity estimate.
+
+Some original Earth Search COG records retain a -0.1 STAC offset after their
+pixels were already corrected. The importer honors the recorded conversion
+flag. `calibration-validation.json` compares 10,000 B4 pixels from the Manaus
+original COG with independent Collection 1 storage: their corrected surface
+reflectance agrees to 2.8e-17. This verifies that example, not every catalog
+record. See the provider's [calibration notes](https://github.com/Element84/earth-search/blob/main/docs/collections/sentinel-2-l2a.md)
+and [metadata issue](https://github.com/Element84/earth-search/issues/71).
+
+HydroRIVERS v1.0 subsets supply drainage reaches and NEXT_DOWN connections.
+Moving marks use explicitly checked direction and clear-scene water
+candidates (SCL class 6 or positive NDWI). Their display rate is illustrative;
+the long-term discharge field is the 1971–2000 WaterGAP estimate, not measured
+river velocity. The hydrography’s 15 arc-second source does not resolve every
+modern channel position. See [HydroRIVERS documentation](https://www.hydrosheds.org/products/hydrorivers)
+and [Sentinel scene classes](https://sentiwiki.copernicus.eu/web/s2-processing).
+
+Ocean streamlines use a selected instantaneous velocity snapshot with the
+existing strict wet-cell sampler and midpoint spherical metric. Motion is
+accelerated 21,600×. The source remains either HYCOM at its recorded depth and
+date, or NOAA GDP monthly drifter climatology at a 15 m drogue depth, sampled
+to a 1° display grid. Bilinear color interpolation does not increase source
+resolution. Streamlines are not observed parcel tracks or forecasts. The
+Amazon SMAP overlay is separately dated 15 July 2024; its color scale spans
+20–38 psu and does not resolve estuaries.
+
+To regenerate, download the continental HydroRIVERS shapefile archives to
+`/tmp/hidden-rivers-sa.zip` and `...-na.zip`, then use the uv command in
+`build_water_atlas.py` with `--currents --salinity --places`. Source crops are
+cached in `/tmp/hidden-rivers-water-cache`. Use `validate-water-atlas.py`
+for PCA orthogonality, georeferencing metadata, nodata agreement, direction
+eligibility, field sizes/checksums and the calibration fixture. The browser
+loads a selected place and layer on demand; it does not fetch every velocity
+depth and diagnostic bundle at startup.
+
 ## Remote-sensing atlas plates
 
 The committed `remote-atlas` images include Esri World Imagery context, NOAA
@@ -33,7 +83,8 @@ and metadata only.
 
 Scientific subsets and derived fields are committed under
 `public/hidden-rivers`. Building the site requires no ocean-data account or
-runtime request to HYCOM, Tessera, or Esri. Use the committed npm lockfile:
+runtime request to HYCOM or Tessera. The new continuous basemap requests Esri
+tiles while navigating. Use the committed npm lockfile:
 
 ```sh
 npm ci
@@ -59,8 +110,8 @@ while the original NetCDF variables remain available.
 `data/manifest.json` supplies the actual timestamps and dimensions of each layer.
 Do not infer its cadence from the animation frame rate. The release spans
 2026-09-29 00:00 UTC through 2026-10-04 00:00 UTC, five elapsed days. There are
-five region/depth combinations: Agulhas at 0, 200, and 1,000 m; Florida/Bahamas
-at 200 m; Denmark Strait/Irminger Sea at 1,000 m.
+seven region/depth combinations: Agulhas at 0, 200, 500, 1,000 and 2,000 m;
+Florida/Bahamas at 200 m; Denmark Strait/Irminger Sea at 1,000 m.
 
 Agulhas surface contains **41 three-hour analyses**. The other six layers
 contain **six daily analyses**. The depth-comparison view uses daily subsamples

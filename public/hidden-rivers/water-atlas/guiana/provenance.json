@@ -1,0 +1,174 @@
+{
+  "id": "guiana",
+  "title": "Amaila Falls, Guyana",
+  "bounds": [
+    -59.64,
+    5.15,
+    -59.38,
+    5.41
+  ],
+  "group": "Rivers & coasts",
+  "note": "River country around Amaila Falls and the proposed hydropower site on the Kuribrong.",
+  "frames": [
+    {
+      "id": "S2A_21NTF_20231002_1_L2A",
+      "date": "2023-10-02T14:31:21.259000Z",
+      "validFraction": 0.86683,
+      "tileCloudPercent": 12.849958,
+      "rgb": "guiana/0-rgb.webp",
+      "pca": "guiana/0-pca.webp",
+      "water": "guiana/0-water.webp",
+      "index": "guiana/0-ndwi.bin",
+      "indexShape": [
+        120,
+        120
+      ],
+      "waterCandidate": "guiana/0-water-candidate.bin",
+      "assets": {
+        "blue": {
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/N/TF/2023/10/S2A_21NTF_20231002_1_L2A/B02.tif",
+          "rasterBands": [
+            {
+              "nodata": 0,
+              "data_type": "uint16",
+              "bits_per_sample": 15,
+              "spatial_resolution": 10,
+              "scale": 0.0001,
+              "offset": -0.1
+            }
+          ],
+          "effectiveOffset": 0
+        },
+        "green": {
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/N/TF/2023/10/S2A_21NTF_20231002_1_L2A/B03.tif",
+          "rasterBands": [
+            {
+              "nodata": 0,
+              "data_type": "uint16",
+              "bits_per_sample": 15,
+              "spatial_resolution": 10,
+              "scale": 0.0001,
+              "offset": -0.1
+            }
+          ],
+          "effectiveOffset": 0
+        },
+        "red": {
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/N/TF/2023/10/S2A_21NTF_20231002_1_L2A/B04.tif",
+          "rasterBands": [
+            {
+              "nodata": 0,
+              "data_type": "uint16",
+              "bits_per_sample": 15,
+              "spatial_resolution": 10,
+              "scale": 0.0001,
+              "offset": -0.1
+            }
+          ],
+          "effectiveOffset": 0
+        },
+        "nir": {
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/N/TF/2023/10/S2A_21NTF_20231002_1_L2A/B08.tif",
+          "rasterBands": [
+            {
+              "nodata": 0,
+              "data_type": "uint16",
+              "bits_per_sample": 15,
+              "spatial_resolution": 10,
+              "scale": 0.0001,
+              "offset": -0.1
+            }
+          ],
+          "effectiveOffset": 0
+        },
+        "scl": {
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/21/N/TF/2023/10/S2A_21NTF_20231002_1_L2A/SCL.tif",
+          "rasterBands": [
+            {
+              "nodata": 0,
+              "data_type": "uint8",
+              "spatial_resolution": 20
+            }
+          ],
+          "effectiveOffset": 0
+        }
+      },
+      "boaOffsetAlreadyApplied": true
+    }
+  ],
+  "pca": {
+    "bands": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "mean": [
+      0.03075193613767624,
+      0.05158444121479988,
+      0.029462458565831184,
+      0.2736886739730835
+    ],
+    "eigenvectors": [
+      [
+        0.06880680735860017,
+        0.5680447658889884,
+        -0.43241485182170725,
+        -0.6968559127475723
+      ],
+      [
+        0.15733855152552345,
+        0.527797283531131,
+        -0.43227828518757716,
+        0.7140098681785128
+      ],
+      [
+        0.06201532719593054,
+        0.6101502380216716,
+        0.789740598958462,
+        0.01343773015091587
+      ],
+      [
+        0.9831908780383127,
+        -0.16270174702621118,
+        0.049625260060055035,
+        -0.06634133267309597
+      ]
+    ],
+    "varianceExplained": [
+      0.8169539054003324,
+      0.17591870733586493,
+      0.0038485679517051936,
+      0.003278819312097381
+    ],
+    "colorMapping": "CIELAB D65: L*=28+54 PC1; a*=-23+46 PC2; b*=-30+60 PC3, with each component clipped after the shared 2\u201398% stretch; converted to sRGB.",
+    "stretchLow": [
+      -0.06727944734471873,
+      -0.016394457013244344,
+      -0.0034205646197879923,
+      -0.004458347684563938
+    ],
+    "stretchHigh": [
+      0.08549103913376728,
+      0.03896202437417368,
+      0.004412819461965909,
+      0.00472200364205482
+    ],
+    "method": "Centered surface-reflectance covariance, shared basis and 2\u201398% stretch across this place\u2019s dates."
+  },
+  "raster": {
+    "crs": "EPSG:3857",
+    "width": 960,
+    "height": 960,
+    "bounds": [
+      -59.64,
+      5.15,
+      -59.38,
+      5.41
+    ],
+    "nativeBandResolutionMetres": 10,
+    "displayPixelMetres": 30.149028756511203
+  },
+  "mask": "SCL removes nodata, saturation, cloud shadow, cloud, cirrus and snow; transparent pixels expose the undated basemap.",
+  "rivers": "guiana/rivers.json"
+}
