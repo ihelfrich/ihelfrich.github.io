@@ -1,4 +1,22 @@
 /* Hidden Rivers: a full-field ocean atlas with a linked coastal laboratory. */
+.presentation-help{font:.8rem/1.8 var(--font-display);color:var(--ocean-soft)}
+.presentation-film-actions{display:flex;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+html.presenting-ocean{overflow:hidden}
+#ocean-presentation{position:fixed;inset:0;margin:0;padding:0;border:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:var(--ocean-bg);color:var(--ocean-ink);overflow:hidden;cursor:none}
+#ocean-presentation::backdrop{background:var(--ocean-bg)}
+#ocean-presentation .presentation-screen{position:absolute;inset:0}
+#ocean-presentation .ocean-canvas{position:absolute;inset:0;width:100%;height:100%}
+#ocean-presentation .ocean-geographic-labels{display:none!important}
+#ocean-presentation .presentation-screen>img,#ocean-presentation video{display:block;width:100%;height:100%;object-fit:contain}
+#ocean-presentation [hidden]{display:none!important}
+.presentation-controls{position:absolute;z-index:4;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+#ocean-presentation.show-controls{cursor:auto}
+.show-controls .presentation-controls,.presentation-controls:focus-within{opacity:1;pointer-events:auto}
+.presentation-controls button{width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--ocean-line);background:var(--ocean-panel);color:var(--ocean-ink);border-radius:50%;cursor:pointer}
+.presentation-controls button:focus-visible{outline:2px solid var(--ocean-accent);outline-offset:3px}
+.presentation-controls svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5}
+[data-playing="true"] .play-icon,[data-playing="false"] .pause-icon{display:none}
+@media(prefers-reduced-motion:reduce){.presentation-controls{transition:none}}
 .profile-depth-500{color:var(--ocean-layer-500);stroke:var(--ocean-layer-500);fill:var(--ocean-layer-500)}
 .profile-depth-2000{color:var(--ocean-layer-2000);stroke:var(--ocean-layer-2000);fill:var(--ocean-layer-2000)}
 path.profile-depth-500{stroke-dasharray:8 2 2 2}path.profile-depth-2000{stroke-dasharray:10 4}

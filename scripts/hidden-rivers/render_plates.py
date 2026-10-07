@@ -8,6 +8,7 @@ not particle trajectories. PNGs are exports; WebP copies serve the gallery.
 """
 from pathlib import Path
 import json
+import sys
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -27,8 +28,15 @@ BG, INK, MUTED, LAND = '#081a2c', '#edf3f0', '#9bb7c7', '#405b61'
 plt.rcParams.update({'font.family':'DejaVu Sans', 'text.color':INK,
                      'axes.labelcolor':INK, 'xtick.color':MUTED, 'ytick.color':MUTED})
 plates=[]
+PRESENTATION = '--presentation' in sys.argv
 
 def canvas(number, title, subtitle, bounds):
+    if PRESENTATION:
+        fig=plt.figure(figsize=(16,9),facecolor=BG)
+        ax=fig.add_axes([0,0,1,1],projection=ccrs.Mercator(central_longitude=(bounds[0]+bounds[2])/2))
+        ax.set_extent([bounds[0],bounds[2],bounds[1],bounds[3]],crs=ccrs.PlateCarree())
+        ax.set_facecolor(BG);ax.set_axis_off()
+        return fig,ax
     fig=plt.figure(figsize=(14,10),facecolor=BG)
     fig.text(.06,.94,f'HIDDEN RIVERS    /    ATLAS {number:02}',fontsize=10,color=MUTED,weight='medium')
     fig.text(.06,.887,title,fontsize=30,weight='light')
@@ -43,16 +51,22 @@ def canvas(number, title, subtitle, bounds):
 def geography(ax):
     ax.add_feature(cf.LAND.with_scale('50m'),facecolor=LAND,zorder=4)
     ax.add_feature(cf.COASTLINE.with_scale('50m'),edgecolor='#b7c9c4',linewidth=.48,zorder=5)
+    if PRESENTATION:return
     grid=ax.gridlines(draw_labels=True,linewidth=.35,color=INK,alpha=.16,linestyle=':')
     grid.top_labels=False;grid.right_labels=False
     grid.xlabel_style={'size':9,'color':MUTED};grid.ylabel_style={'size':9,'color':MUTED}
 
 def labels(ax,places):
+    if PRESENTATION:return
     for text,lon,lat in places:
         ax.plot(lon,lat,'o',markersize=2,color=INK,transform=ccrs.PlateCarree(),zorder=8)
         ax.text(lon+.25,lat+.18,text,fontsize=8,color=INK,transform=ccrs.PlateCarree(),zorder=9)
 
 def finish(fig,artist,slug,title,caption,scale,notes,region,depth,mode='flow',date='2026-10-02T00:00:00Z',source_files=()):
+    if PRESENTATION:
+        fig.savefig(OUT/f'{slug}-presentation.webp',dpi=160,facecolor=BG)
+        plt.close(fig)
+        return
     cax=fig.add_axes([.65,.09,.29,.012])
     cb=fig.colorbar(artist,cax=cax,orientation='horizontal',extend='both')
     cb.outline.set_visible(False);cb.ax.tick_params(labelsize=8,length=2);cb.set_label(scale,size=9,labelpad=7)
@@ -108,6 +122,14 @@ valid=np.fromfile(base/'valid.u8',dtype='u1').astype(bool)
 anchor=m['initialPixel'][1]*m['width']+m['initialPixel'][0]
 norm=np.linalg.norm(q,axis=1);scores=np.full(len(q),np.nan)
 scores[valid]=(q[valid]@q[anchor])/(norm[valid]*norm[anchor])
+if PRESENTATION:
+    fig=plt.figure(figsize=(10,10),facecolor=BG)
+    ax=fig.add_axes([0,0,1,1]);ax.set_axis_off()
+    ax.imshow(scores.reshape(m['height'],m['width']),cmap='cividis',vmin=.5,vmax=1)
+    fig.savefig(OUT/'cape-tessera-presentation.webp',dpi=200,facecolor=BG)
+    plt.close(fig)
+    print('Rendered six text-free presentation maps',flush=True)
+    sys.exit(0)
 fig=plt.figure(figsize=(14,10),facecolor=BG)
 fig.text(.06,.94,'HIDDEN RIVERS    /    ATLAS 06',fontsize=10,color=MUTED)
 fig.text(.06,.887,'A reference in the Cape Peninsula',fontsize=30,weight='light')

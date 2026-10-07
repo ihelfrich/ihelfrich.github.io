@@ -1,4 +1,5 @@
 import { initLandscapes } from './landscapes.js';
+import { initPresentation } from './presentation.js';
 import { createCinematicOcean } from './cinematic.js';
 import { velocityAt, pointSeries, seriesCSV, formatCoordinate } from './inspection.mjs';
 import { loadDiagnostic, diagnosticFrame, sampleDiagnostic } from './diagnostics.mjs';
@@ -36,6 +37,7 @@ export async function startExpedition(){
  let region,layers=[],comparisonLayers=[],diagnostics,manifest,diagnosticManifest,renderer,loading=true,epoch=0,last=performance.now(),active=true,profileVersion=0,coastal,globe,coastalPosition={lon:18.4,lat:-34.2,height:900};
  const cache=new Map(),regionCache=new Map();let inspectorStamp=-1,lastClock=-1,lastDiagnosticStep=0;
  const status=el('status');
+ const presentation=initPresentation({canvas,ready:()=>Boolean(renderer&&!loading),getMotion:()=>({playing:state.playing,film:state.film,view:state.view}),setMotion:motion=>{if(!motion||!renderer)return;state.playing=motion.playing;state.film=motion.film;state.view=motion.view||(motion.film?'oblique':state.view);renderer.setPlaying(state.playing);renderer.setFilm(state.film);renderer.setView(state.view);updateControls();}});
  function loadingState(text){status.classList.remove('ready');status.querySelector('p').textContent=text;}
  function message(text){el('action-status').textContent=text;}
  const requests=new Map();
@@ -54,6 +56,7 @@ export async function startExpedition(){
   el('cadence').textContent=isDiagnostic(state.mode)?'Daily diagnostic snapshot':`${cadence}-hour velocity inputs`;
  }
  function updateControls(){
+  document.querySelectorAll('[data-present="ocean"]').forEach(b=>b.disabled=loading);
   document.querySelectorAll('[data-region]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.region===state.region)));
   document.querySelectorAll('[data-mode]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode));b.disabled=loading;});
   el('depths').replaceChildren(...layers.map(l=>{const button=document.createElement('button');button.type='button';button.dataset.depth=l.depth;button.textContent=l.depth===0?'Surface':`${l.depth.toLocaleString()} m`;button.setAttribute('aria-pressed',String(state.mode==='column'||state.depth===l.depth));button.disabled=loading||state.mode==='column';button.onclick=()=>setScene({depth:l.depth});return button;}));
@@ -155,7 +158,7 @@ export async function startExpedition(){
   el('inspect-form').onsubmit=e=>{e.preventDefault();inspect(Number(el('lon').value),Number(el('lat').value));};el('csv').onclick=()=>{if(state.selected)download(new Blob([seriesCSV(pointSeries(effectiveLayers(),state.selected.lon,state.selected.lat))],{type:'text/csv'}),`hidden-rivers-${state.region}-velocity.csv`);};
   new ResizeObserver(()=>{if(state.selected)drawProfile();}).observe(el('profile'));
   reduced.addEventListener('change',()=>{if(reduced.matches){state.playing=false;state.film=false;renderer.setPlaying(false);renderer.setFilm(false);updateControls();}});
-  try{[manifest,diagnosticManifest]=await Promise.all([getJSON(BASE+'manifest.json'),getJSON(BASE+'diagnostics.json')]);await loadRegion(state.region);if(query.has('lon')&&query.has('lat'))inspect(numeric('lon',NaN),numeric('lat',NaN));}catch(e){loadingState('The bundled datasets could not be loaded. Please use the film or try again.');message(e.message);console.error(e);}
+  try{[manifest,diagnosticManifest]=await Promise.all([getJSON(BASE+'manifest.json'),getJSON(BASE+'diagnostics.json')]);await loadRegion(state.region);if(query.has('lon')&&query.has('lat'))inspect(numeric('lon',NaN),numeric('lat',NaN));if(query.has('present'))void presentation.enter(query.get('present')||'ocean');}catch(e){loadingState('The bundled datasets could not be loaded. Please use the film or try again.');message(e.message);console.error(e);}
  }
 
  const coastObserver=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){coastObserver.disconnect();loadCoastal().catch(e=>{document.getElementById('coastal-microscope').textContent=`The coastal representation could not be loaded: ${e.message}`;});}},{rootMargin:'500px'});coastObserver.observe(document.getElementById('coastal-microscope'));
