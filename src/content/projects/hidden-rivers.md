@@ -1,6 +1,6 @@
 ---
 title: "Hidden Rivers"
-blurb: "An interactive ocean world for my mom: deep currents, Amazon waters and reefs, seen through satellite spectra and carefully chosen colors."
+blurb: "Explore deep ocean currents, Amazon waters and reefs through an interactive globe, satellite spectra and scientific maps."
 status: live
 url: "https://ihelfrich.github.io/hidden-rivers/"
 repo: "https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/scripts/hidden-rivers"
@@ -24,4 +24,4 @@ The separate research view retains the rotation, finite-time stretching, Tessera
 
 The ocean folio returns to the project's original fluid-dynamics question. Matched Agulhas maps compare four depths on one speed scale; signed rotation and 48-hour separation show different physical aspects of the same current. A north–south Atlantic section uses NOAA World Ocean Atlas 2023 temperature and salinity climatology to calculate potential density with TEOS-10. A controlled density calculation, teaching prompts, 3,840 × 2,160 exports and text-free presentation accompany the images. The 1° hydrographic grid describes basin structure; it cannot resolve an overflow plume. Research notes identify the observations needed for Denmark Strait, Ross Sea and Congo Canyon studies.
 
-[Open the water atlas](/hidden-rivers/) · [Ocean folio for Diane](/hidden-rivers/folio/) · [Ocean calculations and print maps](/hidden-rivers/research/) · [Related oceanographic work](/projects/oceanographic-systems)
+[Open the water atlas](/hidden-rivers/) · [Ocean folio](/hidden-rivers/folio/) · [Ocean calculations and print maps](/hidden-rivers/research/) · [Related oceanographic work](/projects/oceanographic-systems)

@@ -4,7 +4,7 @@ import '../styles/water-atlas.css';
 ---
   <div class="water-atlas" id="atlas" aria-label="Hidden Rivers water atlas" data-lenis-prevent>
     <header class="atlas-header">
-      <a class="atlas-wordmark" href="/" aria-label="Ian Helfrich, home">Hidden <em>Rivers</em><span>FOR MOM</span></a>
+      <a class="atlas-wordmark" href="/" aria-label="Ian Helfrich, home">Hidden <em>Rivers</em><span>OCEAN ATLAS</span></a>
       <button class="place-trigger" id="atlas-browse" type="button" aria-expanded="false" aria-controls="atlas-places"><span id="atlas-place-name">Meeting of the Waters</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
       <div class="atlas-header-actions"><button type="button" id="atlas-stories">Stories</button><button type="button" id="atlas-info" aria-label="Data and sources">Data <span>↗</span></button><button type="button" id="atlas-present" aria-label="Start presentation">Present <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5"/></svg></button></div>
     </header>
@@ -40,6 +40,6 @@ import '../styles/water-atlas.css';
       <div class="atlas-presentation-controls" hidden><button id="atlas-present-previous" type="button" aria-label="Previous place">‹</button><button id="atlas-present-pause" type="button" aria-label="Pause animation">Ⅱ</button><button id="atlas-present-next" type="button" aria-label="Next place">›</button><button id="atlas-present-exit" type="button" aria-label="Exit presentation">×</button></div>
     </div>
   </div>
-  <dialog id="atlas-data" aria-labelledby="atlas-data-title"><div class="atlas-data-top"><h2 id="atlas-data-title">Data behind the map</h2><button id="atlas-close-info" type="button" aria-label="Close data and sources">×</button></div><div id="atlas-data-content"></div><p><button id="atlas-export" type="button">Save this map as PNG</button></p><p><a href="/hidden-rivers/prints/">Ocean folio for Diane · depth, vortices & density ↗</a></p><p><a href="/hidden-rivers/research/">Ocean calculations, films & print maps ↗</a></p></dialog>
+  <dialog id="atlas-data" aria-labelledby="atlas-data-title"><div class="atlas-data-top"><h2 id="atlas-data-title">Data behind the map</h2><button id="atlas-close-info" type="button" aria-label="Close data and sources">×</button></div><div id="atlas-data-content"></div><p><button id="atlas-export" type="button">Save this map as PNG</button></p><p><a href="/hidden-rivers/prints/">Ocean folio · depth, vortices & density ↗</a></p><p><a href="/hidden-rivers/research/">Ocean calculations, films & print maps ↗</a></p></dialog>
   <noscript><style>.water-atlas{display:none}.water-atlas-page{overflow:auto}</style><p>This atlas needs JavaScript for map navigation. <a href="/hidden-rivers/research/">Open the static map collection.</a></p></noscript>
   <script>import { startWaterAtlas } from '../scripts/hidden-rivers/water-atlas.js';startWaterAtlas();</script>

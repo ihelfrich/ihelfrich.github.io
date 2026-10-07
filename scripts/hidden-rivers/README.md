@@ -99,7 +99,7 @@ depth and diagnostic bundle at startup.
 
 ### Ocean physics folio
 
-`/hidden-rivers/folio/` provides three focused studies for Diane: matched
+`/hidden-rivers/folio/` provides three focused ocean studies: matched
 Agulhas velocity slices at 0/500/1000/2000 m; surface rotation and 48-hour
 forward FTLE; and a north–south Atlantic hydrographic section at 30.5°W.
 These have physical scales, question prompts, 3840 × 2160 annotated prints,
