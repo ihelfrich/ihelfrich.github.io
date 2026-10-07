@@ -30,7 +30,7 @@ export async function startWaterAtlas() {
   const el = id => document.getElementById('atlas-'+id), root=el('map'); if (!root) return;
   const query = new URLSearchParams(location.search), reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const requestedPlace=query.get('place')||query.get('region');
-  const initialStory=query.get('story')||(!query.has('layer')?(WATER_STORIES.find(s=>s.steps.some(step=>step.place===requestedPlace))?.id||(requestedPlace?null:'ocean')):null);
+  const initialStory=query.get('story')||(!query.has('layer')?(WATER_STORIES.find(s=>s.steps.some(step=>step.place===requestedPlace))?.id||(requestedPlace?null:'classroom')):null);
   const initialChapter=query.has('chapter')?Math.max(0,Number(query.get('chapter'))||0):Math.max(0,WATER_STORIES.find(s=>s.id===initialStory)?.steps.findIndex(step=>step.place===requestedPlace&&(!query.has('depth')||step.depth===Number(query.get('depth'))))??0);
   const map = L.map(root,{zoomControl:false,preferCanvas:true,zoomSnap:.25,minZoom:2,maxZoom:18,
     scrollWheelZoom:true,zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false,
