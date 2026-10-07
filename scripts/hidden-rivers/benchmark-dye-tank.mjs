@@ -9,11 +9,11 @@ try{
  const child=page.frameLocator('#atlas-prints');await child.locator('#tank-present').click();const frame=page.frames().find(f=>f.url().includes('/prints/'));
  await frame.waitForFunction(()=>window.__dyeTank?.diagnostics?.time>.3);
  const stats=await frame.evaluate(async()=>{
-  let running=true,last=window.__dyeTank.renderStats.frames;const updates=[];
-  const observe=()=>{if(!running)return;const n=window.__dyeTank.renderStats.frames;if(n!==last){updates.push(performance.now());last=n;}requestAnimationFrame(observe);};requestAnimationFrame(observe);
+  let running=true,last=window.__dyeTank.renderStats.frames;const updates=[],physicalTimes=new Set();
+  const observe=()=>{if(!running)return;const n=window.__dyeTank.renderStats.frames;if(n!==last){updates.push(performance.now());last=n;physicalTimes.add(window.__dyeTank.diagnostics.time);}requestAnimationFrame(observe);};requestAnimationFrame(observe);
   const start=window.__dyeTank.diagnostics.time;await new Promise(resolve=>setTimeout(resolve,6000));running=false;
   const gaps=updates.slice(1).map((t,i)=>t-updates[i]).sort((a,b)=>a-b);
-  return {mode:window.__dyeTank.renderStats.mode,paintFps:updates.length/6,p95GapMs:gaps[Math.floor(gaps.length*.95)],maxGapMs:Math.max(...gaps),simSeconds:window.__dyeTank.diagnostics.time-start};
+  return {mode:window.__dyeTank.renderStats.mode,paintFps:updates.length/6,physicsSnapshotsObservedFps:physicalTimes.size/6,p95GapMs:gaps[Math.floor(gaps.length*.95)],maxGapMs:Math.max(...gaps),simSeconds:window.__dyeTank.diagnostics.time-start};
  });
  if(errors.length)throw new Error(errors.join('; '));console.log(JSON.stringify({gpu,viewport:[1440,1000],intervalS:6,...stats}));
  if(process.env.HIDDEN_RIVERS_SCREENSHOT){await frame.waitForFunction(()=>window.__dyeTank.diagnostics.time>5.5,null,{timeout:30000});await child.locator('#dye-tank-canvas').press('Space');await child.locator('#dye-tank-canvas').blur();await child.locator('#dye-tank-canvas').screenshot({path:process.env.HIDDEN_RIVERS_SCREENSHOT});}

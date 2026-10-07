@@ -1,4 +1,16 @@
 // Display time only. No extrapolation or change to the worker's physical state.
+export function createTankPacer(){
+  let last=null,credit=0;
+  return {
+    request(now,rate,active,available){
+      if(!active){last=null;credit=0;return 0;}
+      const elapsed=last===null?0:Math.max(0,Math.min(.08,(now-last)/1000));last=last===null?now:Math.max(last,now);
+      credit=Math.min(.08,credit+elapsed*rate);if(!available)return 0;
+      const count=Math.min(2,Math.floor((credit+1e-12)/.01));credit-=count*.01;return count;
+    },
+    reset(){last=null;credit=0;}
+  };
+}
 export function createTankMotion(){
   let previous=null,current=null,start=0,arrival=null,span=20,held=null;
   function sample(now){

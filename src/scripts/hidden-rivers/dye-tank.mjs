@@ -1,27 +1,30 @@
 // 2D Boussinesq tank. SI geometry/velocity/time; salinity in g/kg.
 // Coordinate y points down. Dye and salinity use conservative face fluxes.
 import {createSpectralPressure,powerOfTwo} from './tank-pressure.mjs';
-const beta=.00076, gravity=9.81;
-const minmod=(a,b)=>a*b<=0?0:Math.sign(a)*Math.min(Math.abs(a),Math.abs(b));
+import {seawaterDensity,referenceDensity} from './tank-seawater.mjs';
+const gravity=9.81;
+const limitedSlope=(a,b,forward)=>a*b<=0?0:Math.sign(a)*Math.min(2*Math.abs(a),Math.abs(forward?(a+2*b)/3:(2*a+b)/3),2*Math.abs(b));
 const finiteRange=(x,a,b)=>Number.isFinite(x)&&x>=a&&x<=b;
 export function createDyeTank(options={}){return new DyeTank(options);}
 class DyeTank {
-  constructor({nx=128,ny=96,width=.24,height=.18,waterSalinity=30,bottomSalinity=waterSalinity,viscosity=1e-6,diffusivity=2e-7,pressureSolver='auto'}={}){
+  constructor({nx=128,ny=96,width=.24,height=.18,waterSalinity=30,bottomSalinity=waterSalinity,viscosity=1.3e-6,diffusivity=2e-8,pressureSolver='auto',walls='no-slip'}={}){
     if(!Number.isInteger(nx)||!Number.isInteger(ny)||nx<16||ny<16||nx>256||ny>256)throw new RangeError('Invalid grid');
     if(!finiteRange(width,.1,.5)||!finiteRange(height,.1,.5))throw new RangeError('Invalid tank dimensions');
     if(!finiteRange(waterSalinity,0,40)||!finiteRange(bottomSalinity,0,40))throw new RangeError('Invalid salinity');
     if(!finiteRange(viscosity,0,1e-5)||!finiteRange(diffusivity,0,1e-6))throw new RangeError('Invalid transport parameter');
+    if(!['no-slip','free-slip'].includes(walls))throw new RangeError('Invalid walls');this.walls=walls;
     Object.assign(this,{nx,ny,width,height,viscosity,diffusivity,dx:width/nx,dy:height/ny,time:0,steps:0,projectionResidual:0});
     if(!['auto','cg','spectral'].includes(pressureSolver))throw new RangeError('Invalid pressure solver');
     this.pressureSolver=pressureSolver==='auto'?(powerOfTwo(nx)&&powerOfTwo(ny)?'spectral':'cg'):pressureSolver;
     if(this.pressureSolver==='spectral')this.solvePressure=createSpectralPressure(nx,ny,this.dx,this.dy);
-    const n=nx*ny;this.salinity=new Float64Array(n);this.dye=new Float64Array(n);this.coral=new Float64Array(n);
+    const n=nx*ny;this.salinity=new Float64Array(n);this.dye=new Float64Array(n);this.coral=new Float64Array(n);this.gold=new Float64Array(n);this.goldActive=false;this.coralActive=false;
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)this.salinity[j*nx+i]=waterSalinity+(bottomSalinity-waterSalinity)*(j+.5)/ny;
     this.u=new Float64Array((nx+1)*ny);this.v=new Float64Array(nx*(ny+1));
     this.nextU=this.u.slice();this.nextV=this.v.slice();this.scalarStage=new Float64Array(n);this.scalarResult=new Float64Array(n);
+    this.reverseVelocity=new Float64Array(Math.max(this.u.length,this.v.length));this.departureX=new Float64Array(this.reverseVelocity.length);this.departureY=this.departureX.slice();
     this.phi=new Float64Array(n);this.r=new Float64Array(n);this.z=new Float64Array(n);this.p=new Float64Array(n);this.ap=new Float64Array(n);
     this.diagonal=new Float64Array(n);this.slopeX=new Float64Array(n);this.slopeY=new Float64Array(n);
-    this.rowMeans=new Float64Array(ny);
+    this.rowMeans=new Float64Array(ny);this.densityField=new Float64Array(n);
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)this.diagonal[j*nx+i]=(Number(i>0)+Number(i<nx-1))/(this.dx*this.dx)+(Number(j>0)+Number(j<ny-1))/(this.dy*this.dy);
     this.initialSaltIntegral=this.integral(this.salinity);this.injectedSaltIntegral=0;this.injectedDyeIntegral=0;
   }
@@ -33,7 +36,8 @@ class DyeTank {
       const k=j*nx+i,r2=(((i+.5)*dx-x)**2+((j+.5)*dy-y)**2)/(radius*radius);if(r2>=1)continue;
       const a=(1-r2)**2,old=this.salinity[k];this.salinity[k]=old+a*(salinity-old);
       // Gold marks denser additions, coral marks fresher additions. Pigment is passive.
-      this.coral[k]=this.coral[k]*(1-a)+(salinity<old?a:0);this.dye[k]=this.dye[k]*(1-a)+a;
+      const fresh=salinity<old;this.coral[k]=this.coral[k]*(1-a)+(fresh?a:0);this.gold[k]=this.gold[k]*(1-a)+(fresh?0:a);this.dye[k]=this.gold[k]+this.coral[k];
+      if(fresh)this.coralActive=true;else this.goldActive=true;
     }
     this.injectedSaltIntegral+=this.integral(this.salinity)-beforeSalt;this.injectedDyeIntegral+=this.integral(this.dye)-beforeDye;
   }
@@ -45,23 +49,39 @@ class DyeTank {
   advectVelocity(dt){
     const {nx,ny,dx,dy,u,v,nextU,nextV}=this;
     const advect=(q,out,w,h,ox,oy)=>{
+      const back=this.reverseVelocity,bx=this.departureX,by=this.departureY;
       for(let j=0;j<h;j++)for(let i=0;i<w;i++){
         const k=j*w+i;if((ox===0&&(i===0||i===nx))||(oy===0&&(j===0||j===ny))){out[k]=0;continue;}
         const x=(i+ox)*dx,y=(j+oy)*dy;
         const vx=this.sample(u,nx+1,ny,i+ox,j+oy-.5),vy=this.sample(v,nx,ny+1,i+ox-.5,j+oy);
         const mx=this.sample(u,nx+1,ny,(x-.5*dt*vx)/dx,(y-.5*dt*vy)/dy-.5),my=this.sample(v,nx,ny+1,(x-.5*dt*vx)/dx-.5,(y-.5*dt*vy)/dy);
-        const adv=this.sample(q,w,h,(x-dt*mx)/dx-ox,(y-dt*my)/dy-oy);
-        const lap=((i>0?q[k-1]:q[k])-2*q[k]+(i<w-1?q[k+1]:q[k]))/(dx*dx)+((j>0?q[k-w]:q[k])-2*q[k]+(j<h-1?q[k+w]:q[k]))/(dy*dy);
-        out[k]=adv+dt*this.viscosity*lap;
+        bx[k]=(x-dt*mx)/dx-ox;by[k]=(y-dt*my)/dy-oy;out[k]=this.sample(q,w,h,bx[k],by[k]);
+      }
+      // Reverse the same frozen-velocity transport, then correct its leading error.
+      for(let j=0;j<h;j++)for(let i=0;i<w;i++){
+        const k=j*w+i;if((ox===0&&(i===0||i===nx))||(oy===0&&(j===0||j===ny))){back[k]=0;continue;}
+        const x=(i+ox)*dx,y=(j+oy)*dy,vx=this.sample(u,nx+1,ny,i+ox,j+oy-.5),vy=this.sample(v,nx,ny+1,i+ox-.5,j+oy);
+        const mx=this.sample(u,nx+1,ny,(x+.5*dt*vx)/dx,(y+.5*dt*vy)/dy-.5),my=this.sample(v,nx,ny+1,(x+.5*dt*vx)/dx-.5,(y+.5*dt*vy)/dy);
+        back[k]=this.sample(out,w,h,(x+dt*mx)/dx-ox,(y+dt*my)/dy-oy);
+      }
+      const wall=this.walls==='no-slip'?-1:1;
+      for(let j=0;j<h;j++)for(let i=0;i<w;i++){
+        const k=j*w+i;if((ox===0&&(i===0||i===nx))||(oy===0&&(j===0||j===ny)))continue;
+        const x=Math.max(0,Math.min(w-1,bx[k])),y=Math.max(0,Math.min(h-1,by[k])),a=Math.min(w-2,Math.floor(x)),b=Math.min(h-2,Math.floor(y)),d=b*w+a;
+        const low=Math.min(q[d],q[d+1],q[d+w],q[d+w+1]),high=Math.max(q[d],q[d+1],q[d+w],q[d+w+1]);
+        const corrected=out[k]+.5*(q[k]-back[k]);
+        // Glass sides/bottom resist sliding; the flat surface has zero shear.
+        const lap=((i>0?q[k-1]:wall*q[k])-2*q[k]+(i<w-1?q[k+1]:wall*q[k]))/(dx*dx)+((j>0?q[k-w]:q[k])-2*q[k]+(j<h-1?q[k+w]:wall*q[k]))/(dy*dy);
+        out[k]=Math.max(low,Math.min(high,corrected))+dt*this.viscosity*lap;
       }
     };
     advect(u,nextU,nx+1,ny,0,.5);advect(v,nextV,nx,ny+1,.5,0);this.u=nextU;this.v=nextV;this.nextU=u;this.nextV=v;
   }
   buoyancy(dt){
-    const {nx,ny,salinity,v,rowMeans:means}=this;
-    for(let j=0;j<ny;j++){let s=0;for(let i=0;i<nx;i++)s+=salinity[j*nx+i];means[j]=s/nx;}
-    // Subtract the horizontal mean: its vertical force is balanced by hydrostatic pressure.
-    for(let j=1;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]+=dt*gravity*beta*.5*(salinity[(j-1)*nx+i]-means[j-1]+salinity[j*nx+i]-means[j]);
+    const {nx,ny,salinity,v,rowMeans:means,densityField:rho}=this;
+    for(let j=0;j<ny;j++){let s=0;for(let i=0;i<nx;i++){const k=j*nx+i;rho[k]=seawaterDensity(Math.max(0,Math.min(40,salinity[k])));s+=rho[k];}means[j]=s/nx;}
+    // Subtract row-mean density: its force is balanced by hydrostatic pressure.
+    for(let j=1;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]+=dt*gravity/referenceDensity*.5*(rho[(j-1)*nx+i]-means[j-1]+rho[j*nx+i]-means[j]);
   }
   matrix(q,out){
     const {nx,ny,dx,dy}=this,ax=1/(dx*dx),ay=1/(dy*dy);
@@ -89,7 +109,7 @@ class DyeTank {
   }
   scalarEuler(q,out,dt){
     const {nx,ny,dx,dy,u,v,slopeX:sx,slopeY:sy,diffusivity:kappa}=this;
-    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const k=j*nx+i;sx[k]=i===0||i===nx-1?0:minmod(q[k]-q[k-1],q[k+1]-q[k]);sy[k]=j===0||j===ny-1?0:minmod(q[k]-q[k-nx],q[k+nx]-q[k]);}
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const k=j*nx+i;sx[k]=i===0||i===nx-1?0:limitedSlope(q[k]-q[k-1],q[k+1]-q[k],u[j*(nx+1)+i]+u[j*(nx+1)+i+1]>=0);sy[k]=j===0||j===ny-1?0:limitedSlope(q[k]-q[k-nx],q[k+nx]-q[k],v[j*nx+i]+v[(j+1)*nx+i]>=0);}
     out.set(q);
     // Each interior face is applied once, with equal and opposite transfers.
     for(let j=0;j<ny;j++)for(let i=1;i<nx;i++){
@@ -101,15 +121,21 @@ class DyeTank {
       const transfer=dt/dy*(a*value-kappa*(q[below]-q[above])/dy);out[above]-=transfer;out[below]+=transfer;
     }
   }
-  advectScalar(q,dt){this.scalarEuler(q,this.scalarStage,dt);this.scalarEuler(this.scalarStage,this.scalarResult,dt);for(let k=0;k<q.length;k++)q[k]=.5*(q[k]+this.scalarResult[k]);}
+  advectScalar(q,dt){
+    this.scalarEuler(q,this.scalarStage,dt);this.scalarEuler(this.scalarStage,this.scalarResult,dt);
+    for(let k=0;k<q.length;k++)this.scalarStage[k]=.75*q[k]+.25*this.scalarResult[k];
+    this.scalarEuler(this.scalarStage,this.scalarResult,dt);for(let k=0;k<q.length;k++)q[k]=q[k]/3+2*this.scalarResult[k]/3;
+  }
   step(dt=.01){
     if(!finiteRange(dt,1e-5,.02))throw new RangeError('Invalid timestep');let remaining=dt;
     while(remaining>1e-10){
       let umax=0,vmax=0,smin=40,smax=0;for(const a of this.u)umax=Math.max(umax,Math.abs(a));for(const a of this.v)vmax=Math.max(vmax,Math.abs(a));for(const a of this.salinity){smin=Math.min(smin,a);smax=Math.max(smax,a);}
-      const rate=umax/this.dx+vmax/this.dy,acc=gravity*beta*(smax-smin),h=Math.min(this.dx,this.dy);
+      const rate=umax/this.dx+vmax/this.dy,acc=gravity/referenceDensity*(seawaterDensity(Math.min(40,smax))-seawaterDensity(Math.max(0,smin))),h=Math.min(this.dx,this.dy);
       const sub=Math.min(remaining,.3/Math.max(rate,1e-12),.25*Math.sqrt(h/Math.max(acc,1e-12)),.15*h*h/Math.max(this.viscosity,this.diffusivity,1e-12));
       if(!Number.isFinite(sub)||sub<1e-6)throw new Error('Flow exceeds this grid; reset the tank');
-      this.advectVelocity(sub);this.buoyancy(sub);this.project();this.advectScalar(this.salinity,sub);this.advectScalar(this.dye,sub);this.advectScalar(this.coral,sub);
+      this.advectVelocity(sub);this.buoyancy(sub);this.project();this.advectScalar(this.salinity,sub);
+      if(this.goldActive)this.advectScalar(this.gold,sub);if(this.coralActive)this.advectScalar(this.coral,sub);
+      for(let k=0;k<this.dye.length;k++)this.dye[k]=this.gold[k]+this.coral[k];
       this.time+=sub;this.steps++;remaining-=sub;
     }
   }
