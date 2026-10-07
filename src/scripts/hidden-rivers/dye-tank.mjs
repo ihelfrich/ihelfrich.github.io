@@ -1,22 +1,27 @@
 // 2D Boussinesq tank. SI geometry/velocity/time; salinity in g/kg.
 // Coordinate y points down. Dye and salinity use conservative face fluxes.
+import {createSpectralPressure,powerOfTwo} from './tank-pressure.mjs';
 const beta=.00076, gravity=9.81;
 const minmod=(a,b)=>a*b<=0?0:Math.sign(a)*Math.min(Math.abs(a),Math.abs(b));
 const finiteRange=(x,a,b)=>Number.isFinite(x)&&x>=a&&x<=b;
 export function createDyeTank(options={}){return new DyeTank(options);}
 class DyeTank {
-  constructor({nx=128,ny=96,width=.24,height=.18,waterSalinity=30,bottomSalinity=waterSalinity,viscosity=1e-6,diffusivity=2e-7}={}){
-    if(!Number.isInteger(nx)||!Number.isInteger(ny)||nx<16||ny<16||nx>192||ny>144)throw new RangeError('Invalid grid');
+  constructor({nx=128,ny=96,width=.24,height=.18,waterSalinity=30,bottomSalinity=waterSalinity,viscosity=1e-6,diffusivity=2e-7,pressureSolver='auto'}={}){
+    if(!Number.isInteger(nx)||!Number.isInteger(ny)||nx<16||ny<16||nx>256||ny>256)throw new RangeError('Invalid grid');
     if(!finiteRange(width,.1,.5)||!finiteRange(height,.1,.5))throw new RangeError('Invalid tank dimensions');
     if(!finiteRange(waterSalinity,0,40)||!finiteRange(bottomSalinity,0,40))throw new RangeError('Invalid salinity');
     if(!finiteRange(viscosity,0,1e-5)||!finiteRange(diffusivity,0,1e-6))throw new RangeError('Invalid transport parameter');
     Object.assign(this,{nx,ny,width,height,viscosity,diffusivity,dx:width/nx,dy:height/ny,time:0,steps:0,projectionResidual:0});
+    if(!['auto','cg','spectral'].includes(pressureSolver))throw new RangeError('Invalid pressure solver');
+    this.pressureSolver=pressureSolver==='auto'?(powerOfTwo(nx)&&powerOfTwo(ny)?'spectral':'cg'):pressureSolver;
+    if(this.pressureSolver==='spectral')this.solvePressure=createSpectralPressure(nx,ny,this.dx,this.dy);
     const n=nx*ny;this.salinity=new Float64Array(n);this.dye=new Float64Array(n);this.coral=new Float64Array(n);
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)this.salinity[j*nx+i]=waterSalinity+(bottomSalinity-waterSalinity)*(j+.5)/ny;
     this.u=new Float64Array((nx+1)*ny);this.v=new Float64Array(nx*(ny+1));
     this.nextU=this.u.slice();this.nextV=this.v.slice();this.scalarStage=new Float64Array(n);this.scalarResult=new Float64Array(n);
     this.phi=new Float64Array(n);this.r=new Float64Array(n);this.z=new Float64Array(n);this.p=new Float64Array(n);this.ap=new Float64Array(n);
     this.diagonal=new Float64Array(n);this.slopeX=new Float64Array(n);this.slopeY=new Float64Array(n);
+    this.rowMeans=new Float64Array(ny);
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)this.diagonal[j*nx+i]=(Number(i>0)+Number(i<nx-1))/(this.dx*this.dx)+(Number(j>0)+Number(j<ny-1))/(this.dy*this.dy);
     this.initialSaltIntegral=this.integral(this.salinity);this.injectedSaltIntegral=0;this.injectedDyeIntegral=0;
   }
@@ -42,7 +47,9 @@ class DyeTank {
     const advect=(q,out,w,h,ox,oy)=>{
       for(let j=0;j<h;j++)for(let i=0;i<w;i++){
         const k=j*w+i;if((ox===0&&(i===0||i===nx))||(oy===0&&(j===0||j===ny))){out[k]=0;continue;}
-        const x=(i+ox)*dx,y=(j+oy)*dy,[vx,vy]=this.velocity(x,y),[mx,my]=this.velocity(x-.5*dt*vx,y-.5*dt*vy);
+        const x=(i+ox)*dx,y=(j+oy)*dy;
+        const vx=this.sample(u,nx+1,ny,i+ox,j+oy-.5),vy=this.sample(v,nx,ny+1,i+ox-.5,j+oy);
+        const mx=this.sample(u,nx+1,ny,(x-.5*dt*vx)/dx,(y-.5*dt*vy)/dy-.5),my=this.sample(v,nx,ny+1,(x-.5*dt*vx)/dx-.5,(y-.5*dt*vy)/dy);
         const adv=this.sample(q,w,h,(x-dt*mx)/dx-ox,(y-dt*my)/dy-oy);
         const lap=((i>0?q[k-1]:q[k])-2*q[k]+(i<w-1?q[k+1]:q[k]))/(dx*dx)+((j>0?q[k-w]:q[k])-2*q[k]+(j<h-1?q[k+w]:q[k]))/(dy*dy);
         out[k]=adv+dt*this.viscosity*lap;
@@ -51,7 +58,7 @@ class DyeTank {
     advect(u,nextU,nx+1,ny,0,.5);advect(v,nextV,nx,ny+1,.5,0);this.u=nextU;this.v=nextV;this.nextU=u;this.nextV=v;
   }
   buoyancy(dt){
-    const {nx,ny,dx,dy,salinity,v}=this;const means=new Float64Array(ny);
+    const {nx,ny,salinity,v,rowMeans:means}=this;
     for(let j=0;j<ny;j++){let s=0;for(let i=0;i<nx;i++)s+=salinity[j*nx+i];means[j]=s/nx;}
     // Subtract the horizontal mean: its vertical force is balanced by hydrostatic pressure.
     for(let j=1;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]+=dt*gravity*beta*.5*(salinity[(j-1)*nx+i]-means[j-1]+salinity[j*nx+i]-means[j]);
@@ -61,9 +68,12 @@ class DyeTank {
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const k=j*nx+i,c=q[k];let s=0;if(i>0)s+=ax*(c-q[k-1]);if(i<nx-1)s+=ax*(c-q[k+1]);if(j>0)s+=ay*(c-q[k-nx]);if(j<ny-1)s+=ay*(c-q[k+nx]);out[k]=s;}
   }
   project(){
-    const {nx,ny,dx,dy,u,v,phi,r,z,p,ap,diagonal}=this,n=nx*ny;phi.fill(0);let sum=0;
+    const {nx,ny,dx,dy,u,v,phi,r,z,p,ap,diagonal}=this,n=nx*ny;let sum=0;
     for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const k=j*nx+i;r[k]=-((u[j*(nx+1)+i+1]-u[j*(nx+1)+i])/dx+(v[(j+1)*nx+i]-v[j*nx+i])/dy);sum+=r[k];}
-    const mean=sum/n;let rz=0,norm=0;for(let k=0;k<n;k++){r[k]-=mean;z[k]=r[k]/diagonal[k];p[k]=z[k];rz+=r[k]*z[k];norm+=r[k]*r[k];}
+    const mean=sum/n;for(let k=0;k<n;k++)r[k]-=mean;
+    if(this.solvePressure){this.solvePressure(r,phi);this.matrix(phi,ap);let norm=0;for(let k=0;k<n;k++)norm+=(r[k]-ap[k])**2;this.projectionResidual=Math.sqrt(norm/n);}
+    else {
+    phi.fill(0);let rz=0,norm=0;for(let k=0;k<n;k++){z[k]=r[k]/diagonal[k];p[k]=z[k];rz+=r[k]*z[k];norm+=r[k]*r[k];}
     let iterations=0;
     while(norm/n>1e-16&&iterations<400){
       this.matrix(p,ap);let pap=0;for(let k=0;k<n;k++)pap+=p[k]*ap[k];if(!(pap>0))throw new Error('Pressure solve failed');
@@ -71,7 +81,9 @@ class DyeTank {
       for(let k=0;k<n;k++){phi[k]+=alpha*p[k];r[k]-=alpha*ap[k];z[k]=r[k]/diagonal[k];nextRz+=r[k]*z[k];norm+=r[k]*r[k];}
       const factor=nextRz/rz;for(let k=0;k<n;k++)p[k]=z[k]+factor*p[k];rz=nextRz;iterations++;
     }
-    this.projectionResidual=Math.sqrt(norm/n);if(this.projectionResidual>1e-6)throw new Error('Pressure did not converge');
+    this.projectionResidual=Math.sqrt(norm/n);
+    }
+    if(this.projectionResidual>1e-6)throw new Error('Pressure did not converge');
     for(let j=0;j<ny;j++)for(let i=1;i<nx;i++)u[j*(nx+1)+i]-=(phi[j*nx+i]-phi[j*nx+i-1])/dx;
     for(let j=1;j<ny;j++)for(let i=0;i<nx;i++)v[j*nx+i]-=(phi[j*nx+i]-phi[(j-1)*nx+i])/dy;
   }

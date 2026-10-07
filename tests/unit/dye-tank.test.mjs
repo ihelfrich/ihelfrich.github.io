@@ -35,6 +35,22 @@ test('invalid controls are rejected before changing the tank',()=>{
   for(const args of [{x:-1,y:.1,salinity:35},{x:.1,y:.1,salinity:99},{x:.1,y:.1,salinity:35,radius:0}])assert.throws(()=>tank.drop(args),/drop/i);
   assert.throws(()=>tank.step(0),/timestep/i);assert.throws(()=>tank.step(1),/timestep/i);assert.deepEqual(tank.diagnostics(),before);
 });
+// A fine browser grid must project arbitrary closed-wall flow, not just one plume.
+test('spectral projection resolves a fine grid and agrees with the reference CG solve',()=>{
+  const a=create({nx:64,ny:64}),b=create({nx:64,ny:64,pressureSolver:'cg'});
+  assert.equal(a.pressureSolver,'spectral');assert.equal(b.pressureSolver,'cg');
+  for(const tank of [a,b]){
+    for(let j=0;j<tank.ny;j++)for(let i=1;i<tank.nx;i++)tank.u[j*(tank.nx+1)+i]=.008*Math.sin(i*.071)*Math.cos(j*.041);
+    for(let j=1;j<tank.ny;j++)for(let i=0;i<tank.nx;i++)tank.v[j*tank.nx+i]=.006*Math.cos(i*.063)*Math.sin(j*.081);
+    tank.project();assert.ok(tank.diagnostics().divergenceRms<1e-8);
+    // A second projection must be idempotent, including the pressure null space.
+    const before=tank.u.slice();tank.project();assert.ok(Math.max(...tank.u.map((x,i)=>Math.abs(x-before[i])))<1e-9);
+  }
+  assert.ok(Math.max(...a.u.map((x,i)=>Math.abs(x-b.u[i])))<1e-9);
+  assert.ok(Math.max(...a.v.map((x,i)=>Math.abs(x-b.v[i])))<1e-9);
+  const fine=create({nx:256,ny:128});fine.drop({x:.12,y:.09,salinity:36});for(let i=0;i<10;i++)fine.step();
+  assert.ok(fine.diagnostics().divergenceRms<1e-10);
+});
 // Preregistered global moments at 1.2 s, same 9 mm drop, not pixel-wise agreement of vortices.
 test('dye centroid is stable under timestep halving and finer grids',()=>{
   const coarse=fixture(36,48),medium=fixture(36,72),fine=fixture(36,96),half=fixture(36,72,.005);
