@@ -13,7 +13,7 @@ State coordinates are x rightward and y downward, in metres. The staggered MAC g
 | Dye, coral fraction | Intensive tracers | Nonnegative up to numerical tolerance; source-free integrals conserved |
 | Integral of concentration × area | Extensive 2D tracer store | In g/kg·m² for salt; m² for pigment. These are not kilograms of salt |
 | Drop | External control | x,y inside tank; radius 2–25 mm; explicit mixing/replacement event is recorded in integral ledger |
-| Rendering | Artistic display | Gold for denser additions, coral for fresher additions; nonlinear optical mapping. No feedback into physics |
+| Rendering | Artistic display | Gold for saltier or matching additions, coral for fresher additions; nonlinear optical mapping. No feedback into physics |
 
 Boussinesq momentum is ∂u/∂t + u·∇u = −∇(p/ρ₀) + ν∇²u + gβ(S − reference) e_y, with ∇·u = 0. Salinity and passive dye satisfy ∂q/∂t + ∇·(u q) = κ∇²q. Reference β = 0.00076 (g/kg)⁻¹ is a constant linear approximation near 10 °C and surface pressure, with density changes treated only in buoyancy. This rounds a seawater-scale haline coefficient; it is not a TEOS-10 evaluation at every cell. ν = 10⁻⁶ m²/s; κ = 2 × 10⁻⁷ m²/s is an effective smoothing diffusivity, substantially larger than molecular salt diffusivity. Semi-Lagrangian momentum transport also dissipates unresolved motion.
 
