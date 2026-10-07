@@ -1,0 +1,158 @@
+{
+  "title": "Remote sensing atlas",
+  "maps": [
+    {
+      "id": "global-drifter-currents",
+      "title": "The currents that wrap the world",
+      "image": "/hidden-rivers/remote-atlas/global-drifter-currents.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/global-drifter-currents-visual.webp",
+      "displayDate": "Monthly climatology \u00b7 record through Feb 2023",
+      "source": "NOAA Global Drifter Program; drogue centered at 15 m",
+      "sourceUrl": "https://erddap.aoml.noaa.gov/gdp/erddap/griddap/drifter_monthlymeans.html",
+      "caption": "Climatological seasonal circulation, not a real-time field. Animated particles are illustrative integrations, not observed drifter tracks."
+    },
+    {
+      "id": "blue-hole-sentinel-pca",
+      "title": "Light through four bands",
+      "image": "/hidden-rivers/remote-atlas/blue-hole-sentinel-pca.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/blue-hole-sentinel-pca-visual.webp",
+      "displayDate": "6 January 2024",
+      "source": "Copernicus Sentinel-2 Level-2A COG via Element 84 Earth Search STAC",
+      "sourceUrl": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a",
+      "caption": "Cloud-masked centered-covariance PCA of Sentinel-2 B2/B3/B4/B8 surface reflectance, displayed as PC3/PC2/PC1 RGB."
+    },
+    {
+      "id": "blue-hole",
+      "title": "Lighthouse Reef",
+      "kicker": "BELIZE \u00b7 CARIBBEAN SEA",
+      "bounds": [
+        -87.78,
+        17.12,
+        -87.36,
+        17.54
+      ],
+      "focus": [
+        -87.5344,
+        17.3153
+      ],
+      "point": "Great Blue Hole",
+      "caption": "The reef is visible from orbit; its famous blue circle is a collapse structure, not an ocean current. The hole is about 305 m across and 123 m deep.",
+      "source": "NASA/METI/AIST/Japan Space Systems & U.S./Japan ASTER Science Team",
+      "sourceUrl": "https://asterweb.jpl.nasa.gov/gallery-detail.asp?name=bluehole",
+      "image": "/hidden-rivers/remote-atlas/blue-hole.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/blue-hole-visual.webp",
+      "displayDate": "Satellite imagery composite; acquisition dates vary by tile"
+    },
+    {
+      "id": "great-barrier-reef",
+      "title": "The reef in a heatwave",
+      "kicker": "GREAT BARRIER REEF \u00b7 AUSTRALIA",
+      "bounds": [
+        147.2,
+        -19.6,
+        150.9,
+        -16.0
+      ],
+      "focus": [
+        149.2,
+        -18.1
+      ],
+      "point": "Whitsunday sector",
+      "caption": "Satellite-derived Degree Heating Weeks show accumulated thermal stress across the reef on 15 March 2024. DHW summarizes heat stress; it is not a direct observation of coral condition.",
+      "source": "NOAA Coral Reef Watch v3.1 DHW \u00b7 5 km \u00b7 15 Mar 2024",
+      "sourceUrl": "https://coralreefwatch.noaa.gov/product/5km/",
+      "image": "/hidden-rivers/remote-atlas/great-barrier-reef.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/great-barrier-reef-visual.webp",
+      "displayDate": "2024-03-15"
+    },
+    {
+      "id": "outer-banks",
+      "title": "A coast that keeps moving",
+      "kicker": "OUTER BANKS \u00b7 NORTH CAROLINA",
+      "bounds": [
+        -78.0,
+        34.8,
+        -74.1,
+        36.8
+      ],
+      "focus": [
+        -75.53,
+        35.25
+      ],
+      "point": "Cape Hatteras",
+      "caption": "Barrier islands, inlets, and shoals form a restless edge. Satellite imagery shows the shoreline; it does not by itself measure a long-term erosion rate.",
+      "source": "Esri World Imagery; NOAA National Geodetic Survey coastal mapping",
+      "sourceUrl": "https://www.fisheries.noaa.gov/inport/item/72201",
+      "image": "/hidden-rivers/remote-atlas/outer-banks.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/outer-banks-visual.webp",
+      "displayDate": "Satellite imagery composite; acquisition dates vary by tile"
+    },
+    {
+      "id": "guiana-shield",
+      "title": "Amaila Falls, Guyana",
+      "kicker": "GUIANA SHIELD \u00b7 POTARO\u2013SIPARUNI",
+      "bounds": [
+        -62.0,
+        4.3,
+        -58.0,
+        7.0
+      ],
+      "focus": [
+        -59.5333,
+        5.3667
+      ],
+      "point": "Proposed Amaila Falls site",
+      "caption": "China Railway Group was selected for a proposed Amaila Falls project in 2021. This map marks the proposed site; the cited records do not establish an operating dam or substantiate the claim that it is unregulated.",
+      "source": "Esri World Imagery; Guyana Energy Agency; Guyana DPI (2021)",
+      "sourceUrl": "https://dpi.gov.gy/cabinet-grants-no-objection-to-amaila-falls-hydropower-project-afhp-and-the-new-demerara-harbour-bridge-ndhb/",
+      "image": "/hidden-rivers/remote-atlas/guiana-shield.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/guiana-shield-visual.webp",
+      "displayDate": "Satellite imagery composite; acquisition dates vary by tile"
+    },
+    {
+      "id": "point-nemo",
+      "title": "Point Nemo",
+      "kicker": "SOUTH PACIFIC \u00b7 OCEANIC POLE OF INACCESSIBILITY",
+      "bounds": [
+        -143,
+        -58,
+        -104,
+        -39
+      ],
+      "focus": [
+        -123.3933,
+        -48.8767
+      ],
+      "point": "48\u00b052.6\u2032S \u00b7 123\u00b023.6\u2032W",
+      "caption": "The point farthest from land lies beneath the South Pacific gyre. Here, the surface gives few clues to the abyssal landscape and slow, basin-scale circulation below.",
+      "source": "Esri World Imagery; NOAA National Ocean Service",
+      "sourceUrl": "https://oceanservice.noaa.gov/facts/nemo.html",
+      "image": "/hidden-rivers/remote-atlas/point-nemo.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/point-nemo-visual.webp",
+      "displayDate": "Satellite imagery composite; acquisition dates vary by tile"
+    },
+    {
+      "id": "amazon-plume",
+      "title": "The Amazon runs out to sea",
+      "kicker": "AMAZON MOUTH \u00b7 TROPICAL ATLANTIC",
+      "bounds": [
+        -62,
+        -4,
+        -37,
+        14
+      ],
+      "focus": [
+        -48,
+        5
+      ],
+      "point": "Amazon freshwater plume",
+      "caption": "A daily satellite-informed surface-salinity field across the Amazon plume. Freshwater fans into the tropical Atlantic; the broad grid resolves basin-scale structure, not the narrow plume edge or estuarine channels.",
+      "source": "NOAA CoastWatch daily SMAP SSS \u00b7 0.25\u00b0 grid \u00b7 15 Mar 2024",
+      "sourceUrl": "https://oceanwatch.noaa.gov/cwn/products/sea-surface-salinity-near-real-time-smap.html",
+      "image": "/hidden-rivers/remote-atlas/amazon-plume.webp",
+      "presentationImage": "/hidden-rivers/remote-atlas/amazon-plume-visual.webp",
+      "displayDate": "2024-03-15"
+    }
+  ],
+  "credits": "Esri, Maxar, Earthstar Geographics, and the GIS User Community; NOAA CoastWatch and Coral Reef Watch; NASA/JPL/PO.DAAC; NOAA/NOS; Guyana Energy Agency; Government of Guyana."
+}

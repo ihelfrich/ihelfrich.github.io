@@ -5,6 +5,30 @@ https://ihelfrich.github.io/hidden-rivers/. Shared navigation and catalogue data
 connect the atlas to Projects, Lab, search, and the archive. This is not a
 separate repository.
 
+## Remote-sensing atlas plates
+
+The committed `remote-atlas` images include Esri World Imagery context, NOAA
+Coral Reef Watch 5 km Degree Heating Weeks for 15 March 2024, and a NOAA
+CoastWatch SMAP daily surface-salinity field at its native 0.25° grid. The
+Lighthouse Reef PCA is calculated from four cloud-screened Sentinel-2 L2A
+surface-reflectance bands (B2/B3/B4/B8); centered covariance PCs are displayed
+as PC3/PC2/PC1 RGB. Scene ID, cloud mask, and variance shares are recorded in
+`remote-atlas/sentinel-pca.json`. PCA colors are a spectral composite, not a
+habitat classification. Basemap acquisition dates vary; each quantitative
+layer retains its specific date.
+
+The global current film and map use NOAA/AOML's monthly drifter-derived
+climatology. Its source observations are surface drifter velocities, with the
+drogue centered at 15 m; the data record ends in February 2023. The animated
+paths are integrations through monthly mean fields, not the original drifter
+tracks. Read this as a seasonal climatology rather than a live current map.
+
+The image cards carry separate, text-free variants for presentation mode. To
+rebuild data-backed plates, use `uv run --no-project` with the dependencies
+listed in each script's docstring. NOAA ERDDAP and the public Earth Search STAC
+catalog are queried at build time; the deployed site serves committed images
+and metadata only.
+
 ## Build and verify the committed release
 
 Scientific subsets and derived fields are committed under

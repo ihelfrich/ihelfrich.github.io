@@ -36,7 +36,7 @@ const lineVertex = `
   varying float vSpeed;
   void main() {
     vec3 p = position;
-    p.y = p.y * exaggeration + 0.025;
+    p.y = p.y * exaggeration + 0.0001;
     vTime = modelTime;
     vSpeed = speed;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
@@ -116,7 +116,7 @@ export function createCinematicOcean(container, options = {}) {
   let region = null, layers = [], diagnostics = null, terrain = null, surface = null, selectedMarker = null;
   let dailyLayers = new Map(), pendingTracks = new Map(), tracksInProgress = 0;
   let tracks = [], fields = [], time = 3 * DAY, depth = 0, mode = 'flow', view = 'oblique';
-  let vertical = 180, speedMax = 2, surfaceVisible = false, film = false, filmStarted = 0, playing = false, disposed = false, manualRendering = false, epoch = 0;
+  let vertical = 1, speedMax = 2, surfaceVisible = false, film = false, filmStarted = 0, playing = false, disposed = false, manualRendering = false, epoch = 0;
   let lastField = -1, lastStats = 0, inViewport = true, raf = 0, ready = false;
   let fitDistance = 14, baseTarget = new THREE.Vector3(), selected = null;
   const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2(), temp = new THREE.Vector3();
@@ -211,7 +211,7 @@ export function createCinematicOcean(container, options = {}) {
     const uniforms = { now: { value: time }, history: { value: HISTORY }, speedMax: {value:speedMax}, opacity: { value: .87 }, neutral: { value: 0 }, exaggeration: { value: displayVertical() }, ...colorUniforms() };
     const lines = new THREE.LineSegments(geometry, new THREE.ShaderMaterial({ uniforms, vertexShader: lineVertex, fragmentShader: lineFragment, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: true })); lines.frustumCulled = false; lines.renderOrder = 3; group.add(lines);
     const hp = new Float32Array(paths.length * 3), hc = new Float32Array(paths.length * 3), hg = new THREE.BufferGeometry(); hg.setAttribute('position', new THREE.BufferAttribute(hp, 3).setUsage(THREE.DynamicDrawUsage)); hg.setAttribute('color', new THREE.BufferAttribute(hc, 3).setUsage(THREE.DynamicDrawUsage));
-    const heads = new THREE.Points(hg, new THREE.ShaderMaterial({ uniforms: { exaggeration: { value: displayVertical() }, opacity: { value: .85 }, ratio: { value: renderer.getPixelRatio() } }, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexShader: `uniform float exaggeration; uniform float ratio; varying vec3 vColor; void main(){ vec3 p=position; p.y=p.y*exaggeration+0.026; vColor=color; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);gl_PointSize=3.2*ratio;}`, fragmentShader: `uniform float opacity; varying vec3 vColor; void main(){float r=length(gl_PointCoord-0.5)*2.0;if(r>1.0)discard;gl_FragColor=vec4(vColor*1.4,pow(1.0-r,1.2)*opacity);}` }));
+    const heads = new THREE.Points(hg, new THREE.ShaderMaterial({ uniforms: { exaggeration: { value: displayVertical() }, opacity: { value: .85 }, ratio: { value: renderer.getPixelRatio() } }, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexShader: `uniform float exaggeration; uniform float ratio; varying vec3 vColor; void main(){ vec3 p=position; p.y=p.y*exaggeration+0.0001; vColor=color; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);gl_PointSize=3.2*ratio;}`, fragmentShader: `uniform float opacity; varying vec3 vColor; void main(){float r=length(gl_PointCoord-0.5)*2.0;if(r>1.0)discard;gl_FragColor=vec4(vColor*1.4,pow(1.0-r,1.2)*opacity);}` }));
     heads.frustumCulled = false; heads.renderOrder = 4; group.add(heads); tracks.push({ layer, paths, lines, heads, hp, hc, variant });
   }
 
@@ -411,7 +411,7 @@ export function createCinematicOcean(container, options = {}) {
     setView(value) { const next = value === 'map' ? 'map' : 'oblique', changed = next !== view; view = next; if (view === 'map' && (depth === 'all' || mode === 'column')) { depth = layers[0]?.depth ?? 0; mode = 'flow'; } applyVertical(); visibility(); if (changed) resetView(); emitStats(true); },
     setPlaying(value) { playing = Boolean(value); return playing; },
     setFilm(value) { film = Boolean(value) && !reduced; filmStarted = performance.now(); if (film) { view = 'oblique'; applyVertical(); resetView(); } },
-    setExaggeration(value) { vertical = clamp(Number(value) || 60, 1, 300); applyVertical(); emitStats(true); },
+    setExaggeration(value) { vertical = 1; applyVertical(); emitStats(true); },
     select(lon, lat) { selected = Number.isFinite(lon + lat) ? { lon, lat } : null; updateMarker(); },
     setDiagnostics(value) { diagnostics = value; updateFields(true); },
     getLegend,
