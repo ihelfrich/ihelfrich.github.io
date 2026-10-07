@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { unpackField, snapshotField, sampleAt, streamline, seeded, indexPixel } from './atlas-math.mjs';
 import { WATER_STORIES } from './water-stories.mjs';
 import { spectralSample } from './spectral.mjs';
+import { maskedRiverRuns, trailIntervals, CURRENT_SAMPLES_PER_SECOND } from './flow-motion.mjs';
 
 const BASE = '/hidden-rivers/water-atlas/';
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -159,8 +160,8 @@ export async function startWaterAtlas() {
     world?.setPlaying(state.playing);world?.setFlow(state.flow);
     const frame=frames?.[state.frame];
     el('evidence').textContent=frames?`Sentinel-2 L2A · native 10 m · ${Math.round(displayMetres(p,frame))} m display · ${Math.round(frame.validFraction*100)}% clear${p.rivers?' · drainage direction; rate illustrative':''}`:
-      state.layer==='salinity'?'SMAP surface salinity · 0.25° source grid · dated daily retrieval; coastal pixels can be unreliable':p.source==='hycom'?`HYCOM analysis · ${state.depth===0?'surface':state.depth+' m below sea level'} · instantaneous streamlines · motion 21,600×`:
-      'NOAA/AOML drifter climatology · 15 m drogue · 1° display grid · motion 21,600×; not observed tracks';
+      state.layer==='salinity'?'SMAP surface salinity · 0.25° source grid · dated daily retrieval; coastal pixels can be unreliable':p.source==='hycom'?`HYCOM analysis · ${state.depth===0?'surface':state.depth+' m below sea level'} · instantaneous streamlines · motion 3,600×`:
+      'NOAA/AOML drifter climatology · 15 m drogue · 1° display grid · motion 3,600×; not observed tracks';
     legend();dataContent();
   }
   function legend() {
@@ -183,8 +184,8 @@ export async function startWaterAtlas() {
       return;
     }
     el('data-content').innerHTML=
-      p.source==='hycom'?`<h3>${safe(p.title)} · ${state.depth===0?'surface':state.depth+' m'}</h3><p><a href="https://www.hycom.org/dataserver/espc-d-v02/global-analysis" target="_blank" rel="noopener">HYCOM / ESPC-D-V02</a> supplies eastward and northward horizontal velocity at the chosen depth. The map uses the released geographic grid and exact snapshot dates. Depth controls change the velocity data. Speed shading is projected onto the globe; streamlines use source-depth coordinates and are displayed through the surface. Terrain remains at 1× vertical scale.</p><p>The animated lines are streamlines through one selected velocity snapshot, calculated with a midpoint method in geographic coordinates. Motion is accelerated 21,600 times for display. These graphics are not observed drifter tracks, forecasts, vertical motion, or a measure of transport volume. Missing grid corners stop a line.</p><p><a href="/hidden-rivers/data/manifest.json" target="_blank" rel="noopener">Velocity grid, dates, checksums & source records ↗</a></p>`:
-      `<h3>Near-surface ocean circulation · 15 m</h3><p><a href="https://www.aoml.noaa.gov/phod/gdp/mean_velocity.php" target="_blank" rel="noopener">NOAA’s Global Drifter Program</a> estimates monthly climatological velocity from satellite-tracked drifting buoys with drogues centered at 15 m. This is a long-run seasonal pattern through February 2023, not today’s current or a forecast. The 0.25° source has been sampled every four grid cells to a 1° display grid.</p><p>Streamlines follow the selected monthly mean eastward and northward velocity. Their motion is accelerated 21,600 times for visibility. They are not the measured tracks of individual buoys. Colors encode speed in m/s; seed density and line count do not encode water volume. No flow is invented for missing cells.</p>${p.salinity?'<h3>Amazon freshwater plume</h3><p>The salinity layer is a <a href="https://oceanwatch.noaa.gov/cwn/products/sea-surface-salinity-near-real-time-smap.html" target="_blank" rel="noopener">NOAA SMAP</a> daily satellite-derived surface-salinity retrieval for 15 July 2024, on a native 0.25° grid. It is separate from the monthly current climatology and does not describe estuary-scale salinity.</p>':''}<p><a href="${BASE}drifter.json" target="_blank" rel="noopener">Grid, record period, source request & checksum ↗</a></p>`;
+      p.source==='hycom'?`<h3>${safe(p.title)} · ${state.depth===0?'surface':state.depth+' m'}</h3><p><a href="https://www.hycom.org/dataserver/espc-d-v02/global-analysis" target="_blank" rel="noopener">HYCOM / ESPC-D-V02</a> supplies eastward and northward horizontal velocity at the chosen depth. The map uses the released geographic grid and exact snapshot dates. Depth controls change the velocity data. Speed shading is projected onto the globe; streamlines use source-depth coordinates and are displayed through the surface. Terrain remains at 1× vertical scale.</p><p>The animated lines are streamlines through one selected velocity snapshot, calculated with a midpoint method in geographic coordinates. Motion is accelerated 3,600 times for display. These graphics are not observed drifter tracks, forecasts, vertical motion, or a measure of transport volume. Missing grid corners stop a line.</p><p><a href="/hidden-rivers/data/manifest.json" target="_blank" rel="noopener">Velocity grid, dates, checksums & source records ↗</a></p>`:
+      `<h3>Near-surface ocean circulation · 15 m</h3><p><a href="https://www.aoml.noaa.gov/phod/gdp/mean_velocity.php" target="_blank" rel="noopener">NOAA’s Global Drifter Program</a> estimates monthly climatological velocity from satellite-tracked drifting buoys with drogues centered at 15 m. This is a long-run seasonal pattern through February 2023, not today’s current or a forecast. The 0.25° source has been sampled every four grid cells to a 1° display grid.</p><p>Streamlines follow the selected monthly mean eastward and northward velocity. Their motion is accelerated 3,600 times for visibility. They are not the measured tracks of individual buoys. Colors encode speed in m/s; seed density and line count do not encode water volume. No flow is invented for missing cells.</p>${p.salinity?'<h3>Amazon freshwater plume</h3><p>The salinity layer is a <a href="https://oceanwatch.noaa.gov/cwn/products/sea-surface-salinity-near-real-time-smap.html" target="_blank" rel="noopener">NOAA SMAP</a> daily satellite-derived surface-salinity retrieval for 15 July 2024, on a native 0.25° grid. It is separate from the monthly current climatology and does not describe estuary-scale salinity.</p>':''}<p><a href="${BASE}drifter.json" target="_blank" rel="noopener">Grid, record period, source request & checksum ↗</a></p>`;
   }
   async function selectPlace(id, initial=false,options={}) {
     const p=places.find(p=>p.id===id)||places[0],stamp=++epoch;
@@ -231,7 +232,7 @@ export async function startWaterAtlas() {
       if(state.compare)desired.push({src:BASE+path,pane:'satelliteCompare'});
       if(frame.spectra)void get(BASE+frame.spectra,'bytes').then(b=>{if(stamp===imageEpoch)spectra=new Float32Array(b);}).catch(()=>{});
       void get(BASE+frame.index,'bytes').then(b=>{if(stamp===imageEpoch){const view=new DataView(b);indexValues=new Int16Array(b.byteLength/2);for(let i=0;i<indexValues.length;i++)indexValues[i]=view.getInt16(i*2,true);}}).catch(()=>{});
-      if(frame.waterCandidate)void get(BASE+frame.waterCandidate,'bytes').then(b=>{if(stamp===imageEpoch){waterCandidates=new Uint8Array(b);void syncWorld(desired);}}).catch(()=>{});
+      if(frame.waterCandidate)void get(BASE+frame.waterCandidate,'bytes').then(b=>{if(stamp===imageEpoch){waterCandidates=new Uint8Array(b);dirty=true;void syncWorld(desired);}}).catch(()=>{});
     }else if(state.layer==='salinity'){desired.push({src:BASE+'amazon-salinity.webp',pane:'overlayPane',bbox:[-62,-4,-37,14]});}
     const next=await Promise.all(desired.map(entry=>new Promise((resolve,reject)=>{
       const overlay=L.imageOverlay(entry.src,entry.bbox?leafletBounds(entry.bbox):bounds(),{opacity:0,pane:entry.pane,interactive:false});
@@ -257,13 +258,14 @@ export async function startWaterAtlas() {
   function geometry() {
     resize();paths=[];riverPaths=[];
     const size=map.getSize(),visible=map.getBounds(),rng=seeded(1800+state.frame);
-    if(rivers){
+    if(rivers&&waterCandidates){
       for(const f of rivers.features){
-        const points=f.geometry.coordinates.map(([lon,lat])=>map.latLngToContainerPoint([lat,lon]));
-        if(!points.some(p=>p.x>=-50&&p.x<=size.x+50&&p.y>=-50&&p.y<=size.y+50))continue;
-        const segments=[];let length=0;
-        for(let i=1;i<points.length;i++){const d=points[i].distanceTo(points[i-1]);segments.push({a:points[i-1],b:points[i],start:length,length:d});length+=d;}
-        riverPaths.push({segments,length,q:f.properties.discharge,directed:f.properties.directed,id:f.properties.id});
+        const shape=state.place.frames[state.frame].indexShape;
+        const wet=p=>{const at=indexPixel(state.place.bounds,shape,...p);return at&&waterCandidates[at[1]*shape[1]+at[0]]===1;};
+        for(const run of maskedRiverRuns(f.geometry.coordinates,wet)){
+          const points=run.map(([lon,lat])=>{const p=map.latLngToContainerPoint([lat,lon]);return[p.x,p.y];});
+          if(points.some(p=>p[0]>=-50&&p[0]<=size.x+50&&p[1]>=-50&&p[1]<=size.y+50))riverPaths.push({points,directed:f.properties.directed,id:f.properties.id});
+        }
       }
     }
     if(field){
@@ -294,38 +296,20 @@ export async function startWaterAtlas() {
   }
   function drawFlow() {
     const {x:w,y:h}=map.getSize();flowCtx.clearRect(0,0,w,h);if(!state.flow||moving)return;
-    if(rivers){
-      for(const path of riverPaths){
-        const width=Math.min(2.4,.6+Math.log10(Math.max(1,path.q))*.22);
-        flowCtx.lineWidth=width;flowCtx.strokeStyle='rgba(129,231,213,.18)';flowCtx.beginPath();
-        path.segments.forEach((s,i)=>{if(!i)flowCtx.moveTo(s.a.x,s.a.y);flowCtx.lineTo(s.b.x,s.b.y);});flowCtx.stroke();
-        if(!path.directed||path.length<8)continue;
-        // Explicitly a direction graphic. No inference of river speed from Q.
-        const spacing=80,offset=(phase*18+(path.id%79))%spacing;
-        flowCtx.fillStyle='rgba(229,255,224,.9)';
-        for(let d=offset;d<path.length;d+=spacing){
-          const s=path.segments.find(s=>s.start+s.length>=d);if(!s?.length)continue;
-          const t=(d-s.start)/s.length,x=s.a.x+(s.b.x-s.a.x)*t,y=s.a.y+(s.b.y-s.a.y)*t;
-          // Restrict moving direction marks to clear, positive-NDWI samples.
-          // This combines the actual acquisition with the drainage geometry.
-          const pos=map.containerPointToLatLng([x,y]),frame=state.place.frames[state.frame],pixel=indexPixel(state.place.bounds,frame.indexShape,pos.lng,pos.lat);
-          const at=pixel?pixel[1]*frame.indexShape[1]+pixel[0]:-1,value=indexValues?.[at];
-          if(!(waterCandidates?waterCandidates[at]===1:value>0))continue;
-          flowCtx.beginPath();flowCtx.arc(x,y,1.8,0,2*Math.PI);flowCtx.fill();
-        }
+    flowCtx.lineCap='round';
+    function trail(points,interval,rgb,width,maxAlpha){
+      const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+      for(let i=Math.floor(interval.start);i<Math.ceil(interval.end);i++){
+        const lo=Math.max(interval.start,i),hi=Math.min(interval.end,i+1);if(hi<=lo)continue;
+        const a=mix(points[i],points[i+1],lo-i),b=mix(points[i],points[i+1],hi-i),at=(lo+hi)/2;
+        const fade=Math.max(0,1-(interval.head-at)/interval.tail)*Math.min(1,at/2,(points.length-1-at)/2);
+        flowCtx.strokeStyle=`rgba(${rgb.join(',')},${maxAlpha*fade})`;flowCtx.lineWidth=width;
+        flowCtx.beginPath();flowCtx.moveTo(...a);flowCtx.lineTo(...b);flowCtx.stroke();
       }
     }
-    if(field){
-      flowCtx.lineCap='round';
-      for(const path of paths){
-        const pts=path.points,n=pts.length,head=(phase*12+path.offset)%n,start=Math.max(0,Math.floor(head)-20),end=Math.floor(head);
-        for(let i=start+1;i<=end;i++){
-          const alpha=.08+.67*(i-start)/Math.max(1,end-start),rgb=color(pts[i][2]);
-          flowCtx.strokeStyle=`rgba(${rgb.map(c=>Math.min(255,c+55)).join(',')},${alpha})`;flowCtx.lineWidth=1.3;
-          flowCtx.beginPath();flowCtx.moveTo(pts[i-1][0],pts[i-1][1]);flowCtx.lineTo(pts[i][0],pts[i][1]);flowCtx.stroke();
-        }
-      }
-    }
+    // River rates remain illustrative; ocean intervals retain their source time.
+    for(const p of riverPaths){if(p.directed)for(const interval of trailIntervals(p.points.length-1,phase*.65-(p.id%997)/997*24))trail(p.points,interval,[185,231,216],1.6,.42);}
+    for(const p of paths)for(const interval of trailIntervals(p.points.length-1,phase*CURRENT_SAMPLES_PER_SECOND+p.offset))trail(p.points,interval,color(p.points[Math.floor(interval.end)][2]).map(c=>Math.min(255,c+30)),1.6,.62);
   }
   function animation(time) {
     const dt=Math.min(.1,(time-last)/1000||0);last=time;

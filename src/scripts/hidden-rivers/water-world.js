@@ -1,6 +1,7 @@
 import { streamline, seeded, sampleAt, indexPixel } from './atlas-math.mjs';
 import { connectWaterWorldTerrain } from './cesium-coast.js';
 import { createRasterProvider } from './raster-provider.mjs';
+import { maskedRiverRuns, flowTiming, FLOW_MATERIAL_SOURCE, CURRENT_SAMPLES_PER_SECOND, CURRENT_TIME_SCALE } from './flow-motion.mjs';
 
 export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   window.CESIUM_BASE_URL='/vendor/cesium/';
@@ -12,11 +13,15 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   viewer.scene.globe.enableLighting=false;viewer.scene.globe.depthTestAgainstTerrain=false;
   viewer.scene.globe.maximumScreenSpaceError=1.5;viewer.scene.postProcessStages.fxaa.enabled=true;
   viewer.scene.screenSpaceCameraController.minimumZoomDistance=80;viewer.scene.screenSpaceCameraController.maximumZoomDistance=35000000;
+  // Keep a complete local base underneath network imagery. Cesium cannot
+  // display regional overlays until its bottom imagery layer is available.
+  const context=await C.TileMapServiceImageryProvider.fromUrl('/vendor/cesium/Assets/Textures/NaturalEarthII/',{credit:'Natural Earth II · local geographic context'});
+  viewer.imageryLayers.addImageryProvider(context);
   const base=viewer.imageryLayers.addImageryProvider(new C.UrlTemplateImageryProvider({url:'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',tilingScheme:new C.WebMercatorTilingScheme(),maximumLevel:19,credit:'Imagery © Esri, Maxar, Earthstar Geographics'}));
   base.brightness=.92;base.saturation=.9;
   void connectWaterWorldTerrain(C,viewer,onStatus);
-  const lines=viewer.scene.primitives.add(new C.PolylineCollection()),heads=viewer.scene.primitives.add(new C.PointPrimitiveCollection());
-  let overlays=[],paths=[],epoch=0,phase=0,last=0,visible=true,current,orbit=false;
+  const lines=viewer.scene.primitives.add(new C.PolylineCollection());
+  let overlays=[],paths=[],epoch=0,phase=0,last=0,visible=true,current,orbit=false,pathKey='';
   const images=new Map();
   // The saved rasters are EPSG:3857, so their provider must use that projection.
   // A geographic SingleTileImageryProvider would silently displace their rows.
@@ -31,38 +36,40 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
     ctx.putImageData(data,0,0);return {canvas,b:[west,south,east,north]};
   }
   function position(p,depth){return C.Cartesian3.fromDegrees(p[0],p[1],-depth);}
+  function addTrail(pts,col,offset,river=false){
+    const timing=flowTiming(pts.length,phase,river ? .65 : CURRENT_SAMPLES_PER_SECOND);
+    const material=new C.Material({fabric:{type:'HiddenRiversTrail',uniforms:{color:col,clock:timing.clock,repeats:timing.repeats,offset},source:FLOW_MATERIAL_SOURCE},translucent:true});
+    const line=lines.add({positions:pts,width:river?2.1:2.4,material});
+    const normal=C.Cartesian3.normalize(C.Ellipsoid.WGS84.transformPositionToScaledSpace(pts[Math.floor(pts.length/2)]),new C.Cartesian3());
+    paths.push({pts,line,material,river,normal});
+  }
   function buildPaths(o){
-    paths=[];lines.removeAll();heads.removeAll();phase=0;
+    const key=[o.place.id,o.frame,o.depth,Boolean(o.field),Boolean(o.waterCandidates)].join(':');
+    if(key===pathKey)return;pathKey=key;paths=[];lines.removeAll();
     if(o.field){
       const f=o.field,b=o.place.bounds,rng=seeded(928+o.frame),west=Math.max(b[0],f.lon0),south=Math.max(b[1],f.lat0),east=Math.min(b[2],f.lon0+(f.shape[2]-1)*f.dlon),north=Math.min(b[3],f.lat0+(f.shape[1]-1)*f.dlat),global=o.place.id==='global';
-      for(let i=0;i<1400&&paths.length<(global?420:300);i++){
+      for(let i=0;i<1400&&paths.length<(global?300:220);i++){
         const lon=west+rng()*(east-west),lat=south+rng()*(north-south),raw=streamline(f,lon,lat,110,1800);if(raw.length<8)continue;
-        const pts=raw.map(p=>position(p,o.depth)),rgb=o.color(raw[Math.floor(raw.length/2)][2]),col=new C.Color(...rgb.map(v=>v/255),.23);
-        lines.add({positions:pts,width:1.1,material:C.Material.fromType('Color',{color:col})});
-        const head=heads.add({position:pts[0],pixelSize:3.4,color:new C.Color(...rgb.map(v=>Math.min(1,v/255+.22)),.96),outlineWidth:0,disableDepthTestDistance:Number.POSITIVE_INFINITY});
-        paths.push({pts,head,offset:rng()*pts.length});
+        const pts=raw.map(p=>position(p,o.depth)),rgb=o.color(raw[Math.floor(raw.length/2)][2]),col=new C.Color(...rgb.map(v=>Math.min(1,v/255+.12)),.68);
+        addTrail(pts,col,rng());
       }
     }else if(o.rivers&&o.waterCandidates){
       for(const reach of o.rivers.features){
-        if(!reach.properties.directed)continue;const raw=reach.geometry.coordinates,pts=[];
-        for(let i=1;i<raw.length;i++){const a=raw[i-1],b=raw[i],steps=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/.002));for(let j=0;j<steps;j++){const t=j/steps;pts.push([a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]);}}
-        const wet=pts.filter(p=>{const at=indexPixel(o.place.bounds,o.place.frames[o.frame].indexShape,...p);return at&&o.waterCandidates[at[1]*o.place.frames[o.frame].indexShape[1]+at[0]]===1;});
-        if(wet.length<3)continue;
-        const positions=pts.map(p=>C.Cartesian3.fromDegrees(...p,4));
-        lines.add({positions,width:.75,material:C.Material.fromType('Color',{color:C.Color.fromCssColorString('#92ead4').withAlpha(.12)})});
-        const head=heads.add({position:C.Cartesian3.fromDegrees(...wet[0],4),pixelSize:3,color:C.Color.fromCssColorString('#edf3bd'),disableDepthTestDistance:Number.POSITIVE_INFINITY});
-        paths.push({pts:wet.map(p=>C.Cartesian3.fromDegrees(...p,4)),head,offset:reach.properties.id%wet.length,river:true});
+        if(!reach.properties.directed)continue;
+        const wet=p=>{const at=indexPixel(o.place.bounds,o.place.frames[o.frame].indexShape,...p);return at&&o.waterCandidates[at[1]*o.place.frames[o.frame].indexShape[1]+at[0]]===1;};
+        for(const run of maskedRiverRuns(reach.geometry.coordinates,wet))addTrail(run.map(p=>C.Cartesian3.fromDegrees(...p,4)),C.Color.fromCssColorString('#b9e7d8').withAlpha(.52),(reach.properties.id%997)/997,true);
       }
     }
   }
   async function update(o){
-    const stamp=++epoch;current=null;lines.show=heads.show=false;
+    const stamp=++epoch;
+    if(current?.place.id!==o.place.id||current?.frame!==o.frame||current?.depth!==o.depth){current=null;lines.show=false;}
     const desired=await Promise.all(o.images.map(async (entry,i)=>({provider:provider(await load(entry.src),entry.bbox||o.place.bounds),split:o.compare&&i===1})));
     if(o.field&&o.layer==='currents'){const s=scalar(o.field,o.color);desired.push({provider:provider(s.canvas,s.b,false,o.place.source==='hycom'?'HYCOM depth-resolved model analysis':'NOAA Global Drifter Program climatology')});}
     if(stamp!==epoch)return;
     current=o;base.brightness=o.layer==='pca'?.44:.92;base.saturation=o.layer==='pca'?.32:.9;
     overlays.forEach(l=>viewer.imageryLayers.remove(l));overlays=desired.map(d=>{const l=viewer.imageryLayers.addImageryProvider(d.provider);l.splitDirection=d.split?C.SplitDirection.RIGHT:C.SplitDirection.NONE;return l;});
-    viewer.scene.splitPosition=o.swipe??.5;buildPaths(o);lines.show=heads.show=o.flow;viewer.scene.requestRender();
+    viewer.scene.splitPosition=o.swipe??.5;buildPaths(o);lines.show=o.flow;viewer.scene.requestRender();
   }
   function fit(place,{global=false,tilt=true,immediate=false}={}){
     viewer.camera.cancelFlight();
@@ -76,10 +83,15 @@ export async function mountWaterWorld(container,{onPick,onStatus=()=>{}}={}) {
   const observer=new ResizeObserver(()=>viewer.resize());observer.observe(container);
   function tick(t){const dt=Math.min(.1,(t-last)/1000||0);last=t;
     if(visible&&!document.hidden&&current){
-      lines.show=heads.show=current.flow;
-      if(current.playing){phase+=dt;const camera=C.Ellipsoid.WGS84.transformPositionToScaledSpace(viewer.camera.positionWC);for(const p of paths){const at=(phase*(p.river?3:12)+p.offset)%p.pts.length,i=Math.floor(at),f=at-i;p.head.position=C.Cartesian3.lerp(p.pts[i],p.pts[(i+1)%p.pts.length],f,new C.Cartesian3());const point=C.Cartesian3.normalize(C.Ellipsoid.WGS84.transformPositionToScaledSpace(p.head.position),new C.Cartesian3());p.head.show=C.Cartesian3.dot(camera,point)>1;}if(orbit&&viewer.camera.positionCartographic.height>800000)viewer.camera.rotate(C.Cartesian3.UNIT_Z,dt*.018);viewer.scene.requestRender();}
+      lines.show=current.flow;
+      if(current.playing)phase+=dt;
+      const camera=C.Ellipsoid.WGS84.transformPositionToScaledSpace(viewer.camera.positionWC);
+      for(const p of paths){p.line.show=C.Cartesian3.dot(camera,p.normal)>1;p.material.uniforms.clock=flowTiming(p.pts.length,phase,p.river ? .65 : CURRENT_SAMPLES_PER_SECOND).clock;}
+      const orbiting=current.playing&&orbit&&viewer.camera.positionCartographic.height>800000;
+      if(orbiting)viewer.camera.rotate(C.Cartesian3.UNIT_Z,dt*.018);
+      if(current.playing&&current.flow||orbiting)viewer.scene.requestRender();
     }
     if(!viewer.isDestroyed())requestAnimationFrame(tick);
   }requestAnimationFrame(tick);
-  return {viewer,update,fit,setVisible(v){visible=v;viewer.useDefaultRenderLoop=v;if(v){viewer.resize();viewer.scene.requestRender();}},setPlaying(v){if(current)current.playing=v;},setFlow(v){if(current)current.flow=v;},setSwipe(v){viewer.scene.splitPosition=v;viewer.scene.requestRender();},setOrbit(v){orbit=v;},zoom(factor){viewer.camera.zoomIn(viewer.camera.positionCartographic.height*factor);viewer.scene.requestRender();},getCamera(){const p=viewer.camera.positionCartographic;return{lon:C.Math.toDegrees(p.longitude),lat:C.Math.toDegrees(p.latitude),height:p.height,heading:viewer.camera.heading,pitch:viewer.camera.pitch};},setCamera(p){viewer.camera.cancelFlight();viewer.camera.setView({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:p.heading,pitch:p.pitch,roll:0}});viewer.scene.requestRender();},save(){viewer.render();return viewer.scene.canvas.toDataURL('image/png');},getDiagnostics(){return {paths:paths.length,depth:current?.depth,verticalScale:viewer.scene.verticalExaggeration,projection:'EPSG:3857 imagery; geographic velocity',overlays:overlays.length};},dispose(){observer.disconnect();input.destroy();viewer.destroy();}};
+  return {viewer,update,fit,setVisible(v){visible=v;viewer.useDefaultRenderLoop=v;if(v){viewer.resize();viewer.scene.requestRender();}},setPlaying(v){if(current)current.playing=v;viewer.scene.requestRender();},setFlow(v){if(current)current.flow=v;lines.show=v;viewer.scene.requestRender();},setSwipe(v){viewer.scene.splitPosition=v;viewer.scene.requestRender();},setOrbit(v){orbit=v;},zoom(factor){viewer.camera.zoomIn(viewer.camera.positionCartographic.height*factor);viewer.scene.requestRender();},getCamera(){const p=viewer.camera.positionCartographic;return{lon:C.Math.toDegrees(p.longitude),lat:C.Math.toDegrees(p.latitude),height:p.height,heading:viewer.camera.heading,pitch:viewer.camera.pitch};},setCamera(p){viewer.camera.cancelFlight();viewer.camera.setView({destination:C.Cartesian3.fromDegrees(p.lon,p.lat,p.height),orientation:{heading:p.heading,pitch:p.pitch,roll:0}});viewer.scene.requestRender();},save(){viewer.render();return viewer.scene.canvas.toDataURL('image/png');},getDiagnostics(){return {paths:paths.length,depth:current?.depth,verticalScale:viewer.scene.verticalExaggeration,projection:'EPSG:3857 imagery; geographic velocity',overlays:overlays.length,animation:'continuous fading trails',timeScale:CURRENT_TIME_SCALE,phase};},dispose(){observer.disconnect();input.destroy();viewer.destroy();}};
 }

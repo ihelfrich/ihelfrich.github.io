@@ -68,14 +68,18 @@ and [metadata issue](https://github.com/Element84/earth-search/issues/71).
 HydroRIVERS v1.0 subsets supply drainage reaches and NEXT_DOWN connections.
 Moving marks use explicitly checked direction and clear-scene water
 candidates (SCL class 6 or positive NDWI). Their display rate is illustrative;
-the long-term discharge field is the 1971–2000 WaterGAP estimate, not measured
+soft trails stop at every failed mask sample. Short isolated samples are omitted,
+and path endpoints fade rather than joining back to their starts. Palette
+changes preserve the animation clock. Globe trails use a continuous shader;
+the flat map interpolates fractional segments without drawing point beads.
+The long-term discharge field is the 1971–2000 WaterGAP estimate, not measured
 river velocity. The hydrography’s 15 arc-second source does not resolve every
 modern channel position. See [HydroRIVERS documentation](https://www.hydrosheds.org/products/hydrorivers)
 and [Sentinel scene classes](https://sentiwiki.copernicus.eu/web/s2-processing).
 
 Ocean streamlines use a selected instantaneous velocity snapshot with the
 existing strict wet-cell sampler and midpoint spherical metric. Motion is
-accelerated 21,600×. The source remains either HYCOM at its recorded depth and
+accelerated 3,600×. The source remains either HYCOM at its recorded depth and
 date, or NOAA GDP monthly drifter climatology at a 15 m drogue depth, sampled
 to a 1° display grid. Bilinear color interpolation does not increase source
 resolution. Streamlines are not observed parcel tracks or forecasts. The
