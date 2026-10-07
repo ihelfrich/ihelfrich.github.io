@@ -1,0 +1,28 @@
+// Camera positions are WGS84 land context, independent of ocean-model coverage.
+export const LANDSCAPE_PLACES = Object.freeze([
+  {id:'fayetteville', label:'Fayetteville, NC', group:'Rivers & Atlantic coast', longitude:-78.8784, latitude:35.0527, range:6500, heading:25, note:'Cape Fear River and downtown Fayetteville. This inland river city is upstream of Wilmington.'},
+  {id:'wilmington', label:'Wilmington, NC', group:'Rivers & Atlantic coast', longitude:-77.948, latitude:34.235, range:8500, heading:340, note:'The Cape Fear estuary at Wilmington.'},
+  {id:'hatteras', label:'Cape Hatteras, NC', group:'Rivers & Atlantic coast', longitude:-75.529, latitude:35.251, range:16000, heading:20, note:'The Outer Banks between Pamlico Sound and the Atlantic.'},
+  {id:'charleston', label:'Charleston, SC', group:'Rivers & Atlantic coast', longitude:-79.932, latitude:32.782, range:9000, heading:15, note:'Charleston Harbor and its tidal rivers.'},
+  {id:'savannah', label:'Savannah, GA', group:'Rivers & Atlantic coast', longitude:-81.091, latitude:32.082, range:7500, heading:30, note:'The Savannah River beside the historic city.'},
+  {id:'miami', label:'Miami, FL', group:'Rivers & Atlantic coast', longitude:-80.188, latitude:25.769, range:7000, heading:335, note:'Biscayne Bay and the Miami waterfront.'},
+  {id:'keys', label:'Key West, FL', group:'Rivers & Atlantic coast', longitude:-81.779, latitude:24.556, range:10000, heading:20, note:'The Florida Keys at the entrance to the Florida Straits.'},
+  {id:'bahamas', label:'Nassau, Bahamas', group:'Rivers & Atlantic coast', longitude:-77.35, latitude:25.07, range:14000, heading:15, note:'New Providence and the shallow banks of the Bahamas.'},
+  {id:'new-orleans', label:'New Orleans, LA', group:'River cities & deltas', longitude:-90.064, latitude:29.953, range:11000, heading:25, note:'A bend in the lower Mississippi beside central New Orleans.'},
+  {id:'st-louis', label:'St. Louis, MO', group:'River cities & deltas', longitude:-90.184, latitude:38.625, range:7000, heading:30, note:'The Mississippi River at the St. Louis riverfront.'},
+  {id:'rotterdam', label:'Rotterdam, Netherlands', group:'River cities & deltas', longitude:4.478, latitude:51.911, range:10000, heading:340, note:'The Nieuwe Maas through Rotterdam, within the Rhine–Meuse delta.'},
+  {id:'dhaka', label:'Dhaka, Bangladesh', group:'River cities & deltas', longitude:90.407, latitude:23.706, range:13000, heading:20, note:'The Buriganga River along southern Dhaka.'},
+  {id:'venice', label:'Venice, Italy', group:'River cities & deltas', longitude:12.336, latitude:45.434, range:9000, heading:320, note:'Venice and the lagoon separating the city from the Adriatic.'},
+  {id:'cape', label:'Cape Town, South Africa', group:'Ocean margins', longitude:18.424, latitude:-33.925, range:15000, heading:335, note:'Table Mountain above Cape Town and Table Bay.'},
+  {id:'peninsula', label:'Cape Peninsula, South Africa', group:'Ocean margins', longitude:18.4, latitude:-34.2, range:7500, heading:20, note:'The landscape surrounding the published Tessera representation window.'},
+  {id:'denmark', label:'Reykjavík, Iceland', group:'Ocean margins', longitude:-21.94, latitude:64.15, range:14000, heading:325, note:'Reykjavík and Faxaflói Bay on southwestern Iceland.'},
+  {id:'bergen', label:'Bergen, Norway', group:'Ocean margins', longitude:5.322, latitude:60.393, range:10000, heading:20, note:'Bergen harbor and the steep surrounding terrain.'},
+  {id:'lisbon', label:'Lisbon, Portugal', group:'Ocean margins', longitude:-9.136, latitude:38.709, range:10000, heading:330, note:'The Tagus estuary at Lisbon.'},
+  {id:'san-francisco', label:'San Francisco, CA', group:'Pacific & Indian Ocean', longitude:-122.418, latitude:37.797, range:12000, heading:330, note:'The northern San Francisco waterfront and bay.'},
+  {id:'seattle', label:'Seattle, WA', group:'Pacific & Indian Ocean', longitude:-122.345, latitude:47.608, range:11000, heading:25, note:'Elliott Bay and the Seattle waterfront.'},
+  {id:'singapore', label:'Singapore', group:'Pacific & Indian Ocean', longitude:103.858, latitude:1.285, range:10000, heading:25, note:'Marina Bay beside the Singapore Strait.'},
+  {id:'sydney', label:'Sydney, Australia', group:'Pacific & Indian Ocean', longitude:151.213, latitude:-33.857, range:10000, heading:320, note:'Sydney Harbour and its branching shoreline.'},
+  {id:'tokyo', label:'Tokyo Bay, Japan', group:'Pacific & Indian Ocean', longitude:139.775, latitude:35.632, range:16000, heading:340, note:'The developed waterfront of northern Tokyo Bay.'},
+  {id:'mumbai', label:'Mumbai, India', group:'Pacific & Indian Ocean', longitude:72.833, latitude:18.922, range:10000, heading:20, note:'Mumbai harbor at the southern end of the peninsula.'},
+]);
+export const COAST_PRESETS = Object.freeze(Object.fromEntries(LANDSCAPE_PLACES.map(place=>[place.id,place])));

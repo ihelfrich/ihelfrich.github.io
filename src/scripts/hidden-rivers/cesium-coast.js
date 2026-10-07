@@ -1,11 +1,10 @@
 import { createRealityPreferenceStore } from '../../lib/city-reality-preferences.mjs';
+import { COAST_PRESETS } from './places.mjs';
+export { COAST_PRESETS } from './places.mjs';
 
-// These are land-context camera targets, not samples from the current model.
-export const COAST_PRESETS = Object.freeze({
-  cape: { label: 'Cape Peninsula', longitude: 18.42, latitude: -34.08, range: 48000, heading: 335 },
-  bahamas: { label: 'Nassau · New Providence', longitude: -77.35, latitude: 25.07, range: 23000, heading: 15 },
-  denmark: { label: 'Reykjavík · Iceland', longitude: -21.94, latitude: 64.15, range: 29000, heading: 325 },
-});
+// Injected by the deployment environment. Browser asset access is necessarily
+// public; the credential is never stored in source control or exported data.
+const siteToken = import.meta.env.PUBLIC_CESIUM_ION_TOKEN?.trim();
 const COAST_CONNECTION_KEY = 'hidden-rivers-ion-connection-v1';
 
 function coastStore() {
@@ -18,6 +17,7 @@ function coastStore() {
   }) });
 }
 function savedConnection() {
+  if (siteToken) return {status:'saved', credentials:{token:siteToken}};
   const coast = coastStore().load();
   return coast.status === 'saved' ? coast : createRealityPreferenceStore().load();
 }
@@ -53,9 +53,8 @@ function safeFailure(layer, error) {
 }
 
 /**
- * Mounted on demand by the coastal-context button. A saved ion token stays in
- * this browser and in per-provider IonResource objects, never in global Ion
- * defaults, callbacks, page URLs, logs, downloaded data, or repository files.
+ * Mounted on demand. Use the deployed asset token, falling back to an optional
+ * browser connection. Credentials stay out of URLs, logs, and exported data.
  *
  * onLocation receives { longitude, latitude, height, source: 'cesium-terrain' }
  * for a click on the loaded terrain. It does not manufacture ocean observations.
@@ -69,7 +68,7 @@ export async function mountCesiumCoast(container, {
   let stage, form, formMessage, tokenInput, submitButton, remember;
   let pendingTarget = { ...(COAST_PRESETS[initialPreset] || COAST_PRESETS.cape) };
   let state = { state: 'awaiting-connection', terrain: 'unavailable', buildings: 'unavailable', imagery: 'unavailable', buildingTiles: 0 };
-  let connected = false;
+  let connected = false, activeToken;
   const removers = [];
   const reduced = () => globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
 
@@ -98,11 +97,13 @@ export async function mountCesiumCoast(container, {
       ? `${state.buildingTiles} building tile${state.buildingTiles === 1 ? '' : 's'} received`
       : state.buildings === 'connected' ? 'OSM buildings connected; zoom toward a settlement for geometry' : 'OSM buildings unavailable';
     const imagery = state.imagery === 'ready' ? 'aerial imagery connected' : 'coarse Natural Earth imagery';
-    return `${terrain} · ${buildings} · ${imagery}. Land context; ocean velocities remain in the model view.`;
+    return `${terrain} · ${buildings} · ${imagery}.`;
   }
   function flyTo(longitude, latitude, options = {}) {
     if (!Number.isFinite(longitude) || !Number.isFinite(latitude) || longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) return false;
     pendingTarget = { longitude, latitude, range: 15000, heading: 335, ...options };
+    container.dataset.longitude = String(longitude);
+    container.dataset.latitude = String(latitude);
     if (!viewer || !C || disposed) return true;
     const centre = C.Cartesian3.fromDegrees(longitude, latitude, Number.isFinite(options.height) ? options.height : 0);
     const range = Math.max(700, Math.min(1500000, Number(pendingTarget.range) || 15000));
@@ -145,6 +146,7 @@ export async function mountCesiumCoast(container, {
   function removeForm() { if (form) form.hidden = true; }
 
   async function connect(token, shouldRemember = false) {
+    activeToken = token;
     const attempt = ++epoch;
     destroyScene();
     publish('Connecting World Terrain, aerial imagery, and OSM buildings through Cesium ion…', {
@@ -281,6 +283,7 @@ export async function mountCesiumCoast(container, {
     flyToPreset(name) { const preset = COAST_PRESETS[name]; return preset ? flyTo(preset.longitude, preset.latitude, preset) : false; },
     resize() { if (viewer && !viewer.isDestroyed()) viewer.resize(); },
     getStatus() { return { ...state }; },
+    reconnect() { return activeToken ? connect(activeToken) : Promise.resolve(); },
     dispose,
   };
 }

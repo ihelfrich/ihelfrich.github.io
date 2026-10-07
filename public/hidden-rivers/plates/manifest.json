@@ -1,0 +1,90 @@
+{
+  "plates": [
+    {
+      "id": "agulhas-0-speed",
+      "title": "The Agulhas turn",
+      "caption": "Surface currents south of Africa",
+      "date": "2026-10-02T00:00:00Z",
+      "region": "agulhas",
+      "depth": 0,
+      "mode": "flow",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "agulhas_0.bin"
+      ]
+    },
+    {
+      "id": "bahamas-200-speed",
+      "title": "Through the Florida Straits",
+      "caption": "Horizontal currents at 200 metres",
+      "date": "2026-10-02T00:00:00Z",
+      "region": "bahamas",
+      "depth": 200,
+      "mode": "flow",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "bahamas_200.bin"
+      ]
+    },
+    {
+      "id": "denmark-1000-speed",
+      "title": "Below Denmark Strait",
+      "caption": "Horizontal currents at 1,000 metres",
+      "date": "2026-10-02T00:00:00Z",
+      "region": "denmark",
+      "depth": 1000,
+      "mode": "flow",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "denmark_1000.bin"
+      ]
+    },
+    {
+      "id": "agulhas-vorticity",
+      "title": "The sign of rotation",
+      "caption": "Counterclockwise and clockwise rotation in the Agulhas surface field",
+      "date": "2026-10-01T00:00:00Z",
+      "region": "agulhas",
+      "depth": 0,
+      "mode": "vorticity",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "diagnostics_agulhas_0_vorticity.bin"
+      ]
+    },
+    {
+      "id": "agulhas-ftle",
+      "title": "Where neighboring paths separate",
+      "caption": "Forward finite-time stretching \u00b7 48-hour integration",
+      "date": "2026-10-01T00:00:00Z",
+      "region": "agulhas",
+      "depth": 0,
+      "mode": "stretching",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "diagnostics_agulhas_0_ftle.bin"
+      ]
+    },
+    {
+      "id": "cape-tessera",
+      "title": "A reference in the Cape Peninsula",
+      "caption": "Full-vector Tessera similarity beside satellite context.",
+      "date": "2024",
+      "region": "cape",
+      "depth": null,
+      "mode": "tessera",
+      "width": 2800,
+      "height": 2000,
+      "sourceFiles": [
+        "../coastal/vectors.i8",
+        "../coastal/valid.u8"
+      ]
+    }
+  ],
+  "rendering": "render_plates.py; fixed quantitative scales, masked missing data; no invented measurements"
+}

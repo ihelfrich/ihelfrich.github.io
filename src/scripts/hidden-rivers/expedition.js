@@ -1,3 +1,4 @@
+import { initLandscapes } from './landscapes.js';
 import { createCinematicOcean } from './cinematic.js';
 import { velocityAt, pointSeries, seriesCSV, formatCoordinate } from './inspection.mjs';
 import { loadDiagnostic, diagnosticFrame, sampleDiagnostic } from './diagnostics.mjs';
@@ -24,11 +25,12 @@ function dailyLayer(layer){
 }
 
 export async function startExpedition(){
+ const landscape=initLandscapes();
  const el=id=>document.getElementById('ocean-'+id),canvas=el('canvas');if(!canvas)return;
  const query=new URLSearchParams(location.search),capture=query.has('capture'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
  if(capture)document.documentElement.classList.add('ocean-capture');
  const numeric=(name,fallback)=>{const v=Number(query.get(name));return query.has(name)&&Number.isFinite(v)?v:fallback;};
- const state={region:['agulhas','bahamas','denmark'].includes(query.get('region'))?query.get('region'):'agulhas',mode:Object.keys(MODE_COPY).includes(query.get('mode'))?query.get('mode'):'flow',depth:[0,200,1000].includes(numeric('depth',0))?numeric('depth',0):0,time:clamp(numeric('time',3*DAY),0,5*DAY),view:['oblique','3d'].includes(query.get('view'))?'oblique':'map',playing:!reduced.matches&&!query.has('time')&&!capture,selected:null,film:false};
+ const state={region:['agulhas','bahamas','denmark'].includes(query.get('region'))?query.get('region'):'agulhas',mode:Object.keys(MODE_COPY).includes(query.get('mode'))?query.get('mode'):'flow',depth:[0,200,500,1000,2000].includes(numeric('depth',1000))?numeric('depth',1000):1000,time:clamp(numeric('time',3*DAY),0,5*DAY),view:query.get('view')==='map'?'map':'oblique',playing:!reduced.matches&&!query.has('time')&&!capture,selected:null,film:false,speedScale:[.25,.5,1,2].includes(numeric('scale',.5))?numeric('scale',.5):.5};
  if(state.mode==='column')state.view='oblique';
  if(isDiagnostic(state.mode))state.time=Math.round(Math.min(state.time,state.mode==='stretching'?3*DAY:5*DAY)/DAY)*DAY;
  let region,layers=[],comparisonLayers=[],diagnostics,manifest,diagnosticManifest,renderer,loading=true,epoch=0,last=performance.now(),active=true,profileVersion=0,coastal,globe,coastalPosition={lon:18.4,lat:-34.2,height:900};
@@ -58,6 +60,7 @@ export async function startExpedition(){
   el('play').disabled=loading;el('play').textContent=state.playing?'Pause':state.time>=duration()?'Replay':'Play';el('play').setAttribute('aria-pressed',String(state.playing));el('view').textContent=state.view==='map'?'Oblique view':'North-up map';el('view').setAttribute('aria-pressed',String(state.view==='oblique'));
   const copy=MODE_COPY[state.mode];el('mode-kicker').textContent=copy.kicker;document.getElementById('analysis-title').textContent=copy.title;el('mode-description').textContent=copy.description;el('mode-limit').textContent=copy.limit;
   if(capture){document.querySelector('.stage-deck').textContent={flow:'Horizontal transport / fixed model-time paths',vorticity:'Signed rotation / instantaneous model field',stretching:'Forward stretching / complete 48-hour windows',column:'Depth comparison / daily inputs'}[state.mode];}
+  el('depth-readout').innerHTML=state.mode==='column'?'ALL <small>LAYERS</small>':`${state.depth.toLocaleString()} <small>m</small>`;el('depth-context').textContent=state.mode==='column'?'Aligned horizontal velocities':state.depth===0?'Modeled surface circulation':state.depth>=1000?'Horizontal flow in the ocean interior':'Subsurface horizontal circulation';el('speed-scale').value=String(state.speedScale);
   updateClock(true);updateLegend();
  }
  async function regionData(id){
@@ -71,8 +74,8 @@ export async function startExpedition(){
   })().catch(e=>{regionCache.delete(id);throw e;});regionCache.set(id,promise);return promise;
  }
  async function loadRegion(id){const version=++epoch;loading=true;loadingState('Reading velocity, relief, and deformation fields');updateControls();
-  try{const data=await regionData(id);if(version!==epoch)return;state.region=id;region=data.r;layers=data.raw;comparisonLayers=layers.map(dailyLayer);diagnostics=data.derived;if(!layers.some(l=>l.depth===state.depth))state.depth=layers[0].depth;
-   renderer.setDepth(state.depth);renderer.setTime(state.time);renderer.setView(state.view);renderer.setMode(state.mode);
+  try{const data=await regionData(id);if(version!==epoch)return;state.region=id;region=data.r;layers=data.raw;comparisonLayers=layers.map(dailyLayer);diagnostics=data.derived;if(!layers.some(l=>l.depth===state.depth)){state.depth=layers[0].depth;state.speedScale=state.depth>=500?.5:2;}
+   renderer.setSpeedScale(state.speedScale);renderer.setDepth(state.depth);renderer.setTime(state.time);renderer.setView(state.view);renderer.setMode(state.mode);
    await renderer.loadRegion(region,layers,data.terrain,diagnostics);if(version!==epoch)return;
    loading=false;status.classList.add('ready');el('region-title').textContent=region.title;el('bounds').textContent=BOUNDS_TEXT[id];
    const sampleCount=layers.reduce((sum,l)=>sum+l.shape[0]*l.shape[1]*l.shape[2],0);el('evidence').textContent=`${layers.length} depth ${layers.length===1?'plane':'planes'} · ${layers[0].dates.length} ${layers[0].dates.length===41?'surface ':''}snapshots · 120 ocean hours`;
@@ -82,8 +85,8 @@ export async function startExpedition(){
  }
  async function setScene(change={}){
   const oldMode=state.mode;if(change.region&&change.region!==state.region){state.region=change.region;await loadRegion(state.region);}
-  if(change.mode&&MODE_COPY[change.mode])state.mode=change.mode;
-  if(change.depth!==undefined&&change.depth!=='all'&&layers.some(l=>l.depth===Number(change.depth)))state.depth=Number(change.depth);
+  if(change.mode&&MODE_COPY[change.mode]){state.mode=change.mode;if(change.mode==='column'){state.speedScale=2;renderer.setSpeedScale(2);}}
+  if(change.depth!==undefined&&change.depth!=='all'&&layers.some(l=>l.depth===Number(change.depth))){state.depth=Number(change.depth);state.speedScale=state.depth>=500?.5:2;renderer.setSpeedScale(state.speedScale);}
   if(change.view)state.view=change.view==='map'?'map':'oblique';
   if(state.mode==='column')state.view='oblique';
   if(change.time!==undefined)state.time=clamp(Number(change.time)||0,0,duration());else state.time=Math.min(state.time,duration());
@@ -115,13 +118,13 @@ export async function startExpedition(){
   const unit=svg('text',{x:left,y:12});unit.textContent='Speed · m/s';chart.appendChild(unit);
   for(const [d,label] of [[0,'29 Sep'],[2,'1 Oct'],[5,'4 Oct']]){const t=svg('text',{x:left+d/5*(width-left-right),y:height-6,'text-anchor':d===0?'start':d===5?'end':'middle'});t.textContent=label;chart.appendChild(t);}
   for(const layer of effectiveLayers()){const values=rows.filter(r=>r.depth===layer.depth);let d='',connected=false;values.forEach(r=>{if(r.speed===null){connected=false;return;}d+=`${connected?'L':'M'}${x(r.date)},${y(r.speed)} `;connected=true;if(values.length<=12){const dot=svg('circle',{cx:x(r.date),cy:y(r.speed),r:2.5,class:`profile-depth-${layer.depth}`});const tip=svg('title');tip.textContent=`${r.date}: ${r.speed.toFixed(3)} m/s at ${layer.depth} m`;dot.appendChild(tip);chart.appendChild(dot);}});chart.appendChild(svg('path',{d,class:`profile-line profile-depth-${layer.depth}`}));}
-  el('profile-legend').replaceChildren(...effectiveLayers().map(l=>{const span=document.createElement('span');span.className=`profile-depth-${l.depth}`;span.textContent=(l.depth===0?'● Surface':l.depth===200?'– – 200 m':'··· 1,000 m')+` / ${(l.timeStepSeconds||DAY)/3600}h`;return span;}));
+  el('profile-legend').replaceChildren(...effectiveLayers().map(l=>{const span=document.createElement('span');span.className=`profile-depth-${l.depth}`;span.textContent=(l.depth===0?'Surface':`${l.depth.toLocaleString()} m`)+` / ${(l.timeStepSeconds||DAY)/3600}h`;return span;}));
  }
  function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
  async function saveImage(){if(loading)return;const data=renderer.snapshot(),img=new Image();img.src=data;await img.decode();const output=document.createElement('canvas');output.width=Math.max(1600,img.width);const h=Math.round(img.height*output.width/img.width);output.height=h+140;const ctx=output.getContext('2d');ctx.fillStyle='#050e16';ctx.fillRect(0,0,output.width,output.height);ctx.drawImage(img,0,0,output.width,h);ctx.fillStyle='#edf1ec';ctx.font='26px sans-serif';ctx.fillText(`Hidden Rivers / ${region.title}`,28,h+37);ctx.font='18px sans-serif';ctx.fillText(`${dateText()} · ${state.mode} · ${state.mode==='column'?'all available depths':state.depth+' m'} · ${state.view}`,28,h+68);ctx.fillText('HYCOM / ESPC · NOAA ETOPO1 · Context imagery © Esri, Maxar, Earthstar Geographics',28,h+97);const legend=renderer.getLegend(),x=output.width-320,g=ctx.createLinearGradient(x,0,x+270,0);legend.colors.forEach((color,i)=>g.addColorStop(i/(legend.colors.length-1),color));ctx.fillStyle=g;ctx.fillRect(x,h+25,270,8);ctx.fillStyle='#edf1ec';ctx.font='15px sans-serif';ctx.fillText(`${roundLabel(legend.min)} to ${roundLabel(legend.max)} ${legend.units}`,x,h+60);output.toBlob(blob=>{if(blob)download(blob,`hidden-rivers-${state.region}-${state.mode}.png`);});}
- async function share(){if(loading)return;state.playing=false;renderer.setPlaying(false);const q=new URLSearchParams({region:state.region,mode:state.mode,depth:String(state.depth),time:String(Math.round(state.time)),view:state.view});if(state.selected){q.set('lon',state.selected.lon.toFixed(5));q.set('lat',state.selected.lat.toFixed(5));}const url=new URL(location.href);url.search=q.toString();url.hash='explorer';history.replaceState(null,'',url);try{await navigator.clipboard.writeText(url.href);message('View link copied.');}catch{message('The address bar now contains this view.');}updateControls();}
- async function openCoast(){const button=el('open-coast');button.disabled=true;document.getElementById('coast-globe-status').textContent='Opening the saved Cesium connection…';try{const {mountCesiumCoast}=await import('./cesium-coast.js');if(!globe)globe=await mountCesiumCoast(document.getElementById('coastal-globe'),{statusElement:document.getElementById('coast-globe-status'),initialPreset:'cape'});globe.flyTo(coastalPosition.lon,coastalPosition.lat,{range:4500,heading:20,height:0});button.textContent='Return to selected location ↗';}catch(e){document.getElementById('coast-globe-status').textContent=`The 3D coast could not be opened: ${e.message}`;}finally{button.disabled=false;}}
- async function loadCoastal(){if(coastal)return;const {createCoastalExplorer}=await import('./coastal.js');coastal=createCoastalExplorer(document.getElementById('coastal-microscope'),{onLocation:point=>{coastalPosition=point;if(globe)globe.flyTo(point.lon,point.lat,{range:2500,heading:20,height:0});}});await coastal.load();}
+ async function share(){if(loading)return;state.playing=false;renderer.setPlaying(false);const q=new URLSearchParams({region:state.region,mode:state.mode,depth:String(state.depth),time:String(Math.round(state.time)),view:state.view,scale:String(state.speedScale)});if(state.selected){q.set('lon',state.selected.lon.toFixed(5));q.set('lat',state.selected.lat.toFixed(5));}const url=new URL(location.href);url.search=q.toString();url.hash='explorer';history.replaceState(null,'',url);try{await navigator.clipboard.writeText(url.href);message('View link copied.');}catch{message('The address bar now contains this view.');}updateControls();}
+ async function openCoast(){return landscape?.open();}
+ async function loadCoastal(){if(coastal)return;const {createCoastalExplorer}=await import('./coastal.js');coastal=createCoastalExplorer(document.getElementById('coastal-microscope'),{onLocation:point=>{coastalPosition=point;landscape?.setTesseraPosition(point);}});await coastal.load();}
  try{renderer=createCinematicOcean(canvas,{reducedMotion:reduced.matches,onPick:inspect,onProgress:p=>{if(loading)loadingState(`Integrating ${p.depth===0?'surface':p.depth+' m'} trajectories · ${p.paths.toLocaleString()} paths`);},onStats:stats=>{el('path-info').textContent=state.mode==='stretching'?`Forward window: ${dateText()} → ${dateText(state.time+2*DAY)}${stats.view==='oblique'?' · vertical ×'+stats.exaggeration:''}`:`${(stats.particles||0).toLocaleString()} seeded paths · ${Math.round(stats.historyHours||0)} h visible history${state.mode==='column'?' · daily inputs':''}${stats.view==='oblique'?' · vertical ×'+stats.exaggeration:''}`;el('camera-note').textContent=stats.view==='map'?'Drag to pan · Scroll to zoom · Click to inspect':'Drag to orbit · Scroll to zoom · Click to inspect';if(!loading)updateLegend();},onFilmEnd:()=>{state.film=false;el('film-camera').textContent='Slow camera orbit';}});}catch(e){
   document.getElementById('explorer').classList.add('ocean-static');
   document.getElementById('ocean-analysis').classList.add('analysis-static');
@@ -136,13 +139,16 @@ export async function startExpedition(){
   new IntersectionObserver(entries=>{active=entries[0].isIntersecting;last=performance.now();}).observe(canvas);
   function tick(now){const elapsed=Math.min((now-last)/1000,.1);last=now;if(state.playing&&!loading&&active&&!document.hidden){
    if(isDiagnostic(state.mode)){lastDiagnosticStep+=elapsed;if(lastDiagnosticStep>=3){lastDiagnosticStep=0;state.time+=DAY;}}
-   else state.time+=elapsed*21600;
-   if(state.time>=duration()){state.time=duration();state.playing=false;updateControls();}
+   else state.time+=elapsed*7200;
+   if(state.time>=duration()){state.time=0;updateControls();}
    renderer.setTime(state.time);updateClock();updateInspection();
   }requestAnimationFrame(tick);}requestAnimationFrame(tick);
   document.querySelectorAll('[data-region]').forEach(button=>button.onclick=async()=>{state.playing=false;await loadRegion(button.dataset.region);});
   document.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>setScene({mode:button.dataset.mode}));
   el('play').onclick=()=>{if(loading)return;if(state.time>=duration())setTime(0);state.playing=!state.playing;renderer.setPlaying(state.playing);updateControls();};
+  el('speed-scale').onchange=()=>{state.speedScale=Number(el('speed-scale').value);renderer.setSpeedScale(state.speedScale);updateLegend();};
+  el('immersive').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.getElementById('explorer').requestFullscreen();}catch{message('Full screen is unavailable in this browser.');}};
+  el('surface').onchange=()=>renderer.setSurfaceVisible(el('surface').checked);
   el('time').oninput=()=>{state.playing=false;setTime(Number(el('time').value));renderer.setPlaying(false);updateControls();};
   el('view').onclick=()=>setScene({view:state.view==='map'?'oblique':'map',mode:state.mode==='column'?'flow':state.mode});el('reset').onclick=()=>renderer.resetView();el('image').onclick=saveImage;el('share').onclick=share;
   el('film-camera').onclick=()=>{state.film=!state.film;if(state.film){state.view='oblique';renderer.setView('oblique');}renderer.setFilm(state.film);el('film-camera').textContent=state.film?'Stop camera orbit':'Slow camera orbit';updateControls();};
@@ -151,6 +157,6 @@ export async function startExpedition(){
   reduced.addEventListener('change',()=>{if(reduced.matches){state.playing=false;state.film=false;renderer.setPlaying(false);renderer.setFilm(false);updateControls();}});
   try{[manifest,diagnosticManifest]=await Promise.all([getJSON(BASE+'manifest.json'),getJSON(BASE+'diagnostics.json')]);await loadRegion(state.region);if(query.has('lon')&&query.has('lat'))inspect(numeric('lon',NaN),numeric('lat',NaN));}catch(e){loadingState('The bundled datasets could not be loaded. Please use the film or try again.');message(e.message);console.error(e);}
  }
- el('open-coast').onclick=openCoast;
+
  const coastObserver=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){coastObserver.disconnect();loadCoastal().catch(e=>{document.getElementById('coastal-microscope').textContent=`The coastal representation could not be loaded: ${e.message}`;});}},{rootMargin:'500px'});coastObserver.observe(document.getElementById('coastal-microscope'));
 }

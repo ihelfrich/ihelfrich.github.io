@@ -38,7 +38,7 @@ Do not infer its cadence from the animation frame rate. The release spans
 five region/depth combinations: Agulhas at 0, 200, and 1,000 m; Florida/Bahamas
 at 200 m; Denmark Strait/Irminger Sea at 1,000 m.
 
-Agulhas surface contains **41 three-hour analyses**. The other four layers
+Agulhas surface contains **41 three-hour analyses**. The other six layers
 contain **six daily analyses**. The depth-comparison view uses daily subsamples
 of the surface series to align input cadence across depths. Its surface paths
 can consequently differ from the full three-hour surface animation. Sampling
@@ -253,3 +253,45 @@ No ADCP, drifter, Argo, or CTD validation is bundled. No navigation, ecological,
 acoustic-propagation, or causal conclusion is established by this animation.
 Provider terms apply to source data and imagery; the site's existing license
 applies to original code and prose.
+
+## Ocean-first edition, October 2026
+
+The default camera looks into the Agulhas field at 1,000 m. Select surface,
+200, 500, 1,000, or 2,000 m, or compare the five layers in the water-column
+view. The two new depths use the same HYCOM experiment, date interval and
+spatial stride. Each has six daily snapshots, paired component provenance,
+strict missing-data masks, and the same numerical diagnostic sensitivity checks.
+
+Depth and submerged NOAA relief are exaggerated 180 times for display. Land
+is a flat geographic reference. This is not a reconstructed three-dimensional
+velocity field: tracers remain at their chosen depth. The selected speed scale
+is shared by every visible layer, printed in the legend, retained in shared
+links, and included in map exports. Continuous playback repeats the stated
+five-day window; it does not extrapolate the model.
+
+Reproduce the additional layers, with Python managed by uv:
+
+```sh
+uv run --no-project --with numpy --with netCDF4 python scripts/hidden-rivers/add_deep_layers.py
+uv run --no-project --with numpy python scripts/hidden-rivers/diagnostics.py --data /tmp/hidden-rivers-deep-layers
+uv run --no-project --with numpy python scripts/hidden-rivers/publish_deep_layers.py
+```
+
+`render_plates.py` creates six independent quantitative maps from the released
+arrays. Run using uv with numpy, scipy, matplotlib, cartopy, cmocean and pillow.
+Full PNGs are 2,800 × 2,000; lighter WebP previews load lazily in the map room.
+Cartopy obtains the public-domain Natural Earth 50 m coastline and land files.
+The speed maps use a fixed 0–2 m/s thermal scale; signed vorticity uses a
+zero-centered diverging scale. All plates identify dates, units and projections.
+
+### Cesium deployment
+
+The GitHub Actions secret `CESIUM_ION_TOKEN` is supplied to the build as
+`PUBLIC_CESIUM_ION_TOKEN`. It is a browser asset-access credential, necessarily
+present in the deployed client; it is never committed to source, printed in
+logs, inserted in share links, or included in downloads. Use a production ion
+token limited to the intended public assets and site URLs. Local development
+loads the ignored `.env.local` equivalent. No visitor token entry is needed
+when the deployment credential is present. Optional private-browser connection
+fallback remains available if an operator builds without a deployment token.
+The 24 landscape destinations do not expand HYCOM or Tessera data coverage.

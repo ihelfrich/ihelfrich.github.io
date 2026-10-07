@@ -47,6 +47,7 @@ const lineFragment = `
   uniform float history;
   uniform float opacity;
   uniform float neutral;
+  uniform float speedMax;
   uniform vec3 color0;
   uniform vec3 color1;
   uniform vec3 color2;
@@ -55,7 +56,7 @@ const lineFragment = `
   varying float vTime;
   varying float vSpeed;
   vec3 ramp(float x) {
-    float s = clamp(x / 2.0, 0.0, 1.0) * 4.0;
+    float s = clamp(x / speedMax, 0.0, 1.0) * 4.0;
     if (s < 1.0) return mix(color0, color1, s);
     if (s < 2.0) return mix(color1, color2, s - 1.0);
     if (s < 3.0) return mix(color2, color3, s - 2.0);
@@ -115,7 +116,7 @@ export function createCinematicOcean(container, options = {}) {
   let region = null, layers = [], diagnostics = null, terrain = null, surface = null, selectedMarker = null;
   let dailyLayers = new Map(), pendingTracks = new Map(), tracksInProgress = 0;
   let tracks = [], fields = [], time = 3 * DAY, depth = 0, mode = 'flow', view = 'oblique';
-  let vertical = 60, film = false, filmStarted = 0, playing = false, disposed = false, manualRendering = false, epoch = 0;
+  let vertical = 180, speedMax = 2, surfaceVisible = false, film = false, filmStarted = 0, playing = false, disposed = false, manualRendering = false, epoch = 0;
   let lastField = -1, lastStats = 0, inViewport = true, raf = 0, ready = false;
   let fitDistance = 14, baseTarget = new THREE.Vector3(), selected = null;
   const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2(), temp = new THREE.Vector3();
@@ -148,7 +149,10 @@ export function createCinematicOcean(container, options = {}) {
     const geometry = new THREE.PlaneGeometry(1, 1, nx - 1, ny - 1), pos = geometry.attributes.position.array, colors = new Float32Array(nx * ny * 3);
     const c = new THREE.Color(), deep = new THREE.Color(0x0a1825), shallow = new THREE.Color(0x264b56), land = new THREE.Color(0x374446);
     for (let y = 0; y < ny; y++) for (let x = 0; x < nx; x++) {
-      const i = y * nx + x, p = world(t.lon0 + x * t.dlon, t.lat0 + y * t.dlat, z[i]); pos.set([p.x, p.y, p.z], i * 3);
+      // Land is a flat cartographic reference; only submerged relief is raised
+      // by the stated display exaggeration. This keeps mountains from hiding
+      // the current system that this view is designed to inspect.
+      const i = y * nx + x, p = world(t.lon0 + x * t.dlon, t.lat0 + y * t.dlat, Math.min(0,z[i])); pos.set([p.x, p.y, p.z], i * 3);
       if (z[i] >= 0) c.copy(land).lerp(new THREE.Color(0x617473), clamp(z[i] / 3000, 0, 1));
       else c.copy(deep).lerp(shallow, Math.pow(clamp(1 + z[i] / 6500, 0, 1), 1.8));
       colors.set([c.r, c.g, c.b], i * 3);
@@ -204,7 +208,7 @@ export function createCinematicOcean(container, options = {}) {
       if (candidates % 70 === 0) { options.onProgress?.({ depth: layer.depth, paths: paths.length, target: desired }); await nextPaint(); if (version !== epoch || disposed) return; }
     }
     const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setAttribute('modelTime', new THREE.Float32BufferAttribute(times, 1)); geometry.setAttribute('speed', new THREE.Float32BufferAttribute(speeds, 1));
-    const uniforms = { now: { value: time }, history: { value: HISTORY }, opacity: { value: .87 }, neutral: { value: 0 }, exaggeration: { value: displayVertical() }, ...colorUniforms() };
+    const uniforms = { now: { value: time }, history: { value: HISTORY }, speedMax: {value:speedMax}, opacity: { value: .87 }, neutral: { value: 0 }, exaggeration: { value: displayVertical() }, ...colorUniforms() };
     const lines = new THREE.LineSegments(geometry, new THREE.ShaderMaterial({ uniforms, vertexShader: lineVertex, fragmentShader: lineFragment, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: true })); lines.frustumCulled = false; lines.renderOrder = 3; group.add(lines);
     const hp = new Float32Array(paths.length * 3), hc = new Float32Array(paths.length * 3), hg = new THREE.BufferGeometry(); hg.setAttribute('position', new THREE.BufferAttribute(hp, 3).setUsage(THREE.DynamicDrawUsage)); hg.setAttribute('color', new THREE.BufferAttribute(hc, 3).setUsage(THREE.DynamicDrawUsage));
     const heads = new THREE.Points(hg, new THREE.ShaderMaterial({ uniforms: { exaggeration: { value: displayVertical() }, opacity: { value: .85 }, ratio: { value: renderer.getPixelRatio() } }, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexShader: `uniform float exaggeration; uniform float ratio; varying vec3 vColor; void main(){ vec3 p=position; p.y=p.y*exaggeration+0.026; vColor=color; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);gl_PointSize=3.2*ratio;}`, fragmentShader: `uniform float opacity; varying vec3 vColor; void main(){float r=length(gl_PointCoord-0.5)*2.0;if(r>1.0)discard;gl_FragColor=vec4(vColor*1.4,pow(1.0-r,1.2)*opacity);}` }));
@@ -266,7 +270,7 @@ export function createCinematicOcean(container, options = {}) {
         const source = mode === 'column' ? dailyLayers.get(f.layer.depth) || f.layer : f.layer;
         const velocity = sampleVelocity(source, x + .5, y + .5, time); if (!velocity) continue;
         let value;
-        if (key === 'speed') value = Math.hypot(...velocity) / 2;
+        if (key === 'speed') value = Math.hypot(...velocity) / speedMax;
         else {
           const v = diagnosticValue(diagnostic, f.layer.lon0 + (x + .5) * f.layer.dlon, f.layer.lat0 + (y + .5) * f.layer.dlat, time, mode === 'stretching');
           if (!Number.isFinite(v)) continue;
@@ -290,7 +294,7 @@ export function createCinematicOcean(container, options = {}) {
         const k = Math.min(n - 2, Math.floor(at)), a = at - k;
         for (let d = 0; d < 3; d++) t.hp[j * 3 + d] = samples[k * 4 + d] * (1 - a) + samples[(k + 1) * 4 + d] * a;
         const speed = samples[k * 4 + 3] * (1 - a) + samples[(k + 1) * 4 + 3] * a;
-        if (mode === 'vorticity' || mode === 'stretching') c.setRGB(.62, .72, .75); else mixColor(speedPalette, speed / 2, c);
+        if (mode === 'vorticity' || mode === 'stretching') c.setRGB(.62, .72, .75); else mixColor(speedPalette, speed / speedMax, c);
         t.hc.set([c.r, c.g, c.b], j * 3);
       }
       t.heads.geometry.attributes.position.needsUpdate = true; t.heads.geometry.attributes.color.needsUpdate = true;
@@ -300,12 +304,12 @@ export function createCinematicOcean(container, options = {}) {
     const diagnosticMode = mode === 'vorticity' || mode === 'stretching';
     // Bloom follows luminous trajectories. Broad diagnostic rasters retain
     // contrast rather than turning every high-value cell into a glowing blur.
-    bloom.strength = diagnosticMode ? .10 : mobile ? .4 : .62;
+    bloom.strength = diagnosticMode ? .10 : mode === 'column' ? .22 : mobile ? .4 : .62;
     bloom.threshold = diagnosticMode ? .92 : .48;
-    for (const t of tracks) { t.lines.visible = activeTrack(t); t.heads.visible = t.lines.visible; t.lines.material.uniforms.neutral.value = diagnosticMode ? 1 : 0; t.lines.material.uniforms.opacity.value = diagnosticMode ? .42 : mode === 'column' ? .72 : .92; t.heads.material.uniforms.opacity.value = diagnosticMode ? .55 : .95; }
+    for (const t of tracks) { t.lines.visible = activeTrack(t); t.heads.visible = t.lines.visible; t.lines.material.uniforms.neutral.value = diagnosticMode ? 1 : 0; t.lines.material.uniforms.opacity.value = diagnosticMode ? .42 : mode === 'column' ? .40 : .92; t.heads.material.uniforms.opacity.value = diagnosticMode ? .55 : mode === 'column' ? .50 : .95; }
     for (const f of fields) { f.mesh.visible = active(f.layer); f.mesh.material.opacity = diagnosticMode ? .72 : mode === 'column' ? .07 : .13; }
     group.traverse(o => { if (o.userData.frame) o.visible = active({ depth: o.userData.depth }) && view !== 'map'; });
-    if (surface) surface.material.opacity = mode === 'vorticity' || mode === 'stretching' ? .12 : .19;
+    if (surface) {surface.visible=surfaceVisible || view==='map';surface.material.opacity = view==='map' ? .19 : .07;}
     updateFields(true); updateHeads(); updateMarker();
   }
   function applyVertical() {
@@ -318,12 +322,12 @@ export function createCinematicOcean(container, options = {}) {
     if (!region) return;
     const b = region.bounds, sw = world(b[0], b[1]), ne = world(b[2], b[3]), width = ne.x - sw.x, height = sw.z - ne.z;
     fitDistance = Math.max(height, width / camera.aspect) / (2 * Math.tan(camera.fov * Math.PI / 360));
-    baseTarget.set(0, view === 'map' ? 0 : -.42, 0); controls.target.copy(baseTarget);
+    baseTarget.set(0, view === 'map' ? 0 : mode === 'column' ? -.9 : -.42, 0); controls.target.copy(baseTarget);
     // The phone opening view favors the central current system; users can pan
     // across its geographic extent. Explicit Reset always fits the full region.
     const openingZoom = mobile && initial ? 1.45 : 1;
     if (view === 'map') camera.position.set(0, fitDistance * 1.12 / openingZoom, .001);
-    else camera.position.copy(new THREE.Vector3(.08, 1.04, 1).normalize().multiplyScalar(fitDistance * 1.27 / openingZoom)).add(baseTarget);
+    else camera.position.copy(new THREE.Vector3(mode === 'column' ? .22 : .08, mode === 'column' ? .60 : 1.04, 1).normalize().multiplyScalar(fitDistance * 1.27 / openingZoom)).add(baseTarget);
     camera.up.set(0, 1, 0); controls.enableRotate = view !== 'map'; camera.lookAt(baseTarget); controls.update();
   }
   function updateMarker() {
@@ -338,7 +342,7 @@ export function createCinematicOcean(container, options = {}) {
     const layer = layers.find(active) || layers[0];
     if (mode === 'vorticity') { const domain = diagnosticFor(layer, 'vorticity')?.displayDomain || [-.00002, .00002]; return { title: 'Vertical relative vorticity', units: '10⁻⁵ s⁻¹', min: domain[0] * 1e5, max: domain[1] * 1e5, colors: COLORS.vorticity, clipped: true, note: 'Negative: clockwise. Positive: counterclockwise.' }; }
     if (mode === 'stretching') { const domain = diagnosticFor(layer, 'ftle')?.displayDomain || [0, .9]; return { title: '48-hour forward stretching (FTLE)', units: 'day⁻¹', min: domain[0], max: domain[1], colors: COLORS.stretching, clipped: true, note: 'Daily start date; full 48-hour trajectories. The final available start is 2 October.' }; }
-    return { title: 'Horizontal speed', units: 'm s⁻¹', min: 0, max: 2, colors: COLORS.speed, clipped: true, note: 'Color encodes speed. Seed density does not measure volume transport.' };
+    return { title: 'Horizontal speed', units: 'm s⁻¹', min: 0, max: speedMax, colors: COLORS.speed, clipped: true, note: 'Color encodes speed. Seed density does not measure volume transport.' };
   }
   function emitStats(force = false) {
     const now = performance.now(); if (!force && now - lastStats < 300) return; lastStats = now;
@@ -396,12 +400,14 @@ export function createCinematicOcean(container, options = {}) {
       // Only the requested depth is integrated. Other depths are built on demand
       // and kept in memory, so the first scene does not wait for an entire stack.
       await ensureTracks(); if (version !== epoch || disposed) return;
-      ready = true; emitStats(true);
+      ready = true; drawFrame(); emitStats(true);
     },
     setTime(seconds) { if (!Number.isFinite(seconds)) return; time = clamp(seconds, 0, layerDuration(layers[0])); updateHeads(); updateFields(); emitStats(); },
     setDepth(value) { depth = value === 'all' ? 'all' : Number(value); visibility(); emitStats(true); void ensureTracks().catch(e => options.onError?.(e)); },
     setMode(value) { if (!['flow', 'vorticity', 'stretching', 'column'].includes(value)) return; mode = value; if (mode === 'column') { view = 'oblique'; applyVertical(); resetView(); } visibility(); emitStats(true); void ensureTracks().catch(e => options.onError?.(e)); },
     setPalette() { /* Semantic scales are fixed across regions and depths. */ },
+    setSpeedScale(value) {if(!Number.isFinite(value)||value<=0)return;speedMax=value;for(const t of tracks)t.lines.material.uniforms.speedMax.value=value;updateFields(true);updateHeads();emitStats(true);},
+    setSurfaceVisible(value) {surfaceVisible=Boolean(value);visibility();},
     setView(value) { const next = value === 'map' ? 'map' : 'oblique', changed = next !== view; view = next; if (view === 'map' && (depth === 'all' || mode === 'column')) { depth = layers[0]?.depth ?? 0; mode = 'flow'; } applyVertical(); visibility(); if (changed) resetView(); emitStats(true); },
     setPlaying(value) { playing = Boolean(value); return playing; },
     setFilm(value) { film = Boolean(value) && !reduced; filmStarted = performance.now(); if (film) { view = 'oblique'; applyVertical(); resetView(); } },
