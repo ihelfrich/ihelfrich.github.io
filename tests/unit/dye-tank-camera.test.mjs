@@ -4,6 +4,29 @@ import { createTankCamera } from '../../src/scripts/hidden-rivers/tank-camera.mj
 
 const tank = { width: 0.24, height: 0.18, depth: 0.18 };
 
+test('section camera keeps physical x right and physical y down at each selected plane', () => {
+  const camera = createTankCamera(tank);
+  camera.section();
+  const frame = camera.getFrame(4 / 3);
+  assert.ok(Math.abs(frame.forward[0]) < 1e-12);
+  assert.ok(Math.abs(frame.forward[1]) < 1e-12);
+  assert.ok(frame.forward[2] < -0.999999);
+  const rect = { left: 13, top: 21, width: 720, height: 540 };
+  for (const fraction of [0.2, 0.5, 0.8]) {
+    const center = { x: .12, y: .09, z: fraction * tank.depth };
+    const c = camera.projectToPixel(center, rect);
+    const right = camera.projectToPixel({ ...center, x: .16 }, rect);
+    const down = camera.projectToPixel({ ...center, y: .13 }, rect);
+    assert.ok(right.x > c.x);
+    assert.ok(down.y > c.y);
+    const picked = camera.pick(right.x, right.y, rect, fraction);
+    assert.ok(picked);
+    assert.ok(Math.abs(picked.x - .16) < 1e-10);
+    assert.ok(Math.abs(picked.y - .09) < 1e-10);
+    assert.ok(Math.abs(picked.z - center.z) < 1e-10);
+  }
+});
+
 test('home camera is oblique and maps tank center to screen center', () => {
   const camera = createTankCamera(tank);
   const home = camera.getCamera();

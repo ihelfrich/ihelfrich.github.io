@@ -36,6 +36,7 @@ export function createTankCamera({width,height,depth}){
   };
   return {
     home(){azimuth=homePose.azimuth;elevation=homePose.elevation;distance=homePose.distance;},
+    section(){azimuth=Math.PI/2;elevation=0;distance=1.45;},
     orbit(dx,dy){if(!Number.isFinite(dx)||!Number.isFinite(dy))return;azimuth+=dx*.006;elevation=clamp(elevation+dy*.006,.025,Math.PI/2-.025);},
     zoom(factor){if(!Number.isFinite(factor)||factor<=0)return;distance=clamp(distance/factor,.9,8);},
     getCamera(){const b=pose();return {azimuth,elevation,distance,position:b.position.slice(),target:target.slice(),forward:b.forward,right:b.right,up:b.up,dimensions:dims.slice(),fov};},

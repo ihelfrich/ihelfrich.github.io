@@ -14,5 +14,6 @@ try{
   await page.locator('#atlas-view-world').click();await globeReady();assert.equal(await page.locator('#atlas-view-world').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#atlas-world canvas').count(),1);
  }
  await page.setViewportSize({width:390,height:844});assert.equal(await page.locator('#atlas-view-world').isVisible(),true);assert.equal(await page.locator('#atlas-view-flat').isVisible(),true);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
- if(errors.length)throw new Error(errors.join('; '));console.log('PASS: rendered Cesium globe, prominent Globe/Map choices, prints return, both collections, switching projections and mobile layout.');
+ assert.equal(await page.locator('.atlas-tank-link').isVisible(),true);await page.locator('.atlas-tank-link').click();await page.waitForFunction(()=>window.__dyeTank?.diagnostics);assert.equal(await page.locator('[data-tank-field=vorticity-z]').isVisible(),true);
+ if(errors.length)throw new Error(errors.join('; '));console.log('PASS: rendered Cesium globe, prominent Globe/Map choices, prints return, both collections, switching projections, mobile layout and direct dye-tank navigation.');
 }finally{await browser.close();}

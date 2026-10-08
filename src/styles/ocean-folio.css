@@ -35,15 +35,15 @@
 @media(prefers-reduced-motion:reduce){#folio-image,.folio-present-controls{transition:none}}
 .folio-chapters>a{display:inline-flex;align-items:center;padding:10px 15px;min-height:44px;box-sizing:border-box;font:12px var(--font-data);color:var(--atlas-story-gold);text-decoration:none}
 .saltwater-lab{scroll-margin-top:24px;border-top:1px solid var(--atlas-line);padding:45px 0 55px}
-.tank-heading{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:26px}.tank-heading h2{font:38px/1.1 var(--font-text);font-weight:400;color:var(--atlas-heading);margin:0 0 12px;letter-spacing:-.02em}.tank-heading p:not(.folio-kicker){font:15px/1.6 var(--font-text);max-width:690px;margin:0;color:var(--atlas-muted)}.tank-heading>button{flex-shrink:0}
+.tank-heading{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:26px}.tank-heading :is(h1,h2){font:38px/1.1 var(--font-text);font-weight:400;color:var(--atlas-heading);margin:0 0 12px;letter-spacing:-.02em}.tank-heading p:not(.folio-kicker){font:15px/1.6 var(--font-text);max-width:690px;margin:0;color:var(--atlas-muted)}.tank-heading>button{flex-shrink:0}
 .tank-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:30px;align-items:start}.tank-stage{position:relative;overflow:hidden;background:var(--atlas-space);border:1px solid var(--atlas-story-line);border-radius:12px;box-shadow:0 20px 70px var(--atlas-drop-shadow)}
 #dye-tank-canvas{display:block;width:100%;height:auto;aspect-ratio:4/3;touch-action:none;cursor:crosshair;border-radius:inherit}#tank-flow-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:inherit}
 #dye-tank-canvas:focus-visible{outline:2px solid var(--atlas-focus);outline-offset:-3px}.tank-corner{position:absolute;top:17px;left:20px;right:20px;display:flex;justify-content:space-between;font:10px var(--font-data);color:var(--atlas-muted);pointer-events:none}.tank-ruler{position:absolute;left:20px;right:20px;bottom:14px;display:flex;justify-content:space-between;border-top:1px solid var(--atlas-line);padding-top:6px;font:9px var(--font-data);color:var(--atlas-muted);pointer-events:none}.tank-start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--atlas-panel)}
 .tank-presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}.tank-presets button{font-size:10px;padding:8px 10px}.tank-controls>label,.tank-selects label{font:11px var(--font-data);color:var(--atlas-muted);display:block;margin:23px 0}.tank-controls label>output{float:right;color:var(--atlas-ink)}.tank-controls input[type=range]{display:block;width:100%;margin:12px 0 0;accent-color:var(--atlas-story-gold)}.tank-meaning{font:12px/1.5 var(--font-text);color:var(--atlas-story-gold);min-height:36px;margin:0}
 .tank-selects{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tank-selects label{margin:10px 0}.tank-selects select{width:100%;min-height:44px;font:11px var(--font-data);color:var(--atlas-ink);background:var(--atlas-bg);border:1px solid var(--atlas-line);border-radius:5px;padding:8px;margin-top:8px}.tank-controls .tank-check{display:flex;align-items:center;gap:8px;margin:13px 0 20px}.tank-check input{accent-color:var(--atlas-story-gold)}.tank-buttons{display:flex;gap:7px;flex-wrap:wrap}.tank-buttons button{font-size:10px;padding:9px 11px}.tank-buttons button:first-child{color:var(--atlas-story-gold);border-color:var(--atlas-story-line)}.tank-caption{font:10px/1.7 var(--font-data);color:var(--atlas-muted);margin:16px 0 0}.tank-explanation{max-width:900px;font:15px/1.75 var(--font-text);color:var(--atlas-muted);margin:25px 0 20px}.tank-model{font:12px/1.75 var(--font-text);color:var(--atlas-muted);max-width:1000px}.tank-model summary{font:11px var(--font-data);color:var(--atlas-story-gold);cursor:pointer;padding:10px 0}.tank-model a{color:var(--atlas-story-gold)}.tank-legend{display:flex;align-items:center;gap:10px;font:9px var(--font-data);margin-top:18px;color:var(--atlas-muted)}.tank-legend i{height:7px;flex:1;background:var(--atlas-palette-gold)}.tank-legend[data-view=vorticity] i{background:var(--atlas-palette-coral)}
 .folio-is-presenting>.saltwater-lab{display:none}.folio-is-presenting.folio-present-tank .folio-study{display:none}.folio-is-presenting.folio-present-tank>.saltwater-lab{display:block;padding:0;border:0}.folio-present-tank .tank-heading,.folio-present-tank .tank-controls,.folio-present-tank .tank-explanation,.folio-present-tank .tank-model,.folio-present-tank .tank-corner,.folio-present-tank .tank-ruler,.folio-present-tank .tank-start{display:none!important}.folio-present-tank .tank-layout{display:block}.folio-present-tank .tank-stage{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;box-shadow:none}.folio-present-tank #dye-tank-canvas{width:min(100vw,133.333vh);height:min(100vh,75vw);border-radius:0}.folio-is-presenting>.folio-archive-link{display:none}
-@media(max-width:1000px){.tank-layout{grid-template-columns:minmax(0,1fr) 245px;gap:20px}.tank-presets{gap:4px}.tank-presets button{padding:7px 8px}.tank-heading h2{font-size:33px}}
-@media(max-width:760px){.saltwater-lab{padding:35px 0}.tank-layout{grid-template-columns:1fr}.tank-heading{align-items:start;gap:15px}.tank-heading h2{font-size:31px}.tank-heading>button{font-size:10px;padding:8px 10px}.tank-heading p:not(.folio-kicker){font-size:13px}.tank-controls{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}.tank-presets,.tank-meaning,.tank-selects,.tank-buttons,.tank-caption,.tank-legend{grid-column:1/-1}.tank-controls>label{margin:14px 0}.tank-controls .tank-check{grid-column:1/-1}.tank-corner{top:12px;left:13px;right:13px}.tank-ruler{left:13px;right:13px;bottom:10px}.tank-explanation{font-size:13px}.folio-chapters>a{font-size:10px;padding:7px 8px}}
+@media(max-width:1000px){.tank-layout{grid-template-columns:minmax(0,1fr) 245px;gap:20px}.tank-presets{gap:4px}.tank-presets button{padding:7px 8px}.tank-heading :is(h1,h2){font-size:33px}}
+@media(max-width:760px){.saltwater-lab{padding:35px 0}.tank-layout{grid-template-columns:1fr}.tank-heading{align-items:start;gap:15px}.tank-heading :is(h1,h2){font-size:31px}.tank-heading>button{font-size:10px;padding:8px 10px}.tank-heading p:not(.folio-kicker){font-size:13px}.tank-controls{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}.tank-presets,.tank-meaning,.tank-selects,.tank-buttons,.tank-caption,.tank-legend{grid-column:1/-1}.tank-controls>label{margin:14px 0}.tank-controls .tank-check{grid-column:1/-1}.tank-corner{top:12px;left:13px;right:13px}.tank-ruler{left:13px;right:13px;bottom:10px}.tank-explanation{font-size:13px}.folio-chapters>a{font-size:10px;padding:7px 8px}}
 .tank-legend canvas{height:8px;width:70px;flex:1;min-width:30px}.tank-stage{width:100%;max-width:calc((100svh - 210px)*1.333333);justify-self:center}.folio-present-tank .tank-stage{width:auto;max-width:none}
 .tank-layer-editor{margin:0 0 20px;border:1px solid var(--atlas-line);padding:14px;border-radius:8px;min-width:0;grid-column:1/-1}.tank-layer-editor legend{font:10px var(--font-data);color:var(--atlas-story-gold);padding:0 5px}.tank-layer-editor>label{display:block;font:10px var(--font-data);margin:12px 0}.tank-layer-editor select{margin-left:8px;background:var(--atlas-bg);border:1px solid var(--atlas-line);color:var(--atlas-ink);padding:6px;border-radius:4px}.tank-layer-row{display:grid;grid-template-columns:44px 1fr 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--atlas-line);font:9px var(--font-data)}.tank-layer-row label{font:8px var(--font-data);color:var(--atlas-muted)}.tank-layer-row input{box-sizing:border-box;display:block;width:100%;min-height:34px;padding:4px;margin:5px 0;color:var(--atlas-ink);background:var(--atlas-bg);border:1px solid var(--atlas-line);border-radius:4px;font:11px var(--font-data)}.tank-layer-row small{font-size:8px}.tank-layer-editor>button{margin-top:6px;font-size:10px}.tank-layer-editor input[type=range]{width:100%;accent-color:var(--atlas-story-gold)}.tank-camera-buttons{display:flex;gap:8px;grid-column:1/-1;margin-top:15px}.tank-camera-buttons button{font-size:10px;padding:8px 12px}.tank-layer-editor output{float:right;color:var(--atlas-ink)}#dye-tank-canvas{cursor:grab}#dye-tank-canvas:active{cursor:grabbing}
 .folio-present-tank #tank-flow-canvas{inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,133.333vh);height:min(100vh,75vw)}
@@ -96,7 +96,7 @@
 /* The simulation is the primary visual; controls read in three short groups. */
 .saltwater-lab{padding:66px 0 64px}
 .tank-heading{align-items:end;margin-bottom:28px}
-.tank-heading h2{font-size:clamp(38px,3.8vw,54px);letter-spacing:-.038em;max-width:22ch}
+.tank-heading :is(h1,h2){font-size:clamp(38px,3.8vw,54px);letter-spacing:-.038em;max-width:22ch}
 .tank-heading p:not(.folio-kicker){font-size:16px;line-height:1.65;max-width:68ch}
 .tank-heading>button{color:var(--atlas-story-gold);border-color:var(--atlas-story-line)}
 .tank-layout{grid-template-columns:minmax(0,1fr) 306px;gap:clamp(24px,3vw,48px)}
@@ -163,7 +163,7 @@
   .folio-reading :is(h1,h2){font-size:36px}
   .saltwater-lab{padding:48px 0}
   .tank-heading{display:block}
-  .tank-heading h2{font-size:38px;max-width:14ch}
+  .tank-heading :is(h1,h2){font-size:38px;max-width:14ch}
   .tank-heading p:not(.folio-kicker){font-size:14px}
   .tank-heading>button{margin-top:17px}
   .tank-layout{grid-template-columns:1fr;gap:22px}
@@ -187,3 +187,62 @@
 .ocean-folio.folio-is-presenting{padding:0;max-width:none}
 .folio-present-tank .tank-stage{max-width:none;width:100%;margin:0}
 .folio-is-presenting .folio-image-wrap{aspect-ratio:auto;width:100%;height:100%;align-self:stretch;border:0}
+
+/* The tank's two visual choices sit before the image they control. */
+.tank-visual{min-width:0;align-self:start}
+.tank-visual .tank-stage{position:relative;top:auto;width:100%;max-width:none;margin:0}
+.tank-display{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,3vw,36px);align-items:end;margin-bottom:13px}
+.tank-display-group{min-width:0}
+.tank-display-label{display:block;margin-bottom:8px;font:10px/1.4 var(--font-data);letter-spacing:.1em;text-transform:uppercase;color:var(--atlas-story-gold)}
+.tank-display-options{display:grid;grid-auto-columns:minmax(0,1fr);grid-auto-flow:column;gap:5px}
+.tank-display-options button{min-width:0;min-height:49px;padding:8px 10px;white-space:normal;font-size:12px;line-height:1.3;border-color:var(--atlas-story-line)}
+.tank-display-options button[aria-pressed=true]{background:var(--atlas-story-gold);border-color:var(--atlas-story-gold);color:var(--atlas-space)}
+.tank-display-options button:hover{border-color:var(--atlas-story-gold)}
+.tank-stage-key{border-left:2px solid var(--atlas-story-line);padding:14px 0 2px 18px;margin:0;max-width:68ch}
+.tank-stage-key>p:first-child{font:15px/1.55 var(--font-text);color:var(--atlas-story-copy);margin:0}
+.tank-stage-key .tank-legend{display:grid;grid-template-columns:max-content minmax(80px,1fr) max-content;gap:7px 11px;align-items:center;margin:13px 0 0;max-width:420px;color:var(--atlas-heading);font-size:10px}
+.tank-stage-key .tank-legend canvas{display:block;width:100%;height:9px;min-width:80px}
+.tank-stage-key #tank-legend-zero{grid-column:2;grid-row:2;text-align:center;color:var(--atlas-muted);font-size:9px}
+.tank-stage-key #tank-vorticity-note{margin-top:9px;max-width:62ch;font-size:11px;line-height:1.55}
+.tank-visual .tank-camera-buttons{display:flex;gap:6px;margin:13px 0 0}
+.tank-visual .tank-camera-buttons button{min-height:38px;padding:6px 11px;font-size:10px}
+.tank-visual .tank-camera-buttons button:first-child{margin-right:4px}
+.tank-advanced{margin:20px 0 10px;padding-top:14px;border-top:1px solid var(--atlas-story-line)}
+.tank-advanced summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font:11px/1.4 var(--font-data);color:var(--atlas-story-gold)}
+.tank-advanced[open] summary{margin-bottom:7px}
+.tank-advanced>label{display:block;margin:15px 0;font:11px/1.4 var(--font-data);color:var(--atlas-story-copy)}
+.tank-advanced label>output{float:right}
+.tank-advanced input[type=range]{display:block;width:100%;margin:12px 0 0;accent-color:var(--atlas-story-gold)}
+.tank-advanced .tank-check{display:flex;gap:8px;align-items:center}
+.tank-controls>p.tank-caption{margin-top:12px}
+.folio-present-tank .tank-display,.folio-present-tank .tank-stage-key,.folio-present-tank .tank-visual .tank-camera-buttons{display:none!important}
+.folio-present-tank .tank-visual .tank-stage{position:fixed;inset:0;z-index:6;max-width:none;border:0;border-radius:0;box-shadow:none;display:flex;align-items:center;justify-content:center}
+.tank-only-page .saltwater-lab{border-top:0;padding-top:52px}
+.tank-only-page .folio-header nav{display:flex;align-items:center;gap:clamp(12px,2vw,28px);margin-left:auto}
+.tank-only-page .folio-header nav a{color:var(--atlas-story-copy);text-decoration:none;font:11px/1.4 var(--font-data)}
+.tank-only-page .folio-header nav a:hover{color:var(--atlas-story-gold)}
+.tank-only-page .folio-header>p{margin-right:auto}
+@media(min-width:761px){
+  .tank-visual{position:sticky;top:16px}
+  .tank-only-page .saltwater-lab{padding-top:26px}
+  .tank-only-page .tank-heading{margin-bottom:15px}
+  .tank-only-page .tank-heading :is(h1,h2){font-size:46px;margin-bottom:7px}
+  .tank-only-page .tank-heading p:not(.folio-kicker){font-size:14px;line-height:1.45}
+  .tank-only-page .tank-visual{width:min(100%,max(540px,calc((100svh - 450px)*4 / 3)));margin-inline:auto}
+  .tank-only-page .tank-display{gap:15px;margin-bottom:9px}
+  .tank-only-page .tank-display-options button{min-height:43px}
+}
+@media(max-width:900px){.tank-display{grid-template-columns:1fr;gap:11px}.tank-display-options button{min-height:44px}}
+@media(max-width:760px){
+  .tank-visual{position:static}
+  .tank-display{grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+  .tank-display-label{font-size:9px}
+  .tank-display-options button{min-height:47px;padding:7px 4px;font-size:10px}
+  .tank-stage-key{margin-top:0;padding:12px 0 2px 13px}
+  .tank-stage-key>p:first-child{font-size:14px}
+  .tank-visual .tank-camera-buttons{margin-top:10px}
+  .tank-only-page .folio-header{flex-wrap:wrap}
+  .tank-only-page .folio-header nav{flex-basis:100%;justify-content:space-between;margin:4px 0 0;padding-top:10px;border-top:1px solid var(--atlas-line)}
+  .tank-only-page .folio-header nav a{font-size:10px}
+}
+@media(max-width:430px){.tank-display{grid-template-columns:1fr;gap:10px}.tank-display-group{display:grid;grid-template-columns:74px minmax(0,1fr);gap:6px;align-items:center}.tank-display-label{margin:0}.tank-display-options button{font-size:11px}}

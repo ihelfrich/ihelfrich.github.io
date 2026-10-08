@@ -172,3 +172,8 @@
   .water-atlas .velocity-profile-row,.water-atlas .velocity-profile-axis{font-size:9px}
   .water-atlas .velocity-profile.has-vorticity .velocity-profile-axis,.water-atlas .velocity-profile.has-vorticity .velocity-profile-row{grid-template-columns:48px minmax(42px,1fr) 34px 51px 53px;gap:4px;font-size:8px}
 }
+
+.water-atlas .atlas-tabs>.atlas-tank-link{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;padding:9px 12px;min-height:40px;border-radius:20px;color:var(--atlas-muted);font:11px var(--font-data);text-decoration:none;white-space:nowrap}
+.water-atlas .atlas-tabs>.atlas-tank-link:hover{color:var(--atlas-ink);background:var(--atlas-card-hover)}
+.water-atlas .atlas-tabs>.atlas-tank-link:focus-visible{outline:2px solid var(--atlas-focus);outline-offset:2px}
+@media(max-width:760px){.water-atlas .atlas-tabs>.atlas-tank-link{font-size:9px;padding:7px 4px;flex:1 1 0;white-space:normal;line-height:1.2}.water-atlas .atlas-tabs>button{flex:1 1 0;white-space:normal;line-height:1.2}}

@@ -6,7 +6,7 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
 try{
  await page.goto(base+'/hidden-rivers/prints/#saltwater-demo');await page.locator('#dye-tank-canvas').scrollIntoViewIfNeeded();await page.waitForFunction(()=>window.__dyeTank?.diagnostics?.time>.3);
  await page.locator('#tank-pause').click();await page.waitForTimeout(200);const before=await page.evaluate(()=>window.__dyeTank.diagnostics);
- await page.locator('#tank-view').selectOption('vorticity-z');await page.waitForFunction(()=>window.__dyeTank.diagnostics.vorticityMax>0);
+ await page.locator('.tank-advanced').evaluate(e=>{e.open=true;});await page.locator('#tank-view').selectOption('vorticity-z');await page.waitForFunction(()=>window.__dyeTank.diagnostics.vorticityMax>0);
  const after=await page.evaluate(()=>window.__dyeTank.diagnostics);for(const key of ['time','saltIntegral','dyeIntegral','steps'])assert.equal(after[key],before[key],key+' cannot change when inspecting rotation');
  const pixels=await page.evaluate(()=>{document.querySelector('#tank-cutaway').dispatchEvent(new Event('input'));const source=document.querySelector('#dye-tank-canvas'),copy=document.createElement('canvas');copy.width=source.width;copy.height=source.height;const ctx=copy.getContext('2d');ctx.drawImage(source,0,0);const data=ctx.getImageData(0,0,copy.width,copy.height).data;let cyan=0,coral=0;for(let i=0;i<data.length;i+=4){if(data[i+2]>50&&data[i+2]>data[i]*1.2)cyan++;if(data[i]>60&&data[i]>data[i+2]*1.3)coral++;}return {cyan,coral};});
  assert.ok(pixels.cyan>50&&pixels.coral>50,'signed rotation must visibly show both turning directions: '+JSON.stringify({pixels,maxVorticity:after.vorticityMax}));assert.match(await page.locator('#tank-vorticity-note').textContent(),/clockwise/i);

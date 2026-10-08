@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/ocean-folio.css';
+import DyeTank from '../../components/DyeTank.astro';
+---
+<Base wide title="Dye & vortices | Hidden Rivers" description="Release dye in a three-dimensional water tank. Switch between dye, salinity and vorticity, and compare the full tank with a cross-section." pageClass="ocean-folio-page tank-only-page" image="/hidden-rivers/ocean-folio/depth-print-preview.png" imageAlt="Ocean circulation maps in the Hidden Rivers collection.">
+  <div class="ocean-folio">
+    <header class="folio-header"><a href="/hidden-rivers/">Hidden <em>Rivers</em></a><p>Dye &amp; vortices</p><nav aria-label="Hidden Rivers sections"><a href="/hidden-rivers/">Ocean atlas ↗</a><a href="/hidden-rivers/?tab=satellite">Satellite views ↗</a><a href="/hidden-rivers/prints/">Prints &amp; lessons ↗</a></nav></header>
+    <DyeTank standalone />
+    <div class="folio-present-controls" hidden><button id="folio-exit" type="button" aria-label="Exit presentation">×</button></div>
+  </div>
+  <script>import { startTankLab } from '../../scripts/hidden-rivers/tank-lab.js'; startTankLab();</script>
+</Base>
