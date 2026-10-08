@@ -1,4 +1,4 @@
-// Reproduce the preregistered v5 browser checks against the local dev server.
+// Reproduce the preregistered GPU/browser checks with v6 coupling against the local dev server.
 // node scripts/hidden-rivers/verify-tank-gpu-browser.mjs
 // HIDDEN_RIVERS_DEV_URL and HIDDEN_RIVERS_PLAYWRIGHT_MODULE may be overridden.
 import {readFile,writeFile} from 'node:fs/promises';
@@ -12,6 +12,8 @@ const base=process.env.HIDDEN_RIVERS_DEV_URL||'http://localhost:4328';
 const output=resolve(root,'public/hidden-rivers/dye-tank/verification-gpu.json');
 const sources={
   modelRegister:'docs/hidden-rivers/dye-tank-gpu-model.md',
+  couplingRegister:'docs/hidden-rivers/dye-tank-coupling-model.md',
+  couplingFixture:'tests/helpers/tank-coupling.mjs',
   core:'src/scripts/hidden-rivers/dye-tank-3d.mjs',
   vorticity:'src/scripts/hidden-rivers/tank-vorticity.mjs',
   gpu:'src/scripts/hidden-rivers/tank-gpu-momentum.mjs',
@@ -157,7 +159,7 @@ if(!result.executionError){
     if(row.mode==='gpu')check(`Taylor-Green ${t.grid.join('x')} uses GPU`,row.acceleratedMomentumCalls>0,row.acceleratedMomentumCalls,'>0');
   }
 }
-const manifest={model:'salinity-dye-tank-3d-v5-hybrid-candidate',generatedAt:new Date().toISOString(),passed:!result.executionError&&!warning.length&&checks.every(c=>c.passed),
+const manifest={model:'salinity-dye-tank-3d-v6-hybrid',generatedAt:new Date().toISOString(),passed:!result.executionError&&!warning.length&&checks.every(c=>c.passed),
   sourceSha256:hashes,runtime:{node:process.version,browser:browser.version(),origin:base,headlessMetal:process.platform==='darwin'},
   thresholds:{momentumMaxErrorMetresPerSecond:5e-7,plumeCentroidDifferenceMetres:.00025,ledgerResidual:1e-12,projectedDivergencePerSecond:1e-8,restMaxSpeedMetresPerSecond:1e-12,taylorGreenRelativeEnergyError:1e-4},
   browserWarnings:warning,checks,results:result,

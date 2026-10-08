@@ -19,7 +19,7 @@ try{
  await page.locator('#tank-pause').click();await page.waitForTimeout(200);const before=await page.evaluate(()=>window.__dyeTank.diagnostics);
  await page.locator('[data-tank-field=vorticity-z]').click();await page.waitForFunction(()=>window.__dyeTank.diagnostics.vorticityMax>0);
  const after=await page.evaluate(()=>window.__dyeTank.diagnostics);unchanged(before,after);
- assert.deepEqual(await page.evaluate(()=>window.__dyeTank.getState()),{field:'vorticity-z',geometry:'section',plane:.5,paused:true,preset:'salt'});
+ assert.deepEqual(await page.evaluate(()=>window.__dyeTank.getState()),{field:'vorticity-z',geometry:'section',plane:.5,paused:true,preset:'salt',quality:'detail'});
  assert.equal(await page.locator('[data-tank-field=vorticity-z]').getAttribute('aria-pressed'),'true');
  assert.equal(await page.locator('[data-tank-geometry=section]').getAttribute('aria-pressed'),'true');
  const camera=await page.evaluate(()=>window.__dyeTank.getCamera());assert.ok(camera.forward[2]<-.999999);
@@ -28,6 +28,8 @@ try{
  const keyBox=await page.locator('.tank-stage-key').boundingBox();assert.ok(keyBox.y+keyBox.height<=1000,'The full vorticity key should fit in the desktop viewport');
  const sectionPixels=await colorCounts();assert.ok(sectionPixels.cyan>150&&sectionPixels.coral>150,'Both turning directions must be visible: '+JSON.stringify(sectionPixels));
  await page.screenshot({path:process.env.TANK_CLARITY_SCREENSHOT||'/tmp/tank-clarity-desktop.png'});
+ await page.locator('[data-tank-geometry=volume]').click();assert.equal((await page.evaluate(()=>window.__dyeTank.getState())).field,'vorticity','3D rotation must show all curl components');assert.equal(await page.locator('[data-tank-field=vorticity-z]').getAttribute('aria-pressed'),'true');
+ await page.locator('[data-tank-geometry=section]').click();assert.equal((await page.evaluate(()=>window.__dyeTank.getState())).field,'vorticity-z');unchanged(after,await page.evaluate(()=>window.__dyeTank.diagnostics));
  await page.locator('#tank-plane').fill('3');await page.locator('#tank-plane').dispatchEvent('input');const edgePixels=await colorCounts();
  assert.ok(edgePixels.cyan<sectionPixels.cyan*.5&&edgePixels.coral<sectionPixels.coral*.5,'Changing the physical section should sample a different part of the water');unchanged(after,await page.evaluate(()=>window.__dyeTank.diagnostics));
  await page.locator('#tank-plane').fill('50');await page.locator('#tank-plane').dispatchEvent('input');
@@ -43,8 +45,9 @@ try{
  assert.equal(await page.locator('[data-tank-field=vorticity-z]').isVisible(),true);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  await page.screenshot({path:'/tmp/tank-clarity-mobile.png'});
  await page.locator('.tank-advanced summary').click();await page.locator('#tank-view').selectOption('vorticity');assert.match(await page.locator('#tank-reading').textContent(),/all three axes/);
- await page.goto(base+'/hidden-rivers/tank/?field=vorticity-z&geometry=section&section=0.35');await page.waitForFunction(()=>window.__dyeTank?.diagnostics);
+ await page.goto(base+'/hidden-rivers/tank/?field=vorticity-z&geometry=section&section=0.35&quality=fast');await page.waitForFunction(()=>window.__dyeTank?.diagnostics);
  const linkedState=await page.evaluate(()=>window.__dyeTank.getState());assert.equal(linkedState.geometry,'section');assert.equal(linkedState.field,'vorticity-z');assert.equal(linkedState.plane,.35);
+ assert.equal(linkedState.quality,'fast');assert.deepEqual(await page.evaluate(()=>window.__dyeTank.diagnostics.grid),[32,32,32]);
  await page.locator('#tank-pause').click();await page.waitForTimeout(200);const dropBefore=await page.evaluate(()=>({diagnostics:window.__dyeTank.diagnostics,camera:window.__dyeTank.getCamera()}));
  await page.locator('#tank-drop-button').click();await page.waitForFunction(value=>window.__dyeTank.diagnostics.dyeIntegral>value,dropBefore.diagnostics.dyeIntegral);
  assert.deepEqual(await page.evaluate(()=>window.__dyeTank.getCamera()),dropBefore.camera,'A paused injection must preserve the aligned section camera');

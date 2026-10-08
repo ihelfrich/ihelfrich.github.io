@@ -7,7 +7,7 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
 try{
  await page.goto(base+'/hidden-rivers/folio/?study=density&image=atlantic-density#saltwater-demo');
  const child=page.frameLocator('#atlas-prints');
- if(process.env.HIDDEN_RIVERS_TANK_QUALITY)await child.locator('#tank-quality').selectOption(process.env.HIDDEN_RIVERS_TANK_QUALITY);
+ if(process.env.HIDDEN_RIVERS_TANK_QUALITY){await child.locator('.tank-advanced').evaluate(element=>{element.open=true;});await child.locator('#tank-quality').selectOption(process.env.HIDDEN_RIVERS_TANK_QUALITY);}
  await child.locator('#tank-present').click();const frame=page.frames().find(f=>f.url().includes('/prints/'));
  await frame.waitForFunction(()=>window.__dyeTank?.diagnostics?.time>.3);
  const stats=await frame.evaluate(async()=>{

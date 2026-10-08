@@ -1,16 +1,18 @@
 {
-  "model": "salinity-dye-tank-3d-v5-hybrid-candidate",
-  "generatedAt": "2026-10-08T19:25:41.103Z",
+  "model": "salinity-dye-tank-3d-v6-hybrid",
+  "generatedAt": "2026-10-08T22:54:01.644Z",
   "passed": true,
   "sourceSha256": {
     "modelRegister": "764b2d14d5d3a4dd4264ce93687cfec5cffd25922104de06be6a40ff9150d9cd",
-    "core": "4478c77308a430726ccf0843291666bd67c6e440f807ddd86840965fbc853071",
+    "couplingRegister": "5207d747dc2125180f6bb9870a732da09f3cdc96bb70aeef45eeeb0253561bcb",
+    "couplingFixture": "5eba632468c102f1400f2d86659f2fe867dd0f49b205c832ddda06efc40e24fa",
+    "core": "31097894e382058c41c110869ec610b4e389deedc9289698ac9b3f99bb15b5d4",
     "vorticity": "bb1a56d2292e5555916903d5a6167fc4f533b8254417c4a08882f3775a821214",
     "gpu": "32a3f01bd5c07332db43f3c20e53aab6379b083f42c64df0789c421f110dda15",
     "wasmWrapper": "3283f93d3bdd79d4fa63b272564c44053a6a1b990e060b974a62b3f3da09a6cb",
     "wasmSource": "77d44699a7e84016e6ce86613d7bee01d32ce02c003ae7a6a2f392f802e04246",
     "wasmBinary": "bc76e20a6682a1ea41cb24c6552c8ec82a0e6975ea7ba13fb0bc396290596395",
-    "verifier": "1e28d24afbf175890330a34db8bbe71d86c2103128793ea7f63c0da23f9739a3"
+    "verifier": "a52f2096a77ec249ad210a8fb84154e8b1459ba4cbb0d628d5efd1d5dbdadace"
   },
   "runtime": {
     "node": "v24.20.0",
@@ -55,43 +57,43 @@
     {
       "name": "plume centroid 0.01s",
       "passed": true,
-      "actual": 1.4307746580351762e-8,
+      "actual": 1.4461849991552196e-8,
       "limit": 0.00025
     },
     {
       "name": "plume 0.01s wasm salt ledger",
       "passed": true,
-      "actual": 3.3306690738754696e-16,
+      "actual": 1.1102230246251565e-16,
       "limit": 1e-12
     },
     {
       "name": "plume 0.01s wasm dye ledger",
       "passed": true,
-      "actual": 1.3552527156068805e-20,
+      "actual": 1.8634724839594607e-20,
       "limit": 1e-12
     },
     {
       "name": "plume 0.01s wasm divergence",
       "passed": true,
-      "actual": 7.135383968025166e-18,
+      "actual": 6.127427321395763e-18,
       "limit": 1e-8
     },
     {
       "name": "plume 0.01s gpu salt ledger",
       "passed": true,
-      "actual": 1.6653345369377348e-16,
+      "actual": 6.661338147750939e-16,
       "limit": 1e-12
     },
     {
       "name": "plume 0.01s gpu dye ledger",
       "passed": true,
-      "actual": 5.082197683525802e-21,
+      "actual": 1.0164395367051604e-20,
       "limit": 1e-12
     },
     {
       "name": "plume 0.01s gpu divergence",
       "passed": true,
-      "actual": 7.493775190549981e-18,
+      "actual": 6.3934075169179006e-18,
       "limit": 1e-8
     },
     {
@@ -103,43 +105,43 @@
     {
       "name": "plume centroid 0.02s",
       "passed": true,
-      "actual": 7.772535153741761e-9,
+      "actual": 7.537095674842945e-9,
       "limit": 0.00025
     },
     {
       "name": "plume 0.02s wasm salt ledger",
       "passed": true,
-      "actual": 4.440892098500626e-16,
+      "actual": 2.220446049250313e-16,
       "limit": 1e-12
     },
     {
       "name": "plume 0.02s wasm dye ledger",
       "passed": true,
-      "actual": 3.3881317890172014e-21,
+      "actual": 8.470329472543003e-21,
       "limit": 1e-12
     },
     {
       "name": "plume 0.02s wasm divergence",
       "passed": true,
-      "actual": 6.083157217216993e-18,
+      "actual": 4.892462029390986e-18,
       "limit": 1e-8
     },
     {
       "name": "plume 0.02s gpu salt ledger",
       "passed": true,
-      "actual": 1.6653345369377348e-16,
+      "actual": 1.1102230246251565e-16,
       "limit": 1e-12
     },
     {
       "name": "plume 0.02s gpu dye ledger",
       "passed": true,
-      "actual": 3.3881317890172014e-21,
+      "actual": 8.470329472543003e-21,
       "limit": 1e-12
     },
     {
       "name": "plume 0.02s gpu divergence",
       "passed": true,
-      "actual": 6.025874101775889e-18,
+      "actual": 7.592586212204785e-18,
       "limit": 1e-8
     },
     {
@@ -217,7 +219,7 @@
     {
       "name": "neutral-drop wasm dye ledger",
       "passed": true,
-      "actual": 2.117582368135751e-21,
+      "actual": 4.235164736271502e-22,
       "limit": 1e-12
     },
     {
@@ -241,7 +243,7 @@
     {
       "name": "neutral-drop gpu dye ledger",
       "passed": true,
-      "actual": 2.117582368135751e-21,
+      "actual": 4.235164736271502e-22,
       "limit": 1e-12
     },
     {
@@ -356,39 +358,39 @@
         },
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 1754.800000011921,
+          "wallMilliseconds": 1883.300000011921,
           "acceleratedMomentumCalls": 0,
           "time": 1.0000000000000007,
           "steps": 100,
           "dyeCentroid": {
-            "x": 0.12000000000000018,
-            "y": 0.0517225042244635,
-            "z": 0.12000000000000026
+            "x": 0.12000000000000023,
+            "y": 0.05165993177415773,
+            "z": 0.12000000000000016
           },
-          "maxSpeed": 0.021531082488684225,
-          "maxW": 0.004507202717176882,
-          "divergenceRms": 7.135383968025166e-18,
-          "saltLedgerResidual": 3.3306690738754696e-16,
-          "dyeLedgerResidual": 1.3552527156068805e-20
+          "maxSpeed": 0.02153107740274234,
+          "maxW": 0.00450720211093438,
+          "divergenceRms": 6.127427321395763e-18,
+          "saltLedgerResidual": 1.1102230246251565e-16,
+          "dyeLedgerResidual": 1.8634724839594607e-20
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 815.5,
+          "wallMilliseconds": 841.5,
           "acceleratedMomentumCalls": 100,
           "time": 1.0000000000000007,
           "steps": 100,
           "dyeCentroid": {
-            "x": 0.11999999808323727,
-            "y": 0.051722518265898354,
-            "z": 0.11999999803131049
+            "x": 0.11999999803985295,
+            "y": 0.05165994596308642,
+            "z": 0.11999999800570069
           },
-          "maxSpeed": 0.02153144382211378,
-          "maxW": 0.004507293817522504,
-          "divergenceRms": 7.493775190549981e-18,
-          "saltLedgerResidual": 1.6653345369377348e-16,
-          "dyeLedgerResidual": 5.082197683525802e-21
+          "maxSpeed": 0.02153144084693104,
+          "maxW": 0.004507291327500064,
+          "divergenceRms": 6.3934075169179006e-18,
+          "saltLedgerResidual": 6.661338147750939e-16,
+          "dyeLedgerResidual": 1.0164395367051604e-20
         },
-        "centroidDifferenceMetres": 1.4307746580351762e-8
+        "centroidDifferenceMetres": 1.4461849991552196e-8
       },
       {
         "grid": [
@@ -405,39 +407,39 @@
         },
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 852.8999999761581,
+          "wallMilliseconds": 946.3999999761581,
           "acceleratedMomentumCalls": 0,
           "time": 1.0000000000000004,
           "steps": 50,
           "dyeCentroid": {
-            "x": 0.11999999999999984,
-            "y": 0.051784456398481477,
-            "z": 0.11999999999999995
+            "x": 0.12000000000000009,
+            "y": 0.051659404225084006,
+            "z": 0.12
           },
-          "maxSpeed": 0.021521058942856084,
-          "maxW": 0.004507311107640542,
-          "divergenceRms": 6.083157217216993e-18,
-          "saltLedgerResidual": 4.440892098500626e-16,
-          "dyeLedgerResidual": 3.3881317890172014e-21
+          "maxSpeed": 0.021521050862004162,
+          "maxW": 0.004507310437949098,
+          "divergenceRms": 4.892462029390986e-18,
+          "saltLedgerResidual": 2.220446049250313e-16,
+          "dyeLedgerResidual": 8.470329472543003e-21
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 377.5999999642372,
+          "wallMilliseconds": 425.4000000357628,
           "acceleratedMomentumCalls": 50,
           "time": 1.0000000000000004,
           "steps": 50,
           "dyeCentroid": {
-            "x": 0.11999999919789017,
-            "y": 0.05178446408607892,
-            "z": 0.11999999918160617
+            "x": 0.11999999918102816,
+            "y": 0.05165941167108418,
+            "z": 0.11999999916682676
           },
-          "maxSpeed": 0.02152123814195376,
-          "maxW": 0.004507354948843822,
-          "divergenceRms": 6.025874101775889e-18,
-          "saltLedgerResidual": 1.6653345369377348e-16,
-          "dyeLedgerResidual": 3.3881317890172014e-21
+          "maxSpeed": 0.02152123116069829,
+          "maxW": 0.004507353942312438,
+          "divergenceRms": 7.592586212204785e-18,
+          "saltLedgerResidual": 1.1102230246251565e-16,
+          "dyeLedgerResidual": 8.470329472543003e-21
         },
-        "centroidDifferenceMetres": 7.772535153741761e-9
+        "centroidDifferenceMetres": 7.537095674842945e-9
       }
     ],
     "rest": [
@@ -445,7 +447,7 @@
         "setup": "four-layers",
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 487.89999997615814,
+          "wallMilliseconds": 523.5,
           "acceleratedMomentumCalls": 0,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -462,7 +464,7 @@
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 212.0999999642372,
+          "wallMilliseconds": 206.5,
           "acceleratedMomentumCalls": 30,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -482,37 +484,37 @@
         "setup": "neutral-drop",
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 500.2999999523163,
+          "wallMilliseconds": 543.6999999880791,
           "acceleratedMomentumCalls": 0,
           "time": 0.3000000000000001,
           "steps": 30,
           "dyeCentroid": {
-            "x": 0.12000000000000009,
-            "y": 0.12000000000000009,
-            "z": 0.12000000000000002
+            "x": 0.1200000000000001,
+            "y": 0.1200000000000001,
+            "z": 0.12000000000000004
           },
           "maxSpeed": 0,
           "maxW": 0,
           "divergenceRms": 0,
           "saltLedgerResidual": 0,
-          "dyeLedgerResidual": 2.117582368135751e-21
+          "dyeLedgerResidual": 4.235164736271502e-22
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 251.69999998807907,
+          "wallMilliseconds": 224.60000002384186,
           "acceleratedMomentumCalls": 30,
           "time": 0.3000000000000001,
           "steps": 30,
           "dyeCentroid": {
-            "x": 0.12000000000000009,
-            "y": 0.12000000000000009,
-            "z": 0.12000000000000002
+            "x": 0.1200000000000001,
+            "y": 0.1200000000000001,
+            "z": 0.12000000000000004
           },
           "maxSpeed": 0,
           "maxW": 0,
           "divergenceRms": 0,
           "saltLedgerResidual": 0,
-          "dyeLedgerResidual": 2.117582368135751e-21
+          "dyeLedgerResidual": 4.235164736271502e-22
         }
       }
     ],
@@ -525,7 +527,7 @@
         ],
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 498.0999999642372,
+          "wallMilliseconds": 495.4000000357628,
           "acceleratedMomentumCalls": 0,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -546,7 +548,7 @@
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 204.60000002384186,
+          "wallMilliseconds": 216.70000004768372,
           "acceleratedMomentumCalls": 30,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -575,7 +577,7 @@
         ],
         "reference": {
           "mode": "wasm",
-          "wallMilliseconds": 2021.5,
+          "wallMilliseconds": 2041.7000000476837,
           "acceleratedMomentumCalls": 0,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -596,7 +598,7 @@
         },
         "hybrid": {
           "mode": "gpu",
-          "wallMilliseconds": 744.5,
+          "wallMilliseconds": 825.4000000357628,
           "acceleratedMomentumCalls": 30,
           "time": 0.3000000000000001,
           "steps": 30,
@@ -619,8 +621,8 @@
       }
     ],
     "plumeTimestepSensitivityMetres": {
-      "wasm": 0.00006195217401797765,
-      "hybrid": 0.0000619458201805631
+      "wasm": 5.275490737241539e-7,
+      "hybrid": 5.342920022452513e-7
     },
     "gpuStats": {
       "allocations": 3,

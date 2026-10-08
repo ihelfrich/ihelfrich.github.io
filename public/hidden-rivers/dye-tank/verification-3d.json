@@ -2,11 +2,13 @@
   "diagnosticSourceSha256": "bb1a56d2292e5555916903d5a6167fc4f533b8254417c4a08882f3775a821214",
   "diagnosticRegisterSha256": "a3b796d623b94955764c55fb16d2e6f95a871436bb2e14f49e165a94d81ceeaf",
   "diagnosticTestSourceSha256": "3079d75dc837c5646c2ddc54cb9382cc080af933c7db99704440074aa835edda",
-  "model": "salinity-dye-tank-3d-v5-reference",
-  "generatedAt": "2026-10-08T19:24:17.625Z",
+  "model": "salinity-dye-tank-3d-v6-reference",
+  "couplingRegisterSha256": "5207d747dc2125180f6bb9870a732da09f3cdc96bb70aeef45eeeb0253561bcb",
+  "couplingFixtureSha256": "5eba632468c102f1400f2d86659f2fe867dd0f49b205c832ddda06efc40e24fa",
+  "generatedAt": "2026-10-08T22:53:57.559Z",
   "passed": true,
   "canonicalArithmetic": "Float64",
-  "solverSourceSha256": "4478c77308a430726ccf0843291666bd67c6e440f807ddd86840965fbc853071",
+  "solverSourceSha256": "31097894e382058c41c110869ec610b4e389deedc9289698ac9b3f99bb15b5d4",
   "pressureSourceSha256": "0f7f2c997d7a7ec3653b2b8fe20f8dc03f85e508e82d394d876a812dc09565b4",
   "kernelSourceSha256": "77d44699a7e84016e6ce86613d7bee01d32ce02c003ae7a6a2f392f802e04246",
   "kernelBinarySha256": "bc76e20a6682a1ea41cb24c6552c8ec82a0e6975ea7ba13fb0bc396290596395",
@@ -36,7 +38,7 @@
     "rest": [
       {
         "transition": 0,
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -47,7 +49,7 @@
         ],
         "time": 0.3000000000000001,
         "steps": 30,
-        "saltIntegral": 0.18224999999999994,
+        "saltIntegral": 0.18224999999999972,
         "dyeIntegral": 0,
         "dyeCentroid": {
           "x": 0.12,
@@ -57,16 +59,16 @@
         "maxSpeed": 0,
         "maxW": 0,
         "divergenceRms": 0,
-        "salinityMin": 4.664889896622306e-37,
+        "salinityMin": 4.669746143677051e-37,
         "salinityMax": 40,
         "dyeMin": 0,
         "dyeMax": 0,
-        "saltLedgerResidual": 5.551115123125783e-17,
+        "saltLedgerResidual": 2.7755575615628914e-16,
         "dyeLedgerResidual": 0
       },
       {
         "transition": 0.008,
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -87,8 +89,8 @@
         "maxSpeed": 0,
         "maxW": 0,
         "divergenceRms": 0,
-        "salinityMin": 1.6825331982006658e-7,
-        "salinityMax": 39.99999999943327,
+        "salinityMin": 1.6825331982006668e-7,
+        "salinityMax": 39.999999999433285,
         "dyeMin": 0,
         "dyeMax": 0,
         "saltLedgerResidual": 1.582067810090848e-14,
@@ -96,7 +98,7 @@
       }
     ],
     "neutral": {
-      "model": "salinity-dye-tank-3d-v5",
+      "model": "salinity-dye-tank-3d-v6",
       "dimensions": 3,
       "acceleration": "float64-wasm",
       "accelerationFallback": null,
@@ -108,25 +110,25 @@
       "time": 0.3000000000000001,
       "steps": 30,
       "saltIntegral": 0.4147199999999999,
-      "dyeIntegral": 0.000002528302772201028,
+      "dyeIntegral": 0.0000025283027722010296,
       "dyeCentroid": {
-        "x": 0.12000000000000009,
-        "y": 0.12000000000000009,
-        "z": 0.12000000000000002
+        "x": 0.1200000000000001,
+        "y": 0.1200000000000001,
+        "z": 0.12000000000000004
       },
       "maxSpeed": 0,
       "maxW": 0,
       "divergenceRms": 0,
       "salinityMin": 30,
       "salinityMax": 30,
-      "dyeMin": 5.0504668476298294e-262,
-      "dyeMax": 0.6158308602323962,
+      "dyeMin": 3.2963824102523976e-261,
+      "dyeMax": 0.6158308602323967,
       "saltLedgerResidual": 0,
-      "dyeLedgerResidual": 2.117582368135751e-21
+      "dyeLedgerResidual": 4.235164736271502e-22
     },
     "grid": [
       {
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -137,27 +139,27 @@
         ],
         "time": 0.3000000000000001,
         "steps": 30,
-        "saltIntegral": 0.4147351698166332,
+        "saltIntegral": 0.41473516981663305,
         "dyeIntegral": 0.0000025283027722010326,
         "dyeCentroid": {
-          "x": 0.12000000000000005,
-          "y": 0.04561155005467066,
-          "z": 0.12000000000000008
+          "x": 0.11999999999999973,
+          "y": 0.045591942611375065,
+          "z": 0.11999999999999979
         },
-        "maxSpeed": 0.004616195411423679,
-        "maxW": 0.0008496711573469336,
-        "divergenceRms": 8.897147491616495e-19,
-        "salinityMin": 29.999999999999943,
-        "salinityMax": 33.69498525252409,
-        "dyeMin": 3.897e-320,
-        "dyeMax": 0.6158308754206836,
-        "saltLedgerResidual": 0,
+        "maxSpeed": 0.004616193840089142,
+        "maxW": 0.0008496708803247964,
+        "divergenceRms": 1.174520732953503e-18,
+        "salinityMin": 29.999999999999922,
+        "salinityMax": 33.69498524864583,
+        "dyeMin": 8.07125e-319,
+        "dyeMax": 0.6158308747743059,
+        "saltLedgerResidual": 1.6653345369377348e-16,
         "dyeLedgerResidual": 1.2705494208814505e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 518.2701669999999
+        "wallMilliseconds": 606.0161669999998
       },
       {
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -168,27 +170,27 @@
         ],
         "time": 0.3000000000000001,
         "steps": 30,
-        "saltIntegral": 0.41473541224990623,
-        "dyeIntegral": 0.000002568708317719715,
+        "saltIntegral": 0.41473541224990634,
+        "dyeIntegral": 0.0000025687083177197125,
         "dyeCentroid": {
-          "x": 0.11999999999999987,
-          "y": 0.04560240751200927,
-          "z": 0.11999999999999975
+          "x": 0.12000000000000006,
+          "y": 0.04558301944002657,
+          "z": 0.12000000000000013
         },
-        "maxSpeed": 0.00546766978736358,
-        "maxW": 0.0009099836281743409,
-        "divergenceRms": 1.3251499669081766e-18,
-        "salinityMin": 29.99999999999995,
-        "salinityMax": 34.219077860064075,
+        "maxSpeed": 0.005467667625122235,
+        "maxW": 0.0009099833090879617,
+        "divergenceRms": 1.3846259936109144e-18,
+        "salinityMin": 29.99999999999993,
+        "salinityMax": 34.21907782580955,
         "dyeMin": 0,
-        "dyeMax": 0.7031796433440123,
-        "saltLedgerResidual": 2.220446049250313e-16,
-        "dyeLedgerResidual": 2.117582368135751e-21,
+        "dyeMax": 0.7031796376349169,
+        "saltLedgerResidual": 3.3306690738754696e-16,
+        "dyeLedgerResidual": 4.235164736271502e-22,
         "requestedDt": 0.01,
-        "wallMilliseconds": 1039.3318330000002
+        "wallMilliseconds": 1157.7526659999999
       },
       {
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -200,28 +202,28 @@
         "time": 0.3000000000000001,
         "steps": 30,
         "saltIntegral": 0.41473576314388866,
-        "dyeIntegral": 0.0000026271906480944073,
+        "dyeIntegral": 0.000002627190648094411,
         "dyeCentroid": {
-          "x": 0.1200000000000001,
-          "y": 0.04565561858493933,
-          "z": 0.11999999999999997
+          "x": 0.11999999999999963,
+          "y": 0.0456345952833013,
+          "z": 0.11999999999999969
         },
-        "maxSpeed": 0.007638589456837749,
-        "maxW": 0.0014710842106903815,
-        "divergenceRms": 2.2299165404860477e-18,
-        "salinityMin": 29.999999999999943,
-        "salinityMax": 35.37150682406315,
+        "maxSpeed": 0.007638585813400835,
+        "maxW": 0.0014710833656592982,
+        "divergenceRms": 2.2565939354455132e-18,
+        "salinityMin": 29.999999999999922,
+        "salinityMax": 35.37150662150269,
         "dyeMin": 0,
-        "dyeMax": 0.8952511373438604,
+        "dyeMax": 0.8952511035837867,
         "saltLedgerResidual": 2.7755575615628914e-16,
-        "dyeLedgerResidual": 4.235164736271502e-22,
+        "dyeLedgerResidual": 4.235164736271502e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 4216.84525
+        "wallMilliseconds": 4557.915459
       }
     ],
-    "gridCentroidDifference": 0.00005321107293005528,
+    "gridCentroidDifference": 0.000051575843274725974,
     "halfTimestep": {
-      "model": "salinity-dye-tank-3d-v5",
+      "model": "salinity-dye-tank-3d-v6",
       "dimensions": 3,
       "acceleration": "float64-wasm",
       "accelerationFallback": null,
@@ -232,30 +234,30 @@
       ],
       "time": 0.30000000000000016,
       "steps": 60,
-      "saltIntegral": 0.4147351698166333,
-      "dyeIntegral": 0.0000025283027722010326,
+      "saltIntegral": 0.41473516981663333,
+      "dyeIntegral": 0.0000025283027722010317,
       "dyeCentroid": {
-        "x": 0.11999999999999995,
-        "y": 0.045601750893090064,
-        "z": 0.12
+        "x": 0.1199999999999999,
+        "y": 0.04559194641298167,
+        "z": 0.11999999999999991
       },
-      "maxSpeed": 0.004616267047296171,
-      "maxW": 0.0008496732994600299,
-      "divergenceRms": 8.158616345357651e-19,
-      "salinityMin": 29.999999999999908,
-      "salinityMax": 33.69498525059276,
-      "dyeMin": 1.34069e-318,
-      "dyeMax": 0.6158308750987856,
-      "saltLedgerResidual": 5.551115123125783e-17,
-      "dyeLedgerResidual": 1.2705494208814505e-21,
+      "maxSpeed": 0.0046162662615971545,
+      "maxW": 0.0008496731609466687,
+      "divergenceRms": 9.860824584506387e-19,
+      "salinityMin": 29.999999999999872,
+      "salinityMax": 33.69498524866404,
+      "dyeMin": 1.72679e-318,
+      "dyeMax": 0.6158308747773339,
+      "saltLedgerResidual": 1.1102230246251565e-16,
+      "dyeLedgerResidual": 4.235164736271502e-22,
       "requestedDt": 0.005,
-      "wallMilliseconds": 1012.0990000000011
+      "wallMilliseconds": 1150.9962919999998
     },
-    "timestepCentroidDifference": 0.000009799161580593962,
+    "timestepCentroidDifference": 3.801606605902119e-9,
     "extremes": [
       {
         "dropSalinity": 0,
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -266,28 +268,28 @@
         ],
         "time": 0.3000000000000001,
         "steps": 30,
-        "saltIntegral": 0.41427025509375026,
-        "dyeIntegral": 0.000014991496875000033,
+        "saltIntegral": 0.41427025509375004,
+        "dyeIntegral": 0.000014991496875000013,
         "dyeCentroid": {
-          "x": 0.11999999999999995,
-          "y": 0.04180002046202462,
-          "z": 0.11999999999999994
+          "x": 0.1199999999999999,
+          "y": 0.04190206560926896,
+          "z": 0.11999999999999993
         },
-        "maxSpeed": 0.036765114764225816,
-        "maxW": 0.00728662272589876,
-        "divergenceRms": 1.0678569068748632e-17,
-        "salinityMin": 4.189455571310475,
-        "salinityMax": 30.000000000000057,
-        "dyeMin": 5.653093445928681e-277,
-        "dyeMax": 0.8603514809563183,
-        "saltLedgerResidual": 4.996003610813204e-16,
-        "dyeLedgerResidual": 4.0657581468206416e-20,
+        "maxSpeed": 0.03676510771933182,
+        "maxW": 0.007286623979715738,
+        "divergenceRms": 1.2422255569879185e-17,
+        "salinityMin": 4.150005078796578,
+        "salinityMax": 30.0000000000001,
+        "dyeMin": 6.576494453143237e-276,
+        "dyeMax": 0.8616664973734478,
+        "saltLedgerResidual": 2.7755575615628914e-16,
+        "dyeLedgerResidual": 2.0328790734103208e-20,
         "requestedDt": 0.01,
-        "wallMilliseconds": 504.93883300000016
+        "wallMilliseconds": 588.4930409999997
       },
       {
         "dropSalinity": 40,
-        "model": "salinity-dye-tank-3d-v5",
+        "model": "salinity-dye-tank-3d-v6",
         "dimensions": 3,
         "acceleration": "float64-wasm",
         "accelerationFallback": null,
@@ -298,24 +300,24 @@
         ],
         "time": 0.3000000000000001,
         "steps": 30,
-        "saltIntegral": 0.4148699149687498,
-        "dyeIntegral": 0.000014991496874999996,
+        "saltIntegral": 0.4148699149687492,
+        "dyeIntegral": 0.00001499149687499996,
         "dyeCentroid": {
-          "x": 0.1199999999999999,
-          "y": 0.04607842473225641,
-          "z": 0.12000000000000002
+          "x": 0.12000000000000029,
+          "y": 0.04604382017059887,
+          "z": 0.12000000000000031
         },
-        "maxSpeed": 0.012282405686710124,
-        "maxW": 0.002248019031115739,
-        "divergenceRms": 3.707501911407416e-18,
-        "salinityMin": 29.99999999999995,
-        "salinityMax": 38.69549163280837,
-        "dyeMin": 1.0602968459975317e-296,
-        "dyeMax": 0.8695491632808316,
-        "saltLedgerResidual": 7.216449660063518e-16,
-        "dyeLedgerResidual": 3.3881317890172014e-21,
+        "maxSpeed": 0.01228240395023064,
+        "maxW": 0.002248018611003725,
+        "divergenceRms": 3.904084148439074e-18,
+        "salinityMin": 29.999999999999915,
+        "salinityMax": 38.695491550804476,
+        "dyeMin": 1.5436900663023604e-295,
+        "dyeMax": 0.8695491550804466,
+        "saltLedgerResidual": 1.1102230246251565e-16,
+        "dyeLedgerResidual": 3.218725199566341e-20,
         "requestedDt": 0.01,
-        "wallMilliseconds": 507.17120800000157
+        "wallMilliseconds": 592.0622500000009
       }
     ],
     "taylorGreen": [
@@ -346,8 +348,8 @@
     ],
     "vorticity": {
       "time": 0.3000000000000001,
-      "max": 0.3331688350564668,
-      "rms": 0.02143979190759158,
+      "max": 0.3331687775137358,
+      "rms": 0.02143978902828428,
       "units": "s^-1",
       "physicalFieldsUnchanged": [
         "u",
@@ -361,6 +363,46 @@
         "pressureEstimate"
       ],
       "physicalClockUnchanged": true
+    },
+    "coupling": {
+      "shortTimeCoefficient": 0.4999998410717576,
+      "expectedCoefficient": 0.5,
+      "grid": [
+        16,
+        16,
+        16
+      ],
+      "duration": 0.3,
+      "requestedTimesteps": [
+        0.02,
+        0.01,
+        0.005,
+        0.0025
+      ],
+      "fields": {
+        "salinity": {
+          "successiveRmsDifferences": [
+            3.3864656542786166e-11,
+            8.469258567350476e-12,
+            2.155553231838107e-12
+          ],
+          "selfConvergenceRatios": [
+            3.9985385111911147,
+            3.929041715257701
+          ]
+        },
+        "gold": {
+          "successiveRmsDifferences": [
+            7.1105611741924466e-12,
+            1.7797695573652414e-12,
+            4.601671859428262e-13
+          ],
+          "selfConvergenceRatios": [
+            3.9952145179507803,
+            3.867658563525584
+          ]
+        }
+      }
     }
   },
   "scope": "Selected global quantities, conservation, incompressibility, hydrostatics, density response and one analytic viscous limit for the Float64 reference backend. GPU and 0.02 s requests are checked separately in verification-gpu.json. Not a validation of 3D turbulent morphology, physical entrainment rates, lab observations or measured ocean currents."

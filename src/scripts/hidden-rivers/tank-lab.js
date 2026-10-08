@@ -3,8 +3,8 @@ import { startDyeTank3D } from './dye-tank-3d-ui.js';
 export function startTankLab() {
   const root=document.querySelector('.tank-only-page .ocean-folio');if(!root)return;
   const params=new URLSearchParams(location.search),field=params.get('field')||'dye';
-  const tank=startDyeTank3D({initialField:field,initialGeometry:params.get('geometry')||(field==='vorticity-z'?'section':'volume'),initialPlane:params.has('section')?Number(params.get('section')):.5,
-    onDisplayChange:state=>{const url=new URL(location.href);url.searchParams.set('field',state.field);url.searchParams.set('geometry',state.geometry);url.searchParams.set('section',String(state.plane));history.replaceState(null,'',url);}});
+  const tank=startDyeTank3D({initialField:field,initialGeometry:params.get('geometry')||(field==='vorticity-z'?'section':'volume'),initialPlane:params.has('section')?Number(params.get('section')):.5,initialQuality:params.get('quality')||'detail',
+    onDisplayChange:state=>{const url=new URL(location.href);url.searchParams.set('field',state.field);url.searchParams.set('geometry',state.geometry);url.searchParams.set('section',String(state.plane));url.searchParams.set('quality',state.quality);history.replaceState(null,'',url);}});
   const trigger=document.getElementById('tank-present'),exit=document.getElementById('folio-exit'),controls=root.querySelector('.folio-present-controls');
   let presenting=false,scrollBefore=0,timer;
   function showControls(){root.classList.add('folio-controls-visible');clearTimeout(timer);timer=setTimeout(()=>root.classList.remove('folio-controls-visible'),1800);}

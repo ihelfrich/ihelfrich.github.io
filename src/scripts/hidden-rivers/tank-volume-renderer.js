@@ -1,5 +1,6 @@
 import { createTankCamera } from './tank-camera.mjs';
 import { sampleTankSection } from './tank-section.mjs';
+import { dyeExtinctionPerMetre } from './tank-optics.mjs';
 
 export const tankSpeedLimit=.05;
 export const tankVorticityLimit=8;
@@ -16,7 +17,7 @@ precision highp sampler3D;
 uniform sampler3D oldVol,newVol,oldCurl,newCurl;
 uniform ivec3 grid;
 uniform vec3 dims,eye,forward,right,up,outward;
-uniform float phase,halfFov,aspect,cutaway,sectionZ;
+uniform float phase,halfFov,aspect,cutaway,sectionZ,metresPerWorld;
 uniform int mode;
 uniform bool smoothFloat,flow,hasCurl;
 in vec2 uv;
@@ -39,6 +40,18 @@ bool box(vec3 ro,vec3 rd,out float a,out float b){
  vec3 h=dims*.5,t0=(-h-ro)/rd,t1=(h-ro)/rd,lo=min(t0,t1),hi=max(t0,t1);
  a=max(max(lo.x,lo.y),lo.z);b=min(min(hi.x,hi.y),hi.z);return b>=max(a,0.);
 }
+vec3 linearColor(vec3 c){return mix(c/12.92,pow((c+.055)/1.055,vec3(2.4)),step(vec3(.04045),c));}
+vec3 displayColor(vec3 c){c=max(c,vec3(0.));return mix(12.92*c,1.055*pow(c,vec3(1./2.4))-.055,step(vec3(.0031308),c));}
+float lightTransmission(vec3 p,vec3 light){
+ float a,b;if(!box(p,light,a,b))return 1.;float depth=0.;
+ // Quadratic spacing concentrates samples near the illuminated pigment.
+ for(int i=0;i<6;i++){
+  float x=float(i)/6.,y=float(i+1)/6.,lo=b*x*x,hi=b*y*y;
+  vec3 q=p+light*(lo+hi)*.5,qp=vec3(q.x/dims.x+.5,.5-q.y/dims.y,q.z/dims.z+.5);
+  depth+=dye(qp)*(hi-lo)*metresPerWorld;
+ }
+ return exp(-${dyeExtinctionPerMetre.toFixed(1)}*depth);
+}
 void main(){
  vec2 n=vec2(uv.x*2.-1.,uv.y*2.-1.);
  vec3 rd=normalize(forward+right*n.x*halfFov*aspect+up*n.y*halfFov);
@@ -59,30 +72,23 @@ void main(){
  float cell=max(max(dims.x/float(grid.x),dims.y/float(grid.y)),dims.z/float(grid.z));
  float ds=max(cell*.7,(b-a)/150.);float trans=1.;vec3 rgb=vec3(0.);
  float radius=dot(abs(outward),dims*.5),clip=radius*(2.*cutaway-1.);
- for(float t=a;t<b&&trans>.02;t+=ds){
-  vec3 p=eye+rd*(t+.5*ds);if(dot(p,outward)>clip)continue;
+ for(float t=a;t<b&&trans>.012;t+=ds){
+  float segment=min(ds,b-t);vec3 p=eye+rd*(t+.5*segment);if(dot(p,outward)>clip)continue;
   vec3 qpos=vec3(p.x/dims.x+.5,.5-p.y/dims.y,p.z/dims.z+.5);vec4 q=field(qpos);
   float alpha;vec3 ink;
-  if(mode==1){float s=clamp(q.z,0.,1.);ink=s<.5?mix(${shaderColor(salinityColors[0])},${shaderColor(salinityColors[1])},2.*s):mix(${shaderColor(salinityColors[1])},${shaderColor(salinityColors[2])},2.*s-1.);alpha=1.-exp(-1.8*ds);}
-  else if(mode==2){float s=clamp(q.w/${tankSpeedLimit},0.,1.);ink=mix(${shaderColor(speedColors[0])},${shaderColor(speedColors[1])},s);alpha=1.-exp(-2.*s*ds);}
-  else if(mode==3||mode==4){vec4 curl=rotation(qpos);float s=clamp((mode==3?curl.w:abs(curl.z))/${tankVorticityLimit.toFixed(1)},0.,1.);if(mode==3)ink=s<.5?mix(${shaderColor(vorticityColors[0])},${shaderColor(vorticityColors[1])},2.*s):mix(${shaderColor(vorticityColors[1])},${shaderColor(vorticityColors[2])},2.*s-1.);else ink=mix(${shaderColor(signedColors[1])},curl.z<0.?${shaderColor(signedColors[0])}:${shaderColor(signedColors[2])},sqrt(s));alpha=1.-exp(-160.*pow(s,.85)*ds);}
+  if(mode==1){float s=clamp(q.z,0.,1.);ink=s<.5?mix(${shaderColor(salinityColors[0])},${shaderColor(salinityColors[1])},2.*s):mix(${shaderColor(salinityColors[1])},${shaderColor(salinityColors[2])},2.*s-1.);alpha=1.-exp(-1.8*segment);}
+  else if(mode==2){float s=clamp(q.w/${tankSpeedLimit},0.,1.);ink=mix(${shaderColor(speedColors[0])},${shaderColor(speedColors[1])},s);alpha=1.-exp(-2.*s*segment);}
+  else if(mode==3||mode==4){vec4 curl=rotation(qpos);float s=clamp((mode==3?curl.w:abs(curl.z))/${tankVorticityLimit.toFixed(1)},0.,1.);if(mode==3)ink=s<.5?mix(${shaderColor(vorticityColors[0])},${shaderColor(vorticityColors[1])},2.*s):mix(${shaderColor(vorticityColors[1])},${shaderColor(vorticityColors[2])},2.*s-1.);else ink=mix(${shaderColor(signedColors[1])},curl.z<0.?${shaderColor(signedColors[0])}:${shaderColor(signedColors[2])},sqrt(s));alpha=1.-exp(-160.*pow(s,.85)*segment);}
   else{
    float d=max(0.,q.x+q.y),f=d>1e-8?clamp(q.y/d,0.,1.):0.;
-   vec3 gold=mix(vec3(.72,.23,.045),vec3(1.,.83,.46),smoothstep(.003,.09,d));
-   vec3 rose=mix(vec3(.75,.08,.23),vec3(1.,.57,.56),smoothstep(.003,.09,d));
-   ink=mix(gold,rose,f);alpha=1.-exp(-120.*d*ds);
-   if(flow){float s=clamp(q.w*22.,0.,1.);ink=mix(ink,vec3(.22,.78,.86),.25*s);alpha=max(alpha,1.-exp(-.8*s*ds));}
-   if(alpha>.001){
-    vec3 e=1./vec3(grid);float gx=dye(qpos+vec3(e.x,0,0))-dye(qpos-vec3(e.x,0,0));float gy=dye(qpos+vec3(0,e.y,0))-dye(qpos-vec3(0,e.y,0));float gz=dye(qpos+vec3(0,0,e.z))-dye(qpos-vec3(0,0,e.z));
-    vec3 normal=normalize(vec3(-gx,gy,-gz)+vec3(1e-7)),light=normalize(vec3(-.5,.8,.6));
-    float shade=exp(-2.8*dye(qpos+vec3(light.x,-light.y,light.z)*e*3.));
-    float key=max(0.,dot(normal,light)),rim=pow(1.-abs(dot(normal,rd)),3.);
-    ink*=.52+.65*key*shade+.18*rim;
-   }
+   vec3 gold=vec3(1.,.74,.28),rose=vec3(1.,.35,.48);
+   ink=mix(gold,rose,f);alpha=1.-exp(-${dyeExtinctionPerMetre.toFixed(1)}*d*segment*metresPerWorld);
+   if(flow){float s=clamp(q.w*22.,0.,1.);ink=mix(ink,vec3(.22,.78,.86),.25*s);alpha=max(alpha,1.-exp(-.8*s*segment));}
+   ink=linearColor(ink);if(alpha>.001)ink*=.23+1.9*lightTransmission(p,normalize(vec3(-.45,.8,.6)));
   }
-  rgb+=trans*alpha*ink*(.84+.16*clamp((b-t)/(b-a+1e-6),0.,1.));trans*=1.-alpha;
+  if(mode!=0)ink=linearColor(ink);rgb+=trans*alpha*ink;trans*=1.-alpha;
  }
- color=vec4(pow(max(rgb+trans*bg,vec3(0.)),vec3(.88)),1.);
+ vec3 radiance=max(rgb+trans*linearColor(bg),vec3(0.));if(mode==0)radiance=1.-exp(-1.25*radiance);color=vec4(displayColor(radiance),1.);
 }`;
 const LVS = `#version 300 es
 precision highp float;
@@ -111,13 +117,13 @@ export function createTankVolumeRenderer(canvas){
  const camApi={orbit:(x,y)=>camera.orbit(x,y),zoom:f=>camera.zoom(f),home:()=>camera.home(),section:()=>camera.section(),getCamera:()=>camera.getCamera(),pick:(x,y,r,z)=>camera.pick(x,y,r,z)};
  if(!gl)return {...fallback(canvas,()=>camera,dataRef=>{if(dims.width!==dataRef.width||dims.height!==dataRef.height||dims.depth!==dataRef.depth){dims={width:dataRef.width,height:dataRef.height,depth:dataRef.depth};camera=createTankCamera(dims);}data=dataRef;},camApi)};
  const drawProgram=link(gl,VS,FS),lineProgram=link(gl,LVS,LFS);
- const loc=(p,n)=>gl.getUniformLocation(p,n),u=Object.fromEntries(['oldVol','newVol','oldCurl','newCurl','hasCurl','grid','dims','eye','forward','right','up','outward','phase','halfFov','aspect','cutaway','sectionZ','mode','smoothFloat','flow'].map(n=>[n,loc(drawProgram,n)])),lu=Object.fromEntries(['eye','forward','right','up','halfFov','aspect','tint'].map(n=>[n,loc(lineProgram,n)]));
+ const loc=(p,n)=>gl.getUniformLocation(p,n),u=Object.fromEntries(['oldVol','newVol','oldCurl','newCurl','hasCurl','grid','dims','eye','forward','right','up','outward','phase','halfFov','aspect','cutaway','sectionZ','metresPerWorld','mode','smoothFloat','flow'].map(n=>[n,loc(drawProgram,n)])),lu=Object.fromEntries(['eye','forward','right','up','halfFov','aspect','tint'].map(n=>[n,loc(lineProgram,n)]));
  const tex=Array.from({length:4},()=>gl.createTexture()),linear=Boolean(gl.getExtension('OES_texture_float_linear')),lineBuffer=gl.createBuffer();let lineKey='',lineN=0;
  gl.useProgram(drawProgram);for(const [i,n]of ['oldVol','newVol','oldCurl','newCurl'].entries())gl.uniform1i(u[n],i);gl.uniform1i(u.smoothFloat,Number(linear));
  for(const t of tex){gl.bindTexture(gl.TEXTURE_3D,t);for(const p of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T,gl.TEXTURE_WRAP_R])gl.texParameteri(gl.TEXTURE_3D,p,gl.CLAMP_TO_EDGE);const f=linear?gl.LINEAR:gl.NEAREST;gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MAG_FILTER,f);}
  function setData(s){if(dims.width!==s.width||dims.height!==s.height||dims.depth!==s.depth){dims={width:s.width,height:s.height,depth:s.depth};camera=createTankCamera(dims);lineKey='';}data=s;}
  let textureGrid=null,empty=null,uploadedCurl=false;
- function upload(){if(!data||!old||!current)return;gl.useProgram(drawProgram);const resized=!textureGrid||textureGrid.nx!==data.nx||textureGrid.ny!==data.ny||textureGrid.nz!==data.nz;if(resized)empty=new Float32Array(current.length);const fields=[old,current,oldCurl||empty,currentCurl||empty];for(let i=0;i<4;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);if(resized)gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA32F,data.nx,data.ny,data.nz,0,gl.RGBA,gl.FLOAT,fields[i]);else if(i<2||currentCurl||uploadedCurl)gl.texSubImage3D(gl.TEXTURE_3D,0,0,0,0,data.nx,data.ny,data.nz,gl.RGBA,gl.FLOAT,fields[i]);}if(resized)textureGrid={nx:data.nx,ny:data.ny,nz:data.nz};uploadedCurl=Boolean(currentCurl);gl.uniform1i(u.hasCurl,Number(uploadedCurl));gl.uniform3i(u.grid,data.nx,data.ny,data.nz);gl.uniform3f(u.dims,data.width/data.width,data.height/data.width,data.depth/data.width);}
+ function upload(){if(!data||!old||!current)return;gl.useProgram(drawProgram);const resized=!textureGrid||textureGrid.nx!==data.nx||textureGrid.ny!==data.ny||textureGrid.nz!==data.nz;if(resized)empty=new Float32Array(current.length);const fields=[old,current,oldCurl||empty,currentCurl||empty];for(let i=0;i<4;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);if(resized)gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA32F,data.nx,data.ny,data.nz,0,gl.RGBA,gl.FLOAT,fields[i]);else if(i<2||currentCurl||uploadedCurl)gl.texSubImage3D(gl.TEXTURE_3D,0,0,0,0,data.nx,data.ny,data.nz,gl.RGBA,gl.FLOAT,fields[i]);}if(resized)textureGrid={nx:data.nx,ny:data.ny,nz:data.nz};uploadedCurl=Boolean(currentCurl);gl.uniform1i(u.hasCurl,Number(uploadedCurl));gl.uniform3i(u.grid,data.nx,data.ny,data.nz);gl.uniform3f(u.dims,data.width/data.width,data.height/data.width,data.depth/data.width);gl.uniform1f(u.metresPerWorld,data.width);}
  return {mode:linear?'webgl2-volume-linear':'webgl2-volume-trilinear',...camApi,getStats:stats,
   push(snapshot,mix){const s=valid(snapshot),prior=data,same=Boolean(old&&prior&&prior.nx===s.nx&&prior.ny===s.ny&&prior.nz===s.nz&&prior.width===s.width&&prior.height===s.height&&prior.depth===s.depth);setData(s);const packed=new Float32Array(s.volume),f=clamp(Number.isFinite(mix)?mix:1,0,1);if(same){for(let i=0;i<old.length;i++)old[i]+=(current[i]-old[i])*f;}else old=packed.slice();current=packed;if(s.vorticity){const packedCurl=new Float32Array(s.vorticity);if(same&&oldCurl&&currentCurl){for(let i=0;i<oldCurl.length;i++)oldCurl[i]+=(currentCurl[i]-oldCurl[i])*f;}else oldCurl=packedCurl.slice();currentCurl=packedCurl;}else oldCurl=currentCurl=null;mixAt=f;upload();},
   draw(mix,view,{cutaway=1,flow=false,section=null}={}){if(!current)return;
