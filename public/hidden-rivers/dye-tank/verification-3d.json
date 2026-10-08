@@ -1,9 +1,12 @@
 {
+  "diagnosticSourceSha256": "bb1a56d2292e5555916903d5a6167fc4f533b8254417c4a08882f3775a821214",
+  "diagnosticRegisterSha256": "a3b796d623b94955764c55fb16d2e6f95a871436bb2e14f49e165a94d81ceeaf",
+  "diagnosticTestSourceSha256": "3079d75dc837c5646c2ddc54cb9382cc080af933c7db99704440074aa835edda",
   "model": "salinity-dye-tank-3d-v5-reference",
-  "generatedAt": "2026-10-08T17:41:36.296Z",
+  "generatedAt": "2026-10-08T19:24:17.625Z",
   "passed": true,
   "canonicalArithmetic": "Float64",
-  "solverSourceSha256": "fbda7c6239293e1b4f00e4379b2926872a25d2f6c9b0c672bb9bdf57210ebd5d",
+  "solverSourceSha256": "4478c77308a430726ccf0843291666bd67c6e440f807ddd86840965fbc853071",
   "pressureSourceSha256": "0f7f2c997d7a7ec3653b2b8fe20f8dc03f85e508e82d394d876a812dc09565b4",
   "kernelSourceSha256": "77d44699a7e84016e6ce86613d7bee01d32ce02c003ae7a6a2f392f802e04246",
   "kernelBinarySha256": "bc76e20a6682a1ea41cb24c6552c8ec82a0e6975ea7ba13fb0bc396290596395",
@@ -151,7 +154,7 @@
         "saltLedgerResidual": 0,
         "dyeLedgerResidual": 1.2705494208814505e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 516.1002500000002
+        "wallMilliseconds": 518.2701669999999
       },
       {
         "model": "salinity-dye-tank-3d-v5",
@@ -182,7 +185,7 @@
         "saltLedgerResidual": 2.220446049250313e-16,
         "dyeLedgerResidual": 2.117582368135751e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 1027.0075000000002
+        "wallMilliseconds": 1039.3318330000002
       },
       {
         "model": "salinity-dye-tank-3d-v5",
@@ -213,7 +216,7 @@
         "saltLedgerResidual": 2.7755575615628914e-16,
         "dyeLedgerResidual": 4.235164736271502e-22,
         "requestedDt": 0.01,
-        "wallMilliseconds": 4180.092500000001
+        "wallMilliseconds": 4216.84525
       }
     ],
     "gridCentroidDifference": 0.00005321107293005528,
@@ -246,7 +249,7 @@
       "saltLedgerResidual": 5.551115123125783e-17,
       "dyeLedgerResidual": 1.2705494208814505e-21,
       "requestedDt": 0.005,
-      "wallMilliseconds": 991.8140830000002
+      "wallMilliseconds": 1012.0990000000011
     },
     "timestepCentroidDifference": 0.000009799161580593962,
     "extremes": [
@@ -280,7 +283,7 @@
         "saltLedgerResidual": 4.996003610813204e-16,
         "dyeLedgerResidual": 4.0657581468206416e-20,
         "requestedDt": 0.01,
-        "wallMilliseconds": 499.83491700000013
+        "wallMilliseconds": 504.93883300000016
       },
       {
         "dropSalinity": 40,
@@ -312,7 +315,7 @@
         "saltLedgerResidual": 7.216449660063518e-16,
         "dyeLedgerResidual": 3.3881317890172014e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 497.622292
+        "wallMilliseconds": 507.17120800000157
       }
     ],
     "taylorGreen": [
@@ -340,7 +343,25 @@
         "relativeError": 4.060883362910772e-7,
         "divergenceRms": 1.2916800881346652e-16
       }
-    ]
+    ],
+    "vorticity": {
+      "time": 0.3000000000000001,
+      "max": 0.3331688350564668,
+      "rms": 0.02143979190759158,
+      "units": "s^-1",
+      "physicalFieldsUnchanged": [
+        "u",
+        "v",
+        "w",
+        "salinity",
+        "gold",
+        "coral",
+        "dye",
+        "phi",
+        "pressureEstimate"
+      ],
+      "physicalClockUnchanged": true
+    }
   },
   "scope": "Selected global quantities, conservation, incompressibility, hydrostatics, density response and one analytic viscous limit for the Float64 reference backend. GPU and 0.02 s requests are checked separately in verification-gpu.json. Not a validation of 3D turbulent morphology, physical entrainment rates, lab observations or measured ocean currents."
 }

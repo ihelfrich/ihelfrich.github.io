@@ -55,3 +55,130 @@
 
 @media(min-width:761px){.tank-stage{position:sticky;top:18px}}
 .tank-presets+.tank-buttons{margin-bottom:4px}.tank-camera-buttons{margin:10px 0 20px}
+
+/* A continuous reading surface: generous image area, quiet rules, clear actions. */
+.ocean-folio{max-width:1720px;padding-inline:clamp(20px,3.5vw,64px)}
+.folio-header{padding-block:20px;border-bottom-color:var(--atlas-story-line)}
+.folio-header>a{font-size:30px;letter-spacing:-.035em}
+.folio-header>p{letter-spacing:.12em;text-transform:uppercase}
+.folio-header button{border-color:var(--atlas-story-line);color:var(--atlas-story-gold)}
+.folio-header button:hover{background:var(--atlas-story-bg)}
+.classroom-opening{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(40px,6vw,110px);padding:clamp(54px,6vw,92px) 0 64px}
+.classroom-intro h1{font-size:clamp(52px,5.35vw,86px);line-height:.98;letter-spacing:-.047em;margin-bottom:30px}
+.classroom-intro>p:not(.folio-kicker){font-size:clamp(18px,1.45vw,22px);line-height:1.58;color:var(--atlas-story-copy);max-width:44ch}
+.classroom-intro .folio-actions{max-width:600px;margin-top:30px;gap:8px 24px}
+.folio-actions>a{font-size:12px;line-height:1.45;border-bottom:1px solid transparent;text-underline-offset:4px}
+.folio-actions>a:hover{border-bottom-color:var(--atlas-story-gold)}
+.classroom-opening img{aspect-ratio:1.48;object-fit:cover;background:var(--atlas-space)}
+.classroom-opening figcaption{padding-left:13px;border-left:2px solid var(--atlas-story-gold);max-width:70ch;margin-top:16px}
+.classroom-lesson{grid-template-columns:1.18fr 1fr 1fr;gap:0;padding:50px 0 56px}
+.classroom-lesson>div{min-width:0;padding-right:clamp(22px,3vw,48px);margin-right:clamp(22px,3vw,48px);border-right:1px solid var(--atlas-line)}
+.classroom-lesson>div:last-child{padding-right:0;margin-right:0;border-right:0}
+.classroom-lesson h2{font-size:clamp(26px,2.2vw,32px);margin:22px 0 18px}
+.classroom-lesson p,.classroom-lesson li{font-size:16px;line-height:1.7}
+.classroom-lesson .folio-kicker{font-size:10px;letter-spacing:.08em}
+.classroom-sources{margin-bottom:48px}
+.folio-chapters{gap:3px;border-block:1px solid var(--atlas-line);margin-bottom:26px;padding:11px 0}
+.folio-chapters button,.folio-chapters>a{border-radius:2px;font-size:11px}
+.folio-chapters button[aria-pressed=true]{background:var(--atlas-story-bg);color:var(--atlas-story-gold);border-bottom:1px solid var(--atlas-story-gold)}
+.folio-study{grid-template-columns:minmax(0,1fr) minmax(280px,320px);gap:clamp(30px,4vw,64px)}
+.folio-image-wrap{min-height:0;align-self:start;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--atlas-story-line)}
+.folio-reading{padding-top:12px}
+.folio-reading :is(h1,h2){font-size:clamp(34px,3vw,44px);line-height:1.08}
+.folio-reading>p:not(.folio-kicker){color:var(--atlas-story-copy)}
+.folio-views{border-top:1px solid var(--atlas-line);padding-top:17px;margin-top:22px}
+.folio-views button[aria-pressed=true]{border-color:var(--atlas-story-gold);color:var(--atlas-story-gold)}
+.folio-scale{margin:24px 0 18px}
+.folio-teaching{max-width:1300px;gap:clamp(45px,8vw,140px)}
+.folio-research{padding-top:60px}
+.folio-research-grid{gap:clamp(28px,4vw,60px)}
+
+/* The simulation is the primary visual; controls read in three short groups. */
+.saltwater-lab{padding:66px 0 64px}
+.tank-heading{align-items:end;margin-bottom:28px}
+.tank-heading h2{font-size:clamp(38px,3.8vw,54px);letter-spacing:-.038em;max-width:22ch}
+.tank-heading p:not(.folio-kicker){font-size:16px;line-height:1.65;max-width:68ch}
+.tank-heading>button{color:var(--atlas-story-gold);border-color:var(--atlas-story-line)}
+.tank-layout{grid-template-columns:minmax(0,1fr) 306px;gap:clamp(24px,3vw,48px)}
+.tank-stage{max-width:calc((100svh - 105px)*1.333333);border-radius:7px;border-color:var(--atlas-story-line);box-shadow:0 20px 70px var(--atlas-drop-shadow)}
+.tank-controls{min-width:0;border-top:1px solid var(--atlas-story-line);padding-top:3px}
+.tank-controls-heading{font:10px/1.4 var(--font-data);font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--atlas-story-gold);margin:18px 0 12px;padding-top:16px;border-top:1px solid var(--atlas-line)}
+.tank-controls-heading:first-child{border-top:0;padding-top:0;margin-top:14px}
+.tank-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-bottom:13px}
+.tank-presets button{white-space:normal;line-height:1.25;padding:8px 6px;font-size:10px}
+.tank-presets button[aria-pressed=true]{color:var(--atlas-story-gold);background:var(--atlas-story-bg);border-color:var(--atlas-story-gold)}
+.tank-buttons{display:grid;grid-template-columns:1.25fr .8fr .8fr;gap:5px}
+.tank-buttons button{font-size:10px;padding:8px 6px;white-space:normal}
+.tank-buttons button:first-child{background:var(--atlas-story-gold);color:var(--atlas-space);border-color:var(--atlas-story-gold)}
+.tank-buttons button:first-child:hover{background:var(--atlas-heading);color:var(--atlas-space)}
+.tank-controls>label{font-size:11px;margin:17px 0 20px;color:var(--atlas-story-copy)}
+.tank-controls label>output{font-variant-numeric:tabular-nums;color:var(--atlas-heading)}
+.tank-controls input[type=range]{height:20px;accent-color:var(--atlas-story-gold)}
+.tank-meaning{font-size:12px;min-height:0;margin:-4px 0 17px}
+.tank-selects{gap:10px}
+.tank-selects label{font-size:11px;margin:8px 0}
+.tank-selects select{font-size:11px;background:var(--atlas-select);border-color:var(--atlas-story-line)}
+.tank-check{font-size:11px}
+.tank-camera-buttons{display:grid;grid-template-columns:1fr 44px 44px;gap:6px;margin:5px 0 18px}
+.tank-camera-buttons button{font-size:11px}
+.tank-caption{font-size:10px;line-height:1.65}
+.tank-explanation{max-width:90ch;margin-top:30px;font-size:16px;color:var(--atlas-story-copy)}
+.tank-model{max-width:90ch;border-top:1px solid var(--atlas-line);padding-top:7px}
+.tank-model summary{min-height:44px;display:flex;align-items:center}
+.tank-layer-editor{border-color:var(--atlas-story-line);background:var(--atlas-story-bg);margin-top:10px}
+.tank-legend{margin-top:18px}
+
+@media(max-width:1050px){
+  .classroom-opening{gap:34px}
+  .tank-layout{grid-template-columns:minmax(0,1fr) 270px;gap:24px}
+}
+@media(max-width:900px){
+  .classroom-opening{grid-template-columns:1fr;gap:30px;padding:52px 0 40px}
+  .classroom-opening figure{max-width:none}
+  .classroom-opening img{aspect-ratio:16/9}
+  .classroom-lesson{display:block;padding:34px 0}
+  .classroom-lesson>div{padding:0 0 25px;margin:0 0 30px;border-right:0;border-bottom:1px solid var(--atlas-line)}
+  .classroom-lesson>div:last-child{margin:0;padding:0;border:0}
+}
+@media(max-width:760px){
+  .ocean-folio{padding-inline:20px}
+  .folio-header{gap:9px;padding-block:17px}
+  .folio-header>a{font-size:26px}
+  .folio-header>p{font-size:8px;letter-spacing:.08em}
+  .folio-header button{font-size:10px;padding:8px 10px}
+  .classroom-opening{padding-top:42px;gap:24px}
+  .classroom-intro h1{font-size:clamp(42px,12vw,62px);line-height:1.02;margin-bottom:22px}
+  .classroom-intro>p:not(.folio-kicker){font-size:18px;line-height:1.58}
+  .classroom-intro .folio-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 15px;margin:24px 0 0}
+  .folio-actions>a{font-size:11px;min-height:44px;display:flex;align-items:center}
+  .classroom-opening figcaption{font-size:10px}
+  .classroom-lesson h2{font-size:29px}
+  .classroom-lesson p,.classroom-lesson li{font-size:16px}
+  .folio-chapters{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;margin-inline:-20px;padding-inline:20px}
+  .folio-chapters::-webkit-scrollbar{display:none}
+  .folio-chapters button,.folio-chapters>a{flex:none;white-space:nowrap}
+  .folio-study{grid-template-columns:1fr;gap:25px}
+  .folio-image-wrap{aspect-ratio:16/9}
+  .folio-reading{padding-top:0}
+  .folio-reading :is(h1,h2){font-size:36px}
+  .saltwater-lab{padding:48px 0}
+  .tank-heading{display:block}
+  .tank-heading h2{font-size:38px;max-width:14ch}
+  .tank-heading p:not(.folio-kicker){font-size:14px}
+  .tank-heading>button{margin-top:17px}
+  .tank-layout{grid-template-columns:1fr;gap:22px}
+  .tank-stage{width:calc(100% + 24px);max-width:none;margin-left:-12px;border-radius:5px;box-sizing:border-box}
+  .tank-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;padding-top:0}
+  .tank-controls-heading{grid-column:1/-1}
+  .tank-presets,.tank-buttons,.tank-meaning,.tank-selects,.tank-camera-buttons,.tank-caption,.tank-legend{grid-column:1/-1}
+  .tank-controls>label{margin:13px 0 17px}
+  .tank-camera-buttons{max-width:290px}
+  .tank-explanation{font-size:15px}
+  .folio-teaching{gap:28px}
+  .folio-research{padding-top:42px}
+}
+@media(max-width:430px){
+  .ocean-folio{padding-inline:17px}
+  .classroom-intro .folio-actions{grid-template-columns:1fr 1fr}
+  .tank-stage{width:calc(100% + 20px);margin-left:-10px}
+}

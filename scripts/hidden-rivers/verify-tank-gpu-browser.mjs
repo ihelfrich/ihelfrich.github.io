@@ -13,6 +13,7 @@ const output=resolve(root,'public/hidden-rivers/dye-tank/verification-gpu.json')
 const sources={
   modelRegister:'docs/hidden-rivers/dye-tank-gpu-model.md',
   core:'src/scripts/hidden-rivers/dye-tank-3d.mjs',
+  vorticity:'src/scripts/hidden-rivers/tank-vorticity.mjs',
   gpu:'src/scripts/hidden-rivers/tank-gpu-momentum.mjs',
   wasmWrapper:'src/scripts/hidden-rivers/tank-3d-kernels.mjs',
   wasmSource:'src/scripts/hidden-rivers/tank-3d-kernels.c',

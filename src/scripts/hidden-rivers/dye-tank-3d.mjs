@@ -1,5 +1,6 @@
 import {createSpectralPressure3D,powerOfTwo} from './tank-pressure.mjs';
 import {seawaterDensity,referenceDensity} from './tank-seawater.mjs';
+import {tankVorticity} from './tank-vorticity.mjs';
 const valid=(x,a,b)=>Number.isFinite(x)&&x>=a&&x<=b;
 const slope=(a,b,forward)=>a*b<=0?0:Math.sign(a)*Math.min(2*Math.abs(a),Math.abs(forward?(a+2*b)/3:(2*a+b)/3),2*Math.abs(b));
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -88,5 +89,5 @@ class Tank3D{
   for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i,a=.5*(u[(k*ny+j)*(nx+1)+i]+u[(k*ny+j)*(nx+1)+i+1]),b=.5*(v[(k*(ny+1)+j)*nx+i]+v[(k*(ny+1)+j+1)*nx+i]),c=.5*(w[d]+w[d+nx*ny]);speed=Math.max(speed,Math.hypot(a,b,c));maxW=Math.max(maxW,Math.abs(c));smin=Math.min(smin,salinity[d]);smax=Math.max(smax,salinity[d]);dmin=Math.min(dmin,dye[d]);dmax=Math.max(dmax,dye[d]);weight+=dye[d];cx+=(i+.5)*dx*dye[d];cy+=(j+.5)*dy*dye[d];cz+=(k+.5)*dz*dye[d];}
   return {model:'salinity-dye-tank-3d-v5',dimensions:3,acceleration:this.acceleration,accelerationFallback:this.accelerationFallback||null,grid:[nx,ny,nz],time:this.time,steps:this.steps,saltIntegral:this.integral(salinity),dyeIntegral:this.integral(dye),dyeCentroid:{x:weight?cx/weight:this.width/2,y:weight?cy/weight:this.height/2,z:weight?cz/weight:this.depth/2},maxSpeed:speed,maxW,divergenceRms:this.projectionResidual||0,salinityMin:smin,salinityMax:smax,dyeMin:dmin,dyeMax:dmax};
  }
- snapshot(){const n=this.salinity.length,volume=new Float32Array(n*4),{nx,ny,nz,u,v,w,dx,dy,dz}=this;for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;volume[4*d]=this.gold[d];volume[4*d+1]=this.coral[d];volume[4*d+2]=this.salinity[d]/40;const speed=Math.hypot(.5*(u[(k*ny+j)*(nx+1)+i]+u[(k*ny+j)*(nx+1)+i+1]),.5*(v[(k*(ny+1)+j)*nx+i]+v[(k*(ny+1)+j+1)*nx+i]),.5*(w[d]+w[d+nx*ny]));volume[4*d+3]=speed;}return {nx,ny,nz,width:this.width,height:this.height,depth:this.depth,volume,diagnostics:this.diagnostics()};}
+ snapshot({includeVorticity=false}={}){const n=this.salinity.length,volume=new Float32Array(n*4),{nx,ny,nz,u,v,w,dx,dy,dz}=this;for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;volume[4*d]=this.gold[d];volume[4*d+1]=this.coral[d];volume[4*d+2]=this.salinity[d]/40;const speed=Math.hypot(.5*(u[(k*ny+j)*(nx+1)+i]+u[(k*ny+j)*(nx+1)+i+1]),.5*(v[(k*(ny+1)+j)*nx+i]+v[(k*(ny+1)+j+1)*nx+i]),.5*(w[d]+w[d+nx*ny]));volume[4*d+3]=speed;}const diagnostics=this.diagnostics(),curl=includeVorticity?tankVorticity(this):null;if(curl){diagnostics.vorticityMax=curl.max;diagnostics.vorticityRms=curl.rms;}return {nx,ny,nz,width:this.width,height:this.height,depth:this.depth,volume,...(curl?{vorticity:Float32Array.from(curl.values)}:{}),diagnostics};}
 }

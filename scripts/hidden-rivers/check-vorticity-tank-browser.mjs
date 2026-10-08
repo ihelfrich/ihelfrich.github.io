@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'/tmp/hidden-rivers-browser/node_modules/playwright/index.mjs');
+const base=process.env.HIDDEN_RIVERS_BASE_URL||'http://127.0.0.1:4328';
+const browser=await chromium.launch({headless:true,args:['--enable-webgl','--use-gl=angle','--use-angle=metal']});
+const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
+try{
+ await page.goto(base+'/hidden-rivers/prints/#saltwater-demo');await page.locator('#dye-tank-canvas').scrollIntoViewIfNeeded();await page.waitForFunction(()=>window.__dyeTank?.diagnostics?.time>.3);
+ await page.locator('#tank-pause').click();await page.waitForTimeout(200);const before=await page.evaluate(()=>window.__dyeTank.diagnostics);
+ await page.locator('#tank-view').selectOption('vorticity-z');await page.waitForFunction(()=>window.__dyeTank.diagnostics.vorticityMax>0);
+ const after=await page.evaluate(()=>window.__dyeTank.diagnostics);for(const key of ['time','saltIntegral','dyeIntegral','steps'])assert.equal(after[key],before[key],key+' cannot change when inspecting rotation');
+ const pixels=await page.evaluate(()=>{document.querySelector('#tank-cutaway').dispatchEvent(new Event('input'));const source=document.querySelector('#dye-tank-canvas'),copy=document.createElement('canvas');copy.width=source.width;copy.height=source.height;const ctx=copy.getContext('2d');ctx.drawImage(source,0,0);const data=ctx.getImageData(0,0,copy.width,copy.height).data;let cyan=0,coral=0;for(let i=0;i<data.length;i+=4){if(data[i+2]>50&&data[i+2]>data[i]*1.2)cyan++;if(data[i]>60&&data[i]>data[i+2]*1.3)coral++;}return {cyan,coral};});
+ assert.ok(pixels.cyan>50&&pixels.coral>50,'signed rotation must visibly show both turning directions: '+JSON.stringify({pixels,maxVorticity:after.vorticityMax}));assert.match(await page.locator('#tank-vorticity-note').textContent(),/clockwise/i);
+ await page.locator('#tank-view').selectOption('vorticity');assert.match(await page.locator('#tank-legend-high').textContent(),/8/);await page.locator('#tank-drop-button').click();await page.waitForFunction(value=>window.__dyeTank.diagnostics.dyeIntegral>value,before.dyeIntegral);
+ await page.locator('#tank-present').click();assert.equal(await page.locator('.tank-controls').isVisible(),false);assert.equal(await page.locator('#dye-tank-canvas').isVisible(),true);await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.fullscreenElement&&!document.querySelector('.folio-is-presenting'));
+ await page.setViewportSize({width:390,height:844});await page.locator('#tank-view').scrollIntoViewIfNeeded();assert.ok(await page.locator('#tank-view').isVisible());
+ if(process.env.TANK_VORTICITY_SCREENSHOT){await page.setViewportSize({width:1440,height:1000});await page.locator('#tank-view').selectOption('vorticity-z');await page.locator('#dye-tank-canvas').scrollIntoViewIfNeeded();await page.screenshot({path:process.env.TANK_VORTICITY_SCREENSHOT});}
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,maxVorticity:after.vorticityMax,pixels,physicalStateUnchanged:true,mobile:true,presentation:true}));
+}finally{await browser.close();}

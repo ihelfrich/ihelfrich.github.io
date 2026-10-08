@@ -87,3 +87,88 @@
 #atlas-world canvas{transition:opacity .55s ease}.atlas-world-loading canvas{opacity:0}
 .atlas-is-prints .atlas-presentation-controls{display:none!important}
 .water-atlas-page .h-scroll-progress{display:none}
+
+/* The globe remains the canvas; chrome is legible, restrained, and consistent. */
+.water-atlas .atlas-wordmark{letter-spacing:-.04em}
+.water-atlas .atlas-wordmark span{letter-spacing:.18em}
+.water-atlas .atlas-header-actions{gap:3px}
+.water-atlas .atlas-header-actions button{min-height:40px}
+.water-atlas .place-trigger{border-color:var(--atlas-story-line);background:var(--atlas-panel)}
+.water-atlas .atlas-tabs{gap:4px;border-color:var(--atlas-story-line)}
+.water-atlas .atlas-tabs>button{font-size:11px;letter-spacing:.015em}
+.water-atlas .atlas-tabs>button[aria-pressed=true]{color:var(--atlas-story-gold);box-shadow:inset 0 -2px var(--atlas-story-gold);background:var(--atlas-story-bg)}
+.water-atlas .atlas-view-switch{border-color:var(--atlas-story-line)}
+.water-atlas .atlas-view-switch button[aria-pressed=true]{color:var(--atlas-heading)}
+.water-atlas .atlas-story{border-radius:4px 11px 11px 4px;border-left:2px solid var(--atlas-story-gold);padding:22px 24px;background:var(--atlas-story-bg)}
+.water-atlas .atlas-story h2{font-size:31px;line-height:1.08;letter-spacing:-.032em}
+.water-atlas .atlas-story>p{font-size:14px;line-height:1.55}
+.water-atlas .atlas-story:not(.story-expanded)>p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.water-atlas .atlas-story .story-key{font-size:10px}
+.water-atlas .story-navigation{padding-top:5px}
+.water-atlas .story-navigation>button{border-color:var(--atlas-story-line);border-radius:3px}
+.water-atlas .atlas-map-tools{gap:7px}
+.water-atlas .atlas-map-tools button{border-color:var(--atlas-story-line);background:var(--atlas-panel);backdrop-filter:blur(12px)}
+.water-atlas .atlas-map-tools button:hover{border-color:var(--atlas-story-gold);color:var(--atlas-story-gold)}
+.water-atlas .atlas-controls-toggle{border-color:var(--atlas-story-line);color:var(--atlas-heading);box-shadow:0 8px 30px var(--atlas-drop-shadow)}
+.water-atlas .atlas-bottom{border-color:var(--atlas-story-line);background:var(--atlas-panel);box-shadow:0 12px 44px var(--atlas-drop-shadow)}
+.water-atlas .atlas-layer-row{align-items:center;column-gap:14px;row-gap:8px}
+.water-atlas .atlas-layer-row label{font-size:10px;line-height:1.35;color:var(--atlas-story-copy)}
+.water-atlas .atlas-layer-row select{min-height:36px;background:var(--atlas-select);border:1px solid var(--atlas-story-line);color:var(--atlas-heading);border-radius:4px;padding:5px 7px}
+.water-atlas #atlas-layers button{font-size:11px;min-height:38px;padding:8px 11px}
+.water-atlas #atlas-layers button[aria-pressed=true]{background:var(--atlas-accent);color:var(--atlas-space)}
+.water-atlas #atlas-diagnostic-mode-label{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.water-atlas #atlas-diagnostic-mode-label select{min-width:112px;font-size:11px}
+.water-atlas #atlas-diagnostic-mode-label[hidden]{display:none!important}
+.water-atlas .atlas-legend{border-color:var(--atlas-story-line);background:var(--atlas-panel);border-radius:5px;padding:12px 14px;box-shadow:0 10px 30px var(--atlas-drop-shadow)}
+.water-atlas .atlas-legend strong{font-size:11px;font-weight:500;letter-spacing:.015em}
+.water-atlas .atlas-legend .ticks{font-variant-numeric:tabular-nums}
+.water-atlas .vorticity-colorbar{background:linear-gradient(90deg,var(--atlas-vorticity-1),var(--atlas-vorticity-2),var(--atlas-vorticity-3),var(--atlas-vorticity-4),var(--atlas-vorticity-5))}
+.water-atlas .atlas-navigation-hint{font-size:10px;padding:6px 10px}
+.water-atlas .atlas-spectral-controls{gap:12px}
+.water-atlas .atlas-spectral-controls>label{font-size:10px}
+.water-atlas .atlas-spectral-controls select{min-height:36px;background:var(--atlas-select);color:var(--atlas-heading)}
+.water-atlas .atlas-story-library{border-color:var(--atlas-story-line);border-radius:7px}
+.water-atlas .story-card{border:1px solid var(--atlas-story-line)!important;background:var(--atlas-story-bg)!important}
+.water-atlas .story-card:hover{border-color:var(--atlas-story-gold)!important}
+.water-atlas .atlas-inspector{border-color:var(--atlas-story-line);border-radius:6px}
+.water-atlas .atlas-places{border-color:var(--atlas-story-line)}
+.water-atlas .velocity-profile.has-vorticity .velocity-profile-axis,.water-atlas .velocity-profile.has-vorticity .velocity-profile-row{grid-template-columns:52px minmax(55px,1fr) 39px 65px 65px;gap:5px}
+.water-atlas .velocity-profile-zeta{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.water-atlas :is(button,select,input,a):focus-visible{outline:2px solid var(--atlas-focus);outline-offset:2px}
+
+@media(min-width:761px){
+  .water-atlas .atlas-header{top:20px;left:clamp(22px,2.5vw,42px);right:clamp(22px,2.5vw,42px)}
+  .water-atlas .atlas-tabs{top:87px;left:clamp(22px,2.5vw,42px);padding:5px 8px}
+  .water-atlas .atlas-place-caption,.water-atlas .atlas-story{top:163px}
+  .water-atlas .atlas-story{left:clamp(22px,2.5vw,42px);width:330px}
+  .water-atlas .atlas-map-tools,.water-atlas .atlas-depth-rail{top:163px}
+  .water-atlas .atlas-bottom{bottom:33px;width:min(900px,calc(100% - 270px));padding:12px 16px}
+  .water-atlas .atlas-controls-toggle{left:clamp(22px,2.5vw,42px);bottom:102px;font-size:11px}
+  .water-atlas.atlas-controls-open .atlas-controls-toggle{bottom:310px}
+  .water-atlas .atlas-legend{bottom:34px;right:clamp(20px,2.5vw,42px)}
+  .water-atlas .atlas-story:not(.story-expanded)>a{display:inline-block}
+}
+@media(max-width:760px){
+  .water-atlas .atlas-header{height:65px;padding-inline:13px}
+  .water-atlas .atlas-wordmark{font-size:25px!important}
+  .water-atlas .place-trigger{font-size:11px!important}
+  .water-atlas .atlas-tabs{padding:6px 9px;gap:3px;border-top:1px solid var(--atlas-story-line)}
+  .water-atlas .atlas-tabs>button{font-size:10px;min-height:40px;padding:7px 5px}
+  .water-atlas .atlas-tabs .atlas-view-switch{margin-top:5px}
+  .water-atlas .atlas-story{top:16px;left:12px;width:min(295px,calc(100% - 78px));padding:13px 15px}
+  .water-atlas .atlas-story h2{font-size:23px}
+  .water-atlas .atlas-story:not(.story-expanded)>p{-webkit-line-clamp:2;font-size:12px}
+  .water-atlas .atlas-map-tools{right:10px;gap:6px}
+  .water-atlas .atlas-map-tools button{width:42px;height:42px;min-height:42px}
+  .water-atlas .atlas-bottom{left:9px;right:9px;padding:12px 11px}
+  .water-atlas .atlas-layer-row{gap:8px 10px}
+  .water-atlas #atlas-layers button{font-size:11px;min-height:38px}
+  .water-atlas #atlas-diagnostic-mode-label{width:100%;justify-content:space-between}
+  .water-atlas #atlas-diagnostic-mode-label select{min-width:145px}
+  .water-atlas .atlas-controls-toggle{bottom:23px;min-height:44px;font-size:11px}
+  .water-atlas.atlas-controls-open .atlas-bottom{bottom:80px!important;max-height:calc(100% - 155px)}
+  .water-atlas .atlas-legend{left:12px;right:auto;padding:9px 11px}
+  .water-atlas:not(.atlas-controls-open) .atlas-legend p{display:none}
+  .water-atlas .velocity-profile-row,.water-atlas .velocity-profile-axis{font-size:9px}
+  .water-atlas .velocity-profile.has-vorticity .velocity-profile-axis,.water-atlas .velocity-profile.has-vorticity .velocity-profile-row{grid-template-columns:48px minmax(42px,1fr) 34px 51px 53px;gap:4px;font-size:8px}
+}

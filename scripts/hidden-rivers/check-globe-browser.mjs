@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const base=process.env.HIDDEN_RIVERS_BASE_URL||'http://127.0.0.1:4329';
-const browser=await chromium.launch({headless:true,args:['--enable-webgl','--use-gl=angle',`--use-angle=${process.env.HIDDEN_RIVERS_GPU||'metal'}`,'--enable-unsafe-swiftshader']});
+const browser=await chromium.launch({headless:true,args:['--enable-webgl','--use-gl=angle',`--use-angle=${process.env.HIDDEN_RIVERS_GPU||'metal'}`,'--enable-unsafe-swiftshader',...(process.env.CURRENT_HOST_RESOLVER_RULES?[`--host-resolver-rules=${process.env.CURRENT_HOST_RESOLVER_RULES}`]:[])]});
 const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
 async function globeReady(){await page.waitForFunction(()=>{const host=document.getElementById('atlas-world'),canvas=host?.querySelector('canvas');return window.__waterAtlas?.state.view==='world'&&canvas&&!host.hidden&&!host.classList.contains('atlas-world-loading')&&Number(getComputedStyle(canvas).opacity)>.9;},null,{timeout:45000});}
 try{
