@@ -44,3 +44,18 @@ export function createSpectralPressure(nx,ny,dx,dy){
     for(let j=0;j<ny;j++)x.inverse(rows,j*nx,1,phi,j*nx,1);
   };
 }
+export function createSpectralPressure3D(nx,ny,nz,dx,dy,dz){
+  if(![nx,ny,nz].every(powerOfTwo))throw new RangeError('Spectral grid must have power-of-two dimensions');
+  const x=new CosineTransform(nx),y=new CosineTransform(ny),z=new CosineTransform(nz),n=nx*ny*nz;
+  const a=new Float64Array(n),b=new Float64Array(n),inv=new Float64Array(n),plane=nx*ny;
+  for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)if(i||j||k)inv[k*plane+j*nx+i]=1/(4*Math.sin(Math.PI*i/(2*nx))**2/dx**2+4*Math.sin(Math.PI*j/(2*ny))**2/dy**2+4*Math.sin(Math.PI*k/(2*nz))**2/dz**2);
+  return(rhs,phi)=>{
+    for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)x.forward(rhs,k*plane+j*nx,1,a,k*plane+j*nx,1);
+    for(let k=0;k<nz;k++)for(let i=0;i<nx;i++)y.forward(a,k*plane+i,nx,b,k*plane+i,nx);
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)z.forward(b,j*nx+i,plane,a,j*nx+i,plane);
+    for(let q=0;q<n;q++)a[q]*=inv[q];
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)z.inverse(a,j*nx+i,plane,b,j*nx+i,plane);
+    for(let k=0;k<nz;k++)for(let i=0;i<nx;i++)y.inverse(b,k*plane+i,nx,a,k*plane+i,nx);
+    for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)x.inverse(a,k*plane+j*nx,1,phi,k*plane+j*nx,1);
+  };
+}

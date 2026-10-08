@@ -1,4 +1,4 @@
-import {startDyeTank} from './dye-tank-ui.js';
+import {startDyeTank3D as startDyeTank} from './dye-tank-3d-ui.js';
 export function startOceanFolio(){
   const root=document.querySelector('.ocean-folio');if(!root)return;
   const chapters=JSON.parse(root.dataset.folio),image=document.querySelector('#folio-image');
@@ -27,7 +27,7 @@ export function startOceanFolio(){
   }
   function move(direction){if(presenting&&visual==='tank'){tank?.nextPreset(direction);return;}view+=direction;if(view<0){chapter=(chapter+chapters.length-1)%chapters.length;view=chapters[chapter].views.length-1;}else if(view>=chapters[chapter].views.length){chapter=(chapter+1)%chapters.length;view=0;}render();}
   async function present(active,fullscreen=false){if(active&&!presenting)scrollBeforePresentation=scrollY;presenting=active;root.classList.toggle('folio-is-presenting',active);root.classList.toggle('folio-present-tank',active&&visual==='tank');tank?.setPresent(active&&visual==='tank');root.querySelector('.folio-present-controls').hidden=!active;get('folio-pause').hidden=visual!=='tank';render();
-    if(active){root.tabIndex=-1;root.focus({preventScroll:true});showControls();if(fullscreen&&!document.fullscreenElement)try{await root.requestFullscreen();}catch{/* Browser presentation still fills the viewport. */}}
+    if(active){root.tabIndex=-1;root.focus({preventScroll:true});showControls();if(fullscreen&&!document.fullscreenElement)try{await root.requestFullscreen();if(!presenting&&document.fullscreenElement===root)await document.exitFullscreen();}catch{/* Browser presentation still fills the viewport. */}}
     else{if(document.fullscreenElement===root)await document.exitFullscreen();get('folio-present').focus({preventScroll:true});window.scrollTo({top:scrollBeforePresentation,behavior:'instant'});}
   }
   function showControls(){root.classList.add('folio-controls-visible');clearTimeout(controlsTimer);controlsTimer=setTimeout(()=>root.classList.remove('folio-controls-visible'),1800);}

@@ -109,11 +109,13 @@ export async function startWaterAtlas() {
       setStatus('Loading the ocean globe…');
       try{
         if(!worldPromise)worldPromise=import('./water-world.js').then(m=>m.mountWaterWorld(el('world'),{onPick:latlng=>void inspect({latlng}),onStatus:s=>{state.terrainStatus=s;}}));
-        world=await worldPromise;world.setVisible(state.tab!=='prints');await syncWorld();
+        const pendingWorld=worldPromise;
+        try{world=await pendingWorld;}catch(error){if(worldPromise===pendingWorld)worldPromise=null;throw error;}
+        world.setVisible(state.tab!=='prints');await syncWorld();
         if(!cameraRestored){world.fit(state.place,{tilt:state.tilt,immediate:true});await world.whenReady();}
         if(!cameraRestored){cameraRestored=true;const cam={lat:Number(query.get('camlat')),lon:Number(query.get('camlon')),height:Number(query.get('camh')),heading:Number(query.get('heading')),pitch:Number(query.get('pitch'))};if(query.has('camh')&&Object.values(cam).every(Number.isFinite)&&Math.abs(cam.lat)<=90&&Math.abs(cam.lon)<=180&&cam.height>=80&&cam.height<=35000000)world.setCamera(cam);world.viewer.camera.changed.addEventListener(saveURL);world.viewer.camera.moveEnd.addEventListener(saveURL);}
         setStatus('');
-      }catch(error){state.view='flat';atlas.classList.remove('atlas-is-world');el('world').hidden=true;setStatus('The globe could not start. The same data is available in Map view.');console.error(error);}
+      }catch(error){state.view='flat';atlas.classList.remove('atlas-is-world');el('world').hidden=true;if(!world){el('world').classList.remove('atlas-world-loading');el('world').replaceChildren();}setStatus('The globe could not start. Select Globe to retry, or use Map view.');console.error(error);}
     }else{world?.setVisible(false);map.invalidateSize();await displayFrame();dirty=true;setStatus('');}
     controls();saveURL();
   }
