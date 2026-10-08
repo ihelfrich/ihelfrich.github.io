@@ -182,3 +182,8 @@
   .classroom-intro .folio-actions{grid-template-columns:1fr 1fr}
   .tank-stage{width:calc(100% + 20px);margin-left:-10px}
 }
+
+/* Presentation uses the full viewport rather than the reading layout's bounds. */
+.ocean-folio.folio-is-presenting{padding:0;max-width:none}
+.folio-present-tank .tank-stage{max-width:none;width:100%;margin:0}
+.folio-is-presenting .folio-image-wrap{aspect-ratio:auto;width:100%;height:100%;align-self:stretch;border:0}
