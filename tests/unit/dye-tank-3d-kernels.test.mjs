@@ -23,3 +23,23 @@ test('incremental pressure splitting preserves analytic vortex decay and improve
  }
  assert.ok(errors[0]<.01);assert.ok(errors[1]<errors[0],`32³ and 64×64×32 energy errors: ${errors}`);
 });
+test('Float64 WASM buoyancy and pressure kick match independent JS loops',async()=>{
+ const {instantiateTankKernels}=await import('../../src/scripts/hidden-rivers/tank-3d-kernels.mjs');
+ const kernels=await instantiateTankKernels(await readFile('public/hidden-rivers/dye-tank/tank-kernels.wasm'));
+ const maxError=(a,b)=>{let error=0;for(let i=0;i<a.length;i++)error=Math.max(error,Math.abs(a[i]-b[i]));return error;};
+ for(const n of [16,64]){
+  kernels.reset();const options={nx:n,ny:n,nz:n,width:.24,height:.24,depth:.24};
+  const reference=createDyeTank3D(options),candidate=createDyeTank3D({...options,kernels});
+  for(let i=0;i<reference.salinity.length;i++){
+   const s=i%137===0?-1:i%149===0?41:18+21*(.5+.5*Math.sin(i*.073));
+   reference.salinity[i]=candidate.salinity[i]=s;
+   reference.pressureEstimate[i]=candidate.pressureEstimate[i]=.01*Math.sin(i*.021);
+  }
+  for(let axis=0;axis<3;axis++)for(let i=0;i<reference.velocity[axis].data.length;i++)
+   reference.velocity[axis].data[i]=candidate.velocity[axis].data[i]=.002*Math.cos(i*.031+axis);
+  reference.buoyancy(.007);kernels.buoyancy(candidate,.007);
+  for(const name of ['rho','means','planeBases','v'])assert.ok(maxError(reference[name],candidate[name])<1e-11,`${n}³ buoyancy ${name}: ${maxError(reference[name],candidate[name])}`);
+  reference.kickPressure(.004);kernels.kickPressure(candidate,.004);
+  for(const name of ['u','v','w'])assert.ok(maxError(reference[name],candidate[name])<1e-11,`${n}³ pressure kick ${name}: ${maxError(reference[name],candidate[name])}`);
+ }
+});

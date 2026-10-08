@@ -1,10 +1,12 @@
 {
-  "model": "salinity-dye-tank-3d-v4",
-  "generatedAt": "2026-10-08T15:59:36.793Z",
+  "model": "salinity-dye-tank-3d-v5-reference",
+  "generatedAt": "2026-10-08T17:41:36.296Z",
   "passed": true,
   "canonicalArithmetic": "Float64",
-  "kernelSourceSha256": "503d7eb37416c08272685054c8b2f40423656fae54110b8cb43e4b8c5f6708e6",
-  "kernelBinarySha256": "568ab9d5853280c104a9866f7a6636cb0f8c4a393ea46320f0ce7e9f256bc8c3",
+  "solverSourceSha256": "fbda7c6239293e1b4f00e4379b2926872a25d2f6c9b0c672bb9bdf57210ebd5d",
+  "pressureSourceSha256": "0f7f2c997d7a7ec3653b2b8fe20f8dc03f85e508e82d394d876a812dc09565b4",
+  "kernelSourceSha256": "77d44699a7e84016e6ce86613d7bee01d32ce02c003ae7a6a2f392f802e04246",
+  "kernelBinarySha256": "bc76e20a6682a1ea41cb24c6552c8ec82a0e6975ea7ba13fb0bc396290596395",
   "modelRegisterSha256": "0362bf2dc25eadea13a48c28252ae92be383ef993a4d950f1e0605250acf144f",
   "runtime": "v24.20.0",
   "checks": {
@@ -31,9 +33,10 @@
     "rest": [
       {
         "transition": 0,
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           32,
           32,
@@ -60,9 +63,10 @@
       },
       {
         "transition": 0.008,
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           32,
           32,
@@ -89,9 +93,10 @@
       }
     ],
     "neutral": {
-      "model": "salinity-dye-tank-3d-v4",
+      "model": "salinity-dye-tank-3d-v5",
       "dimensions": 3,
       "acceleration": "float64-wasm",
+      "accelerationFallback": null,
       "grid": [
         32,
         32,
@@ -118,9 +123,10 @@
     },
     "grid": [
       {
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           32,
           32,
@@ -145,12 +151,13 @@
         "saltLedgerResidual": 0,
         "dyeLedgerResidual": 1.2705494208814505e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 522.8511249999999
+        "wallMilliseconds": 516.1002500000002
       },
       {
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           64,
           32,
@@ -175,12 +182,13 @@
         "saltLedgerResidual": 2.220446049250313e-16,
         "dyeLedgerResidual": 2.117582368135751e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 1049.710333
+        "wallMilliseconds": 1027.0075000000002
       },
       {
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           64,
           64,
@@ -205,14 +213,15 @@
         "saltLedgerResidual": 2.7755575615628914e-16,
         "dyeLedgerResidual": 4.235164736271502e-22,
         "requestedDt": 0.01,
-        "wallMilliseconds": 4195.685042
+        "wallMilliseconds": 4180.092500000001
       }
     ],
     "gridCentroidDifference": 0.00005321107293005528,
     "halfTimestep": {
-      "model": "salinity-dye-tank-3d-v4",
+      "model": "salinity-dye-tank-3d-v5",
       "dimensions": 3,
       "acceleration": "float64-wasm",
+      "accelerationFallback": null,
       "grid": [
         32,
         32,
@@ -237,15 +246,16 @@
       "saltLedgerResidual": 5.551115123125783e-17,
       "dyeLedgerResidual": 1.2705494208814505e-21,
       "requestedDt": 0.005,
-      "wallMilliseconds": 992.846207999999
+      "wallMilliseconds": 991.8140830000002
     },
     "timestepCentroidDifference": 0.000009799161580593962,
     "extremes": [
       {
         "dropSalinity": 0,
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           32,
           32,
@@ -270,13 +280,14 @@
         "saltLedgerResidual": 4.996003610813204e-16,
         "dyeLedgerResidual": 4.0657581468206416e-20,
         "requestedDt": 0.01,
-        "wallMilliseconds": 514.799500000001
+        "wallMilliseconds": 499.83491700000013
       },
       {
         "dropSalinity": 40,
-        "model": "salinity-dye-tank-3d-v4",
+        "model": "salinity-dye-tank-3d-v5",
         "dimensions": 3,
         "acceleration": "float64-wasm",
+        "accelerationFallback": null,
         "grid": [
           32,
           32,
@@ -301,7 +312,7 @@
         "saltLedgerResidual": 7.216449660063518e-16,
         "dyeLedgerResidual": 3.3881317890172014e-21,
         "requestedDt": 0.01,
-        "wallMilliseconds": 508.5528749999994
+        "wallMilliseconds": 497.622292
       }
     ],
     "taylorGreen": [
@@ -331,29 +342,5 @@
       }
     ]
   },
-  "scope": "Selected global quantities, conservation, incompressibility, hydrostatics, density response and one analytic viscous limit. Not a validation of 3D turbulent morphology, physical entrainment rates, lab observations or measured ocean currents.",
-  "solverSourceSha256": "0518265deec610ed8ad3ca3a485865f91c6b565051da3f5df614a1ccc0346c3c",
-  "pressureSourceSha256": "0f7f2c997d7a7ec3653b2b8fe20f8dc03f85e508e82d394d876a812dc09565b4",
-  "browserPerformance": {
-    "platform": "darwin",
-    "architecture": "arm64",
-    "renderer": "Chrome headless · ANGLE Metal · WebGL2 linear 3D textures",
-    "viewport": [
-      1440,
-      1000
-    ],
-    "grid": [
-      64,
-      32,
-      32
-    ],
-    "acceleration": "float64-wasm",
-    "intervalSeconds": 6,
-    "displayFramesPerSecond": 60,
-    "physicsSnapshotsPerSecond": 14.333333333333334,
-    "p95FrameGapMilliseconds": 17.3,
-    "maxFrameGapMilliseconds": 17.7,
-    "simulatedSeconds": 1.72,
-    "note": "One observed device/browser run. Presentation interpolation is separate from physical time; this is not a performance guarantee."
-  }
+  "scope": "Selected global quantities, conservation, incompressibility, hydrostatics, density response and one analytic viscous limit for the Float64 reference backend. GPU and 0.02 s requests are checked separately in verification-gpu.json. Not a validation of 3D turbulent morphology, physical entrainment rates, lab observations or measured ocean currents."
 }

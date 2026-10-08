@@ -1,3 +1,5 @@
+Current delivery is version 5. The browser schedules 0.02 s requests with the stability substeps below; optional GPU momentum uses Float32 while pressure, density and scalar transfers remain Float64. See [the GPU extension](model-gpu.md) and [its comparisons](verification-gpu.json). The original version-4 register below records the Float64 equations and preregistered reference fixtures, which remain in use.
+
 # Three-dimensional salinity tank, model register v4
 
 ## Scope and state

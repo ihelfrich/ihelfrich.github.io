@@ -2,7 +2,7 @@ import {createTankVolumeRenderer,tankPaletteColor,tankSpeedLimit} from './tank-v
 import {createTankMotion,createTankPacer} from './tank-motion.mjs';
 export function startDyeTank3D({onActivate=()=>{}}={}){
  const section=document.getElementById('saltwater-demo');if(!section)return null;
- const get=id=>document.getElementById('tank-'+id),canvas=document.getElementById('dye-tank-canvas'),renderer=createTankVolumeRenderer(canvas),motion=createTankMotion(),pacer=createTankPacer();
+ const get=id=>document.getElementById('tank-'+id),canvas=document.getElementById('dye-tank-canvas'),renderer=createTankVolumeRenderer(canvas),motion=createTankMotion(),pacer=createTankPacer({stepSeconds:.02});
  const worker=new Worker(new URL('./dye-tank-3d-worker.mjs',import.meta.url),{type:'module'}),ramp=get('legend-ramp').getContext('2d');
  let paused=matchMedia('(prefers-reduced-motion: reduce)').matches,visible=false,parentVisible=true,presenting=false,preset='salt',snapshot=null,version=0,busy=true,request=0,pending=0,resetTimer,nextVisibilityCheck=0,paints=0;
  const pointers=new Map();let pinch=null;
@@ -29,7 +29,7 @@ export function startDyeTank3D({onActivate=()=>{}}={}){
  function selectPreset(value){preset=value;const config={salt:[30,36],fresh:[30,24],layers:[30,30]}[value];get('water').value=config[0];get('drop').value=config[1];get('view').value=value==='layers'?'salinity':'dye';section.querySelectorAll('[data-tank-preset]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tankPreset===value)));onActivate();reset();}
  function nextPreset(direction){const keys=['salt','fresh','layers'];selectPreset(keys[(keys.indexOf(preset)+direction+3)%3]);}
  function setPresent(active){presenting=active;pacer.reset();if(active)visible=true;draw();}
- function draw(now=performance.now()){const state=motion.sample(now);if(!snapshot||!state)return;renderer.draw(state.mix,get('view').value,{cutaway:Number(get('cutaway').value)/100,flow:get('flow').checked});api.renderStats.frames=++paints;get('clock').textContent=state.time.toFixed(1)+' s';get('start').hidden=!paused||state.time>0;}
+ function draw(now=performance.now()){const state=motion.sample(now);if(!snapshot||!state)return;renderer.draw(state.mix,get('view').value,{cutaway:Number(get('cutaway').value)/100,flow:get('flow').checked});Object.assign(api.renderStats,renderer.getStats?.()||{});api.renderStats.frames=++paints;get('clock').textContent=state.time.toFixed(1)+' s';get('start').hidden=!paused||state.time>0;}
  function advance(now){const active=!paused&&!document.hidden&&parentVisible&&(visible||presenting),count=pacer.request(now,Number(get('speed').value),active,!busy);if(count){busy=true;pending=++request;worker.postMessage({type:'advance',version,request:pending,count});}}
  function frame(now){requestAnimationFrame(frame);if(parentVisible&&!document.hidden&&now>=nextVisibilityCheck){checkVisibility();nextVisibilityCheck=now+200;}if(!paused&&!document.hidden&&parentVisible&&(visible||presenting))draw(now);advance(now);}
  worker.onmessage=({data})=>{if(data.version!==version)return;if(data.request===pending)busy=false;if(data.type==='error'){paused=true;labels();get('status').textContent='The calculation stopped: '+data.message+'. Reset to start again.';return;}snapshot=data.snapshot;const now=performance.now();if(paused&&data.operation==='drop'){motion.reset();motion.pause(now);renderer.reset();}const mix=motion.push(snapshot,now);renderer.push(snapshot,mix);api.diagnostics=snapshot.diagnostics;if(paused||data.operation==='reset')draw(now);advance(now);};

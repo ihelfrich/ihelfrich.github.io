@@ -31,6 +31,7 @@ vec4 one(sampler3D s,vec3 p){
  return mix(mix(mix(a000,a100,f.x),mix(a010,a110,f.x),f.y),mix(mix(a001,a101,f.x),mix(a011,a111,f.x),f.y),f.z);
 }
 vec4 field(vec3 p){return mix(one(oldVol,p),one(newVol,p),phase);}
+float dye(vec3 p){vec4 q=field(p);return max(0.,q.x+q.y);}
 bool box(vec3 ro,vec3 rd,out float a,out float b){
  vec3 h=dims*.5,t0=(-h-ro)/rd,t1=(h-ro)/rd,lo=min(t0,t1),hi=max(t0,t1);
  a=max(max(lo.x,lo.y),lo.z);b=min(min(hi.x,hi.y),hi.z);return b>=max(a,0.);
@@ -51,11 +52,17 @@ void main(){
   else if(mode==2){float s=clamp(q.w/${tankSpeedLimit},0.,1.);ink=mix(${shaderColor(speedColors[0])},${shaderColor(speedColors[1])},s);alpha=1.-exp(-2.*s*ds);}
   else{
    float d=max(0.,q.x+q.y),f=d>1e-8?clamp(q.y/d,0.,1.):0.;
-   vec3 gold=mix(vec3(.86,.37,.08),vec3(1.,.88,.60),smoothstep(.006,.12,d));
-   vec3 rose=mix(vec3(.90,.23,.30),vec3(1.,.76,.70),smoothstep(.006,.12,d));
+   vec3 gold=mix(vec3(.72,.23,.045),vec3(1.,.83,.46),smoothstep(.003,.09,d));
+   vec3 rose=mix(vec3(.75,.08,.23),vec3(1.,.57,.56),smoothstep(.003,.09,d));
    ink=mix(gold,rose,f);alpha=1.-exp(-120.*d*ds);
    if(flow){float s=clamp(q.w*22.,0.,1.);ink=mix(ink,vec3(.22,.78,.86),.25*s);alpha=max(alpha,1.-exp(-.8*s*ds));}
-   if(alpha>.002){vec3 e=1./vec3(grid);float gx=field(qpos+vec3(e.x,0,0)).x-field(qpos-vec3(e.x,0,0)).x;float gy=field(qpos+vec3(0,e.y,0)).x-field(qpos-vec3(0,e.y,0)).x;float gz=field(qpos+vec3(0,0,e.z)).x-field(qpos-vec3(0,0,e.z)).x;vec3 normal=normalize(vec3(-gx,gy,-gz)+vec3(1e-5));ink*=.82+.35*max(0.,dot(normal,normalize(vec3(-.4,.7,.6))));}
+   if(alpha>.001){
+    vec3 e=1./vec3(grid);float gx=dye(qpos+vec3(e.x,0,0))-dye(qpos-vec3(e.x,0,0));float gy=dye(qpos+vec3(0,e.y,0))-dye(qpos-vec3(0,e.y,0));float gz=dye(qpos+vec3(0,0,e.z))-dye(qpos-vec3(0,0,e.z));
+    vec3 normal=normalize(vec3(-gx,gy,-gz)+vec3(1e-7)),light=normalize(vec3(-.5,.8,.6));
+    float shade=exp(-2.8*dye(qpos+vec3(light.x,-light.y,light.z)*e*3.));
+    float key=max(0.,dot(normal,light)),rim=pow(1.-abs(dot(normal,rd)),3.);
+    ink*=.52+.65*key*shade+.18*rim;
+   }
   }
   rgb+=trans*alpha*ink*(.84+.16*clamp((b-t)/(b-a+1e-6),0.,1.));trans*=1.-alpha;
  }
@@ -74,12 +81,14 @@ out vec4 color;
 void main(){color=tint;}`;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function valid(s){if(!s||![s.nx,s.ny,s.nz,s.width,s.height,s.depth].every(Number.isFinite)||![s.nx,s.ny,s.nz,s.width,s.height,s.depth].every(x=>x>0)||![s.nx,s.ny,s.nz].every(Number.isInteger))throw new TypeError('Invalid 3D tank snapshot dimensions');if(!(s.volume instanceof Float32Array)||s.volume.length!==s.nx*s.ny*s.nz*4)throw new RangeError('snapshot.volume must be interleaved RGBA Float32 data');return s;}
-function sizeCanvas(c){const r=c.getBoundingClientRect?.()||{width:700,height:525},dpr=Math.min(2,globalThis.devicePixelRatio||1),w=r.width||700,h=r.height||525,f=Math.min(1,700/(w*dpr),525/(h*dpr)),width=Math.max(1,Math.round(w*dpr*f)),height=Math.max(1,Math.round(h*dpr*f));if(c.width!==width)c.width=width;if(c.height!==height)c.height=height;return {w:c.width,h:c.height,aspect:c.width/c.height};}
+function sizeCanvas(c,scale=1){const r=c.getBoundingClientRect?.()||{width:700,height:525},dpr=Math.min(2,globalThis.devicePixelRatio||1),w=r.width||700,h=r.height||525,f=Math.min(1,1400/(w*dpr),1050/(h*dpr))*scale,width=Math.max(1,Math.round(w*dpr*f)),height=Math.max(1,Math.round(h*dpr*f));if(c.width!==width)c.width=width;if(c.height!==height)c.height=height;return {w:c.width,h:c.height,aspect:c.width/c.height};}
 function compile(gl,type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error('Volume shader: '+gl.getShaderInfoLog(s));return s;}
 function link(gl,v,f){const p=gl.createProgram();gl.attachShader(p,compile(gl,gl.VERTEX_SHADER,v));gl.attachShader(p,compile(gl,gl.FRAGMENT_SHADER,f));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error('Volume program: '+gl.getProgramInfoLog(p));return p;}
 function tankLines(d){const [x,y,z]=d.map(v=>v/2),p=[[-x,-y,-z],[x,-y,-z],[x,y,-z],[-x,y,-z],[-x,-y,z],[x,-y,z],[x,y,z],[-x,y,z]],e=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]],a=[];for(const [i,j]of e)a.push(...p[i],...p[j]);for(let i=1;i<4;i++){let f=i/4;a.push(-x,-y,-z+2*z*f,x,-y,-z+2*z*f,-x+2*x*f,-y,-z,-x+2*x*f,-y,z);}return new Float32Array(a);}
 export function createTankVolumeRenderer(canvas){
  if(!canvas)throw new TypeError('Canvas required');let data=null,old=null,current=null,mixAt=1;
+ let renderScale=1,lastPaint=null,slowFrames=0,fastFrames=0;
+ const stats=()=>({width:canvas.width,height:canvas.height,scale:renderScale});
  let dims={width:.24,height:.18,depth:.18},camera=createTankCamera(dims);
  const gl=canvas.getContext('webgl2',{alpha:false,antialias:true,preserveDrawingBuffer:false,depth:false});
  const camApi={orbit:(x,y)=>camera.orbit(x,y),zoom:f=>camera.zoom(f),home:()=>camera.home(),getCamera:()=>camera.getCamera(),pick:(x,y,r,z)=>camera.pick(x,y,r,z)};
@@ -92,11 +101,16 @@ export function createTankVolumeRenderer(canvas){
  function setData(s){if(!data||data.width!==s.width||data.height!==s.height||data.depth!==s.depth){dims={width:s.width,height:s.height,depth:s.depth};camera=createTankCamera(dims);lineKey='';}data=s;}
  let textureGrid=null;
  function upload(){if(!data||!old||!current)return;gl.useProgram(drawProgram);const resized=!textureGrid||textureGrid.nx!==data.nx||textureGrid.ny!==data.ny||textureGrid.nz!==data.nz;for(let i=0;i<2;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);if(resized)gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA32F,data.nx,data.ny,data.nz,0,gl.RGBA,gl.FLOAT,i?current:old);else gl.texSubImage3D(gl.TEXTURE_3D,0,0,0,0,data.nx,data.ny,data.nz,gl.RGBA,gl.FLOAT,i?current:old);}if(resized)textureGrid={nx:data.nx,ny:data.ny,nz:data.nz};gl.uniform3i(u.grid,data.nx,data.ny,data.nz);gl.uniform3f(u.dims,data.width/data.width,data.height/data.width,data.depth/data.width);}
- return {mode:linear?'webgl2-volume-linear':'webgl2-volume-trilinear',...camApi,
+ return {mode:linear?'webgl2-volume-linear':'webgl2-volume-trilinear',...camApi,getStats:stats,
   push(snapshot,mix){const s=valid(snapshot),prior=data,same=Boolean(old&&prior&&prior.nx===s.nx&&prior.ny===s.ny&&prior.nz===s.nz&&prior.width===s.width&&prior.height===s.height&&prior.depth===s.depth);setData(s);const packed=new Float32Array(s.volume);if(same){const f=clamp(Number.isFinite(mix)?mix:1,0,1);for(let i=0;i<old.length;i++)old[i]+=(current[i]-old[i])*f;}else old=packed.slice();current=packed;mixAt=clamp(Number.isFinite(mix)?mix:1,0,1);upload();},
-  draw(mix,view,{cutaway=1,flow=false}={}){if(!current)return;const sz=sizeCanvas(canvas),f=camera.getFrame(sz.aspect);gl.viewport(0,0,sz.w,sz.h);gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(drawProgram);gl.uniform3f(u.eye,...f.position);gl.uniform3f(u.forward,...f.forward);gl.uniform3f(u.right,...f.right);gl.uniform3f(u.up,...f.up);gl.uniform3f(u.outward,...f.position);gl.uniform1f(u.phase,clamp(Number.isFinite(mix)?mix:mixAt,0,1));gl.uniform1f(u.halfFov,f.tanHalfFov);gl.uniform1f(u.aspect,sz.aspect);gl.uniform1f(u.cutaway,clamp(cutaway,0,1));gl.uniform1i(u.mode,view==='salinity'?1:view==='speed'?2:0);gl.uniform1i(u.flow,Number(Boolean(flow)));for(let i=0;i<2;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);}gl.drawArrays(gl.TRIANGLES,0,3);
+  draw(mix,view,{cutaway=1,flow=false}={}){if(!current)return;
+   const now=performance.now(),gap=lastPaint===null?0:now-lastPaint;lastPaint=now;
+   // Adjust drawing resolution only. Neither the physical grid nor its clock changes.
+   if(gap>25&&gap<3000){slowFrames++;fastFrames=0;}else if(gap>0&&gap<19){fastFrames++;slowFrames=Math.max(0,slowFrames-1);}else {slowFrames=fastFrames=0;}
+   if(slowFrames>=12){renderScale=Math.max(.5,renderScale-.1);slowFrames=0;}else if(fastFrames>=180){renderScale=Math.min(1,renderScale+.05);fastFrames=0;}
+   const sz=sizeCanvas(canvas,renderScale),f=camera.getFrame(sz.aspect);gl.viewport(0,0,sz.w,sz.h);gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(drawProgram);gl.uniform3f(u.eye,...f.position);gl.uniform3f(u.forward,...f.forward);gl.uniform3f(u.right,...f.right);gl.uniform3f(u.up,...f.up);gl.uniform3f(u.outward,...f.position);gl.uniform1f(u.phase,clamp(Number.isFinite(mix)?mix:mixAt,0,1));gl.uniform1f(u.halfFov,f.tanHalfFov);gl.uniform1f(u.aspect,sz.aspect);gl.uniform1f(u.cutaway,clamp(cutaway,0,1));gl.uniform1i(u.mode,view==='salinity'?1:view==='speed'?2:0);gl.uniform1i(u.flow,Number(Boolean(flow)));for(let i=0;i<2;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);}gl.drawArrays(gl.TRIANGLES,0,3);
    gl.useProgram(lineProgram);for(const [name,val]of [['eye',f.position],['forward',f.forward],['right',f.right],['up',f.up]])gl.uniform3f(lu[name],...val);gl.uniform1f(lu.halfFov,f.tanHalfFov);gl.uniform1f(lu.aspect,sz.aspect);gl.uniform4f(lu.tint,.34,.63,.67,.32);const k=data.width+'/'+data.height+'/'+data.depth;if(k!==lineKey){const a=tankLines(f.dimensions);lineN=a.length/3;gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);lineKey=k;}gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);const at=gl.getAttribLocation(lineProgram,'position');gl.enableVertexAttribArray(at);gl.vertexAttribPointer(at,3,gl.FLOAT,false,0,0);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.drawArrays(gl.LINES,0,lineN);gl.disable(gl.BLEND);},
-  reset(){data=old=current=null;mixAt=1;gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);}
+  reset(){data=old=current=null;mixAt=1;lastPaint=null;slowFrames=fastFrames=0;gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);}
  };
 }
 function fallback(canvas,cameraRef,setData,camApi){

@@ -10,9 +10,11 @@ import { gunzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { spectralSample } from '../../src/scripts/hidden-rivers/spectral.mjs';
-import { maskedRiverRuns, flowTiming, trailIntervals, CURRENT_TIME_SCALE } from '../../src/scripts/hidden-rivers/flow-motion.mjs';
+import { maskedRiverRuns, flowTiming, trailIntervals, CURRENT_TIME_SCALE, CURRENT_SAMPLES_PER_SECOND, PULSE_SAMPLES } from '../../src/scripts/hidden-rivers/flow-motion.mjs';
 import { unpackField, snapshotField, sampleAt, streamline, indexPixel, seeded } from '../../src/scripts/hidden-rivers/atlas-math.mjs';
 import { EARTH_METRES_PER_DEGREE } from '../../src/scripts/hidden-rivers/field.mjs';
+import { speedColor } from '../../src/scripts/hidden-rivers/speed-colors.mjs';
+import { velocityDepthProfile } from '../../src/scripts/hidden-rivers/velocity-profile.mjs';
 const fixture = () => ({shape:[3,4,4],lon0:0,lat0:0,dlon:1,dlat:1,values:new Int16Array([...Array(16).fill(1000),...Array(16).fill(2000),...Array(16).fill(3000),...Array(48).fill(0)])});
 test('old depth-print links open the live field while PCA and other prints remain reachable',()=>{
   const q=atlasQuery('?study=depth&image=agulhas-1000');assert.equal(q.get('place'),'agulhas');assert.equal(q.get('depth'),'1000');assert.equal(q.get('layer'),'currents');
@@ -47,6 +49,16 @@ test('regional globe rasters retain their projection and include their exact cor
 test('speed shading keeps valid coastal cells beside gaps without filling the gaps',()=>{
   const f=snapshotField(fixture(),0);f.values[1]=-32768;const r=velocityRaster(f,()=>[20,40,60]);assert.ok(r.data[4*(3*4)+3]>0);assert.equal(r.data[4*(3*4+1)+3],0);assert.equal(sampleAt(f,.5,.5),null);assert.deepEqual(r.bounds,[-.5,-.5,3.5,3.5]);
 });
+test('speed uses one fixed violet-to-rose scale at every location and depth',()=>{
+  assert.deepEqual([0,.2,.4,.6,.8].map(speedColor),[[76,29,149],[139,29,224],[213,28,144],[243,80,131],[255,209,226]]);
+  assert.deepEqual(speedColor(-2),speedColor(0));assert.deepEqual(speedColor(5),speedColor(.8));
+});
+test('HYCOM depth profile uses the nearest shared timestamp and strict wet-cell samples',()=>{
+  const field=(depth,u,v,missing=false)=>{const f={depth,shape:[2,2,2],lon0:0,lat0:0,dlon:1,dlat:1,dates:['2026-09-29T00:00:00Z','2026-09-30T00:00:00Z'],values:new Int16Array([u,u,u,u,u,u,u,u,v,v,v,v,v,v,v,v])};if(missing)f.values[0]=-32768;return f;};
+  const rows=velocityDepthProfile([field(0,100,0),field(200,0,200),field(500,100,100,true)],{date:'2026-09-29T12:00:00Z',lon:.5,lat:.5});
+  assert.deepEqual(rows.map(r=>r.depth),[0,200,500]);assert.deepEqual(rows.map(r=>r.date),['2026-09-29T00:00:00Z','2026-09-29T00:00:00Z','2026-09-29T00:00:00Z']);
+  assert.equal(rows[0].speed,.1);assert.equal(rows[0].direction,90);assert.equal(rows[1].speed,.2);assert.equal(rows[1].direction,0);assert.equal(rows[2].speed,null);assert.equal(rows[2].direction,null);
+});
 test('spectral inspection centers reflectance and uses the fitted component columns',()=>{
   const p={mean:[.1,.2,.3,.4],eigenvectors:[[0,1,0,0],[1,0,0,0],[0,0,1,0],[0,0,0,1]],stretchLow:[0,0,0,0],stretchHigh:[.4,.2,.6,.8]};
   const s=spectralSample([.2,.4,.6,.8],p);assert.deepEqual(s.normalized,[.5,.5,.5,.5]);assert.ok(Math.abs(s.meanVisible-.4)<1e-12);assert.ok(Math.abs(s.ndwi+1/3)<1e-12);assert.equal(spectralSample([NaN,.4,.6,.8],p),null);
@@ -77,7 +89,7 @@ test('a masked gap splits a river instead of joining two separated wet reaches',
 test('trail time matches geographic displacement without changing velocity scale',()=>{
   const points=streamline(snapshotField(fixture(),0),.5,.5,110,1800),timing=flowTiming(points.length,1);
   const sample=timing.clock/timing.repeats*(points.length-1);
-  assert.ok(Math.abs(sample-2)<1e-12);assert.equal(CURRENT_TIME_SCALE,3600);
+  assert.ok(Math.abs(sample-2)<1e-12);assert.equal(CURRENT_TIME_SCALE,3600);assert.equal(CURRENT_SAMPLES_PER_SECOND,2);assert.equal(PULSE_SAMPLES,18);
   assert.ok(Math.abs((points[Math.round(sample)][0]-.5)*EARTH_METRES_PER_DEGREE*Math.cos(.5*Math.PI/180)-3600)<1e-8);
 });
 test('animated tails enter and exit open paths without an end-to-start bridge',()=>{

@@ -39,6 +39,35 @@ void momentum(double *u,double *v,double *w,double *outU,double *outV,double *ou
   }
  }
 }
+/* Exact loop order and density interpolation of Tank3D.buoyancy. */
+static inline double density(double s,const double *table){
+ double x=clip(s,0,40)*10;int i=mn(399,(int)x);
+ return table[i]+(table[i+1]-table[i])*(x-i);
+}
+void buoyancy(double *salinity,double *rho,double *means,double *v,double *base,const double *table,int nx,int ny,int nz,double dt,double referenceDensity){
+ for(int j=0;j<ny;j++)means[j]=0;
+ for(int j=0;j<ny;j++)base[j]=density(salinity[j*nx],table);
+ for(int k=0;k<nz;k++)for(int j=0;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;rho[d]=density(salinity[d],table);means[j]+=(rho[d]-base[j])/(nx*nz);
+ }
+ for(int j=0;j<ny;j++)means[j]+=base[j];
+ for(int k=0;k<nz;k++)for(int j=1;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;
+  v[(k*(ny+1)+j)*nx+i]+=dt*9.81/referenceDensity*.5*(rho[d]-means[j]+rho[d-nx]-means[j-1]);
+ }
+}
+/* Exact face visitation and arithmetic order of Tank3D.kickPressure. */
+void pressureKick(double *u,double *v,double *w,const double *estimate,int nx,int ny,int nz,double dx,double dy,double dz,double dt){
+ for(int k=0;k<nz;k++)for(int j=0;j<ny;j++)for(int i=1;i<nx;i++){
+  int d=(k*ny+j)*nx+i;u[(k*ny+j)*(nx+1)+i]-=dt*(estimate[d]-estimate[d-1])/dx;
+ }
+ for(int k=0;k<nz;k++)for(int j=1;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;v[(k*(ny+1)+j)*nx+i]-=dt*(estimate[d]-estimate[d-nx])/dy;
+ }
+ for(int k=1;k<nz;k++)for(int j=0;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;w[d]-=dt*(estimate[d]-estimate[d-nx*ny])/dz;
+ }
+}
 static inline double slope(double a,double b,int forward){if(a*b<=0)return 0;double sign=a>0?1:-1;return sign*mn(mn(2*__builtin_fabs(a),__builtin_fabs(forward?(a+2*b)/3:(2*a+b)/3)),2*__builtin_fabs(b));}
 static void euler(double *q,double *out,double *sx,double *sy,double *sz,double *u,double *v,double *w,int nx,int ny,int nz,double dx,double dy,double dz,double dt,double kap){
  int p=nx*ny;

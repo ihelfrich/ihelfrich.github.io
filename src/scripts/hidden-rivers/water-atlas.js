@@ -6,6 +6,8 @@ import { maskedRiverRuns, trailIntervals, CURRENT_SAMPLES_PER_SECOND } from './f
 import { velocityRaster } from './velocity-raster.mjs';
 import { decodeVelocityBytes } from './velocity-decode.mjs';
 import { atlasQuery, collectionFor } from './atlas-navigation.mjs';
+import { speedColor } from './speed-colors.mjs';
+import { velocityDepthProfile } from './velocity-profile.mjs';
 
 const BASE = '/hidden-rivers/water-atlas/';
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -23,11 +25,7 @@ const dateLabel = date => new Date(date).toLocaleDateString('en-GB',{day:'numeri
 const shortDate = date => new Date(date).toLocaleDateString('en-GB',{month:'short',year:'2-digit',timeZone:'UTC'});
 const leafletBounds = b => [[b[1],b[0]],[b[3],b[2]]];
 const safe = text => String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const colors = [[38,62,104],[57,123,147],[84,188,168],[216,219,170],[239,178,105]];
-function color(speed) {
-  const t = Math.min(4,Math.max(0,speed/.8*4)), i = Math.floor(t), f=t-i;
-  return colors[i].map((v,c)=>Math.round(v*(1-f)+colors[Math.min(4,i+1)][c]*f));
-}
+const color=speedColor;
 
 export async function startWaterAtlas() {
   const el = id => document.getElementById('atlas-'+id), root=el('map'); if (!root) return;
@@ -53,14 +51,20 @@ export async function startWaterAtlas() {
     if(!requests.has(key)) requests.set(key,fetch(url).then(r=>{if(!r.ok)throw Error(`Unable to load ${url.split('/').at(-1)} (${r.status})`);return kind==='json'?r.json():r.arrayBuffer();}).catch(e=>{requests.delete(key);throw e;}));
     return requests.get(key);
   };
-  const state={place:null,layer:'rgb',frame:0,depth:0,playing:!reduced,flow:true,cycle:false,compare:false,present:false,view:query.get('view')==='flat'?'flat':'world',palette:['gold','coral','ice'].includes(query.get('palette'))?query.get('palette'):'gold',blend:query.get('blend')==='contrast'?'contrast':'brightness',story:initialStory,chapter:initialChapter,tilt:true,orbit:false};
+  const state={place:null,layer:'rgb',frame:0,depth:0,playing:!reduced,flow:true,speedShading:query.get('shading')==='speed',subsurface:query.get('subsurface')==='1',cycle:false,compare:false,present:false,view:query.get('view')==='flat'?'flat':'world',palette:['gold','coral','ice'].includes(query.get('palette'))?query.get('palette'):'gold',blend:query.get('blend')==='contrast'?'contrast':'brightness',story:initialStory,chapter:initialChapter,tilt:true,orbit:false};
   let places=[],manifest,hycom,originalHycom,drifter,radar,field=null,layer=null,rivers=null,paths=[],riverPaths=[],images=[],epoch=0,imageEpoch=0,indexValues=null,waterCandidates=null;
   let phase=0,last=0,lastCycle=0,dirty=true,moving=false,presentTimer,previousFocus,group='all',pointerTimer;
-  let world=null,worldPromise=null,spectra=null,samples=[],storyEpoch=0,cameraRestored=false;
+  let world=null,worldPromise=null,spectra=null,samples=[],storyEpoch=0,cameraRestored=false,profileEpoch=0;
   let displayedEntries=[],tabEpoch=0;const remembered={};state.tab='ocean';state.grid=query.get('grid')==='sampled'?'sampled':'native';
   const sourceCatalog=()=>state.grid==='sampled'?originalHycom:hycom;
-  async function loadVelocity(meta){const bytes=await get((sourceCatalog().dataBase||'/hidden-rivers/data/')+meta.file,'bytes');return unpackField(meta,await decodeVelocityBytes(bytes,meta.compression));}
-  function remember(){if(state.place&&state.tab!=='prints')remembered[state.tab]={place:state.place.id,layer:state.layer,frame:state.frame,depth:state.depth,compare:state.compare,palette:state.palette,blend:state.blend,story:state.story,chapter:state.chapter,grid:state.grid,flow:state.flow,camera:world?.getCamera(),flat:{center:map.getCenter(),zoom:map.getZoom()}};}
+  const velocityFields=new Map();
+  function loadVelocity(meta){const key=(sourceCatalog().dataBase||'/hidden-rivers/data/')+meta.file;
+    if(velocityFields.has(key)){const cached=velocityFields.get(key);velocityFields.delete(key);velocityFields.set(key,cached);return cached;}
+    // Retain a regional profile without accumulating decoded grids worldwide.
+    while(velocityFields.size>=8)velocityFields.delete(velocityFields.keys().next().value);
+    const promise=get(key,'bytes').then(bytes=>decodeVelocityBytes(bytes,meta.compression)).then(bytes=>unpackField(meta,bytes)).catch(error=>{if(velocityFields.get(key)===promise)velocityFields.delete(key);throw error;});velocityFields.set(key,promise);return promise;
+  }
+  function remember(){if(state.place&&state.tab!=='prints')remembered[state.tab]={place:state.place.id,layer:state.layer,frame:state.frame,depth:state.depth,compare:state.compare,palette:state.palette,blend:state.blend,story:state.story,chapter:state.chapter,grid:state.grid,flow:state.flow,speedShading:state.speedShading,subsurface:state.subsurface,camera:world?.getCamera(),flat:{center:map.getCenter(),zoom:map.getZoom()}};}
   function renderTab(){
     const prints=state.tab==='prints';document.getElementById('atlas').classList.toggle('atlas-is-prints',prints);
     document.querySelectorAll('[data-atlas-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.atlasTab===state.tab)));
@@ -101,10 +105,10 @@ export async function startWaterAtlas() {
   async function syncWorld(desired=null){
     if(!world||!state.place)return;
     const entries=desired||displayedEntries;
-    await world.update({place:state.place,images:entries,field,frame:state.frame,rivers,waterCandidates,depth:state.depth,layer:state.layer,flow:state.flow,playing:state.playing,compare:state.compare,swipe:Number(el('swipe').value)/100,color});
+    await world.update({place:state.place,images:entries,field,frame:state.frame,rivers,waterCandidates,depth:state.depth,subsurface:state.subsurface,layer:state.layer,speedShading:state.speedShading,flow:state.flow,playing:state.playing,compare:state.compare,swipe:Number(el('swipe').value)/100,color});
   }
   async function setView(view){
-    state.view=view;const atlas=document.getElementById('atlas');atlas.classList.toggle('atlas-is-world',view==='world');el('world').hidden=view!=='world';
+    state.view=view;if(view==='world'&&state.subsurface)state.speedShading=false;const atlas=document.getElementById('atlas');atlas.classList.toggle('atlas-is-world',view==='world');el('world').hidden=view!=='world';
     if(view==='world'){
       setStatus('Loading the ocean globe…');
       try{
@@ -121,6 +125,7 @@ export async function startWaterAtlas() {
   }
   function renderSpectra(){
     el('inspector').hidden=false;
+    el('inspector-title').textContent='Light returned by the water';
     const max=Math.max(.02,...samples.flatMap(s=>s.values)),bands=['B2 · blue','B3 · green','B4 · red','B8 · near-IR'];
     el('spectra-chart').innerHTML=`<div class="sample-labels">${samples.map((s,i)=>`<span class="sample-${i}">${i?'B':'A'} · ${s.lat.toFixed(4)}, ${s.lon.toFixed(4)}</span>`).join('')}</div>${bands.map((b,i)=>`<div class="spectra-row"><span>${b}</span><div>${samples.map((s,j)=>`<i class="sample-${j}" style="width:${Math.max(0,s.values[i])/max*100}%"></i>`).join('')}</div><small>${samples.map(s=>s.values[i].toFixed(4)).join(' / ')}</small></div>`).join('')}<div class="sample-stats">${samples.map((s,i)=>`<p><b>${i?'B':'A'}</b> NDWI ${s.ndwi?.toFixed(3)??'unavailable'}${state.place.waterPca?` · PC1 ${s.pc[0].toFixed(4)} · PC2 ${s.pc[1].toFixed(4)}`:''}</p>`).join('')}</div>`;
     el('spectra-note').textContent=`${dateLabel(state.place.frames[state.frame].date)} · sampled surface reflectance. ${samples.length===1?'Click a second pixel to compare.':'The bars compare actual band values, not color names.'} Standard land-oriented L2A correction; aquatic and sunglint artifacts can remain.`;
@@ -138,6 +143,7 @@ export async function startWaterAtlas() {
   function shareURL() {
     const c=map.getCenter(),p=new URLSearchParams({place:state.place.id,layer:state.layer,frame:String(state.frame),depth:String(state.depth),lat:c.lat.toFixed(5),lon:c.lng.toFixed(5),zoom:map.getZoom().toFixed(2)});
     if(!state.flow)p.set('flow','0'); if(state.compare)p.set('compare','1');
+    if(state.speedShading)p.set('shading','speed');if(state.subsurface)p.set('subsurface','1');
     p.set('view',state.view);p.set('palette',state.palette);p.set('blend',state.blend);if(state.story){p.set('story',state.story);p.set('chapter',String(state.chapter));}
     p.set('tab',state.tab);p.set('grid',state.grid);
     if(state.tab==='prints')for(const key of ['study','image'])if(query.has(key))p.set(key,query.get(key));
@@ -165,9 +171,12 @@ export async function startWaterAtlas() {
   function displayMetres(p,frame){const r=['pca','rgb'].includes(state.layer)&&frame?.highResolution?frame.highResolution:p.raster;return r.displayPixelGroundMetresAtCentre??r.displayPixelMetres*Math.cos((p.bounds[1]+p.bounds[3])/2*Math.PI/180);}
   function controls() {
     const p=state.place,frames=p.frames;
+    document.getElementById('atlas').classList.toggle('atlas-is-currents',Boolean(p.source&&state.layer==='currents'));
     el('place-name').textContent=p.title;el('title').textContent=p.title;el('place-group').textContent=p.group.toUpperCase();el('note').textContent=p.note;
     el('layers').innerHTML=availableLayers().map(id=>`<button type="button" data-layer="${id}" aria-pressed="${state.layer===id}">${LABELS[id]}</button>`).join('');
-    el('flow-label').hidden=!p.rivers&&!p.source;el('flow-label').querySelector('span').textContent=p.rivers?'River direction':'Flow paths';el('flow').checked=state.flow;
+    el('flow-label').hidden=!p.rivers&&!p.source;el('flow-label').querySelector('span').textContent=p.rivers?'River direction':'Moving streamlines';el('flow').checked=state.flow;
+    el('speed-shading-label').hidden=!p.source||state.layer!=='currents'||state.view==='world'&&state.subsurface;el('speed-shading').checked=state.speedShading;
+    el('subsurface-label').hidden=p.source!=='hycom'||state.view!=='world'||state.depth===0;el('subsurface').checked=state.subsurface;
     el('depth-label').hidden=!p.source;el('grid-label').hidden=p.source!=='hycom'||hycom===originalHycom;el('grid').value=state.grid;
     const depths=p.source==='hycom'?sourceCatalog().regions.find(r=>r.id===p.id).layers.map(l=>l.depth):[p.source==='radar'?p.depth:15];
     el('depth-rail').hidden=p.source!=='hycom'||depths.length<2;
@@ -200,7 +209,7 @@ export async function startWaterAtlas() {
   }
   function legend() {
     const p=state.place;
-    if(state.layer==='currents'||(!p.frames&&state.flow&&state.layer==='rgb'))el('legend').innerHTML='<strong>Current speed · m/s</strong><div class="atlas-colorbar"></div><div class="ticks"><span>0</span><span>0.4</span><span>≥0.8</span></div><p>Direction follows the selected velocity field. No vertical exaggeration.</p>';
+    if(state.layer==='currents'||(!p.frames&&state.flow&&state.layer==='rgb'))el('legend').innerHTML=`<strong>Current speed · m/s</strong><div class="atlas-colorbar"></div><div class="ticks"><span>0</span><span>0.4</span><span>≥0.8</span></div><p>${state.speedShading?'Speed field and moving trails use the same 0–0.8 m/s scale.':'Moving trails use speed color. Turn on Speed shading for the gridded field.'}${state.view==='world'?'<br/>Globe line colors show mean sampled speed within each short line segment.':''}</p>`;
     else if(state.layer==='water')el('legend').innerHTML='<strong>Water index · NDWI</strong><div class="atlas-colorbar water"></div><div class="ticks"><span>−1</span><span>0</span><span>+1</span></div><p>Green vs near-infrared reflectance. Positive values often indicate water.</p>';
     else if(state.layer==='pca'){
       const pc=p.waterPca,rows=manifest.spectralPalettes[state.palette].rows;
@@ -219,14 +228,14 @@ export async function startWaterAtlas() {
     }
     if(p.source==='radar'){el('data-content').innerHTML=`<h3>Measured North Carolina coastal currents</h3><p>NOAA NDBC HF radar total vectors on the nominal ${p.nominalResolutionKm} km grid at ${dateLabel(p.dates[0])}, ${p.dates[0].slice(11,16)} UTC. The file records ${p.depth} m depth and ${p.validCells} valid cells in this regional window, including ${p.ncValidCells} south of 36.55° N. Radar coverage is discontinuous; this snapshot is not a complete shoreline map or a real-time feed.</p><p>Speed shading retains every returned valid source cell. Animated streamlines require four valid neighboring cells and stop at gaps. They integrate one observed velocity snapshot, with motion accelerated 3,600 times. They are not observed trajectories.</p><p><a href="https://dods.ndbc.noaa.gov/thredds/catalog/hfradar.html" target="_blank" rel="noopener">NOAA HF radar catalog ↗</a></p><p><a href="${BASE}nc-radar.json" target="_blank" rel="noopener">Exact source request, footprint, timestamp and checksums ↗</a></p>`;return;}
     el('data-content').innerHTML=
-      p.source==='hycom'?`<h3>${safe(p.title)} · ${state.depth===0?'surface':state.depth+' m'}</h3><p><a href="https://www.hycom.org/dataserver/espc-d-v02/global-analysis" target="_blank" rel="noopener">HYCOM / ESPC-D-V02</a> supplies eastward and northward horizontal velocity at the chosen depth. The map uses the released geographic grid and exact snapshot dates. Depth controls change the velocity data. Speed shading is projected onto the globe; streamlines use source-depth coordinates and are displayed through the surface. Terrain remains at 1× vertical scale.</p><p>The animated lines are streamlines through one selected velocity snapshot, calculated with a midpoint method in geographic coordinates. Motion is accelerated 3,600 times for display. These graphics are not observed drifter tracks, forecasts, vertical motion, or a measure of transport volume. Missing grid corners stop a line.</p><p><a href="${sourceCatalog().dataBase||'/hidden-rivers/data/'}manifest.json" target="_blank" rel="noopener">Velocity grid, dates, checksums & source records ↗</a></p>`:
-      `<h3>Near-surface ocean circulation · 15 m</h3><p><a href="https://www.aoml.noaa.gov/phod/gdp/mean_velocity.php" target="_blank" rel="noopener">NOAA’s Global Drifter Program</a> estimates monthly climatological velocity from satellite-tracked drifting buoys with drogues centered at 15 m. This is a long-run seasonal pattern through February 2023, not today’s current or a forecast. The 0.25° source has been sampled every four grid cells to a 1° display grid.</p><p>Streamlines follow the selected monthly mean eastward and northward velocity. Their motion is accelerated 3,600 times for visibility. They are not the measured tracks of individual buoys. Colors encode speed in m/s; seed density and line count do not encode water volume. No flow is invented for missing cells.</p>${p.salinity?'<h3>Amazon freshwater plume</h3><p>The salinity layer is a <a href="https://oceanwatch.noaa.gov/cwn/products/sea-surface-salinity-near-real-time-smap.html" target="_blank" rel="noopener">NOAA SMAP</a> daily satellite-derived surface-salinity retrieval for 15 July 2024, on a native 0.25° grid. It is separate from the monthly current climatology and does not describe estuary-scale salinity.</p>':''}<p><a href="${BASE}drifter.json" target="_blank" rel="noopener">Grid, record period, source request & checksum ↗</a></p>`;
+      p.source==='hycom'?`<h3>${safe(p.title)} · ${state.depth===0?'surface':state.depth+' m'}</h3><p><a href="https://www.hycom.org/dataserver/espc-d-v02/global-analysis" target="_blank" rel="noopener">HYCOM / ESPC-D-V02</a> supplies eastward and northward horizontal velocity at the chosen depth. The map uses the released geographic grid and exact snapshot dates. Depth controls change the velocity data. Globe trails default to surface projection while sampling the selected depth. Subsurface view places the same horizontal flow at that actual model depth and makes the globe translucent over the regional footprint. No vertical velocity or vertical exaggeration is used.</p><p>Animated lines are streamlines through one selected velocity snapshot, calculated with a midpoint method in geographic coordinates. Motion is accelerated 3,600 times for display. These graphics are not observed drifter tracks, forecasts, or a measure of transport volume. Missing grid corners stop a line; speed-field shading is optional. Globe line colors show mean sampled speed within each short line segment.</p><p><a href="${sourceCatalog().dataBase||'/hidden-rivers/data/'}manifest.json" target="_blank" rel="noopener">Velocity grid, dates, checksums & source records ↗</a></p>`:
+      `<h3>Near-surface ocean circulation · 15 m</h3><p><a href="https://www.aoml.noaa.gov/phod/gdp/mean_velocity.php" target="_blank" rel="noopener">NOAA’s Global Drifter Program</a> estimates monthly climatological velocity from satellite-tracked drifting buoys with drogues centered at 15 m. This is a long-run seasonal pattern through February 2023, not today’s current or a forecast. The 0.25° source has been sampled every four grid cells to a 1° display grid. This product has one nominal depth and supplies no deeper velocity profile.</p><p>Streamlines follow the selected monthly mean eastward and northward velocity. Their motion is accelerated 3,600 times for visibility. They are not the measured tracks of individual buoys. Colors encode speed in m/s; seed density and line count do not encode water volume. No flow is invented for missing cells.</p><p><a href="/hidden-rivers/?place=agulhas&amp;layer=currents&amp;depth=0&amp;tab=ocean">Explore HYCOM levels from surface to 2,000 m in the Agulhas Current ↗</a></p>${p.salinity?'<h3>Amazon freshwater plume</h3><p>The salinity layer is a <a href="https://oceanwatch.noaa.gov/cwn/products/sea-surface-salinity-near-real-time-smap.html" target="_blank" rel="noopener">NOAA SMAP</a> daily satellite-derived surface-salinity retrieval for 15 July 2024, on a native 0.25° grid. It is separate from the monthly current climatology and does not describe estuary-scale salinity.</p>':''}<p><a href="${BASE}drifter.json" target="_blank" rel="noopener">Grid, record period, source request & checksum ↗</a></p>`;
   }
   async function selectPlace(id, initial=false,options={}) {
-    const p=places.find(p=>p.id===id)||places[0],stamp=++epoch;
+    const p=places.find(p=>p.id===id)||places[0],stamp=++epoch;profileEpoch++;
     if(!options.restore)remember();if(options.grid)state.grid=options.grid;state.tab=collectionFor(p);renderTab();
     if(!initial&&!options.story){state.story=null;renderStory();}
-    state.place=p;state.frame=0;state.compare=false;state.cycle=false;state.layer=options.layer||(p.frames?'rgb':'currents');state.depth=p.source==='hycom'?0:15;state.flow=options.flow??(initial&&query.has('flow')?query.get('flow')!=='0':!p.frames);
+    state.place=p;state.frame=0;state.compare=false;state.cycle=false;state.layer=options.layer||(p.frames?'rgb':'currents');state.depth=p.source==='hycom'?0:15;state.flow=options.flow??(initial&&query.has('flow')?query.get('flow')!=='0':!p.frames);if(options.speedShading!==undefined)state.speedShading=options.speedShading;state.subsurface=options.subsurface??(initial&&query.get('subsurface')==='1');
     spectra=null;samples=[];el('inspector').hidden=true;
     imageEpoch++;field=null;layer=null;rivers=null;paths=[];riverPaths=[];indexValues=null;map.closePopup();dirty=true;
     el('title').textContent=p.title;el('place-name').textContent=p.title;el('note').textContent=p.note;el('place-group').textContent=p.group.toUpperCase();
@@ -291,6 +300,7 @@ export async function startWaterAtlas() {
     images[1].getElement().style.clipPath=`inset(0 0 0 ${cut}%)`;
   }
   async function selectFrame(index) {
+    profileEpoch++;
     const count=state.place.frames?.length||layer?.shape[0]||1;
     state.frame=(index+count)%count;map.closePopup();
     try{await displayFrame();}catch(e){setStatus(e.message);}
@@ -323,7 +333,7 @@ export async function startWaterAtlas() {
   }
   function renderField() {
     const size=map.getSize();fieldCtx.clearRect(0,0,size.x,size.y);
-    if(!field||state.layer!=='currents')return;
+    if(!field||state.layer!=='currents'||!state.speedShading)return;
     const raster=velocityRaster(field,color),source=document.createElement('canvas');source.width=raster.width;source.height=raster.height;
     const ctx=source.getContext('2d'),pixels=ctx.createImageData(raster.width,raster.height);pixels.data.set(raster.data);ctx.putImageData(pixels,0,0);
     // Project native latitude strips into Mercator without dropping coastal
@@ -335,19 +345,19 @@ export async function startWaterAtlas() {
   function drawFlow() {
     const {x:w,y:h}=map.getSize();flowCtx.clearRect(0,0,w,h);if(!state.flow||moving)return;
     flowCtx.lineCap='round';
-    function trail(points,interval,rgb,width,maxAlpha){
+    function trail(points,interval,colorAt,width,maxAlpha){
       const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
       for(let i=Math.floor(interval.start);i<Math.ceil(interval.end);i++){
         const lo=Math.max(interval.start,i),hi=Math.min(interval.end,i+1);if(hi<=lo)continue;
         const a=mix(points[i],points[i+1],lo-i),b=mix(points[i],points[i+1],hi-i),at=(lo+hi)/2;
         const fade=Math.max(0,1-(interval.head-at)/interval.tail)*Math.min(1,at/2,(points.length-1-at)/2);
-        flowCtx.strokeStyle=`rgba(${rgb.join(',')},${maxAlpha*fade})`;flowCtx.lineWidth=width;
+        flowCtx.strokeStyle=`rgba(${colorAt(at).join(',')},${maxAlpha*fade})`;flowCtx.lineWidth=width;
         flowCtx.beginPath();flowCtx.moveTo(...a);flowCtx.lineTo(...b);flowCtx.stroke();
       }
     }
     // River rates remain illustrative; ocean intervals retain their source time.
-    for(const p of riverPaths){if(p.directed)for(const interval of trailIntervals(p.points.length-1,phase*.65-(p.id%997)/997*24))trail(p.points,interval,[185,231,216],1.6,.42);}
-    for(const p of paths)for(const interval of trailIntervals(p.points.length-1,phase*CURRENT_SAMPLES_PER_SECOND+p.offset))trail(p.points,interval,color(p.points[Math.floor(interval.end)][2]).map(c=>Math.min(255,c+30)),1.6,.62);
+    for(const p of riverPaths){if(p.directed)for(const interval of trailIntervals(p.points.length-1,phase*.65-(p.id%997)/997*18))trail(p.points,interval,()=>[213,245,232],1.8,.76);}
+    for(const p of paths)for(const interval of trailIntervals(p.points.length-1,phase*CURRENT_SAMPLES_PER_SECOND+p.offset))trail(p.points,interval,at=>color(p.points[Math.min(p.points.length-1,Math.floor(at))][2]),2.3,.96);
   }
   function animation(time) {
     const dt=Math.min(.1,(time-last)/1000||0);last=time;
@@ -356,13 +366,31 @@ export async function startWaterAtlas() {
     requestAnimationFrame(animation);
   }
   async function inspect(event) {
-    if(state.present)return;const {lng:lon,lat}=event.latlng,p=state.place,frame=p.frames?.[state.frame];
+    if(state.present)return;const stamp=++profileEpoch,{lng:lon,lat}=event.latlng,p=state.place,frame=p.frames?.[state.frame];
+    if(p.source==='hycom'){
+      const targetDate=layer?.dates?.[state.frame]||null,region=sourceCatalog().regions.find(r=>r.id===p.id);
+      el('inspector').hidden=false;el('inspector-title').textContent='Velocity with depth';
+      el('spectra-chart').innerHTML=`<strong>${safe(p.title)}</strong><p>${Math.abs(lat).toFixed(4)}° ${lat<0?'S':'N'}, ${Math.abs(lon).toFixed(4)}° ${lon<0?'W':'E'}</p><p>Loading the released HYCOM depth levels…</p>`;
+      el('spectra-note').textContent='Each row is a discrete horizontal-velocity level. No vertical velocity or values between levels are inferred.';
+      try{
+        const profiles=await Promise.all(region.layers.map(loadVelocity));if(stamp!==profileEpoch||state.place!==p)return;
+        const rows=velocityDepthProfile(profiles,{date:targetDate,lon,lat}),maxDepth=Math.max(...rows.map(r=>r.depth),1);
+        const ticks=`<div class="velocity-profile-axis"><span>Depth</span><span><i>0</i><i>0.4</i><i>≥0.8 m/s</i></span><span>Speed</span><span>Direction</span></div>`;
+        const records=rows.map(r=>{const valid=r.speed!==null,bar=valid?Math.min(100,r.speed/.8*100):0,fill=valid?`background:rgb(${color(r.speed).join(' ')})`:'';
+          const direction=valid&&r.direction!==null?`<span class="velocity-direction" title="Toward ${r.direction.toFixed(0)}° clockwise from north" style="transform:rotate(${r.direction}deg)">↑</span>${r.direction.toFixed(0)}°`:'—';
+          return `<div class="velocity-profile-row${r.depth===state.depth?' is-selected':''}" data-depth="${r.depth}"><span>${r.depth===0?'Surface':r.depth.toLocaleString()+' m'}</span>${valid?`<span class="velocity-profile-bar"><i style="width:${bar}%;${fill}"></i></span><b>${r.speed.toFixed(3)}</b><span class="velocity-profile-direction">${direction}</span>`:'<span class="velocity-profile-missing">No valid sample</span><b>n/a</b><span>n/a</span>'}</div>`;}).join('');
+        el('spectra-chart').innerHTML=`<strong>${safe(p.title)}</strong><p>${Math.abs(lat).toFixed(4)}° ${lat<0?'S':'N'}, ${Math.abs(lon).toFixed(4)}° ${lon<0?'W':'E'} · ${targetDate?dateLabel(targetDate):'selected snapshot'}</p><div class="velocity-profile">${ticks}${records}</div>`;
+        el('spectra-note').textContent=`HYCOM model analysis · dates matched to the nearest available snapshot at each level. Rows are discrete horizontal-velocity levels; values between depths and vertical velocity are not inferred. Bars use the fixed 0–0.8 m/s scale; values above it display at the pale-rose endpoint. Directions are toward, clockwise from north. Vertical exaggeration: 1×.`;
+      }catch(error){if(stamp===profileEpoch){el('spectra-chart').innerHTML=`<strong>${safe(p.title)}</strong><p>Depth profile unavailable: ${safe(error.message)}</p>`;}}
+      return;
+    }
     let text=`<strong>${Math.abs(lat).toFixed(4)}° ${lat<0?'S':'N'}, ${Math.abs(lon).toFixed(4)}° ${lon<0?'W':'E'}</strong>`;
     if(field){const v=sampleAt(field,lon,lat);text+=v?`<p>${Math.hypot(...v).toFixed(3)} m/s · toward ${((Math.atan2(v[0],v[1])*180/Math.PI+360)%360).toFixed(0)}°</p><small>${state.depth} m · ${safe(el('date').textContent)}<br/>${p.source==='radar'?'Observed HF radar':p.source==='hycom'?'Model analysis':'Drifter-derived climatology'}</small>`:'<p>No valid velocity sample here.</p><small>Missing cells remain missing.</small>';}
+    if(p.source==='drifter'&&state.layer==='currents')text+=`<p>NOAA Global Drifter Program values represent one nominal drogue depth: 15 m. This climatology has no vertical profile.</p><p><a href="/hidden-rivers/?place=agulhas&amp;layer=currents&amp;depth=0&amp;tab=ocean">Explore Agulhas HYCOM levels from surface to 2,000 m ↗</a></p>`;
     if(frame){const pixel=indexPixel(p.bounds,frame.indexShape,lon,lat);const value=pixel&&indexValues?.[pixel[1]*frame.indexShape[1]+pixel[0]];
       if(pixel&&spectra){const offset=(pixel[1]*frame.indexShape[1]+pixel[0])*4,measured=spectralSample(Array.from(spectra.slice(offset,offset+4)),p.waterPca);if(measured){samples.push({...measured,lat,lon});samples=samples.slice(-2);renderSpectra();return;}}
       text+=value!==undefined&&value!==-32768?`<p>NDWI ${(value/10000).toFixed(3)}</p><small>${dateLabel(frame.date)} · sampled spectral index<br/>Not a speed, depth or water-quality estimate.</small>`:'<p>No clear Sentinel-2 sample here.</p><small>The background is satellite context.</small>';}
-    if(state.view==='world'){el('inspector').hidden=false;el('spectra-chart').innerHTML=text;el('spectra-note').textContent='';}else L.popup({maxWidth:280}).setLatLng(event.latlng).setContent(text).openOn(map);
+    if(state.view==='world'||p.source==='drifter'&&state.layer==='currents'){el('inspector').hidden=false;el('inspector-title').textContent='Current at this point';el('spectra-chart').innerHTML=text;el('spectra-note').textContent='';}else L.popup({maxWidth:280}).setLatLng(event.latlng).setContent(text).openOn(map);
   }
   function revealPresent(){const controls=root.parentElement.querySelector('.atlas-presentation-controls');controls.classList.add('revealed');clearTimeout(presentTimer);presentTimer=setTimeout(()=>controls.classList.remove('revealed'),1800);}
   async function exportMap(){
@@ -393,11 +421,13 @@ export async function startWaterAtlas() {
   map.on('moveend zoomend resize',()=>{moving=false;dirty=true;saveURL();});map.on('click',inspect);
   el('browse').addEventListener('click',()=>browse(el('places').hidden));el('close-places').addEventListener('click',()=>browse(false));el('search').addEventListener('input',renderPlaces);
   el('places').addEventListener('click',e=>{const button=e.target.closest('button');if(button?.dataset.place)void selectPlace(button.dataset.place);if(button?.dataset.group){group=button.dataset.group;el('places').querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));renderPlaces();}});
-  el('layers').addEventListener('click',async e=>{const button=e.target.closest('[data-layer]');if(!button)return;state.layer=button.dataset.layer;if(state.layer==='rgb')state.compare=false;try{await displayFrame();}catch(error){setStatus(error.message);}});
+  el('layers').addEventListener('click',async e=>{const button=e.target.closest('[data-layer]');if(!button)return;profileEpoch++;state.layer=button.dataset.layer;if(state.layer==='rgb')state.compare=false;try{await displayFrame();}catch(error){setStatus(error.message);}});
   el('grid').addEventListener('change',()=>{const date=layer?.dates?.[state.frame],camera=world?.getCamera();state.grid=el('grid').value;void selectPlace(state.place.id,false,{depth:state.depth,grid:state.grid,layer:state.layer,date,camera,story:true});});
   el('flow').addEventListener('change',()=>{state.flow=el('flow').checked;controls();saveURL();});
+  el('speed-shading').addEventListener('change',()=>{state.speedShading=el('speed-shading').checked;renderField();void syncWorld();controls();saveURL();});
   el('depth-rail').addEventListener('click',e=>{const b=e.target.closest('[data-depth]');if(b){el('depth').value=b.dataset.depth;el('depth').dispatchEvent(new Event('change'));}});
-  el('depth').addEventListener('change',async()=>{const stamp=++epoch,date=layer.dates?.[state.frame];state.depth=Number(el('depth').value);const chapter=WATER_STORIES.find(s=>s.id===state.story)?.steps.findIndex(s=>s.place===state.place.id&&s.depth===state.depth);if(chapter>=0){state.chapter=chapter;renderStory();}setStatus('Loading '+state.depth+' m velocity…');field=null;paths=[];dirty=true;try{const meta=sourceCatalog().regions.find(r=>r.id===state.place.id).layers.find(l=>l.depth===state.depth);const next=await loadVelocity(meta);if(stamp!==epoch)return;layer=next;state.frame=date?layer.dates.reduce((best,d,i)=>Math.abs(Date.parse(d)-Date.parse(date))<Math.abs(Date.parse(layer.dates[best])-Date.parse(date))?i:best,0):Math.min(state.frame,layer.shape[0]-1);await displayFrame();setStatus('');}catch(error){setStatus(error.message);}});
+  el('depth').addEventListener('change',async()=>{const stamp=++epoch,date=layer.dates?.[state.frame];state.depth=Number(el('depth').value);if(state.depth===0)state.subsurface=false;const chapter=WATER_STORIES.find(s=>s.id===state.story)?.steps.findIndex(s=>s.place===state.place.id&&s.depth===state.depth);if(chapter>=0){state.chapter=chapter;renderStory();}setStatus('Loading '+state.depth+' m velocity…');field=null;paths=[];dirty=true;try{const meta=sourceCatalog().regions.find(r=>r.id===state.place.id).layers.find(l=>l.depth===state.depth);const next=await loadVelocity(meta);if(stamp!==epoch)return;layer=next;state.frame=date?layer.dates.reduce((best,d,i)=>Math.abs(Date.parse(d)-Date.parse(date))<Math.abs(Date.parse(layer.dates[best])-Date.parse(date))?i:best,0):Math.min(state.frame,layer.shape[0]-1);await displayFrame();setStatus('');}catch(error){setStatus(error.message);}});
+  el('subsurface').addEventListener('change',()=>{state.subsurface=el('subsurface').checked;if(state.subsurface)state.speedShading=false;void syncWorld();controls();saveURL();});
   el('play').addEventListener('click',()=>{state.playing=!state.playing;controls();});el('time').addEventListener('input',()=>void selectFrame(Number(el('time').value)));
   el('previous').addEventListener('click',()=>void selectFrame(state.frame-1));el('next').addEventListener('click',()=>void selectFrame(state.frame+1));
   el('cycle').addEventListener('click',()=>{state.cycle=!state.cycle;if(state.cycle){state.playing=true;lastCycle=performance.now();}controls();});
@@ -415,7 +445,7 @@ export async function startWaterAtlas() {
   el('view-world').addEventListener('click',()=>void setView('world'));el('view-flat').addEventListener('click',()=>void setView('flat'));
   el('tilt').addEventListener('click',()=>{state.tilt=!state.tilt;world?.fit(state.place,{tilt:state.tilt});});el('orbit').addEventListener('click',()=>{state.orbit=!state.orbit;world?.setOrbit(state.orbit);el('orbit').setAttribute('aria-pressed',String(state.orbit));});
   el('blend').addEventListener('change',()=>{state.blend=el('blend').value;void displayFrame();});el('spectral-controls').addEventListener('click',e=>{const b=e.target.closest('[data-palette]');if(b){state.palette=b.dataset.palette;void displayFrame();}});
-  el('inspector-close').addEventListener('click',()=>{samples=[];el('inspector').hidden=true;});
+  el('inspector-close').addEventListener('click',()=>{profileEpoch++;samples=[];el('inspector').hidden=true;});
   el('world').addEventListener('pointermove',()=>{if(state.present)revealPresent();});el('world').addEventListener('pointerdown',()=>{if(state.present)revealPresent();});
   el('present').addEventListener('click',()=>void present(true));el('present-exit').addEventListener('click',()=>void present(false));el('present-previous').addEventListener('click',()=>nextPlace(-1));el('present-next').addEventListener('click',()=>nextPlace(1));el('present-pause').addEventListener('click',()=>{state.playing=!state.playing;el('present-pause').textContent=state.playing?'Ⅱ':'▷';controls();});
   root.addEventListener('pointermove',()=>{if(state.present){clearTimeout(pointerTimer);revealPresent();}});root.addEventListener('pointerdown',()=>{if(state.present)revealPresent();});

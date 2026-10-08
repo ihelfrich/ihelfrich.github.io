@@ -43,14 +43,24 @@ class Tank3D{
   this.commitVelocity();
  }
  commitVelocity(){for(const c of this.velocity){const old=c.data;c.data=c.next;c.next=old;}this.u=this.velocity[0].data;this.v=this.velocity[1].data;this.w=this.velocity[2].data;}
- kickPressure(dt){const {nx,ny,nz,dx,dy,dz,u,v,w,pressureEstimate:p}=this;
+ kickPressure(dt){if(this.kernels?.kickPressure){this.kernels.kickPressure(this,dt);return;}const {nx,ny,nz,dx,dy,dz,u,v,w,pressureEstimate:p}=this;
   for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=1;i<nx;i++){const d=(k*ny+j)*nx+i;u[(k*ny+j)*(nx+1)+i]-=dt*(p[d]-p[d-1])/dx;}
   for(let k=0;k<nz;k++)for(let j=1;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;v[(k*(ny+1)+j)*nx+i]-=dt*(p[d]-p[d-nx])/dy;}
   for(let k=1;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;w[d]-=dt*(p[d]-p[d-nx*ny])/dz;}
  }
  initializePressure(dt){const old=this.velocity.map(c=>c.data.slice());this.advectVelocity(dt/2);this.buoyancy(dt/2);this.project();for(let i=0;i<this.phi.length;i++)this.pressureEstimate[i]=this.phi[i]/(dt/2);this.velocity.forEach((c,a)=>c.data.set(old[a]));this.pressureReady=true;}
- momentumStep(dt){if(!this.pressureReady)this.initializePressure(dt);this.kickPressure(dt/2);this.buoyancy(dt/2);this.advectVelocity(dt);this.buoyancy(dt/2);this.kickPressure(dt/2);this.project();for(let i=0;i<this.phi.length;i++)this.pressureEstimate[i]+=this.phi[i]/dt;}
- buoyancy(dt){const {nx,ny,nz,salinity,rho,means,v,planeBases:base}=this;means.fill(0);for(let j=0;j<ny;j++)base[j]=seawaterDensity(clamp(salinity[j*nx],0,40));for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;rho[d]=seawaterDensity(clamp(salinity[d],0,40));means[j]+=(rho[d]-base[j])/(nx*nz);}for(let j=0;j<ny;j++)means[j]+=base[j];for(let k=0;k<nz;k++)for(let j=1;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;v[(k*(ny+1)+j)*nx+i]+=dt*9.81/referenceDensity*.5*(rho[d]-means[j]+rho[d-nx]-means[j-1]);}}
+ beginMomentum(dt){if(!this.pressureReady)this.initializePressure(dt);this.kickPressure(dt/2);this.buoyancy(dt/2);}
+ finishMomentum(dt){this.buoyancy(dt/2);this.kickPressure(dt/2);this.project();for(let i=0;i<this.phi.length;i++)this.pressureEstimate[i]+=this.phi[i]/dt;}
+ momentumStep(dt){this.beginMomentum(dt);this.advectVelocity(dt);this.finishMomentum(dt);}
+ async momentumStepAsync(dt,accelerator){
+  this.beginMomentum(dt);
+  if(accelerator&&accelerator!==this.failedAccelerator){
+   try{await accelerator.momentum(this,dt);this.commitVelocity();this.acceleration=accelerator.backend;}
+   catch(error){this.failedAccelerator=accelerator;this.accelerationFallback=error.message;accelerator.dispose?.();this.advectVelocity(dt);this.acceleration=this.kernels?'float64-wasm':'float64-js';}
+  }else this.advectVelocity(dt);
+  this.finishMomentum(dt);
+ }
+ buoyancy(dt){if(this.kernels?.buoyancy){this.kernels.buoyancy(this,dt);return;}const {nx,ny,nz,salinity,rho,means,v,planeBases:base}=this;means.fill(0);for(let j=0;j<ny;j++)base[j]=seawaterDensity(clamp(salinity[j*nx],0,40));for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;rho[d]=seawaterDensity(clamp(salinity[d],0,40));means[j]+=(rho[d]-base[j])/(nx*nz);}for(let j=0;j<ny;j++)means[j]+=base[j];for(let k=0;k<nz;k++)for(let j=1;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;v[(k*(ny+1)+j)*nx+i]+=dt*9.81/referenceDensity*.5*(rho[d]-means[j]+rho[d-nx]-means[j-1]);}}
  divergence(out){const {nx,ny,nz,u,v,w,dx,dy,dz}=this;for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)out[(k*ny+j)*nx+i]=(u[(k*ny+j)*(nx+1)+i+1]-u[(k*ny+j)*(nx+1)+i])/dx+(v[(k*(ny+1)+j+1)*nx+i]-v[(k*(ny+1)+j)*nx+i])/dy+(w[((k+1)*ny+j)*nx+i]-w[(k*ny+j)*nx+i])/dz;}
  project(){
   const {nx,ny,nz,dx,dy,dz,rhs,phi,u,v,w}=this;for(const c of this.velocity){const [a,b,e]=c.shape;for(let k=0;k<e;k++)for(let j=0;j<b;j++)for(let i=0;i<a;i++)if([i,j,k][c.axis]===0||[i,j,k][c.axis]===c.shape[c.axis]-1)c.data[(k*b+j)*a+i]=0;}
@@ -69,14 +79,14 @@ class Tank3D{
   for(let k=1;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const b=(k*ny+j)*nx+i,a=b-p,speed=w[b],value=speed>=0?q[a]+.5*sz[a]:q[b]-.5*sz[b],transfer=dt/dz*(speed*value-kap*(q[b]-q[a])/dz);out[a]-=transfer;out[b]+=transfer;}
  }
  advectScalar(q,dt){if(this.kernels){this.kernels.scalar(this,q,dt);return;}this.scalarEuler(q,this.scalarStage,dt);this.scalarEuler(this.scalarStage,this.scalarResult,dt);for(let i=0;i<q.length;i++)this.scalarStage[i]=.75*q[i]+.25*this.scalarResult[i];this.scalarEuler(this.scalarStage,this.scalarResult,dt);for(let i=0;i<q.length;i++)q[i]=q[i]/3+2*this.scalarResult[i]/3;}
- step(dt=.01){
-  if(!valid(dt,1e-5,.02))throw new RangeError('Invalid 3D timestep');let remaining=dt;
-  while(remaining>1e-10){let umax=0,vmax=0,wmax=0,smin=40,smax=0;for(const a of this.u)umax=Math.max(umax,Math.abs(a));for(const a of this.v)vmax=Math.max(vmax,Math.abs(a));for(const a of this.w)wmax=Math.max(wmax,Math.abs(a));for(const a of this.salinity){smin=Math.min(smin,a);smax=Math.max(smax,a);}const rate=umax/this.dx+vmax/this.dy+wmax/this.dz,h=Math.min(this.dx,this.dy,this.dz),acc=9.81/referenceDensity*(seawaterDensity(clamp(smax,0,40))-seawaterDensity(clamp(smin,0,40))),sub=Math.min(remaining,.25/Math.max(rate,1e-12),.25*Math.sqrt(h/Math.max(acc,1e-12)),.12*h*h/Math.max(this.viscosity,this.diffusivity,1e-12));if(!Number.isFinite(sub)||sub<1e-6)throw new Error('Flow exceeds the 3D grid; reset the tank');this.momentumStep(sub);this.advectScalar(this.salinity,sub);if(this.goldActive)this.advectScalar(this.gold,sub);if(this.coralActive)this.advectScalar(this.coral,sub);for(let i=0;i<this.dye.length;i++)this.dye[i]=this.gold[i]+this.coral[i];this.time+=sub;this.steps++;remaining-=sub;}
- }
+ substepLimit(remaining){let umax=0,vmax=0,wmax=0,smin=40,smax=0;for(const a of this.u)umax=Math.max(umax,Math.abs(a));for(const a of this.v)vmax=Math.max(vmax,Math.abs(a));for(const a of this.w)wmax=Math.max(wmax,Math.abs(a));for(const a of this.salinity){smin=Math.min(smin,a);smax=Math.max(smax,a);}const rate=umax/this.dx+vmax/this.dy+wmax/this.dz,h=Math.min(this.dx,this.dy,this.dz),acc=9.81/referenceDensity*(seawaterDensity(clamp(smax,0,40))-seawaterDensity(clamp(smin,0,40))),sub=Math.min(remaining,.25/Math.max(rate,1e-12),.25*Math.sqrt(h/Math.max(acc,1e-12)),.12*h*h/Math.max(this.viscosity,this.diffusivity,1e-12));if(!Number.isFinite(sub)||sub<1e-6)throw new Error('Flow exceeds the 3D grid; reset the tank');return sub;}
+ finishSubstep(dt){this.advectScalar(this.salinity,dt);if(this.goldActive)this.advectScalar(this.gold,dt);if(this.coralActive)this.advectScalar(this.coral,dt);for(let i=0;i<this.dye.length;i++)this.dye[i]=this.gold[i]+this.coral[i];this.time+=dt;this.steps++;}
+ step(dt=.01){if(!valid(dt,1e-5,.02))throw new RangeError('Invalid 3D timestep');let remaining=dt;while(remaining>1e-10){const sub=this.substepLimit(remaining);this.momentumStep(sub);this.finishSubstep(sub);remaining-=sub;}}
+ async stepAsync(dt=.01,accelerator=null){if(!valid(dt,1e-5,.02))throw new RangeError('Invalid 3D timestep');let remaining=dt;while(remaining>1e-10){const sub=this.substepLimit(remaining);await this.momentumStepAsync(sub,accelerator);this.finishSubstep(sub);remaining-=sub;}}
  diagnostics(){
   const {nx,ny,nz,dx,dy,dz,u,v,w,salinity,dye}=this;let speed=0,maxW=0,smin=40,smax=0,weight=0,cx=0,cy=0,cz=0,dmin=Infinity,dmax=0;
   for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i,a=.5*(u[(k*ny+j)*(nx+1)+i]+u[(k*ny+j)*(nx+1)+i+1]),b=.5*(v[(k*(ny+1)+j)*nx+i]+v[(k*(ny+1)+j+1)*nx+i]),c=.5*(w[d]+w[d+nx*ny]);speed=Math.max(speed,Math.hypot(a,b,c));maxW=Math.max(maxW,Math.abs(c));smin=Math.min(smin,salinity[d]);smax=Math.max(smax,salinity[d]);dmin=Math.min(dmin,dye[d]);dmax=Math.max(dmax,dye[d]);weight+=dye[d];cx+=(i+.5)*dx*dye[d];cy+=(j+.5)*dy*dye[d];cz+=(k+.5)*dz*dye[d];}
-  return {model:'salinity-dye-tank-3d-v4',dimensions:3,acceleration:this.acceleration,grid:[nx,ny,nz],time:this.time,steps:this.steps,saltIntegral:this.integral(salinity),dyeIntegral:this.integral(dye),dyeCentroid:{x:weight?cx/weight:this.width/2,y:weight?cy/weight:this.height/2,z:weight?cz/weight:this.depth/2},maxSpeed:speed,maxW,divergenceRms:this.projectionResidual||0,salinityMin:smin,salinityMax:smax,dyeMin:dmin,dyeMax:dmax};
+  return {model:'salinity-dye-tank-3d-v5',dimensions:3,acceleration:this.acceleration,accelerationFallback:this.accelerationFallback||null,grid:[nx,ny,nz],time:this.time,steps:this.steps,saltIntegral:this.integral(salinity),dyeIntegral:this.integral(dye),dyeCentroid:{x:weight?cx/weight:this.width/2,y:weight?cy/weight:this.height/2,z:weight?cz/weight:this.depth/2},maxSpeed:speed,maxW,divergenceRms:this.projectionResidual||0,salinityMin:smin,salinityMax:smax,dyeMin:dmin,dyeMax:dmax};
  }
  snapshot(){const n=this.salinity.length,volume=new Float32Array(n*4),{nx,ny,nz,u,v,w,dx,dy,dz}=this;for(let k=0;k<nz;k++)for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const d=(k*ny+j)*nx+i;volume[4*d]=this.gold[d];volume[4*d+1]=this.coral[d];volume[4*d+2]=this.salinity[d]/40;const speed=Math.hypot(.5*(u[(k*ny+j)*(nx+1)+i]+u[(k*ny+j)*(nx+1)+i+1]),.5*(v[(k*(ny+1)+j)*nx+i]+v[(k*(ny+1)+j+1)*nx+i]),.5*(w[d]+w[d+nx*ny]));volume[4*d+3]=speed;}return {nx,ny,nz,width:this.width,height:this.height,depth:this.depth,volume,diagnostics:this.diagnostics()};}
 }

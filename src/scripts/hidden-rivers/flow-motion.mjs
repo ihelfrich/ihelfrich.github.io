@@ -4,7 +4,7 @@ import { EARTH_METRES_PER_DEGREE } from './field.mjs';
 // display second preserve the velocity differences at a 3,600× time scale.
 export const CURRENT_SAMPLES_PER_SECOND = 2;
 export const CURRENT_TIME_SCALE = 3600;
-export const PULSE_SAMPLES = 24;
+export const PULSE_SAMPLES = 18;
 
 export function flowTiming(vertexCount, seconds, samplesPerSecond = CURRENT_SAMPLES_PER_SECOND) {
   return { repeats: (vertexCount - 1) / PULSE_SAMPLES, clock: seconds * samplesPerSecond / PULSE_SAMPLES };
@@ -28,7 +28,7 @@ export function maskedRiverRuns(coordinates, isWet, spacingMetres = 180, minimum
 }
 
 // Open intervals: tails enter and leave a path; no end-to-start segment exists.
-export function trailIntervals(last, phase, spacing = PULSE_SAMPLES, tail = 16) {
+export function trailIntervals(last, phase, spacing = PULSE_SAMPLES, tail = 14) {
   const result = [], offset = ((phase % spacing) + spacing) % spacing;
   for (let head = offset; head < last + tail; head += spacing) {
     const start = Math.max(0, head - tail), end = Math.min(last, head);
@@ -42,7 +42,7 @@ czm_material czm_getMaterial(czm_materialInput materialInput) {
   czm_material material = czm_getDefaultMaterial(materialInput);
   float s = materialInput.st.s;
   float pulse = fract(s * repeats - clock + offset);
-  float tail = smoothstep(0.32, 0.94, pulse) * (1.0 - smoothstep(0.97, 1.0, pulse));
+  float tail = smoothstep(0.18, 0.94, pulse) * (1.0 - smoothstep(0.97, 1.0, pulse));
   float across = 1.0 - smoothstep(0.08, 0.5, abs(materialInput.st.t - 0.5));
   float ends = smoothstep(0.0, 0.045, s) * smoothstep(0.0, 0.045, 1.0 - s);
   material.diffuse = color.rgb;

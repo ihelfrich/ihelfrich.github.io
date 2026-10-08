@@ -1,0 +1,630 @@
+{
+  "model": "salinity-dye-tank-3d-v5-hybrid-candidate",
+  "generatedAt": "2026-10-08T17:41:34.549Z",
+  "passed": true,
+  "sourceSha256": {
+    "modelRegister": "764b2d14d5d3a4dd4264ce93687cfec5cffd25922104de06be6a40ff9150d9cd",
+    "core": "fbda7c6239293e1b4f00e4379b2926872a25d2f6c9b0c672bb9bdf57210ebd5d",
+    "gpu": "32a3f01bd5c07332db43f3c20e53aab6379b083f42c64df0789c421f110dda15",
+    "wasmWrapper": "3283f93d3bdd79d4fa63b272564c44053a6a1b990e060b974a62b3f3da09a6cb",
+    "wasmSource": "77d44699a7e84016e6ce86613d7bee01d32ce02c003ae7a6a2f392f802e04246",
+    "wasmBinary": "bc76e20a6682a1ea41cb24c6552c8ec82a0e6975ea7ba13fb0bc396290596395",
+    "verifier": "139e9c7e6815993da7d278c17e3e1b948d82c8b1925ce2b64a1a825f582a90d0"
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "browser": "153.0.8010.12",
+    "origin": "http://localhost:4328",
+    "headlessMetal": true
+  },
+  "thresholds": {
+    "momentumMaxErrorMetresPerSecond": 5e-7,
+    "plumeCentroidDifferenceMetres": 0.00025,
+    "ledgerResidual": 1e-12,
+    "projectedDivergencePerSecond": 1e-8,
+    "restMaxSpeedMetresPerSecond": 1e-12,
+    "taylorGreenRelativeEnergyError": 0.0001
+  },
+  "browserWarnings": [],
+  "checks": [
+    {
+      "name": "momentum 16x16x16 component error",
+      "passed": true,
+      "actual": 2.1370650561680637e-9,
+      "limit": 5e-7
+    },
+    {
+      "name": "momentum 16x16x16 finite",
+      "passed": true,
+      "actual": true,
+      "limit": true
+    },
+    {
+      "name": "momentum 32x32x32 component error",
+      "passed": true,
+      "actual": 2.2003695231696567e-8,
+      "limit": 5e-7
+    },
+    {
+      "name": "momentum 32x32x32 finite",
+      "passed": true,
+      "actual": true,
+      "limit": true
+    },
+    {
+      "name": "plume centroid 0.01s",
+      "passed": true,
+      "actual": 1.4307746580351762e-8,
+      "limit": 0.00025
+    },
+    {
+      "name": "plume 0.01s wasm salt ledger",
+      "passed": true,
+      "actual": 3.3306690738754696e-16,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.01s wasm dye ledger",
+      "passed": true,
+      "actual": 1.3552527156068805e-20,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.01s wasm divergence",
+      "passed": true,
+      "actual": 7.135383968025166e-18,
+      "limit": 1e-8
+    },
+    {
+      "name": "plume 0.01s gpu salt ledger",
+      "passed": true,
+      "actual": 1.6653345369377348e-16,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.01s gpu dye ledger",
+      "passed": true,
+      "actual": 5.082197683525802e-21,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.01s gpu divergence",
+      "passed": true,
+      "actual": 7.493775190549981e-18,
+      "limit": 1e-8
+    },
+    {
+      "name": "plume 0.01s uses GPU",
+      "passed": true,
+      "actual": 100,
+      "limit": ">0"
+    },
+    {
+      "name": "plume centroid 0.02s",
+      "passed": true,
+      "actual": 7.772535153741761e-9,
+      "limit": 0.00025
+    },
+    {
+      "name": "plume 0.02s wasm salt ledger",
+      "passed": true,
+      "actual": 4.440892098500626e-16,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.02s wasm dye ledger",
+      "passed": true,
+      "actual": 3.3881317890172014e-21,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.02s wasm divergence",
+      "passed": true,
+      "actual": 6.083157217216993e-18,
+      "limit": 1e-8
+    },
+    {
+      "name": "plume 0.02s gpu salt ledger",
+      "passed": true,
+      "actual": 1.6653345369377348e-16,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.02s gpu dye ledger",
+      "passed": true,
+      "actual": 3.3881317890172014e-21,
+      "limit": 1e-12
+    },
+    {
+      "name": "plume 0.02s gpu divergence",
+      "passed": true,
+      "actual": 6.025874101775889e-18,
+      "limit": 1e-8
+    },
+    {
+      "name": "plume 0.02s uses GPU",
+      "passed": true,
+      "actual": 50,
+      "limit": ">0"
+    },
+    {
+      "name": "four-layers wasm rest speed",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers wasm salt ledger",
+      "passed": true,
+      "actual": 1.582067810090848e-14,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers wasm dye ledger",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers wasm divergence",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-8
+    },
+    {
+      "name": "four-layers gpu rest speed",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers gpu salt ledger",
+      "passed": true,
+      "actual": 1.582067810090848e-14,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers gpu dye ledger",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "four-layers gpu divergence",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-8
+    },
+    {
+      "name": "four-layers uses GPU",
+      "passed": true,
+      "actual": 30,
+      "limit": ">0"
+    },
+    {
+      "name": "neutral-drop wasm rest speed",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop wasm salt ledger",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop wasm dye ledger",
+      "passed": true,
+      "actual": 2.117582368135751e-21,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop wasm divergence",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-8
+    },
+    {
+      "name": "neutral-drop gpu rest speed",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop gpu salt ledger",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop gpu dye ledger",
+      "passed": true,
+      "actual": 2.117582368135751e-21,
+      "limit": 1e-12
+    },
+    {
+      "name": "neutral-drop gpu divergence",
+      "passed": true,
+      "actual": 0,
+      "limit": 1e-8
+    },
+    {
+      "name": "neutral-drop uses GPU",
+      "passed": true,
+      "actual": 30,
+      "limit": ">0"
+    },
+    {
+      "name": "Taylor-Green 32x32x32 wasm energy",
+      "passed": true,
+      "actual": 8.086703241483306e-7,
+      "limit": 0.0001
+    },
+    {
+      "name": "Taylor-Green 32x32x32 wasm divergence",
+      "passed": true,
+      "actual": 6.83270499352859e-17,
+      "limit": 1e-8
+    },
+    {
+      "name": "Taylor-Green 32x32x32 gpu energy",
+      "passed": true,
+      "actual": 3.03360938369579e-7,
+      "limit": 0.0001
+    },
+    {
+      "name": "Taylor-Green 32x32x32 gpu divergence",
+      "passed": true,
+      "actual": 6.636294768549929e-17,
+      "limit": 1e-8
+    },
+    {
+      "name": "Taylor-Green 32x32x32 uses GPU",
+      "passed": true,
+      "actual": 30,
+      "limit": ">0"
+    },
+    {
+      "name": "Taylor-Green 64x64x32 wasm energy",
+      "passed": true,
+      "actual": 4.060883362910772e-7,
+      "limit": 0.0001
+    },
+    {
+      "name": "Taylor-Green 64x64x32 wasm divergence",
+      "passed": true,
+      "actual": 1.3243551127915138e-16,
+      "limit": 1e-8
+    },
+    {
+      "name": "Taylor-Green 64x64x32 gpu energy",
+      "passed": true,
+      "actual": 1.8009973246080335e-7,
+      "limit": 0.0001
+    },
+    {
+      "name": "Taylor-Green 64x64x32 gpu divergence",
+      "passed": true,
+      "actual": 1.3207079929212267e-16,
+      "limit": 1e-8
+    },
+    {
+      "name": "Taylor-Green 64x64x32 uses GPU",
+      "passed": true,
+      "actual": 30,
+      "limit": ">0"
+    }
+  ],
+  "results": {
+    "browserUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "webgpuBackend": "webgpu-float32-momentum",
+    "momentum": [
+      {
+        "grid": [
+          16,
+          16,
+          16
+        ],
+        "maxComponentErrorMetresPerSecond": 2.1370650561680637e-9,
+        "finite": true
+      },
+      {
+        "grid": [
+          32,
+          32,
+          32
+        ],
+        "maxComponentErrorMetresPerSecond": 2.2003695231696567e-8,
+        "finite": true
+      }
+    ],
+    "plumes": [
+      {
+        "grid": [
+          32,
+          32,
+          32
+        ],
+        "duration": 1,
+        "requestedDt": 0.01,
+        "drop": {
+          "radiusMetres": 0.022,
+          "salinityGramsPerKilogram": 36,
+          "ambientSalinityGramsPerKilogram": 30
+        },
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 1644.3999999761581,
+          "acceleratedMomentumCalls": 0,
+          "time": 1.0000000000000007,
+          "steps": 100,
+          "dyeCentroid": {
+            "x": 0.12000000000000018,
+            "y": 0.0517225042244635,
+            "z": 0.12000000000000026
+          },
+          "maxSpeed": 0.021531082488684225,
+          "maxW": 0.004507202717176882,
+          "divergenceRms": 7.135383968025166e-18,
+          "saltLedgerResidual": 3.3306690738754696e-16,
+          "dyeLedgerResidual": 1.3552527156068805e-20
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 700.3000000119209,
+          "acceleratedMomentumCalls": 100,
+          "time": 1.0000000000000007,
+          "steps": 100,
+          "dyeCentroid": {
+            "x": 0.11999999808323727,
+            "y": 0.051722518265898354,
+            "z": 0.11999999803131049
+          },
+          "maxSpeed": 0.02153144382211378,
+          "maxW": 0.004507293817522504,
+          "divergenceRms": 7.493775190549981e-18,
+          "saltLedgerResidual": 1.6653345369377348e-16,
+          "dyeLedgerResidual": 5.082197683525802e-21
+        },
+        "centroidDifferenceMetres": 1.4307746580351762e-8
+      },
+      {
+        "grid": [
+          32,
+          32,
+          32
+        ],
+        "duration": 1,
+        "requestedDt": 0.02,
+        "drop": {
+          "radiusMetres": 0.022,
+          "salinityGramsPerKilogram": 36,
+          "ambientSalinityGramsPerKilogram": 30
+        },
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 818.1999999880791,
+          "acceleratedMomentumCalls": 0,
+          "time": 1.0000000000000004,
+          "steps": 50,
+          "dyeCentroid": {
+            "x": 0.11999999999999984,
+            "y": 0.051784456398481477,
+            "z": 0.11999999999999995
+          },
+          "maxSpeed": 0.021521058942856084,
+          "maxW": 0.004507311107640542,
+          "divergenceRms": 6.083157217216993e-18,
+          "saltLedgerResidual": 4.440892098500626e-16,
+          "dyeLedgerResidual": 3.3881317890172014e-21
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 354,
+          "acceleratedMomentumCalls": 50,
+          "time": 1.0000000000000004,
+          "steps": 50,
+          "dyeCentroid": {
+            "x": 0.11999999919789017,
+            "y": 0.05178446408607892,
+            "z": 0.11999999918160617
+          },
+          "maxSpeed": 0.02152123814195376,
+          "maxW": 0.004507354948843822,
+          "divergenceRms": 6.025874101775889e-18,
+          "saltLedgerResidual": 1.6653345369377348e-16,
+          "dyeLedgerResidual": 3.3881317890172014e-21
+        },
+        "centroidDifferenceMetres": 7.772535153741761e-9
+      }
+    ],
+    "rest": [
+      {
+        "setup": "four-layers",
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 469.5,
+          "acceleratedMomentumCalls": 0,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.09,
+            "z": 0.09
+          },
+          "maxSpeed": 0,
+          "maxW": 0,
+          "divergenceRms": 0,
+          "saltLedgerResidual": 1.582067810090848e-14,
+          "dyeLedgerResidual": 0
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 193.69999998807907,
+          "acceleratedMomentumCalls": 30,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.09,
+            "z": 0.09
+          },
+          "maxSpeed": 0,
+          "maxW": 0,
+          "divergenceRms": 0,
+          "saltLedgerResidual": 1.582067810090848e-14,
+          "dyeLedgerResidual": 0
+        }
+      },
+      {
+        "setup": "neutral-drop",
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 484.89999997615814,
+          "acceleratedMomentumCalls": 0,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12000000000000009,
+            "y": 0.12000000000000009,
+            "z": 0.12000000000000002
+          },
+          "maxSpeed": 0,
+          "maxW": 0,
+          "divergenceRms": 0,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 2.117582368135751e-21
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 211.30000001192093,
+          "acceleratedMomentumCalls": 30,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12000000000000009,
+            "y": 0.12000000000000009,
+            "z": 0.12000000000000002
+          },
+          "maxSpeed": 0,
+          "maxW": 0,
+          "divergenceRms": 0,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 2.117582368135751e-21
+        }
+      }
+    ],
+    "taylorGreen": [
+      {
+        "grid": [
+          32,
+          32,
+          32
+        ],
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 469.39999997615814,
+          "acceleratedMomentumCalls": 0,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.12,
+            "z": 0.12
+          },
+          "maxSpeed": 0.009962507498971084,
+          "maxW": 0,
+          "divergenceRms": 6.83270499352859e-17,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 0,
+          "initialEnergy": 3.456000000000044e-7,
+          "analyticEnergy": 3.455040807585991e-7,
+          "observedEnergy": 3.455038013597021e-7,
+          "relativeEnergyError": 8.086703241483306e-7
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 214.5,
+          "acceleratedMomentumCalls": 30,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.12,
+            "z": 0.12
+          },
+          "maxSpeed": 0.009962513573714788,
+          "maxW": 2.6062014486984983e-9,
+          "divergenceRms": 6.636294768549929e-17,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 0,
+          "initialEnergy": 3.456000000000044e-7,
+          "analyticEnergy": 3.455040807585991e-7,
+          "observedEnergy": 3.4550397594615696e-7,
+          "relativeEnergyError": 3.03360938369579e-7
+        },
+        "relativeEnergyErrorDifference": -5.053093857787516e-7
+      },
+      {
+        "grid": [
+          64,
+          64,
+          32
+        ],
+        "reference": {
+          "mode": "wasm",
+          "wallMilliseconds": 1922.1000000238419,
+          "acceleratedMomentumCalls": 0,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.12,
+            "z": 0.12
+          },
+          "maxSpeed": 0.009989533932081065,
+          "maxW": 0,
+          "divergenceRms": 1.3243551127915138e-16,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 0,
+          "initialEnergy": 3.45599999999999e-7,
+          "analyticEnergy": 3.455040807585937e-7,
+          "observedEnergy": 3.455039404534164e-7,
+          "relativeEnergyError": 4.060883362910772e-7
+        },
+        "hybrid": {
+          "mode": "gpu",
+          "wallMilliseconds": 706.4000000357628,
+          "acceleratedMomentumCalls": 30,
+          "time": 0.3000000000000001,
+          "steps": 30,
+          "dyeCentroid": {
+            "x": 0.12,
+            "y": 0.12,
+            "z": 0.12
+          },
+          "maxSpeed": 0.009989533303917388,
+          "maxW": 2.039794100809328e-9,
+          "divergenceRms": 1.3207079929212267e-16,
+          "saltLedgerResidual": 0,
+          "dyeLedgerResidual": 0,
+          "initialEnergy": 3.45599999999999e-7,
+          "analyticEnergy": 3.455040807585937e-7,
+          "observedEnergy": 3.455040185334012e-7,
+          "relativeEnergyError": 1.8009973246080335e-7
+        },
+        "relativeEnergyErrorDifference": -2.2598860383027386e-7
+      }
+    ],
+    "plumeTimestepSensitivityMetres": {
+      "wasm": 0.00006195217401797765,
+      "hybrid": 0.0000619458201805631
+    },
+    "gpuStats": {
+      "allocations": 3,
+      "steps": 272
+    }
+  },
+  "scope": "Browser numerical and timing verification of a Float32 GPU momentum candidate with Float64 pressure and scalar operations. This does not validate turbulent mixing or laboratory morphology."
+}
