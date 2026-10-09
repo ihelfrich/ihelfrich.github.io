@@ -135,4 +135,6 @@ with zipfile.ZipFile(DOWNLOADS/'time-series-public-source.zip','w',zipfile.ZIP_D
             if include(p) and ('TimeSeries' in p.name or 'time-series' in folder):z.write(p,str(p.relative_to(SITE)))
     for name in ['src/data/time-series-lectures.json','src/styles/time-series.css','src/scripts/time-series-experiments.ts','scripts/build-time-series-release.py']:
         z.write(SITE/name,name)
+    for name in ['src/pages/time-series/[slug].astro','src/pages/time-series/research.astro','public/time-series/research-register.json']:
+        z.write(SITE/name,name)
 print([(p.name,p.stat().st_size) for p in DOWNLOADS.iterdir()])
