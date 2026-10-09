@@ -1,0 +1,45 @@
+---
+import {measurementSummary} from '../../lib/handbook-measurement.mjs';
+const s=measurementSummary(2,0);
+const gx=(m:number)=>66+(m-2)*22;
+const gy=(y:number)=>252-(y-300)*.4;
+---
+<section class="hb-worlds" id="measurement-experiment" data-measurement-worlds aria-labelledby="measurement-experiment-title">
+  <h2 id="measurement-experiment-title">Change the instrument, predict the slope</h2>
+  <p>The constructed billing slope stays at 50 dollars per true MWh. Predict whether the regression on the recorded meter has a lower, equal, or higher numerical slope.</p>
+  <fieldset disabled data-meter-controls>
+    <legend>Instrument and prediction</legend>
+    <label for="meter-noise">Random noise amplitude h</label>
+    <select id="meter-noise" data-meter-noise>{[0,2,4].map(h=><option value={h} selected={h===2}>{h} MWh</option>)}</select>
+    <br/><label for="meter-calibration">Calibration</label>
+    <select id="meter-calibration" data-meter-calibration><option value="0">Correct scale (κ = 0)</option><option value="-0.5">Compressed scale (κ = −½)</option><option value="-2">Reversed scale (κ = −2)</option></select>
+    <fieldset class="hb-prediction"><legend>Recorded-energy slope compared with 50</legend>{[['lower','Lower numerical slope'],['same','Same numerical slope'],['higher','Higher numerical slope']].map(([value,label])=><label><input type="radio" name="meter-prediction" value={value} />{label}</label>)}</fieldset>
+    <button type="button" data-reveal-meter disabled>Reveal the projection</button>
+  </fieldset>
+  <div data-meter-result>
+    <p class="hb-result" role="status" data-meter-feedback>Shown at h = 2 MWh and correct calibration: the recorded-energy slope is 30 dollars per MWh.</p>
+    <figure>
+      <svg viewBox="0 0 470 360" role="img" aria-labelledby="meter-graph-title meter-graph-description">
+        <title id="meter-graph-title">Billing relation and recorded-meter population projection</title>
+        <desc id="meter-graph-description" data-meter-description>Controlled pairs with recorded energy in MWh and bills in dollars. The solid fitted line has slope 30. The dashed benchmark assumes a perfect reading and has slope 50.</desc>
+        <path d="M66 52V252H422" fill="none" stroke="currentColor"/>
+        <g font-size="20" fill="currentColor"><text x="12" y="28">Bill (dollars)</text>{[350,500,650].map(y=><text x="14" y={gy(y)+7}>{y}</text>)}{[4,8,12,16].map(m=><text x={gx(m)-10} y="282">{m}</text>)}<text x="80" y="314">Recorded energy (MWh)</text></g>
+        <path d={`M${gx(6)} ${gy(330)}L${gx(14)} ${gy(730)}`} fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 5" />
+        <path data-meter-line d={`M${gx(s.minimumMeter)} ${gy(s.intercept+s.slope*s.minimumMeter)}L${gx(s.maximumMeter)} ${gy(s.intercept+s.slope*s.maximumMeter)}`} fill="none" stroke="currentColor" stroke-width="3"/>
+        <g data-meter-points>{s.points.map(p=><circle cx={gx(p.m)} cy={gy(p.y)} r="4.5" fill="var(--paper)" stroke="currentColor" stroke-width="1.5"/>)}</g>
+      </svg>
+      <figcaption>Solid: fitted population line. Dashed: the perfect-reading benchmark. Circles: distinct recorded-meter/bill pairs in the controlled states; their probabilities are retained in the calculations.</figcaption>
+    </figure>
+    <table><caption>Declared population calculations</caption><thead><tr><th scope="col">Quantity</th><th scope="col">Value</th></tr></thead><tbody>
+      <tr><th scope="row">Recorded-energy slope, dollars/MWh</th><td data-meter-slope>30</td></tr>
+      <tr><th scope="row">Intercept, dollars</th><td data-meter-intercept>230</td></tr>
+      <tr><th scope="row">Line MSE, dollars²</th><td data-meter-mse>4400</td></tr>
+      <tr><th scope="row">Two-reading covariance ratio, dollars/MWh</th><td data-meter-twin>50</td></tr>
+      <tr><th scope="row">Same slope expressed in dollars/kWh</th><td data-meter-kwh>0.03</td></tr>
+    </tbody></table>
+    <p data-meter-assumptions>The classical covariance restrictions hold in this declared generator. The two-reading ratio recovers 50 because the errors have independent noise and correct calibration.</p>
+    <details><summary>Read the six signal/noise combinations</summary><p class="hb-table-scroll-help">Scroll the table to compare the energy and mean-bill columns.</p><div class="hb-table-scroll" tabindex="0" role="region" aria-label="Six controlled meter combinations"><table><caption>After averaging over the second meter and billing noise, each row has probability 1/6</caption><thead><tr><th scope="col">True MWh</th><th scope="col">Recorded MWh</th><th scope="col">Mean bill, dollars</th></tr></thead><tbody data-meter-rows>{s.signalRows.map(r=><tr><td>{r.x}</td><td>{r.m}</td><td>{r.meanBill}</td></tr>)}</tbody></table></div></details>
+    <p><strong>Explain the result.</strong> Which covariance restriction holds or fails? Follow the <a href="#attenuation-proof">classical slope proof</a> or the <a href="#calibration-failure">calibration calculation</a>. Then explain whether the <a href="#repeated-readings">two-reading correction</a> has the interpretation its name suggests.</p>
+  </div>
+  <p>Without active controls, the figure and table show h = 2 with correct calibration. The <a href="/handbook/code/README.md">native programs</a> calculate all nine combinations. The browser evaluates this finite model in JavaScript.</p>
+</section>

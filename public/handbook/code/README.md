@@ -18,3 +18,21 @@ The calculations use Python's standard library, Julia Base, and base R. No exter
 The figure-generation program `figures.py` uses Matplotlib. It reads the same fixture; Matplotlib is only required when regenerating the scientific figures. The released SVG, PNG, and PDF figures can be viewed without it.
 
 Authored teaching text, examples, code and figures: © 2026 Ian Helfrich, all rights reserved. Public access does not grant a blanket redistribution or adaptation license. Cited books and papers are linked, not included.
+
+
+# Chapter 2: measurement, calibration, and denominators
+
+Run the independent standard-library implementations and verifier:
+
+```sh
+python measurement.py
+julia --startup-file=no measurement.jl
+Rscript measurement.R
+python verify-measurement.py
+```
+
+The 36-row `data/meter-states.csv` fixture crosses true energy, two independent meter-noise multipliers, and an independent billing perturbation. `data/measurement-manifest.json` specifies units, probabilities, calibration/noise settings and the separate controlled denominator examples. `data/measurement-dictionary.csv` records the fields' meanings and support. These are invented teaching records, not observed tariffs or actual meter tests.
+
+The verifier matches 301 independently computed quantities, 189 analytic targets, and 108 row identities at three noise amplitudes and three calibrations. It checks classical attenuation, a repeated-reading covariance ratio, the failure of a copied reading or shared calibration, projection and conditional-mean risks, averaging, MWh-to-kWh scaling, ratio growth, and weighted aggregation. `results/measurement-verification.json` records native versions and tolerances; `results/measurement-reference.json` contains all checked population quantities. No Monte Carlo draws or finite-sample unbiasedness claims are involved.
+
+`measurement-figures.py` uses Matplotlib to regenerate the original web and vector print diagrams. Browser controls enumerate the declared model in JavaScript; they do not run Python, Julia or R. The manuscript supplies the proofs and restrictions that give these numerical results their interpretation.

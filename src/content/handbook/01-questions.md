@@ -6,6 +6,13 @@ description: 'Six possible days explain how a good forecast can leave the effect
 question: 'An alert predicts higher electricity demand. Would sending an alert change that demand?'
 prerequisites: 'Addition, multiplication, and fractions. Every additional symbol is defined here.'
 updated: 2026-10-09
+codeStem: alert-worlds
+verificationFile: verification.json
+anchors:
+  orientation: forecast-meeting
+  core: finite-averages
+  theory: identification-proof
+  workshop: workshop
 ---
 
 <span id="forecast-meeting"></span>
@@ -62,7 +69,7 @@ These rows list possibilities and their probabilities. They are not six sampled 
 
 <picture><source media="(max-width: 800px)" srcset="/handbook/figures/alert-worlds-stacked.svg" /><img src="/handbook/figures/alert-worlds.svg" alt="Six possible observed days. Without an alert, load is 9, 10, or 11 MW; with an alert, it is 11, 12, or 13 MW. A second panel shows that the average load under an assigned alert can fall, stay level, or rise while those observations remain identical." /></picture>
 
-**Figure 1.** The left panel is common to every mechanism below. The right panel compares population averages under assigned alert status; each line uses the same distribution of heat conditions and shocks. The line labels give the intervention effect in MW. The [intervention calculation](#intervention) explains each endpoint.
+**Figure 1.** The first panel is common to every mechanism below. The second panel compares population averages under assigned alert status; each line uses the same distribution of heat conditions and shocks. The line labels give the intervention effect in MW. The [intervention calculation](#intervention) explains each endpoint.
 
 <span id="finite-averages"></span>
 ## ◇ Core: Averages with stated information

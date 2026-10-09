@@ -2,20 +2,25 @@
 import {getCollection,render} from 'astro:content';
 import Handbook from '../../layouts/Handbook.astro';
 import AlertWorlds from '../../components/handbook/AlertWorlds.astro';
+import MeasurementWorlds from '../../components/handbook/MeasurementWorlds.astro';
 export async function getStaticPaths(){const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data.order);return chapters.map(chapter=>({params:{slug:chapter.id},props:{chapter,chapters}}));}
 const {chapter,chapters}=Astro.props;
 const {Content,headings}=await render(chapter);
+const position=chapters.findIndex(c=>c.id===chapter.id);
+const previous=chapters[position-1],next=chapters[position+1];
+const levelNames={orientation:'○ Orientation',core:'◇ Core',theory:'◆ Theory',workshop:'✦ Workshop'};
 ---
 <Handbook title={chapter.data.title} description={chapter.data.description}>
   <div class="ea-reading-grid">
     <aside class="ea-book-nav" aria-label="Handbook contents"><details open><summary>Handbook contents</summary><a href="/handbook/">← Contents and reading levels</a><ol>{chapters.map(c=><li><a href={`/handbook/${c.id}/`} aria-current={c.id===chapter.id?'page':undefined}>Chapter {c.data.order}<br/>{c.data.title}</a></li>)}</ol><a href="/time-series/#contents">Time-series course</a></details></aside>
     <article>
-      <header class="ea-chapter-heading"><p class="ea-kicker">Chapter {chapter.data.order} · {chapter.data.part}</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-prereq">Before you begin: {chapter.data.prerequisites}</p><nav class="hb-route" aria-label="Chapter reading levels"><a href="#forecast-meeting">○ Orientation</a><a href="#finite-averages">◇ Core</a><a href="#identification-proof">◆ Theory</a><a href="#workshop">✦ Workshop</a></nav><div class="hb-downloads"><a href="/handbook/code/alert-worlds.py" download>Python source ↓</a><a href="/handbook/code/alert-worlds.jl" download>Julia source ↓</a><a href="/handbook/code/alert-worlds.R" download>R source ↓</a><a href="/handbook/print/">PDF &amp; editable source</a></div></header>
+      <header class="ea-chapter-heading"><p class="ea-kicker">Chapter {chapter.data.order} · {chapter.data.part}</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-prereq">Before you begin: {chapter.data.prerequisites}</p><nav class="hb-route" aria-label="Chapter reading levels">{Object.entries(levelNames).map(([key,name])=><a href={`#${chapter.data.anchors[key as keyof typeof levelNames]}`}>{name}</a>)}</nav><div class="hb-downloads">{[['py','Python'],['jl','Julia'],['R','R']].map(([extension,language])=><a href={`/handbook/code/${chapter.data.codeStem}.${extension}`} download>{language} source ↓</a>)}<a href="/handbook/print/">PDF &amp; editable source</a></div></header>
       <div class="ea-prose"><Content /></div>
       {chapter.data.order===1&&<AlertWorlds />}
-      <nav class="ea-chapter-next" aria-label="Further reading"><a href="/handbook/">← Handbook contents</a><a href="/time-series/01-information/">Forecast information and observation clocks →</a></nav>
+      {chapter.data.order===2&&<MeasurementWorlds />}
+      <nav class="ea-chapter-next" aria-label="Further reading"><a href={previous?`/handbook/${previous.id}/`:'/handbook/'}>← {previous?previous.data.title:'Handbook contents'}</a><a href={next?`/handbook/${next.id}/`:'/time-series/01-information/'}>{next?next.data.title:'Forecast information and observation clocks'} →</a></nav>
     </article>
-    <aside class="ea-margin" aria-label="On this page"><p>This chapter</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href="#handoff">Professional handoff</a><a href="/handbook/code/results/verification.json">Native calculation checks</a></aside>
+    <aside class="ea-margin" aria-label="On this page"><p>This chapter</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href={`/handbook/code/results/${chapter.data.verificationFile}`}>Native calculation checks</a></aside>
   </div>
 </Handbook>
-<script>import {initializeAlertWorlds} from '../../scripts/handbook-worlds';initializeAlertWorlds();</script>
+<script>import {initializeAlertWorlds} from '../../scripts/handbook-worlds';import {initializeMeasurementWorlds} from '../../scripts/handbook-measurement';initializeAlertWorlds();initializeMeasurementWorlds();</script>

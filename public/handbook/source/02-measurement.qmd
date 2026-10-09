@@ -1,0 +1,314 @@
+# Constructing a measured world {#ch-02-measurement}
+
+
+## \texorpdfstring{\levelglyph{○}}{} Orientation: A reading is the end of a process {#measurement-map}
+
+A facility manager wants to understand the relation between electricity use and the daily bill. A meter supplies a number. An accounting system supplies another. Joining the two files looks straightforward until someone asks what each row means.
+
+Does electricity use mean energy consumed over the whole day, average power during an hour, or the largest instantaneous load? Does the bill include a fixed charge? Do both records describe the same facility and interval? Was the meter calibrated before the readings were collected? A regression cannot settle these questions for us. They determine which regression would have a useful interpretation.
+
+A **measurement map** follows a concept into a recorded field. Begin with the object from [chapter 1's question contract](01-questions.qmd#question-contract), then specify the operation that makes it observable. For daily energy use, the map might be: define the facility boundary; accumulate energy between two meter readings; align the start and end times; convert the unit; record any missing interval; attach the facility identifier. Every operation can change the object represented by the final number.
+
+The distinction matters beyond meters. Annual income may refer to a person or household, before or after tax, and to earnings or all receipts. A skill score represents performance on a specified set of tasks under specified conditions. A temperature field represents a sensor, a location, an averaging interval, and a unit. A network degree counts connections among the nodes retained in a particular graph. The column name alone does not define the quantity.
+
+For each recorded field, write down:
+
+- **Concept and operation:** what is being measured, and how is the value produced?
+- **Unit and support:** what does one numerical unit mean, and which person, place, or interval does the row describe?
+- **Coverage:** which members of the target population enter the numerator and any denominator?
+- **Timing:** which interval is described, when was the value available, and can it be revised?
+- **Validation evidence:** what comparison or calibration would support the intended interpretation?
+
+These are substantive choices. If the question concerns access to a service, counting buildings with a connection may miss whether occupants can afford to use it. The recorded field can be reproducible and still answer a narrower question.
+
+**Reliability** concerns the stability of a measurement under specified repetitions. **Validity** concerns whether the measurement supports its intended interpretation. An incorrectly calibrated instrument can repeat the same wrong value. An AI system can assign the same label every time while its labels measure writing style rather than the economic construct of interest. Repetition gives evidence about stability; a defensible interpretation also needs a measurement map and a relevant external comparison.
+
+## \texorpdfstring{\levelglyph{○}}{} Orientation: Power, energy, and an axis label {#energy-units}
+
+Think of water flowing into a tank. The flow rate describes how quickly water enters. The accumulated water describes how much has arrived. Electrical power and energy have the same rate-versus-accumulation relationship: power describes energy per unit time; energy accumulates power over an interval. The connection is mathematical. A meter's engineering limitations still require their own evidence.
+
+If power remains at 2 MW for three hours, the energy consumed is 6 MWh. More generally, piecewise-constant power readings $P_j$ over intervals of length $\Delta t_j$ give
+
+$$
+E=\sum_j P_j\Delta t_j.
+$$
+
+Here $P_j$ is in MW, each $\Delta t_j$ is in hours, and $E$ is in MWh. This expression is exact for the declared piecewise-constant path; using intermittent readings to approximate an unknown path introduces an additional approximation. Unequal intervals require their actual lengths. Adding power readings without their intervals does not produce an energy total.
+
+The [NIST SI definitions, §2.3.4, Table 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.330-2019.pdf#page=31) distinguish the joule as energy and the watt as joules per second. Since an hour contains 3,600 seconds,
+
+$$
+1\ \mathrm{MWh}=10^6\ \frac{\mathrm{J}}{\mathrm{s}}
+\times3{,}600\ \mathrm{s}=3.6\times10^9\ \mathrm{J}.
+$$
+
+The peak-load outcome in [chapter 1's utility example](01-questions.qmd#six-days) is power in MW. This chapter's meter measures daily energy in MWh. They describe different objects. Dividing a day's energy by its duration gives average power; it does not recover the day's peak.
+
+Changing MWh to kWh multiplies an energy number by 1,000. A bill remains the same amount of money. Its coefficient in dollars per kWh must therefore be one-thousandth of its coefficient in dollars per MWh. We will check that transformation in each implementation rather than trusting a changed axis label.
+
+## \texorpdfstring{\levelglyph{◇}}{} Core: A controlled meter and billing system {#meter-world}
+
+We can see measurement error clearly in a small world where the underlying quantity is known. This is an authored teaching model, not an observed tariff, a test of actual meter accuracy, or a causal estimate from utility data.
+
+Let $X$ be true daily energy use at a facility, in MWh. It takes values 8 and 12 with equal probability. Let $Z_1$ and $Z_2$ independently take values $-1,0,1$, each with probability $1/3$. Let $\varepsilon$, independently of all three, take values $-20$ and $20$ dollars with equal probability. Crossing these choices gives 36 equally likely states.
+
+The bill $Y$ and two recorded meter readings $M_1,M_2$ are
+
+$$
+\begin{aligned}
+Y&=30+50X+\varepsilon,\\
+M_1&=X+\kappa(X-10)+hZ_1,\\
+M_2&=X+\kappa(X-10)+hZ_2.
+\end{aligned}
+$$
+
+The fixed charge is 30 dollars. The constructed energy charge is 50 dollars per MWh. The perturbation $\varepsilon$ is in dollars. The noise amplitude $h$ is in MWh; $Z_1,Z_2$ and the calibration parameter $\kappa$ are dimensionless. The 10 inside the meter equation denotes 10 MWh. Each addition has compatible units.
+
+When $\kappa=0$, a reading is true use plus independent, mean-zero noise. When $\kappa=-1/2$, the reading's distance from 10 MWh is compressed by half before random noise is added. When $\kappa=-2$, that distance is reversed. The latter is a deliberately broken calibration, useful for testing a claim about the direction of bias. Both meters share the same calibration in this model, while their random noise components are independent.
+
+At the baseline $h=2$ and $\kappa=0$, the first meter's six signal/noise combinations are:
+
+| True use $X$, MWh | Noise $hZ_1$, MWh | Recorded use $M_1$, MWh | Mean bill at this true use, dollars |
+| --- | --- | --- | --- |
+| 8 | −2 | 6 | 430 |
+| 8 | 0 | 8 | 430 |
+| 8 | 2 | 10 | 430 |
+| 12 | −2 | 10 | 630 |
+| 12 | 0 | 12 | 630 |
+| 12 | 2 | 14 | 630 |
+
+Each row has probability $1/6$ after averaging over the second meter and billing perturbation. The actual bill in a state is 20 dollars below or above the displayed mean. These rows enumerate possibilities; they are not six sampled observations.
+
+True use has mean 10 MWh and variance $4\ \mathrm{MWh}^2$. The baseline meter noise has variance $8/3\ \mathrm{MWh}^2$. A reading of 10 MWh can come from low use with a positive error or high use with a negative error. The record does not distinguish those backgrounds.
+
+![The first panel compares the perfect-reading relation with the population linear projection using noisy readings. Points represent the two possible bills for each of the six signal/noise combinations. The second panel holds energy and the true customer population fixed while the recorded denominator changes. Both panels describe controlled examples.](../figures/measurement-print.pdf){width=72%}
+
+## \texorpdfstring{\levelglyph{◇}}{} Core: How a line summarizes co-movement {#covariance}
+
+For a finite population with state probabilities $p_i$, the mean is the weighted sum $E[A]=\sum_i p_iA_i$. The probabilities sum to one. Chapter 1 develops this operation in its [finite-average calculation](01-questions.qmd#finite-averages). The **variance** of $A$ and the **covariance** of $A$ with $B$ are
+
+$$
+\begin{aligned}
+\operatorname{Var}(A)&=E[(A-E[A])^2],\\
+\operatorname{Cov}(A,B)&=E[(A-E[A])(B-E[B])].
+\end{aligned}
+$$
+
+Variance averages squared distances from a mean. Covariance averages products of two centered distances. It is positive when above-mean values of one quantity tend to accompany above-mean values of the other. Covariance has the product of the two variables' units; it is not a unit-free correlation.
+
+The **population linear projection** chooses an intercept $a$ and slope $b$ to minimize $E[(Y-a-bM)^2]$. It is the best line for that population and squared loss. When $\operatorname{Var}(M)>0$, its coefficients are
+
+$$
+b_M=\frac{\operatorname{Cov}(M,Y)}{\operatorname{Var}(M)},
+\qquad a_M=E[Y]-b_ME[M].
+$$
+
+Here is a direct proof without an optimization routine.
+
+1. Define centered variables $M_c=M-E[M]$ and $Y_c=Y-E[Y]$. For a fixed slope $b$, write the error as $Y_c-bM_c+d$, where $d=E[Y]-a-bE[M]$. The centered part has mean zero. Its mean squared error is therefore $E[(Y_c-bM_c)^2]+d^2$. It is minimized by $d=0$, giving $a=E[Y]-bE[M]$.
+2. Expand the remaining square using the [variance and covariance definitions](#covariance):
+
+   $$
+   E[(Y_c-bM_c)^2]
+   =\operatorname{Var}(Y)-2b\operatorname{Cov}(M,Y)
+   +b^2\operatorname{Var}(M).
+   $$
+
+3. Complete the square in $b$. The same expression becomes
+
+   $$
+   \operatorname{Var}(Y)
+   -\frac{\operatorname{Cov}(M,Y)^2}{\operatorname{Var}(M)}
+   +\operatorname{Var}(M)\left(b-
+   \frac{\operatorname{Cov}(M,Y)}{\operatorname{Var}(M)}\right)^2.
+   $$
+
+   The first two terms do not depend on $b$. The last term is nonnegative and vanishes only at the stated slope because $\operatorname{Var}(M)>0$. This proves the unique minimizing line and its risk.
+
+If every reading is identical, the variance is zero. Dividing by it is undefined: a line's intercept and slope cannot be separated using a constant regressor. Only their fitted value at the observed reading matters.
+
+This best-line result also holds for nonfinite populations with finite second moments. The algebra uses expectations of products, not the number of states. It does not assert that the true conditional mean is a line, that a finite-sample slope is unbiased, or that a causal effect has been identified.
+
+## \texorpdfstring{\levelglyph{◆}}{} Theory: Why classical error flattens this slope {#attenuation-proof}
+
+Consider the general scalar model $Y=\alpha+\beta X+\varepsilon$, observed through $M=X+W$. Assume:
+
+- $X,W,\varepsilon$ have finite second moments, and $\operatorname{Var}(X)>0$.
+- $E[W]=E[\varepsilon]=0$.
+- $\operatorname{Cov}(X,W)=\operatorname{Cov}(X,\varepsilon)=\operatorname{Cov}(W,\varepsilon)=0$.
+
+Independence of the three components is sufficient for the covariance restrictions, but the proof only needs those restrictions. These assumptions describe a particular additive error model. They are not established merely because a recorded variable looks noisy.
+
+1. Expand the numerator in the [projection slope](#covariance). Covariance is linear in each argument, as follows by expanding its centered-product definition:
+
+   $$
+   \begin{aligned}
+   \operatorname{Cov}(M,Y)
+   &=\operatorname{Cov}(X+W,\alpha+\beta X+\varepsilon)\\
+   &=\beta\operatorname{Var}(X)
+   +\beta\operatorname{Cov}(W,X)
+   +\operatorname{Cov}(X,\varepsilon)
+   +\operatorname{Cov}(W,\varepsilon)\\
+   &=\beta\operatorname{Var}(X).
+   \end{aligned}
+   $$
+
+   A constant has zero covariance. The three other terms vanish by the listed restrictions.
+2. Expand the denominator. Using $M-E[M]=(X-E[X])+W$ and taking the expected square gives
+
+   $$
+   \operatorname{Var}(M)=\operatorname{Var}(X)
+   +2\operatorname{Cov}(X,W)+\operatorname{Var}(W)
+   =\operatorname{Var}(X)+\operatorname{Var}(W).
+   $$
+
+3. Divide these expressions and define the signal fraction $\lambda$:
+
+   $$
+   b_M=\beta\lambda,
+   \qquad \lambda=\frac{\operatorname{Var}(X)}{
+     \operatorname{Var}(X)+\operatorname{Var}(W)}.
+   $$
+
+   Both variances are nonnegative and the signal variance is positive. Thus $0<\lambda\leq1$. Positive noise variance makes $\lambda<1$, shrinking the slope's magnitude toward zero. For a negative $\beta$, shrinkage makes the slope less negative; “downward bias” would be an imprecise description.
+
+In the baseline meter world, $\operatorname{Var}(X)=4$ and $\operatorname{Var}(W)=8/3$. Therefore $\lambda=3/5$, the recorded-energy slope is 30 dollars per MWh, and the intercept is $530-30(10)=230$ dollars. The constructed billing slope remains 50 dollars per MWh. A larger collection of readings from this same population would not make its population projection equal 50.
+
+The dimensions provide a useful check: the variance ratio is dimensionless, so multiplying by $\beta$ preserves dollars per MWh. Zero noise gives $\lambda=1$. Holding the signal variance fixed while noise variance increases moves $\lambda$ toward zero. Converting both signal and noise to kWh multiplies both variances by a million and leaves $\lambda$ unchanged.
+
+This is the scalar classical errors-in-variables result. [Hansen's January 10, 2010 manuscript, chapter 11, opening measurement-error example](https://users.ssc.wisc.edu/~xshi28/Econometrics_Hansen.pdf#page=160) provides a related general regression treatment. The finite billing construction and proof here are authored for this chapter.
+
+## \texorpdfstring{\levelglyph{◇}}{} Core: A calibration error can behave differently {#calibration-failure}
+
+The classical proof removes $\operatorname{Cov}(X,W)$ using an assumption. It cannot remove that term after a calibration error makes it nonzero.
+
+In our meter family, $W=\kappa(X-10)+hZ_1$. The independence and zero mean of $Z_1$ give $\operatorname{Cov}(X,W)=4\kappa$. The recorded centered reading is $(1+\kappa)(X-10)+hZ_1$. Substituting into the centered-product definitions yields
+
+$$
+\begin{aligned}
+\operatorname{Var}(M_1)&=4(1+\kappa)^2+2h^2/3,\\
+\operatorname{Cov}(M_1,Y)&=200(1+\kappa),\\
+b_{M_1}&=\frac{200(1+\kappa)}{4(1+\kappa)^2+2h^2/3}.
+\end{aligned}
+$$
+
+The numerical constants carry the units inherited from the [meter model](#meter-world). With no random noise and $\kappa=-1/2$, this slope is 100 dollars per recorded MWh. One recorded-unit change represents two true-unit changes; the coefficient doubles. With $\kappa=-2$ and no random noise, it is $-50$. The instrument reverses ordering. Neither result follows the classical attenuation conclusion because its covariance restriction fails.
+
+Two instruments with the same compressed calibration can agree perfectly. Their agreement alone does not reveal their distance from true use. Calibration needs a relevant reference or design restriction, not just another copy of the same reporting process.
+
+The [interactive meter comparison](#measurement-experiment) lets you predict the slope, change noise or calibration, and then reveal the fitted line. Explain which term in the displayed covariance calculation changed. A correct prediction needs that reason; “measurement error causes bias” does not specify its direction.
+
+## \texorpdfstring{\levelglyph{◆}}{} Theory: Recovering a coefficient and predicting a bill {#forecast-versus-coefficient}
+
+If the aim is to predict a bill using the recorded meter, a slope of 30 is the correct slope for the baseline population's best straight-line predictor. Replacing it with 50 while retaining the noisy horizontal variable would generally worsen that line's forecast. A structural coefficient and a predictor solve different problems, as [chapter 1's distinction between forecasting and intervention](01-questions.qmd#intervention) demonstrates.
+
+The conditional mean can improve on the best line. For the baseline readings $M_1=6,8,10,12,14$, it is respectively $430,430,530,630,630$ dollars. At 10, the two true-use values are equally likely; the bill's perturbation has mean zero. At the other four readings, true use is determined in this finite example. Thus this conditional mean is not a line.
+
+The [projection risk calculation](#covariance) gives a line MSE of 4,400 dollars squared. The conditional-mean risk is $400+10{,}000/3=11{,}200/3$ dollars squared: billing noise contributes 400 everywhere; ambiguity between the two true-use means contributes $100^2$ at the central reading, which occurs with probability $1/3$. The conditional mean's optimality follows from [chapter 1's complete squared-loss proof](01-questions.qmd#forecast-proof).
+
+These numbers depend on the finite support. Changing a noise amplitude can create or remove overlaps among recorded values. Consequently the best conditional-mean risk need not increase monotonically with the amplitude in an artificial discrete model. The classical best-line slope does shrink monotonically as its noise variance rises. Keep the claim attached to the object proved.
+
+Neither a good forecast nor an attenuation correction proves that changing real energy use would change bills according to this equation. The equation is a declared generator here. An empirical claim would additionally need a defensible economic model and identification design.
+
+## \texorpdfstring{\levelglyph{◆}}{} Theory: What independent repeated readings can identify {#repeated-readings}
+
+Suppose two readings of the **same** underlying quantity are $M_1=X+W_1$ and $M_2=X+W_2$. Retain finite second moments, positive signal variance, and the billing relation. Assume each measurement error is uncorrelated with $X$ and $\varepsilon$, and $\operatorname{Cov}(W_1,W_2)=0$. Assume also $\operatorname{Cov}(X,\varepsilon)=0$. Under those restrictions,
+
+$$
+\beta=\frac{\operatorname{Cov}(M_1,Y)}{\operatorname{Cov}(M_1,M_2)}.
+$$
+
+1. Expand the readings' covariance:
+
+   $$
+   \operatorname{Cov}(M_1,M_2)=\operatorname{Var}(X)
+   +\operatorname{Cov}(X,W_2)+\operatorname{Cov}(W_1,X)
+   +\operatorname{Cov}(W_1,W_2)=\operatorname{Var}(X).
+   $$
+
+   The denominator is strictly positive by the signal-variance assumption.
+2. Expand $\operatorname{Cov}(M_1,Y)$ exactly as in the [attenuation numerator](#attenuation-proof). The restrictions leave $\beta\operatorname{Var}(X)$. Dividing by the first expression cancels the positive signal variance, proving the result.
+3. Interpret the cancellation. Independent noise expands each reading's own variance but does not expand the readings' shared covariance. The shared part isolates signal under the assumptions. A single proxy's variance does not by itself supply that separation.
+
+At the classical baseline, the numerator is 200 dollar-MWh and the denominator is $4\ \mathrm{MWh}^2$, giving 50 dollars per MWh. Copying the first meter into a second column instead gives denominator $20/3$ and ratio 30. It supplies no new measurement.
+
+In our compressed-calibration world, the independently noisy meters still share the wrong scale. Their ratio is 100, because both violate the restrictions involving $X$. A second instrument must satisfy the proposed measurement model; the presence of two columns is insufficient evidence.
+
+Two consecutive dates are also not automatically repeated readings of the same $X$. The true quantity may change, and instrument errors may persist over time. A time-series version would have to specify latent dynamics and error dependence. That leads toward the course's [state-space definition of a latent state and observation equation](https://ihelfrich.github.io/time-series/08-state-space/), rather than silently treating adjacent observations as independent repeats.
+
+Averaging genuinely independent equal-variance errors reduces their variance: $\operatorname{Var}((W_1+W_2)/2)=(\sigma_W^2+\sigma_W^2)/4=\sigma_W^2/2$. The classical baseline average-meter projection therefore has slope 37.5, closer to 50 but still attenuated. The covariance ratio and an averaged regressor perform different operations. A common error would survive the average.
+
+## \texorpdfstring{\levelglyph{◇}}{} Core: A denominator can manufacture growth {#denominator-drift}
+
+Consider a separate controlled reporting example. A district uses 3,000 MWh during each of two days and has 300 actual customers on both days. Its true daily energy per customer is 10 MWh. The numerator covers all customers on both days. The customer file records all 300 on the first day but only 240 on the second.
+
+Dividing the unchanged full-coverage numerator by these recorded counts produces 10 and 12.5 MWh per recorded customer: apparent growth of 25 percent. Nobody's consumption changed. The numerator and second-day denominator describe different coverage. These invented records illustrate an audit failure; they do not allege a problem with a named data provider.
+
+For positive totals $Q_t$ and denominators $N_t$, define $R_t=Q_t/N_t$. Its exact proportional growth is
+
+$$
+1+g_R=\frac{R_t}{R_{t-1}}
+=\frac{Q_t/Q_{t-1}}{N_t/N_{t-1}}
+=\frac{1+g_Q}{1+g_N}.
+$$
+
+The first equality defines growth, the second substitutes the ratio twice, and the third substitutes numerator and denominator growth. In this example $g_Q=0$ and $g_N=-0.2$, so $g_R=1/0.8-1=0.25$. Subtracting percentage changes would give 20 percent, an approximation that is inaccurate here. For positive values the log identity $\Delta\log R=\Delta\log Q-\Delta\log N$ is exact, because a log of a ratio is the difference of logs. Neither identity tells us whether a changed denominator represents an actual population change or a reporting change. The measurement map must supply that interpretation.
+
+## \texorpdfstring{\levelglyph{◆}}{} Theory: Aggregation changes the weights {#aggregation-proof}
+
+Suppose disjoint zones have totals $Q_j$ and positive counts $N_j$, all with aligned coverage and intervals. Their aggregate per-customer measure is
+
+$$
+\frac{\sum_j Q_j}{\sum_j N_j}
+=\sum_j\frac{N_j}{\sum_kN_k}\frac{Q_j}{N_j}.
+$$
+
+To verify the equality, multiply each zone's ratio by its count weight. The $N_j$ cancels, leaving $Q_j/\sum_kN_k$. Summing gives the left side. The weights are nonnegative and sum to one, so the aggregate lies between the smallest and largest zone ratios.
+
+For two zones with 1,000 MWh and 100 customers, and 3,000 MWh and 200 customers, the ratios are 10 and 15. The aggregate is $4{,}000/300=40/3$, about 13.33 MWh per customer. Giving the two zones equal weight instead gives 12.5. The first describes the total divided by total customers; the second describes an equally weighted average zone. Both calculations are defined, but they answer different questions.
+
+This is a bridge to geospatial econometrics: changing boundaries changes which individuals share an aggregate and how groups are weighted. Matching units on both axes does not make differently supported aggregates equivalent. In a network, removing nodes likewise changes the domain over which degree or an average is computed. A later geographic or network analysis must preserve the population and boundary definitions needed for its claim.
+
+## \texorpdfstring{\levelglyph{✦}}{} Workshop: Worked exercises and an audit {#measurement-workshop}
+
+These exercises have complete public answers. The controlled calculations test definitions and identities; they are not additional completed empirical cases.
+
+1. **Convert the baseline slope.** What happens when both meter readings change from MWh to kWh? The slope becomes $30/1{,}000=0.03$ dollars per kWh, and the intercept remains 230 dollars. Predicted bills stay unchanged because $0.03(1{,}000M)=30M$. Reliability is unchanged because both relevant variances acquire the same million-fold factor. The native metric `h2_classical_slope_per_kwh` checks this operation.
+2. **Make random noise larger.** Set $h=4$ and $\kappa=0$. Noise variance is $2(4^2)/3=32/3$, so $\lambda=4/(4+32/3)=3/11$. The slope is $150/11$, about 13.64 dollars per MWh. This uses the [classical covariance restrictions](#attenuation-proof), not a general claim about all imperfect proxies.
+3. **Compress the instrument without random noise.** Set $h=0$ and $\kappa=-1/2$. The [calibration formula](#calibration-failure) gives 100. The meter repeats without random noise but uses the wrong scale. Calling that repetition “accurate” confuses reliability with validity.
+4. **Compare a second reading with a copied column.** At the classical baseline the independently noisy twin gives ratio 50; a copied reading gives 30. Follow the [repeated-reading denominator proof](#repeated-readings) and identify which covariance differs. Independence is a design claim that needs evidence in real work, not a property created by a new column name.
+5. **Audit reported growth.** A report says energy per customer rose from 10 to 12.5 while total energy stayed at 3,000. Recover the implied denominators: $3{,}000/10=300$ and $3{,}000/12.5=240$. Check coverage before interpreting the rise as behavior. The fixed true customer population in the declared example identifies this as a reporting change.
+6. **Choose the aggregate.** For the two zones in the [aggregation proof](#aggregation-proof), explain why 12.5 and $40/3$ differ. Write the weights explicitly: $1/2,1/2$ versus $1/3,2/3$. State whether the client wants an average zone or a total-per-customer quantity before selecting the result.
+
+An AI assistant can help audit a measurement dictionary by listing ambiguities or proposing a deliberately broken example. Give it the actual schema, units, coverage, and requested claim. Require it to identify which equation and assumption justify a correction. Then independently check its answer against the definitions, fixture, and calculations. A fluent explanation is not validation evidence. Record the prompt and correction in the project log; omit invented source documentation and private records from a public portfolio.
+
+## Professional handoff: a measurement dictionary and memo {#measurement-handoff}
+
+The companion [measurement dictionary](https://ihelfrich.github.io/handbook/code/data/measurement-dictionary.csv) records the fields used in this controlled example. The [fixture manifest](https://ihelfrich.github.io/handbook/code/data/measurement-manifest.json) defines all 36 states, units, probabilities, equations, and authorship. The [execution guide](https://ihelfrich.github.io/handbook/code/README.md) gives the native Python, Julia, and R commands; the [measurement verification report](https://ihelfrich.github.io/handbook/code/results/measurement-verification.json) records what actually ran. A program's output is a calculation check, while the written proofs justify the population identities.
+
+A professional memo can now say: “The controlled baseline's regression on recorded energy has slope 30 dollars per MWh, although the declared billing relation uses 50. Independent additive measurement noise explains the difference under the stated covariance restrictions. Independent repeated readings recover the declared coefficient in that classical model; copied readings and shared calibration errors do not. A separate reporting example creates a 25-percent ratio increase through denominator coverage alone.”
+
+For an empirical portfolio project, replace the controlled records with a permitted source and document its measurement operations. Deliver the dictionary, a unit/coverage audit, one reproducible comparison of competing proxies, and a memo stating which interpretation is supported. Preserve uncertain definitions as unresolved questions rather than choosing a convenient meaning. [The time-series project's provenance requirements](https://ihelfrich.github.io/time-series/projects/#a-complete-public-case-texas-residential-electricity-sales) give an existing example of documented source fields and limitations. Timing and revisions receive a fuller treatment in the next foundation chapter; the course's [reference-time versus release-time explanation](https://ihelfrich.github.io/time-series/01-information/#a-series-has-more-than-one-date) is available now.
+
+This chapter's main equation checks are explicit: dollar terms add to dollars; signal fractions are unit-free; zero noise recovers the correct classical slope; a constant regressor has no separately identified slope; kWh conversion rescales coefficients without changing bills; independent repetition removes only the noise its assumptions cover; positive denominators are required for the ratio and log calculations. These checks support the proofs but do not replace them.
+
+
+\clearpage
+
+## Instrument comparison {#measurement-experiment}
+
+The online experiment asks for a prediction before revealing a population line. These static comparisons retain all nine parameter settings for this edition. The billing coefficient is 50 dollars per true MWh throughout. A calibration error changes the interpretation of both recorded readings.
+
+| Noise h, MWh | Calibration | Recorded slope, dollars/MWh | Twin covariance ratio, dollars/MWh |
+| --- | --- | --- | --- |
+| 0 | classical | 50 | 50 |
+| 0 | compressed | 100 | 100 |
+| 0 | reversed | -50 | -50 |
+| 2 | classical | 30 | 50 |
+| 2 | compressed | 27.273 | 100 |
+| 2 | reversed | -30 | -50 |
+| 4 | classical | 13.636 | 50 |
+| 4 | compressed | 8.5714 | 100 |
+| 4 | reversed | -13.636 | -50 |
+
+The twin ratio recovers the declared coefficient only under the repeated-reading assumptions proved in this chapter. The archive includes each native implementation and its checked outputs.

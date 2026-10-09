@@ -1,4 +1,4 @@
-"""Prepare the opening handbook edition and an explicitly scoped source archive."""
+"""Prepare available handbook chapters and an explicitly scoped editable archive."""
 from pathlib import Path
 import hashlib, json, re, shutil, sys, zipfile
 
@@ -23,6 +23,22 @@ def prepare():
         'authorship':'Ian Helfrich, October 2026',
         'rights':'Author-owned controlled example; all rights reserved. No external data included.'}
     (PUBLIC/'code/data/manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    meter=PUBLIC/'code/data/meter-states.csv'
+    measurement_manifest={'kind':'authored controlled finite teaching fixture','empirical_observations':False,
+        'file':meter.name,'sha256':hashlib.sha256(meter.read_bytes()).hexdigest(),'rows':36,
+        'probability':'each positive integer weight divided by total weight; all 36 weights equal one',
+        'schema':{'state':'row identifier','x_mwh':'true facility-day energy in MWh, 8 or 12',
+                  'z1':'first meter noise multiplier, -1, 0, or 1','z2':'independent second multiplier',
+                  'epsilon_dollars':'independent billing perturbation, -20 or 20 dollars','weight':'integer probability weight'},
+        'model':'Y=30+50X+epsilon; Mj=X+kappa*(X-10)+h*Zj',
+        'units':{'Y':'dollars','X':'MWh','Mj':'MWh','h':'MWh','kappa':'dimensionless','billing_slope':'dollars/MWh'},
+        'parameters':{'h_mwh':[0,2,4],'kappa':[0,-0.5,-2]},
+        'assumptions':'X,Z1,Z2,epsilon independent; two readings share the declared calibration',
+        'denominator_example':'energy remains 3000 MWh; true population remains 300; counted denominator changes from 300 to 240',
+        'aggregate_example':'two disjoint zones: Q=(1000,3000) MWh; N=(100,200) customers',
+        'timing':'enumerated facility-day possibilities and controlled coverage examples; no dated empirical records',
+        'rights':'Author-owned teaching fixture; all rights reserved. No external data included.'}
+    (PUBLIC/'code/data/measurement-manifest.json').write_text(json.dumps(measurement_manifest,indent=2)+'\n')
     fonts=SOURCE/'fonts';fonts.mkdir(exist_ok=True)
     for p in (SITE/'public/time-series/source/fonts').iterdir():
         if p.is_file():shutil.copy2(p,fonts/p.name)
@@ -30,23 +46,43 @@ def prepare():
     mpl_fonts=Path(matplotlib.get_data_path())/'fonts/ttf'
     for name in ['DejaVuSans.ttf','LICENSE_DEJAVU']:
         shutil.copy2(mpl_fonts/name,fonts/name)
-    text=(SITE/'src/content/handbook/01-questions.md').read_text()
-    text=re.sub(r'^---\n.*?\n---\n','',text,count=1,flags=re.S)
-    text=re.sub(r'<span id="([^"]+)"></span>\s*\n(## [^\n]+)',r'\2 {#\1}',text)
-    text=re.sub(r'<picture>.*?</picture>',
-        '![Observed alert groups share one distribution while assigned-alert responses differ.](../figures/alert-worlds-print.pdf){width=80%}',text,flags=re.S)
-    # Relative web links become working online destinations; internal proof anchors stay local.
-    text=re.sub(r'\]\((/[^)]+)\)',r'](https://ihelfrich.github.io\1)',text)
     def glyphs(s):
         for g in '○◇◆✦':
             s=s.replace(g,'\\texorpdfstring{\\levelglyph{'+g+'}}{}')
         return s
-    (SOURCE/'01-questions.qmd').write_text('# Economic questions, useful predictions, and interventions {#ch-one}\n\n'+glyphs(text))
+    chapters=sorted((SITE/'src/content/handbook').glob('*.md'))
+    for chapter in chapters:
+        raw=chapter.read_text();title=re.search(r'^title:\s*(.+)$',raw,re.M).group(1).strip("'\"")
+        text=re.sub(r'^---\n.*?\n---\n','',raw,count=1,flags=re.S)
+        text=re.sub(r'<span id="([^"]+)"></span>\s*\n(## [^\n]+)',r'\2 {#\1}',text)
+        def picture(match):
+            block=match.group(0);stem=re.search(r'<img src="/handbook/figures/([^"/]+)\.svg"',block).group(1)
+            caption=match.group(1).strip()
+            return f'![{caption}](../figures/{stem}-print.pdf){{width=72%}}\n\n'
+        text=re.sub(r'<picture>.*?</picture>\s*\n\*\*Figure \d+\.\*\*([^\n]+)\n\n',picture,text,flags=re.S)
+        # Available-chapter references become checked PDF destinations; course links stay online.
+        for target in chapters:
+            text=text.replace(f'](/handbook/{target.stem}/#',f']({target.stem}.qmd#')
+            text=text.replace(f'](/handbook/{target.stem}/)',f']({target.stem}.qmd)')
+        text=re.sub(r'\]\((/[^)]+)\)',r'](https://ihelfrich.github.io\1)',text)
+        if chapter.stem=='01-questions':
+            text+='\n\n\\clearpage\n\n## Assignment comparison {#alert-experiment}\n\nThe online experiment asks for a prediction before revealing assigned-alert means. These static comparisons use the same six background states under each assignment. The observed group means remain 10 and 12 MW throughout.\n\n| Effect b, MW | Assigned no alert, MW | Assigned alert, MW | Paired effect, MW |\n| --- | --- | --- | --- |\n'
+            for b in [-2,-1,0,1,2]:text+=f'| {b} | {11-b/2:g} | {11+b/2:g} | {b} |\n'
+            text+='\nConditioning selects the background types under the existing rule; assignment retains the common background distribution. The intervention proof explains why those operations answer different questions.\n'
+        if chapter.stem=='02-measurement':
+            reference=json.loads((PUBLIC/'code/results/measurement-reference.json').read_text())
+            text+='\n\n\\clearpage\n\n## Instrument comparison {#measurement-experiment}\n\nThe online experiment asks for a prediction before revealing a population line. These static comparisons retain all nine parameter settings for this edition. The billing coefficient is 50 dollars per true MWh throughout. A calibration error changes the interpretation of both recorded readings.\n\n| Noise h, MWh | Calibration | Recorded slope, dollars/MWh | Twin covariance ratio, dollars/MWh |\n| --- | --- | --- | --- |\n'
+            for h in [0,2,4]:
+                for name in ['classical','compressed','reversed']:
+                    key=f'h{h}_{name}_'
+                    text+=f'| {h} | {name} | {reference[key+"slope"]:.5g} | {reference[key+"twin_ratio"]:.5g} |\n'
+            text+='\nThe twin ratio recovers the declared coefficient only under the repeated-reading assumptions proved in this chapter. The archive includes each native implementation and its checked outputs.\n'
+        (SOURCE/(chapter.stem+'.qmd')).write_text('# '+title+' {#ch-'+chapter.stem+'}\n\n'+glyphs(text))
     (SOURCE/'index.qmd').write_text(glyphs('''# Reading this working edition {.unnumbered}
 
 Econometrics begins with a question about a measured world. This handbook develops the mathematical tools needed to state that question, investigate it, and explain the conditions under which an answer follows. Concrete examples and pictures accompany fully explained proofs and independent Python, Julia, and R calculations.
 
-This working edition contains the opening foundation chapter. The broader seventy-two-chapter manuscript is being developed. The separate fifteen-lecture time-series course is available at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/); it supplies material for the dynamic-systems part of the broader book. Its existing chapter numbering is retained in the linked course.
+This working edition contains two foundation chapters: economic questions and measurement. The broader seventy-two-chapter manuscript is being developed. The separate fifteen-lecture time-series course is available at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/); it supplies material for the dynamic-systems part of the broader book. Its existing chapter numbering is retained in the linked course.
 
 ## Four reading levels
 
@@ -62,7 +98,7 @@ The glyphs accompany text labels. They indicate a passage's requirements and pur
 
 ## Claims and calculations
 
-The first chapter supplies a question contract, exact finite calculations, a proof of the squared-error forecast rule, and proofs of nonidentification and the limits of estimation. Direct section links name the definition or result being used. Its utility alert example is entirely controlled. The empirical Texas electricity dataset is separate and does not estimate the alert effect.
+The first chapter supplies a question contract, exact finite calculations, a proof of the squared-error forecast rule, and proofs of nonidentification and the limits of estimation. The second supplies a measurement dictionary, proofs of the population projection and classical attenuation, a repeated-reading correction with explicit restrictions, calibration failures, and denominator/aggregation audits. Direct section links name the definition or result being used. Both chapters use entirely controlled examples. The empirical Texas electricity dataset is separate and does not estimate the alert effect or validate the controlled meter.
 
 Python, Julia, and R independently reproduce the declared numerical quantities. Their agreement is a calculation check. Mathematical claims rely on the written proofs, and economic validity relies on the stated model and design. Source, input manifest, native verification results, and original figures accompany this edition.
 
@@ -74,7 +110,7 @@ Working edition, October 2026. © Ian Helfrich. All rights reserved. Authored te
 '''))
     config=(SITE/'public/time-series/source/_quarto.yml').read_text()
     start=config.index('  chapters:');end=config.index('\nformat:')+1
-    config=config[:start]+'  chapters:\n    - index.qmd\n    - 01-questions.qmd\n'+config[end:]
+    config=config[:start]+'  chapters:\n    - index.qmd\n'+''.join('    - '+p.stem+'.qmd\n' for p in chapters)+config[end:]
     config=config.replace('title: Time-Series Econometrics','title: Econometrics Across Disciplines')
     config=config.replace('subtitle: Decisions, measurement, dynamics, and evidence','subtitle: Measurement, models, and decisions')
     config=config.replace('output-file: time-series-econometrics.pdf','output-file: econometrics-handbook-working.pdf')
@@ -84,9 +120,9 @@ Working edition, October 2026. © Ian Helfrich. All rights reserved. Authored te
 
 Run `quarto render --to pdf` from this directory. Quarto and XeLaTeX are required; automatic TeX installation is disabled. The reference build uses Quarto 1.10.18, TeX Live 2026, US Letter, 12-point embedded Source Sans 3, one-inch margins, and page numbers. DejaVu Sans supplies the four reading-level glyphs; its license is included. Latin Modern supplies mathematical and code fonts under its included GUST licenses.
 
-Chapter-local links become PDF destinations. Root-relative web links become full online URLs. `../figures/alert-worlds-print.pdf` is the original vector print figure with enlarged labels and vertically arranged panels. The neighboring `code` directory contains the controlled fixture, manifest and independent implementations. Web Markdown is in `chapters/01-questions.md`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
+Chapter-local links and links to available handbook chapters become PDF destinations. Other root-relative web links become full online URLs. The `../figures/*-print.pdf` files are original vector print figures with enlarged labels and vertically arranged panels. The neighboring `code` directory contains the controlled fixtures, manifests and independent implementations. Web Markdown is in `chapters/`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
 
-This working edition contains one foundation chapter. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
+This working edition contains two foundation chapters. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
 ''')
 
 if '--finalize' not in sys.argv:
@@ -106,11 +142,12 @@ else:
         for folder in ['code','source','figures']:
             for p in sorted((PUBLIC/folder).rglob('*')):
                 if p.is_file() and p.suffix!='.pyc':z.write(p,str(p.relative_to(PUBLIC)))
-        p=SITE/'src/content/handbook/01-questions.md';z.write(p,'chapters/'+p.name)
+        for p in sorted((SITE/'src/content/handbook').glob('*.md')):z.write(p,'chapters/'+p.name)
         z.write(PUBLIC/'source-register.json','source-register.json')
         for name in ['src/layouts/Handbook.astro','src/styles/handbook.css','src/pages/handbook/index.astro',
                      'src/pages/handbook/[slug].astro','src/pages/handbook/print.astro','scripts/build-handbook-release.py',
-                     'src/components/handbook/AlertWorlds.astro','src/lib/handbook-worlds.mjs','src/scripts/handbook-worlds.ts']:
+                     'src/components/handbook/AlertWorlds.astro','src/lib/handbook-worlds.mjs','src/scripts/handbook-worlds.ts',
+                     'src/components/handbook/MeasurementWorlds.astro','src/lib/handbook-measurement.mjs','src/scripts/handbook-measurement.ts']:
             z.write(SITE/name,name)
     print(json.dumps({p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                       for p in DOWNLOADS.iterdir()},indent=2))

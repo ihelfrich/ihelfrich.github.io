@@ -1,4 +1,4 @@
-# Economic questions, useful predictions, and interventions {#ch-one}
+# Economic questions, useful predictions, and interventions {#ch-01-questions}
 
 
 ## \texorpdfstring{\levelglyph{○}}{} Orientation: The forecast meeting {#forecast-meeting}
@@ -50,9 +50,7 @@ Let $A$ indicate the alert: zero means no alert and one means an alert. The curr
 
 These rows list possibilities and their probabilities. They are not six sampled observations. A randomly recorded sequence of days could contain one type repeatedly and omit another. Enumeration gives exact population calculations for this declared model; it does not eliminate sampling uncertainty in an empirical study.
 
-![Observed alert groups share one distribution while assigned-alert responses differ.](../figures/alert-worlds-print.pdf){width=80%}
-
-**Figure 1.** The left panel is common to every mechanism below. The right panel compares population averages under assigned alert status; each line uses the same distribution of heat conditions and shocks. The line labels give the intervention effect in MW. The [intervention calculation](#intervention) explains each endpoint.
+![The first panel is common to every mechanism below. The second panel compares population averages under assigned alert status; each line uses the same distribution of heat conditions and shocks. The line labels give the intervention effect in MW. The [intervention calculation](#intervention) explains each endpoint.](../figures/alert-worlds-print.pdf){width=72%}
 
 ## \texorpdfstring{\levelglyph{◇}}{} Core: Averages with stated information {#finite-averages}
 
@@ -205,7 +203,7 @@ Conditioning on $A=1$ selects only hot days under the old rule. Assigning $A=1$ 
 
 The intervention convention is established causal-inference machinery. Pearl, Glymour, and Jewell's [*Causal Inference in Statistics: A Primer*, §3.1, printed pp. 53–55](https://bayes.cs.ucla.edu/PRIMER/primer-ch3.pdf#page=1) explains equation replacement and conditioning; our finite utility example and calculations are authored here. The chapter links to their text and does not redistribute it.
 
-The [assignment experiment](https://ihelfrich.github.io/handbook/01-questions/#alert-experiment) lets you choose a mechanism, predict the direction of the comparison, and then inspect the two means and all six day types. Change the mechanism and explain why the observed comparison stays fixed. The table above and [worked exercise 1](#workshop) give the same investigation in print.
+The [assignment experiment](01-questions.qmd#alert-experiment) lets you choose a mechanism, predict the direction of the comparison, and then inspect the two means and all six day types. Change the mechanism and explain why the observed comparison stays fixed. The table above and [worked exercise 1](#workshop) give the same investigation in print.
 
 ## \texorpdfstring{\levelglyph{○}}{} Orientation: A warning as information and an action {#sensors}
 
@@ -325,3 +323,20 @@ A short memo can state the question, the result, its scope, and the next evidenc
 Attach the [question contract](#question-contract), the [input manifest](https://ihelfrich.github.io/handbook/code/data/manifest.json), and the [calculation checks](https://ihelfrich.github.io/handbook/code/results/verification.json). Link the claim about forecast accuracy to [Result 1](#forecast-proof), the identification limit to [Results 2 and 3](#identification-proof), and the proposed assignment design to [its explicit conditions](#new-design). This makes the memo traceable for both a manager and another analyst.
 
 The same discipline will recur when an area-level quantity is used to make a claim about a person, a noisy score is used to measure a skill, or a forecast is used to choose a policy. First name the economic object and the comparison. Then establish what the observations and assumptions allow us to learn.
+
+
+\clearpage
+
+## Assignment comparison {#alert-experiment}
+
+The online experiment asks for a prediction before revealing assigned-alert means. These static comparisons use the same six background states under each assignment. The observed group means remain 10 and 12 MW throughout.
+
+| Effect b, MW | Assigned no alert, MW | Assigned alert, MW | Paired effect, MW |
+| --- | --- | --- | --- |
+| -2 | 12 | 10 | -2 |
+| -1 | 11.5 | 10.5 | -1 |
+| 0 | 11 | 11 | 0 |
+| 1 | 10.5 | 11.5 | 1 |
+| 2 | 10 | 12 | 2 |
+
+Conditioning selects the background types under the existing rule; assignment retains the common background distribution. The intervention proof explains why those operations answer different questions.
