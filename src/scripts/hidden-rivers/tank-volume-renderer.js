@@ -1,6 +1,8 @@
 import { createTankCamera } from './tank-camera.mjs';
 import { sampleTankSection } from './tank-section.mjs';
 import { dyeExtinctionPerMetre } from './tank-optics.mjs';
+import { createTankTextureStream } from './tank-texture-stream.mjs';
+import { createTankRenderBudget } from './tank-render-budget.mjs';
 
 export const tankSpeedLimit=.05;
 export const tankVorticityLimit=8;
@@ -74,7 +76,7 @@ void main(){
  float radius=dot(abs(outward),dims*.5),clip=radius*(2.*cutaway-1.);
  for(float t=a;t<b&&trans>.012;t+=ds){
   float segment=min(ds,b-t);vec3 p=eye+rd*(t+.5*segment);if(dot(p,outward)>clip)continue;
-  vec3 qpos=vec3(p.x/dims.x+.5,.5-p.y/dims.y,p.z/dims.z+.5);vec4 q=field(qpos);
+  vec3 qpos=vec3(p.x/dims.x+.5,.5-p.y/dims.y,p.z/dims.z+.5);vec4 q=vec4(0.);if(mode<3)q=field(qpos);
   float alpha;vec3 ink;
   if(mode==1){float s=clamp(q.z,0.,1.);ink=s<.5?mix(${shaderColor(salinityColors[0])},${shaderColor(salinityColors[1])},2.*s):mix(${shaderColor(salinityColors[1])},${shaderColor(salinityColors[2])},2.*s-1.);alpha=1.-exp(-1.8*segment);}
   else if(mode==2){float s=clamp(q.w/${tankSpeedLimit},0.,1.);ink=mix(${shaderColor(speedColors[0])},${shaderColor(speedColors[1])},s);alpha=1.-exp(-2.*s*segment);}
@@ -110,31 +112,27 @@ function tankLines(d){const [x,y,z]=d.map(v=>v/2),p=[[-x,-y,-z],[x,-y,-z],[x,y,-
 function sectionLines(d,fraction){const [x,y]=d.map(v=>v/2),z=(fraction-.5)*d[2],p=[[-x,-y,z],[x,-y,z],[x,y,z],[-x,y,z]],a=[];for(let i=0;i<4;i++)a.push(...p[i],...p[(i+1)%4]);return new Float32Array(a);}
 export function createTankVolumeRenderer(canvas){
  if(!canvas)throw new TypeError('Canvas required');let data=null,old=null,current=null,oldCurl=null,currentCurl=null,mixAt=1;
- let renderScale=1,lastPaint=null,slowFrames=0,fastFrames=0;
- const stats=()=>({width:canvas.width,height:canvas.height,scale:renderScale});
+ const budget=createTankRenderBudget();let stream=null;
+ const stats=()=>({width:canvas.width,height:canvas.height,...budget.getStats(),...stream?.getStats()});
  let dims={width:.24,height:.18,depth:.18},camera=createTankCamera(dims);
  const gl=canvas.getContext('webgl2',{alpha:false,antialias:true,preserveDrawingBuffer:false,depth:false});
  const camApi={orbit:(x,y)=>camera.orbit(x,y),zoom:f=>camera.zoom(f),home:()=>camera.home(),section:()=>camera.section(),getCamera:()=>camera.getCamera(),pick:(x,y,r,z)=>camera.pick(x,y,r,z)};
  if(!gl)return {...fallback(canvas,()=>camera,dataRef=>{if(dims.width!==dataRef.width||dims.height!==dataRef.height||dims.depth!==dataRef.depth){dims={width:dataRef.width,height:dataRef.height,depth:dataRef.depth};camera=createTankCamera(dims);}data=dataRef;},camApi)};
  const drawProgram=link(gl,VS,FS),lineProgram=link(gl,LVS,LFS);
  const loc=(p,n)=>gl.getUniformLocation(p,n),u=Object.fromEntries(['oldVol','newVol','oldCurl','newCurl','hasCurl','grid','dims','eye','forward','right','up','outward','phase','halfFov','aspect','cutaway','sectionZ','metresPerWorld','mode','smoothFloat','flow'].map(n=>[n,loc(drawProgram,n)])),lu=Object.fromEntries(['eye','forward','right','up','halfFov','aspect','tint'].map(n=>[n,loc(lineProgram,n)]));
- const tex=Array.from({length:4},()=>gl.createTexture()),linear=Boolean(gl.getExtension('OES_texture_float_linear')),lineBuffer=gl.createBuffer();let lineKey='',lineN=0;
+ const linear=Boolean(gl.getExtension('OES_texture_float_linear')),lineBuffer=gl.createBuffer();let tex=null,lineKey='',lineN=0;
+ stream=createTankTextureStream(gl,linear);
+ const timer=gl.getExtension('EXT_disjoint_timer_query_webgl2'),queries=[];let draws=0;
  gl.useProgram(drawProgram);for(const [i,n]of ['oldVol','newVol','oldCurl','newCurl'].entries())gl.uniform1i(u[n],i);gl.uniform1i(u.smoothFloat,Number(linear));
- for(const t of tex){gl.bindTexture(gl.TEXTURE_3D,t);for(const p of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T,gl.TEXTURE_WRAP_R])gl.texParameteri(gl.TEXTURE_3D,p,gl.CLAMP_TO_EDGE);const f=linear?gl.LINEAR:gl.NEAREST;gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MAG_FILTER,f);}
  function setData(s){if(dims.width!==s.width||dims.height!==s.height||dims.depth!==s.depth){dims={width:s.width,height:s.height,depth:s.depth};camera=createTankCamera(dims);lineKey='';}data=s;}
- let textureGrid=null,empty=null,uploadedCurl=false;
- function upload(){if(!data||!old||!current)return;gl.useProgram(drawProgram);const resized=!textureGrid||textureGrid.nx!==data.nx||textureGrid.ny!==data.ny||textureGrid.nz!==data.nz;if(resized)empty=new Float32Array(current.length);const fields=[old,current,oldCurl||empty,currentCurl||empty];for(let i=0;i<4;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);if(resized)gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA32F,data.nx,data.ny,data.nz,0,gl.RGBA,gl.FLOAT,fields[i]);else if(i<2||currentCurl||uploadedCurl)gl.texSubImage3D(gl.TEXTURE_3D,0,0,0,0,data.nx,data.ny,data.nz,gl.RGBA,gl.FLOAT,fields[i]);}if(resized)textureGrid={nx:data.nx,ny:data.ny,nz:data.nz};uploadedCurl=Boolean(currentCurl);gl.uniform1i(u.hasCurl,Number(uploadedCurl));gl.uniform3i(u.grid,data.nx,data.ny,data.nz);gl.uniform3f(u.dims,data.width/data.width,data.height/data.width,data.depth/data.width);gl.uniform1f(u.metresPerWorld,data.width);}
- return {mode:linear?'webgl2-volume-linear':'webgl2-volume-trilinear',...camApi,getStats:stats,
-  push(snapshot,mix){const s=valid(snapshot),prior=data,same=Boolean(old&&prior&&prior.nx===s.nx&&prior.ny===s.ny&&prior.nz===s.nz&&prior.width===s.width&&prior.height===s.height&&prior.depth===s.depth);setData(s);const packed=new Float32Array(s.volume),f=clamp(Number.isFinite(mix)?mix:1,0,1);if(same){for(let i=0;i<old.length;i++)old[i]+=(current[i]-old[i])*f;}else old=packed.slice();current=packed;if(s.vorticity){const packedCurl=new Float32Array(s.vorticity);if(same&&oldCurl&&currentCurl){for(let i=0;i<oldCurl.length;i++)oldCurl[i]+=(currentCurl[i]-oldCurl[i])*f;}else oldCurl=packedCurl.slice();currentCurl=packedCurl;}else oldCurl=currentCurl=null;mixAt=f;upload();},
+ return {mode:linear?'webgl2-volume-linear':'webgl2-volume-trilinear',...camApi,getStats:stats,frame:now=>budget.frame(now),
+  push(previous,next){if(data===next&&old===previous.volume)return;valid(previous);const s=valid(next);setData(s);old=previous.volume;current=s.volume;oldCurl=previous.vorticity;currentCurl=s.vorticity;tex=stream.push(previous,s);gl.useProgram(drawProgram);gl.uniform1i(u.hasCurl,Number(Boolean(oldCurl&&currentCurl)));gl.uniform3i(u.grid,s.nx,s.ny,s.nz);gl.uniform3f(u.dims,1,s.height/s.width,s.depth/s.width);gl.uniform1f(u.metresPerWorld,s.width);},
   draw(mix,view,{cutaway=1,flow=false,section=null}={}){if(!current)return;
    const sectionZ=Number.isFinite(section)?clamp(section,0,1):-1;
-   const now=performance.now(),gap=lastPaint===null?0:now-lastPaint;lastPaint=now;
-   // Adjust drawing resolution only. Neither the physical grid nor its clock changes.
-   if(gap>25&&gap<3000){slowFrames++;fastFrames=0;}else if(gap>0&&gap<19){fastFrames++;slowFrames=Math.max(0,slowFrames-1);}else {slowFrames=fastFrames=0;}
-   if(slowFrames>=12){renderScale=Math.max(.5,renderScale-.1);slowFrames=0;}else if(fastFrames>=180){renderScale=Math.min(1,renderScale+.05);fastFrames=0;}
-   const sz=sizeCanvas(canvas,renderScale),f=camera.getFrame(sz.aspect);gl.viewport(0,0,sz.w,sz.h);gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(drawProgram);gl.uniform3f(u.eye,...f.position);gl.uniform3f(u.forward,...f.forward);gl.uniform3f(u.right,...f.right);gl.uniform3f(u.up,...f.up);gl.uniform3f(u.outward,...f.position);gl.uniform1f(u.phase,clamp(Number.isFinite(mix)?mix:mixAt,0,1));gl.uniform1f(u.halfFov,f.tanHalfFov);gl.uniform1f(u.aspect,sz.aspect);gl.uniform1f(u.cutaway,clamp(cutaway,0,1));gl.uniform1f(u.sectionZ,sectionZ);gl.uniform1i(u.mode,view==='salinity'?1:view==='speed'?2:view==='vorticity'?3:view==='vorticity-z'?4:0);gl.uniform1i(u.flow,Number(Boolean(flow)));for(let i=0;i<4;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);}gl.drawArrays(gl.TRIANGLES,0,3);
-   gl.useProgram(lineProgram);for(const [name,val]of [['eye',f.position],['forward',f.forward],['right',f.right],['up',f.up]])gl.uniform3f(lu[name],...val);gl.uniform1f(lu.halfFov,f.tanHalfFov);gl.uniform1f(lu.aspect,sz.aspect);gl.uniform4f(lu.tint,.34,.63,.67,.32);const k=data.width+'/'+data.height+'/'+data.depth+'/'+sectionZ;if(k!==lineKey){const a=sectionZ>=0?sectionLines(f.dimensions,sectionZ):tankLines(f.dimensions);lineN=a.length/3;gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);lineKey=k;}gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);const at=gl.getAttribLocation(lineProgram,'position');gl.enableVertexAttribArray(at);gl.vertexAttribPointer(at,3,gl.FLOAT,false,0,0);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.drawArrays(gl.LINES,0,lineN);gl.disable(gl.BLEND);},
-  reset(){data=old=current=oldCurl=currentCurl=null;mixAt=1;lastPaint=null;slowFrames=fastFrames=0;gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);}
+   if(timer&&queries.length&&gl.getQueryParameter(queries[0],gl.QUERY_RESULT_AVAILABLE)){const q=queries.shift();if(!gl.getParameter(timer.GPU_DISJOINT_EXT))budget.cost(gl.getQueryParameter(q,gl.QUERY_RESULT)/1e6);gl.deleteQuery(q);}const query=timer&&++draws%4===0&&queries.length<3?gl.createQuery():null;if(query)gl.beginQuery(timer.TIME_ELAPSED_EXT,query);
+   const sz=sizeCanvas(canvas,budget.getStats().scale),f=camera.getFrame(sz.aspect);gl.viewport(0,0,sz.w,sz.h);gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(drawProgram);gl.uniform3f(u.eye,...f.position);gl.uniform3f(u.forward,...f.forward);gl.uniform3f(u.right,...f.right);gl.uniform3f(u.up,...f.up);gl.uniform3f(u.outward,...f.position);gl.uniform1f(u.phase,clamp(Number.isFinite(mix)?mix:mixAt,0,1));gl.uniform1f(u.halfFov,f.tanHalfFov);gl.uniform1f(u.aspect,sz.aspect);gl.uniform1f(u.cutaway,clamp(cutaway,0,1));gl.uniform1f(u.sectionZ,sectionZ);gl.uniform1i(u.mode,view==='salinity'?1:view==='speed'?2:view==='vorticity'?3:view==='vorticity-z'?4:0);gl.uniform1i(u.flow,Number(Boolean(flow)));for(let i=0;i<4;i++){gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_3D,tex[i]);}gl.drawArrays(gl.TRIANGLES,0,3);
+   gl.useProgram(lineProgram);for(const [name,val]of [['eye',f.position],['forward',f.forward],['right',f.right],['up',f.up]])gl.uniform3f(lu[name],...val);gl.uniform1f(lu.halfFov,f.tanHalfFov);gl.uniform1f(lu.aspect,sz.aspect);gl.uniform4f(lu.tint,.34,.63,.67,.32);const k=data.width+'/'+data.height+'/'+data.depth+'/'+sectionZ;if(k!==lineKey){const a=sectionZ>=0?sectionLines(f.dimensions,sectionZ):tankLines(f.dimensions);lineN=a.length/3;gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);lineKey=k;}gl.bindBuffer(gl.ARRAY_BUFFER,lineBuffer);const at=gl.getAttribLocation(lineProgram,'position');gl.enableVertexAttribArray(at);gl.vertexAttribPointer(at,3,gl.FLOAT,false,0,0);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.drawArrays(gl.LINES,0,lineN);gl.disable(gl.BLEND);if(query){gl.endQuery(timer.TIME_ELAPSED_EXT);queries.push(query);}},
+  reset(){data=old=current=oldCurl=currentCurl=null;mixAt=1;stream.reset();budget.reset();for(const q of queries)gl.deleteQuery(q);queries.length=0;draws=0;gl.clearColor(.012,.045,.07,1);gl.clear(gl.COLOR_BUFFER_BIT);}
  };
 }
 function fallback(canvas,cameraRef,setData,camApi){
@@ -159,7 +157,7 @@ function fallback(canvas,cameraRef,setData,camApi){
  }
  const corners=q=>[{x:0,y:0,z:0},{x:q.width,y:0,z:0},{x:q.width,y:q.height,z:0},{x:0,y:q.height,z:0},{x:0,y:0,z:q.depth},{x:q.width,y:0,z:q.depth},{x:q.width,y:q.height,z:q.depth},{x:0,y:q.height,z:q.depth}],edges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
  return {mode:'canvas-3d-volume-samples',...camApi,
-  push(snapshot,mix){const q=valid(snapshot),same=Boolean(s&&s.nx===q.nx&&s.ny===q.ny&&s.nz===q.nz&&s.width===q.width&&s.height===q.height&&s.depth===q.depth),a=clamp(Number.isFinite(mix)?mix:1,0,1);if(same){for(let i=0;i<old.length;i++)old[i]+=(current[i]-old[i])*a;}else old=new Float32Array(q.volume);current=new Float32Array(q.volume);if(q.vorticity){if(same&&oldCurl&&currentCurl){for(let i=0;i<oldCurl.length;i++)oldCurl[i]+=(currentCurl[i]-oldCurl[i])*a;}else oldCurl=new Float32Array(q.vorticity);currentCurl=new Float32Array(q.vorticity);}else oldCurl=currentCurl=null;s={...q,volume:null,vorticity:null};setData(s);},
+  push(previous,next){if(s===next&&old===previous.volume)return;valid(previous);s=valid(next);old=previous.volume;current=s.volume;oldCurl=previous.vorticity;currentCurl=s.vorticity;setData(s);},
   draw(mix,view,{cutaway=1,flow=false,section=null}={}){if(!current)return;if(Number.isFinite(section)){drawSection(clamp(section,0,1),mix,view);return;}const z=sizeCanvas(canvas),rect={left:0,top:0,width:z.w,height:z.h},t=clamp(Number.isFinite(mix)?mix:1,0,1),key=view==='salinity'?1:view==='speed'?2:view==='vorticity'?3:view==='vorticity-z'?4:0;ctx.fillStyle='#061a25';ctx.fillRect(0,0,z.w,z.h);const c=corners(s).map(p=>cameraRef().projectToPixel(p,rect));ctx.strokeStyle='rgba(95,218,225,.7)';ctx.beginPath();for(const [a,b]of edges)if(c[a].depth>0&&c[b].depth>0){ctx.moveTo(c[a].x,c[a].y);ctx.lineTo(c[b].x,c[b].y);}ctx.stroke();const n=s.nx*s.ny*s.nz,items=[];
    const cam=cameraRef().getCamera(),o=cam.position,half=[s.width/s.width/2,s.height/s.width/2,s.depth/s.width/2],rad=Math.abs(o[0])*half[0]+Math.abs(o[1])*half[1]+Math.abs(o[2])*half[2],clip=rad*(2*cutaway-1);
    const stride=Math.max(1,Math.ceil(Math.cbrt(n/32000)));

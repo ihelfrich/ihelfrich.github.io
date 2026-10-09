@@ -68,6 +68,49 @@ void pressureKick(double *u,double *v,double *w,const double *estimate,int nx,in
   int d=(k*ny+j)*nx+i;w[d]-=dt*(estimate[d]-estimate[d-nx*ny])/dz;
  }
 }
+/* Projection bookkeeping mirrors Tank3D.project; poisson remains a separate spectral solve. */
+static void divergence3(const double *u,const double *v,const double *w,double *rhs,int nx,int ny,int nz,double dx,double dy,double dz){
+ for(int k=0;k<nz;k++)for(int j=0;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;
+  rhs[d]=(u[(k*ny+j)*(nx+1)+i+1]-u[(k*ny+j)*(nx+1)+i])/dx+
+         (v[(k*(ny+1)+j+1)*nx+i]-v[(k*(ny+1)+j)*nx+i])/dy+
+         (w[((k+1)*ny+j)*nx+i]-w[(k*ny+j)*nx+i])/dz;
+ }
+}
+void projectPrepare(double *u,double *v,double *w,double *rhs,int nx,int ny,int nz,double dx,double dy,double dz){
+ for(int k=0;k<nz;k++)for(int j=0;j<ny;j++){int d=(k*ny+j)*(nx+1);u[d]=u[d+nx]=0;}
+ for(int k=0;k<nz;k++)for(int i=0;i<nx;i++){v[k*(ny+1)*nx+i]=v[(k*(ny+1)+ny)*nx+i]=0;}
+ for(int j=0;j<ny;j++)for(int i=0;i<nx;i++){w[j*nx+i]=w[(nz*ny+j)*nx+i]=0;}
+ divergence3(u,v,w,rhs,nx,ny,nz,dx,dy,dz);
+ int n=nx*ny*nz;double mean=0;
+ for(int d=0;d<n;d++)mean+=rhs[d]/n;
+ for(int d=0;d<n;d++)rhs[d]=-rhs[d]+mean;
+}
+double projectFinish(double *u,double *v,double *w,const double *phi,double *rhs,int nx,int ny,int nz,double dx,double dy,double dz){
+ for(int k=0;k<nz;k++)for(int j=0;j<ny;j++)for(int i=1;i<nx;i++){
+  int d=(k*ny+j)*nx+i;u[(k*ny+j)*(nx+1)+i]-=(phi[d]-phi[d-1])/dx;
+ }
+ for(int k=0;k<nz;k++)for(int j=1;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;v[(k*(ny+1)+j)*nx+i]-=(phi[d]-phi[d-nx])/dy;
+ }
+ for(int k=1;k<nz;k++)for(int j=0;j<ny;j++)for(int i=0;i<nx;i++){
+  int d=(k*ny+j)*nx+i;w[(k*ny+j)*nx+i]-=(phi[d]-phi[d-nx*ny])/dz;
+ }
+ divergence3(u,v,w,rhs,nx,ny,nz,dx,dy,dz);
+ int n=nx*ny*nz;double norm=0;
+ for(int d=0;d<n;d++)norm+=rhs[d]*rhs[d];
+ return __builtin_sqrt(norm/n);
+}
+int scanExtrema(const double *u,const double *v,const double *w,const double *salinity,double *out,int nx,int ny,int nz){
+ double umax=0,vmax=0,wmax=0,smin=40,smax=0;
+ int nu=(nx+1)*ny*nz,nv=nx*(ny+1)*nz,nw=nx*ny*(nz+1),n=nx*ny*nz;
+ for(int i=0;i<nu;i++){double x=u[i];if(!__builtin_isfinite(x))return 0;umax=mx(umax,__builtin_fabs(x));}
+ for(int i=0;i<nv;i++){double x=v[i];if(!__builtin_isfinite(x))return 0;vmax=mx(vmax,__builtin_fabs(x));}
+ for(int i=0;i<nw;i++){double x=w[i];if(!__builtin_isfinite(x))return 0;wmax=mx(wmax,__builtin_fabs(x));}
+ for(int i=0;i<n;i++){double x=salinity[i];if(!__builtin_isfinite(x))return 0;smin=mn(smin,x);smax=mx(smax,x);}
+ out[0]=umax;out[1]=vmax;out[2]=wmax;out[3]=smin;out[4]=smax;
+ return 1;
+}
 static inline double slope(double a,double b,int forward){if(a*b<=0)return 0;double sign=a>0?1:-1;return sign*mn(mn(2*__builtin_fabs(a),__builtin_fabs(forward?(a+2*b)/3:(2*a+b)/3)),2*__builtin_fabs(b));}
 static void euler(double *q,double *out,double *sx,double *sy,double *sz,double *u,double *v,double *w,int nx,int ny,int nz,double dx,double dy,double dz,double dt,double kap){
  int p=nx*ny;
