@@ -1,0 +1,255 @@
+---
+title: Observation clocks, releases, vintages, and provenance
+order: 3
+part: Objects and foundations
+description: Reconstructing what was knowable, joining by availability, and proving that future revisions cannot change an earlier forecast.
+question: What could a forecaster have known when a decision was made?
+prerequisites: Chapter 1's question contract and finite averages; chapter 2's measurement map. Information partitions and their proofs are developed here.
+updated: 2026-10-09
+codeStem: clocks
+verificationFile: clocks-verification.json
+anchors:
+  orientation: observation-clocks
+  core: asof-selection
+  theory: information-proof
+  workshop: vintage-workshop
+---
+
+<span id="observation-clocks"></span>
+## ○ Orientation: A quarter ends before its estimate arrives
+
+An analyst preparing a report on April 24, 2024 can know that the first quarter has ended. That does not give the analyst the Bureau of Economic Analysis's first estimate of that quarter's growth. The estimate has its own publication date. A file downloaded much later can put the number beside January 1, the quarter's starting date, without showing when it became available.
+
+This is how a tidy spreadsheet can give a historical analyst knowledge of the future. The problem is in what the row represents, before any forecasting method is chosen. Begin with [chapter 2's measurement map](/handbook/02-measurement/#measurement-map) and add three clocks:
+
+- **Reference time** identifies the interval the statistic describes. Here that interval is January through March 2024.
+- **Publication time** identifies when a particular estimate was released by its provider.
+- **Collection time** identifies when a particular system received and could use it. Publication and collection need not coincide.
+
+A fourth timestamp, the date of our present-day research download, documents how we obtained the archived source. It cannot establish that our system possessed the file in 2024. These distinctions also apply to financial filings, revised geospatial boundaries, delayed survey records, and corrected network edges. The definition of the economic object and the history of access are separate pieces of evidence.
+
+For the same quarter, the archived BEA headlines give this sequence:
+
+| Estimate and original source | Published, UTC | Real GDP growth, percent |
+| --- | --- | --- |
+| [Advance](https://www.bea.gov/news/2024/gross-domestic-product-first-quarter-2024-advance-estimate) | April 25, 12:30 | 1.6 |
+| [Second](https://www.bea.gov/index.php/news/2024/gross-domestic-product-first-quarter-2024-second-estimate-and-corporate-profits) | May 30, 12:30 | 1.3 |
+| [Third](https://www.bea.gov/news/2024/gross-domestic-product-third-estimate-corporate-profits-revised-estimate-and-gdp-industry) | June 27, 12:30 | 1.4 |
+
+These are seasonally adjusted annualized percentage changes from the preceding quarter. Each original header specifies 8:30 a.m. Eastern Daylight Time; that is 12:30 UTC on these dates. All three numbers describe the same quarter. Their differences are revisions to an estimate, not growth across three successive quarters. “Third” is the third estimate in this extract, not a claim that no subsequent revision occurred. These archived releases have been superseded.
+
+At noon UTC on May 15, the advance estimate was already published and the second was still ahead. In our idealized zero-delay reconstruction, the available headline is 1.6. Using 1.3 or 1.4 as that origin's input would use a later publication. The [three-row ledger](/handbook/code/data/gdp-release-ledger.csv) and [source receipts](/handbook/code/data/gdp-source-receipts.json) preserve the observed values, dates, identifiers, source links and checked document hashes. They do not constitute a fitted GDP nowcast or a study of predictive performance.
+
+<span id="annualization"></span>
+## ◇ Core: A growth rate also has a convention
+
+The percent sign does not tell us the interval or transformation. If a quarter's growth factor is $1+q$, an annualized growth rate repeats that factor four times:
+
+$$
+1+g=(1+q)^4.
+$$
+
+Here $g$ and $q$ are dimensionless proportions. The tabulated 1.6 percent means $g=0.016$. Taking the positive fourth root gives
+
+$$
+q=(1+g)^{1/4}-1.
+$$
+
+Multiplying this proportion by 100 gives about 0.398 percent for the quarter. Dividing the displayed annualized percentage by four is an approximation; it does not reproduce compounding exactly. The positive-factor condition $1+g>0$ is required for this real-valued interpretation. The archived [advance release's Statistical conventions, PDF page 5](https://www.bea.gov/sites/default/files/2024-04/gdp1q24-adv.pdf#page=5) describes its annual-rate convention. Our calculation converts the reported rounded headline; it does not reconstruct BEA's unrounded source values.
+
+The second-minus-advance revision is $1.3-1.6=-0.3$ percentage points. The third-minus-second revision is $+0.1$ percentage point, and the net third-minus-advance revision is $-0.2$ percentage point. A percentage-point difference is not a proportional percentage change. Preserve the convention and rounding in the [provenance manifest](/handbook/code/data/clocks-manifest.json), alongside the unit and coverage fields introduced in [chapter 2's measurement definition](/handbook/02-measurement/#measurement-map).
+
+<span id="asof-selection"></span>
+## ◇ Core: Selecting a value as of a decision time
+
+Keep each publication as a separate event. For a series and reference period, an event $r$ has a provider publication time $p_r$, an availability time $a_r$, a value $v_r$, and an identifier. Availability cannot precede the permitted publication time. If a system receives the event later, the receipt time determines when it can use the event.
+
+In this chapter's reconstruction, we specify a constant collection delay $\delta\geq0$, in seconds, and set
+
+$$
+a_r=p_r+\delta.
+$$
+
+Adding seconds to a timestamp produces another timestamp. We test $\delta=0,60,3600$. These are declared scenarios; they are not measured BEA delivery latencies. In production, preserve actual receipt times where they exist. A provider's release header supplies the publication clock but not a particular customer's collection clock.
+
+At an origin $\tau$, the eligible event set is
+
+$$
+\mathcal A_\tau=\{r:a_r\leq\tau\}.
+$$
+
+Equality is eligible in this declared convention. This assumes the value is usable at the stated availability instant. A system that requires parsing, quality checks or execution time should use the later usable timestamp. For an intraday decision, knowing only a publication date is insufficient evidence of exact availability within that day.
+
+An **as-of selection** returns, for each series/reference-period key, the newest provider publication among its eligible events. If none exists, that period is missing. It is not assigned a zero or filled with a later value. Separate series, geographic identifiers and measurement definitions belong in the key; matching a date alone is insufficient.
+
+The implementation follows a definite order:
+
+1. Validate the schema, finite numerical values, UTC timestamps and unique reference-period/publication keys. An ambiguous duplicate is an error, not a reason to take an arbitrary row.
+2. Remove events whose availability is after the origin. A reference period ending before the origin does not make its publication eligible.
+3. Within each retained key, select the greatest provider publication time. Preserve the selected event's identifier and both clocks with its value.
+4. Join that origin's selected records to the declared forecast input. Retain absent periods as absent and state how the method handles them.
+
+Filtering must precede selecting the last version. Selecting today's latest value and then attaching an old reference date loses the information needed to reconstruct the old decision. If receipts arrive out of order, the latest receipt need not be the newest provider estimate; the two clocks still perform different jobs.
+
+On April 25 at 12:30:00 UTC, zero-delay availability includes the advance estimate. Under a 60-second delay, it is still absent at that instant and becomes eligible at 12:31:00. On May 30 at 12:30:00, the zero-delay selection switches to the second estimate, while the delayed system still selects the advance estimate. A one-second boundary test can expose a mistake hidden by a month-level join.
+
+<picture>
+  <source media="(max-width: 800px)" srcset="/handbook/figures/clocks-stacked.svg" />
+  <img src="/handbook/figures/clocks.svg" alt="The first panel follows three publications of the same 2024 Q1 GDP estimate along publication dates, with May 15 selecting the advance value. The second panel shows a controlled March forecast of 3.5 using the available record and 2 using a later revised record." loading="lazy" />
+</picture>
+
+**Figure 3.** The first panel uses the attributed BEA extract with an idealized zero collection delay. Its horizontal axis is publication time, not the quarter being measured. The second panel uses the separate authored index example developed below. It illustrates a pipeline failure and does not estimate a GDP forecasting effect.
+
+<span id="prefix-proof"></span>
+## ◆ Theory: A future release cannot change an earlier calculation
+
+The archive can contain events from many dates. An earlier calculation must depend on the relevant history, not on everything the archive eventually contains. Write $\mathcal H_\tau(D)$ for the ordered history of all events available by $\tau$ in a valid ledger $D$. The history retains their values, identifiers and relevant metadata. An origin's forecast is
+
+$$
+\widehat y_\tau=T\bigl(\mathcal H_\tau(D),c_\tau\bigr),
+$$
+
+where $T$ is a deterministic calculation and $c_\tau$ is the configuration allowed at the origin. The configuration includes the model specification, transformations, fitted parameters, tuning decisions and, when applicable, a fixed random seed. Calling parameters “configuration” does not make later-fitted parameters historically available; their provenance must be established too.
+
+**Prefix invariance.** Suppose two valid ledgers $D$ and $D'$ have identical histories through $\tau$, and use the same permitted configuration. Then their forecasts at $\tau$ are identical.
+
+1. Every available event in one history has the same key, clock, value and relevant metadata in the other. Any added or altered event is still strictly after the origin. Thus $\mathcal H_\tau(D)=\mathcal H_\tau(D')$.
+2. Applying the [as-of selection](/handbook/03-clocks/#asof-selection) to either history gives the same eligible records and the same newest eligible event for each key. Missing keys remain missing in both.
+3. The deterministic transformation, join and forecasting calculation receive identical inputs and the same configuration. A function applied to identical arguments has identical output. Therefore
+
+   $$
+   T\bigl(\mathcal H_\tau(D),c_\tau\bigr)
+   =T\bigl(\mathcal H_\tau(D'),c_\tau\bigr).
+   $$
+
+The statement requires changes to remain outside the origin's history. Backdating an altered release into the eligible set changes the premise. Changing the historical model or a random seed also changes an argument of $T$. For a randomized procedure, holding the origin-permitted random input fixed gives this pathwise equality; with a different random input, identical numerical outputs are not required.
+
+This proof gives an adversarial diagnostic. Alter future values drastically or append a future release, rerun the early origin and compare its selected identifiers, transformations and forecast. The early result should be unchanged. Passing several mutations checks those paths; it does not prove that every possible leakage path has been removed. A model trained on later data could ignore the mutated field and still pass. The proof describes the required dependency; the audit must inspect the entire dependency chain.
+
+The [interactive release audit](/handbook/03-clocks/#clocks-experiment) changes a future value while preserving the origin's eligible history. Predict which selected value can change before revealing the comparison. The native programs check the same operation at nine origins and three collection delays, including missing periods and exact release boundaries.
+
+<span id="controlled-forecast"></span>
+## ◇ Core: A forecast can leak without seeing its target
+
+Consider an authored monthly index. These six invented records are independent of the BEA extract:
+
+| Reference month | First publication and value | Later publication and value |
+| --- | --- | --- |
+| January | February 5, 09:00 UTC: 2 | February 15, 09:00 UTC: 3 |
+| February | March 5, 09:00 UTC: 4 | March 15, 09:00 UTC: 1 |
+| March | April 5, 09:00 UTC: 5 | April 15, 09:00 UTC: 7 |
+
+The numbers are index points. On March 6 at 09:00 UTC, suppose a transparent baseline predicts March using the mean of the available January and February records. January's revision to 3 is already available; February's first reading is 4. The locked forecast is
+
+$$
+\widehat y_{\mathrm{Mar6}}=(3+4)/2=3.5.
+$$
+
+If we later collapse each month to its last version before evaluating that old origin, January is 3 and February is 1. The reconstructed forecast becomes $(3+1)/2=2$. It never used the March target. It nevertheless used a February revision that was unavailable on March 6. Training-data revisions alone can create leakage.
+
+Before February's first publication, on March 4, this baseline has only January's value and returns 3. That is a different input set, explicitly allowed by this example's available-mean rule. A model requiring a balanced two-month input should instead decline to forecast then. Missing information is part of the contract, not permission to choose whichever backfill improves a score.
+
+Increase every release after March 6 by 1,000 index points while preserving its publication date. The locked forecast stays 3.5. The incorrect latest-version forecast becomes $(3+1001)/2=502$. The enormous change makes the dependency visible. It is a deliberately corrupted test archive, not a claim about actual index revisions. The [controlled ledger](/handbook/code/data/controlled-release-ledger.csv) and [verified outputs](/handbook/code/results/clocks-reference.json) retain both calculations.
+
+<span id="information-proof"></span>
+## ◆ Theory: Information groups possible worlds
+
+The deterministic prefix argument tells us how a pipeline must behave. Probability gives another way to describe what a forecaster can distinguish. Begin with four equally likely possibilities, collected in a set $\Omega=\{1,2,3,4\}$. Their future outcomes are $Y=(0,2,4,6)$ in abstract outcome units.
+
+At time 0, no reading distinguishes them. At time 1, a signal says whether the state is in $C_0=\{1,2\}$ or $C_1=\{3,4\}$. At time 2, the exact state is revealed. A **partition** groups states that have the same observable history. Its groups are called cells. A forecast using only that history must give the same answer to every state within a cell: the forecaster has no observed basis for selecting one state over another.
+
+The events distinguishable at time 1 are $\varnothing$, $C_0$, $C_1$ and $\Omega$. This collection is an **information sigma-algebra**, written $\mathcal F_1$. In a finite example it contains exactly the unions of partition cells. The name means that complements and countable unions remain in the collection. Complementing a union of cells selects the remaining cells; taking any union of such unions still selects cells. The collection also contains the whole set and empty set.
+
+Here $\mathcal F_0=\{\varnothing,\Omega\}$, and $\mathcal F_2$ contains every subset of the four states. Consequently
+
+$$
+\mathcal F_0\subseteq\mathcal F_1\subseteq\mathcal F_2.
+$$
+
+A nested family of information sigma-algebras is a **filtration**. It represents accumulation of distinguishable information. Retaining the whole publication ledger allows later information to include the earlier estimate and its revision. A storage system that overwrites the old estimate without retaining it can discard history; its latest-value table alone should not be confused with the full filtration.
+
+A forecast process is **adapted** to this filtration when its time-$t$ forecast is measurable with respect to $\mathcal F_t$: events described by its output can be decided using the information available then. In this finite setting, measurability is equivalent to being constant on every information cell.
+
+1. If a forecast is constant on each cell, the states where its value belongs to any specified set of numbers form a union of cells. That union is an event in the information sigma-algebra, so the forecast is measurable.
+2. If it assigns different values to two states within one cell, take a numerical threshold strictly between those values. The event that the forecast exceeds that threshold splits the cell. Such an event is not a union of information cells and cannot belong to the sigma-algebra. The forecast is not measurable.
+
+The time-1 forecast $(1,1,5,5)$ is adapted. The apparent forecast $(0,2,4,6)$ splits both cells and uses information unavailable at time 1. Its perfect score would reveal an impossible information advantage, not a successful signal-based forecast. At time 2, after exact revelation, those same four outputs are permitted. A calculation's validity depends on when its inputs are known.
+
+This finite proof is exact and requires no density or asymptotic approximation. General probability spaces need the full measurable-space definition rather than four-state enumeration; those foundations will receive their own treatment. The finite model here establishes the meaning needed for the release audit.
+
+<span id="information-risk"></span>
+## ◆ Theory: More information improves the population optimum
+
+The [squared-loss proof in chapter 1](/handbook/01-questions/#forecast-proof) applies within each positive-probability information cell. The minimizing forecast is its weighted outcome mean. With no information the forecast is 3 and its risk is
+
+$$
+R_0=(9+1+1+9)/4=5.
+$$
+
+With the coarse signal, the two cell means are 1 and 5. The four squared errors are all 1, giving $R_1=1$. With the exact state, $R_2=0$. The means do not claim that intermediate outcomes occur; they minimize average squared loss over the possibilities.
+
+The improvement has a precise proof. Let $m_0$ and $m_1$ denote optimal conditional means for nested finite information partitions, with positive probability for each retained cell. On every finer cell, $E[Y-m_1\mid\text{cell}]=0$. The older forecast $m_0$ is constant there because the finer cell lies inside an older one.
+
+1. Decompose the older error:
+
+   $$
+   Y-m_0=(Y-m_1)+(m_1-m_0).
+   $$
+
+2. Square and average. On a finer cell the second term is constant, so its cross-product with $Y-m_1$ has conditional mean zero. Summing over the cell probabilities keeps that cross-product zero. Thus
+
+   $$
+   E[(Y-m_0)^2]=E[(Y-m_1)^2]+E[(m_1-m_0)^2].
+   $$
+
+3. The last term is a mean of squares and is nonnegative. Therefore the finer-information optimum cannot have larger squared-error risk. Equality holds precisely when the two conditional means agree on every positive-probability cell.
+
+In our four states the means move from 3 to 1 or 5, each two units away. The gain is $E[(m_1-3)^2]=4$, matching $R_0-R_1=5-1$. Risks have squared outcome units; the forecast shifts have outcome units before being squared. This is a population result for optimal forecasts. It does not promise that a fitted model improves whenever someone adds a feature. Estimation error, a misspecified function and changing distributions can defeat that empirical promise.
+
+<span id="target-vintage"></span>
+## ◇ Core: The target has a publication history too
+
+What will count as a forecast error? In the [controlled monthly example](/handbook/03-clocks/#controlled-forecast), March's first published value is 5 and its later value is 7. The unchanged locked forecast of 3.5 has squared error 2.25 against the first and 12.25 against the later. Scoring the same forecast against different publications changes the evaluation target.
+
+Write $e_v=y^{(v)}-\widehat y$ for error against target vintage $v$, and $d=y^{(w)}-y^{(v)}$ for the revision to vintage $w$. Then $e_w=e_v+d$. Expanding the square gives the exact identity
+
+$$
+e_w^2-e_v^2=2e_vd+d^2.
+$$
+
+In the example, $e_v=1.5$ and $d=2$, so the change is $6+4=10$ squared index points. A revision can increase or decrease a score: the cross term can be negative. A later estimate need not move away from a forecast. Declare whether the task forecasts the first release, a specified later publication, or a target defined by an explicit revision horizon. “Final GDP” without a dated definition is insufficient.
+
+Three evaluation designs answer different questions:
+
+- **A fixed-vintage historical exercise** uses one frozen extract for every origin and withholds later reference periods. It documents that extract's information advantage when older values were revised later.
+- **A reconstructed real-time exercise** rebuilds each origin's inputs from documented release histories and explicit availability assumptions. This chapter's BEA audit is such a reconstruction with declared collection-delay scenarios.
+- **A prospective production exercise** logs actual inputs, receipt times, model/configuration identities and locked predictions as decisions occur, then scores them against the predeclared target publication.
+
+Keeping the target out of training is necessary in each design; it does not convert the first into the third. The existing [Texas case's fixed-vintage disclosure](/time-series/projects/#a-complete-public-case-texas-residential-electricity-sales) is retained rather than relabelled as an intraday historical experiment.
+
+<span id="vintage-workshop"></span>
+## ✦ Workshop: A release audit and worked answers
+
+The following exercises have public worked answers. The BEA part is a small observed release-history audit. The larger C02 nowcast, latent-state inference and revision-attribution case remains to be developed; three headlines cannot establish a forecasting advantage.
+
+1. **Choose the eligible headline.** At May 15, 12:00 UTC with zero delay, the eligible estimate is advance, 1.6 percent. At May 30, 12:30 UTC with a 60-second delay, it is still advance; the second becomes eligible a minute later. Use the [availability inequality](/handbook/03-clocks/#asof-selection), not the quarter's starting date.
+2. **Distinguish absence from zero.** At March 31, no headline in the three-row extract is published. Report “not released in this extract.” Assigning 0 would assert a growth estimate the provider did not supply. A forecast could still use other permitted evidence, but this ledger contains none of that evidence.
+3. **Convert the annualized headline.** Substitute $g=0.016$ in the [compounding formula](/handbook/03-clocks/#annualization). The resulting quarter growth is about 0.398 percent. Explain why 0.4 is an approximation and retain the source headline's rounding.
+4. **Find the invisible revision.** The incorrect March 6 forecast uses February's later value of 1. Replace it with the eligible first value of 4 and recover 3.5. The March target never entered either training calculation; the error arose from the [training-vintage choice](/handbook/03-clocks/#controlled-forecast).
+5. **Explain a perfect score.** At signal time the two information cells each contain two distinct outcomes. An output equal to the exact outcome separates states inside both cells, violating the [finite measurability criterion](/handbook/03-clocks/#information-proof). Perfect scoring against a withheld outcome is not evidence that the permitted signal supplied it.
+6. **Reconcile two scorecards.** Keep the forecast fixed at 3.5. Its errors against targets 5 and 7 are 1.5 and 3.5. Square them, then check that their difference equals $2(1.5)(2)+2^2$. Name the [target-vintage identity](/handbook/03-clocks/#target-vintage) in the memo instead of calling the entire score change a model failure.
+
+Ask an AI assistant to inspect the schema and propose three ways a future value could enter an earlier origin. Require it to name the affected field, clock and operation, and to produce a valid mutation that stays after the origin. Verify those proposals yourself. Reject invented publication times, claims that shifting a reference date proves availability, and changes to an origin's model that silently invalidate the [prefix-invariance premise](/handbook/03-clocks/#prefix-proof). Record the accepted test, correction and executed result in the portfolio log.
+
+<span id="clock-handoff"></span>
+## Professional handoff: A reproducible information ledger
+
+The [manifest](/handbook/code/data/clocks-manifest.json) defines the extract's scope, units, timestamps, keys, delay scenarios, hashes and separate rights. The [execution guide](/handbook/code/README.md) supplies commands for independent Python, Julia and R implementations. Their [native verification report](/handbook/code/results/clocks-verification.json) records matched calculations and boundary/failure checks. These records establish what we actually tested; the written arguments establish why the operations have their claimed properties.
+
+Deliver a preserved extract, its hash, the manifest, selected-event identifiers for each origin, a frozen forecasting specification, declared target vintages, and a short audit memo. A hash can show that two copies contain the same bytes. It does not establish that the file existed at an earlier date or that the contents were correct; the source and receipt evidence perform those tasks. Preserve the original clock fields through unit conversions, joins and aggregation.
+
+[ALFRED's download documentation, Observations by Real-Time Period](https://alfred.stlouisfed.org/help/downloaddata) describes observation dates and the intervals during which versions were current. Its date-level vintages are useful for archived macroeconomic work, but they should not be treated as exact intraday receipt timestamps. A release with no numerical revision may also need a separate event receipt; a list of changed-value vintages is not automatically a complete publication calendar.
+
+A memo for this bounded example can say: “The archived 2024 Q1 GDP headlines were 1.6, 1.3 and 1.4 percent at three documented publication dates. Our reconstructed selection respects the declared collection delay and inclusive availability rule. Future-only mutations and appended releases leave earlier selections unchanged. A separate controlled index experiment shows how a later training revision can alter an old forecast even when the target is withheld. We have not estimated a GDP nowcast's predictive value.”
+
+The same logic links economic forecasting to event logs and delayed observations in physical systems: the event described, the message sent and the message received can occur at different times. This shared ordering problem does not imply that statistical revisions behave like physical noise or that a publication lag identifies an economic effect. Geographic boundary revisions and changing network membership likewise need versioned definitions. Later applications can build on this ledger without pretending that differently dated or differently supported records describe the same information set.

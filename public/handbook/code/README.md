@@ -36,3 +36,20 @@ The 36-row `data/meter-states.csv` fixture crosses true energy, two independent 
 The verifier matches 301 independently computed quantities, 189 analytic targets, and 108 row identities at three noise amplitudes and three calibrations. It checks classical attenuation, a repeated-reading covariance ratio, the failure of a copied reading or shared calibration, projection and conditional-mean risks, averaging, MWh-to-kWh scaling, ratio growth, and weighted aggregation. `results/measurement-verification.json` records native versions and tolerances; `results/measurement-reference.json` contains all checked population quantities. No Monte Carlo draws or finite-sample unbiasedness claims are involved.
 
 `measurement-figures.py` uses Matplotlib to regenerate the original web and vector print diagrams. Browser controls enumerate the declared model in JavaScript; they do not run Python, Julia or R. The manuscript supplies the proofs and restrictions that give these numerical results their interpretation.
+
+# Chapter 3: observation clocks and revisions
+
+```sh
+python clocks.py
+julia --startup-file=no clocks.jl
+Rscript clocks.R
+python verify-clocks.py
+```
+
+All three implementations use their standard libraries (Julia includes Dates). No internet or external numerical package is required to run the released fixture calculations. The verifier runs them concurrently and checks 288 quantities against explicit expected targets, not just each other. It tests nine origins, three collection delays, inclusive boundary selection, unavailable periods, future-only value changes, a future appended record, input-order invariance, duplicate/nonfinite rejection, negative-delay rejection, and refusal to forecast an empty input. It also checks the target-score identity and the finite information-gain identity. Native versions, tolerances and input hashes are in `results/clocks-verification.json`.
+
+`data/gdp-release-ledger.csv` contains three attributed BEA real-GDP growth headlines for 2024 Q1, with original publication times. `data/gdp-source-receipts.json` records raw-document hashes and bounded source reads; the PDF source documents are linked, not included. `data/clocks-manifest.json` defines annualization, rounding, reference period, clocks, keys, rights and the declared collection-delay scenarios. Publication plus a modelled delay is not evidence of actual historical receipt time. The JSON copies are derived from the CSV inputs for browser use; their rows are checked against the native source.
+
+The six records in `data/controlled-release-ledger.csv` and the four states in `data/information-worlds.csv` are separately authored teaching fixtures. Their forecast and proof calculations are not empirical GDP results. A later training revision changes the incorrect old-origin mean from 3.5 to 2; future-only mutation leaves the correct mean at 3.5. First and revised targets are scored separately. No nowcast is fitted, and the larger C02 real-time case remains in development.
+
+`clocks-figures.py` regenerates the original diagrams with Matplotlib. The interactive release audit uses JavaScript and has a complete static comparison in the PDF and web print view. It does not execute Python, Julia or R in the browser.

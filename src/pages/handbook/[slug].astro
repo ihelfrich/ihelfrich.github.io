@@ -3,6 +3,7 @@ import {getCollection,render} from 'astro:content';
 import Handbook from '../../layouts/Handbook.astro';
 import AlertWorlds from '../../components/handbook/AlertWorlds.astro';
 import MeasurementWorlds from '../../components/handbook/MeasurementWorlds.astro';
+import ClockAudit from '../../components/handbook/ClockAudit.astro';
 export async function getStaticPaths(){const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data.order);return chapters.map(chapter=>({params:{slug:chapter.id},props:{chapter,chapters}}));}
 const {chapter,chapters}=Astro.props;
 const {Content,headings}=await render(chapter);
@@ -18,9 +19,10 @@ const levelNames={orientation:'○ Orientation',core:'◇ Core',theory:'◆ Theo
       <div class="ea-prose"><Content /></div>
       {chapter.data.order===1&&<AlertWorlds />}
       {chapter.data.order===2&&<MeasurementWorlds />}
+      {chapter.data.order===3&&<ClockAudit />}
       <nav class="ea-chapter-next" aria-label="Further reading"><a href={previous?`/handbook/${previous.id}/`:'/handbook/'}>← {previous?previous.data.title:'Handbook contents'}</a><a href={next?`/handbook/${next.id}/`:'/time-series/01-information/'}>{next?next.data.title:'Forecast information and observation clocks'} →</a></nav>
     </article>
     <aside class="ea-margin" aria-label="On this page"><p>This chapter</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href={`/handbook/code/results/${chapter.data.verificationFile}`}>Native calculation checks</a></aside>
   </div>
 </Handbook>
-<script>import {initializeAlertWorlds} from '../../scripts/handbook-worlds';import {initializeMeasurementWorlds} from '../../scripts/handbook-measurement';initializeAlertWorlds();initializeMeasurementWorlds();</script>
+<script>import {initializeAlertWorlds} from '../../scripts/handbook-worlds';import {initializeMeasurementWorlds} from '../../scripts/handbook-measurement';import {initializeClockAudit} from '../../scripts/handbook-clocks';initializeAlertWorlds();initializeMeasurementWorlds();initializeClockAudit();</script>

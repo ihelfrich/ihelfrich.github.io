@@ -77,12 +77,24 @@ def prepare():
                     key=f'h{h}_{name}_'
                     text+=f'| {h} | {name} | {reference[key+"slope"]:.5g} | {reference[key+"twin_ratio"]:.5g} |\n'
             text+='\nThe twin ratio recovers the declared coefficient only under the repeated-reading assumptions proved in this chapter. The archive includes each native implementation and its checked outputs.\n'
+        if chapter.stem=='03-clocks':
+            import csv
+            origins=list(csv.DictReader((PUBLIC/'code/data/clock-origins.csv').open()))
+            reference=json.loads((PUBLIC/'code/results/clocks-reference.json').read_text())
+            text+='\n\n\\clearpage\n\n## Release comparison {#clocks-experiment}\n\nThe online experiment asks for a prediction before showing an origin-specific selection. These static comparisons use zero collection delay and add 10 percentage points only to events unavailable at each origin. The mutations are authored audit tests, not BEA estimates.\n\n| Origin date, UTC | Time, UTC | Eligible stage | Eligible growth, percent | Entire test archive, percent |\n| --- | --- | --- | --- | --- |\n'
+            for o in origins:
+                key=f'gdp_o{o["origin_id"]}_d0_';stage=int(reference[key+'stage'])
+                name=['Not released','Advance','Second','Third'][stage]
+                growth=f'{reference[key+"growth"]:g}' if stage else 'Missing'
+                date,time=o['origin_utc'].removesuffix('Z').split('T')
+                text+=f'| {date} | {time} | {name} | {growth} | {reference[key+"mutated_latest_value"]:g} |\n'
+            text+='\nAt the first-publication boundary, a 60-second delay retains missingness until 12:31 UTC; a 3,600-second delay retains it until 13:30 UTC. At subsequent boundaries, the prior estimate remains selected during the delay. The native programs check all 27 origin/delay combinations and keep absence distinct from zero.\n'
         (SOURCE/(chapter.stem+'.qmd')).write_text('# '+title+' {#ch-'+chapter.stem+'}\n\n'+glyphs(text))
     (SOURCE/'index.qmd').write_text(glyphs('''# Reading this working edition {.unnumbered}
 
 Econometrics begins with a question about a measured world. This handbook develops the mathematical tools needed to state that question, investigate it, and explain the conditions under which an answer follows. Concrete examples and pictures accompany fully explained proofs and independent Python, Julia, and R calculations.
 
-This working edition contains two foundation chapters: economic questions and measurement. The broader seventy-two-chapter manuscript is being developed. The separate fifteen-lecture time-series course is available at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/); it supplies material for the dynamic-systems part of the broader book. Its existing chapter numbering is retained in the linked course.
+This working edition contains three foundation chapters: economic questions, measurement, and observation clocks. The broader seventy-two-chapter manuscript is being developed. The separate fifteen-lecture time-series course is available at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/); it supplies material for the dynamic-systems part of the broader book. Its existing chapter numbering is retained in the linked course.
 
 ## Four reading levels
 
@@ -98,7 +110,7 @@ The glyphs accompany text labels. They indicate a passage's requirements and pur
 
 ## Claims and calculations
 
-The first chapter supplies a question contract, exact finite calculations, a proof of the squared-error forecast rule, and proofs of nonidentification and the limits of estimation. The second supplies a measurement dictionary, proofs of the population projection and classical attenuation, a repeated-reading correction with explicit restrictions, calibration failures, and denominator/aggregation audits. Direct section links name the definition or result being used. Both chapters use entirely controlled examples. The empirical Texas electricity dataset is separate and does not estimate the alert effect or validate the controlled meter.
+The first chapter supplies a question contract, exact finite calculations, a proof of the squared-error forecast rule, and proofs of nonidentification and the limits of estimation. The second supplies a measurement dictionary, proofs of the population projection and classical attenuation, a repeated-reading correction with explicit restrictions, calibration failures, and denominator/aggregation audits. The third builds an as-of release ledger, proves prefix invariance, develops finite filtrations and adapted forecasts, proves the information-gain identity, and separates input and target vintages. Direct section links name the definition or result being used. The first two chapters use entirely controlled examples. The third adds a small attributed BEA release-history extract alongside separate controlled models; it does not fit a GDP nowcast. The empirical Texas electricity dataset is separate and does not estimate the alert effect or validate the controlled meter.
 
 Python, Julia, and R independently reproduce the declared numerical quantities. Their agreement is a calculation check. Mathematical claims rely on the written proofs, and economic validity relies on the stated model and design. Source, input manifest, native verification results, and original figures accompany this edition.
 
@@ -120,9 +132,9 @@ Working edition, October 2026. © Ian Helfrich. All rights reserved. Authored te
 
 Run `quarto render --to pdf` from this directory. Quarto and XeLaTeX are required; automatic TeX installation is disabled. The reference build uses Quarto 1.10.18, TeX Live 2026, US Letter, 12-point embedded Source Sans 3, one-inch margins, and page numbers. DejaVu Sans supplies the four reading-level glyphs; its license is included. Latin Modern supplies mathematical and code fonts under its included GUST licenses.
 
-Chapter-local links and links to available handbook chapters become PDF destinations. Other root-relative web links become full online URLs. The `../figures/*-print.pdf` files are original vector print figures with enlarged labels and vertically arranged panels. The neighboring `code` directory contains the controlled fixtures, manifests and independent implementations. Web Markdown is in `chapters/`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
+Chapter-local links and links to available handbook chapters become PDF destinations. Other root-relative web links become full online URLs. The `../figures/*-print.pdf` files are original vector print figures with enlarged labels and vertically arranged panels. The neighboring `code` directory contains controlled fixtures, the small attributed BEA extract, manifests and independent implementations. Web Markdown is in `chapters/`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
 
-This working edition contains two foundation chapters. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
+This working edition contains three foundation chapters. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
 ''')
 
 if '--finalize' not in sys.argv:
@@ -147,7 +159,8 @@ else:
         for name in ['src/layouts/Handbook.astro','src/styles/handbook.css','src/pages/handbook/index.astro',
                      'src/pages/handbook/[slug].astro','src/pages/handbook/print.astro','scripts/build-handbook-release.py',
                      'src/components/handbook/AlertWorlds.astro','src/lib/handbook-worlds.mjs','src/scripts/handbook-worlds.ts',
-                     'src/components/handbook/MeasurementWorlds.astro','src/lib/handbook-measurement.mjs','src/scripts/handbook-measurement.ts']:
+                     'src/components/handbook/MeasurementWorlds.astro','src/lib/handbook-measurement.mjs','src/scripts/handbook-measurement.ts',
+                     'src/components/handbook/ClockAudit.astro','src/lib/handbook-clocks.mjs','src/scripts/handbook-clocks.ts']:
             z.write(SITE/name,name)
     print(json.dumps({p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                       for p in DOWNLOADS.iterdir()},indent=2))

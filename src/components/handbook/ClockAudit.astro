@@ -1,0 +1,34 @@
+---
+import {clockAudit,origins} from '../../lib/handbook-clocks.mjs';
+const s=clockAudit(4,0,true);
+const names=['Advance','Second','Third'];
+const gx=(stage:number)=>80+(stage-1)*140,gy=(v:number)=>252-16*v;
+---
+<section class="hb-worlds hb-clock" id="clocks-experiment" data-clock-audit aria-labelledby="clock-audit-title">
+  <h2 id="clock-audit-title">Change a future release, preserve an earlier selection</h2>
+  <p>All three records describe 2024 Q1. Predict whether altering only values unavailable at the selected origin can change its eligible GDP headline.</p>
+  <fieldset disabled data-clock-controls>
+    <legend>Origin, collection delay and test</legend>
+    <label for="clock-origin">Decision origin, UTC</label><select id="clock-origin" data-clock-origin>{origins.map((o,i)=><option value={i} selected={i===4}>{o.origin_utc.replace('T',' ').replace('Z','')}</option>)}</select><br/>
+    <label for="clock-delay">Collection delay</label><select id="clock-delay" data-clock-delay><option value="0">0 seconds</option><option value="60">60 seconds</option><option value="3600">3,600 seconds</option></select><br/>
+    <label for="clock-mutation">Future-value test</label><select id="clock-mutation" data-clock-mutation><option value="true">Add 10 percentage points to future values</option><option value="false">Keep the source values</option></select>
+    <fieldset class="hb-prediction"><legend>What happens to the origin's eligible selection?</legend>{[['unchanged','It stays the same, including any missing value'],['changed','Its selected value changes']].map(([value,label])=><label><input type="radio" name="clock-prediction" value={value}/>{label}</label>)}</fieldset>
+    <button type="button" disabled data-clock-reveal>Reveal the selection</button>
+  </fieldset>
+  <div data-clock-result>
+    <p class="hb-result" role="status" data-clock-feedback>At May 15, 12:00 UTC and zero delay, the selected advance estimate remains 1.6 percent after future-only mutation.</p>
+    <figure>
+      <svg viewBox="0 0 460 350" role="img" aria-labelledby="clock-graph-title clock-graph-description"><title id="clock-graph-title">Three publication stages for the same quarter</title><desc id="clock-graph-description" data-clock-description>Filled circles are eligible publications; hollow circles are unavailable. Future values in this artificial test have 10 percentage points added. The eligible advance value stays at 1.6.</desc>
+        <path d="M58 40V252H422" stroke="currentColor" fill="none"/>
+        <g font-size="20" fill="currentColor"><text x="8" y="26">Annualized growth (%)</text>{[0,6,12].map(v=><text x="16" y={gy(v)+7}>{v}</text>)}{names.map((name,i)=><text x={gx(i+1)} y="286" text-anchor="middle">{name}</text>)}<text x="72" y="325">Publication stage; same quarter</text></g>
+        <g data-clock-points>{s.rows.map(r=><circle cx={gx(r.stage)} cy={gy(r.value)} r="7" fill={r.eligible?'currentColor':'var(--paper)'} stroke="currentColor" stroke-width="2"/>)}</g>
+      </svg>
+      <figcaption>Filled: eligible publication. Hollow: unavailable at this origin. The future-value test is an authored corruption of the archived numbers, not an additional BEA estimate.</figcaption>
+    </figure>
+    <table><caption>Same-origin comparison</caption><thead><tr><th scope="col">Selection rule</th><th scope="col">Value</th></tr></thead><tbody><tr><th scope="row">Newest eligible publication</th><td data-clock-selected>Advance: 1.6%</td></tr><tr><th scope="row">Latest in the entire test archive</th><td data-clock-latest>11.4%</td></tr><tr><th scope="row">Eligible event count</th><td data-clock-count>1</td></tr></tbody></table>
+    <p data-clock-explanation>The correct selection ignores later publications. The entire-archive value changes because it includes a future publication.</p>
+    <details><summary>Inspect all three release records</summary><p class="hb-table-scroll-help">Scroll the table to compare publication and availability clocks.</p><div class="hb-table-scroll" tabindex="0" role="region" aria-label="Three GDP release records"><table><caption>Provider publication plus the declared collection delay</caption><thead><tr><th scope="col">Stage</th><th scope="col">Publication, UTC</th><th scope="col">Availability, UTC</th><th scope="col">Test value, %</th><th scope="col">Eligible?</th></tr></thead><tbody data-clock-rows>{s.rows.map(r=><tr><td>{names[r.stage-1]}</td><td>{r.release_utc}</td><td>{r.availability}</td><td>{r.value}</td><td>{r.eligible?'Yes':'No'}</td></tr>)}</tbody></table></div></details>
+    <p><strong>Explain the comparison.</strong> Name the availability inequality and follow the <a href="#prefix-proof">prefix-invariance proof</a>. A missing selection remains missing. The <a href="#controlled-forecast">controlled monthly forecast</a> shows how the same error can enter training records.</p>
+  </div>
+  <p>Without active controls, this comparison retains May 15 with zero delay and the authored future-value mutation. The <a href="/handbook/code/README.md">native programs</a> check all 27 origin/delay combinations. Browser controls calculate in JavaScript.</p>
+</section>

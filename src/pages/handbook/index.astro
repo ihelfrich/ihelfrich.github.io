@@ -11,7 +11,7 @@ const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data
     <p>Mathematics gives us a way to describe a question carefully, investigate it, and explain what an answer means. This book begins with economic objects we can picture and builds the tools needed to reason about them. Concrete examples lead into algebra, probability, geometry, calculus, and econometric inference.</p>
     <p>Pictures and applications accompany complete mathematical arguments. A result names its assumptions, explains each consequential step, and links to the definition or earlier result it uses. Python, Julia, and R implement the same declared calculations independently.</p>
     <div class="ea-actions"><a class="ea-button" href="/handbook/01-questions/">Read chapter 1 →</a><a class="ea-button secondary" href="/handbook/print/">Working PDF &amp; source</a></div>
-    <p class="hb-manuscript-status">The broader manuscript is in development. This edition contains two completed foundation chapters. The separate fifteen-lecture <a href="/time-series/">time-series course</a> is available now. The seventy-two-chapter architecture described below is a plan for further writing, research, and verification.</p>
+    <p class="hb-manuscript-status">The broader manuscript is in development. This edition contains three completed foundation chapters. The separate fifteen-lecture <a href="/time-series/">time-series course</a> is available now. The seventy-two-chapter architecture described below is a plan for further writing, research, and verification.</p>
   </section>
   <section class="ea-shell ea-band" id="reading-levels">
     <h2>Reading levels</h2>
@@ -40,6 +40,6 @@ const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data
       <li><strong>Computation and professional work, chapters 61–66.</strong> Three-language analysis, verification, AI-assisted reasoning, AI measurement, communication, and reproducible production.</li>
       <li><strong>Research investigations, chapters 67–72.</strong> Representation loss, scale, evolving networks, constrained distributions, adversarial audit, and precisely bounded research questions. Novelty and open-problem status require a literature review for each claim.</li>
     </ol>
-    <p>Thirty applied cases are specified in the development plan. The observed Texas forecasting case is implemented; the other twenty-nine await their data, execution, and release checks. Chapter 1's controlled alert model is a foundation example, not an additional completed empirical case.</p>
+    <p>Thirty applied cases are specified in the development plan. The observed Texas forecasting case is implemented. Chapter 3 adds the audited release-ledger prerequisite for the real-time GDP case; the full nowcast case and other planned cases remain in development. The controlled examples are foundation models, not additional completed empirical cases.</p>
   </section>
 </Handbook>
