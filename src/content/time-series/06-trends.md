@@ -1,0 +1,103 @@
+---
+title: Trends, unit roots, and misleading level regressions
+order: 6
+description: Distinguish deterministic and stochastic trends, derive differencing and DF regressions, and examine finite-sample uncertainty.
+question: Will a shock decay, or permanently change the path?
+prerequisites: Lectures 2–5, regression standard errors, and first differences.
+lecture: February 19
+concepts: [deterministic trends, stochastic trends, integration, differencing, DF, ADF, spurious regression]
+---
+
+## Two rising series can have different mechanisms
+
+A deterministic-trend model is $Y_t=a+bt+U_t$, where $U_t$ is stationary. A stochastic-trend model is $Y_t=Y_{t-1}+d+\varepsilon_t$. Their graphs can both rise. Their responses to a shock differ fundamentally.
+
+In the first model, a disturbance to stationary $U_t$ eventually fades under stable dynamics and the series returns toward its deterministic path. In the second, a shock permanently changes the level of every future path. Subtracting a fitted line removes a deterministic trend under its assumptions; it does not eliminate the accumulated innovations of a random walk.
+
+For the random walk, iteration gives $Y_{t+h}=Y_t+hd+\sum_{j=1}^h\varepsilon_{t+j}$. Its conditional forecast is $Y_t+hd$, and its known-parameter error variance is $h\sigma^2$. The forecast's uncertainty grows with the horizon. A stable AR forecast's variance instead approaches a finite limit.
+
+If a series is stationary after one difference but not stationary in levels, we call it integrated of order one, $I(1)$, subject to the stated definition and regularity conditions. An $I(0)$ series has stationary behavior in the relevant sense. Integration order is a statement about a process; finite-sample tests provide evidence about that statement, not certainty.
+
+## Differencing removes a unit root and can create dependence
+
+Define $\Delta Y_t=Y_t-Y_{t-1}=(1-L)Y_t$. A random walk with drift satisfies $\Delta Y_t=d+\varepsilon_t$. The accumulated stochastic trend disappears, leaving innovations and drift.
+
+Differencing an already stationary white-noise series produces $\Delta Y_t=\varepsilon_t-\varepsilon_{t-1}$, an MA(1) with coefficient $-1$ under our sign convention. Its variance is $2\sigma^2$ and its lag-one correlation is $-1/2$. The root lies on the invertibility boundary. Over-differencing can therefore manufacture a distinctive negative correlation and increase noise.
+
+An ARIMA$(p,d,q)$ specifies a stationary ARMA model for $(1-L)^dY_t$. Forecast the differenced series, then integrate predictions back to levels using the observed initial level. For $d=1$, a multi-step level forecast is the current level plus the sum of forecast differences. Its error variance requires covariances among those future difference errors; summing only their separate variances can be wrong.
+
+Seasonal differencing $(1-L^{12})$ targets a seasonal unit root. It is a different operation from subtracting seasonal dummy effects or Fourier terms. Combining ordinary and seasonal differences requires a substantive reason and diagnostics; the appearance of a repeating seasonal pattern alone does not prove a seasonal unit root.
+
+## The Dickey–Fuller regression
+
+Begin with $Y_t=c+\phi Y_{t-1}+\varepsilon_t$ and subtract $Y_{t-1}$:
+
+$$
+\Delta Y_t=c+\delta Y_{t-1}+\varepsilon_t,
+\qquad \delta=\phi-1.
+$$
+
+The unit-root null is $\delta=0$; the stable positive-persistence alternative has $\delta<0$. A DF statistic is the fitted coefficient divided by its estimated standard error. Under the unit-root null, its distribution is not the usual regression Student distribution. The regressor accumulates innovations, and the asymptotics involve functions of a stochastic path.
+
+Deterministic terms matter. A regression without a constant, with a constant, and with a constant plus trend have different null distributions. Do not move a critical value across these specifications. Choose deterministic terms from the economic question and maintained model, then retain the correct reference distribution.
+
+The augmented Dickey–Fuller regression adds lagged differences:
+
+$$
+\Delta Y_t=c+bt+\delta Y_{t-1}
++\sum_{j=1}^p\gamma_j\Delta Y_{t-j}+u_t.
+$$
+
+The added terms address serial correlation under suitable conditions. Too few lags can leave dependence in $u_t$; too many can reduce power. Record the lag-selection rule and inspect residuals. Repeatedly trying deterministic terms and lags until a desired rejection appears changes the testing exercise.
+
+A failure to reject does not establish that the process has a unit root. Near-unit stationary processes are hard to distinguish from unit-root processes in a short sample. A rejection can also be sensitive to a level break, trend break, or measurement change. Use the test with economic reasoning and later-target behavior.
+
+## A finite-sample simulation of the test
+
+The laboratory generates independent unit-root paths under a specified simple null: zero-drift Gaussian random walks initialized at zero. It fits a DF regression with an intercept, no trend, and no augmented lags. For sample sizes 80, 240, and 720, it repeats the experiment 200 times using documented seeds and records the proportion of statistics below $-2.86$.
+
+That threshold is an approximate conventional large-sample 5% reference for the intercept specification. This simulation does not create a calibrated finite-sample critical value for every application. Its purpose is to reveal the sampling variation in a claimed rejection rate and the effect of sample size under this specific data-generating process.
+
+If $\widehat p$ is a Monte Carlo rejection proportion from $R$ independent replications, its approximate simulation standard error is
+
+$$
+\operatorname{MCSE}=\sqrt{\frac{\widehat p(1-\widehat p)}R}.
+$$
+
+With 200 replications, a proportion near 0.05 has an MCSE around 0.015. Differences of a few percentage points can be simulation noise. Increasing observations per replication and increasing replications address different uncertainties. The former changes the statistical experiment; the latter improves how accurately the simulation describes it.
+
+The shared baseline produces rates 0.070, 0.035, and 0.035. These values should be read with their reported MCSEs. They are not evidence that the test's size decreases monotonically with sample length. A second seed batch and additional replications help distinguish a persistent pattern from a particular random stream.
+
+## Why independent random walks can appear related
+
+Suppose $X_t=X_{t-1}+v_t$ and $Y_t=Y_{t-1}+u_t$, with independent innovation sequences. Regressing $Y_t$ on a constant and $X_t$ in levels can generate misleading conventional significance. Each regressor carries a highly persistent random path. Usual stationary-regression laws do not justify the familiar standard-error calculation.
+
+A single realization need not have a high $R^2$. The course's baseline pair has very little level correlation. We retain that outcome: the warning concerns the distribution of the procedure across many samples, not a guarantee that every pair of walks looks similar. A persuasive audit repeats the experiment and records the false-rejection frequency under the known independence design.
+
+Differencing this example gives independent innovations, restoring the intended simple regression setting. But differencing every economic pair indiscriminately can discard a genuine long-run relation. Lecture 11 will construct two $I(1)$ series whose particular linear combination is stationary. Cointegration is the structured exception that must be investigated rather than assumed.
+
+![Finite-sample rejection proportions with approximate 95% Monte Carlo error bars; 200 replications per sample size.](/time-series/figures/unit-root-simulation.svg)
+
+Finite-sample rejection proportions with approximate 95% Monte Carlo error bars; 200 replications per sample size.
+
+## Execute, break, and repair
+
+Run `ch06` and inspect `df_stat` in the full source. Verify that the regression includes an intercept and that the reported statistic uses the lagged-level coefficient. Count the usable observations after differencing. The residual degrees of freedom are the number of usable rows minus the two fitted coefficients.
+
+Deliberately compare the statistic with $-1.96$, the familiar normal threshold. Under this unit-root design, record how often that mistaken rule rejects. Restore the appropriate DF reference and compare. The repair changes the inferential rule; it does not change the fitted coefficient.
+
+Next generate a deterministic trend plus a stable AR disturbance. Compare detrending and differencing using the correct target definition. Detrending estimates deviations from a deterministic path; differencing changes the series into period-to-period changes. Translate forecasts back into the original outcome units before comparing losses.
+
+Finally add a known level break. Report how much the conclusions change when that break is represented explicitly. A unit-root decision should not be used to hide an obvious change in measurement or policy regime.
+
+## Worked problem and project audit
+
+A random walk has drift 2, innovation variance 9, and current level 100. Its three-period forecast is 106 and its process-error variance is 27. A stable AR model with innovation variance 9 can also have a three-period variance near 27 when persistence is near one, but its long-horizon variance is finite if $|\phi|<1$. Short-horizon similarity does not establish identical long-run behavior.
+
+For a stationary white-noise series with variance 9, the differenced series has variance 18 and lag-one covariance $-9$. Its lag-one correlation is $-0.5$. Seeing this pattern after differencing is a reason to examine whether the transformation was needed.
+
+During the prototype exchange, audit the partner's choice of levels, differences, and deterministic terms. Identify what observation would challenge that choice. A defensible audit can conclude that the available sample does not resolve the distinction and recommend robust short-horizon benchmarks. It should not convert an inconclusive test into a confident declaration.
+
+## Sources
+
+[Dickey and Fuller (1979)](https://www.tandfonline.com/doi/abs/10.1080/01621459.1979.10482531) derive unit-root estimator distributions. The practical ARIMA framework is discussed in [Forecasting: Principles and Practice](https://otexts.com/fpp3/arima.html).

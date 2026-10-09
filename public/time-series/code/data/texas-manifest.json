@@ -1,0 +1,27 @@
+{
+  "retrieved_utc": "2026-10-09",
+  "rows": 192,
+  "period_start": "2010-01",
+  "period_end": "2025-12",
+  "target": "Texas residential electricity sales, MWh per month",
+  "forecast_status": "Fixed downloaded vintage. Pseudo-out-of-sample demonstrations; historical publication vintages not reconstructed. Any release lag used in code is a declared teaching assumption, not verified provider release metadata.",
+  "climate_measure": "Statewide average monthly temperature; nonlinear heating/cooling transforms are monthly-temperature proxies, not degree-day totals from daily exposures.",
+  "source_terms": "U.S. government data; credit EIA and NOAA. Provider terms and third-party rights retain their original effect.",
+  "output_sha256": "99cfa2f00a82641ff28f76bf3ab25c58d3d51923ec9b3aedf1c575a3ca2d1dd5",
+  "sources": [
+    {
+      "provider": "U.S. Energy Information Administration",
+      "url": "https://www.eia.gov/electricity/data/eia861m/xls/sales_revenue.xlsx",
+      "documentation": "https://www.eia.gov/electricity/data/eia861m/",
+      "sheet": "Monthly-States",
+      "selection": "TX; 2010-01 through 2025-12; residential fields; one aggregate per state-month",
+      "sha256": "f50ac9dcdcb1b8656e543927e9301bbb87288b1821c1d00ffa52e0902e77e4a0"
+    },
+    {
+      "provider": "NOAA National Centers for Environmental Information",
+      "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/41/tavg/1/0/2010-2025.csv",
+      "selection": "Texas Average Temperature; one-month series; all months; Fahrenheit",
+      "sha256": "030e64928fd367e83a16a65cac888f55ca9421a2b79bd88bb9dbd6942117e6f8"
+    }
+  ]
+}

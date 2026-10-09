@@ -1,0 +1,79 @@
+# Lecture 14: Freeze a revision before its next test
+
+## Revision is a new empirical argument
+
+Project 1 built a forecasting procedure. Project 2 investigated its assumptions and implementation. Project 3 uses a later release to decide whether to retain, revise, or retire that procedure. The final comparison must distinguish evidence used to propose the repair from evidence used to evaluate it.
+
+Divide the sequence into development data, a later repair period, and a continuation period. Development establishes candidate methods and conventions. The repair period can reveal failures and motivate changes. The continuation period evaluates the frozen revised procedure. Once continuation outcomes influence another selection, they are no longer an untouched continuation test for that revised procedure.
+
+This is a temporal separation, not a magic guarantee. A continuation period can be short or unrepresentative. Future conditions can change again. The design makes the evidence easier to interpret by preserving a clear boundary between choosing a method and assessing its next use.
+
+## Freeze the procedure, including its update rule
+
+A freeze records the target, availability rule, transformations, candidate family, selected tuning values, estimation window, update schedule, fallback behavior, loss, and evaluation dates. It also records code and data hashes. Another analyst should be able to execute the same rule without guessing what the author intended.
+
+A frozen procedure can still refit coefficients as new observations arrive if its update rule was declared before the continuation test. Freezing an algorithm is different from fixing every numeric coefficient forever. The distinction must be explicit: a rolling-window AR that refits monthly is a fixed procedure with changing fitted parameters.
+
+For the course's continuation exercise, future outcomes may enter training only after their declared availability date. The refitting rule cannot use them earlier. A continuation forecast should be reproducible from the information snapshot at its origin, even after later outcomes have arrived.
+
+Fallback rules also belong in the freeze. If rank failure, missing inputs, or nonfinite output prevents a model forecast, use the declared benchmark or abstain according to the task. Retain a failure flag. A method that succeeds only when difficult targets are omitted should not receive an inflated performance score.
+
+## Selection, evaluation, and repeated choices
+
+Suppose three window lengths are compared on validation targets. Choose one using the declared loss and a declared tie rule. The minimum validation loss is optimistically selected from noisy alternatives; it is not an unbiased estimate of the chosen procedure's future performance.
+
+Evaluate the retained window on the later continuation targets. Keep the benchmark and target set fixed. If the continuation ranking differs from validation, report the difference. Do not return to the candidate table and select the window that would have won the continuation period while labeling the result as the original forecast.
+
+There is no universal number of model comparisons that makes a test invalid. The important issue is what information shaped the choice. Record the candidate list and its expansion history. A broad exploratory search can be useful, but its winning backtest needs a new assessment boundary.
+
+## Reproduce the data as well as the model
+
+A reproducibility bundle should include a data dictionary, provider links, retrieval date, fixed input files or lawful retrieval instructions, transformation rules, executable source, environment requirements, outputs, and verification results. A seed alone cannot reproduce data downloaded from a changing endpoint.
+
+For this book, synthetic fixtures have a documented generator and file hash. The observed Texas extract has provider-file hashes, output hash, units, selection rules, and vintage limitations. The complete project can run from those frozen files without contacting an API.
+
+The recorded temperature is a statewide monthly mean, and its nonlinear transforms are proxies for heating and cooling exposure. Reproducibility cannot repair a construct mismatch; it makes the mismatch visible so it can be investigated. A perfectly reproduced incorrect target remains incorrect.
+
+Cross-language agreement supplies another audit layer. The R, Julia, and Python implementations share inputs and conventions, then compare numerical quantities. Agreement can expose indexing or sign mistakes in one implementation. It cannot prove a maintained economic assumption shared by all three. Preserve analytic identities and deliberately broken cases alongside parity checks.
+
+## Write a decision memo with a bounded claim
+
+Begin the memo with the action justified by the evidence: retain the benchmark, adopt a stated repair, or retire the model. Then name the target and information rule, the audit finding, the repair, and its continuation result. State the practical consequence in the relevant loss units.
+
+An effective memo distinguishes observations from assumptions. “The later sample shows higher error in summer” is a data result. “The increase reflects changing cooling technology” is a substantive explanation requiring additional evidence. “We will test a temperature-response revision” is a proposed action. Combining all three into a causal conclusion overstates what the audit establishes.
+
+Report material unresolved issues where they affect the action. A forecast conditioned on assumed weather should be labeled accordingly. A small improvement over a short continuation period should not be presented as durable dominance. A retirement decision can be correct even when an alternative model has not yet been found.
+
+## Execute the frozen-window experiment
+
+Run `ch14`. Its controlled series follows an AR(1) with coefficient 0.65, then experiences a four-unit level shift after observation 300. Candidate windows are 40, 80, and 160. Validation uses the earlier sequence through 300, with forecasts beginning after 240 observations. The shared realization selects window 160.
+
+The selected window is retained for the later continuation comparison. The procedure refits within that window as observations arrive; it does not reconsider the window length using continuation losses. Continuation evaluation begins after 340 observations, yielding 80 one-step targets. The interval between the shift and that evaluation is an adaptation period included in available history, not a claim of performance on the first break outcome.
+
+On the shared realization, the selected procedure's continuation RMSE is about 1.022 and the naive forecast's is about 1.039. That modest difference is much smaller than the advantage in Lecture 13's different break design. A useful book retains both outcomes. A revision argument should not manufacture a dramatic win where the experiment produces only a small one.
+
+## Break the boundary and repair the record
+
+Deliberately choose a window using the continuation losses. Compare the resulting minimum with the originally frozen procedure's loss. The selected minimum can improve mechanically even if none of the candidate methods has become intrinsically better. Label that calculation a retrospective selection exercise.
+
+Repair the evaluation by restoring the earlier selection and keeping the continuation segment untouched by further choice. If you decide a second revision is needed after seeing continuation outcomes, open a new ledger entry and define a subsequent evaluation boundary. Retain the failed or inconclusive first result.
+
+Now mutate every target after a chosen origin. Re-execute that origin's forecast with its original training snapshot. Its value must remain unchanged. If it changes, inspect preprocessing, imputation, tuning, and cached fitted objects for future dependence. The freeze's source hash identifies the procedure to audit; the mutation test examines its information restriction.
+
+## Worked selection example
+
+Three methods have validation losses 8, 7, and 9, so the declared rule selects the second. Their continuation losses are 10, 12, and 8. The frozen method's continuation loss is 12. The best retrospective continuation choice has loss 8, but it is the third method, chosen using the test outcomes.
+
+A report claiming “our selection procedure achieved continuation loss 8” is wrong. The actual selection procedure achieved 12. The continuation data may motivate a new proposal, but that proposal needs another evaluation. This distinction survives even if all calculations are correct and all code runs.
+
+Suppose the frozen model's forecast fails on one target and its declared fallback is seasonal naive. The continuation loss includes that fallback forecast and a failure flag. Removing the row would change the procedure being evaluated. A method's operational reliability belongs in its result.
+
+## Final project deliverables
+
+The final project combines the revised source, freeze record, continuation forecast table, matched benchmark comparison, and individual defense. A team report states the shared procedure. Each individual explains a specific assumption, calculation, repair, and implication without relying on another member to interpret the evidence.
+
+The semester's outcome is a chain of defensible decisions: a target defined, a model derived and implemented, an audit replicated, a repair frozen, and an action evaluated on later evidence. Lecture 15 tests whether that reasoning transfers when the dataset, units, or economic story changes.
+
+## Further reading
+
+[QuantEcon](https://quantecon.org/) and [Jupyter Book](https://jupyterbook.org/stable/) demonstrate executable teaching and reproducible publishing. [Model Cards for Model Reporting](https://arxiv.org/abs/1810.03993) motivates explicit documentation of uses and limits.

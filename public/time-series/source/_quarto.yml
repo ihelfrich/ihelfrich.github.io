@@ -1,0 +1,77 @@
+project:
+  type: book
+  output-dir: _book
+book:
+  title: Time-Series Econometrics
+  subtitle: Decisions, measurement, dynamics, and evidence
+  author: Ian Helfrich, PhD
+  date: October 2026
+  date-format: MMMM YYYY
+  chapters:
+    - index.qmd
+    - 01-information.qmd
+    - 02-dynamics.qmd
+    - 03-arma.qmd
+    - 04-forecasting.qmd
+    - 05-measurement.qmd
+    - 06-trends.qmd
+    - 07-dynamic-regression.qmd
+    - 08-state-space.qmd
+    - 09-var-networks.qmd
+    - 10-identification.qmd
+    - 11-cointegration.qmd
+    - 12-volatility.qmd
+    - 13-change.qmd
+    - 14-revision.qmd
+    - 15-synthesis.qmd
+    - projects.qmd
+    - practice.qmd
+    - code.qmd
+    - methods.qmd
+format:
+  pdf:
+    documentclass: scrreprt
+    papersize: letter
+    fontsize: 12pt
+    syntax-highlighting: none
+    geometry: [margin=1in]
+    mainfont: SourceSans3-Regular.otf
+    mainfontoptions:
+      - Path=fonts/
+      - BoldFont=SourceSans3-Bold.otf
+      - ItalicFont=SourceSans3-RegularIt.otf
+      - BoldItalicFont=SourceSans3-BoldIt.otf
+    sansfont: SourceSans3-Regular.otf
+    sansfontoptions:
+      - Path=fonts/
+      - BoldFont=SourceSans3-Bold.otf
+      - ItalicFont=SourceSans3-RegularIt.otf
+      - BoldItalicFont=SourceSans3-BoldIt.otf
+    monofont: lmmonolt10-regular.otf
+    monofontoptions:
+      - Path=fonts/
+      - BoldFont=lmmonolt10-bold.otf
+      - ItalicFont=lmmonolt10-oblique.otf
+      - BoldItalicFont=lmmonolt10-boldoblique.otf
+    mathfont: latinmodern-math.otf
+    mathfontoptions:
+      - Path=fonts/
+    colorlinks: true
+    linkcolor: black
+    urlcolor: black
+    citecolor: black
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    keep-tex: true
+    pdf-engine: xelatex
+    latex-auto-install: false
+    output-file: time-series-econometrics.pdf
+    include-in-header:
+      text: |
+        \usepackage{microtype}
+        \pagestyle{plain}
+        \setlength{\emergencystretch}{3em}
+        \raggedbottom
+execute:
+  enabled: false

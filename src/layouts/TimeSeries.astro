@@ -1,0 +1,47 @@
+---
+import '../styles/tokens.css';
+import '../styles/econometrics.css';
+import '../styles/time-series.css';
+import 'katex/dist/katex.min.css';
+import { THEME_COLOR } from '../data/theme.mjs';
+const { title = 'Time-Series Econometrics', description = 'A complete course in time-series econometrics, with mathematical derivations, economic cases, and matched R, Julia, and Python laboratories.' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ian Helfrich" />
+    <meta name="theme-color" content={THEME_COLOR.course} />
+    <title>{title} · Ian Helfrich</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={`${title} · Ian Helfrich`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body class="ea ts" data-surface="course">
+    <a class="ea-skip" href="#main-content">Skip to content</a>
+    <header class="ea-header">
+      <a class="ea-brand" href="/time-series/"><span class="ea-mark" aria-hidden="true">t</span><span>Time-Series<br /><strong>Econometrics</strong></span></a>
+      <nav aria-label="Course navigation">
+        <a href="/time-series/#contents">Book</a>
+        <a href="/time-series/lectures/">Lectures</a>
+        <a href="/time-series/experiments/">Experiments</a>
+        <a href="/time-series/projects/">Projects</a>
+        <a href="/time-series/practice/">Practice</a>
+        <a href="/time-series/code/">Code &amp; data</a>
+      </nav>
+      <a class="ea-author" href="/">Ian Helfrich <span>PhD ↗</span></a>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="ea-footer">
+      <div><strong>Time-Series Econometrics</strong><p>Written by Ian Helfrich. First edition, October 2026.</p></div>
+      <div><a href="/time-series/methods/">References &amp; methods</a><a href="/time-series/print/">Printable lectures</a><a href="https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/content/time-series">Source ↗</a></div>
+      <p class="ea-small">© 2026 Ian Helfrich. All rights reserved. Provider data retain their original terms.</p>
+    </footer>
+  </body>
+</html>

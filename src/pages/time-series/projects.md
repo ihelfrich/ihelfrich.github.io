@@ -1,0 +1,98 @@
+---
+layout: ../../layouts/TimeSeriesText.astro
+title: The semester projects
+description: Build, audit, and revise one forecasting system while keeping its information and evidence traceable.
+---
+
+## One evolving project folder
+
+Choose an economic decision with a clearly defined time-series target. Retain one folder throughout the semester: raw inputs and provenance, measurement rules, source code, outputs, forecast tables, model versions, feedback, and an argument ledger. The ledger records the decision date, admitted information, maintained assumption, expected failure evidence, and justified action. Preserve old results when the analysis changes.
+
+Use one supported language. The book supplies equivalent R, Julia, and Python implementations to make the methods inspectable across environments; completing the course does not require learning three languages. Your reasoning must be reproducible independently of the language.
+
+The public Texas case below is a fully worked practice example. A taught section uses separately released project data and private assessment materials. Its live holdout outcomes and grading keys are not part of this public book.
+
+## Project 1: A forecast someone can use
+
+**Prototype February 12; revised submission March 5.** Define the audience, action, target, horizon, and loss before fitting a candidate. Specify the target's units, geography, frequency, aggregation, release timing, and vintage. Choose a naive or seasonal naive benchmark and a justified AR or ARMA competitor; consider ARIMA after the trend material.
+
+Derive one result central to the procedure, such as an AR forecast or error variance. Inspect the innovations rather than treating a fitted line as sufficient evidence. Compare predictions on identical chronological targets. Explain the uncertainty the calculation addresses and the material uncertainty it omits.
+
+Test the decision brief with a classmate. Ask the reader to identify the action, interpret an interval, and name a limitation. Retain a consequential misunderstanding and the revision that addresses it. Readability affects whether the decision aid is usable; visual polish and presentation confidence receive no separate grade.
+
+Submit runnable analysis, a one-page decision brief, a short technical appendix, data and release records, frozen prototype results, and an individual memo. The individual memo independently derives or reproduces a result, explains why its inputs were feasible, and justifies a response to feedback.
+
+An appropriate brief might recommend retaining a seasonal benchmark because the AR competitor failed to improve the stated loss. Strong work does not require the most elaborate model to win. It requires a coherent comparison and an action supported by the evidence.
+
+## Project 2: An independent model audit
+
+**Prototype exchange February 19; first finding March 5; preliminary verdict March 26; repaired submission April 9.** Begin by reproducing another team's frozen result. Choose one consequential claim to investigate. Record the claimed result, its required assumption, the diagnostic or counterexample, the actual evidence, and the resulting recommendation.
+
+Useful audit targets include a centered feature labeled real-time, full-sample standardization, an unexplained change in spatial weights, a misleading trend regression, realized future predictors used as forecasts, an unstable fitted recursion, or a structural interpretation unsupported by an ordering assumption. Keep the target periods and loss fixed while changing the challenged component.
+
+Practice first on the supplied flawed centered forecast. It appears more accurate because it uses observations around the target date, including future observations. The right critique identifies the input dates and shows a future-mutation result. A repair restores the information rule and reevaluates the procedure, even if its apparent accuracy worsens.
+
+Return a claims-and-evidence table and a recommendation of no more than two pages. Repair your own analysis in response to its audit, preserve the original result, and document an explanation you tested and rejected. Submit the audit you performed, your own repaired analysis, and an individual memo.
+
+The individual memo reproduces one finding independently, explains the consequential assumption, and justifies accepting or rejecting a proposed repair. It also critiques the common VAR's structural claim and its identifying restriction. Peer comments are evidence; the instructor assigns the grade. If peer feedback is unavailable, a supplied analysis provides equivalent review work.
+
+## Project 3: Revising a model when conditions change
+
+**Later data April 2; prototype April 16; feedback by April 20; rule freeze and continuation release April 23; final submission April 30.** Return to the original decision. Determine whether later evidence challenges mean dynamics, long-run adjustment, conditional variance, measurement, composition, or input availability.
+
+Choose a repair tied to that finding. An ECM, small VAR, or volatility model belongs only when its mechanism and data warrant it. Compare the revision with the original benchmark using the original loss and matching targets. A decision to retain or retire is equally assessable when its reasoning is supported; retirement includes a feasible fallback.
+
+Freeze the complete update procedure before examining continuation outcomes. Record source and input hashes, window and lag choices, transformations, availability rules, candidate-selection rule, update schedule, fallback, loss, and target dates. Refitting as observations arrive is allowed when that rule was frozen; choosing new tuning parameters using continuation errors is a new exploratory analysis.
+
+Submit the updated tool, evidence and change log, reproduction instructions, continuation comparison, and individual memo. Ask a new reader to interpret the uncertainty explanation and retain the resulting revision. State what future evidence would make you reconsider the action. Interpret the final test without fitting a replacement to its outcomes and relabeling that fit as an original forecast.
+
+## A complete public case: Texas residential electricity sales
+
+The fixed dataset contains 192 months from January 2010 through December 2025. EIA supplies residential sales in MWh, customer counts, price units, and publication status. NOAA supplies Texas statewide monthly average temperature in Fahrenheit. The source files, retrieval date, selections, units, and hashes are documented in the [data manifest](/time-series/code/data/texas-manifest.json).
+
+The exercise assumes a two-month observation-release lag. This is a teaching assumption, not verified historical provider release metadata. It uses a fixed downloaded vintage, so the evaluation is pseudo-out-of-sample rather than a reconstruction of all historical vintages. Heating and cooling transformations of monthly mean temperature are proxies, not daily degree-day totals.
+
+The decision is to predict the next month's residential sales at the end of the current month. With the assumed lag, the last available observation is two months behind the origin and three months behind the target. The AR therefore iterates three steps. The seasonal naive benchmark uses the previous year's matching month, which is admissible under that clock.
+
+Run `projects.py`, `projects.R`, or `projects.jl`. Each performs the whole sequence:
+
+1. Build: fit the expanding AR and seasonal benchmark; evaluate January 2020 through December 2022.
+2. Audit: evaluate the original method on January 2023 through December 2024, compare an impossible centered calculation, and demonstrate its future dependence.
+3. Repair: compare declared calendar and weather-exposure models using windows of 60 months, 120 months, or all available history on the repair period.
+4. Freeze: retain the first strict minimum under squared loss, including the model's update and fallback rules.
+5. Continue: evaluate January through December 2025 without reselecting the procedure.
+
+Calendar models use an intercept, trend, two annual Fourier harmonics, and AR(1) residual dynamics. The weather model uses one harmonic and piecewise temperature proxies. Its future exposure expectations are estimated from prior observations of the same calendar month; it never inserts actual future temperature. This is a limited weather expectation model, with uncertainty and construct limitations that remain relevant to its interpretation.
+
+The output table keeps origin, target, latest admitted period, method, window, actual, prediction, error, fallback flag, and phase. All sales outcomes and errors in the numerical comparison are in **million MWh**. Squared loss has million-MWh-squared units.
+
+## What the case actually finds
+
+| Comparison | RMSE in million MWh |
+| --- | ---: |
+| Build-period seasonal naive | 1.4534 |
+| Build-period expanding AR | 3.8691 |
+| Repair-period original AR | 4.6236 |
+| Impossible centered calculation in the repair period | 2.0687 |
+| Selected repair on its selection period | 1.2659 |
+| Continuation original AR | 3.7351 |
+| Continuation calendar repair | 0.8528 |
+| Continuation seasonal naive | 0.8461 |
+
+The original AR poorly represents monthly seasonality. The centered calculation's apparently better performance is infeasible: changing two of its five future inputs by 100 changes a past “forecast” by 40. The repair selection retains the calendar model with a 60-month window.
+
+On the twelve continuation targets, the calendar repair substantially improves on the original AR. The seasonal naive benchmark nevertheless has a slightly lower RMSE. That small difference, the short comparison period, and the simple decision cost support retaining the benchmark as the main rule while documenting the calendar procedure as a candidate alternative. They do not support a claim of durable model superiority.
+
+The analysis remains useful because it identifies a failure, repairs it honestly, and limits the final action to the evidence. Its final recommendation is not dictated by the complexity of the method.
+
+## Common scoring criteria
+
+Each revised project contributes 20 course points: 12 shared and 8 individual. Shared criteria are decision framing (2), reasoning and diagnostics (4), evaluation and uncertainty (2), reproducibility (2), and usefulness (2). Individual criteria are result or derivation (3), assumption or limitation (3), and response to feedback (2).
+
+Full-credit evidence names the relevant assumptions, uses a consequential diagnostic, preserves an admissible chronological comparison, makes the principal result reproducible, and explains an action a reader can understand. A forecast ranking is not itself a grade. Partial credit follows the demonstrated parts of each criterion; the same error is not deducted repeatedly under unrelated criteria.
+
+The course total is projects 60%, six individual competency checks 30%, and the individual applied final 10%. Practice, prototypes, peer comments, and confidence estimates are ungraded. The final exam's assigned May 5–12 slot and section-specific administrative details remain the instructor's published course information.
+
+## Files to retain
+
+Keep the frozen prototype, original comparison, audit evidence, rejected explanation, repair, freeze record, continuation predictions, reader feedback, and individual defense. The [public source bundle](/time-series/code/) includes the complete worked example and its verification report. The public case supplies a model of the reasoning; your own argument must be supported by your chosen task and its admitted evidence.

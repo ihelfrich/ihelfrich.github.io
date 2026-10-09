@@ -1,0 +1,112 @@
+---
+title: Weather, seasonality, and dynamic regression
+order: 7
+description: Model economic responses to external predictors while allowing serially correlated errors and respecting predictor availability.
+question: Is the model using a feasible predictor or explaining the future after it happened?
+prerequisites: Lectures 1–6, matrix least squares, and residual autocorrelation.
+lecture: February 26
+concepts: [dynamic regression, ARMA errors, Fourier seasonality, weather response, feasible GLS, scenarios]
+---
+
+## An economic predictor does not eliminate temporal dependence
+
+Monthly electricity demand depends on weather, calendar patterns, customer counts, and economic activity. An autoregression summarizes persistence without representing those mechanisms explicitly. Dynamic regression adds predictors while retaining a model for unexplained temporal variation:
+
+$$
+Y_t=x_t'\beta+\eta_t,
+\qquad \Phi(L)\eta_t=\Theta(L)\varepsilon_t.
+$$
+
+Here $x_t'\beta$ represents the conditional regression component and $\eta_t$ is a serially correlated disturbance. It is useful to reserve $\varepsilon_t$ for the innovation after that dependence is removed. Treating $\eta_t$ as independent white noise would misstate the uncertainty and waste potential forecasting information.
+
+Different models can place dynamics in different locations. A regression on lagged outcomes and predictors is not generally identical to a static predictor relation with ARMA errors. Their coefficient interpretations and restrictions differ. Write the model in full before translating it to a package formula.
+
+Exogeneity also needs specification. For unbiased or consistent regression estimates, the required relation between predictors and disturbances depends on the model and estimator. A weather variable may be plausibly external to electricity demand, but aggregate economic predictors can react to the same shocks as the outcome. A forecasting association does not establish a causal demand response.
+
+## Represent seasonal patterns economically
+
+For monthly observations, deterministic seasonality can be represented by eleven month indicators plus an intercept, or by Fourier terms
+
+$$
+\sin\!\left(\frac{2\pi kt}{12}\right),
+\qquad
+\cos\!\left(\frac{2\pi kt}{12}\right).
+$$
+
+Low-order Fourier terms produce a smooth repeating annual pattern with fewer parameters. Month indicators allow a more flexible pattern at the cost of more coefficients. At the Nyquist frequency for an even seasonal period, the sine term is identically zero and should be omitted; redundant columns can make the design rank deficient.
+
+Calendar regressors are known in advance. A forecast for next July can use July's indicator at the origin. Actual next-July temperature is not known. This is an important difference between two variables both associated with seasonality.
+
+A trend in customer count changes the scale of total demand. Modeling sales per customer answers a different question from modeling total sales with customer count as a predictor. If you transform the target, report forecasts and loss in the units the decision requires. A logarithm can improve scale behavior, but $\exp(\mathbb E[\log Y\mid\mathcal I])$ is a conditional median under common lognormal assumptions, not automatically the conditional mean of $Y$.
+
+## A nonlinear response to temperature
+
+Heating and cooling mechanisms motivate a piecewise linear response. For a temperature measure $T_t$ and reference $T_0$,
+
+$$
+H_t=(T_0-T_t)_+,\qquad C_t=(T_t-T_0)_+,
+$$
+
+with a regression component $\beta_HH_t+\beta_CC_t$. Both slopes can be positive because unusually cold and unusually hot conditions can raise electricity demand through different uses. The threshold is a modeling choice; its interpretation depends on the measured temperature and the energy technology.
+
+The synthetic experiment uses these transformations of a monthly temperature measure. In the observed Texas case, the same transformations are **monthly-temperature proxies**. They are not sums of daily heating and cooling degree days. A transformation of a monthly mean loses information about the within-month distribution; Lecture 1's geographic example explains the same noncommutation issue across places.
+
+The research by Chang, Kim, Miller, Park, and Park (2016) models the temperature distribution observed at a higher frequency and a functional demand response. It provides a substantive motivation for treating the distribution of exposure as economically relevant. The introductory piecewise regression here is a simpler teaching model. It does not reproduce that paper's functional estimator or establish its empirical conclusions. [Published article](https://www.sciencedirect.com/science/article/abs/pii/S0140988316302602).
+
+## Remove an AR(1) error through a transformation
+
+Take the special case
+
+$$
+Y_t=x_t'\beta+\eta_t,\qquad \eta_t=\rho\eta_{t-1}+\varepsilon_t.
+$$
+
+Subtract $\rho$ times the lagged regression:
+
+$$
+Y_t-\rho Y_{t-1}
+=(x_t-\rho x_{t-1})'\beta+\varepsilon_t.
+$$
+
+With known $\rho$, appropriate exogeneity, and constant innovation variance, this transformed regression removes the AR(1) disturbance dependence. The intercept column transforms from 1 to $1-\rho$; retaining a column of ones without accounting for this transformation changes the intercept parameterization.
+
+With unknown $\rho$, one feasible approach fits an initial regression, estimates an AR(1) on its residuals, and refits the transformed regression. This is a feasible GLS step. It need not be an exact likelihood estimate, and a single step need not reach the optimum of a joint fitting procedure. Its validity relies on the relevant assumptions and the consistency of the covariance estimate.
+
+The code drops the first observation in the transformation. An alternative treatment can retain it with a stationary initial-state adjustment. Near a unit root, initial-condition handling matters more. Be explicit about which criterion and rows are used before comparing implementations.
+
+Inspect the transformed innovations afterward. If their ACF retains a seasonal pattern, the AR(1) error model has not captured all residual dynamics. If squared innovations cluster, the conditional variance model may need revision. Increasing the mean-model order is not necessarily the correct repair for a variance problem.
+
+## Forecast predictors as well as outcomes
+
+The $h$-step forecast combines a regression prediction and an error forecast:
+
+$$
+\widehat Y_{t+h|t}=\widehat x_{t+h|t}'\widehat\beta
++\widehat\eta_{t+h|t}.
+$$
+
+Known calendar inputs can be inserted directly. Uncertain weather and economic inputs require forecasts, scenarios, or a model that uses only available lags. A prediction conditioned on a stated hot-weather scenario is legitimate; labeling it as an unconditional forecast with realized future weather would misrepresent the information set.
+
+Uncertain predictors contribute to outcome uncertainty. In a simple setting with fixed coefficients and a predictor forecast error $v$, the variance contribution is $\beta'\operatorname{Var}(v)\beta$, plus any relevant covariance with the outcome's disturbance. Ignoring that term produces overly narrow intervals when weather uncertainty is important.
+
+The code's hot and cold scenario values compare regression levels at fixed Fourier coordinates. They omit an added forecast of the current residual state and do not assert a future weather probability. Their names explicitly identify them as scenarios. To create a full operational forecast, add the admissible error-state forecast and define the predictor information rule.
+
+## Execute, break, and repair
+
+Run `ch07`. Its declared generating slopes are 0.8 for heating exposure and 1.2 for cooling exposure, and its error persistence is 0.6. The shared realization estimates error persistence near 0.62. Feasible GLS produces slopes near 0.781 and 1.242. These results recover the broad response in this controlled setting while retaining finite-sample deviations.
+
+Examine the source's design matrix. Verify that the Fourier inputs are known calendar functions, that the intercept is transformed along with every other column, and that the same rows enter both sides of the transformed regression. Compare the innovation ACF before and after the repair. A small remaining lag-one value is encouraging for this simulation but is not proof of independence.
+
+Break the procedure by adding actual future temperature to a historical forecast without a scenario label. Apply the origin's availability rule and identify the inadmissible input. Repair it by using a declared seasonal temperature expectation, a separately evaluated weather forecast, or lagged predictors. Retain the resulting loss comparison even if performance worsens: an honest operational forecast can be less accurate than an impossible retrospective one.
+
+## Worked problem and audit connection
+
+Let $Y_t=10+2X_t+\eta_t$ and $\rho=0.5$. If $(Y_t,Y_{t-1})=(20,16)$ and $(X_t,X_{t-1})=(4,3)$, transformed outcome is 12 and transformed predictor is 2.5. The transformed intercept is $10(1-0.5)=5$, so the regression component is $5+2(2.5)=10$. The transformed innovation is 2. Keeping an untransformed intercept of 10 would produce the wrong decomposition.
+
+Suppose the current fitted error is 3, its persistence is 0.5, and next month's regression component under a stated weather scenario is 100. The one-step scenario forecast is $100+0.5(3)=101.5$. At two steps, the residual-state contribution is $0.5^2(3)=0.75$. The scenario's weather path must still be supplied separately.
+
+For Project 2, distinguish a misspecified error process from a predictor-timing violation. Each calls for a different repair. A reviewer should identify the exact affected forecast origins, explain why the issue matters, and replicate the consequence using a controlled change.
+
+## Further reading
+
+[Forecasting: Principles and Practice on dynamic regression](https://otexts.com/fpp3/dynamic.html) and [forecasting with future regressors](https://otexts.com/fpp3/forecasting.html) supply practical context. The temperature-distribution motivation comes from [Chang and colleagues (2016)](https://www.sciencedirect.com/science/article/abs/pii/S0140988316302602).

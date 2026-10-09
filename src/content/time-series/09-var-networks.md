@@ -1,0 +1,111 @@
+---
+title: Multivariate dynamics and regional networks
+order: 9
+description: Estimate a small VAR, derive its forecasts and stability condition, and distinguish a specified network from observed predictive links.
+question: Does another region's history add information about this region's future?
+prerequisites: Lectures 2–4 and 7, matrix multiplication, eigenvalues, and multivariate regression.
+lecture: March 12
+concepts: [VAR, matrix recursion, eigenvalue stability, cross-lags, networks, forecast covariance]
+---
+
+## Let several outcomes evolve together
+
+A vector autoregression allows each series to depend on the histories of all included series. For a two-region VAR(1),
+
+$$
+\begin{pmatrix}Y_{1t}\\Y_{2t}\end{pmatrix}
+=\begin{pmatrix}c_1\\c_2\end{pmatrix}
++\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}
+\begin{pmatrix}Y_{1,t-1}\\Y_{2,t-1}\end{pmatrix}
++\begin{pmatrix}u_{1t}\\u_{2t}\end{pmatrix}.
+$$
+
+The off-diagonal entries describe predictive cross-lags conditional on the system's included history. The disturbances can be correlated contemporaneously, with covariance matrix $\Sigma$. That correlation allows shared surprises; it does not identify their economic sources.
+
+A vector can combine regional outcomes, economic indicators, or related financial prices. Every component must have a consistent time convention, transformation, and availability rule. Combining a monthly flow with a daily return by row position produces no meaningful multivariate system. Choose a common frequency and describe the aggregation or sampling rule.
+
+Dimensional consistency is more demanding than in a univariate autoregression. If one component is in MWh and another is in dollars, $a_{12}$ has MWh per dollar and $a_{21}$ has dollars per MWh. Rescaling a series changes these coefficients while retaining the equivalent economic prediction when the entire system is transformed consistently.
+
+## Solve the matrix recursion
+
+Write $Y_t=c+AY_{t-1}+u_t$. A stationary mean, when it exists, solves
+
+$$
+\mu=(I-A)^{-1}c.
+$$
+
+The centered process is $X_t=AX_{t-1}+u_t$. Iterating gives
+
+$$
+X_{t+h}=A^hX_t+\sum_{j=0}^{h-1}A^ju_{t+h-j}.
+$$
+
+The forecast is $\mu+A^h(Y_t-\mu)$ under the conditional-mean restrictions. Its known-parameter covariance is
+
+$$
+V_h=\sum_{j=0}^{h-1}A^j\Sigma(A^j)'.
+$$
+
+For $h=1$, this equals $\Sigma$. Each term is positive semidefinite when $\Sigma$ is, so the covariance accumulates valid nonnegative uncertainty. Covariance between forecast errors matters when the decision concerns a regional total or a portfolio. Summing individual variances without cross-covariances can understate or overstate that aggregate risk.
+
+For an aggregate $G=w'Y$, forecast-error variance is $w'V_hw$. Its weights define the aggregate's economic unit. A regional population-weighted average and a sum of regional sales are different objects even when they use the same underlying vector.
+
+## Stability depends on the system's eigenvalues
+
+The VAR(1) is stable when every eigenvalue of $A$ lies inside the unit circle, equivalently its spectral radius is less than one. Small diagonal entries alone are insufficient. Cross-lag feedback can create persistence or instability.
+
+For example, $A=\begin{pmatrix}0.6&0.5\\0.5&0.6\end{pmatrix}$ has eigenvalues 1.1 and 0.1. Each own-lag coefficient is 0.6, but the common mode is explosive. In contrast, $A=\begin{pmatrix}0.6&0.15\\0.05&0.5\end{pmatrix}$ has eigenvalues inside the circle. A disturbance can move through cross-lags while the system remains stable.
+
+For a VAR$(p)$, stack the current vector and its $p-1$ lags into a companion state. Stability is a condition on that companion matrix. Checking only the separate lag matrices misses their joint dynamics. Some software reports inverse roots; verify its convention before deciding which side of the unit circle indicates stability.
+
+An estimated system can be unstable in a finite sample even when the generating process is stable. If that occurs, diagnose the transformation, sample length, lag order, and possible integrated components. Do not silently clip eigenvalues and present the resulting forecasts as estimates from the original model.
+
+## Estimate the reduced-form system
+
+For each date, the regressor row is $[1,Y_{t-1}']$. Stack those rows into $X$ and subsequent vectors into $Y$. With identical regressors across equations, ordinary least squares estimates every equation:
+
+$$
+\widehat B=\arg\min_B\|Y-XB\|_F^2.
+$$
+
+In our storage convention, the first row of $B$ is the intercept and the remaining block is $A'$. Transposing the block recovers the column-vector recursion. A transpose mistake can reverse directional interpretations while leaving dimensions deceptively plausible.
+
+Estimate disturbance covariance as $\widehat\Sigma=U'U/(n-k)$, where $n$ is the number of usable rows and $k$ the number of regressors per equation. An ML convention uses denominator $n$; both are legitimate if their names and comparisons are consistent. The parallel code uses the residual-degrees-of-freedom convention.
+
+Adding variables or lags quickly increases parameter count. A VAR with $m$ variables and $p$ lags has $m(1+mp)$ mean parameters. A short monthly sample cannot support an arbitrarily large network of unrestricted regressions. Keep the core system small and compare it with univariate benchmarks on matched origins.
+
+## A known network imposes structure
+
+Suppose a network matrix $W$ is specified from an external economic definition: spatial neighbors, supply-chain links, or another documented connection. A simple network autoregression can impose
+
+$$
+A=\rho I+\lambda W.
+$$
+
+This restriction uses two dynamic coefficients in place of an unrestricted $m\times m$ matrix. Its value depends on whether the network is meaningful for the economic mechanism. An arbitrary graph can impose a misleading restriction efficiently.
+
+State whether rows or columns carry source weights, whether weights are normalized, whether self-links exist, and what a missing link means. With the column-vector convention here, $(WY)_i=\sum_jW_{ij}Y_j$ is the input arriving at region $i$ from source $j$. Direction belongs in the definition, not merely the graphic.
+
+Stability depends on the eigenvalues of $\rho I+\lambda W$. For a row-stochastic $W$, one eigenvalue is one, so $|\rho+\lambda|<1$ is a necessary restriction for that common mode. Other modes still require checking. If $W$ changes, the system's stability and interpretation can change even with constant $\rho$ and $\lambda$.
+
+The core network exercise uses a synthetic two-node connection with zero diagonal and unit cross-links. It is a teaching graph, not an estimated map of actual electricity transmission or regional economic causality. An observed regional VAR supplies predictive associations; a separately documented network supplies a hypothesized structure. Keep those roles distinct.
+
+## Execute, break, and repair
+
+Run `ch09`. It simulates a stable two-series system with correlated innovations and estimates a reduced-form VAR(1). The realized cross-lag estimates differ from their generating coefficients, while the estimated spectral radius remains below one. Compute the fitted one-step prediction by multiplying the matrix manually and compare it with the code.
+
+Then reorder the two columns and fit again. Permute the coefficient matrix back to the original ordering. The reduced-form predictions should represent the same system up to numerical tolerance. If they do not, check column indexing and the transpose convention before making an economic claim.
+
+Break the model by replacing the coefficient matrix with the unstable example above. Iterate a deterministic initial disturbance with future innovations set to zero. Show the exploding common mode. Repair the interpretation by stating that this parameter set does not define the stable process assumed in the moment formulas. A stable replacement requires an economically justified constraint or a different model, not a cosmetic graph range.
+
+## Worked problem and audit verdict
+
+Let $A=\begin{pmatrix}0.6&0.2\\0.1&0.5\end{pmatrix}$, $c=0$, and $Y_t=(10,20)'$. The one-step forecast is $(10,11)'$. The two-step forecast is $A(10,11)'=(8.2,6.5)'$. The first region's own past contributes 6 to its one-step forecast and the second region's past contributes 4. Those predictive contributions are not separately identified causal effects.
+
+If $\Sigma=\begin{pmatrix}4&1\\1&9\end{pmatrix}$, the one-step error variance of the regional sum is $4+9+2(1)=15$. Ignoring the covariance would report 13. A covariance of $-1$ would instead give 11. The sign of shared surprises matters for an aggregate decision.
+
+For the project audit, identify whether a regional comparison concerns prediction, network propagation under a maintained structure, or an identified intervention. The reduced-form VAR answers the first question. Lecture 10 adds assumptions needed for the latter two and shows why those assumptions cannot be read directly from an attractive impulse-response plot.
+
+## Sources
+
+[Sims (1980), Macroeconomics and Reality](https://www.jstor.org/stable/1912017) is a foundational VAR reference. [Statsmodels' VAR documentation](https://www.statsmodels.org/stable/vector_ar.html) describes estimation and analysis conventions.

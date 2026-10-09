@@ -1,0 +1,105 @@
+---
+title: The decision and its information set
+order: 1
+description: Define a time-series target, its geographic unit, its release clock, and an honest forecasting benchmark.
+question: What could the decision maker actually have known?
+prerequisites: Conditional expectation, basic regression, and the distinction between a stock and a flow.
+lecture: January 15
+concepts: [information sets, vintages, target definitions, geographic aggregation, naive forecasts]
+---
+
+## Begin with a forecast someone must use
+
+A regional electricity planner must choose a reserve for next month. An underprediction can leave insufficient capacity; an overprediction can commit expensive capacity that remains idle. The object of interest is neither an attractive fitted curve nor a coefficient with a small standard error. It is a decision made before next month's demand is observed.
+
+Write a sentence that names the decision, the target, the unit, and the clock. For this case: “At the end of month $t$, forecast the total megawatt-hours sold to residential customers in a specified state during month $t+1$, using the records available by the forecast date.” A change from residential sales to total generation changes the economic object. A change from a state to a utility service area changes the population. A change from the end of the month to the middle of the month changes the information available. Those changes belong in the specification before a model is selected.
+
+Let $Y_{t+h}$ denote the target at horizon $h$, and let $\mathcal I_t$ denote the information available at the decision time. Under squared-error loss, the ideal forecast is
+
+$$
+\widehat Y_{t+h|t}=\mathbb E[Y_{t+h}\mid\mathcal I_t].
+$$
+
+This notation encodes a restriction. The forecast must be a function of $\mathcal I_t$. It cannot depend on an observation released tomorrow, even if that observation describes yesterday. The target date and the availability date are different attributes of a record.
+
+We will use an **argument ledger** throughout the course. Each entry records a decision date, a target definition, the information admitted, the proposed model, the result that would count against it, and the action justified by the result. Begin the ledger before seeing a model comparison. Its purpose is to make changes in reasoning visible. A forecaster can revise a model; a forecaster cannot retroactively claim to have made the revised decision earlier.
+
+## Why conditional expectation solves this loss
+
+Take any forecast $a$ measurable with respect to $\mathcal I_t$. Let $m=\mathbb E[Y\mid\mathcal I_t]$, temporarily suppressing the target subscript. Decompose the conditional expected loss:
+
+$$
+\begin{aligned}
+\mathbb E[(Y-a)^2\mid\mathcal I_t]
+&=\mathbb E[(Y-m+m-a)^2\mid\mathcal I_t]\\
+&=\operatorname{Var}(Y\mid\mathcal I_t)+(m-a)^2.
+\end{aligned}
+$$
+
+The cross term vanishes because $\mathbb E[Y-m\mid\mathcal I_t]=0$. The first term does not depend on $a$. The second is minimized at $a=m$. This proves an optimality statement for a specified information set and a specified loss. It does not say a linear regression consistently estimates that conditional expectation, or that squared loss matches the planner's actual costs.
+
+The units also agree. If $Y$ is measured in MWh, $m$ and $a$ are in MWh; variance and squared loss are in MWh squared. An error reported in dollars cannot be compared directly with an error in MWh. A loss function that translates quantities into costs must specify that conversion.
+
+Forecast errors obey an orthogonality condition. For any integrable $Z$ known at the decision date,
+
+$$
+\mathbb E[(Y-m)Z]=0,
+$$
+
+when the needed moments exist. Systematic errors correlated with an available predictor suggest information was left unused. Errors correlated with a future predictor need not reveal a feasible improvement. This difference will recur when we examine residual diagnostics and structural interpretations.
+
+## A series has more than one date
+
+Represent a record as $(p,a,v,g,x)$: period described, availability date, vintage, geographic unit, and value. The latest published series usually selects the latest vintage for each period. A historical decision requires the vintage available at that earlier date. If GDP for quarter $p$ was first published in $p+1$ and subsequently revised, using the latest value at the old forecast origin changes both availability and measurement.
+
+The course's public teaching data are fixed extracts. Unless a dataset explicitly contains historical releases, it supports a **pseudo-out-of-sample** experiment on the downloaded vintage. Such an experiment respects the ordering of periods while retaining the values currently recorded for those periods. It does not reconstruct the complete information set of a historical forecaster. That qualification is a property of the data, not a defect that a better forecasting algorithm can remove.
+
+The lecture's release-clock example makes this distinction concrete. Periods are numbered from zero, and a record for period $p$ becomes available in period $p+2$. At decision date 8, period 6 is the latest available observation. A training sample through period 8 would include two unreleased records. The code filters on `release <= origin` before selecting the latest period. In an applied project, dates replace the integers, but the rule is identical.
+
+A valid forecasting table should retain `origin`, `target_period`, `available_through`, `model_version`, `forecast`, and, once observed, `actual`. Joining predictions to actuals by row position is unsafe after missing months or revisions. Join by explicit target identifiers and check that every forecast precedes the target's availability.
+
+## Geographic aggregation changes the variable
+
+Suppose a state has two areas with temperatures $40^\circ F$ and $80^\circ F$, and equal weights. Its mean temperature is $60^\circ F$. Define heating degree days relative to $65^\circ F$ as $H(T)=\max(65-T,0)$. Transforming the state mean produces $H(60)=5$. Transforming each area first and averaging produces $(H(40)+H(80))/2=12.5$.
+
+$$
+H\!\left(\sum_i w_iT_i\right)\ne\sum_iw_iH(T_i).
+$$
+
+Here the inequality follows from the kink in $H$. More generally, Jensen's inequality gives $H(\mathbb E[T])\leq\mathbb E[H(T)]$ because $H$ is convex. Aggregating first erases some exposure to cold locations. The course code returns 5 and 12.5 from the same temperature observations. This is an exact arithmetic example, independent of sampling error.
+
+Weights must also represent an economic object. Population weights approximate exposure of people; electricity-customer weights approximate exposure of customers; geographic area weights approximate exposure of land. None is automatically the right measure of electricity demand. If weights change over time, a change in the index can reflect changing composition as well as changing temperatures. Retaining fixed weights answers a different question from updating them.
+
+A useful measurement specification names the source locations, inclusion rules, units, weights, missing-value treatment, and transformation order. Boundary changes require a crosswalk or a declared break. A station average should not silently become a population-weighted state measure. This is where geographic econometrics enters the course: the geography determines the observed variable before a temporal model is fitted.
+
+## Establish a benchmark before adding complexity
+
+For a persistent level, the naive forecast is $\widehat Y_{t+1|t}=Y_t$. For a monthly seasonal series, the seasonal naive forecast is $\widehat Y_{t+h|t}=Y_{t+h-12k}$, where $k$ is the smallest positive integer making the referenced month available. For a series with a stable mean, a training-sample mean can be another benchmark. These are different economic assumptions expressed as forecast rules.
+
+The naive forecast assumes that the last level is a useful anchor. The seasonal naive forecast assumes the same calendar month of the prior year is a useful anchor. A historical mean assumes the relevant mean has remained stable. Benchmarks can fail; the point of specifying them is to know what a complicated model improves upon.
+
+Do not choose a benchmark after seeing which one makes your preferred model look best. Record the benchmark and loss in the ledger, then hold them fixed through the first comparison. If the economic target later changes, open a new comparison with a stated reason.
+
+The synthetic series in this lecture is $Y_t=100+X_t$, where $X_t=0.8X_{t-1}+\varepsilon_t$. Its units are teaching units, not observed electricity sales. The executable example evaluates the naive forecast on the final 60 targets. Run the same shared fixture in each language; the reported root mean squared error should agree to numerical tolerance. We will add an estimated autoregression and a matched forecast-origin comparison in Lecture 4.
+
+## Execute, break, and repair
+
+Download the complete [laboratory bundle](/time-series/code/), then run `python ch01.py`, `Rscript ch01.R`, or `julia ch01.jl` inside the code directory. Each entry point calls the implementation in the corresponding `course` file. All implementations read the same `innovations.csv`. The file contains simulated shocks generated by a documented algorithm; it is not a sample of observed economic outcomes.
+
+Before running, predict the latest available period and both heating-degree-day measures. Record your predictions. After running, inspect the transformation order in the source. Deliberately replace the availability filter with a period filter and show which rows enter wrongly. Repair the selection rule, then assert that every included record's availability date is at most the origin.
+
+Next alter the geographic weights from $(0.5,0.5)$ to $(0.8,0.2)$. Compute both orders of transformation by hand. The weighted temperature becomes $48^\circ F$, its heating degree days become 17, and the weighted local heating measure becomes 20. The direction of Jensen's inequality remains unchanged. The size of the discrepancy changes because the economic weights changed.
+
+## Practice with a worked answer
+
+A monthly observation describes March, is released May 10, and is revised July 15. A forecast is issued May 1. Can the forecaster use the first release? Can a retrospective analyst use the July vintage to claim a real-time May 1 forecast?
+
+The first answer is no: May 10 follows May 1. The second answer is also no: the July value was unavailable at the original decision date. The analyst can run a retrospective experiment using the July vintage, provided that experiment is labeled accordingly. To reconstruct a real-time forecast, the analyst needs the records actually available on May 1, possibly ending before March.
+
+Now suppose monthly electricity sales are a flow and end-of-month installed capacity is a stock. How should a quarterly series be formed? Sum the three monthly sales flows. Use an explicitly defined quarter-end capacity stock, or an average stock if the question concerns average capacity during the quarter. Summing three installed-capacity stocks would count the same equipment repeatedly and change the quantity's meaning.
+
+Your ledger entry should now state a target, a release rule, a geographic definition, a benchmark, and one result that would force revision. Keep this entry for Project 1. The next lecture will replace the benchmark's implicit dynamics with a model whose behavior we can derive.
+
+## Sources and further reading
+
+The [EIA-861M data documentation](https://www.eia.gov/electricity/data/eia861m/) defines electricity sales, sectors, and state adjustments. The [NOAA Climate at a Glance documentation](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series) describes geographic climate series. The forecasting distinction between training residuals and test errors is developed in [Forecasting: Principles and Practice, Section 5.8](https://otexts.com/fpp3/accuracy.html).

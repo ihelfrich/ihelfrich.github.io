@@ -1,0 +1,9 @@
+---
+import {getCollection,render} from 'astro:content';
+import TimeSeries from '../../layouts/TimeSeries.astro';
+const chapters=(await getCollection('timeseries')).sort((a,b)=>a.data.order-b.data.order);
+const rendered=await Promise.all(chapters.map(async chapter=>({...chapter,...await render(chapter)})));
+---
+<TimeSeries title="Time-Series Econometrics · printable lectures">
+<div class="ea-narrow"><header class="ts-print-title"><p class="ea-kicker">First edition · October 2026</p><h1>Time-Series Econometrics</h1><p class="ea-lead">Ian Helfrich, PhD</p><p>Fifteen lectures with derivations, worked examples, and executable laboratories in R, Julia, and Python.</p><p class="ea-no-print"><a class="ea-button" href="/time-series/code/">Download the book, code, and data</a> Use your browser’s print command to save these lectures as a PDF.</p></header>{rendered.map(({data,Content})=><article class="ea-print-chapter"><header class="ea-chapter-heading"><p class="ea-kicker">Lecture {data.order}</p><h2>{data.title}</h2><p class="ea-lead">{data.question}</p></header><div class="ea-prose"><Content /></div></article>)}</div>
+</TimeSeries>

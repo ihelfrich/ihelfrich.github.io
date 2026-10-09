@@ -1,0 +1,14 @@
+{
+  "method": "calendar",
+  "window": 60,
+  "release_lag": 2,
+  "lag_status": "teaching assumption",
+  "target": "Texas monthly residential sales in million MWh",
+  "selection_targets": "2023-01 through 2024-12",
+  "continuation_targets": "2025-01 through 2025-12",
+  "update_rule": "refit each origin using only observations released under the assumed clock",
+  "fallback": "seasonal naive on rank or stability failure",
+  "loss": "squared error on matched targets",
+  "data_sha256": "99cfa2f00a82641ff28f76bf3ab25c58d3d51923ec9b3aedf1c575a3ca2d1dd5",
+  "kind": "public worked practice, not live graded holdout"
+}

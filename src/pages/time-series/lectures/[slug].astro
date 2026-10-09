@@ -1,0 +1,20 @@
+---
+import TimeSeries from '../../../layouts/TimeSeries.astro';
+import lectures from '../../../data/time-series-lectures.json';
+import katex from 'katex';
+export function getStaticPaths(){return lectures.map(lecture=>({params:{slug:lecture.slug},props:{lecture}}));}
+const {lecture:l}=Astro.props;
+const frames=[
+ {title:'The economic question',text:l.opening},
+ {title:'Derive the central relation',text:'Identify the information set, units, disturbance restrictions, and conditions used in every step. Derive the relation before computing its implication.',math:l.math},
+ {title:'Individual problem',text:l.challenge},
+ {title:'Worked reasoning',text:l.answer},
+ {title:'A consequential failure',text:l.failure},
+ {title:'Repair the argument',text:l.repair},
+ {title:'Execute and audit',text:`Run ch${String(l.order).padStart(2,'0')} in R, Julia, or Python. Locate the equation in the implementation. Explain the input convention, reported quantity, and one failure test before changing the chapter's specified condition.`},
+ {title:'Transfer to the project',text:'Record one claim, its required assumption, a reproducible test, and the resulting decision. Preserve the earlier result when a revision changes your view.'}
+];
+---
+<TimeSeries title={`Lecture ${l.order}: ${l.title}`} description={l.opening}>
+<div class="ea-shell ts-slides"><header class="ea-page-intro"><p class="ea-kicker">Lecture {l.order} · {l.date}, 2027</p><h1>{l.title}</h1><p><a href={`/time-series/${l.slug}/`}>Complete teaching chapter</a> · <a href={`/time-series/code/#lecture-${String(l.order).padStart(2,'0')}`}>Laboratory source</a> · <a href="/time-series/lectures/">All lectures</a></p></header>{frames.map((f,i)=><section class="ts-slide" id={`frame-${i+1}`}><p class="ea-kicker">{i+1} / {frames.length}</p><h2>{f.title}</h2><p>{f.text}</p>{f.math&&<div class="ts-slide-math" set:html={katex.renderToString(f.math,{displayMode:true,throwOnError:true,strict:'error'})}/>}<nav aria-label={`Frame ${i+1} navigation`}>{i>0&&<a href={`#frame-${i}`}>Previous frame</a>}{i<frames.length-1&&<a href={`#frame-${i+2}`}>Next frame</a>}</nav></section>)}</div>
+</TimeSeries>

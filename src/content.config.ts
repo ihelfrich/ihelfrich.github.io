@@ -140,4 +140,13 @@ const measurement = defineCollection({
   schema: z.object({title:z.string(),description:z.string(),order:z.number().int().min(1).max(3)}),
 });
 
-export const collections = { projects, writing, research, teaching, people, datasets, econometrics, measurement };
+const timeseries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/time-series' }),
+  schema: z.object({
+    title: z.string(), order: z.number().int().min(1).max(15),
+    description: z.string(), question: z.string(), prerequisites: z.string(),
+    lecture: z.string(), concepts: z.array(z.string()).min(1),
+  }),
+});
+
+export const collections = { projects, writing, research, teaching, people, datasets, econometrics, measurement, timeseries };

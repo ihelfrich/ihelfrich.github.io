@@ -1,0 +1,7 @@
+---
+import TimeSeries from '../../../layouts/TimeSeries.astro';
+import lectures from '../../../data/time-series-lectures.json';
+---
+<TimeSeries title="Lecture materials" description="Fifteen complete lecture decks with central equations, individual problems, failure cases, and executable laboratories.">
+<div class="ea-narrow"><header class="ea-page-intro"><p class="ea-kicker">Fifteen lectures</p><h1>Lecture materials</h1><p class="ea-lead">Each deck joins an economic question, a derivation, an individual problem, an information or model failure, and a repair. The corresponding book chapter supplies the complete teaching text.</p></header><div class="ea-prose"><p>Read the chapter before class, then use the deck alongside your chosen language's laboratory. The slides can be printed using your browser; each frame receives its own page. Dates follow the course's 2027 teaching sequence.</p><ol>{lectures.map(l=><li><a href={`/time-series/lectures/${l.slug}/`}>{l.title}</a> · {l.date}<br/><a href={`/time-series/${l.slug}/`}>Complete chapter</a> · <a href={`/time-series/code/#lecture-${String(l.order).padStart(2,'0')}`}>R, Julia, and Python</a></li>)}</ol><p><a href="/time-series/practice/">Assignments and worked practice</a> · <a href="/time-series/projects/">Project specifications</a></p></div></div>
+</TimeSeries>

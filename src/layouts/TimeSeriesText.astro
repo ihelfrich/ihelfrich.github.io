@@ -1,0 +1,7 @@
+---
+import TimeSeries from './TimeSeries.astro';
+const { frontmatter }=Astro.props;
+---
+<TimeSeries title={frontmatter.title} description={frontmatter.description}>
+<div class="ea-narrow"><header class="ea-page-intro"><p class="ea-kicker">Time-Series Econometrics · Ian Helfrich</p><h1>{frontmatter.title}</h1><p class="ea-lead">{frontmatter.description}</p></header><article class="ea-prose"><slot /></article><p class="ea-top-link"><a href="/time-series/">← Book contents</a></p></div>
+</TimeSeries>

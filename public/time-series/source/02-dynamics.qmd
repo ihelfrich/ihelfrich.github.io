@@ -1,0 +1,140 @@
+# Lecture 2: Persistence, recursion, and aggregation
+
+## A model for a persistent economic level
+
+Let an economic series obey
+
+$$
+Y_t=c+\phi Y_{t-1}+\varepsilon_t,
+\qquad \mathbb E[\varepsilon_t\mid\mathcal I_{t-1}]=0,
+\qquad\mathbb E[\varepsilon_t^2]=\sigma^2.
+$$
+
+The model is an autoregression of order one, abbreviated AR(1). The coefficient $\phi$ describes how much of the previous deviation is carried forward. The intercept $c$ is an increment in the recursion, not generally the series mean. The innovation is the part of today's observation not predictable from yesterday's information under this model.
+
+The conditional-mean restriction does more work than the word “noise.” It rules out predictable innovations. Serially uncorrelated errors alone do not imply independence, Gaussianity, or the conditional-mean restriction. For the elementary moment derivations below, we assume innovations have constant variance and are uncorrelated across dates; for conditional forecasts, we use their zero conditional means. State those assumptions separately in the ledger.
+
+If $Y$ is in MWh, $c$ and $\varepsilon$ are in MWh and $\phi$ is dimensionless. The interval represented by one time step matters. A monthly persistence coefficient cannot be substituted directly into a quarterly recursion.
+
+## Solve the difference equation
+
+Substitute the recursion repeatedly:
+
+$$
+Y_t=\phi^tY_0+c\sum_{j=0}^{t-1}\phi^j+
+\sum_{j=0}^{t-1}\phi^j\varepsilon_{t-j}.
+$$
+
+For $\phi\ne1$, the deterministic component is $\phi^tY_0+c(1-\phi^t)/(1-\phi)$. If $|\phi|<1$, the initial condition's influence decays. Under suitable finite-moment innovation assumptions, a stationary solution can be written
+
+$$
+Y_t=\mu+\sum_{j=0}^{\infty}\phi^j\varepsilon_{t-j},
+\qquad \mu=\frac{c}{1-\phi}.
+$$
+
+The infinite series converges in mean square because $\sum_j\phi^{2j}<\infty$. This gives existence of a finite-variance stationary solution when the innovations themselves have the appropriate time-invariant joint properties. A simulation initialized at an arbitrary fixed $Y_0$ has a transient; it is not exactly stationary from its first row. Discarding a burn-in approximates the stationary regime, with approximation quality depending on persistence.
+
+For $\phi=0$, each observation is $c+\varepsilon_t$. For $0<\phi<1$, deviations decay without alternating signs. For $-1<\phi<0$, their signs alternate while their magnitudes decay. At $\phi=1$, the formula for $\mu$ is undefined and the model becomes a random walk with drift. For $|\phi|>1$, the forward recursion is explosive. Those boundary cases should change an implementation's interpretation, not merely trigger a divide-by-zero warning.
+
+## Derive the population moments
+
+Taking expectations in a stationary solution yields $\mu=c+\phi\mu$, hence $\mu=c/(1-\phi)$. Subtract the mean and define $X_t=Y_t-\mu$. Then
+
+$$
+X_t=\phi X_{t-1}+\varepsilon_t.
+$$
+
+Since the innovation is uncorrelated with the previous state,
+
+$$
+\gamma(0)=\operatorname{Var}(Y_t)
+=\phi^2\gamma(0)+\sigma^2
+=\frac{\sigma^2}{1-\phi^2}.
+$$
+
+Multiply the centered recursion by $X_{t-k}$ and take expectations. For $k\ge1$, the innovation contributes zero, so $\gamma(k)=\phi\gamma(k-1)$. Iterating gives
+
+$$
+\gamma(k)=\phi^k\gamma(0),\qquad\rho(k)=\phi^k.
+$$
+
+Covariance has squared outcome units. Correlation and persistence are dimensionless. As $|\phi|$ approaches one with $\sigma^2$ held fixed, stationary variance grows without bound. A small innovation variance therefore does not guarantee a stable level. Negative persistence gives alternating correlations, while variance depends on $\phi^2$.
+
+The laboratory uses $c=0.6$, $\phi=0.7$, and $\sigma^2=1$. Its population mean is 2 and population variance is approximately 1.9608. The simulated sample will differ. That discrepancy is evidence of finite-sample variation; it should not be repaired by changing the population formulas to match the realized sample.
+
+## Forecast more than one period ahead
+
+At date $t$, iterate the centered recursion forward:
+
+$$
+Y_{t+h}=\mu+\phi^h(Y_t-\mu)
++\sum_{j=0}^{h-1}\phi^j\varepsilon_{t+h-j}.
+$$
+
+Under the innovation conditional-mean restriction, the forecast is
+
+$$
+\widehat Y_{t+h|t}=\mu+\phi^h(Y_t-\mu).
+$$
+
+Its error variance, with parameters known, is
+
+$$
+V_h=\sigma^2\sum_{j=0}^{h-1}\phi^{2j}
+=\sigma^2\frac{1-\phi^{2h}}{1-\phi^2}.
+$$
+
+For $h=1$, $V_h=\sigma^2$. For a stable process, it increases toward the unconditional variance. At $\phi=1$, use the finite sum directly: $V_h=h\sigma^2$. This limit is a practical reason to implement the finite sum as well as the closed form. Numerical cancellation near one can make the quotient less accurate than the sum.
+
+A shock's response after $h$ periods is $\phi^h$ times its initial size. For positive $\phi$, the half-life is $\log(0.5)/\log(\phi)$. It is a continuous-time count measured in model periods; actual discrete responses cross half their original magnitude at the next integer horizon. For negative $\phi$, use $|\phi|$ to describe magnitude decay and retain the alternating sign separately.
+
+The known-parameter variance excludes parameter uncertainty. When $c$ and $\phi$ are estimated, a plug-in forecast is a random function of an estimated model. Its interval requires additional care, especially in a short sample or near a unit root. Lecture 4 will distinguish process uncertainty, estimation uncertainty, and uncertainty about model selection.
+
+## Time aggregation changes the dependence
+
+Suppose a monthly centered AR(1) is observed only through quarterly averages
+
+$$
+Q_s=\frac{X_{3s-2}+X_{3s-1}+X_{3s}}3.
+$$
+
+Using $\gamma(k)=\gamma(0)\phi^{|k|}$,
+
+$$
+\operatorname{Var}(Q_s)=\frac{\gamma(0)}9(3+4\phi+2\phi^2).
+$$
+
+There are three diagonal covariance terms, four ordered pairs at distance one, and two at distance two. Between adjacent quarters, the nine pairwise distances are 1, 2, 2, 3, 3, 3, 4, 4, and 5. Thus
+
+$$
+\operatorname{Cov}(Q_s,Q_{s-1})
+=\frac{\gamma(0)}9(\phi+2\phi^2+3\phi^3+2\phi^4+\phi^5).
+$$
+
+Their ratio is generally different from $\phi^3$. Sampling the last month of each quarter produces a different dependence structure from averaging all three months. The aggregate process can require moving-average terms even when the original process is a simple autoregression. This is a substantive measurement issue: the model belongs to the frequency and aggregation rule actually used.
+
+For a quarterly flow total, replace the average by a sum. Variance and covariance both multiply by nine, leaving the correlation unchanged. The level's units change from a monthly quantity to a quarterly total, so its intercept and forecast scale change. A rate or index may instead require an economically defined weighted average.
+
+![A unit shock can alternate while error variance remains positive. These curves are analytic, with innovation variance one.](../figures/ar-persistence.pdf)
+
+A unit shock can alternate while error variance remains positive. These curves are analytic, with innovation variance one.
+
+## Execute the recursion and audit the result
+
+Run `ch02` in your preferred language. The source implements the recursion directly and computes a forecast by both repeated substitution and the closed formula. It compares the finite variance sum with its quotient and asserts numerical agreement. It also averages consecutive groups of three monthly observations and estimates an AR(1) coefficient on that aggregate.
+
+First predict whether that aggregate coefficient should equal $0.7^3$. Use the covariance expressions above to explain your prediction. Compare the realized estimate with the implied aggregate lag-one correlation; finite samples and the fitted intercept will introduce differences. A single sample is a demonstration, not a consistency proof.
+
+Then repeat the recursion at $\phi=0$, $0.95$, $-0.7$, and $1$. At one, retain the finite forecast-error sum and stop reporting a stationary population mean. At $0.95$, increase the burn-in and explain why the shorter burn-in retained more initial-condition influence. The code's baseline burn-in is an explicit design choice, not a universal guarantee.
+
+## Worked problem and project connection
+
+An AR(1) has $c=3$, $\phi=0.5$, innovation standard deviation 2, and current value 10. Its stationary mean is $3/(1-0.5)=6$. The two-period forecast is $6+0.5^2(10-6)=7$. Its known-parameter error variance is $4(1+0.5^2)=5$, and its standard deviation is $\sqrt5$. An approximate Gaussian 95% interval would be $7\pm1.96\sqrt5$, conditional on the stated model and known parameters.
+
+If the current value changes from 10 to 14, the two-period forecast increases by $0.5^2(4)=1$. The error variance is unchanged because this homoskedastic model makes variance independent of the current level. If observed forecast risk increases with the level, this model's variance assumption deserves an audit.
+
+In Project 1, use an AR model as a transparent competitor to the benchmark. Report the series frequency, its aggregation rule, fitted persistence, and the estimation window. Describe which disturbance remains unexplained. The next lecture will expand the dependence structure while preserving the distinction between observable histories and unobserved innovations.
+
+## Further reading
+
+The representation of stochastic linear systems is developed in [QuantEcon's Linear State Space Models](https://python.quantecon.org/linear_models.html). The [ARIMA chapter in Forecasting: Principles and Practice](https://otexts.com/fpp3/arima.html) supplies forecasting context.
