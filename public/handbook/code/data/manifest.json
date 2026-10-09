@@ -1,0 +1,21 @@
+{
+  "kind": "authored controlled finite teaching fixture",
+  "empirical_observations": false,
+  "file": "alert-days.csv",
+  "sha256": "ea45c05604f66a222c2979a578ea18850e67ca6ecf50e6728c5e563983255f89",
+  "rows": 6,
+  "probability": "weight divided by the sum of all six weights",
+  "schema": {
+    "state": "integer row identifier",
+    "u": "heat indicator, 0 or 1",
+    "v_mw": "demand shock in MW, -1, 0, or 1",
+    "weight": "positive integer probability weight"
+  },
+  "structural_model": "A=U; Y=10+b*A+(2-b)*U+V; -2<=b<=2",
+  "intervention": "replace A=U with A=a; preserve the six background states and load equation",
+  "randomized_design": "independent binary A crossed with six background states; twelve probabilities 1/12",
+  "reference_time": "not applicable: enumerated types, not dated empirical records",
+  "release_time": "not applicable: controlled teaching fixture",
+  "authorship": "Ian Helfrich, October 2026",
+  "rights": "Author-owned controlled example; all rights reserved. No external data included."
+}

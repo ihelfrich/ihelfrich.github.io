@@ -1,0 +1,45 @@
+---
+import {getCollection} from 'astro:content';
+import Handbook from '../../layouts/Handbook.astro';
+const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data.order);
+---
+<Handbook>
+  <section class="ea-shell ea-page-intro hb-narrow">
+    <p class="ea-kicker">Ian Helfrich · Working handbook</p>
+    <h1>Econometrics Across Disciplines</h1>
+    <p class="ea-lead">Measurement, models, and decisions.</p>
+    <p>Mathematics gives us a way to describe a question carefully, investigate it, and explain what an answer means. This book begins with economic objects we can picture and builds the tools needed to reason about them. Concrete examples lead into algebra, probability, geometry, calculus, and econometric inference.</p>
+    <p>Pictures and applications accompany complete mathematical arguments. A result names its assumptions, explains each consequential step, and links to the definition or earlier result it uses. Python, Julia, and R implement the same declared calculations independently.</p>
+    <div class="ea-actions"><a class="ea-button" href="/handbook/01-questions/">Read chapter 1 →</a><a class="ea-button secondary" href="/handbook/print/">Working PDF &amp; source</a></div>
+    <p class="hb-manuscript-status">The broader manuscript is in development. This edition contains one completed foundation chapter. The separate fifteen-lecture <a href="/time-series/">time-series course</a> is available now. The seventy-two-chapter architecture described below is a plan for further writing, research, and verification.</p>
+  </section>
+  <section class="ea-shell ea-band" id="reading-levels">
+    <h2>Reading levels</h2>
+    <p>Each symbol appears with a text label. The levels identify what a passage requires; they do not rank readers.</p>
+    <dl class="hb-levels">
+      <div><dt>○ Orientation</dt><dd>Concrete questions, pictures, arithmetic, and explanations of unfamiliar terms. A reader can begin here before studying advanced mathematics.</dd></div>
+      <div><dt>◇ Core</dt><dd>The algebra, calculus, probability, and linear algebra needed to carry an econometric argument through an application. Assumptions remain beside the claims they support.</dd></div>
+      <div><dt>◆ Theory</dt><dd>Precise definitions and complete proofs, including identification limits, convergence, and dependent-data arguments as the manuscript develops.</dd></div>
+      <div><dt>✦ Workshop</dt><dd>A bounded investigation, diagnostic exercise, or research extension. Each passage states whether it is worked practice, an executed finding, or a proposed question.</dd></div>
+    </dl>
+    <p>The introductory route supplies the conditions and meaning of each result. A technical passage can be skipped without turning its conclusion into an unconditional promise. Chapter 1's Theory section uses a finite example so its identification proof can be followed before measure-theoretic probability.</p>
+  </section>
+  <section class="ea-shell ea-band" id="contents">
+    <h2>Available chapters</h2>
+    <ol class="ea-chapters">{chapters.map(c=><li><a href={`/handbook/${c.id}/`}><span class="ea-number">{String(c.data.order).padStart(2,'0')}</span><div><strong>{c.data.title}</strong><p>{c.data.description}</p><small>{c.data.part} · Written and numerically checked</small></div><span aria-hidden="true">↗</span></a></li>)}</ol>
+    <p>The <a href="/econometrics/">twelve-chapter Econometric Argument</a> provides an existing compact introduction. Its <a href="/econometrics/01-argument/#observationally-equivalent-models">continuous training example</a> develops the same identification principle used in this handbook's finite utility example.</p>
+  </section>
+  <section class="ea-shell ea-band" id="architecture">
+    <h2>The developing manuscript</h2>
+    <ol class="hb-roadmap">
+      <li><strong>Objects and foundations, chapters 1–9.</strong> Economic questions, measurement, observation clocks, probability, geometry, calculus, sampling, identification, and decisions.</li>
+      <li><strong>Econometric inference, chapters 10–21.</strong> Regression, uncertainty, instruments, likelihood and moments, nonlinear outcomes, distributions, missing data, panels, causal designs, and structural behavior.</li>
+      <li><strong>Dynamic systems, chapters 22–36.</strong> Prediction, signals, stochastic trends, latent states, multivariate systems, identification, cointegration, risk, breaks, spectra, and mixed-frequency information. The <a href="/time-series/#contents">current time-series lectures</a> supply material for this part; broader-book revisions and prerequisite links remain to be written.</li>
+      <li><strong>Geography, networks, and measurement, chapters 37–48.</strong> Geographic support, spatial dependence, network mechanisms, functional data, latent constructs, indexes, changing measurement, topology, and formal connections across disciplines.</li>
+      <li><strong>Advanced foundations, chapters 49–60.</strong> Doctoral probability, dependent-data asymptotics, empirical processes, weak and partial identification, semiparametric and functional methods, high dimensions, Bayesian and simulation methods, nonstandard limits, and continuous time.</li>
+      <li><strong>Computation and professional work, chapters 61–66.</strong> Three-language analysis, verification, AI-assisted reasoning, AI measurement, communication, and reproducible production.</li>
+      <li><strong>Research investigations, chapters 67–72.</strong> Representation loss, scale, evolving networks, constrained distributions, adversarial audit, and precisely bounded research questions. Novelty and open-problem status require a literature review for each claim.</li>
+    </ol>
+    <p>Thirty applied cases are specified in the development plan. The observed Texas forecasting case is implemented; the other twenty-nine await their data, execution, and release checks. Chapter 1's controlled alert model is a foundation example, not an additional completed empirical case.</p>
+  </section>
+</Handbook>

@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "kind": "exact finite enumeration of controlled states",
+  "languages": [
+    "Python",
+    "Julia",
+    "R"
+  ],
+  "native_versions": {
+    "Python": "3.14.7",
+    "Julia": "julia version 1.12.7",
+    "R": "Rscript (R) version 4.6.1 (2026-06-24)"
+  },
+  "matched_metrics": 185,
+  "analytic_targets": 90,
+  "row_invariant_checks": 60,
+  "positive_intervention_load_checks": 5,
+  "maximum_absolute_difference": {
+    "Python": 0.0,
+    "Julia": 1.1102230246251565e-16,
+    "R": 3.4924596548080444e-10
+  },
+  "fixture_sha256": "ea45c05604f66a222c2979a578ea18850e67ca6ecf50e6728c5e563983255f89",
+  "probability_design": "six equal background states; twelve independent-assignment states",
+  "parameters_checked": [
+    -2,
+    -1,
+    0,
+    1,
+    2
+  ],
+  "random_draws": 0,
+  "mathematical_proof_status": "handbook supplies an algebraic and probabilistic proof; no formal proof assistant used",
+  "empirical_alert_effect_estimated": false,
+  "live_assessments_included": false
+}

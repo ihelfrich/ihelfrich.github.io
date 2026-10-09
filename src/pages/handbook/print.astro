@@ -1,0 +1,10 @@
+---
+import {getCollection,render} from 'astro:content';
+import Handbook from '../../layouts/Handbook.astro';
+const chapters=(await getCollection('handbook')).sort((a,b)=>a.data.order-b.data.order);
+const rendered=await Promise.all(chapters.map(async chapter=>({chapter,...await render(chapter)})));
+---
+<Handbook title="Working handbook: print and editable source">
+  <section class="ea-shell ea-page-intro ea-no-print"><p class="ea-kicker">October 2026 · Working edition</p><h1>Print and editable source</h1><p class="ea-lead">The opening foundation chapter, its complete proofs, figures, exercises, and three-language calculations.</p><p>This PDF contains the available handbook chapter and the reading-level guide. It is a developing edition. The separate <a href="/time-series/downloads/time-series-econometrics.pdf">109-page time-series course PDF</a> remains available.</p><div class="hb-downloads"><a href="/handbook/downloads/econometrics-handbook-working.pdf">Working PDF ↓</a><a href="/handbook/downloads/econometrics-handbook-source.zip">Editable manuscript, figures &amp; code ZIP ↓</a><a href="/handbook/code/README.md">Execution guide</a></div><p>US Letter, 12-point type, embedded fonts, one-inch margins. The source package includes the authored Markdown, Quarto manuscript, original figures and their generator, independent programs, the finite fixture and manifest, verification results, and font licenses. Live assessments and grading keys remain private.</p></section>
+  <div class="ea-narrow">{rendered.map(({chapter,Content})=><article class="ea-print-chapter"><header class="ea-chapter-heading"><p class="ea-kicker">Chapter {chapter.data.order}</p><h2>{chapter.data.title}</h2><p class="ea-lead">{chapter.data.question}</p><p>{chapter.data.prerequisites}</p></header><div class="ea-prose"><Content /></div></article>)}</div>
+</Handbook>

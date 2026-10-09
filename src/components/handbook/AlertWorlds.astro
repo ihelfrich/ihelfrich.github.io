@@ -1,0 +1,40 @@
+---
+import {alertSummary} from '../../lib/handbook-worlds.mjs';
+const initial=alertSummary(-2);
+---
+<section class="hb-worlds" id="alert-experiment" data-alert-worlds aria-labelledby="alert-experiment-title">
+  <h2 id="alert-experiment-title">Compare the same days under two assignments</h2>
+  <p>Choose a mechanism. Predict whether assigning the alert lowers, preserves, or raises the population's mean load. The observed alert groups continue to have means of 10 and 12 MW.</p>
+  <fieldset disabled data-world-controls>
+    <legend>Mechanism and predicted response</legend>
+    <label for="alert-effect">Alert effect b, in MW</label>
+    <select id="alert-effect" data-alert-effect>
+      {[-2,-1,0,1,2].map(b=><option value={b} selected={b===-2}>{b} MW</option>)}
+    </select>
+    <fieldset class="hb-prediction">
+      <legend>Assigned alert versus assigned no alert</legend>
+      {[['down','Lower mean load'],['same','Same mean load'],['up','Higher mean load']].map(([value,label])=><label><input type="radio" name="alert-prediction" value={value} />{label}</label>)}
+    </fieldset>
+    <button type="button" data-reveal-alert disabled>Compare assignments</button>
+  </fieldset>
+  <div data-alert-result>
+    <p class="hb-result" role="status" data-alert-feedback>Shown for b = −2 MW: the assigned-alert mean falls from 12 to 10 MW.</p>
+    <figure>
+      <svg viewBox="0 0 420 300" role="img" aria-labelledby="alert-graph-title alert-graph-description">
+        <title id="alert-graph-title">Observed and assigned-alert mean loads</title>
+        <desc id="alert-graph-description" data-alert-graph-description>The observed means rise from 10 to 12 MW. With effect minus 2 MW, assigned means fall from 12 to 10 MW.</desc>
+        <g fill="none" stroke="currentColor" stroke-width="1"><path d="M70 40V230H350" /></g>
+        <g font-size="18" fill="currentColor"><text x="18" y="26">Mean peak load (MW)</text><text x="37" y="95">12</text><text x="37" y="135">11</text><text x="37" y="175">10</text><text x="75" y="262">No alert</text><text x="280" y="262">Alert</text></g>
+        <path d="M90 170L320 90" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 5" />
+        <path d="M90 90L320 170" fill="none" stroke="currentColor" stroke-width="3" data-assigned-path />
+        <circle cx="90" cy="90" r="5" fill="currentColor" data-assigned0-point />
+        <circle cx="320" cy="170" r="5" fill="currentColor" data-assigned1-point />
+      </svg>
+      <figcaption>Dashed: the two observed groups. Solid: assignment applied to the same six background day types.</figcaption>
+    </figure>
+    <table><caption>Population means, in MW</caption><thead><tr><th scope="col">Comparison</th><th scope="col">No alert</th><th scope="col">Alert</th><th scope="col">Difference</th></tr></thead><tbody><tr><th scope="row">Observed groups</th><td>10</td><td>12</td><td>2</td></tr><tr><th scope="row">Assigned status</th><td data-assigned0>{initial.assigned0}</td><td data-assigned1>{initial.assigned1}</td><td data-assigned-effect>{initial.effect}</td></tr></tbody></table>
+    <details><summary>Compare each background day</summary><p class="hb-table-scroll-help">Scroll the day table to compare both assigned columns.</p><div class="hb-table-scroll" tabindex="0" role="region" aria-label="Six background day types and both assignments"><table><caption>Each row has probability 1/6; loads are in MW</caption><thead><tr><th scope="col">U</th><th scope="col">V</th><th scope="col">Observed Y</th><th scope="col">Assigned A=0</th><th scope="col">Assigned A=1</th></tr></thead><tbody data-alert-state-rows>{initial.states.map(s=><tr><td>{s.u}</td><td>{s.v}</td><td>{s.observed}</td><td>{s.assigned0}</td><td>{s.assigned1}</td></tr>)}</tbody></table></div></details>
+    <p><strong>Explain the result.</strong> Which heat conditions enter each observed group? Which enter each assigned population? Use the <a href="#intervention">equation-replacement calculation</a> to explain the difference. The <a href="#sensors">sensor example</a> asks what additional knowledge could justify a zero response.</p>
+  </div>
+  <p>Without interactive controls, the graph and tables show the b = −2 case. All five mechanisms are available in the <a href="/handbook/code/README.md">native three-language calculations</a>.</p>
+</section>
