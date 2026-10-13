@@ -1,3 +1,4 @@
+import {prepareSessionModels,sessionModelPinStatement} from './session-models.mjs';
 import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {listPage} from './pagination.mjs';
@@ -26,10 +27,11 @@ export async function startAssignment(env,p,b){
  requireValue(typeof b.requestId==='string'&&/^[a-f0-9-]{36}$/.test(b.requestId),'Provide a session request ID.');
  const existing=await query(env.DB,'SELECT * FROM sessions WHERE id=?',b.requestId).first();if(existing){requireValue(existing.participant_id===p.id&&existing.assignment_id===b.assignmentId,'Session request conflict.',409);return {sessionId:existing.id,course:existing.course,mode:existing.mode,bankVersion:existing.bank_version,assignmentId:existing.assignment_id};}
  const a=await query(env.DB,`SELECT a.* FROM assignments a JOIN assignment_members m ON m.assignment_id=a.id WHERE a.id=? AND m.participant_id=? AND a.disabled_at IS NULL`,b.assignmentId,p.id).first();requireValue(a,'Assignment not available to this profile.',404);
- await archivedBank(env.DB,a.bank_version,a.course);requireValue(a.opens_at<=iso()&&a.closes_at>iso(),'The assignment is not open.',403);
+ const archived=await archivedBank(env.DB,a.bank_version,a.course);requireValue(a.opens_at<=iso()&&a.closes_at>iso(),'The assignment is not open.',403);
  // The unique assignment/participant/attempt index serializes concurrent slot claims.
  const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE assignment_id=? AND participant_id=?',a.id,p.id).first();requireValue(previous.n<a.max_attempts,'No assignment attempts remain.',409);
- try{await query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter,assignment_id,assignment_attempt,target_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',b.requestId,p.id,a.course,'assessment',a.bank_version,iso(),'participant-auth',a.closes_at,1,a.unit_filter,a.topic_filter,a.id,previous.n+1,a.item_count).run();}catch(error){const raced=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=? AND assignment_id=?',b.requestId,p.id,a.id).first();if(!raced)throw new HttpError(409,'An assignment attempt was started concurrently. Reload your assignments.');}
+ const at=iso(),plan=await prepareSessionModels(env,{bankVersion:a.bank_version,course:a.course,unit:a.unit_filter,topic:a.topic_filter,targetCount:a.item_count},archived);
+ try{await env.DB.batch([query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter,assignment_id,assignment_attempt,target_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',b.requestId,p.id,a.course,'assessment',a.bank_version,iso(),'participant-auth',a.closes_at,1,a.unit_filter,a.topic_filter,a.id,previous.n+1,a.item_count),sessionModelPinStatement(env,b.requestId,plan,at)]);}catch(error){const raced=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=? AND assignment_id=?',b.requestId,p.id,a.id).first();if(!raced)throw new HttpError(409,String(error.message).includes('json_valid')?'Calibration release changed while starting. Please retry.':'An assignment attempt was started concurrently. Reload your assignments.');}
  return {sessionId:b.requestId,course:a.course,mode:'assessment',bankVersion:a.bank_version,assignmentId:a.id};
 }
 export async function assignmentReport(env,id){

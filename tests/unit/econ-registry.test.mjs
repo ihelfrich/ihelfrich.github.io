@@ -1,5 +1,5 @@
 import {recordModelRelease,latestModelRelease} from '../../services/econ-response/model-releases.mjs';
-import {sessionModels} from '../../services/econ-response/session-models.mjs';
+import {sessionModels,prepareSessionModels,sessionModelPinStatement} from '../../services/econ-response/session-models.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -8,11 +8,11 @@ import worker,{CONSENT_VERSION} from '../../services/econ-response/worker.mjs';
 import {buildBank,BANK_VERSION} from '../../src/lib/econ-practice/index.mjs';
 import {packageCandidate} from '../../scripts/econ-practice/package-candidate.mjs';
 import {reportHash} from '../../scripts/econ-practice/validate-candidate.mjs';
-function fixture(){
+function fixture({course,complete=false}={}){
  const DB=createLocalDB();for(const file of readdirSync(new URL('../../services/econ-response/migrations/',import.meta.url)).filter(f=>f.endsWith('.sql')).sort())DB.exec(readFileSync(new URL(`../../services/econ-response/migrations/${file}`,import.meta.url),'utf8'));
- const env={DB,ADMIN_TOKEN:'registry-test',ALLOW_BOOTSTRAP_ADMIN:'true'},item=buildBank().find(q=>q.format==='numeric');
+ const env={DB,ADMIN_TOKEN:'registry-test',ALLOW_BOOTSTRAP_ADMIN:'true'},item=buildBank().find(q=>course?q.course===course:q.format==='numeric');
  // Fabricated review/fit exercises transport and integrity; never an empirical calibration.
- const report={synthetic:false,matrixSHA256:'e'.repeat(64),bankVersion:BANK_VERSION,course:item.course,unit:item.unit,sourceSHA256:'d'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:100},items:{[item.id]:{a:1,b:0,c:0,d:1}}}}};
+ const report={synthetic:false,matrixSHA256:'e'.repeat(64),bankVersion:BANK_VERSION,course:item.course,unit:item.unit,sourceSHA256:'d'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:100},items:Object.fromEntries((complete?buildBank().filter(q=>q.course===item.course&&q.unit===item.unit&&q.format!=='multipart'):[item]).map(q=>[q.id,{a:1,b:0,c:0,d:1}]))}}};
  const review={reviewer:'Technical fixture only',reviewedAt:'2026-10-12T00:00:00Z',sourceSHA256:report.sourceSHA256,reportSHA256:reportHash(report),model:'2PL',bankVersion:BANK_VERSION,course:item.course,unit:item.unit,gates:Object.fromEntries(['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'].map(k=>[k,{decision:'accepted',evidence:'Fixture only',rationale:'No scientific validation implied'}]))};
  const artifact=packageCandidate(report,review);
  async function call(path,data,token='registry-test'){const response=await worker.fetch(new Request(`https://api.test${path}`,{method:data?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},...(data?{body:JSON.stringify(data)}:{})}),env);return {httpStatus:response.status,...await response.json()};}
@@ -66,7 +66,8 @@ test('session model pins require approved matching scope and remain immutable',a
  const {DB,artifact,call}=fixture();try{
   await call('/admin/model-packages',artifact);
   const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
-  const session=await call('/sessions',{course:artifact.course,mode:'assessment',unit:artifact.unit},profile.token);
+  async function legacySession(){const id=crypto.randomUUID();await DB.prepare('INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter) VALUES (?,?,?,?,?,?,?,?,?,?,?)').bind(id,profile.participantId,artifact.course,'assessment',artifact.bankVersion,new Date().toISOString(),'participant-auth',new Date(Date.now()+86400000).toISOString(),0,artifact.unit,'').run();return {sessionId:id};}
+  const session=await legacySession();
   const insert=map=>DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(session.sessionId,artifact.bankVersion,artifact.course,JSON.stringify(map),'2026-10-13').run();
   await assert.rejects(insert({[artifact.unit]:'not-approved'}),/approval mismatch/);
   await DB.prepare('INSERT INTO model_approvals VALUES (?,?,?,?,?)').bind('approval-test',artifact.id,'2026-10-13','fixture','Technical fixture, not scientific approval').run();
@@ -87,12 +88,12 @@ test('session model pins require approved matching scope and remain immutable',a
   await assert.rejects(DB.prepare('DELETE FROM session_model_pins').run(),/retained/);
   await assert.rejects(DB.prepare("UPDATE model_approvals SET rationale='changed'").run(),/immutable/);
   await assert.rejects(DB.prepare('DELETE FROM model_approvals').run(),/retained/);
-  const legacy=await call('/sessions',{course:artifact.course,mode:'assessment'},profile.token);
+  const legacy=await legacySession();
   await DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(legacy.sessionId,artifact.bankVersion,artifact.course,'{}','2026-10-13').run();
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM session_model_pins').first()).n,2);
   const emptySession=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(legacy.sessionId).first();
   assert.deepEqual(await sessionModels({DB},emptySession),{});
-  const shown=await call('/sessions',{course:artifact.course,mode:'assessment'},profile.token);
+  const shown=await legacySession();
   const unpinned=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(shown.sessionId).first();
   assert.deepEqual(await sessionModels({DB},unpinned),{});
   assert.equal((await call('/sessions/'+shown.sessionId+'/next',{},profile.token)).httpStatus,200);
@@ -149,5 +150,47 @@ test('release history supports withdrawal and rollback with atomic stale-write p
   await assert.rejects(raw.bind('bad-scope',artifact.bankVersion,artifact.course,artifact.unit+1,approved.approvalId,null,1,'now',actor.id,'test').run(),/scope mismatch/);
   await assert.rejects(raw.bind('stale',artifact.bankVersion,artifact.course,artifact.unit,approved.approvalId,first.id,4,'now',actor.id,'test').run(),/reload/);
   assert.equal((await DB.prepare("SELECT COUNT(*) n FROM audit_log WHERE action='model-release-recorded'").first()).n,3);
+ }finally{DB.close();}
+});
+
+test('new assessments pin release snapshots; withdrawal only affects future starts',async()=>{
+ const {DB,artifact,call}=fixture({course:'intro-econometrics',complete:true}),env={DB},actor={id:'fixture'};
+ try{
+  await call('/admin/model-packages',artifact);
+  const approval=await call(`/admin/model-packages/${artifact.id}/approve`,{confirmApproval:true,rationale:'Technical fixture only.'});
+  const input={confirmRelease:true,bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit,approvalId:approval.approvalId,expectedReleaseId:null,rationale:'Test selection.'};
+  const release=await recordModelRelease(env,actor,input);
+  const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  const session=await call('/sessions',{course:artifact.course,mode:'assessment',unit:artifact.unit},profile.token);
+  assert.equal(session.httpStatus,200);
+  const stored=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(session.sessionId).first();
+  assert.equal(stored.target_count,5);
+  const models=await sessionModels(env,stored);assert.equal(models[artifact.unit].id,artifact.id);
+  const plan=await prepareSessionModels(env,{bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit,targetCount:5},buildBank());
+  await recordModelRelease(env,actor,{...input,expectedReleaseId:release.release.id,approvalId:null,rationale:'Withdraw test release.'});
+  const racedId=crypto.randomUUID();
+  await assert.rejects(DB.batch([
+   DB.prepare('INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)').bind(racedId,profile.participantId,artifact.course,'assessment',artifact.bankVersion,'now','fixture','later'),
+   sessionModelPinStatement(env,racedId,plan,'now')
+  ]),/json_valid/);
+  assert.equal(await DB.prepare('SELECT id FROM sessions WHERE id=?').bind(racedId).first(),null);
+  assert.equal((await sessionModels(env,stored))[artifact.unit].id,artifact.id);
+  const next=await call('/sessions/'+session.sessionId+'/next',{},profile.token);assert.equal(next.httpStatus,200);
+  assert.equal((await DB.prepare('SELECT model_version FROM presentations WHERE session_id=?').bind(session.sessionId).first()).model_version,artifact.id);
+  const fresh=await call('/sessions',{course:artifact.course,mode:'assessment',unit:artifact.unit},profile.token);
+  assert.equal((await DB.prepare('SELECT approvals_json FROM session_model_pins WHERE session_id=?').bind(fresh.sessionId).first()).approvals_json,'{}');
+  const practice=await call('/sessions',{course:artifact.course,mode:'practice'},profile.token);
+  assert.equal(await DB.prepare('SELECT * FROM session_model_pins WHERE session_id=?').bind(practice.sessionId).first(),null);
+ }finally{DB.close();}
+});
+test('insufficient calibrated coverage rejects assessment before consuming a session',async()=>{
+ const {DB,artifact,call}=fixture();try{
+  await call('/admin/model-packages',artifact);
+  const approval=await call(`/admin/model-packages/${artifact.id}/approve`,{confirmApproval:true,rationale:'Technical fixture only.'});
+  await recordModelRelease({DB},{id:'fixture'},{confirmRelease:true,bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit,approvalId:approval.approvalId,expectedReleaseId:null,rationale:'Test insufficient pool.'});
+  const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  const session=await call('/sessions',{course:artifact.course,mode:'assessment',unit:artifact.unit},profile.token);
+  assert.equal(session.httpStatus,409);assert.match(session.error,/too few/);
+  assert.equal((await DB.prepare('SELECT COUNT(*) n FROM sessions').first()).n,0);
  }finally{DB.close();}
 });

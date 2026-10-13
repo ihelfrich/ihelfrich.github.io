@@ -1,4 +1,4 @@
-import {sessionModels} from './session-models.mjs';
+import {sessionModels,prepareSessionModels,sessionModelPinStatement} from './session-models.mjs';
 import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {hintFor} from '../../src/lib/econ-practice/hints.mjs';
 import {registerModel,approveModel} from './model-registry.mjs';
@@ -122,7 +122,13 @@ async function route(request,env){
   requireValue(!b.topic||(typeof b.topic==='string'&&bank.some(q=>q.course===b.course&&q.topic===b.topic)),'Invalid topic.');
   const recent=await query(env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE participant_id=? AND started_at>?',p.id,new Date(Date.now()-86400000).toISOString()).first();requireValue(recent.n<100,'Daily session limit reached.',429);
   await ensureCurrentBank(env.DB);
-  const id=uuid(),at=iso();await query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter) VALUES (?,?,?,?,?,?,?,?,?,?,?)',id,p.id,b.course,b.mode,BANK_VERSION,at,'participant-auth',new Date(Date.now()+30*86400000).toISOString(),Number(!!b.assigned),b.unit??0,b.topic??'').run();
+  const id=uuid(),at=iso();
+  const eligible=bank.filter(q=>q.course===b.course&&(!b.unit||q.unit===b.unit)&&(!b.topic||q.topic===b.topic));
+  const targetCount=Math.min(36,new Set(eligible.map(q=>q.family)).size);
+  const plan=b.mode==='assessment'?await prepareSessionModels(env,{bankVersion:BANK_VERSION,course:b.course,unit:b.unit??0,topic:b.topic??'',targetCount},bank):null;
+  const statements=[query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter,target_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',id,p.id,b.course,b.mode,BANK_VERSION,at,'participant-auth',new Date(Date.now()+30*86400000).toISOString(),0,b.unit??0,b.topic??'',targetCount)];
+  if(plan)statements.push(sessionModelPinStatement(env,id,plan,at));
+  try{await env.DB.batch(statements);}catch(error){if(String(error.message).includes('json_valid'))requireValue(false,'Calibration release changed while starting. Please retry.',409);throw error;}
   return {sessionId:id,course:b.course,mode:b.mode,bankVersion:BANK_VERSION};
  }
  const match=path.match(/^\/sessions\/([a-f0-9-]{36})\/(next|answers|hint|complete|report)$/);requireValue(match,'Unknown route.',404);
