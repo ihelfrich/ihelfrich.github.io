@@ -497,3 +497,7 @@ Answer fields lock after durable local queue insertion and after a server receip
 ## Session action ordering (2026-10-12)
 
 Next, finish, and queued-answer retry now share a navigation lock. Competing clicks are ignored while an action runs; failure restores controls. Hint requests capture their original presentation and suppress late success/error output after the current presentation changes or feedback has replaced the hint. New regression tests cover competing actions, rejection recovery, and stale hint responses. All 121 focused tests pass. Full reload/offline/cross-tab recovery remains a separate browser verification requirement.
+
+## Student report review (2026-10-12)
+
+Session reports now offer all-answer, needs-review, and excluded-receipt views. Review counts exclude uncounted receipts. Expanded answers restore available graphs; multipart feedback uses the original part prompt and explicit part key. Excluded receipts have an explicit outcome label. A DOM regression verifies counts, filters, graphs, and multipart labels against real bank items. All 122 focused tests pass. Visual browser verification of this report remains pending.
