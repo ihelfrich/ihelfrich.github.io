@@ -128,3 +128,15 @@ test('completion or expiry between selection and insertion cannot create another
   const stored=await prepare('SELECT COUNT(*) AS n FROM presentations WHERE session_id=?').bind(s.sessionId).first();assert.equal(stored.n,1,boundary);t.env.DB.close();
  }
 });
+
+test('an answer delayed past expiry is retained with the actual database receipt time and excluded from scoring',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment');const prepare=t.env.DB.prepare.bind(t.env.DB);let expiry,injected=false;
+ t.env.DB.prepare=sql=>{const statement=prepare(sql);if(!sql.startsWith('INSERT INTO responses'))return statement;return {bind(...args){const bound=statement.bind(...args);return {...bound,run:async()=>{
+  if(!injected){injected=true;expiry=new Date(Date.now()+50).toISOString();await prepare('UPDATE sessions SET expires_at=? WHERE id=?').bind(expiry,s.sessionId).run();await new Promise(resolve=>setTimeout(resolve,100));}
+  return bound.run();
+ }};}};};
+ const payload=answer(next),receipt=await t.call(`/sessions/${s.sessionId}/answers`,payload,p.token);
+ assert.equal(receipt.status,200);assert.equal(receipt.persisted,true);assert.equal(receipt.validity,'late-receipt');assert.equal(receipt.countsTowardResult,false);assert.ok(receipt.receipt>=expiry);
+ const stored=await prepare('SELECT raw_answer_json,server_received_at,calibration_eligible FROM responses').first();assert.equal(stored.raw_answer_json,JSON.stringify(payload.response));assert.equal(stored.server_received_at,receipt.receipt);assert.equal(stored.calibration_eligible,0);
+ const retry=await t.call(`/sessions/${s.sessionId}/answers`,payload,p.token);assert.equal(retry.receipt,receipt.receipt);assert.equal(retry.validity,'late-receipt');t.env.DB.close();
+});

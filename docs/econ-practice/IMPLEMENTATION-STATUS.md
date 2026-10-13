@@ -339,3 +339,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Reproduced next-question selection racing with session completion. The old worker could create and return a new presentation after completion because it used the session state read before selection.
 - Presentation INSERT SELECT now checks current session ownership, no completion and future expiry using database time. A zero-row insert returns409 and no fabricated presentation ID. Existing unique-sequence race recovery remains intact.
 - Deterministic tests inject actual completion or expiry immediately before the write. Previous code fails with200 instead of409; revised code leaves presentation count unchanged.79 focused tests pass. No deployment.
+
+## Continuation: database receipt-time deadline classification
+
+- Reproduced an answer write delayed beyond expiry that the old handler classified as valid using its earlier application timestamp. The database now generates server_received_at and compares expiry with the same statement's database time.
+- API receipt comes from the persisted row. Late answers retain raw responses and receive late-receipt status, no result credit and no calibration eligibility. Identical retries return the original persisted timestamp/classification.
+- Regression delays the write past a newly set deadline: prior code fails (valid instead of late-receipt), current code passes and retains the answer.80 focused tests pass. Client submission time remains contextual metadata, not the deadline authority. No deployment.

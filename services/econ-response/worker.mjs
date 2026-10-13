@@ -93,17 +93,17 @@ async function route(request,env){
   const item=JSON.parse(pr.item_snapshot_json);
   requireValue(validResponseShape(item,b.response),'Provide a valid answer for every part.');
   const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM responses WHERE presentation_id=?',pr.id).first();requireValue(b.attemptNumber===previous.n+1,'Attempt sequence conflict.',409);requireValue(s.mode==='practice'||previous.n===0,'Assessment answers cannot be changed.',409);
-  const grade=gradeResponse(item,b.response),correct=grade.correct,at=iso(),validity=b.activeMs<1500?'rapid-response':'valid';
+  const grade=gradeResponse(item,b.response),correct=grade.correct,validity=b.activeMs<1500?'rapid-response':'valid';
   const eligible=item.format!=='multipart'&&s.mode==='assessment'&&pr.first_family_exposure===1&&pr.hints_used===0&&previous.n===0&&validity==='valid';
-  try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,current.hints_used,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=? THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=? OR current.hints_used>0 THEN 0 ELSE ? END,? FROM sessions JOIN presentations current ON current.id=? WHERE sessions.id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),grade.score,b.submittedAt,at,b.elapsedMs,b.activeMs,Number(previous.n>0&&s.mode==='practice'),at,validity,at,Number(eligible),digest,pr.id,sid).run();}
+  try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,strftime('%Y-%m-%dT%H:%M:%fZ','now'),?,?,current.hints_used,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=strftime('%Y-%m-%dT%H:%M:%fZ','now') THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=strftime('%Y-%m-%dT%H:%M:%fZ','now') OR current.hints_used>0 THEN 0 ELSE ? END,? FROM sessions JOIN presentations current ON current.id=? WHERE sessions.id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),grade.score,b.submittedAt,b.elapsedMs,b.activeMs,Number(previous.n>0&&s.mode==='practice'),validity,Number(eligible),digest,pr.id,sid).run();}
   catch(error){
    const raced=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
    if(!raced){const duplicate=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? AND attempt_number=?',pr.id,b.attemptNumber).first();if(duplicate)throw new HttpError(409,'This attempt was already saved under a different event ID.');throw error;}
    requireValue(raced.participant_id===p.id&&raced.session_id===sid&&raced.payload_sha256===digest,'Idempotency conflict.',409);
    return {eventId:b.eventId,receipt:raced.server_received_at,persisted:true,validity:raced.validity,countsTowardResult:!['late-receipt','after-completion'].includes(raced.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
   }
-  const stored=await query(env.DB,'SELECT validity FROM responses WHERE event_id=?',b.eventId).first();
-  return {eventId:b.eventId,receipt:at,persisted:true,validity:stored.validity,countsTowardResult:!['late-receipt','after-completion'].includes(stored.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
+  const stored=await query(env.DB,'SELECT validity,server_received_at FROM responses WHERE event_id=?',b.eventId).first();
+  return {eventId:b.eventId,receipt:stored.server_received_at,persisted:true,validity:stored.validity,countsTowardResult:!['late-receipt','after-completion'].includes(stored.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
  }
  requireValue(!s.completed_at,'Session is complete.',409);requireValue(s.expires_at>iso(),'Session expired.',409);
  if(action==='hint'){
