@@ -61,3 +61,9 @@ Parent inspected all 60 financial-economics prompts, keys, distractors, explanat
 ## Financial Economics — bank 2026.10.12.25
 
 Activated 60 distinct reviewed families across discounting/fixed income, portfolios, asset pricing, derivatives, information/efficiency and corporate finance. Both requested parent corrections verified in final source. Individual method hints extracted into the hint registry; source bytes pinned. Parent numeric test covers41 numerical keys plus two portfolio results; author reports47 arithmetic assertions. All156 tests pass including six-unit selection coverage and stable reload registration. AP Micro remains the default first course. Inventory is3,537 active items/562families across11courses. Authenticated student/instructor browser verification of this course remains outstanding; no empirical calibration or deployment claimed.
+
+## Behavioral Economics — bank 2026.10.12.26
+
+Parent reviewed all60 prompts, keys, distractors, explanations and hints. Corrected four assumptions/standalone issues: explicit quasi-hyperbolic evaluation in preference reversal; restated guessing-game rules instead of referring to a previous item; clarified randomized announcement versus control; added well-defined treatment/no spillovers to LATE. Questions distinguish models from empirical claims and behavioral changes from welfare judgments. Independent numeric/inequality checks cover loss valuation, present bias/commitment, Bayesian updating, social preferences, logit learning, causal estimates and welfare arithmetic.
+
+Activated60 distinct families and exact hints in six units. Byte-pinned release and158tests pass; bank/review audits show zeroerrors. Inventory3,597items/622families/12courses. Browser/authenticated flow verification remains separate; no empirical calibration or production deployment claimed.

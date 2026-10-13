@@ -2,7 +2,7 @@ import {fieldVariantHintFor} from './field-variant-hints.mjs';
 import {fieldHints} from './field-hints.mjs';
 import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v13';
+export const HINT_VERSION='topic-scaffolds-v14';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',

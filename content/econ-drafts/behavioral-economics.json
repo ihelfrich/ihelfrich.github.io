@@ -5,14 +5,14 @@
     "unit": 1,
     "topic": "1.1",
     "title": "Evaluating a mixed gamble",
-    "prompt": "In a constructed model, v(x)=x for gains and v(x)=2x for losses relative to zero. Probabilities are weighted linearly. What is the value of a 50\u201350 gamble yielding +30 or \u221220, compared with receiving zero?",
-    "correct": "\u22125, so zero is preferred.",
+    "prompt": "In a constructed model, v(x)=x for gains and v(x)=2x for losses relative to zero. Probabilities are weighted linearly. What is the value of a 50–50 gamble yielding +30 or −20, compared with receiving zero?",
+    "correct": "−5, so zero is preferred.",
     "wrong": [
       "+5, so the gamble is preferred.",
-      "\u221210, so zero is preferred.",
+      "−10, so zero is preferred.",
       "0, so the decision maker is indifferent."
     ],
-    "explanation": "The value is 0.5(30)+0.5(\u221240)=\u22125. The monetary expected payoff is +5, but losses receive twice the slope.",
+    "explanation": "The value is 0.5(30)+0.5(−40)=−5. The monetary expected payoff is +5, but losses receive twice the slope.",
     "hint": "Apply the loss slope before averaging.",
     "skill": "evaluating a mixed gamble",
     "sourceUrls": [
@@ -58,7 +58,7 @@
       "It changes from a loss of 10 to a gain of 20.",
       "Its objective payoff falls by 30."
     ],
-    "explanation": "Coding subtracts the reference point from the outcome. The payment stays 80 even though its gain\u2013loss classification changes.",
+    "explanation": "Coding subtracts the reference point from the outcome. The payment stays 80 even though its gain–loss classification changes.",
     "hint": "Compute outcome minus reference point twice.",
     "skill": "reference point movement",
     "sourceUrls": [
@@ -74,14 +74,14 @@
     "unit": 1,
     "topic": "1.4",
     "title": "Diminishing sensitivity over losses",
-    "prompt": "Suppose v(x)=\u2212sqrt(\u2212x) for x<0 and v(0)=0, with linear probability weights. Which is preferred: a sure loss of 50 or equal chances of losing 100 and losing zero?",
-    "correct": "The risky loss is preferred: \u22125 exceeds approximately \u22127.07.",
+    "prompt": "Suppose v(x)=−sqrt(−x) for x<0 and v(0)=0, with linear probability weights. Which is preferred: a sure loss of 50 or equal chances of losing 100 and losing zero?",
+    "correct": "The risky loss is preferred: −5 exceeds approximately −7.07.",
     "wrong": [
-      "The sure loss is preferred: \u22127.07 exceeds \u22125.",
+      "The sure loss is preferred: −7.07 exceeds −5.",
       "They are tied because both have expected monetary loss 50.",
       "The risky loss is preferred because its expected monetary loss is zero."
     ],
-    "explanation": "The sure loss has value \u2212sqrt(50), approximately \u22127.07. The gamble has value 0.5(\u221210)+0.5(0)=\u22125. Convexity on this loss domain favors the mean-preserving spread.",
+    "explanation": "The sure loss has value −sqrt(50), approximately −7.07. The gamble has value 0.5(−10)+0.5(0)=−5. Convexity on this loss domain favors the mean-preserving spread.",
     "hint": "Evaluate each option using v before comparing.",
     "skill": "diminishing sensitivity over losses",
     "sourceUrls": [
@@ -104,7 +104,7 @@
       "50.",
       "0.05."
     ],
-    "explanation": "The nonzero outcome contributes 0.05\u00d7100=5. The objective expected payment would be 1; the stipulated decision weight differs from probability.",
+    "explanation": "The nonzero outcome contributes 0.05×100=5. The objective expected payment would be 1; the stipulated decision weight differs from probability.",
     "hint": "Multiply the gain by its decision weight.",
     "skill": "weighting a rare gain",
     "sourceUrls": [
@@ -173,7 +173,7 @@
       "Attend because not using the ticket creates an additional financial loss.",
       "Stay home only if the ticket was free."
     ],
-    "explanation": "The relevant incremental net benefit is 12\u221218=\u22126. The sunk payment is identical under both current choices.",
+    "explanation": "The relevant incremental net benefit is 12−18=−6. The sunk payment is identical under both current choices.",
     "hint": "Compare consequences that still change with the decision.",
     "skill": "sunk expenditure",
     "sourceUrls": [
@@ -235,14 +235,14 @@
     "unit": 2,
     "topic": "2.1",
     "title": "Exponential discounting",
-    "prompt": "A constructed agent has linear utility and exponential discount factor \u03b4=0.9 per year. What present value does the agent assign to 100 received in two years?",
+    "prompt": "A constructed agent has linear utility and exponential discount factor δ=0.9 per year. What present value does the agent assign to 100 received in two years?",
     "correct": "81.",
     "wrong": [
       "90.",
       "100.",
       "180."
     ],
-    "explanation": "The weight is \u03b4\u00b2, so 0.9\u00b2\u00d7100=81.",
+    "explanation": "The weight is δ², so 0.9²×100=81.",
     "hint": "Apply the annual discount factor twice.",
     "skill": "exponential discounting",
     "sourceUrls": [
@@ -258,15 +258,15 @@
     "unit": 2,
     "topic": "2.2",
     "title": "Quasi-hyperbolic discounting",
-    "prompt": "At date 0, utility is u(c0)+\u03b2\u03b4u(c1)+\u03b2\u03b4\u00b2u(c2). With \u03b2=0.6, \u03b4=1 and linear utility, choose between 50 now and 70 next period.",
+    "prompt": "At date 0, utility is u(c0)+βδu(c1)+βδ²u(c2). With β=0.6, δ=1 and linear utility, choose between 50 now and 70 next period.",
     "correct": "Choose 50 now because 50 exceeds 42.",
     "wrong": [
       "Choose 70 later because 70 exceeds 50.",
-      "Be indifferent because \u03b4=1.",
+      "Be indifferent because δ=1.",
       "Choose later because its discounted value is 116.67."
     ],
-    "explanation": "The immediate option is worth 50 and the delayed option is worth 0.6\u00d770=42. \u03b2 applies to delayed utility even with \u03b4=1.",
-    "hint": "Only future utility receives \u03b2 from the current perspective.",
+    "explanation": "The immediate option is worth 50 and the delayed option is worth 0.6×70=42. β applies to delayed utility even with δ=1.",
+    "hint": "Only future utility receives β from the current perspective.",
     "skill": "quasi-hyperbolic discounting",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
@@ -281,7 +281,7 @@
     "unit": 2,
     "topic": "2.3",
     "title": "Preference reversal",
-    "prompt": "Use \u03b2=0.6, \u03b4=1 and linear utility. At date 0 choose between 50 at date 1 and 70 at date 2; at date 1 reconsider those same payments. What happens?",
+    "prompt": "At each date, utility is current consumption plus β times each future period’s consumption; δ=1 and utility is linear. With β=0.6, at date 0 choose between 50 at date 1 and 70 at date 2; at date 1 reconsider those same payments. What happens?",
     "correct": "Choose 70 initially, then prefer 50 when it becomes immediate.",
     "wrong": [
       "Choose 50 at both dates.",
@@ -289,7 +289,7 @@
       "Choose 50 initially, then switch to 70."
     ],
     "explanation": "At date 0 the values are 30 and 42. At date 1 they are 50 and 42, producing a reversal.",
-    "hint": "The earlier payment loses its \u03b2 discount when its date arrives.",
+    "hint": "The earlier payment loses its β discount when its date arrives.",
     "skill": "preference reversal",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
@@ -350,14 +350,14 @@
     "unit": 2,
     "topic": "2.6",
     "title": "Commitment fee threshold",
-    "prompt": "At date 0 a sophisticated agent has \u03b2=0.5 and \u03b4=1. Tomorrow an action costs 8 immediately and yields 12 the next day. A binding contract purchased today forces the action. Using date-0 utility and linear money utility, what is the maximum fee today?",
+    "prompt": "At date 0 a sophisticated agent has β=0.5 and δ=1. Tomorrow an action costs 8 immediately and yields 12 the next day. A binding contract purchased today forces the action. Using date-0 utility and linear money utility, what is the maximum fee today?",
     "correct": "2.",
     "wrong": [
       "4.",
       "6.",
       "8."
     ],
-    "explanation": "Tomorrow the agent rejects the action because \u22128+0.5\u00d712=\u22122. From today the forced action is worth 0.5(\u22128+12)=2, which is the maximum immediate fee.",
+    "explanation": "Tomorrow the agent rejects the action because −8+0.5×12=−2. From today the forced action is worth 0.5(−8+12)=2, which is the maximum immediate fee.",
     "hint": "Evaluate the uncommitted choice tomorrow, then the contract from today.",
     "skill": "commitment fee threshold",
     "sourceUrls": [
@@ -376,7 +376,7 @@
     "prompt": "A participant prefers a payment today to a larger payment next week. Why does this alone fail to identify present bias in consumption utility?",
     "correct": "Liquidity needs, payment trust and transaction costs can affect payment choices.",
     "wrong": [
-      "Any preference for sooner money logically implies \u03b2<1.",
+      "Any preference for sooner money logically implies β<1.",
       "Discounting can never apply to money.",
       "Randomizing payment order makes liquidity irrelevant."
     ],
@@ -401,7 +401,7 @@
     "wrong": [
       "Accurately forecasting stable tastes.",
       "Exponential discounting alone.",
-      "Learning the objective probability of hunger by Bayes\u2019 rule."
+      "Learning the objective probability of hunger by Bayes’ rule."
     ],
     "explanation": "Projection bias underadjusts for a future change in state. It is conceptually distinct from impatience over fixed future preferences.",
     "hint": "The error concerns future tastes rather than the passage of time alone.",
@@ -442,7 +442,7 @@
     "unit": 2,
     "topic": "2.10",
     "title": "Welfare across selves",
-    "prompt": "A commitment device raises the date-0 self\u2019s utility but lowers utility evaluated by the date-1 self. What is needed to call it a welfare improvement?",
+    "prompt": "A commitment device raises the date-0 self’s utility but lowers utility evaluated by the date-1 self. What is needed to call it a welfare improvement?",
     "correct": "An explicit criterion specifying which preferences or aggregation define welfare.",
     "wrong": [
       "Only evidence that the device is called a nudge.",
@@ -472,7 +472,7 @@
       "10%.",
       "44.4%."
     ],
-    "explanation": "Bayes\u2019 rule gives 0.08/(0.08+0.18)=4/13\u22480.308. The false positives arise from the much larger group without T.",
+    "explanation": "Bayes’ rule gives 0.08/(0.08+0.18)=4/13≈0.308. The false positives arise from the much larger group without T.",
     "hint": "Count true and false positives per 100 people.",
     "skill": "bayesian base rates",
     "sourceUrls": [
@@ -495,7 +495,7 @@
       "1:24.",
       "7:10."
     ],
-    "explanation": "Posterior odds equal prior odds times the likelihood ratio: (1/4)\u00d76=3/2.",
+    "explanation": "Posterior odds equal prior odds times the likelihood ratio: (1/4)×6=3/2.",
     "hint": "Multiply odds, not probabilities, by the likelihood ratio.",
     "skill": "posterior odds",
     "sourceUrls": [
@@ -557,7 +557,7 @@
     "unit": 3,
     "topic": "3.5",
     "title": "Unknown coin quality",
-    "prompt": "A coin\u2019s probability of heads is unknown. Why can observing many heads rationally increase a forecast of heads?",
+    "prompt": "A coin’s probability of heads is unknown. Why can observing many heads rationally increase a forecast of heads?",
     "correct": "The observations provide information about the unknown probability.",
     "wrong": [
       "Independent flips require negative serial correlation.",
@@ -606,11 +606,11 @@
     "prompt": "Participants randomly see a high or low irrelevant number before estimating the same quantity. What contrast identifies the causal effect of the assigned anchor in this sample?",
     "correct": "The difference in mean estimates across assigned anchor groups.",
     "wrong": [
-      "The correlation between estimates and participants\u2019 chosen anchors.",
-      "The high-anchor group\u2019s mean minus the true quantity alone.",
+      "The correlation between estimates and participants’ chosen anchors.",
+      "The high-anchor group’s mean minus the true quantity alone.",
       "The largest estimate minus the smallest estimate."
     ],
-    "explanation": "Random assignment makes the between-group mean difference an estimator of the assignment effect. A group\u2019s error alone combines anchoring with other errors.",
+    "explanation": "Random assignment makes the between-group mean difference an estimator of the assignment effect. A group’s error alone combines anchoring with other errors.",
     "hint": "Use the randomized contrast.",
     "skill": "anchoring design",
     "sourceUrls": [
@@ -656,7 +656,7 @@
       "Choose A because its total payment is 44.",
       "Be indifferent because both base prices include fees."
     ],
-    "explanation": "A\u2019s perceived cost is 40+0.2\u00d720=44, below B\u2019s 50. Its actual cost remains 60.",
+    "explanation": "A’s perceived cost is 40+0.2×20=44, below B’s 50. Its actual cost remains 60.",
     "hint": "Keep perceived cost separate from the payment.",
     "skill": "limited attention to fees",
     "sourceUrls": [
@@ -695,15 +695,15 @@
     "unit": 4,
     "topic": "4.1",
     "title": "Altruistic allocation",
-    "prompt": "An allocator chooses between (own,other) payoffs A=(12,0) and B=(8,10). Utility is own+0.5\u00d7other. Which is preferred?",
+    "prompt": "An allocator chooses between (own,other) payoffs A=(12,0) and B=(8,10). Utility is own+0.5×other. Which is preferred?",
     "correct": "B, with utility 13 rather than 12.",
     "wrong": [
       "A, with utility 12 rather than 8.",
       "They tie at utility 12.",
       "B, because its own payoff is larger."
     ],
-    "explanation": "B yields 8+0.5\u00d710=13; A yields 12. The comparison follows from the stipulated social weight.",
-    "hint": "Include the other person\u2019s payoff in utility.",
+    "explanation": "B yields 8+0.5×10=13; A yields 12. The comparison follows from the stipulated social weight.",
+    "hint": "Include the other person’s payoff in utility.",
     "skill": "altruistic allocation",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
@@ -718,14 +718,14 @@
     "unit": 4,
     "topic": "4.2",
     "title": "Disadvantageous inequality",
-    "prompt": "Utility is own\u22120.5 max(other\u2212own,0)\u22120.25 max(own\u2212other,0). What utility comes from payoffs (own,other)=(10,18)?",
+    "prompt": "Utility is own−0.5 max(other−own,0)−0.25 max(own−other,0). What utility comes from payoffs (own,other)=(10,18)?",
     "correct": "6.",
     "wrong": [
       "8.",
       "10.",
       "14."
     ],
-    "explanation": "The disadvantageous gap is 8, producing a penalty of 4. There is no advantageous gap, so utility is 10\u22124=6.",
+    "explanation": "The disadvantageous gap is 8, producing a penalty of 4. There is no advantageous gap, so utility is 10−4=6.",
     "hint": "Only one of the two inequality terms is positive.",
     "skill": "disadvantageous inequality",
     "sourceUrls": [
@@ -741,14 +741,14 @@
     "unit": 4,
     "topic": "4.3",
     "title": "Advantageous inequality",
-    "prompt": "Using utility own\u22120.5 max(other\u2212own,0)\u22120.25 max(own\u2212other,0), compare A=(16,8) with B=(14,14).",
+    "prompt": "Using utility own−0.5 max(other−own,0)−0.25 max(own−other,0), compare A=(16,8) with B=(14,14).",
     "correct": "Both yield utility 14.",
     "wrong": [
       "A yields 16 and therefore strictly dominates in utility.",
       "B yields 7 and is strictly worse.",
       "A yields 12 while B yields 14."
     ],
-    "explanation": "A\u2019s advantageous gap of 8 costs 2, leaving 14. B has no gap and also yields 14.",
+    "explanation": "A’s advantageous gap of 8 costs 2, leaving 14. B has no gap and also yields 14.",
     "hint": "Apply the advantageous-inequality coefficient to A.",
     "skill": "advantageous inequality",
     "sourceUrls": [
@@ -787,7 +787,7 @@
     "unit": 4,
     "topic": "4.5",
     "title": "Ultimatum benchmark",
-    "prompt": "In a one-shot ultimatum game over 10 indivisible dollars, both players maximize own money and the responder accepts when indifferent. What is the proposer\u2019s optimal offer if these facts are common knowledge?",
+    "prompt": "In a one-shot ultimatum game over 10 indivisible dollars, both players maximize own money and the responder accepts when indifferent. What is the proposer’s optimal offer if these facts are common knowledge?",
     "correct": "Offer zero.",
     "wrong": [
       "Offer five because equal splits are mandatory.",
@@ -863,7 +863,7 @@
       "A decrease of 12.",
       "An increase of 30."
     ],
-    "explanation": "Total participation changes by 30\u221212=18. Partial displacement of unpaid activity does not imply a fall in the total.",
+    "explanation": "Total participation changes by 30−12=18. Partial displacement of unpaid activity does not imply a fall in the total.",
     "hint": "Add changes across both categories.",
     "skill": "crowding out arithmetic",
     "sourceUrls": [
@@ -880,9 +880,9 @@
     "topic": "4.9",
     "title": "Warm glow",
     "prompt": "Under U=u(private consumption)+a(total provision)+g(own donation), what does g represent?",
-    "correct": "Utility attached to one\u2019s own act or amount of giving beyond total provision.",
+    "correct": "Utility attached to one’s own act or amount of giving beyond total provision.",
     "wrong": [
-      "The recipient\u2019s consumption alone.",
+      "The recipient’s consumption alone.",
       "A tax on all other donors.",
       "The assumption that own giving never responds to subsidies."
     ],
@@ -948,7 +948,7 @@
     "unit": 5,
     "topic": "5.2",
     "title": "Level-two reasoning",
-    "prompt": "In the same negligible-own-influence guessing model, a level-two player believes all others choose 100/3. What number targets two thirds of that mean?",
+    "prompt": "In a guessing game, players choose numbers from 0 to 100 and target two thirds of the group mean. A level-two player treats their own influence on the mean as negligible and believes all others choose 100/3. What number targets two thirds of that mean?",
     "correct": "200/9, about 22.2.",
     "wrong": [
       "100/3, about 33.3.",
@@ -994,14 +994,14 @@
     "unit": 5,
     "topic": "5.4",
     "title": "Logit response",
-    "prompt": "Two actions have expected payoffs 3 and 1. A logit rule assigns probabilities proportional to exp(\u03bb\u00d7payoff), with \u03bb=ln(2). What is the probability of the higher-payoff action?",
+    "prompt": "Two actions have expected payoffs 3 and 1. A logit rule assigns probabilities proportional to exp(λ×payoff), with λ=ln(2). What is the probability of the higher-payoff action?",
     "correct": "0.8.",
     "wrong": [
       "0.5.",
       "2/3.",
       "1.0."
     ],
-    "explanation": "The weights are 2\u00b3=8 and 2\u00b9=2, giving 8/(8+2)=0.8. Finite sensitivity permits mistakes.",
+    "explanation": "The weights are 2³=8 and 2¹=2, giving 8/(8+2)=0.8. Finite sensitivity permits mistakes.",
     "hint": "Compute the ratio of exponential weights.",
     "skill": "logit response",
     "sourceUrls": [
@@ -1017,15 +1017,15 @@
     "unit": 5,
     "topic": "5.5",
     "title": "Random-response limit",
-    "prompt": "Under logit choice with a finite set of actions and fixed finite payoffs, what happens as payoff sensitivity \u03bb tends to zero?",
+    "prompt": "Under logit choice with a finite set of actions and fixed finite payoffs, what happens as payoff sensitivity λ tends to zero?",
     "correct": "Choice probabilities approach equal probabilities across actions.",
     "wrong": [
       "All probability goes to the worst action.",
       "All probability goes to the best action.",
       "The probability of every action approaches zero."
     ],
-    "explanation": "As \u03bb approaches zero, every exponential weight approaches one. Normalization makes the distribution uniform.",
-    "hint": "Evaluate exp(\u03bbu) near \u03bb=0.",
+    "explanation": "As λ approaches zero, every exponential weight approaches one. Normalization makes the distribution uniform.",
+    "hint": "Evaluate exp(λu) near λ=0.",
     "skill": "random-response limit",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
@@ -1041,13 +1041,13 @@
     "topic": "5.6",
     "title": "Beliefs and best responses",
     "prompt": "Action A pays 8 against Left and 0 against Right; B pays 3 against either. A player assigns probability 0.25 to Left and maximizes expected money. What is their choice?",
-    "correct": "B, since 3 exceeds A\u2019s expected payoff of 2.",
+    "correct": "B, since 3 exceeds A’s expected payoff of 2.",
     "wrong": [
       "A, since its maximum payoff is 8.",
       "A, since its expected payoff is 6.",
       "Indifferent because both pay something positive."
     ],
-    "explanation": "A gives 0.25\u00d78+0.75\u00d70=2. B guarantees 3. Optimal behavior is evaluated relative to the stated belief.",
+    "explanation": "A gives 0.25×8+0.75×0=2. B guarantees 3. Optimal behavior is evaluated relative to the stated belief.",
     "hint": "Average over the believed opponent action.",
     "skill": "beliefs and best responses",
     "sourceUrls": [
@@ -1086,7 +1086,7 @@
     "unit": 5,
     "topic": "5.8",
     "title": "Learning a value estimate",
-    "prompt": "A learner updates Qnew=Qold+\u03b1(reward\u2212Qold). With Qold=4, reward=10 and \u03b1=0.25, what is Qnew?",
+    "prompt": "A learner updates Qnew=Qold+α(reward−Qold). With Qold=4, reward=10 and α=0.25, what is Qnew?",
     "correct": "5.5.",
     "wrong": [
       "6.5.",
@@ -1109,10 +1109,10 @@
     "unit": 5,
     "topic": "5.9",
     "title": "Repeated cooperation",
-    "prompt": "Players cooperate in a repeated prisoner\u2019s dilemma. Why does this alone fail to prove altruistic preferences?",
+    "prompt": "Players cooperate in a repeated prisoner’s dilemma. Why does this alone fail to prove altruistic preferences?",
     "correct": "Future rewards and punishments can support cooperation by selfish players under suitable conditions.",
     "wrong": [
-      "A prisoner\u2019s dilemma has no incentives to defect in a single round.",
+      "A prisoner’s dilemma has no incentives to defect in a single round.",
       "Repeated interaction guarantees cooperation at every discount factor.",
       "Altruism and repetition are the same mathematical assumption."
     ],
@@ -1132,7 +1132,7 @@
     "unit": 5,
     "topic": "5.10",
     "title": "Coordination treatments",
-    "prompt": "Two randomized treatments change an announcement and players\u2019 expectations. Coordination improves. Which claim is warranted without additional mechanism evidence?",
+    "prompt": "Players are randomly assigned to receive an announcement or no announcement. The announcement changes reported expectations and improves coordination. Which claim is warranted without additional mechanism evidence?",
     "correct": "The announcement treatment affects coordination, but its effect need not operate solely through beliefs.",
     "wrong": [
       "Belief mediation is proven by treatment randomization alone.",
@@ -1185,7 +1185,7 @@
       "The difference among readers and nonreaders only.",
       "It is undefined unless everyone reads the reminder."
     ],
-    "explanation": "Intent to treat compares assignment groups: 120\u2212100=20. Noncompliance does not prevent estimating this assignment effect.",
+    "explanation": "Intent to treat compares assignment groups: 120−100=20. Noncompliance does not prevent estimating this assignment effect.",
     "hint": "Keep people in the groups to which they were randomized.",
     "skill": "intent to treat",
     "sourceUrls": [
@@ -1201,7 +1201,7 @@
     "unit": 6,
     "topic": "6.3",
     "title": "Instrumental-variable scaling",
-    "prompt": "A randomized encouragement raises take-up by 0.4 and saving by 20. Assuming relevance, exclusion, monotonicity and random assignment, what Wald estimate applies to compliers?",
+    "prompt": "A randomized encouragement raises take-up by 0.4 and saving by 20. Assuming relevance, exclusion, monotonicity random assignment, a well-defined treatment and no spillovers, what Wald estimate applies to compliers?",
     "correct": "50 units of saving.",
     "wrong": [
       "8 units.",
@@ -1228,7 +1228,7 @@
     "correct": "3.",
     "wrong": [
       "0 because externalities are absent.",
-      "\u22123, a subsidy.",
+      "−3, a subsidy.",
       "A tax equal to the entire purchase price regardless of the gap."
     ],
     "explanation": "A tax of 3 offsets the stipulated internality gap. The conclusion depends on the chosen welfare-relevant benefit and full perception of the tax.",
@@ -1254,7 +1254,7 @@
       "0.95.",
       "20."
     ],
-    "explanation": "Linearity of expectation gives 20\u00d70.05=1. Independence is unnecessary for this expected count, though it matters for some familywise-probability calculations.",
+    "explanation": "Linearity of expectation gives 20×0.05=1. Independence is unnecessary for this expected count, though it matters for some familywise-probability calculations.",
     "hint": "Add the marginal rejection probabilities.",
     "skill": "multiple comparisons",
     "sourceUrls": [
@@ -1293,7 +1293,7 @@
     "unit": 6,
     "topic": "6.7",
     "title": "Demand effects",
-    "prompt": "Participants infer a researcher\u2019s desired response after treatment instructions. What design feature most directly helps assess this concern?",
+    "prompt": "Participants infer a researcher’s desired response after treatment instructions. What design feature most directly helps assess this concern?",
     "correct": "Vary or mask perceived researcher expectations while preserving the substantive treatment as much as possible.",
     "wrong": [
       "Increase the font size of the hypothesis.",
@@ -1301,7 +1301,7 @@
       "Treat statistical significance as proof demand effects are absent."
     ],
     "explanation": "Manipulating or reducing expectation cues can probe responses to perceived researcher demand. Interpretation still depends on what else the design changes.",
-    "hint": "Separate the treatment\u2019s intended content from expectations about pleasing the researcher.",
+    "hint": "Separate the treatment’s intended content from expectations about pleasing the researcher.",
     "skill": "demand effects",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
@@ -1317,7 +1317,7 @@
     "topic": "6.8",
     "title": "Mechanism versus total effect",
     "prompt": "A simplification treatment both reduces paperwork and draws attention to a benefit. Take-up rises. Which interpretation is justified by randomization of this bundled treatment alone?",
-    "correct": "The bundle\u2019s assignment effect is identified; paperwork and attention channels are not separately identified.",
+    "correct": "The bundle’s assignment effect is identified; paperwork and attention channels are not separately identified.",
     "wrong": [
       "All of the increase is necessarily an attention effect.",
       "All of the increase is necessarily a paperwork effect.",
@@ -1344,9 +1344,9 @@
     "wrong": [
       "320.",
       "400.",
-      "\u2212180."
+      "−180."
     ],
-    "explanation": "Net welfare is 80\u00d75\u221220\u00d74\u2212100=220. These are stipulated welfare values, not inferences from participation alone.",
+    "explanation": "Net welfare is 80×5−20×4−100=220. These are stipulated welfare values, not inferences from participation alone.",
     "hint": "Subtract both harms and resource costs from benefits.",
     "skill": "policy benefit arithmetic",
     "sourceUrls": [

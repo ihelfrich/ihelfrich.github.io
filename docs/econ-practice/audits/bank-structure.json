@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.25",
-  "bankSHA256": "2881d55df0599daa3cd2b719a4d23db798aaf45c5b3de4b550797385382e635e",
+  "bankVersion": "2026.10.12.26",
+  "bankSHA256": "c774329a320fff16229a97e4c63063b10ea81d48128b37dbc0e5f99d627ae2e1",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -35,6 +35,10 @@
       "items": 60,
       "families": 60
     },
+    "behavioral-economics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -49,10 +53,10 @@
     }
   },
   "answerPositions": [
-    128,
-    118,
-    122,
-    97
+    141,
+    140,
+    134,
+    110
   ],
   "errors": [],
   "warnings": [],
@@ -7664,6 +7668,1086 @@
         "prompt": "A firm can invest 80 now for a payoff in one year of 120 or 40 with equal probability. Alternatively it can wait one year, observe which payoff opportunity is available, and then pay 80 for that immediate payoff or decline. Assume zero interest, no competition, and unchanged opportunity terms. What is the value at time zero of the wait-and-choose opportunity?",
         "answer": "20.",
         "explanation": "Waiting yields max(120−80,0)=40 in the high state and max(40−80,0)=0 in the low state, so value is 0.5(40)=20. Immediate commitment has expected NPV zero; 40 ignores the low-state probability; 80 is the unconditional gross payoff, not the option's net value."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-01:01",
+        "prompt": "In a constructed model, v(x)=x for gains and v(x)=2x for losses relative to zero. Probabilities are weighted linearly. What is the value of a 50–50 gamble yielding +30 or −20, compared with receiving zero?",
+        "answer": "−5, so zero is preferred.",
+        "explanation": "The value is 0.5(30)+0.5(−40)=−5. The monetary expected payoff is +5, but losses receive twice the slope."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-02:01",
+        "prompt": "A value function is linear with slope 1 above its reference point and slope 2 below it. What feature does it exhibit?",
+        "answer": "Loss aversion without diminishing sensitivity within either domain.",
+        "explanation": "The steeper loss slope is loss aversion. Linear segments have no within-domain curvature; probability weights are a separate component."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-03:01",
+        "prompt": "An outcome pays 80. In a constructed reference-dependent model, the reference point changes from 70 to 100. How is the same outcome coded?",
+        "answer": "It changes from a gain of 10 to a loss of 20.",
+        "explanation": "Coding subtracts the reference point from the outcome. The payment stays 80 even though its gain–loss classification changes."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-04:01",
+        "prompt": "Suppose v(x)=−sqrt(−x) for x<0 and v(0)=0, with linear probability weights. Which is preferred: a sure loss of 50 or equal chances of losing 100 and losing zero?",
+        "answer": "The risky loss is preferred: −5 exceeds approximately −7.07.",
+        "explanation": "The sure loss has value −sqrt(50), approximately −7.07. The gamble has value 0.5(−10)+0.5(0)=−5. Convexity on this loss domain favors the mean-preserving spread."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-05:01",
+        "prompt": "For a binary prospect paying 100 with probability 0.01 and zero otherwise, use v(x)=x and decision weight w(0.01)=0.05 on the gain. What is its prospect value?",
+        "answer": "5.",
+        "explanation": "The nonzero outcome contributes 0.05×100=5. The objective expected payment would be 1; the stipulated decision weight differs from probability."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-06:01",
+        "prompt": "Randomly assigned owners ask more to sell an identical mug than nonowners offer to buy it. Which conclusion is strongest from this observation alone?",
+        "answer": "The ownership-related valuation gap is consistent with reference dependence, but does not uniquely identify it.",
+        "explanation": "Random assignment strengthens attribution to the ownership treatment, but mechanisms such as transaction perceptions or elicitation effects still require separation."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-07:01",
+        "prompt": "A decision maker evaluates each of two gambles separately, rejecting each, although a model evaluating their combined payoff would accept the pair. What differs between the evaluations?",
+        "answer": "The payoff aggregation used before applying preferences.",
+        "explanation": "Narrow versus broad bracketing changes the object to which preferences are applied. Neither learning nor changed objective probabilities is required."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-08:01",
+        "prompt": "A ticket is nonrefundable and cannot be resold. Attending now provides benefit 12 and requires new travel cost 18; staying home yields zero. Under a forward-looking monetary-benefit criterion, what should happen?",
+        "answer": "Stay home regardless of the ticket price already paid.",
+        "explanation": "The relevant incremental net benefit is 12−18=−6. The sunk payment is identical under both current choices."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-09:01",
+        "prompt": "A worker stops at a daily earnings target. Which additional evidence would most directly help distinguish target-based preferences from ordinary fatigue?",
+        "answer": "Exogenous changes in the target while measuring hours and working conditions.",
+        "explanation": "Variation in the hypothesized reference point, separated from fatigue and conditions, provides a discriminating prediction. A stopping pattern alone is not unique to reference dependence."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u1-10:01",
+        "prompt": "Two descriptions induce different choices over exactly the same final-wealth lotteries, with no information differences. What benchmark restriction is challenged?",
+        "answer": "Description invariance of preferences over those final-wealth lotteries.",
+        "explanation": "If alternatives and information are truly unchanged, a final-wealth expected-utility representation gives the same ranking under both descriptions."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-01:01",
+        "prompt": "A constructed agent has linear utility and exponential discount factor δ=0.9 per year. What present value does the agent assign to 100 received in two years?",
+        "answer": "81.",
+        "explanation": "The weight is δ², so 0.9²×100=81."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-02:01",
+        "prompt": "At date 0, utility is u(c0)+βδu(c1)+βδ²u(c2). With β=0.6, δ=1 and linear utility, choose between 50 now and 70 next period.",
+        "answer": "Choose 50 now because 50 exceeds 42.",
+        "explanation": "The immediate option is worth 50 and the delayed option is worth 0.6×70=42. β applies to delayed utility even with δ=1."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-03:01",
+        "prompt": "At each date, utility is current consumption plus β times each future period’s consumption; δ=1 and utility is linear. With β=0.6, at date 0 choose between 50 at date 1 and 70 at date 2; at date 1 reconsider those same payments. What happens?",
+        "answer": "Choose 70 initially, then prefer 50 when it becomes immediate.",
+        "explanation": "At date 0 the values are 30 and 42. At date 1 they are 50 and 42, producing a reversal."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-04:01",
+        "prompt": "A present-biased person accurately predicts that their future self will postpone a task. In the standard distinction, this person is what?",
+        "answer": "Sophisticated about their present bias.",
+        "explanation": "Sophistication concerns beliefs about future behavior, not the absence of present bias. Accurate anticipation can coexist with dynamic inconsistency."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-05:01",
+        "prompt": "A person pays to block a tempting purchase tomorrow, despite receiving no informational or financial benefit from the block. What does this support?",
+        "answer": "A possible demand for commitment, conditional on those excluded benefits.",
+        "explanation": "A costly restriction can be attractive when it changes anticipated future behavior. It does not settle whose preferences should define welfare or guarantee a universal effect."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-06:01",
+        "prompt": "At date 0 a sophisticated agent has β=0.5 and δ=1. Tomorrow an action costs 8 immediately and yields 12 the next day. A binding contract purchased today forces the action. Using date-0 utility and linear money utility, what is the maximum fee today?",
+        "answer": "2.",
+        "explanation": "Tomorrow the agent rejects the action because −8+0.5×12=−2. From today the forced action is worth 0.5(−8+12)=2, which is the maximum immediate fee."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-07:01",
+        "prompt": "A participant prefers a payment today to a larger payment next week. Why does this alone fail to identify present bias in consumption utility?",
+        "answer": "Liquidity needs, payment trust and transaction costs can affect payment choices.",
+        "explanation": "Payment timing is not automatically consumption timing. Constraints and payment credibility can mimic apparent impatience."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-08:01",
+        "prompt": "In a constructed study, a hungry shopper overpredicts how much food they will want after eating. Which mechanism does this illustrate?",
+        "answer": "Projecting the current preference state too strongly onto a future state.",
+        "explanation": "Projection bias underadjusts for a future change in state. It is conceptually distinct from impatience over fixed future preferences."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-09:01",
+        "prompt": "An agent has stable exponential utility weights and no new information, liquidity changes or state-dependent tastes. How do rankings of two fixed future consumption streams evolve as both remain feasible?",
+        "answer": "Their ranking is unchanged as time passes.",
+        "explanation": "Exponential discounting rescales all remaining utility differences by a common positive factor. The exclusions prevent other sources of changing rankings."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u2-10:01",
+        "prompt": "A commitment device raises the date-0 self’s utility but lowers utility evaluated by the date-1 self. What is needed to call it a welfare improvement?",
+        "answer": "An explicit criterion specifying which preferences or aggregation define welfare.",
+        "explanation": "Conflicting temporal rankings do not identify a unique welfare ordering. A normative criterion must specify how those rankings are used."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-01:01",
+        "prompt": "In a constructed population, 10% have trait T. A signal is positive for 80% with T and 20% without T. What is P(T|positive)?",
+        "answer": "About 30.8%.",
+        "explanation": "Bayes’ rule gives 0.08/(0.08+0.18)=4/13≈0.308. The false positives arise from the much larger group without T."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-02:01",
+        "prompt": "Prior odds of hypothesis H are 1:4. A signal has likelihood ratio 6 in favor of H. What are the posterior odds?",
+        "answer": "3:2.",
+        "explanation": "Posterior odds equal prior odds times the likelihood ratio: (1/4)×6=3/2."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-03:01",
+        "prompt": "A respondent assigns probability 0.40 to A and 0.55 to A and B jointly. What is wrong with these stated probabilities?",
+        "answer": "A conjunction cannot be more probable than either component.",
+        "explanation": "The event A-and-B is a subset of A, so its probability cannot exceed 0.40, regardless of independence."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-04:01",
+        "prompt": "A known fair coin is flipped independently. After five heads, what is the probability of tails next?",
+        "answer": "One half.",
+        "explanation": "Known fairness and independence keep the next-flip probability at 0.5. The probability of the past streak is not the conditional probability of the next result."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-05:01",
+        "prompt": "A coin’s probability of heads is unknown. Why can observing many heads rationally increase a forecast of heads?",
+        "answer": "The observations provide information about the unknown probability.",
+        "explanation": "Conditional independence given an unknown parameter does not eliminate learning about that parameter. This differs from a coin already known to be fair."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-06:01",
+        "prompt": "Across a large constructed set of comparable questions, intervals labeled 90% confidence contain the truth only 50% of the time. Which calibration problem does this suggest?",
+        "answer": "Overprecision in the reported intervals.",
+        "explanation": "Coverage much below the stated level indicates intervals are too confident for their performance. It does not by itself determine the direction of point-estimate errors."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-07:01",
+        "prompt": "Participants randomly see a high or low irrelevant number before estimating the same quantity. What contrast identifies the causal effect of the assigned anchor in this sample?",
+        "answer": "The difference in mean estimates across assigned anchor groups.",
+        "explanation": "Random assignment makes the between-group mean difference an estimator of the assignment effect. A group’s error alone combines anchoring with other errors."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-08:01",
+        "prompt": "Two advisers repeat the same original report verbatim. A listener treats them as two conditionally independent signals. What may go wrong?",
+        "answer": "The listener can become too confident by double-counting common information.",
+        "explanation": "Perfectly duplicated evidence contains no extra independent observation. Treating it as independent can magnify posterior odds improperly."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-09:01",
+        "prompt": "A buyer perceives cost as base price plus 0.2 times a fee. Offer A has base 40 and fee 20; B has base 50 and fee zero. What does this model predict?",
+        "answer": "Choose A at perceived cost 44, although its total payment is 60.",
+        "explanation": "A’s perceived cost is 40+0.2×20=44, below B’s 50. Its actual cost remains 60."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u3-10:01",
+        "prompt": "People update more after favorable than unfavorable news. What is needed before attributing the difference to motivated belief updating?",
+        "answer": "Account for prior beliefs, signal diagnosticity and other differences between the news conditions.",
+        "explanation": "A Bayesian can update differently when likelihood ratios or priors differ. A behavioral interpretation requires a benchmark accounting for those differences."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-01:01",
+        "prompt": "An allocator chooses between (own,other) payoffs A=(12,0) and B=(8,10). Utility is own+0.5×other. Which is preferred?",
+        "answer": "B, with utility 13 rather than 12.",
+        "explanation": "B yields 8+0.5×10=13; A yields 12. The comparison follows from the stipulated social weight."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-02:01",
+        "prompt": "Utility is own−0.5 max(other−own,0)−0.25 max(own−other,0). What utility comes from payoffs (own,other)=(10,18)?",
+        "answer": "6.",
+        "explanation": "The disadvantageous gap is 8, producing a penalty of 4. There is no advantageous gap, so utility is 10−4=6."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-03:01",
+        "prompt": "Using utility own−0.5 max(other−own,0)−0.25 max(own−other,0), compare A=(16,8) with B=(14,14).",
+        "answer": "Both yield utility 14.",
+        "explanation": "A’s advantageous gap of 8 costs 2, leaving 14. B has no gap and also yields 14."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-04:01",
+        "prompt": "A person gives money in an anonymous dictator game. What can be concluded from giving alone?",
+        "answer": "Pure own-money maximization is insufficient under the stated choice conditions, but the precise social motive remains unidentified.",
+        "explanation": "In a dictator game the recipient has no rejection choice. Giving can reflect altruism, inequality concerns, norms or other motives, which require further designs to separate."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-05:01",
+        "prompt": "In a one-shot ultimatum game over 10 indivisible dollars, both players maximize own money and the responder accepts when indifferent. What is the proposer’s optimal offer if these facts are common knowledge?",
+        "answer": "Offer zero.",
+        "explanation": "The tie-breaking rule makes a zero offer acceptable. A money-maximizing proposer keeps the entire surplus by offering zero."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-06:01",
+        "prompt": "A responder treats the same payoff allocation differently depending on whether another person intentionally chose it or a computer assigned it. What does this contrast most directly test?",
+        "answer": "Whether intentions affect responses beyond final payoff inequality.",
+        "explanation": "Holding final payoffs fixed while varying intentional choice isolates a role for perceived intentions, subject to the rest of the design."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-07:01",
+        "prompt": "Four people each choose a contribution from a 10-dollar endowment. Each contributed dollar returns 0.4 dollars to every person. For a selfish money maximizer in a one-shot game, what is optimal?",
+        "answer": "Contribute zero, though a dollar contributed raises total group earnings by 0.6.",
+        "explanation": "A dollar costs its contributor 1 and returns only 0.4 privately. Across four people it returns 1.6, a net group gain of 0.6."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-08:01",
+        "prompt": "In constructed data, a subsidy raises paid participation by 30 people and reduces unpaid participation by 12. What is the change in total participation?",
+        "answer": "An increase of 18.",
+        "explanation": "Total participation changes by 30−12=18. Partial displacement of unpaid activity does not imply a fall in the total."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-09:01",
+        "prompt": "Under U=u(private consumption)+a(total provision)+g(own donation), what does g represent?",
+        "answer": "Utility attached to one’s own act or amount of giving beyond total provision.",
+        "explanation": "The separate own-donation term captures warm glow. It changes preferences, but does not fix a universal comparative-static response."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u4-10:01",
+        "prompt": "A laboratory sample displays costly punishment. Which extrapolation is justified without further evidence?",
+        "answer": "The finding establishes behavior in that design and sample; other contexts require transportability arguments.",
+        "explanation": "Neither universal generalization nor universal dismissal follows from a laboratory result. Stakes, selection, institutions and framing may matter."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-01:01",
+        "prompt": "In a guessing game, each player chooses a number from 0 to 100 and wants to be closest to two thirds of the group mean. A level-one player believes all others choose 50 and treats their own influence on the mean as negligible. What is their best target?",
+        "answer": "About 33.3.",
+        "explanation": "Against a believed mean of 50, two thirds of that mean is 100/3. This is a level-one response to the specified belief, not the equilibrium calculation."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-02:01",
+        "prompt": "In a guessing game, players choose numbers from 0 to 100 and target two thirds of the group mean. A level-two player treats their own influence on the mean as negligible and believes all others choose 100/3. What number targets two thirds of that mean?",
+        "answer": "200/9, about 22.2.",
+        "explanation": "Multiplying 100/3 by 2/3 gives 200/9. The answer depends on the stipulated lower-level belief."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-03:01",
+        "prompt": "In a continuum guessing game with choices in [0,100], each player minimizes squared distance from two thirds of the population mean. What is the symmetric Nash equilibrium choice?",
+        "answer": "0.",
+        "explanation": "If everyone chooses x, a negligible individual best responds with 2x/3. Symmetry and optimality require x=2x/3, so x=0."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-04:01",
+        "prompt": "Two actions have expected payoffs 3 and 1. A logit rule assigns probabilities proportional to exp(λ×payoff), with λ=ln(2). What is the probability of the higher-payoff action?",
+        "answer": "0.8.",
+        "explanation": "The weights are 2³=8 and 2¹=2, giving 8/(8+2)=0.8. Finite sensitivity permits mistakes."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-05:01",
+        "prompt": "Under logit choice with a finite set of actions and fixed finite payoffs, what happens as payoff sensitivity λ tends to zero?",
+        "answer": "Choice probabilities approach equal probabilities across actions.",
+        "explanation": "As λ approaches zero, every exponential weight approaches one. Normalization makes the distribution uniform."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-06:01",
+        "prompt": "Action A pays 8 against Left and 0 against Right; B pays 3 against either. A player assigns probability 0.25 to Left and maximizes expected money. What is their choice?",
+        "answer": "B, since 3 exceeds A’s expected payoff of 2.",
+        "explanation": "A gives 0.25×8+0.75×0=2. B guarantees 3. Optimal behavior is evaluated relative to the stated belief."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-07:01",
+        "prompt": "A player chooses a best response to an inaccurate belief about an opponent. Which description is accurate?",
+        "answer": "The belief may be mistaken even though choice is optimal conditional on that belief.",
+        "explanation": "Optimization conditional on beliefs and accuracy of beliefs are separate restrictions. Observed mistakes need not identify a preference error."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-08:01",
+        "prompt": "A learner updates Qnew=Qold+α(reward−Qold). With Qold=4, reward=10 and α=0.25, what is Qnew?",
+        "answer": "5.5.",
+        "explanation": "The prediction error is 6 and the update is 1.5, so the new estimate is 5.5."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-09:01",
+        "prompt": "Players cooperate in a repeated prisoner’s dilemma. Why does this alone fail to prove altruistic preferences?",
+        "answer": "Future rewards and punishments can support cooperation by selfish players under suitable conditions.",
+        "explanation": "Repeated-game incentives can change the value of current defection. Whether they sustain cooperation depends on patience, monitoring and strategies."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u5-10:01",
+        "prompt": "Players are randomly assigned to receive an announcement or no announcement. The announcement changes reported expectations and improves coordination. Which claim is warranted without additional mechanism evidence?",
+        "answer": "The announcement treatment affects coordination, but its effect need not operate solely through beliefs.",
+        "explanation": "Randomization identifies the assignment effect. Attributing all of it to beliefs needs assumptions or interventions that separate other channels."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-01:01",
+        "prompt": "Automatic enrollment increases plan participation in a randomized trial. What follows directly?",
+        "answer": "The default changes participation in that setting; welfare requires additional information and a criterion.",
+        "explanation": "Participation is an outcome, not a complete welfare measure. Costs, preferences, other saving and decision errors can affect the welfare assessment."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-02:01",
+        "prompt": "In constructed randomized data, mean saving is 120 for those assigned a reminder and 100 for controls. Some assigned participants do not read it. What is the intent-to-treat estimate?",
+        "answer": "20.",
+        "explanation": "Intent to treat compares assignment groups: 120−100=20. Noncompliance does not prevent estimating this assignment effect."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-03:01",
+        "prompt": "A randomized encouragement raises take-up by 0.4 and saving by 20. Assuming relevance, exclusion, monotonicity random assignment, a well-defined treatment and no spillovers, what Wald estimate applies to compliers?",
+        "answer": "50 units of saving.",
+        "explanation": "The Wald ratio is 20/0.4=50. The assumptions give a local effect for compliers, not necessarily a population average."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-04:01",
+        "prompt": "In a constructed quasilinear model, perceived marginal private benefit exceeds welfare-relevant marginal benefit by a constant 3 per unit. There are no externalities or other distortions, and a fully perceived tax is rebated lump sum. What corrective per-unit tax aligns marginal incentives?",
+        "answer": "3.",
+        "explanation": "A tax of 3 offsets the stipulated internality gap. The conclusion depends on the chosen welfare-relevant benefit and full perception of the tax."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-05:01",
+        "prompt": "A researcher tests 20 prespecified nulls that are all true, each at size 0.05. What is the expected number of false rejections, without needing independence?",
+        "answer": "1.",
+        "explanation": "Linearity of expectation gives 20×0.05=1. Independence is unnecessary for this expected count, though it matters for some familywise-probability calculations."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-06:01",
+        "prompt": "In a randomized intervention, outcome data are missing for 30% of treated people and 5% of controls. Why is a complete-case difference potentially problematic?",
+        "answer": "Conditioning on observation can break the comparability created by random assignment.",
+        "explanation": "Observation may depend on treatment and outcome-related traits. Random assignment alone does not justify ignoring selective missingness."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-07:01",
+        "prompt": "Participants infer a researcher’s desired response after treatment instructions. What design feature most directly helps assess this concern?",
+        "answer": "Vary or mask perceived researcher expectations while preserving the substantive treatment as much as possible.",
+        "explanation": "Manipulating or reducing expectation cues can probe responses to perceived researcher demand. Interpretation still depends on what else the design changes."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-08:01",
+        "prompt": "A simplification treatment both reduces paperwork and draws attention to a benefit. Take-up rises. Which interpretation is justified by randomization of this bundled treatment alone?",
+        "answer": "The bundle’s assignment effect is identified; paperwork and attention channels are not separately identified.",
+        "explanation": "The randomized contrast identifies the combined intervention. Separate arms or further assumptions are needed to decompose its mechanisms."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-09:01",
+        "prompt": "Under an explicitly chosen monetary welfare criterion, a constructed intervention benefits 80 people by 5 each, harms 20 by 4 each, and costs 100 in real resources. What is net welfare?",
+        "answer": "220.",
+        "explanation": "Net welfare is 80×5−20×4−100=220. These are stipulated welfare values, not inferences from participation alone."
+      },
+      "last": null
+    },
+    {
+      "course": "behavioral-economics",
+      "family": "behavioral-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "behavioral-economics:behavioral-economics-u6-10:01",
+        "prompt": "A randomized study finds positive average effects but credible negative effects for a prespecified subgroup. What policy analysis follows?",
+        "answer": "Compare targeted and universal implementation using subgroup benefits, costs and the stated welfare criterion.",
+        "explanation": "Average gains do not establish universal gains. Targeting may help, but administrative costs, feasibility and the normative treatment of distribution matter."
       },
       "last": null
     },
