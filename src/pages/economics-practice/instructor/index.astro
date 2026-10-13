@@ -5,7 +5,8 @@ const api=import.meta.env.PUBLIC_ECON_API_URL??'';
 ---
 <Base title="Economics instructor dashboard" description="Private economics response and assignment management." noindex excludeFromSearch>
 <div class="econ-practice" id="econ-instructor" data-api={api}>
-<header><p><a href="/economics-practice/">Economics practice</a></p><h1>Instructor dashboard</h1></header>
+<header class="instructor-hero"><p class="eyebrow"><a href="/economics-practice/">Economics practice</a> / Instructor workspace</p><h1>Teach. Inspect.<br />Improve.</h1><p class="intro">Your questions, students, and measurement evidence in one place.</p></header>
+<nav class="instructor-nav" aria-label="Instructor workspace"><a href="#irt-workbench">IRT workbench</a><span id="instructor-private-nav" hidden><a href="#question-library">Questions</a><a href="#response-ledger">Responses</a><a href="#assignment-builder">Assign</a><a href="#assignment-results">Results</a><a href="#calibration-candidates">Models</a></span></nav>
 <p id="instructor-status" role="status">Checking instructor access…</p>
 <section id="irt-workbench" aria-labelledby="irt-heading">
 <h2 id="irt-heading">IRT data workbench</h2>
@@ -27,19 +28,19 @@ const api=import.meta.env.PUBLIC_ECON_API_URL??'';
 <p>Save responses.csv and manifest.json together for the calibration workflow. Missing responses are blank, not zero. Person keys are pseudonymous, not anonymous. Keep these files private. Separately retained conflicting submissions never enter the IRT matrix.</p></div>
 </section>
 <div id="instructor-content" hidden>
-<section aria-labelledby="question-library-heading"><h2 id="question-library-heading">Question library</h2>
+<section id="question-library" aria-labelledby="question-library-heading"><h2 id="question-library-heading">Question library</h2>
 <p>Inspect every current question, its answer key, and its explanation. Item counts include numerical variants; family counts show the distinct question structures. Release status is separate from recorded self-review and empirical validation.</p>
 <form id="question-library-form"><div class="setup-grid"><label>Course<select id="question-course"><option value="">All courses</option><option value="ap-micro">AP Microeconomics</option><option value="ap-macro">AP Macroeconomics</option><option value="college-micro">Undergraduate Microeconomics</option><option value="college-macro">Undergraduate Macroeconomics</option></select></label><label>Unit<input id="question-unit" type="number" min="1" step="1" placeholder="All units" /></label><label>Search questions<input id="question-search" type="search" maxlength="200" placeholder="Topic, wording, or item ID" /></label></div><button type="submit">Search question library</button></form>
 <p id="question-library-status" role="status">Search to load questions.</p><div id="question-library-results"></div><button id="question-library-more" class="secondary" hidden>Show more questions</button></section>
-<section><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
-<section><h2>Calibration candidates</h2><p>Upload a reviewed calibration package to retain its exact parameters and evidence. Registration does not approve the model or change student scoring.</p><form id="model-package-form"><label for="model-package-file">Candidate package (JSON, up to 1 MB)</label><input id="model-package-file" type="file" accept=".json,application/json" required /><button type="submit">Register candidate</button></form><p id="model-package-status" role="status"></p></section>
-<section><h2>Create an assignment</h2><form id="assignment-form">
+<section id="response-ledger"><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
+<section id="calibration-candidates"><h2>Calibration candidates</h2><p>Upload a reviewed calibration package to retain its exact parameters and evidence. Registration does not approve the model or change student scoring.</p><form id="model-package-form"><label for="model-package-file">Candidate package (JSON, up to 1 MB)</label><input id="model-package-file" type="file" accept=".json,application/json" required /><button type="submit">Register candidate</button></form><p id="model-package-status" role="status"></p></section>
+<section id="assignment-builder"><h2>Create an assignment</h2><form id="assignment-form">
 <label>Title<input name="title" type="text" maxlength="160" required/></label>
 <div class="setup-grid"><label>Course<select name="course"><option value="ap-micro">AP Microeconomics</option><option value="ap-macro">AP Macroeconomics</option><option value="college-micro">Undergraduate Microeconomics</option><option value="college-macro">Undergraduate Macroeconomics</option></select></label>
 <label>Questions<input type="number" name="itemCount" min="6" max="48" value="24" required/></label><label>Allowed attempts<input type="number" name="maxAttempts" min="1" max="10" value="1" required/></label></div>
 <label>Opens at (your browser’s local time)<input type="datetime-local" name="opensAt" required/></label><label>Closes at (your browser’s local time)<input type="datetime-local" name="closesAt" required/></label>
 <fieldset id="student-list"><legend>Signed-in students</legend></fieldset><button type="submit">Create assignment</button></form><p id="assignment-status" role="status"></p></section>
-<section><h2>Assignments</h2><div id="instructor-assignments"></div><div id="assignment-report"></div></section>
+<section id="assignment-results"><h2>Assignments</h2><div id="instructor-assignments"></div><div id="assignment-report"></div></section>
 </div></div>
 <script>import '../../../scripts/econ-instructor.mjs';</script>
 </Base>
