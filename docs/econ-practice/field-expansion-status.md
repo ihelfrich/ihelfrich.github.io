@@ -1,0 +1,11 @@
+# Field numerical expansion checkpoint
+
+The active bank remains 2,709 items / 502 families. The new files contain 768 **unreleased** numeric variants: 256 each for Industrial Organization, International Trade and Development Economics. They expand 48 existing families; releasing them must not add 48 to the family count. Each original conceptual question remains variant 1, and extensions are intended to become variants 2–17.
+
+There are 176 draft diagrams: 80 IO, 64 trade and 32 development. The structural expansion audit finds 16 distinct rounded answers in every expanded family, no repeated prompts, valid base IDs and visible line segments. Authors separately report prompt-parsed arithmetic checks for every saved answer; their reproducible generators and review notes are saved alongside the drafts. Parent economic review and browser inspection of representative diagrams remain pending. These drafts do not satisfy the active-question acceptance count yet.
+
+Implementation now supports an explicit numeric-extension path for choice families. Ordinary conceptual generators remain capped at one question. Extensions must use numeric response format; family IDs and base item IDs are preserved. A pure materializer keeps hints outside public item payloads. Tests verify unchanged family count, stable base identity, no public hint/key leakage, and that a different format cannot bypass family exposure or become new first-exposure IRT evidence. The current field bank uses this materializer without activating extensions, and its content hash is unchanged.
+
+Verification: 147 tests pass; static build produces 131 pages; existing bank structural checks have no errors or warnings. `audit-field-expansions.mjs` reports no structural errors for all three draft sets. Structural validity and generator assertions are not content approval or empirical calibration.
+
+Next release steps: parent-review each formula family and boundary regime, inspect rendered diagrams, pin reviewed expansion bytes and base-source hashes in release evidence, extend build/reconciliation inventory checks, register numeric items and exact variant-specific hints, rerun scoring/adaptive/export checks, then disclose the additional variants under the existing family counts. No production deployment or calibration is implied by this checkpoint.

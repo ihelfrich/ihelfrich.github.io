@@ -5,9 +5,14 @@ const num=x=>Number(x.toFixed(3));
 const fmt=x=>Number.isInteger(x)?String(x):String(num(x));
 // Each family has its own economic target. Variants are explicitly identified,
 // not represented as independently authored questions.
-function family(id,topic,title,level,make,course='ap-micro',count=24){
+function family(id,topic,title,level,make,course='ap-micro',count=24,{numericExtensions=false}={}){
  // Numeric variants provide fresh arithmetic. Cosmetic changes to a conceptual stem do not.
- if(make(0).format==='choice')count=1;
+ if(make(0).format==='choice'){
+  if(numericExtensions){
+   if(!Number.isInteger(count)||count<2)throw new Error('Numeric extensions require a variant count');
+   for(let i=1;i<count;i++)if(make(i).format!=='numeric')throw new Error('Choice extensions must be numeric tasks');
+  }else count=1;
+ }
  families.push({id,topic,title,level,make,course,count});
 }
 function numeric(prompt,answer,explanation,extras={}){return {prompt,answer:num(answer),explanation,format:'numeric',...extras};}
