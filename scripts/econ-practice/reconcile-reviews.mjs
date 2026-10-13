@@ -12,7 +12,8 @@ const sources=[
  ['1295ad35','ap-micro-core-units-3-6.json',false],
  ['437e7897','ap-micro-concepts-middle.json',true],
  ['45f9b6e4','ap-micro-concepts-remainder.json',true],
- ['1aa241df','ap-macro-concepts-additional.json',true,'ap-macro']
+ ['1aa241df','ap-macro-concepts-additional.json',true,'ap-macro'],
+ ['d3f541ee','ap-macro-core.json',false,'ap-macro']
 ];
 const current=buildBank(),evidence=new Map(),errors=[];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'econ-review-'));

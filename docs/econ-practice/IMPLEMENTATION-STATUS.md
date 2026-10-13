@@ -237,3 +237,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Recorded substantive first-pass reasoning for all20 additional AP Macro conceptual cases, inspecting keys, distractors, assumptions and boundary cases. Clarified capital deepening by holding all other production determinants fixed, rather than technology alone. Bank2026.10.12.12.
 - All65 focused tests pass and structural audit reports no errors/warnings. Historical review reconciliation now handles multiple courses:162 families match recorded first reviews;70 lack recorded substantive review. No historical hash errors.
 - Remaining AP Macro original concepts/numeric families, undergraduate content and multipart families still need recorded substantive review; arithmetic oracle tests alone do not satisfy that gate. Independent review, second passes and empirical validation remain open.
+
+## Continuation: AP Macro core substantive review and variation
+
+- Completed recorded first substantive review of all29 original AP Macro families (432 numeric variants,11 concepts). Together with the additional20 concepts, all49 AP Macro families now have a current first review.
+- Eight numeric families now yield varied answers rather than invariant results: opportunity cost, unemployment, participation, inflation, real interest, bond yields, quantity-theory inflation and productivity growth. Independent prompt-based numeric checks pass for all432 variants; a new regression requires at least five distinct outcomes per revised family.
+- Clarified average opportunity cost, frictionless mutually beneficial trade, closed-economy loanable-funds supply/demand, and fixed inflation expectations plus floating exchange for initial capital-flow pressure. Repaired deposit-multiplier punctuation.
+- Bank2026.10.12.13;66 focused tests pass. Reconciliation verifies191 current family reviews without hash errors;41 families remain without recorded substantive review (39 undergraduate and2 multipart). This does not establish complete curricular breadth, second/independent review or empirical validation.
