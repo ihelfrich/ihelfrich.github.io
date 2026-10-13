@@ -241,3 +241,23 @@ test('unscored export pagination pins its own boundary while new submissions arr
  const last=await t.call(`/profile/unscored-submissions?after=${encodeURIComponent(first.nextCursor)}`,null,p.token);assert.equal(last.rows.length,1);assert.equal(last.hasMore,false);assert.equal(last.snapshotThrough,501);
  const refreshed=await t.call('/profile/unscored-submissions',null,p.token);assert.equal(refreshed.snapshotThrough,502);t.env.DB.close();
 });
+
+test('linking between authorization and insertion cannot strand an answer under the anonymous owner',async()=>{
+ const {createChallenge,finishSignIn}=await import('../../services/econ-response/auth.mjs');
+ for(const ledger of ['responses','unscored_submissions']){
+  const t=setup(),{p,s,next}=await enrolled(t),a=answer(next),path=`/sessions/${s.sessionId}/answers`;
+  if(ledger==='unscored_submissions')a.attemptNumber=3;
+  t.env.GOOGLE_CLIENT_ID='test-only-client';
+  const anonymous=await t.env.DB.prepare('SELECT * FROM participants WHERE id=?').bind(p.participantId).first();
+  const challenge=await createChallenge(t.env,anonymous),prepare=t.env.DB.prepare.bind(t.env.DB);let signed;
+  t.env.DB.prepare=sql=>{const statement=prepare(sql);if(!sql.startsWith(`INSERT INTO ${ledger} `))return statement;return {bind(...args){const bound=statement.bind(...args);return {...bound,run:async()=>{
+   if(!signed)signed=await finishSignIn(t.env,anonymous,{challengeId:challenge.challengeId,credential:'test-only',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:true},async()=>({subjectHash:'race-link',email:'race@example.test'}));
+   return bound.run();
+  }};}};};
+  const interrupted=await t.call(path,a,p.token);assert.equal(interrupted.status,401,ledger);assert.equal(interrupted.persisted,undefined);
+  assert.equal((await prepare(`SELECT COUNT(*) AS n FROM ${ledger} WHERE participant_id=?`).bind(p.participantId).first()).n,0);
+  const retry=await t.call(path,a,signed.token);assert.equal(retry.status,200,ledger);assert.equal(retry.persisted,true);
+  assert.equal((await prepare(`SELECT COUNT(*) AS n FROM ${ledger} WHERE participant_id=?`).bind(signed.participantId).first()).n,1);
+  t.env.DB.close();
+ }
+});

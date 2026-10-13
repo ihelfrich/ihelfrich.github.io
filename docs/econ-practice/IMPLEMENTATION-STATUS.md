@@ -421,3 +421,7 @@ The browser acknowledges these durable receipts and explains the exclusion, allo
 
 Verification: 93 focused tests pass, including concurrent duplicate retention, score isolation, private exports, stable pagination, and receipt preservation through account linking. Astro builds all 130 pages; the Cloudflare Worker dry-run bundle succeeds. These checks do not establish live deployment or real-browser outage behavior. Malformed requests, invalid answer shapes, unauthorized requests, and traffic that never reaches the service are not claimed as stored answers. Storage quotas, abuse protection, identity-link concurrency, and retention/deletion remain follow-up work.
 
+# Answer writes during account linking
+
+Both scored-response and separately retained-submission inserts now check session ownership inside the database write. If anonymous linking occurs after request authorization but before insertion, the old request receives HTTP 401 without a persistence receipt; its queued payload can be retried with the signed-in account. This prevents a new answer from being stranded under the disabled anonymous profile after the linking transaction has already moved existing records. A deterministic regression test injects actual account linking immediately before each ledger insert and verifies zero old-owner rows plus successful new-owner retry. All 94 focused tests and the unchanged bank structural audit pass. This covers answer insertion, not every possible concurrent identity operation or automatic cross-tab recovery.
+
