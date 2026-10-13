@@ -71,3 +71,7 @@ Activated60 distinct families and exact hints in six units. Byte-pinned release 
 ## Environmental and Resource Economics — bank 2026.10.12.27
 
 Parent reviewed all60 prompts, keys, distractors, explanations and hints. Clarified that the instrument-equivalence cap uses competitively traded permits and that DiD assumes no anticipation. Removed the repeated opening phrase from each question while retaining constructed-scenario metadata and explicit hypothetical-study wording where needed. Independent checks cover21 numerical keys plus cost allocation, leakage, rebound, forest timing, DiD and cost-effectiveness. Activated60 distinct families with exact hints and source-byte release evidence. Inventory3,657items/682families/13courses. Production deployment, empirical calibration and authenticated browser flow verification remain separate gates.
+
+## New field directory browser verification
+
+Browser inspection of the actual local curriculum page confirms Financial Economics, Behavioral Economics and Environmental and Resource Economics each show60questions/60families and six correctly named units with10questions each. Native disclosures expand successfully; the environmental view screenshot is saved as new-fields-coverage-proof.png. This verifies visible directory integration, not authenticated student sessions, instructor permissions or production deployment. New bounded agents are drafting60families each for health, political and urban economics; they have no activation authority.
