@@ -154,3 +154,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Replaced the shared read-modify-write pending-answer array with one durable localStorage entry per event ID. Independent tab submissions no longer overwrite an unrelated queued event, and receipt removal affects only the acknowledged event.
 - Existing legacy arrays migrate before retrieval; malformed data and conflicting event payloads are preserved with explicit errors. Matching durable server receipts remain mandatory for removal.
 - Three regressions cover interleaved independent tabs, acknowledgment/conflict safeguards and legacy preservation. All51 focused tests pass. This does not prove full multi-tab reliability: two tabs answering the same presentation can still produce an attempt conflict, cross-tab account changes/recovery and real browser outage tests remain open. Browser storage can be cleared by its owner; server receipts distinguish durable uploads from local pending work.
+
+## Continuation: session bank-version integrity
+
+- Prevented new-version questions entering an older session after a deployment. An outstanding presentation remains answerable from its stored snapshot; the next selection then returns bank-version-changed, allowing completion/report instead of silent mixed-bank assessment.
+- Reports expose session/current bank versions and explain the update to students. Regression verifies outstanding presentation reuse, durable answer, no added presentation and retained scored report. All52 focused tests pass.
+- This is a transitional integrity safeguard, not seamless pinned-bank hosting: continuing old assessments to full length across releases still requires retaining deployable historical banks or a rollout policy that drains active assignments. Assigned sessions ended by an update may be shorter than their target; instructors can see the count.

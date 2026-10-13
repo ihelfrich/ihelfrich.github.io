@@ -49,3 +49,12 @@ test('participant history export isolates owners and withholds unfinished assess
  const completed=await t.call('/profile/responses',null,a.p.token);assert.equal(completed.rows[0].correct,true);assert.ok(completed.rows[0].explanation);
  assert.equal((await t.call('/profile/responses?after=-1',null,a.p.token)).status,400);t.env.DB.close();
 });
+test('a bank update preserves outstanding questions and answers without mixing new items into an old session',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment');
+ await t.env.DB.prepare('UPDATE sessions SET bank_version=? WHERE id=?').bind('previous-bank',s.sessionId).run();
+ const outstanding=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(outstanding.presentationId,next.presentationId);
+ const saved=await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);assert.equal(saved.persisted,true);
+ const finished=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(finished.done,true);assert.equal(finished.reason,'bank-version-changed');
+ assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM presentations WHERE session_id=?').bind(s.sessionId).first()).n,1);
+ await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.bankVersion,'previous-bank');assert.notEqual(report.currentBankVersion,report.bankVersion);assert.equal(report.rows.length,1);assert.equal(report.rows[0].correct,true);t.env.DB.close();
+});

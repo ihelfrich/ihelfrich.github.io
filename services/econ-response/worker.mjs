@@ -77,7 +77,7 @@ async function route(request,env){
  const [,sid,action]=match,s=await ownSession(env,p,sid);
  if(action==='report'&&method==='GET'){
   const rows=await all(env.DB,'SELECT r.*,p.item_snapshot_json FROM responses r JOIN presentations p ON p.id=r.presentation_id WHERE r.session_id=? ORDER BY p.sequence,r.attempt_number',sid);
-  return {sessionId:sid,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course)};
+  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course)};
  }
  requireValue(method==='POST','Method not allowed.',405);
  if(action==='complete'){
@@ -120,6 +120,8 @@ async function route(request,env){
  if(action==='next'){
   const current=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? ORDER BY sequence DESC LIMIT 1',sid).first();
   if(current){const answered=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? LIMIT 1',current.id).first();if(!answered)return {presentationId:current.id,item:publicItem(JSON.parse(current.item_snapshot_json)),sequence:current.sequence};}
+  // An already-presented snapshot remains answerable; never introduce a new-bank item into an old session.
+  if(s.bank_version!==BANK_VERSION)return {done:true,reason:'bank-version-changed'};
   const length=s.mode==='assessment'?s.target_count:100;
   if((current?.sequence??0)>=length)return {done:true,reason:'session-length'};
   const state=await stateFor(env,p),selected=selectItem(bank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid});if(!selected)return {done:true,reason:'eligible-bank-exhausted'};
