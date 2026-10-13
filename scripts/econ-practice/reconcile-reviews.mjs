@@ -11,12 +11,13 @@ const sources=[
  ['61db1aa1','ap-micro-core-units-1-2.json',false],
  ['1295ad35','ap-micro-core-units-3-6.json',false],
  ['437e7897','ap-micro-concepts-middle.json',true],
- ['45f9b6e4','ap-micro-concepts-remainder.json',true]
+ ['45f9b6e4','ap-micro-concepts-remainder.json',true],
+ ['1aa241df','ap-macro-concepts-additional.json',true,'ap-macro']
 ];
 const current=buildBank(),evidence=new Map(),errors=[];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'econ-review-'));
 try{
- for(const [commit,file,single] of sources){
+ for(const [commit,file,single,course='ap-micro'] of sources){
   const review=JSON.parse(fs.readFileSync(`docs/econ-practice/audits/${file}`,'utf8'));
   const directory=path.join(scratch,commit);fs.mkdirSync(directory);
   const files=execFileSync('git',['ls-tree','--name-only',commit,'src/lib/econ-practice/'],{encoding:'utf8',timeout:10000}).trim().split('\n');
@@ -24,13 +25,13 @@ try{
   const historical=await import(pathToFileURL(path.join(directory,'index.mjs')).href);const oldBank=historical.buildBank();
   if(historical.BANK_VERSION!==review.bankVersion)throw Error(`Review source version mismatch: ${file}`);
   for(const entry of review.entries){
-   const old=oldBank.filter(q=>q.course==='ap-micro'&&q.family===entry.family),now=current.filter(q=>q.course==='ap-micro'&&q.family===entry.family);
+   const old=oldBank.filter(q=>q.course===course&&q.family===entry.family),now=current.filter(q=>q.course===course&&q.family===entry.family);
    if(!old.length||!now.length){errors.push(`Missing historical or current family: ${file}/${entry.family}`);continue;}
    if(single&&old.length!==1){errors.push(`Single-item review has multiple variants: ${file}/${entry.family}`);continue;}
-   if(evidence.has(`ap-micro:${entry.family}`)){errors.push(`Duplicate review evidence: ${file}/${entry.family}`);continue;}
+   if(evidence.has(`${course}:${entry.family}`)){errors.push(`Duplicate review evidence: ${file}/${entry.family}`);continue;}
    if(sha(single?old[0]:old)!==entry.contentSHA256){errors.push(`Stored review hash mismatch: ${file}/${entry.family}`);continue;}
    const matches=sha(content(old))===sha(content(now));
-   evidence.set(`ap-micro:${entry.family}`,{status:matches?'first-self-review-content-matches':'changed-since-first-self-review',source:file,sourceCommit:commit,reviewBankVersion:review.bankVersion,currentContentSHA256:sha(content(now))});
+   evidence.set(`${course}:${entry.family}`,{status:matches?'first-self-review-content-matches':'changed-since-first-self-review',source:file,sourceCommit:commit,reviewBankVersion:review.bankVersion,currentContentSHA256:sha(content(now))});
   }
  }
  const groups=new Map();for(const item of current){const key=`${item.course}:${item.family}`;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item);}

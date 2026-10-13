@@ -231,3 +231,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added a reproducible reconciliation script and review-current.json. It reconstructs the four committed historical banks, verifies every stored review hash, and compares current item content while excluding only the global version field.
 - All142 previously reviewed AP Micro families match their first self-review content;90 other families have no recorded substantive review. No hash errors. Missing families, duplicate evidence and invalid single-item review cardinality fail visibly.
 - Matching evidence does not establish second review, independent review, empirical validation or release approval. This closes the stale-version bookkeeping gap without upgrading content release status. Run `node scripts/econ-practice/reconcile-reviews.mjs` after content changes; historical commits must be available locally.
+
+## Continuation: additional AP Macro conceptual review
+
+- Recorded substantive first-pass reasoning for all20 additional AP Macro conceptual cases, inspecting keys, distractors, assumptions and boundary cases. Clarified capital deepening by holding all other production determinants fixed, rather than technology alone. Bank2026.10.12.12.
+- All65 focused tests pass and structural audit reports no errors/warnings. Historical review reconciliation now handles multiple courses:162 families match recorded first reviews;70 lack recorded substantive review. No historical hash errors.
+- Remaining AP Macro original concepts/numeric families, undergraduate content and multipart families still need recorded substantive review; arithmetic oracle tests alone do not satisfy that gate. Independent review, second passes and empirical validation remain open.
