@@ -1,8 +1,9 @@
+import {replayHistory} from './history.mjs';
 import {gradeResponse,publicQuestion,responseFeedback,validResponseShape} from '../../src/lib/econ-practice/scoring.mjs';
 import {pageCursor,listPage} from './pagination.mjs';
 import {createAssignment,listAssignments,startAssignment,assignmentReport} from './assignments.mjs';
 import {buildBank,BANK_VERSION,courses} from '../../src/lib/econ-practice/index.mjs';
-import {newState,recordAnswer,selectItem,score,progress} from '../../src/lib/econ-practice/adaptive.mjs';
+import {selectItem,progress} from '../../src/lib/econ-practice/adaptive.mjs';
 const bank=buildBank(),byId=new Map(bank.map(q=>[q.id,q]));
 import {iso,uuid,secret,hash,query,all,requireValue,HttpError,CONSENT_VERSION} from './common.mjs';
 import {participant,issueCredential,createChallenge,finishSignIn,bearer,requireInstructor,isInstructor} from './auth.mjs';
@@ -12,13 +13,7 @@ async function ownSession(env,p,id){
  const s=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=?',id,p.id).first();
  requireValue(s,'Session not found.',404);return s;
 }
-async function stateFor(env,p){
- const rows=await all(env.DB,`SELECT r.*,p.item_id,p.item_snapshot_json,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.attempt_number=1 ORDER BY r.server_received_at,r.event_id LIMIT 10001`,p.id);
- requireValue(rows.length<=10000,'This profile needs a history checkpoint before starting more sessions.',409);
- const state=newState();
- for(const r of rows){if(['late-receipt','after-completion'].includes(r.validity))continue;const item=JSON.parse(r.item_snapshot_json);recordAnswer(state,item,{response:JSON.parse(r.raw_answer_json),at:Date.parse(r.server_received_at),mode:r.mode,hints:r.hints_used,sessionId:r.session_id,eventId:r.event_id,measurementEligible:r.calibration_eligible===1});}
- return state;
-}
+const stateFor=(env,p)=>replayHistory(env,p.id);
 async function body(request){
  requireValue(request.headers.get('Content-Type')?.split(';')[0]==='application/json','Use JSON.');
  const reader=request.body?.getReader();requireValue(reader,'Missing request body.');let chunks=[],size=0;

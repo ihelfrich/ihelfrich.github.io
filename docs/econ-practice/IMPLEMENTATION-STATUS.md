@@ -271,3 +271,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Solow saving rates and real-exchange price ratios now produce24 distinct keyed answers per family.69 focused tests pass, including independent prompt-based calculations for all648 undergraduate numeric variants.
 - Bank2026.10.12.16. Historical reconciliation verifies all232 existing families against recorded first reviews, with no errors or pending first-review families. This is first self-review coverage, not independent/second review, curricular completeness or empirical calibration.
 - Next development priorities remain reliability of long-lived answer histories, version-pinned assignments, operational calibration/precision stopping, richer question formats, fuller curriculum coverage and deployment configuration. Live Cloudflare/Google setup is still outstanding; nothing pushed or deployed.
+
+## Continuation: remove lifetime replay cutoff
+
+- Replaced the10,000-answer hard failure with server-side keyset paging in batches of500. Replay captures a participant-specific maximum ledger sequence, then reads only through that watermark in durable receipt order. New receipts cannot indefinitely extend the replay.
+- Added a SQLite-backed regression reconstructing10,005 valid first attempts, retaining the final answer and full topic count, while excluding another owner's response and a late receipt.70 focused tests pass.
+- This removes an artificial lifetime cutoff, not all scaling limits. Full history still occupies memory and recordAnswer scans existing events/families; persistent versioned checkpoints and indexed incremental state remain required for substantially larger histories. Concurrent sign-in migration consistency also needs review. No production deployment occurred.
