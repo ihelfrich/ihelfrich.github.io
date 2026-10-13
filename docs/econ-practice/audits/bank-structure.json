@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.24",
-  "bankSHA256": "a391019d5ff81b60295a5e2d555df39edf3d3294d402d43cb4aa57ed4a6bdc2b",
+  "bankVersion": "2026.10.12.25",
+  "bankSHA256": "2881d55df0599daa3cd2b719a4d23db798aaf45c5b3de4b550797385382e635e",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -31,6 +31,10 @@
       "items": 316,
       "families": 60
     },
+    "financial-economics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -45,10 +49,10 @@
     }
   },
   "answerPositions": [
-    110,
-    103,
-    105,
-    87
+    128,
+    118,
+    122,
+    97
   ],
   "errors": [],
   "warnings": [],
@@ -6580,6 +6584,1086 @@
         "prompt": "In a hypothetical trial, a credit product is offered only to established profitable firms with good records. The offer raises investment. What limits extending the finding to all informal start-ups?",
         "answer": "Start-ups may differ in returns, risk and constraints from the trial’s eligible firms.",
         "explanation": "Randomization supports internal comparisons among eligible firms. Transporting the effect to a different population requires evidence or assumptions about relevant differences."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-01:01",
+        "prompt": "A default-free claim pays 1,210 exactly two years from today and nothing earlier. The effective annual discount rate is 10%, constant across maturities. What is its present value?",
+        "answer": "1,000.",
+        "explanation": "Discount twice: 1,210/1.10² = 1,000. The first distractor discounts once, the second uses simple interest, and the third compounds instead of discounting."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-02:01",
+        "prompt": "A default-free contract pays 110 at the end of year 1 and 110 at the end of year 2. With a flat effective annual rate of 10%, what is its value today?",
+        "answer": "190.91, approximately.",
+        "explanation": "The value is 110/1.1 + 110/1.1² = 190.91. Dividing the total by 1.1 ignores the second payment's timing; 210 treats the first payment as immediate; 220 ignores discounting."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-03:01",
+        "prompt": "An account quotes a nominal annual rate of 12% compounded monthly. Interest is reinvested and there are no fees. What is its effective annual rate?",
+        "answer": "About 12.68%.",
+        "explanation": "Each month earns 12%/12 = 1%; twelve periods give 1.01¹² − 1 = 12.68%. The distractors ignore intra-year compounding, report the monthly rate, or multiply the nominal rate by twelve."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-04:01",
+        "prompt": "A default-free perpetuity first pays 60 one year from today and then pays 60 every year forever. At a constant effective annual discount rate of 5%, what is its value today?",
+        "answer": "1,200.",
+        "explanation": "For the first payment at year 1, value is 60/0.05 = 1,200. Adding 60 assumes an immediate payment; dividing 1,200 by 1.05 delays every payment a year; multiplying by the rate reverses capitalization."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-05:01",
+        "prompt": "A default-free bond has face value 1,000, a 60 annual coupon, and two years remaining. Its required effective annual yield is 5%. What is its price immediately after a coupon date?",
+        "answer": "1,018.59, approximately.",
+        "explanation": "Price is 60/1.05 + 1,060/1.05² = 1,018.59. A coupon rate above yield implies a premium; par ignores that gap, the below-par answer reverses it, and 1,120 ignores time value."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-06:01",
+        "prompt": "A default-free zero-coupon bond costs 800 today and pays 968 exactly two years later. What is its annual effective yield if held to maturity?",
+        "answer": "10%.",
+        "explanation": "The annual factor is sqrt(968/800) = 1.10. The 21% is the two-year return, 10.5% divides that return arithmetically, and 17.36% uses terminal value as the return denominator."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-07:01",
+        "prompt": "A default-free zero-coupon bond matures in four years and has an effective annual yield of 5%. What is its Macaulay duration?",
+        "answer": "4 years.",
+        "explanation": "All present-value weight lies on the payment at year 4, so Macaulay duration is 4. Dividing by 1.05 gives modified duration; no coupons do not imply no duration; yield is not a maturity measure."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-08:01",
+        "prompt": "A bond has modified duration 6 years. Its annual yield rises by 0.50 percentage points. Ignoring convexity, what approximate percentage price change does duration predict?",
+        "answer": "−3%.",
+        "explanation": "The approximation is ΔP/P = −6(0.005) = −0.03. The distractors reverse the sign, treat percentage points as whole units, or divide by duration instead of multiplying."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-09:01",
+        "prompt": "Default-free annual effective spot rates are 4% for one year and 5% for two years. Under frictionless no-arbitrage trading, what one-year forward rate from year 1 to year 2 is implied?",
+        "answer": "About 6.01%.",
+        "explanation": "The forward factor satisfies 1.04(1+f) = 1.05², giving 6.0096%. Subtracting spot rates is not a forward rate; 5% is the two-year annual spot rate; 10.25% is its cumulative two-year return."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u1-10:01",
+        "prompt": "A hypothetical investment earns a 10% nominal return over one year while the price level rises 4%. What is its purchasing-power return?",
+        "answer": "About 5.77%.",
+        "explanation": "The real growth factor is 1.10/1.04, yielding 5.7692%. Subtraction gives only an approximation; addition reverses inflation's role; 10% ignores inflation."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-01:01",
+        "prompt": "A one-year asset returns 20% with probability 0.25 and −4% with probability 0.75. These are exhaustive states. What is its expected return?",
+        "answer": "2%.",
+        "explanation": "The mean is 0.25(20%) + 0.75(−4%) = 2%. The distractors use equal state weights or omit respectively the loss contribution or the gain contribution."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-02:01",
+        "prompt": "An asset's one-period return is 10% or −10%, each with probability one-half. Using decimal returns, what is its variance?",
+        "answer": "0.01.",
+        "explanation": "Mean return is zero and variance is 0.5(0.10²)+0.5(−0.10)² = 0.01. The alternatives report standard deviation, confuse a zero mean with zero variation, or fail to probability-weight squared deviations."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-03:01",
+        "prompt": "At the start of a year, a portfolio invests 30% in an asset with expected return 12% and 70% in one with expected return 4%. There is no rebalancing or leverage. What is the portfolio's expected annual return?",
+        "answer": "6.4%.",
+        "explanation": "Linearity gives 0.3(12%)+0.7(4%)=6.4%. An unweighted average gives 8%, reversing weights gives 9.6%, and adding returns ignores invested shares."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-04:01",
+        "prompt": "Two assets each have return standard deviation 20% and zero correlation. A portfolio holds equal initial weights. What is its one-period standard deviation?",
+        "answer": "About 14.14%.",
+        "explanation": "Variance is 0.5²(0.2²)+0.5²(0.2²)=0.02 and standard deviation is sqrt(0.02). The distractors average volatilities, divide volatility by the number of assets, or report variance as a percentage."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-05:01",
+        "prompt": "Two assets have equal expected returns and standard deviations of 10% and 20%. Their one-period returns have correlation −1. What weight in the first asset makes portfolio variance zero, with the remaining weight in the second?",
+        "answer": "Two-thirds.",
+        "explanation": "Set w(0.10)=(1−w)(0.20), giving w=2/3. Equal weights fail because volatilities differ; one-third reverses the volatility adjustment; holding only the second asset retains its risk."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-06:01",
+        "prompt": "Each of n assets has return R_i = F + e_i, where F has variance 0.01, each e_i has variance 0.04, and all e_i are mutually independent and independent of F. As n grows, what happens to equal-weight portfolio variance?",
+        "answer": "It approaches 0.01.",
+        "explanation": "The portfolio is F plus the average idiosyncratic shock, so variance is 0.01 + 0.04/n. Common risk survives; complete diversification to zero ignores it, constant 0.05 ignores diversification, and explosive risk ignores equal weighting."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-07:01",
+        "prompt": "A portfolio has expected annual return 9% and annual return standard deviation 15%; the matching risk-free annual return is 3%. What is its Sharpe ratio?",
+        "answer": "0.40.",
+        "explanation": "The ratio is (0.09−0.03)/0.15 = 0.40. The alternatives omit the risk-free subtraction, invert the ratio, or report only the excess return."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-08:01",
+        "prompt": "An investor places 150% of initial wealth in a risky asset with expected one-year return 8%, financing the extra 50% by borrowing at a fixed 2% annual rate. Ignore fees and default. What is expected return on initial wealth?",
+        "answer": "11%.",
+        "explanation": "Expected return is 1.5(8%)−0.5(2%)=11%. Ignoring interest gives 12%; treating the borrowing cost as income gives 13%; multiplying only the excess return by 1.5 gives 9% and omits the risk-free intercept."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-09:01",
+        "prompt": "An investor chooses between final wealth of 100 or 400, each with probability one-half, and a certain final wealth amount. With utility sqrt(wealth), what certain amount gives equal expected utility?",
+        "answer": "225.",
+        "explanation": "Expected utility is (10+20)/2=15, whose inverse utility is 225. Mean wealth is 250; 15 remains in utility units; 300 has utility above the lottery's expected utility."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u2-10:01",
+        "prompt": "Two feasible portfolios have the same expected one-year return of 7%. Portfolio A has standard deviation 8%; B has 12%. In mean-variance preferences with strictly positive risk aversion, what follows?",
+        "answer": "A is strictly preferred to B.",
+        "explanation": "With identical expected return, the smaller variance raises mean-variance utility for every positive risk-aversion coefficient. Risk does not automatically provide extra return here, equal means do not erase risk preferences, and ex ante choice does not require realized outcomes."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-01:01",
+        "prompt": "In frictionless markets with unrestricted short selling and no default, claims A and B both pay exactly 100 in one year in every state. A costs 94 and B costs 96 today. Which trade is an arbitrage?",
+        "answer": "Buy A and short B, receiving 2 today and zero net payoff later.",
+        "explanation": "Buying the cheaper identical payoff and selling the dearer locks in 2 now with offsetting future obligations. The reverse loses 2; buying both requires investment; shorting both leaves an uncovered future liability."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-02:01",
+        "prompt": "In a frictionless two-state one-year economy, a claim paying 1 only in state U costs 0.4 and a claim paying 1 only in state D costs 0.5. A security pays 80 in U and 20 in D. What is its no-arbitrage price?",
+        "answer": "42.",
+        "explanation": "Replicating the security costs 80(0.4)+20(0.5)=42. Equal-weight averaging invents probabilities; normalizing state prices gives a risk-neutral expected payoff before discounting; 48 interchanges the two state prices."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-03:01",
+        "prompt": "Two exhaustive one-year state claims cost 0.35 and 0.60, each paying 1 only in its own state. Under no arbitrage, what is the effective one-year risk-free rate?",
+        "answer": "About 5.26%.",
+        "explanation": "One of each claim pays 1 for certain and costs 0.95; return is 1/0.95−1 = 5.263%. The alternatives use the discount rather than return base, report the price, or reverse the return sign."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-04:01",
+        "prompt": "Assume the one-period CAPM holds. The risk-free rate is 2%, expected market return is 8%, and an asset's beta is 1.5. What is its required expected return?",
+        "answer": "11%.",
+        "explanation": "CAPM gives 2%+1.5(8%−2%)=11%. The alternatives multiply total market return by beta, omit the risk-free intercept, or ignore beta."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-05:01",
+        "prompt": "An asset's return covariance with the market is 0.018 and market return variance is 0.012, both in squared decimal-return units. What is the asset's beta?",
+        "answer": "1.5.",
+        "explanation": "Beta is covariance divided by market variance: 0.018/0.012=1.5. The alternatives invert the ratio, divide by market standard deviation, or subtract variance from covariance."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-06:01",
+        "prompt": "Assume CAPM, a risk-free rate of 3%, and an expected market risk premium of 6%. A security has beta −0.5. What expected return does the model assign?",
+        "answer": "0%.",
+        "explanation": "The return is 3%−0.5(6%)=0%. A negative beta provides market-risk insurance in this model. The distractors reverse beta's sign, omit the intercept, or treat negative beta as zero beta."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-07:01",
+        "prompt": "Two states each occur with probability one-half. The stochastic discount factor is 1.2 in the bad state and 0.8 in the good state. A claim pays 10 only in the bad state. What is its price under P=E[mX]?",
+        "answer": "6.",
+        "explanation": "Price is 0.5(1.2)(10)+0.5(0.8)(0)=6. Ignoring the discount factor gives 5; omitting probability weighting gives 12; using the good-state factor for the bad-state payoff gives 4."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-08:01",
+        "prompt": "States B and G each have probability one-half, with discount factors 1.2 and 0.8 respectively. Claim A pays (10,0) and claim C pays (0,10). Which comparison follows from P=E[mX]?",
+        "answer": "A costs more than C despite equal expected payoffs.",
+        "explanation": "A costs 6 and C costs 4. State-dependent valuation distinguishes equally likely payoffs; using only expected payoffs misses that distinction, privileging G reverses the discount-factor weights, and 10 ignores both probabilities and discounting."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-09:01",
+        "prompt": "A one-period economy has three possible states. Two traded securities have linearly independent payoff vectors. With unrestricted portfolios and no other securities, what can be concluded?",
+        "answer": "Some state-contingent payoff vectors cannot be replicated.",
+        "explanation": "Two independent vectors span a two-dimensional subspace of a three-dimensional payoff space. Their span includes some payoffs but not all; incompleteness alone neither eliminates replication nor implies arbitrage."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u3-10:01",
+        "prompt": "A non-dividend stock costs 100 and will be 120 or 80 in one year. Borrowing and lending are frictionless at a 5% effective annual rate. What risk-neutral probability of the up state is implied?",
+        "answer": "0.625.",
+        "explanation": "Set 100=[q(120)+(1−q)(80)]/1.05, giving q=25/40=0.625. Equal physical likelihoods are not supplied; 0.375 is the down-state probability; 0.25 divides the required increment above 80 by the initial price instead of the 40-point state spread."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-01:01",
+        "prompt": "A non-dividend stock costs 80 today. The one-year borrowing and lending rate is 5% effective annually; markets are frictionless and short selling is allowed. What delivery price makes a new one-year forward have zero initial value?",
+        "answer": "84.",
+        "explanation": "Cash-and-carry replication gives K=80(1.05)=84. Spot ignores financing, 76.19 discounts rather than carries the stock, and 4 is only the financing cost."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-02:01",
+        "prompt": "A one-year forward was entered earlier with delivery price 90. Six months remain; spot is now 100 and the risk-free effective rate over the remaining six months is 5%. The asset pays no dividends. What is the current value to the long in frictionless markets?",
+        "answer": "14.29, approximately.",
+        "explanation": "Value is S−PV(K)=100−90/1.05=14.29. Spot minus delivery ignores payment timing; 15 is the terminal difference from a new 105 forward before discounting; the negative sign values the short."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-03:01",
+        "prompt": "A European call has strike 50 and premium 4 paid today. At expiration in one year, the underlying price is 62. Assume a zero interest rate and no fees. What is the buyer's net profit?",
+        "answer": "8.",
+        "explanation": "Exercise payoff is max(62−50,0)=12 and net profit subtracts the premium, giving 8. The alternatives report payoff, ignore profitable exercise, or subtract premium directly from the underlying price without paying the strike."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-04:01",
+        "prompt": "At expiration, a European put has strike 70 and the underlying is worth 58. What is the put holder's exercise payoff, before any premium cost?",
+        "answer": "12.",
+        "explanation": "The payoff is max(70−58,0)=12. A holder cannot be forced to accept a negative exercise payoff; the stock price is not the put payoff, and zero mistakes the put for a call."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-05:01",
+        "prompt": "European calls and puts on a non-dividend stock have the same one-year maturity and strike 105. Spot is 100 and the effective annual risk-free rate is 5%. With frictionless trading, what must C−P equal?",
+        "answer": "0.",
+        "explanation": "Parity is C−P=S−K/1.05=100−100=0. Using undiscounted strike yields −5; reversing that error gives 5; omitting the strike claim gives 100."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-06:01",
+        "prompt": "A non-dividend stock costs 100 and will be 120 or 80 after one year. Borrowing and lending are at zero interest with frictionless trading. A European call has strike 100. How is one call replicated?",
+        "answer": "Buy 0.5 shares and borrow 40.",
+        "explanation": "The call pays 20 or 0. A half-share pays 60 or 40; subtracting repayment of 40 produces exactly those payoffs. The other portfolios produce respectively (20,−20), (100,80), and (10,0)."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-07:01",
+        "prompt": "A stock costs 100 and pays no dividends. In one year it is 120 or 80; a European call has strike 100. With frictionless 5% annual borrowing and lending, what is the call price?",
+        "answer": "11.90, approximately.",
+        "explanation": "Risk-neutral up probability is (105−80)/40=0.625. Discounting the expected payoff gives 0.625(20)/1.05=11.90. The alternatives use zero-rate pricing, omit discounting, or use the maximum payoff as price."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-08:01",
+        "prompt": "An investor owns one share and has written one call with strike 60 on that share. At expiration, ignoring initial costs and any dividends, what is the portfolio payoff when stock price is 75?",
+        "answer": "60.",
+        "explanation": "The share pays 75 while the written call costs 15, leaving 60. Ignoring the call gives 75, adding its payoff gives 90, and 15 is the call holder's payoff alone."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-09:01",
+        "prompt": "An American call has a strictly positive strike. Its underlying stock pays no dividends; interest rates are strictly positive and markets have no taxes or trading frictions. For an in-the-money American call before expiration, what does standard no-arbitrage reasoning imply?",
+        "answer": "Early exercise is suboptimal because it sacrifices remaining optionality and pays the strike early.",
+        "explanation": "Without dividends, holding or selling preserves time value and defers the strike payment. Being in the money does not require exercise; an American exercise right does not forbid resale; a positive strike creates a financing reason to wait."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u4-10:01",
+        "prompt": "A producer will sell 1,000 units of a commodity in three months and wants to lock its sale price using a forward on exactly the same commodity, quantity, and date. Ignore counterparty risk. Which position offsets its price exposure?",
+        "answer": "Short a forward for 1,000 units.",
+        "explanation": "Physical sale revenue rises with spot price while the short-forward payoff falls by the same amount, locking revenue. A long forward doubles directional exposure; a purchased call does not impose a fixed sale price; an unpriced future sale remains exposed."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-01:01",
+        "prompt": "In the weak-form efficient-market hypothesis, which strategy is ruled out as a source of systematic risk-adjusted excess returns after trading costs?",
+        "answer": "A strategy using only past prices and trading volume.",
+        "explanation": "Weak-form efficiency concerns historical market data. It does not assert strong-form incorporation of private information, prohibit compensation for risk, or eliminate realized gains."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-02:01",
+        "prompt": "Assume semi-strong efficiency and an unexpected public announcement with positive value implications. What price response is consistent with the hypothesis?",
+        "answer": "An immediate upward adjustment when the news becomes public.",
+        "explanation": "Prices can react sharply to surprises. Persistent exploitable public-information delay conflicts with the premise; constant prices confuse efficiency with stability; advance certainty contradicts an unanticipated announcement."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-03:01",
+        "prompt": "On an announcement day, a stock returns 4%. Its estimated benchmark model predicts 1.5% for that same day given realized market conditions. What is its model-based abnormal return?",
+        "answer": "2.5 percentage points.",
+        "explanation": "Abnormal return is actual minus benchmark return: 4%−1.5%=2.5 percentage points. The alternatives ignore the benchmark, add it, or divide by it instead of subtracting."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-04:01",
+        "prompt": "A researcher rejects zero average abnormal returns using a particular asset-pricing benchmark. What can be concluded without further evidence?",
+        "answer": "The result challenges the joint combination of efficiency and the benchmark, not efficiency alone.",
+        "explanation": "Abnormal returns depend on the chosen expected-return model. Rejection may reflect inefficiency or a misspecified benchmark; observed returns do not validate that benchmark, and payoff spanning is a separate issue."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-05:01",
+        "prompt": "A hypothetical trading rule earns 0.30% abnormal return per round trip before costs. Commissions and execution costs total 0.40% per round trip, measured on the same capital base. What is its net abnormal return per round trip?",
+        "answer": "−0.10%.",
+        "explanation": "Net abnormal return is 0.30%−0.40%=−0.10%. The alternatives omit costs, add costs as gains, or omit the gross return. A gross pattern alone does not establish a profitable anomaly."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-06:01",
+        "prompt": "In a model, private research is costly and traders can profit only from information absent from current prices. If prices fully reveal all private information and there are no other benefits to research, what problem arises?",
+        "answer": "No trader has a private incentive to pay for the research needed to generate that information.",
+        "explanation": "Once prices reveal everything, paying for duplicative information yields no private gain under the stated assumptions. Costs need not vanish, information rents shrink rather than rise, and a static incentive problem is not a historical claim."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-07:01",
+        "prompt": "A trader believes an asset is undervalued, but must finance the position using debt subject to margin calls. Why might the trader avoid a large position even if the valuation analysis is correct in the long run?",
+        "answer": "A further short-run price fall can force liquidation before convergence.",
+        "explanation": "Financing constraints create path-dependent loss and liquidation risk. A correct terminal valuation does not guarantee interim funding; margin pressure can impede convergence; perceived undervaluation is not a matched-payoff arbitrage."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-08:01",
+        "prompt": "A risk-neutral dealer faces some better-informed traders and earns no other revenue. Holding inventory and processing costs fixed, what effect can a higher probability of informed counterparties have on competitive bid-ask spreads in a standard adverse-selection model?",
+        "answer": "It can widen spreads to offset larger expected losses to informed traders.",
+        "explanation": "Risk neutrality removes compensation for variance but not expected trading losses. More informed order flow can require a wider spread; easier service does not offset informational disadvantage, and a single unconditional quote ignores selection."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-09:01",
+        "prompt": "A firm's value is high with prior probability one-half. A positive signal occurs with probability 0.8 if value is high and 0.2 if value is low. What is the posterior probability of high value after a positive signal?",
+        "answer": "0.8.",
+        "explanation": "Bayes' rule gives (0.8×0.5)/(0.8×0.5+0.2×0.5)=0.8. The alternatives ignore the signal, report the joint probability rather than conditional probability, or treat a noisy signal as certainty."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u5-10:01",
+        "prompt": "Expected returns vary predictably with a public state variable because that variable changes priced risk. If an appropriate risk model explains the variation and net risk-adjusted excess returns are zero, what follows?",
+        "answer": "Return predictability alone does not refute informational efficiency.",
+        "explanation": "Time-varying compensation for risk can generate predictable returns without abnormal profits. Predictability is not riskless arbitrage, efficiency need not imply constant required returns, and public variables can forecast risk."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-01:01",
+        "prompt": "A hypothetical project costs 100 now and pays a certain 60 at each of the next two year-ends. The matching effective annual opportunity cost is 10%. What is its NPV?",
+        "answer": "About 4.13.",
+        "explanation": "NPV is −100+60/1.1+60/1.1²=4.1322. The alternatives ignore discounting, omit initial cost, or discount both receipts as if received in year 1."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-02:01",
+        "prompt": "A company has already paid a nonrefundable 20 for a feasibility study. A project now requires 100 and will pay 115 in one year with certainty. The annual opportunity cost is 10%. No other effects exist. What is the project's NPV at the current decision date?",
+        "answer": "About +4.55.",
+        "explanation": "The study cost is sunk, so current NPV is −100+115/1.1=4.55. Subtracting 20 counts an unavoidable past cost; 15 ignores discounting; adding 20 treats the sunk outlay as a recoverable benefit."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-03:01",
+        "prompt": "A firm owns land that can be sold today for 50. A project uses the land permanently, also costs 100 today, and yields one certain payment of 160 in one year. At a 10% annual discount rate with no taxes, what is NPV relative to selling the land and rejecting the project?",
+        "answer": "About −4.55.",
+        "explanation": "Using the land forgoes 50 today, so NPV is −150+160/1.1=−4.55. Ignoring owned-resource cost gives 45.45; ignoring discounting gives 10; subtracting the land twice gives −54.55."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-04:01",
+        "prompt": "A conventional project costs 200 today and pays 242 exactly two years later, with no intermediate cash flows. What is its effective annual IRR?",
+        "answer": "10%.",
+        "explanation": "Set 200=242/(1+r)², giving r=10%. The two-year cumulative return is 21%; halving that misses compounding; 42 confuses the monetary gain with a percentage."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-05:01",
+        "prompt": "Two mutually exclusive one-year projects are equally risky, with a 10% discount rate. A costs 10 now and pays 13; B costs 100 now and pays 120. Capital is unconstrained. Which choice maximizes value?",
+        "answer": "Choose B because its NPV is about 9.09 versus A's 1.82.",
+        "explanation": "NPV compares value added on a common date. B adds 120/1.1−100=9.09 while A adds 13/1.1−10=1.82. Higher percentage return need not mean more value at different scales; outlay size alone does not rank projects; two positive NPVs need not be equal."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-06:01",
+        "prompt": "A firm targets market-value weights of 60% equity and 40% debt. Equity cost is 10%, pretax debt cost 5%, and the corporate tax rate 25%. Using the standard interest-tax-shield WACC formula, what is WACC?",
+        "answer": "7.5%.",
+        "explanation": "WACC is 0.6(10%)+0.4(5%)(1−0.25)=7.5%. Ignoring the debt tax shield gives 8%; taxing both components gives 6%; applying the tax rate instead of one minus it gives 6.5%."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-07:01",
+        "prompt": "Under Modigliani-Miller assumptions of no taxes, no bankruptcy or transaction costs, identical borrowing opportunities, and fixed operating cash flows, what does replacing equity with debt do to total firm value?",
+        "answer": "It leaves total firm value unchanged.",
+        "explanation": "Financing changes split a fixed operating payoff without creating value under these assumptions. Lower debt cost is offset by riskier equity; equity risk alone is not lost total value; a leverage ratio is not a value multiplier."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-08:01",
+        "prompt": "In a no-tax Modigliani-Miller setting, the unlevered cost of capital is 8%, debt cost is 4%, and the market-value debt-equity ratio is 0.5. What is the levered equity cost?",
+        "answer": "10%.",
+        "explanation": "The levered cost is rE=rA+(D/E)(rA−rD)=8%+0.5(4%)=10%. The alternatives ignore leverage, reverse its sign, or use the entire asset return as the leverage premium."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-09:01",
+        "prompt": "A distressed firm can undertake a new project costing shareholders 10 now. The present value of its incremental payoff is 15, of which 12 accrues to existing creditors and 3 to shareholders. No other effects exist. What explains shareholder rejection?",
+        "answer": "The project has positive total NPV but negative incremental shareholder NPV.",
+        "explanation": "Total NPV is 15−10=5, but shareholders gain 3−10=−7. Existing creditor claims divert benefits; their benefit does not make the project negative in total financial value, and financing contributions do not automatically override existing priority."
+      },
+      "last": null
+    },
+    {
+      "course": "financial-economics",
+      "family": "financial-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "financial-economics:financial-economics-u6-10:01",
+        "prompt": "A firm can invest 80 now for a payoff in one year of 120 or 40 with equal probability. Alternatively it can wait one year, observe which payoff opportunity is available, and then pay 80 for that immediate payoff or decline. Assume zero interest, no competition, and unchanged opportunity terms. What is the value at time zero of the wait-and-choose opportunity?",
+        "answer": "20.",
+        "explanation": "Waiting yields max(120−80,0)=40 in the high state and max(40−80,0)=0 in the low state, so value is 0.5(40)=20. Immediate commitment has expected NPV zero; 40 ignores the low-state probability; 80 is the unconditional gross payoff, not the option's net value."
       },
       "last": null
     },

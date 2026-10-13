@@ -57,3 +57,7 @@ The browser-safe registration gate now explicitly validates base review status, 
 ## Financial content review checkpoint (not activated)
 
 Parent inspected all 60 financial-economics prompts, keys, distractors, explanations and hints. Requested explicit positive strike in the American-call early-exercise item and replaced social-welfare language with total financial value in the debt-overhang explanation. Independent regression checks now cover 41 numerical keys plus portfolio hedge/diversification results. All checks pass. Author is completing final self-review and those wording corrections; source pinning and runtime integration must wait for the final saved version. Behavioral course has delivered 60 draft items with author review; independent parent review remains pending.
+
+## Financial Economics — bank 2026.10.12.25
+
+Activated 60 distinct reviewed families across discounting/fixed income, portfolios, asset pricing, derivatives, information/efficiency and corporate finance. Both requested parent corrections verified in final source. Individual method hints extracted into the hint registry; source bytes pinned. Parent numeric test covers41 numerical keys plus two portfolio results; author reports47 arithmetic assertions. All156 tests pass including six-unit selection coverage and stable reload registration. AP Micro remains the default first course. Inventory is3,537 active items/562families across11courses. Authenticated student/instructor browser verification of this course remains outstanding; no empirical calibration or deployment claimed.

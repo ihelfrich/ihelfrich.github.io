@@ -1,3 +1,5 @@
+import financial from '../../../content/econ-drafts/financial-economics.json' with {type:'json'};
+import financialRelease from '../../../content/econ-drafts/financial-economics-release.json' with {type:'json'};
 import developmentExtensions from '../../../content/econ-drafts/development-economics-variants.json' with {type:'json'};
 import tradeExtensions from '../../../content/econ-drafts/international-trade-variants.json' with {type:'json'};
 import ioExtensions from '../../../content/econ-drafts/industrial-organization-variants.json' with {type:'json'};
@@ -18,7 +20,7 @@ import {family,families} from './bank.mjs';
 import {fieldQuestionAt} from './field-expansions.mjs';
 import {auditFieldRelease} from './field-release.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);
