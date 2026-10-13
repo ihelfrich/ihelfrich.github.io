@@ -321,3 +321,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Legacy state without posteriorModels derives the existing model from eligible history; ambiguous or missing provenance fails closed. New indexed replay retains its efficient model metadata path.
 - Extended regression verifies update/routing rejection and exact state preservation, while retaining suppression for externally supplied legacy mixed history.78 tests pass.
 - This assumes model IDs identify immutable parameter sets. Operational immutable model storage, session-level model assignment, parameter hashes and explicit linked rebuild procedures remain unfinished; no approved model is activated in the live service.
+
+## Continuation: dependency security updates
+
+- Fresh npm audit found16 affected packages (8 high,3 moderate,5 low). Applied compatible transitive updates and advanced the existing sharp override from0.35.4 to0.35.5, including matching native/libvips packages.
+- Audit now reports6 affected packages (0 high,2 moderate,4 low). Remaining chains are KaTeX/math-rendering and UUID/ExcelJS; require targeted API/reachability review instead of the audit tool's suggested forced downgrades. Registry counts are not a complete application-security assessment.
+- Full npm run check passes after updates, including78 economics tests, static build and rendered styles. Wrangler local deploy dry run also passes. Saved dependency-review.json with advisory data and exact lock hash. No deployment.
