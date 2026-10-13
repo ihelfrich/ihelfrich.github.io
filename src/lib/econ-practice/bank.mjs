@@ -1,5 +1,5 @@
 import {microTopics} from './curriculum.mjs';
-export const BANK_VERSION='2026.10.13.31';
+export const BANK_VERSION='2026.10.13.32';
 export const families=[];
 const num=x=>Number(x.toFixed(3));
 const fmt=x=>Number.isInteger(x)?String(x):String(num(x));

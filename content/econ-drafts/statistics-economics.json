@@ -562,7 +562,7 @@
       "The sample mean converges to zero because the density is symmetric.",
       "The population mean is zero because the median is zero."
     ],
-    "explanation": "A Cauchy mean is undefined, and the stated stability property leaves the sample average’s distribution unchanged. Symmetry alone does not ensure an expectation exists.",
+    "explanation": "A Cauchy distribution has no finite expectation, and the stated stability property leaves the sample average’s distribution unchanged. Symmetry alone does not ensure an expectation exists.",
     "hint": "Check moment existence before invoking an average-based limit theorem.",
     "skill": "a heavy-tailed counterexample",
     "sourceUrls": [
@@ -753,7 +753,7 @@
     "unit": 4,
     "topic": "4.5",
     "title": "A method-of-moments variance estimate",
-    "prompt": "Independent observations 1, 2 and 3 come from a distribution with finite mean μ and variance σ². Match the first two population raw moments to sample raw moments. What is the resulting method-of-moments estimate of σ²?",
+    "prompt": "A sample of n=3 independent observations, with values 1, 2 and 3, come from a distribution with finite mean μ and variance σ². Match the first two population raw moments to sample raw moments. What is the resulting method-of-moments estimate of σ²?",
     "correct": "2/3.",
     "wrong": [
       "1.",
