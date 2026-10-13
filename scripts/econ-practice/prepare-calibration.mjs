@@ -1,3 +1,4 @@
+import {itemDiagnostics} from './item-diagnostics.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -45,7 +46,7 @@ export function prepare(rows,{course,unit,bankVersion,minItemResponses=100,minPe
  // Check connectedness of observed item coadministration. Disconnected components cannot be linked without anchors.
  const adjacency=new Map(items.map(id=>[id,new Set()]));for(const row of matrix){const observed=items.filter((_,j)=>row[j]!==null);for(const a of observed)for(const b of observed)adjacency.get(a).add(b);}
  const reached=new Set(),stack=items.length?[items[0]]:[];while(stack.length){const id=stack.pop();if(reached.has(id))continue;reached.add(id);stack.push(...[...adjacency.get(id)].filter(x=>!reached.has(x)));}if(reached.size!==items.length)reasons.push('disconnected_item_design');
- const manifest={schemaVersion:1,course,unit,bankVersion,sourceRows:rows.length,eligibleRows:eligible.length,retainedPersons:people.length,retainedItems:items.length,exclusions,screening:{minItemResponses,minPersons,minItemsPerPerson},readyForCandidateFit:reasons.length===0,blockingReasons:reasons,items,itemStats,warning:'Passing screening does not establish identifiability, item quality, adequate power, or operational validity. No model is automatically approved.'};
+ const manifest={schemaVersion:1,course,unit,bankVersion,sourceRows:rows.length,eligibleRows:eligible.length,retainedPersons:people.length,retainedItems:items.length,exclusions,screening:{minItemResponses,minPersons,minItemsPerPerson},readyForCandidateFit:reasons.length===0,blockingReasons:reasons,items,itemStats,diagnostics:itemDiagnostics(itemStats,Object.fromEntries(items.map((id,i)=>[id,observedCounts[i]]))),warning:'Passing screening does not establish identifiability, item quality, adequate power, or operational validity. No model is automatically approved.'};
  return {manifest,items,people,matrix};
 }
 export function writePrepared(prepared,directory){fs.mkdirSync(directory,{recursive:true});const {manifest,items,people,matrix}=prepared;const lines=[['person',...items].map(csv).join(','),...matrix.map((row,i)=>[sha(people[i]).slice(0,20),...row].map(csv).join(','))];fs.writeFileSync(path.join(directory,'responses.csv'),lines.join('\n')+'\n');fs.writeFileSync(path.join(directory,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');}

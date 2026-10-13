@@ -38,3 +38,9 @@ Synthetic reports carry an explicit flag. They cannot authorize operational cali
 Run `node scripts/econ-practice/validate-candidate.mjs REPORT.json BANK_VERSION REVIEW.json` to check whether evidence is assembled for instructor review. A review identifies the reviewer, time, matching source hash, and evidence/rationale for content, dimensionality, local dependence, item fit, fairness, CAT simulation, linking, and score interpretation. A justified not-applicable decision is possible; missing evidence is not acceptance.
 
 The validator leaves status as candidate even when the review is complete. Actual authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
+
+## Descriptive item screening
+
+The preparation manifest now includes `diagnostics.items`. These describe eligible first-family, unassisted responses from one occasion per person after the minimum-person-response screen, before sparse/constant items are removed. Each item reports observed and retained-matrix counts separately, sample facility, a working-binomial Wilson95% interval, constant-response flag, active-time and selection-probability distributions, and raw response frequencies. Raw response codes are not labeled distractors without matching the item format/key.
+
+Keep the manifest private. Facility depends on who adaptively received an item; its interval does not adjust for adaptive selection, clustering or calibration-parameter uncertainty and is not a population or IRT-difficulty estimate. Missing/invalid timing values are counted separately, never converted to zero. An all-correct item remains in diagnostics even though it fails candidate-fit screening. No diagnostic automatically approves an item or model.

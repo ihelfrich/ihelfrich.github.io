@@ -397,3 +397,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Enginev8 narrows assessment selection to previously unexposed families when available after unit/topic filters and uncovered-unit requirements. If only familiar families remain within coverage, it allows them with explicit exposureStatus; existing calibration exclusions still apply.
 - Worker supplies lifetime presentation-family exposure, including unanswered presentations, in addition to answered history. Atomic insertion remains the final authority under concurrent selections. Selection probability is conditional on the resulting eligible pool.
 - Regression verifies fresh preference, unanswered-presentation input, unit-filter preservation, uncovered-unit priority and exhausted-fresh-bank fallback. Updated occasion test to compare identical eligible pools.85 focused tests pass. Freshness is not empirical item calibration or proof of independence across different families.
+
+## Continuation: descriptive item screening diagnostics
+
+- Extended the existing preparation manifest rather than creating a second response tracker. Added sample facility, working-binomial Wilson intervals, constant-response flags, timing/propensity distributions and response frequencies. Observed pre-item-screen counts are distinguished from retained matrix counts.
+- Constant and sparse items remain diagnostically visible; missing timing is not treated as zero. Interpretation explicitly limits results to the adaptively selected observed sample, not population facility or IRT difficulty.
+- Regression covers constant items excluded from fitting, partial missing timing, counts, no participant/session identifiers in the new aggregate section, and closed-form interval edge cases.87 focused tests pass. No real student data analyzed or empirical approval claimed.
