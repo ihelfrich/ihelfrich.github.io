@@ -493,3 +493,7 @@ Starting an import or live load now clears the previous dataset, hides analysis 
 ## Student answer clarity (2026-10-12)
 
 Answer fields lock after durable local queue insertion and after a server receipt, preventing visible edits that do not correspond to the submitted response. Queue-error handling preserves that lock when an answer remains queued; rendering the next question unlocks the fieldset. Numeric guidance is associated via aria-describedby. Numeric answer labels use a vertical layout; selected choices have a border/inset marker, with transitions only when reduced motion is not requested. Added DOM coverage for guidance association and next-question unlock; 119 focused tests pass. End-to-end outage/recovery browser verification of the locking flow remains pending.
+
+## Session action ordering (2026-10-12)
+
+Next, finish, and queued-answer retry now share a navigation lock. Competing clicks are ignored while an action runs; failure restores controls. Hint requests capture their original presentation and suppress late success/error output after the current presentation changes or feedback has replaced the hint. New regression tests cover competing actions, rejection recovery, and stale hint responses. All 121 focused tests pass. Full reload/offline/cross-tab recovery remains a separate browser verification requirement.

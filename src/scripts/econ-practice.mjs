@@ -1,3 +1,4 @@
+import {createSessionActions,loadCurrentHint} from './econ-session-actions.mjs';
 import {renderAnswerInputs,readAnswerInputs,formatResponse} from './econ-answer-form.mjs';
 import {createOutbox} from './econ-outbox.mjs';
 import {setupIdentity} from './econ-identity.mjs';
@@ -33,7 +34,7 @@ if(root){
   await flush();const result=await request(`/sessions/${session.sessionId}/next`,{});if(result.done){await finish();return;}
   current=result;started=performance.now();active=0;lastTick=performance.now();
   const q=result.item;$('question-heading').textContent=q.prompt;$('question-meta').textContent=`${courses[session.course].name} · Unit ${q.unit} · Question ${result.sequence}`;
-  $('figure').innerHTML=renderGraph(q.graph);$('feedback').replaceChildren();$('receipt').textContent='';$('next').hidden=true;$('submit-answer').disabled=false;$('hint').hidden=session.mode==='assessment';
+  $('figure').innerHTML=renderGraph(q.graph);$('feedback').replaceChildren();$('receipt').textContent='';$('next').hidden=true;$('submit-answer').disabled=false;$('hint').hidden=session.mode==='assessment';$('hint').disabled=false;
   renderAnswerInputs($('answer-options'),q);
   show('question-panel');$('question-heading').focus();
  }
@@ -46,9 +47,10 @@ if(root){
   const elapsed=Math.round(performance.now()-started);const event={sessionId:session.sessionId,payload:{eventId:crypto.randomUUID(),presentationId:current.presentationId,attemptNumber:1,response:value,elapsedMs:elapsed,activeMs:Math.min(elapsed,Math.round(active)),submittedAt:new Date().toISOString()}};
   const queue=outbox.list();if(queue.some(q=>q.payload.presentationId===current.presentationId))throw new Error('This answer is already queued. Reconnect to save it.');outbox.enqueue(event);$('answer-options').disabled=true;$('receipt').textContent='Saving answer…';await flush();
  }catch(error){if(error.status===401&&profile?.identityKind==='account'){await identity.refresh();show('setup');}let queued=true;try{queued=outbox.list().some(e=>e.payload.presentationId===current?.presentationId);}catch{};$('retry-save').hidden=!queued;$('submit-answer').disabled=queued;$('answer-options').disabled=queued;$('receipt').textContent=queued?`${error.message} Your queued answer remains on this browser. Reconnect to retry.`:error.message;}finally{busy=false;}});
- $('retry-save').addEventListener('click',()=>flush().catch(e=>$('receipt').textContent=e.message));
- $('next').addEventListener('click',()=>next().catch(e=>$('receipt').textContent=e.message));$('finish').addEventListener('click',()=>finish().catch(e=>$('receipt').textContent=e.message));
- $('hint').addEventListener('click',async()=>{try{const r=await request(`/sessions/${session.sessionId}/hint`,{presentationId:current.presentationId});$('feedback').replaceChildren(node('p',r.hint));}catch(e){$('receipt').textContent=e.message;}});
+ const runSessionAction=createSessionActions({isBusy:()=>busy,setBusy:value=>{busy=value;for(const id of ['next','finish','retry-save'])$(id).disabled=value;ready();},onError:error=>{$('receipt').textContent=error.message;}});
+ $('retry-save').addEventListener('click',()=>runSessionAction(flush));
+ $('next').addEventListener('click',()=>runSessionAction(next));$('finish').addEventListener('click',()=>runSessionAction(finish));
+ $('hint').addEventListener('click',()=>{if(busy||!current)return;const presentationId=current.presentationId,sessionId=session.sessionId;$('hint').disabled=true;loadCurrentHint({presentationId,request:()=>request(`/sessions/${sessionId}/hint`,{presentationId}),isCurrent:id=>current?.presentationId===id&&!$('hint').hidden,show:hint=>$('feedback').replaceChildren(node('p',hint)),onError:error=>{$('receipt').textContent=error.message;}}).finally(()=>{if(current?.presentationId===presentationId)$('hint').disabled=false;});});
  $('again').addEventListener('click',()=>{session=null;current=null;show('setup');});
  $('export').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`economics-session-${report.sessionId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
  setInterval(()=>{const now=performance.now();if(current&&!document.hidden)active+=Math.min(now-lastTick,1200);lastTick=now;},1000);
