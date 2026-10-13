@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.26",
-  "bankSHA256": "c774329a320fff16229a97e4c63063b10ea81d48128b37dbc0e5f99d627ae2e1",
+  "bankVersion": "2026.10.12.27",
+  "bankSHA256": "98cb91247865dc9a56af883367603a211e2a0e53aedd377714b2aa3b3fb774cf",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -39,6 +39,10 @@
       "items": 60,
       "families": 60
     },
+    "environmental-economics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -53,10 +57,10 @@
     }
   },
   "answerPositions": [
-    141,
-    140,
-    134,
-    110
+    159,
+    156,
+    152,
+    118
   ],
   "errors": [],
   "warnings": [],
@@ -8748,6 +8752,1086 @@
         "prompt": "A randomized study finds positive average effects but credible negative effects for a prespecified subgroup. What policy analysis follows?",
         "answer": "Compare targeted and universal implementation using subgroup benefits, costs and the stated welfare criterion.",
         "explanation": "Average gains do not establish universal gains. Targeting may help, but administrative costs, feasibility and the normative treatment of distribution matter."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-01:01",
+        "prompt": "Inverse demand is 100 − Q, private marginal cost is 20, and marginal external damage is 20. What output maximizes total surplus?",
+        "answer": "60 units.",
+        "explanation": "Social marginal cost is 20 + 20 = 40. Equating demand to social marginal cost gives 100 − Q = 40, hence Q = 60. Private choice would produce 80."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-02:01",
+        "prompt": "Marginal benefit of abatement is 80 − 2A and marginal abatement cost is 2A, with 0 ≤ A ≤ 40. What is efficient abatement?",
+        "answer": "20 units.",
+        "explanation": "At an interior optimum, 80 − 2A = 2A, giving A = 20. Zero or complete abatement ignores the marginal tradeoff."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-03:01",
+        "prompt": "Total environmental damage from emissions E is D(E) = 3E². At E = 5, what is marginal damage?",
+        "answer": "30 currency units per emission unit.",
+        "explanation": "The derivative is D′(E) = 6E, so marginal damage is 30. Total damage is 75 and average damage is 15."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-04:01",
+        "prompt": "Two residents have marginal willingness to pay 12 − G and 8 − G for the same public cleanup G, for 0 ≤ G ≤ 8. Marginal cost is 10. What is efficient G?",
+        "answer": "5 units.",
+        "explanation": "Both enjoy the same quantity, so marginal benefits sum to 20 − 2G. Equating this to 10 gives G = 5."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-05:01",
+        "prompt": "A factory can install a filter costing 70 that prevents 100 of harm to its sole neighbor. The factory initially has a right to pollute; bargaining is costless and transfers are feasible. Which agreement can make both better off?",
+        "answer": "The neighbor pays 85 for the factory to install the filter.",
+        "explanation": "A payment between 70 and 100 covers the filter cost and is less than the avoided harm. At 85, each party gains 15 relative to no filter and no transfer."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-06:01",
+        "prompt": "Costless bargaining over a nuisance achieves the same efficient noise level under either initial legal entitlement. Why can residents still care which entitlement the law assigns?",
+        "answer": "Entitlements change the bargaining baseline and transfers.",
+        "explanation": "An invariant efficient allocation does not imply an invariant wealth distribution. The entitlement determines who can demand compensation."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-07:01",
+        "prompt": "Demand is 100 − Q, private marginal cost is 20, and marginal external damage is 20. Unregulated output is 80 and efficient output is 60. What is the surplus loss from excess output?",
+        "answer": "200 currency units.",
+        "explanation": "The wedge between social marginal cost and marginal benefit rises linearly from 0 to 20 over 20 excess units. Its triangle area is 20 × 20 / 2 = 200."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-08:01",
+        "prompt": "A new shop raises demand for nearby land, increasing rents, but creates no pollution or other unpriced spillovers. With competitive complete markets, why is the rent increase alone insufficient evidence of market failure?",
+        "answer": "It is a price-mediated effect, not necessarily an unpriced social cost.",
+        "explanation": "A change operating through competitive prices redistributes surplus and conveys scarcity. It differs from an unpriced technological externality."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-09:01",
+        "prompt": "Two plants each emit one ton, but exposure modeling gives marginal damages of 90 near plant A and 10 near plant B. What does this imply for a damage-based tax?",
+        "answer": "Different per-ton rates can be efficient because damages depend on location.",
+        "explanation": "Equal physical emissions need not cause equal exposure or harm. A differentiated tax can reflect source-specific marginal damage."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u1-10:01",
+        "prompt": "The last unit of pollution could be removed for 500 but would avoid only 40 in damage; all other effects are included. Should that unit be removed on surplus grounds?",
+        "answer": "No; removing it reduces surplus by 460.",
+        "explanation": "The incremental benefit is 40 and real resource cost is 500. A positive residual emission can be efficient when further abatement costs more than it benefits."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-01:01",
+        "prompt": "Two firms must jointly abate 12 units. Their marginal abatement costs are 2a and 4b, respectively, with a + b = 12 and no binding capacity limits. What minimizes total cost?",
+        "answer": "a = 8 and b = 4.",
+        "explanation": "Cost minimization requires 2a = 4b. Combining a = 2b with the target gives b = 4 and a = 8."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-02:01",
+        "prompt": "A firm initially emits 10 units and can abate A at total cost A². A tax of 12 applies to each remaining emission unit. What abatement minimizes its cost?",
+        "answer": "6 units.",
+        "explanation": "The firm equates marginal abatement cost 2A to the tax 12, yielding A = 6 within the feasible range."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-03:01",
+        "prompt": "A firm receives freely transferable permits for free in a competitive market. A permit sells for 25. What is the opportunity cost of using one permit?",
+        "answer": "25, because the firm forgoes selling it.",
+        "explanation": "Using a tradable permit sacrifices sale revenue. Free allocation affects wealth but does not eliminate the marginal emissions incentive."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-04:01",
+        "prompt": "The regulator knows all costs and damages, firms are competitive, enforcement is perfect, and transaction costs are zero. A tax induces exactly the emissions allowed by a cap with competitively traded permits. What follows?",
+        "answer": "Both can implement the same emissions allocation and abatement cost.",
+        "explanation": "With equivalent emissions and common marginal incentives, the instruments can produce the same cost-minimizing allocation. Their revenue distribution can differ."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-05:01",
+        "prompt": "In the standard local linear-quadratic price-versus-quantity model, uncertainty shifts marginal abatement cost, marginal benefits are relatively flat, and marginal costs are steep. Which instrument is favored in expected surplus terms?",
+        "answer": "A fixed abatement incentive price.",
+        "explanation": "When benefits vary little with quantity while costs vary steeply, allowing quantity to respond to cost shocks avoids costly quantity rigidity. This conclusion uses the stated standard uncertainty model."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-06:01",
+        "prompt": "A pollutant causes sharply increasing marginal damage near a known emissions threshold, while marginal abatement cost is uncertain and comparatively flat. In the local price-versus-quantity comparison, what favors a cap?",
+        "answer": "It limits quantity errors where marginal damage changes rapidly.",
+        "explanation": "A steep marginal damage schedule makes emissions deviations costly. A quantity limit controls that margin, although its compliance price can vary."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-07:01",
+        "prompt": "A regulator sells unlimited additional allowances at 50 while initially issuing a fixed number of allowances. What tradeoff does this create?",
+        "answer": "The price is limited, but emissions may exceed the initial allowance quantity.",
+        "explanation": "Additional supply at 50 prevents higher compliance prices under the stated rules, but permits emissions beyond the original supply."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-08:01",
+        "prompt": "Each unreported emission unit has an independent 0.2 detection probability and incurs a fine of 100 if detected. A risk-neutral firm can prevent that unit at cost 15. With no other consequences, what does it prefer?",
+        "answer": "Prevent the unit, since 15 is below expected fine 20.",
+        "explanation": "Expected fine is 0.2 × 100 = 20. Abatement costing 15 is cheaper for a risk-neutral decision-maker."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-09:01",
+        "prompt": "A plant meets a standard of at most 0.5 tons per unit of output. It doubles output from 100 to 200 while remaining exactly at the standard. What happens to emissions?",
+        "answer": "They rise from 50 to 100 tons.",
+        "explanation": "An intensity limit constrains emissions per output, not total output. At the binding rate, emissions equal 0.5 times output."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u2-10:01",
+        "prompt": "Two sources have different local marginal damages, but a permit system treats their emissions as perfect substitutes one for one. What is the central efficiency concern?",
+        "answer": "A trade can lower abatement cost while increasing total environmental damage.",
+        "explanation": "Uniform trading equalizes abatement costs for the aggregate target. When source damages differ, that target alone does not ensure the spatial allocation maximizes surplus."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-01:01",
+        "prompt": "Annual park visits follow V = 12 − 2p for generalized trip price p between 0 and 6. At p = 2, what is annual consumer surplus under this linear demand?",
+        "answer": "16 currency units.",
+        "explanation": "There are 8 visits, and the choke price is 6. The surplus triangle is (6 − 2) × 8 / 2 = 16."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-02:01",
+        "prompt": "Two visitors pay the same fuel cost but one spends three more hours traveling. Why might fuel expenditure alone mismeasure the visit price?",
+        "answer": "Travel time can have an opportunity cost.",
+        "explanation": "Generalized travel cost includes relevant time costs as well as money costs. The appropriate time value requires assumptions or evidence, not automatic equality across visitors."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-03:01",
+        "prompt": "An analyst observes that cleaner neighborhoods have higher house prices. Why is this correlation alone insufficient to identify willingness to pay for clean air?",
+        "answer": "School quality and other amenities may covary with air quality.",
+        "explanation": "Hedonic identification must account for correlated attributes and sorting. A raw price difference can combine air quality with other valued neighborhood features."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-04:01",
+        "prompt": "A resident would pay to preserve a distant species despite never expecting to see it. Which valuation approach can in principle elicit this nonuse value?",
+        "answer": "A carefully designed stated-preference survey.",
+        "explanation": "Stated-preference methods can ask about willingness to pay for preservation independent of use. Behavioral market measures limited to visits or harvest miss this stated nonuse motive."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-05:01",
+        "prompt": "A survey asks respondents whether they support cleanup but mentions no required payment or budget consequence. Why is the support share not directly a monetary benefit estimate?",
+        "answer": "Support does not reveal the amount respondents would give up.",
+        "explanation": "Monetary valuation requires a tradeoff against resources, typically via a credible payment mechanism. Costless approval alone does not measure that tradeoff."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-06:01",
+        "prompt": "A hypothetical representative study estimates mean annual household willingness to pay of 18 for a cleanup. There are 2,000 covered households, each counted once. What annual aggregate benefit follows?",
+        "answer": "36,000 currency units.",
+        "explanation": "Multiply household willingness to pay by the number of relevant households: 18 × 2,000 = 36,000. The estimate is annual and must not be treated as a perpetual lump sum."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-07:01",
+        "prompt": "A clean-air benefit estimate already includes residents’ willingness to pay for reduced illness, including their expected medical spending savings. What happens if those same savings are added again?",
+        "answer": "The same benefit is counted twice.",
+        "explanation": "The stipulated willingness-to-pay measure already incorporates those savings. Adding them separately duplicates the same welfare component."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-08:01",
+        "prompt": "Each of 1,000 people would pay 30 for an annual mortality-risk reduction of 1 in 100,000. What value of a statistical life is implied by this marginal tradeoff?",
+        "answer": "3,000,000 currency units.",
+        "explanation": "Individual willingness to pay divided by the risk reduction is 30 / 0.00001 = 3,000,000. Equivalently aggregate payment 30,000 buys 0.01 expected lives saved."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-09:01",
+        "prompt": "A study estimates recreation benefits at a lake with many close substitutes. A proposed site has no close substitutes and serves a different-income population. What is the strongest assessment?",
+        "answer": "Directly transferring the estimate requires justification for these differences.",
+        "explanation": "Substitution possibilities and income affect demand and willingness to pay. These differences warrant adjustment or new evidence; they do not alone provide an exact correction."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u3-10:01",
+        "prompt": "A habitat can be preserved for one year while information about its value arrives, but development now would destroy it irreversibly. What benefit can waiting provide?",
+        "answer": "The option to condition the later decision on new information.",
+        "explanation": "Waiting can preserve a choice that learning will improve. Its value must be weighed against delay costs and does not guarantee permanent preservation."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-01:01",
+        "prompt": "A simplified atmospheric stock follows S next = 0.9S now + E. If S now is 100 and emissions E are 20, what is next period’s stock?",
+        "answer": "110 units.",
+        "explanation": "Ninety units remain from the existing stock and 20 are added, so the next stock is 110. Emissions are a flow rather than the whole stock."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-02:01",
+        "prompt": "A simplified carbon stock follows S next = 0.95S now + E. At a constant stock of 200, what constant emissions flow maintains that stock?",
+        "answer": "10 units per period.",
+        "explanation": "At a steady state, E = (1 − 0.95) × 200 = 10. This result belongs to the stipulated one-box decay model, not a claim about actual carbon-cycle stabilization."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-03:01",
+        "prompt": "One extra ton causes present-value damages of 12 domestically and 28 abroad, with no other effects. What marginal damage enters a global surplus calculation?",
+        "answer": "40 currency units per ton.",
+        "explanation": "A global perspective sums domestic and foreign damage: 12 + 28 = 40. A domestic-only objective would use a different scope."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-04:01",
+        "prompt": "A project yields a single certain benefit of 121 in two years. At an annual discount rate of 10%, what is its present value?",
+        "answer": "100 currency units.",
+        "explanation": "Present value is 121 / 1.1² = 100. Compounding moves values forward; discounting moves them back."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-05:01",
+        "prompt": "Two policies have identical present costs. One prevents damage next year; the other prevents the same monetary damage in 100 years. What does increasing a positive discount rate do to the relative present value of the latter benefit?",
+        "answer": "It reduces it relative to the near-term benefit.",
+        "explanation": "The ratio of discounted distant to near benefits is (1 + r)^−99, decreasing in r. Discounting reduces positive benefits without changing their sign."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-06:01",
+        "prompt": "Each of two countries can abate at cost 6. Each country’s abatement benefits itself by 4 and the other country by 4. Actions and effects add. What happens with selfish noncooperative choice versus joint surplus maximization?",
+        "answer": "Neither abates noncooperatively; joint surplus favors both abating.",
+        "explanation": "Each unilateral action gives its actor 4 − 6 = −2, but global net benefit is 4 + 4 − 6 = 2. The additive joint optimum adopts both."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-07:01",
+        "prompt": "A domestic policy cuts home emissions by 100 tons but induces 30 extra tons abroad. Relative to no policy, what is the global reduction and leakage rate?",
+        "answer": "70 tons and 30%.",
+        "explanation": "Net reduction is 100 − 30 = 70; leakage is the induced foreign increase divided by the domestic reduction, 30/100 = 30%."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-08:01",
+        "prompt": "A forest would have remained intact without an offset payment. A program nevertheless awards credits for its unchanged carbon stock, with no other behavioral changes. What is the additionality problem?",
+        "answer": "The credited action causes no extra carbon preservation relative to the baseline.",
+        "explanation": "Additionality compares outcomes with and without the intervention. Paying for the same baseline outcome does not create the credited incremental reduction."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-09:01",
+        "prompt": "A seawall reduces local flood damage but leaves emissions unchanged. A separate intervention lowers emissions but has no direct local protection effect. Which classification is correct?",
+        "answer": "The seawall is adaptation; the emissions reduction is mitigation.",
+        "explanation": "Adaptation reduces vulnerability to climate effects; mitigation reduces climate forcing through emissions or related channels. The measures can complement each other."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u4-10:01",
+        "prompt": "An appliance upgrade would save 40 energy units at unchanged use. Lower operating cost induces more use consuming 10 of those units. What is the realized saving and direct rebound fraction?",
+        "answer": "30 units and 25%.",
+        "explanation": "Realized saving is 40 − 10 = 30. Rebound is lost engineering saving divided by engineering saving: 10/40 = 25%."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-01:01",
+        "prompt": "An exhaustible-resource owner faces constant marginal extraction cost of 10. Current competitive price is 30. Under the deterministic interior Hotelling rule with a 5% interest rate and no stock-dependent costs, what is next period’s price?",
+        "answer": "31 currency units.",
+        "explanation": "Current scarcity rent is 30 − 10 = 20. Rent grows to 21, so price becomes 10 + 21 = 31. The rule applies to net price, not gross price."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-02:01",
+        "prompt": "An owner allocates a stock of 10 between two periods. Marginal net benefits are 20 − q1 and 20 − q2; the discount rate is zero. What efficient allocation exhausts the stock?",
+        "answer": "q1 = 5 and q2 = 5.",
+        "explanation": "Equal undiscounted marginal net benefits require q1 = q2. The stock constraint then gives 5 units in each period."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-03:01",
+        "prompt": "In a two-period resource model at the current allocation, marginal net benefit is 10 today and 12 next period. The discount rate is 10%, and a small unit can be shifted without violating constraints. Which shift raises present surplus?",
+        "answer": "Move a small unit of extraction from today to next period.",
+        "explanation": "Next period’s marginal benefit is worth 12/1.1 ≈ 10.91 today, exceeding 10. Delaying a small unit raises present surplus until marginal conditions adjust."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-04:01",
+        "prompt": "A perfect substitute for an exhaustible resource is available in unlimited quantity at constant delivered cost 50. There are no switching costs or quality differences. What constrains the resource’s competitive delivered price?",
+        "answer": "Consumers will switch if it exceeds 50.",
+        "explanation": "An unlimited perfect substitute at 50 gives buyers an alternative. A higher resource price cannot persist with positive demand under these assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-05:01",
+        "prompt": "A fish stock X grows by G(X) = 0.2X(1 − X/100). At which stock is natural growth largest?",
+        "answer": "X = 50.",
+        "explanation": "The symmetric concave quadratic peaks at half carrying capacity, X = 50, where growth is 5. Maximum standing stock is not maximum growth."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-06:01",
+        "prompt": "A fishery starts with stock 80. During the period natural growth adds 12 and harvest removes 18, with no other flows. What is the ending stock?",
+        "answer": "74 units.",
+        "explanation": "Stock accounting gives 80 + 12 − 18 = 74. Harvest exceeds growth by 6, so stock declines by 6."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-07:01",
+        "prompt": "Fishers can enter freely, all opportunity costs are included, and positive economic profits attract entry. What condition characterizes an interior static open-access equilibrium?",
+        "answer": "Total revenue equals total opportunity cost.",
+        "explanation": "Entry dissipates economic rent until no entrant can earn positive economic profit. Zero-profit open access generally differs from a rent-maximizing managed fishery."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-08:01",
+        "prompt": "A fishery manager can sustain harvest 20 at cost 190 or harvest 16 at cost 100. Fish sells for 10 per unit, with no other benefits or costs. Which option yields more annual economic rent?",
+        "answer": "Harvest 16, yielding rent 60 instead of 10.",
+        "explanation": "Rent subtracts real costs from revenue. The options yield 200 − 190 = 10 and 160 − 100 = 60. Biological output does not by itself rank economic returns."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-09:01",
+        "prompt": "One farmer’s pumping lowers the water table and raises neighbors’ future pumping costs, which the farmer does not bear. What incentive distortion follows?",
+        "answer": "Private pumping ignores part of its marginal social cost.",
+        "explanation": "The farmer neglects the imposed future cost. This stock externality can create excessive pumping relative to the social optimum."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u5-10:01",
+        "prompt": "A stand can be sold now for 1,000 or with certainty for 1,080 next year. There are no other forest services, costs, or later choices; the discount rate is 10%. Which action has higher present value?",
+        "answer": "Sell now; waiting is worth about 981.82 today.",
+        "explanation": "The delayed sale is worth 1,080/1.1 ≈ 981.82, below 1,000. This one-time choice excludes replanting and non-timber services."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-01:01",
+        "prompt": "A cleanup costs 100 now and yields certain benefits of 60 after one year and 60 after two years. At 10%, what is its net present value, rounded to two decimals?",
+        "answer": "4.13 currency units.",
+        "explanation": "NPV = −100 + 60/1.1 + 60/1.1² ≈ 4.13. Both benefits must be discounted from their own dates."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-02:01",
+        "prompt": "A policy gives one group a monetary benefit of 150 and imposes a cost of 100 on another. No compensation is paid. What does a positive unweighted net benefit establish?",
+        "answer": "Winners could compensate losers and retain a gain, but actual Pareto improvement is not established.",
+        "explanation": "The surplus is 50, so hypothetical compensation is feasible in the monetary comparison. Without compensation, the losing group remains worse off."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-03:01",
+        "prompt": "A policy gives a lower-income group a benefit of 40 and imposes a higher-income group cost of 60. The evaluator explicitly weights their monetary changes by 2 and 1 respectively. What is weighted net benefit?",
+        "answer": "20 currency units in the weighted objective.",
+        "explanation": "The stated objective gives 2 × 40 − 1 × 60 = 20. Unweighted net benefit is −20, illustrating the role of the chosen welfare weights."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-04:01",
+        "prompt": "A household pays 300 in higher annual fuel bills because of a carbon policy and receives a 350 lump-sum rebate. Ignoring all other changes, what is its direct net monetary effect?",
+        "answer": "A gain of 50.",
+        "explanation": "The rebate minus the bill increase is 350 − 300 = 50. This narrow calculation does not include health effects, behavioral surplus, or other income changes."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-05:01",
+        "prompt": "A policy reduces average city pollution but raises exposure in one already highly exposed neighborhood. Which claim is supported by those facts alone?",
+        "answer": "Average improvement can coexist with a worsening local exposure distribution.",
+        "explanation": "An aggregate average does not determine every group’s outcome. The facts identify a distributional concern without supplying enough information for a full net-benefit ranking."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-06:01",
+        "prompt": "Firms pay 200 in emissions taxes to the domestic government. A domestic cost-benefit analysis counts both firms and government with equal monetary weights. Ignoring collection costs and behavioral effects, how should this payment enter net social cost?",
+        "answer": "As an offsetting transfer, not a net resource cost of 200.",
+        "explanation": "The payment is a loss to firms and an equal receipt to government within the same boundary. Real abatement, administration, and distortion effects require separate accounting."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-07:01",
+        "prompt": "Pollution falls from 80 to 50 in a regulated city and from 70 to 60 in an untreated comparison city. Under parallel untreated trends, no anticipation and no spillovers, what is the estimated regulation effect?",
+        "answer": "A reduction of 20 pollution units.",
+        "explanation": "The treated change is −30 and the comparison change is −10. The difference is −30 − (−10) = −20. The causal reading requires the stated assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-08:01",
+        "prompt": "Firms begin installing filters after a policy announcement, one year before legal enforcement. An analyst labels that year untreated. What identification concern arises?",
+        "answer": "The supposed pre-treatment period already contains behavioral treatment responses.",
+        "explanation": "Behavior can respond to expected future regulation. Misclassifying an anticipation period can contaminate baseline comparisons and requires a treatment-timing reconsideration."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-09:01",
+        "prompt": "Two programs each avert exactly 10 comparable expected illness cases, with all other effects identical. A costs 40,000 and B costs 30,000. Which is more cost-effective?",
+        "answer": "B, at 3,000 per case averted.",
+        "explanation": "With an identical specified outcome and no other differences, cost per case is sufficient: 4,000 for A and 3,000 for B. Monetization is needed for a net-benefit test, not this ranking."
+      },
+      "last": null
+    },
+    {
+      "course": "environmental-economics",
+      "family": "environmental-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "environmental-economics:environmental-economics-u6-10:01",
+        "prompt": "A project costs 90 now and delivers one uncertain monetary benefit B in one year. Evaluation uses expected NPV, a 5% discount rate, and no other costs or benefits. What expected B makes NPV zero?",
+        "answer": "94.50 currency units.",
+        "explanation": "Set −90 + E[B]/1.05 = 0, yielding E[B] = 94.50. This is a break-even expected-value calculation under the stipulated evaluation rule."
       },
       "last": null
     },
