@@ -1,3 +1,4 @@
+import {auditFieldExpansions} from '../../src/lib/econ-practice/field-expansions.mjs';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {buildBank,families,BANK_VERSION} from '../../src/lib/econ-practice/index.mjs';
@@ -9,13 +10,19 @@ for(const file of fs.readdirSync('content/econ-drafts').filter(f=>f.endsWith('-r
  const raw=fs.readFileSync(`content/econ-drafts/${file.replace('-release.json','.json')}`);
  const source=JSON.parse(raw),active=bank.filter(q=>q.course===release.course);
  if(crypto.createHash('sha256').update(raw).digest('hex')!==release.sourceSHA256)errors.push(`Reviewed source changed: ${file}`);
- if(source.length!==release.itemCount||active.length!==release.itemCount||new Set(release.reviewedIds).size!==source.length||source.some(q=>!release.reviewedIds.includes(q.id)))errors.push(`Release inventory mismatch: ${file}`);
+ if(release.extensions){
+  const bytes=fs.readFileSync(`content/econ-drafts/${file.replace('-release.json','-variants.json')}`),expansions=JSON.parse(bytes),audit=auditFieldExpansions(source,expansions);
+  if(crypto.createHash('sha256').update(bytes).digest('hex')!==release.extensions.sourceSHA256)errors.push(`Reviewed extensions changed: ${file}`);
+  errors.push(...audit.errors);if(audit.items!==release.extensions.itemCount)errors.push(`Extension count mismatch: ${file}`);
+  for(const entry of expansions){const released=active.filter(q=>q.family===entry.baseId);if(released.length!==entry.variants.length+1||released.filter(q=>q.variant>1).some(q=>q.reviewExtensionSHA256!==release.extensions.sourceSHA256))errors.push(`Active extension mismatch: ${entry.baseId}`);}
+ }
+ if(source.length!==release.itemCount||active.length!==release.itemCount+(release.extensions?.itemCount??0)||new Set(release.reviewedIds).size!==source.length||source.some(q=>!release.reviewedIds.includes(q.id)))errors.push(`Release inventory mismatch: ${file}`);
 }
 for(const q of bank){
  if(ids.has(q.id))errors.push(`Duplicate ID: ${q.id}`);ids.add(q.id);
  if(!q.prompt||!q.explanation||q.prompt.includes('undefined')||q.explanation.includes('undefined'))errors.push(`Incomplete text: ${q.id}`);
  if(/\d+\.\d{8,}/.test(q.prompt))errors.push(`Unformatted decimal: ${q.id}`);
- if(q.family!=='golden-rule'&&/\bn\b|\d+n\b/.test(q.explanation))errors.push(`Generator index in explanation: ${q.id}`);
+ if(q.family!=='golden-rule'&&!/\bn\b/.test(q.prompt)&&/\bn\b|\d+n\b/.test(q.explanation))errors.push(`Generator index in explanation: ${q.id}`);
  if(q.format==='choice'){if(new Set(q.options).size!==q.options.length||!Number.isInteger(q.answerIndex)||q.answerIndex<0||q.answerIndex>=q.options.length)errors.push(`Invalid options: ${q.id}`);positions[q.answerIndex]++;}
  else if(q.format==='multipart'){if(!q.parts?.length||q.parts.some(p=>!Number.isFinite(p.answer)||!(p.points>0)))errors.push(`Invalid rubric: ${q.id}`);}
  else if(!Number.isFinite(q.answer)||!Number.isFinite(q.tolerance)||q.tolerance<=0)errors.push(`Invalid numeric key: ${q.id}`);

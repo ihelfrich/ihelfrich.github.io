@@ -1,7 +1,8 @@
+import {fieldVariantHintFor} from './field-variant-hints.mjs';
 import {fieldHints} from './field-hints.mjs';
 import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v9';
+export const HINT_VERSION='topic-scaffolds-v10';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -94,6 +95,8 @@ const macroFamily={
  'macro-stabilizers':'Trace how the existing tax rule changes disposable income as earnings fall. Compare the income decline with what would happen if tax payments did not respond.'
 };
 export function hintFor(item){
+ const extension=fieldVariantHintFor(item);
+ if(extension)return {hint:extension,hintVersion:HINT_VERSION,hintScope:`${item.course}:family:${item.family}:variant:${item.variant}`};
  if(item.course==='ap-micro'&&microFamily[item.family])return {hint:microFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-micro:family:${item.family}`};
  if(item.course==='ap-macro'&&macroFamily[item.family])return {hint:macroFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-macro:family:${item.family}`};
  const specific=undergraduateHints[item.course]?.[item.family]??fieldHints[item.course]?.[item.family];

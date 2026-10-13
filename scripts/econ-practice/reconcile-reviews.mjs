@@ -44,11 +44,19 @@ try{
  for(const file of fs.readdirSync('content/econ-drafts').filter(f=>f.endsWith('-release.json'))){
   const release=JSON.parse(fs.readFileSync(`content/econ-drafts/${file}`,'utf8'));
   const raw=fs.readFileSync(`content/econ-drafts/${file.replace('-release.json','.json')}`);
-  const matches=crypto.createHash('sha256').update(raw).digest('hex')===release.sourceSHA256;
+  let matches=crypto.createHash('sha256').update(raw).digest('hex')===release.sourceSHA256;
+  let extensions=[];
+  if(release.extensions){
+   const bytes=fs.readFileSync(`content/econ-drafts/${release.course}-variants.json`);
+   const extensionMatches=crypto.createHash('sha256').update(bytes).digest('hex')===release.extensions.sourceSHA256;
+   if(!extensionMatches)errors.push(`Reviewed extensions changed: ${file}`);
+   matches=matches&&extensionMatches;extensions=JSON.parse(bytes);
+  }
   if(!matches)errors.push(`Reviewed field source changed: ${file}`);
   for(const id of release.reviewedIds){
    const items=current.filter(q=>q.course===release.course&&q.family===id);
-   if(items.length!==1){errors.push(`Missing or non-singleton reviewed field item: ${id}`);continue;}
+   const expectedCount=1+(extensions.find(e=>e.baseId===id)?.variants.length??0);
+   if(items.length!==expectedCount){errors.push(`Reviewed field item count mismatch: ${id}`);continue;}
    evidence.set(`${release.course}:${id}`,{status:matches?'authored-and-parent-reviewed-provisional':'changed-since-field-review',source:`content/econ-drafts/${file}`,currentContentSHA256:sha(content(items))});
   }
  }

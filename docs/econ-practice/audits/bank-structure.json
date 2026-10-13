@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.21",
-  "bankSHA256": "91bb46f268f9b5ae1e22bd98c25df3a4426199cc6689e60b14486472ada900e0",
+  "bankVersion": "2026.10.12.22",
+  "bankSHA256": "79f13e90ba655dd72ac35029db0f510a0d3c26290ce4aca94770b419f44e6afe",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -20,7 +20,7 @@
       "families": 30
     },
     "industrial-organization": {
-      "items": 60,
+      "items": 316,
       "families": 60
     },
     "international-trade": {
@@ -3155,10 +3155,10 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u1-01",
       "topic": "1.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -3167,15 +3167,19 @@
         "answer": "40 tickets.",
         "explanation": "Revenue is 100Q - Q², so marginal revenue is 100 - 2Q. Setting it equal to 20 yields Q = 40."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u1-01:17",
+        "prompt": "A sole ticket seller faces P = 127 - 1Q, with price in dollars and quantity in tickets. Marginal cost is $27 per ticket. With no capacity constraint, what quantity maximizes one-price profit?",
+        "answer": 50
+      }
     },
     {
       "course": "industrial-organization",
       "family": "industrial-organization-u1-02",
       "topic": "1.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3185,7 +3189,11 @@
         "answer": "25%.",
         "explanation": "The interior monopoly pricing condition is (P - MC)/P = -1/elasticity = 1/4. The margin is measured relative to price, not cost."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u1-02:17",
+        "prompt": "At a monopolist's interior optimum, demand elasticity is exactly -100/20. With constant marginal cost, what percentage of price is the price-cost margin?",
+        "answer": 20
+      }
     },
     {
       "course": "industrial-organization",
@@ -3209,10 +3217,10 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u1-04",
       "topic": "1.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -3221,7 +3229,11 @@
         "answer": "$800.",
         "explanation": "Efficient output is 80. The forgone-surplus triangle has base 40 and height 40, so its area is 800. Monopoly profit is a transfer component, not the deadweight loss."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u1-04:17",
+        "prompt": "Demand is P = 79 - Q and marginal cost is $25 per unit. A monopolist sells 27 units at $52 each. With no externalities, what is deadweight loss relative to efficient output, in dollars?",
+        "answer": 364.5
+      }
     },
     {
       "course": "industrial-organization",
@@ -3317,9 +3329,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u1-10",
       "topic": "1.10",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3329,16 +3341,20 @@
         "answer": "$3.",
         "explanation": "With a per-unit tax t, Q = (80 - 20 - t)/2 and P = (80 + 20 + t)/2. Linear demand and constant MC give half pass-through here."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u1-10:17",
+        "prompt": "A monopolist faces P = 160 - 1Q and production marginal cost $30 per unit. A $32 tax is imposed on each unit sold. By how many dollars does its optimal consumer price increase?",
+        "answer": 16
+      }
     },
     {
       "course": "industrial-organization",
       "family": "industrial-organization-u2-01",
       "topic": "2.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -3347,7 +3363,11 @@
         "answer": "20 units.",
         "explanation": "Each best response is qi = (60 - qj)/2. Symmetry gives 3q = 60, hence q = 20."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u2-01:17",
+        "prompt": "Two firms simultaneously choose quantities. Demand is P = 100 - 1(q1 + q2), in dollars per unit, and both have constant marginal cost $25. What is each firm's symmetric Cournot equilibrium quantity, in units?",
+        "answer": 25
+      }
     },
     {
       "course": "industrial-organization",
@@ -3515,10 +3535,10 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u3-01",
       "topic": "3.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -3527,7 +3547,11 @@
         "answer": "x = 0.7.",
         "explanation": "Set 20 + 10x = 24 + 10(1 - x). This gives 20x = 14, so x = 0.7. The indifference point lies closer to the more expensive shop; market shares would also depend on the customer distribution and outside options."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u3-01:17",
+        "prompt": "Shops A and B are at 0 and 1. A charges $95; B charges $155. Transport costs $100 times distance, and intrinsic value is identical. At what location x is a customer indifferent? Report x as a fraction of the line's length.",
+        "answer": 0.8
+      }
     },
     {
       "course": "industrial-organization",
@@ -3623,9 +3647,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u3-07",
       "topic": "3.7",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3635,7 +3659,11 @@
         "answer": "An increase of $100.",
         "explanation": "Incremental contribution is 50×(20 - 12) = 400. Deducting the campaign cost leaves 100."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u3-07:17",
+        "prompt": "A campaign costs $145 and adds 45 sales at an unchanged price of $40 and marginal cost $25 per unit. Ignore rival responses and other effects. What is the dollar increase in profit?",
+        "answer": 530
+      }
     },
     {
       "course": "industrial-organization",
@@ -3695,9 +3723,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u4-01",
       "topic": "4.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3707,15 +3735,19 @@
         "answer": "$20.",
         "explanation": "With zero discounting, operating profit totals 100. Deducting the entry cost gives NPV = 20."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u4-01:17",
+        "prompt": "Entry costs $265 now and earns operating profit of $55 at each year-end for 6 years. The discount rate is zero and salvage value is zero. What is net present value, in dollars?",
+        "answer": 65
+      }
     },
     {
       "course": "industrial-organization",
       "family": "industrial-organization-u4-02",
       "topic": "4.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3725,7 +3757,11 @@
         "answer": "Three firms.",
         "explanation": "With three firms, operating profit per firm is 120/9, about 13.33, above the fixed cost of 10. With four it is 120/16 = 7.5, below 10. Two firms would leave a profitable entry opportunity."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u4-02:17",
+        "prompt": "With n identical active firms, each earns annual operating profit $3065/n² before an avoidable annual fixed cost of $10. Active firms must earn nonnegative net profit and one additional entrant must earn nonpositive net profit. How many firms form a stable free-entry count?",
+        "answer": 17
+      }
     },
     {
       "course": "industrial-organization",
@@ -3749,9 +3785,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u4-04",
       "topic": "4.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3761,7 +3797,11 @@
         "answer": "δ ≥ 2/3.",
         "explanation": "Cooperation requires 5/(1 - δ) ≥ 9 + 3δ/(1 - δ). Rearranging yields 6δ ≥ 4."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u4-04:17",
+        "prompt": "Per-period profit is $15 under collusion, $35 from a one-time deviation, and $10 forever after deviation. Punishment is a credible stage Nash equilibrium, monitoring is perfect, and punishment begins next period. What is the minimum discount factor δ sustaining grim-trigger collusion?",
+        "answer": 0.8
+      }
     },
     {
       "course": "industrial-organization",
@@ -3947,9 +3987,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u5-05",
       "topic": "5.5",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3959,16 +3999,20 @@
         "answer": "$12.",
         "explanation": "The low plan yields 8 - 5 = 3. The high plan must give at least 3, requiring 15 - pH ≥ 3 and hence pH ≤ 12."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u5-05:17",
+        "prompt": "For a high-type buyer, a low-quality plan gives gross utility worth $23, and a high-quality plan gives gross utility worth $65. The low plan's price is $19. What is the highest dollar price of the high plan that makes this buyer weakly prefer it?",
+        "answer": 61
+      }
     },
     {
       "course": "industrial-organization",
       "family": "industrial-organization-u5-06",
       "topic": "5.6",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -3977,15 +4021,19 @@
         "answer": "$75.",
         "explanation": "The retailer chooses Q = (100 - w)/2. Upstream maximizes w(100 - w)/2 at w = 50, so Q = 25 and retail price is 75."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u5-06:17",
+        "prompt": "An upstream monopolist has zero marginal cost and charges linear wholesale price w. A downstream monopolist faces P = 140 - 1Q, in dollars per unit, and has no other costs. What retail price results from successive profit maximization?",
+        "answer": 105
+      }
     },
     {
       "course": "industrial-organization",
       "family": "industrial-organization-u5-07",
       "topic": "5.7",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3995,7 +4043,11 @@
         "answer": "$50.",
         "explanation": "Joint profit is Q(100 - Q), maximized at Q = 50 and P = 50. Integration removes the successive markup in this simple model."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u5-07:17",
+        "prompt": "A vertically integrated supplier faces final demand P = 180 - 1Q, with price in dollars per unit and total marginal cost zero. What retail price maximizes joint profit?",
+        "answer": 90
+      }
     },
     {
       "course": "industrial-organization",
@@ -4055,9 +4107,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u6-01",
       "topic": "6.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4067,7 +4119,11 @@
         "answer": "$100.",
         "explanation": "At P = MC = 5, revenue exactly covers variable cost for Q = 35 but contributes nothing to the fixed cost of 100."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u6-01:17",
+        "prompt": "A utility's cost at positive output is C = 325 + 20Q dollars, and demand is Q = 80 - P. If it serves demand at marginal-cost price P = $20, what dollar deficit must be funded?",
+        "answer": 325
+      }
     },
     {
       "course": "industrial-organization",
@@ -4109,9 +4165,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u6-04",
       "topic": "6.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4121,7 +4177,11 @@
         "answer": "400 points.",
         "explanation": "The change is (20 + 10)² - 20² - 10² = 2×20×10 = 400. This is an arithmetic concentration change, not a complete competitive-effects finding."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u6-04:17",
+        "prompt": "Three firms have market shares 20%, 25%, and 55%. The first two merge and shares otherwise remain unchanged. Using percentage-point shares, how many points does HHI increase?",
+        "answer": 1000
+      }
     },
     {
       "course": "industrial-organization",
@@ -4145,9 +4205,9 @@
       "course": "industrial-organization",
       "family": "industrial-organization-u6-06",
       "topic": "6.6",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4157,7 +4217,11 @@
         "answer": "$1 of net upward pressure per unit of A.",
         "explanation": "The stated screen is 0.25×12 - 2 = 1. It is a screening incentive measure, not a predicted $1 equilibrium price increase."
       },
-      "last": null
+      "last": {
+        "id": "industrial-organization:industrial-organization-u6-06:17",
+        "prompt": "A merger screen equals diversion from A to B times B's unit margin, minus A's marginal-cost reduction. Diversion is 0.25, B's margin is $80, and A's cost reduction is $2 per unit. What is the screen's value in dollars per unit of A?",
+        "answer": 18
+      }
     },
     {
       "course": "industrial-organization",
