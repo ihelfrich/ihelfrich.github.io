@@ -525,3 +525,7 @@ Added authenticated/audited `/admin/hints` with 500-row pages and a frozen ledge
 ## AP Macro guidance (2026-10-12)
 
 Added course-specific method prompts for every populated AP Macro topic, based on the current bank's topic/title inventory. Guidance distinguishes accounting categories, monetary operating assumptions, time horizons, exchange-rate quotation, and expected returns. Hint version advances to topic-scaffolds-v2; immutable prior hint events retain their original content. A coverage regression prevents accidental use of AP Micro guidance for shared topic numbers. All 128 focused tests pass. Individual hint/question fit still requires substantive review, and undergraduate guidance remains general.
+
+## Undergraduate family guidance (2026-10-12)
+
+Added method prompts for all 39 undergraduate question families, using family-level selection because shared topic codes include distinct models. Guidance emphasizes model assumptions, corners/constraints, timing, and accounting-versus-causal distinctions. Hint version advances to topic-scaffolds-v3. All current undergraduate items resolve to a family-specific hint; all 129 focused tests pass. Coverage is structural evidence only; item-level pedagogical usefulness and learning effects remain unvalidated.

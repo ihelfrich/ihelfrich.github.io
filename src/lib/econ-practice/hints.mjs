@@ -1,5 +1,6 @@
+import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v2';
+export const HINT_VERSION='topic-scaffolds-v3';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -66,6 +67,8 @@ const macro={
  '6.4':'Compare expected returns after accounting for exchange-rate expectations and risk. A higher quoted interest rate alone need not guarantee a higher expected return.'
 };
 export function hintFor(item){
+ const specific=undergraduateHints[item.course]?.[item.family];
+ if(specific)return {hint:specific,hintVersion:HINT_VERSION,hintScope:`${item.course}:family:${item.family}`};
  if(item.course==='ap-macro'&&macro[item.topic])return {hint:macro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-macro:${item.topic}`};
  if(item.course==='ap-micro'&&micro[item.topic])return {hint:micro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-micro:${item.topic}`};
  return {hint:'Identify the economic relationship the question asks you to use. Write down what is given, what must be found, and which quantities are held fixed. Check that the units of your result match the requested quantity.',hintVersion:HINT_VERSION,hintScope:'general'};

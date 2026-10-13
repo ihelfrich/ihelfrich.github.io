@@ -11,3 +11,8 @@ test('every populated AP macro topic has course-specific guidance',async()=>{
  const {buildBank}=await import('../../src/lib/econ-practice/index.mjs');
  for(const topic of new Set(buildBank().filter(q=>q.course==='ap-macro').map(q=>q.topic))){const hint=hintFor({course:'ap-macro',topic});assert.equal(hint.hintScope,`ap-macro:${topic}`);assert.ok(hint.hint.length>60);assert.notEqual(hint.hint,hintFor({course:'ap-micro',topic}).hint);}
 });
+
+test('each undergraduate family receives its own scaffold rather than a shared topic fallback',async()=>{
+ const {buildBank}=await import('../../src/lib/econ-practice/index.mjs');
+ for(const item of buildBank().filter(q=>q.course.startsWith('college-'))){const hint=hintFor(item);assert.equal(hint.hintScope,`${item.course}:family:${item.family}`);assert.ok(hint.hint.length>60);}
+});
