@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "advanced-microeconomics-u1-01",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Ordinal transformations",
+    "prompt": "On strictly positive bundles, u(x,y)=xy. Which alternative represents exactly the same preference ordering?",
+    "correct": "v(x,y)=log x + log y.",
+    "wrong": [
+      "v(x,y)=x+y.",
+      "v(x,y)=−xy.",
+      "v(x,y)=(xy−2)²."
+    ],
+    "explanation": "Logarithms are strictly increasing and log(xy)=log x+log y. Summation changes indifference curves, negation reverses rankings, and the square is not increasing over all positive products.",
+    "hint": "Check whether the proposed expression is a strictly increasing function of the original utility.",
+    "skill": "ordinal transformations",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-02",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Strict convexity and uniqueness",
+    "prompt": "A consumer has continuous, strictly convex preferences on the nonnegative orthant, strictly positive prices, and positive finite wealth. What follows for maximization over the budget set?",
+    "correct": "An optimum exists and is unique.",
+    "wrong": [
+      "An optimum is unique but need not exist.",
+      "Every affordable bundle is optimal.",
+      "Existence requires differentiable utility."
+    ],
+    "explanation": "The budget set is nonempty and compact, and continuity gives existence. If two different bundles were optimal, their affordable midpoint would be strictly preferred by strict convexity, a contradiction.",
+    "hint": "Separate the existence argument from the midpoint argument for uniqueness.",
+    "skill": "strict convexity and uniqueness",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-03",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Lexicographic discontinuity",
+    "prompt": "On [0,1]², x is preferred to y if x₁>y₁, or if x₁=y₁ and x₂>y₂. Which property fails?",
+    "correct": "Continuity of preferences.",
+    "wrong": [
+      "Completeness.",
+      "Transitivity.",
+      "Strict preference for a componentwise larger bundle."
+    ],
+    "explanation": "Bundles (1/n,0) are preferred to (0,1), but converge to (0,0), which is worse than (0,1). Thus the relevant weak upper contour set is not closed. The lexicographic rule is complete, transitive, and strictly monotone.",
+    "hint": "Look at a sequence whose first coordinate advantage vanishes in the limit.",
+    "skill": "lexicographic discontinuity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-04",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Budget exhaustion without monotonicity",
+    "prompt": "A continuous preference relation is locally nonsatiated on the nonnegative orthant. Prices are strictly positive and wealth is positive. Why must any budget optimum exhaust wealth?",
+    "correct": "A slack optimum admits a sufficiently nearby affordable bundle that is strictly preferred.",
+    "wrong": [
+      "Local nonsatiation means every good has positive marginal utility.",
+      "Continuity alone forces budget exhaustion.",
+      "Every optimum must have all coordinates strictly positive."
+    ],
+    "explanation": "Positive budget slack leaves a relative neighborhood of the bundle affordable. Local nonsatiation supplies a strictly preferred bundle in that neighborhood. It does not require differentiability or an interior optimum.",
+    "hint": "Use a small neighborhood and the size of the expenditure slack.",
+    "skill": "budget exhaustion without monotonicity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-05",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "An observed WARP violation",
+    "prompt": "At prices (2,1), a consumer chooses a=(2,1) with wealth 5. At prices (1,2), the consumer chooses b=(1,2) with wealth 5. Both are single-valued choices. Which conclusion is correct?",
+    "correct": "The observations violate WARP because each chosen bundle is affordable at the other observation.",
+    "wrong": [
+      "They satisfy WARP because both choices cost 5.",
+      "They are inconclusive because prices changed.",
+      "They violate only monotonicity, not revealed preference consistency."
+    ],
+    "explanation": "At the first prices, b costs 4; at the second prices, a costs 4. Each bundle is chosen while the other is strictly affordable, creating a revealed-preference reversal.",
+    "hint": "Compute both cross-expenditures, not just expenditure on the chosen bundle.",
+    "skill": "an observed warp violation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-06",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "A contraction inconsistency",
+    "prompt": "A choice rule selects only a from {a,b,c}, but selects only b from {a,b}. Can maximization of a fixed complete and transitive preference relation, selecting all maximizers, generate this rule?",
+    "correct": "No; a chosen from the larger set must remain chosen in the smaller set containing a.",
+    "wrong": [
+      "Yes; removing c may reverse the fixed preference between a and b.",
+      "Yes; any single-valued rule is rationalizable.",
+      "No; rational choice always selects every available object."
+    ],
+    "explanation": "If a is a maximizer in the larger set, it weakly outranks b and must be a maximizer in the subset. Choosing only b contradicts contraction consistency.",
+    "hint": "Ask whether removing an unchosen alternative can make the former maximizer cease to maximize.",
+    "skill": "a contraction inconsistency",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-07",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Convex preferences without concave utility",
+    "prompt": "On the nonnegative orthant let u(x,y)=(x+y)². Which statement is true?",
+    "correct": "Preferences are convex even though this utility function is not concave.",
+    "wrong": [
+      "Preferences are nonconvex because the utility function is convex.",
+      "Preferences are strictly convex.",
+      "The utility function is concave because it is increasing."
+    ],
+    "explanation": "The function represents the same ordering as x+y, whose upper contour sets are half-spaces intersected with the orthant. Distinct bundles with equal sums remain indifferent at their midpoint, so strict convexity fails.",
+    "hint": "Preference convexity is an upper-contour-set property, invariant to increasing transformations.",
+    "skill": "convex preferences without concave utility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-08",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Satiation and unused income",
+    "prompt": "A consumer chooses x≥0 to maximize u(x)=−(x−3)² subject to 2x≤10. What diagnoses the optimum?",
+    "correct": "x=3 is optimal and leaves 4 units of wealth unspent because local nonsatiation fails there.",
+    "wrong": [
+      "x=5 is optimal because the budget must bind.",
+      "x=0 is optimal because utility is negative elsewhere.",
+      "No optimum exists because utility is not monotone."
+    ],
+    "explanation": "Utility is uniquely maximized at the satiation point x=3, which costs 6. A compact budget ensures existence, while satiation invalidates the usual budget-exhaustion argument.",
+    "hint": "Locate the bliss point before imposing equality on the budget.",
+    "skill": "satiation and unused income",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-09",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Missing compactness",
+    "prompt": "On X=(0,1), preferences are represented by u(x)=x and every x in X is feasible. What occurs?",
+    "correct": "Utility has supremum 1 but no maximizing choice.",
+    "wrong": [
+      "x=1 is an optimal feasible choice.",
+      "Continuity guarantees an optimum on any feasible set.",
+      "No supremum exists because X is open."
+    ],
+    "explanation": "Feasible points approach 1, but 1 is excluded. Every feasible x is dominated by (x+1)/2. Continuity does not replace compactness in an existence argument.",
+    "hint": "Distinguish an attained maximum from a limiting supremum.",
+    "skill": "missing compactness",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u1-10",
+    "course": "advanced-microeconomics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Finite rationalizability",
+    "prompt": "A finite set contains a,b,c. A strict preference ranks a above b, b above c, and c above a. Which necessary condition for utility representation fails?",
+    "correct": "Transitivity.",
+    "wrong": [
+      "Completeness alone.",
+      "Boundedness of numerical utility.",
+      "Availability of at least four objects."
+    ],
+    "explanation": "A utility representation would require u(a)>u(b)>u(c)>u(a), an impossible chain of real-number inequalities. Finiteness removes continuity issues but cannot repair a cycle.",
+    "hint": "Translate each pairwise ranking into an inequality and chain them.",
+    "skill": "finite rationalizability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-01",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Recovering compensated demand",
+    "prompt": "For u(x,y)=√(xy), x,y≥0, prices pₓ,pᵧ>0 and target ū>0, which expenditure function and Hicksian x demand are correct?",
+    "correct": "e(p,ū)=2ū√(pₓpᵧ), and hₓ=ū√(pᵧ/pₓ).",
+    "wrong": [
+      "e(p,ū)=ū(pₓ+pᵧ), and hₓ=ū.",
+      "e(p,ū)=ū²pₓpᵧ, and hₓ=ū²pᵧ.",
+      "e(p,ū)=2ū√(pₓpᵧ), and hₓ=ū√(pₓ/pᵧ)."
+    ],
+    "explanation": "The binding utility constraint gives xy=ū². Minimizing pₓx+pᵧū²/x yields x=ū√(pᵧ/pₓ). Substitution gives the stated expenditure; differentiating it in pₓ gives the same demand.",
+    "hint": "Use the binding product constraint to reduce expenditure minimization to one variable.",
+    "skill": "recovering compensated demand",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-02",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Slutsky decomposition at a bundle",
+    "prompt": "At an interior differentiable demand point, x₁=4, ∂x₁/∂p₁=−3 and ∂x₁/∂m=0.25. What is the compensated own-price derivative at the same utility?",
+    "correct": "−2.",
+    "wrong": [
+      "−4.",
+      "−3.25.",
+      "+2."
+    ],
+    "explanation": "The Slutsky identity gives ∂h₁/∂p₁=∂x₁/∂p₁+x₁∂x₁/∂m=−3+4(0.25)=−2. The Marshallian derivative includes a negative income effect because the good is normal.",
+    "hint": "Add back the demand change caused by compensation x₁ dp₁.",
+    "skill": "slutsky decomposition at a bundle",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-03",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Diagnosing a Giffen response",
+    "prompt": "A differentiable rational demand has x₁=2, ∂h₁/∂p₁=−1 and ∂x₁/∂m=−1. At this point, what is ∂x₁/∂p₁?",
+    "correct": "+1, because the inferior-good income effect dominates substitution.",
+    "wrong": [
+      "−3, because all rational own-price responses are nonpositive.",
+      "−1, because compensation is irrelevant.",
+      "0, because inferiority exactly cancels substitution."
+    ],
+    "explanation": "Slutsky gives ∂x₁/∂p₁=−1−2(−1)=1. Compensated demand slopes downward, but the loss of purchasing power raises demand for this sufficiently inferior good.",
+    "hint": "Keep the compensated substitution term separate from the income term.",
+    "skill": "diagnosing a giffen response",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-04",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Testing an expenditure candidate",
+    "prompt": "For fixed target utility ū>0 and positive two-good prices, which proposed expenditure function is ruled out by price homogeneity alone?",
+    "correct": "e(p,ū)=ū(p₁²+p₂²).",
+    "wrong": [
+      "e(p,ū)=ū(p₁+p₂).",
+      "e(p,ū)=2ū√(p₁p₂).",
+      "e(p,ū)=ū min{p₁,p₂}."
+    ],
+    "explanation": "Scaling all prices by λ must scale minimum expenditure by λ. The squared-price expression scales by λ². The other expressions are all homogeneous of degree one.",
+    "hint": "Scale both prices simultaneously while holding the target fixed.",
+    "skill": "testing an expenditure candidate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-05",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Roy identity with a normalization",
+    "prompt": "A consumer has indirect utility v(p₁,p₂,m)=m/[2√(p₁p₂)] for strictly positive arguments. What is Marshallian demand for good 1?",
+    "correct": "m/(2p₁).",
+    "wrong": [
+      "m/(2p₂).",
+      "m/p₁.",
+      "√(p₂/p₁), independent of wealth."
+    ],
+    "explanation": "Roy’s identity is x₁=−vₚ₁/vₘ. The numerator is m/[4p₁√(p₁p₂)] after negation and the denominator is 1/[2√(p₁p₂)], leaving m/(2p₁).",
+    "hint": "Take the ratio of the price and wealth derivatives, including the minus sign.",
+    "skill": "roy identity with a normalization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-06",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Compensating variation after a price rise",
+    "prompt": "A consumer has u(x,y)=√(xy), wealth 12, initial prices (1,1), and new prices (4,1). Define compensation as the extra wealth needed at new prices to restore initial utility. How much is required?",
+    "correct": "12.",
+    "wrong": [
+      "6.",
+      "24.",
+      "3."
+    ],
+    "explanation": "Initial demand is (6,6), giving utility 6. At the new prices, e(p,6)=2(6)√4=24. Subtract existing wealth 12 to get compensation 12.",
+    "hint": "Find the original utility, then price that same utility at the new prices.",
+    "skill": "compensating variation after a price rise",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-07",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Nondifferentiable expenditure",
+    "prompt": "For perfect substitutes u(x,y)=x+y and target ū>0, e(p,ū)=ū min{pₓ,pᵧ}. At equal positive prices, what does Hicksian demand look like?",
+    "correct": "Every nonnegative bundle with x+y=ū minimizes expenditure; a unique price gradient does not exist.",
+    "wrong": [
+      "Only (ū,0) is a cost minimizer.",
+      "Only (ū/2,ū/2) is a cost minimizer.",
+      "There is no cost-minimizing bundle."
+    ],
+    "explanation": "When both unit prices coincide, every split of the required total amount has equal cost. The expenditure function has a kink because demand switches toward whichever good becomes cheaper.",
+    "hint": "Consider the full minimizing set before applying a differentiable version of Shephard’s lemma.",
+    "skill": "nondifferentiable expenditure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-08",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "A symmetry failure",
+    "prompt": "At p=(1,1,1), a proposed compensated-demand derivative matrix is S=[[-2,2,0],[1,−2,1],[1,0,−1]]. For a twice continuously differentiable expenditure function, what rules this out?",
+    "correct": "S is not symmetric, although its row and column sums are zero.",
+    "wrong": [
+      "Its zero row sums violate price homogeneity.",
+      "Its negative diagonal entries violate concavity.",
+      "Nothing; zero row and column sums suffice for integrability."
+    ],
+    "explanation": "A Hessian of a C² scalar expenditure function must be symmetric. Here S₁₂=2 but S₂₁=1. Homogeneity and adding-up restrictions do not alone establish integrability.",
+    "hint": "Compare cross partial derivatives as well as the adding-up restrictions.",
+    "skill": "a symmetry failure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-09",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Quasilinear demand and corners",
+    "prompt": "A consumer maximizes log x+y over x>0,y≥0 with prices (2,1). How does x demand differ between wealth 4 and wealth 0.5?",
+    "correct": "It is 0.5 at wealth 4 and 0.25 at wealth 0.5.",
+    "wrong": [
+      "It is 0.5 at both wealth levels.",
+      "It is 2 at wealth 4 and 0.25 at wealth 0.5.",
+      "It is 0.25 at wealth 4 and 0.5 at wealth 0.5."
+    ],
+    "explanation": "An interior y choice implies 1/x=2, giving x=0.5 and spending 1 on x. Wealth 0.5 cannot finance that bundle, so y=0 and x=m/2=0.25. Quasilinearity eliminates income effects only on the interior branch.",
+    "hint": "Check whether the unconstrained first-order solution leaves nonnegative numeraire consumption.",
+    "skill": "quasilinear demand and corners",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u2-10",
+    "course": "advanced-microeconomics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Concavity of expenditure in prices",
+    "prompt": "For a fixed attainable utility target, why is the expenditure function concave in positive prices, assuming finite minima exist?",
+    "correct": "It is the pointwise infimum of linear expenditure functions over a price-independent target set.",
+    "wrong": [
+      "It is the pointwise supremum of linear expenditure functions.",
+      "Consumer preferences must be concave in prices.",
+      "Every Hicksian demand must increase with every price."
+    ],
+    "explanation": "For each feasible target-achieving bundle, expenditure is linear in prices. Minimization over that common set produces a concave value function, without requiring convex preferences for this particular property.",
+    "hint": "Hold the utility target set fixed and compare minimized linear functions.",
+    "skill": "concavity of expenditure in prices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-01",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Cost minimization with complementary inputs",
+    "prompt": "A firm produces q=min{L,2K}, with nonnegative inputs, wage w=3 and capital price r=4. What is minimum cost at q=6?",
+    "correct": "30, attained at L=6 and K=3.",
+    "wrong": [
+      "42, attained at L=6 and K=6.",
+      "24, attained at L=0 and K=6.",
+      "18, attained at L=6 and K=0."
+    ],
+    "explanation": "Feasibility requires L≥6 and K≥3. Strictly positive input prices make both constraints bind, giving cost 3(6)+4(3)=30.",
+    "hint": "Translate the minimum production function into separate input requirements.",
+    "skill": "cost minimization with complementary inputs",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-02",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Conditional demand and cost duality",
+    "prompt": "For q=√(LK), w,r>0 and q>0, which conditional labor demand and cost are correct?",
+    "correct": "L=q√(r/w) and c(w,r,q)=2q√(wr).",
+    "wrong": [
+      "L=q√(w/r) and c=2q√(wr).",
+      "L=q and c=q(w+r) for all input prices.",
+      "L=q²r and c=q²wr."
+    ],
+    "explanation": "The constraint LK≥q² binds. Minimizing wL+rq²/L yields L=q√(r/w), K=q√(w/r), and cost 2q√(wr). The input whose price rises is used less relative to the other input.",
+    "hint": "Substitute K=q²/L and compare the resulting derivative with Shephard’s lemma.",
+    "skill": "conditional demand and cost duality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-03",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Convexity of profit in prices",
+    "prompt": "A firm has a fixed nonempty production set Y and finite profit π(p)=sup{p·y:y∈Y}. Even when Y is nonconvex, what property must π have?",
+    "correct": "Convexity in the output and input net-price vector p.",
+    "wrong": [
+      "Strict concavity in p.",
+      "Linearity in p.",
+      "Strict convexity of Y."
+    ],
+    "explanation": "Profit is a supremum of linear functions of p, so it is convex regardless of whether the feasible production set is convex. Nonconvexity can affect the supply correspondence without changing this value-function property.",
+    "hint": "Distinguish geometry of the feasible set from geometry of its support function.",
+    "skill": "convexity of profit in prices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-04",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "A fixed operating cost",
+    "prompt": "A price-taking firm may shut down at zero cost. Producing any q>0 costs 9+q², and output price is 5. What is the global profit-maximizing choice?",
+    "correct": "Shut down at q=0.",
+    "wrong": [
+      "Produce q=2.5 because price equals marginal cost there.",
+      "Produce q=5 because price is positive.",
+      "Produce q=3 because average cost is minimized there."
+    ],
+    "explanation": "Conditional on operating, profit is 5q−q²−9, maximized at q=2.5 with profit −2.75. Shutdown gives 0. The first-order condition does not compare the discrete operating decision.",
+    "hint": "Calculate operating profit at the stationary point and compare it with shutdown.",
+    "skill": "a fixed operating cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-05",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Sunk versus avoidable cost",
+    "prompt": "A firm has already paid a nonrefundable fixed cost of 9. Its additional cost is q² for q≥0, and price is 5. What output maximizes profit from this point forward?",
+    "correct": "q=2.5, even though profit including the sunk payment is negative.",
+    "wrong": [
+      "q=0 because total accounting profit at positive output is negative.",
+      "q=3 because it covers the fixed cost.",
+      "q=5 because the sunk payment lowers marginal cost to zero."
+    ],
+    "explanation": "The sunk payment is identical under every current output decision. Maximizing 5q−q² gives q=2.5 and operating surplus 6.25. Counting the sunk payment yields −2.75, still better than −9 under shutdown.",
+    "hint": "Remove terms that are constant across all current choices.",
+    "skill": "sunk versus avoidable cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-06",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Constant returns and finite profit",
+    "prompt": "A competitive firm can produce q≥0 at cost cq, where c>0 and there is no capacity limit. What happens if output price p>c?",
+    "correct": "Profit is unbounded above, so no finite output maximizes it.",
+    "wrong": [
+      "A unique finite positive output maximizes profit.",
+      "Zero output is uniquely optimal.",
+      "Every output gives zero profit."
+    ],
+    "explanation": "Profit equals (p−c)q and rises without bound as q increases. Constant returns with unrestricted scale requires p≤c for finite maximal profit; at p=c every scale yields zero.",
+    "hint": "Examine the sign of profit per unit when scale has no upper bound.",
+    "skill": "constant returns and finite profit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-07",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Hotelling supply with a boundary",
+    "prompt": "A firm chooses q≥0 with cost aq+q², where a>0. Its optimized profit is π(p)=(p−a)²/4 for p>a and π(p)=0 for p≤a. What is supply for p>a?",
+    "correct": "(p−a)/2.",
+    "wrong": [
+      "(p−a)²/4.",
+      "p−a.",
+      "a/2."
+    ],
+    "explanation": "For p>a the interior profit envelope has derivative π′(p)=(p−a)/2, which equals optimal output. Below a the nonnegativity constraint binds and supply is zero.",
+    "hint": "Differentiate the appropriate branch of the profit function, rather than treating profit itself as supply.",
+    "skill": "hotelling supply with a boundary",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-08",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "An input-price comparison",
+    "prompt": "A firm has technology q=√(LK) and must produce q=4. Initially w=r=1; then w rises to 4 while r stays 1. How do cost-minimizing inputs change?",
+    "correct": "Labor falls from 4 to 2 and capital rises from 4 to 8.",
+    "wrong": [
+      "Both labor and capital fall from 4 to 2.",
+      "Labor rises from 4 to 8 and capital falls from 4 to 2.",
+      "Both inputs remain 4 because output is fixed."
+    ],
+    "explanation": "Initially L=K=4. After the wage increase, L=4√(1/4)=2 and K=4√(4/1)=8; their product remains 16. Holding output fixed permits substitution, not proportional contraction.",
+    "hint": "Combine the optimal input ratio with the unchanged output requirement.",
+    "skill": "an input-price comparison",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-09",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Free disposal in net-output notation",
+    "prompt": "A technology Y⊂Rⁿ uses positive coordinates for outputs and negative coordinates for inputs. Which condition expresses free disposal?",
+    "correct": "If y∈Y and y′≤y componentwise, then y′∈Y.",
+    "wrong": [
+      "If y∈Y and y′≥y componentwise, then y′∈Y.",
+      "If y∈Y, every scalar multiple λy with λ>1 belongs to Y.",
+      "If y∈Y, then −y∈Y."
+    ],
+    "explanation": "Reducing a net-output coordinate means discarding output or using more input. Free disposal permits those changes, not arbitrary output increases or reversal of production.",
+    "hint": "Interpret a decrease in a negative input coordinate as greater input use.",
+    "skill": "free disposal in net-output notation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u3-10",
+    "course": "advanced-microeconomics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Cost concavity versus output curvature",
+    "prompt": "A finite cost function minimizes input expenditure over a fixed technology at a given output. Which curvature restriction is always valid in strictly positive input prices?",
+    "correct": "Cost is concave in input prices; its curvature in output depends on technology.",
+    "wrong": [
+      "Cost is convex in input prices because firms minimize.",
+      "Cost is strictly convex in output for every technology.",
+      "Cost is linear in input prices even when firms can substitute inputs."
+    ],
+    "explanation": "At fixed output, cost is an infimum of linear functions of input prices and is therefore concave. Constant returns can yield linear output cost, while other technologies produce different output curvature.",
+    "hint": "Hold output fixed when applying the lower-envelope argument.",
+    "skill": "cost concavity versus output curvature",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-01",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Exchange equilibrium with symmetric tastes",
+    "prompt": "Two consumers each have utility √(xy). Endowments are ωᴬ=(6,0) and ωᴮ=(0,6). With pᵧ=1 and strictly positive pₓ, what competitive equilibrium allocation clears both markets?",
+    "correct": "pₓ=1 and both consumers receive (3,3).",
+    "wrong": [
+      "pₓ=2 and both receive (3,3).",
+      "pₓ=1 and both keep their endowments.",
+      "pₓ=0.5 and A receives (6,6)."
+    ],
+    "explanation": "A has wealth 6pₓ and B has wealth 6. Total x demand is 3+3/pₓ, which equals supply 6 only at pₓ=1. Both then spend half their wealth on each good and consume (3,3).",
+    "hint": "Endowment income depends on prices; compute individual wealth before aggregating demand.",
+    "skill": "exchange equilibrium with symmetric tastes",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-02",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Walras law and the last market",
+    "prompt": "An exchange economy has p=(2,3,1) and aggregate excess demand z satisfying p·z=0. If z₁=1 and z₂=−1, what is z₃?",
+    "correct": "1.",
+    "wrong": [
+      "−1.",
+      "0.",
+      "5."
+    ],
+    "explanation": "Walras law gives 2(1)+3(−1)+z₃=0, hence z₃=1. Clearing all but one market would force the remaining market to clear at a positive price, but here two markets already have opposite quantity imbalances.",
+    "hint": "Weight excess demands by their own prices before adding.",
+    "skill": "walras law and the last market",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-03",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "First welfare theorem assumptions",
+    "prompt": "In a finite exchange economy with no externalities, each consumer maximizes a locally nonsatiated preference over their competitive budget set, and all markets clear. Is preference convexity additionally necessary for the first welfare theorem?",
+    "correct": "No; local nonsatiation and competitive budget optimality support Pareto efficiency without convexity.",
+    "wrong": [
+      "Yes; otherwise every equilibrium is inefficient.",
+      "Yes; convexity is what makes budget constraints hold.",
+      "No; local nonsatiation can also be dropped without qualification."
+    ],
+    "explanation": "If a feasible allocation weakly improves all consumers, local nonsatiation implies its bundles cost at least their equilibrium wealth; a strict improvement must cost more. Summing contradicts feasibility and market clearing. Convexity is not used in this argument.",
+    "hint": "Identify which assumptions enter the expenditure contradiction, rather than importing an existence theorem.",
+    "skill": "first welfare theorem assumptions",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-04",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Transfers in the second welfare theorem",
+    "prompt": "Suppose an economy satisfies the convexity and regularity assumptions needed to support a Pareto-efficient allocation competitively with transfers. What role do lump-sum transfers play?",
+    "correct": "They align individual purchasing power with the target allocation at supporting prices.",
+    "wrong": [
+      "They change all consumers’ marginal rates of substitution directly.",
+      "They guarantee that the target allocation is affordable at the original endowment incomes.",
+      "They eliminate the need for any supporting price system."
+    ],
+    "explanation": "Supporting prices separate preferred bundles from feasible resources, but the target bundle need not match each consumer’s initial wealth. Lump-sum wealth redistribution supplies the required budgets without changing marginal prices.",
+    "hint": "Separate the efficiency role of supporting prices from the distribution of wealth.",
+    "skill": "transfers in the second welfare theorem",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-05",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "A contract curve",
+    "prompt": "Two consumers have uᵢ(xᵢ,yᵢ)=log xᵢ+log yᵢ on strictly positive consumption. Total resources are (8,4). Which equation characterizes interior Pareto-efficient allocations?",
+    "correct": "yᴬ=xᴬ/2, with B receiving the remainder.",
+    "wrong": [
+      "yᴬ=2xᴬ.",
+      "xᴬ=4 for every efficient allocation.",
+      "yᴬ=2 for every efficient allocation."
+    ],
+    "explanation": "Interior efficiency equates MRS values: yᴬ/xᴬ=(4−yᴬ)/(8−xᴬ). Cross multiplication gives 8yᴬ=4xᴬ. Equal division is one efficient point, not the whole contract curve.",
+    "hint": "Equate marginal rates of substitution while imposing resource feasibility.",
+    "skill": "a contract curve",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-06",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Efficiency with an external cost",
+    "prompt": "A competitive industry has private marginal cost q and inverse demand 12−q. Each output unit causes marginal external damage 2. With no other distortions, what is efficient output?",
+    "correct": "5, below the unregulated competitive output 6.",
+    "wrong": [
+      "6, because competitive markets are always efficient.",
+      "7, because damage raises willingness to pay.",
+      "10, because social cost adds 2 to total output."
+    ],
+    "explanation": "Private equilibrium solves 12−q=q, yielding 6. Efficiency uses social marginal cost q+2, so 12−q=q+2 gives 5. The omitted external effect breaks the welfare theorem’s market environment.",
+    "hint": "Add damage at the marginal-cost margin, not to the quantity or consumer valuation.",
+    "skill": "efficiency with an external cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-07",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Price normalization",
+    "prompt": "In a pure exchange economy, each consumer’s income is the value of their fixed endowment. If all equilibrium prices are multiplied by λ>0, what happens to individual budget sets?",
+    "correct": "They are unchanged because both expenditure and endowment income scale by λ.",
+    "wrong": [
+      "They expand by λ because income rises.",
+      "They shrink by λ because prices rise.",
+      "They remain unchanged only if every endowment is zero."
+    ],
+    "explanation": "The inequality λp·x≤λp·ω is equivalent to p·x≤p·ω. Absolute price levels are therefore indeterminate under this nominal rescaling, while relative prices matter.",
+    "hint": "Scale both sides of the endowment-budget inequality.",
+    "skill": "price normalization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-08",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "An infeasible Pareto claim",
+    "prompt": "An economy has 10 units of a single good and two consumers with strictly increasing utility in their own consumption. At allocation (4,6), someone proposes (5,6) as a Pareto improvement. What is wrong?",
+    "correct": "The proposed allocation is infeasible; every allocation exhausting the 10 units is Pareto efficient here.",
+    "wrong": [
+      "Giving consumer 1 more necessarily reduces their utility.",
+      "The original allocation is inefficient solely because consumption is unequal.",
+      "A Pareto improvement must give each consumer exactly one additional unit."
+    ],
+    "explanation": "The proposal requires 11 units. With one desirable good and fixed resources, increasing one consumer’s consumption from an exhaustive allocation requires lowering the other’s, which hurts that consumer.",
+    "hint": "Check feasibility before comparing utility levels.",
+    "skill": "an infeasible pareto claim",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-09",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Nonconvexity does not prove nonexistence",
+    "prompt": "Two consumers have u(x,y)=max{x,y} on nonnegative bundles and each is endowed with (1,1). At positive prices, can a competitive equilibrium exist?",
+    "correct": "Yes: equal prices support A consuming (2,0) and B consuming (0,2), despite nonconvex preferences.",
+    "wrong": [
+      "No; nonconvex preferences logically rule out every equilibrium.",
+      "Yes: equal prices make each consumer strictly prefer (1,1) to either corner.",
+      "No; the aggregate endowment contains too few goods for trade."
+    ],
+    "explanation": "At equal prices each consumer can buy two units of either good, yielding utility 2, and no affordable bundle gives more. Assigning opposite corners clears markets. Nonconvexity removes a standard sufficient existence condition but is not itself proof of nonexistence.",
+    "hint": "Construct an allocation at equal prices and check both optimization and market clearing.",
+    "skill": "nonconvexity does not prove nonexistence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u4-10",
+    "course": "advanced-microeconomics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Supporting an unequal efficient allocation",
+    "prompt": "Two consumers have identical log x+log y utility and total resources (10,10). At prices (1,1), target consumptions are A=(8,8), B=(2,2). What individual wealth levels implement the target?",
+    "correct": "16 for A and 4 for B.",
+    "wrong": [
+      "10 for each because tastes are identical.",
+      "8 for A and 2 for B.",
+      "20 for A and 20 for B."
+    ],
+    "explanation": "Each consumer spends half their wealth on each good. Target expenditure is 16 for A and 4 for B; the total 20 equals the value of resources. Identical tastes do not require equal equilibrium allocations when wealth differs.",
+    "hint": "Use target expenditure and the equal expenditure shares of log utility.",
+    "skill": "supporting an unequal efficient allocation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-01",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Certainty equivalent versus expectation",
+    "prompt": "A consumer has Bernoulli utility √w and faces wealth 25 or 81, each with probability one half. What are the certainty equivalent and risk premium, defined as expected wealth minus certainty equivalent?",
+    "correct": "Certainty equivalent 49 and risk premium 4.",
+    "wrong": [
+      "Certainty equivalent 53 and risk premium 0.",
+      "Certainty equivalent 7 and risk premium 46.",
+      "Certainty equivalent 49 and risk premium −4."
+    ],
+    "explanation": "Expected utility is (5+9)/2=7, so certain wealth 49 reproduces it. Expected wealth is 53, giving a risk premium of 4. Expected utility itself is not measured in wealth units.",
+    "hint": "Invert utility after taking its expectation, then compare with expected wealth.",
+    "skill": "certainty equivalent versus expectation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-02",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Expected utility transformations",
+    "prompt": "A Bernoulli utility u represents preferences over all finite lotteries under expected utility. Which transformation is guaranteed to preserve those lottery preferences for arbitrary u?",
+    "correct": "v=3u+7.",
+    "wrong": [
+      "v=exp(u).",
+      "v=u³.",
+      "v=−u."
+    ],
+    "explanation": "A positive affine transformation gives E[v]=3E[u]+7 and preserves all expected-utility rankings. An arbitrary increasing transformation preserves rankings of sure outcomes but can alter attitudes toward lotteries.",
+    "hint": "Compare transformations of an expectation with expectations of transformed utility.",
+    "skill": "expected utility transformations",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-03",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Independence and common mixtures",
+    "prompt": "An expected-utility decision maker weakly prefers lottery L to M. For a common lottery N and α=0.3, which ranking must hold?",
+    "correct": "0.3L+0.7N is weakly preferred to 0.3M+0.7N.",
+    "wrong": [
+      "0.3L+0.7N is strictly worse than 0.3M+0.7N.",
+      "N must be weakly preferred to L.",
+      "L and M must have equal expected monetary payoffs."
+    ],
+    "explanation": "The common N component cancels in the expected-utility difference, leaving 0.3(EU(L)−EU(M))≥0. Independence restricts mixtures, not the monetary expectations of the lotteries.",
+    "hint": "Subtract the expected utilities of the two mixtures.",
+    "skill": "independence and common mixtures",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-04",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Actuarially fair insurance",
+    "prompt": "Initial wealth is 100, a loss of 40 occurs with probability 0.25, and coverage z∈[0,40] costs premium 0.25z. A consumer has strictly increasing, strictly concave Bernoulli utility. What coverage is optimal?",
+    "correct": "z=40, giving wealth 90 in both states.",
+    "wrong": [
+      "z=0 because the premium lowers wealth in the no-loss state.",
+      "z=10 because coverage equals the expected loss.",
+      "Any z gives the same expected utility because insurance is fair."
+    ],
+    "explanation": "Expected wealth is 90 for every coverage level. Full coverage equalizes wealth across states; strict concavity makes that constant wealth strictly preferable to any remaining risk.",
+    "hint": "Compare state wealth and note which quantity remains constant as coverage changes.",
+    "skill": "actuarially fair insurance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-05",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Absolute risk aversion of log utility",
+    "prompt": "For u(w)=log w on w>0, what happens to Arrow–Pratt absolute risk aversion when wealth rises from 20 to 40?",
+    "correct": "It falls from 1/20 to 1/40.",
+    "wrong": [
+      "It stays equal to 1.",
+      "It rises from 20 to 40.",
+      "It becomes negative at wealth 40."
+    ],
+    "explanation": "Absolute risk aversion is −u″/u′=1/w. Relative risk aversion is the distinct quantity −wu″/u′=1, which does remain constant.",
+    "hint": "Calculate the derivative ratio and distinguish absolute from relative risk aversion.",
+    "skill": "absolute risk aversion of log utility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-06",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "A mean-preserving spread",
+    "prompt": "Lottery A pays 10 with certainty; lottery B pays 6 or 14 with equal probabilities. For every increasing concave Bernoulli utility on [6,14], which statement is correct?",
+    "correct": "A is weakly preferred to B, and strictly preferred if utility is strictly concave.",
+    "wrong": [
+      "B is preferred because its maximum payoff is higher.",
+      "A first-order stochastically dominates B.",
+      "The lotteries are indifferent for every concave utility because their means match."
+    ],
+    "explanation": "Jensen’s inequality gives u(10)≥[u(6)+u(14)]/2. Their cumulative distributions cross, so this is a concavity-based comparison rather than first-order dominance.",
+    "hint": "Use the midpoint inequality and check whether the CDFs cross.",
+    "skill": "a mean-preserving spread",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-07",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "First-order dominance without risk aversion",
+    "prompt": "Lottery A pays 3 or 7 with equal probabilities; B pays 2 or 6 with equal probabilities. Which comparison is valid?",
+    "correct": "Every strictly increasing Bernoulli utility ranks A strictly above B, even if it is convex.",
+    "wrong": [
+      "Only concave utility ranks A above B.",
+      "Every risk-neutral decision maker is indifferent.",
+      "B second-order dominates A because B has lower outcomes."
+    ],
+    "explanation": "Couple the two equally likely outcomes: A is exactly one higher in either case. Thus u(3)>u(2) and u(7)>u(6) for strictly increasing utility, independently of curvature.",
+    "hint": "Compare matched outcomes rather than relying on variance or concavity.",
+    "skill": "first-order dominance without risk aversion",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-08",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Value of free information",
+    "prompt": "A decision maker maximizes expected utility, can choose any action from a fixed set after observing a free signal, and can ignore the signal. Relative to committing before observing it, what is guaranteed?",
+    "correct": "The optimized ex ante value is weakly higher.",
+    "wrong": [
+      "The value is strictly higher for every signal.",
+      "The value is lower whenever the signal is noisy.",
+      "The value is unchanged unless the signal perfectly reveals the state."
+    ],
+    "explanation": "Every constant action remains available as a signal-contingent plan that ignores information. Enlarging the feasible set of plans cannot reduce its maximum. An uninformative or behaviorally irrelevant signal can have zero value.",
+    "hint": "Compare feasible decision rules before and after information arrives.",
+    "skill": "value of free information",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-09",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "State prices and optimal risk sharing",
+    "prompt": "There are two states with probabilities (1/2,1/2). A consumer maximizes expected log consumption, buys state claims at prices (1/4,3/4), and has claim-market wealth 12. What optimal state consumptions result?",
+    "correct": "c₁=24 and c₂=8.",
+    "wrong": [
+      "c₁=c₂=12.",
+      "c₁=8 and c₂=24.",
+      "c₁=6 and c₂=6."
+    ],
+    "explanation": "The first-order conditions imply (1/2)/cₛ=λqₛ, so each state claim receives expenditure 6. Dividing by its state price gives 24 and 8. Unequal state prices per unit probability make equal consumption suboptimal.",
+    "hint": "Allocate expenditure using probability weights, then convert expenditure into state consumption.",
+    "skill": "state prices and optimal risk sharing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u5-10",
+    "course": "advanced-microeconomics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Small-risk premium as an approximation",
+    "prompt": "A smooth increasing concave utility has absolute risk aversion A(w)=0.04 at wealth w. A small additive zero-mean risk has variance 9. Using the second-order local approximation, what risk premium is predicted?",
+    "correct": "Approximately 0.18; the formula does not generally give an exact premium for a finite risk.",
+    "wrong": [
+      "Exactly 0.36 for every zero-mean distribution with variance 9.",
+      "Approximately 0.06, obtained by dividing risk aversion by variance.",
+      "Approximately −0.18 because expected wealth is unchanged."
+    ],
+    "explanation": "The local risk premium is approximately (1/2)A(w)Var(ε)=0.5(0.04)(9)=0.18. Higher-order utility terms and the risk distribution can matter outside the small-risk approximation.",
+    "hint": "Expand expected utility around wealth through the variance term and state the approximation’s scope.",
+    "skill": "small-risk premium as an approximation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-01",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Two-period consumption smoothing",
+    "prompt": "A consumer maximizes log c₀+0.8 log c₁ with positive consumption and present-value budget c₀+c₁/1.25=18. Borrowing and lending are unrestricted at this rate. What is optimal?",
+    "correct": "c₀=10 and c₁=10.",
+    "wrong": [
+      "c₀=9 and c₁=11.25.",
+      "c₀=8 and c₁=12.5.",
+      "c₀=18 and c₁=0."
+    ],
+    "explanation": "The Euler equation is c₁=0.8(1.25)c₀=c₀. The budget then gives 1.8c₀=18. Equal consumption here follows from the discount factor times gross return equaling one, not from equal present-value spending.",
+    "hint": "Combine the Euler equation with the present-value budget.",
+    "skill": "two-period consumption smoothing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-02",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "A binding borrowing limit",
+    "prompt": "A consumer has income (2,8), zero interest, utility log c₀+log c₁, and may save s≥0 but cannot borrow: c₀=2−s and c₁=8+s. What is optimal?",
+    "correct": "s=0, c₀=2, c₁=8, with current marginal utility exceeding future marginal utility.",
+    "wrong": [
+      "s=−3, c₀=c₁=5.",
+      "s=3, c₀=−1, c₁=11.",
+      "s=1, c₀=1, c₁=9."
+    ],
+    "explanation": "Unconstrained smoothing would require borrowing 3, which is prohibited. At s=0, increasing saving changes utility at rate −1/2+1/8<0, so the lower bound binds. The Euler equality is replaced by an inequality.",
+    "hint": "Check the direction of the feasible saving deviation at the boundary.",
+    "skill": "a binding borrowing limit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-03",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Bellman contraction",
+    "prompt": "Let T act on bounded value functions by (TV)(s)=maxₐ{r(s,a)+βE[V(s′)|s,a]}, with bounded rewards, nonempty feasible actions, existing maxima, and 0<β<1. Which sup-norm bound holds?",
+    "correct": "‖TV−TW‖∞≤β‖V−W‖∞.",
+    "wrong": [
+      "‖TV−TW‖∞≥‖V−W‖∞ for all V,W.",
+      "‖TV−TW‖∞=0 for all V,W.",
+      "‖TV−TW‖∞≤β²‖V−W‖∞ is always guaranteed."
+    ],
+    "explanation": "For any action, continuation values differ by at most β‖V−W‖∞. Maximizing cannot increase that bound. The discount factor delivers contraction, not necessarily a tighter β² bound.",
+    "hint": "Bound the difference for a fixed action before comparing the maxima.",
+    "skill": "bellman contraction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-04",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Value iteration error bound",
+    "prompt": "For a Bellman operator that is a contraction with modulus 0.8, suppose ‖V₁−V₀‖∞=2 and V₁=TV₀. What a posteriori bound on ‖V₁−V*‖∞ follows from the geometric series of later increments?",
+    "correct": "At most 8.",
+    "wrong": [
+      "At most 2.",
+      "At most 1.6.",
+      "At most 10 only; 8 is not justified."
+    ],
+    "explanation": "The first omitted increment is bounded by 0.8(2), then 0.8²(2), and so on. Their sum is 2(0.8)/(1−0.8)=8. The bound 10 instead applies to the error at V₀.",
+    "hint": "Start the geometric tail at the increment after V₁.",
+    "skill": "value iteration error bound",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-05",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Present bias and preference reversal",
+    "prompt": "A quasi-hyperbolic consumer uses β=0.5 and δ=1. At date 0, she chooses between receiving utility 6 at date 1 or utility 10 at date 2. At date 1 she may reconsider; no other payoffs occur. What happens?",
+    "correct": "At date 0 she prefers date 2; at date 1 she prefers the immediate date-1 payoff.",
+    "wrong": [
+      "She prefers date 1 at both dates.",
+      "She prefers date 2 at both dates.",
+      "She is indifferent at date 0 and strictly prefers date 2 at date 1."
+    ],
+    "explanation": "At date 0 the two values are 0.5(6)=3 and 0.5(10)=5. At date 1 they become 6 now versus 0.5(10)=5 later. The relative present-bias penalty changes when a payoff becomes immediate.",
+    "hint": "Recompute discount weights from each decision date.",
+    "skill": "present bias and preference reversal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-06",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Increasing differences in a smooth objective",
+    "prompt": "An agent chooses x∈[0,10] to maximize f(x,t)=tx−x²/2 for t∈[0,10]. Which statement links increasing differences to the policy?",
+    "correct": "fₓₜ=1>0 and the unique optimum x*(t)=t is nondecreasing.",
+    "wrong": [
+      "fₓₜ=−1 and the optimum falls with t.",
+      "Concavity in x implies the optimum is constant in t.",
+      "The optimum is x=10 for every t because tx is increasing in x."
+    ],
+    "explanation": "The cross partial is positive, so higher t raises the marginal payoff to x. Strict concavity gives the unique stationary optimum x=t, feasible throughout the stated parameter interval.",
+    "hint": "Differentiate once in each variable, then check the constrained maximizer.",
+    "skill": "increasing differences in a smooth objective",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-07",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Monotone choices without differentiability",
+    "prompt": "An agent chooses x∈{0,1,2} to maximize tx−c(x), where c(0)=0,c(1)=2,c(2)=5. What is the maximizing set at t=3?",
+    "correct": "{1,2}; at higher t just above 3, only 2 maximizes.",
+    "wrong": [
+      "{0}; at higher t just above 3, only 1 maximizes.",
+      "{1} only; ties cannot occur with increasing differences.",
+      "{0,1,2}; all actions have the same cost-adjusted payoff."
+    ],
+    "explanation": "At t=3, payoffs are 0,1,1. Raising t by ε raises the payoff of 2 twice as much as that of 1, so action 2 becomes uniquely optimal. Monotonicity can concern extremal selections from a correspondence.",
+    "hint": "Evaluate all discrete payoffs and compare their parameter slopes.",
+    "skill": "monotone choices without differentiability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-08",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Why a changing feasible set matters",
+    "prompt": "An agent maximizes f(x,t)=tx over 0≤x≤1/t² for t>0. Although f has strictly increasing differences in (x,t), what is the optimal choice?",
+    "correct": "x*(t)=1/t², which decreases because the feasible set shrinks.",
+    "wrong": [
+      "x*(t)=t, which increases by increasing differences.",
+      "x*(t)=0 because increasing differences implies a corner at zero.",
+      "No optimum exists because f is linear."
+    ],
+    "explanation": "For each t>0, the objective increases in x, so the upper bound binds. Increasing differences alone does not deliver increasing choice when the parameter-dependent feasible sets move in the opposite direction.",
+    "hint": "Inspect the feasible correspondence before applying a monotone comparative-statics theorem.",
+    "skill": "why a changing feasible set matters",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-09",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Single crossing without cardinal curvature",
+    "prompt": "There are two actions, low and high, and parameter t∈R. Their payoff difference f(high,t)−f(low,t)=t³. What follows?",
+    "correct": "High becomes weakly optimal at t=0 and strictly optimal for t>0; a derivative bounded away from zero is unnecessary.",
+    "wrong": [
+      "The switch cannot be determined because the derivative is zero at t=0.",
+      "Low is optimal for all t because t³ is not globally convex.",
+      "High is optimal only for t>1."
+    ],
+    "explanation": "The difference is negative for t<0, zero at 0, and positive for t>0. The sign-crossing comparison determines the optimal action; global convexity and strictly positive derivatives everywhere are not required.",
+    "hint": "Compare the sign of the payoff difference on each side of zero.",
+    "skill": "single crossing without cardinal curvature",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-microeconomics-u6-10",
+    "course": "advanced-microeconomics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Envelope derivative versus policy derivative",
+    "prompt": "For t∈(0,10), define V(t)=max over x∈[0,10] of {tx−x²/2}. What is V′(t)?",
+    "correct": "t, equal to the chosen x and to the objective’s partial derivative in t at the optimum.",
+    "wrong": [
+      "1, because dx*/dt=1.",
+      "2t, because both x and t move.",
+      "0, because the first-order condition is zero."
+    ],
+    "explanation": "The optimizer is x*=t and V(t)=t²/2, so V′(t)=t. The indirect policy terms cancel through the first-order condition; the envelope derivative is not the policy derivative.",
+    "hint": "Differentiate the value directly or use the envelope theorem, keeping the two derivatives distinct.",
+    "skill": "envelope derivative versus policy derivative",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-121-microeconomic-theory-i-fall-2015/pages/readings/",
+      "https://eml.berkeley.edu/~kariv/201A_syllabus(2025).pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

@@ -1,5 +1,5 @@
 {
-  "status": "partial-review-not-release",
+  "status": "content-reviewed-not-released",
   "reviewedItems": [
     {
       "id": "game-theory-u1-01",
@@ -115,7 +115,7 @@
     },
     {
       "id": "game-theory-u3-09",
-      "sha256": "6b3778363f305d3365399eb7b4b710c599acab0c96b5995c6f2c05540fafb9af"
+      "sha256": "067af588794d75d31b813a47e62abcd97f13b73dc135adc5417d308e5056241c"
     },
     {
       "id": "game-theory-u3-10",
@@ -160,6 +160,86 @@
     {
       "id": "game-theory-u4-10",
       "sha256": "e5f33eccb1bc34a362bc77c71753ec26266bbefea97049956ce7c837c7b6b1ee"
+    },
+    {
+      "id": "game-theory-u5-01",
+      "sha256": "8bd4f437ab3819a251a833317cc4f67928846f41d148493272f6aa5541a3600e"
+    },
+    {
+      "id": "game-theory-u5-02",
+      "sha256": "97e20832522a79ba46e22c3b17afeff78c03b521d5e00e2c11112996f8235b1e"
+    },
+    {
+      "id": "game-theory-u5-03",
+      "sha256": "07d4bdedae83fb73e68ed8458e29a7a223beddc1a9fb0a3abe0c59b1f830d43d"
+    },
+    {
+      "id": "game-theory-u5-04",
+      "sha256": "f4b376d71fcb21732304a0f4c9323b941a1905f15676d7be22fff6b95b540224"
+    },
+    {
+      "id": "game-theory-u5-05",
+      "sha256": "1cba0eb560e9ebcdcc34bf4e0adbfd94d9a537efcb0b503723c8f2b27337520b"
+    },
+    {
+      "id": "game-theory-u5-06",
+      "sha256": "3f424ae8f653e17e9f827e82623e607b72ce2c44a81510730ecec08a1452138b"
+    },
+    {
+      "id": "game-theory-u5-07",
+      "sha256": "14663e239e9a3c90ba52c875b1a8a08f768cb99118b825767df032e98a0d300c"
+    },
+    {
+      "id": "game-theory-u5-08",
+      "sha256": "968ef330efc6871a30e84110d91079c8477e88e2bd5a1e106942603a74501f35"
+    },
+    {
+      "id": "game-theory-u5-09",
+      "sha256": "e32ef23e945ddaaafec08029c3b9e488a31b8151bd76bb6370b35dc648c091df"
+    },
+    {
+      "id": "game-theory-u5-10",
+      "sha256": "fbce74d55dea9093607276ba54bbbba988eb2ca9da11966aa526353fb8791e34"
+    },
+    {
+      "id": "game-theory-u6-01",
+      "sha256": "e871aa9a48dae330125642f3fc6b205195511320320ba5257b73ecd0db65425a"
+    },
+    {
+      "id": "game-theory-u6-02",
+      "sha256": "72b9fba25c3721c1b11bbca575b03d18e5cbcad0b71b6869160d17a8f27901b0"
+    },
+    {
+      "id": "game-theory-u6-03",
+      "sha256": "2e94e6ac70e8c1f33fff7681135410833cd6d2a1c88a1737da5fdc13bfd10ad5"
+    },
+    {
+      "id": "game-theory-u6-04",
+      "sha256": "3f728f06cfd49fb8ebb36c4a0c30d981ad2cb1e89ece0f25d78d1c7d79fe9a2c"
+    },
+    {
+      "id": "game-theory-u6-05",
+      "sha256": "89efb306b9acc7b99388f719273f46cdce5ee871d196a2e9dab7fc7c2cea25e6"
+    },
+    {
+      "id": "game-theory-u6-06",
+      "sha256": "9fda77c0cafb53b50ceb6205e1526474ca7a2013fef30362c8308c2f1cddb6a4"
+    },
+    {
+      "id": "game-theory-u6-07",
+      "sha256": "cfdafae210324521a92cc4d1e51086ce487b85e556e780ce8cb1f805fc61c2c0"
+    },
+    {
+      "id": "game-theory-u6-08",
+      "sha256": "6bf37abfebea63cccc63ccf762ee503a0c621711f63deae577a0a6f3feab389e"
+    },
+    {
+      "id": "game-theory-u6-09",
+      "sha256": "41b87bcb9730a52d248cb5dccce3a1971c98cd7cf7d052894bac7b29e8170e09"
+    },
+    {
+      "id": "game-theory-u6-10",
+      "sha256": "96eb64607e40ca8c0ebab5d66145ef9b0bb4c7db53ee990d3cad0127572c00f5"
     }
   ],
   "checks": [
@@ -225,8 +305,18 @@
       "id": "game-theory-u3-09",
       "issue": "General information-set one-shot deviation formulation is ambiguous about conditional incentives and SPE characterization.",
       "requestedCorrection": "Restrict to finite perfect-information game and deviations at every decision history.",
-      "status": "sent-to-author"
+      "status": "correction-verified"
+    },
+    {
+      "id": "game-theory-u5-05",
+      "resolution": "Explicit nonnegative values ensure truthful bidding belongs to allowed nonnegative bids."
+    },
+    {
+      "id": "game-theory-u6-08",
+      "resolution": "Explicit finite game and perfect recall for standard sequential equilibrium definition."
     }
   ],
-  "remaining": "Last20 items, correction verification, complete source review, hints and release; no empirical calibration."
+  "remaining": "Release manifests, hints, course integration and full checks. No empirical calibration.",
+  "sourceSHA256": "c375c58118afbca72fbe478ab68e090d8ee8c826a3647f15df584e114e79c4a6",
+  "additionalVerification": "econ-game-theory-numerics.test.mjs passed: payoff grid for first-price bidding, midpoint revenue integration, Bayesian posteriors, cutoff and signaling incentive checks."
 }
