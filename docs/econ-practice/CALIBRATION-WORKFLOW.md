@@ -4,6 +4,10 @@ The executable pipeline produces candidate models and diagnostics. It does not a
 
 ## Data preparation
 
+The instructor page includes an IRT data workbench. An authenticated instructor can load collected responses; a saved JSON ledger can also be analyzed locally without uploading it. Choose a course/unit/bank-version dataset, declare whether responses are collected or synthetic, and set screening thresholds. Files marked synthetic cannot be relabeled as collected in this view. Item exclusions are analysis-only and recorded in the manifest; original response records remain intact.
+
+The workbench shows response rows, item facility, working binomial intervals, observed and matrix counts, response timing, exclusion reasons and fit-screening blockers. Download `responses.csv` and `manifest.json` into the same private directory, plus the unchanged source ledger for reproducibility. Browser and command-line preparation share the same code. Missing entries remain blank and person IDs are hashed consistently. The browser handles at most 100,000 rows and 25 MiB imported files; use the local workflow for larger datasets. Fit screening is not approval, and the browser does not yet run R or estimate IRT models.
+
 Export the private response ledger using the authenticated instructor endpoint and retain all pages. Place real response exports outside the public site source, using a private working directory. Do not commit exports, group files, individual scores, or fitted person parameters.
 
 Run `node scripts/econ-practice/prepare-calibration.mjs INPUT.json PRIVATE_OUTPUT ap-micro 2 BANK_VERSION`. The course, unit, and bank version must match the intended construct and item snapshot. The manifest records the input checksum, exclusions, screening thresholds, item counts, response times and observed answer distributions. Missing responses remain missing. Only a person's first eligible assessment occasion is used; repeated learning sessions are not concatenated into one trait measurement.

@@ -7,6 +7,25 @@ const api=import.meta.env.PUBLIC_ECON_API_URL??'';
 <div class="econ-practice" id="econ-instructor" data-api={api}>
 <header><p><a href="/economics-practice/">Economics practice</a></p><h1>Instructor dashboard</h1></header>
 <p id="instructor-status" role="status">Checking instructor access…</p>
+<section id="irt-workbench" aria-labelledby="irt-heading">
+<h2 id="irt-heading">IRT data workbench</h2>
+<p>Inspect response records, screen a course and unit, and export a person-by-item matrix for R. Imported files stay in this browser tab; they are not uploaded. Live data require instructor access.</p>
+<div class="actions"><button id="irt-load-live" disabled>Load collected responses</button><label>Or open a response-ledger JSON file<input id="irt-file" type="file" accept=".json,application/json" /></label></div>
+<p id="irt-load-status" role="status">No response data loaded.</p>
+<form id="irt-analysis-form" hidden>
+<label>Dataset<select id="irt-scope" required></select></label>
+<label>Data provenance<select id="irt-provenance" required><option value="">Select data provenance</option><option value="collected">Collected participant responses</option><option value="synthetic">Synthetic or test responses</option></select></label>
+<div class="setup-grid"><label>Minimum people<input id="irt-min-persons" type="number" min="1" value="300" required /></label><label>Responses per item<input id="irt-min-item" type="number" min="1" value="100" required /></label><label>Items per person<input id="irt-min-person-items" type="number" min="1" value="3" required /></label></div>
+<label>Items to exclude from this analysis (one exact item ID per line)<textarea id="irt-excluded" rows="3"></textarea></label>
+<p>Exclusions affect this analysis only. Original answers remain intact. Thresholds are screening choices, not proof of sufficient power or valid measurement.</p>
+<button type="submit">Analyze dataset</button></form>
+<p id="irt-analysis-status" role="status"></p>
+<div id="irt-results" hidden><div id="irt-summary"></div><h3>Exclusions and fit readiness</h3><div id="irt-exclusions"></div>
+<h3>Item diagnostics</h3><p>Facility describes the adaptively selected sample; it is not IRT difficulty. Working binomial intervals do not adjust for adaptive selection.</p><div id="irt-items" class="irt-table-scroll"></div><button id="irt-more-items" class="secondary" hidden>Show more items</button>
+<details><summary>Inspect submitted answers</summary><div id="irt-answers" class="irt-table-scroll"></div><button id="irt-more-answers" class="secondary" hidden>Show more answers</button></details>
+<h3>Export for analysis</h3><div class="actions"><button id="irt-export-matrix">Download responses.csv</button><button id="irt-export-manifest">Download manifest.json</button><button id="irt-export-source">Download source ledger</button></div>
+<p>Save responses.csv and manifest.json together for the calibration workflow. Missing responses are blank, not zero. Person keys are pseudonymous, not anonymous. Keep these files private. Separately retained conflicting submissions never enter the IRT matrix.</p></div>
+</section>
 <div id="instructor-content" hidden>
 <section><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
 <section><h2>Calibration candidates</h2><p>Upload a reviewed calibration package to retain its exact parameters and evidence. Registration does not approve the model or change student scoring.</p><form id="model-package-form"><label for="model-package-file">Candidate package (JSON, up to 1 MB)</label><input id="model-package-file" type="file" accept=".json,application/json" required /><button type="submit">Register candidate</button></form><p id="model-package-status" role="status"></p></section>
