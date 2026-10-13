@@ -33,3 +33,10 @@ test('multipart bank rubrics award each part separately without error-carried-fo
   const result=gradeResponse(item,carried);assert.equal(result.earned,1,item.id);
  }
 });
+
+test('new question unlocks fields and numeric guidance is programmatically associated',()=>{
+ const window=new Window(),field=window.document.createElement('fieldset');field.id='answer-options';window.document.body.append(field);field.disabled=true;
+ const item=buildBank().find(q=>q.format==='multipart');renderAnswerInputs(field,publicQuestion(item));assert.equal(field.disabled,false);
+ for(const input of field.querySelectorAll('input')){const described=window.document.getElementById(input.getAttribute('aria-describedby'));assert.ok(described);assert.match(described.textContent,/decimal places/);assert.ok(input.closest('label').textContent.includes('point'));}
+ renderAnswerInputs(field,publicQuestion(buildBank().find(q=>q.format==='choice')));assert.equal(field.querySelectorAll('.choice-answer').length,4);assert.equal(field.querySelector('.answer-guidance'),null);window.happyDOM.abort();
+});

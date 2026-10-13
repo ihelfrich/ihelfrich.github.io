@@ -47,3 +47,15 @@
 @media(max-width:720px){#econ-instructor form{padding:16px}#econ-instructor .instructor-hero{padding-top:8px}#econ-instructor .instructor-nav a{padding-inline:12px}#econ-instructor .actions>*{max-width:100%}#econ-instructor .setup-grid>*{min-width:0}}
 @media(prefers-reduced-motion:no-preference){#econ-instructor button,#econ-instructor .instructor-nav a{transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}#econ-instructor .question-library-item[open]>:not(summary){animation:econ-reveal 180ms ease-out}@keyframes econ-reveal{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}}
 @media print{#econ-instructor .instructor-nav{display:none}}
+
+/* Keep answer layout and saved selections readable throughout submission. */
+.econ-practice fieldset label.numeric-answer{display:block;padding:20px}
+.econ-practice .numeric-answer input{max-width:24rem;margin-bottom:0;font-family:var(--font-data)}
+.econ-practice .answer-guidance{font-size:.9rem;margin-top:12px}
+.econ-practice .choice-answer{border-radius:var(--radius-control);cursor:pointer}
+.econ-practice .choice-answer:has(input:checked){border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink);background:var(--surface-raised)}
+.econ-practice .choice-answer:has(input:focus-visible){outline:3px solid var(--focus-ring);outline-offset:3px}
+.econ-practice fieldset:disabled label{cursor:default}
+.econ-practice fieldset:disabled input{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+.econ-practice #feedback:not(:empty){border-top:1px solid var(--rule);margin-top:24px;padding-top:24px}
+@media(prefers-reduced-motion:no-preference){.econ-practice .choice-answer{transition:border-color 140ms ease,background-color 140ms ease,box-shadow 140ms ease}}

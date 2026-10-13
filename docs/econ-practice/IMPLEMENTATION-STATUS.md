@@ -489,3 +489,7 @@ Paging now pins the running bank version. The API rejects continuation without a
 ## Workbench dataset replacement (2026-10-12)
 
 Starting an import or live load now clears the previous dataset, hides analysis controls/results, invalidates pending analysis, and disables competing loaders until completion. A failed replacement cannot leave an old dataset available under the new error message. Live pagination validates page shape and requires an unchanged snapshot boundary. Added interface regressions for interrupted replacement and inconsistent snapshot pages. All 118 focused tests pass. This does not remove the documented browser size limits or replace production recovery/deployment validation.
+
+## Student answer clarity (2026-10-12)
+
+Answer fields lock after durable local queue insertion and after a server receipt, preventing visible edits that do not correspond to the submitted response. Queue-error handling preserves that lock when an answer remains queued; rendering the next question unlocks the fieldset. Numeric guidance is associated via aria-describedby. Numeric answer labels use a vertical layout; selected choices have a border/inset marker, with transitions only when reduced motion is not requested. Added DOM coverage for guidance association and next-question unlock; 119 focused tests pass. End-to-end outage/recovery browser verification of the locking flow remains pending.
