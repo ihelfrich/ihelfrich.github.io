@@ -509,3 +509,7 @@ The owner-only session report now returns planned, presented, unanswered, and di
 ## Instructor assignment accounting (2026-10-12)
 
 Assignment reports now include presented/unanswered counts and separately retained submission counts, alongside existing first-attempt receipt and counted-score totals. The instructor view distinguishes these categories and labels completed sessions as ended rather than implying all questions were answered. Regression verifies that a post-completion receipt removes the unanswered classification while contributing zero counted answers/credit. All 124 focused tests pass.
+
+## AP Micro topic hints (2026-10-12)
+
+Replaced the universal hint with authored method prompts for every AP Micro topic. Hints are selected from the presentation snapshot's course/topic and never interpolate the key or worked explanation. Other courses retain a clearly scoped general scaffold pending authored course-specific hints. Responses identify hint version/scope; existing persisted hint counts still govern calibration exclusion. Exact hint text/version is not yet retained as an event, so historical hint-content reconstruction remains an open tracking requirement. Topic-level scaffolds still need item-by-item pedagogical review; coverage alone does not prove every hint is equally useful. All 125 focused tests pass.

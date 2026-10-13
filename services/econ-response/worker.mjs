@@ -1,3 +1,4 @@
+import {hintFor} from '../../src/lib/econ-practice/hints.mjs';
 import {registerModel} from './model-registry.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {findUnscored,retainUnscored,unscoredReceipt} from './unscored.mjs';
@@ -151,7 +152,7 @@ async function route(request,env){
   requireValue(s.mode==='practice','Hints are unavailable during assessments.',403);const b=await body(request);
   const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=? AND session_id=?',b.presentationId,sid).first();requireValue(pr,'Presentation not found.',404);
   await query(env.DB,'UPDATE presentations SET hints_used=hints_used+1 WHERE id=?',pr.id).run();
-  return {hint:'Identify the relevant economic condition, write it in symbols, and distinguish marginal quantities from averages. Check the units before calculating.'};
+  return hintFor(JSON.parse(pr.item_snapshot_json));
  }
  if(action==='next'){
   const current=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? ORDER BY sequence DESC LIMIT 1',sid).first();
