@@ -20,3 +20,11 @@ test('working binomial intervals remain defined at zero successes and small samp
  const {wilsonInterval}=await import('../../scripts/econ-practice/item-diagnostics.mjs');assert.equal(wilsonInterval(0,0),null);
  const zero=wilsonInterval(0,10),all=wilsonInterval(10,10);assert.ok(zero[0]<1e-12);assert.ok(Math.abs(zero[1]-.2775327998628892)<1e-12);assert.ok(Math.abs(all[0]-(1-zero[1]))<1e-12);assert.throws(()=>wilsonInterval(2,1),/Invalid/);
 });
+
+test('an item that becomes constant after respondent filtering cannot pass fit screening',()=>{
+ const rows=[row('removed','a',{correct:1}),row('removed','x',{correct:1}),row('removed','y',{correct:1})];
+ for(const person of ['p1','p2','p3'])for(const item of ['a','b','c','d','e','f'])rows.push(row(person,item,{correct:item==='a'?0:Number(person!=='p2')}));
+ const result=prepare(rows,opts);assert.equal(result.manifest.itemStats.a.n,4);assert.equal(result.manifest.itemStats.a.correct,1);
+ assert.equal(result.manifest.readyForCandidateFit,false);assert.deepEqual(result.manifest.finalItemStats.a,{n:3,correct:0,constantResponse:true});assert.ok(result.manifest.blockingReasons.includes('constant_items_after_person_filter'));
+ assert.equal(result.people.includes('removed'),false);assert.equal(result.manifest.finalItemStats.b.constantResponse,false);
+});

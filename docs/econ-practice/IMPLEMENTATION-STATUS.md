@@ -403,3 +403,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Extended the existing preparation manifest rather than creating a second response tracker. Added sample facility, working-binomial Wilson intervals, constant-response flags, timing/propensity distributions and response frequencies. Observed pre-item-screen counts are distinguished from retained matrix counts.
 - Constant and sparse items remain diagnostically visible; missing timing is not treated as zero. Interpretation explicitly limits results to the adaptively selected observed sample, not population facility or IRT difficulty.
 - Regression covers constant items excluded from fitting, partial missing timing, counts, no participant/session identifiers in the new aggregate section, and closed-form interval edge cases.87 focused tests pass. No real student data analyzed or empirical approval claimed.
+
+## Continuation: final-matrix calibration variation gate
+
+- Found that removing respondents with too few remaining items could turn a previously varying item constant after the initial item screen. The old preparation result could still report readyForCandidateFit=true.
+- Added finalItemStats (observed/correct/constant) on the actual exported matrix and a constant_items_after_person_filter blocking reason. Constant items are retained in evidence for review rather than silently discarded through repeated pruning.
+- Regression constructs this exact filtering cascade, reproduces the old false-ready result and verifies explicit blocking.88 focused tests pass. This adds a screening condition, not proof of identifiability or sufficient sample size.
