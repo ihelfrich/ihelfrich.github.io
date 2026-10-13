@@ -1,23 +1,12 @@
+import {createAssignment,listAssignments,startAssignment,assignmentReport} from './assignments.mjs';
 import {buildBank,BANK_VERSION,courses} from '../../src/lib/econ-practice/index.mjs';
 import {newState,recordAnswer,selectItem,score,progress} from '../../src/lib/econ-practice/adaptive.mjs';
 const bank=buildBank(),byId=new Map(bank.map(q=>[q.id,q]));
-export const CONSENT_VERSION='2026-10-12-v1';
-const iso=()=>new Date().toISOString();
-const uuid=()=>crypto.randomUUID();
-const secret=()=>[...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,'0')).join('');
-export async function hash(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))].map(x=>x.toString(16).padStart(2,'0')).join('');}
-class HttpError extends Error{constructor(status,message){super(message);this.status=status;}}
-const requireValue=(condition,message,status=400)=>{if(!condition)throw new HttpError(status,message);};
-const query=(db,sql,...args)=>db.prepare(sql).bind(...args);
-const all=async(db,sql,...args)=>(await query(db,sql,...args).all()).results;
+import {iso,uuid,secret,hash,query,all,requireValue,HttpError,CONSENT_VERSION} from './common.mjs';
+import {participant,issueCredential,createChallenge,finishSignIn,bearer,requireInstructor,isInstructor} from './auth.mjs';
+export {hash,CONSENT_VERSION};
 function publicItem(item){const {answer,answerDisplay,answerIndex,explanation,tolerance,...visible}=item;return visible;}
 function feedback(item,response){return {correct:score(item,response),answer:item.format==='choice'?item.options[item.answerIndex]:item.answerDisplay,explanation:item.explanation};}
-async function participant(request,env){
- const token=request.headers.get('Authorization')?.match(/^Bearer ([a-f0-9]{64})$/)?.[1];
- requireValue(token,'Sign in or start a new anonymous profile.',401);
- const p=await query(env.DB,'SELECT * FROM participants WHERE credential_hash = ? AND disabled_at IS NULL',await hash(token)).first();
- requireValue(p,'Your profile credential is invalid.',401);return p;
-}
 async function ownSession(env,p,id){
  const s=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=?',id,p.id).first();
  requireValue(s,'Session not found.',404);return s;
@@ -38,15 +27,19 @@ async function body(request){
 }
 async function route(request,env){
  const url=new URL(request.url),path=url.pathname,method=request.method;
- if(path==='/health'&&method==='GET')return {ok:true,bankVersion:BANK_VERSION,consentVersion:CONSENT_VERSION,tracking:'server-receipts'};
+ if(path==='/health'&&method==='GET')return {ok:true,bankVersion:BANK_VERSION,consentVersion:CONSENT_VERSION,tracking:'server-receipts',signInConfigured:!!env.GOOGLE_CLIENT_ID};
  if(path==='/profiles'&&method==='POST'){
   const b=await body(request);requireValue(b.consentVersion===CONSENT_VERSION&&b.accepted===true,'Accept the current response-collection notice to begin.');
-  const id=uuid(),token=secret(),at=iso();
-  await query(env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at,credential_hash) VALUES (?,?,?,?,?,?)',id,at,'anonymous',CONSENT_VERSION,at,await hash(token)).run();
-  return {participantId:id,token,identityKind:'anonymous'};
+  const id=uuid(),at=iso();
+  await query(env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)',id,at,'anonymous',CONSENT_VERSION,at).run();
+  return {participantId:id,identityKind:'anonymous',...await issueCredential(env,id,'anonymous')};
  }
  if(path.startsWith('/admin/')){
-  requireValue(env.ADMIN_TOKEN&&request.headers.get('Authorization')===`Bearer ${env.ADMIN_TOKEN}`,'Instructor access required.',401);
+  const instructor=await requireInstructor(request,env);
+  if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));
+  if(path==='/admin/assignments'&&method==='GET')return {assignments:await all(env.DB,'SELECT * FROM assignments ORDER BY created_at DESC LIMIT 101')};
+  if(path==='/admin/students'&&method==='GET')return {students:await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL ORDER BY created_at DESC LIMIT 101")};
+  const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET')return assignmentReport(env,assignmentMatch[1]);
   if(path==='/admin/responses'&&method==='GET'){
    const after=url.searchParams.get('after')??'';
    const rows=await all(env.DB,`SELECT r.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.selection_probability,p.selection_pool_size,p.selection_engine_version,p.model_version,p.first_family_exposure,s.course,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.ledger_sequence > CAST(? AS INTEGER) ORDER BY r.ledger_sequence LIMIT 501`,after||'0');
@@ -59,9 +52,13 @@ async function route(request,env){
   throw new HttpError(404,'Unknown instructor route.');
  }
  const p=await participant(request,env);
- if(path==='/profile'&&method==='GET')return {participantId:p.id,identityKind:p.identity_kind,progress:Object.fromEntries(Object.keys(courses).map(c=>[c,[]]))};
+ if(path==='/profile'&&method==='GET')return {participantId:p.id,identityKind:p.identity_kind,email:p.verified_email,isInstructor:isInstructor(p,env)};
+ if(path==='/auth/challenge'&&method==='POST')return createChallenge(env,p);
+ if(path==='/auth/google'&&method==='POST')return finishSignIn(env,p,await body(request));
+ if(path==='/auth/logout'&&method==='POST'){await query(env.DB,'UPDATE credentials SET revoked_at=? WHERE token_hash=?',iso(),await hash(bearer(request))).run();return {signedOut:true};}
+ if(path==='/assignments'&&method==='GET')return listAssignments(env,p);
  if(path==='/sessions'&&method==='POST'){
-  const b=await body(request);requireValue(courses[b.course],'Unknown course.');requireValue(['practice','assessment'].includes(b.mode),'Unknown mode.');
+  const b=await body(request);if(b.assignmentId)return startAssignment(env,p,b);requireValue(!b.assigned,'Provide an instructor assignment ID; assigned mode cannot be self-declared.',403);requireValue(courses[b.course],'Unknown course.');requireValue(['practice','assessment'].includes(b.mode),'Unknown mode.');
   requireValue(!b.assigned||p.identity_kind==='account','Assigned assessments require a verified account.',403);
   requireValue(Number.isInteger(b.unit??0)&&(b.unit??0)>=0&&(b.unit??0)<=6,'Invalid unit.');
   requireValue(!b.topic||(typeof b.topic==='string'&&bank.some(q=>q.course===b.course&&q.topic===b.topic)),'Invalid topic.');
@@ -116,7 +113,7 @@ async function route(request,env){
  if(action==='next'){
   const current=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? ORDER BY sequence DESC LIMIT 1',sid).first();
   if(current){const answered=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? LIMIT 1',current.id).first();if(!answered)return {presentationId:current.id,item:publicItem(JSON.parse(current.item_snapshot_json)),sequence:current.sequence};}
-  const length=s.mode==='assessment'?36:100;
+  const length=s.mode==='assessment'?s.target_count:100;
   if((current?.sequence??0)>=length)return {done:true,reason:'session-length'};
   const state=await stateFor(env,p),selected=selectItem(bank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid});if(!selected)return {done:true,reason:'eligible-bank-exhausted'};
   const {item,selection}=selected,id=uuid(),sequence=(current?.sequence??0)+1;

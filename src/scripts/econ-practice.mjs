@@ -1,3 +1,4 @@
+import {setupIdentity} from './econ-identity.mjs';
 import {courses} from '../lib/econ-practice/curriculum.mjs';
 import {renderGraph} from '../lib/econ-practice/figures.mjs';
 const $=id=>document.getElementById(id),root=$('econ-app');
@@ -12,7 +13,7 @@ if(root){
  function show(panel){for(const id of ['setup','question-panel','report'])$(id).hidden=id!==panel;}
  function coursesChanged(){const course=$('course').value;$('unit').replaceChildren(new Option('All units','0'),...courses[course].units.map((u,i)=>new Option(`${i+1}. ${u}`,String(i+1))));$('course-count').textContent='Questions adapt within your chosen course and coverage.';}
  coursesChanged();$('course').addEventListener('change',coursesChanged);
- function ready(){ $('start').disabled=!available||!$('consent').checked||busy; }
+ function ready(){ $('start').disabled=!available||!$('consent').checked||busy;$('prepare-signin').disabled=!available||!$('consent').checked||busy||!root.dataset.signin; }
  $('consent').addEventListener('change',ready);
  async function flush(){
   const queue=read(QUEUE_KEY,[]);for(const event of queue){
@@ -38,7 +39,8 @@ if(root){
  }
  async function finish(){await flush();await request(`/sessions/${session.sessionId}/complete`,{});report=await request(`/sessions/${session.sessionId}/report`);save(SESSION_KEY,null);const container=$('report-content');container.replaceChildren();const correct=report.rows.filter(r=>r.correct).length;container.append(node('p',`${correct} of ${report.rows.length} submitted answers correct. This is a practice summary, not an AP score prediction.`));
   report.rows.forEach((r,i)=>{const details=document.createElement('details');details.append(node('summary',`${i+1}. ${r.correct?'Correct':'Review'} · ${r.item.title}`),node('p',r.item.prompt),node('p',`Your answer: ${r.item.format==='choice'?r.item.options[r.response]:r.response}`),node('p',`Answer: ${r.answer}`),node('p',r.explanation));container.append(details);});show('report');$('report-heading').focus();}
- $('start').addEventListener('click',async()=>{busy=true;ready();$('setup-error').textContent='';try{if(!profile){profile=await request('/profiles',{accepted:true,consentVersion:'2026-10-12-v1'});save(PROFILE_KEY,profile);}await flush();session=await request('/sessions',{course:$('course').value,mode:$('mode').value,unit:Number($('unit').value)});save(SESSION_KEY,session);await next();}catch(e){$('setup-error').textContent=e.message;}finally{busy=false;ready();}});
+ const identity=setupIdentity({request,flush,getProfile:()=>profile,setProfile:p=>{profile=p;save(PROFILE_KEY,p);},getSession:()=>session,setSession:s=>{session=s;save(SESSION_KEY,s);},beginSession:next,ready,show,save});
+ $('start').addEventListener('click',async()=>{busy=true;ready();$('setup-error').textContent='';try{await identity.ensureProfile();await flush();session=await request('/sessions',{course:$('course').value,mode:$('mode').value,unit:Number($('unit').value)});save(SESSION_KEY,session);await next();}catch(e){$('setup-error').textContent=e.message;}finally{busy=false;ready();}});
  $('answer-form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;busy=true;$('submit-answer').disabled=true;try{
   const value=new FormData($('answer-form')).get('answer');if(value===null||String(value).trim()==='')throw new Error('Enter an answer first.');
   const elapsed=Math.round(performance.now()-started);const event={sessionId:session.sessionId,payload:{eventId:crypto.randomUUID(),presentationId:current.presentationId,attemptNumber:1,response:current.item.format==='choice'?Number(value):String(value),elapsedMs:elapsed,activeMs:Math.min(elapsed,Math.round(active)),submittedAt:new Date().toISOString()}};
@@ -52,5 +54,5 @@ if(root){
  setInterval(()=>{const now=performance.now();if(current&&!document.hidden)active+=Math.min(now-lastTick,1200);lastTick=now;},1000);
  window.addEventListener('online',()=>flush().catch(e=>$('connection-status').textContent=e.message));
  if(!API){$('connection-status').textContent='Preview: the response service is not connected. Sessions are disabled until answers can be saved.';}
- else request('/health').then(async()=>{available=true;$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){await flush();if(session){await next();}}}).catch(e=>{$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
+ else request('/health').then(async health=>{available=true;root.dataset.signin=health.signInConfigured?'true':'';$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){await identity.refresh();await flush();if(session){await next();}}}).catch(e=>{$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
 }

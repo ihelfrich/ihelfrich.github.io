@@ -1,0 +1,21 @@
+---
+import Base from '../../../layouts/Base.astro';
+import '../../../styles/econ-practice.css';
+const api=import.meta.env.PUBLIC_ECON_API_URL??'';
+---
+<Base title="Economics instructor dashboard" description="Private economics response and assignment management." noindex excludeFromSearch>
+<div class="econ-practice" id="econ-instructor" data-api={api}>
+<header><p><a href="/economics-practice/">Economics practice</a></p><h1>Instructor dashboard</h1></header>
+<p id="instructor-status" role="status">Checking instructor access…</p>
+<div id="instructor-content" hidden>
+<section><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
+<section><h2>Create an assignment</h2><form id="assignment-form">
+<label>Title<input name="title" type="text" maxlength="160" required/></label>
+<div class="setup-grid"><label>Course<select name="course"><option value="ap-micro">AP Microeconomics</option><option value="ap-macro">AP Macroeconomics</option><option value="college-micro">Undergraduate Microeconomics</option><option value="college-macro">Undergraduate Macroeconomics</option></select></label>
+<label>Questions<input type="number" name="itemCount" min="6" max="48" value="24" required/></label><label>Allowed attempts<input type="number" name="maxAttempts" min="1" max="10" value="1" required/></label></div>
+<label>Opens at (your browser’s local time)<input type="datetime-local" name="opensAt" required/></label><label>Closes at (your browser’s local time)<input type="datetime-local" name="closesAt" required/></label>
+<fieldset id="student-list"><legend>Signed-in students</legend></fieldset><button type="submit">Create assignment</button></form><p id="assignment-status" role="status"></p></section>
+<section><h2>Assignments</h2><div id="instructor-assignments"></div><div id="assignment-report"></div></section>
+</div></div>
+<script>import '../../../scripts/econ-instructor.mjs';</script>
+</Base>
