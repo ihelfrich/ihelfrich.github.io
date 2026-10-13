@@ -513,3 +513,7 @@ Assignment reports now include presented/unanswered counts and separately retain
 ## AP Micro topic hints (2026-10-12)
 
 Replaced the universal hint with authored method prompts for every AP Micro topic. Hints are selected from the presentation snapshot's course/topic and never interpolate the key or worked explanation. Other courses retain a clearly scoped general scaffold pending authored course-specific hints. Responses identify hint version/scope; existing persisted hint counts still govern calibration exclusion. Exact hint text/version is not yet retained as an event, so historical hint-content reconstruction remains an open tracking requirement. Topic-level scaffolds still need item-by-item pedagogical review; coverage alone does not prove every hint is equally useful. All 125 focused tests pass.
+
+## Durable hint exposure records (2026-10-12)
+
+Migration 0008 adds immutable hint events with exact text, version, scope, presentation reference and database receipt time. An insert trigger increments hints_used atomically; the insert itself rechecks current session ownership, practice mode, completion and expiry. Owner session reports include events. Events identify server-returned guidance, not proof that a human read it. Historical counts before migration have no recoverable exact text. Retries currently produce distinct request events; instructor bulk hint export remains to be added. All 126 focused tests pass, including persistence, count agreement, immutable content and completed-session rejection. Production migration has not been applied.

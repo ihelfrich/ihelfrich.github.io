@@ -111,8 +111,9 @@ async function route(request,env){
  const [,sid,action]=match,s=await ownSession(env,p,sid);
  if(action==='report'&&method==='GET'){
   const rows=await all(env.DB,'SELECT r.*,p.item_snapshot_json,p.sequence FROM responses r JOIN presentations p ON p.id=r.presentation_id WHERE r.session_id=? ORDER BY p.sequence,r.attempt_number',sid);
+  const hints=await all(env.DB,'SELECT h.* FROM hint_events h JOIN presentations p ON p.id=h.presentation_id WHERE p.session_id=? ORDER BY h.ledger_sequence',sid);
   const presentationCounts=await query(env.DB,'SELECT COUNT(*) AS presented,COUNT(CASE WHEN NOT EXISTS (SELECT 1 FROM responses r WHERE r.presentation_id=p.id) THEN 1 END) AS unanswered FROM presentations p WHERE p.session_id=?',sid).first();
-  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,coverage:{planned:s.target_count,presented:presentationCounts.presented,unanswered:presentationCounts.unanswered,answered:presentationCounts.presented-presentationCounts.unanswered},rows:rows.map(r=>({eventId:r.event_id,presentationId:r.presentation_id,sequence:r.sequence,attemptNumber:r.attempt_number,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course,{sessionId:sid})};
+  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,hints,coverage:{planned:s.target_count,presented:presentationCounts.presented,unanswered:presentationCounts.unanswered,answered:presentationCounts.presented-presentationCounts.unanswered},rows:rows.map(r=>({eventId:r.event_id,presentationId:r.presentation_id,sequence:r.sequence,attemptNumber:r.attempt_number,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course,{sessionId:sid})};
  }
  requireValue(method==='POST','Method not allowed.',405);
  if(action==='complete'){
@@ -151,8 +152,10 @@ async function route(request,env){
  if(action==='hint'){
   requireValue(s.mode==='practice','Hints are unavailable during assessments.',403);const b=await body(request);
   const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=? AND session_id=?',b.presentationId,sid).first();requireValue(pr,'Presentation not found.',404);
-  await query(env.DB,'UPDATE presentations SET hints_used=hints_used+1 WHERE id=?',pr.id).run();
-  return hintFor(JSON.parse(pr.item_snapshot_json));
+  const hint=hintFor(JSON.parse(pr.item_snapshot_json)),hintId=uuid();
+  const saved=await query(env.DB,`INSERT INTO hint_events (id,presentation_id,hint_version,hint_scope,hint_text) SELECT ?,p.id,?,?,? FROM presentations p JOIN sessions s ON s.id=p.session_id WHERE p.id=? AND s.participant_id=? AND s.mode='practice' AND s.completed_at IS NULL AND s.expires_at>strftime('%Y-%m-%dT%H:%M:%fZ','now')`,hintId,hint.hintVersion,hint.hintScope,hint.hint,pr.id,p.id).run();
+  requireValue(saved.meta.changes===1,'Session changed before the hint could be recorded.',409);
+  return {...hint,hintId};
  }
  if(action==='next'){
   const current=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? ORDER BY sequence DESC LIMIT 1',sid).first();
