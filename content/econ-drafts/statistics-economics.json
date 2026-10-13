@@ -1,0 +1,1322 @@
+[
+  {
+    "id": "statistics-economics-u1-01",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Updating after an audit flag",
+    "prompt": "In a hypothetical population, 10% of invoices contain an error. An audit flags 80% of erroneous invoices and 20% of error-free invoices. For a randomly drawn invoice that is flagged, what is the probability of an error?",
+    "correct": "4/13, approximately 30.8%.",
+    "wrong": [
+      "80%.",
+      "10%.",
+      "40%."
+    ],
+    "explanation": "Erroneous flagged invoices have probability 0.1×0.8=0.08; all flagged invoices have probability 0.08+0.9×0.2=0.26. The conditional probability is 0.08/0.26.",
+    "hint": "Normalize true flags by the probability of every route to a flag.",
+    "skill": "updating after an audit flag",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-02",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Sampling without replacement",
+    "prompt": "A file contains five applications, two incomplete and three complete. Two distinct applications are drawn uniformly without replacement. Given that the first is incomplete, what is the probability the second is incomplete?",
+    "correct": "1/4.",
+    "wrong": [
+      "2/5.",
+      "1/5.",
+      "2/4."
+    ],
+    "explanation": "After the first incomplete application is removed, one of the four remaining applications is incomplete. The conditioning changes both the count and the population size.",
+    "hint": "Update the remaining file before calculating the second-draw probability.",
+    "skill": "sampling without replacement",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-03",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Overlapping expenditure categories",
+    "prompt": "For a randomly selected household, the probability of spending on transit is 0.4, on taxis is 0.3, and on both is 0.1. What is the probability of spending on at least one of the two?",
+    "correct": "0.6.",
+    "wrong": [
+      "0.7.",
+      "0.12.",
+      "0.1."
+    ],
+    "explanation": "The union probability is 0.4+0.3−0.1=0.6. The overlap must be subtracted because adding the marginals counts it twice.",
+    "hint": "Use inclusion-exclusion for the union.",
+    "skill": "overlapping expenditure categories",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-04",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Mutual exclusion is not independence",
+    "prompt": "Two events A and B cannot both occur, and each has strictly positive probability. Which statement follows?",
+    "correct": "A and B are dependent.",
+    "wrong": [
+      "A and B are independent because they cannot occur together.",
+      "P(A given B)=P(A).",
+      "P(A∩B)=P(A)P(B)>0."
+    ],
+    "explanation": "Mutual exclusion gives P(A∩B)=0, whereas the product of their positive probabilities is positive. The factorization required for independence therefore fails.",
+    "hint": "Compare the intersection probability with the product of the marginals.",
+    "skill": "mutual exclusion is not independence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-05",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "A conditional rate and a population rate",
+    "prompt": "A firm has equal numbers of domestic and foreign customers. Late payment occurs for 10% of domestic customers and 30% of foreign customers. What fraction of late-paying customers are foreign?",
+    "correct": "75%.",
+    "wrong": [
+      "30%.",
+      "50%.",
+      "20%."
+    ],
+    "explanation": "Foreign late payments have population probability 0.5×0.3=0.15; total late payment probability is 0.05+0.15=0.20. Their ratio is 0.75.",
+    "hint": "Condition on late payment by using it as the denominator.",
+    "skill": "a conditional rate and a population rate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-06",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Total probability across market states",
+    "prompt": "An economy is in a low-demand state with probability 0.25 and a high-demand state otherwise. A firm makes a loss with probability 0.6 in the low state and 0.2 in the high state. What is its unconditional loss probability?",
+    "correct": "0.30.",
+    "wrong": [
+      "0.40.",
+      "0.15.",
+      "0.80."
+    ],
+    "explanation": "Weight each conditional probability by its state probability: 0.25×0.6+0.75×0.2=0.30. The states exhaust the possibilities.",
+    "hint": "Average over the mutually exclusive market states.",
+    "skill": "total probability across market states",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-07",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "At least one independent delay",
+    "prompt": "Two deliveries are independent, each with probability 0.2 of delay. What is the probability at least one is delayed?",
+    "correct": "0.36.",
+    "wrong": [
+      "0.40.",
+      "0.04.",
+      "0.80."
+    ],
+    "explanation": "The probability neither is delayed is 0.8²=0.64. Taking its complement gives 0.36; adding delay probabilities would double-count joint delays.",
+    "hint": "Use the complement of no delays.",
+    "skill": "at least one independent delay",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-08",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Conditional independence with a shared state",
+    "prompt": "Two firms’ defaults are independent conditional on the market state. Each firm defaults with probability 0.1 in a good state and 0.9 in a bad state; each state has probability one half. Are defaults unconditionally independent?",
+    "correct": "No; their joint default probability is 0.41, above the product of marginals 0.25.",
+    "wrong": [
+      "Yes; conditional independence always implies unconditional independence.",
+      "Yes; each marginal default probability is 0.5.",
+      "No; their joint default probability is zero."
+    ],
+    "explanation": "The joint probability is 0.5×0.1²+0.5×0.9²=0.41, while each marginal is 0.5. Mixing over a common state creates dependence.",
+    "hint": "Average conditional joint probabilities and compare with unconditional marginal products.",
+    "skill": "conditional independence with a shared state",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-09",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Likelihood ratios and posterior odds",
+    "prompt": "Prior odds that a machine is faulty rather than sound are 1:4. An observed signal is three times as likely under a fault as under sound operation. What are the posterior odds of faulty to sound?",
+    "correct": "3:4.",
+    "wrong": [
+      "1:12.",
+      "3:1.",
+      "4:3."
+    ],
+    "explanation": "Posterior odds equal prior odds times the likelihood ratio: (1/4)×3=3/4. Odds are not the same as the posterior probability, which here is 3/7.",
+    "hint": "Multiply odds by the likelihood ratio without treating odds as probabilities.",
+    "skill": "likelihood ratios and posterior odds",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u1-10",
+    "course": "statistics-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Normalizing a conditional table",
+    "prompt": "A joint probability table assigns P(A∩B)=0.12, P(Aᶜ∩B)=0.18, P(A∩Bᶜ)=0.28 and P(Aᶜ∩Bᶜ)=0.42. What is P(A given B)?",
+    "correct": "0.4.",
+    "wrong": [
+      "0.12.",
+      "0.3.",
+      "0.7."
+    ],
+    "explanation": "The conditioning event B has probability 0.12+0.18=0.30. Dividing the A-and-B cell by that column total gives 0.12/0.30=0.4.",
+    "hint": "Sum the cells satisfying the condition before normalizing.",
+    "skill": "normalizing a conditional table",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-01",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Expected net cash flow",
+    "prompt": "A project’s net cash flow X is −2 with probability 0.25, 4 with probability 0.5 and 10 with probability 0.25, in thousands of dollars. What is E[X]?",
+    "correct": "4 thousand dollars.",
+    "wrong": [
+      "12 thousand dollars.",
+      "6 thousand dollars.",
+      "4 thousand dollars squared."
+    ],
+    "explanation": "The probability-weighted mean is −2×0.25+4×0.5+10×0.25=4. Expectation retains the cash flow’s original units.",
+    "hint": "Weight each possible cash flow by its probability.",
+    "skill": "expected net cash flow",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-02",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Variance and its units",
+    "prompt": "A symmetric random variable takes values 2 and 8 dollars with equal probability. What is its variance?",
+    "correct": "9 dollars squared.",
+    "wrong": [
+      "3 dollars.",
+      "25 dollars squared.",
+      "18 dollars squared."
+    ],
+    "explanation": "The mean is 5 dollars and both deviations have squared value 9. Averaging those squared deviations gives variance 9 dollars squared; the standard deviation is 3 dollars.",
+    "hint": "Compute deviations from the mean and retain squared units.",
+    "skill": "variance and its units",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-03",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Risk of a combined payoff",
+    "prompt": "Two payoffs X and Y have variances 4 and 9 and covariance −1, all in dollars squared. What is Var(X+Y)?",
+    "correct": "11 dollars squared.",
+    "wrong": [
+      "13 dollars squared.",
+      "12 dollars squared.",
+      "15 dollars squared."
+    ],
+    "explanation": "The variance of a sum is Var(X)+Var(Y)+2Cov(X,Y)=4+9−2=11. Negative covariance partly offsets individual risk.",
+    "hint": "Include both covariance cross-terms when expanding the square.",
+    "skill": "risk of a combined payoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-04",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Scaling a random quantity",
+    "prompt": "Demand X has mean 10 units and variance 4 units squared. Revenue is R=3X+5 dollars, where the per-unit price is 3 dollars and the extra 5 is certain. What is Var(R)?",
+    "correct": "36 dollars squared.",
+    "wrong": [
+      "17 dollars squared.",
+      "12 dollars squared.",
+      "41 dollars squared."
+    ],
+    "explanation": "Multiplication by 3 scales variance by 3², while adding a constant does not change variance. Thus Var(R)=9×4=36.",
+    "hint": "Separate the random scaling from the fixed addition.",
+    "skill": "scaling a random quantity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-05",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "A nonlinear average",
+    "prompt": "Income X is strictly positive, nondegenerate and has finite E[X] and E[log X]. Which inequality follows from strict concavity of the logarithm?",
+    "correct": "E[log X]<log E[X].",
+    "wrong": [
+      "E[log X]>log E[X].",
+      "E[log X]=log E[X] for every positive distribution.",
+      "E[log X]=E[X]."
+    ],
+    "explanation": "Jensen’s inequality is strict for a strictly concave function of a nondegenerate variable when the expectations exist. Transforming the average is not the same as averaging transformed values.",
+    "hint": "Apply concavity to the order of averaging and transformation.",
+    "skill": "a nonlinear average",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-06",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Iterated expectations for spending",
+    "prompt": "Households are equally likely to be in groups A and B. Conditional mean spending is 20 in A and 50 in B, with any within-group distributions having these finite means. What is unconditional mean spending?",
+    "correct": "35.",
+    "wrong": [
+      "70.",
+      "30.",
+      "It cannot be obtained without within-group variances."
+    ],
+    "explanation": "The law of iterated expectations averages conditional means: 0.5×20+0.5×50=35. Within-group variances are irrelevant to this mean calculation.",
+    "hint": "Average the conditional means using group shares.",
+    "skill": "iterated expectations for spending",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-07",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Within-group and between-group variability",
+    "prompt": "A population consists of two equally likely groups with conditional means 0 and 4. Each group has conditional variance 1. What is the population variance?",
+    "correct": "5.",
+    "wrong": [
+      "1.",
+      "4.",
+      "9."
+    ],
+    "explanation": "The mean of conditional variances is 1. The variance of conditional means around their overall mean 2 is 4. Total variance is 1+4=5.",
+    "hint": "Add average within-group variance and variance between group means.",
+    "skill": "within-group and between-group variability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-08",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Expected count without independence",
+    "prompt": "Ten invoices each have probability 0.1 of being late. Their lateness events may be dependent. What is the expected number of late invoices?",
+    "correct": "1.",
+    "wrong": [
+      "It cannot be determined without every pairwise correlation.",
+      "0.1.",
+      "10."
+    ],
+    "explanation": "A count is a sum of indicators, and expectation is additive regardless of dependence. The mean is 10×0.1=1; dependence would matter for its variance.",
+    "hint": "Use linearity of expectation rather than multiplying event probabilities.",
+    "skill": "expected count without independence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-09",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "A discrete quantile convention",
+    "prompt": "A variable equals 0 with probability 0.3, 1 with probability 0.4 and 5 with probability 0.3. Define its p-quantile as the smallest x with F(x)≥p. What is the 0.7-quantile?",
+    "correct": "1.",
+    "wrong": [
+      "5.",
+      "0.7.",
+      "3."
+    ],
+    "explanation": "F(0)=0.3 and F(1)=0.7. The smallest value reaching 0.7 is 1, including equality under the stated quantile convention.",
+    "hint": "Find the first support point whose cumulative probability reaches the target.",
+    "skill": "a discrete quantile convention",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u2-10",
+    "course": "statistics-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Zero covariance with deterministic dependence",
+    "prompt": "X is equally likely to be −1, 0 or 1, and Y=X². Which description is correct?",
+    "correct": "X and Y have zero covariance but are dependent.",
+    "wrong": [
+      "X and Y are independent because covariance is zero.",
+      "Their covariance is strictly positive because Y is nonnegative.",
+      "Y is constant, so independence is automatic."
+    ],
+    "explanation": "Symmetry gives E[X]=E[X³]=0, hence Cov(X,X²)=0. Yet Y is completely determined by X and is not constant, so independence fails.",
+    "hint": "Calculate the covariance, then examine whether knowing X changes Y’s distribution.",
+    "skill": "zero covariance with deterministic dependence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-01",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Sampling variability of an average",
+    "prompt": "Observations are independent and identically distributed with finite population variance 100 dollars squared. A sample contains 25 observations. What is the exact standard deviation of the sample mean?",
+    "correct": "2 dollars.",
+    "wrong": [
+      "4 dollars.",
+      "20 dollars.",
+      "2 dollars squared."
+    ],
+    "explanation": "Independence gives Var(X̄)=100/25=4 dollars squared. Taking the square root gives standard deviation 2 dollars; normality is not needed for this variance calculation.",
+    "hint": "Divide variance by sample size, then take the square root.",
+    "skill": "sampling variability of an average",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-02",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Finite-population correction",
+    "prompt": "A simple random sample of n=25 is drawn without replacement from N=100 fixed values. Their population variance, using divisor N, is 99. Using Var(X̄)=(variance/n)×(N−n)/(N−1), what is the sampling variance?",
+    "correct": "3.",
+    "wrong": [
+      "3.96.",
+      "0.75.",
+      "99."
+    ],
+    "explanation": "Substitution gives (99/25)×(75/99)=3. Sampling a substantial share without replacement reduces uncertainty compared with independent draws from the empirical population.",
+    "hint": "Apply the correction using the stated variance-divisor convention.",
+    "skill": "finite-population correction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-03",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "What the classical central limit theorem normalizes",
+    "prompt": "X₁,…,Xₙ are iid with mean μ and finite positive variance σ². Which quantity converges in distribution to a standard normal as n tends to infinity?",
+    "correct": "√n(X̄−μ)/σ.",
+    "wrong": [
+      "X̄ itself with no centering or scaling.",
+      "(X̄−μ)/(σ√n).",
+      "Every individual Xᵢ regardless of its original distribution."
+    ],
+    "explanation": "The classical CLT concerns centered sampling error divided by its σ/√n scale. It does not make each observation normal or preserve a nondegenerate variance for the unscaled mean.",
+    "hint": "Center at the population mean and divide by the mean’s standard error.",
+    "skill": "what the classical central limit theorem normalizes",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-04",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Concentration is not a normal approximation",
+    "prompt": "A law of large numbers establishes X̄ₙ→μ in probability. What does this result alone say?",
+    "correct": "For every fixed ε>0, P(|X̄ₙ−μ|>ε) tends to zero.",
+    "wrong": [
+      "The finite-sample mean is exactly normal.",
+      "The rate of convergence must be √n.",
+      "Each observation becomes closer to μ as n increases."
+    ],
+    "explanation": "Convergence in probability describes concentration inside any fixed error tolerance. It does not specify a distributional approximation, rate or behavior of individual observations.",
+    "hint": "Translate convergence in probability into a statement about fixed tolerances.",
+    "skill": "concentration is not a normal approximation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-05",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "A common shock that averaging cannot remove",
+    "prompt": "Each observation is Xᵢ=μ+U+εᵢ. U has mean zero and variance 4; the εᵢ are iid with mean zero and variance 9 and are independent of U. What happens to Var(X̄ₙ) as n grows without bound?",
+    "correct": "It converges to 4.",
+    "wrong": [
+      "It converges to zero.",
+      "It converges to 9.",
+      "It remains 13 for every n."
+    ],
+    "explanation": "The average contains U unchanged and averages only the idiosyncratic errors. Its variance is 4+9/n, so the shared shock creates a nonvanishing uncertainty component.",
+    "hint": "Separate the shared term from the terms that are independently averaged.",
+    "skill": "a common shock that averaging cannot remove",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-06",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "A heavy-tailed counterexample",
+    "prompt": "X₁,…,Xₙ are iid standard Cauchy variables. Their sample average is also standard Cauchy for every n. What conclusion follows?",
+    "correct": "The sample mean does not concentrate at a finite population mean, and the usual finite-variance CLT does not apply.",
+    "wrong": [
+      "The sample mean becomes exactly normal for n≥30.",
+      "The sample mean converges to zero because the density is symmetric.",
+      "The population mean is zero because the median is zero."
+    ],
+    "explanation": "A Cauchy mean is undefined, and the stated stability property leaves the sample average’s distribution unchanged. Symmetry alone does not ensure an expectation exists.",
+    "hint": "Check moment existence before invoking an average-based limit theorem.",
+    "skill": "a heavy-tailed counterexample",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-07",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Finite mean but infinite variance",
+    "prompt": "An iid sample comes from a Pareto distribution on x≥1 with tail probability P(X>x)=x^−1.5. Its mean is finite but its variance is infinite. Which conclusion is justified by the standard iid laws of large numbers and finite-variance CLT?",
+    "correct": "The sample mean converges to its population mean, but the usual finite-variance √n normal CLT is unavailable.",
+    "wrong": [
+      "Neither a finite mean nor a law of large numbers is possible.",
+      "The classical normal CLT applies because the mean exists.",
+      "The sample variance must converge to a finite number."
+    ],
+    "explanation": "Integrability supports the iid law of large numbers. The infinite second moment violates the classical CLT assumptions; different normalization and limits may be relevant but are not asserted here.",
+    "hint": "Keep the moment requirements for concentration and normal approximation separate.",
+    "skill": "finite mean but infinite variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-08",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Population shares versus sample shares",
+    "prompt": "A population is 80% group A and 20% group B. A survey deliberately samples equal numbers from each group. Sample mean outcomes are 10 in A and 30 in B, and sampling is representative within each group. What weighted estimate targets the population mean?",
+    "correct": "14.",
+    "wrong": [
+      "20.",
+      "24.",
+      "40."
+    ],
+    "explanation": "Population shares imply 0.8×10+0.2×30=14. The unweighted mean of 20 targets the artificial equal-share mixture, not the specified population composition.",
+    "hint": "Use the target population’s group proportions.",
+    "skill": "population shares versus sample shares",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-09",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Sampling trips rather than commuters",
+    "prompt": "A survey draws a trip uniformly from all commuting trips and records its commuter’s weekly trip count. Commuters with more trips can appear through more sampled trips. What does the unweighted survey overrepresent relative to a uniform sample of commuters?",
+    "correct": "Commuters with higher weekly trip counts.",
+    "wrong": [
+      "Commuters with fewer trips.",
+      "All commuters with equal probability by construction.",
+      "Only commuters whose weekly trip count equals the population mean."
+    ],
+    "explanation": "The sampling unit is a trip, so a commuter’s inclusion chance is proportional to the number of eligible trips they contribute. Trip-weighted and person-weighted distributions differ.",
+    "hint": "Count how many sampling units each person contributes.",
+    "skill": "sampling trips rather than commuters",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u3-10",
+    "course": "statistics-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Sampling error of an empirical distribution",
+    "prompt": "For iid observations, define Fₙ(c)=n⁻¹Σ1{Xᵢ≤c} at a fixed threshold c. If F(c)=0.25 and n=100, what is the exact variance of Fₙ(c)?",
+    "correct": "0.001875.",
+    "wrong": [
+      "0.01875.",
+      "0.25.",
+      "0.000625."
+    ],
+    "explanation": "The threshold indicators are iid Bernoulli with probability 0.25. Their average has variance 0.25×0.75/100=0.001875. This is a pointwise result for a fixed c.",
+    "hint": "Treat the empirical CDF at one threshold as a sample proportion.",
+    "skill": "sampling error of an empirical distribution",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-30-introduction-to-statistical-methods-in-economics-spring-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-01",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Bias and mean squared error",
+    "prompt": "Estimator A has bias 2 and variance 1 for a scalar parameter; estimator B is unbiased with variance 6. Under squared-error loss, which has lower mean squared error?",
+    "correct": "A, with MSE 5 rather than 6.",
+    "wrong": [
+      "B, because unbiasedness always minimizes MSE.",
+      "A, with MSE 3 rather than 6.",
+      "They tie because variance and bias have equal weight without squaring."
+    ],
+    "explanation": "MSE equals variance plus squared bias. Thus A has 1+2²=5 and B has 6. A bias can be compensated by a sufficiently large variance reduction.",
+    "hint": "Square bias before adding it to variance.",
+    "skill": "bias and mean squared error",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-02",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "A boundary maximum for a Bernoulli model",
+    "prompt": "Five independent Bernoulli observations are all zero. The success probability p may lie anywhere in [0,1]. What is its maximum likelihood estimate?",
+    "correct": "0.",
+    "wrong": [
+      "0.5.",
+      "1.",
+      "There is no maximizer even though the boundary p=0 is allowed."
+    ],
+    "explanation": "The likelihood is (1−p)⁵, maximized at the allowed boundary p=0. Interior score equations need not characterize a boundary solution.",
+    "hint": "Inspect the likelihood across the full parameter space.",
+    "skill": "a boundary maximum for a bernoulli model",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-03",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Estimating an exponential arrival rate",
+    "prompt": "Three independent waiting times are 1, 2 and 3 hours. The model density is f(t;λ)=λexp(−λt), t≥0, λ>0. What is the maximum likelihood estimate of λ?",
+    "correct": "0.5 per hour.",
+    "wrong": [
+      "2 hours.",
+      "6 per hour.",
+      "1/3 per hour."
+    ],
+    "explanation": "The log likelihood is 3log λ−6λ, so the score equation gives λ̂=3/6=0.5 per hour. The estimated mean waiting time is its reciprocal, 2 hours.",
+    "hint": "Divide the number of waits by total observed waiting time.",
+    "skill": "estimating an exponential arrival rate",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-04",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Support-dependent likelihood",
+    "prompt": "Independent observations 1, 2 and 5 follow Uniform[0,θ] with θ>0. Which value maximizes the likelihood?",
+    "correct": "θ̂=5.",
+    "wrong": [
+      "θ̂=8/3.",
+      "θ̂=10.",
+      "θ̂=0."
+    ],
+    "explanation": "The likelihood is zero if θ<5 and equals θ^−3 for θ≥5. It decreases on its feasible support, so the smallest feasible endpoint 5 maximizes it.",
+    "hint": "Enforce the support restriction before optimizing the density.",
+    "skill": "support-dependent likelihood",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-05",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "A method-of-moments variance estimate",
+    "prompt": "Independent observations 1, 2 and 3 come from a distribution with finite mean μ and variance σ². Match the first two population raw moments to sample raw moments. What is the resulting method-of-moments estimate of σ²?",
+    "correct": "2/3.",
+    "wrong": [
+      "1.",
+      "2.",
+      "14/3."
+    ],
+    "explanation": "The matched mean is 2 and matched second raw moment is 14/3. Variance is the second raw moment minus the squared mean: 14/3−4=2/3. The n−1 correction is a different estimator.",
+    "hint": "Use E[X²]−E[X]² with the two sample moment analogues.",
+    "skill": "a method-of-moments variance estimate",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-06",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Sufficiency for a common success probability",
+    "prompt": "For n independent Bernoulli(p) observations with common p, two ordered samples contain the same total number of successes. What is true about their likelihood functions for p?",
+    "correct": "They are identical as functions of p.",
+    "wrong": [
+      "One always has higher likelihood if its successes appear earlier.",
+      "They must have different likelihoods because their order differs.",
+      "Neither sample contains information about p."
+    ],
+    "explanation": "Each likelihood is p^s(1−p)^(n−s), where s is the total success count. Under the iid model, order adds no likelihood information about p beyond that count.",
+    "hint": "Factor the joint probability using the total number of ones and zeros.",
+    "skill": "sufficiency for a common success probability",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-07",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Likelihood is not a posterior probability",
+    "prompt": "A dataset has likelihood L(θ) under a parameterized model. No prior distribution for θ has been supplied. Which operation is justified by likelihood alone?",
+    "correct": "Compare relative support L(θ₁)/L(θ₂) for two parameter values.",
+    "wrong": [
+      "Interpret L(θ₁) directly as the posterior probability that θ=θ₁.",
+      "Integrate L over θ and assume it already equals one.",
+      "Treat the parameter as uniformly distributed without making an additional modeling choice."
+    ],
+    "explanation": "Likelihood varies the parameter while holding the observed data fixed. A posterior distribution requires a prior and normalization; relative likelihood comparisons do not.",
+    "hint": "Distinguish a data probability indexed by a parameter from a probability distribution over parameters.",
+    "skill": "likelihood is not a posterior probability",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-08",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Delta-method uncertainty for a logarithm",
+    "prompt": "A positive, consistent estimator θ̂ has an asymptotically normal sampling distribution. In a sample it equals 4 with estimated standard error 0.2. Using the first-order delta method, what is the approximate standard error of log θ̂?",
+    "correct": "0.05.",
+    "wrong": [
+      "0.2.",
+      "0.8.",
+      "log 0.2."
+    ],
+    "explanation": "The derivative of log θ is 1/θ. The first-order delta-method standard error is |1/4|×0.2=0.05. This is an asymptotic approximation, not an exact finite-sample transformation of standard errors.",
+    "hint": "Multiply the original standard error by the absolute derivative at the estimate.",
+    "skill": "delta-method uncertainty for a logarithm",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-09",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Likelihood curvature and sample information",
+    "prompt": "An iid normal model has known variance 9 and unknown mean μ. With n=36, the negative second derivative of the log likelihood in μ is n/9. What is the exact standard error of the maximum likelihood mean estimate?",
+    "correct": "0.5.",
+    "wrong": [
+      "4.",
+      "1/4.",
+      "3."
+    ],
+    "explanation": "Information is 36/9=4, so its inverse is variance 1/4 and the standard error is √(1/4)=0.5. In this normal known-variance model the result is exact.",
+    "hint": "Invert curvature to obtain variance, then take the square root.",
+    "skill": "likelihood curvature and sample information",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u4-10",
+    "course": "statistics-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "A constrained normal-mean estimate",
+    "prompt": "Independent normal observations have known positive variance and an unknown mean constrained to μ≥0. Their sample mean is −2. What is the constrained maximum likelihood estimate of μ?",
+    "correct": "0.",
+    "wrong": [
+      "−2.",
+      "2.",
+      "No estimate exists because the sample mean is outside the parameter space."
+    ],
+    "explanation": "The normal log likelihood is maximized unconstrained at the sample mean and declines with squared distance from it. Projecting −2 onto the allowed half-line gives the boundary zero.",
+    "hint": "Find the feasible value closest to the unconstrained maximum.",
+    "skill": "a constrained normal-mean estimate",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-01",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "An exact binomial tail",
+    "prompt": "Five independent Bernoulli trials all succeed. Test the simple null p=0.5 against p>0.5, using the success count as the statistic. What is the exact one-sided p-value?",
+    "correct": "1/32, or 0.03125.",
+    "wrong": [
+      "1/16, or 0.0625.",
+      "0.5.",
+      "0.95."
+    ],
+    "explanation": "At least five successes in five trials means exactly five. Under the null its probability is (1/2)⁵=1/32; no normal approximation is involved.",
+    "hint": "Sum null probabilities for success counts at least as large as observed.",
+    "skill": "an exact binomial tail",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-02",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Discrete tests can be conservative",
+    "prompt": "For five iid Bernoulli trials, a nonrandomized test of H₀:p≤0.5 against p>0.5 rejects only when all five succeed. What is its size, the supremum rejection probability under the null?",
+    "correct": "0.03125.",
+    "wrong": [
+      "0.05 exactly.",
+      "0.5.",
+      "0.96875."
+    ],
+    "explanation": "The rejection probability p⁵ is increasing in p, so the null maximum occurs at 0.5 and equals 1/32. A test allowed a 5% error rate need not attain it with discrete data.",
+    "hint": "Maximize the rejection probability over all parameter values in the null.",
+    "skill": "discrete tests can be conservative",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-03",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Simultaneous coverage from marginal guarantees",
+    "prompt": "Five confidence intervals each have coverage at least 98% for their respective parameters. No assumptions about dependence between their coverage events are available. What simultaneous coverage lower bound follows from the union bound?",
+    "correct": "90%.",
+    "wrong": [
+      "98%.",
+      "0.98⁵ exactly.",
+      "10%."
+    ],
+    "explanation": "Each interval misses with probability at most 0.02. The probability at least one misses is at most 5×0.02=0.10, giving coverage of all five at least 0.90.",
+    "hint": "Bound the union of noncoverage events without assuming independence.",
+    "skill": "simultaneous coverage from marginal guarantees",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-04",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "When a Student t pivot is exact",
+    "prompt": "A random sample contains n≥2 independent observations from the same normal distribution with unknown mean μ and positive unknown variance. Let S use divisor n−1. What is the exact distribution of (X̄−μ)/(S/√n)?",
+    "correct": "Student t with n−1 degrees of freedom.",
+    "wrong": [
+      "Standard normal for every finite n.",
+      "Student t with n degrees of freedom.",
+      "Chi-squared with n−1 degrees of freedom."
+    ],
+    "explanation": "Normal sampling and the usual sample variance produce the exact t pivot. For arbitrary nonnormal observations, this same finite-sample t claim is not generally exact.",
+    "hint": "Match the pivot and degrees of freedom to the estimated variance.",
+    "skill": "when a student t pivot is exact",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-05",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Power at a specified alternative",
+    "prompt": "A sample mean is exactly normal with standard deviation 2 under every mean μ. A one-sided test of μ=0 rejects when X̄>1.645×2. At μ=4, what is its power? Let Φ denote the standard normal CDF.",
+    "correct": "Φ(0.355), approximately 0.639.",
+    "wrong": [
+      "0.05.",
+      "Φ(1.645), approximately 0.95.",
+      "Φ(−0.355), approximately 0.361."
+    ],
+    "explanation": "Under μ=4, the rejection threshold standardized around the true mean is (3.29−4)/2=−0.355. The upper-tail probability is 1−Φ(−0.355)=Φ(0.355).",
+    "hint": "Evaluate the fixed rejection rule under the alternative distribution.",
+    "skill": "power at a specified alternative",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-06",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Sample size for a narrower margin",
+    "prompt": "For an iid mean with known variance, a normal confidence interval uses a fixed critical value and margin proportional to 1/√n. By what factor must n increase to halve that margin, holding the population variance fixed?",
+    "correct": "4.",
+    "wrong": [
+      "2.",
+      "√2.",
+      "8."
+    ],
+    "explanation": "If the new margin is half the old, √(n_old/n_new)=1/2. Squaring and rearranging gives n_new=4n_old. This calculation concerns precision under the maintained design.",
+    "hint": "Solve the inverse-square-root relation rather than halving n.",
+    "skill": "sample size for a narrower margin",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-07",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Evidence of practical equivalence",
+    "prompt": "A parameter is considered practically equivalent to zero when it lies strictly between −0.3 and 0.3. A two-one-sided-test procedure at 5% uses its corresponding 90% confidence interval, which is [−0.1,0.2]. What does this procedure conclude?",
+    "correct": "Reject non-equivalence because the entire interval lies inside the equivalence region.",
+    "wrong": [
+      "Equivalence is impossible because the interval contains zero.",
+      "Fail to establish equivalence because the interval is not a single point.",
+      "Reject equivalence because the point estimate is positive."
+    ],
+    "explanation": "Both one-sided boundary nulls are rejected when the corresponding interval lies entirely within the prechosen margins. This differs from merely failing to reject an exact-zero null.",
+    "hint": "Compare both interval endpoints with the two prespecified equivalence bounds.",
+    "skill": "evidence of practical equivalence",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-08",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Confidence sets by test inversion",
+    "prompt": "For every candidate value θ₀, a test of θ=θ₀ has rejection probability at most α when that candidate is true. Define C(data) as all candidate values not rejected. What coverage guarantee follows?",
+    "correct": "Pθ{θ∈C(data)}≥1−α for every θ.",
+    "wrong": [
+      "Pθ{θ∈C(data)}=1 for every θ.",
+      "C contains the true θ with probability α.",
+      "The construction needs a prior distribution to provide any frequentist coverage."
+    ],
+    "explanation": "The true parameter is excluded exactly when its own test rejects. Its rejection probability is at most α, so its inclusion probability is at least 1−α.",
+    "hint": "Relate noncoverage to rejection of the one true candidate.",
+    "skill": "confidence sets by test inversion",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-09",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Repeated looks with a fixed-sample threshold",
+    "prompt": "A researcher repeatedly computes ordinary fixed-sample 5% tests as independent new observations arrive and stops at the first rejection. No sequential correction is used. What is warranted about the chance of ever rejecting a true null over these looks?",
+    "correct": "The individual 5% guarantees do not by themselves bound the overall chance by 5%.",
+    "wrong": [
+      "It must equal 5% because every displayed p-value uses 5%.",
+      "It must equal the sum of all nominal levels regardless of dependence.",
+      "Stopping cannot affect inference because observations were independently collected."
+    ],
+    "explanation": "Repeated looks create multiple chances to cross a boundary. The test statistics across looks are dependent, and fixed-sample calibration is not an automatic guarantee for the stopping rule.",
+    "hint": "Distinguish rejection at one prespecified sample size from rejection at any inspected sample size.",
+    "skill": "repeated looks with a fixed-sample threshold",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u5-10",
+    "course": "statistics-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Paired measurements and a difference standard error",
+    "prompt": "There are 25 independent pairs of before-and-after measurements. Within each pair, both measurements have variance 4 and their covariance is 3. What is the exact standard deviation of the sample mean of after-minus-before differences?",
+    "correct": "√2/5, approximately 0.283.",
+    "wrong": [
+      "√8/5, approximately 0.566.",
+      "2.",
+      "√14/5, approximately 0.748."
+    ],
+    "explanation": "Each difference has variance 4+4−2×3=2. Averaging 25 independent differences gives variance 2/25 and standard deviation √2/5. Positive within-pair covariance improves precision here.",
+    "hint": "Form the variance of a difference before dividing by the number of independent pairs.",
+    "skill": "paired measurements and a difference standard error",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-01",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Why bootstrap resampling uses replacement",
+    "prompt": "An analyst repeatedly takes all n observed scalar values in a new random order without replacement, then computes their mean. Can these replicates estimate the sample mean’s sampling variability?",
+    "correct": "No; every replicate mean is identical to the original mean.",
+    "wrong": [
+      "Yes; random order changes the mean’s distribution.",
+      "Yes; the replicate variance equals the population variance exactly.",
+      "No; only because n is not stated to be greater than 30."
+    ],
+    "explanation": "A permutation preserves the entire multiset and therefore its mean. The usual iid nonparametric bootstrap instead draws n observations with replacement from the empirical distribution.",
+    "hint": "Check which features of a dataset are invariant to reordering.",
+    "skill": "why bootstrap resampling uses replacement",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-02",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "The conditional center of a bootstrap mean",
+    "prompt": "An observed iid sample has empirical mean 7. Each ordinary nonparametric bootstrap replicate draws n values independently with replacement from that sample. What is the exact conditional expectation of the replicate mean, given the observed data?",
+    "correct": "7.",
+    "wrong": [
+      "The unknown population mean exactly.",
+      "Zero.",
+      "7/n."
+    ],
+    "explanation": "Each empirical-distribution draw has mean 7, and averaging n such draws leaves that expectation unchanged. This conditional fact does not eliminate uncertainty about the population mean.",
+    "hint": "Take expectation under the empirical resampling distribution, conditional on the sample.",
+    "skill": "the conditional center of a bootstrap mean",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-03",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Distinct observations in a bootstrap replicate",
+    "prompt": "An original sample has four distinctly labeled observations. A bootstrap replicate consists of four independent draws with replacement, each original observation equally likely on each draw. What is the expected number of distinct original observations represented?",
+    "correct": "4[1−(3/4)⁴], approximately 2.734.",
+    "wrong": [
+      "4.",
+      "1.",
+      "4(3/4)⁴, approximately 1.266."
+    ],
+    "explanation": "Each original observation appears at least once with probability 1−(3/4)⁴. Summing its inclusion indicator across four labels gives the expectation without requiring independence among those indicators.",
+    "hint": "Compute the probability one observation is never selected, then use indicator linearity.",
+    "skill": "distinct observations in a bootstrap replicate",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-04",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Resampling dependent household records",
+    "prompt": "A dataset contains independently sampled households, with two income observations per household sharing an arbitrary household shock. A bootstrap seeks to preserve that dependence when estimating the uncertainty of an overall mean. What is the appropriate basic resampling unit?",
+    "correct": "Whole households, retaining their paired records.",
+    "wrong": [
+      "Each income observation separately, discarding household membership.",
+      "Individual digits in each reported income.",
+      "Only the household with the highest income."
+    ],
+    "explanation": "Drawing entire independent clusters retains within-household association. Resampling records independently would treat the shared household variation as if it were independently repeated.",
+    "hint": "Resample at the level across which the sampling units are independent.",
+    "skill": "resampling dependent household records",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-05",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "A decision with asymmetric forecast costs",
+    "prompt": "Demand is 2 units with probability 0.7 and 10 units with probability 0.3. A chosen stock q incurs cost 3 per unit of unmet demand and 1 per unit left over; q may be any nonnegative real number. What q minimizes expected cost?",
+    "correct": "10 units.",
+    "wrong": [
+      "2 units.",
+      "4.4 units.",
+      "0 units."
+    ],
+    "explanation": "The critical fractile is 3/(3+1)=0.75. The smallest demand value whose CDF reaches 0.75 is 10. Directly, q=2 has expected cost 7.2 while q=10 has 5.6, and between them the objective decreases.",
+    "hint": "Balance the underage and overage costs rather than automatically choosing the mean.",
+    "skill": "a decision with asymmetric forecast costs",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-06",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Estimation actions depend on loss",
+    "prompt": "A posterior distribution assigns probability 0.8 to θ=0 and 0.2 to θ=10. What actions minimize posterior expected squared loss and absolute loss, respectively?",
+    "correct": "2 under squared loss and 0 under absolute loss.",
+    "wrong": [
+      "0 under squared loss and 2 under absolute loss.",
+      "2 under both losses.",
+      "10 under both losses."
+    ],
+    "explanation": "The squared-loss Bayes action is the posterior mean, 2. An absolute-loss action is a posterior median, uniquely 0 for this two-point distribution with 80% mass at zero.",
+    "hint": "Match the loss function to its relevant posterior summary.",
+    "skill": "estimation actions depend on loss",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-07",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Allocating a stratified sample",
+    "prompt": "A population has two equally sized strata with outcome standard deviations 2 and 4. Sampling costs per observation are equal, strata are sampled independently, finite-population corrections are negligible and the total sample is fixed. What continuous allocation minimizes the variance of the stratified mean?",
+    "correct": "Allocate samples in ratio n₁:n₂=1:2.",
+    "wrong": [
+      "Allocate equal samples because population shares are equal.",
+      "Allocate in ratio 1:4 by using variances instead of standard deviations.",
+      "Sample only the first stratum because its variance is smaller."
+    ],
+    "explanation": "Neyman allocation is proportional to population share times within-stratum standard deviation. Equal shares therefore give a sample ratio of 2:4=1:2.",
+    "hint": "Minimize the sum of weighted stratum-mean variances subject to the sample-size budget.",
+    "skill": "allocating a stratified sample",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-08",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Measurement quality versus sample size",
+    "prompt": "A budget of 20 buys independent unbiased measurements of one population mean. Method A costs 1 per observation and gives variance 4 per observation. Method B costs 2 and gives variance 1. Assume these are the only differences and compare using one method for the entire sample. Which yields the more precise sample mean?",
+    "correct": "B, with variance 0.1 rather than A’s 0.2.",
+    "wrong": [
+      "A, because it buys twice as many observations.",
+      "They tie because B costs twice as much.",
+      "B, with variance 1 rather than A’s 4 for the sample means."
+    ],
+    "explanation": "The budget buys n_A=20 and n_B=10. Their mean variances are 4/20=0.2 and 1/10=0.1, so the reduction in observation noise outweighs the smaller sample.",
+    "hint": "Translate the budget into each sample size before computing variance of the mean.",
+    "skill": "measurement quality versus sample size",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-09",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "More bootstrap replicates are not more data",
+    "prompt": "An analyst increases the number of bootstrap replicates from 1,000 to 100,000 while keeping the original sample fixed. What uncertainty is directly reduced?",
+    "correct": "Monte Carlo error in approximating the bootstrap distribution.",
+    "wrong": [
+      "The original estimator’s true sampling variance must fall by a factor of 100.",
+      "Bias from a nonrepresentative sampling frame must disappear.",
+      "The population variance must shrink."
+    ],
+    "explanation": "More resamples better approximate the conditional bootstrap distribution generated from the same data. They do not create new independent population information or repair a defective sampling design.",
+    "hint": "Distinguish numerical approximation error from uncertainty caused by observing only one sample.",
+    "skill": "more bootstrap replicates are not more data",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "statistics-economics-u6-10",
+    "course": "statistics-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Exchangeability in a permutation test",
+    "prompt": "Two independent samples come from populations with equal means but different variances and different distribution shapes. An analyst pools raw observations and randomly permutes group labels. Is equality of means alone enough to justify finite-sample exactness of this raw-label permutation test?",
+    "correct": "No; equal means alone do not make the pooled observations exchangeable across labels.",
+    "wrong": [
+      "Yes; equality of means implies identical distributions.",
+      "Yes; independent samples always permit any label permutation under a mean null.",
+      "No; permutation tests are never exact under any null."
+    ],
+    "explanation": "The usual exact permutation argument requires label exchangeability under the null, such as identical distributions under an appropriate design. A mean-only null permits unequal distributions and does not supply that invariance.",
+    "hint": "Check whether the full joint distribution is invariant to the proposed label permutations.",
+    "skill": "exchangeability in a permutation test",
+    "sourceUrls": [
+      "https://stat135.berkeley.edu/fall-2026/syllabus.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]
