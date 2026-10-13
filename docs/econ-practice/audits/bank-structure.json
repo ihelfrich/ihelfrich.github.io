@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.14",
-  "bankSHA256": "1547a8305cfd0883f283d0e0c92b0d651424f647b87cbb9535ee49666bc71c5e",
+  "bankVersion": "2026.10.12.15",
+  "bankSHA256": "6a612d31c0ba54576d1bc54ff5823582a68942d3b3cfbf45659eece5f8f2c7b6",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -3407,20 +3407,20 @@
       "topic": "1.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:mrs:01",
-        "prompt": "For u(x,y) = xy at x = 2 and y = 6, what is MUx/MUy?",
-        "answer": 3,
-        "explanation": "MUx = y and MUy = x, so their ratio is y/x = 3."
+        "prompt": "For u(x,y) = xy at x = 2 and y = 5, what is MUx/MUy?",
+        "answer": 2.5,
+        "explanation": "MUx = y and MUy = x, so their ratio is y/x."
       },
       "last": {
         "id": "college-micro:mrs:24",
-        "prompt": "For u(x,y) = xy at x = 25 and y = 75, what is MUx/MUy?",
-        "answer": 3
+        "prompt": "For u(x,y) = xy at x = 25 and y = 51, what is MUx/MUy?",
+        "answer": 2.04
       }
     },
     {
@@ -3495,20 +3495,20 @@
       "topic": "2.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:elastic-demand:01",
-        "prompt": "Demand is Q = 100 − 2P. At P = 25, what is the absolute point elasticity of demand?",
-        "answer": 1,
-        "explanation": "Quantity is 50 and |dQ/dP| = 2. Thus 2 × 25/50 = 1."
+        "prompt": "Demand is Q = 100 − 2P. At P = 10, what is the absolute point elasticity of demand?",
+        "answer": 0.25,
+        "explanation": "Quantity is 80 and |dQ/dP| = 2. Thus the absolute elasticity is 2 times price divided by quantity."
       },
       "last": {
         "id": "college-micro:elastic-demand:24",
-        "prompt": "Demand is Q = 192 − 2P. At P = 48, what is the absolute point elasticity of demand?",
-        "answer": 1
+        "prompt": "Demand is Q = 192 − 2P. At P = 56, what is the absolute point elasticity of demand?",
+        "answer": 1.4
       }
     },
     {
@@ -3627,20 +3627,20 @@
       "topic": "5.1",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 15,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:mixed-strategy:01",
-        "prompt": "A player earns 2 from Up against Left and 0 against Right; Down earns 0 against Left and 2 against Right. At what probability of Left is this player indifferent?",
-        "answer": 0.5,
-        "explanation": "Expected payoffs are a·p and a·(1−p). Equality requires p = 1/2."
+        "prompt": "A player earns 2 from Up against Left and 0 against Right; Down earns 0 against Left and 4 against Right. At what probability of Left is this player indifferent?",
+        "answer": 0.667,
+        "explanation": "Set the expected payoff from Up equal to that from Down and solve for the opponent’s probability of Left. This indifference probability alone does not specify a full equilibrium."
       },
       "last": {
         "id": "college-micro:mixed-strategy:24",
-        "prompt": "A player earns 25 from Up against Left and 0 against Right; Down earns 0 against Left and 25 against Right. At what probability of Left is this player indifferent?",
-        "answer": 0.5
+        "prompt": "A player earns 25 from Up against Left and 0 against Right; Down earns 0 against Left and 10 against Right. At what probability of Left is this player indifferent?",
+        "answer": 0.286
       }
     },
     {
@@ -3649,20 +3649,20 @@
       "topic": "5.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 5,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:repeated-collusion:01",
-        "prompt": "Per-period cooperation yields 5; one-time deviation yields 8; permanent punishment yields 2. With grim trigger and infinite repetition, what is the minimum discount factor supporting cooperation?",
-        "answer": 0.5,
-        "explanation": "The incentive constraint gives δ ≥ (deviation−cooperation)/(deviation−punishment) = 3/6."
+        "prompt": "Per-period cooperation yields 5; the best one-time deviation yields 7; permanent punishment yields 2. Assume the punishment is a credible stage-game equilibrium, these are the relevant payoffs for every player, and actions are perfectly observed. With grim trigger and infinite repetition, what is the minimum common discount factor supporting cooperation?",
+        "answer": 0.4,
+        "explanation": "Compare cooperation forever with the best deviation followed by credible punishment: δ ≥ (deviation−cooperation)/(deviation−punishment)."
       },
       "last": {
         "id": "college-micro:repeated-collusion:24",
-        "prompt": "Per-period cooperation yields 28; one-time deviation yields 31; permanent punishment yields 25. With grim trigger and infinite repetition, what is the minimum discount factor supporting cooperation?",
-        "answer": 0.5
+        "prompt": "Per-period cooperation yields 28; the best one-time deviation yields 33; permanent punishment yields 25. Assume the punishment is a credible stage-game equilibrium, these are the relevant payoffs for every player, and actions are perfectly observed. With grim trigger and infinite repetition, what is the minimum common discount factor supporting cooperation?",
+        "answer": 0.625
       }
     },
     {
@@ -3677,13 +3677,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:pigou:01",
-        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 10. What per-unit Pigouvian tax implements that quantity in a competitive market?",
+        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 10. Assume an interior efficient quantity, no other distortions, and a unique market equilibrium after taxation. What per-unit Pigouvian tax implements that quantity in a competitive market?",
         "answer": 20,
         "explanation": "Evaluate marginal external damage at the efficient quantity, not at the unregulated quantity."
       },
       "last": {
         "id": "college-micro:pigou:24",
-        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 33. What per-unit Pigouvian tax implements that quantity in a competitive market?",
+        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 33. Assume an interior efficient quantity, no other distortions, and a unique market equilibrium after taxation. What per-unit Pigouvian tax implements that quantity in a competitive market?",
         "answer": 66
       }
     },
@@ -3693,20 +3693,20 @@
       "topic": "6.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 22,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-micro:insurance:01",
-        "prompt": "Initial wealth is 1000. A loss of 200 occurs with probability 0.1. What is the actuarially fair premium for full insurance?",
-        "answer": 20,
-        "explanation": "The fair premium equals expected loss, 0.1 × 200. Risk aversion affects willingness to pay above that amount, not expected loss."
+        "prompt": "Initial wealth is 1000. A loss of 100 occurs with probability 0.05. What is the actuarially fair premium for full insurance?",
+        "answer": 5,
+        "explanation": "The actuarially fair premium equals expected loss, probability times loss, without administrative costs or a loading."
       },
       "last": {
         "id": "college-micro:insurance:24",
-        "prompt": "Initial wealth is 1230. A loss of 200 occurs with probability 0.1. What is the actuarially fair premium for full insurance?",
-        "answer": 20
+        "prompt": "Initial wealth is 1230. A loss of 330 occurs with probability 0.08. What is the actuarially fair premium for full insurance?",
+        "answer": 26.4
       }
     },
     {

@@ -35,3 +35,8 @@ test('all undergraduate numeric keys agree with independently evaluated prompt q
  const items=buildBank().filter(q=>q.course.startsWith('college-')&&q.format==='numeric');assert.equal(items.length,648);
  for(const q of items){assert.ok(checks[q.family],q.family);const expected=checks[q.family](values(q));assert.ok(Number.isFinite(expected)&&Math.abs(expected-q.answer)<.000501,`${q.id}: parsed ${values(q)}, expected ${expected}, key ${q.answer}`);}
 });
+
+test('repeated undergraduate micro calculations vary keyed outcomes',()=>{
+ const bank=buildBank().filter(q=>q.course==='college-micro');
+ for(const family of ['mrs','elastic-demand','mixed-strategy','repeated-collusion','insurance'])assert.ok(new Set(bank.filter(q=>q.family===family).map(q=>q.answer)).size>=5,family);
+});
