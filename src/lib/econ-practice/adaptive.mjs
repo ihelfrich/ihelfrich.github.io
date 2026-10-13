@@ -1,9 +1,15 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v6';
-export function newState(){return {version:2,history:[],topics:{},posteriors:{},courseSessions:{}};}
+export const ENGINE_VERSION='content-constrained-v7';
+export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
 const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
+function requireCompatibleModel(state,sessionId,course,unit,modelVersion){
+ const key=posteriorKey(sessionId,course,unit);
+ if(!state.posteriors[key])return;
+ const models=state.posteriorModels?.[key]?[state.posteriorModels[key]]:[...new Set(state.history.filter(h=>h.sessionId===sessionId&&h.course===course&&h.unit===unit&&h.psychometricEligible).map(h=>h.modelVersion))];
+ if(models.length!==1||models[0]!==modelVersion)throw new Error('Assessment model changed; rebuild the occasion evidence before continuing.');
+}
 export function score(item,response){return gradeResponse(item,response).correct;}
 export function recordAnswer(state,item,options){return recordWithIndex(state,item,options);}
 // A recorder owns appends during a replay. Do not mutate its history externally.
@@ -18,13 +24,14 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
  const familyKey=JSON.stringify([item.course,item.family]);
  const firstExposure=index?!index.families.has(familyKey):!state.history.some(h=>h.course===item.course&&h.family===item.family);
- t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
- t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
- t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
  const dimension=posteriorKey(sessionId,item.course,item.unit);
  // Repeated family variants and assisted practice do not count as independent IRT evidence.
  const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
- if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
+ if(psychometricEligible)requireCompatibleModel(state,sessionId,item.course,item.unit,p.modelVersion);
+ t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
+ t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
+ t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
+ if(psychometricEligible){state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);state.posteriorModels??={};state.posteriorModels[dimension]=p.modelVersion;}
  state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,score:grade.score,earned:grade.earned,possible:grade.possible,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion,parameterStatus:p.status});
  if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
  return state;
@@ -52,7 +59,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
   const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibration);
   const deficit=courses[course].weights[q.unit-1]*(session.length+1)-unitCounts[q.unit-1];
   let utility=2*deficit;
-  if(mode==='assessment')utility+=expectedInformation(weights,params);
+  if(mode==='assessment'){requireCompatibleModel(state,sessionId,course,q.unit,params.modelVersion);utility+=expectedInformation(weights,params);}
   else{
    const accuracy=t?((t.credit??t.correct)+1)/(t.attempts+2):.5;
    const targetDifficulty=accuracy>.8?3:accuracy<.45?1:2;

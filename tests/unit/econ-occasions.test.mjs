@@ -29,7 +29,11 @@ test('reports distinguish authored estimates from calibrated evidence and suppre
  recordAnswer(state,a,{response:a.answer,mode:'assessment',sessionId:'one',eventId:'a'});
  const seeded=progress(state,'ap-micro',{sessionId:'one'})[0];assert.equal(seeded.measurementStatus,'provisional');assert.deepEqual(seeded.modelVersions,['author-seeded-rasch-v1']);assert.ok(seeded.estimate);
  const calibration={status:'approved',bankVersion:b.version,id:'synthetic-test-model',items:{[b.id]:{a:1,b:0}}};
- recordAnswer(state,b,{response:b.answer,mode:'assessment',sessionId:'one',eventId:'b',calibration});
+ const before=structuredClone(state);
+ assert.throws(()=>recordAnswer(state,b,{response:b.answer,mode:'assessment',sessionId:'one',eventId:'b',calibration}),/model changed/);assert.deepEqual(state,before);
+ assert.throws(()=>selectItem([b],state,{course:'ap-micro',mode:'assessment',sessionId:'one',calibration}),/model changed/);
+ // A legacy or externally supplied mixed history remains explicitly unreportable.
+ state.history.push({...state.history[0],eventId:'legacy-mixed',modelVersion:calibration.id});
  const mixed=progress(state,'ap-micro',{sessionId:'one'})[0];assert.equal(mixed.measurementStatus,'incompatible-model-versions');assert.equal(mixed.estimate,null);
  const clean=newState();recordAnswer(clean,b,{response:b.answer,mode:'assessment',sessionId:'two',eventId:'c',calibration});
  assert.equal(progress(clean,'ap-micro',{sessionId:'two'})[0].measurementStatus,'calibrated');

@@ -314,3 +314,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Report estimates are null when the requested session/unit has no eligible evidence; an untouched routing prior is no longer exposed as measured performance. Reports include measurementStatus and modelVersions. Authored-parameter evidence is explicitly provisional.
 - Records preserve parameter status. Reports suppress numerical estimates for mixed model versions without linking. This is a reporting guard; operational model activation/pinning and protection against mixed-model routing remain unfinished and must precede deployment of calibrated models.
 - Regression covers no-evidence, provisional, synthetic approved-model and mixed-version cases.78 focused tests pass. No empirical calibration or bank change.
+
+## Continuation: reject incompatible model updates and routing
+
+- Enginev7/statev3 stores the model ID for each session/course/unit posterior. A new eligible response using another model is rejected before topic/history/posterior mutation. Assessment information selection likewise rejects candidates whose parameter model conflicts with accumulated evidence.
+- Legacy state without posteriorModels derives the existing model from eligible history; ambiguous or missing provenance fails closed. New indexed replay retains its efficient model metadata path.
+- Extended regression verifies update/routing rejection and exact state preservation, while retaining suppression for externally supplied legacy mixed history.78 tests pass.
+- This assumes model IDs identify immutable parameter sets. Operational immutable model storage, session-level model assignment, parameter hashes and explicit linked rebuild procedures remain unfinished; no approved model is activated in the live service.
