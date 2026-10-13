@@ -47,7 +47,15 @@ async function route(request,env){
    await audit('response-export',next??'empty',{count:page.length,after:window.after,snapshotThrough:window.until});
    return {rows:page,nextCursor:next,hasMore:rows.length>500,snapshotThrough:window.until};
   }
-  if(path==='/admin/summary'&&method==='GET')return {courses:await all(env.DB,`SELECT s.course,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,AVG(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS observedAccuracy,SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course`)};
+  if(path==='/admin/summary'&&method==='GET')return {definition:'Descriptive response statistics by course and mode; not ability estimates. Late/completed-session receipts are retained but excluded from accuracy and credit.',courses:await all(env.DB,`SELECT s.course,s.mode,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,
+   SUM(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN 1 ELSE 0 END) AS countedAttempts,
+   SUM(CASE WHEN r.validity IN ('late-receipt','after-completion') THEN 1 ELSE 0 END) AS excludedReceipts,
+   AVG(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS attemptAccuracy,
+   SUM(CASE WHEN r.attempt_number=1 AND r.validity NOT IN ('late-receipt','after-completion') THEN 1 ELSE 0 END) AS firstAttempts,
+   AVG(CASE WHEN r.attempt_number=1 AND r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS firstAttemptAccuracy,
+   AVG(CASE WHEN r.attempt_number=1 AND r.validity NOT IN ('late-receipt','after-completion') THEN r.score END) AS firstAttemptMeanCredit,
+   SUM(CASE WHEN r.attempt_number=1 AND r.hints_used>0 AND r.validity NOT IN ('late-receipt','after-completion') THEN 1 ELSE 0 END) AS assistedFirstAttempts,
+   SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course,s.mode ORDER BY s.course,s.mode`)};
   throw new HttpError(404,'Unknown instructor route.');
  }
  const p=await participant(request,env);

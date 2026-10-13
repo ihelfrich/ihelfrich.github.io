@@ -173,3 +173,16 @@ test('response exports pin their ledger boundary while later answers continue ar
  }
  t.env.DB.close();
 });
+
+test('instructor summary separates practice retries, first attempts, assessments and excluded receipts',async()=>{
+ const t=setup(),practice=await enrolled(t,'practice'),a=answer(practice.next),item=bank.get(practice.next.item.id);
+ const wrong=item.format==='choice'?(a.response+1)%item.options.length:item.format==='multipart'?Object.fromEntries(Object.entries(a.response).map(([k,v])=>[k,v+100])):a.response+100;
+ await t.call(`/sessions/${practice.s.sessionId}/answers`,{...a,response:wrong},practice.p.token);
+ await t.call(`/sessions/${practice.s.sessionId}/answers`,{...a,eventId:crypto.randomUUID(),attemptNumber:2},practice.p.token);
+ const assessment=await enrolled(t,'assessment');await t.call(`/sessions/${assessment.s.sessionId}/answers`,answer(assessment.next),assessment.p.token);
+ const late=await enrolled(t,'practice');await t.call(`/sessions/${late.s.sessionId}/complete`,{},late.p.token);await t.call(`/sessions/${late.s.sessionId}/answers`,answer(late.next),late.p.token);
+ const report=await t.call('/admin/summary',null,'test-only-admin');assert.equal(report.status,200);assert.equal(report.courses.length,2);
+ const p=report.courses.find(r=>r.mode==='practice'),d=report.courses.find(r=>r.mode==='assessment');
+ assert.equal(p.responses,3);assert.equal(p.countedAttempts,2);assert.equal(p.excludedReceipts,1);assert.equal(p.attemptAccuracy,.5);assert.equal(p.firstAttempts,1);assert.equal(p.firstAttemptAccuracy,0);assert.equal(p.firstAttemptMeanCredit,0);
+ assert.equal(d.responses,1);assert.equal(d.firstAttempts,1);assert.equal(d.firstAttemptAccuracy,1);assert.equal(d.firstAttemptMeanCredit,1);t.env.DB.close();
+});

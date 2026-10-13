@@ -385,3 +385,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added migration0003 with response_participant_ledger(participant_id,ledger_sequence), supporting participant-owned export/replay ranges and maximum-sequence lookup. Existing time index retained for its separate access pattern.
 - Query-plan regression demonstrates the pre-migration temporary ordering step, then verifies the new bounded read uses the ledger index without temporary sorting and the high-water lookup uses its covering index. This is plan evidence, not a production latency benchmark.
 - Response/auth integration fixtures now discover and execute every SQL migration in sorted order rather than stopping at0002.83 focused tests pass. Migration is prepared and tested locally; not applied to any remote database. Persistent checkpoints remain open.
+
+## Continuation: interpretable instructor aggregate statistics
+
+- Replaced pooled course-only accuracy with course/mode summaries. API distinguishes total receipts, counted attempts, excluded late/after-completion receipts, all-attempt accuracy, first-attempt accuracy, first-attempt mean normalized credit and assisted first attempts. Counts of calibration-eligible responses remain separate.
+- Instructor summary labels now include practice/assessment mode. API explicitly describes these as descriptive response statistics, not ability estimates. First-attempt statistics can still include hinted responses; assisted count makes this visible rather than silently treating all first attempts as unassisted.
+- Regression constructs wrong-first/correct-retry practice, a correct assessment and a retained after-completion receipt. Verifies separate denominators and no retry/late inflation of first-attempt accuracy.84 focused tests pass. No deployment.
