@@ -437,3 +437,7 @@ A regression starts an assigned assessment on an archived fixture version that d
 
 Candidate reviews now match the SHA-256 of the entire canonical report as well as the source-data hash, selected model, bank version, course and unit. The validator returns the report hash and its serialization format. This closes the previous gap where changed fitted parameters or diagnostics could retain a technically matching source-data review. Canonical serialization rejects non-finite or unsupported values instead of silently coercing or dropping them. Tests confirm parameter/diagnostic changes invalidate review, object key order preserves the hash, scope mismatches fail, and synthetic reports remain ineligible. All 98 focused tests and bank structural checks pass. This is review-artifact integrity, not an operational model registry, reviewer authentication or empirical validation.
 
+# Calibration readiness schema checks
+
+The candidate validator now rejects missing or malformed non-synthetic provenance, truthy strings/objects in diagnostic flags, invalid holdout counts, malformed parameter objects, unsupported model labels, non-0/1 asymptotes labeled 1PL/2PL, and empty/non-text review evidence. Regression cases supply matching report hashes so schema failures cannot be masked by stale-review rejection. All 99 focused tests and the structural bank audit pass. The review-evidence cases additionally retain all other valid gates to isolate the intended failure. These checks establish structural readiness only, not empirical validity or authenticated approval.
+

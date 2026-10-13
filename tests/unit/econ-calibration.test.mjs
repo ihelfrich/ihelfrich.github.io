@@ -60,3 +60,21 @@ test('canonical artifact hashing rejects silently lossy JSON values',async()=>{
  assert.equal(canonicalJSON({z:[1,null],a:{y:true,x:'text'}}),'{'+'"a":{"x":"text","y":true},"z":[1,null]}');
  for(const value of [NaN,Infinity,{a:undefined},[undefined],new Array(2),new Date(),{f:()=>1},1n])assert.throws(()=>canonicalJSON(value));
 });
+
+test('calibration readiness requires typed provenance, diagnostics, counts and review evidence',async()=>{
+ const {validateCandidate,reportHash}=await import('../../scripts/econ-practice/validate-candidate.mjs');
+ const base={synthetic:false,bankVersion:'fixture',course:'ap-micro',unit:2,sourceSHA256:'b'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:100},items:{q:{a:1,b:0,c:0,d:1}}}}};
+ function check(report,patch={}){
+  const gates=Object.fromEntries(['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'].map(k=>[k,{decision:'accepted',evidence:'Technical fixture only',rationale:'Tests validation, not scientific adequacy'}]));
+  const review={reviewer:'Fixture',reviewedAt:'2026-10-12T00:00:00Z',sourceSHA256:report.sourceSHA256,reportSHA256:reportHash(report),model:'2PL',bankVersion:'fixture',course:'ap-micro',unit:2,...patch,gates:{...gates,...patch.gates}};
+  return validateCandidate(report,{bankVersion:'fixture',review});
+ }
+ assert.equal(check(base).readyForInstructorApproval,true);
+ for(const value of [null,0,1,'false','',{},[]])assert.equal(check({...base,synthetic:value}).readyForInstructorApproval,false);
+ const missing=structuredClone(base);delete missing.synthetic;assert.equal(check(missing).readyForInstructorApproval,false);
+ for(const field of ['converged','finiteParameters','positiveFiniteCovarianceDiagonal'])for(const value of [false,null,1,'true','false',{},[]]){const r=structuredClone(base);r.models['2PL'][field]=value;assert.equal(check(r).readyForInstructorApproval,false,`${field}: ${JSON.stringify(value)}`);}
+ for(const value of [0,-1,1.5,'100',true,null]){const r=structuredClone(base);r.models['2PL'].holdout.predictions=value;assert.equal(check(r).readyForInstructorApproval,false);}
+ for(const parameters of [null,[],{a:1,b:0,c:.2,d:1},{a:1,b:0,c:0,d:.9}]){const r=structuredClone(base);r.models['2PL'].items.q=parameters;assert.equal(check(r).readyForInstructorApproval,false);}
+ for(const evidence of ['', '   ',{},[],true])assert.equal(check(base,{gates:{content:{decision:'accepted',evidence,rationale:'Fixture'}}}).readyForInstructorApproval,false);
+ for(const report of [null,[],true,'report'])assert.equal(validateCandidate(report).readyForInstructorApproval,false);
+});

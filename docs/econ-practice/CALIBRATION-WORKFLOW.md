@@ -39,6 +39,8 @@ Run `node scripts/econ-practice/validate-candidate.mjs REPORT.json BANK_VERSION 
 
 The validator emits `reportSHA256` using `sorted-json-sha256-v1`: recursively sort object keys, preserve array order, serialize finite JSON, then hash the UTF-8 bytes with SHA-256. This is a content hash, not the hash of the report file's whitespace. The review must include that exact `reportSHA256`, along with `model`, `bankVersion`, `course`, `unit`, a valid `reviewedAt`, reviewer identity and matching 64-character hexadecimal `sourceSHA256`. Changing any parameters, diagnostics or report metadata invalidates the existing review. Obtain a fresh review for the changed report; do not mechanically copy a new hash into an old review.
 
+Readiness requires explicit `synthetic: false`, boolean `true` convergence/parameter/covariance flags, and a positive safe-integer held-out prediction count. Strings, missing flags and null values are not evidence. Gate evidence and rationale must be nonempty text. Only the implemented 1PL/2PL model labels are accepted, with fixed lower/upper asymptotes 0 and 1. These structural checks do not verify provenance independently or replace substantive review of the diagnostics.
+
 The validator leaves status as candidate even when the review is complete. Hash binding detects changes; it does not authenticate the reviewer or establish that the evidence is adequate. Actual immutable operational registration, authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
 
 ## Descriptive item screening
