@@ -1,3 +1,4 @@
+import {recordModelRelease,latestModelRelease} from '../../services/econ-response/model-releases.mjs';
 import {sessionModels} from '../../services/econ-response/session-models.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -114,5 +115,39 @@ test('model approval requires explicit instructor decision and is idempotent wit
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM session_model_pins').first()).n,0);
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM calibrations').first()).n,0);
   assert.equal((await call('/admin/model-packages/calibration-'+'0'.repeat(64)+'/approve',body)).httpStatus,404);
+ }finally{DB.close();}
+});
+
+test('release history supports withdrawal and rollback with atomic stale-write protection',async()=>{
+ const {DB,artifact,call}=fixture(),env={DB},actor={id:'release-fixture'};
+ try{
+  await call('/admin/model-packages',artifact);
+  const approved=await call(`/admin/model-packages/${artifact.id}/approve`,{confirmApproval:true,rationale:'Technical fixture only.'});
+  const input={confirmRelease:true,bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit,approvalId:approved.approvalId,expectedReleaseId:null,rationale:'Exercise release transaction only.'};
+  await assert.rejects(recordModelRelease(env,actor,{...input,confirmRelease:false}),/confirmation/);
+  await assert.rejects(recordModelRelease(env,actor,{...input,unit:artifact.unit+1}),/scope mismatch/);
+  await assert.rejects(recordModelRelease(env,actor,{...input,approvalId:null}),/no active release/);
+  const starts=await Promise.all([recordModelRelease(env,actor,input),recordModelRelease(env,actor,input)]);
+  assert.equal(starts[0].release.id,starts[1].release.id);
+  const first=starts[0].release;assert.equal(first.revision,1);
+  assert.equal((await DB.prepare("SELECT COUNT(*) n FROM audit_log WHERE action='model-release-recorded'").first()).n,1);
+  const races=await Promise.allSettled([
+   recordModelRelease(env,actor,{...input,expectedReleaseId:first.id,approvalId:null,rationale:'Withdraw for investigation.'}),
+   recordModelRelease(env,actor,{...input,expectedReleaseId:first.id,approvalId:null,rationale:'Competing withdrawal.'})
+  ]);
+  assert.equal(races.filter(x=>x.status==='fulfilled').length,1);
+  assert.equal(races.find(x=>x.status==='rejected').reason.status,409);
+  const withdrawn=await latestModelRelease(env,input);assert.equal(withdrawn.revision,2);assert.equal(withdrawn.approval_id,null);
+  const rollback=await recordModelRelease(env,actor,{...input,expectedReleaseId:withdrawn.id,rationale:'Restore previously reviewed approval after investigation.'});
+  assert.equal(rollback.release.revision,3);assert.equal(rollback.release.approval_id,approved.approvalId);
+  assert.equal((await recordModelRelease(env,actor,input)).release.id,first.id,'Retry returns original receipt, never reinstates old state');
+  assert.equal((await latestModelRelease(env,input)).id,rollback.release.id);
+  assert.equal((await DB.prepare('SELECT COUNT(*) n FROM session_model_pins').first()).n,0);
+  await assert.rejects(DB.prepare("UPDATE model_releases SET rationale='changed'").run(),/immutable/);
+  await assert.rejects(DB.prepare('DELETE FROM model_releases').run(),/retained/);
+  const raw=DB.prepare('INSERT INTO model_releases VALUES (?,?,?,?,?,?,?,?,?,?)');
+  await assert.rejects(raw.bind('bad-scope',artifact.bankVersion,artifact.course,artifact.unit+1,approved.approvalId,null,1,'now',actor.id,'test').run(),/scope mismatch/);
+  await assert.rejects(raw.bind('stale',artifact.bankVersion,artifact.course,artifact.unit,approved.approvalId,first.id,4,'now',actor.id,'test').run(),/reload/);
+  assert.equal((await DB.prepare("SELECT COUNT(*) n FROM audit_log WHERE action='model-release-recorded'").first()).n,3);
  }finally{DB.close();}
 });
