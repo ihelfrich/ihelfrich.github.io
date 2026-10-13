@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import {courses,buildBank,families} from '../../lib/econ-practice/index.mjs';
+import '../../styles/econ-practice.css';
+const bank=buildBank();
+const api=import.meta.env.PUBLIC_ECON_API_URL??'';
+---
+<Base title="Economics practice" description="Adaptive economics practice with original questions, worked explanations, and topic-level review.">
+<div class="econ-practice" id="econ-app" data-api={api}>
+ <header><p class="eyebrow"><a href="/teaching/">Teaching</a> / Economics practice</p><h1>Economics practice</h1><p class="intro">Work through economic choices, market outcomes, and policy. Practice adjusts to your answers; diagnostics sample across the course.</p></header>
+ <p id="connection-status" role="status">Connecting to the response service…</p>
+ <noscript>This practice platform needs JavaScript to display questions and save answers.</noscript>
+ <section id="setup" aria-labelledby="setup-title">
+  <h2 id="setup-title">Choose your practice</h2>
+  <div class="setup-grid">
+   <label>Course<select id="course">{Object.entries(courses).map(([id,c])=><option value={id}>{c.name}</option>)}</select></label>
+   <label>Session<select id="mode"><option value="practice">Adaptive practice</option><option value="assessment">Diagnostic assessment</option></select></label>
+   <label>Coverage<select id="unit"><option value="0">All units</option></select></label>
+  </div>
+  <p id="course-count"></p>
+  <p id="mode-description">Practice includes immediate feedback and review. A diagnostic withholds explanations until you finish.</p>
+  <div id="collection-notice"><h3>Your answer history</h3><p>Submitted answers, question versions, timing, hint use, and progress are stored for Dr. Helfrich’s teaching and question-quality review. Anonymous practice uses a random browser identifier. It does not verify your identity or follow you across devices. Signed-in students can keep a shared history across devices; assigned assessments require sign-in.</p><label class="consent"><input id="consent" type="checkbox"/> I understand that my submitted answers and practice activity will be saved.</label></div>
+  <button id="start" disabled>Start session</button>
+  <p id="setup-error" role="alert"></p>
+ </section>
+ <section id="question-panel" hidden aria-labelledby="question-heading">
+  <div class="question-meta"><span id="question-meta"></span><button id="finish" class="secondary">Finish session</button></div>
+  <h2 id="question-heading" tabindex="-1"></h2>
+  <div id="figure"></div>
+  <form id="answer-form"><fieldset id="answer-options"><legend>Your answer</legend></fieldset><button id="submit-answer" type="submit">Submit answer</button></form>
+  <div class="actions"><button id="hint" class="secondary">Show a hint</button><button id="next" hidden>Next question</button></div>
+  <p id="receipt" role="status"></p><button id="retry-save" class="secondary" hidden>Retry saving queued answer</button><div id="feedback" aria-live="polite"></div>
+ </section>
+ <section id="report" hidden aria-labelledby="report-heading"><h2 id="report-heading" tabindex="-1">Session results</h2><div id="report-content"></div><button id="again">Choose another session</button><button id="export" class="secondary">Download this session</button></section>
+ <section class="bank-notes"><h2>Coverage and interpretation</h2><table><thead><tr><th>Course</th><th>Question families</th><th>Variants</th></tr></thead><tbody>{Object.entries(courses).map(([id,c])=><tr><td>{c.name}</td><td>{families.filter(f=>f.course===id).length}</td><td>{bank.filter(q=>q.course===id).length}</td></tr>)}</tbody></table><p>Variants change numbers or context within a question family. They are not independent tests of the same skill. Initial difficulty ratings are authored estimates; diagnostic results are formative and do not predict an AP score. AP Micro covers all six units. The other tracks currently contain introductory and intermediate selections, with further coverage under development.</p><p>Original practice material; not affiliated with or endorsed by the College Board. Course alignment uses the <a href="https://apcentral.collegeboard.org/courses/ap-microeconomics">AP Microeconomics framework</a> and <a href="https://apcentral.collegeboard.org/courses/ap-macroeconomics">AP Macroeconomics framework</a>.</p></section>
+</div>
+<script>import '../../scripts/econ-practice.mjs';</script>
+</Base>

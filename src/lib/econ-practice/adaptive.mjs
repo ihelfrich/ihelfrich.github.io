@@ -1,0 +1,60 @@
+import {courses,prerequisites} from './curriculum.mjs';
+import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
+export const ENGINE_VERSION='content-constrained-v1';
+export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
+export function score(item,response){
+ if(item.format==='choice')return Number.isInteger(response)&&response>=0&&response<item.options.length&&response===item.answerIndex;
+ if(typeof response!=='string'&&typeof response!=='number')return false;
+ if(String(response).trim()==='')return false;
+ const value=Number(response);return Number.isFinite(value)&&Math.abs(value-item.answer)<=item.tolerance;
+}
+export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
+ if(eventId&&state.history.some(h=>h.eventId===eventId))return state;
+ const correct=score(item,response),key=`${item.course}:${item.topic}`;
+ const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
+ const firstExposure=!state.history.some(h=>h.course===item.course&&h.family===item.family);
+ t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
+ t.due=at+(correct?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
+ t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
+ const dimension=`${item.course}:${item.unit}`;const p=itemParameters(item,calibration);
+ // Repeated family variants and assisted practice do not count as independent IRT evidence.
+ const psychometricEligible=measurementEligible&&mode==='assessment'&&firstExposure&&hints===0;
+ if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
+ state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion});
+ return state;
+}
+export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration}={}){
+ const session=state.history.filter(h=>h.sessionId===sessionId&&h.course===course);
+ const used=new Set(session.map(h=>h.itemId));const families=new Set(session.map(h=>h.family));
+ let pool=bank.filter(q=>q.course===course&&(!unit||q.unit===Number(unit))&&(!topic||q.topic===topic)&&!used.has(q.id));
+ if(mode==='assessment')pool=pool.filter(q=>!families.has(q.family));
+ if(!pool.length)return null;
+ // Fill missing units before optimizing information; this is a hard coverage constraint.
+ if(mode==='assessment'&&!unit&&!topic){const seenUnits=new Set(session.map(h=>h.unit));const uncovered=pool.filter(q=>!seenUnits.has(q.unit));if(uncovered.length)pool=uncovered;}
+ const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
+ const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
+ const scored=pool.map(q=>{
+  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[`${course}:${q.unit}`]??prior();const params=itemParameters(q,calibration);
+  const deficit=courses[course].weights[q.unit-1]*(session.length+1)-unitCounts[q.unit-1];
+  let utility=2*deficit;
+  if(mode==='assessment')utility+=expectedInformation(weights,params);
+  else{
+   const accuracy=t?(t.correct+1)/(t.attempts+2):.5;
+   const targetDifficulty=accuracy>.8?3:accuracy<.45?1:2;
+   utility+=(!t?2:0)+(t&&t.due<=now?1.5:0)-.5*Math.abs(q.difficulty-targetDifficulty);
+   if(recentFamilies.has(q.family))utility-=5;
+   const needsPrereq=(prerequisites[q.topic]??[]).some(id=>{const p=state.topics[`${course}:${id}`];return p&&p.attempts>=2&&p.correct/p.attempts<.4;});
+   if(needsPrereq)utility-=1.5;
+  }
+  return {q,utility};
+ });
+ // Softmax randomized selection provides a known, nonzero propensity within the eligible pool.
+ // Family-level sampling first prevents prolific template families from gaining exposure by count.
+ const grouped=new Map();scored.forEach(x=>{if(!grouped.has(x.q.family))grouped.set(x.q.family,[]);grouped.get(x.q.family).push(x);});
+ const groups=[...grouped.values()];const max=Math.max(...groups.map(g=>g[0].utility));
+ const mass=groups.map(g=>Math.exp(Math.max(-30,g[0].utility-max)));const total=mass.reduce((a,b)=>a+b,0);
+ let draw=rng()*total,gi=groups.length-1;for(let i=0;i<groups.length;i++){draw-=mass[i];if(draw<0){gi=i;break;}}
+ const g=groups[gi],picked=g[Math.min(g.length-1,Math.floor(rng()*g.length))].q;
+ return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total/g.length,eligibleItems:pool.length,eligibleFamilies:groups.length,reason:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
+}
+export function progress(state,course){return courses[course].units.map((name,i)=>{const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1);return {unit:i+1,name,attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,uniqueFamilies:new Set(attempts.map(h=>h.family)).size,estimate:summarize(state.posteriors[`${course}:${i+1}`]??prior())};});}

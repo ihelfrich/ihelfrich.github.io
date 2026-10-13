@@ -38,6 +38,7 @@ export const RECORDS = freezeAll([
 
 /** Pages that belong in the command-K index but not in the header or footer. */
 export const SECONDARY_PAGES = freezeAll([
+  { label: "Economics practice", href: "/economics-practice", detail: "Adaptive microeconomics and macroeconomics practice and diagnostics" },
   { label: "Third Space Labs", href: "/third-space", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D." },
   { label: "Book a time", href: "/book", detail: "Tutoring, consulting, and job-market meetings, booked against Ian's open calendar times" },
   { label: "Colophon", href: "/colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack" },
