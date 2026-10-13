@@ -264,3 +264,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Recorded first substantive review of all15 undergraduate micro numeric families/360 variants. Added credible stage-equilibrium punishment, best-deviation, symmetric relevant payoffs and perfect monitoring to the repeated-collusion problem; clarified no-other-distortion/interior/unique-equilibrium assumptions for Pigouvian implementation.
 - MRS, point elasticity, mixing probabilities, collusion thresholds and insurance premiums now vary across variants. Independent prompt-based oracles verify all undergraduate numeric answers; new variation regression guards against constant-outcome families.68 focused tests pass.
 - Bank2026.10.12.15. Reconciliation verifies220 current family reviews with no errors. Only12 undergraduate macro numeric families remain without a first substantive review. Course breadth, second/independent reviews and empirical validation remain separate open gates.
+
+## Continuation: undergraduate macro first review complete
+
+- Recorded substantive first review of all12 undergraduate macro numeric families/288 variants. Clarified the primary-deficit ratio denominator as next-period GDP, consistent with the provided debt-dynamics equation.
+- Solow saving rates and real-exchange price ratios now produce24 distinct keyed answers per family.69 focused tests pass, including independent prompt-based calculations for all648 undergraduate numeric variants.
+- Bank2026.10.12.16. Historical reconciliation verifies all232 existing families against recorded first reviews, with no errors or pending first-review families. This is first self-review coverage, not independent/second review, curricular completeness or empirical calibration.
+- Next development priorities remain reliability of long-lived answer histories, version-pinned assignments, operational calibration/precision stopping, richer question formats, fuller curriculum coverage and deployment configuration. Live Cloudflare/Google setup is still outstanding; nothing pushed or deployed.
