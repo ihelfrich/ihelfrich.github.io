@@ -13,6 +13,7 @@ const groups=[...new Set(plan.map(c=>c.group))];
 {Object.entries(courses).map(([id,course])=>{
  const items=bank.filter(q=>q.course===id),familyCount=new Set(items.map(q=>q.family)).size;
  return <details class="session-answer"><summary>{course.name} — {items.length.toLocaleString('en-US')} questions</summary>{course.level&&<p>{course.level}</p>}<p>{familyCount} distinct question families. Numerical or contextual variants within a family practice the same underlying task.</p>
+ {course.prerequisites&&<><p>Recommended preparation:</p><ul>{course.prerequisites.map(prerequisite=><li>{prerequisite}</li>)}</ul></>}
  {course.units.map((unit,i)=>{
   const unitItems=items.filter(q=>q.unit===i+1);
   const tasks=[...new Map(unitItems.map(q=>[q.family,q.title])).values()];
