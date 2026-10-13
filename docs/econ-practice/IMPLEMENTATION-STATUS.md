@@ -225,3 +225,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Enginev5 inserts a prerequisite-review selection after two consecutive same-topic practice responses below half credit. It uses the selected course’s map and only candidates already within the requested unit/topic coverage.
 - After the prerequisite response, ordinary routing resumes unless another qualifying pattern occurs. Assessment selection is unchanged. The selection reason identifies the remediated topic and propensity is conditional on the narrowed eligible pool.
 - Regressions verify triggering, release after review, strict topic-filter preservation and assessment separation. All65 focused tests pass. Threshold and effectiveness remain formative author choices requiring student-data evaluation.
+
+## Continuation: current-bank review reconciliation
+
+- Added a reproducible reconciliation script and review-current.json. It reconstructs the four committed historical banks, verifies every stored review hash, and compares current item content while excluding only the global version field.
+- All142 previously reviewed AP Micro families match their first self-review content;90 other families have no recorded substantive review. No hash errors. Missing families, duplicate evidence and invalid single-item review cardinality fail visibly.
+- Matching evidence does not establish second review, independent review, empirical validation or release approval. This closes the stale-version bookkeeping gap without upgrading content release status. Run `node scripts/econ-practice/reconcile-reviews.mjs` after content changes; historical commits must be available locally.
