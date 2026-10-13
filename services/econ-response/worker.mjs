@@ -58,6 +58,14 @@ async function route(request,env){
    await audit('question-library-read',BANK_VERSION,{course,unit,count:items.length});
    return {bankVersion:BANK_VERSION,total:filtered.length,families:new Set(filtered.map(q=>q.family)).size,items,hints:Object.fromEntries(items.map(q=>[q.id,hintFor(q)])),hasMore:remaining.length>30,nextCursor:items.at(-1)?.id??null};
   }
+  if(path==='/admin/model-packages'&&method==='GET'){
+   const after=url.searchParams.get('after')??'';
+   requireValue(!after||/^calibration-[a-f0-9]{64}$/.test(after),'Invalid model package cursor.');
+   const records=await all(env.DB,'SELECT id,bank_version,course,unit,model,created_at FROM model_packages WHERE id>? ORDER BY id LIMIT 101',after);
+   const rows=records.slice(0,100).map(row=>({...row,status:'candidate',activated:false}));
+   await audit('model-package-directory-read',after||'start',{count:rows.length});
+   return {packages:rows,hasMore:records.length>100,nextCursor:rows.at(-1)?.id??null};
+  }
   if(path==='/admin/model-packages'&&method==='POST')return registerModel(env,instructor,await body(request,1024*1024));
   const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
   if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);await audit('model-package-read',record.id,{});return {artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated:false};}

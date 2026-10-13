@@ -23,8 +23,16 @@ test('instructor candidate registration is idempotent, audited, private and neve
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM model_packages').first()).n,1);
   assert.equal((await DB.prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action='model-package-registered'").first()).n,1);
   const read=await call(`/admin/model-packages/${artifact.id}`);assert.deepEqual(read.artifact,artifact);assert.equal(read.activated,false);
+  const directory=await call('/admin/model-packages');
+  assert.equal(directory.httpStatus,200);assert.equal(directory.packages.length,1);
+  assert.equal(directory.packages[0].id,artifact.id);assert.equal(directory.packages[0].activated,false);
+  assert.equal(directory.packages[0].artifact_json,undefined);assert.equal(directory.packages[0].created_by,undefined);
+  assert.equal(directory.hasMore,false);assert.equal(directory.nextCursor,artifact.id);
+  assert.deepEqual((await call('/admin/model-packages?after='+artifact.id)).packages,[]);
+  assert.equal((await call('/admin/model-packages?after=invalid')).httpStatus,400);
   const student=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
   assert.equal((await call('/admin/model-packages',artifact,student.token)).httpStatus,403);
+  assert.equal((await call('/admin/model-packages',null,student.token)).httpStatus,403);
   assert.equal((await call(`/admin/model-packages/${artifact.id}`,null,student.token)).httpStatus,403);
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM calibrations').first()).n,0);
   await assert.rejects(DB.prepare("UPDATE model_packages SET artifact_json='{}'").run(),/immutable/);
