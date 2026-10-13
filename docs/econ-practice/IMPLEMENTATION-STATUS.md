@@ -521,3 +521,7 @@ Migration 0008 adds immutable hint events with exact text, version, scope, prese
 ## Instructor hint export (2026-10-12)
 
 Added authenticated/audited `/admin/hints` with 500-row pages and a frozen ledger boundary. Rows link immutable guidance events to current session ownership and question metadata without email addresses. The instructor's full ledger download now includes a hints array. Response, unscored-submission and hint exports freeze their boundaries independently, not as a transactionally synchronized snapshot. A regression verifies access denial and pagination across 501 events while a later event is inserted; all 127 focused tests pass.
+
+## AP Macro guidance (2026-10-12)
+
+Added course-specific method prompts for every populated AP Macro topic, based on the current bank's topic/title inventory. Guidance distinguishes accounting categories, monetary operating assumptions, time horizons, exchange-rate quotation, and expected returns. Hint version advances to topic-scaffolds-v2; immutable prior hint events retain their original content. A coverage regression prevents accidental use of AP Micro guidance for shared topic numbers. All 128 focused tests pass. Individual hint/question fit still requires substantive review, and undergraduate guidance remains general.

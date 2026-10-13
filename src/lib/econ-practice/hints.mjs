@@ -1,5 +1,5 @@
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v1';
+export const HINT_VERSION='topic-scaffolds-v2';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -38,7 +38,35 @@ const micro={
  '6.4':'Identify which incentive the policy changes. A fixed payment and a per-unit charge affect marginal decisions differently.',
  '6.5':'Distinguish a group’s population share from its income share. Relative inequality does not by itself tell you anyone’s absolute income.'
 };
+const macro={
+ '1.1':'Separate a move toward the existing production frontier from a shift of the frontier. What resources are currently unused?',
+ '1.2':'Compare opportunity costs in the same units. For a proposed trade, check whether each side does better than producing the import itself.',
+ '2.1':'Ask whether production occurred domestically in the current period. Then identify consumption, investment, government purchases, or net exports; avoid counting the same production twice.',
+ '2.2':'Separate the price change from the quantity change. Check which basket or production measure the stated index actually covers.',
+ '2.3':'First classify people as employed, unemployed and seeking work, or outside the labor force. Use the denominator required by the particular rate.',
+ '2.4':'Distinguish the price level from its rate of change. For interest and debt, separate nominal payments from purchasing power and expected from unexpected inflation.',
+ '2.5':'Compare actual output with potential output. A negative gap concerns the level of output relative to capacity, not necessarily a fall in output over time.',
+ '3.1':'Trace how much of each additional dollar is spent again. Use only the leakages included in the stated model.',
+ '3.2':'A tax change first changes disposable income; only the consumed part enters the next spending round. Distinguish a policy change from an automatic response to income.',
+ '3.3':'Identify the curve that moves first. Then separate the immediate output and price effects from later wage and input-price adjustment.',
+ '3.4':'Trace the change in government purchases or taxes to aggregate demand. Check the starting output gap and any assumptions about crowding out.',
+ '4.1':'Ask whether the asset is used to make payments, quote prices, or carry purchasing power into the future. Wealth is broader than money.',
+ '4.2':'Hold a bond’s promised payments fixed and change its purchase price. How does the return per dollar invested change?',
+ '4.3':'Keep bank reserves, deposits, loans, and capital separate. A textbook deposit multiplier needs assumptions about lending and cash holdings.',
+ '4.4':'Identify the monetary operating framework in the question. An administered rate and a change in money demand act through different mechanisms.',
+ '4.5':'Locate government borrowing in the loanable-funds model. Hold the stated other factors fixed before tracing the effect on interest and private investment.',
+ '5.1':'Distinguish a movement along a short-run Phillips curve from a shift caused by changing expectations. Then consider the long-run unemployment benchmark.',
+ '5.2':'Relate money growth, velocity growth, real output growth, and inflation. Do not silently assume velocity is constant unless the question permits it.',
+ '5.3':'A deficit is a flow over a period; debt is a stock at a date. Check whether the question asks for a change in debt or its ratio to GDP.',
+ '5.4':'Separate more capital per worker from better technology. Consider diminishing returns when only capital per worker rises.',
+ '5.5':'Keep nominal variables separate from real variables and identify the time horizon. Long-run neutrality does not rule out short-run effects.',
+ '6.1':'Write the currency units beside the exchange rate before multiplying or dividing. For a real exchange rate, also track the relative price levels.',
+ '6.2':'State which currency appreciates and translate that change into the price faced by foreign buyers. Keep the quotation convention straight.',
+ '6.3':'Identify which cross-border transactions belong in the current account. When using saving minus investment, apply the accounting definitions given.',
+ '6.4':'Compare expected returns after accounting for exchange-rate expectations and risk. A higher quoted interest rate alone need not guarantee a higher expected return.'
+};
 export function hintFor(item){
+ if(item.course==='ap-macro'&&macro[item.topic])return {hint:macro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-macro:${item.topic}`};
  if(item.course==='ap-micro'&&micro[item.topic])return {hint:micro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-micro:${item.topic}`};
  return {hint:'Identify the economic relationship the question asks you to use. Write down what is given, what must be found, and which quantities are held fixed. Check that the units of your result match the requested quantity.',hintVersion:HINT_VERSION,hintScope:'general'};
 }
