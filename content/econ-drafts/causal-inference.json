@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "causal-inference-u1-01",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Average effects in a finite population",
+    "prompt": "A constructed population has four people with (Y(0),Y(1)) equal to (2,5), (4,6), (8,7), and (1,5). What is its average treatment effect (ATE)?",
+    "correct": "2.",
+    "wrong": [
+      "3.",
+      "4.5.",
+      "6."
+    ],
+    "explanation": "Individual effects are 3, 2, −1, and 4; their average is 8/4=2. These full potential outcomes are supplied for calculation, not claimed observable in ordinary data.",
+    "hint": "Subtract untreated from treated potential outcomes person by person.",
+    "skill": "average effects in a finite population",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-02",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "ATT versus ATE",
+    "prompt": "In a hypothetical population, 30% receive treatment D=1. The average effect Y(1)−Y(0) is 6 among recipients and 2 among nonrecipients. What is the ATE?",
+    "correct": "3.2.",
+    "wrong": [
+      "6.",
+      "2.",
+      "4.8."
+    ],
+    "explanation": "The ATE weights subgroup effects by population shares: 0.3×6+0.7×2=3.2. The ATT is 6.",
+    "hint": "Apply the law of total expectation over actual treatment status.",
+    "skill": "att versus ate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-03",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Observed difference decomposition",
+    "prompt": "Under consistency for binary treatment D, which expression equals E[Y|D=1]−E[Y|D=0]?",
+    "correct": "ATT + E[Y(0)|D=1]−E[Y(0)|D=0].",
+    "wrong": [
+      "ATE alone, with no other assumptions.",
+      "ATT − E[Y(0)|D=1] + E[Y(0)|D=0].",
+      "E[Y(1)−Y(0)|D=0] alone."
+    ],
+    "explanation": "Add and subtract E[Y(0)|D=1]. The resulting untreated-outcome contrast is selection bias relative to the ATT.",
+    "hint": "Insert the recipients’ untreated counterfactual mean.",
+    "skill": "observed difference decomposition",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-04",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Observed potential outcome",
+    "prompt": "A worker receives a binary training treatment D=1. Potential earnings are Y(1) and Y(0). Under consistency, what is observed?",
+    "correct": "Y=Y(1), while Y(0) remains unobserved for this worker.",
+    "wrong": [
+      "Y=Y(0).",
+      "Both potential outcomes because D is known.",
+      "The individual treatment effect directly."
+    ],
+    "explanation": "Consistency identifies the realized potential outcome, not the missing counterfactual.",
+    "hint": "Use Y=D Y(1)+(1−D)Y(0).",
+    "skill": "observed potential outcome",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-05",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Well-defined intervention",
+    "prompt": "Two clinics call their programs treatment=1, but one gives a one-hour visit and the other gives six months of therapy. An analyst wants a single binary-treatment effect without specifying how versions are assigned. What is unresolved?",
+    "correct": "The intervention and relevant treatment versions must be defined before a unique policy contrast is specified.",
+    "wrong": [
+      "Larger samples automatically make the versions equivalent.",
+      "The ATE must equal zero.",
+      "Random sampling makes both versions the same intervention."
+    ],
+    "explanation": "Potential outcomes require a treatment definition. A mixture policy can be defined, but its version distribution must be specified.",
+    "hint": "Ask what action setting treatment to one would implement.",
+    "skill": "well-defined intervention",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-06",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Spillovers and exposure",
+    "prompt": "In a tutoring experiment, a pupil’s score may depend on both their own assignment d and the fraction g of classmates assigned. Which potential-outcome notation represents this dependence?",
+    "correct": "Y_i(d,g).",
+    "wrong": [
+      "Y_i(d) with no restrictions needed.",
+      "Y_i(g) because own treatment can never matter.",
+      "Y_i observed for every possible classroom assignment."
+    ],
+    "explanation": "An exposure mapping can encode own treatment and peer exposure; it still assumes that assignments with the same mapped exposure are equivalent.",
+    "hint": "Include each treatment dimension allowed to affect the outcome.",
+    "skill": "spillovers and exposure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-07",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Quantile effects",
+    "prompt": "For a population, the median of Y(1) is 12 and the median of Y(0) is 9. What follows without a rank-preservation assumption?",
+    "correct": "The median quantile treatment effect is 3, but the median individual effect need not be 3.",
+    "wrong": [
+      "Every individual gains 3.",
+      "The median individual effect must be 3.",
+      "The ATE must be 3."
+    ],
+    "explanation": "Differences of marginal quantiles do not determine the distribution of individual differences, which depends on the joint potential-outcome distribution.",
+    "hint": "Distinguish a difference of quantiles from a quantile of differences.",
+    "skill": "quantile effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-08",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Defining versus identifying",
+    "prompt": "A researcher defines the ATE as E[Y(1)−Y(0)] for all applicants but observes only voluntary participation and outcomes. Which statement is correct?",
+    "correct": "The estimand is defined, but these observations alone do not identify it.",
+    "wrong": [
+      "Writing the estimand identifies it.",
+      "Every defined estimand has an unbiased sample estimator without assumptions.",
+      "The estimand is undefined solely because one potential outcome is missing."
+    ],
+    "explanation": "An estimand specifies the target. Identification asks whether observable distributions and assumptions uniquely determine that target.",
+    "hint": "Separate the target quantity from the evidence linking it to data.",
+    "skill": "defining versus identifying",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-09",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Policy-weighted heterogeneity",
+    "prompt": "A target population is 80% group A and 20% group B. Conditional treatment effects are 1 and 7 respectively. Assuming these effects apply to the target groups, what is the target ATE?",
+    "correct": "2.2.",
+    "wrong": [
+      "4.",
+      "5.8.",
+      "7."
+    ],
+    "explanation": "The target average is 0.8×1+0.2×7=2.2. Equal weighting would answer a different population question.",
+    "hint": "Weight by the stated target composition.",
+    "skill": "policy-weighted heterogeneity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u1-10",
+    "course": "causal-inference",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Binary-outcome bounds",
+    "prompt": "In a population with binary Y, half receive D=1. Observed E[Y|D=1]=0.8 and E[Y|D=0]=0.4. Assuming only consistency and no interference, what are the sharp worst-case bounds on the ATE?",
+    "correct": "[−0.3, 0.7].",
+    "wrong": [
+      "[0.4, 0.4].",
+      "[−1, 1] as the tightest available bounds.",
+      "[0, 0.4]."
+    ],
+    "explanation": "E[Y(1)] lies in [0.4,0.9] and E[Y(0)] in [0.2,0.7]. Their difference lies in [−0.3,0.7]; unrestricted missing binary outcomes can attain the endpoints.",
+    "hint": "Bound each missing potential-outcome mean between zero and one.",
+    "skill": "binary-outcome bounds",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-01",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Randomized assignment estimand",
+    "prompt": "A training offer Z is randomized, take-up is voluntary, follow-up is complete, and there is no interference. What does the population outcome difference by Z identify?",
+    "correct": "The average causal effect of the offer, including pathways other than training.",
+    "wrong": [
+      "The treatment effect for all trainees automatically.",
+      "The ATE of receipt without further assumptions.",
+      "Only a descriptive contrast even under random assignment."
+    ],
+    "explanation": "Randomization identifies assignment effects. Exclusion and compliance assumptions are additional requirements for interpreting a receipt effect.",
+    "hint": "Distinguish offer assignment from treatment received.",
+    "skill": "randomized assignment estimand",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-02",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Intention-to-treat calculation",
+    "prompt": "In a randomized offer experiment with complete outcomes, average earnings are 32 for Z=1 and 29 for Z=0. What is the sample intention-to-treat estimate?",
+    "correct": "3.",
+    "wrong": [
+      "61.",
+      "32/29.",
+      "−3."
+    ],
+    "explanation": "The assignment contrast is 32−29=3. It is an estimate, not proof that the population effect is exactly 3.",
+    "hint": "Subtract the control-assignment mean.",
+    "skill": "intention-to-treat calculation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-03",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "As-treated comparison",
+    "prompt": "A randomized offer encourages training, but more motivated people are more likely to enroll in either assignment arm. Why can comparing actual trainees with nontrainees be biased?",
+    "correct": "Receipt is not randomized and may select people with different untreated outcomes.",
+    "wrong": [
+      "Randomization of offers randomizes every subsequent choice.",
+      "Noncompliance makes the assignment contrast undefined.",
+      "Selection is impossible when offers are randomized."
+    ],
+    "explanation": "Conditioning on actual take-up discards the original randomized comparison. Baseline motivation can affect both take-up and earnings.",
+    "hint": "Identify which variable was randomized.",
+    "skill": "as-treated comparison",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-04",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "One-sided noncompliance",
+    "prompt": "In an offer trial, nobody can obtain training unless offered. Define D(z) as receipt under offer z. Which type is ruled out by this access restriction?",
+    "correct": "Always-takers with D(0)=D(1)=1.",
+    "wrong": [
+      "Compliers with D(0)=0 and D(1)=1.",
+      "Never-takers with D(0)=D(1)=0.",
+      "All people who decline an offer."
+    ],
+    "explanation": "One-sided access imposes D(0)=0 for everyone. Always-takers and defiers are excluded; compliers and never-takers remain.",
+    "hint": "Check the receipt value under no offer.",
+    "skill": "one-sided noncompliance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-05",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Randomization and imbalance",
+    "prompt": "A valid randomized trial has a modest baseline age imbalance in its realized sample. Which inference is warranted from imbalance alone?",
+    "correct": "Chance imbalance is possible; it does not alone prove assignment manipulation.",
+    "wrong": [
+      "Random assignment guarantees exact equality of every baseline mean.",
+      "The treatment effect must be zero.",
+      "The assignment mechanism is necessarily invalid."
+    ],
+    "explanation": "Randomization balances covariates in expectation, not in every realization. Design records and joint diagnostics can inform concerns.",
+    "hint": "Separate repeated-assignment expectation from a realized sample.",
+    "skill": "randomization and imbalance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-06",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Differential attrition",
+    "prompt": "A randomized program reduces survey response among participants with poor outcomes. A complete-case comparison is proposed. What is the central identification concern?",
+    "correct": "Response conditioning can select different potential-outcome distributions across assignment groups.",
+    "wrong": [
+      "Randomization guarantees comparability among any selected respondents.",
+      "More respondents necessarily eliminate the selection.",
+      "Attrition changes only the outcome’s units."
+    ],
+    "explanation": "Original random assignment need not remain independent of potential outcomes after conditioning on a treatment-affected response indicator.",
+    "hint": "Consider who remains observed after assignment.",
+    "skill": "differential attrition",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-07",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Cluster assignment",
+    "prompt": "Twenty independent schools are randomized, and pupils within each school share shocks. With many pupils but only twenty schools, which inference concern is most relevant?",
+    "correct": "Dependence follows school assignment, and few-cluster inference requires care.",
+    "wrong": [
+      "Every pupil is an independent randomized unit.",
+      "Clustering always leaves standard errors unchanged.",
+      "A million pupils guarantee accurate conventional school-cluster asymptotics."
+    ],
+    "explanation": "The effective independent assignment information is limited by schools. Cluster-aware inference should reflect the design, with few-cluster methods considered.",
+    "hint": "Count independently assigned units rather than records.",
+    "skill": "cluster assignment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-08",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Blocked assignment aggregation",
+    "prompt": "A randomized trial has two preassigned strata, comprising 25% and 75% of its target population. Estimated treatment effects within strata are 8 and 0. What population-share-weighted estimate results?",
+    "correct": "2.",
+    "wrong": [
+      "4.",
+      "6.",
+      "8."
+    ],
+    "explanation": "The weighted estimate is 0.25×8+0.75×0=2. Assignment probabilities do not replace target weights.",
+    "hint": "Aggregate stratum effects using target shares.",
+    "skill": "blocked assignment aggregation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-09",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Sharp-null randomization test",
+    "prompt": "Under a known randomized assignment mechanism and no interference, a researcher tests the sharp null Y_i(1)=Y_i(0) for every unit. Why can missing outcomes be imputed under this null?",
+    "correct": "Each unit’s two potential outcomes are equal under the null.",
+    "wrong": [
+      "The null says only that the average effect is zero.",
+      "Randomization reveals both outcomes without the null.",
+      "Treatment effects must be normally distributed."
+    ],
+    "explanation": "A sharp null specifies every missing potential outcome using the observed one, enabling assignment-based reference distributions. An average-zero null alone is not sharp.",
+    "hint": "Ask whether the null determines individual counterfactuals.",
+    "skill": "sharp-null randomization test",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u2-10",
+    "course": "causal-inference",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Adjusted experimental analysis",
+    "prompt": "Before a randomized trial is unblinded, analysts plan adjustment for baseline scores. Which rationale is appropriate?",
+    "correct": "Baseline prognostic covariates can improve precision without being needed to create random assignment.",
+    "wrong": [
+      "Adjustment is required to make randomization causal in all cases.",
+      "Any post-treatment variable is equally suitable.",
+      "Adjustment guarantees a smaller standard error in every sample."
+    ],
+    "explanation": "Pre-treatment prognostic adjustment may reduce residual variation; valid inference must match the estimator and design. Realized precision improvements are not guaranteed.",
+    "hint": "Distinguish precision from the source of identification.",
+    "skill": "adjusted experimental analysis",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-01",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Conditional exchangeability",
+    "prompt": "For binary treatment D and pre-treatment covariates X, assume (Y(0),Y(1)) is independent of D conditional on X, consistency, and 0<P(D=1|X)<1 on the target support. Which expression identifies the ATE?",
+    "correct": "E_X[E(Y|D=1,X)−E(Y|D=0,X)].",
+    "wrong": [
+      "E(Y|D=1)−E(Y|D=0) regardless of X composition.",
+      "E(Y|X) alone.",
+      "The treatment coefficient from any arbitrarily specified regression."
+    ],
+    "explanation": "Exchangeability identifies conditional potential-outcome means; averaging their contrast over the target X distribution identifies the ATE.",
+    "hint": "First identify within X strata, then average.",
+    "skill": "conditional exchangeability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-02",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Standardization",
+    "prompt": "Under consistency, conditional exchangeability and overlap, conditional treatment effects are 2 for X=0 and 6 for X=1. The target has P(X=1)=0.3. What is its ATE?",
+    "correct": "3.2.",
+    "wrong": [
+      "4.",
+      "4.8.",
+      "6."
+    ],
+    "explanation": "Standardization gives 0.7×2+0.3×6=3.2. The conditional effects must apply to the stated target.",
+    "hint": "Use the target covariate distribution.",
+    "skill": "standardization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-03",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Lack of overlap",
+    "prompt": "All firms with X=1 receive a subsidy; no untreated firm has X=1. The target ATE includes these firms. What follows under otherwise unrestricted outcome models?",
+    "correct": "Their untreated mean cannot be identified by within-X comparison from these data.",
+    "wrong": [
+      "A propensity score of one creates perfect evidence for their counterfactual.",
+      "Adding more treated firms restores untreated support.",
+      "Conditional exchangeability alone supplies the missing mean."
+    ],
+    "explanation": "Exchangeability cannot manufacture support. Identifying the missing mean needs extra extrapolation assumptions or a different target.",
+    "hint": "Check whether both treatment states occur in every target stratum.",
+    "skill": "lack of overlap",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-04",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Inverse probability weight",
+    "prompt": "A treated unit has propensity score e(X)=0.25. In the unnormalized Horvitz–Thompson estimator of E[Y(1)], what weight multiplies its observed outcome before dividing the sample sum by n?",
+    "correct": "4.",
+    "wrong": [
+      "0.25.",
+      "0.75.",
+      "1.333."
+    ],
+    "explanation": "The treated contribution is D Y/e(X); for D=1 its inverse probability weight is 1/0.25=4.",
+    "hint": "Invert the probability of the observed treated state.",
+    "skill": "inverse probability weight",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-05",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Post-treatment mediator",
+    "prompt": "Treatment D increases job-search effort M, which affects earnings Y. The target is the total effect of D. Why is routinely controlling for M problematic?",
+    "correct": "It can remove part of the treatment pathway and may introduce additional bias.",
+    "wrong": [
+      "Every observed predictor must be controlled for to identify total effects.",
+      "M is necessarily a pre-treatment confounder.",
+      "Controlling for M always identifies the total effect more precisely."
+    ],
+    "explanation": "A total effect includes the mediated pathway. A controlled direct effect is a different estimand and requires additional identification assumptions.",
+    "hint": "Locate M relative to treatment in the causal sequence.",
+    "skill": "post-treatment mediator",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-06",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Collider selection",
+    "prompt": "Suppose D and unobserved ability U are independent, both cause admission A, and U causes earnings Y. There is no causal effect D→Y. What can conditioning on A=1 do?",
+    "correct": "Induce an association between D and U, creating a spurious D–Y association.",
+    "wrong": [
+      "Guarantee independence of D and U.",
+      "Prove a causal effect of D on Y.",
+      "Remove every source of selection bias."
+    ],
+    "explanation": "Admission is a collider on D→A←U→Y. Conditioning on it can open an otherwise blocked path.",
+    "hint": "Check for a variable jointly caused by treatment and an outcome determinant.",
+    "skill": "collider selection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-07",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Matching target",
+    "prompt": "An analyst matches untreated comparisons to treated workers and averages treated-minus-matched outcomes over treated workers. Under sufficient confounding control, overlap for treated covariates, and consistent matching, which estimand is naturally targeted?",
+    "correct": "The ATT.",
+    "wrong": [
+      "The ATE for an arbitrary external population.",
+      "The effect among all never-treated workers exclusively.",
+      "A quantile treatment effect necessarily."
+    ],
+    "explanation": "Averaging over the treated covariate distribution targets the effect on treated workers. Weighting and target population are part of the estimand.",
+    "hint": "Identify whose covariate distribution supplies the weights.",
+    "skill": "matching target",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-08",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Doubly robust estimation",
+    "prompt": "Assume consistency, conditional exchangeability, overlap and standard regularity conditions. For an AIPW ATE estimator, what does double robustness mean for consistency?",
+    "correct": "Consistency can hold if either the propensity model or both treatment-specific outcome-mean models are correctly specified.",
+    "wrong": [
+      "The estimator tolerates arbitrary unobserved confounding.",
+      "Any two wrong nuisance models guarantee consistency.",
+      "Finite-sample estimates are exactly unbiased whenever one model is approximately right."
+    ],
+    "explanation": "Double robustness concerns alternative nuisance-model correctness conditions, not failures of causal identification or automatic finite-sample guarantees.",
+    "hint": "Separate nuisance estimation from exchangeability.",
+    "skill": "doubly robust estimation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-09",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Cross-fitting limitation",
+    "prompt": "An observational ATE analysis uses flexible prediction with sample splitting and cross-fitting. What does cross-fitting alone fail to establish?",
+    "correct": "Absence of unmeasured confounding.",
+    "wrong": [
+      "Separation of nuisance training and score evaluation samples.",
+      "A way to reduce own-observation overfitting in score evaluation.",
+      "A procedure compatible with doubly robust scores."
+    ],
+    "explanation": "Cross-fitting addresses statistical dependence and overfitting issues under further rate and regularity conditions. It does not randomize treatment or establish exchangeability.",
+    "hint": "Distinguish an estimation device from a causal assumption.",
+    "skill": "cross-fitting limitation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u3-10",
+    "course": "causal-inference",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Trimming changes the target",
+    "prompt": "To handle weak overlap, a researcher discards all units with propensity scores outside [0.1,0.9]. Without extrapolation, what effect can an otherwise valid adjusted analysis target?",
+    "correct": "An effect for the retained overlap population, not automatically the original population ATE.",
+    "wrong": [
+      "The unchanged original ATE by definition.",
+      "The LATE for instrument compliers.",
+      "Every individual treatment effect in discarded regions."
+    ],
+    "explanation": "Changing the covariate support changes the population averaged over. Recovering the original ATE requires information or assumptions about excluded regions.",
+    "hint": "Track which units remain in the averaging population.",
+    "skill": "trimming changes the target",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-01",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Wald ratio",
+    "prompt": "A randomized binary encouragement Z raises binary training receipt from 0.2 to 0.6 and raises mean earnings by 2. Under consistency, exclusion, no interference and monotonic receipt D(1)≥D(0), what LATE does the population Wald ratio identify?",
+    "correct": "5 earnings units.",
+    "wrong": [
+      "0.8 earnings units.",
+      "2 earnings units.",
+      "10 earnings units."
+    ],
+    "explanation": "The first stage is 0.6−0.2=0.4. The reduced form 2 divided by 0.4 gives a complier effect of 5.",
+    "hint": "Divide the assignment effect on earnings by the assignment effect on receipt.",
+    "skill": "wald ratio",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-02",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Who are compliers?",
+    "prompt": "For binary instrument Z and receipt D, define D(z) as receipt under z. Which pair describes a complier?",
+    "correct": "D(0)=0 and D(1)=1.",
+    "wrong": [
+      "D(0)=1 and D(1)=1.",
+      "D(0)=0 and D(1)=0.",
+      "D(0)=1 and D(1)=0."
+    ],
+    "explanation": "Compliers switch into receipt when the instrument changes from zero to one. Compliance is a potential-receipt type, not simply observed participation.",
+    "hint": "Compare receipt under both instrument states.",
+    "skill": "who are compliers?",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-03",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Exclusion restriction",
+    "prompt": "A randomly offered transport voucher increases college attendance but also directly subsidizes commuting to work. Earnings are the outcome and attendance is treatment. Which IV assumption is specifically threatened?",
+    "correct": "Exclusion of an instrument effect on earnings outside attendance.",
+    "wrong": [
+      "Random assignment, solely because the voucher has a direct effect.",
+      "Instrument relevance, necessarily.",
+      "Monotonicity, necessarily."
+    ],
+    "explanation": "The voucher can affect earnings through commuting costs even at fixed attendance. Random assignment does not eliminate that direct pathway.",
+    "hint": "Trace all routes from the instrument to the outcome.",
+    "skill": "exclusion restriction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-04",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Monotonicity content",
+    "prompt": "In a binary encouragement design, what does D_i(1)≥D_i(0) for every person require?",
+    "correct": "No one is induced to stop treatment by the encouragement.",
+    "wrong": [
+      "Every encouraged person takes treatment.",
+      "Every person has a nonnegative treatment effect on Y.",
+      "The encouragement is independent of potential outcomes."
+    ],
+    "explanation": "Monotonicity restricts treatment choices across instrument states. It neither requires universal compliance nor constrains outcome-effect signs.",
+    "hint": "Apply the inequality to receipt, not outcomes.",
+    "skill": "monotonicity content",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-05",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Complier share",
+    "prompt": "Under random binary Z and monotonic binary receipt, treatment rates are 0.7 when Z=1 and 0.3 when Z=0. What population share are compliers?",
+    "correct": "0.4.",
+    "wrong": [
+      "0.7.",
+      "0.3.",
+      "1.0."
+    ],
+    "explanation": "The rate difference equals P(D(1)>D(0)) under monotonicity: 0.7−0.3=0.4.",
+    "hint": "Subtract receipt rates across instrument states.",
+    "skill": "complier share",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-06",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "LATE versus population ATE",
+    "prompt": "A valid binary IV design identifies a training LATE of 4 for compliers. Treatment effects may differ by compliance type. What follows for the population ATE?",
+    "correct": "It need not equal 4 without further restrictions or information.",
+    "wrong": [
+      "It must equal 4.",
+      "It must be larger than 4.",
+      "It is undefined because some people are never-takers."
+    ],
+    "explanation": "The IV contrast supplies the complier mean effect, while the ATE also averages effects for always-takers and never-takers.",
+    "hint": "List the compliance types included in each target.",
+    "skill": "late versus population ate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-07",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Weak first stage",
+    "prompt": "An otherwise credible instrument barely shifts treatment receipt. What is a consequence for conventional IV analysis?",
+    "correct": "The ratio is unstable and conventional normal-approximation inference can perform poorly.",
+    "wrong": [
+      "A weak first stage proves exclusion.",
+      "The IV standard error must approach zero.",
+      "The IV estimate automatically becomes the ATE."
+    ],
+    "explanation": "Small denominator information creates weak-identification problems. Identification-robust inference may be needed; relevance strength does not establish exclusion.",
+    "hint": "Consider division by an imprecisely estimated quantity near zero.",
+    "skill": "weak first stage",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-08",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Instrument-specific effects",
+    "prompt": "Two valid binary instruments shift participation for different subpopulations. Each satisfies independence, exclusion, monotonicity and relevance. Why can their Wald estimands differ?",
+    "correct": "They may identify different complier mean effects under treatment-effect heterogeneity.",
+    "wrong": [
+      "At least one must be invalid whenever estimates differ.",
+      "All valid instruments necessarily identify the same population ATE.",
+      "Monotonicity forces identical compliance groups."
+    ],
+    "explanation": "Validity does not force a common complier population. Sampling uncertainty also matters when comparing estimates rather than population estimands.",
+    "hint": "Track who changes treatment under each instrument.",
+    "skill": "instrument-specific effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-09",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Observed recipients are mixtures",
+    "prompt": "A randomized binary instrument satisfies monotonicity and has both always-takers and compliers. Among units with Z=1 and D=1, who may be present?",
+    "correct": "Both always-takers and compliers.",
+    "wrong": [
+      "Only compliers.",
+      "Only never-takers.",
+      "Only defiers."
+    ],
+    "explanation": "Always-takers receive treatment regardless of Z, while compliers receive it when Z=1. Observed receipt does not reveal an individual’s compliance type.",
+    "hint": "Write D(1) for each compliance type.",
+    "skill": "observed recipients are mixtures",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u4-10",
+    "course": "causal-inference",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Defiers change the ratio",
+    "prompt": "Assume binary randomized Z, exclusion and no interference, but allow defiers. Compliers are 40% with mean effect 6; defiers are 10% with mean effect 2; all others do not change receipt. What is the population Wald ratio?",
+    "correct": "22/3, approximately 7.33.",
+    "wrong": [
+      "5.2.",
+      "6.",
+      "2.2."
+    ],
+    "explanation": "The reduced form is 0.4×6−0.1×2=2.2 and the first stage is 0.4−0.1=0.3. The ratio 2.2/0.3 is not a convex average of these effects.",
+    "hint": "Defiers enter both reduced form and first stage with a negative sign.",
+    "skill": "defiers change the ratio",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-01",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Two-period difference-in-differences",
+    "prompt": "Treated units have mean outcomes 10 before and 16 after treatment; untreated controls have 8 before and 11 after. Under no anticipation, no interference, stable group composition and parallel untreated trends, what is the DiD estimate of the post-treatment ATT?",
+    "correct": "3.",
+    "wrong": [
+      "6.",
+      "5.",
+      "9."
+    ],
+    "explanation": "The treated change is 6 and the control change is 3. Their difference is 3; parallel untreated trends supplies the missing treated-group counterfactual change.",
+    "hint": "Subtract changes rather than post-treatment levels.",
+    "skill": "two-period difference-in-differences",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-02",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Parallel trends content",
+    "prompt": "In a two-group, two-period DiD with treatment beginning after period 0, which restriction is parallel untreated trends?",
+    "correct": "E[Y_1(0)−Y_0(0)|G=1]=E[Y_1(0)−Y_0(0)|G=0].",
+    "wrong": [
+      "Both groups must have equal untreated outcome levels in period 0.",
+      "The observed post-treatment changes must be equal.",
+      "Individual treatment effects must all be equal."
+    ],
+    "explanation": "Parallel trends equates mean untreated changes across groups; baseline levels and treatment effects may differ.",
+    "hint": "State the assumption using untreated potential outcomes.",
+    "skill": "parallel trends content",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-03",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Anticipation",
+    "prompt": "A subsidy starts in year 2, but firms invest in year 1 after learning that they will qualify. An analyst treats year 1 as an unaffected baseline. What is threatened?",
+    "correct": "No anticipation for the selected baseline.",
+    "wrong": [
+      "The algebraic ability to subtract two means.",
+      "A requirement that baseline levels be identical.",
+      "The definition of a panel."
+    ],
+    "explanation": "The designated baseline already contains a response to future treatment. The usual interpretation of its outcome as untreated is compromised.",
+    "hint": "Check when behavior can first respond to the policy.",
+    "skill": "anticipation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-04",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Pretrend evidence",
+    "prompt": "An event study has imprecise pre-treatment coefficients statistically indistinguishable from zero. What is the defensible interpretation?",
+    "correct": "The data do not reject those pre-period differences, but do not establish post-period parallel untreated trends.",
+    "wrong": [
+      "Parallel trends has been proved.",
+      "All post-treatment estimates are unbiased.",
+      "The study establishes no anticipation for every earlier date."
+    ],
+    "explanation": "Failure to reject can reflect limited power. Even exactly parallel observed pretrends need not imply parallel counterfactual posttrends.",
+    "hint": "Distinguish a diagnostic from proof of the identifying assumption.",
+    "skill": "pretrend evidence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-05",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Fixed effects and time-varying confounding",
+    "prompt": "A panel regression includes firm and year fixed effects. A firm-specific demand shock raises both subsidy take-up and output in the same year. What remains possible?",
+    "correct": "Time-varying confounding of the treatment coefficient.",
+    "wrong": [
+      "Firm fixed effects absorb every firm-specific shock at every date.",
+      "Year fixed effects absorb every shock unique to one firm.",
+      "Panel linkage alone makes treatment exogenous."
+    ],
+    "explanation": "Firm effects remove time-invariant components; common year effects remove shared time shocks. A firm-year shock may remain correlated with treatment.",
+    "hint": "Identify the variation left after the two sets of fixed effects.",
+    "skill": "fixed effects and time-varying confounding",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-06",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Staggered adoption comparisons",
+    "prompt": "Units adopt a policy in different years and treatment effects can grow with exposure duration. Why can a conventional two-way fixed-effects treatment coefficient be difficult to interpret?",
+    "correct": "Already-treated units can act as controls, and heterogeneous effects can yield nonconvex effect weights.",
+    "wrong": [
+      "Every such coefficient must have negative weights.",
+      "Staggered timing guarantees unbiased estimation of the population ATE.",
+      "Heterogeneity is impossible with unit fixed effects."
+    ],
+    "explanation": "Some designs include comparisons contaminated by earlier treatment effects. Nonconvex weighting is a possibility, not a universal property of every design.",
+    "hint": "Examine which cohorts supply comparison outcomes.",
+    "skill": "staggered adoption comparisons",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-07",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Cohort-time target",
+    "prompt": "Let G denote first treatment year and t≥g. What does ATT(g,t)=E[Y_t(1)−Y_t(0)|G=g] mean, where Y_t(1) denotes outcomes under adoption at g for this cohort?",
+    "correct": "The average effect at time t for the cohort first treated at g.",
+    "wrong": [
+      "The effect for all cohorts at every date.",
+      "Only the effect in the adoption year regardless of t.",
+      "The untreated trend among never-treated units."
+    ],
+    "explanation": "The group-time estimand fixes both adoption cohort and calendar time, allowing exposure-duration and cohort heterogeneity.",
+    "hint": "Read the conditioning group and the outcome time separately.",
+    "skill": "cohort-time target",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-08",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Not-yet-treated controls",
+    "prompt": "To estimate ATT(g,t) in staggered adoption, an analyst uses cohorts with adoption dates after t as controls. Which additional condition is needed for them to represent untreated outcomes through t?",
+    "correct": "They must not anticipate their future treatment during the relevant comparison periods.",
+    "wrong": [
+      "Their later treatment effects must equal zero forever.",
+      "Their outcome levels must equal those of cohort g.",
+      "Their adoption dates must all be identical."
+    ],
+    "explanation": "Not-yet-treated status does not exclude anticipatory responses. Suitable parallel trends, overlap and other design assumptions are also needed.",
+    "hint": "Ask whether future assignment can affect current behavior.",
+    "skill": "not-yet-treated controls",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-09",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Aggregating cohort effects",
+    "prompt": "At a fixed date, two treated cohorts have ATT estimates of 2 and 8 and comprise 75% and 25% of the treated target population. What is their share-weighted aggregate?",
+    "correct": "3.5.",
+    "wrong": [
+      "5.",
+      "6.5.",
+      "10."
+    ],
+    "explanation": "The aggregation is 0.75×2+0.25×8=3.5. Different target weights would answer a different question.",
+    "hint": "Use explicit nonnegative target weights.",
+    "skill": "aggregating cohort effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u5-10",
+    "course": "causal-inference",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Serial correlation in panels",
+    "prompt": "A state policy is evaluated using annual state outcomes, and errors are correlated over time within states but independent across states. With sufficiently many states, what inference adjustment addresses this dependence?",
+    "correct": "Cluster standard errors by state.",
+    "wrong": [
+      "Treat every state-year as independent.",
+      "Cluster only by year to address all within-state serial correlation.",
+      "Ignore dependence because state fixed effects are included."
+    ],
+    "explanation": "State clustering allows within-state temporal dependence. Fixed effects do not by themselves eliminate residual serial correlation.",
+    "hint": "Match the cluster to the assumed error dependence.",
+    "skill": "serial correlation in panels",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-01",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Sharp RD estimand",
+    "prompt": "Treatment is D=1 when running variable R≥50 and zero otherwise. Potential-outcome conditional means are continuous at 50, no other intervention jumps there, and outcomes are consistent with no interference. What does the outcome-mean discontinuity identify?",
+    "correct": "The treatment effect at the cutoff, interpreted through the conditional-mean limits.",
+    "wrong": [
+      "The population ATE automatically.",
+      "The treatment effect at every value of R.",
+      "Only the treatment effect among units far above 50."
+    ],
+    "explanation": "Continuity supplies the untreated and treated counterfactual limits at the threshold. Identification is local; extrapolation requires additional assumptions.",
+    "hint": "Locate the comparison at the threshold.",
+    "skill": "sharp rd estimand",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-02",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Sharp RD calculation",
+    "prompt": "In a valid sharp RD, the outcome conditional-mean limit immediately above the cutoff is 18 and immediately below is 14. Treatment turns on above the cutoff. What is the RD effect?",
+    "correct": "4.",
+    "wrong": [
+      "32.",
+      "−4.",
+      "18/14."
+    ],
+    "explanation": "The right-minus-left discontinuity is 18−14=4 under the stated treatment direction.",
+    "hint": "Subtract the untreated-side limit from the treated-side limit.",
+    "skill": "sharp rd calculation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-03",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Fuzzy RD ratio",
+    "prompt": "At a cutoff, treatment probability jumps upward by 0.25 and the outcome conditional mean jumps upward by 1.5. Assume the fuzzy-RD continuity, exclusion, local monotonicity and nonzero-first-stage conditions identifying a local complier effect. What is that effect?",
+    "correct": "6.",
+    "wrong": [
+      "0.375.",
+      "1.75.",
+      "0.167."
+    ],
+    "explanation": "The local Wald ratio is 1.5/0.25=6. It pertains to receipt changes induced at the cutoff, not automatically all participants.",
+    "hint": "Divide the outcome jump by the receipt jump.",
+    "skill": "fuzzy rd ratio",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-04",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Sorting around the cutoff",
+    "prompt": "Applicants can precisely manipulate a score to cross an eligibility cutoff, and their motivation predicts outcomes. Why does this threaten a continuity-based RD?",
+    "correct": "Sorting may make potential-outcome conditional means discontinuous at the threshold.",
+    "wrong": [
+      "Any score measurement makes RD impossible.",
+      "Manipulation necessarily makes the estimated effect zero.",
+      "A narrower bandwidth always removes sorting bias."
+    ],
+    "explanation": "Precisely targeted selection can change applicant composition discontinuously. Its relevance is to the potential-outcome continuity assumption, not a mechanical ban on every manipulated score.",
+    "hint": "Connect sorting to counterfactual comparability.",
+    "skill": "sorting around the cutoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-05",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Bandwidth tradeoff",
+    "prompt": "A local linear RD uses observations within bandwidth h of its cutoff. Holding sample size and regularity conditions fixed, what is a typical consequence of reducing h?",
+    "correct": "Less approximation bias but greater variance.",
+    "wrong": [
+      "Always less bias and less variance.",
+      "Always greater bias and less variance.",
+      "An automatic conversion from a local effect to a population ATE."
+    ],
+    "explanation": "A smaller neighborhood reduces smooth-function approximation error but retains fewer observations. Inference must also account for bias.",
+    "hint": "Compare local approximation quality with effective sample size.",
+    "skill": "bandwidth tradeoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-06",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Density diagnostic limits",
+    "prompt": "A density test finds no statistically detectable jump in the running-variable distribution at an RD cutoff. What conclusion is warranted?",
+    "correct": "This diagnostic does not prove potential-outcome continuity or rule out all sorting.",
+    "wrong": [
+      "The RD assumptions are now all verified.",
+      "All other policies must be continuous at the threshold.",
+      "Treatment effects must be constant away from the threshold."
+    ],
+    "explanation": "A density test examines one implication relevant to manipulation, with finite power. Outcome counterfactual continuity and other design conditions remain substantive assumptions.",
+    "hint": "Keep the tested distribution distinct from the identifying condition.",
+    "skill": "density diagnostic limits",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-07",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Sensitivity interval",
+    "prompt": "An adjusted observational contrast is 5 outcome units. A sensitivity model defines this contrast as the target effect plus bias b, with b restricted to [−2,2]. What identified sensitivity interval follows for the target effect?",
+    "correct": "[3,7].",
+    "wrong": [
+      "[−2,2].",
+      "[5,5].",
+      "[7,9]."
+    ],
+    "explanation": "The target effect is 5−b, so its minimum is 3 and maximum is 7. This is an assumption-based sensitivity interval, not a sampling confidence interval.",
+    "hint": "Solve for the target before varying the bias.",
+    "skill": "sensitivity interval",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-08",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Transport by effect modifiers",
+    "prompt": "A randomized trial identifies conditional effects of 2 for X=0 and 8 for X=1. The target population has P(X=1)=0.25. Assume conditional mean treatment effects transport across trial and target, consistency of interventions, and trial support for both X values. What is the target ATE?",
+    "correct": "3.5.",
+    "wrong": [
+      "5.",
+      "6.5.",
+      "8."
+    ],
+    "explanation": "Reweighting effects to the target yields 0.75×2+0.25×8=3.5. Randomization alone would not establish the stated transport restriction.",
+    "hint": "Average transported conditional effects using target shares.",
+    "skill": "transport by effect modifiers",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-09",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Unsupported target stratum",
+    "prompt": "A trial includes only adults under 60, but the target population includes older adults. Treatment effects may vary with age. What prevents nonparametric identification of the full target ATE from this trial alone?",
+    "correct": "Lack of trial support for the older target stratum.",
+    "wrong": [
+      "Randomization cannot identify any effect among enrolled younger adults.",
+      "The target ATE is mathematically undefined.",
+      "Increasing the number of younger enrollees necessarily solves the problem."
+    ],
+    "explanation": "The trial provides no older-adult treatment comparison. Extending to them requires further effect-homogeneity or extrapolation assumptions or additional evidence.",
+    "hint": "Check population overlap as well as treatment overlap.",
+    "skill": "unsupported target stratum",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "causal-inference-u6-10",
+    "course": "causal-inference",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Scaling an intervention",
+    "prompt": "A small randomized hiring-subsidy pilot raises recipients’ employment. A nationwide rollout could change wages and displace unsubsidized workers. What does the pilot alone fail to identify?",
+    "correct": "The nationwide equilibrium policy effect including spillovers and market adjustments.",
+    "wrong": [
+      "The assignment effect within its own valid experimental design.",
+      "Any effect merely because the study was randomized.",
+      "The sign of each recipient’s observed employment."
+    ],
+    "explanation": "The scaled policy is a different intervention with potentially different exposure and equilibrium responses. Internal validity of the pilot does not identify all rollout effects.",
+    "hint": "Compare the intervention and environment at pilot and national scales.",
+    "skill": "scaling an intervention",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

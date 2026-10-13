@@ -1,0 +1,301 @@
+{
+  "course": "causal-inference",
+  "title": "Causal Inference and Applied Econometrics",
+  "description": "Original constructed exercises in defining causal targets, stating identification assumptions, estimating contrasts and assessing their limits. Prerequisites: introductory econometrics, regression, conditional expectation, probability, sampling uncertainty and basic algebra. Advanced extensions are explicitly identified below; numerical scenarios are hypothetical, not empirical findings.",
+  "reviewStatus": "draft",
+  "sourceUrls": [
+    "https://ocw.mit.edu/courses/14-387-applied-econometrics-mostly-harmless-big-data-fall-2014/",
+    "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf",
+    "https://coursebrowser.dce.harvard.edu/course/econometrics-and-causal-inference-with-r/"
+  ],
+  "prerequisites": [
+    "Introductory econometrics and regression",
+    "Conditional expectation and basic probability",
+    "Sampling uncertainty and algebra"
+  ],
+  "advancedExtensions": [
+    "Worst-case partial identification (1.10)",
+    "Doubly robust estimation and cross-fitting (3.8–3.9)",
+    "Weak IV and instrument-specific heterogeneity (4.7–4.10)",
+    "Cohort-time DiD and heterogeneous staggered adoption (5.6–5.9)",
+    "Sensitivity intervals and transportability (6.7–6.10)"
+  ],
+  "units": [
+    {
+      "unit": 1,
+      "title": "Potential outcomes and estimands",
+      "topics": [
+        {
+          "topic": "1.1",
+          "title": "Average effects in a finite population"
+        },
+        {
+          "topic": "1.2",
+          "title": "ATT versus ATE"
+        },
+        {
+          "topic": "1.3",
+          "title": "Observed difference decomposition"
+        },
+        {
+          "topic": "1.4",
+          "title": "Observed potential outcome"
+        },
+        {
+          "topic": "1.5",
+          "title": "Well-defined intervention"
+        },
+        {
+          "topic": "1.6",
+          "title": "Spillovers and exposure"
+        },
+        {
+          "topic": "1.7",
+          "title": "Quantile effects"
+        },
+        {
+          "topic": "1.8",
+          "title": "Defining versus identifying"
+        },
+        {
+          "topic": "1.9",
+          "title": "Policy-weighted heterogeneity"
+        },
+        {
+          "topic": "1.10",
+          "title": "Binary-outcome bounds"
+        }
+      ]
+    },
+    {
+      "unit": 2,
+      "title": "Randomization and noncompliance",
+      "topics": [
+        {
+          "topic": "2.1",
+          "title": "Randomized assignment estimand"
+        },
+        {
+          "topic": "2.2",
+          "title": "Intention-to-treat calculation"
+        },
+        {
+          "topic": "2.3",
+          "title": "As-treated comparison"
+        },
+        {
+          "topic": "2.4",
+          "title": "One-sided noncompliance"
+        },
+        {
+          "topic": "2.5",
+          "title": "Randomization and imbalance"
+        },
+        {
+          "topic": "2.6",
+          "title": "Differential attrition"
+        },
+        {
+          "topic": "2.7",
+          "title": "Cluster assignment"
+        },
+        {
+          "topic": "2.8",
+          "title": "Blocked assignment aggregation"
+        },
+        {
+          "topic": "2.9",
+          "title": "Sharp-null randomization test"
+        },
+        {
+          "topic": "2.10",
+          "title": "Adjusted experimental analysis"
+        }
+      ]
+    },
+    {
+      "unit": 3,
+      "title": "Selection and covariate adjustment",
+      "topics": [
+        {
+          "topic": "3.1",
+          "title": "Conditional exchangeability"
+        },
+        {
+          "topic": "3.2",
+          "title": "Standardization"
+        },
+        {
+          "topic": "3.3",
+          "title": "Lack of overlap"
+        },
+        {
+          "topic": "3.4",
+          "title": "Inverse probability weight"
+        },
+        {
+          "topic": "3.5",
+          "title": "Post-treatment mediator"
+        },
+        {
+          "topic": "3.6",
+          "title": "Collider selection"
+        },
+        {
+          "topic": "3.7",
+          "title": "Matching target"
+        },
+        {
+          "topic": "3.8",
+          "title": "Doubly robust estimation"
+        },
+        {
+          "topic": "3.9",
+          "title": "Cross-fitting limitation"
+        },
+        {
+          "topic": "3.10",
+          "title": "Trimming changes the target"
+        }
+      ]
+    },
+    {
+      "unit": 4,
+      "title": "Instrumental variables and local effects",
+      "topics": [
+        {
+          "topic": "4.1",
+          "title": "Wald ratio"
+        },
+        {
+          "topic": "4.2",
+          "title": "Who are compliers?"
+        },
+        {
+          "topic": "4.3",
+          "title": "Exclusion restriction"
+        },
+        {
+          "topic": "4.4",
+          "title": "Monotonicity content"
+        },
+        {
+          "topic": "4.5",
+          "title": "Complier share"
+        },
+        {
+          "topic": "4.6",
+          "title": "LATE versus population ATE"
+        },
+        {
+          "topic": "4.7",
+          "title": "Weak first stage"
+        },
+        {
+          "topic": "4.8",
+          "title": "Instrument-specific effects"
+        },
+        {
+          "topic": "4.9",
+          "title": "Observed recipients are mixtures"
+        },
+        {
+          "topic": "4.10",
+          "title": "Defiers change the ratio"
+        }
+      ]
+    },
+    {
+      "unit": 5,
+      "title": "Difference-in-differences and panels",
+      "topics": [
+        {
+          "topic": "5.1",
+          "title": "Two-period difference-in-differences"
+        },
+        {
+          "topic": "5.2",
+          "title": "Parallel trends content"
+        },
+        {
+          "topic": "5.3",
+          "title": "Anticipation"
+        },
+        {
+          "topic": "5.4",
+          "title": "Pretrend evidence"
+        },
+        {
+          "topic": "5.5",
+          "title": "Fixed effects and time-varying confounding"
+        },
+        {
+          "topic": "5.6",
+          "title": "Staggered adoption comparisons"
+        },
+        {
+          "topic": "5.7",
+          "title": "Cohort-time target"
+        },
+        {
+          "topic": "5.8",
+          "title": "Not-yet-treated controls"
+        },
+        {
+          "topic": "5.9",
+          "title": "Aggregating cohort effects"
+        },
+        {
+          "topic": "5.10",
+          "title": "Serial correlation in panels"
+        }
+      ]
+    },
+    {
+      "unit": 6,
+      "title": "Discontinuities, sensitivity and transport",
+      "topics": [
+        {
+          "topic": "6.1",
+          "title": "Sharp RD estimand"
+        },
+        {
+          "topic": "6.2",
+          "title": "Sharp RD calculation"
+        },
+        {
+          "topic": "6.3",
+          "title": "Fuzzy RD ratio"
+        },
+        {
+          "topic": "6.4",
+          "title": "Sorting around the cutoff"
+        },
+        {
+          "topic": "6.5",
+          "title": "Bandwidth tradeoff"
+        },
+        {
+          "topic": "6.6",
+          "title": "Density diagnostic limits"
+        },
+        {
+          "topic": "6.7",
+          "title": "Sensitivity interval"
+        },
+        {
+          "topic": "6.8",
+          "title": "Transport by effect modifiers"
+        },
+        {
+          "topic": "6.9",
+          "title": "Unsupported target stratum"
+        },
+        {
+          "topic": "6.10",
+          "title": "Scaling an intervention"
+        }
+      ]
+    }
+  ]
+}

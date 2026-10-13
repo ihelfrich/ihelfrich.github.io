@@ -1,5 +1,5 @@
 {
-  "status": "partial-review-defect-open",
+  "status": "parent-content-review-complete",
   "reviewedItems": [
     {
       "id": "causal-inference-u1-01",
@@ -11,7 +11,7 @@
     },
     {
       "id": "causal-inference-u1-03",
-      "sha256": "81feafcfd364bb1b62e6701b0a2d51561fcb5ab6a182e6caeb9e1f9e25b712da"
+      "sha256": "4c9d92701fae0562c9eccf8b295ab507581697edb0c63c7294a59ad080fb26b6"
     },
     {
       "id": "causal-inference-u1-04",
@@ -83,7 +83,7 @@
     },
     {
       "id": "causal-inference-u3-01",
-      "sha256": "638fff78966cbf999f3031933831cd248bff463e2125c9671930775c760526cc"
+      "sha256": "a69d9159921a15578d82970d48b743163d037dc811fab4887ed85220b51ea23a"
     },
     {
       "id": "causal-inference-u3-02",
@@ -160,6 +160,86 @@
     {
       "id": "causal-inference-u4-10",
       "sha256": "cc09e3964a0a44e2d04da47a99fa3b0a13682c556f228b9432a70317034d8a72"
+    },
+    {
+      "id": "causal-inference-u5-01",
+      "sha256": "60a1ccf9bd630c1f9c03552402789a513cf77148c1d5f70329ba7f0aa256c7bc"
+    },
+    {
+      "id": "causal-inference-u5-02",
+      "sha256": "675f643a1dde4956669ee5459e4d084278f4f6fd9bdb53f1c7a14632c074027a"
+    },
+    {
+      "id": "causal-inference-u5-03",
+      "sha256": "2d78d92ae67c2ff9c228b9b8a8379c678619170aa87b56601129fbb1a815b64b"
+    },
+    {
+      "id": "causal-inference-u5-04",
+      "sha256": "6a550fb0e2d5e5c96b19b9ae08eef2fb9180b5801fa175adfcaf74aee7e3920d"
+    },
+    {
+      "id": "causal-inference-u5-05",
+      "sha256": "f1d718099bf24375d3a9291b3027a31e41025b35d2c1dfa40e6d98d61a5ca92b"
+    },
+    {
+      "id": "causal-inference-u5-06",
+      "sha256": "f088592356afa54bbc4f328a3d097a9f0df52e5a2d16535c2b46aa3deb2d9e74"
+    },
+    {
+      "id": "causal-inference-u5-07",
+      "sha256": "5f8c1c724789c805d692848dfbe0c51b5f44ef5d22332b357fea7d644b3daf33"
+    },
+    {
+      "id": "causal-inference-u5-08",
+      "sha256": "97f259a8bcb14c591c4103285fbb8b2ddb531731690e938996314ba43cbd0a92"
+    },
+    {
+      "id": "causal-inference-u5-09",
+      "sha256": "937dc56c79b4f3571781c931944f5c6a60a24cb0c40fb9bc7a9b24d9f73258b1"
+    },
+    {
+      "id": "causal-inference-u5-10",
+      "sha256": "2d47e40991dd0d91c69ba43afce677b66023b453a49425636e531eeec3cbea37"
+    },
+    {
+      "id": "causal-inference-u6-01",
+      "sha256": "6abed07a784a8844aa2a28d82a169fa4d50384a2e2719b7853f8397944f78738"
+    },
+    {
+      "id": "causal-inference-u6-02",
+      "sha256": "46ee3dbddf4efafdc04ae0e7684871475b11cb1d341f3492549c2c797400a894"
+    },
+    {
+      "id": "causal-inference-u6-03",
+      "sha256": "d0095bc5cfcd2cc9f032ab965c9da12745a33b120f475988c01fea160bbf18cb"
+    },
+    {
+      "id": "causal-inference-u6-04",
+      "sha256": "4bdbade6b7f24cdee5276908b796a2c0240f60fb7d336cedc62a37d3f7105dd1"
+    },
+    {
+      "id": "causal-inference-u6-05",
+      "sha256": "e22de2f607e945d5a4b7f47abd92b639c72e01df65d2d02bdb4d309c3415d78d"
+    },
+    {
+      "id": "causal-inference-u6-06",
+      "sha256": "4f53577f2a4fa462d735da8a2f323281230caafdb7e523b520796e5131a9cfc3"
+    },
+    {
+      "id": "causal-inference-u6-07",
+      "sha256": "7aa830b08736867ff2a4b11a0d611bb563f513d01d40f85aaaccb2562fffcf4a"
+    },
+    {
+      "id": "causal-inference-u6-08",
+      "sha256": "e5187184261b8eef0bcef86ddad2619ff7410039d208384e166537e20cafd286"
+    },
+    {
+      "id": "causal-inference-u6-09",
+      "sha256": "a6932cb802a606615e8c6dd92d0055ec4691873c906329e45efe07f7266c1097"
+    },
+    {
+      "id": "causal-inference-u6-10",
+      "sha256": "93b54dbdd47230b23d37fd564190f8c5f990e72410c435f71d27858fa510b542"
     }
   ],
   "scope": "Parent reviewed first40 complete records; keys/assumptions sound, option serialization defects prevent release.",
@@ -230,30 +310,78 @@
       "id": "u4-10",
       "value": 7.333333333333333,
       "passed": true
+    },
+    {
+      "id": "u5-01",
+      "check": "Difference of before-after contrasts",
+      "value": 3,
+      "passed": true
+    },
+    {
+      "id": "u5-09",
+      "check": "Cohort weighting",
+      "value": 3.5,
+      "passed": true
+    },
+    {
+      "id": "u6-02",
+      "check": "Right minus left outcome limit",
+      "value": 4,
+      "passed": true
+    },
+    {
+      "id": "u6-03",
+      "check": "Fuzzy RD Wald ratio",
+      "value": 6,
+      "passed": true
+    },
+    {
+      "id": "u6-07",
+      "check": "Sensitivity lower endpoint",
+      "value": 3,
+      "passed": true
+    },
+    {
+      "id": "u6-07",
+      "check": "Sensitivity upper endpoint",
+      "value": 7,
+      "passed": true
+    },
+    {
+      "id": "u6-08",
+      "check": "Target effect weighting",
+      "value": 3.5,
+      "passed": true
     }
   ],
   "structuralFindings": [
     {
       "id": "causal-inference-u1-03",
-      "wrongCount": 6
+      "wrongCount": 6,
+      "resolved": true,
+      "currentWrongCount": 3
     },
     {
       "id": "causal-inference-u3-01",
-      "wrongCount": 6
+      "wrongCount": 6,
+      "resolved": true,
+      "currentWrongCount": 3
     }
   ],
   "findings": [
     {
       "id": "causal-inference-u1-03",
       "issue": "Conditional-expectation vertical bars split distractors into six fragments.",
-      "resolution": "Requested explicit three-string array preserving notation and complete-bank option checks.",
-      "status": "sent-to-author"
+      "resolution": "Explicit three-string arrays preserve conditional-expectation notation; four distinct complete choices verified.",
+      "status": "resolved-and-verified"
     },
     {
       "id": "causal-inference-u3-01",
       "issue": "Same conditional-bar delimiter defect.",
-      "status": "sent-to-author"
+      "status": "resolved-and-verified",
+      "resolution": "Explicit three-string arrays preserve conditional-expectation notation; four distinct complete choices verified."
     }
   ],
-  "remaining": "Verify option corrections, final20 review and release integration; no empirical calibration."
+  "remaining": "Release integration and psychometric calibration remain. Content review is not empirical validation.",
+  "reviewScope": "All 60 stems, keys, distractors, explanations and assumptions independently read. Nineteen numerical checks; final units reviewed for parallel trends, anticipation, heterogeneous staggered adoption, RD continuity and monotonicity, sensitivity and transport support. Prior 40 hashes unchanged except the two rereviewed option repairs."
 }
