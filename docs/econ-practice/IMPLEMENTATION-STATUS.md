@@ -501,3 +501,7 @@ Next, finish, and queued-answer retry now share a navigation lock. Competing cli
 ## Student report review (2026-10-12)
 
 Session reports now offer all-answer, needs-review, and excluded-receipt views. Review counts exclude uncounted receipts. Expanded answers restore available graphs; multipart feedback uses the original part prompt and explicit part key. Excluded receipts have an explicit outcome label. A DOM regression verifies counts, filters, graphs, and multipart labels against real bank items. All 122 focused tests pass. Visual browser verification of this report remains pending.
+
+## Report completion accounting (2026-10-12)
+
+The owner-only session report now returns planned, presented, unanswered, and distinct answered question counts directly from presentations/responses. Each response includes its presentation ID, question sequence and attempt number. Student review explicitly states that displayed credit covers submitted attempts, and identifies repeated attempts without renumbering them as new questions. Added a server regression covering an unanswered presentation, two attempts on one presentation, and a subsequent unanswered question. All 123 focused tests pass. These descriptive counts do not imply score validity or replace calibrated ability estimates.

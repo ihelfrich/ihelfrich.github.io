@@ -297,3 +297,7 @@ test('question library protects keys, audits access, and paginates the complete 
   assert.equal((await t.call('/admin/questions?course=invalid',null,'test-only-admin')).status,400);
  }finally{t.env.DB.close();}
 });
+
+test('session report distinguishes planned, presented, unanswered and repeated attempts',async()=>{
+ const t=setup();try{const {p,s,next}=await enrolled(t);let report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.deepEqual(report.coverage,{planned:36,presented:1,unanswered:1,answered:0});const a=answer(next);await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID(),attemptNumber:2},p.token);await t.call(`/sessions/${s.sessionId}/next`,{},p.token);report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.deepEqual(report.coverage,{planned:36,presented:2,unanswered:1,answered:1});assert.equal(report.rows.length,2);assert.deepEqual(report.rows.map(r=>r.attemptNumber),[1,2]);assert.ok(report.rows.every(r=>r.sequence===1&&r.presentationId===next.presentationId));}finally{t.env.DB.close();}
+});
