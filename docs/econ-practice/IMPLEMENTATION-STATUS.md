@@ -379,3 +379,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Both routes validate cursor syntax/ranges; owner filtering still applies independently of cursor values. Instructor export audit includes the ledger boundary. Existing browser loops already treat cursors as opaque strings.
 - Regression uses501 synthetic receipts and inserts another between pages on each route, verifying fixed membership and fresh-export inclusion, plus malformed-range rejection.82 focused tests pass.
 - This freezes receipt membership, not all mutable joined metadata: session completion/identity linkage can still change during an export. Full transactional export snapshots and account-link concurrency remain open. No deployment.
+
+## Continuation: indexed participant ledger access
+
+- Added migration0003 with response_participant_ledger(participant_id,ledger_sequence), supporting participant-owned export/replay ranges and maximum-sequence lookup. Existing time index retained for its separate access pattern.
+- Query-plan regression demonstrates the pre-migration temporary ordering step, then verifies the new bounded read uses the ledger index without temporary sorting and the high-water lookup uses its covering index. This is plan evidence, not a production latency benchmark.
+- Response/auth integration fixtures now discover and execute every SQL migration in sorted order rather than stopping at0002.83 focused tests pass. Migration is prepared and tested locally; not applied to any remote database. Persistent checkpoints remain open.
