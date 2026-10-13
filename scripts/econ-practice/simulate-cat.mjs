@@ -3,12 +3,17 @@ import {GRID,prior,probability,posteriorUpdate,summarize,stoppingDecision} from 
 import {selectItem,newState,recordAnswer,progress,ENGINE_VERSION} from '../../src/lib/econ-practice/adaptive.mjs';
 let seed=20261012;const rng=()=>{seed=(1664525*seed+1013904223)>>>0;return (seed+.5)/4294967296;};
 const scenario=process.argv[3]??'baseline';
-const scenarios={baseline:{priorSD:1,difficultySpan:3},'wide-prior':{priorSD:2,difficultySpan:3},'wide-bank':{priorSD:1,difficultySpan:4.5},'wide-both':{priorSD:2,difficultySpan:4.5}};
+const scenarios={baseline:{priorSD:1,difficultySpan:3},'wide-prior':{priorSD:2,difficultySpan:3},'wide-bank':{priorSD:1,difficultySpan:4.5},'wide-both':{priorSD:2,difficultySpan:4.5},'large-bank':{priorSD:1,difficultySpan:3,bankSize:192},'tail-bank':{priorSD:1,difficultySpan:3,bankSize:192,tailEnriched:true},'tail-wide-prior':{priorSD:2,difficultySpan:3,bankSize:192,tailEnriched:true}};
 if(!scenarios[scenario])throw new Error('Unknown sensitivity scenario');
 const config=scenarios[scenario];
 const initialPrior=()=>{if(config.priorSD===1)return prior();const w=GRID.map(t=>Math.exp(-t*t/(2*config.priorSD**2))),sum=w.reduce((a,b)=>a+b,0);return w.map(x=>x/sum);};
-const bank=Array.from({length:48},(_,i)=>({id:`synthetic-${i}`,version:'synthetic',family:`f${i}`,course:'ap-micro',unit:1,topic:'1.1',difficulty:2,format:'numeric',answer:1,tolerance:0}));
-const items=Object.fromEntries(bank.map((q,i)=>[q.id,{a:.8+(i%4)*.3,b:-config.difficultySpan+2*config.difficultySpan*i/47,c:0,d:1}]));
+const bank=Array.from({length:config.bankSize??48},(_,i)=>({id:`synthetic-${i}`,version:'synthetic',family:`f${i}`,course:'ap-micro',unit:1,topic:'1.1',difficulty:2,format:'numeric',answer:1,tolerance:0}));
+const items=Object.fromEntries(bank.map((q,i)=>[q.id,{a:.8+(i%4)*.3,b:config.tailEnriched&&i>=48?(i<120?-1:1)*(2.4+.8*((i-48)%72)/71):-config.difficultySpan+2*config.difficultySpan*i/(config.tailEnriched?47:bank.length-1),c:0,d:1}]));
+if(config.tailEnriched){
+ const added=bank.slice(48).map(q=>items[q.id]);
+ const signature=sign=>JSON.stringify(added.filter(p=>Math.sign(p.b)===sign).map(p=>[p.a,Math.abs(p.b)]).sort((a,b)=>a[1]-b[1]));
+ if(signature(-1)!==signature(1))throw new Error('Tail enrichment must balance joint difficulty and discrimination across signs');
+}
 const calibration={id:'synthetic-simulation-only',status:'approved',bankVersion:'synthetic',items};
 const repeats=Number(process.argv[2]??30);if(!Number.isInteger(repeats)||repeats<1||repeats>500)throw new Error('Use 1–500 repetitions per trait point.');
 const reports=[];
@@ -33,4 +38,4 @@ for(const method of ['adaptive','random'])for(const theta of [-3,-2,-1,0,1,2,3])
  }
  const mean=k=>results.reduce((s,r)=>s+r[k],0)/repeats,coverage=mean('covered');reports.push({method,theta,replications:repeats,bias:mean('error'),rmse:Math.sqrt(results.reduce((s,r)=>s+r.error**2,0)/repeats),intervalCoverage:coverage,coverageMonteCarloSE:Math.sqrt(coverage*(1-coverage)/repeats),meanLength:mean('length'),meanPosteriorSD:mean('sd'),precisionStops:results.filter(r=>r.reason==='precision-and-coverage').length,maximumItemExposure:Math.max(...Object.values(exposure))/repeats});
 }
-const out={synthetic:true,engineVersion:ENGINE_VERSION,scenario,config,grid:{min:GRID[0],max:GRID.at(-1),points:GRID.length},seed:20261012,repeats,scope:'One-dimensional known-parameter synthetic bank. Does not validate real bank, six-dimensional coverage, prior choice, fit or learning dynamics.',reports};fs.mkdirSync('.local/econ-calibration',{recursive:true});fs.writeFileSync(`.local/econ-calibration/cat-${scenario}.json`,JSON.stringify(out,null,2));console.log(JSON.stringify(out,null,2));
+const out={synthetic:true,engineVersion:ENGINE_VERSION,scenario,config,grid:{min:GRID[0],max:GRID.at(-1),points:GRID.length},seed:20261012,repeats,bankSize:bank.length,maximumTestLength:48,scope:'One-dimensional known-parameter synthetic bank. Does not validate real bank, six-dimensional coverage, prior choice, fit or learning dynamics.',reports};fs.mkdirSync('.local/econ-calibration',{recursive:true});fs.writeFileSync(`.local/econ-calibration/cat-${scenario}.json`,JSON.stringify(out,null,2));console.log(JSON.stringify(out,null,2));
