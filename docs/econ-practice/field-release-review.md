@@ -113,3 +113,9 @@ Released 180 singleton questions across three courses after author and parent re
 Parent verification records 48 law checks, 37 history checks and 24 empirical-macro checks. Revisions include complete expenditure-component accounting, Gaussian measurement-noise assumptions, a VAR variance decomposition replacing repetitive arithmetic, and distinct historical production/organization cases. Final demographic, portfolio and archival wording changes were rereviewed; additional macro measurement citations were verified to change sources only.
 
 All 202 tests pass. Structural audit and review reconciliation report no errors; build produces 131 pages. Questions retain provisional psychometric parameters. Authenticated browser behavior and production deployment have not been established by these checks. The >5,000-item and broader coverage requirements remain open; principles courses and history of thought are being authored separately.
+
+## Principles courses — bank 2026.10.13.34
+
+Released 60 Principles of Microeconomics and 60 Principles of Macroeconomics questions under separate general undergraduate course titles. Both use fresh non-calculus scenarios and have source outlines, author self-reviews, full parent reviews and byte-pinned release manifests. Micro review verified 28 numerical/strategic checks and clarified unchanged equilibrium quantity, otherwise-identical job attributes and future money versus purchasing power. Macro review verified 24 numerical checks; final appended primary banking citations were checked without accepting unreviewed question changes. Method hints are private, version topic-scaffolds-v22.
+
+Active inventory is 4,857 items / 1,882 families / 33 courses. All204 tests pass; bank audit has zero errors/warnings; review reconciliation has zero errors; static build completes131 pages. Parameters remain provisional and these checks do not establish empirical calibration or authenticated browser behavior.

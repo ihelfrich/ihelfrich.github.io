@@ -1,3 +1,7 @@
+import principlesMacro from '../../../content/econ-drafts/principles-macro.json' with {type:'json'};
+import principlesMacroRelease from '../../../content/econ-drafts/principles-macro-release.json' with {type:'json'};
+import principlesMicro from '../../../content/econ-drafts/principles-micro.json' with {type:'json'};
+import principlesMicroRelease from '../../../content/econ-drafts/principles-micro-release.json' with {type:'json'};
 import law from '../../../content/econ-drafts/law-economics.json' with {type:'json'};
 import lawRelease from '../../../content/econ-drafts/law-economics-release.json' with {type:'json'};
 import economicHistory from '../../../content/econ-drafts/economic-history.json' with {type:'json'};
@@ -60,7 +64,7 @@ import {family,families} from './bank.mjs';
 import {fieldQuestionAt} from './field-expansions.mjs';
 import {auditFieldRelease} from './field-release.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease],[advancedMicro,advancedMicroRelease],[advancedMacro,advancedMacroRelease],[gameTheory,gameTheoryRelease],[monetary,monetaryRelease],[internationalMacro,internationalMacroRelease],[causal,causalRelease],[education,educationRelease],[growth,growthRelease],[contract,contractRelease],[statistics,statisticsRelease],[advancedEconometrics,advancedEconometricsRelease],[marketDesign,marketDesignRelease],[law,lawRelease],[economicHistory,economicHistoryRelease],[empiricalMacro,empiricalMacroRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease],[advancedMicro,advancedMicroRelease],[advancedMacro,advancedMacroRelease],[gameTheory,gameTheoryRelease],[monetary,monetaryRelease],[internationalMacro,internationalMacroRelease],[causal,causalRelease],[education,educationRelease],[growth,growthRelease],[contract,contractRelease],[statistics,statisticsRelease],[advancedEconometrics,advancedEconometricsRelease],[marketDesign,marketDesignRelease],[law,lawRelease],[economicHistory,economicHistoryRelease],[empiricalMacro,empiricalMacroRelease],[principlesMicro,principlesMicroRelease],[principlesMacro,principlesMacroRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);
