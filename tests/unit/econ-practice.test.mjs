@@ -35,3 +35,20 @@ test('independent economic checks across all numeric variants',()=>{
 test('conceptual choices do not all put the correct answer in the same position',async()=>{const {buildBank:buildFull}=await import('../../src/lib/econ-practice/index.mjs');const choices=buildFull().filter(q=>q.format==='choice');const counts=[0,0,0,0];choices.forEach(q=>counts[q.answerIndex]++);for(const count of counts)assert.ok(count>choices.length*.1&&count<choices.length*.5,JSON.stringify(counts));});
 test('rendered explanations do not leak the generator index',async()=>{const {buildBank:buildFull}=await import('../../src/lib/econ-practice/index.mjs');for(const q of buildFull()){assert.ok(!/\d+\.\d{8,}/.test(q.prompt),q.id);if(q.family!=='golden-rule')assert.ok(!/\bn\b|\d+n\b/.test(q.explanation),q.id);}});
 test('first six all-unit assessment selections cover every unit',()=>{const s=newState();let seed=23;const rng=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};for(let i=0;i<6;i++){const q=selectItem(bank,s,{mode:'assessment',sessionId:'coverage',rng}).item;recordAnswer(s,q,{response:q.format==='choice'?q.answerIndex:q.answer,mode:'assessment',sessionId:'coverage'});}assert.equal(new Set(s.history.map(h=>h.unit)).size,6);});
+test('a correct answer after a hint schedules finite early review without increasing an unassisted streak',()=>{
+ const state=newState(),q=bank.find(q=>q.format==='numeric'),at=100000;
+ recordAnswer(state,q,{response:q.answer,hints:1,at});const topic=state.topics[`${q.course}:${q.topic}`];
+ assert.equal(topic.streak,0);assert.equal(topic.due,at+0.04*86400000);assert.equal(Object.keys(state.posteriors).length,0);
+});
+test('selection respects within-family information and records the exact joint propensity',()=>{
+ const base=bank.find(q=>q.format==='numeric'),items=[{...base,id:'a',family:'same'},{...base,id:'b',family:'same'},{...base,id:'c',family:'other'}];
+ const calibration={id:'test-calibration',status:'approved',bankVersion:base.version,items:{a:{a:.2,b:0},b:{a:3,b:0},c:{a:1,b:0}}};
+ const sample=draws=>{let i=0;return selectItem(items,newState(),{course:base.course,unit:base.unit,mode:'assessment',calibration,rng:()=>draws[i++]});};
+ const a=sample([0,0]),b=sample([0,.999999]),c=sample([.999999,0]);
+ assert.equal(a.item.id,'a');assert.equal(b.item.id,'b');assert.equal(c.item.id,'c');
+ assert.ok(b.selection.probability>a.selection.probability);
+ assert.ok(Math.abs(a.selection.probability+b.selection.probability+c.selection.probability-1)<1e-12);
+ const equal=items.map(q=>({...q,difficulty:2}));let calls=0;
+ const selected=selectItem(equal,newState(),{unit:base.unit,mode:'assessment',rng:()=>[0,0][calls++]});
+ assert.ok(Math.abs(selected.selection.probability-.25)<1e-12,'two equal families each get half the mass, two siblings each get one quarter');
+});

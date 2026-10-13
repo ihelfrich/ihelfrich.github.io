@@ -105,3 +105,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Bank version 2026.10.12.6. Findings and current item hashes are in audits/ap-micro-concepts-remainder.json. All 39 focused tests and structural checks pass.
 - First substantive self-review now covers all 142 AP Micro families (71 core plus71 added concepts). The four review records retain their original bank versions/hashes, so this is historical review coverage, not automatic current-hash certification. A second pass must consolidate current content and review evidence before publication. Item metadata deliberately still says draft-awaiting-content-audit.
 - No empirical validation is implied. Content breadth/format expansion, second pass, other-course reviews, psychometric operation, reliability/security and live setup remain open.
+
+## Continuation: adaptive scheduling and propensities
+
+- Fixed a hinted-correct response setting streak zero and indexing the review schedule at −1, producing NaN. Assisted responses now get the same finite early-review interval as incorrect responses without increasing unassisted streaks.
+- Selection engine v2 uses mean exponential utility per family, then conditional utility-weighted sampling within the selected family. Previously the first sibling’s utility determined family mass and siblings were uniform, ignoring variant-specific calibrated information. Exact joint propensities are retained; equal-utility large families still receive no family-size advantage.
+- Regressions cover finite assisted review, no psychometric evidence from practice, unequal within-family information, probability normalization and family-size neutrality. All 41 focused tests pass. Operational calibration is still not activated; this change is not empirical validation.
