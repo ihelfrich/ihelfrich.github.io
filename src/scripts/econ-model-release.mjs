@@ -17,7 +17,7 @@ export async function renderModelRelease(artifact,approvals,panel,request,status
  section.append(history);
  const form=node('form',''),choice=doc.createElement('select'),choiceLabel=node('label','Release decision');choice.required=true;
  const blank=node('option','Choose a decision');blank.value='';choice.append(blank);
- for(const approval of approvals){const option=node('option',`Use this package — approval ${approval.approved_at}`);option.value=approval.id;choice.append(option);}
+ for(const approval of approvals){const option=node('option',`Use this package: approval ${approval.approved_at}`);option.value=approval.id;choice.append(option);}
  if(current?.approval_id){const option=node('option','Withdraw calibration and use provisional parameters');option.value='withdraw';choice.append(option);}
  choiceLabel.append(choice);
  const reason=doc.createElement('textarea'),reasonLabel=node('label','Reason for this release decision');reason.required=true;reason.maxLength=2000;reasonLabel.append(reason);

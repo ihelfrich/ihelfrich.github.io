@@ -9,7 +9,7 @@ export function setupIrtWorkbench(request,document=globalThis.document){
   const m=result.artifacts.manifest,details=node('details','');
   details.append(node('summary','Dataset and export identity'));
   details.append(node('p',`${m.course} · Unit ${m.unit} · Bank ${m.bankVersion}`));
-  details.append(node('p',m.synthetic?'Synthetic practice data — not eligible for operational calibration.':'Declared collected response data. This declaration does not establish calibration validity.'));
+  details.append(node('p',m.synthetic?'Synthetic practice data: not eligible for operational calibration.':'Declared collected response data. This declaration does not establish calibration validity.'));
   details.append(node('p','Keep the source ledger, response matrix and manifest together. These fingerprints identify the exported files; they do not certify the statistical model.'));
   const list=node('dl','');
   for(const [label,value] of [['Source ledger SHA-256',m.sourceSHA256],['Response matrix SHA-256',m.matrixArtifact.sha256]]){
