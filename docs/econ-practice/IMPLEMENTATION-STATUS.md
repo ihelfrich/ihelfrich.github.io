@@ -308,3 +308,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Corrected lifetime pooling of unit measurement posteriors. Enginev6 keys posteriors by session/course/unit; information-based selection uses the current occasion. Report progress now explicitly carries sessionId, estimationScope=session and eligible measurement-response counts, with attempts/credit restricted to that session.
 - Lifetime topic learning/review state remains formative. Lifetime family exposure still excludes previously practiced families from fresh binary evidence; starting a new session does not erase exposure history.
 - Regressions verify a new occasion starts at the prior, later responses do not alter earlier estimates, current routing matches an isolated occasion, and previously practiced families remain excluded.77 focused tests pass. No bank change; no empirical calibration or longitudinal linking claim. Persisted checkpoints, when implemented, must use state version2 or rebuild.
+
+## Continuation: evidence-qualified diagnostic reports
+
+- Report estimates are null when the requested session/unit has no eligible evidence; an untouched routing prior is no longer exposed as measured performance. Reports include measurementStatus and modelVersions. Authored-parameter evidence is explicitly provisional.
+- Records preserve parameter status. Reports suppress numerical estimates for mixed model versions without linking. This is a reporting guard; operational model activation/pinning and protection against mixed-model routing remain unfinished and must precede deployment of calibrated models.
+- Regression covers no-evidence, provisional, synthetic approved-model and mixed-version cases.78 focused tests pass. No empirical calibration or bank change.

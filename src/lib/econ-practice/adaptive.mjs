@@ -25,7 +25,7 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  // Repeated family variants and assisted practice do not count as independent IRT evidence.
  const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
  if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
- state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,score:grade.score,earned:grade.earned,possible:grade.possible,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion});
+ state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,score:grade.score,earned:grade.earned,possible:grade.possible,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion,parameterStatus:p.status});
  if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
  return state;
 }
@@ -75,4 +75,12 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
  return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
 }
-export function progress(state,course,{sessionId='local'}={}){return courses[course].units.map((name,i)=>{const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1&&h.sessionId===sessionId);return {unit:i+1,name,sessionId,estimationScope:'session',attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,measurementResponses:attempts.filter(h=>h.psychometricEligible).length,estimate:summarize(state.posteriors[posteriorKey(sessionId,course,i+1)]??prior())};});}
+export function progress(state,course,{sessionId='local'}={}){
+ return courses[course].units.map((name,i)=>{
+  const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1&&h.sessionId===sessionId);
+  const evidence=attempts.filter(h=>h.psychometricEligible),models=[...new Set(evidence.map(h=>h.modelVersion))];
+  const weights=state.posteriors[posteriorKey(sessionId,course,i+1)];
+  const measurementStatus=!evidence.length?'no-eligible-evidence':models.length!==1?'incompatible-model-versions':evidence.every(h=>h.parameterStatus==='calibrated')?'calibrated':'provisional';
+  return {unit:i+1,name,sessionId,estimationScope:'session',attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,measurementResponses:evidence.length,measurementStatus,modelVersions:models,estimate:evidence.length&&models.length===1&&weights?summarize(weights):null};
+ });
+}
