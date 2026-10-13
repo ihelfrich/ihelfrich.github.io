@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.22",
-  "bankSHA256": "79f13e90ba655dd72ac35029db0f510a0d3c26290ce4aca94770b419f44e6afe",
+  "bankVersion": "2026.10.12.23",
+  "bankSHA256": "c9cfa3eb10c44e897f2ef7f17a65dc9703612403a9a15eed1faab6316afbbdb6",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -24,7 +24,7 @@
       "families": 60
     },
     "international-trade": {
-      "items": 60,
+      "items": 316,
       "families": 60
     },
     "development-economics": {
@@ -4335,9 +4335,9 @@
       "course": "international-trade",
       "family": "international-trade-u1-03",
       "topic": "1.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4347,16 +4347,20 @@
         "answer": "Bicycles only, with a $6 wage.",
         "explanation": "Bicycles support 18/3=$6 per hour; baskets support only 8/2=$4. At the common $6 wage baskets cannot cover costs."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u1-03:17",
+        "prompt": "In a one-factor competitive economy, a bicycle requires 2 labor hours and a basket 3 hours. Freely traded world prices are $44 per bicycle and $57 per basket. Labor moves freely between sectors, and labor is the only cost. What hourly wage is consistent with positive production? Give dollars per hour.",
+        "answer": 22
+      }
     },
     {
       "course": "international-trade",
       "family": "international-trade-u1-04",
       "topic": "1.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -4365,7 +4369,11 @@
         "answer": "40 fish and 20 jars of honey.",
         "explanation": "Production is 60 fish. Exporting 20 purchases 20 honey, leaving 40 fish. Producing this bundle at home would require 160 hours."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u1-04:17",
+        "prompt": "An island has 420 labor hours. A fish requires 3 hours and a jar of honey 12 hours. At a world price of 2 fish per jar of honey, it specializes in fish and exports 27 fish. With balanced trade and no trade costs, how many jars of honey can it consume?",
+        "answer": 13.5
+      }
     },
     {
       "course": "international-trade",
@@ -4389,9 +4397,9 @@
       "course": "international-trade",
       "family": "international-trade-u1-06",
       "topic": "1.6",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4401,7 +4409,11 @@
         "answer": "Foreign production, at $3 per usable crate versus $4 for imports.",
         "explanation": "Home factory cost is $2, but two crates must be shipped per usable arrival, making delivered cost $4. Foreign cost is 9/3=$3."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u1-06:17",
+        "prompt": "A Home worker produces 4 crates per hour and earns $64 per hour. Only 80% of crates shipped from Home reach Foreign usable. A Foreign worker produces 3 crates per hour at a wage of $66. With no other costs, what is the delivered Home cost per usable crate in Foreign, in dollars?",
+        "answer": 20
+      }
     },
     {
       "course": "international-trade",
@@ -4551,10 +4563,10 @@
       "course": "international-trade",
       "family": "international-trade-u2-05",
       "topic": "2.5",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -4563,7 +4575,11 @@
         "answer": "60 workers in A and 40 in B.",
         "explanation": "Equalizing 100-L_A=80-(100-L_A) gives 120=2L_A, so L_A=60 and the wage is $40."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u2-05:17",
+        "prompt": "Two specific-factors sectors share 130 workers. Their value marginal products are 115 − 1L_A and 195 − 2L_B dollars per worker, with L_A + L_B = 130. Workers move freely and both sectors operate. How many workers are employed in A at equilibrium?",
+        "answer": 60
+      }
     },
     {
       "course": "international-trade",
@@ -4623,9 +4639,9 @@
       "course": "international-trade",
       "family": "international-trade-u2-09",
       "topic": "2.9",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4635,7 +4651,11 @@
         "answer": "It is unchanged.",
         "explanation": "The cost-of-living index rises by the square root of 1.21, or 10%. Wage and expenditure required for a given utility scale equally."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u2-09:17",
+        "prompt": "A worker has Cobb-Douglas preferences and spends half of expenditure on each of two goods. The first price becomes 1.1664 times its initial value, the second price is unchanged, and the wage becomes 1.1556 times its initial value. Wage income is the worker's only income. What is the percentage change in real income using the exact cost-of-living index? Enter a signed percentage, not a decimal fraction.",
+        "answer": 7
+      }
     },
     {
       "course": "international-trade",
@@ -4731,9 +4751,9 @@
       "course": "international-trade",
       "family": "international-trade-u3-05",
       "topic": "3.5",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4743,7 +4763,11 @@
         "answer": "w=$3 and r=$4.",
         "explanation": "The zero-profit equations 2w+r=10 and w+3r=15 imply r=4 and w=3."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u3-05:17",
+        "prompt": "A competitive diversified economy produces shirts and machines. At the relevant input coefficients a shirt costs 3w + 1r and a machine costs 1w + 3r, where w is dollars per labor unit and r dollars per capital unit. Their prices are $61 and $39. Both goods are produced. What is w?",
+        "answer": 18
+      }
     },
     {
       "course": "international-trade",
@@ -4785,9 +4809,9 @@
       "course": "international-trade",
       "family": "international-trade-u3-08",
       "topic": "3.8",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4797,7 +4821,11 @@
         "answer": "Exports 20 capital units and imports 30 labor units.",
         "explanation": "Net capital is 10(4)-20(1)=20; net labor is 10(1)-20(2)=-30. Netting imports against exports is essential."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u3-08:17",
+        "prompt": "A country exports 42 machines, each embodying 4 capital units and 1 labor unit, and imports 35 garments, each embodying 1 capital unit and 2 labor units. Using these stated coefficients, what is its net capital content of trade in capital units? Enter exports minus imports, with a negative answer indicating net imports of capital services.",
+        "answer": 133
+      }
     },
     {
       "course": "international-trade",
@@ -4875,9 +4903,9 @@
       "course": "international-trade",
       "family": "international-trade-u4-03",
       "topic": "4.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4887,7 +4915,11 @@
         "answer": "No; exporting would reduce profit by $10,000.",
         "explanation": "The incremental export profit is 180,000-140,000-50,000=-10,000. Positive operating surplus is insufficient to cover entry cost."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u4-03:17",
+        "prompt": "A firm would earn $175000 in export revenue this period and incur $90000 in variable export costs. Entering this market also requires a $70000 fixed cost for the period; domestic operations are unaffected, and none of the entry cost has been paid. What is the change in total profit if the firm enters? Give a signed dollar amount.",
+        "answer": 15000
+      }
     },
     {
       "course": "international-trade",
@@ -4947,9 +4979,9 @@
       "course": "international-trade",
       "family": "international-trade-u4-07",
       "topic": "4.7",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -4959,7 +4991,11 @@
         "answer": "$30.",
         "explanation": "Price equals elasticity/(elasticity-1) times marginal cost: 5/4 times 24=$30."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u4-07:17",
+        "prompt": "A monopolistically competitive firm faces constant absolute demand elasticity 5 and constant marginal cost $204. Assume an interior profit-maximizing price, positive demand, and no other variable costs. What dollar price does the constant-elasticity markup rule imply?",
+        "answer": 255
+      }
     },
     {
       "course": "international-trade",
@@ -5037,10 +5073,10 @@
       "course": "international-trade",
       "family": "international-trade-u5-02",
       "topic": "5.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -5049,15 +5085,19 @@
         "answer": "45 units.",
         "explanation": "At P=15, demand is 70 and supply is 25, so imports are 45. Before the tariff they were 80-20=60."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u5-02:17",
+        "prompt": "Domestic demand is Q_D=137−2P and supply is Q_S=23+1P, with quantities in units and P in dollars per unit. A small country faces a fixed world price of $8 and imposes a specific tariff of $5 per unit. Markets are competitive, trade costs are zero, and there are no other distortions. What are imports after the tariff?",
+        "answer": 75
+      }
     },
     {
       "course": "international-trade",
       "family": "international-trade-u5-03",
       "topic": "5.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5067,7 +5107,11 @@
         "answer": "$32.",
         "explanation": "Production distortion is one-half times 4 times 6=$12; consumption distortion is one-half times 4 times 10=$20. Revenue is a transfer within the country."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u5-03:17",
+        "prompt": "A small-country specific tariff of $17 per unit raises domestic production by 32 units and reduces consumption by 34 units. Supply and demand are linear, the world price is fixed, imports remain positive, and no other distortions exist. What is the national deadweight loss in dollars?",
+        "answer": 561
+      }
     },
     {
       "course": "international-trade",
@@ -5145,9 +5189,9 @@
       "course": "international-trade",
       "family": "international-trade-u5-08",
       "topic": "5.8",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5157,7 +5201,11 @@
         "answer": "10%.",
         "explanation": "Free-trade value added is $40; protected value added is $44. The increase of $4 divided by $40 is 10%."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u5-08:17",
+        "prompt": "Under free trade a bicycle sells for $250 and uses one imported component costing $150. Tariffs raise the bicycle price to $275 and the component price to $175.5. Input coefficients stay fixed; there is no other imported content. What is the effective protection rate on domestic value added? Enter a signed percentage, rounded to three decimal places if needed.",
+        "answer": -0.5
+      }
     },
     {
       "course": "international-trade",
@@ -5199,9 +5247,9 @@
       "course": "international-trade",
       "family": "international-trade-u6-01",
       "topic": "6.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5211,15 +5259,19 @@
         "answer": "32%.",
         "explanation": "The new product is 1.20 times 1.10=1.32 of the old one. Percentage changes compound."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u6-01:17",
+        "prompt": "In a simplified gravity equation, bilateral trade is proportional to exporter GDP times importer GDP divided by distance. Exporter GDP rises 20%, importer GDP rises 7%, and distance is unchanged. Holding all other terms fixed, what is the predicted percentage increase in trade? Enter a percentage, not a decimal fraction.",
+        "answer": 28.4
+      }
     },
     {
       "course": "international-trade",
       "family": "international-trade-u6-02",
       "topic": "6.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5229,7 +5281,11 @@
         "answer": "1.10 raised to -1.2, approximately 0.892.",
         "explanation": "Exponentiating the fitted log change gives 1.10 raised to -1.2. The exact decrease is about 10.8%; 12% is a local approximation. This concerns the exponentiated fit, not a claim about the conditional arithmetic mean without retransformation assumptions."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u6-02:17",
+        "prompt": "A hypothetical regression of log trade on log distance has slope -1.2 on log distance. Distance rises 35%. Holding all other regressors fixed, by what factor does the exponentiated fitted value change? Compute the exact multiplicative expression and round to three decimal places.",
+        "answer": 0.698
+      }
     },
     {
       "course": "international-trade",
@@ -5271,9 +5327,9 @@
       "course": "international-trade",
       "family": "international-trade-u6-05",
       "topic": "6.5",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5283,16 +5339,20 @@
         "answer": "$80.",
         "explanation": "Gross exports include foreign input value. Subtracting imported content leaves $200-$120=$80 of domestic value added."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u6-05:17",
+        "prompt": "A firm exports a product for $500, using $225 of imported inputs and creating the remaining value domestically. Assume no other foreign content or double counting within the firm. What dollar amount of domestic value added is embodied in the export?",
+        "answer": 275
+      }
     },
     {
       "course": "international-trade",
       "family": "international-trade-u6-06",
       "topic": "6.6",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -5301,7 +5361,11 @@
         "answer": "5,000 units.",
         "explanation": "Equating 9q=5q+20,000 gives q=5,000. Above that volume the $4 unit saving outweighs the fixed cost."
       },
-      "last": null
+      "last": {
+        "id": "international-trade:international-trade-u6-06:17",
+        "prompt": "Performing a task at home costs $11 per unit. Offshoring costs $3 per unit plus an avoidable fixed coordination cost of $46000. Quality is identical, and there are no other costs. At what volume, in units, are total costs equal?",
+        "answer": 5750
+      }
     },
     {
       "course": "international-trade",

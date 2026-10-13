@@ -20,3 +20,11 @@ test('graph descriptions expose equations and safely escape labels',()=>{
  const rendered=renderGraph(g);assert.ok(rendered.includes('&lt;script&gt;'));assert.ok(!rendered.includes('<script>'));assert.ok(graphDescription(g).includes('P = 20 minus 2 times Q'));assert.ok(rendered.includes('aria-label="P against Q. Horizontal range'));
  assert.equal(renderGraph({...g,xMax:0}),'');
 });
+
+test('large monetary ticks receive space between the vertical title and plot',()=>{
+ const g={kind:'lines',xMax:11500,yMax:126500,xLabel:'Volume',yLabel:'Total cost ($)',lines:[{label:'Home',intercept:0,slope:11}]};
+ const svg=renderGraph(g);
+ const left=Number(svg.match(/class="axis" d="M([\d.]+),/)[1]);
+ assert(left>=99);
+ assert(svg.includes('126500'));
+});

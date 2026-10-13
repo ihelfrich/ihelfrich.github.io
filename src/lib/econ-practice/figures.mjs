@@ -15,7 +15,8 @@ export function graphDescription(g){
 export function renderGraph(g){
  if(!g||g.kind!=='lines')return '';
  if(!Array.isArray(g.lines)||!g.lines.length||![g.xMax,g.yMax].every(n=>Number.isFinite(n)&&n>0)||g.lines.some(l=>![l.intercept,l.slope].every(Number.isFinite)))return '';
- const W=600,H=400+g.lines.length*25,L=65,R=45,T=35,plotBottom=315;
+ const tickWidth=Math.max(...Array.from({length:6},(_,i)=>fmt(g.yMax*i/5).length))*9;
+ const W=600,H=400+g.lines.length*25,L=Math.max(65,45+tickWidth),R=45,T=35,plotBottom=315;
  const x=q=>L+q/g.xMax*(W-L-R),y=p=>plotBottom-p/g.yMax*(plotBottom-T);
  const ticks=Array.from({length:6},(_,i)=>i/5),description=graphDescription(g);
  let parts=[`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escape(description)}"><title>${escape(g.yLabel)} against ${escape(g.xLabel)}</title><desc>${escape(description)}</desc>`];
