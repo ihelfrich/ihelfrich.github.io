@@ -505,3 +505,7 @@ Session reports now offer all-answer, needs-review, and excluded-receipt views. 
 ## Report completion accounting (2026-10-12)
 
 The owner-only session report now returns planned, presented, unanswered, and distinct answered question counts directly from presentations/responses. Each response includes its presentation ID, question sequence and attempt number. Student review explicitly states that displayed credit covers submitted attempts, and identifies repeated attempts without renumbering them as new questions. Added a server regression covering an unanswered presentation, two attempts on one presentation, and a subsequent unanswered question. All 123 focused tests pass. These descriptive counts do not imply score validity or replace calibrated ability estimates.
+
+## Instructor assignment accounting (2026-10-12)
+
+Assignment reports now include presented/unanswered counts and separately retained submission counts, alongside existing first-attempt receipt and counted-score totals. The instructor view distinguishes these categories and labels completed sessions as ended rather than implying all questions were answered. Regression verifies that a post-completion receipt removes the unanswered classification while contributing zero counted answers/credit. All 124 focused tests pass.

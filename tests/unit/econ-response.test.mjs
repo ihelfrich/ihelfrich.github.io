@@ -301,3 +301,15 @@ test('question library protects keys, audits access, and paginates the complete 
 test('session report distinguishes planned, presented, unanswered and repeated attempts',async()=>{
  const t=setup();try{const {p,s,next}=await enrolled(t);let report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.deepEqual(report.coverage,{planned:36,presented:1,unanswered:1,answered:0});const a=answer(next);await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID(),attemptNumber:2},p.token);await t.call(`/sessions/${s.sessionId}/next`,{},p.token);report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.deepEqual(report.coverage,{planned:36,presented:2,unanswered:1,answered:1});assert.equal(report.rows.length,2);assert.deepEqual(report.rows.map(r=>r.attemptNumber),[1,2]);assert.ok(report.rows.every(r=>r.sequence===1&&r.presentationId===next.presentationId));}finally{t.env.DB.close();}
 });
+
+test('instructor assignment report separates unanswered questions from excluded receipts',async()=>{
+ const t=setup();try{
+  const {p,s,next}=await enrolled(t,'assessment'),assignmentId=crypto.randomUUID(),at=new Date().toISOString();
+  await t.env.DB.prepare('INSERT INTO assignments (id,title,course,bank_version,item_count,max_attempts,opens_at,closes_at,created_at,created_by,unit_filter,topic_filter) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').bind(assignmentId,'Test report','ap-micro',[...bank.values()][0].version,6,1,at,'2099-01-01T00:00:00Z',at,'test',0,'').run();
+  await t.env.DB.prepare('UPDATE sessions SET assignment_id=?,assignment_attempt=1,target_count=6 WHERE id=?').bind(assignmentId,s.sessionId).run();
+  const {assignmentReport}=await import('../../services/econ-response/assignments.mjs');
+  let report=await assignmentReport(t.env,assignmentId);assert.equal(report.sessions[0].presented,1);assert.equal(report.sessions[0].unanswered,1);assert.equal(report.sessions[0].answered,0);
+  await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);
+  report=await assignmentReport(t.env,assignmentId);assert.equal(report.sessions[0].received,1);assert.equal(report.sessions[0].answered,0);assert.equal(report.sessions[0].unanswered,0);assert.equal(report.sessions[0].total_credit,0);assert.equal(report.sessions[0].separately_retained,0);
+ }finally{t.env.DB.close();}
+});
