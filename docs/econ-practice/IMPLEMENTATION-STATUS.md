@@ -5,9 +5,9 @@ Branch: codex/adaptive-economics
 Base site: ihelfrich/ihelfrich.github.io
 Agent Log: 3f808471-6405-8177-9fd4-db6c6d4478b3
 
-## Current verified snapshot — bank 2026.10.13.34
+## Current verified snapshot — bank 2026.10.13.35
 
-Active inventory: 4,857 questions, 1,882 families, 33 courses. Latest full suite: 204 passing tests; structural bank audit clean; 131-page static build. Calibration approval, release/withdrawal history and atomic session model pins are implemented with instructor controls. Authenticated browser verification, production configuration/deployment and empirical calibration remain incomplete. Principles of Microeconomics and Principles of Macroeconomics are active, each with 60 reviewed singleton questions. History of Economic Thought, Mathematical Economics and Computational Economics remain in authoring/review and are not active. The older continuation entries below are historical evidence, not the current inventory.
+Active inventory: 5,037 questions, 2,062 families, 36 courses. Latest economics suite: 207 passing tests; full site check chain passes; structural bank audit clean; 131-page static build. Calibration approval, release/withdrawal history and atomic session model pins are implemented with instructor controls. Authenticated browser verification, production configuration/deployment and empirical calibration remain incomplete. Principles of Microeconomics and Principles of Macroeconomics are active, each with 60 reviewed singleton questions. History of Economic Thought, Mathematical Economics and Computational Economics are now active with60 reviewed singleton questions each. Focused runtime reviews found lost-link credential recovery and receipt-order-dependent eligibility defects; fixes are underway. The older continuation entries below are historical evidence, not the current inventory.
 
 Previous bank .32 Worker dry-run: 2,438.98 KiB uncompressed (478.47 KiB gzip). Local startup profile: 32.2 ms sampled / 21.7 ms active. See audits/deployment-preflight-current.json for scope and limitations; neither result verifies a live deployment.
 

@@ -1,0 +1,1332 @@
+[
+  {
+    "id": "computational-economics-u1-01",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Bracketing a market-clearing price",
+    "prompt": "Continuous excess demand is z(p)=5-p² on [2,3]. One bisection step evaluates the midpoint. Which bracket should be retained?",
+    "correct": "[2, 2.5]",
+    "wrong": [
+      "[2.5, 3]",
+      "[2, 3.5]",
+      "[0, 2]"
+    ],
+    "explanation": "The midpoint is 2.5, where z=-1.25. Since z(2)=1, the sign change lies between 2 and 2.5.",
+    "hint": "Evaluate the sign at the midpoint before replacing an endpoint.",
+    "skill": "bracketing a market-clearing price",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-02",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "A Newton price update",
+    "prompt": "To solve p²-10=0, a Newton iteration starts at p=3. What is the next iterate?",
+    "correct": "19/6, approximately 3.1667",
+    "wrong": [
+      "10/3, approximately 3.3333",
+      "17/6, approximately 2.8333",
+      "4"
+    ],
+    "explanation": "Newton gives p_new=3-(9-10)/6=19/6. This is an update, not the exact root.",
+    "hint": "Use x_new=x-f(x)/f′(x).",
+    "skill": "a newton price update",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-03",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "When a bracket certifies existence",
+    "prompt": "A programmer finds f(a)<0<f(b) but f is discontinuous between a and b. What follows?",
+    "correct": "The sign change alone does not guarantee a zero between a and b.",
+    "wrong": [
+      "There is exactly one zero.",
+      "Bisection must converge to a zero.",
+      "The derivative must vanish between the endpoints."
+    ],
+    "explanation": "The intermediate value argument needs continuity. A jump can cross zero without attaining it.",
+    "hint": "Identify the missing hypothesis in the intermediate value theorem.",
+    "skill": "when a bracket certifies existence",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-04",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Budget-feasible projected steps",
+    "prompt": "An allocation x must lie in [0,1]. A gradient step from x=0.8 proposes x=1.3. What does Euclidean projection onto the feasible interval return?",
+    "correct": "1",
+    "wrong": [
+      "1.3",
+      "0.3",
+      "0.8"
+    ],
+    "explanation": "Projection chooses the closest feasible point, the upper endpoint 1. This enforces feasibility but alone does not certify optimality.",
+    "hint": "Clamp the proposed scalar to the interval.",
+    "skill": "budget-feasible projected steps",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-05",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "A stationary point that is not a maximum",
+    "prompt": "A solver maximizing f(x)=x⁴ on [-1,1] stops at x=0 because f′(0)=0. What is the appropriate diagnosis?",
+    "correct": "The solver stopped at a minimum; the maximum is attained at the endpoints.",
+    "wrong": [
+      "Zero gradient proves a global maximum.",
+      "Every feasible x has equal value.",
+      "The feasible set has no maximizer."
+    ],
+    "explanation": "f(0)=0 while f(±1)=1. First-order stationarity alone cannot classify an extremum.",
+    "hint": "Compare nearby values and boundary values.",
+    "skill": "a stationary point that is not a maximum",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-06",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Backtracking an overshooting step",
+    "prompt": "Minimize f(x)=(x-2)² starting at x=0. The direction is d=4, and candidate step lengths are 2,1,1/2 in that order. Accept the first strict decrease in f. Which length is accepted?",
+    "correct": "1/2",
+    "wrong": [
+      "2",
+      "1",
+      "None of the three"
+    ],
+    "explanation": "At lengths 2 and 1 the new x values are 8 and 4, with objectives 36 and 4. The initial value is 4, so neither strictly decreases it. Length 1/2 reaches x=2 with value zero.",
+    "hint": "Evaluate the objective at each candidate, applying the strict inequality.",
+    "skill": "backtracking an overshooting step",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-07",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "A misleading residual scale",
+    "prompt": "Two programs solve the same scalar equation, using residuals f(x) and 10⁶f(x). Both stop when absolute residual is below 10⁻⁶. Which is correct?",
+    "correct": "The second program imposes a tighter condition on the original residual.",
+    "wrong": [
+      "The stopping conditions are identical.",
+      "The second program necessarily finds a different mathematical root.",
+      "The first program requires f(x) below 10⁻¹²."
+    ],
+    "explanation": "The second condition is |f(x)|<10⁻¹². Rescaling equations leaves their zeros unchanged but changes an unscaled absolute stopping test.",
+    "hint": "Translate both tests into units of f.",
+    "skill": "a misleading residual scale",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-08",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "A flat equation near its root",
+    "prompt": "For f(x)=10⁻⁸(x-1), a solver reports x=11 and residual 10⁻⁷. What is the parameter error |x-1|?",
+    "correct": "10",
+    "wrong": [
+      "10⁻⁷",
+      "10⁻⁸",
+      "Zero"
+    ],
+    "explanation": "A small residual can coexist with large root error when the derivative is tiny. Here the error is exactly 10.",
+    "hint": "Divide the residual by the slope.",
+    "skill": "a flat equation near its root",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-09",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "A constrained profit maximum",
+    "prompt": "Maximize π(q)=6q-q² subject to 0≤q≤2. Which output is optimal?",
+    "correct": "q=2",
+    "wrong": [
+      "q=3",
+      "q=0",
+      "q=1"
+    ],
+    "explanation": "The unconstrained maximizer is 3, outside the feasible interval. Profit is increasing throughout [0,2], so the upper bound binds.",
+    "hint": "Check the derivative over the feasible region, including endpoints.",
+    "skill": "a constrained profit maximum",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u1-10",
+    "course": "computational-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Multiple starting values",
+    "prompt": "A smooth nonconcave profit problem produces different local optima from different initial guesses. What is justified?",
+    "correct": "Compare feasible objective values, while recognizing that multiple starts alone do not certify global optimality.",
+    "wrong": [
+      "Choose the first solution because convergence proves global optimality.",
+      "Average the solutions and declare the average globally optimal.",
+      "Reject every solution because nonconcavity rules out maxima."
+    ],
+    "explanation": "Different basins can contain different local optima. Multistart search improves exploration but a global certificate requires further structure or bounds.",
+    "hint": "Separate search coverage from a proof of global optimality.",
+    "skill": "multiple starting values",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-01",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "A trapezoidal expected payoff",
+    "prompt": "Approximate ∫₀¹ x² dx by one trapezoid using endpoints only. What is the approximation?",
+    "correct": "1/2",
+    "wrong": [
+      "1/3",
+      "1/4",
+      "1"
+    ],
+    "explanation": "The trapezoidal formula is interval width times the mean endpoint height: 1×(0+1)/2=1/2.",
+    "hint": "Average endpoint values and multiply by the width.",
+    "skill": "a trapezoidal expected payoff",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-02",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "A midpoint expected payoff",
+    "prompt": "Approximate ∫₀¹ x² dx using one midpoint rectangle. What is the approximation?",
+    "correct": "1/4",
+    "wrong": [
+      "1/2",
+      "1/3",
+      "3/4"
+    ],
+    "explanation": "The midpoint is 1/2 and its squared value is 1/4; the interval has unit width.",
+    "hint": "Evaluate the integrand at the middle, not the endpoints.",
+    "skill": "a midpoint expected payoff",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-03",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Quadrature with probability weights",
+    "prompt": "A discrete productivity approximation has values 1,2,4 with probabilities 0.2,0.5,0.3. What is the expected squared productivity?",
+    "correct": "7",
+    "wrong": [
+      "2.4",
+      "49/9",
+      "21"
+    ],
+    "explanation": "The weighted sum is 0.2×1+0.5×4+0.3×16=7. Squaring the mean would compute a different object.",
+    "hint": "Apply the nonlinear payoff before averaging.",
+    "skill": "quadrature with probability weights",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-04",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Monte Carlo precision",
+    "prompt": "Independent simulation draws have finite variance. A sample mean has standard error 0.08 at 2,500 draws. Approximately how many draws give standard error 0.02 under the same variance?",
+    "correct": "40,000",
+    "wrong": [
+      "10,000",
+      "5,000",
+      "625"
+    ],
+    "explanation": "The standard error must fall by a factor of four, requiring sixteen times the draws under the inverse-square-root rule.",
+    "hint": "Square the desired precision factor.",
+    "skill": "monte carlo precision",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-05",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Paired policy simulations",
+    "prompt": "Two simulated policy outcomes each have variance 9. Using common random numbers gives covariance 7 between them. What is the variance of their difference in one paired draw?",
+    "correct": "4",
+    "wrong": [
+      "18",
+      "16",
+      "2"
+    ],
+    "explanation": "Var(A-B)=9+9-2×7=4. Positive covariance reduces noise in the difference.",
+    "hint": "Include the covariance term with a minus sign.",
+    "skill": "paired policy simulations",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-06",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Antithetic draws for a linear payoff",
+    "prompt": "Let U be uniform on [0,1]. Estimate E[U] using the paired average of U and 1-U. What is the variance of this paired average?",
+    "correct": "Zero",
+    "wrong": [
+      "1/12",
+      "1/6",
+      "1/4"
+    ],
+    "explanation": "The paired average equals 1/2 for every draw, so it has no sampling variation for this particular linear payoff. This does not claim zero variance for arbitrary payoffs.",
+    "hint": "Simplify the paired average before computing its variance.",
+    "skill": "antithetic draws for a linear payoff",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-07",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Importance sampling support",
+    "prompt": "A target expectation has a strictly positive integrand on a region with positive target probability, but the proposed importance-sampling density is zero throughout that region. What is the problem?",
+    "correct": "Ordinary importance weighting cannot recover that region’s contribution.",
+    "wrong": [
+      "Increasing the number of proposal draws always repairs the missing support.",
+      "Weights are guaranteed to be one in the omitted region.",
+      "The estimator automatically becomes exact."
+    ],
+    "explanation": "A region with zero proposal probability produces no observations to weight. The proposal must cover the target integrand’s relevant support.",
+    "hint": "Ask whether any draw can reach the missing region.",
+    "skill": "importance sampling support",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-08",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "An autocorrelated simulation mean",
+    "prompt": "A long stationary simulation has marginal variance 1 and autocorrelation ρ(k)=0.5ᵏ. Using asymptotic variance [1+2Σₖ≥₁ρ(k)]/N, what is the mean’s approximate variance at N=3,000?",
+    "correct": "0.001",
+    "wrong": [
+      "1/3000",
+      "0.5/3000",
+      "0.01"
+    ],
+    "explanation": "The autocorrelation sum is 1, so the variance inflation factor is 3 and 3/3000=0.001.",
+    "hint": "Sum the geometric series before dividing by N.",
+    "skill": "an autocorrelated simulation mean",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-09",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "A control variate with known mean",
+    "prompt": "A simulation estimates E[Y] using Y-b(X-μ), where μ=E[X] is known exactly and b is a fixed constant. What happens to the expectation?",
+    "correct": "It remains E[Y], whatever fixed b is chosen.",
+    "wrong": [
+      "It becomes E[Y]-bμ.",
+      "It equals zero for every b.",
+      "It is unchanged only when X and Y are independent."
+    ],
+    "explanation": "The adjustment has expectation b(E[X]-μ)=0. Correlation affects variance reduction, not this unbiasedness argument.",
+    "hint": "Take the expectation of the adjustment.",
+    "skill": "a control variate with known mean",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u2-10",
+    "course": "computational-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Simulation noise inside optimization",
+    "prompt": "An optimizer compares nearby parameter values using a simulated objective. Fresh independent draws at every evaluation make the comparison erratic. Which diagnostic is most useful?",
+    "correct": "Repeat comparisons with common draws and larger simulation sizes to assess noise sensitivity.",
+    "wrong": [
+      "Treat the largest noisy objective as proof of the true optimum.",
+      "Reduce simulation size until the objective looks more variable.",
+      "Assume any nonsmoothness proves the economic model is discontinuous."
+    ],
+    "explanation": "Holding draws fixed can improve comparability, and increasing simulation size probes sensitivity to Monte Carlo error. Neither alone certifies the population optimum.",
+    "hint": "Distinguish changes in parameters from changes in random draws.",
+    "skill": "simulation noise inside optimization",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-01",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "A Bellman improvement step",
+    "prompt": "At one state, action A yields reward 3 and moves certainly to a state with current value estimate 4. Action B yields reward 1 and moves certainly to value 7. With discount factor 0.8, what does one Bellman update choose?",
+    "correct": "B, with updated value 6.6",
+    "wrong": [
+      "A, with updated value 6.2",
+      "B, with updated value 8",
+      "A, with updated value 7"
+    ],
+    "explanation": "A gives 3+0.8×4=6.2; B gives 1+0.8×7=6.6. The larger candidate determines the update.",
+    "hint": "Add current reward to discounted continuation value for each action.",
+    "skill": "a bellman improvement step",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-02",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "A Bellman residual certificate",
+    "prompt": "A Bellman operator is a contraction in the sup norm with modulus 0.9. An approximate value V satisfies ||TV-V||∞≤0.02. What bound follows for ||V-V*||∞?",
+    "correct": "At most 0.2",
+    "wrong": [
+      "At most 0.02",
+      "At most 0.018",
+      "Exactly zero"
+    ],
+    "explanation": "The contraction inequality gives ||V-V*||≤||V-TV||+0.9||V-V*||, hence the bound 0.02/(1-0.9).",
+    "hint": "Move the contraction term to the left.",
+    "skill": "a bellman residual certificate",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-03",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Evaluating a fixed policy",
+    "prompt": "A fixed policy yields reward 2 every period and returns to the same state forever. With discount factor 0.8, what is its value?",
+    "correct": "10",
+    "wrong": [
+      "2.5",
+      "1.6",
+      "8"
+    ],
+    "explanation": "Policy evaluation solves V=2+0.8V, so V=10.",
+    "hint": "Solve the linear fixed-point equation.",
+    "skill": "evaluating a fixed policy",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-04",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Finite-horizon terminal conditions",
+    "prompt": "A two-date savings model has no bequest value. A program accidentally assigns a positive terminal payoff to unspent assets. What should be checked first?",
+    "correct": "The imposed terminal value, because it changes incentives to leave assets unconsumed.",
+    "wrong": [
+      "Only the random-number seed.",
+      "Whether discounting can be omitted in all earlier periods.",
+      "Whether the optimizer returns an integer number of iterations."
+    ],
+    "explanation": "A terminal payoff is part of the economic problem. Adding a bequest reward changes the optimization problem even if the algorithm solves it accurately.",
+    "hint": "Distinguish a boundary condition from a numerical tolerance.",
+    "skill": "finite-horizon terminal conditions",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-05",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Nested action grids",
+    "prompt": "At a fixed state and fixed continuation function, a maximization Bellman update uses a finite feasible action grid. The grid is enlarged by adding feasible actions while retaining all old actions. What must happen to the computed maximum?",
+    "correct": "It cannot decrease.",
+    "wrong": [
+      "It must strictly increase.",
+      "It must decrease because there are more choices.",
+      "It becomes the exact continuous-action maximum automatically."
+    ],
+    "explanation": "The old maximizing action remains available. New actions may improve the value or leave it unchanged; finite refinement need not find the continuous optimum.",
+    "hint": "Use set inclusion of feasible choices.",
+    "skill": "nested action grids",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-06",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Infeasible consumption in a grid search",
+    "prompt": "An action implies consumption c=-0.1 in a model with utility log(c). Which implementation respects the model?",
+    "correct": "Exclude the action as infeasible before evaluating utility.",
+    "wrong": [
+      "Evaluate log(|c|) instead.",
+      "Assign log utility zero to every negative consumption choice.",
+      "Keep the action because small negatives are always harmless."
+    ],
+    "explanation": "Log utility requires positive consumption. Taking an absolute value changes preferences and feasibility; zero utility can spuriously reward infeasible actions.",
+    "hint": "Check the utility domain before evaluating the objective.",
+    "skill": "infeasible consumption in a grid search",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-07",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Nearly tied actions",
+    "prompt": "Two actions have exact Bellman returns differing by 0.01. Each computed return has absolute error bounded by 0.02. Can their computed ranking be guaranteed correct?",
+    "correct": "No; the difference can have error up to 0.04.",
+    "wrong": [
+      "Yes, because both errors are small in absolute terms.",
+      "Yes, because the better action must have lower numerical error.",
+      "No ranking is possible even with exact arithmetic."
+    ],
+    "explanation": "The two return errors may have opposite signs. Their difference can deviate by 0.04, exceeding the true gap 0.01.",
+    "hint": "Compare the action gap with the sum of error bounds.",
+    "skill": "nearly tied actions",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-08",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "A stochastic continuation value",
+    "prompt": "Tomorrow’s state has values V(low)=2 and V(high)=6. Under the current action, their probabilities are 0.75 and 0.25. Current reward is 1 and discount factor is 0.9. What is this action’s Bellman return?",
+    "correct": "3.7",
+    "wrong": [
+      "4.6",
+      "3",
+      "6.4"
+    ],
+    "explanation": "Expected continuation value is 0.75×2+0.25×6=3. The return is 1+0.9×3=3.7.",
+    "hint": "Average over transition probabilities before discounting.",
+    "skill": "a stochastic continuation value",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-09",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "In-place and simultaneous updates",
+    "prompt": "A finite discounted Markov decision problem is solved by value iteration. One implementation updates states in place; another uses a complete copy of the old value vector for every sweep. Why can their first sweeps differ?",
+    "correct": "The in-place version can use values already updated earlier in the sweep.",
+    "wrong": [
+      "They must represent different preferences.",
+      "Only the simultaneous version can ever solve a discounted problem.",
+      "The in-place version necessarily has a different Bellman fixed point."
+    ],
+    "explanation": "The schedules differ: Gauss-Seidel-style updates reuse new values, while simultaneous updates do not. Under standard finite discounted conditions they target the same fixed point.",
+    "hint": "Track which version of the value vector each state update reads.",
+    "skill": "in-place and simultaneous updates",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u3-10",
+    "course": "computational-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "A supplied feasible policy",
+    "prompt": "In a discounted maximization problem with bounded rewards, a feasible stationary policy has been evaluated exactly. What does its value provide?",
+    "correct": "A lower bound on the optimal value at every state.",
+    "wrong": [
+      "An upper bound on the optimal value at every state.",
+      "Proof that the policy is optimal.",
+      "A bound only when the policy chooses every possible action."
+    ],
+    "explanation": "The optimal value maximizes over admissible policies and therefore cannot be below the value of a particular feasible policy.",
+    "hint": "Compare the policy set with its single feasible member.",
+    "skill": "a supplied feasible policy",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-01",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "A damped price adjustment",
+    "prompt": "An iteration is p_new=p+λ(12-3p). Around its fixed point, for which positive λ does the scalar iteration converge locally?",
+    "correct": "0<λ<2/3",
+    "wrong": [
+      "0<λ<3",
+      "λ>2/3",
+      "Every positive λ"
+    ],
+    "explanation": "The error multiplier is 1-3λ. Local convergence requires |1-3λ|<1, yielding 0<λ<2/3.",
+    "hint": "Differentiate the iteration map, not just excess demand.",
+    "skill": "a damped price adjustment",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-02",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "An oscillating market algorithm",
+    "prompt": "The iteration p_new=6-p has fixed point p=3. Starting at p=2, what happens without damping?",
+    "correct": "It alternates between 2 and 4.",
+    "wrong": [
+      "It converges monotonically to 3.",
+      "It reaches 3 after two iterations.",
+      "It diverges to infinity."
+    ],
+    "explanation": "The first update is 4 and the second returns to 2. The slope -1 gives a two-cycle except at the fixed point.",
+    "hint": "Compute two successive updates.",
+    "skill": "an oscillating market algorithm",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-03",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Solving a two-equation equilibrium",
+    "prompt": "An equilibrium requires x+y=5 and 2x-y=1. What is the solution?",
+    "correct": "x=2, y=3",
+    "wrong": [
+      "x=3, y=2",
+      "x=1, y=4",
+      "x=5, y=0"
+    ],
+    "explanation": "Adding equations gives 3x=6. Substitution yields y=3.",
+    "hint": "Eliminate y before substituting back.",
+    "skill": "solving a two-equation equilibrium",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-04",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "A stationary distribution",
+    "prompt": "A row-stochastic transition matrix is P=[[0.8,0.2],[0.4,0.6]]. What stationary row distribution π satisfies πP=π?",
+    "correct": "(2/3, 1/3)",
+    "wrong": [
+      "(1/3, 2/3)",
+      "(1/2, 1/2)",
+      "(0.8, 0.2)"
+    ],
+    "explanation": "Stationarity equates flows: 0.2π₁=0.4π₂. Together with π₁+π₂=1 this gives (2/3,1/3).",
+    "hint": "Combine the flow balance equation with probability normalization.",
+    "skill": "a stationary distribution",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-05",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Price normalization in homogeneous markets",
+    "prompt": "All excess-demand equations in a model depend only on relative prices. An equilibrium solver treats every nominal price as independent. Why can its Jacobian be singular at equilibrium?",
+    "correct": "A common proportional change in all prices leaves excess demands unchanged.",
+    "wrong": [
+      "Relative-price dependence guarantees no equilibrium exists.",
+      "Every individual good must have zero demand.",
+      "Nominal prices must all equal zero."
+    ],
+    "explanation": "Nominal scale is undetermined. One normalization removes that degree of freedom; it is not evidence by itself of economic nonexistence.",
+    "hint": "Look for a direction in price space that changes no equation.",
+    "skill": "price normalization in homogeneous markets",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-06",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "A complementarity condition",
+    "prompt": "An equilibrium activity satisfies q≥0, unit loss ℓ≥0, and qℓ=0. Which candidate satisfies all three conditions?",
+    "correct": "q=0, ℓ=2",
+    "wrong": [
+      "q=2, ℓ=1",
+      "q=-1, ℓ=0",
+      "q=1, ℓ=-1"
+    ],
+    "explanation": "A positive unit loss can coexist with zero activity. Positive activity requires zero loss; negative entries violate nonnegativity.",
+    "hint": "Check inequalities and the product separately.",
+    "skill": "a complementarity condition",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-07",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Inner-solver error in aggregate equilibrium",
+    "prompt": "An outer algorithm seeks aggregate excess demand below 10⁻⁶, but household solutions produce excess-demand errors around 10⁻³. What is the main diagnostic issue?",
+    "correct": "The inner numerical error can swamp the outer stopping threshold.",
+    "wrong": [
+      "The outer residual is automatically accurate because its tolerance is smaller.",
+      "A smaller outer tolerance alone eliminates household errors.",
+      "Household optimization is irrelevant to aggregate demand."
+    ],
+    "explanation": "A tightly specified outer threshold cannot create accuracy absent from its input function evaluations. Inner tolerances and aggregate residual validation must be coordinated.",
+    "hint": "Compare evaluation error with the requested root accuracy.",
+    "skill": "inner-solver error in aggregate equilibrium",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-08",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Continuation across parameter values",
+    "prompt": "A difficult equilibrium at tax τ=0.4 is approached by solving a sequence of nearby tax values, starting from a solved τ=0 model. What is the main benefit and limitation?",
+    "correct": "Nearby solutions can provide useful initial guesses, but branch changes or folds may still cause difficulties.",
+    "wrong": [
+      "Continuation proves equilibrium uniqueness for all tax values.",
+      "Continuation removes every need to check feasibility.",
+      "A solved τ=0 equilibrium is automatically the solution at τ=0.4."
+    ],
+    "explanation": "Continuation exploits continuity along solution branches. It does not rule out multiple equilibria, turning points, or failure to track a branch.",
+    "hint": "Separate a path-following strategy from a uniqueness theorem.",
+    "skill": "continuation across parameter values",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-09",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "A game best-response trace",
+    "prompt": "Two firms update quantities simultaneously using q₁,new=(12-q₂)/2 and q₂,new=(12-q₁)/2. Starting from (2,4), what is the next pair?",
+    "correct": "(4,5)",
+    "wrong": [
+      "(5,4)",
+      "(4,4)",
+      "(5,5)"
+    ],
+    "explanation": "Using the old rival quantities gives (12-4)/2=4 and (12-2)/2=5. Using a newly updated quantity would be a different schedule.",
+    "hint": "Both updates must use the starting pair.",
+    "skill": "a game best-response trace",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u4-10",
+    "course": "computational-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Checking all markets",
+    "prompt": "A numerical general-equilibrium candidate has small residuals in all but one market. Walras’ law has not been verified for the implemented equations. What is the appropriate conclusion?",
+    "correct": "Check the omitted market and accounting identities before declaring equilibrium.",
+    "wrong": [
+      "The omitted market clears by definition.",
+      "A small residual in one market proves all prices are correct.",
+      "The omitted market can be dropped even if budgets are implemented incorrectly."
+    ],
+    "explanation": "Redundancy follows from correctly implemented budget identities and the relevant model conditions. It should not be assumed when the implementation has not been checked.",
+    "hint": "Verify the identity that would make an equation redundant.",
+    "skill": "checking all markets",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-01",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Interpolating a savings policy",
+    "prompt": "A tabulated policy has a′(2)=1 and a′(6)=3. What does linear interpolation give at current assets a=3?",
+    "correct": "1.5",
+    "wrong": [
+      "2",
+      "2.5",
+      "1.25"
+    ],
+    "explanation": "The location is one quarter of the way from 2 to 6. Interpolate 1+(1/4)(3-1)=1.5.",
+    "hint": "Use the position within the grid interval as the weight.",
+    "skill": "interpolating a savings policy",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-02",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Interpolation versus extrapolation",
+    "prompt": "A policy is approximated only at states from 0 to 10. A simulated state reaches 14. What should the researcher recognize?",
+    "correct": "Evaluating the approximation there requires an extrapolation rule whose accuracy is not established by fit inside the grid.",
+    "wrong": [
+      "The nearest interior fit guarantees accuracy at 14.",
+      "A polynomial is undefined outside its interpolation nodes.",
+      "The state must be deleted without checking the model."
+    ],
+    "explanation": "Functions may be evaluable outside a training range without being accurate there. Domain coverage, extrapolation and boundary behavior require separate checks.",
+    "hint": "Distinguish the ability to evaluate a formula from evidence of its accuracy.",
+    "skill": "interpolation versus extrapolation",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-03",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "A local Taylor approximation",
+    "prompt": "Approximate log(1+x) to first order around x=0. At x=0.1, what is the approximation?",
+    "correct": "0.1",
+    "wrong": [
+      "1.1",
+      "0.01",
+      "0"
+    ],
+    "explanation": "The value at zero is zero and the derivative there is one, so the first-order approximation is x.",
+    "hint": "Use the value and slope at zero to form the first-order approximation.",
+    "skill": "a local taylor approximation",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-04",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Error scaling under grid refinement",
+    "prompt": "For a smooth function, a method’s leading error is C h² with fixed nonzero C. When grid spacing h is halved, what happens to the leading error magnitude?",
+    "correct": "It is divided by four.",
+    "wrong": [
+      "It is divided by two.",
+      "It is multiplied by four.",
+      "It remains unchanged."
+    ],
+    "explanation": "Substituting h/2 gives C h²/4. This is an asymptotic leading-term comparison under the stated error model.",
+    "hint": "Apply the refinement factor to the power of h.",
+    "skill": "error scaling under grid refinement",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-05",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "A tensor grid’s size",
+    "prompt": "An approximation uses 12 grid nodes along each of four state dimensions, taking their full Cartesian product. How many grid points are there?",
+    "correct": "20,736",
+    "wrong": [
+      "48",
+      "144",
+      "1,728"
+    ],
+    "explanation": "A full tensor grid contains 12⁴=20,736 combinations, illustrating how dimensionality multiplies storage and evaluation requirements.",
+    "hint": "Multiply the node counts across dimensions.",
+    "skill": "a tensor grid’s size",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-06",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "A borrowing constraint creates a kink",
+    "prompt": "A consumption policy has a kink where a borrowing constraint starts binding. Which concern is most relevant for a single low-degree global polynomial approximation?",
+    "correct": "It may smooth across the kink and poorly represent local behavior near the constraint.",
+    "wrong": [
+      "Every polynomial must reproduce any kink exactly.",
+      "Kinks prove the policy has no values away from the constraint.",
+      "Increasing floating-point precision alone removes approximation bias."
+    ],
+    "explanation": "A smooth global polynomial cannot exactly reproduce a derivative discontinuity. Local refinement or piecewise approximation can target the problematic region.",
+    "hint": "Compare the smoothness of the approximating function with the policy.",
+    "skill": "a borrowing constraint creates a kink",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-07",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "On-node fit and off-node accuracy",
+    "prompt": "A polynomial interpolant exactly matches model values at all its nodes. What does this establish?",
+    "correct": "Zero interpolation error at those nodes, not a general guarantee of small error between them.",
+    "wrong": [
+      "Zero approximation error everywhere.",
+      "The model equations have been solved exactly at all possible states.",
+      "The polynomial must be monotone between any two nodes."
+    ],
+    "explanation": "Interpolation imposes matching conditions only at nodes. Between-node error depends on function regularity, placement and approximation degree.",
+    "hint": "Distinguish fitting constraints from validation locations.",
+    "skill": "on-node fit and off-node accuracy",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-08",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Linear interpolation preserves interval bounds",
+    "prompt": "A scalar policy takes values 2 and 5 at neighboring nodes. Piecewise linear interpolation is used only inside that interval. Which value is impossible there?",
+    "correct": "6",
+    "wrong": [
+      "2.5",
+      "3.5",
+      "4.5"
+    ],
+    "explanation": "Inside the interval, interpolation is a convex combination of 2 and 5, so it stays within [2,5]. This guarantee does not cover extrapolation.",
+    "hint": "Use nonnegative weights that sum to one.",
+    "skill": "linear interpolation preserves interval bounds",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-09",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Testing an approximated equilibrium policy",
+    "prompt": "A policy approximation makes equilibrium residuals tiny at its collocation nodes. Which additional check is most informative?",
+    "correct": "Evaluate residuals at additional states, including regions visited in simulation and near constraints.",
+    "wrong": [
+      "Report only the number of polynomial coefficients.",
+      "Assume the residual is zero everywhere by interpolation.",
+      "Replace the residual equation with the fitted polynomial itself."
+    ],
+    "explanation": "Independent locations test the behavior not directly imposed by collocation. Simulation coverage and constraint boundaries are economically relevant but do not alone certify a global bound.",
+    "hint": "Validate where the fitting conditions were not imposed.",
+    "skill": "testing an approximated equilibrium policy",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u5-10",
+    "course": "computational-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "A two-state expectation interpolated incorrectly",
+    "prompt": "Next period assets are 2 or 6 with equal probability, and payoff is the square of assets. A code averages assets first and then squares. What does it return compared with the correct expectation?",
+    "correct": "It returns 16 instead of 20.",
+    "wrong": [
+      "It returns 20 instead of 16.",
+      "It returns 4 instead of 8.",
+      "It returns 20, which is correct."
+    ],
+    "explanation": "The code computes ((2+6)/2)²=16, while the correct expectation is (2²+6²)/2=20. Nonlinear evaluation does not commute with averaging.",
+    "hint": "Compare payoff of the average with average payoff.",
+    "skill": "a two-state expectation interpolated incorrectly",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-01",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Cancellation in a small difference",
+    "prompt": "For small positive x, a calculation needs sqrt(1+x)-1. Which algebraically equivalent form avoids subtracting two nearly equal numbers?",
+    "correct": "x/(sqrt(1+x)+1)",
+    "wrong": [
+      "x/(sqrt(1+x)-1)",
+      "sqrt(x)",
+      "1/sqrt(1+x)"
+    ],
+    "explanation": "Multiplying numerator and denominator by the conjugate yields x/(sqrt(1+x)+1), avoiding cancellation in the numerator.",
+    "hint": "Rationalize the original difference.",
+    "skill": "cancellation in a small difference",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-02",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Absolute and relative error",
+    "prompt": "A computed welfare gain is 0.0012 and a benchmark is 0.0010. What is the absolute error divided by the absolute benchmark?",
+    "correct": "20%",
+    "wrong": [
+      "0.02%",
+      "2%",
+      "120%"
+    ],
+    "explanation": "The absolute error is 0.0002, and 0.0002/0.0010=0.2. Small absolute errors need not be small relative to a small target.",
+    "hint": "Divide the difference by the benchmark rather than by one.",
+    "skill": "absolute and relative error",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-03",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "A central finite difference",
+    "prompt": "For f(x)=x³, approximate f′(1) with the central difference [f(1+h)-f(1-h)]/(2h), using h=0.1 in exact arithmetic. What is the result?",
+    "correct": "3.01",
+    "wrong": [
+      "3",
+      "3.1",
+      "2.99"
+    ],
+    "explanation": "Expansion gives 3+h², hence 3.01. The derivative is 3; the discrepancy is truncation error, even without rounding.",
+    "hint": "Expand the two cubic terms and cancel symmetric terms.",
+    "skill": "a central finite difference",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-04",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Making a derivative step too small",
+    "prompt": "A finite-difference derivative uses floating-point function evaluations. Why can reducing the step size eventually worsen accuracy?",
+    "correct": "Subtracting nearly equal rounded values can amplify evaluation error after division by the tiny step.",
+    "wrong": [
+      "Truncation error must increase whenever the step shrinks.",
+      "Floating-point subtraction is always exact for arbitrary functions.",
+      "The mathematical derivative ceases to exist because the step is small."
+    ],
+    "explanation": "Smaller steps reduce truncation error in a valid expansion but can magnify rounding or evaluation noise. Step-size choice balances these sources.",
+    "hint": "Track both approximation error and evaluation error.",
+    "skill": "making a derivative step too small",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-05",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "A residual is not a forward-error guarantee",
+    "prompt": "A linear solver has a tiny backward error for an ill-conditioned system Ax=b. What remains possible?",
+    "correct": "The computed x can have substantial forward error because small data perturbations can change the solution greatly.",
+    "wrong": [
+      "The forward error must equal the backward error.",
+      "Ill conditioning means no numerical solution exists.",
+      "A tiny backward error proves the economic parameters are empirically correct."
+    ],
+    "explanation": "Backward error measures the perturbation to the problem for which the computed answer is exact. Conditioning governs how such perturbations affect the solution.",
+    "hint": "Separate algorithmic stability from sensitivity of the problem.",
+    "skill": "a residual is not a forward-error guarantee",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-06",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "A timestep stability restriction",
+    "prompt": "Explicit Euler applied to x′=-4x gives x_next=(1-4h)x. For positive h, when do iterates converge to zero for every initial x?",
+    "correct": "0<h<1/2",
+    "wrong": [
+      "0<h<4",
+      "h>1/2",
+      "Every positive h"
+    ],
+    "explanation": "Convergence requires |1-4h|<1. At h=1/2 the multiplier is -1, so nonzero initial conditions alternate without shrinking.",
+    "hint": "Require the absolute amplification factor to be below one.",
+    "skill": "a timestep stability restriction",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-07",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "A deterministic seed is not full provenance",
+    "prompt": "A simulation result records only the random seed. Which additional record most improves reproducibility?",
+    "correct": "The code version, input data, parameter settings, random-number generator and relevant environment versions.",
+    "wrong": [
+      "Only the analyst’s favorite programming language.",
+      "Only the date the result was presented.",
+      "Nothing else: a seed uniquely determines all possible programs’ outputs."
+    ],
+    "explanation": "A seed initializes a specified generator, but outputs also depend on code, inputs, ordering and numerical environment. Reproducibility requires a defined computation.",
+    "hint": "Ask what else determines the operations performed on the random stream.",
+    "skill": "a deterministic seed is not full provenance",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-08",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Separating error sources",
+    "prompt": "Doubling simulation draws changes an estimated moment substantially, while doubling the state grid barely changes it. What is the most defensible next diagnostic?",
+    "correct": "Repeat across independent random streams and larger sample sizes to assess simulation error, without declaring grid error universally absent.",
+    "wrong": [
+      "Conclude the model is theoretically false.",
+      "Conclude simulation error is zero.",
+      "Declare all discretization choices irrelevant forever."
+    ],
+    "explanation": "The observed sensitivity points toward simulation noise at these settings. Replication and refinement distinguish sampling variation from systematic approximation error; one comparison is not a universal proof.",
+    "hint": "Use targeted variation in the source that appears sensitive.",
+    "skill": "separating error sources",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-09",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "A validation identity for a transition matrix",
+    "prompt": "A matrix intended to contain conditional transition probabilities has one row summing to 1.03, with all entries nonnegative. What should happen before using it as a Markov kernel?",
+    "correct": "Investigate and correct the construction or an explicitly justified normalization, then verify every row sums to one.",
+    "wrong": [
+      "Accept it because nonnegativity alone defines a Markov kernel.",
+      "Treat 1.03 as an automatically valid discount factor.",
+      "Transpose it and assume the error disappears."
+    ],
+    "explanation": "A row-stochastic kernel needs nonnegative entries and unit row sums. Blindly normalizing may conceal a modeling error, so the cause should be understood.",
+    "hint": "Check probability mass conservation as well as signs.",
+    "skill": "a validation identity for a transition matrix",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "computational-economics-u6-10",
+    "course": "computational-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "An analytic benchmark test",
+    "prompt": "A numerical solver for V=r+βV returns V=10 when r=3 and β=0.75. What does this benchmark establish?",
+    "correct": "The reported result fails the known solution V=12 and has Bellman residual 0.5.",
+    "wrong": [
+      "The result is correct because 10 is positive.",
+      "The correct solution is V=4.",
+      "The Bellman residual is zero."
+    ],
+    "explanation": "The exact solution is 3/(1-0.75)=12. At 10, TV-V=3+0.75×10-10=0.5, exposing an error before using harder models.",
+    "hint": "Check both the closed-form solution and substitution into the equation.",
+    "skill": "an analytic benchmark test",
+    "sourceUrls": [
+      "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

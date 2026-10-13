@@ -1,5 +1,5 @@
 {
-  "status": "partial-parent-review",
+  "status": "parent-content-review-complete",
   "reviewedItems": [
     {
       "id": "history-economic-thought-u1-01",
@@ -179,7 +179,7 @@
     },
     {
       "id": "history-economic-thought-u5-05",
-      "sha256": "f668f6acc7dc6fb36c1c9a35a6ed087acb3a9724440a0b37386ec53a16b54e2c"
+      "sha256": "e630636a5c3992ab5f072716f8f89f284f3aeaed4b575c681a69caf99f994939"
     },
     {
       "id": "history-economic-thought-u5-06",
@@ -200,6 +200,46 @@
     {
       "id": "history-economic-thought-u5-10",
       "sha256": "5fadb318cf059cbbc1ee300f12a47b8d136100afa1a8c100df0da98cb9011d89"
+    },
+    {
+      "id": "history-economic-thought-u6-01",
+      "sha256": "310688335e82892dd5dfc1f58b276c148b62f0fb210c86f541f2adc084fbeafd"
+    },
+    {
+      "id": "history-economic-thought-u6-02",
+      "sha256": "9ca802138d7e1d8d2276425de12818d82e3ffc0f4c7f57b792ff49fd365b2fa9"
+    },
+    {
+      "id": "history-economic-thought-u6-03",
+      "sha256": "a343bb07596cd7368db732905b56b798872d6d0372fa32fd0e485795cb7e21e3"
+    },
+    {
+      "id": "history-economic-thought-u6-04",
+      "sha256": "2f02016f1299057c9fbbd75a8e6ae56a979bdb02e141c182075e4203daa1f586"
+    },
+    {
+      "id": "history-economic-thought-u6-05",
+      "sha256": "5e8fea9b1e6f28e94ef0adf144df664c2fbbf3a1de0399ec68bed4321ad0e3dc"
+    },
+    {
+      "id": "history-economic-thought-u6-06",
+      "sha256": "d8a224b2957e5d14ab652b332ae5f84c60e0538862b28ffad780924f8f4c3bbe"
+    },
+    {
+      "id": "history-economic-thought-u6-07",
+      "sha256": "8b861584f7e714aec98e1cf8a436d619088eb6a79142b000b24f7bb5dea8fa48"
+    },
+    {
+      "id": "history-economic-thought-u6-08",
+      "sha256": "8f43a9ece9270bfb08f19963ea3f7b3f5dcccb7e862ce74640141e1063dea1ab"
+    },
+    {
+      "id": "history-economic-thought-u6-09",
+      "sha256": "d22de8e67f54c45a9c2bc15ee250858126c01addd03bc9ebb0b6dc1bbf879206"
+    },
+    {
+      "id": "history-economic-thought-u6-10",
+      "sha256": "1eabcb39a2d14395c67569808fe608b256c36307d5cbc546c5e0dad34b5b25e4"
     }
   ],
   "independentChecks": [
@@ -332,10 +372,40 @@
       "name": "fixed cost total",
       "actual": 20,
       "expected": 20
+    },
+    {
+      "name": "regression first regime",
+      "actual": 3,
+      "expected": 3
+    },
+    {
+      "name": "regression second regime",
+      "actual": 2.5,
+      "expected": 2.5
+    },
+    {
+      "name": "aggregate nonlinear A",
+      "actual": 10,
+      "expected": 10
+    },
+    {
+      "name": "aggregate nonlinear B",
+      "actual": 8,
+      "expected": 8
+    },
+    {
+      "name": "compensated winner gain",
+      "actual": 20,
+      "expected": 20
+    },
+    {
+      "name": "compensated loser gain",
+      "actual": 20,
+      "expected": 20
     }
   ],
   "openFindings": [],
-  "scope": "First50 complete records read for assumptions, keys, distractors and explanations. 26 numerical checks passed. Parent spot-verified primary Smith specialization, Ricardo machinery, Marx labor-power, Jevons sunk labor, Keynes effective-demand texts and official Duke syllabus. Remaining10 and author final source audit pending; not released.",
+  "scope": "All60 complete records parent-reviewed;32 numerical checks passed. Named historical arguments spot-verified against primary texts; author final source review and release integration remain separate gates.",
   "sourceChecks": [
     {
       "url": "https://www.econlib.org/library/Smith/smWN.html?chapter_num=4",
@@ -356,6 +426,18 @@
     {
       "url": "https://www.marxists.org/reference/subject/economics/keynes/general-theory/ch03.htm",
       "finding": "Effective-demand employment need not equal full employment."
+    },
+    {
+      "url": "https://www.econlib.org/library/Essays/hykKnw.html",
+      "finding": "Local time-and-place knowledge and tin price communication match questions."
+    },
+    {
+      "url": "https://personal.lse.ac.uk/ROBERT49/teaching/ph232/pdf/friedman.pdf",
+      "finding": "Predictive criterion and empirical evidence not deductive proof verified."
     }
+  ],
+  "repairs": [
+    "u6-07 sufficient fixed V/Y restriction distinguished from necessary condition.",
+    "u5-05 re-reviewed author clarification: two quasilinear people and feasible costless transfers."
   ]
 }

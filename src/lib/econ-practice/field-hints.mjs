@@ -1,3 +1,6 @@
+import {computationalEconomicsHints} from './computational-economics-hints.mjs';
+import {mathematicalEconomicsHints} from './mathematical-economics-hints.mjs';
+import {historyThoughtHints} from './history-economic-thought-hints.mjs';
 import {principlesMacroHints} from './principles-macro-hints.mjs';
 import {principlesMicroHints} from './principles-micro-hints.mjs';
 import {lawHints} from './law-economics-hints.mjs';
@@ -26,6 +29,9 @@ import {tradeHints} from './trade-hints.mjs';
 import {ioHints} from './io-hints.mjs';
 // Method scaffolds for reviewed field questions; never generated from their keys.
 export const fieldHints={
+'computational-economics':computationalEconomicsHints,
+'mathematical-economics':mathematicalEconomicsHints,
+'history-economic-thought':historyThoughtHints,
 'principles-macro':principlesMacroHints,
 'principles-micro':principlesMicroHints,
 'law-economics':lawHints,
