@@ -4,7 +4,8 @@ import {setupIdentity} from '../../src/scripts/econ-identity.mjs';
 import {createLocalDB} from '../../services/econ-response/local-db.mjs';
 import {readFileSync,readdirSync} from 'node:fs';
 import {finishSignIn,participant} from '../../services/econ-response/auth.mjs';
-import worker,{CONSENT_VERSION} from '../../services/econ-response/worker.mjs';
+import worker from '../../services/econ-response/worker.mjs';
+import {CONSENT_VERSION} from '../../services/econ-response/common.mjs';
 
 test('lost link response, reload and wrong-account retry preserve pending answers and session',async()=>{
  const DB=createLocalDB();for(const name of readdirSync('services/econ-response/migrations').filter(n=>n.endsWith('.sql')).sort())DB.exec(readFileSync('services/econ-response/migrations/'+name,'utf8'));

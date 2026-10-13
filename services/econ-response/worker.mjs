@@ -16,7 +16,6 @@ import {selectItem,progress} from '../../src/lib/econ-practice/adaptive.mjs';
 const bank=buildBank(),byId=new Map(bank.map(q=>[q.id,q]));
 import {iso,uuid,secret,hash,query,all,requireValue,HttpError,CONSENT_VERSION} from './common.mjs';
 import {participant,issueCredential,createChallenge,finishSignIn,bearer,requireInstructor,isInstructor} from './auth.mjs';
-export {hash,CONSENT_VERSION};
 const publicItem=publicQuestion,feedback=responseFeedback;
 async function ownSession(env,p,id){
  const s=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=?',id,p.id).first();

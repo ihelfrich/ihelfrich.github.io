@@ -52,7 +52,14 @@ Before publishing, rerun `npm run check`, review the diff/commit, and run:
 npx wrangler deploy --dry-run --outdir .local/econ-response/deploy-preview --config services/econ-response/wrangler.jsonc
 ```
 
-The October 13 dry run succeeded with a placeholder database; a bundle success does not verify remote bindings, migrations, Google login, or permissions. Confirm the real database ID, Google client ID, production `ALLOWED_ORIGINS` (`https://ihelfrich.github.io`), and instructor allowlist before requesting final publishing approval.
+The October 13 dry run succeeded with a placeholder database; a bundle success does not verify runtime startup, remote bindings, migrations, Google login, or permissions. A subsequent Wrangler local-runtime check caught an invalid named constant export, which was removed. All 13 migrations and a synthetic assessment now pass in local workerd/D1. The site deployment workflow includes this runtime regression gate; its result still does not prove remote operation. To repeat locally with an isolated database, run:
+
+```sh
+npx wrangler d1 migrations apply helfrich-economics-responses --local --persist-to .local/econ-response/wrangler-verification --config services/econ-response/wrangler.jsonc
+npx wrangler dev --local --port 8788 --persist-to .local/econ-response/wrangler-verification --config services/econ-response/wrangler.jsonc
+```
+
+In another terminal in the checkout, run `node scripts/econ-practice/verify-local-worker.mjs`. It creates synthetic records only at the hardcoded loopback port 8788. Stop that local Wrangler process after checking. Confirm the real database ID, Google client ID, production `ALLOWED_ORIGINS` (`https://ihelfrich.github.io`), and instructor allowlist before requesting final publishing approval.
 
 After Dr. Helfrich approves the concrete release, deploy the Worker:
 

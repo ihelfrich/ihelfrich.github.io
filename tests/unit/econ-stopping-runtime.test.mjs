@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import worker,{CONSENT_VERSION} from '../../services/econ-response/worker.mjs';
+import worker from '../../services/econ-response/worker.mjs';
+import {CONSENT_VERSION} from '../../services/econ-response/common.mjs';
 import {createLocalDB} from '../../services/econ-response/local-db.mjs';
 import {buildBank} from '../../src/lib/econ-practice/index.mjs';
 

@@ -47,6 +47,19 @@ jobs:
           npm run check:calculus
           npm run check:ols
           npm run check:econ-practice
+      - name: Verify economics Worker startup and D1 response workflow
+        timeout-minutes: 3
+        run: |
+          npx wrangler d1 migrations apply helfrich-economics-responses --local --persist-to .local/econ-response/ci-runtime --config services/econ-response/wrangler.jsonc
+          npx wrangler dev --local --port 8788 --persist-to .local/econ-response/ci-runtime --config services/econ-response/wrangler.jsonc > /tmp/economics-worker.log 2>&1 &
+          worker_pid=$!
+          trap 'kill "$worker_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8788/health > /dev/null; then break; fi
+            if ! kill -0 "$worker_pid" 2>/dev/null; then cat /tmp/economics-worker.log; exit 1; fi
+            sleep 1
+          done
+          node scripts/econ-practice/verify-local-worker.mjs
       - name: Verify ocean calculations, coastal retrieval, and scientific release files
         run: |
           node --test tests/unit/hidden-rivers*.test.mjs tests/unit/water-atlas.test.mjs tests/unit/dye-tank*.test.mjs

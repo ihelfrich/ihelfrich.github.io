@@ -5,7 +5,8 @@ import {stoppingPolicy,sessionStoppingDecision} from '../../services/econ-respon
 import {newState} from '../../src/lib/econ-practice/adaptive.mjs';
 import {GRID} from '../../src/lib/econ-practice/irt.mjs';
 import {createLocalDB} from '../../services/econ-response/local-db.mjs';
-import worker,{CONSENT_VERSION} from '../../services/econ-response/worker.mjs';
+import worker from '../../services/econ-response/worker.mjs';
+import {CONSENT_VERSION} from '../../services/econ-response/common.mjs';
 import {createAssignment,startAssignment} from '../../services/econ-response/assignments.mjs';
 
 function evidence(){
