@@ -1,0 +1,145 @@
+{
+  "status": "partial-review-defect-open",
+  "reviewedItems": [
+    {
+      "id": "causal-inference-u1-01",
+      "sha256": "ffcd7c2cdfebefe6d3e972c360b6867b24fdf6d71224313d500066c8e2c0a52d"
+    },
+    {
+      "id": "causal-inference-u1-02",
+      "sha256": "1d3f46f7d7bfe4412ec679b9119aa052f7219336d72ba7e329cbfdec5d8967fc"
+    },
+    {
+      "id": "causal-inference-u1-03",
+      "sha256": "81feafcfd364bb1b62e6701b0a2d51561fcb5ab6a182e6caeb9e1f9e25b712da"
+    },
+    {
+      "id": "causal-inference-u1-04",
+      "sha256": "d7d35fc44f91359e207ca59e5ad5ce3aba2d967757ff5de12bb4aed2771ed7db"
+    },
+    {
+      "id": "causal-inference-u1-05",
+      "sha256": "32a4e3c38379a8e94102242fc228d31f37fbb72d59275b8a9450716d3e509821"
+    },
+    {
+      "id": "causal-inference-u1-06",
+      "sha256": "5aef25890d907f0bd690cb707bee4601175b3a64cf54f8fda7ec659763a3be69"
+    },
+    {
+      "id": "causal-inference-u1-07",
+      "sha256": "b48100654ed1b9a9cb9fbe24b8cecab4a8a8e70c0e9e138befded8e248b42cbc"
+    },
+    {
+      "id": "causal-inference-u1-08",
+      "sha256": "68053d4be179cdf6de930896737f5fdce9a56a82f5d99e982c540a36c540d1da"
+    },
+    {
+      "id": "causal-inference-u1-09",
+      "sha256": "f3c068cb59fa518064748ae48fcf052dbf6a0e884cf79d723407d18110166434"
+    },
+    {
+      "id": "causal-inference-u1-10",
+      "sha256": "85b2874eaf3c17176dc4a92c291d08a6a7e5eb9682748a445dd517cb2b07f559"
+    },
+    {
+      "id": "causal-inference-u2-01",
+      "sha256": "5ff50c576bee33c0334e041caf004b88d3b6e4a816fbb6ed91fd90fc3f02cdcc"
+    },
+    {
+      "id": "causal-inference-u2-02",
+      "sha256": "831f0abc6a3b1c54aef01cb889123a979253916d68bc788dd0cfa711bba7a322"
+    },
+    {
+      "id": "causal-inference-u2-03",
+      "sha256": "59ad0d05274ec42c17e517cd5a963d4b15268efa157676fbf15bc4176d2b555d"
+    },
+    {
+      "id": "causal-inference-u2-04",
+      "sha256": "83e2008899a8aa4492327ce9516af20ee7c788859a2713f3b35f2df44febeed6"
+    },
+    {
+      "id": "causal-inference-u2-05",
+      "sha256": "29aeea9256c8e0ea01e140ae9d97b32ad662c592eba2d782862ab4997f2b5723"
+    },
+    {
+      "id": "causal-inference-u2-06",
+      "sha256": "152b8c36cef0b1a588738a77224607baa30bbbef117116aea7d76c8cf56efc4c"
+    },
+    {
+      "id": "causal-inference-u2-07",
+      "sha256": "b684dd15c4a5ffc22f622b3a338bdc87ae527c8d725659b5bda3412d2caef2bd"
+    },
+    {
+      "id": "causal-inference-u2-08",
+      "sha256": "2999b3d0e1c357d024b4d5b1f95b7b2487e0d2b6e85d5cf8050f888524d0779c"
+    },
+    {
+      "id": "causal-inference-u2-09",
+      "sha256": "79087a6d52e7a6d1ccd270ef9d44097506c89e76022ffbb9b1349b91286966ad"
+    },
+    {
+      "id": "causal-inference-u2-10",
+      "sha256": "f11e4cdc050139004a44823cf787596c03b74461515d9b08ceb28f510bb38f88"
+    }
+  ],
+  "scope": "Parent reviewed first20 complete records. Keys and stated identification distinctions sound; malformed options prevent release.",
+  "checks": [
+    {
+      "id": "u1-01",
+      "check": "Average of four individual effects",
+      "value": 2,
+      "passed": true
+    },
+    {
+      "id": "u1-02",
+      "check": "ATE weights recipient and nonrecipient effects",
+      "value": 3.1999999999999997,
+      "passed": true
+    },
+    {
+      "id": "u1-09",
+      "check": "Target population weighting",
+      "value": 2.2,
+      "passed": true
+    },
+    {
+      "id": "u1-10",
+      "check": "Sharp lower bound enumerating missing binary means",
+      "value": -0.29999999999999993,
+      "passed": true
+    },
+    {
+      "id": "u1-10",
+      "check": "Sharp upper bound enumerating missing binary means",
+      "value": 0.7,
+      "passed": true
+    },
+    {
+      "id": "u2-02",
+      "check": "Assignment contrast",
+      "value": 3,
+      "passed": true
+    },
+    {
+      "id": "u2-08",
+      "check": "Stratum target weighting",
+      "value": 2,
+      "passed": true
+    }
+  ],
+  "structuralFindings": [
+    {
+      "id": "causal-inference-u1-03",
+      "wrongCount": 6
+    }
+  ],
+  "findings": [
+    {
+      "id": "causal-inference-u1-03",
+      "issue": "Conditional-expectation vertical bars split distractors into six fragments.",
+      "resolution": "Requested explicit three-string array preserving notation and complete-bank option checks.",
+      "status": "sent-to-author"
+    }
+  ],
+  "remaining": "Verify correction and review remaining40; no release or calibration."
+}
