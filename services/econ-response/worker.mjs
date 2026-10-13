@@ -45,6 +45,9 @@ async function route(request,env){
   const audit=async(action,target,details)=>query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),instructor.id,action,target,JSON.stringify(details)).run();
   if(path==='/admin/questions'&&method==='GET'){
    const course=url.searchParams.get('course')??'',unit=url.searchParams.get('unit')??'',search=(url.searchParams.get('q')??'').trim().toLowerCase(),after=url.searchParams.get('after')??'';
+   const expectedVersion=url.searchParams.get('version');
+   requireValue(!after||expectedVersion,'A bank version is required to continue this search.');
+   requireValue(!expectedVersion||expectedVersion===BANK_VERSION,'The question bank changed. Start a new search to avoid mixing versions.',409);
    requireValue(search.length<=200&&after.length<=160,'Invalid question filter.');
    requireValue(!course||bank.some(q=>q.course===course),'Unknown course.');
    requireValue(!unit||/^[1-9][0-9]*$/.test(unit),'Invalid unit.');

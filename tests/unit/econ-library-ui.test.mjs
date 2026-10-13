@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {Window} from 'happy-dom';
+import {setupQuestionLibrary} from '../../src/scripts/econ-question-library.mjs';
+import {buildBank} from '../../src/lib/econ-practice/index.mjs';
+function fixture(request){const window=new Window(),d=window.document;d.body.innerHTML='<form id="question-library-form"><input id="question-course"><input id="question-unit"><input id="question-search"><button type="submit">Search</button></form><p id="question-library-status"></p><div id="question-library-results"></div><button id="question-library-more" hidden>More</button>';setupQuestionLibrary(request,d);return {window,d,submit:()=>d.querySelector('form').dispatchEvent(new window.Event('submit',{cancelable:true})),flush:()=>new Promise(resolve=>setImmediate(resolve))};}
+test('library renders numeric, choice and multipart keys without interpreting prompt markup',async()=>{
+ const bank=buildBank(),items=['numeric','choice','multipart'].map(format=>structuredClone(bank.find(q=>q.format===format)));items[0].prompt='<img src=x onerror=alert(1)>';
+ const f=fixture(async()=>({items,total:3,families:3,bankVersion:'v1',hasMore:false,nextCursor:'last'}));try{f.submit();await f.flush();assert.equal(f.d.querySelectorAll('details').length,3);assert.equal(f.d.querySelectorAll('img').length,0);assert.ok(f.d.body.textContent.includes(items[0].prompt));assert.ok(f.d.body.textContent.includes(`Answer: ${items[0].answerDisplay}`));assert.equal(f.d.querySelectorAll('ol li').length,items[1].options.length);assert.equal([...f.d.querySelectorAll('ol li')].filter(el=>el.textContent.includes('correct answer')).length,1);for(const p of items[2].parts)assert.ok(f.d.body.textContent.includes(p.explanation));assert.equal(f.d.querySelector('#question-library-results').getAttribute('aria-busy'),'false');}finally{f.window.happyDOM.abort();}
+});
+test('library pins paging version and ignores stale search results',async()=>{
+ const pending=[],urls=[],item=buildBank()[0],f=fixture(url=>{urls.push(url);return new Promise(resolve=>pending.push(resolve));});const page=(version,id)=>({items:[{...item,id}],total:2,families:1,bankVersion:version,hasMore:true,nextCursor:id});
+ try{f.submit();f.d.querySelector('#question-search').value='new';f.submit();pending[1](page('v2','new'));await f.flush();pending[0](page('v1','old'));await f.flush();assert.equal(f.d.querySelectorAll('details').length,1);assert.ok(f.d.querySelector('summary').textContent.startsWith('new'));f.d.querySelector('#question-library-more').click();assert.ok(urls[2].includes('version=v2'));assert.equal(f.d.querySelector('#question-library-more').disabled,true);pending[2](page('v3','wrong-version'));await f.flush();assert.equal(f.d.querySelectorAll('details').length,1);assert.match(f.d.querySelector('#question-library-status').textContent,/changed/);}finally{f.window.happyDOM.abort();}
+});

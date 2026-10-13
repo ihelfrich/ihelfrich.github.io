@@ -481,3 +481,7 @@ Verification: 114 focused tests passed, including unauthorized access rejection 
 ## Instructor visual hierarchy (2026-10-12)
 
 Added workspace section links, consistent native form and file controls, bounded question disclosures, table framing, and responsive spacing. Private navigation becomes visible only after instructor verification. Disclosure animation is opt-in under `prefers-reduced-motion: no-preference`. Browser inspection confirms the unauthenticated workspace renders and private navigation remains hidden; screenshot: `instructor-layout-proof.png`. Authenticated visual interaction and full responsive/keyboard review remain pending; this is not a claim of completed design validation.
+
+## Question-library integrity (2026-10-12)
+
+Paging now pins the running bank version. The API rejects continuation without a version and rejects mismatched versions with HTTP 409; instructors must restart their search after a deployment changes the bank. The interface also rejects mismatched response versions, ignores stale searches, and exposes loading state through aria-busy. Two interface regressions verify safe prompt rendering, numeric/choice/multipart keys, stale-request handling, and version continuity. All 116 focused tests pass. These DOM tests supplement, but do not replace, authenticated browser interaction review.

@@ -1,8 +1,9 @@
 import {renderGraph} from '../lib/econ-practice/figures.mjs';
-export function setupQuestionLibrary(request){
+export function setupQuestionLibrary(request,document=globalThis.document){
  const $=id=>document.getElementById(id),form=$('question-library-form'),results=$('question-library-results'),status=$('question-library-status'),more=$('question-library-more');
  const node=(tag,text)=>{const el=document.createElement(tag);el.textContent=text;return el;};
- let filter='',cursor='',revision=0;
+ let filter='',cursor='',bankVersion='',revision=0;
+
  function card(q){
   const detail=document.createElement('details');detail.className='question-library-item';
   detail.append(node('summary',`${q.id} · ${q.title}`),node('p',`${q.course} · Unit ${q.unit} · ${q.topicName} · Family ${q.family} · Variant ${q.variant}`),node('p',q.prompt));
@@ -15,12 +16,14 @@ export function setupQuestionLibrary(request){
  }
  async function load(reset){
   const ticket=++revision;
-  if(reset){filter=new URLSearchParams({course:$('question-course').value,unit:$('question-unit').value,q:$('question-search').value}).toString();cursor='';results.replaceChildren();}
-  more.hidden=true;status.textContent='Loading questions…';
-  try{const page=await request(`/admin/questions?${filter}&after=${encodeURIComponent(cursor)}`);if(ticket!==revision)return;
+  if(reset){filter=new URLSearchParams({course:$('question-course').value,unit:$('question-unit').value,q:$('question-search').value}).toString();cursor='';bankVersion='';results.replaceChildren();}
+  more.hidden=true;more.disabled=true;results.setAttribute('aria-busy','true');status.textContent='Loading questions…';
+  try{const page=await request(`/admin/questions?${filter}&after=${encodeURIComponent(cursor)}${bankVersion?`&version=${encodeURIComponent(bankVersion)}`:''}`);if(ticket!==revision)return;
+   if(bankVersion&&page.bankVersion!==bankVersion)throw new Error('The question bank changed. Start a new search.');
+   bankVersion=page.bankVersion;
    for(const q of page.items)results.append(card(q));cursor=page.nextCursor??'';more.hidden=!page.hasMore;
    status.textContent=`${page.total} matching items across ${page.families} families. Showing ${results.children.length}. Bank ${page.bankVersion}.`;
-  }catch(error){if(ticket===revision){status.textContent=error.message;if(!reset)more.hidden=false;}}
+  }catch(error){if(ticket===revision){status.textContent=error.message;if(!reset)more.hidden=false;}}finally{if(ticket===revision){results.setAttribute('aria-busy','false');more.disabled=false;}}
  }
  form.addEventListener('submit',event=>{event.preventDefault();load(true);});more.addEventListener('click',()=>load(false));
 }
