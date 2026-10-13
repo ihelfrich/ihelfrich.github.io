@@ -167,3 +167,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added check:econ-practice to the regular npm check chain and GitHub deployment workflow so economics regressions participate in future releases. Workflow YAML parses and includes the gate.
 - Build now accepts PUBLIC_ECON_API_URL from the repository variable of that name. It remains unset; absent configuration keeps practice disabled. No GitHub setting, live service, push or deployment was changed.
 - Workflow verification initially caught a duplicated env mapping introduced beside the existing Cesium configuration. Merged the new variable into the existing mapping and reran the YAML parser successfully before finishing. Existing Cesium configuration is preserved.
+
+## Continuation: undergraduate conceptual breadth
+
+- Added six original conceptual questions to each undergraduate track, one per broad unit. Micro covers ordinal utility, compensated demand, cost envelopes, welfare, credible threats and adverse selection. Macro covers accounting versus behavior, Solow level/growth effects, constraints, structural identification, Ricardian assumptions and currency risk premia.
+- Undergraduate micro now366 items/21 families; macro294/18. Bank2026.10.12.10. All52 focused tests and structural checks pass; numeric verification continues to cover648 undergraduate variants separately from the new concepts.
+- These additions require a separate substantive review and do not make either course comprehensive. Remaining content/format, psychometric, browser/security/reliability and live setup gates persist.

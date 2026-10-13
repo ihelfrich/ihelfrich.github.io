@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.9",
-  "bankSHA256": "8ff49e0472f8a1a5723fefe0966fc9b302bf651d9d3a0a722aabd0afd9737bb9",
+  "bankVersion": "2026.10.12.10",
+  "bankSHA256": "55d0c93281c55cc6bb030609c08661ca2de7fdbaa1c86d04085f850d06abaa47",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -12,19 +12,19 @@
       "families": 49
     },
     "college-micro": {
-      "items": 360,
-      "families": 15
+      "items": 366,
+      "families": 21
     },
     "college-macro": {
-      "items": 288,
-      "families": 12
+      "items": 294,
+      "families": 18
     }
   },
   "answerPositions": [
-    30,
-    31,
-    36,
-    26
+    34,
+    33,
+    41,
+    27
   ],
   "errors": [],
   "warnings": [],
@@ -4330,6 +4330,222 @@
         "prompt": "A country’s interest rate rises, but investors also perceive a large increase in default risk. Can the interest-rate change alone establish that financial inflows rise?",
         "answer": "No; risk-adjusted expected returns also matter.",
         "explanation": "Capital-flow predictions that hold risk fixed cannot be applied without adjustment when risk changes substantially."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "ordinal-utility",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:ordinal-utility:01",
+        "prompt": "A utility function is replaced by a strictly increasing transformation. What is preserved?",
+        "answer": "The ranking of consumption bundles and the set of optimal choices under the same budget",
+        "explanation": "Strictly increasing transformations preserve preference order. Cardinal utility levels, differences and derivatives need not be preserved."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "compensated-law",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:compensated-law:01",
+        "prompt": "For a regular expenditure-minimizing consumer with differentiable Hicksian demand, what is the sign of its own-price derivative?",
+        "answer": "Nonpositive",
+        "explanation": "The expenditure function is concave in prices, making its own second-price derivatives nonpositive. The compensated substitution effect obeys the law of demand."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "cost-envelope",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:cost-envelope:01",
+        "prompt": "Why can conditional labor demand be recovered by differentiating a differentiable minimized cost function with respect to the wage?",
+        "answer": "The envelope theorem removes first-order effects of reoptimizing the input choice.",
+        "explanation": "At the cost-minimizing choice, the direct wage effect is labor use; optimal input adjustments do not add a first-order term under the regularity conditions."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "market-power-welfare",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:market-power-welfare:01",
+        "prompt": "In a standard single-product monopoly with no externalities, why does restricting output below the competitive quantity create deadweight loss?",
+        "answer": "Some excluded units have willingness to pay above marginal resource cost.",
+        "explanation": "The lost surplus comes from forgone mutually beneficial units, not merely from a redistribution of surplus between buyers and the seller."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "credible-threat",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:credible-threat:01",
+        "prompt": "An extensive-form game has a Nash equilibrium supported by a threat to choose a strictly inferior action in a proper subgame. What refinement can rule it out?",
+        "answer": "Subgame-perfect equilibrium",
+        "explanation": "Subgame perfection requires equilibrium behavior in every subgame, including those off the equilibrium path. A strictly inferior threatened action fails sequential rationality there."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "adverse-selection",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:adverse-selection:01",
+        "prompt": "An insurer cannot observe applicants’ risk types before contracts are signed, and higher-risk applicants are more eager to buy generous coverage. Which problem is illustrated?",
+        "answer": "Adverse selection",
+        "explanation": "Adverse selection concerns hidden precontract information and selection into contracts. Moral hazard concerns hidden actions or incentives after contracting."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "saving-identity",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:saving-identity:01",
+        "prompt": "In closed-economy national accounts, saving equals investment ex post. What does this identity establish?",
+        "answer": "Measured saving and investment must be consistent, but the identity alone does not identify the adjustment mechanism.",
+        "explanation": "An accounting identity holds for realized quantities. Behavioral equations and equilibrium conditions explain how income, interest rates and spending adjust."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "solow-level-growth",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:solow-level-growth:01",
+        "prompt": "In the standard Solow model with exogenous technological progress, a permanent increase in the saving rate changes what?",
+        "answer": "The long-run level of output per effective worker, but not its steady-state growth rate",
+        "explanation": "Higher saving changes the steady-state capital level and produces transitional growth. Sustained per-worker growth is governed by exogenous technology in this model."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "borrowing-constraint",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:borrowing-constraint:01",
+        "prompt": "A consumer would prefer to borrow more but faces a binding borrowing constraint. How should the usual unconstrained consumption Euler equality be treated?",
+        "answer": "It is replaced by an optimality condition including the constraint’s multiplier.",
+        "explanation": "A binding inequality constraint contributes a nonzero multiplier to the first-order conditions. The unconstrained Euler equality need not hold."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "identification-shocks",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:identification-shocks:01",
+        "prompt": "Output and inflation rise together in observed data. Does this alone identify a structural aggregate-demand shock?",
+        "answer": "No; structural identification requires additional assumptions or information.",
+        "explanation": "Reduced-form comovement is consistent with multiple mixtures of shocks and transmission mechanisms. Identification uses restrictions or external information beyond the correlation."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "ricardian-assumptions",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:ricardian-assumptions:01",
+        "prompt": "Why can borrowing constraints invalidate a Ricardian-equivalence prediction for a debt-financed tax cut?",
+        "answer": "The tax cut can relax current households’ liquidity constraints and change consumption.",
+        "explanation": "The equivalence result depends on strong assumptions about household horizons, taxes and capital-market access. Constrained households may respond to the timing of disposable income."
+      },
+      "last": null
+    },
+    {
+      "course": "college-macro",
+      "family": "uip-risk-premium",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:uip-risk-premium:01",
+        "prompt": "Expected currency returns differ across countries even after accounting for expected exchange-rate movements. What can reconcile this with an asset-pricing model?",
+        "answer": "A time-varying risk premium",
+        "explanation": "Uncovered interest parity without a premium is a restricted benchmark. Compensation for currency or other risk can create expected-return differentials."
       },
       "last": null
     }
