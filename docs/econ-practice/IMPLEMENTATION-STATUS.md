@@ -206,3 +206,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 
 - JSON request parsing now requires a non-null object and valid UTF-8 before route-specific access. Scalar/null/array payloads no longer trigger misleading internal-server errors.
 - Regressions cover malformed JSON, scalar/array/null bodies and oversized payloads, confirming explicit400/413 responses and no participant/response side effects. All61 focused tests pass.
+
+## Continuation: course-specific prerequisite routing
+
+- Fixed AP Micro prerequisite IDs being reused for every course even though topic numbers have different meanings. Added separate authored maps for AP Macro and undergraduate micro/macro; enginev4 resolves only the selected course map.
+- Regression verifies poor macro GDP performance does not apply the AP Micro demand-to-elasticity penalty to macro unemployment. All62 focused tests pass.
+- These prerequisite maps are formative author judgments, not empirically identified prerequisite structures. The current mechanism still penalizes advanced selections rather than providing a full explicit remediation sequence; that remains open.

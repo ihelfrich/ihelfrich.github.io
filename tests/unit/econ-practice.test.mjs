@@ -67,3 +67,10 @@ test('maximum length never falsely claims precision when coverage or boundary ch
   const result=stoppingDecision({...base,...override});assert.equal(result.stop,true);assert.equal(result.reason,'maximum-length');assert.equal(result.precisionMet,false);
  }
 });
+test('prerequisite routing respects course-specific meanings of topic numbers',async()=>{
+ const {buildBank:full}=await import('../../src/lib/econ-practice/index.mjs');const all=full();
+ const unemp=all.find(q=>q.course==='ap-macro'&&q.family==='unemployment'),inflation=all.find(q=>q.course==='ap-macro'&&q.family==='inflation');
+ const state=newState();state.topics['ap-macro:2.1']={attempts:4,correct:0,credit:0};
+ const result=selectItem([unemp,inflation],state,{course:'ap-macro',unit:2,mode:'practice',rng:()=>0});
+ assert.equal(result.item.id,unemp.id);assert.ok(Math.abs(result.selection.probability-.5)<1e-12,'GDP weakness is not an AP Micro demand prerequisite for macro labor statistics');
+});

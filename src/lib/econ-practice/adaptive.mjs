@@ -1,7 +1,7 @@
 import {gradeResponse} from './scoring.mjs';
-import {courses,prerequisites} from './curriculum.mjs';
+import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v3';
+export const ENGINE_VERSION='content-constrained-v4';
 export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
 export function score(item,response){return gradeResponse(item,response).correct;}
 export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
@@ -40,7 +40,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
    const targetDifficulty=accuracy>.8?3:accuracy<.45?1:2;
    utility+=(!t?2:0)+(t&&t.due<=now?1.5:0)-.5*Math.abs(q.difficulty-targetDifficulty);
    if(recentFamilies.has(q.family))utility-=5;
-   const needsPrereq=(prerequisites[q.topic]??[]).some(id=>{const p=state.topics[`${course}:${id}`];return p&&p.attempts>=2&&(p.credit??p.correct)/p.attempts<.4;});
+   const needsPrereq=(prerequisitesByCourse[course]?.[q.topic]??[]).some(id=>{const p=state.topics[`${course}:${id}`];return p&&p.attempts>=2&&(p.credit??p.correct)/p.attempts<.4;});
    if(needsPrereq)utility-=1.5;
   }
   return {q,utility};
