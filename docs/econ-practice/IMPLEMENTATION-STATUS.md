@@ -219,3 +219,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Reauthentication creates a temporary challenge profile, retains the prior participant target/session, skips premature upload, and requires Google verification to resolve to the same account before saving queued answers. The backend rejects a different verified account before creating/linking it; original histories are not transferred to the temporary profile.
 - Regression covers wrong-account rejection and successful same-account credential issuance without linking temporary anonymous history. All63 tests pass; identity module syntax checked.
 - Live Google/browser recovery remains unverified because OAuth is unconfigured. Anonymous expired-credential recovery, mid-session failures outside submission and cross-tab switching remain open. Temporary challenge profiles currently require eventual housekeeping.
+
+## Continuation: explicit formative prerequisite step
+
+- Enginev5 inserts a prerequisite-review selection after two consecutive same-topic practice responses below half credit. It uses the selected course’s map and only candidates already within the requested unit/topic coverage.
+- After the prerequisite response, ordinary routing resumes unless another qualifying pattern occurs. Assessment selection is unchanged. The selection reason identifies the remediated topic and propensity is conditional on the narrowed eligible pool.
+- Regressions verify triggering, release after review, strict topic-filter preservation and assessment separation. All65 focused tests pass. Threshold and effectiveness remain formative author choices requiring student-data evaluation.

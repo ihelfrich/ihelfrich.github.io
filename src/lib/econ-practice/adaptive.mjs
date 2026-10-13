@@ -1,7 +1,7 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v4';
+export const ENGINE_VERSION='content-constrained-v5';
 export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
 export function score(item,response){return gradeResponse(item,response).correct;}
 export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
@@ -26,6 +26,15 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  let pool=bank.filter(q=>q.course===course&&(!unit||q.unit===Number(unit))&&(!topic||q.topic===topic)&&!used.has(q.id));
  if(mode==='assessment')pool=pool.filter(q=>!families.has(q.family));
  if(!pool.length)return null;
+ let remediationTopic=null;
+ if(mode==='practice'&&session.length>=2){
+  const recent=session.slice(-2),last=recent.at(-1);
+  if(recent.every(h=>h.topic===last.topic&&(h.score??Number(h.correct))<.5)){
+   const prerequisiteTopics=new Set(prerequisitesByCourse[course]?.[last.topic]??[]);
+   const review=pool.filter(q=>prerequisiteTopics.has(q.topic));
+   if(review.length){pool=review;remediationTopic=last.topic;}
+  }
+ }
  // Fill missing units before optimizing information; this is a hard coverage constraint.
  if(mode==='assessment'&&!unit&&!topic){const seenUnits=new Set(session.map(h=>h.unit));const uncovered=pool.filter(q=>!seenUnits.has(q.unit));if(uncovered.length)pool=uncovered;}
  const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
@@ -55,6 +64,6 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const mass=sums.map((sum,i)=>sum/groups[i].length),total=mass.reduce((a,b)=>a+b,0);
  const sample=weights=>{let draw=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){draw-=weights[i];if(draw<0)return i;}return weights.length-1;};
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
- return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
+ return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
 }
 export function progress(state,course){return courses[course].units.map((name,i)=>{const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1);return {unit:i+1,name,attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,estimate:summarize(state.posteriors[`${course}:${i+1}`]??prior())};});}

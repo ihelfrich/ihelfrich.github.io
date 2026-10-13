@@ -74,3 +74,15 @@ test('prerequisite routing respects course-specific meanings of topic numbers',a
  const result=selectItem([unemp,inflation],state,{course:'ap-macro',unit:2,mode:'practice',rng:()=>0});
  assert.equal(result.item.id,unemp.id);assert.ok(Math.abs(result.selection.probability-.5)<1e-12,'GDP weakness is not an AP Micro demand prerequisite for macro labor statistics');
 });
+test('repeated practice difficulty triggers an in-scope prerequisite step, then releases the constraint',()=>{
+ const state=newState(),failed=bank.filter(q=>q.topic==='3.5'&&q.format==='numeric').slice(0,2);
+ for(const q of failed)recordAnswer(state,q,{response:-999,mode:'practice',sessionId:'remediation'});
+ const review=selectItem(bank,state,{mode:'practice',unit:3,sessionId:'remediation',rng:()=>0});assert.equal(review.item.topic,'3.2');assert.equal(review.selection.reason,'prerequisite review for 3.5');
+ recordAnswer(state,review.item,{response:review.item.answer,mode:'practice',sessionId:'remediation'});
+ const subsequent=selectItem(bank,state,{mode:'practice',unit:3,sessionId:'remediation',rng:()=>0});assert.equal(subsequent.selection.reason,'coverage, review, and difficulty');
+});
+test('prerequisite remediation never widens an explicit topic filter or changes assessment mode',()=>{
+ const state=newState();for(const q of bank.filter(q=>q.topic==='3.5'&&q.format==='numeric').slice(0,2))recordAnswer(state,q,{response:-999,mode:'practice',sessionId:'restricted'});
+ const selected=selectItem(bank,state,{mode:'practice',topic:'3.5',sessionId:'restricted',rng:()=>0});assert.equal(selected.item.topic,'3.5');
+ const assessment=selectItem(bank,state,{mode:'assessment',unit:3,sessionId:'restricted',rng:()=>0});assert.equal(assessment.selection.reason,'content-balanced information sampling');
+});
