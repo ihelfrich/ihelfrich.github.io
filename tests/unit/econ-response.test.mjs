@@ -76,3 +76,28 @@ test('malformed request bodies fail without creating participant or response rec
  assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM participants').first()).n,0);
  assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM responses').first()).n,0);t.env.DB.close();
 });
+
+test('concurrent sessions mark only one first exposure to a question family',async()=>{
+ const t=setup(),p=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+ const start=()=>t.call('/sessions',{course:'college-micro',mode:'assessment',topic:'1.2'},p.token);
+ const sessions=await Promise.all([start(),start()]);sessions.forEach(s=>assert.equal(s.status,200));
+ // Hold both presentation writes until both requests have finished their reads.
+ const prepare=t.env.DB.prepare.bind(t.env.DB);let arrivals=0,release;
+ const gate=new Promise(resolve=>{release=resolve;});
+ t.env.DB.prepare=sql=>{const statement=prepare(sql);if(!sql.startsWith('INSERT INTO presentations'))return statement;return {bind(...args){const bound=statement.bind(...args);return {...bound,run:async()=>{if(++arrivals===2)release();await gate;return bound.run();}};}};};
+ const questions=await Promise.all(sessions.map(s=>t.call(`/sessions/${s.sessionId}/next`,{},p.token)));
+ questions.forEach(q=>{assert.equal(q.status,200);assert.equal(q.item.family,'mrs');});
+ const rows=(await t.env.DB.prepare('SELECT first_family_exposure FROM presentations').all()).results;
+ assert.equal(rows.length,2);assert.equal(rows.reduce((sum,r)=>sum+r.first_family_exposure,0),1);
+ const receipts=await Promise.all(sessions.map((s,i)=>t.call(`/sessions/${s.sessionId}/answers`,answer(questions[i]),p.token)));
+ receipts.forEach(r=>assert.equal(r.status,200));
+ const evidence=await t.env.DB.prepare('SELECT SUM(calibration_eligible) AS n FROM responses').first();assert.equal(evidence.n,1);t.env.DB.close();
+});
+
+test('concurrent retries return one durable receipt and conflicting events cannot replace it',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment'),a=answer(next);
+ const receipts=await Promise.all([t.call(`/sessions/${s.sessionId}/answers`,a,p.token),t.call(`/sessions/${s.sessionId}/answers`,a,p.token)]);
+ receipts.forEach(r=>assert.equal(r.status,200));assert.equal(receipts[0].receipt,receipts[1].receipt);
+ const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID()},p.token);assert.equal(conflict.status,409);
+ const row=await t.env.DB.prepare('SELECT COUNT(*) AS n,event_id FROM responses').first();assert.equal(row.n,1);assert.equal(row.event_id,a.eventId);t.env.DB.close();
+});

@@ -283,3 +283,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added an owned replay recorder with event-ID and course/family sets. Server reconstruction no longer scans the entire growing history for duplicate events and first exposure on every answer. The ordinary recordAnswer API retains existing behavior.
 - Equivalence regression compares indexed and ordinary reconstruction across first/repeated families, assisted assessment responses and duplicate IDs, then verifies resumption from serialized state. A separate boundary test supplies a receipt beyond the captured watermark and confirms it is excluded from the two-page replay.
 - All72 focused tests pass, including the10,005-answer SQLite replay case. No bank content change. Recorder contract prohibits external history mutation while it owns appends; persistent checkpoints and bounded-memory aggregates remain unfinished.
+
+## Continuation: concurrent first-exposure correction
+
+- Found a check-then-insert race: concurrent sessions could both mark the same participant/course/family as first exposure. Moved the existence check into the presentation INSERT SELECT, so serialized database writes determine first exposure atomically.
+- Added a deterministic concurrency barrier holding both presentation writes until both requests finish preliminary reads. Verified the regression fails on the prior committed worker (two first exposures) and passes on the revised worker (one). Subsequent assessment answers yield only one calibration-eligible receipt.
+- Added concurrent same-event retry verification plus conflicting-event rejection; the accepted receipt remains one durable row.74 focused tests pass. This does not yet preserve conflicting alternate submissions as separate non-scoring events; that broader tracking requirement remains open. No deployment.
