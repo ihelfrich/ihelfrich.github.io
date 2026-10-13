@@ -1,3 +1,5 @@
+import io from '../../../content/econ-drafts/industrial-organization.json' with {type:'json'};
+import ioRelease from '../../../content/econ-drafts/industrial-organization-release.json' with {type:'json'};
 import econometrics from '../../../content/econ-drafts/intro-econometrics.json' with {type:'json'};
 import econometricsRelease from '../../../content/econ-drafts/intro-econometrics-release.json' with {type:'json'};
 import labor from '../../../content/econ-drafts/labor-economics.json' with {type:'json'};
@@ -6,7 +8,7 @@ import publicEconomics from '../../../content/econ-drafts/public-economics.json'
 import publicRelease from '../../../content/econ-drafts/public-economics-release.json' with {type:'json'};
 import {family,choice,families} from './bank.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 for(const [items,release] of batches)for(const q of items){

@@ -1,5 +1,7 @@
+import {ioHints} from './io-hints.mjs';
 // Method scaffolds for reviewed field questions; never generated from their keys.
 export const fieldHints={
+'industrial-organization':ioHints,
 'intro-econometrics':{
 'intro-econometrics-u1-q01':'Compare the population the researcher wants to describe with the people who could actually enter the sample.',
 'intro-econometrics-u1-q02':'Separate the observed comparison from the causal quantity of interest. What could differ between the groups before treatment?',

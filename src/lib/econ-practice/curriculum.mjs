@@ -5,7 +5,8 @@ export const courses = {
  'college-macro': {name:'Intermediate Macroeconomics', units:['National accounts','Long-run growth','Consumption and investment','Business cycles','Monetary and fiscal policy','Open-economy models'],weights:[.15,.2,.15,.2,.15,.15]},
  'intro-econometrics':{name:'Introductory Econometrics',units:['Data and estimands','Simple linear regression','Multiple regression and confounding','Inference and uncertainty','Functional forms and prediction','Introduction to causal designs'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]},
  'labor-economics':{name:'Labor Economics',units:['Labor supply and participation','Labor demand and tax incidence','Human capital and signaling','Wage differences and discrimination','Monopsony, search, and institutions','Empirical methods and migration'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]},
- 'public-economics':{name:'Public Economics',units:['Welfare and policy objectives','Tax incidence','Tax efficiency and behavioral responses','Public goods and local finance','Social insurance','Redistribution and policy evaluation'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]}
+ 'public-economics':{name:'Public Economics',units:['Welfare and policy objectives','Tax incidence','Tax efficiency and behavioral responses','Public goods and local finance','Social insurance','Redistribution and policy evaluation'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]},
+ 'industrial-organization':{name:'Industrial Organization',units:['Market power, demand, and costs','Quantity and price competition','Differentiation, search, and advertising','Entry, dynamic competition, and collusion','Discrimination and vertical relations','Regulation, mergers, and platforms'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]}
 };
 export const microTopics = {
  '1.1':'Scarcity','1.2':'Allocation and economic systems','1.3':'Production possibilities','1.4':'Comparative advantage','1.5':'Cost-benefit analysis','1.6':'Marginal analysis and consumer choice',
