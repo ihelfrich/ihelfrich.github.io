@@ -30,3 +30,22 @@ export async function registerModel(env,instructor,artifact){
  requireValue(stored?.artifact_json===encoded,'Existing model package differs; nothing was overwritten.',409);
  return {id:expected.id,status:'candidate',registered:true,activated:false};
 }
+
+export async function approveModel(env,instructor,packageId,input){
+ requireValue(input?.confirmApproval===true,'Explicit approval confirmation is required.');
+ requireValue(typeof input.rationale==='string'&&input.rationale.trim().length>0&&input.rationale.trim().length<=2000,'Provide an approval rationale of 1–2000 characters.');
+ const rationale=input.rationale.trim();
+ const record=await query(env.DB,'SELECT artifact_json FROM model_packages WHERE id=?',packageId).first();
+ requireValue(record,'Model package not found.',404);
+ const artifact=JSON.parse(record.artifact_json);
+ // Re-run scientific-review and archived-content integrity gates before approval.
+ await registerModel(env,instructor,artifact);
+ const id=`approval-${await digest({packageId,approvedBy:instructor.id,rationale})}`,at=iso();
+ await env.DB.batch([
+  query(env.DB,"INSERT INTO audit_log (id,at,actor,action,target,details_json) SELECT ?,?,?,'model-package-approved',?,? WHERE NOT EXISTS (SELECT 1 FROM model_approvals WHERE id=?)",uuid(),at,instructor.id,id,JSON.stringify({packageId,rationale}),id),
+  query(env.DB,'INSERT INTO model_approvals (id,package_id,approved_at,approved_by,rationale) VALUES (?,?,?,?,?) ON CONFLICT(id) DO NOTHING',id,packageId,at,instructor.id,rationale)
+ ]);
+ const approval=await query(env.DB,'SELECT * FROM model_approvals WHERE id=?',id).first();
+ requireValue(approval?.package_id===packageId&&approval.approved_by===instructor.id&&approval.rationale===rationale,'Existing approval differs.',409);
+ return {approvalId:id,packageId,status:'approved',approvedAt:approval.approved_at,activated:false};
+}

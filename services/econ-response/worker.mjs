@@ -1,7 +1,7 @@
 import {sessionModels} from './session-models.mjs';
 import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {hintFor} from '../../src/lib/econ-practice/hints.mjs';
-import {registerModel} from './model-registry.mjs';
+import {registerModel,approveModel} from './model-registry.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {findUnscored,retainUnscored,unscoredReceipt} from './unscored.mjs';
 import {responseWindow} from './response-cursor.mjs';
@@ -68,6 +68,8 @@ async function route(request,env){
    return {packages:rows,hasMore:records.length>100,nextCursor:rows.at(-1)?.id??null};
   }
   if(path==='/admin/model-packages'&&method==='POST')return registerModel(env,instructor,await body(request,1024*1024));
+  const approvalMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})\/approve$/);
+  if(approvalMatch&&method==='POST')return approveModel(env,instructor,approvalMatch[1],await body(request));
   const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
   if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);await audit('model-package-read',record.id,{});return {artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated:false};}
   if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));

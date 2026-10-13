@@ -98,3 +98,21 @@ test('session model pins require approved matching scope and remain immutable',a
   await assert.rejects(DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(shown.sessionId,artifact.bankVersion,artifact.course,'{}','2026-10-13').run(),/before presentation/);
  }finally{DB.close();}
 });
+
+test('model approval requires explicit instructor decision and is idempotent without activation',async()=>{
+ const {DB,artifact,call}=fixture();try{
+  await call('/admin/model-packages',artifact);
+  const path=`/admin/model-packages/${artifact.id}/approve`,body={confirmApproval:true,rationale:'Technical test approval only, no scientific inference.'};
+  for(const invalid of [{},{rationale:'reason'},{confirmApproval:true,rationale:' '},{confirmApproval:true,rationale:'x'.repeat(2001)}])assert.equal((await call(path,invalid)).httpStatus,400);
+  const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  assert.equal((await call(path,body,profile.token)).httpStatus,403);
+  const results=await Promise.all([call(path,body),call(path,body)]);
+  for(const result of results){assert.equal(result.httpStatus,200);assert.equal(result.status,'approved');assert.equal(result.activated,false);}
+  assert.equal(results[0].approvalId,results[1].approvalId);
+  assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM model_approvals').first()).n,1);
+  assert.equal((await DB.prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action='model-package-approved'").first()).n,1);
+  assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM session_model_pins').first()).n,0);
+  assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM calibrations').first()).n,0);
+  assert.equal((await call('/admin/model-packages/calibration-'+'0'.repeat(64)+'/approve',body)).httpStatus,404);
+ }finally{DB.close();}
+});
