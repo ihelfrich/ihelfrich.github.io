@@ -43,3 +43,13 @@ Agent Log: 3f808471-6405-8177-9fd4-db6c6d4478b3
 ## Runtime handles at write time
 
 Local response dev process session 97731, Astro dev process session 83319. Revalidate handles before using. The server does not auto-reload Worker code; restart when needed. Browser smoke used in-app browser tab 1. Do not assume handles remain live across turns.
+
+## Continuation: calibration and content variety
+
+- Bank version 2026.10.12.2 now has AP Micro 1,292 items / 142 families, AP Macro 443 / 29, undergraduate micro 360 / 15, undergraduate macro 288 / 12. Removed cosmetic conceptual replicas and added 71 individually authored AP Micro conceptual cases. The bank remains under substantive review.
+- Added preparation, candidate 1PL/2PL fitting, held-out item prediction, S-X²/BH and Q3 diagnostics, exploratory dimensionality, optional anchored DIF, synthetic calibration/DIF/CAT fixtures and candidate review validation. No operational calibration is activated.
+- mirt installed from CRAN; synthetic 1,000-person calibration and 1,000-person DIF fixtures executed. `verify-synthetic.mjs` checks parameter recovery, injected DIF detection and finite CAT results. Summary in audits/synthetic-verification.json. Two-factor exploratory fit did not converge on the unidimensional fixture; reports preserve this rather than declaring a pass.
+- CAT smoke test (30 repetitions per trait/method) found shrinkage and undercoverage at extreme traits. Prior/grid/design sensitivity and larger Monte Carlo study remain required. The simulation uses known synthetic parameters and one dimension, not the operational six-unit bank.
+- New regressions cover conceptual answer-position balance, generator-index leakage, long decimal artifacts, first-six-unit coverage and rejection of synthetic/unreviewed operational candidates. All 23 focused tests pass; Astro fast build passes.
+- Content-review failures caught: cosmetic conceptual count reduction made all answer keys first (fixed with deterministic per-item option permutation); seven explanation families leaked generator notation (replaced with instantiated values); golden-rule/debt prompts showed floating-point tails (formatted). Structural audit now scans all items; audit inventory explicitly leaves substantive review pending.
+- Optional DIF execution initially failed on group labels containing hyphens; internal neutral group labels now preserve an explicit label map. R AIC/BIC generic calls returned empty vectors; replaced with mirt extraction and synthetic checks requiring finite criteria.

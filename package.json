@@ -30,7 +30,8 @@
     "clean-spokes": "node scripts/clean-spokes.mjs",
     "check:macroeconomics": "node --test tests/unit/macroeconomics*.test.mjs",
     "check:calculus": "node --test tests/unit/calculus*.test.mjs",
-    "check:ols": "node --test tests/unit/ols-assumptions.test.mjs"
+    "check:ols": "node --test tests/unit/ols-assumptions.test.mjs",
+    "check:econ-practice": "node --test tests/unit/econ-*.test.mjs && node scripts/econ-practice/audit-bank.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.1",

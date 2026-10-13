@@ -32,3 +32,6 @@ test('independent economic checks across all numeric variants',()=>{
  assert.ok(Math.abs(q.answer-expected)<=.001,q.id);
  }
 });
+test('conceptual choices do not all put the correct answer in the same position',async()=>{const {buildBank:buildFull}=await import('../../src/lib/econ-practice/index.mjs');const choices=buildFull().filter(q=>q.format==='choice');const counts=[0,0,0,0];choices.forEach(q=>counts[q.answerIndex]++);for(const count of counts)assert.ok(count>choices.length*.1&&count<choices.length*.5,JSON.stringify(counts));});
+test('rendered explanations do not leak the generator index',async()=>{const {buildBank:buildFull}=await import('../../src/lib/econ-practice/index.mjs');for(const q of buildFull()){assert.ok(!/\d+\.\d{8,}/.test(q.prompt),q.id);if(q.family!=='golden-rule')assert.ok(!/\bn\b|\d+n\b/.test(q.explanation),q.id);}});
+test('first six all-unit assessment selections cover every unit',()=>{const s=newState();let seed=23;const rng=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};for(let i=0;i<6;i++){const q=selectItem(bank,s,{mode:'assessment',sessionId:'coverage',rng}).item;recordAnswer(s,q,{response:q.format==='choice'?q.answerIndex:q.answer,mode:'assessment',sessionId:'coverage'});}assert.equal(new Set(s.history.map(h=>h.unit)).size,6);});

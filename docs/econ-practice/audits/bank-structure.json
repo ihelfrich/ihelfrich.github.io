@@ -1,0 +1,3977 @@
+{
+  "bankVersion": "2026.10.12.2",
+  "bankSHA256": "ac60054c68a5081ab762b8bc3b6ba9e0f049445e28444d5b932172d1ea55e647",
+  "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
+  "counts": {
+    "ap-micro": {
+      "items": 1292,
+      "families": 142
+    },
+    "ap-macro": {
+      "items": 443,
+      "families": 29
+    },
+    "college-micro": {
+      "items": 360,
+      "families": 15
+    },
+    "college-macro": {
+      "items": 288,
+      "families": 12
+    }
+  },
+  "answerPositions": [
+    25,
+    25,
+    32,
+    21
+  ],
+  "errors": [],
+  "warnings": [],
+  "families": [
+    {
+      "course": "ap-micro",
+      "family": "opportunity-cost",
+      "topic": "1.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:opportunity-cost:01",
+        "prompt": "A student has 8 hours available. A paid shift earns $12 per hour. Attending a free workshop takes 2 hours that would otherwise be spent at work. What is the opportunity cost of attending, in dollars?",
+        "answer": 24,
+        "explanation": "The forgone next-best use is two hours of work: 2 × 12 = $24. A zero ticket price does not remove opportunity cost."
+      },
+      "last": {
+        "id": "ap-micro:opportunity-cost:24",
+        "prompt": "A student has 31 hours available. A paid shift earns $35 per hour. Attending a free workshop takes 2 hours that would otherwise be spent at work. What is the opportunity cost of attending, in dollars?",
+        "answer": 70
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "scarce-capacity",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:scarce-capacity:01",
+        "prompt": "A town can fund 2 projects but residents propose 5 worthwhile projects. Which statement describes its problem?",
+        "answer": "Limited resources require a choice among competing uses",
+        "explanation": "Scarcity is the constraint on satisfying competing uses; it does not depend on a posted price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "allocation",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:allocation:01",
+        "prompt": "A city allocates 40 garden plots by lottery instead of auction. What changes directly?",
+        "answer": "The mechanism deciding who receives the plots",
+        "explanation": "A lottery changes allocation, not the resource constraint. Willingness to pay and random selection need not rank applicants identically."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "ppc-slope",
+      "topic": "1.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 24,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ppc-slope:01",
+        "prompt": "An economy can produce at most 40 bicycles or 80 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
+        "answer": 2,
+        "explanation": "Divide the meal intercept by the bicycle intercept. The constant opportunity cost is 2 meals per bicycle."
+      },
+      "last": {
+        "id": "ap-micro:ppc-slope:24",
+        "prompt": "An economy can produce at most 132 bicycles or 264 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "ppc-feasible",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ppc-feasible:01",
+        "prompt": "The frontier is Y = 100 − 2X. At X = 20, actual Y is 50. How is this bundle classified?",
+        "answer": "Feasible but productively inefficient",
+        "explanation": "At the stated X, actual Y is 10 below the frontier. More output is possible without sacrificing the other good."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "comparative-output",
+      "topic": "1.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:comparative-output:01",
+        "prompt": "In one day, Ada can make 12 tables or 36 chairs. Ben can make 10 tables or 20 chairs. What is Ben’s opportunity cost of one table, measured in chairs?",
+        "answer": 2,
+        "explanation": "Ben gives up two chairs per table. Ada gives up three, so Ben has comparative advantage in tables regardless of absolute output."
+      },
+      "last": {
+        "id": "ap-micro:comparative-output:24",
+        "prompt": "In one day, Ada can make 58 tables or 174 chairs. Ben can make 33 tables or 66 chairs. What is Ben’s opportunity cost of one table, measured in chairs?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "comparative-input",
+      "topic": "1.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:comparative-input:01",
+        "prompt": "A worker needs 2 hours per report and 4 hours per presentation. What is the opportunity cost of one presentation, in reports?",
+        "answer": 2,
+        "explanation": "For input data, divide hours per presentation by hours per report. In the time used for one presentation the worker could make two reports."
+      },
+      "last": {
+        "id": "ap-micro:comparative-input:24",
+        "prompt": "A worker needs 25 hours per report and 50 hours per presentation. What is the opportunity cost of one presentation, in reports?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "trade-gains",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:trade-gains:01",
+        "prompt": "One unit of grain costs Country A 2 units of cloth and Country B 4 units of cloth. Which trade price gives both a strict gain from specialization?",
+        "answer": "3 cloth per grain",
+        "explanation": "The terms of trade must lie strictly between 2 and 4 cloth per grain."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "net-benefit",
+      "topic": "1.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:net-benefit:01",
+        "prompt": "A project yields benefits of $200, requires $80 in purchased inputs, and displaces work worth $40. What is its economic net benefit?",
+        "answer": 80,
+        "explanation": "Subtract both purchased inputs and the opportunity cost of displaced work: 200 − 80 − 40 = 80."
+      },
+      "last": {
+        "id": "ap-micro:net-benefit:24",
+        "prompt": "A project yields benefits of $430, requires $149 in purchased inputs, and displaces work worth $63. What is its economic net benefit?",
+        "answer": 218
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "sunk-cost",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:sunk-cost:01",
+        "prompt": "A firm has paid a nonrefundable $100 reservation fee. Completing a project now costs another $50 and yields $70. What should it do if these are the only relevant future effects?",
+        "answer": "Complete it because incremental benefit exceeds incremental cost",
+        "explanation": "The sunk payment is unchanged by the current choice. Completion creates $20 of additional net benefit."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-choice",
+      "topic": "1.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-choice:01",
+        "prompt": "The first four units of a service have marginal benefits $40, $30, $20, and $10. Each costs $25. How many units maximize net benefit?",
+        "answer": 2,
+        "explanation": "The first two units have marginal benefits above price; the third and fourth do not. Buy two units."
+      },
+      "last": {
+        "id": "ap-micro:marginal-choice:24",
+        "prompt": "The first four units of a service have marginal benefits $63, $53, $43, and $33. Each costs $48. How many units maximize net benefit?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "utility-dollar",
+      "topic": "1.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:utility-dollar:01",
+        "prompt": "At an interior optimum, good X costs $2 and has marginal utility 12. Good Y costs $3. What must the marginal utility of Y be?",
+        "answer": 18,
+        "explanation": "MUx/Px = 6. At an interior optimum MUy/Py also equals 6, so MUy = 6 × 3."
+      },
+      "last": {
+        "id": "ap-micro:utility-dollar:24",
+        "prompt": "At an interior optimum, good X costs $25 and has marginal utility 150. Good Y costs $26. What must the marginal utility of Y be?",
+        "answer": 156
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "demand-shift",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:demand-shift:01",
+        "prompt": "The income of buyers of normal good A increases while its price is held fixed. What happens?",
+        "answer": "Demand shifts right",
+        "explanation": "At each price, buyers demand more of a normal good when income rises. A change in the good’s own price instead causes movement along demand."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "supply-shift",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:supply-shift:01",
+        "prompt": "The wage paid by producers rises from $15 to $20, with technology and all other input prices unchanged. What is the usual effect on the product’s supply?",
+        "answer": "Supply shifts left",
+        "explanation": "Higher production costs reduce the quantity firms are willing to sell at a given product price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "demand-elasticity",
+      "topic": "2.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:demand-elasticity:01",
+        "prompt": "A price increase of 5% causes quantity demanded to fall 10%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
+        "answer": 2,
+        "explanation": "Divide the absolute percentage quantity change by the percentage price change: 2. Demand is elastic."
+      },
+      "last": {
+        "id": "ap-micro:demand-elasticity:24",
+        "prompt": "A price increase of 28% causes quantity demanded to fall 56%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "midpoint-elasticity",
+      "topic": "2.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:midpoint-elasticity:01",
+        "prompt": "Price rises from $10 to $20, and quantity demanded falls from 100 to 50. Use the midpoint formula. What is the absolute demand elasticity?",
+        "answer": 1,
+        "explanation": "The absolute midpoint percentage changes in price and quantity are both 2/3, so elasticity is 1."
+      },
+      "last": {
+        "id": "ap-micro:midpoint-elasticity:24",
+        "prompt": "Price rises from $33 to $66, and quantity demanded falls from 330 to 165. Use the midpoint formula. What is the absolute demand elasticity?",
+        "answer": 1
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "revenue-elasticity",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:revenue-elasticity:01",
+        "prompt": "A seller lowers price by 1% over a range where demand elasticity has absolute value 1.8. What happens to total revenue?",
+        "answer": "Total revenue rises",
+        "explanation": "With elastic demand, the proportional quantity increase outweighs the proportional price decrease."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "supply-elasticity",
+      "topic": "2.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:supply-elasticity:01",
+        "prompt": "Price rises 4% and quantity supplied rises 12%. What is the price elasticity of supply using these stated changes?",
+        "answer": 3,
+        "explanation": "Supply elasticity is percentage change in quantity supplied divided by percentage change in price: 3."
+      },
+      "last": {
+        "id": "ap-micro:supply-elasticity:24",
+        "prompt": "Price rises 27% and quantity supplied rises 81%. What is the price elasticity of supply using these stated changes?",
+        "answer": 3
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "cross-elasticity",
+      "topic": "2.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:cross-elasticity:01",
+        "prompt": "The price of tea rises 5% and demand for coffee rises 10%. What is the cross-price elasticity of coffee demand with respect to tea’s price?",
+        "answer": 2,
+        "explanation": "The cross-price elasticity is +2. Its positive sign indicates substitution between the two goods."
+      },
+      "last": {
+        "id": "ap-micro:cross-elasticity:24",
+        "prompt": "The price of tea rises 28% and demand for coffee rises 56%. What is the cross-price elasticity of coffee demand with respect to tea’s price?",
+        "answer": 2
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "income-elasticity",
+      "topic": "2.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:income-elasticity:01",
+        "prompt": "Income rises 5% and quantity demanded of a good falls 5%. What is its income elasticity?",
+        "answer": -1,
+        "explanation": "The ratio is negative: −1. A negative income elasticity identifies an inferior good over this income range."
+      },
+      "last": {
+        "id": "ap-micro:income-elasticity:24",
+        "prompt": "Income rises 28% and quantity demanded of a good falls 28%. What is its income elasticity?",
+        "answer": -1
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "equilibrium-quantity",
+      "topic": "2.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 24,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:equilibrium-quantity:01",
+        "prompt": "Inverse demand is P = 60 − 2Q and inverse supply is P = 12 + Q. What is equilibrium quantity?",
+        "answer": 16,
+        "explanation": "Set demand equal to supply: 60 − 2Q = 12 + Q, giving Q = (60 − 12)/3."
+      },
+      "last": {
+        "id": "ap-micro:equilibrium-quantity:24",
+        "prompt": "Inverse demand is P = 152 − 2Q and inverse supply is P = 12 + Q. What is equilibrium quantity?",
+        "answer": 46.667
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "equilibrium-price",
+      "topic": "2.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 24,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:equilibrium-price:01",
+        "prompt": "Demand is P = 72 − 2Q and supply is P = 12 + Q. What is equilibrium price?",
+        "answer": 32,
+        "explanation": "First Q = (72 − 12)/3; substitute into supply P = 12 + Q."
+      },
+      "last": {
+        "id": "ap-micro:equilibrium-price:24",
+        "prompt": "Demand is P = 210 − 2Q and supply is P = 12 + Q. What is equilibrium price?",
+        "answer": 78
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "consumer-surplus",
+      "topic": "2.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:consumer-surplus:01",
+        "prompt": "Demand is P = 60 − 2Q. At market price $20, all willing buyers can purchase. What is consumer surplus?",
+        "answer": 400,
+        "explanation": "Quantity demanded is 20. Consumer surplus is the triangle ½ × 20 × (60 − 20)."
+      },
+      "last": {
+        "id": "ap-micro:consumer-surplus:24",
+        "prompt": "Demand is P = 198 − 2Q. At market price $66, all willing buyers can purchase. What is consumer surplus?",
+        "answer": 4356
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "producer-surplus",
+      "topic": "2.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:producer-surplus:01",
+        "prompt": "Supply is P = 5 + Q. The market price is $25. What is producer surplus?",
+        "answer": 200,
+        "explanation": "At this price Q = 20. The supply-price triangle has height 20 and base 20, so producer surplus is 200."
+      },
+      "last": {
+        "id": "ap-micro:producer-surplus:24",
+        "prompt": "Supply is P = 28 + Q. The market price is $48. What is producer surplus?",
+        "answer": 200
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "joint-shifts",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:joint-shifts:01",
+        "prompt": "In market 1, both demand and supply increase, with unknown shift magnitudes. Which conclusion is certain in the standard downward-demand, upward-supply model?",
+        "answer": "Equilibrium quantity rises; the price change is ambiguous",
+        "explanation": "Both shifts raise equilibrium quantity, but their effects on price oppose one another."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "shift-equilibrium",
+      "topic": "2.7",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:shift-equilibrium:01",
+        "prompt": "Demand changes from P = 60 − Q to P = 72 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
+        "answer": 6,
+        "explanation": "A 12-unit upward shift in demand raises quantity by 12/(1+1) = 6 with these slopes."
+      },
+      "last": {
+        "id": "ap-micro:shift-equilibrium:24",
+        "prompt": "Demand changes from P = 129 − Q to P = 141 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
+        "answer": 6
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "ceiling-shortage",
+      "topic": "2.8",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ceiling-shortage:01",
+        "prompt": "Demand is Qd = 100 − 2P and supply is Qs = 2P. A price ceiling is set at $20. What is the shortage in units?",
+        "answer": 20,
+        "explanation": "At the ceiling, demand exceeds supply by 20 units. The ceiling lies $5 below the competitive equilibrium price."
+      },
+      "last": {
+        "id": "ap-micro:ceiling-shortage:24",
+        "prompt": "Demand is Qd = 192 − 2P and supply is Qs = 2P. A price ceiling is set at $43. What is the shortage in units?",
+        "answer": 20
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "floor-surplus",
+      "topic": "2.8",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:floor-surplus:01",
+        "prompt": "Demand is Qd = 100 − 2P and supply is Qs = 2P. A floor is set at $30. What is the excess supply in units?",
+        "answer": 20,
+        "explanation": "Quantity supplied is 60; quantity demanded is 40. Their difference is 20 units."
+      },
+      "last": {
+        "id": "ap-micro:floor-surplus:24",
+        "prompt": "Demand is Qd = 192 − 2P and supply is Qs = 2P. A floor is set at $53. What is the excess supply in units?",
+        "answer": 20
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "tax-quantity",
+      "topic": "2.8",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tax-quantity:01",
+        "prompt": "Demand is P = 80 − Q and supply is P = 20 + Q. A $10 per-unit seller tax is imposed. What quantity is traded?",
+        "answer": 25,
+        "explanation": "Equate the buyer’s price with supply plus tax: 80 − Q = 20 + Q + 10."
+      },
+      "last": {
+        "id": "ap-micro:tax-quantity:24",
+        "prompt": "Demand is P = 172 − Q and supply is P = 20 + Q. A $56 per-unit seller tax is imposed. What quantity is traded?",
+        "answer": 48
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "tax-incidence",
+      "topic": "2.8",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tax-incidence:01",
+        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $8 is imposed in an otherwise competitive market. By how many dollars does the buyer’s price rise?",
+        "answer": 6,
+        "explanation": "The buyer share is 3/(3+1) = 3/4 of the wedge. The steeper inverse demand curve corresponds to a larger buyer burden."
+      },
+      "last": {
+        "id": "ap-micro:tax-incidence:24",
+        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $100 is imposed in an otherwise competitive market. By how many dollars does the buyer’s price rise?",
+        "answer": 75
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "tax-dwl",
+      "topic": "2.8",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tax-dwl:01",
+        "prompt": "A $4 per-unit tax reduces competitive trade by 10 units. Demand and supply are straight lines and there are no externalities. What is deadweight loss?",
+        "answer": 20,
+        "explanation": "Deadweight loss is the triangle ½ × tax wedge × reduction in quantity. Tax revenue is a transfer, not this loss."
+      },
+      "last": {
+        "id": "ap-micro:tax-dwl:24",
+        "prompt": "A $27 per-unit tax reduces competitive trade by 56 units. Demand and supply are straight lines and there are no externalities. What is deadweight loss?",
+        "answer": 756
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "imports",
+      "topic": "2.9",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:imports:01",
+        "prompt": "At the world price, domestic demand is 100 and domestic supply is 40. With free trade and no transport costs, how many units are imported?",
+        "answer": 60,
+        "explanation": "Imports equal domestic quantity demanded minus domestic quantity supplied."
+      },
+      "last": {
+        "id": "ap-micro:imports:24",
+        "prompt": "At the world price, domestic demand is 215 and domestic supply is 86. With free trade and no transport costs, how many units are imported?",
+        "answer": 129
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "tariff-revenue",
+      "topic": "2.9",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tariff-revenue:01",
+        "prompt": "A small country imposes a $2 tariff per imported unit. After the tariff, demand is 100 and domestic supply is 60. What is tariff revenue?",
+        "answer": 80,
+        "explanation": "Multiply the tariff by imports after the tariff. Do not use pre-tariff imports or total domestic consumption."
+      },
+      "last": {
+        "id": "ap-micro:tariff-revenue:24",
+        "prompt": "A small country imposes a $25 tariff per imported unit. After the tariff, demand is 169 and domestic supply is 83. What is tariff revenue?",
+        "answer": 2150
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-product",
+      "topic": "3.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-product:01",
+        "prompt": "With 3 workers, output is 60. One more worker increases output to 74. What is that worker’s marginal product?",
+        "answer": 14,
+        "explanation": "Marginal product is the change in total output divided by the change in labor, here one worker."
+      },
+      "last": {
+        "id": "ap-micro:marginal-product:24",
+        "prompt": "With 26 workers, output is 290. One more worker increases output to 327. What is that worker’s marginal product?",
+        "answer": 37
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "average-product",
+      "topic": "3.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:average-product:01",
+        "prompt": "A firm uses 4 workers and produces 80 units. What is average product of labor?",
+        "answer": 20,
+        "explanation": "Average product is total output divided by the number of workers, not the output added by the last worker."
+      },
+      "last": {
+        "id": "ap-micro:average-product:24",
+        "prompt": "A firm uses 27 workers and produces 540 units. What is average product of labor?",
+        "answer": 20
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-cost",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-cost:01",
+        "prompt": "Increasing output from 10 to 15 units raises total cost from $100 to $140. What is average marginal cost per added unit over this interval?",
+        "answer": 8,
+        "explanation": "Divide the change in total cost by the five-unit output change."
+      },
+      "last": {
+        "id": "ap-micro:marginal-cost:24",
+        "prompt": "Increasing output from 33 to 38 units raises total cost from $330 to $485. What is average marginal cost per added unit over this interval?",
+        "answer": 31
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "average-variable-cost",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:average-variable-cost:01",
+        "prompt": "At output 10, total cost is $200 and fixed cost is $100. What is average variable cost?",
+        "answer": 10,
+        "explanation": "Variable cost is 200 − 100 = 100. Divide by output 10 to obtain 10."
+      },
+      "last": {
+        "id": "ap-micro:average-variable-cost:24",
+        "prompt": "At output 33, total cost is $476 and fixed cost is $146. What is average variable cost?",
+        "answer": 10
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "fixed-cost",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:fixed-cost:01",
+        "prompt": "At output 10, average total cost is $20 and average variable cost is $12. What is total fixed cost?",
+        "answer": 80,
+        "explanation": "The difference between ATC and AVC is AFC = 8. Multiply by quantity to get total fixed cost."
+      },
+      "last": {
+        "id": "ap-micro:fixed-cost:24",
+        "prompt": "At output 33, average total cost is $43 and average variable cost is $35. What is total fixed cost?",
+        "answer": 264
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "scale-economies",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:scale-economies:01",
+        "prompt": "A firm doubles every input, and output rises from 100 to 240. What does this indicate about returns to scale over this range?",
+        "answer": "Increasing returns to scale",
+        "explanation": "Output rises by a factor of 2.4 when all inputs rise by a factor of 2. This is increasing returns to scale."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "economic-profit",
+      "topic": "3.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:economic-profit:01",
+        "prompt": "Revenue is $1000; explicit costs are $600; implicit costs are $200. What is economic profit?",
+        "answer": 200,
+        "explanation": "Economic profit deducts both explicit and implicit opportunity costs from revenue."
+      },
+      "last": {
+        "id": "ap-micro:economic-profit:24",
+        "prompt": "Revenue is $2150; explicit costs are $1060; implicit costs are $430. What is economic profit?",
+        "answer": 660
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "accounting-profit",
+      "topic": "3.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:accounting-profit:01",
+        "prompt": "Revenue is $1000, explicit costs are $600, and implicit costs are $200. What is accounting profit?",
+        "answer": 400,
+        "explanation": "Accounting profit subtracts explicit costs only. Implicit costs are also deducted when computing economic profit."
+      },
+      "last": {
+        "id": "ap-micro:accounting-profit:24",
+        "prompt": "Revenue is $2150, explicit costs are $1060, and implicit costs are $430. What is accounting profit?",
+        "answer": 1090
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "competitive-output",
+      "topic": "3.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:competitive-output:01",
+        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $20. The chosen output is above minimum AVC. What quantity maximizes profit?",
+        "answer": 8,
+        "explanation": "A price-taking firm has MR = P. Set 4 + 2Q equal to the price, on the increasing MC branch."
+      },
+      "last": {
+        "id": "ap-micro:competitive-output:24",
+        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $66. The chosen output is above minimum AVC. What quantity maximizes profit?",
+        "answer": 31
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "profit-rectangle",
+      "topic": "3.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:profit-rectangle:01",
+        "prompt": "At its profit-maximizing quantity 20, a firm receives price $12 and has ATC $8. What is total economic profit?",
+        "answer": 80,
+        "explanation": "Profit equals (price − average total cost) × quantity. The per-unit margin is 4."
+      },
+      "last": {
+        "id": "ap-micro:profit-rectangle:24",
+        "prompt": "At its profit-maximizing quantity 43, a firm receives price $35 and has ATC $31. What is total economic profit?",
+        "answer": 172
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "shutdown",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:shutdown:01",
+        "prompt": "At the best positive output, a competitive firm has price $10, AVC $7, and ATC $14. What should it do in the short run?",
+        "answer": "Produce because revenue covers variable cost and some fixed cost",
+        "explanation": "P exceeds AVC but is below ATC. Operating reduces the loss relative to paying all fixed cost while shut down."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "shutdown-loss",
+      "topic": "3.6",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:shutdown-loss:01",
+        "prompt": "A competitive firm shuts down temporarily. It has unavoidable fixed cost $100 and avoids all variable cost. What is the magnitude of its economic loss?",
+        "answer": 100,
+        "explanation": "With zero output, revenue and variable cost are zero. The loss equals unavoidable fixed cost."
+      },
+      "last": {
+        "id": "ap-micro:shutdown-loss:24",
+        "prompt": "A competitive firm shuts down temporarily. It has unavoidable fixed cost $330 and avoids all variable cost. What is the magnitude of its economic loss?",
+        "answer": 330
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "entry",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:entry:01",
+        "prompt": "Identical competitive firms earn positive economic profit of $100 each. With free entry and unchanged demand, what is the usual long-run adjustment?",
+        "answer": "Entry shifts market supply right and pushes price toward minimum ATC",
+        "explanation": "Entry expands industry supply. In the standard identical-firm model it eliminates economic profit, including the normal return in opportunity cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "competitive-revenue",
+      "topic": "3.7",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:competitive-revenue:01",
+        "prompt": "A price-taking firm can sell any relevant output at $8 per unit. What is marginal revenue from another unit?",
+        "answer": 8,
+        "explanation": "Selling another unit does not change the price received on existing units, so MR = P."
+      },
+      "last": {
+        "id": "ap-micro:competitive-revenue:24",
+        "prompt": "A price-taking firm can sell any relevant output at $31 per unit. What is marginal revenue from another unit?",
+        "answer": 31
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "structure",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:structure:01",
+        "prompt": "An industry has 10 firms selling differentiated products and free entry. Which model is the closest match?",
+        "answer": "Monopolistic competition",
+        "explanation": "Differentiation gives each seller some price-setting power, while free entry distinguishes the model from a protected monopoly."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-output",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 24,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-output:01",
+        "prompt": "A monopolist faces P = 100 − 2Q, so MR = 100 − 4Q. Marginal cost is 20. What quantity maximizes profit?",
+        "answer": 20,
+        "explanation": "Set MR = MC: Q = (demand intercept − 20)/4. Assume production is profitable and there are no capacity constraints."
+      },
+      "last": {
+        "id": "ap-micro:monopoly-output:24",
+        "prompt": "A monopolist faces P = 192 − 2Q, so MR = 192 − 4Q. Marginal cost is 20. What quantity maximizes profit?",
+        "answer": 43
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-price",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-price:01",
+        "prompt": "Demand is P = 100 − 2Q, MR = 100 − 4Q, and MC = 20. What price does the profit-maximizing monopolist charge?",
+        "answer": 60,
+        "explanation": "MR = MC gives Q = 20. Substitute into demand, not MR: P = 60."
+      },
+      "last": {
+        "id": "ap-micro:monopoly-price:24",
+        "prompt": "Demand is P = 192 − 2Q, MR = 192 − 4Q, and MC = 20. What price does the profit-maximizing monopolist charge?",
+        "answer": 106
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-dwl",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-dwl:01",
+        "prompt": "A monopolist with constant MC $20 faces P = 100 − 2Q. Monopoly output is 20; efficient output is 40. What is deadweight loss?",
+        "answer": 400,
+        "explanation": "The lost-trade triangle has base Qefficient − Qmonopoly and height Pmonopoly − MC."
+      },
+      "last": {
+        "id": "ap-micro:monopoly-dwl:24",
+        "prompt": "A monopolist with constant MC $20 faces P = 192 − 2Q. Monopoly output is 43; efficient output is 86. What is deadweight loss?",
+        "answer": 1849
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "discrimination",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:discrimination:01",
+        "prompt": "A monopolist can charge each buyer exactly that buyer’s willingness to pay and prevent resale. There are 20 potential units with positive gains from trade. With no externalities, what output rule maximizes profit?",
+        "answer": "Produce every unit whose willingness to pay is at least marginal cost",
+        "explanation": "With perfect discrimination, the revenue on each extra unit is its willingness to pay. The firm captures surplus and expands output to the efficient boundary."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopolistic-longrun",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopolistic-longrun:01",
+        "prompt": "A monopolistically competitive firm in long-run equilibrium charges $20 and has ATC $20. Which relationship can still hold?",
+        "answer": "Price exceeds marginal cost",
+        "explanation": "Zero economic profit means P = ATC, not P = MC. With downward-sloping demand and MR = MC, a markup can remain."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "dominant-strategy",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:dominant-strategy:01",
+        "prompt": "Firm A earns 8 by cutting price if B holds price, and 4 by cutting if B cuts. Holding earns 6 if B holds and 2 if B cuts. What is A’s dominant strategy?",
+        "answer": "Cut price",
+        "explanation": "Cutting gives 8 > 6 against hold and 4 > 2 against cut."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "nash-equilibrium",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:nash-equilibrium:01",
+        "prompt": "Two firms have identical incentives: each earns 5 if both cooperate, 8 by defecting against cooperation, 1 by cooperating against defection, and 3 if both defect. What is the one-shot Nash equilibrium?",
+        "answer": "Both defect",
+        "explanation": "Defection is each firm’s strictly dominant strategy. Mutual cooperation has higher joint profit but is not stable against a unilateral deviation."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mrp",
+      "topic": "5.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mrp:01",
+        "prompt": "An additional worker produces 5 units. The firm sells output competitively at $4 per unit. What is the worker’s marginal revenue product?",
+        "answer": 20,
+        "explanation": "MRP = marginal product × marginal revenue. Under output-market price taking, marginal revenue equals product price."
+      },
+      "last": {
+        "id": "ap-micro:mrp:24",
+        "prompt": "An additional worker produces 28 units. The firm sells output competitively at $27 per unit. What is the worker’s marginal revenue product?",
+        "answer": 756
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "factor-demand",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:factor-demand:01",
+        "prompt": "The competitive selling price of a firm’s output rises from $10 to $14, with worker productivity unchanged. How does its labor demand change?",
+        "answer": "Labor demand shifts right because marginal revenue product rises",
+        "explanation": "Labor demand is derived from product revenue. A higher product price raises each worker’s MRP."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "hiring-rule",
+      "topic": "5.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:hiring-rule:01",
+        "prompt": "A wage-taking firm has labor MRP = 100 − 4L and pays wage $20. How many workers should it hire if labor is divisible?",
+        "answer": 20,
+        "explanation": "For a competitive labor buyer, marginal factor cost equals the wage. Set MRP = wage."
+      },
+      "last": {
+        "id": "ap-micro:hiring-rule:24",
+        "prompt": "A wage-taking firm has labor MRP = 192 − 4L and pays wage $20. How many workers should it hire if labor is divisible?",
+        "answer": 43
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "least-cost",
+      "topic": "5.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:least-cost:01",
+        "prompt": "At an interior least-cost input mix, MP of labor is 20, wage is $10, and rental price of capital is $6. What must MP of capital be?",
+        "answer": 12,
+        "explanation": "MP_L/w = 2. Least-cost production requires MP_K/r = 2, so MP_K = 2r."
+      },
+      "last": {
+        "id": "ap-micro:least-cost:24",
+        "prompt": "At an interior least-cost input mix, MP of labor is 66, wage is $33, and rental price of capital is $29. What must MP of capital be?",
+        "answer": 58
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopsony-employment",
+      "topic": "5.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopsony-employment:01",
+        "prompt": "Labor supply is w = 10 + L, so MFC = 10 + 2L. Labor MRP = 70 − L. What employment maximizes monopsony profit?",
+        "answer": 20,
+        "explanation": "Set MFC equal to MRP: 10 + 2L = 70 − L, so L = 20. Read the wage from labor supply only after finding employment."
+      },
+      "last": {
+        "id": "ap-micro:monopsony-employment:24",
+        "prompt": "Labor supply is w = 10 + L, so MFC = 10 + 2L. Labor MRP = 139 − L. What employment maximizes monopsony profit?",
+        "answer": 43
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopsony-wage",
+      "topic": "5.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopsony-wage:01",
+        "prompt": "A monopsonist faces labor supply w = 10 + L and MRP = 70 − L. Its optimal employment is 20. What wage must it pay?",
+        "answer": 30,
+        "explanation": "Substitute employment into labor supply: w = 10 + L. MFC exceeds the wage because hiring more workers raises pay on existing workers."
+      },
+      "last": {
+        "id": "ap-micro:monopsony-wage:24",
+        "prompt": "A monopsonist faces labor supply w = 10 + L and MRP = 139 − L. Its optimal employment is 43. What wage must it pay?",
+        "answer": 53
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "efficient-quantity",
+      "topic": "6.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:efficient-quantity:01",
+        "prompt": "Marginal social benefit is MSB = 90 − Q and marginal social cost is MSC = 12 + 2Q. What quantity is socially efficient?",
+        "answer": 26,
+        "explanation": "Efficiency requires MSB = MSC, giving 3Q = benefit intercept − 12."
+      },
+      "last": {
+        "id": "ap-micro:efficient-quantity:24",
+        "prompt": "Marginal social benefit is MSB = 159 − Q and marginal social cost is MSC = 12 + 2Q. What quantity is socially efficient?",
+        "answer": 49
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "negative-externality",
+      "topic": "6.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:negative-externality:01",
+        "prompt": "Production creates constant marginal external damage of $5 per unit. With otherwise competitive markets and no other distortions, what per-unit tax decentralizes the efficient output?",
+        "answer": 5,
+        "explanation": "A corrective tax equal to marginal external damage aligns private marginal cost with social marginal cost."
+      },
+      "last": {
+        "id": "ap-micro:negative-externality:24",
+        "prompt": "Production creates constant marginal external damage of $28 per unit. With otherwise competitive markets and no other distortions, what per-unit tax decentralizes the efficient output?",
+        "answer": 28
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "externality-output",
+      "topic": "6.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:externality-output:01",
+        "prompt": "Demand is P = 100 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. What is efficient output?",
+        "answer": 34,
+        "explanation": "Social marginal cost is 32 + Q. Equating it with demand gives Q = (intercept − 32)/2."
+      },
+      "last": {
+        "id": "ap-micro:externality-output:24",
+        "prompt": "Demand is P = 192 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. What is efficient output?",
+        "answer": 80
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "positive-externality",
+      "topic": "6.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:positive-externality:01",
+        "prompt": "A service creates constant marginal external benefit of $4 for people other than its buyer. With competitive supply and no other distortions, what per-unit subsidy internalizes this benefit?",
+        "answer": 4,
+        "explanation": "A subsidy equal to marginal external benefit raises private incentives to the social level."
+      },
+      "last": {
+        "id": "ap-micro:positive-externality:24",
+        "prompt": "A service creates constant marginal external benefit of $27 for people other than its buyer. With competitive supply and no other distortions, what per-unit subsidy internalizes this benefit?",
+        "answer": 27
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "public-good-sum",
+      "topic": "6.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:public-good-sum:01",
+        "prompt": "At a proposed quantity of a nonrival public good, three residents have marginal willingness to pay $4, $6, and $8. What is aggregate marginal willingness to pay?",
+        "answer": 18,
+        "explanation": "For a public good, the same unit benefits all three residents. Add marginal willingness to pay vertically."
+      },
+      "last": {
+        "id": "ap-micro:public-good-sum:24",
+        "prompt": "At a proposed quantity of a nonrival public good, three residents have marginal willingness to pay $27, $29, and $31. What is aggregate marginal willingness to pay?",
+        "answer": 87
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "common-resource",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:common-resource:01",
+        "prompt": "A lake supports 100 fish. Access cannot feasibly be restricted, and catching a fish prevents someone else from catching it. How is this resource classified?",
+        "answer": "A common-pool resource",
+        "explanation": "The resource is rival but nonexcludable. These characteristics can create excessive extraction incentives."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "lump-sum-tax",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:lump-sum-tax:01",
+        "prompt": "An operating monopolist pays a new annual lump-sum tax of $100. Assume it remains open and demand is unchanged. What happens to its profit-maximizing output?",
+        "answer": "Output is unchanged because marginal cost is unchanged",
+        "explanation": "A lump-sum tax lowers profit and raises fixed cost without changing MR = MC. Entry or exit can change if the continuation assumption fails."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "regulation",
+      "topic": "6.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:regulation:01",
+        "prompt": "A regulated natural monopoly must charge MC = $4. At that price it sells 100 units and has ATC = $7. What total subsidy would cover its economic loss?",
+        "answer": 300,
+        "explanation": "The per-unit shortfall ATC − P is 3. Multiply by output to find the break-even subsidy."
+      },
+      "last": {
+        "id": "ap-micro:regulation:24",
+        "prompt": "A regulated natural monopoly must charge MC = $27. At that price it sells 215 units and has ATC = $30. What total subsidy would cover its economic loss?",
+        "answer": 645
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "income-share",
+      "topic": "6.5",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:income-share:01",
+        "prompt": "The poorest fifth of households receives $20 million out of total income $400 million. What percentage of total income does this group receive?",
+        "answer": 5,
+        "explanation": "Divide group income by total income and multiply by 100: 5%. A population share and an income share need not coincide."
+      },
+      "last": {
+        "id": "ap-micro:income-share:24",
+        "prompt": "The poorest fifth of households receives $66 million out of total income $1320 million. What percentage of total income does this group receive?",
+        "answer": 5
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "lorenz",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:lorenz:01",
+        "prompt": "Economy A’s bottom 40% receives 10% of income. After a reform it receives 14%, and the entire new Lorenz curve lies weakly above the old curve. What follows?",
+        "answer": "The new distribution Lorenz-dominates the old one",
+        "explanation": "A Lorenz curve closer to the equality line indicates less inequality in income shares. It does not determine mean income or every individual’s absolute income."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "scarcity-growth",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:scarcity-growth:01",
+        "prompt": "An economy becomes twice as productive. Which statement is still generally true?",
+        "answer": "Using finite resources for one purpose can preclude another use.",
+        "explanation": "Greater productive capacity expands feasible choices, but finite resources still have competing uses."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "free-good",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:free-good:01",
+        "prompt": "A public park charges no admission. Why can a visit still have an opportunity cost?",
+        "answer": "The visitor could use the time for another valued activity.",
+        "explanation": "Opportunity cost includes the next-best use of time, even when there is no admission charge."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "price-rationing",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:price-rationing:01",
+        "prompt": "In a market, a higher price rations a scarce good primarily according to which criterion?",
+        "answer": "Willingness and ability to pay",
+        "explanation": "Market allocation reflects willingness to pay and purchasing power. It need not coincide with need or equality."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "positive-normative",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:positive-normative:01",
+        "prompt": "Which statement is normative?",
+        "answer": "The government should prioritize income equality over efficiency.",
+        "explanation": "The word “should” here expresses a value judgment about social priorities. The other statements are empirical or model-based claims."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "ppf-bowed",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ppf-bowed:01",
+        "prompt": "Why is a production possibilities frontier often bowed outward?",
+        "answer": "Resources differ in their suitability for producing the two goods.",
+        "explanation": "As production expands, resources less suited to that good must be transferred, increasing the amount of the other good sacrificed."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "ppf-unemployment",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ppf-unemployment:01",
+        "prompt": "Workers who were involuntarily unemployed find jobs without any change in technology or resources. How is this represented?",
+        "answer": "Movement from inside the existing frontier toward it",
+        "explanation": "Using idle resources improves realized production without changing maximum feasible capacity."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "ppf-sector-tech",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:ppf-sector-tech:01",
+        "prompt": "A technological advance affects only wheat production. At zero wheat production, the maximum feasible quantity of clothing is unchanged. What happens to the PPF?",
+        "answer": "It expands toward the wheat axis while retaining the clothing intercept.",
+        "explanation": "The advance expands wheat possibilities without raising the clothing-only maximum."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "absolute-both",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:absolute-both:01",
+        "prompt": "Country A can produce more of each of two goods per worker than Country B. What follows about comparative advantage?",
+        "answer": "Opportunity-cost ratios are needed to identify comparative advantage.",
+        "explanation": "Absolute productivity does not determine relative opportunity costs. Trade gains depend on those relative costs."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "equal-opportunity",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:equal-opportunity:01",
+        "prompt": "Two countries have identical constant opportunity costs for both goods and no other trade benefits. What does the basic comparative-advantage model predict?",
+        "answer": "No strict production gains from specialization and exchange",
+        "explanation": "With identical constant transformation ratios, reallocating production cannot create additional output through comparative advantage alone."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-past",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-past:01",
+        "prompt": "A company paid for a machine that now has no resale value. Should the original purchase price affect whether it accepts a new order?",
+        "answer": "No; compare the order’s incremental revenue with avoidable incremental costs.",
+        "explanation": "The original payment is sunk. Relevant costs include costs that change with accepting the order, including alternative uses of capacity."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "resale-opportunity",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:resale-opportunity:01",
+        "prompt": "A firm owns land it can sell today. Using the land for a project prevents that sale. How should the sale value be treated?",
+        "answer": "As an opportunity cost of using the land",
+        "explanation": "Ownership does not remove an asset’s opportunity cost. Forgoing the available sale sacrifices a real alternative."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "utility-reallocation",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:utility-reallocation:01",
+        "prompt": "At an interior bundle, MUx/Px exceeds MUy/Py. What change initially increases utility without raising expenditure?",
+        "answer": "Shift spending from Y toward X.",
+        "explanation": "An extra dollar on X adds more utility than the dollar taken away from Y loses."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-average",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-average:01",
+        "prompt": "A consumer’s average benefit from three units exceeds price, but the third unit’s marginal benefit is below price. What follows about the third unit?",
+        "answer": "Buying it reduces net benefit relative to buying only two units.",
+        "explanation": "The decision about an additional unit depends on its marginal benefit and cost, not the average benefit of all units."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "inferior-income",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:inferior-income:01",
+        "prompt": "Income rises and a good is inferior over the relevant range. Holding its price fixed, what happens?",
+        "answer": "Its demand shifts left.",
+        "explanation": "Inferiority means quantity demanded falls as income rises, holding prices fixed."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "complement-demand",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:complement-demand:01",
+        "prompt": "Printers and replacement ink are complements. The price of printers falls. What is the likely effect on ink demand?",
+        "answer": "Ink demand shifts right.",
+        "explanation": "Cheaper printers encourage printer use, increasing demand for complementary ink at each ink price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "technology-supply",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:technology-supply:01",
+        "prompt": "A cost-saving production method becomes available to all firms in a competitive industry. What shifts initially?",
+        "answer": "Market supply shifts right.",
+        "explanation": "Lower unit production costs allow firms to supply more at a given price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "own-price-supply",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:own-price-supply:01",
+        "prompt": "The market price of a product rises while technology and input prices are unchanged. How do we describe producers’ response?",
+        "answer": "An increase in quantity supplied along the supply curve",
+        "explanation": "The own-price change induces movement along supply. Determinants other than the product’s own price shift the curve."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "elasticity-slope",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:elasticity-slope:01",
+        "prompt": "Along a straight downward-sloping demand curve, why does price elasticity usually change?",
+        "answer": "The price-to-quantity ratio changes even though the slope is constant.",
+        "explanation": "Point elasticity combines the derivative with P/Q. A constant derivative does not imply a constant ratio P/Q."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "inelastic-revenue",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:inelastic-revenue:01",
+        "prompt": "A firm raises price over a range where demand is inelastic. What happens to revenue?",
+        "answer": "Revenue rises.",
+        "explanation": "The proportional quantity decline is smaller than the proportional price increase."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "supply-time",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:supply-time:01",
+        "prompt": "Why is supply often more elastic over a longer period?",
+        "answer": "Firms have more time to adjust capacity and entry.",
+        "explanation": "Additional adjustment margins generally increase quantity responsiveness. This does not imply universal perfect elasticity."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "fixed-supply",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:fixed-supply:01",
+        "prompt": "The supply of a unique collectible is fixed. Demand increases. In the standard model, what changes?",
+        "answer": "Price rises and quantity is unchanged.",
+        "explanation": "A vertical supply curve fixes quantity. Greater willingness to pay raises the market-clearing price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "negative-cross",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:negative-cross:01",
+        "prompt": "The cross-price elasticity of demand for X with respect to the price of Y is negative. What does this indicate?",
+        "answer": "X and Y are complements over the observed range.",
+        "explanation": "A higher price of Y reduces demand for X when the goods are complements. Income elasticity determines inferiority."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "necessity-luxury",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:necessity-luxury:01",
+        "prompt": "A good has income elasticity 0.4. How is it classified over this income range?",
+        "answer": "A normal good with less-than-proportional income responsiveness",
+        "explanation": "Positive income elasticity means normal; a value below one means demand grows less than proportionally with income."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "equilibrium-shortage",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:equilibrium-shortage:01",
+        "prompt": "At a price below competitive equilibrium, quantity demanded exceeds quantity supplied. With flexible prices, what pressure is expected?",
+        "answer": "Upward pressure on price",
+        "explanation": "Excess demand creates upward price pressure. Movements along the curves reduce the shortage."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "surplus-transfer",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:surplus-transfer:01",
+        "prompt": "For a firm with positive fixed cost, how does producer surplus relate to economic profit in the short run?",
+        "answer": "Producer surplus equals economic profit plus fixed cost.",
+        "explanation": "Producer surplus is revenue minus variable cost. Economic profit also deducts fixed cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "demand-up-supply-down",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:demand-up-supply-down:01",
+        "prompt": "Demand increases while supply decreases. What is unambiguous in the standard model?",
+        "answer": "Equilibrium price rises; the quantity change is ambiguous.",
+        "explanation": "Both shifts raise price, but their effects on quantity oppose each other."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "demand-down-supply-up",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:demand-down-supply-up:01",
+        "prompt": "Demand decreases while supply increases. What is unambiguous?",
+        "answer": "Equilibrium price falls; the quantity change is ambiguous.",
+        "explanation": "Both shifts lower price; one reduces quantity and the other increases it."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "nonbinding-ceiling",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:nonbinding-ceiling:01",
+        "prompt": "A price ceiling is set above the competitive equilibrium price. With no other changes, what happens?",
+        "answer": "The ceiling does not change the market equilibrium.",
+        "explanation": "The equilibrium price already satisfies the legal maximum, so the ceiling does not constrain it."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "tax-statutory",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tax-statutory:01",
+        "prompt": "An otherwise identical per-unit tax is legally remitted by buyers rather than sellers. In the standard competitive model without enforcement differences, what changes in economic incidence?",
+        "answer": "Nothing; incidence depends on elasticities, not remittance responsibility.",
+        "explanation": "The same wedge separates the price buyers pay from the price sellers receive regardless of who remits the tax."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "subsidy-welfare",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:subsidy-welfare:01",
+        "prompt": "A per-unit subsidy increases output beyond the efficient competitive quantity in a market with no externalities. Why can this create deadweight loss?",
+        "answer": "The added units have marginal social cost above marginal social benefit.",
+        "explanation": "The welfare loss is the excess resource cost of inefficient extra output. Fiscal transfers alone are not destroyed resources."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "free-trade-winners",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:free-trade-winners:01",
+        "prompt": "A small country opens to trade at a world price below its autarky price. In the standard model, which group benefits directly?",
+        "answer": "Domestic consumers",
+        "explanation": "The lower price benefits domestic buyers and reduces domestic producer surplus. Aggregate gains do not mean every group gains."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "tariff-small-country",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:tariff-small-country:01",
+        "prompt": "A tariff raises the domestic price in a small importing country. Which statement is correct in the standard competitive model?",
+        "answer": "It creates production and consumption distortions.",
+        "explanation": "A price-taking small country cannot improve the world price through its tariff. The tariff encourages costly domestic production and discourages beneficial consumption."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "diminishing-mp",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:diminishing-mp:01",
+        "prompt": "Additional workers operate a fixed number of machines, and each new worker adds less output than the previous worker. Which statement follows?",
+        "answer": "Marginal product is falling, but total output may still be rising.",
+        "explanation": "A positive but declining marginal product still adds to total output. Returns to scale concern changing all inputs."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mp-ap",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mp-ap:01",
+        "prompt": "If marginal product exceeds average product, what happens to average product when another unit of labor is added?",
+        "answer": "Average product rises.",
+        "explanation": "A marginal contribution above the existing average pulls that average upward."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mc-atc",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mc-atc:01",
+        "prompt": "At an output where MC is below ATC, what happens to ATC as output increases slightly?",
+        "answer": "ATC falls.",
+        "explanation": "An extra unit costing less than the existing average reduces average total cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "afc-output",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:afc-output:01",
+        "prompt": "A firm doubles output while total fixed cost is unchanged. What happens to average fixed cost?",
+        "answer": "It falls by half.",
+        "explanation": "Average fixed cost is fixed cost divided by output."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "long-run-definition",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:long-run-definition:01",
+        "prompt": "In production theory, what defines the long run?",
+        "answer": "All inputs can be varied.",
+        "explanation": "The long run is defined by input flexibility, not a fixed number of months or years."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "diseconomies",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:diseconomies:01",
+        "prompt": "An increase in the scale of all inputs raises long-run average cost. What is this cost pattern called?",
+        "answer": "Diseconomies of scale",
+        "explanation": "Diseconomies of scale describe increasing long-run average cost as production scale rises."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "zero-economic-profit",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:zero-economic-profit:01",
+        "prompt": "A firm earns zero economic profit. Which statement follows?",
+        "answer": "Revenue covers all explicit and implicit opportunity costs.",
+        "explanation": "Normal returns to owned resources are included in implicit cost, so zero economic profit need not mean zero accounting profit."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "implicit-wage",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:implicit-wage:01",
+        "prompt": "An owner leaves a salaried job to run a business. How is the forgone salary classified?",
+        "answer": "An implicit opportunity cost",
+        "explanation": "The salary is income forgone from the next-best use of the owner’s labor."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mr-above-mc",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mr-above-mc:01",
+        "prompt": "At the current output, MR exceeds MC. Under standard smooth profit-maximization assumptions, what should the firm do locally?",
+        "answer": "Increase output.",
+        "explanation": "An additional unit adds more revenue than cost when MR exceeds MC."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mr-equals-mc",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mr-equals-mc:01",
+        "prompt": "Why is MR = MC alone insufficient to guarantee a global profit maximum?",
+        "answer": "It can identify a local minimum or an inferior stationary point.",
+        "explanation": "One must check the direction of marginal-profit changes, feasible boundaries, and alternative outputs."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "shutdown-equality",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:shutdown-equality:01",
+        "prompt": "A competitive firm faces a price exactly equal to minimum AVC. With fixed cost unavoidable, how does operating at that output compare with shutting down?",
+        "answer": "Both yield a loss equal to fixed cost.",
+        "explanation": "Revenue exactly covers variable cost, leaving the same fixed-cost loss as temporary shutdown."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "exit-vs-shutdown",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:exit-vs-shutdown:01",
+        "prompt": "Which distinction is correct?",
+        "answer": "Shutdown is a short-run output decision; exit is a long-run industry decision.",
+        "explanation": "Short-run fixed commitments can remain during shutdown; the long-run exit decision considers avoiding the costs of remaining in the industry."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "firm-market-demand",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:firm-market-demand:01",
+        "prompt": "Why can a competitive firm face horizontal demand while market demand slopes downward?",
+        "answer": "The firm is too small to change the market price.",
+        "explanation": "Market price adjusts to aggregate demand and supply, while each small price-taking firm treats that price as given."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "constant-cost-entry",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:constant-cost-entry:01",
+        "prompt": "Demand rises permanently in a constant-cost competitive industry with free entry. What happens to long-run equilibrium price?",
+        "answer": "It returns to its original level.",
+        "explanation": "Entry expands supply at unchanged input costs, restoring price to the original minimum average cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "entry-barrier",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:entry-barrier:01",
+        "prompt": "Which feature can sustain long-run economic profit for an incumbent?",
+        "answer": "A durable legal barrier limiting entry",
+        "explanation": "An effective entry barrier can prevent the entry response that would otherwise erode economic profit."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-elastic",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-elastic:01",
+        "prompt": "A single-price profit-maximizing monopolist has positive marginal cost and an interior solution. On which part of demand will it operate?",
+        "answer": "The elastic portion",
+        "explanation": "On the inelastic portion, marginal revenue is negative. Reducing output raises revenue and reduces cost, so that cannot be optimal with positive marginal cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-supply",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-supply:01",
+        "prompt": "Why does a monopolist generally lack a supply curve independent of demand?",
+        "answer": "Its profit-maximizing price-quantity pair depends on the demand curve and marginal revenue.",
+        "explanation": "Unlike a price taker, the monopolist’s chosen quantity cannot generally be expressed as a unique function of price alone independently of demand."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "resale",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:resale:01",
+        "prompt": "Why does resale make third-degree price discrimination harder to sustain?",
+        "answer": "Low-price buyers can resell to high-price buyers, undermining segmentation.",
+        "explanation": "Arbitrage allows customers to bypass the intended price categories."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "group-markups",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:group-markups:01",
+        "prompt": "A firm price-discriminates across two separated groups with the same marginal cost. Which group usually receives the higher optimal markup?",
+        "answer": "The group with less elastic demand",
+        "explanation": "The inverse-elasticity pricing rule permits a larger markup where quantity responds less strongly to price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "excess-capacity",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:excess-capacity:01",
+        "prompt": "In the standard long-run monopolistic-competition model, why is output below the quantity minimizing ATC?",
+        "answer": "Downward-sloping demand is tangent to ATC on its declining portion.",
+        "explanation": "Tangency yields zero profit while the markup condition places output below minimum efficient scale in the standard model."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "product-differentiation",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:product-differentiation:01",
+        "prompt": "How can a monopolistically competitive firm have market power despite many sellers?",
+        "answer": "Its product is an imperfect substitute for competitors’ products.",
+        "explanation": "Differentiation gives the firm a downward-sloping demand curve even when many competing alternatives exist."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "nash-not-dominant",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:nash-not-dominant:01",
+        "prompt": "Which statement about Nash equilibrium is correct?",
+        "answer": "Each player is best responding to the other players’ chosen strategies.",
+        "explanation": "Nash equilibrium requires mutual best responses at the chosen profile, not a best response to every possible rival action."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "collusion-incentive",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:collusion-incentive:01",
+        "prompt": "Why can a cartel agreement be unstable in a one-shot quantity game?",
+        "answer": "Each firm may gain by expanding its own output while rivals restrict theirs.",
+        "explanation": "The jointly profitable restriction can leave a unilateral incentive to cheat."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "mrp-monopoly",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:mrp-monopoly:01",
+        "prompt": "For a firm facing downward-sloping product demand, how is labor’s marginal revenue product calculated?",
+        "answer": "Marginal product of labor multiplied by marginal revenue",
+        "explanation": "When more output lowers the selling price, MR is below price. MRP uses MR, not automatically the product price."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "labor-supply-shift",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:labor-supply-shift:01",
+        "prompt": "More qualified workers become willing to work in an occupation at each wage. What shifts?",
+        "answer": "Labor supply shifts right.",
+        "explanation": "A larger pool of willing workers changes labor supply at given wages."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "productivity-labor",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:productivity-labor:01",
+        "prompt": "A technology raises workers’ marginal product at every employment level without changing product price. What happens to labor demand for a competitive product seller?",
+        "answer": "It shifts right.",
+        "explanation": "Higher marginal product raises MRP at every employment level."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "hire-next-worker",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:hire-next-worker:01",
+        "prompt": "The next worker would generate $120 in additional revenue and costs $100 to employ, with no other effects. What should a profit-maximizing firm do?",
+        "answer": "Hire the worker.",
+        "explanation": "Hiring adds $20 to profit because marginal revenue product exceeds marginal factor cost."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopsony-mfc",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopsony-mfc:01",
+        "prompt": "A monopsonist must pay the same wage to all workers and faces upward-sloping labor supply. Why does MFC exceed the wage?",
+        "answer": "Hiring another worker also raises the wage paid to existing workers.",
+        "explanation": "The marginal expenditure includes both the new worker’s wage and the added payroll for incumbent workers."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "minimum-wage-monopsony",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:minimum-wage-monopsony:01",
+        "prompt": "In a standard monopsony, a suitably set minimum wage can raise both employment and wages. Why?",
+        "answer": "It can flatten the firm’s marginal labor cost over a relevant hiring range.",
+        "explanation": "A floor between the unregulated monopsony wage and the competitive wage can reduce marginal hiring cost over a range. A sufficiently high floor can instead reduce employment."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "efficiency-equity",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:efficiency-equity:01",
+        "prompt": "An allocation maximizes total surplus. What does that imply about income equality?",
+        "answer": "Nothing by itself; efficiency does not determine the distribution of surplus.",
+        "explanation": "Efficiency and equity concern different properties of an allocation."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "marginal-social",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:marginal-social:01",
+        "prompt": "At the current quantity, marginal social cost exceeds marginal social benefit. What local change increases total surplus?",
+        "answer": "Reduce output.",
+        "explanation": "The last units cost society more than they benefit it. Reducing those units raises net social benefit."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "coase",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:coase:01",
+        "prompt": "Under clear property rights, zero transaction costs, and transferable utility, what does the Coase bargaining result imply?",
+        "answer": "Bargaining can reach an efficient outcome, while the assignment of rights affects distribution.",
+        "explanation": "The result relies on strong bargaining assumptions. Efficiency and the distribution of the gains are distinct."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "positive-consumption",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:positive-consumption:01",
+        "prompt": "Vaccination creates benefits for people other than the vaccinated person. In a simple competitive model, how does unregulated quantity compare with efficient quantity?",
+        "answer": "It is below the efficient quantity.",
+        "explanation": "Private demand omits external benefits, so private incentives support too little consumption."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "free-rider",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:free-rider:01",
+        "prompt": "Why can voluntary funding underprovide a nonexcludable public good?",
+        "answer": "People can receive benefits without contributing.",
+        "explanation": "Nonexcludability weakens the private incentive to reveal willingness to pay and contribute."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "club-good",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:club-good:01",
+        "prompt": "A subscription digital archive can exclude nonmembers, and one user’s access does not reduce another’s access within current capacity. What is it?",
+        "answer": "A club good",
+        "explanation": "The stated characteristics are excludability and nonrivalry. Congestion could change rivalry at a capacity limit."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "natural-monopoly-average",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:natural-monopoly-average:01",
+        "prompt": "A natural monopoly is regulated to charge average total cost at its chosen output. What does this target imply?",
+        "answer": "Zero economic profit at that output",
+        "explanation": "Price equal to ATC covers opportunity costs but need not equal MC, so it need not achieve allocative efficiency."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "per-unit-monopoly-tax",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:per-unit-monopoly-tax:01",
+        "prompt": "A per-unit tax raises a monopolist’s marginal cost. With standard downward demand and increasing marginal cost, what is the usual output effect?",
+        "answer": "Profit-maximizing output falls.",
+        "explanation": "The higher MC intersects MR at a lower quantity under the stated regularity conditions."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "gini-extremes",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:gini-extremes:01",
+        "prompt": "Which distribution is represented by a Gini coefficient of zero?",
+        "answer": "Complete equality of the measured income distribution",
+        "explanation": "Zero Gini means no measured inequality. It does not specify the common income level."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "lorenz-crossing",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:lorenz-crossing:01",
+        "prompt": "Two Lorenz curves cross. What can be concluded without choosing an inequality index or social welfare criterion?",
+        "answer": "Neither distribution Lorenz-dominates the other.",
+        "explanation": "Crossing curves do not provide the unanimous ranking associated with Lorenz dominance."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "opportunity",
+      "topic": "1.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:opportunity:01",
+        "prompt": "Producing 10 additional machines requires sacrificing 30 units of food. What is the opportunity cost of one machine in food units?",
+        "answer": 3,
+        "explanation": "Divide food sacrificed by additional machines: 3 food units per machine."
+      },
+      "last": {
+        "id": "ap-macro:opportunity:24",
+        "prompt": "Producing 33 additional machines requires sacrificing 99 units of food. What is the opportunity cost of one machine in food units?",
+        "answer": 3
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "trade",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:trade:01",
+        "prompt": "Country A gives up 2 cloth per bushel of wheat; Country B gives up 4 cloth. Which pattern of specialization follows comparative advantage?",
+        "answer": "A exports wheat; B exports cloth",
+        "explanation": "A has the lower opportunity cost of wheat; B has the lower reciprocal opportunity cost of cloth."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "gdp",
+      "topic": "2.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:gdp:01",
+        "prompt": "Consumption is 500, investment 100, government purchases 150, exports 80, and imports 100. All values are billions. What is GDP?",
+        "answer": 730,
+        "explanation": "GDP = C + I + G + X − M. Imports are subtracted because imported spending may already appear in C, I, or G."
+      },
+      "last": {
+        "id": "ap-macro:gdp:24",
+        "prompt": "Consumption is 730, investment 146, government purchases 219, exports 103, and imports 123. All values are billions. What is GDP?",
+        "answer": 1075
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "deflator",
+      "topic": "2.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:deflator:01",
+        "prompt": "Nominal GDP is 1200 billion and the GDP deflator is 120 (base year = 100). What is real GDP in billions?",
+        "answer": 1000,
+        "explanation": "Real GDP = nominal GDP / (deflator/100)."
+      },
+      "last": {
+        "id": "ap-macro:deflator:24",
+        "prompt": "Nominal GDP is 3960 billion and the GDP deflator is 120 (base year = 100). What is real GDP in billions?",
+        "answer": 3300
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "unemployment",
+      "topic": "2.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:unemployment:01",
+        "prompt": "There are 900 employed people and 100 unemployed people actively seeking work. What is the unemployment rate in percent?",
+        "answer": 10,
+        "explanation": "Divide unemployed people by the labor force, employed plus unemployed, and multiply by 100."
+      },
+      "last": {
+        "id": "ap-macro:unemployment:24",
+        "prompt": "There are 2970 employed people and 330 unemployed people actively seeking work. What is the unemployment rate in percent?",
+        "answer": 10
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "participation",
+      "topic": "2.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:participation:01",
+        "prompt": "The working-age population is 2000. Employment is 1000, and 200 people are unemployed and seeking work. What is the labor-force participation rate in percent?",
+        "answer": 60,
+        "explanation": "Labor force is 1200; population is 2000. Their ratio is 0.6, or 60%."
+      },
+      "last": {
+        "id": "ap-macro:participation:24",
+        "prompt": "The working-age population is 6600. Employment is 3300, and 660 people are unemployed and seeking work. What is the labor-force participation rate in percent?",
+        "answer": 60
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "inflation",
+      "topic": "2.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:inflation:01",
+        "prompt": "A price index rises from 100 to 105. What is inflation in percent?",
+        "answer": 5,
+        "explanation": "Use (new index − old index)/old index × 100."
+      },
+      "last": {
+        "id": "ap-macro:inflation:24",
+        "prompt": "A price index rises from 330 to 346.5. What is inflation in percent?",
+        "answer": 5
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "real-interest",
+      "topic": "2.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:real-interest:01",
+        "prompt": "A nominal interest rate is 6% and expected inflation is 2%. What is the approximate expected real interest rate in percent?",
+        "answer": 4,
+        "explanation": "Approximate expected real interest = nominal interest − expected inflation."
+      },
+      "last": {
+        "id": "ap-macro:real-interest:24",
+        "prompt": "A nominal interest rate is 8.3% and expected inflation is 4.3%. What is the approximate expected real interest rate in percent?",
+        "answer": 4
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "cycle",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:cycle:01",
+        "prompt": "Actual real output is 900 and potential output is 1000. What describes this economy?",
+        "answer": "A negative output gap",
+        "explanation": "Actual output below potential is a recessionary or negative output gap."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "multiplier",
+      "topic": "3.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:multiplier:01",
+        "prompt": "In a closed economy with fixed prices, no income taxes, no imports, and MPC = 0.8, autonomous spending rises by 10 billion. What is the model’s change in equilibrium output, in billions?",
+        "answer": 50,
+        "explanation": "The simple spending multiplier is 1/(1−0.8) = 5. These assumptions exclude several real-world leakages and price adjustments."
+      },
+      "last": {
+        "id": "ap-macro:multiplier:24",
+        "prompt": "In a closed economy with fixed prices, no income taxes, no imports, and MPC = 0.8, autonomous spending rises by 33 billion. What is the model’s change in equilibrium output, in billions?",
+        "answer": 165
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "tax-multiplier",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:tax-multiplier:01",
+        "prompt": "In the simple fixed-price Keynesian model, MPC is 0.75. Lump-sum taxes rise by 10 billion. What is the change in equilibrium output, including its sign?",
+        "answer": -30,
+        "explanation": "The tax multiplier is −MPC/(1−MPC) = −3."
+      },
+      "last": {
+        "id": "ap-macro:tax-multiplier:24",
+        "prompt": "In the simple fixed-price Keynesian model, MPC is 0.75. Lump-sum taxes rise by 33 billion. What is the change in equilibrium output, including its sign?",
+        "answer": -99
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "balanced-budget",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:balanced-budget:01",
+        "prompt": "In a closed fixed-price economy with lump-sum taxes and MPC = 0.8, government purchases and taxes both rise by 10 billion. What is the change in equilibrium output?",
+        "answer": 10,
+        "explanation": "The spending multiplier is 5 and the tax multiplier is −4. Equal changes therefore have net multiplier 1."
+      },
+      "last": {
+        "id": "ap-macro:balanced-budget:24",
+        "prompt": "In a closed fixed-price economy with lump-sum taxes and MPC = 0.8, government purchases and taxes both rise by 33 billion. What is the change in equilibrium output?",
+        "answer": 33
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "supply-shock",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:supply-shock:01",
+        "prompt": "Input-energy costs rise by 5% with aggregate demand unchanged. In the short-run AD-AS model, what is the usual result?",
+        "answer": "Higher price level and lower real output",
+        "explanation": "An adverse supply shock shifts SRAS left, creating inflationary pressure and reducing output."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "demand-policy",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:demand-policy:01",
+        "prompt": "Government purchases rise by 10 billion in an economy below potential. In the standard short-run AD-AS model, what shifts directly?",
+        "answer": "Aggregate demand shifts right",
+        "explanation": "Government purchases are a component of aggregate expenditure. The initial demand effect is expansionary."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "money-functions",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:money-functions:01",
+        "prompt": "A shop posts a price of $10 for a notebook. Which function of money is illustrated by stating its price in dollars?",
+        "answer": "Unit of account",
+        "explanation": "Using a common monetary unit to express prices is the unit-of-account function."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "bond-price",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:bond-price:01",
+        "prompt": "A one-year zero-coupon bond pays $110 at maturity and sells today for $100. What is its annual yield in percent?",
+        "answer": 10,
+        "explanation": "Yield = (face value − purchase price)/purchase price × 100."
+      },
+      "last": {
+        "id": "ap-macro:bond-price:24",
+        "prompt": "A one-year zero-coupon bond pays $363 at maturity and sells today for $330. What is its annual yield in percent?",
+        "answer": 10
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "bank-reserves",
+      "topic": "4.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:bank-reserves:01",
+        "prompt": "In a hypothetical banking system with a 10% reserve requirement, a bank has transaction deposits of $1000 and reserves of $150. What are excess reserves?",
+        "answer": 50,
+        "explanation": "Required reserves are 10% of deposits. Excess reserves are actual reserves minus required reserves. This is a hypothetical regime, not a statement of current US reserve requirements."
+      },
+      "last": {
+        "id": "ap-macro:bank-reserves:24",
+        "prompt": "In a hypothetical banking system with a 10% reserve requirement, a bank has transaction deposits of $3300 and reserves of $495. What are excess reserves?",
+        "answer": 165
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "deposit-multiplier",
+      "topic": "4.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:deposit-multiplier:01",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $10 occurs, with no cash leakage and banks lending all excess reserves. What is the maximum total deposit expansion?",
+        "answer": 50,
+        "explanation": "The maximum textbook deposit multiplier is 1/0.2 = 5. This is not a mechanical description of an ample-reserves operating framework."
+      },
+      "last": {
+        "id": "ap-macro:deposit-multiplier:24",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $33 occurs, with no cash leakage and banks lending all excess reserves. What is the maximum total deposit expansion?",
+        "answer": 165
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "ample-reserves",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:ample-reserves:01",
+        "prompt": "In an ample-reserves regime, the central bank raises administered interest rates by 25 basis points. What is the intended immediate policy effect?",
+        "answer": "Raise short-term market interest rates",
+        "explanation": "With ample reserves, administered rates guide short-term rates. Reserve scarcity is not required for the policy-rate adjustment."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "loanable-funds",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:loanable-funds:01",
+        "prompt": "The government increases borrowing by 10 billion. Holding private saving and other determinants fixed, what does the standard loanable-funds model predict?",
+        "answer": "Higher real interest rates and lower private investment",
+        "explanation": "Higher borrowing demand places upward pressure on the real interest rate and can crowd out interest-sensitive investment."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "phillips",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:phillips:01",
+        "prompt": "Expected inflation rises from 2% to 3%. What happens to the expectations-augmented short-run Phillips curve, other things equal?",
+        "answer": "It shifts upward",
+        "explanation": "Higher expected inflation raises actual inflation at each unemployment rate in the standard model."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "quantity-theory",
+      "topic": "5.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:quantity-theory:01",
+        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 7%, velocity is constant, and real output grows 2%. What inflation rate is implied?",
+        "answer": 5,
+        "explanation": "Approximate inflation = money growth + velocity growth − real output growth."
+      },
+      "last": {
+        "id": "ap-macro:quantity-theory:24",
+        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 9.3%, velocity is constant, and real output grows 4.3%. What inflation rate is implied?",
+        "answer": 5
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "debt",
+      "topic": "5.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:debt:01",
+        "prompt": "Beginning public debt is 1000 billion. The annual budget deficit, including interest, is 50 billion. With no valuation adjustments, what is ending debt?",
+        "answer": 1050,
+        "explanation": "The deficit is a flow that adds to the debt stock. Do not add interest again when the deficit already includes it."
+      },
+      "last": {
+        "id": "ap-macro:debt:24",
+        "prompt": "Beginning public debt is 2150 billion. The annual budget deficit, including interest, is 96 billion. With no valuation adjustments, what is ending debt?",
+        "answer": 2246
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "growth",
+      "topic": "5.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:growth:01",
+        "prompt": "Real output rises from 100 to 110, while total hours worked stay unchanged. What is labor productivity growth in percent?",
+        "answer": 10,
+        "explanation": "With hours fixed, output per hour grows at the same percentage rate as output."
+      },
+      "last": {
+        "id": "ap-macro:growth:24",
+        "prompt": "Real output rises from 330 to 363, while total hours worked stay unchanged. What is labor productivity growth in percent?",
+        "answer": 10
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "longrun-money",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:longrun-money:01",
+        "prompt": "In the classical long-run model, the money stock doubles from 100 to 200, with velocity and real productive capacity fixed. What happens?",
+        "answer": "The price level doubles; real output is unchanged",
+        "explanation": "MV = PY with V and Y fixed implies proportional adjustment in P."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "exchange",
+      "topic": "6.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:exchange:01",
+        "prompt": "The exchange rate is 2 domestic currency units per foreign unit. A foreign product costs 20 foreign units. What is its domestic-currency price before transport or tariffs?",
+        "answer": 40,
+        "explanation": "Multiply the foreign price by domestic currency units per foreign unit."
+      },
+      "last": {
+        "id": "ap-macro:exchange:24",
+        "prompt": "The exchange rate is 2 domestic currency units per foreign unit. A foreign product costs 43 foreign units. What is its domestic-currency price before transport or tariffs?",
+        "answer": 86
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "appreciation",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:appreciation:01",
+        "prompt": "The exchange rate changes from 100 yen per dollar to 110 yen per dollar. What has happened?",
+        "answer": "The dollar has appreciated against the yen",
+        "explanation": "One dollar now buys more yen, so the dollar appreciates relative to the yen."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "current-account",
+      "topic": "6.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:current-account:01",
+        "prompt": "Net exports are 20, net primary income from abroad is 5, and net current transfers are −10, all in billions. What is the current-account balance?",
+        "answer": 15,
+        "explanation": "Add net exports, net primary income, and net current transfers."
+      },
+      "last": {
+        "id": "ap-macro:current-account:24",
+        "prompt": "Net exports are 43, net primary income from abroad is 28, and net current transfers are −33, all in billions. What is the current-account balance?",
+        "answer": 38
+      }
+    },
+    {
+      "course": "ap-macro",
+      "family": "capital-flows",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:capital-flows:01",
+        "prompt": "Domestic real interest rates rise by 1 percentage points relative to foreign rates, with risk and expected exchange-rate changes fixed. What pressure is expected?",
+        "answer": "Financial inflows and domestic currency appreciation",
+        "explanation": "Higher relative returns attract financial capital, increasing demand for domestic currency under these assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "college-micro",
+      "family": "cobb-demand",
+      "topic": "1.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:cobb-demand:01",
+        "prompt": "A consumer maximizes u(x,y) = x^0.4 y^0.6 with income 100, px = 2 and py = 3. What is optimal x?",
+        "answer": 20,
+        "explanation": "The Cobb-Douglas expenditure share on x is 0.4, so x = 0.4m/px."
+      },
+      "last": {
+        "id": "college-micro:cobb-demand:24",
+        "prompt": "A consumer maximizes u(x,y) = x^0.4 y^0.6 with income 330, px = 2 and py = 3. What is optimal x?",
+        "answer": 66
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "mrs",
+      "topic": "1.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:mrs:01",
+        "prompt": "For u(x,y) = xy at x = 2 and y = 6, what is MUx/MUy?",
+        "answer": 3,
+        "explanation": "MUx = y and MUy = x, so their ratio is y/x = 3."
+      },
+      "last": {
+        "id": "college-micro:mrs:24",
+        "prompt": "For u(x,y) = xy at x = 25 and y = 75, what is MUx/MUy?",
+        "answer": 3
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "perfect-complements",
+      "topic": "1.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:perfect-complements:01",
+        "prompt": "A consumer has u(x,y) = min(x,2y), income 60, px = 1 and py = 2. What is optimal x?",
+        "answer": 30,
+        "explanation": "At the kink x = 2y. The budget x + 2y = m becomes 2x = m."
+      },
+      "last": {
+        "id": "college-micro:perfect-complements:24",
+        "prompt": "A consumer has u(x,y) = min(x,2y), income 198, px = 1 and py = 2. What is optimal x?",
+        "answer": 99
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "quasilinear",
+      "topic": "1.4",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:quasilinear:01",
+        "prompt": "Utility is 20 ln(x) + y, px = 2 and py = 1. Income is large enough for an interior solution. What is optimal x?",
+        "answer": 10,
+        "explanation": "The first-order condition is a/x = px/py = 2."
+      },
+      "last": {
+        "id": "college-micro:quasilinear:24",
+        "prompt": "Utility is 66 ln(x) + y, px = 2 and py = 1. Income is large enough for an interior solution. What is optimal x?",
+        "answer": 33
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "slutsky",
+      "topic": "2.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:slutsky:01",
+        "prompt": "At a point, the Marshallian own-price derivative is −5, demand is 10, and the income derivative is 0.2. What is the compensated own-price derivative?",
+        "answer": -3,
+        "explanation": "The Slutsky equation gives ∂h/∂p = ∂x/∂p + x(∂x/∂m) = Marshallian derivative + 2."
+      },
+      "last": {
+        "id": "college-micro:slutsky:24",
+        "prompt": "At a point, the Marshallian own-price derivative is −28, demand is 10, and the income derivative is 0.2. What is the compensated own-price derivative?",
+        "answer": -26
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "elastic-demand",
+      "topic": "2.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:elastic-demand:01",
+        "prompt": "Demand is Q = 100 − 2P. At P = 25, what is the absolute point elasticity of demand?",
+        "answer": 1,
+        "explanation": "Quantity is 50 and |dQ/dP| = 2. Thus 2 × 25/50 = 1."
+      },
+      "last": {
+        "id": "college-micro:elastic-demand:24",
+        "prompt": "Demand is Q = 192 − 2P. At P = 48, what is the absolute point elasticity of demand?",
+        "answer": 1
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "cost-min",
+      "topic": "3.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:cost-min:01",
+        "prompt": "Production is q = sqrt(LK), wage w = 4 and rental rate r = 1. To produce q = 10, what labor input minimizes cost?",
+        "answer": 5,
+        "explanation": "Tangency gives K/L = w/r = 4. Thus q = 2L and L = q/2."
+      },
+      "last": {
+        "id": "college-micro:cost-min:24",
+        "prompt": "Production is q = sqrt(LK), wage w = 4 and rental rate r = 1. To produce q = 33, what labor input minimizes cost?",
+        "answer": 16.5
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "shephard",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:shephard:01",
+        "prompt": "Cost is C(w,r,q) = 2q sqrt(wr). At w = 4, r = 1 and q = 10, what is conditional labor demand?",
+        "answer": 5,
+        "explanation": "By Shephard’s lemma, L = ∂C/∂w = q sqrt(r/w) = q/2."
+      },
+      "last": {
+        "id": "college-micro:shephard:24",
+        "prompt": "Cost is C(w,r,q) = 2q sqrt(wr). At w = 4, r = 1 and q = 33, what is conditional labor demand?",
+        "answer": 16.5
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "competitive-supply",
+      "topic": "4.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:competitive-supply:01",
+        "prompt": "A firm has C(q) = 20 + q² and faces price 20. Assuming it operates, what output maximizes profit?",
+        "answer": 10,
+        "explanation": "Marginal cost is 2q, so q = p/2. Fixed cost does not enter the interior marginal condition."
+      },
+      "last": {
+        "id": "college-micro:competitive-supply:24",
+        "prompt": "A firm has C(q) = 43 + q² and faces price 66. Assuming it operates, what output maximizes profit?",
+        "answer": 33
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "cournot",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:cournot:01",
+        "prompt": "Two identical Cournot firms face P = 100 − Q and constant marginal cost 10. What is each firm’s equilibrium quantity?",
+        "answer": 30,
+        "explanation": "Each symmetric Cournot firm supplies (a−c)/(3b), here (100−10)/3 = 30."
+      },
+      "last": {
+        "id": "college-micro:cournot:24",
+        "prompt": "Two identical Cournot firms face P = 169 − Q and constant marginal cost 10. What is each firm’s equilibrium quantity?",
+        "answer": 53
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "bertrand",
+      "topic": "4.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:bertrand:01",
+        "prompt": "Two identical firms with unlimited capacity sell a homogeneous good and simultaneously set prices. Both have constant marginal cost 10. Under the standard Bertrand assumptions, what is equilibrium price?",
+        "answer": 10,
+        "explanation": "With identical homogeneous products, unrestricted capacity and continuous prices, undercutting pushes price to marginal cost."
+      },
+      "last": {
+        "id": "college-micro:bertrand:24",
+        "prompt": "Two identical firms with unlimited capacity sell a homogeneous good and simultaneously set prices. Both have constant marginal cost 33. Under the standard Bertrand assumptions, what is equilibrium price?",
+        "answer": 33
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "mixed-strategy",
+      "topic": "5.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:mixed-strategy:01",
+        "prompt": "A player earns 2 from Up against Left and 0 against Right; Down earns 0 against Left and 2 against Right. At what probability of Left is this player indifferent?",
+        "answer": 0.5,
+        "explanation": "Expected payoffs are a·p and a·(1−p). Equality requires p = 1/2."
+      },
+      "last": {
+        "id": "college-micro:mixed-strategy:24",
+        "prompt": "A player earns 25 from Up against Left and 0 against Right; Down earns 0 against Left and 25 against Right. At what probability of Left is this player indifferent?",
+        "answer": 0.5
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "repeated-collusion",
+      "topic": "5.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:repeated-collusion:01",
+        "prompt": "Per-period cooperation yields 5; one-time deviation yields 8; permanent punishment yields 2. With grim trigger and infinite repetition, what is the minimum discount factor supporting cooperation?",
+        "answer": 0.5,
+        "explanation": "The incentive constraint gives δ ≥ (deviation−cooperation)/(deviation−punishment) = 3/6."
+      },
+      "last": {
+        "id": "college-micro:repeated-collusion:24",
+        "prompt": "Per-period cooperation yields 28; one-time deviation yields 31; permanent punishment yields 25. With grim trigger and infinite repetition, what is the minimum discount factor supporting cooperation?",
+        "answer": 0.5
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "pigou",
+      "topic": "6.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:pigou:01",
+        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 10. What per-unit Pigouvian tax implements that quantity in a competitive market?",
+        "answer": 20,
+        "explanation": "Evaluate marginal external damage at the efficient quantity, not at the unregulated quantity."
+      },
+      "last": {
+        "id": "college-micro:pigou:24",
+        "prompt": "An activity’s marginal external cost is MEC(q)=2q. Efficient quantity is 33. What per-unit Pigouvian tax implements that quantity in a competitive market?",
+        "answer": 66
+      }
+    },
+    {
+      "course": "college-micro",
+      "family": "insurance",
+      "topic": "6.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-micro:insurance:01",
+        "prompt": "Initial wealth is 1000. A loss of 200 occurs with probability 0.1. What is the actuarially fair premium for full insurance?",
+        "answer": 20,
+        "explanation": "The fair premium equals expected loss, 0.1 × 200. Risk aversion affects willingness to pay above that amount, not expected loss."
+      },
+      "last": {
+        "id": "college-micro:insurance:24",
+        "prompt": "Initial wealth is 1230. A loss of 200 occurs with probability 0.1. What is the actuarially fair premium for full insurance?",
+        "answer": 20
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "national-saving",
+      "topic": "1.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:national-saving:01",
+        "prompt": "In a closed economy Y = 1000, C = 600, and G = 200. What is national saving?",
+        "answer": 200,
+        "explanation": "National saving is output less private consumption and government purchases, Y−C−G."
+      },
+      "last": {
+        "id": "college-macro:national-saving:24",
+        "prompt": "In a closed economy Y = 1460, C = 830, and G = 315. What is national saving?",
+        "answer": 315
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "solow",
+      "topic": "2.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:solow:01",
+        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.2, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 5, what is the positive steady-state capital per worker?",
+        "answer": 4,
+        "explanation": "The positive steady state solves 0.2 sqrt(k) = 0.1k, giving sqrt(k)=2 and k=4. Initial capital does not change this steady state."
+      },
+      "last": {
+        "id": "college-macro:solow:24",
+        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.2, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 28, what is the positive steady-state capital per worker?",
+        "answer": 4
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "golden-rule",
+      "topic": "2.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:golden-rule:01",
+        "prompt": "Per-worker output is y = sqrt(k). Depreciation plus population growth equals 0.1. With no technology growth, what is golden-rule k?",
+        "answer": 25,
+        "explanation": "Let δ denote depreciation and n population growth. The golden rule sets MPK = δ+n. Since MPK = 1/(2sqrt(k)), solve k = [0.5/(δ+n)]²."
+      },
+      "last": {
+        "id": "college-macro:golden-rule:24",
+        "prompt": "Per-worker output is y = sqrt(k). Depreciation plus population growth equals 0.215. With no technology growth, what is golden-rule k?",
+        "answer": 5.408
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "growth-accounting",
+      "topic": "2.3",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:growth-accounting:01",
+        "prompt": "For Y = A K^0.3 L^0.7, output grows 4%, capital grows 5%, and labor grows 2%. Using growth-rate accounting, what is TFP growth in percent?",
+        "answer": 1.1,
+        "explanation": "TFP growth = output growth − 0.3×capital growth − 0.7×labor growth."
+      },
+      "last": {
+        "id": "college-macro:growth-accounting:24",
+        "prompt": "For Y = A K^0.3 L^0.7, output grows 6.3%, capital grows 5%, and labor grows 2%. Using growth-rate accounting, what is TFP growth in percent?",
+        "answer": 3.4
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "euler",
+      "topic": "3.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:euler:01",
+        "prompt": "A consumer has log utility, discount factor β = 0.96, and gross real interest factor 1+r = 1.05. If current consumption is 100, what does the deterministic interior Euler equation imply for next-period consumption?",
+        "answer": 100.8,
+        "explanation": "For log utility, c(t+1)/c(t) = β(1+r) = 1.008."
+      },
+      "last": {
+        "id": "college-macro:euler:24",
+        "prompt": "A consumer has log utility, discount factor β = 0.96, and gross real interest factor 1+r = 1.05. If current consumption is 330, what does the deterministic interior Euler equation imply for next-period consumption?",
+        "answer": 332.64
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "present-value",
+      "topic": "3.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:present-value:01",
+        "prompt": "A certain payment of 110 arrives one year from now. The annual real discount rate is 10%. What is present value?",
+        "answer": 100,
+        "explanation": "Discount the future amount by 1.10."
+      },
+      "last": {
+        "id": "college-macro:present-value:24",
+        "prompt": "A certain payment of 363 arrives one year from now. The annual real discount rate is 10%. What is present value?",
+        "answer": 330
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "is-curve",
+      "topic": "4.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:is-curve:01",
+        "prompt": "Consumption is 0.8Y, investment is 100 − 10r, and government spending is 100. Taxes and trade are absent. At r=2, what is equilibrium Y?",
+        "answer": 900,
+        "explanation": "Y = 0.8Y + (100−20) + 100. Thus 0.2Y = 180 and Y = 900."
+      },
+      "last": {
+        "id": "college-macro:is-curve:24",
+        "prompt": "Consumption is 0.8Y, investment is 330 − 10r, and government spending is 100. Taxes and trade are absent. At r=2, what is equilibrium Y?",
+        "answer": 2050
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "new-keynesian-phillips",
+      "topic": "4.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:new-keynesian-phillips:01",
+        "prompt": "In π = 0.99 Eπ_next + 0.1x + u, expected next-period inflation is 2%, the output gap x is 1%, and u=0. Express inflation in percentage points.",
+        "answer": 2.08,
+        "explanation": "Substitute the consistently percentage-point inputs: 0.99×2 + 0.1×x."
+      },
+      "last": {
+        "id": "college-macro:new-keynesian-phillips:24",
+        "prompt": "In π = 0.99 Eπ_next + 0.1x + u, expected next-period inflation is 2%, the output gap x is 3.3%, and u=0. Express inflation in percentage points.",
+        "answer": 2.31
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "taylor",
+      "topic": "5.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:taylor:01",
+        "prompt": "A policy rule is i = 2 + π + 0.5(π−2) + 0.5x. Inflation π is 3% and output gap x is 0%. What nominal policy rate does the rule prescribe, in percent?",
+        "answer": 5.5,
+        "explanation": "Substitute inflation and output gap into the rule; all rates and gaps are in percentage points."
+      },
+      "last": {
+        "id": "college-macro:taylor:24",
+        "prompt": "A policy rule is i = 2 + π + 0.5(π−2) + 0.5x. Inflation π is 3% and output gap x is 2.3%. What nominal policy rate does the rule prescribe, in percent?",
+        "answer": 6.65
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "debt-dynamics",
+      "topic": "5.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:debt-dynamics:01",
+        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.5, r=g=0.02, and primary deficit/GDP is 0.01. What is next-period debt/GDP as a decimal?",
+        "answer": 0.51,
+        "explanation": "When r=g the debt carryover factor is one. Add the primary deficit ratio 0.01."
+      },
+      "last": {
+        "id": "college-macro:debt-dynamics:24",
+        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.73, r=g=0.02, and primary deficit/GDP is 0.01. What is next-period debt/GDP as a decimal?",
+        "answer": 0.74
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "uip",
+      "topic": "6.1",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 24,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:uip:01",
+        "prompt": "Use the approximation i_home = i_foreign + expected depreciation of the home currency. Home interest is 5% and foreign interest is 2%. What expected home-currency depreciation rate makes expected returns equal?",
+        "answer": 3,
+        "explanation": "Expected home depreciation equals the home-minus-foreign interest differential, assuming no risk premium."
+      },
+      "last": {
+        "id": "college-macro:uip:24",
+        "prompt": "Use the approximation i_home = i_foreign + expected depreciation of the home currency. Home interest is 7.3% and foreign interest is 2%. What expected home-currency depreciation rate makes expected returns equal?",
+        "answer": 5.3
+      }
+    },
+    {
+      "course": "college-macro",
+      "family": "real-exchange",
+      "topic": "6.2",
+      "count": 24,
+      "format": "numeric",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "college-macro:real-exchange:01",
+        "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=100, and P_home=200. What is q?",
+        "answer": 1,
+        "explanation": "Using the stated convention, q = 2P_foreign/P_home = 1. Other conventions invert this ratio."
+      },
+      "last": {
+        "id": "college-macro:real-exchange:24",
+        "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=330, and P_home=660. What is q?",
+        "answer": 1
+      }
+    }
+  ]
+}

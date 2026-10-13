@@ -1,11 +1,15 @@
 import {microTopics} from './curriculum.mjs';
-export const BANK_VERSION='2026.10.12.1';
+export const BANK_VERSION='2026.10.12.2';
 export const families=[];
 const num=x=>Number(x.toFixed(3));
 const fmt=x=>Number.isInteger(x)?String(x):String(num(x));
 // Each family has its own economic target. Variants are explicitly identified,
 // not represented as independently authored questions.
-function family(id,topic,title,level,make,course='ap-micro',count=24){families.push({id,topic,title,level,make,course,count});}
+function family(id,topic,title,level,make,course='ap-micro',count=24){
+ // Numeric variants provide fresh arithmetic. Cosmetic changes to a conceptual stem do not.
+ if(make(0).format==='choice')count=1;
+ families.push({id,topic,title,level,make,course,count});
+}
 function numeric(prompt,answer,explanation,extras={}){return {prompt,answer:num(answer),explanation,format:'numeric',...extras};}
 function choice(prompt,correct,wrong,explanation,extras={}){return {prompt,correct,wrong,explanation,format:'choice',...extras};}
 const graph=(a,b,c,d,labels=['Demand','Supply'])=>({kind:'lines',xLabel:'Quantity',yLabel:'Price',xMax:a/b,yMax:a,lines:[{label:labels[0],intercept:a,slope:-b},{label:labels[1],intercept:c,slope:d}]});
@@ -36,7 +40,7 @@ family('producer-surplus','2.6','Area above supply',2,n=>numeric(`Supply is P = 
 family('joint-shifts','2.7','Two simultaneous shifts',3,n=>choice(`In market ${n+1}, both demand and supply increase, with unknown shift magnitudes. Which conclusion is certain in the standard downward-demand, upward-supply model?`,'Equilibrium quantity rises; the price change is ambiguous',['Price rises; quantity is ambiguous','Price falls; quantity is ambiguous','Both price and quantity must fall'],'Both shifts raise equilibrium quantity, but their effects on price oppose one another.'));
 family('shift-equilibrium','2.7','A demand intercept change',2,n=>numeric(`Demand changes from P = ${60+3*n} − Q to P = ${72+3*n} − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?`,6,'A 12-unit upward shift in demand raises quantity by 12/(1+1) = 6 with these slopes.'));
 family('ceiling-shortage','2.8','Binding price ceilings',2,n=>numeric(`Demand is Qd = ${100+4*n} − 2P and supply is Qs = 2P. A price ceiling is set at $${20+n}. What is the shortage in units?`,20,'At the ceiling, demand exceeds supply by 20 units. The ceiling lies $5 below the competitive equilibrium price.'));
-family('floor-surplus','2.8','Binding price floors',2,n=>numeric(`Demand is Qd = ${100+4*n} − 2P and supply is Qs = 2P. A floor is set at $${30+n}. What is the excess supply in units?`,20,'Quantity supplied minus quantity demanded is 4P − (100 + 4n), which equals 20 at the stated floor.'));
+family('floor-surplus','2.8','Binding price floors',2,n=>numeric(`Demand is Qd = ${100+4*n} − 2P and supply is Qs = 2P. A floor is set at $${30+n}. What is the excess supply in units?`,20,`Quantity supplied is ${60+2*n}; quantity demanded is ${40+2*n}. Their difference is 20 units.`));
 family('tax-quantity','2.8','A per-unit tax wedge',3,n=>numeric(`Demand is P = ${80+4*n} − Q and supply is P = 20 + Q. A $${10+2*n} per-unit seller tax is imposed. What quantity is traded?`,(50+2*n)/2,`Equate the buyer’s price with supply plus tax: ${80+4*n} − Q = 20 + Q + ${10+2*n}.`));
 family('tax-incidence','2.8','Tax burden with unequal slopes',3,n=>numeric(`Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $${8+4*n} is imposed in an otherwise competitive market. By how many dollars does the buyer’s price rise?`,.75*(8+4*n),'The buyer share is 3/(3+1) = 3/4 of the wedge. The steeper inverse demand curve corresponds to a larger buyer burden.'));
 family('tax-dwl','2.8','Deadweight loss from a tax',2,n=>numeric(`A $${4+n} per-unit tax reduces competitive trade by ${10+2*n} units. Demand and supply are straight lines and there are no externalities. What is deadweight loss?`,.5*(4+n)*(10+2*n),'Deadweight loss is the triangle ½ × tax wedge × reduction in quantity. Tax revenue is a transfer, not this loss.'));
@@ -45,7 +49,7 @@ family('tariff-revenue','2.9','Tariff revenue',2,n=>numeric(`A small country imp
 family('marginal-product','3.1','Incremental output',1,n=>numeric(`With ${3+n} workers, output is ${60+10*n}. One more worker increases output to ${74+11*n}. What is that worker’s marginal product?`,14+n,'Marginal product is the change in total output divided by the change in labor, here one worker.'));
 family('average-product','3.1','Output per worker',1,n=>numeric(`A firm uses ${4+n} workers and produces ${80+20*n} units. What is average product of labor?`,20,'Average product is total output divided by the number of workers, not the output added by the last worker.'));
 family('marginal-cost','3.2','Incremental cost from a table',1,n=>numeric(`Increasing output from ${10+n} to ${15+n} units raises total cost from $${100+10*n} to $${140+15*n}. What is average marginal cost per added unit over this interval?`,8+n,'Divide the change in total cost by the five-unit output change.'));
-family('average-variable-cost','3.2','Separating fixed and variable costs',2,n=>numeric(`At output ${10+n}, total cost is $${200+12*n} and fixed cost is $${100+2*n}. What is average variable cost?`,10,'Variable cost is total cost minus fixed cost: 100 + 10n. Divide by output 10 + n to obtain 10.'));
+family('average-variable-cost','3.2','Separating fixed and variable costs',2,n=>numeric(`At output ${10+n}, total cost is $${200+12*n} and fixed cost is $${100+2*n}. What is average variable cost?`,10,`Variable cost is ${200+12*n} − ${100+2*n} = ${100+10*n}. Divide by output ${10+n} to obtain 10.`));
 family('fixed-cost','3.2','Recovering fixed cost',2,n=>numeric(`At output ${10+n}, average total cost is $${20+n} and average variable cost is $${12+n}. What is total fixed cost?`,8*(10+n),'The difference between ATC and AVC is AFC = 8. Multiply by quantity to get total fixed cost.'));
 family('scale-economies','3.3','Long-run scale',2,n=>choice(`A firm doubles every input, and output rises from ${100+10*n} to ${240+24*n}. What does this indicate about returns to scale over this range?`,'Increasing returns to scale',['Constant returns to scale','Decreasing returns to scale','Negative marginal product necessarily occurs'],'Output rises by a factor of 2.4 when all inputs rise by a factor of 2. This is increasing returns to scale.'));
 family('economic-profit','3.4','Accounting versus economic profit',2,n=>numeric(`Revenue is $${1000+50*n}; explicit costs are $${600+20*n}; implicit costs are $${200+10*n}. What is economic profit?`,200+20*n,'Economic profit deducts both explicit and implicit opportunity costs from revenue.'));
@@ -68,7 +72,7 @@ family('mrp','5.1','Marginal revenue product',1,n=>numeric(`An additional worker
 family('factor-demand','5.2','Derived demand shifts',2,n=>choice(`The competitive selling price of a firm’s output rises from $${10+n} to $${14+n}, with worker productivity unchanged. How does its labor demand change?`,'Labor demand shifts right because marginal revenue product rises',['Labor demand shifts left because the wage is unchanged','Labor supply must shift right','There is only movement along the original labor-demand curve'],'Labor demand is derived from product revenue. A higher product price raises each worker’s MRP.'));
 family('hiring-rule','5.3','Competitive employment',2,n=>numeric(`A wage-taking firm has labor MRP = ${100+4*n} − 4L and pays wage $20. How many workers should it hire if labor is divisible?`,20+n,'For a competitive labor buyer, marginal factor cost equals the wage. Set MRP = wage.'));
 family('least-cost','5.3','Least-cost input mix',3,n=>numeric(`At an interior least-cost input mix, MP of labor is ${20+2*n}, wage is $${10+n}, and rental price of capital is $${6+n}. What must MP of capital be?`,12+2*n,'MP_L/w = 2. Least-cost production requires MP_K/r = 2, so MP_K = 2r.'));
-family('monopsony-employment','5.4','Monopsony marginal expenditure',3,n=>numeric(`Labor supply is w = 10 + L, so MFC = 10 + 2L. Labor MRP = ${70+3*n} − L. What employment maximizes monopsony profit?`,20+n,'Set MFC equal to MRP: 10 + 2L = 70 + 3n − L. Read the wage from labor supply only after finding employment.'));
+family('monopsony-employment','5.4','Monopsony marginal expenditure',3,n=>numeric(`Labor supply is w = 10 + L, so MFC = 10 + 2L. Labor MRP = ${70+3*n} − L. What employment maximizes monopsony profit?`,20+n,`Set MFC equal to MRP: 10 + 2L = ${70+3*n} − L, so L = ${20+n}. Read the wage from labor supply only after finding employment.`));
 family('monopsony-wage','5.4','Wage from the supply curve',3,n=>numeric(`A monopsonist faces labor supply w = 10 + L and MRP = ${70+3*n} − L. Its optimal employment is ${20+n}. What wage must it pay?`,30+n,'Substitute employment into labor supply: w = 10 + L. MFC exceeds the wage because hiring more workers raises pay on existing workers.'));
 family('efficient-quantity','6.1','Social marginal conditions',2,n=>numeric(`Marginal social benefit is MSB = ${90+3*n} − Q and marginal social cost is MSC = 12 + 2Q. What quantity is socially efficient?`,26+n,'Efficiency requires MSB = MSC, giving 3Q = benefit intercept − 12.'));
 family('negative-externality','6.2','Corrective tax',2,n=>numeric(`Production creates constant marginal external damage of $${5+n} per unit. With otherwise competitive markets and no other distortions, what per-unit tax decentralizes the efficient output?`,5+n,'A corrective tax equal to marginal external damage aligns private marginal cost with social marginal cost.'));
@@ -84,9 +88,11 @@ export function buildBank(){
  const bank=[];
  for(const f of families)for(let n=0;n<f.count;n++){
   const q=f.make(n);const id=`${f.course}:${f.id}:${String(n+1).padStart(2,'0')}`;
-  const item={...q,id,family:f.id,course:f.course,topic:f.topic,topicName:f.course==='ap-micro'?microTopics[f.topic]:f.title,unit:Number(f.topic.split('.')[0]),difficulty:f.level,title:f.title,variant:n+1,version:BANK_VERSION,review:'authored-and-rule-checked'};
+  const item={...q,id,family:f.id,course:f.course,topic:f.topic,topicName:f.course==='ap-micro'?microTopics[f.topic]:f.title,unit:Number(f.topic.split('.')[0]),difficulty:f.level,title:f.title,variant:n+1,version:BANK_VERSION,review:'draft-awaiting-content-audit'};
   if(q.format==='choice'){
-   const opts=[q.correct,...q.wrong];const shift=n%opts.length;item.options=opts.slice(shift).concat(opts.slice(0,shift));item.answerIndex=item.options.indexOf(q.correct);delete item.correct;delete item.wrong;
+   const opts=[q.correct,...q.wrong];let seed=2166136261;for(const char of id)seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
+   for(let j=opts.length-1;j>0;j--){seed=(Math.imul(1664525,seed)+1013904223)>>>0;const k=Math.floor(seed/4294967296*(j+1));[opts[j],opts[k]]=[opts[k],opts[j]];}
+   item.options=opts;item.answerIndex=item.options.indexOf(q.correct);delete item.correct;delete item.wrong;
   }else{item.tolerance=0.005;item.answerDisplay=fmt(q.answer);}
   bank.push(item);
  }

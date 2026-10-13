@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+const report=read('.local/econ-calibration/synthetic-fit/candidate-report.json'),truth=read('.local/econ-calibration/synthetic/truth.json'),dif=read('.local/econ-calibration/synthetic-dif/report.json'),cat=read('.local/econ-calibration/cat-simulation.json');
+assert.equal(report.synthetic,true);assert.equal(report.status,'candidate');const m=report.models['2PL'];assert.equal(m.converged,true);assert.ok(Number.isFinite(m.AIC)&&Number.isFinite(m.BIC));
+const ids=Object.keys(m.items),rmse=k=>Math.sqrt(ids.reduce((s,id)=>s+(m.items[id][k]-truth.items[id][k])**2,0)/ids.length);
+assert.ok(rmse('a')<.3,'Synthetic discrimination recovery regression');assert.ok(rmse('b')<.3,'Synthetic difficulty recovery regression');
+assert.equal(dif.synthetic,true);const injected=dif.tests.find(q=>q.item==='item-10');assert.ok(injected?.converged&&injected.adj_p<.05,'Injected DIF was not recovered');assert.ok(dif.tests.filter(q=>q.item!=='item-10').every(q=>q.adj_p>.05),'Unexpected flag in this deterministic DIF fixture');
+assert.equal(cat.synthetic,true);assert.equal(cat.reports.length,14);assert.ok(cat.reports.every(r=>Number.isFinite(r.rmse)&&r.meanLength<=48));
+const summary={synthetic:true,scope:'Deterministic implementation smoke tests, not validation of real items or student scores.',fit:{training:report.trainingPersons,holdout:report.holdoutPersons,rmseA:rmse('a'),rmseB:rmse('b'),models:Object.fromEntries(Object.entries(report.models).map(([id,r])=>[id,{converged:r.converged,AIC:r.AIC,BIC:r.BIC,holdoutLogLoss:r.holdout.leaveOneItemOutLogLoss}]))},dif:{injectedItem:injected.item,adjustedP:injected.adj_p,otherFlags:dif.tests.filter(q=>q.item!=='item-10'&&q.adj_p<.05).length},cat:cat.reports,openFinding:'CAT smoke test shows prior shrinkage and conditional interval undercoverage at extreme traits. More replications and prior/grid/design sensitivity analyses required before operational validation.'};
+fs.writeFileSync('docs/econ-practice/audits/synthetic-verification.json',JSON.stringify(summary,null,2)+'\n');console.log('Synthetic fitting, DIF and CAT implementation checks passed; extreme-trait validation finding remains open.');

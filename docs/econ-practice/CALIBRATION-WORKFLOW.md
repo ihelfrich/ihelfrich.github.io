@@ -1,0 +1,40 @@
+# Calibration workflow
+
+The executable pipeline produces candidate models and diagnostics. It does not approve models, infer student identities, or turn a provisional score into an AP score prediction.
+
+## Data preparation
+
+Export the private response ledger using the authenticated instructor endpoint and retain all pages. Place real response exports outside the public site source, using a private working directory. Do not commit exports, group files, individual scores, or fitted person parameters.
+
+Run `node scripts/econ-practice/prepare-calibration.mjs INPUT.json PRIVATE_OUTPUT ap-micro 2 BANK_VERSION`. The course, unit, and bank version must match the intended construct and item snapshot. The manifest records the input checksum, exclusions, screening thresholds, item counts, response times and observed answer distributions. Missing responses remain missing. Only a person's first eligible assessment occasion is used; repeated learning sessions are not concatenated into one trait measurement.
+
+Initial screening requires 300 persons, 100 observations per retained item, at least three responses per person, five variable items, and connected item coadministration. These are implementation screening defaults, not universal sample-size requirements. Study-specific simulations and sensitivity checks determine adequacy. Passing screening does not authorize operational scoring.
+
+## Candidate fitting
+
+Install R packages `mirt` and `jsonlite` from CRAN. Run `Rscript scripts/econ-practice/calibrate.R PRIVATE_PREPARED PRIVATE_OUTPUT`. It fits unit-level 1PL and 2PL candidates, estimates parameter covariance, examines S-X² with multiplicity adjustment and adjusted Q3 residual correlations, and evaluates predictions in a separate person holdout.
+
+For each held-out item, the prediction conditions only on the person's other responses. The item being predicted is excluded from the posterior used to predict it. The pipeline reports log loss, Brier score and calibration bins. An unavailable diagnostic is recorded as unavailable, not passed. With sparse adaptive patterns, S-X² may be unavailable after complete-case removal; that limitation needs a design-appropriate item-fit analysis before approval.
+
+Run `Rscript scripts/econ-practice/dimensionality.R PRIVATE_PREPARED PRIVATE_OUTPUT` to compare one- and two-dimensional exploratory candidates. Nonconvergence is explicit. The routine checks whether the design contains coadministered sibling items. A first-family-exposure design generally cannot identify a testlet effect; the report does not claim one was estimated.
+
+## Optional DIF analysis
+
+Use only voluntarily supplied group data authorized for this purpose. The group file contains the prepared person key, group, and consented flag. A separate anchor file lists at least three substantively justified item IDs, one per line. Anchors must be examined for contamination; their mere inclusion is not evidence of invariance.
+
+Run `Rscript scripts/econ-practice/dif.R PRIVATE_PREPARED PRIVATE_GROUPS.csv PRIVATE_ANCHORS.txt PRIVATE_OUTPUT.json`. The model frees focal-group latent means and variances while holding reviewed anchor parameters equal. Non-anchor slope/intercept tests use likelihood-ratio comparisons with Benjamini–Hochberg adjustment. Minimum group counts are screening only. Review effect sizes, convergence, selection, power and substantive content before interpreting a flag as bias. No sensitive group is inferred from names or browsing data.
+
+## Reproducible synthetic checks
+
+- `node scripts/econ-practice/simulate-calibration.mjs` prepares 1,000 synthetic persons with twelve known 2PL items.
+- `Rscript scripts/econ-practice/calibrate.R .local/econ-calibration/synthetic .local/econ-calibration/synthetic-fit` tests fitting and held-out predictions.
+- `node scripts/econ-practice/simulate-cat.mjs 30` compares adaptive and randomized selection at seven known trait values, including bias, RMSE, interval coverage, exposure and stopping length. Thirty replications per point are a smoke test, not adequate operating-characteristic validation.
+- `Rscript scripts/econ-practice/simulate-dif.R` creates a synthetic grouping fixture with both a group trait-distribution difference and a known item difficulty shift. Run `dif.R` against its generated inputs to check conditional DIF detection.
+
+Synthetic reports carry an explicit flag. They cannot authorize operational calibration. The first CAT smoke test showed substantial shrinkage and undercoverage at trait extremes; this remains an open validation finding, not a passed criterion.
+
+## Review and activation
+
+Run `node scripts/econ-practice/validate-candidate.mjs REPORT.json BANK_VERSION REVIEW.json` to check whether evidence is assembled for instructor review. A review identifies the reviewer, time, matching source hash, and evidence/rationale for content, dimensionality, local dependence, item fit, fairness, CAT simulation, linking, and score interpretation. A justified not-applicable decision is possible; missing evidence is not acceptance.
+
+The validator leaves status as candidate even when the review is complete. Actual authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
