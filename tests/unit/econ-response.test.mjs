@@ -39,3 +39,13 @@ test('client list retrieval fails visibly if a cursor repeats',async()=>{
  const {readAllPages}=await import('../../src/scripts/econ-pages.mjs');
  await assert.rejects(readAllPages(async()=>({students:[],hasMore:true,nextCursor:'same'}),'/admin/students','students'),/did not advance/);
 });
+test('participant history export isolates owners and withholds unfinished assessment keys',async()=>{
+ const t=setup(),a=await enrolled(t,'assessment'),b=await enrolled(t);
+ await t.call(`/sessions/${a.s.sessionId}/answers`,answer(a.next),a.p.token);
+ await t.call(`/sessions/${b.s.sessionId}/answers`,answer(b.next),b.p.token);
+ const first=await t.call('/profile/responses',null,a.p.token);assert.equal(first.status,200);assert.equal(first.rows.length,1);assert.equal(first.rows[0].sessionId,a.s.sessionId);assert.equal(first.rows[0].correct,undefined);assert.equal(first.rows[0].item.answer,undefined);assert.equal(first.rows[0].item.answerIndex,undefined);assert.equal(first.rows[0].item.explanation,undefined);
+ assert.equal((await t.call(`/profile/responses?after=${first.nextCursor}`,null,a.p.token)).rows.length,0);
+ await t.call(`/sessions/${a.s.sessionId}/complete`,{},a.p.token);
+ const completed=await t.call('/profile/responses',null,a.p.token);assert.equal(completed.rows[0].correct,true);assert.ok(completed.rows[0].explanation);
+ assert.equal((await t.call('/profile/responses?after=-1',null,a.p.token)).status,400);t.env.DB.close();
+});

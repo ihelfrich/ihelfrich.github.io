@@ -135,3 +135,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added20 original single-instance conceptual families spanning all six broad course units: GDP treatment of used goods/transfers/inventories, CPI versus deflator, discouraged workers/natural unemployment, inflation redistribution, stabilizers/self-correction, money/bonds/bank capital, monetary models, growth, real exchange rates, saving-investment and risk-sensitive flows.
 - AP Macro now463 items/49 families, including31 conceptual items and432 numeric variants. Bank2026.10.12.8. All46 focused tests and structural checks pass.
 - Authoring self-check clarified positive (not merely diminishing) marginal product in capital deepening. New cases still require a separate recorded substantive review and alignment/diagram checks. Broader testing/platform/deployment gates remain open.
+
+## Continuation: participant answer-history export
+
+- Added an authenticated, owner-filtered, paginated participant history endpoint and Download my answer history control for anonymous and signed-in profiles. Exports include submissions, attempts, timing, hints, receipts and validity flags across sessions.
+- Unfinished assessment scoring/key/explanations remain omitted; completed assessment and practice feedback are available. Pending browser answers are flushed before export; failed pagination produces no partial download.
+- Added ownership, feedback-withholding, cursor and completion regressions. All47 focused tests pass. Account recovery, retention/deletion policy implementation, browser/multi-tab reliability and production setup remain open.

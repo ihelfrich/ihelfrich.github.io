@@ -54,6 +54,12 @@ async function route(request,env){
  }
  const p=await participant(request,env);
  if(path==='/profile'&&method==='GET')return {participantId:p.id,identityKind:p.identity_kind,email:p.verified_email,isInstructor:isInstructor(p,env)};
+ if(path==='/profile/responses'&&method==='GET'){
+  const after=url.searchParams.get('after')??'0';requireValue(/^\d{1,16}$/.test(after)&&Number.isSafeInteger(Number(after)),'Invalid response cursor.');
+  const raw=await all(env.DB,`SELECT r.*,pr.item_snapshot_json,s.course,s.mode,s.completed_at FROM responses r JOIN presentations pr ON pr.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.ledger_sequence>? ORDER BY r.ledger_sequence LIMIT 501`,p.id,Number(after));
+  const page=raw.slice(0,500);
+  return {participantId:p.id,rows:page.map(r=>({eventId:r.event_id,sessionId:r.session_id,presentationId:r.presentation_id,course:r.course,mode:r.mode,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),attemptNumber:r.attempt_number,submittedAt:r.client_submitted_at,receipt:r.server_received_at,elapsedMs:r.elapsed_ms,activeMs:r.active_ms,hintsUsed:r.hints_used,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity),...(r.mode==='practice'||r.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)): {})})),hasMore:raw.length>500,nextCursor:page.length?String(page.at(-1).ledger_sequence):null};
+ }
  if(path==='/auth/challenge'&&method==='POST')return createChallenge(env,p);
  if(path==='/auth/google'&&method==='POST')return finishSignIn(env,p,await body(request));
  if(path==='/auth/logout'&&method==='POST'){await query(env.DB,'UPDATE credentials SET revoked_at=? WHERE token_hash=?',iso(),await hash(bearer(request))).run();return {signedOut:true};}
