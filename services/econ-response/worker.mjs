@@ -1,3 +1,4 @@
+import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {findUnscored,retainUnscored,unscoredReceipt} from './unscored.mjs';
 import {responseWindow} from './response-cursor.mjs';
 import {replayHistory} from './history.mjs';
@@ -84,6 +85,7 @@ async function route(request,env){
   requireValue(Number.isInteger(b.unit??0)&&(b.unit??0)>=0&&(b.unit??0)<=6,'Invalid unit.');
   requireValue(!b.topic||(typeof b.topic==='string'&&bank.some(q=>q.course===b.course&&q.topic===b.topic)),'Invalid topic.');
   const recent=await query(env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE participant_id=? AND started_at>?',p.id,new Date(Date.now()-86400000).toISOString()).first();requireValue(recent.n<100,'Daily session limit reached.',429);
+  await ensureCurrentBank(env.DB);
   const id=uuid(),at=iso();await query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter) VALUES (?,?,?,?,?,?,?,?,?,?,?)',id,p.id,b.course,b.mode,BANK_VERSION,at,'participant-auth',new Date(Date.now()+30*86400000).toISOString(),Number(!!b.assigned),b.unit??0,b.topic??'').run();
   return {sessionId:id,course:b.course,mode:b.mode,bankVersion:BANK_VERSION};
  }
@@ -136,11 +138,12 @@ async function route(request,env){
  if(action==='next'){
   const current=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? ORDER BY sequence DESC LIMIT 1',sid).first();
   if(current){const answered=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? LIMIT 1',current.id).first();if(!answered)return {presentationId:current.id,item:publicItem(JSON.parse(current.item_snapshot_json)),sequence:current.sequence};}
-  // An already-presented snapshot remains answerable; never introduce a new-bank item into an old session.
-  if(s.bank_version!==BANK_VERSION)return {done:true,reason:'bank-version-changed'};
+  // Continue with the immutable bank selected when the session was created.
+  if(s.bank_version===BANK_VERSION)await ensureCurrentBank(env.DB);
+  const sessionBank=await archivedBank(env.DB,s.bank_version,s.course);
   const length=s.mode==='assessment'?s.target_count:100;
   if((current?.sequence??0)>=length)return {done:true,reason:'session-length'};
-  const state=await stateFor(env,p),exposed=s.mode==='assessment'?await all(env.DB,'SELECT DISTINCT pr.family_id FROM presentations pr JOIN sessions owner ON owner.id=pr.session_id WHERE owner.participant_id=? AND owner.course=?',p.id,s.course):[],selected=selectItem(bank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid,exposedFamilies:exposed.map(r=>r.family_id)});if(!selected)return {done:true,reason:'eligible-bank-exhausted'};
+  const state=await stateFor(env,p),exposed=s.mode==='assessment'?await all(env.DB,'SELECT DISTINCT pr.family_id FROM presentations pr JOIN sessions owner ON owner.id=pr.session_id WHERE owner.participant_id=? AND owner.course=?',p.id,s.course):[],selected=selectItem(sessionBank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid,exposedFamilies:exposed.map(r=>r.family_id)});if(!selected)return {done:true,reason:'eligible-bank-exhausted'};
   const {item,selection}=selected,id=uuid(),sequence=(current?.sequence??0)+1;
   try{const inserted=await query(env.DB,`INSERT INTO presentations (id,session_id,item_id,item_version,family_id,topic,unit,presented_at,selection_probability,selection_pool_size,selection_engine_version,model_version,first_family_exposure,item_snapshot_json,sequence) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN EXISTS (SELECT 1 FROM presentations old JOIN sessions owner ON owner.id=old.session_id WHERE owner.participant_id=? AND old.family_id=? AND owner.course=?) THEN 0 ELSE 1 END,?,? FROM sessions target WHERE target.id=? AND target.participant_id=? AND target.completed_at IS NULL AND target.expires_at>strftime('%Y-%m-%dT%H:%M:%fZ','now')`,id,sid,item.id,item.version,item.family,item.topic,item.unit,iso(),selection.probability,selection.eligibleItems,selection.engineVersion,selection.modelVersion,p.id,item.family,s.course,JSON.stringify(item),sequence,sid,p.id).run();requireValue(inserted.meta.changes===1,'Session is no longer available for new questions.',409);}
   catch(error){if(error instanceof HttpError)throw error;const raced=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? AND sequence=?',sid,sequence).first();if(!raced)throw error;return {presentationId:raced.id,item:publicItem(JSON.parse(raced.item_snapshot_json)),sequence:raced.sequence};}

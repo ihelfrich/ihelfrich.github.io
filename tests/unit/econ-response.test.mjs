@@ -49,12 +49,12 @@ test('participant history export isolates owners and withholds unfinished assess
  const completed=await t.call('/profile/responses',null,a.p.token);assert.equal(completed.rows[0].correct,true);assert.ok(completed.rows[0].explanation);
  assert.equal((await t.call('/profile/responses?after=-1',null,a.p.token)).status,400);t.env.DB.close();
 });
-test('a bank update preserves outstanding questions and answers without mixing new items into an old session',async()=>{
+test('a missing historical archive preserves outstanding answers and returns a recoverable error',async()=>{
  const t=setup(),{p,s,next}=await enrolled(t,'assessment');
  await t.env.DB.prepare('UPDATE sessions SET bank_version=? WHERE id=?').bind('previous-bank',s.sessionId).run();
  const outstanding=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(outstanding.presentationId,next.presentationId);
  const saved=await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);assert.equal(saved.persisted,true);
- const finished=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(finished.done,true);assert.equal(finished.reason,'bank-version-changed');
+ const finished=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(finished.status,503);assert.equal(finished.done,undefined);
  assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM presentations WHERE session_id=?').bind(s.sessionId).first()).n,1);
  await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.bankVersion,'previous-bank');assert.notEqual(report.currentBankVersion,report.bankVersion);assert.equal(report.rows.length,1);assert.equal(report.rows[0].correct,true);t.env.DB.close();
 });
@@ -260,4 +260,15 @@ test('linking between authorization and insertion cannot strand an answer under 
   assert.equal((await prepare(`SELECT COUNT(*) AS n FROM ${ledger} WHERE participant_id=?`).bind(signed.participantId).first()).n,1);
   t.env.DB.close();
  }
+});
+
+test('bank archive rejects version reuse and detects missing chunks instead of ending sessions',async()=>{
+ const {registerBank,archivedBank}=await import('../../services/econ-response/bank-archive.mjs');
+ const t=setup(),items=[...bank.values()].filter(q=>q.course==='college-macro').map(q=>({...q,version:'archive-test'}));
+ await registerBank(t.env.DB,'archive-test',items);await registerBank(t.env.DB,'archive-test',items);
+ const archived=await archivedBank(t.env.DB,'archive-test','college-macro');assert.equal(archived.length,items.length);
+ await assert.rejects(registerBank(t.env.DB,'archive-test',items.map((q,i)=>i? q:{...q,prompt:'Changed'})),/without a new version/);
+ await assert.rejects(t.env.DB.prepare("UPDATE bank_chunks SET items_json='[]' WHERE version='archive-test'").run(),/immutable/);
+ await t.env.DB.prepare("DELETE FROM bank_chunks WHERE version='archive-test' AND unit=?").bind(items[0].unit).run();
+ await assert.rejects(archivedBank(t.env.DB,'archive-test','college-macro'),/incomplete/);t.env.DB.close();
 });

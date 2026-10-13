@@ -42,3 +42,22 @@ test('reauthentication can require the original account without linking temporar
  const recovered=await attempt('student');assert.equal(recovered.participantId,target);assert.notEqual(recovered.token,signed.token);
  assert.equal((await query(f.env.DB,'SELECT identity_kind FROM participants WHERE id=?',f.p.id).first()).identity_kind,'anonymous');f.env.DB.close();
 });
+
+test('an assigned assessment starts and finishes on its archived bank after the deployed version changes',async()=>{
+ const {registerBank}=await import('../../services/econ-response/bank-archive.mjs');
+ const {buildBank,BANK_VERSION}=await import('../../src/lib/econ-practice/index.mjs');
+ const f=await fixture(),signed=await login(f),p=await query(f.env.DB,'SELECT * FROM participants WHERE id=?',signed.participantId).first();
+ const version='historical-assignment-fixture',items=buildBank().filter(q=>q.course==='ap-micro').map(q=>({...q,version,prompt:`Archived fixture: ${q.prompt}`}));
+ await registerBank(f.env.DB,version,items);
+ const a=await createAssignment(f.env,{id:'instructor'},{title:'Archived diagnostic',course:'ap-micro',itemCount:6,maxAttempts:1,opensAt:new Date(Date.now()-60000).toISOString(),closesAt:new Date(Date.now()+600000).toISOString(),participantIds:[p.id]});
+ await query(f.env.DB,'UPDATE assignments SET bank_version=? WHERE id=?',version,a.assignmentId).run();
+ const session=await startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId:crypto.randomUUID()});assert.equal(session.bankVersion,version);assert.notEqual(version,BANK_VERSION);
+ async function call(action,data={}){const result=await worker.fetch(new Request(`https://api.test/sessions/${session.sessionId}/${action}`,{method:'POST',headers:{Authorization:`Bearer ${signed.token}`,'Content-Type':'application/json'},body:JSON.stringify(data)}),f.env);assert.equal(result.status,200);return result.json();}
+ for(let i=0;i<6;i++){
+  const next=await call('next');assert.equal(next.sequence,i+1);assert.ok(next.item.prompt.startsWith('Archived fixture:'));assert.equal(next.item.version,version);
+  const item=items.find(q=>q.id===next.item.id),response=item.format==='multipart'?Object.fromEntries(item.parts.map(p=>[p.id,p.answer])):item.format==='choice'?item.answerIndex:item.answer;
+  const receipt=await call('answers',{eventId:crypto.randomUUID(),presentationId:next.presentationId,attemptNumber:1,response,elapsedMs:5000,activeMs:4500,submittedAt:new Date().toISOString()});assert.equal(receipt.persisted,true);assert.equal(receipt.correct,undefined);
+ }
+ const done=await call('next');assert.equal(done.done,true);assert.equal(done.reason,'session-length');await call('complete');
+ const stored=await query(f.env.DB,'SELECT COUNT(*) AS n,SUM(correct) AS correct FROM responses WHERE session_id=?',session.sessionId).first();assert.equal(stored.n,6);assert.equal(stored.correct,6);f.env.DB.close();
+});

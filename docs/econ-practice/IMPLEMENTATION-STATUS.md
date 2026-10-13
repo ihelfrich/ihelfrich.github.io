@@ -157,7 +157,7 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 
 ## Continuation: session bank-version integrity
 
-- Prevented new-version questions entering an older session after a deployment. An outstanding presentation remains answerable from its stored snapshot; the next selection then returns bank-version-changed, allowing completion/report instead of silent mixed-bank assessment.
+- Prevented new-version questions entering an older session after a deployment. An outstanding presentation remains answerable from its stored snapshot; the next selection initially returned bank-version-changed. Superseded by the bank archive implementation: registered historical banks now continue, and missing archives return a recoverable error instead of shortening the assessment.
 - Reports expose session/current bank versions and explain the update to students. Regression verifies outstanding presentation reuse, durable answer, no added presentation and retained scored report. All52 focused tests pass.
 - This is a transitional integrity safeguard, not seamless pinned-bank hosting: continuing old assessments to full length across releases still requires retaining deployable historical banks or a rollout policy that drains active assignments. Assigned sessions ended by an update may be shorter than their target; instructors can see the count.
 
@@ -424,4 +424,12 @@ Verification: 93 focused tests pass, including concurrent duplicate retention, s
 # Answer writes during account linking
 
 Both scored-response and separately retained-submission inserts now check session ownership inside the database write. If anonymous linking occurs after request authorization but before insertion, the old request receives HTTP 401 without a persistence receipt; its queued payload can be retried with the signed-in account. This prevents a new answer from being stranded under the disabled anonymous profile after the linking transaction has already moved existing records. A deterministic regression test injects actual account linking immediately before each ledger insert and verifies zero old-owner rows plus successful new-owner retry. All 94 focused tests and the unchanged bank structural audit pass. This covers answer insertion, not every possible concurrent identity operation or automatic cross-tab recovery.
+
+# Historical question-bank continuity
+
+Migration `0005_bank_archive.sql` adds bank manifests and course/unit chunks. Before creating a session or assignment, the service registers the current bank transactionally. A version cannot be reused for different content; update triggers protect stored manifests/chunks. Each chunk is limited to 512 KiB by application validation. The current complete bank is approximately 1.53 MB serialized, with its largest chunk approximately 282 KB.
+
+Selection loads the session's registered bank, verifies manifest and chunk hashes, and preserves that version through completion. Existing assignments can start against their registered historical bank after a deployment. Missing or damaged archives return HTTP 503 without falsely ending an assessment; already-presented questions remain answerable from presentation snapshots. Current-version sessions created before this migration can register the currently bundled bank on their next selection. Earlier versions that were never registered require restoration from their original source; this change does not reconstruct them automatically.
+
+A regression starts an assigned assessment on an archived fixture version that differs from the deployed version, answers all six questions, and verifies six correct records plus normal length completion. Archive tests reject changed content under an existing version, reject direct chunk updates, and detect a missing chunk. All 96 focused tests and the structural bank audit pass. The archive pins question content, not historical engine code or a future operational calibration policy; those remain separate versioning requirements. Apply all D1 migrations before deploying this Worker.
 

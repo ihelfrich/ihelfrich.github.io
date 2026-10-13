@@ -1,3 +1,4 @@
+import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {listPage} from './pagination.mjs';
 import {iso,uuid,query,all,requireValue,HttpError} from './common.mjs';
 import {BANK_VERSION,courses,buildBank} from '../../src/lib/econ-practice/index.mjs';
@@ -11,6 +12,7 @@ export async function createAssignment(env,instructor,b){
  const eligible=bank.filter(q=>q.course===b.course&&(!b.unit||q.unit===b.unit)&&(!b.topic||q.topic===b.topic));requireValue(new Set(eligible.map(q=>q.family)).size>=b.itemCount,'Not enough distinct question families in that coverage.');
  requireValue(Array.isArray(b.participantIds)&&b.participantIds.length>0&&b.participantIds.length<=100,'Assign to 1–100 signed-in student profiles.');const students=[...new Set(b.participantIds)];
  for(const id of students){const p=await query(env.DB,'SELECT id FROM participants WHERE id=? AND identity_kind=? AND disabled_at IS NULL',id,'account').first();requireValue(p,'Every recipient must be a current signed-in student profile.');}
+ await ensureCurrentBank(env.DB);
  const id=uuid();await env.DB.batch([
   query(env.DB,'INSERT INTO assignments (id,title,course,bank_version,unit_filter,topic_filter,item_count,max_attempts,opens_at,closes_at,created_at,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',id,b.title.trim(),b.course,BANK_VERSION,b.unit??0,b.topic??'',b.itemCount,b.maxAttempts,new Date(b.opensAt).toISOString(),new Date(b.closesAt).toISOString(),iso(),instructor.id),
   ...students.map(p=>query(env.DB,'INSERT INTO assignment_members VALUES (?,?)',id,p)),
@@ -23,7 +25,7 @@ export async function startAssignment(env,p,b){
  requireValue(typeof b.requestId==='string'&&/^[a-f0-9-]{36}$/.test(b.requestId),'Provide a session request ID.');
  const existing=await query(env.DB,'SELECT * FROM sessions WHERE id=?',b.requestId).first();if(existing){requireValue(existing.participant_id===p.id&&existing.assignment_id===b.assignmentId,'Session request conflict.',409);return {sessionId:existing.id,course:existing.course,mode:existing.mode,bankVersion:existing.bank_version,assignmentId:existing.assignment_id};}
  const a=await query(env.DB,`SELECT a.* FROM assignments a JOIN assignment_members m ON m.assignment_id=a.id WHERE a.id=? AND m.participant_id=? AND a.disabled_at IS NULL`,b.assignmentId,p.id).first();requireValue(a,'Assignment not available to this profile.',404);
- requireValue(a.bank_version===BANK_VERSION,'This assignment needs an instructor update for the current bank version.',409);requireValue(a.opens_at<=iso()&&a.closes_at>iso(),'The assignment is not open.',403);
+ await archivedBank(env.DB,a.bank_version,a.course);requireValue(a.opens_at<=iso()&&a.closes_at>iso(),'The assignment is not open.',403);
  // The unique assignment/participant/attempt index serializes concurrent slot claims.
  const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE assignment_id=? AND participant_id=?',a.id,p.id).first();requireValue(previous.n<a.max_attempts,'No assignment attempts remain.',409);
  try{await query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter,assignment_id,assignment_attempt,target_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',b.requestId,p.id,a.course,'assessment',a.bank_version,iso(),'participant-auth',a.closes_at,1,a.unit_filter,a.topic_filter,a.id,previous.n+1,a.item_count).run();}catch(error){const raced=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=? AND assignment_id=?',b.requestId,p.id,a.id).first();if(!raced)throw new HttpError(409,'An assignment attempt was started concurrently. Reload your assignments.');}
