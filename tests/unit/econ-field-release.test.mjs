@@ -20,3 +20,20 @@ test('re-evaluating the field module replaces its registrations without duplicat
  assert.deepEqual(after,before);
  assert.equal(new Set(after).size,after.length);
 });
+
+import {auditFieldRelease} from '../../src/lib/econ-practice/field-release.mjs';
+test('release gate rejects unauthorized status, duplicate review entries and cross-course items before registration',()=>{
+ const course='industrial-organization';
+ const read=s=>JSON.parse(fs.readFileSync(new URL(`../../content/econ-drafts/${course}${s}.json`,import.meta.url)));
+ const items=read(''),release=read('-release'),extensions=read('-variants');
+ assert.deepEqual(auditFieldRelease(items,release,extensions),[]);
+ for(const altered of [
+  {...release,reviewStatus:'draft'},
+  {...release,sourceSHA256:'unverified'},
+  {...release,reviewedIds:[...release.reviewedIds,release.reviewedIds[0]]},
+  {...release,extensions:{...release.extensions,reviewedBaseIds:[...release.extensions.reviewedBaseIds,release.extensions.reviewedBaseIds[0]]}},
+  {...release,extensions:{...release.extensions,reviewStatus:'draft'}},
+ ])assert(auditFieldRelease(items,altered,extensions).length>0);
+ assert(auditFieldRelease([{...items[0],course:'wrong'},...items.slice(1)],release,extensions).length>0);
+ assert(auditFieldRelease(items,release,[]).length>0);
+});
