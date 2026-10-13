@@ -193,3 +193,11 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Enginev3 accumulates normalized rubric credit separately from fully correct counts and uses credit for practice difficulty/prerequisite routing. A partially correct response no longer has the same formative accuracy contribution as a wholly incorrect one.
 - Full-correct streaks still require every part correct without hints. History/progress preserve score and rubric totals; multipart responses remain excluded from binary IRT evidence.
 - Regression verifies actual selection probability shifts toward medium difficulty for partial understanding compared with all-wrong history, as well as separate streak/credit accounting. All60 focused tests pass. This is a formative heuristic, not a validated polytomous ability model.
+
+## Continuation: local multipart browser walkthrough
+
+- Restarted the verified old local dev server (it still served bank.1) with current code. Preserved the old development.sqlite; current server uses development-v2.sqlite. Live local handle28218 at write time; revalidate before reuse.
+- Used a fresh localhost-origin synthetic anonymous session, selected Unit4, then deliberately seeded its sole unanswered presentation with monopoly-sequence variant1 for reproducibility. This is a fixture-based UI test, not evidence of random sampler selection.
+- Browser entered20,60,399; observed saved receipt and per-part scores1/1,1/1,0/1. Finished session and observed2/3 rubric points with0/1 fully correct. Separate SQLite query confirmed one response, score2/3, calibration eligibility0.
+- Narrow mobile viewport displayed the report without apparent horizontal overflow; screenshot multipart-browser-proof.png. No real student data. Full desktop, keyboard/accessibility, network outage/reload and configured Google sign-in tests remain.
+- Browser tab1 is now localhost:4321/economics-practice and marked for continuation. The prior127.0.0.1-origin profile points to the preserved older synthetic DB and is not valid in the new fixture database; production recovery behavior remains an open gate.
