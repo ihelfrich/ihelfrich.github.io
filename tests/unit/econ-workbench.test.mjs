@@ -12,7 +12,7 @@ test('browser preparation matches the CLI pipeline and preserves missing matrix 
  const csv=await matrixCSV(result.prepared,hash);assert.ok(csv.includes(hash('p3').slice(0,20)));assert.ok(csv.split('\n').find(l=>l.includes(hash('p3').slice(0,20))).endsWith(',""'));assert.ok(!csv.includes('"p3"'));
 });
 test('analyst exclusions are explicit, reversible and cannot alter source rows',()=>{
- const rows=fixture(),before=JSON.stringify(rows),result=analyzeRows(rows,scope,{...thresholds,excludedItems:['e']});assert.equal(JSON.stringify(rows),before);assert.deepEqual(result.prepared.manifest.analystExclusions,{itemIds:['e'],responses:2});assert.equal(result.prepared.items.includes('e'),false);assert.equal(result.prepared.manifest.readyForCandidateFit,false);
+ const rows=fixture(),before=JSON.stringify(rows),result=analyzeRows(rows,scope,{...thresholds,excludedItems:['e'],exclusionReason:'Ambiguous wording under review'});assert.equal(JSON.stringify(rows),before);assert.deepEqual(result.prepared.manifest.analystExclusions,{itemIds:['e'],responses:2,reason:'Ambiguous wording under review'});assert.equal(result.prepared.items.includes('e'),false);assert.equal(result.prepared.manifest.readyForCandidateFit,false);
  assert.throws(()=>analyzeRows(rows,scope,{...thresholds,excludedItems:['typo']}),/not in this dataset/);assert.throws(()=>analyzeRows(rows,scope,{...thresholds,minPersons:0}),/positive integers/);
  assert.deepEqual(scopesFor([...rows,{...rows[0],unit:3}]),[scope,{...scope,unit:3}]);
 });
@@ -21,4 +21,12 @@ test('CSV quoting preserves numeric values and neutralizes spreadsheet formulas 
 test('imported item and response codes cannot overwrite object prototypes',()=>{
  const rows=fixture().map(r=>({...r,item_id:r.item_id==='a'?'__proto__':r.item_id,raw_answer_json:'__proto__'})),result=analyzeRows(rows,scope,thresholds);
  assert.equal(result.prepared.manifest.itemStats.__proto__.n,3);assert.equal(result.prepared.manifest.itemStats.__proto__.distractors.__proto__,3);assert.equal(Object.prototype.n,undefined);
+});
+
+test('analyst exclusions require an exported rationale without modifying the ledger',()=>{
+ const rows=fixture();
+ assert.throws(()=>analyzeRows(rows,scope,{...thresholds,excludedItems:['e']}),/Explain why/);
+ const r=analyzeRows(rows,scope,{...thresholds,excludedItems:['e'],exclusionReason:'  Sensitivity analysis for disputed key  '});
+ assert.equal(r.prepared.manifest.analystExclusions.reason,'Sensitivity analysis for disputed key');
+ assert.equal(rows.length,14);
 });

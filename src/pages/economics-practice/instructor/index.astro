@@ -19,6 +19,7 @@ const api=import.meta.env.PUBLIC_ECON_API_URL??'';
 <label>Data provenance<select id="irt-provenance" required><option value="">Select data provenance</option><option value="collected">Collected participant responses</option><option value="synthetic">Synthetic or test responses</option></select></label>
 <div class="setup-grid"><label>Minimum people<input id="irt-min-persons" type="number" min="1" value="300" required /></label><label>Responses per item<input id="irt-min-item" type="number" min="1" value="100" required /></label><label>Items per person<input id="irt-min-person-items" type="number" min="1" value="3" required /></label></div>
 <label>Items to exclude from this analysis (one exact item ID per line)<textarea id="irt-excluded" rows="3"></textarea></label>
+<label>Reason for exclusions (required when excluding items)<textarea id="irt-exclusion-reason" rows="2" maxlength="2000" placeholder="For example: ambiguous wording identified in content review."></textarea></label>
 <p>Exclusions affect this analysis only. Original answers remain intact. Thresholds are screening choices, not proof of sufficient power or valid measurement.</p>
 <button type="submit">Analyze dataset</button></form>
 <p id="irt-analysis-status" role="status"></p>
