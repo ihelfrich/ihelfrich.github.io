@@ -277,3 +277,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Replaced the10,000-answer hard failure with server-side keyset paging in batches of500. Replay captures a participant-specific maximum ledger sequence, then reads only through that watermark in durable receipt order. New receipts cannot indefinitely extend the replay.
 - Added a SQLite-backed regression reconstructing10,005 valid first attempts, retaining the final answer and full topic count, while excluding another owner's response and a late receipt.70 focused tests pass.
 - This removes an artificial lifetime cutoff, not all scaling limits. Full history still occupies memory and recordAnswer scans existing events/families; persistent versioned checkpoints and indexed incremental state remain required for substantially larger histories. Concurrent sign-in migration consistency also needs review. No production deployment occurred.
+
+## Continuation: efficient and bounded history reconstruction
+
+- Added an owned replay recorder with event-ID and course/family sets. Server reconstruction no longer scans the entire growing history for duplicate events and first exposure on every answer. The ordinary recordAnswer API retains existing behavior.
+- Equivalence regression compares indexed and ordinary reconstruction across first/repeated families, assisted assessment responses and duplicate IDs, then verifies resumption from serialized state. A separate boundary test supplies a receipt beyond the captured watermark and confirms it is excluded from the two-page replay.
+- All72 focused tests pass, including the10,005-answer SQLite replay case. No bank content change. Recorder contract prohibits external history mutation while it owns appends; persistent checkpoints and bounded-memory aggregates remain unfinished.

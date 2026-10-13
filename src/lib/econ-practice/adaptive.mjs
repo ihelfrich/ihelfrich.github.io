@@ -4,12 +4,19 @@ import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,proba
 export const ENGINE_VERSION='content-constrained-v5';
 export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
 export function score(item,response){return gradeResponse(item,response).correct;}
-export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
- if(eventId&&state.history.some(h=>h.eventId===eventId))return state;
+export function recordAnswer(state,item,options){return recordWithIndex(state,item,options);}
+// A recorder owns appends during a replay. Do not mutate its history externally.
+export function createAnswerRecorder(state){
+ const index={events:new Set(state.history.map(h=>h.eventId).filter(Boolean)),families:new Set(state.history.map(h=>JSON.stringify([h.course,h.family])))};
+ return (item,options)=>recordWithIndex(state,item,options,index);
+}
+function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true},index){
+ if(eventId&&(index?index.events.has(eventId):state.history.some(h=>h.eventId===eventId)))return state;
  const p=itemParameters(item,calibration);
  const grade=gradeResponse(item,response),correct=grade.correct,key=`${item.course}:${item.topic}`;
  const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
- const firstExposure=!state.history.some(h=>h.course===item.course&&h.family===item.family);
+ const familyKey=JSON.stringify([item.course,item.family]);
+ const firstExposure=index?!index.families.has(familyKey):!state.history.some(h=>h.course===item.course&&h.family===item.family);
  t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
  t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
  t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
@@ -18,6 +25,7 @@ export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',
  const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
  if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
  state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,score:grade.score,earned:grade.earned,possible:grade.possible,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion});
+ if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
  return state;
 }
 export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration}={}){

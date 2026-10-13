@@ -18,3 +18,26 @@ test('history replay crosses 10000 answers without truncation and excludes other
  const state=await replayHistory({DB},'owner');assert.equal(state.history.length,10005);assert.equal(state.history.at(-1).eventId,'e10005');assert.equal(state.topics[`${item.course}:${item.topic}`].attempts,10005);assert.equal(state.history.filter(h=>h.firstExposure).length,1);
  DB.close();
 });
+
+test('indexed replay matches ordinary scoring including duplicates, assisted answers and family exposure',async()=>{
+ const {newState,recordAnswer,createAnswerRecorder}=await import('../../src/lib/econ-practice/adaptive.mjs');
+ const items=buildBank().filter(q=>q.course==='ap-micro').slice(0,90),plain=newState(),indexed=newState(),record=createAnswerRecorder(indexed);
+ for(let i=0;i<items.length;i++){
+  const item=items[i],options={eventId:`event-${i}`,response:item.format==='choice'?item.answerIndex:item.answer,mode:'assessment',at:1000+i,hints:i%3===0?1:0,sessionId:'session'};
+  recordAnswer(plain,item,options);record(item,options);record(item,options);
+ }
+ assert.deepEqual(indexed,plain);
+ const resumed=JSON.parse(JSON.stringify(indexed)),append=createAnswerRecorder(resumed),item=items[0];
+ append(item,{eventId:'event-0',response:item.answer,at:2000});assert.deepEqual(resumed,indexed);
+ append(item,{eventId:'new-event',response:item.answer,at:2000});assert.equal(resumed.history.at(-1).firstExposure,false);
+});
+
+test('replay excludes receipts arriving after its captured high-water mark',async()=>{
+ const item=buildBank().find(q=>q.format==='numeric');let pages=0;
+ const row=n=>({ledger_sequence:n,item_snapshot_json:JSON.stringify(item),raw_answer_json:JSON.stringify(item.answer),server_received_at:'2026-10-12T00:00:00Z',mode:'practice',hints_used:0,event_id:`e${n}`,session_id:'s',validity:'valid',calibration_eligible:0});
+ const DB={prepare(sql){return {bind(...args){return {
+ first:async()=>({last:501}),
+ all:async()=>{assert.ok(sql.includes('r.ledger_sequence<=?'));const [owner,after,last]=args;assert.equal(owner,'owner');assert.equal(last,501);pages++;return {results:Array.from({length:502},(_,i)=>row(i+1)).filter(r=>r.ledger_sequence>after&&r.ledger_sequence<=last).slice(0,500)};}
+ };}};}};
+ const state=await replayHistory({DB},'owner');assert.equal(pages,2);assert.equal(state.history.length,501);assert.equal(state.history.at(-1).eventId,'e501');
+});
