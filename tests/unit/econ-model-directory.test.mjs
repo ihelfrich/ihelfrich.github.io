@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {Window} from 'happy-dom';
+import {setupModelDirectory} from '../../src/scripts/econ-model-directory.mjs';
+const record={id:'calibration-'+'a'.repeat(64),course:'ap-micro',unit:1,model:'2PL',bank_version:'test',created_at:'2026-10-13'};
+function fixture(request){const window=new Window(),d=window.document,s=readFileSync(new URL('../../src/pages/economics-practice/instructor/index.astro',import.meta.url),'utf8');d.body.innerHTML=s.slice(s.indexOf('<section id="calibration-candidates"'),s.indexOf('<section id="assignment-builder"'));const downloads=[];const control=setupModelDirectory(request,(...args)=>downloads.push(args),d);return {window,d,downloads,control};}
+test('candidate directory paginates, renders safe text and downloads exact registered artifact',async()=>{
+ const artifact={id:record.id,report:{source:'test'}};let pages=0;const f=fixture(async path=>path.includes(record.id)&&!path.includes('?')?{artifact}:{packages:[{...record,course:'<img src=x>'}],hasMore:++pages===1,nextCursor:record.id});
+ try{await f.control.refresh();assert.equal(f.d.querySelector('#model-directory img'),null);assert.match(f.d.querySelector('#model-directory').textContent,/<img src=x>/);assert.equal(f.d.getElementById('model-directory-more').hidden,false);f.d.getElementById('model-directory-more').click();await new Promise(setImmediate);assert.equal(f.d.querySelectorAll('#model-directory article').length,1);assert.equal(f.d.getElementById('model-directory-more').hidden,true);f.d.querySelector('#model-directory button').click();await new Promise(setImmediate);assert.deepEqual(f.downloads,[[artifact,record.id+'.json']]);}finally{f.window.happyDOM.abort();}
+});
+test('failed refresh clears stale results; download mismatch never exports another package',async()=>{
+ let fail=false;const f=fixture(async path=>{if(fail)throw new Error('Access expired');return path.includes('?')?{packages:[record],hasMore:false,nextCursor:record.id}:{artifact:{id:'wrong'}};});
+ try{await f.control.refresh();f.d.querySelector('#model-directory button').click();await new Promise(setImmediate);assert.equal(f.downloads.length,0);assert.match(f.d.getElementById('model-directory-status').textContent,/identity/);fail=true;await f.control.refresh();assert.equal(f.d.querySelectorAll('#model-directory article').length,0);assert.match(f.d.getElementById('model-directory-status').textContent,/Access expired/);assert.equal(f.d.getElementById('model-directory-refresh').disabled,false);}finally{f.window.happyDOM.abort();}
+});
