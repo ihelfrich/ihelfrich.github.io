@@ -115,3 +115,16 @@ test('a hint committed during answer processing is captured at receipt time with
  const unchanged=await t.env.DB.prepare('SELECT hints_used FROM responses').first();assert.equal(unchanged.hints_used,1);
  const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.status,200);t.env.DB.close();
 });
+
+test('completion or expiry between selection and insertion cannot create another presentation',async()=>{
+ for(const boundary of ['complete','expire']){
+  const t=setup(),{p,s,next}=await enrolled(t,'assessment');await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);
+  const prepare=t.env.DB.prepare.bind(t.env.DB);let injected=false;
+  t.env.DB.prepare=sql=>{const statement=prepare(sql);if(!sql.startsWith('INSERT INTO presentations'))return statement;return {bind(...args){const bound=statement.bind(...args);return {...bound,run:async()=>{
+   if(!injected){injected=true;if(boundary==='complete'){const completed=await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);assert.equal(completed.status,200);}else await prepare('UPDATE sessions SET expires_at=? WHERE id=?').bind('2000-01-01T00:00:00.000Z',s.sessionId).run();}
+   return bound.run();
+  }};}};};
+  const result=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(result.status,409,boundary);assert.equal(result.presentationId,undefined);
+  const stored=await prepare('SELECT COUNT(*) AS n FROM presentations WHERE session_id=?').bind(s.sessionId).first();assert.equal(stored.n,1,boundary);t.env.DB.close();
+ }
+});

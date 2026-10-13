@@ -333,3 +333,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Advanced KaTeX to0.18.2 and overrode transitive renderers to the same version so CSS/rendered markup remain aligned. Scoped ExcelJS's UUID dependency to11.1.1, which preserves its CommonJS v4 import. These cross upstream declared ranges and need rechecking on future upgrades.
 - Fresh npm audit reports zero findings. Verified the actual ExcelJS extended conditional-formatting UUID path plus synthetic workbook write/read. Full site check passes (78 economics tests); dedicated econometrics/math checks pass against rebuilt output, including691 source expressions. Wrangler dry run passes.
 - Updated dependency-review.json with final lock hash and validation scope. Zero registry findings does not establish full application security. No deployment.
+
+## Continuation: atomic new-presentation session gate
+
+- Reproduced next-question selection racing with session completion. The old worker could create and return a new presentation after completion because it used the session state read before selection.
+- Presentation INSERT SELECT now checks current session ownership, no completion and future expiry using database time. A zero-row insert returns409 and no fabricated presentation ID. Existing unique-sequence race recovery remains intact.
+- Deterministic tests inject actual completion or expiry immediately before the write. Previous code fails with200 instead of409; revised code leaves presentation count unchanged.79 focused tests pass. No deployment.
