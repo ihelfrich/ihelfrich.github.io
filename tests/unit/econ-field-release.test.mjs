@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {buildBank} from '../../src/lib/econ-practice/index.mjs';
 import {selectItem,newState,recordAnswer} from '../../src/lib/econ-practice/adaptive.mjs';
-for(const course of ['intro-econometrics','labor-economics','public-economics','industrial-organization','international-trade','development-economics','financial-economics','behavioral-economics','health-economics','political-economy','urban-economics','advanced-microeconomics','advanced-macroeconomics','game-theory','environmental-economics'])test(`${course} release matches reviewed source bytes and covers every course unit`,()=>{
+for(const course of ['intro-econometrics','labor-economics','public-economics','industrial-organization','international-trade','development-economics','financial-economics','behavioral-economics','health-economics','political-economy','urban-economics','advanced-microeconomics','advanced-macroeconomics','game-theory','monetary-economics','international-macroeconomics','causal-inference','environmental-economics'])test(`${course} release matches reviewed source bytes and covers every course unit`,()=>{
  const raw=fs.readFileSync(new URL(`../../content/econ-drafts/${course}.json`,import.meta.url)),release=JSON.parse(fs.readFileSync(new URL(`../../content/econ-drafts/${course}-release.json`,import.meta.url)));
  if(release.extensions){const bytes=fs.readFileSync(new URL(`../../content/econ-drafts/${course}-variants.json`,import.meta.url));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),release.extensions.sourceSHA256);}
  assert.equal(crypto.createHash('sha256').update(raw).digest('hex'),release.sourceSHA256,'Source changed after content review');

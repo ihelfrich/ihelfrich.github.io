@@ -1,3 +1,9 @@
+import causal from '../../../content/econ-drafts/causal-inference.json' with {type:'json'};
+import causalRelease from '../../../content/econ-drafts/causal-inference-release.json' with {type:'json'};
+import internationalMacro from '../../../content/econ-drafts/international-macroeconomics.json' with {type:'json'};
+import internationalMacroRelease from '../../../content/econ-drafts/international-macroeconomics-release.json' with {type:'json'};
+import monetary from '../../../content/econ-drafts/monetary-economics.json' with {type:'json'};
+import monetaryRelease from '../../../content/econ-drafts/monetary-economics-release.json' with {type:'json'};
 import gameTheory from '../../../content/econ-drafts/game-theory.json' with {type:'json'};
 import gameTheoryRelease from '../../../content/econ-drafts/game-theory-release.json' with {type:'json'};
 import advancedMacro from '../../../content/econ-drafts/advanced-macroeconomics.json' with {type:'json'};
@@ -36,7 +42,7 @@ import {family,families} from './bank.mjs';
 import {fieldQuestionAt} from './field-expansions.mjs';
 import {auditFieldRelease} from './field-release.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease],[advancedMicro,advancedMicroRelease],[advancedMacro,advancedMacroRelease],[gameTheory,gameTheoryRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease],[advancedMicro,advancedMicroRelease],[advancedMacro,advancedMacroRelease],[gameTheory,gameTheoryRelease],[monetary,monetaryRelease],[internationalMacro,internationalMacroRelease],[causal,causalRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);

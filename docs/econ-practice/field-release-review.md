@@ -83,3 +83,11 @@ Bank 2026.10.12.28 adds 180 original questions in 180 families across three six-
 ### Advanced micro, advanced macro, and game theory release
 
 Bank 2026.10.12.29 adds 180 original questions in 180 families. Active totals are 4,017 items / 1,042 families / 19 courses. Official MIT, Berkeley and Yale course sources inform these collections. All 180 records received author and independent parent content review; source hashes match the reviewed artifacts. Corrections specify theorem assumptions, model timing, nonnegative auction values, and approximation conventions. Private hints v17 accompany every new item. Advanced-course levels are visible in the curriculum directory. The full check suite passes 176 tests, with no bank-audit or review-reconciliation errors. Parameters remain provisional; review does not establish empirical calibration, universal curricular coverage, or operational deployment.
+
+## Monetary, international macro and causal inference release — 2026.10.13.30
+
+Activated 180 independently reviewed questions: 60 each in Monetary Economics, International Macroeconomics, and Causal Inference and Applied Econometrics. Course titles, six-unit outlines, prerequisites and private method hints are integrated. Each source item matches its parent-review fingerprint; release manifests bind the source file bytes. Hint version is topic-scaffolds-v18.
+
+The active bank has 4,197 items across 22 courses and 1,222 families. This remains below the requested total exceeding 5,000. Parent review includes 38 monetary, 39 international macro and 19 causal numerical/model checks. Assumption and answer-choice repairs are recorded in the course checkpoints. Parameters remain provisional, with no empirical calibration or claim of exhaustive disciplinary coverage.
+
+Verification: 180 automated tests pass; bank audit reports zero errors and warnings; review reconciliation reports zero errors; production site build generates 131 pages successfully. This release has not been deployed to production Cloudflare and does not establish authenticated end-to-end browser behavior.
