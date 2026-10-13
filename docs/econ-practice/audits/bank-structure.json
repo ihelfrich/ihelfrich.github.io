@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.2",
-  "bankSHA256": "ac60054c68a5081ab762b8bc3b6ba9e0f049445e28444d5b932172d1ea55e647",
+  "bankVersion": "2026.10.12.3",
+  "bankSHA256": "385362bce90baafa7f003874f664984209e78414f1ecd587ff665339ec6bdbf0",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -93,20 +93,20 @@
       "topic": "1.3",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 6,
       "graphItems": 24,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:ppc-slope:01",
-        "prompt": "An economy can produce at most 40 bicycles or 80 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
-        "answer": 2,
-        "explanation": "Divide the meal intercept by the bicycle intercept. The constant opportunity cost is 2 meals per bicycle."
+        "prompt": "An economy can produce at most 40 bicycles or 40 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
+        "answer": 1,
+        "explanation": "Divide the meal intercept by the bicycle intercept: 40/40 = 1 meals per bicycle. The straight frontier makes this opportunity cost constant along this frontier."
       },
       "last": {
         "id": "ap-micro:ppc-slope:24",
-        "prompt": "An economy can produce at most 132 bicycles or 264 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
-        "answer": 2
+        "prompt": "An economy can produce at most 132 bicycles or 792 meals per day along a straight-line production possibilities frontier. How many meals must it give up for one bicycle?",
+        "answer": 6
       }
     },
     {
@@ -133,20 +133,20 @@
       "topic": "1.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 5,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:comparative-output:01",
-        "prompt": "In one day, Ada can make 12 tables or 36 chairs. Ben can make 10 tables or 20 chairs. What is Ben’s opportunity cost of one table, measured in chairs?",
-        "answer": 2,
-        "explanation": "Ben gives up two chairs per table. Ada gives up three, so Ben has comparative advantage in tables regardless of absolute output."
+        "prompt": "In one day, Ada can make 12 tables or 24 chairs. Ben can make 10 tables or 10 chairs. Assume constant opportunity costs. What is Ben’s opportunity cost of one table, measured in chairs?",
+        "answer": 1,
+        "explanation": "Ben gives up 10/10 = 1 chairs per table. Ada gives up 2, so Ben has comparative advantage in tables regardless of absolute output."
       },
       "last": {
         "id": "ap-micro:comparative-output:24",
-        "prompt": "In one day, Ada can make 58 tables or 174 chairs. Ben can make 33 tables or 66 chairs. What is Ben’s opportunity cost of one table, measured in chairs?",
-        "answer": 2
+        "prompt": "In one day, Ada can make 58 tables or 290 chairs. Ben can make 33 tables or 132 chairs. Assume constant opportunity costs. What is Ben’s opportunity cost of one table, measured in chairs?",
+        "answer": 4
       }
     },
     {
@@ -155,20 +155,20 @@
       "topic": "1.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:comparative-input:01",
-        "prompt": "A worker needs 2 hours per report and 4 hours per presentation. What is the opportunity cost of one presentation, in reports?",
-        "answer": 2,
-        "explanation": "For input data, divide hours per presentation by hours per report. In the time used for one presentation the worker could make two reports."
+        "prompt": "A worker needs 2 hours per report and 3 hours per presentation. What is the opportunity cost of one presentation, in reports?",
+        "answer": 1.5,
+        "explanation": "Divide hours per presentation by hours per report: 3/2 reports. This is the number of reports forgone during the time used for one presentation."
       },
       "last": {
         "id": "ap-micro:comparative-input:24",
-        "prompt": "A worker needs 25 hours per report and 50 hours per presentation. What is the opportunity cost of one presentation, in reports?",
-        "answer": 2
+        "prompt": "A worker needs 25 hours per report and 49 hours per presentation. What is the opportunity cost of one presentation, in reports?",
+        "answer": 1.96
       }
     },
     {
@@ -235,20 +235,20 @@
       "topic": "1.6",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 5,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:marginal-choice:01",
-        "prompt": "The first four units of a service have marginal benefits $40, $30, $20, and $10. Each costs $25. How many units maximize net benefit?",
-        "answer": 2,
-        "explanation": "The first two units have marginal benefits above price; the third and fourth do not. Buy two units."
+        "prompt": "The first four units of a service have marginal benefits $40, $30, $20, and $10. Each costs $45. At most four units are available. How many units maximize net benefit?",
+        "answer": 0,
+        "explanation": "Buy each available unit whose marginal benefit exceeds the price of $45. Exactly 0 units meet that condition; no unit has marginal benefit equal to price."
       },
       "last": {
         "id": "ap-micro:marginal-choice:24",
-        "prompt": "The first four units of a service have marginal benefits $63, $53, $43, and $33. Each costs $48. How many units maximize net benefit?",
-        "answer": 2
+        "prompt": "The first four units of a service have marginal benefits $63, $53, $43, and $33. Each costs $38. At most four units are available. How many units maximize net benefit?",
+        "answer": 3
       }
     },
     {
@@ -315,20 +315,20 @@
       "topic": "2.3",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:demand-elasticity:01",
-        "prompt": "A price increase of 5% causes quantity demanded to fall 10%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
-        "answer": 2,
-        "explanation": "Divide the absolute percentage quantity change by the percentage price change: 2. Demand is elastic."
+        "prompt": "A price increase of 5% causes quantity demanded to fall 2%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
+        "answer": 0.4,
+        "explanation": "Divide the absolute percentage quantity change by the percentage price change: 2/5. Demand is inelastic over the stated change."
       },
       "last": {
         "id": "ap-micro:demand-elasticity:24",
-        "prompt": "A price increase of 28% causes quantity demanded to fall 56%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
-        "answer": 2
+        "prompt": "A price increase of 28% causes quantity demanded to fall 48%. Using these stated percentage changes, what is the absolute price elasticity of demand?",
+        "answer": 1.714
       }
     },
     {
@@ -377,20 +377,20 @@
       "topic": "2.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:supply-elasticity:01",
-        "prompt": "Price rises 4% and quantity supplied rises 12%. What is the price elasticity of supply using these stated changes?",
-        "answer": 3,
-        "explanation": "Supply elasticity is percentage change in quantity supplied divided by percentage change in price: 3."
+        "prompt": "Price rises 4% and quantity supplied rises 2%. What is the price elasticity of supply using these stated changes?",
+        "answer": 0.5,
+        "explanation": "Supply elasticity is percentage change in quantity supplied divided by percentage change in price: 2/4."
       },
       "last": {
         "id": "ap-micro:supply-elasticity:24",
-        "prompt": "Price rises 27% and quantity supplied rises 81%. What is the price elasticity of supply using these stated changes?",
-        "answer": 3
+        "prompt": "Price rises 27% and quantity supplied rises 71%. What is the price elasticity of supply using these stated changes?",
+        "answer": 2.63
       }
     },
     {
@@ -509,20 +509,20 @@
       "topic": "2.6",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:producer-surplus:01",
-        "prompt": "Supply is P = 5 + Q. The market price is $25. What is producer surplus?",
-        "answer": 200,
-        "explanation": "At this price Q = 20. The supply-price triangle has height 20 and base 20, so producer surplus is 200."
+        "prompt": "Supply is P = 5 + Q. The market price is $15, and all willing sellers can sell their desired quantities. What is producer surplus?",
+        "answer": 50,
+        "explanation": "Quantity supplied is 10. Producer surplus is the triangle above supply and below price: ½ × 10 × 10."
       },
       "last": {
         "id": "ap-micro:producer-surplus:24",
-        "prompt": "Supply is P = 28 + Q. The market price is $48. What is producer surplus?",
-        "answer": 200
+        "prompt": "Supply is P = 28 + Q. The market price is $61, and all willing sellers can sell their desired quantities. What is producer surplus?",
+        "answer": 544.5
       }
     },
     {
@@ -549,20 +549,20 @@
       "topic": "2.7",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:shift-equilibrium:01",
-        "prompt": "Demand changes from P = 60 − Q to P = 72 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
-        "answer": 6,
-        "explanation": "A 12-unit upward shift in demand raises quantity by 12/(1+1) = 6 with these slopes."
+        "prompt": "Demand changes from P = 60 − Q to P = 64 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
+        "answer": 2,
+        "explanation": "The demand intercept rises by 4. With inverse-demand and inverse-supply slopes of magnitude 1 each, quantity rises by 4/(1+1) = 2."
       },
       "last": {
         "id": "ap-micro:shift-equilibrium:24",
-        "prompt": "Demand changes from P = 129 − Q to P = 141 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
-        "answer": 6
+        "prompt": "Demand changes from P = 129 − Q to P = 179 − Q. Supply remains P = 12 + Q. By how many units does equilibrium quantity rise?",
+        "answer": 25
       }
     },
     {
@@ -643,13 +643,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:tax-incidence:01",
-        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $8 is imposed in an otherwise competitive market. By how many dollars does the buyer’s price rise?",
+        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $8 is imposed in an otherwise competitive market with linear demand and supply. Assume positive trade remains after the tax. By how many dollars does the buyer’s price rise?",
         "answer": 6,
         "explanation": "The buyer share is 3/(3+1) = 3/4 of the wedge. The steeper inverse demand curve corresponds to a larger buyer burden."
       },
       "last": {
         "id": "ap-micro:tax-incidence:24",
-        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $100 is imposed in an otherwise competitive market. By how many dollars does the buyer’s price rise?",
+        "prompt": "Inverse demand has slope −3 and inverse supply has slope +1. A per-unit tax of $100 is imposed in an otherwise competitive market with linear demand and supply. Assume positive trade remains after the tax. By how many dollars does the buyer’s price rise?",
         "answer": 75
       }
     },
@@ -903,13 +903,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:competitive-output:01",
-        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $20. The chosen output is above minimum AVC. What quantity maximizes profit?",
+        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $20. Assume price exceeds minimum AVC and there is no capacity constraint. What quantity maximizes profit?",
         "answer": 8,
         "explanation": "A price-taking firm has MR = P. Set 4 + 2Q equal to the price, on the increasing MC branch."
       },
       "last": {
         "id": "ap-micro:competitive-output:24",
-        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $66. The chosen output is above minimum AVC. What quantity maximizes profit?",
+        "prompt": "A competitive firm has MC = 4 + 2Q and faces price $66. Assume price exceeds minimum AVC and there is no capacity constraint. What quantity maximizes profit?",
         "answer": 31
       }
     },

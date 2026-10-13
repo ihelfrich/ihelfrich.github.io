@@ -71,3 +71,11 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Late/post-completion answers remain visible in history/exports but are excluded from adaptive evidence, instructor assessment counts/accuracy, and calibration. Student reports distinguish retained from counted answers.
 - Added regression coverage for both conditions, receipt replay, persistent row count, ineligible calibration flags and no new question after closure. All 33 focused tests pass.
 - Fixed a client validation failure that left Submit disabled even when no answer had been queued. Browser outage/reload and multi-tab tests remain required; localStorage outbox concurrency and expired credential recovery are still open.
+
+## Continuation: first substantive content pass, core Units 1–2
+
+- Bank version advanced to 2026.10.12.3. Eight numeric families now vary substantive answers instead of merely changing numbers around an invariant key: PPF slope, output/input opportunity cost, discrete marginal choice, demand/supply elasticity, producer surplus and demand-shift equilibrium.
+- Reviewed 33 original core families (585 items): nine conceptual cases and 24 numeric families. The family-level rationale and exact content hashes are in audits/ap-micro-core-units-1-2.json. This is a first Codex self-review, not independent human validation; additional conceptual families and remaining units are outside this pass.
+- New independent economic identities parse student-visible prompt quantities for all 576 numeric variants in these families. Tests additionally verify decision variety and elasticity classifications. All 35 focused tests and structural checks pass; count remains 1,292 AP Micro items /142 families.
+- Clarified the positive-trade assumption in tax incidence. Fixed a dimensional wording error in competitive output: price, rather than output, must exceed minimum AVC.
+- Several other families intentionally or currently retain invariant keys (e.g., midpoint elasticity and price controls); the review record flags this limitation. Second substantive pass, other families, diagram/FRQ expansion and live setup remain pending.

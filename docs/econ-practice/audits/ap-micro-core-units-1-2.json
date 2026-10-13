@@ -1,0 +1,313 @@
+{
+  "bankVersion": "2026.10.12.3",
+  "reviewer": "Codex self-review",
+  "scope": "Original core families in Units 1–2 only. Additional conceptual cases, other units and courses are outside this review. This is not independent human review, empirical item validation, or AP exam-format certification.",
+  "families": 33,
+  "items": 585,
+  "verification": "tests/unit/econ-content-oracles.test.mjs",
+  "remaining": [
+    "Second substantive pass with counterexamples and distractor challenge",
+    "Review additional conceptual families and all other units",
+    "Expand graph interpretation/production and AP format alignment",
+    "Review remaining invariant-answer families"
+  ],
+  "entries": [
+    {
+      "family": "opportunity-cost",
+      "topic": "1.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Two forgone paid hours are the stated next-best alternative. Available total hours are extraneous but do not change the cost.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "3a88f6bd00ca30c18fd0294f811812a501564d12d6700700abd402b6751e7b10"
+    },
+    {
+      "family": "scarce-capacity",
+      "topic": "1.1",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Resource insufficiency relative to worthwhile competing uses identifies scarcity; the distractors confuse scarcity with price shortages or negative benefits.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "a7fe9b0ff8eecae3de5c1810f33dda9045c187069c7346590c122c34e033396d"
+    },
+    {
+      "family": "allocation",
+      "topic": "1.2",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Lottery versus auction changes allocation without changing physical capacity or eliminating opportunity cost.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "260e76a6145fcb2e21844aa60983554be87f95fa3d6bace954a0e35397283ab0"
+    },
+    {
+      "family": "ppc-slope",
+      "topic": "1.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Meals forgone per bicycle is meal intercept divided by bicycle intercept. Revised slopes span six distinct trade-offs; graph uses the same stated frontier.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "cad094843176ebfdfc7fb5bc113813bc9ef5aa771a9a703f648bbd6c1239613d"
+    },
+    {
+      "family": "ppc-feasible",
+      "topic": "1.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The bundle is ten meals below its frontier and has positive coordinates. Feasible but inefficient is uniquely correct.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "f1a1e13b985f9c282b5f4f9662a97707f5489a857982e425e7e43723bf716447"
+    },
+    {
+      "family": "comparative-output",
+      "topic": "1.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Ben’s chair/table output ratio is his opportunity cost with constant costs. Revised ratios vary while Ada remains one chair higher.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "de7f462662bfacfbb693963e626174d0aa0455612f5e24e6c39253cb65f7de49"
+    },
+    {
+      "family": "comparative-input",
+      "topic": "1.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Hours per presentation divided by hours per report gives reports forgone. Revised time ratios prevent an invariant answer.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "9830e1fbbffc655260e559dbcf8c489cfe3340424ce0ea20d317f7c8eb869254"
+    },
+    {
+      "family": "trade-gains",
+      "topic": "1.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The keyed terms of trade lie strictly between the two constant opportunity costs; the alternatives lie outside.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "c3eda2192865bc648f26d9928d31bb016f962355c68168bb52a402f979142bde"
+    },
+    {
+      "family": "net-benefit",
+      "topic": "1.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Both purchased inputs and the displaced work are deducted from stated benefits without double counting.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "0d0f5f36146aa429c1e8022fa765f6f4bb6edb4ca3459c18865e5fa5b3aca7ec"
+    },
+    {
+      "family": "sunk-cost",
+      "topic": "1.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The nonrefundable fee is unaffected by completion; future benefit exceeds future cost by twenty dollars.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "2e699c1c781547b0f7d0039323d40bb4e4e7291d4b15a449164f34f39b0c0c30"
+    },
+    {
+      "family": "marginal-choice",
+      "topic": "1.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Revised prices imply zero through four beneficial units, avoid equality, and explicitly cap availability at four. Net-benefit maximization checked independently.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "510a196b9e4bfc6fcdd7409ec08cba2be4db0f904df1b5da0f12c1ac232b48e7"
+    },
+    {
+      "family": "utility-dollar",
+      "topic": "1.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Interior optimum equates marginal utility per dollar. Given marginal utility and price imply the required other marginal utility.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "9b302361ff91e59c8fcb1a8e7d3f54d7828136a0e5f51e28b4f5094503aafdfd"
+    },
+    {
+      "family": "demand-shift",
+      "topic": "2.1",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Normal-good income increase shifts demand right at fixed own price; alternatives confuse curve shifts and movements.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "411aae81fe176986d1bb51b7862c6956601d8b266854d21e4e88271660bb9775"
+    },
+    {
+      "family": "supply-shift",
+      "topic": "2.2",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Higher variable input prices shift supply left in the stated standard setting.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "6b2aabc88ba8e8e2821d1a31b8bba3f02066bf8b59639aca39a1f101cc818d11"
+    },
+    {
+      "family": "demand-elasticity",
+      "topic": "2.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Stated percentage changes are divided directly, rather than reinterpreted as raw endpoints. Revised ratios span all three elasticity classifications.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "df997dbddc0b59bdd7481bb4f29fdfa2b8ac973c00f779121773236604affc90"
+    },
+    {
+      "family": "midpoint-elasticity",
+      "topic": "2.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Endpoint midpoint changes produce unit elasticity. The invariant answer remains intentional in this family; broader variety comes from other elasticity families.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "df78901585715feb497831195b52ef53dba068e91d1a72a35560bc56e9b2f087"
+    },
+    {
+      "family": "revenue-elasticity",
+      "topic": "2.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "An elastic range implies a price decrease raises revenue; the prompt specifies elasticity over the relevant range.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "c3be867f5cbe07a70c48e90409f8126a706ae4cc5646b198158d594d14608f41"
+    },
+    {
+      "family": "supply-elasticity",
+      "topic": "2.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Quantity percentage divided by price percentage; revised ratios cover differing responsiveness.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "cc02e07e52b50cfb49293a16d69fdec2ef66af83388313ac2c00481111a0e896"
+    },
+    {
+      "family": "cross-elasticity",
+      "topic": "2.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Positive coffee quantity response to tea price identifies substitutes. The +2 ratio is intentionally retained but gives limited within-family variety.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "5c6e1b29daaa4180ac72cd3fccb70dca07786e05bedef1659ad07a15c9df258f"
+    },
+    {
+      "family": "income-elasticity",
+      "topic": "2.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Negative quantity change over positive income change produces −1. Direction is essential; cosmetic ratio invariance remains acknowledged.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "fd51e5c10dcb8970e2a10e50f37fd1f375c1b1f5c99cda39c10d3fde5b132434"
+    },
+    {
+      "family": "equilibrium-quantity",
+      "topic": "2.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Solving inverse demand equal to inverse supply produces positive interior quantities across all variants.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "ade691407a7cdf5d460d51c68cd41dafdc0e5c5458b2c78b04cefce142ddaf42"
+    },
+    {
+      "family": "equilibrium-price",
+      "topic": "2.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Price is obtained by substituting equilibrium quantity into supply, not by reporting quantity.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "8c3dd837819960296582e06bf6b989cab1eebb311a51600a86271ed81f242c54"
+    },
+    {
+      "family": "consumer-surplus",
+      "topic": "2.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Linear-demand triangle at an unrestricted purchase price is valid; all willing buyers can purchase.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "547fb9643f5ede75ead349dfd9a9d3728f23e8d07bbe51818e5d3f325d19d156"
+    },
+    {
+      "family": "producer-surplus",
+      "topic": "2.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Linear-supply triangle uses price minus intercept and quantity. Added unrestricted-sales assumption; revised heights and quantities vary.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "3323f607a096daac2245780ee64fd7198a15fae5bc74aad282b3f900a409d185"
+    },
+    {
+      "family": "joint-shifts",
+      "topic": "2.7",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With standard slopes both shifts increase quantity; opposite price effects make its sign ambiguous.",
+      "numericVerification": "Conceptual key and all distractors reviewed",
+      "contentSHA256": "9c66497bf78365fd5672caf4a122b06eef2e15292146d39514e3ee9ee079abec"
+    },
+    {
+      "family": "shift-equilibrium",
+      "topic": "2.7",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Difference between two separately solved equilibria equals half the demand-intercept shift. Revised shifts vary.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "1012c094731e81ace91d4bd308aa20737d0c747f192276c4e99df44307d05708"
+    },
+    {
+      "family": "ceiling-shortage",
+      "topic": "2.8",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Ceiling is below equilibrium for every variant; excess demand is positive. Its invariant twenty-unit answer is a remaining variety limitation.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "171839ba9259df334d49d318306a568b4eb37b892a25a9678ef4cf1cba30733f"
+    },
+    {
+      "family": "floor-surplus",
+      "topic": "2.8",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Floor is above equilibrium for every variant; excess supply is positive. Its invariant twenty-unit answer is a remaining variety limitation.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "b1dde629b2263a37ed5d98f5c9ec07d4c81cdaa963ae4aab77a34d875f88df27"
+    },
+    {
+      "family": "tax-quantity",
+      "topic": "2.8",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Buyer price equals seller supply price plus tax. Positive trade remains throughout the family.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "6a6f8731877788cf89461b1d1138910ad15705cdbe8cc1fda4983645720f61cd"
+    },
+    {
+      "family": "tax-incidence",
+      "topic": "2.8",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "For linear curves buyer burden is the magnitude of inverse-demand slope over the sum of slope magnitudes. Added explicit positive-post-tax-trade assumption to exclude market shutdown.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "bb2e66248181924e1e493f7fbd412eed53f1513271a35ae27a6efe398cc27e06"
+    },
+    {
+      "family": "tax-dwl",
+      "topic": "2.8",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With linear curves and no externalities, lost-trade triangle is half the tax wedge times quantity reduction.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "c6361e14fd7f121a8338f37db46ccfc550a58a57efa564075f5a2a41e2843d45"
+    },
+    {
+      "family": "imports",
+      "topic": "2.9",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At the world price demand exceeds domestic supply; the difference is imports.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "612e2e0cc9ee9e5ee1c4cd2dc3252577eac464aea4d7b0dafc3aed906d0d46c1"
+    },
+    {
+      "family": "tariff-revenue",
+      "topic": "2.9",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Tariff times post-tariff imports gives revenue; domestic production is not taxed by the import tariff.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "4bf904be0563afb2cc8f6b8365b2cfbac528cd090ea62c7a12d74d674c76b6ec"
+    }
+  ]
+}
