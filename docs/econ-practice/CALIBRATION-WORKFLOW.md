@@ -41,7 +41,13 @@ The validator emits `reportSHA256` using `sorted-json-sha256-v1`: recursively so
 
 Readiness requires explicit `synthetic: false`, boolean `true` convergence/parameter/covariance flags, and a positive safe-integer held-out prediction count. Strings, missing flags and null values are not evidence. Gate evidence and rationale must be nonempty text. Only the implemented 1PL/2PL model labels are accepted, with fixed lower/upper asymptotes 0 and 1. These structural checks do not verify provenance independently or replace substantive review of the diagnostics.
 
-The validator leaves status as candidate even when the review is complete. Hash binding detects changes; it does not authenticate the reviewer or establish that the evidence is adequate. Actual immutable operational registration, authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
+The validator leaves status as candidate even when the review is complete. Hash binding detects changes; it does not authenticate the reviewer or establish that the evidence is adequate. Actual operational registration, authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
+
+## Immutable candidate packages
+
+Run `node scripts/econ-practice/package-candidate.mjs REPORT.json REVIEW.json 2PL` after review. It writes a private candidate package under `.local/econ-calibration/packages/`, which is ignored by Git. The package contains the report, review, selected parameters and hashes of the matching bank items. Each parameterized item must exist in the stated bank/course/unit and use a supported binary-scored format. The command uses the currently bundled bank; restoring or packaging a historical bank requires its exact original content.
+
+The content-derived `calibration-<sha256>` ID changes when any package content changes. File creation uses owner-only permissions and an atomic no-overwrite link; exact retries reuse the file, while different existing content causes an error. `verifyPackage` rechecks the review, derives the package again from the supplied bank, and compares its identity and content. These are tamper-detection and write-once conventions, not protection against a filesystem administrator. Keep the packages private. Their status stays `candidate`; packaging does not grant instructor approval, change an assessment, or make a model operational.
 
 ## Descriptive item screening
 
