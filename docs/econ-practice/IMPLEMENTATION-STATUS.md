@@ -173,3 +173,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added six original conceptual questions to each undergraduate track, one per broad unit. Micro covers ordinal utility, compensated demand, cost envelopes, welfare, credible threats and adverse selection. Macro covers accounting versus behavior, Solow level/growth effects, constraints, structural identification, Ricardian assumptions and currency risk premia.
 - Undergraduate micro now366 items/21 families; macro294/18. Bank2026.10.12.10. All52 focused tests and structural checks pass; numeric verification continues to cover648 undergraduate variants separately from the new concepts.
 - These additions require a separate substantive review and do not make either course comprehensive. Remaining content/format, psychometric, browser/security/reliability and live setup gates persist.
+
+## Continuation: multipart scoring foundation
+
+- Added weighted numeric-part rubric scoring, per-part feedback, strict response-shape validation and key-safe public item projection. Worker persists raw object answers and normalized partial scores; assessment feedback remains withheld until completion.
+- Multipart responses are explicitly excluded from binary IRT updates and calibration eligibility pending a validated polytomous/testlet model. Ordinary choice/numeric grading now shares the same scoring module.
+- All56 focused tests pass, including an actual Worker/D1 partial-credit fixture, durable raw responses, withheld keys and no binary calibration evidence.
+- This is backend/scoring infrastructure only: no multipart bank items are yet served, and the student input/report UI and instructor partial-score summaries still need integration before enabling the format. It is not full AP free-response or graph-production support.

@@ -1,13 +1,9 @@
+import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisites} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
 export const ENGINE_VERSION='content-constrained-v2';
 export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
-export function score(item,response){
- if(item.format==='choice')return Number.isInteger(response)&&response>=0&&response<item.options.length&&response===item.answerIndex;
- if(typeof response!=='string'&&typeof response!=='number')return false;
- if(String(response).trim()==='')return false;
- const value=Number(response);return Number.isFinite(value)&&Math.abs(value-item.answer)<=item.tolerance;
-}
+export function score(item,response){return gradeResponse(item,response).correct;}
 export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
  if(eventId&&state.history.some(h=>h.eventId===eventId))return state;
  const p=itemParameters(item,calibration);
@@ -19,7 +15,7 @@ export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',
  t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
  const dimension=`${item.course}:${item.unit}`;
  // Repeated family variants and assisted practice do not count as independent IRT evidence.
- const psychometricEligible=measurementEligible&&mode==='assessment'&&firstExposure&&hints===0;
+ const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
  if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
  state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion});
  return state;

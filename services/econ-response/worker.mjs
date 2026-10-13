@@ -1,3 +1,4 @@
+import {gradeResponse,publicQuestion,responseFeedback,validResponseShape} from '../../src/lib/econ-practice/scoring.mjs';
 import {pageCursor,listPage} from './pagination.mjs';
 import {createAssignment,listAssignments,startAssignment,assignmentReport} from './assignments.mjs';
 import {buildBank,BANK_VERSION,courses} from '../../src/lib/econ-practice/index.mjs';
@@ -6,8 +7,7 @@ const bank=buildBank(),byId=new Map(bank.map(q=>[q.id,q]));
 import {iso,uuid,secret,hash,query,all,requireValue,HttpError,CONSENT_VERSION} from './common.mjs';
 import {participant,issueCredential,createChallenge,finishSignIn,bearer,requireInstructor,isInstructor} from './auth.mjs';
 export {hash,CONSENT_VERSION};
-function publicItem(item){const {answer,answerDisplay,answerIndex,explanation,tolerance,...visible}=item;return visible;}
-function feedback(item,response){return {correct:score(item,response),answer:item.format==='choice'?item.options[item.answerIndex]:item.answerDisplay,explanation:item.explanation};}
+const publicItem=publicQuestion,feedback=responseFeedback;
 async function ownSession(env,p,id){
  const s=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=?',id,p.id).first();
  requireValue(s,'Session not found.',404);return s;
@@ -87,7 +87,7 @@ async function route(request,env){
   const b=await body(request);requireValue(typeof b.eventId==='string'&&/^[a-f0-9-]{36}$/.test(b.eventId),'Invalid event ID.');
   requireValue(typeof b.presentationId==='string','Missing presentation.');
   requireValue(Number.isInteger(b.attemptNumber)&&b.attemptNumber>=1&&b.attemptNumber<=20,'Invalid attempt number.');
-  requireValue(typeof b.response==='number'||typeof b.response==='string','Invalid answer.');requireValue(String(b.response).length<=100,'Answer too long.');
+  requireValue(b.response!==null&&['number','string','object'].includes(typeof b.response)&&!Array.isArray(b.response),'Invalid answer.');
   requireValue(Number.isInteger(b.elapsedMs)&&b.elapsedMs>=0&&b.elapsedMs<=86400000,'Invalid elapsed time.');requireValue(Number.isInteger(b.activeMs)&&b.activeMs>=0&&b.activeMs<=b.elapsedMs,'Invalid active time.');
   requireValue(typeof b.submittedAt==='string'&&Number.isFinite(Date.parse(b.submittedAt)),'Invalid submission time.');
   const canonical=JSON.stringify({presentationId:b.presentationId,attemptNumber:b.attemptNumber,response:b.response,elapsedMs:b.elapsedMs,activeMs:b.activeMs,submittedAt:b.submittedAt});const digest=await hash(canonical);
@@ -95,12 +95,11 @@ async function route(request,env){
   if(existing){requireValue(existing.participant_id===p.id&&existing.session_id===sid&&existing.payload_sha256===digest,'Idempotency conflict.',409);const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=?',existing.presentation_id).first();return {eventId:b.eventId,receipt:existing.server_received_at,persisted:true,validity:existing.validity,countsTowardResult:!['late-receipt','after-completion'].includes(existing.validity),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(pr.item_snapshot_json),b.response):{})};}
   const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=? AND session_id=?',b.presentationId,sid).first();requireValue(pr,'Presentation not found.',404);
   const item=JSON.parse(pr.item_snapshot_json);
-  if(item.format==='choice')requireValue(Number.isInteger(b.response)&&b.response>=0&&b.response<item.options.length,'Choose an available answer.');
-  else requireValue(String(b.response).trim()!==''&&Number.isFinite(Number(b.response)),'Enter a finite number.');
+  requireValue(validResponseShape(item,b.response),'Provide a valid answer for every part.');
   const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM responses WHERE presentation_id=?',pr.id).first();requireValue(b.attemptNumber===previous.n+1,'Attempt sequence conflict.',409);requireValue(s.mode==='practice'||previous.n===0,'Assessment answers cannot be changed.',409);
-  const correct=score(item,b.response),at=iso(),validity=b.activeMs<1500?'rapid-response':'valid';
-  const eligible=s.mode==='assessment'&&pr.first_family_exposure===1&&pr.hints_used===0&&previous.n===0&&validity==='valid';
-  try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=? THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=? THEN 0 ELSE ? END,? FROM sessions WHERE id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),Number(correct),b.submittedAt,at,b.elapsedMs,b.activeMs,pr.hints_used,Number(previous.n>0&&s.mode==='practice'),at,validity,at,Number(eligible),digest,sid).run();}
+  const grade=gradeResponse(item,b.response),correct=grade.correct,at=iso(),validity=b.activeMs<1500?'rapid-response':'valid';
+  const eligible=item.format!=='multipart'&&s.mode==='assessment'&&pr.first_family_exposure===1&&pr.hints_used===0&&previous.n===0&&validity==='valid';
+  try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=? THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=? THEN 0 ELSE ? END,? FROM sessions WHERE id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),grade.score,b.submittedAt,at,b.elapsedMs,b.activeMs,pr.hints_used,Number(previous.n>0&&s.mode==='practice'),at,validity,at,Number(eligible),digest,sid).run();}
   catch(error){
    const raced=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
    if(!raced){const duplicate=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? AND attempt_number=?',pr.id,b.attemptNumber).first();if(duplicate)throw new HttpError(409,'This attempt was already saved under a different event ID.');throw error;}

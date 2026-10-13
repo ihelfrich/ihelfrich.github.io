@@ -58,3 +58,12 @@ test('a bank update preserves outstanding questions and answers without mixing n
  assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM presentations WHERE session_id=?').bind(s.sessionId).first()).n,1);
  await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.bankVersion,'previous-bank');assert.notEqual(report.currentBankVersion,report.bankVersion);assert.equal(report.rows.length,1);assert.equal(report.rows[0].correct,true);t.env.DB.close();
 });
+test('multipart partial credit is durably stored and excluded from binary calibration',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment');
+ const item={...bank.get(next.item.id),format:'multipart',parts:[{id:'q',prompt:'Quantity',answer:20,tolerance:.005,points:2,explanation:'Solve quantity.'},{id:'p',prompt:'Price',answer:40,tolerance:.005,points:1,explanation:'Substitute quantity.'}]};
+ await t.env.DB.prepare('UPDATE presentations SET item_snapshot_json=? WHERE id=?').bind(JSON.stringify(item),next.presentationId).run();
+ const shown=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(shown.item.parts[0].answer,undefined);
+ const r=await t.call(`/sessions/${s.sessionId}/answers`,{...answer(next),response:{q:20,p:41}},p.token);assert.equal(r.persisted,true);assert.equal(r.score,undefined);
+ const stored=await t.env.DB.prepare('SELECT score,correct,calibration_eligible,raw_answer_json FROM responses').first();assert.equal(stored.score,2/3);assert.equal(stored.correct,0);assert.equal(stored.calibration_eligible,0);assert.deepEqual(JSON.parse(stored.raw_answer_json),{q:20,p:41});
+ await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.rows[0].score,2/3);assert.equal(report.rows[0].parts[0].earned,2);t.env.DB.close();
+});
