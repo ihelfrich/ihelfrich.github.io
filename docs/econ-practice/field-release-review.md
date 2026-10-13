@@ -75,3 +75,7 @@ Parent reviewed all60 prompts, keys, distractors, explanations and hints. Clarif
 ## New field directory browser verification
 
 Browser inspection of the actual local curriculum page confirms Financial Economics, Behavioral Economics and Environmental and Resource Economics each show60questions/60families and six correctly named units with10questions each. Native disclosures expand successfully; the environmental view screenshot is saved as new-fields-coverage-proof.png. This verifies visible directory integration, not authenticated student sessions, instructor permissions or production deployment. New bounded agents are drafting60families each for health, political and urban economics; they have no activation authority.
+
+### Health, political economy, and urban economics release
+
+Bank 2026.10.12.28 adds 180 original questions in 180 families across three six-unit courses. The active bank now contains 3,837 questions and 862 families across 16 courses. Authors researched official university syllabi and reviewed all records; the parent independently reviewed every prompt, key, distractor and explanation. Parent checkpoints document corrections and independent arithmetic/model checks. Private family hints accompany every new item. All parameters remain provisional; content review is not empirical calibration or exhaustive disciplinary coverage. The full check suite passes 169 tests and the bank audit reports no errors or warnings.

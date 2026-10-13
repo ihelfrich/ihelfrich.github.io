@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.27",
-  "bankSHA256": "98cb91247865dc9a56af883367603a211e2a0e53aedd377714b2aa3b3fb774cf",
+  "bankVersion": "2026.10.12.28",
+  "bankSHA256": "a6bb10ae77282c874e5469a0125d12cb13307a0131ca32e58e0e2e46860d9d52",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -43,6 +43,18 @@
       "items": 60,
       "families": 60
     },
+    "health-economics": {
+      "items": 60,
+      "families": 60
+    },
+    "political-economy": {
+      "items": 60,
+      "families": 60
+    },
+    "urban-economics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -57,10 +69,10 @@
     }
   },
   "answerPositions": [
-    159,
-    156,
-    152,
-    118
+    198,
+    212,
+    200,
+    155
   ],
   "errors": [],
   "warnings": [],
@@ -9832,6 +9844,3246 @@
         "prompt": "A project costs 90 now and delivers one uncertain monetary benefit B in one year. Evaluation uses expected NPV, a 5% discount rate, and no other costs or benefits. What expected B makes NPV zero?",
         "answer": "94.50 currency units.",
         "explanation": "Set −90 + E[B]/1.05 = 0, yielding E[B] = 94.50. This is a break-even expected-value calculation under the stipulated evaluation rule."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-01:01",
+        "prompt": "In a Grossman-style model, what distinguishes health capital from a medical visit?",
+        "answer": "Health capital produces services over time; a visit is an input that may affect that stock.",
+        "explanation": "A stock of health yields healthy time and consumption benefits. Medical care is one possible investment input, alongside time and other resources."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-02:01",
+        "prompt": "A hypothetical health stock is 100. During the year 10% depreciates and investment adds 15 stock units. Under H_next=(1−δ)H+I, what is next year’s stock?",
+        "answer": "105.",
+        "explanation": "The surviving stock is 90; adding investment of 15 gives 105. Investment is added after depreciation under the stated equation."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-03:01",
+        "prompt": "A hypothetical person wants to maintain health stock H=80 with annual depreciation δ=0.15. How much investment is required under H_next=(1−δ)H+I?",
+        "answer": "12 stock units.",
+        "explanation": "A constant stock requires I=δH=0.15×80=12. The surviving stock of 68 is not the required investment."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-04:01",
+        "prompt": "A hypothetical visit costs a patient $30 and takes two hours including travel. If the opportunity cost of time is $20 per hour, what is the full private cost?",
+        "answer": "$70.",
+        "explanation": "Full cost is the money price plus time cost: 30+2×20=70. A money price alone omits a scarce input."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-05:01",
+        "prompt": "An innovation delivers the same improvement in health with fewer clinic visits, at unchanged input prices. Which conclusion follows directly?",
+        "answer": "The visits needed to produce a given health improvement fall.",
+        "explanation": "The production requirement falls. Desired health and total use may also respond to the lower effective cost, so their final directions are not pinned down."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-06:01",
+        "prompt": "In a hypothetical production schedule, successive units of care raise a health index by 8, 5, and 2. What does this illustrate?",
+        "answer": "Positive but diminishing marginal product of care.",
+        "explanation": "Each extra unit still improves the index, but by less than the previous unit. Diminishing returns do not mean negative returns."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-07:01",
+        "prompt": "In a stylized interior health-investment model with marginal return schedule fixed and downward sloping in H, equilibrium satisfies R(H)=r+δ. What happens to desired H when δ rises?",
+        "answer": "Desired H falls.",
+        "explanation": "Higher depreciation raises the required return. A downward-sloping R(H) reaches that higher return at a smaller stock. This holds under the fixed-schedule assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-08:01",
+        "prompt": "In the investment component of a health-capital model, a higher wage raises the value of an extra healthy hour available for work. What is this channel?",
+        "answer": "A higher monetary return to health investment.",
+        "explanation": "The earnings benefit of healthy time rises. Higher wages can also raise time-input costs; the isolated return channel does not settle the overall effect."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-09:01",
+        "prompt": "At a hypothetical price of $50 and quantity of 20 visits, demand has derivative dQ/dP=−0.2. What is the point price elasticity?",
+        "answer": "−0.5.",
+        "explanation": "Point elasticity is (dQ/dP)(P/Q)=−0.2×50/20=−0.5. The slope alone has units and is not an elasticity."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u1-10:01",
+        "prompt": "A hypothetical survey finds that people receiving more medical care have worse health. What prevents interpreting this as proof that care causes worse health?",
+        "answer": "Poor underlying health may increase demand for care.",
+        "explanation": "Illness can cause both poor observed health and higher utilization. The association does not isolate a treatment effect."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-01:01",
+        "prompt": "A hypothetical policy fully covers a $10,000 loss that occurs with probability 0.08. Ignore behavior changes and administrative costs. What premium equals expected claims?",
+        "answer": "$800.",
+        "explanation": "Expected claims are 0.08×10,000=800. Fairness here refers to expected payouts, not every consumer’s willingness to pay."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-02:01",
+        "prompt": "A person has strictly concave utility of wealth, faces a nondegenerate monetary medical loss, and can buy full coverage at its expected loss with no behavior change. Why prefer full coverage to remaining uninsured?",
+        "answer": "It removes wealth risk without changing expected wealth.",
+        "explanation": "Jensen’s inequality implies that certain wealth is preferred to a lottery with the same mean under strict concavity. Insurance covers financial loss, not the occurrence of illness."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-03:01",
+        "prompt": "A pool contains 100 independent people whose annual claims each have standard deviation $1,000. What is the standard deviation of average claims per person?",
+        "answer": "$100.",
+        "explanation": "For independent equal-variance claims, divide the individual standard deviation by the square root of the pool size: 1,000/√100=100. Total claims instead have standard deviation 10,000."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-04:01",
+        "prompt": "Two insurance pools have identical individual claim distributions and size, but one has positively correlated claims. Relative to independent claims, what does positive covariance do to the variance of average claims?",
+        "answer": "It increases the variance.",
+        "explanation": "The variance of the average contains covariance terms. Positive covariance makes pooling less effective at smoothing financial risk without itself changing marginal means."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-05:01",
+        "prompt": "A hypothetical annual plan has a $500 deductible followed by 20% patient coinsurance, with no other provisions. For $1,500 of covered spending and no prior spending, what does the patient pay?",
+        "answer": "$700.",
+        "explanation": "The patient pays the first 500 plus 20% of the remaining 1,000: 500+200=700. Applying coinsurance to the full bill overlooks the deductible sequence."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-06:01",
+        "prompt": "At a hypothetical common premium, people who privately know they have higher expected claims are more likely to enroll. Which mechanism is present?",
+        "answer": "Adverse selection.",
+        "explanation": "Enrollment is correlated with private information about expected costs. Moral hazard instead concerns behavior affected by coverage."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-07:01",
+        "prompt": "A randomly assigned reduction in a visit copayment raises visits while covered populations remain otherwise comparable. Which insurance mechanism does this illustrate?",
+        "answer": "Ex post moral hazard through a lower marginal price of care.",
+        "explanation": "Conditional on comparable risk, lower cost sharing changes utilization after coverage is in place. The label does not establish whether extra care is valuable."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-08:01",
+        "prompt": "Why is evidence that insurance increases utilization insufficient by itself to show that insurance reduces welfare?",
+        "answer": "Financial risk protection and the benefits and costs of additional care also matter.",
+        "explanation": "Insurance can smooth consumption while changing care decisions. A welfare assessment needs those gains and the resource costs and benefits of additional use."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-09:01",
+        "prompt": "A hypothetical pool has 80 low-risk members with expected claims $1,000 each and 20 high-risk members with expected claims $5,000 each. With no loading, what common premium covers expected claims?",
+        "answer": "$1,800.",
+        "explanation": "Average claims are (80×1,000+20×5,000)/100=1,800. The unweighted average of the two risk types incorrectly gives each type half the pool."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u2-10:01",
+        "prompt": "An insurer receives larger prospective transfers for enrollees with higher predicted costs. What is the intended selection-related effect of accurate risk adjustment?",
+        "answer": "Reduce the financial incentive to avoid high-cost enrollees.",
+        "explanation": "Matching payments to predictable costs can reduce profit differences across risk types. Prediction error and imperfect incentives may remain."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-01:01",
+        "prompt": "A hypothetical clinic receives $90 for an extra visit and incurs $60 in incremental cost. Ignoring other effects, what is the visit’s contribution to profit?",
+        "answer": "$30.",
+        "explanation": "Contribution is incremental revenue minus incremental cost: 90−60=30. Fixed costs do not change this marginal calculation."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-02:01",
+        "prompt": "A clinic receives a fixed monthly payment per enrolled person, independent of visits. For an additional visit by an existing enrollee, what is the direct marginal payment under this contract?",
+        "answer": "$0.",
+        "explanation": "Capitation pays for enrollment rather than each visit. Additional visits can affect outcomes and future enrollment, but do not directly generate another payment under the stated rule."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-03:01",
+        "prompt": "A salaried clinician receives the same pay for 15 or 16 visits in a day. Which statement follows from the compensation rule alone?",
+        "answer": "The sixteenth visit produces no additional salary payment.",
+        "explanation": "A fixed salary removes a direct payment margin but does not eliminate professional motivation, workload constraints, supervision, or patient benefit."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-04:01",
+        "prompt": "A patient cannot judge whether an additional procedure is needed, while the recommending clinician earns a positive margin on it. Which economic concern arises?",
+        "answer": "The clinician’s financial incentive may differ from the patient’s interest.",
+        "explanation": "Expertise and payment incentives create an agency problem. The facts identify a potential conflict, not the appropriateness of a particular procedure."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-05:01",
+        "prompt": "A hypothetical area has more physicians and more visits per resident than another area. Why is that comparison insufficient to establish supplier-induced demand?",
+        "answer": "Physicians may locate where underlying demand is higher.",
+        "explanation": "Provider supply may respond to demand, and populations may differ in need. A causal claim needs variation that separates these explanations."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-06:01",
+        "prompt": "A bonus rewards a hospital for a low unadjusted mortality rate. Which response could improve the metric without improving treatment quality?",
+        "answer": "Avoiding patients with high baseline mortality risk.",
+        "explanation": "Patient selection changes case mix. An unadjusted outcome metric can therefore reward lower underlying risk rather than better care."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-07:01",
+        "prompt": "Hospital A’s raw mortality is higher than B’s, but A treats patients with more severe conditions. What is needed before interpreting the gap as a quality difference?",
+        "answer": "A credible adjustment or design addressing differences in patient risk.",
+        "explanation": "Outcome differences combine treatment quality and case mix. Risk adjustment can help, but its credibility depends on observed predictors and remaining selection."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-08:01",
+        "prompt": "A hypothetical clinic can deliver the same defined service and quality with either one physician hour costing $180 or two qualified practitioner hours costing $70 each. Which specified arrangement minimizes labor cost?",
+        "answer": "Two practitioner hours at $140.",
+        "explanation": "The alternative costs 2×70=140, below 180. Equal service and quality are assumptions of this exercise, not a claim about clinical substitutability generally."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-09:01",
+        "prompt": "A hypothetical clinic’s weekly cost is C(Q)=2,000+40Q, where Q is visits. What is marginal cost?",
+        "answer": "$40 per visit.",
+        "explanation": "The additional cost of one visit is 40. The fixed component affects average cost but not the derivative with respect to Q."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u3-10:01",
+        "prompt": "A clinic has one appointment slot left. Two hypothetical services yield net social benefits of $90 and $130, and use the same slot. What is the opportunity cost of selecting the $90 service?",
+        "answer": "The forgone $130 net benefit of the other service.",
+        "explanation": "The opportunity cost is the value of the best forgone alternative, 130. The net loss relative to choosing that alternative is 40, a different quantity."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-01:01",
+        "prompt": "A hospital receives $8,000 for a defined case regardless of the case’s actual cost. If it lowers resource cost from $7,000 to $6,500 with quality unchanged, what happens to its case margin?",
+        "answer": "It rises by $500.",
+        "explanation": "The margin rises from 1,000 to 1,500. A prospective payment lets the provider retain this cost saving under the stated contract."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-02:01",
+        "prompt": "Under a hypothetical contract, a hospital is reimbursed every dollar of allowable cost and receives a fixed $1,000 fee. Ignoring other incentives, how does reducing allowable costs by $100 affect profit?",
+        "answer": "Profit is unchanged.",
+        "explanation": "Reimbursement and cost both fall by 100, leaving the fixed fee unchanged. This removes the direct retained-savings incentive in this simplified contract."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-03:01",
+        "prompt": "A payer sets one fixed payment for surgery plus 30 days of follow-up. Relative to paying separately for each included service, what incentive does the bundle create?",
+        "answer": "An incentive to reduce the provider’s total cost of services inside the bundle.",
+        "explanation": "Payment no longer rises with each included service. Cost control may improve coordination or reduce useful care; the contract alone does not determine quality or behavior outside the boundary."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-04:01",
+        "prompt": "A hypothetical case-payment system pays more for a higher recorded severity category. If verification is weak, which concern follows?",
+        "answer": "Providers may increase recorded severity without a corresponding change in actual severity.",
+        "explanation": "Payment tied to reported categories creates an incentive to influence classification. This identifies a design concern, not evidence that any particular provider miscodes."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-05:01",
+        "prompt": "A hypothetical hospital market has shares 50%, 30%, and 20%. Using percentage shares squared, what is its HHI?",
+        "answer": "3,800.",
+        "explanation": "HHI=50²+30²+20²=2,500+900+400=3,800. Summing shares without squaring does not measure concentration."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-06:01",
+        "prompt": "In a hypothetical market, hospitals with shares 20% and 30% merge, with all shares otherwise unchanged. How much does HHI rise on the 0–10,000 scale?",
+        "answer": "1,200 points.",
+        "explanation": "The change is (20+30)²−20²−30²=2×20×30=1,200. This is a concentration calculation, not a full welfare conclusion."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-07:01",
+        "prompt": "A hospital becomes harder for an insurer to exclude because subscribers strongly prefer access to it. Holding other bargaining factors fixed, what happens to the hospital’s bargaining position?",
+        "answer": "It strengthens because exclusion becomes more costly to the insurer.",
+        "explanation": "A more costly insurer outside option can increase the hospital’s bargaining leverage. Actual prices also depend on costs, alternatives, and bargaining arrangements."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-08:01",
+        "prompt": "A hospital market fixes reimbursement administratively while patients can choose providers and respond to quality. Which competitive margin remains possible?",
+        "answer": "Quality and access can remain dimensions of competition.",
+        "explanation": "An administered price removes one choice variable but leaves other attributes through which providers can attract patients. The strength of that incentive depends on demand and payment."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-09:01",
+        "prompt": "A hypothetical drug has a large sunk development cost and a constant low production cost per dose. What does marginal-cost pricing fail to guarantee?",
+        "answer": "Recovery of the sunk development expenditure.",
+        "explanation": "Marginal-cost revenue can cover production while leaving no contribution to sunk development costs. This is a dynamic financing concern distinct from use of an already developed product."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u4-10:01",
+        "prompt": "A hypothetical insurer’s spending rises from $100,000 to $120,000 while covered service quantity rises from 1,000 to 1,500 comparable units. What happens to average spending per unit?",
+        "answer": "It falls from $100 to $80.",
+        "explanation": "The ratios are 100,000/1,000=100 and 120,000/1,500=80. Higher total spending need not mean a higher unit price when quantity changes."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-01:01",
+        "prompt": "In a hypothetical evaluation, program A costs $10,000 and produces 4 QALYs per person; B costs $16,000 and produces 4.3 QALYs. What is B’s ICER relative to A?",
+        "answer": "$20,000 per QALY.",
+        "explanation": "The incremental ratio is (16,000−10,000)/(4.3−4)=6,000/0.3=20,000 per QALY. Average cost divided by total QALYs answers another question."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-02:01",
+        "prompt": "In a hypothetical comparison, A costs $5,000 and yields 3 QALYs, while B costs $7,000 and yields 2.8 QALYs. Under a criterion favoring lower cost and more QALYs, which statement holds?",
+        "answer": "A strictly dominates B.",
+        "explanation": "A costs less and yields more measured health. No positive willingness-to-pay threshold is needed to reject B under the specified two-attribute criterion."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-03:01",
+        "prompt": "A hypothetical intervention adds 0.4 QALYs and costs an extra $12,000. At a stated threshold of $40,000 per QALY, what is incremental net monetary benefit?",
+        "answer": "$4,000.",
+        "explanation": "Incremental net monetary benefit is 40,000×0.4−12,000=4,000. A positive value favors the intervention under this threshold rule."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-04:01",
+        "prompt": "For a hypothetical calculation with no discounting, a person lives two years at health weight 0.6 and three years at weight 0.8. How many QALYs accrue?",
+        "answer": "3.6 QALYs.",
+        "explanation": "Quality-adjusted time is 2×0.6+3×0.8=3.6 QALYs. Averaging weights without respecting time gives the wrong total."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-05:01",
+        "prompt": "A hypothetical program incurs $11,025 in costs exactly two years from now. With a 5% annual discount rate, what is the present cost?",
+        "answer": "$10,000.",
+        "explanation": "Present cost is 11,025/1.05²=10,000. Compounding instead of discounting moves the amount in the wrong direction."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-06:01",
+        "prompt": "A hypothetical program requires unpaid caregiver time but the payer does not reimburse it. Which cost treatment distinguishes a societal perspective from a payer perspective?",
+        "answer": "A societal analysis includes the opportunity cost of caregiver time.",
+        "explanation": "Societal costing considers resources regardless of who pays for them. A payer’s expenditure ledger can omit real time costs borne by households."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-07:01",
+        "prompt": "An intervention’s hypothetical ICER is below a decision maker’s stated threshold, but adopting it for all eligible people requires a large first-year budget increase. What follows?",
+        "answer": "Cost-effectiveness does not by itself establish short-run affordability.",
+        "explanation": "The ICER compares incremental cost with health gains. Budget impact depends on population size, uptake, timing, and expenditures, so a worthwhile intervention can still strain a budget."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-08:01",
+        "prompt": "Three hypothetical programs yield (QALYs, cost): A=(1,$1,000), B=(2,$4,000), C=(3,$5,000). If mixtures across identical eligible people are feasible, what happens to B?",
+        "answer": "B is extendedly dominated by a mixture of A and C.",
+        "explanation": "A 50–50 mix of A and C yields 2 QALYs at average cost $3,000, below B’s $4,000. B is not strictly dominated by either single program, but lies above the cost-effectiveness frontier."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-09:01",
+        "prompt": "A hypothetical program costs an extra $9,000. At $30,000 per QALY, what minimum positive incremental QALY gain makes net monetary benefit nonnegative?",
+        "answer": "0.3 QALYs.",
+        "explanation": "Set 30,000×ΔQ−9,000≥0, giving ΔQ≥0.3. This is the break-even gain under the stated threshold."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u5-10:01",
+        "prompt": "In a hypothetical randomized study with complete follow-up and no spillovers, average spending is $2,400 among those assigned a program and $2,700 among controls. What is the estimated intention-to-treat effect on spending?",
+        "answer": "−$300 per person assigned.",
+        "explanation": "The assignment effect is the treatment-assigned mean minus the control mean: 2,400−2,700=−300. It is not automatically the effect among participants or compliers."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-01:01",
+        "prompt": "A hypothetical preventive action provides $40 of private marginal benefit and $25 of external marginal benefit at the current quantity. What is marginal social benefit there?",
+        "answer": "$65.",
+        "explanation": "Marginal social benefit adds benefits to the actor and others: 40+25=65. External benefit alone is not the total."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-02:01",
+        "prompt": "In a stylized market with no other distortions, a preventive action has a constant marginal external benefit of $15. What per-unit subsidy aligns private and social marginal benefits?",
+        "answer": "$15.",
+        "explanation": "A subsidy equal to the external benefit closes the private-social wedge in this model. Real implementation can involve additional fiscal and informational considerations outside the exercise."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-03:01",
+        "prompt": "Once a disease-surveillance alert is broadcast, its producers cannot prevent anyone in the area from receiving it. One person using its information does not reduce its availability to others. Which properties are described?",
+        "answer": "Nonexcludability and nonrivalry.",
+        "explanation": "The inability to exclude recipients establishes nonexcludability; use without reducing others’ access establishes nonrivalry. A zero price alone would not establish nonexcludability. Producing the information can still be costly."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-04:01",
+        "prompt": "A policy gives equal access to people with equal health-care need regardless of income. Which equity concept does this most directly express?",
+        "answer": "Horizontal equity.",
+        "explanation": "Horizontal equity concerns equal treatment for relevant equals; here equality is defined by need. Vertical equity addresses justified differences among people with different needs or circumstances."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-05:01",
+        "prompt": "A hypothetical allocation gives more services to people with greater medical need, all else equal. Which principle is most directly illustrated?",
+        "answer": "Vertical equity based on differences in need.",
+        "explanation": "Vertical equity allows appropriately different treatment for relevant differences. This allocation rule alone does not prove that aggregate health is maximized."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-06:01",
+        "prompt": "Two hypothetical programs cost the same. A yields 10 QALYs to group X; B yields 8 QALYs to group Y. A decision maker assigns weight 1 to X and 1.5 to Y. Which maximizes weighted QALYs?",
+        "answer": "B, with 12 weighted QALYs.",
+        "explanation": "A yields 10×1=10; B yields 8×1.5=12. The ranking depends on explicit distributional weights, not unweighted health totals."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-07:01",
+        "prompt": "Two hypothetical policies deliver the same expected health and mean household consumption. One produces a mean-preserving contraction of consumption risk across illness states. For households with strictly concave utility of consumption, what additional benefit can it provide?",
+        "answer": "Greater expected utility through consumption smoothing.",
+        "explanation": "At the same mean, a mean-preserving reduction in consumption risk increases expected utility under concavity. The conclusion requires a risk reduction in that sense, not merely an arbitrary distribution change."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-08:01",
+        "prompt": "A hypothetical study defines catastrophic spending as out-of-pocket medical payments above 20% of household income. A household earns $25,000 and pays $6,000. Is it above this study’s threshold?",
+        "answer": "Yes; the spending share is 24%.",
+        "explanation": "The spending share is 6,000/25,000=0.24, exceeding 0.20. This uses the exercise’s definition; other studies may use different denominators and thresholds."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-09:01",
+        "prompt": "A hypothetical insurance expansion lowers patient fees, but the only clinic has no available appointments. What can be concluded about access?",
+        "answer": "Financial coverage alone does not remove the capacity constraint.",
+        "explanation": "Insurance can relax a financial barrier while workforce or facility capacity remains binding. Effective access depends on both demand-side and supply-side conditions."
+      },
+      "last": null
+    },
+    {
+      "course": "health-economics",
+      "family": "health-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "health-economics:health-economics-u6-10:01",
+        "prompt": "A hypothetical dataset shows a health gap between income groups. What additional evidence is required to claim that raising income would close the gap by that amount?",
+        "answer": "A causal design or assumptions identifying the effect of income on health.",
+        "explanation": "Income and health can share causes, and health can affect earnings. A descriptive disparity is important evidence about distribution but does not identify the effect of an income intervention."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-01:01",
+        "prompt": "Three equally sized blocs rank policies A>B>C, B>C>A, and C>A>B. Voting is sincere in each pairwise contest. What happens?",
+        "answer": "A beats B, B beats C, and C beats A.",
+        "explanation": "Each comparison has two blocs against one; the majority relation cycles despite transitive individual rankings."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-02:01",
+        "prompt": "Five voters have ideal policies 1, 3, 4, 8, and 10 and utility equal to minus absolute distance from policy. Under sincere pairwise majority voting, which policy defeats every other feasible real-valued policy?",
+        "answer": "4.",
+        "explanation": "The middle ideal point is 4. For a challenger on either side, at least three voters prefer 4. The mean need not be the majority winner."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-03:01",
+        "prompt": "Policies are ordered L<M<R. Which strict ranking violates single-peakedness on this order?",
+        "answer": "L>R>M.",
+        "explanation": "L>R>M ranks the middle policy below both endpoints, creating a valley. Each other ranking falls away from its peak."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-04:01",
+        "prompt": "Three voters rank A>B>C, B>C>A, and C>A>B. They vote sincerely in a sequential agenda: first A versus B, then the winner versus C. Which policy wins?",
+        "answer": "C.",
+        "explanation": "A beats B by two votes, then C beats A by two votes. The sincerity assumption excludes strategic first-round ballots."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-05:01",
+        "prompt": "There are 40 voters ranking A>B>C, 35 ranking B>C>A, and 25 ranking C>B>A. Everyone votes sincerely. Which statement is correct?",
+        "answer": "A wins plurality, but B defeats both rivals pairwise.",
+        "explanation": "First choices give A 40, B 35, C 25. B beats A 60–40 and C 75–25."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-06:01",
+        "prompt": "Five voters rank A>B>C, three rank B>C>A, and two rank C>A>B. Under Borda scores 2 for first, 1 for second, and 0 for third, which outcome follows?",
+        "answer": "A wins with 12 points.",
+        "explanation": "A gets 5(2)+3(0)+2(1)=12, B gets 5+6=11, and C gets 3+4=7. Borda uses the entire ranking rather than only first choices."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-07:01",
+        "prompt": "A hypothetical social ranking puts X above Y even though every individual strictly prefers Y to X. Which standard social-choice condition is directly violated?",
+        "answer": "Pareto unanimity.",
+        "explanation": "Pareto unanimity requires society to preserve unanimous strict comparisons. This observation alone does not diagnose anonymity or domain shape."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-08:01",
+        "prompt": "A committee restricts preferences to be single-peaked on one common policy line. Why does a well-behaved majority ordering on this domain not refute Arrow’s impossibility theorem?",
+        "answer": "The unrestricted-domain requirement is no longer imposed.",
+        "explanation": "Arrow’s incompatible conditions include an unrestricted domain of rankings. Restricting the domain changes the theorem’s premises."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-09:01",
+        "prompt": "A committee has 9 members. A proposal requires at least 7 yes votes to replace the status quo. Six members strictly prefer the proposal, three prefer the status quo, and all vote sincerely. What occurs?",
+        "answer": "The status quo remains despite a strict majority favoring change.",
+        "explanation": "Six votes fail the stated threshold of seven; preference intensity is not counted. Under simple majority the proposal would win."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u1-10:01",
+        "prompt": "In a plurality election a voter ranks A>B>C. The voter knows that, excluding her ballot, totals are A=2, B=5, C=5; tied leaders win by equal lottery. She values A at 3, B at 2, C at 0. Which ballot maximizes expected utility?",
+        "answer": "Vote for B.",
+        "explanation": "Voting B makes B win and yields 2. Voting A or abstaining leaves a B/C lottery worth 1; voting C yields 0."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-01:01",
+        "prompt": "Two purely office-seeking candidates simultaneously choose policies on a line. Voters have single-peaked distance preferences with unique median 6, vote for the closer candidate, and split ties equally. Both candidates can commit. Which profile is a Nash equilibrium?",
+        "answer": "Both choose 6.",
+        "explanation": "At the median each candidate obtains half the votes. A unilateral move loses the majority to the candidate at 6."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-02:01",
+        "prompt": "An elected citizen-candidate implements her own ideal policy because campaign promises are unenforceable. Which step of the standard committed-platform convergence argument fails?",
+        "answer": "Candidates cannot freely commit to implementing the median policy.",
+        "explanation": "Citizen-candidate identity constrains implemented policy; costless binding repositioning is unavailable. This does not itself prove divergence in every equilibrium."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-03:01",
+        "prompt": "Voting costs 3 utility units. A voter’s ballot changes the outcome with probability 0.02, the preferred outcome is worth 100 more units, and voting gives expressive benefit 0.5. Under expected utility, should she vote?",
+        "answer": "No; net benefit is −0.5.",
+        "explanation": "The net gain is 0.02(100)+0.5−3=−0.5. Outcome benefits must be weighted by pivotality."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-04:01",
+        "prompt": "In a local approximation, an extra unit of transfer to group g raises expected votes by n_g f_g. Groups A and B each have 100 voters, with ideological densities at indifference f_A=0.2 and f_B=0.05. Transfers have equal marginal cost. Which group gives the larger marginal vote gain?",
+        "answer": "A, with four times B’s marginal gain.",
+        "explanation": "The gains are 20 versus 5. Density at the switching margin, not population alone, determines responsiveness in this approximation."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-05:01",
+        "prompt": "Voters are uniformly distributed on [0,10] and vote for the nearest of candidates at 2 and 6, with indifferent voters split equally. What vote share does the candidate at 2 receive?",
+        "answer": "40%.",
+        "explanation": "The indifferent ideal point is 4, so voters from 0 to 4 support the left candidate: 4/10. The single indifferent point has zero mass."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-06:01",
+        "prompt": "A voter at ideal point 5 evaluates candidate j by v_j−|x_j−5|. Candidate A has x_A=2 and v_A=2; B has x_B=6 and v_B=0. How does this voter rank them?",
+        "answer": "The voter is indifferent.",
+        "explanation": "Both utilities equal −1: 2−3 for A and 0−1 for B. Valence offsets A’s additional distance."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-07:01",
+        "prompt": "A prospective candidate pays entry cost 8. Entry gives a 0.25 chance of office worth 40 and otherwise zero; abstaining yields zero. There are no policy benefits or other costs. What is the expected net return to entry?",
+        "answer": "2, so entry is strictly preferred.",
+        "explanation": "Expected office benefit is 0.25(40)=10; subtracting the certain cost 8 leaves 2."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-08:01",
+        "prompt": "Three equal-sized single-member districts award seats by plurality. Party A receives 51%, 51%, and 10% of votes against one opponent; turnout is equal across districts. What follows?",
+        "answer": "A wins two seats with about 37.3% of total votes.",
+        "explanation": "A wins the first two districts. Its aggregate share is (51+51+10)/3=37.33%. District-level aggregation can differ from aggregate vote rankings."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-09:01",
+        "prompt": "In hypothetical observational data, stronger candidates both raise more funds and win more often. Why does a positive spending–victory correlation not identify spending’s causal effect?",
+        "answer": "Candidate strength can affect both spending and victory.",
+        "explanation": "Candidate strength is a common cause, and expected electoral success may also attract funds. The stated correlation alone separates neither mechanism."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u2-10:01",
+        "prompt": "A risk-neutral voter can buy information for cost 1. It improves her choice conditional on being pivotal by an expected 60 utility units. Her pivotal probability is 0.01, and information has no other value. What is optimal?",
+        "answer": "Do not buy; expected benefit is 0.6.",
+        "explanation": "The unconditional improvement is 0.01(60)=0.6, below cost 1. This is an information-acquisition incentive in the stipulated model."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-01:01",
+        "prompt": "Four residents simultaneously choose contributions g_i in [0,10]. Utility is 10−g_i+0.4Σg_j. What is each resident’s dominant choice?",
+        "answer": "Contribute zero.",
+        "explanation": "A private contribution costs 1 and returns only 0.4 to its contributor, so the private marginal payoff is −0.6 regardless of others."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-02:01",
+        "prompt": "Four residents have utility 10−g_i+0.4Σg_j, with each contribution between 0 and 10. What contributions maximize the sum of utilities?",
+        "answer": "All four contribute 10.",
+        "explanation": "One additional contribution raises summed benefits by 4(0.4)=1.6 and costs 1, a net social gain of 0.6. Thus all bounds bind."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-03:01",
+        "prompt": "Two residents can each pay 4 toward a project. The project is supplied only if both pay, giving each benefit 7; payments are lost if provision fails. Which pure-strategy Nash equilibria exist?",
+        "answer": "Both pay and neither pays.",
+        "explanation": "If the other pays, paying yields 3 versus 0. If the other does not, paying yields −4 versus 0. Both coordinated profiles are equilibria."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-04:01",
+        "prompt": "A group member’s political contribution costs 6 and gives her an incremental policy benefit of 2. The group can give contributors an exclusive benefit worth 5. Ignoring other effects, how does this change her participation incentive?",
+        "answer": "Net benefit changes from −4 to 1.",
+        "explanation": "An exclusive reward changes the private payoff even when the political outcome itself is shared: 2−6=−4; 2+5−6=1."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-05:01",
+        "prompt": "A policy gives each of 10 firms 1,000 and costs each of 10,000 consumers 2. An individual can oppose or support it at a fixed organizing cost of 100. Holding effectiveness equal, what incentive asymmetry is suggested?",
+        "answer": "Each firm has much more at stake than each consumer, even though total consumer losses exceed firm gains.",
+        "explanation": "Firm gains total 10,000 while consumer losses total 20,000. Individual stakes are 1,000 versus 2; aggregate harm does not automatically create strong individual organizing incentives."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-06:01",
+        "prompt": "Two groups contest a prize worth 100. Group i spends x≥0 and wins with probability x/(x+y), where its rival spends y=25. Its payoff is 100x/(x+25)−x. What is its optimal expenditure?",
+        "answer": "25.",
+        "explanation": "The marginal payoff is 2500/(x+25)^2−1; it equals zero at x=25. The payoff is strictly concave for x≥0, so this is the maximum."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-07:01",
+        "prompt": "A hypothetical license transfers 50 from consumers to a license holder, with no output distortion. Competing firms also burn 15 of real resources lobbying for it. Using total monetary surplus and ignoring distributional weights, what is the net social loss?",
+        "answer": "15.",
+        "explanation": "The 50 transfer cancels across recipients and payers; the 15 resource use does not. Distributional objectives could value the transfer differently, but are explicitly excluded."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-08:01",
+        "prompt": "A member gets 4 each period from cooperation. A one-time deviation gives 7 now, followed by 1 per period forever under a credible punishment. With discount factor δ, cooperation is incentive compatible when:",
+        "answer": "δ is at least 1/2.",
+        "explanation": "Compare 4/(1−δ) with 7+δ/(1−δ): 4≥7−6δ, so δ≥1/2."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-09:01",
+        "prompt": "A risk-neutral official can take a bribe worth 12. Detection probability is 0.3 and the monetary fine, paid only on detection, is 50. The bribe is retained and there are no other consequences. What is the expected gain?",
+        "answer": "−3.",
+        "explanation": "The expected gain is 12−0.3(50)=−3. Because the bribe is retained, it is not multiplied by nondetection probability."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u3-10:01",
+        "prompt": "A researcher compares policy success for groups granted meetings with officials to groups without meetings. Officials choose whom to meet based on expected policy viability. What is the main identification problem?",
+        "answer": "Meeting access is selected on a determinant of policy success.",
+        "explanation": "Officials select viable proposals, so treated and untreated proposals can differ before meetings. More observations do not remove this confounding."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-01:01",
+        "prompt": "An incumbent can pay effort cost 3 to raise reelection probability from 0.4 to 0.7. Another term is worth 20, received next period with discount factor 0.8. Effort has no other payoff. What is the net incentive to exert effort?",
+        "answer": "1.8, so effort is preferred.",
+        "explanation": "The incremental discounted reward is 0.8(0.7−0.4)(20)=4.8. Subtract cost 3 to obtain 1.8."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-02:01",
+        "prompt": "In a political-agency model the only benefit of effort is an increased chance of a valuable next term. Effort is costly. A binding term limit eliminates eligibility, with no reputation or future career payoffs. What happens to this effort incentive?",
+        "answer": "It disappears.",
+        "explanation": "The stipulated electoral reward is unavailable. This is a conditional model prediction, not a claim that term-limited officials never work."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-03:01",
+        "prompt": "A voter’s prior probability an incumbent is competent is 0.5. A good outcome occurs with probability 0.8 if competent and 0.2 otherwise. After observing a good outcome, what is the posterior probability of competence?",
+        "answer": "0.8.",
+        "explanation": "Bayes’ rule gives 0.8(0.5)/[0.8(0.5)+0.2(0.5)]=0.8. A favorable outcome is informative but not conclusive."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-04:01",
+        "prompt": "An election replaces low-ability officials with higher-ability challengers, but officials’ actions are fixed and cannot respond to incentives. Which mechanism operates?",
+        "answer": "Selection, without behavioral discipline.",
+        "explanation": "Changing who serves is selection. Discipline requires incumbents to alter actions in response to electoral rewards, excluded here."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-05:01",
+        "prompt": "Observed service quality equals incumbent effort plus an independent mean-zero shock. Voters observe quality but not the shock or effort. What inference is valid?",
+        "answer": "A low outcome can occur despite high effort.",
+        "explanation": "Mean zero describes an average, not each realization. Outcomes contain both effort and noise, so single outcomes do not perfectly reveal effort."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-06:01",
+        "prompt": "An official keeps an illicit gain of 8 and pays a fine of 40 if detected. She is risk neutral. An audit raises detection probability from 0.1 to 0.3, with no other changes. What happens to the net expected gain?",
+        "answer": "It falls from 4 to −4.",
+        "explanation": "The gains are 8−0.1(40)=4 and 8−0.3(40)=−4. The increased expected fine reverses the private incentive."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-07:01",
+        "prompt": "An official cannot seek reelection, but future employers reward evidence of competence. Can this official still have a career-based incentive to improve observable performance?",
+        "answer": "Yes, if performance changes expected future employment rewards.",
+        "explanation": "Future employment can provide a continuation payoff outside electoral office. Its incentive effect depends on performance being informative for rewards."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-08:01",
+        "prompt": "Competent and incompetent incumbents both choose the same observed action in an equilibrium. A voter observes only that action; its probability is one under either type. What happens to the voter’s prior over types?",
+        "answer": "It remains unchanged.",
+        "explanation": "The likelihood ratio of the observed action is one, so Bayes’ rule leaves prior odds unchanged."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-09:01",
+        "prompt": "Municipalities are randomly assigned publication of an audit before an election. With full compliance, no spillovers, and no attrition, the treated reelection rate is 0.42 and the control rate is 0.50. What is the estimated average assignment effect?",
+        "answer": "−8 percentage points.",
+        "explanation": "The difference is 0.42−0.50=−0.08, or −8 percentage points. The relative change would be −16%, a different quantity."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u4-10:01",
+        "prompt": "A politician privately knows policy A yields greater voter welfare, but voters currently believe B is better and reward B with reelection. She chooses B solely to increase reelection chances. What does this scenario illustrate?",
+        "answer": "Pandering induced by electoral incentives.",
+        "explanation": "The official conforms to current voter beliefs despite contrary private information. The example demonstrates a possible agency distortion, not a universal welfare result."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-01:01",
+        "prompt": "An investor pays 6 now for output worth 10 later. A ruler then chooses whether to seize all output. Seizure gives the ruler 10 instead of 0, carries no penalty, and promises cannot bind. Under backward induction and complete information, what occurs?",
+        "answer": "The investor does not invest.",
+        "explanation": "After investment the ruler seizes; anticipating zero retained output and cost 6, the investor abstains. Commitment failure prevents an otherwise productive investment."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-02:01",
+        "prompt": "An investor can pay 6 now to produce output worth 10. After investment, a ruler chooses whether to seize it. Seizure yields the ruler 10 but triggers an enforceable personal penalty of 12; leaving the output gives the ruler 0. The investor retains the output only if it is not seized. With complete information and no other payoffs, what is the backward-induction outcome?",
+        "answer": "The ruler refrains from seizure and investment occurs.",
+        "explanation": "Seizure now yields −2, below 0. Anticipating retention, the investor obtains 10−6=4 and invests. Credibility follows from changed payoffs."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-03:01",
+        "prompt": "Policies lie on a line. Status quo is 0. Two veto players have utilities minus distance from ideal points 2 and 6, and each must strictly prefer a proposal to 0 for passage. Which proposal passes?",
+        "answer": "3.",
+        "explanation": "At 3 both are one or three units from their ideals, improving on distances 2 and 6 at 0. At 4 the first player is indifferent, so the strict-consent rule blocks it."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-04:01",
+        "prompt": "A policy change requires assent of every veto player. Existing players’ preferences and status quo remain fixed. Adding another required veto player can do what to the set of feasible changes?",
+        "answer": "Only shrink it or leave it unchanged.",
+        "explanation": "The new acceptance set is intersected with the old feasible set, which cannot add proposals. The intersection may still equal the old set."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-05:01",
+        "prompt": "Three legislators divide 90. A proposer needs one other yes vote; the proposer votes yes. A responder votes yes exactly when offered at least 20. There is one proposal, no other payoff, and divisible transfers. What maximum can the proposer retain?",
+        "answer": "70.",
+        "explanation": "Offer one responder 20 and the other 0, keeping 70. A majority needs only one responder; retaining 90 attracts none."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-06:01",
+        "prompt": "A constitution prohibits executive seizure, but no court or political actor can impose a cost for violating it. In a model where the executive gains from seizure and faces no other consequences, what should an analyst examine?",
+        "answer": "Whether any mechanism makes compliance incentive compatible.",
+        "explanation": "A formal rule alone does not alter the stated violation payoff. Effective enforcement or other consequences are needed to support compliance in this model."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-07:01",
+        "prompt": "An incumbent coalition has already paid an organizing cost that a challenger must newly incur. Both expect the same gross political benefit. What mechanism can favor incumbent persistence?",
+        "answer": "The challenger faces an entry cost that is sunk for the incumbent.",
+        "explanation": "The relevant future cost differs: the challenger must incur it, while the incumbent cannot recover its past outlay. Persistence need not imply efficiency."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-08:01",
+        "prompt": "A principal wants policy 2 but delegates unconstrained final choice to an agent whose utility is −(x−5)^2. There are no transfers, reputational effects, or future interactions. Which policy does the agent choose?",
+        "answer": "5.",
+        "explanation": "The agent maximizes its own utility at its ideal point 5. Without a constraint or incentive, delegation does not implement the principal’s ideal."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-09:01",
+        "prompt": "Three districts each choose nonnegative spending g_i. District i’s benefit is 6g_i−g_i²/2. Each unit of spending costs 1, and the total cost is split equally across districts. Each district maximizes its benefit minus its tax payment. What is district i’s best response regardless of others?",
+        "answer": "g_i=17/3.",
+        "explanation": "Its marginal benefit is 6−g_i and its marginal tax cost is 1/3. Thus g_i=6−1/3=17/3; it does not internalize the full cost of 1."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u5-10:01",
+        "prompt": "A cross-country regression links stronger executive constraints with higher income. Political coalitions and historical shocks affect both variables. What conclusion is warranted from the regression alone?",
+        "answer": "It describes an association but does not isolate a causal institutional effect.",
+        "explanation": "Common causes and reverse causality remain possible. Timing or the label “institution” alone does not establish exogenous variation."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-01:01",
+        "prompt": "Two risk-neutral groups divide 100. In conflict A wins all with probability 0.6 and B with probability 0.4; A pays cost 10 and B cost 15 regardless of who wins. A peaceful deal gives A amount s and B 100−s. Which range is weakly preferred to conflict by both?",
+        "answer": "50≤s≤75.",
+        "explanation": "A’s conflict payoff is 60−10=50; B’s is 40−15=25. Peace requires s≥50 and 100−s≥25, giving s≤75."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-02:01",
+        "prompt": "A peaceful settlement would benefit both sides today. Tomorrow one side becomes much stronger and can seize resources without penalty; it cannot bind its future choices. What can obstruct peace today even with complete information?",
+        "answer": "An inability to credibly commit to the future allocation.",
+        "explanation": "Future power changes may undermine promises even when present payoffs are common knowledge. A current bargaining surplus does not ensure an enforceable intertemporal bargain."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-03:01",
+        "prompt": "A person chooses peaceful work earning 9 or joining a risky raid with expected monetary payoff 7. There are no other benefits or costs and the person is risk neutral. A wage shock lowers peaceful earnings to 5 without changing raid payoffs. What follows?",
+        "answer": "The preferred choice switches from work to the raid.",
+        "explanation": "Initially 9 exceeds 7; after the shock 7 exceeds 5. Under risk neutrality certainty has no separate value. This is a model-based opportunity-cost mechanism."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-04:01",
+        "prompt": "Three equal-sized groups earn 20, 40, and 90 before taxes. A proportional tax rate t in [0,1] finances an equal per-person transfer with no administrative costs or behavioral response. Voters care only about their own consumption and strictly prefer more to less. What tax rate does the median-income voter prefer?",
+        "answer": "1.",
+        "explanation": "Mean income is 50. The median-income voter’s consumption is (1−t)40+t(50)=40+10t, increasing throughout the feasible interval."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-05:01",
+        "prompt": "A voter with income 40 faces mean income 60. Her indirect utility from tax rate t in [0,1] is 40+t(60−40)−20t². Which tax rate maximizes this utility?",
+        "answer": "1/2.",
+        "explanation": "The derivative is 20−40t, yielding t=1/2. The second derivative is −40, so the interior critical point is the unique maximum."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-06:01",
+        "prompt": "A candidate wins office if her vote margin exceeds zero. A study compares municipalities just above and below zero. Under continuity of potential outcomes, no precise sorting, and no other discontinuous treatment, what does the local outcome jump identify?",
+        "answer": "The causal effect of winning office for elections at the threshold.",
+        "explanation": "A sharp regression discontinuity identifies the treatment effect at the cutoff under these assumptions. Extrapolation beyond close elections requires additional assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-07:01",
+        "prompt": "In hypothetical municipalities an institutional reform group’s turnout rises from 50% to 62%, while untreated municipalities rise from 55% to 60%. Assume parallel untreated trends, no anticipation, and no spillovers. What is the two-period difference-in-differences estimate?",
+        "answer": "7 percentage points.",
+        "explanation": "The treated change is 12 points and the control change is 5, so the estimated effect is 12−5=7 points."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-08:01",
+        "prompt": "A randomized encouragement increases voter information, but also directly subsidizes transport to polling stations. A researcher instruments information with encouragement to estimate its effect on turnout. Which assumption is threatened?",
+        "answer": "Exclusion, because encouragement can affect turnout outside the information channel.",
+        "explanation": "Even randomized encouragement is not a valid instrument for information if transport provides a separate path to turnout. Randomization alone does not establish exclusion."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-09:01",
+        "prompt": "Villages are randomized to conflict-mediation training. Residents also share techniques with nearby control villages. What concern arises when interpreting the simple treated-minus-control difference as an effect of training versus no exposure?",
+        "answer": "Control outcomes may reflect indirect exposure, violating the no-interference comparison.",
+        "explanation": "Training assignment can affect other villages’ outcomes. The contrast may combine direct and indirect effects and need not equal an isolated exposure effect; its bias direction is not given."
+      },
+      "last": null
+    },
+    {
+      "course": "political-economy",
+      "family": "political-economy-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "political-economy:political-economy-u6-10:01",
+        "prompt": "A randomized audit program increases detected irregularities. Detection effort also rises under the program. What can be concluded about actual underlying corruption from detected counts alone?",
+        "answer": "Its change is ambiguous because detection probability also changed.",
+        "explanation": "Detected irregularities depend on both true incidence and detection. Randomization identifies the effect on observed detections, but does not separate those components without further measurement assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-01:01",
+        "prompt": "Identical households consume a fixed 100 square meters of housing and have identical incomes. Annual commuting cost rises by 200 when distance rises by one kilometer. Amenities are constant. What annual rent gradient per square meter maintains equal utility?",
+        "answer": "−2 per kilometer.",
+        "explanation": "The extra commuting bill must be offset by 100 times the fall in rent per square meter. Thus 100r′ = −200 and r′ = −2."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-02:01",
+        "prompt": "In a differentiable monocentric city, identical households choose housing q and other consumption, commute at monetary cost t per kilometer, and attain common utility. Income and amenities do not vary with residential distance. What is the residential housing bid-rent slope at distance x?",
+        "answer": "−t/q(x).",
+        "explanation": "The envelope condition along an equal-utility bid-rent curve is q(x)r′(x) + t = 0. Housing adjustment affects the denominator but does not eliminate the commuting tradeoff."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-03:01",
+        "prompt": "Annual residential land bid rent is 800 − 20x, where x is kilometers from the center. Agricultural rent is 200 and conversion is costless. Where is the competitive city edge?",
+        "answer": "30 kilometers.",
+        "explanation": "At the edge, urban and agricultural bids coincide: 800 − 20x = 200, giving x = 30. Setting urban rent to zero ignores the outside use."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-04:01",
+        "prompt": "For locations from zero to 10 kilometers from the center, retail land bids are 900 − 60x and residential land bids are 500 − 10x. Assume no other uses and competitive allocation to the highest bidder. Which pattern follows?",
+        "answer": "Retail inside 8 kilometers and housing outside 8 kilometers.",
+        "explanation": "The bids cross at 400 = 50x, or x = 8. Retail pays more near the center but loses that advantage as distance increases."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-05:01",
+        "prompt": "Competitive developers combine land and capital to produce housing with substitution between inputs. If housing prices are higher near the center and capital has the same price everywhere, what adjustment is expected under standard diminishing marginal products?",
+        "answer": "More capital per unit of land near the center.",
+        "explanation": "Higher housing revenue raises the profitable capital input on a fixed parcel until the value marginal product equals capital cost. This is the intensive building margin."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-06:01",
+        "prompt": "A small open city has freely mobile identical households and an unchanged outside utility level. A local productivity improvement attracts residents. What pins down residents' long-run equilibrium utility?",
+        "answer": "The unchanged utility available elsewhere.",
+        "explanation": "Free mobility prevents a persistent utility advantage for marginal identical households. Wages, rents, and population adjust to the outside utility benchmark."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-07:01",
+        "prompt": "A closed monocentric city has a fixed population, absentee landowners, and no relocation to other cities. A commuting technology improves. Which statement about the model's closure is correct?",
+        "answer": "Residents' equilibrium utility may change because migration does not pin it down.",
+        "explanation": "A closed-city condition fixes population, not utility. The full equilibrium determines utility and rents following the transport improvement."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-08:01",
+        "prompt": "Two household types face commuting cost per kilometer t_i and consume fixed housing q_i. Types H and L have (t_H,q_H) = (30,3) and (t_L,q_L) = (12,1). Which type has the steeper absolute housing bid-rent gradient?",
+        "answer": "Type L, with a gradient magnitude of 12 rather than 10.",
+        "explanation": "The relevant comparison is t_i/q_i: 30/3 = 10 and 12/1 = 12. Higher time cost alone does not settle residential sorting when housing consumption differs."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-09:01",
+        "prompt": "A household uses one unit of housing and has utility c + a(x). Its budget is c + r(x) + tx = y. If a′(x) = 3 and t = 5, what rent gradient preserves utility?",
+        "answer": "−2 per unit of distance.",
+        "explanation": "Constant utility implies −r′ − t + a′ = 0, hence r′ = 3 − 5 = −2. The outward amenity improvement partly offsets commuting costs."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u1-10:01",
+        "prompt": "A model gives every worker a job at one downtown point. Data from a hypothetical city instead show a major second job center and workers commuting to it. What is the most direct reason to extend the model?",
+        "answer": "Commuting costs now depend on workplace assignment, not just distance to downtown.",
+        "explanation": "A second center changes the relevant accessibility calculation. Polycentric models retain land markets and equilibrium while allowing multiple destinations."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-01:01",
+        "prompt": "Local housing demand is Q = 100 − P and supply is Q = 20 + P. A demand increase changes demand to Q = 120 − P. What happens to equilibrium price and quantity?",
+        "answer": "Both rise by 10.",
+        "explanation": "Initially P = 40 and Q = 60; afterward P = 50 and Q = 70. Supply and demand slopes split the intercept shift between price and quantity."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-02:01",
+        "prompt": "Two cities have identical downward-sloping demand and identical initial prices and quantities. One has a steeper upward-sloping housing supply curve. For the same small outward demand shift, what follows?",
+        "answer": "The steeper-supply city has a larger price rise and smaller quantity rise.",
+        "explanation": "A less elastic supply response absorbs less demand through construction, so more adjustment occurs through price. This comparison holds the demand shift and initial equilibrium fixed."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-03:01",
+        "prompt": "A developer's unconstrained profit-maximizing building has eight floors. A binding rule permits at most five, with prices and other rules held fixed. What is the direct effect of relaxing the limit to six floors?",
+        "answer": "It expands the feasible set and cannot reduce maximized private profit.",
+        "explanation": "A six-floor cap preserves every previously feasible choice and adds new ones. This private optimization statement does not quantify general-equilibrium rents or require immediate construction."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-04:01",
+        "prompt": "In a competitive land market, a binding minimum lot size rises while household number and all other conditions are held fixed for a local feasibility comparison. What does the rule directly constrain?",
+        "answer": "The number of separate homes that can fit on a given land area.",
+        "explanation": "Larger required lots reduce the maximum feasible count of homes on fixed land, absent exceptions. Price and population responses require an equilibrium analysis beyond that constraint."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-05:01",
+        "prompt": "A binding rent ceiling is imposed on a fixed stock of identical rental units. Demand slopes downward, and no units can leave the rental stock in this short-run example. What follows at the ceiling?",
+        "answer": "More households demand units than there are units available.",
+        "explanation": "A price below the market-clearing level creates excess demand with fixed stock. The allocation then depends on rationing; the price ceiling alone does not identify who receives units."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-06:01",
+        "prompt": "A city's housing demand falls permanently. Existing homes are durable, cannot be moved, and remain habitable at rents below replacement cost. What is a plausible adjustment?",
+        "answer": "Prices fall while much of the existing stock remains in use.",
+        "explanation": "Sunk construction costs do not set the shutdown threshold for existing homes. Durability makes downward quantity adjustment slower than a model with fully reversible capital suggests."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-07:01",
+        "prompt": "Building a permitted project takes two years. An unexpected demand increase occurs today. Why can the immediate price response exceed the later response?",
+        "answer": "New supply cannot arrive immediately but can expand after construction is completed.",
+        "explanation": "The short-run stock is less responsive than the later stock. A delayed supply expansion can dampen prices relative to the initial scarcity response, without requiring a demand reversal."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-08:01",
+        "prompt": "Ignore taxes, risk, depreciation, maintenance, and transaction costs. A home costs 200,000, the annual interest rate is 5%, and expected annual appreciation is 2% of its price. What is its one-year expected user cost?",
+        "answer": "6,000.",
+        "explanation": "Opportunity interest cost is 10,000 and expected capital gain is 4,000, so expected user cost is 6,000. Appreciation offsets part of the cost of holding the asset."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-09:01",
+        "prompt": "Competitive new-home supply has constant marginal construction cost 200,000 and land is available at a fixed price already included in that cost. Demand remains downward sloping. A fee of 20,000 is charged on every new home, with no public benefit. What is the new supply price?",
+        "answer": "220,000, with fewer new homes demanded.",
+        "explanation": "With perfectly elastic supply and the stated fixed land cost, the fee shifts supply price up by its full amount. The quantity falls along demand. Different land-market assumptions could change incidence."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u2-10:01",
+        "prompt": "New high-quality apartments are built in a housing market with heterogeneous units and households. Which claim about filtering is justified without additional assumptions or evidence?",
+        "answer": "Household moves can transmit effects to older units, but the size and timing must be established.",
+        "explanation": "Move chains link segments of a housing market, but vacancy chains, quality change, and migration determine the outcome. A mechanism is not a one-for-one empirical estimate."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-01:01",
+        "prompt": "Several small firms cluster and jointly support a specialized repair service that none could sustain alone. Which agglomeration mechanism does this illustrate?",
+        "answer": "Sharing an input with indivisible setup costs.",
+        "explanation": "Pooling demand allows a specialized supplier to cover fixed costs. The benefit comes from shared input availability rather than workers learning from one another."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-02:01",
+        "prompt": "A worker's specialized skill matches only a small fraction of firms. A larger local market raises the probability of finding a compatible employer without changing the worker's skill. Which mechanism is most direct?",
+        "answer": "Improved matching in a thicker labor market.",
+        "explanation": "More potential employers improve match opportunities for a given skill. Learning would change skills or productivity through acquired knowledge, which the prompt holds fixed."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-03:01",
+        "prompt": "An engineer learns a production technique through informal local contacts, increasing the employer's productivity without payment to the source. What is the relevant externality?",
+        "answer": "An uncompensated knowledge spillover.",
+        "explanation": "The benefit crosses organizational boundaries without compensation. Proximity can facilitate such learning, though the example alone does not measure its prevalence."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-04:01",
+        "prompt": "In a hypothetical cross section, dense cities pay higher wages. Workers with higher unobserved productivity also choose dense cities. What prevents reading the wage-density coefficient as a causal agglomeration effect?",
+        "answer": "Worker sorting can create an omitted-productivity bias.",
+        "explanation": "The coefficient can combine productivity benefits of density with differences in worker composition. A design must address selection to isolate a causal density effect."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-05:01",
+        "prompt": "Identical mobile workers consume one unit of housing and have utility w − r + a. City A has w = 80 and r = 30; city B has w = 70 and r = 25. If equilibrium utility is equal, what must hold?",
+        "answer": "B's amenity value exceeds A's by 5.",
+        "explanation": "A offers net income 50 and B 45, so B needs five extra units of amenity value to equalize utility. Nominal wages alone do not rank welfare."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-06:01",
+        "prompt": "An open city has utility w − r + a, one housing unit per worker, fixed amenity a, and an unchanged outside utility level. If equilibrium wages rise by 8, how much must housing rent rise for mobile identical workers?",
+        "answer": "8.",
+        "explanation": "Mobility fixes w − r + a. With a unchanged and unit housing consumption, the wage increase must be exactly offset by rent. This is a particular closure, not a universal empirical pass-through."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-07:01",
+        "prompt": "Let total real surplus of a city with N residents be S(N) = 20N + 4N² − N³. Transfers are excluded and N is continuous. What is the positive population maximizing surplus per resident?",
+        "answer": "N = 2.",
+        "explanation": "Surplus per resident is 20 + 4N − N². Its derivative is 4 − 2N, so the unique positive maximizer is 2, with negative second derivative. Total surplus has a different first-order condition."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-08:01",
+        "prompt": "Doubling one firm's output lowers its average cost even when all other firms and local employment are held fixed. What does this establish?",
+        "answer": "Internal economies of scale for that firm.",
+        "explanation": "The cost advantage follows the firm's own scale while the surrounding economy is fixed. External agglomeration economies require an effect from activity outside the firm."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-09:01",
+        "prompt": "A supplier's market-access index is M_i = Σ_j E_j/τ_ij, where E_j > 0 is fixed destination spending and τ_ij > 0 is a trade-cost factor. Holding everything else fixed, what happens when one τ_ij falls?",
+        "answer": "M_i rises.",
+        "explanation": "A smaller positive denominator raises that destination's contribution when spending is positive. The index captures improved access, not an unrestricted welfare theorem."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u3-10:01",
+        "prompt": "Workers face a one-time moving cost and differ in attachment to their hometowns. What spatial-equilibrium conclusion no longer follows from mobility alone?",
+        "answer": "All residents everywhere must have identical realized utility.",
+        "explanation": "Moving costs and heterogeneous location preferences permit persistent utility differences without profitable relocation. The frictionless identical-worker equalization condition is not generally valid here."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-01:01",
+        "prompt": "There are q trips per hour, each with monetized travel cost c(q) = 10 + 0.1q. At q = 100, what congestion cost does one marginal trip impose on other travelers in the continuous approximation?",
+        "answer": "10 per trip.",
+        "explanation": "The external cost is qc′(q) = 100 × 0.1 = 10. The traveler already bears own cost c(q) = 20; social marginal cost is 30."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-02:01",
+        "prompt": "Inverse demand for trips is p(q) = 50 − q and private trip cost is c(q) = 10 + 0.5q. There are no other externalities. What trip flow maximizes total surplus?",
+        "answer": "20.",
+        "explanation": "Social marginal cost is c + qc′ = 10 + q. Equating this to 50 − q gives q = 20. Equating demand to private cost instead gives the unpriced flow."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-03:01",
+        "prompt": "Inverse trip demand is 50 − q and private cost is 10 + 0.5q. At the efficient flow q = 20, what congestion toll decentralizes that flow?",
+        "answer": "10.",
+        "explanation": "The toll is external marginal cost qc′ = 20 × 0.5 = 10. Users then face private cost 20 plus toll 10, equal to willingness to pay 30."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-04:01",
+        "prompt": "A congestion toll collects 1,000 from local drivers and rebates the full amount to those same residents at no administrative cost. In an aggregate local cost-benefit account, how should this payment be treated?",
+        "answer": "As a transfer, while travel-time and behavioral changes affect resource welfare.",
+        "explanation": "The payment leaves drivers' pockets and enters residents' rebates, cancelling in the aggregate account. Its distribution and the trip responses remain relevant."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-05:01",
+        "prompt": "Road capacity rises and generalized trip costs initially fall. With downward-sloping trip demand, what behavioral response should an appraisal allow?",
+        "answer": "Additional trips or changes in route, time, or mode can absorb some initial cost reduction.",
+        "explanation": "Cheaper travel changes behavior along relevant demand margins. This can offset some initial savings, but its magnitude and any complete offset require further assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-06:01",
+        "prompt": "A bus trip takes 40 minutes and costs 2. A car trip takes 20 minutes and costs 8, including parking. At a value of time of 12 per hour and no other differences, which is cheaper in generalized cost?",
+        "answer": "Bus, by 2.",
+        "explanation": "Bus cost is 2 + 12(40/60) = 10; car cost is 8 + 12(20/60) = 12. The faster mode need not have lower total cost."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-07:01",
+        "prompt": "The marginal congestion externality is positive during the peak and zero off-peak. There are no other externalities or revenue constraints. Which pricing rule directly targets the distortion?",
+        "answer": "A positive peak toll and a zero off-peak congestion toll.",
+        "explanation": "A congestion charge should match external marginal delay at each time. A uniform toll generally misses the temporal variation in the stated externality."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-08:01",
+        "prompt": "A higher transit frequency reduces waiting times for existing passengers, a benefit ignored by each new rider whose fare helps support service. What mechanism can this create?",
+        "answer": "A positive service-frequency externality from ridership.",
+        "explanation": "With service responding to demand, extra ridership can improve frequency for others. This mechanism can support a subsidy argument but must be weighed against costs and other distortions."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-09:01",
+        "prompt": "A queue at a road bottleneck wastes travelers' time. A well-designed time-varying toll removes the queue while leaving the same number of travelers and the same aggregate schedule-delay cost. Toll receipts are rebated costlessly. What is the resource welfare effect?",
+        "answer": "Welfare rises by the value of eliminated queueing time.",
+        "explanation": "Queueing consumes time; a rebated toll is a transfer. Given unchanged schedule delay and trip count, the saved queue time is the resource gain."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u4-10:01",
+        "prompt": "A rail improvement's only benefit is reduced commuting cost, fully capitalized into land values. An appraisal already counts the present value of all commuting savings. Should it also add the full land-value increase?",
+        "answer": "No; that would count the same accessibility benefit twice.",
+        "explanation": "Under the explicit full-capitalization and sole-benefit assumptions, higher land value reflects the same commuting benefit. Alternative accounting approaches can use either measure without summing both."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-01:01",
+        "prompt": "Two residents share a nonrival park service G. Their marginal benefits are 12 − G and 8 − G, and marginal provision cost is 10. Both marginal benefits are positive at the solution. What G is efficient?",
+        "answer": "5.",
+        "explanation": "Add marginal benefits vertically: 20 − 2G = 10, giving G = 5. Equating either resident's benefit alone to cost ignores the shared service."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-02:01",
+        "prompt": "Households can move costlessly among many jurisdictions offering different tax-service bundles and have full information. What role does residential choice play in the Tiebout mechanism?",
+        "answer": "It helps reveal preferences through selection among fiscal bundles.",
+        "explanation": "Choosing among bundles can sort residents by preferences for local services and taxes. Strong efficiency conclusions need additional assumptions, including appropriate treatment of spillovers and community size."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-03:01",
+        "prompt": "A town chooses park spending using only its residents’ benefits. Neighboring residents receive strictly positive marginal benefits at the town’s optimum, and the town receives no compensation. Benefits are concave, costs are strictly convex, and both the town’s and joint optima are interior. How does town provision compare with the joint optimum?",
+        "answer": "The town provides too little because it omits neighbors' marginal benefits.",
+        "explanation": "The town equates its own marginal benefit to cost, while the joint condition includes positive benefits outside its border. This omitted benefit pushes decentralized provision downward."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-04:01",
+        "prompt": "A parcel faces a newly announced permanent annual tax of 600, with no additional services. The discount rate is 5%, rents before tax are unchanged, and the first tax is due in one year. Under full capitalization, how does its price change?",
+        "answer": "It falls by 12,000.",
+        "explanation": "The present value of the perpetual tax is 600/0.05 = 12,000. The price falls because ownership carries that liability without offsetting services."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-05:01",
+        "prompt": "A researcher compares home prices very near opposite sides of a school attendance boundary. Which condition is central to attributing a price discontinuity to school assignment?",
+        "answer": "Other determinants of prices must be continuous at the boundary, absent school assignment.",
+        "explanation": "A boundary design uses local continuity, so coincident discontinuities in amenities, taxes, or housing attributes threaten interpretation. It does not require citywide random assignment."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-06:01",
+        "prompt": "Children in a high-income neighborhood have higher test scores than children elsewhere. Families select neighborhoods partly based on unobserved educational investments. What does the raw score gap identify?",
+        "answer": "An association combining selection and possible neighborhood effects.",
+        "explanation": "Residential selection changes who lives in each neighborhood. The raw comparison does not isolate a causal effect of neighborhood exposure or school spending."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-07:01",
+        "prompt": "Two towns each tax assessed property value at 1%. Town A has a tax base of 100 million and town B has 60 million. With no exemptions or collection losses, how much more annual revenue does A receive?",
+        "answer": "400,000.",
+        "explanation": "Revenues are 1 million and 600,000, a difference of 400,000. Equal rates do not equalize revenue when tax bases differ."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-08:01",
+        "prompt": "A central government reimburses 40% of a town's eligible spending on a service. There are no caps and each unit costs 10. What marginal price does the town face from its own budget?",
+        "answer": "6 per unit.",
+        "explanation": "The town pays 60% of each 10-unit cost, or 6. The grant changes the marginal fiscal price, unlike a fixed lump-sum grant."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-09:01",
+        "prompt": "A town receives an unconditional fixed grant whose amount does not change with service spending. Ignoring tax distortions, what is its direct budget effect?",
+        "answer": "It expands resources without changing the relative price of the local service.",
+        "explanation": "A fixed transfer shifts the budget outward but does not rotate it. Spending responses depend on preferences rather than a mechanical matching-rate incentive."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u5-10:01",
+        "prompt": "A town finances a fixed per-household public service with a property tax. A proposed low-value home would pay less tax than its household's service cost. What narrow fiscal incentive might this create for incumbent taxpayers?",
+        "answer": "An incentive to exclude that home to avoid sharing its fiscal shortfall.",
+        "explanation": "The entrant's tax payment can be below the marginal fiscal burden in the stated model. That incumbent fiscal calculation omits the entrant's welfare and broader housing-market effects."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-01:01",
+        "prompt": "A subsidized district gains jobs, but all additional workers commute from outside and incumbent residents' earnings are unchanged. Which conclusion is supported by these stipulated facts?",
+        "answer": "District employment rises without an observed earnings gain for incumbent residents.",
+        "explanation": "The geographic job count and the welfare of original residents are different outcomes. Commuter gains, property values, costs, and displacement elsewhere remain relevant but unspecified."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-02:01",
+        "prompt": "A subsidy causes 80 jobs to move from district B to district A, with no change in output, productivity, employment elsewhere, or unemployment. What is the net metropolitan employment change?",
+        "answer": "Zero.",
+        "explanation": "A gains exactly the jobs that B loses. Counting only the subsidized district mistakes relocation for aggregate job creation."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-03:01",
+        "prompt": "Employment rises from 100 to 130 in a treated district and from 80 to 90 in a comparison district. With parallel untreated trends, no anticipation, and no spillovers, what is the difference-in-differences estimate?",
+        "answer": "20 jobs.",
+        "explanation": "The treated change is 30 and the comparison change is 10. Subtracting the latter estimates the untreated counterfactual change, leaving 20."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-04:01",
+        "prompt": "A place-based subsidy draws firms out of the comparison district, reducing its employment relative to its untreated path. In an otherwise valid difference-in-differences design, how does this affect the estimated treated-district effect?",
+        "answer": "It biases the estimate upward relative to the treated district's own causal gain.",
+        "explanation": "The comparison district's depressed change is subtracted, inflating the treatment contrast. Fixed effects do not remove treatment-induced spillovers that vary over time."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-05:01",
+        "prompt": "A transport project is publicly announced two years before construction starts, and land prices respond immediately to expected access. What problem arises if the event study treats construction start as the first possible treatment date?",
+        "answer": "Some nominal pre-treatment observations already contain the policy's effect.",
+        "explanation": "Expectations can capitalize benefits at announcement. Pre-construction price changes need not be evidence of a violation of untreated trends if treatment effectively began earlier."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-06:01",
+        "prompt": "Neighborhoods below a predetermined poverty-score cutoff become eligible for a grant. Which threat most directly undermines a local regression-discontinuity comparison?",
+        "answer": "Precise manipulation of the score around the eligibility cutoff.",
+        "explanation": "Precise sorting around the cutoff can make nearby eligible and ineligible units systematically different. Smooth outcome-score relationships are exactly what local RD accommodates."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-07:01",
+        "prompt": "A researcher instruments present rail access with a historical route plan. The plan also caused durable zoning differences that affect current wages independently of rail access. Which assumption is threatened?",
+        "answer": "The exclusion restriction.",
+        "explanation": "A direct path from the instrument through zoning to wages violates exclusion unless appropriately blocked or incorporated into the treatment. Relevance is a separate question about prediction of rail access."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-08:01",
+        "prompt": "A firm's expansion creates an unpriced marginal productivity benefit of 4 for other firms and a marginal congestion harm of 1. All other margins are efficient and administrative costs are zero. What net corrective subsidy per unit targets these externalities?",
+        "answer": "3.",
+        "explanation": "Net marginal external benefit is 4 − 1 = 3. A subsidy equal to that net benefit aligns the private and social expansion incentives under the stated assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-09:01",
+        "prompt": "A neighborhood improvement raises amenities and market rents. An incumbent renter's lease resets immediately, housing consumption is fixed at one unit, and their amenity valuation rises by 50 while rent rises by 70. Holding income and all else fixed, what is their utility-equivalent net change?",
+        "answer": "A loss of 20.",
+        "explanation": "For this renter, the amenity gain minus the rent increase is 50 − 70 = −20. Aggregate place improvements do not guarantee gains for every incumbent household."
+      },
+      "last": null
+    },
+    {
+      "course": "urban-economics",
+      "family": "urban-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "urban-economics:urban-economics-u6-10:01",
+        "prompt": "A constructed policy creates verified external benefits worth 5 million and uses 2 million of real administrative resources. It also pays a 10 million transfer from domestic taxpayers to domestic firms. Assume no tax distortions, no foreign recipients, and no other effects. What is net national resource surplus?",
+        "answer": "3 million.",
+        "explanation": "Benefits minus real resource costs give 5 − 2 = 3 million. The domestic transfer cancels in aggregate under the stated assumptions; distribution still changes."
       },
       "last": null
     },

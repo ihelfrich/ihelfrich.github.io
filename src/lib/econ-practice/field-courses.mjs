@@ -1,3 +1,9 @@
+import urban from '../../../content/econ-drafts/urban-economics.json' with {type:'json'};
+import urbanRelease from '../../../content/econ-drafts/urban-economics-release.json' with {type:'json'};
+import political from '../../../content/econ-drafts/political-economy.json' with {type:'json'};
+import politicalRelease from '../../../content/econ-drafts/political-economy-release.json' with {type:'json'};
+import health from '../../../content/econ-drafts/health-economics.json' with {type:'json'};
+import healthRelease from '../../../content/econ-drafts/health-economics-release.json' with {type:'json'};
 import environmental from '../../../content/econ-drafts/environmental-economics.json' with {type:'json'};
 import environmentalRelease from '../../../content/econ-drafts/environmental-economics-release.json' with {type:'json'};
 import behavioral from '../../../content/econ-drafts/behavioral-economics.json' with {type:'json'};
@@ -24,7 +30,7 @@ import {family,families} from './bank.mjs';
 import {fieldQuestionAt} from './field-expansions.mjs';
 import {auditFieldRelease} from './field-release.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);
