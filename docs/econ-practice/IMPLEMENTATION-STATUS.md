@@ -457,3 +457,9 @@ Migration 0007 stores the exact selected item's measurement parameters, status a
 
 Tests compare replay directly with the posterior from known stored parameters, reject invalid/missing/mismatched snapshots, verify storage/export, and reject model-ID mutation. All 107 focused tests, the structural bank audit and Worker dry-run bundle pass. This pins measurement parameters per presentation; activation, selection from approved registered models, full session model pinning and historical scoring-algorithm versioning are still separate work. No empirical model has been activated.
 
+# Unit-specific calibration selection
+
+Engine v9 accepts `calibrationsByUnit`, validates approved-model course/unit/version scope, and uses each unit's model independently for information-based selection. In assessment mode, a calibrated unit excludes unfitted items rather than falling back to author-seeded parameters; an uncovered required unit with no fitted candidates fails explicitly. Returned parameter snapshots and posterior model guards preserve the selected model per dimension. The existing single-calibration interface remains for simulations and prior callers; supplying both interfaces is rejected.
+
+Regression tests exercise a two-unit assessment with distinct discrimination/difficulty values, check separate posteriors against direct updates, enforce early unit coverage, exclude unfitted items, and reject bad scope, missing parameters and mid-session model replacement. All 109 focused tests and the structural bank audit pass. Practice can still use uncalibrated content for formative routing. The Worker does not yet load active unit models from the registry; authenticated activation and durable session policy pinning remain outstanding. Existing CAT simulation artifacts describe their recorded engine versions and were not rerun as empirical evidence for this new interface.
+

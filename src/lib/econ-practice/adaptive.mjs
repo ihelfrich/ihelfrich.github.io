@@ -1,7 +1,7 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,validateParameterSnapshot,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v8';
+export const ENGINE_VERSION='content-constrained-v9';
 export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
 const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
 function requireCompatibleModel(state,sessionId,course,unit,modelVersion){
@@ -37,11 +37,29 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
  return state;
 }
-export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration,exposedFamilies=[]}={}){
+export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration,calibrationsByUnit,exposedFamilies=[]}={}){
+ if(calibration&&calibrationsByUnit)throw new Error('Provide one calibration source.');
+ if(calibrationsByUnit!==undefined){
+  if(!calibrationsByUnit||typeof calibrationsByUnit!=='object'||Array.isArray(calibrationsByUnit))throw new Error('Invalid unit calibration map.');
+  for(const [dimension,model] of Object.entries(calibrationsByUnit)){
+   if(!/^[1-6]$/.test(dimension))throw new Error('Invalid calibrated unit.');
+   if(model!==null&&(!model||model.status!=='approved'||model.course!==course||model.unit!==Number(dimension)||typeof model.id!=='string'||!model.id.trim()||!model.items||typeof model.items!=='object'||Array.isArray(model.items)))throw new Error('Invalid or mismatched unit calibration.');
+  }
+ }
+ const calibrationFor=q=>{
+  const model=calibrationsByUnit===undefined?calibration:calibrationsByUnit[q.unit];
+  if(model&&calibrationsByUnit!==undefined&&model.bankVersion!==q.version)throw new Error('Unit calibration bank version mismatch.');
+  return model;
+ };
  const session=state.history.filter(h=>h.sessionId===sessionId&&h.course===course);
  const used=new Set(session.map(h=>h.itemId));const families=new Set(session.map(h=>h.family));
  let pool=bank.filter(q=>q.course===course&&(!unit||q.unit===Number(unit))&&(!topic||q.topic===topic)&&!used.has(q.id));
  if(mode==='assessment')pool=pool.filter(q=>!families.has(q.family));
+ if(mode==='assessment'&&calibrationsByUnit!==undefined){
+  const before=pool;
+  pool=pool.filter(q=>{const model=calibrationFor(q);if(!model)return true;if(!Object.hasOwn(model.items,q.id))return false;if(itemParameters(q,model).status!=='calibrated')throw new Error('Missing parameters in calibrated unit.');return true;});
+  for(const dimension of new Set(before.map(q=>q.unit)))if(!session.some(h=>h.unit===dimension)&&!pool.some(q=>q.unit===dimension))throw new Error(`No calibrated items available for required unit ${dimension}.`);
+ }
  if(!pool.length)return null;
  let remediationTopic=null;
  if(mode==='practice'&&session.length>=2){
@@ -63,7 +81,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
  const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
  const scored=pool.map(q=>{
-  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibration);
+  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibrationFor(q));
   const deficit=courses[course].weights[q.unit-1]*(session.length+1)-unitCounts[q.unit-1];
   let utility=2*deficit;
   if(mode==='assessment'){requireCompatibleModel(state,sessionId,course,q.unit,params.modelVersion);utility+=expectedInformation(weights,params);}
@@ -87,7 +105,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const mass=sums.map((sum,i)=>sum/groups[i].length),total=mass.reduce((a,b)=>a+b,0);
  const sample=weights=>{let draw=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){draw-=weights[i];if(draw<0)return i;}return weights.length-1;};
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
- const parameters=itemParameters(picked,calibration);
+ const parameters=itemParameters(picked,calibrationFor(picked));
  return {item:picked,parameters,selection:{engineVersion:ENGINE_VERSION,exposureStatus,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:parameters.modelVersion}};
 }
 export function progress(state,course,{sessionId='local'}={}){
