@@ -16,3 +16,9 @@ test('each undergraduate family receives its own scaffold rather than a shared t
  const {buildBank}=await import('../../src/lib/econ-practice/index.mjs');
  for(const item of buildBank().filter(q=>q.course.startsWith('college-'))){const hint=hintFor(item);assert.equal(hint.hintScope,`${item.course}:family:${item.family}`);assert.ok(hint.hint.length>60);}
 });
+
+test('macro family exceptions target the actual calculation or classification',()=>{
+ for(const family of ['opportunity','bond-price','growth','appreciation','macro-natural-rate','bank-reserves','macro-money-demand','macro-stabilizers'])assert.equal(hintFor({course:'ap-macro',family}).hintScope,`ap-macro:family:${family}`);
+ assert.match(hintFor({course:'ap-macro',family:'bond-price'}).hint,/amount paid today/);
+ assert.match(hintFor({course:'ap-macro',family:'growth'}).hint,/per hour/);
+});

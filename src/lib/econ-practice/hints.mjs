@@ -1,6 +1,6 @@
 import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v3';
+export const HINT_VERSION='topic-scaffolds-v4';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -66,7 +66,18 @@ const macro={
  '6.3':'Identify which cross-border transactions belong in the current account. When using saving minus investment, apply the accounting definitions given.',
  '6.4':'Compare expected returns after accounting for exchange-rate expectations and risk. A higher quoted interest rate alone need not guarantee a higher expected return.'
 };
+const macroFamily={
+ opportunity:'Divide the amount of food forgone by the number of additional machines. The requested units are food per machine, not machines per food unit.',
+ 'bond-price':'For a one-year zero-coupon bond, compare the maturity payment with the purchase price. Express the gain as a percentage of the amount paid today.',
+ growth:'Labor productivity is output per hour worked. Calculate its percentage change, checking whether hours change as well as output.',
+ appreciation:'Read the quotation as yen obtainable with one dollar. Compare that purchasing power before and after the change, then name which currency strengthens.',
+ 'macro-natural-rate':'Separate cyclical unemployment from frictional and structural unemployment. Potential output does not require every member of the labor force to have a job.',
+ 'bank-reserves':'Calculate required reserves from deposits and the required reserve ratio, then compare that requirement with the reserves actually held.',
+ 'macro-money-demand':'At each interest rate, consider how higher nominal income changes desired transaction balances. Then find the adjustment needed with money supply fixed.',
+ 'macro-stabilizers':'Trace how the existing tax rule changes disposable income as earnings fall. Compare the income decline with what would happen if tax payments did not respond.'
+};
 export function hintFor(item){
+ if(item.course==='ap-macro'&&macroFamily[item.family])return {hint:macroFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-macro:family:${item.family}`};
  const specific=undergraduateHints[item.course]?.[item.family];
  if(specific)return {hint:specific,hintVersion:HINT_VERSION,hintScope:`${item.course}:family:${item.family}`};
  if(item.course==='ap-macro'&&macro[item.topic])return {hint:macro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-macro:${item.topic}`};
