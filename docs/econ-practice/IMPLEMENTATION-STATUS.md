@@ -557,3 +557,7 @@ Added a linked curriculum directory at /economics-practice/curriculum/ containin
 ### Analyst exclusion rationale
 
 The instructor IRT workbench now requires a nonblank rationale whenever item IDs are excluded. The trimmed rationale is included with excluded IDs and response counts in the exported analysis manifest; it does not alter the original response ledger. Input is limited to 2,000 characters, and switching dataset scope clears both exclusions and rationale. Regression coverage verifies missing-rationale rejection, manifest retention and unchanged source rows. All 153 tests pass. This records the analyst's stated reason, not independent validation of the exclusion decision; authenticated browser interaction remains to be verified.
+
+### Exclusion interface regression
+
+Added a DOM integration regression using the actual instructor-page markup and workbench event handlers. It loads a constructed ledger, rejects exclusion without a reason, accepts and visibly displays the rationale as plain text, and clears both fields/results on scope change. This verifies the interface wiring and prevents HTML interpretation in rationale display. It is not production authentication or browser visual validation. The first ten in-progress financial-economics draft items were parent-inspected; full course release review remains pending.
