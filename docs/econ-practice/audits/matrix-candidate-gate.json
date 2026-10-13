@@ -1,0 +1,11 @@
+{
+  "change": "Candidate validation requires a lowercase SHA-256 fitted response matrix hash in every report.",
+  "evidence": "econ-package.test.mjs rejects missing, null, empty and malformed hashes even with a matching report review; changing a valid matrix hash invalidates the existing review and changes the immutable package identity after re-review.",
+  "verification": {
+    "testsPassed": 170,
+    "bankAuditErrors": 0,
+    "bankAuditWarnings": 0
+  },
+  "compatibility": "Reports from older fitters without matrixSHA256 must be re-exported and refitted before packaging.",
+  "limits": "The candidate validator checks hash presence and binds it through the report hash. It does not independently inspect response bytes; calibrate.R performs that byte comparison before fitting. No operational model was approved or activated."
+}

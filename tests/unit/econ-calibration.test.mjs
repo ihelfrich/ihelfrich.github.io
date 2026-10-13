@@ -43,7 +43,7 @@ test('an item that becomes constant after respondent filtering cannot pass fit s
 test('candidate review is bound to exact report parameters, diagnostics, selected model and scope',async()=>{
  const {validateCandidate,reportHash}=await import('../../scripts/econ-practice/validate-candidate.mjs');
  // Fabricated technical fixture only; this is not substantive review evidence or an operational model.
- const report={synthetic:false,bankVersion:'fixture-v1',course:'ap-micro',unit:2,sourceSHA256:'a'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:200},items:{i:{a:1,b:0,c:0,d:1}}}}};
+ const report={synthetic:false,matrixSHA256:'e'.repeat(64),bankVersion:'fixture-v1',course:'ap-micro',unit:2,sourceSHA256:'a'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:200},items:{i:{a:1,b:0,c:0,d:1}}}}};
  const gates=Object.fromEntries(['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'].map(key=>[key,{decision:'accepted',evidence:'Technical fixture',rationale:'Testing validator binding only'}]));
  const review={reviewer:'Fixture reviewer',reviewedAt:'2026-10-12T00:00:00Z',sourceSHA256:report.sourceSHA256,reportSHA256:reportHash(report),model:'2PL',bankVersion:'fixture-v1',course:'ap-micro',unit:2,gates};
  const options={bankVersion:'fixture-v1',review};assert.equal(validateCandidate(report,options).readyForInstructorApproval,true);
@@ -63,7 +63,7 @@ test('canonical artifact hashing rejects silently lossy JSON values',async()=>{
 
 test('calibration readiness requires typed provenance, diagnostics, counts and review evidence',async()=>{
  const {validateCandidate,reportHash}=await import('../../scripts/econ-practice/validate-candidate.mjs');
- const base={synthetic:false,bankVersion:'fixture',course:'ap-micro',unit:2,sourceSHA256:'b'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:100},items:{q:{a:1,b:0,c:0,d:1}}}}};
+ const base={synthetic:false,matrixSHA256:'e'.repeat(64),bankVersion:'fixture',course:'ap-micro',unit:2,sourceSHA256:'b'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:100},items:{q:{a:1,b:0,c:0,d:1}}}}};
  function check(report,patch={}){
   const gates=Object.fromEntries(['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'].map(k=>[k,{decision:'accepted',evidence:'Technical fixture only',rationale:'Tests validation, not scientific adequacy'}]));
   const review={reviewer:'Fixture',reviewedAt:'2026-10-12T00:00:00Z',sourceSHA256:report.sourceSHA256,reportSHA256:reportHash(report),model:'2PL',bankVersion:'fixture',course:'ap-micro',unit:2,...patch,gates:{...gates,...patch.gates}};

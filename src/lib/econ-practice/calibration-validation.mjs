@@ -12,6 +12,7 @@ export function validateCandidateContent(report,{model='2PL',bankVersion,review,
  if(!['1PL','2PL'].includes(model))issues.push('Unsupported calibration model.');
  if(!text(bankVersion)||report.bankVersion!==bankVersion)issues.push('Bank version mismatch.');
  if(typeof report.sourceSHA256!=='string'||!/^[a-f0-9]{64}$/.test(report.sourceSHA256))issues.push('Missing or invalid source data hash.');
+ if(typeof report.matrixSHA256!=='string'||!/^[a-f0-9]{64}$/.test(report.matrixSHA256))issues.push('Missing or invalid fitted response matrix hash. Re-export and refit the candidate.');
  if(!validCourseUnit(report.course,report.unit))issues.push('Missing or invalid calibration course/unit scope.');
  if(!object(candidate))issues.push('Selected model unavailable.');
  else{
