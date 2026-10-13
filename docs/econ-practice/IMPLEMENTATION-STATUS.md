@@ -258,3 +258,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Regression now tests every one-part error across all24 variants, plus selected internally consistent carried-forward errors. Parts receive separate keyed credit; the scorer does not award error-carried-forward credit. All67 focused tests pass.
 - Current first-review evidence covers205 families;27 undergraduate numeric families remain pending. All144 AP Micro families now have a recorded first pass. No content change or bank version bump in this continuation.
 - These multipart exercises are not complete AP free-response rubrics. Written reasoning, graph production, carried-forward credit and empirically validated polytomous scoring remain unfinished. Shared-stem parts remain excluded from binary IRT calibration.
+
+## Continuation: undergraduate micro numeric first review
+
+- Recorded first substantive review of all15 undergraduate micro numeric families/360 variants. Added credible stage-equilibrium punishment, best-deviation, symmetric relevant payoffs and perfect monitoring to the repeated-collusion problem; clarified no-other-distortion/interior/unique-equilibrium assumptions for Pigouvian implementation.
+- MRS, point elasticity, mixing probabilities, collusion thresholds and insurance premiums now vary across variants. Independent prompt-based oracles verify all undergraduate numeric answers; new variation regression guards against constant-outcome families.68 focused tests pass.
+- Bank2026.10.12.15. Reconciliation verifies220 current family reviews with no errors. Only12 undergraduate macro numeric families remain without a first substantive review. Course breadth, second/independent reviews and empirical validation remain separate open gates.

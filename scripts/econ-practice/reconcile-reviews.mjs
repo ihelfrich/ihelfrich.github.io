@@ -16,7 +16,8 @@ const sources=[
  ['d3f541ee','ap-macro-core.json',false,'ap-macro'],
  ['34da9a1f','college-micro-concepts.json',true,'college-micro'],
  ['34da9a1f','college-macro-concepts.json',true,'college-macro'],
- ['9bbc62f8','ap-micro-multipart.json',false,'ap-micro']
+ ['9bbc62f8','ap-micro-multipart.json',false,'ap-micro'],
+ ['865562e3','college-micro-numeric.json',false,'college-micro']
 ];
 const current=buildBank(),evidence=new Map(),errors=[];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'econ-review-'));
