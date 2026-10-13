@@ -1,0 +1,31 @@
+{
+  "checkedCommit": "3b6a48fb447995526d807fd5822acebe1b6bb020",
+  "checkedAt": "2026-10-13T01:41:07.924Z",
+  "checks": [
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "scope": "Configured site pipeline: copy, fieldbook, navigation, tokens, components, economics practice, city, macroeconomics, calculus, OLS, static build, rendered styles and public CV checks.",
+      "economicsTests": 75,
+      "staticPagesBuilt": 130,
+      "renderedPagesChecked": 132
+    },
+    {
+      "command": "npx wrangler deploy --dry-run --config services/econ-response/wrangler.jsonc --outdir .local/econ-worker-check",
+      "exitCode": 0,
+      "scope": "Local Worker bundling and configured binding declaration only.",
+      "wranglerVersion": "4.149.0",
+      "bundleKiB": 191.9,
+      "gzipKiB": 57.75
+    }
+  ],
+  "warnings": [
+    "Astro Markdown plugin configuration deprecation.",
+    "Vite reports some site chunks above500kB."
+  ],
+  "limitations": [
+    "No Cloudflare deployment or live D1/OAuth validation.",
+    "Static rendering and style checks are not a complete browser/accessibility audit.",
+    "Passing configured checks does not prove curricular completeness, psychometric validity, privacy compliance or all concurrency behavior."
+  ]
+}

@@ -295,3 +295,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Reproduced a race where a hint committed after the answer handler read the presentation but before receipt insertion was omitted from response.hints_used. Answer insertion now joins the current presentation and stores its hint count atomically; calibration eligibility also checks the current count.
 - Deterministic regression injects an actual hint request immediately before the response write. It fails on the prior worker (zero hints instead of one) and passes on the fix. A subsequent hint leaves the saved response count unchanged.
 - All75 focused tests pass. Receipt ordering establishes recorded assistance, not proof the student read a delivered hint. No deployment or bank change.
+
+## Continuation: full integration verification
+
+- Ran the complete configured npm run check pipeline against commit3b6a48fb: passed, including75 economics tests, static build (130 generated pages), rendered-style verification (132 pages) and the site's other configured test suites.
+- Cloudflare Wrangler4.149.0 deploy dry run passed; Worker bundle191.90KiB, gzip57.75KiB. This verifies local packaging only, not account access, actual D1 bindings, OAuth or deployed behavior.
+- Existing site build reports Markdown plugin configuration deprecation and large-chunk warnings. No tracked source changes resulted from the build. Saved bounded verification evidence in audits/integration-verification.json.
+- Goal remains incomplete: content/format breadth and further review, operational psychometrics, checkpointing, version continuity, tracking conflicts, privacy/security and live deployment gates remain open.
