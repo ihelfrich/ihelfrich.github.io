@@ -123,3 +123,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Approved item parameters now require an explicit finite discrimination/difficulty pair and model ID, plus valid asymptotes. Validation occurs before recordAnswer mutates student state. Missing difficulty can no longer silently default to zero in an approved model.
 - Maximum-length stopping reports precisionMet only when the same minimum evidence, coverage, finite positive SD and posterior boundary checks used by precision stopping are satisfied. A short SD alone is insufficient.
 - Regression tests verify malformed calibrations leave state unchanged and max-length stops do not make false precision claims. All45 focused tests pass. The live service still requires operational calibration activation and stopping integration; these are mathematical-engine safeguards, not a claim of deployed calibrated CAT.
+
+## Continuation: AP Macro numerical review
+
+- Added independent student-visible-data checks for all18 current AP Macro numeric families (432 variants): national accounts, labor statistics, prices/interest, multipliers, simplified banking, debt/growth, exchange conversion and current-account signs. All46 focused tests pass.
+- Clarified closed-economy/no-income-tax/unchanged-autonomous-investment assumptions for fiscal multipliers and willing borrowers/redepositing for maximum deposit expansion. Bank version2026.10.12.7.
+- No arithmetic defects found in this numeric set. Invariant-answer patterns remain common and need diversification. AP Macro still has only29 families/443 items, and curriculum breadth, conceptual distractor review, diagrams and model diversity remain incomplete. Passing these arithmetic tests is not a claim of complete course coverage or empirical quality.

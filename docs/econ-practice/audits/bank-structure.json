@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.6",
-  "bankSHA256": "ca78b0add3337aec5b281cc4b40b5a1d57e232257df29f1fec4ee0c16ea128d8",
+  "bankVersion": "2026.10.12.7",
+  "bankSHA256": "17fb60cba5548481b06d0cbf18fd6a59106f773f87551300121f1ef05235d28f",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -3009,13 +3009,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:tax-multiplier:01",
-        "prompt": "In the simple fixed-price Keynesian model, MPC is 0.75. Lump-sum taxes rise by 10 billion. What is the change in equilibrium output, including its sign?",
+        "prompt": "In a closed fixed-price Keynesian model with no income-dependent taxes, no imports, and unchanged autonomous investment, MPC is 0.75. Lump-sum taxes rise by 10 billion. What is the change in equilibrium output, including its sign?",
         "answer": -30,
         "explanation": "The tax multiplier is −MPC/(1−MPC) = −3."
       },
       "last": {
         "id": "ap-macro:tax-multiplier:24",
-        "prompt": "In the simple fixed-price Keynesian model, MPC is 0.75. Lump-sum taxes rise by 33 billion. What is the change in equilibrium output, including its sign?",
+        "prompt": "In a closed fixed-price Keynesian model with no income-dependent taxes, no imports, and unchanged autonomous investment, MPC is 0.75. Lump-sum taxes rise by 33 billion. What is the change in equilibrium output, including its sign?",
         "answer": -99
       }
     },
@@ -3031,13 +3031,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:balanced-budget:01",
-        "prompt": "In a closed fixed-price economy with lump-sum taxes and MPC = 0.8, government purchases and taxes both rise by 10 billion. What is the change in equilibrium output?",
+        "prompt": "In a closed fixed-price economy with lump-sum taxes, unchanged autonomous investment, and MPC = 0.8, government purchases and taxes both rise by 10 billion. What is the change in equilibrium output?",
         "answer": 10,
         "explanation": "The spending multiplier is 5 and the tax multiplier is −4. Equal changes therefore have net multiplier 1."
       },
       "last": {
         "id": "ap-macro:balanced-budget:24",
-        "prompt": "In a closed fixed-price economy with lump-sum taxes and MPC = 0.8, government purchases and taxes both rise by 33 billion. What is the change in equilibrium output?",
+        "prompt": "In a closed fixed-price economy with lump-sum taxes, unchanged autonomous investment, and MPC = 0.8, government purchases and taxes both rise by 33 billion. What is the change in equilibrium output?",
         "answer": 33
       }
     },
@@ -3151,13 +3151,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:deposit-multiplier:01",
-        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $10 occurs, with no cash leakage and banks lending all excess reserves. What is the maximum total deposit expansion?",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $10 occurs, with no cash leakage banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
         "answer": 50,
         "explanation": "The maximum textbook deposit multiplier is 1/0.2 = 5. This is not a mechanical description of an ample-reserves operating framework."
       },
       "last": {
         "id": "ap-macro:deposit-multiplier:24",
-        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $33 occurs, with no cash leakage and banks lending all excess reserves. What is the maximum total deposit expansion?",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $33 occurs, with no cash leakage banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
         "answer": 165
       }
     },
