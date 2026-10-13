@@ -1,3 +1,4 @@
+import developmentExtensions from '../../../content/econ-drafts/development-economics-variants.json' with {type:'json'};
 import tradeExtensions from '../../../content/econ-drafts/international-trade-variants.json' with {type:'json'};
 import ioExtensions from '../../../content/econ-drafts/industrial-organization-variants.json' with {type:'json'};
 import {replaceFieldVariantHints} from './field-variant-hints.mjs';
@@ -22,7 +23,7 @@ const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEc
 for(const [items,release] of batches)for(const q of items){
  if(q.course!==release.course||!release.reviewedIds.includes(q.id))throw new Error(`Unreviewed item: ${q.id}`);
 }
-const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions]]);
+const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);
 for(const [items,release] of batches){
  const extensions=extensionsByCourse.get(release.course)??[];
  if(extensions.length){

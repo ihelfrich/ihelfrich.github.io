@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.23",
-  "bankSHA256": "c9cfa3eb10c44e897f2ef7f17a65dc9703612403a9a15eed1faab6316afbbdb6",
+  "bankVersion": "2026.10.12.24",
+  "bankSHA256": "a391019d5ff81b60295a5e2d555df39edf3d3294d402d43cb4aa57ed4a6bdc2b",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -28,7 +28,7 @@
       "families": 60
     },
     "development-economics": {
-      "items": 60,
+      "items": 316,
       "families": 60
     },
     "ap-macro": {
@@ -5443,9 +5443,9 @@
       "course": "development-economics",
       "family": "development-economics-u1-01",
       "topic": "1.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5455,15 +5455,19 @@
         "answer": "60%.",
         "explanation": "Three of five people are below 100, so the headcount ratio is 3/5. The measure counts people, not their consumption shortfalls."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u1-01:17",
+        "prompt": "A synthetic village survey records monthly consumption of 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 100, 200, 205 currency units for 20 people. The poverty line is 100 units; consumption strictly below the line counts as poor. What percentage of people are poor? Enter a percentage, not a fraction.",
+        "answer": 85
+      }
     },
     {
       "course": "development-economics",
       "family": "development-economics-u1-02",
       "topic": "1.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5473,7 +5477,11 @@
         "answer": "0.20.",
         "explanation": "The normalized gaps are 0.6, 0.2, 0 and 0. Their population average is 0.8/4 = 0.20. Averaging only over poor people would give 0.40."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u1-02:17",
+        "prompt": "In a synthetic four-person survey, monthly consumption is 50, 75, 100, 140 currency units. The poverty line is 100 units. The poverty-gap index averages max(100 − consumption, 0)/100 over all four people. What is the index, as a decimal?",
+        "answer": 0.188
+      }
     },
     {
       "course": "development-economics",
@@ -5641,9 +5649,9 @@
       "course": "development-economics",
       "family": "development-economics-u2-02",
       "topic": "2.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5653,16 +5661,20 @@
         "answer": "20.",
         "explanation": "The grant must raise current assets from 80 to at least 100. A grant of 20 reaches the threshold; the specified transition then gives 120."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u2-02:17",
+        "prompt": "A household has 125 units of assets. Next year's assets equal 0.8 times current assets below a threshold of 250 units, and 280 units at or above it. A one-time grant is added before this rule operates. What is the smallest grant, in asset units, that puts the household in the high-asset region immediately?",
+        "answer": 125
+      }
     },
     {
       "course": "development-economics",
       "family": "development-economics-u2-03",
       "topic": "2.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -5671,15 +5683,19 @@
         "answer": "Assets converge to a single steady state of 100, so low initial assets alone do not create a separate low-asset trap.",
         "explanation": "The fixed point solves a = 20 + 0.8a, giving 100. Deviations shrink by a factor of 0.8, so this rule has one attracting steady state."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u2-03:17",
+        "prompt": "In a synthetic asset model, next year's assets are 40 + 0.5 times current assets, for every nonnegative asset level. What asset level is the unique steady state? Enter asset units.",
+        "answer": 80
+      }
     },
     {
       "course": "development-economics",
       "family": "development-economics-u2-04",
       "topic": "2.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5689,7 +5705,11 @@
         "answer": "125.",
         "explanation": "Expected repayment is 0.8R. Setting it equal to the 100 advanced gives R = 125. The promised interest rate exceeds the expected net return."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u2-04:17",
+        "prompt": "A risk-neutral lender advances 200 currency units. Repayment occurs with probability 0.8 and default returns zero. Funding and administrative costs are zero. What promised repayment, in currency units, makes the lender break even in expectation?",
+        "answer": 250
+      }
     },
     {
       "course": "development-economics",
@@ -5767,9 +5787,9 @@
       "course": "development-economics",
       "family": "development-economics-u2-09",
       "topic": "2.9",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5779,7 +5799,11 @@
         "answer": "225.",
         "explanation": "Expected utility is (10 + 20)/2 = 15. Certain consumption of 225 has square root 15, below expected consumption of 250 because utility is concave."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u2-09:17",
+        "prompt": "A household's utility is the square root of consumption. Next period's consumption is 529 or 1089 units, each with probability one-half. What certain consumption level, in units, gives the same expected utility?",
+        "answer": 784
+      }
     },
     {
       "course": "development-economics",
@@ -5839,9 +5863,9 @@
       "course": "development-economics",
       "family": "development-economics-u3-03",
       "topic": "3.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5851,7 +5875,11 @@
         "answer": "An increase of 10.",
         "explanation": "The bag adds revenue of 20 × 2 = 40 and costs 30, leaving a marginal profit of 10."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u3-03:17",
+        "prompt": "A price-taking farmer can buy one extra fertilizer bag for 36 currency units. It adds 25 kilograms of output sold at 2 currency units per kilogram. There are no other incremental costs or risks. What is the change in profit from buying the bag, in currency units? Use a negative number for a loss.",
+        "answer": 14
+      }
     },
     {
       "course": "development-economics",
@@ -5947,9 +5975,9 @@
       "course": "development-economics",
       "family": "development-economics-u3-09",
       "topic": "3.9",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -5959,7 +5987,11 @@
         "answer": "It rises from 7 to 9.",
         "explanation": "The farm-gate price equals the city price minus transport cost under the stipulated competitive pass-through. The two-unit reduction raises farmers’ receipts by two."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u3-09:17",
+        "prompt": "The city crop price is fixed at 50 currency units per kilogram. Transport costs fall from 35 to 4 units per kilogram. Competitive traders pass the full reduction to farmers, with no other costs or changes. By how many currency units per kilogram does the farm-gate price rise?",
+        "answer": 31
+      }
     },
     {
       "course": "development-economics",
@@ -6001,9 +6033,9 @@
       "course": "development-economics",
       "family": "development-economics-u4-02",
       "topic": "4.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6013,7 +6045,11 @@
         "answer": "50.",
         "explanation": "Total current cost is 400, including foregone work. The future gain of 450 leaves a net benefit of 50."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u4-02:17",
+        "prompt": "One additional school year costs 100 currency units in fees and 300 in forgone earnings today. It increases next period's earnings by 580 units. Assume a zero discount rate and no other effects or costs. What is the net monetary benefit, in currency units? Use a negative number when costs exceed benefits.",
+        "answer": 180
+      }
     },
     {
       "course": "development-economics",
@@ -6163,9 +6199,9 @@
       "course": "development-economics",
       "family": "development-economics-u5-01",
       "topic": "5.1",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6175,7 +6211,11 @@
         "answer": "Yes; expected net urban income is 65, above 60.",
         "explanation": "Expected urban income net of the moving cost is 0.7 × 100 − 5 = 65. This conclusion uses risk neutrality and the specified payoff comparison."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u5-01:17",
+        "prompt": "A risk-neutral worker earns 90 currency units for certain by staying rural. A move gives an urban job paying 250 units with probability 0.8 and zero earnings otherwise. Moving costs 10 units regardless of employment. Considering only this period's monetary income, what is the expected net gain from migrating rather than staying, in currency units?",
+        "answer": 100
+      }
     },
     {
       "course": "development-economics",
@@ -6199,9 +6239,9 @@
       "course": "development-economics",
       "family": "development-economics-u5-03",
       "topic": "5.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6211,16 +6251,20 @@
         "answer": "It rises by about 43%.",
         "explanation": "Normalize initial employment to 100: agriculture employs 70. Final total employment is 200, of which 100 work in agriculture. The increase is 30/70, about 43%."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u5-03:17",
+        "prompt": "In a synthetic economy, agricultural employment falls from 60% to 50% of total employment. Total employment rises from 1000 to 2700 workers. What is the change in the number of agricultural workers? Enter workers, using a negative number for a decline.",
+        "answer": 750
+      }
     },
     {
       "course": "development-economics",
       "family": "development-economics-u5-04",
       "topic": "5.4",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
-      "graphItems": 0,
+      "distinctAnswers": 17,
+      "graphItems": 16,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
@@ -6229,7 +6273,11 @@
         "answer": "It rises from 3 to 4.",
         "explanation": "The initial weighted average is 0.75 × 2 + 0.25 × 6 = 3; the final average is 0.5 × 2 + 0.5 × 6 = 4. This is an accounting reallocation effect."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u5-04:17",
+        "prompt": "In a synthetic two-sector economy, annual real value added per worker stays at 2 thousand currency units in agriculture and 6 thousand in manufacturing, at common fixed prices. Manufacturing's employment share rises from 5% to 85%. What is the increase in aggregate annual real value added per worker, in thousands of currency units?",
+        "answer": 3.2
+      }
     },
     {
       "course": "development-economics",
@@ -6361,9 +6409,9 @@
       "course": "development-economics",
       "family": "development-economics-u6-02",
       "topic": "6.2",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6373,15 +6421,19 @@
         "answer": "20 earnings units.",
         "explanation": "Intention to treat compares groups by assignment: 120 − 100 = 20. Dividing by take-up changes the estimand and requires additional assumptions."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u6-02:17",
+        "prompt": "In a synthetic randomized program offer with complete follow-up, mean monthly earnings are 155 currency units in the offered group and 100 in the control group. Only 40% of offered households participate. What is the intention-to-treat estimate, in currency units per month?",
+        "answer": 55
+      }
     },
     {
       "course": "development-economics",
       "family": "development-economics-u6-03",
       "topic": "6.3",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6391,7 +6443,11 @@
         "answer": "30 earnings units for people induced to participate by the offer.",
         "explanation": "The participation first stage is 0.60 − 0.20 = 0.40. The Wald estimate is 12/0.40 = 30 for compliers under the stated assumptions."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u6-03:17",
+        "prompt": "In a synthetic randomized offer, participation is 60% in the offered group and 20% in controls. The offer increases mean monthly earnings by 34 currency units. Assume random assignment, exclusion, monotonicity, relevance and no spillovers. What is the local average treatment effect, in currency units per month, for people induced to participate?",
+        "answer": 85
+      }
     },
     {
       "course": "development-economics",
@@ -6415,9 +6471,9 @@
       "course": "development-economics",
       "family": "development-economics-u6-05",
       "topic": "6.5",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6427,7 +6483,11 @@
         "answer": "5.",
         "explanation": "The treated increase is 20 and the comparison increase is 15. Subtracting gives 5, the causal estimate under the maintained assumptions."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u6-05:17",
+        "prompt": "In a synthetic study, monthly income rises from 50 to 85 currency units in grant villages and from 40 to 55 in comparison villages. Assume parallel untreated trends, no anticipation and no spillovers. What is the difference-in-differences estimate, in currency units per month?",
+        "answer": 20
+      }
     },
     {
       "course": "development-economics",
@@ -6469,9 +6529,9 @@
       "course": "development-economics",
       "family": "development-economics-u6-08",
       "topic": "6.8",
-      "count": 1,
+      "count": 17,
       "format": "choice",
-      "distinctAnswers": 1,
+      "distinctAnswers": 17,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -6481,7 +6541,11 @@
         "answer": "0.40.",
         "explanation": "Expected net diversion gain is 40 − 100p. Setting this weakly below zero requires p at least 0.40."
       },
-      "last": null
+      "last": {
+        "id": "development-economics:development-economics-u6-08:17",
+        "prompt": "A risk-neutral official gains 85 currency units by diverting funds. An audit detects diversion with probability p and imposes a total payment of 100 units, including any repayment of diverted funds. Honesty yields zero, and there are no other incentives. What is the smallest p that makes diversion no better than honesty? Enter a probability between 0 and 1.",
+        "answer": 0.85
+      }
     },
     {
       "course": "development-economics",
