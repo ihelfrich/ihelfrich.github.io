@@ -1,3 +1,4 @@
+import {registerModel} from './model-registry.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {findUnscored,retainUnscored,unscoredReceipt} from './unscored.mjs';
 import {responseWindow} from './response-cursor.mjs';
@@ -17,10 +18,10 @@ async function ownSession(env,p,id){
  requireValue(s,'Session not found.',404);return s;
 }
 const stateFor=(env,p)=>replayHistory(env,p.id);
-async function body(request){
+async function body(request,maxBytes=8192){
  requireValue(request.headers.get('Content-Type')?.split(';')[0]==='application/json','Use JSON.');
  const reader=request.body?.getReader();requireValue(reader,'Missing request body.');let chunks=[],size=0;
- for(;;){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>8192){await reader.cancel();throw new HttpError(413,'Request too large.');}chunks.push(value);}
+ for(;;){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>maxBytes){await reader.cancel();throw new HttpError(413,'Request too large.');}chunks.push(value);}
  const bytes=new Uint8Array(size);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.length;}
  let parsed;try{parsed=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));}catch{throw new HttpError(400,'Invalid JSON.');}
  requireValue(parsed!==null&&typeof parsed==='object'&&!Array.isArray(parsed),'Provide a JSON object.');return parsed;
@@ -42,6 +43,9 @@ async function route(request,env){
  if(path.startsWith('/admin/')){
   const instructor=await requireInstructor(request,env);
   const audit=async(action,target,details)=>query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),instructor.id,action,target,JSON.stringify(details)).run();
+  if(path==='/admin/model-packages'&&method==='POST')return registerModel(env,instructor,await body(request,1024*1024));
+  const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
+  if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);await audit('model-package-read',record.id,{});return {artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated:false};}
   if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));
   if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
   if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}

@@ -9,6 +9,7 @@ const api=import.meta.env.PUBLIC_ECON_API_URL??'';
 <p id="instructor-status" role="status">Checking instructor access…</p>
 <div id="instructor-content" hidden>
 <section><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
+<section><h2>Calibration candidates</h2><p>Upload a reviewed calibration package to retain its exact parameters and evidence. Registration does not approve the model or change student scoring.</p><form id="model-package-form"><label for="model-package-file">Candidate package (JSON, up to 1 MB)</label><input id="model-package-file" type="file" accept=".json,application/json" required /><button type="submit">Register candidate</button></form><p id="model-package-status" role="status"></p></section>
 <section><h2>Create an assignment</h2><form id="assignment-form">
 <label>Title<input name="title" type="text" maxlength="160" required/></label>
 <div class="setup-grid"><label>Course<select name="course"><option value="ap-micro">AP Microeconomics</option><option value="ap-macro">AP Macroeconomics</option><option value="college-micro">Undergraduate Microeconomics</option><option value="college-macro">Undergraduate Macroeconomics</option></select></label>
