@@ -141,3 +141,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added an authenticated, owner-filtered, paginated participant history endpoint and Download my answer history control for anonymous and signed-in profiles. Exports include submissions, attempts, timing, hints, receipts and validity flags across sessions.
 - Unfinished assessment scoring/key/explanations remain omitted; completed assessment and practice feedback are available. Pending browser answers are flushed before export; failed pagination produces no partial download.
 - Added ownership, feedback-withholding, cursor and completion regressions. All47 focused tests pass. Account recovery, retention/deletion policy implementation, browser/multi-tab reliability and production setup remain open.
+
+## Continuation: undergraduate numerical audit
+
+- Added independent prompt-quantity checks for all27 undergraduate numeric families/648 variants, covering consumer/producer theory, strategic interaction, externalities, growth, Euler/PV, policy rules and open-economy conventions. All48 focused tests pass.
+- Clarified continuous-time Solow convention for golden-rule capital, growth-accounting approximation, and constant-purchasing-power payment for a real discount rate. Bank2026.10.12.9.
+- Test development initially misread the signed negative target in the displayed Taylor rule; corrected the independent parser calculation and reran successfully. No key error found in current undergraduate set.
+- Across tracks, all2280 current numerical variants now have prompt-based economic checks. This is arithmetic/model-identity evidence, not full substantive certification, variety or course completeness. Undergraduate courses remain thin (15 micro/12 macro families) and need conceptual breadth and review.
