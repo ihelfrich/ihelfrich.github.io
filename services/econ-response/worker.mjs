@@ -1,3 +1,4 @@
+import {pageCursor,listPage} from './pagination.mjs';
 import {createAssignment,listAssignments,startAssignment,assignmentReport} from './assignments.mjs';
 import {buildBank,BANK_VERSION,courses} from '../../src/lib/econ-practice/index.mjs';
 import {newState,recordAnswer,selectItem,score,progress} from '../../src/lib/econ-practice/adaptive.mjs';
@@ -37,8 +38,8 @@ async function route(request,env){
  if(path.startsWith('/admin/')){
   const instructor=await requireInstructor(request,env);
   if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));
-  if(path==='/admin/assignments'&&method==='GET')return {assignments:await all(env.DB,'SELECT * FROM assignments ORDER BY created_at DESC LIMIT 101')};
-  if(path==='/admin/students'&&method==='GET')return {students:await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL ORDER BY created_at DESC LIMIT 101")};
+  if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
+  if(path==='/admin/students'&&method==='GET')return listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",pageCursor(url.searchParams.get('after')??'')),'students');
   const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET')return assignmentReport(env,assignmentMatch[1]);
   if(path==='/admin/responses'&&method==='GET'){
    const after=url.searchParams.get('after')??'';
@@ -56,7 +57,7 @@ async function route(request,env){
  if(path==='/auth/challenge'&&method==='POST')return createChallenge(env,p);
  if(path==='/auth/google'&&method==='POST')return finishSignIn(env,p,await body(request));
  if(path==='/auth/logout'&&method==='POST'){await query(env.DB,'UPDATE credentials SET revoked_at=? WHERE token_hash=?',iso(),await hash(bearer(request))).run();return {signedOut:true};}
- if(path==='/assignments'&&method==='GET')return listAssignments(env,p);
+ if(path==='/assignments'&&method==='GET')return listAssignments(env,p,pageCursor(url.searchParams.get('after')??''));
  if(path==='/sessions'&&method==='POST'){
   const b=await body(request);if(b.assignmentId)return startAssignment(env,p,b);requireValue(!b.assigned,'Provide an instructor assignment ID; assigned mode cannot be self-declared.',403);requireValue(courses[b.course],'Unknown course.');requireValue(['practice','assessment'].includes(b.mode),'Unknown mode.');
   requireValue(!b.assigned||p.identity_kind==='account','Assigned assessments require a verified account.',403);

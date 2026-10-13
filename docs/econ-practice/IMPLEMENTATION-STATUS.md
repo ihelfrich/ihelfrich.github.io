@@ -111,3 +111,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Fixed a hinted-correct response setting streak zero and indexing the review schedule at −1, producing NaN. Assisted responses now get the same finite early-review interval as incorrect responses without increasing unassisted streaks.
 - Selection engine v2 uses mean exponential utility per family, then conditional utility-weighted sampling within the selected family. Previously the first sibling’s utility determined family mass and siblings were uniform, ignoring variant-specific calibrated information. Exact joint propensities are retained; equal-utility large families still receive no family-size advantage.
 - Regressions cover finite assisted review, no psychometric evidence from practice, unequal within-family information, probability normalization and family-size neutrality. All 41 focused tests pass. Operational calibration is still not activated; this change is not empirical validation.
+
+## Continuation: reporting list pagination
+
+- Removed silent 101-record limits from instructor students/assignments and student assignments. APIs now return bounded pages with stable-ID cursors and explicit hasMore/nextCursor; client lists retrieve all pages and reject repeated cursors.
+- Integration test seeds205 synthetic account profiles and verifies all appear once across three pages; malformed cursor and nonadvancing client cursor regressions added. All43 focused tests pass.
+- Lists are live rather than snapshot exports: concurrent new records can require refresh. Rendering/search for very large student rosters remains a usability consideration; no real student data were used.

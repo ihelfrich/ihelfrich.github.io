@@ -1,3 +1,4 @@
+import {listPage} from './pagination.mjs';
 import {iso,uuid,query,all,requireValue,HttpError} from './common.mjs';
 import {BANK_VERSION,courses,buildBank} from '../../src/lib/econ-practice/index.mjs';
 const bank=buildBank();
@@ -16,7 +17,7 @@ export async function createAssignment(env,instructor,b){
   query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),instructor.id,'assignment-created',id,JSON.stringify({participants:students.length,course:b.course,itemCount:b.itemCount}))
  ]);return {assignmentId:id};
 }
-export async function listAssignments(env,p){return {assignments:await all(env.DB,`SELECT a.*, (SELECT COUNT(*) FROM sessions s WHERE s.assignment_id=a.id AND s.participant_id=?) AS attempts FROM assignments a JOIN assignment_members m ON m.assignment_id=a.id WHERE m.participant_id=? AND a.disabled_at IS NULL ORDER BY a.closes_at LIMIT 101`,p.id,p.id)};}
+export async function listAssignments(env,p,after=''){return listPage(await all(env.DB,`SELECT a.*, (SELECT COUNT(*) FROM sessions s WHERE s.assignment_id=a.id AND s.participant_id=?) AS attempts FROM assignments a JOIN assignment_members m ON m.assignment_id=a.id WHERE m.participant_id=? AND a.disabled_at IS NULL AND a.id>? ORDER BY a.id LIMIT 101`,p.id,p.id,after),'assignments');}
 export async function startAssignment(env,p,b){
  requireValue(p.identity_kind==='account','Assigned assessments require a verified account.',403);
  requireValue(typeof b.requestId==='string'&&/^[a-f0-9-]{36}$/.test(b.requestId),'Provide a session request ID.');

@@ -1,3 +1,4 @@
+import {readAllPages} from './econ-pages.mjs';
 export function setupIdentity({request,flush,getProfile,setProfile,getSession,setSession,beginSession,ready,show,save}){
  const $=id=>document.getElementById(id),node=(tag,text)=>{const el=document.createElement(tag);el.textContent=text;return el;};let challengeBusy=false;
  async function ensureProfile(){if(!getProfile())setProfile(await request('/profiles',{accepted:true,consentVersion:'2026-10-12-v1'}));}
@@ -6,8 +7,8 @@ export function setupIdentity({request,flush,getProfile,setProfile,getSession,se
   $('identity-status').textContent=p.identityKind==='account'?`Signed in as ${p.email}`:'Anonymous practice on this browser';
   $('signout').hidden=p.identityKind!=='account';$('prepare-signin').hidden=p.identityKind==='account';$('link-anonymous').closest('label').hidden=p.identityKind==='account';$('instructor-link').hidden=!p.isInstructor;$('assignments').hidden=p.identityKind!=='account';
   if(p.identityKind==='account'){
-   const r=await request('/assignments'),list=$('assignment-list');list.replaceChildren();if(!r.assignments.length)list.append(node('p','No assignments yet.'));
-   for(const a of r.assignments){const row=document.createElement('div');row.append(node('p',`${a.title} · ${a.item_count} questions · closes ${new Date(a.closes_at).toLocaleString()} · ${a.attempts}/${a.max_attempts} attempts used`));const b=node('button','Start assignment');b.className='secondary';b.disabled=a.attempts>=a.max_attempts||Date.parse(a.opens_at)>Date.now()||Date.parse(a.closes_at)<=Date.now();const requestId=crypto.randomUUID();b.addEventListener('click',async()=>{b.disabled=true;try{await flush();const s=await request('/sessions',{assignmentId:a.id,requestId});setSession(s);await beginSession();}catch(e){$('identity-error').textContent=e.message;b.disabled=false;}});row.append(b);list.append(row);}
+   const assignments=await readAllPages(request,'/assignments','assignments'),list=$('assignment-list');list.replaceChildren();if(!assignments.length)list.append(node('p','No assignments yet.'));
+   for(const a of assignments){const row=document.createElement('div');row.append(node('p',`${a.title} · ${a.item_count} questions · closes ${new Date(a.closes_at).toLocaleString()} · ${a.attempts}/${a.max_attempts} attempts used`));const b=node('button','Start assignment');b.className='secondary';b.disabled=a.attempts>=a.max_attempts||Date.parse(a.opens_at)>Date.now()||Date.parse(a.closes_at)<=Date.now();const requestId=crypto.randomUUID();b.addEventListener('click',async()=>{b.disabled=true;try{await flush();const s=await request('/sessions',{assignmentId:a.id,requestId});setSession(s);await beginSession();}catch(e){$('identity-error').textContent=e.message;b.disabled=false;}});row.append(b);list.append(row);}
   }
  }
  async function loadGoogle(){if(window.google?.accounts?.id)return;await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=resolve;s.onerror=()=>reject(new Error('Google sign-in could not load.'));document.head.append(s);});}

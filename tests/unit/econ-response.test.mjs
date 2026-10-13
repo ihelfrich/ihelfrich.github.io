@@ -27,3 +27,15 @@ test('late and post-completion answers are retained exactly once but excluded fr
   assert.equal((await t.call(`/sessions/${s.sessionId}/next`,{},p.token)).status,409);t.env.DB.close();
  }
 });
+test('instructor student pagination returns every profile once across multiple pages',async()=>{
+ const t=setup(),ids=[];
+ for(let i=0;i<205;i++){const id=crypto.randomUUID();ids.push(id);await t.env.DB.prepare('INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at,verified_email) VALUES (?,?,?,?,?,?)').bind(id,new Date().toISOString(),'account',CONSENT_VERSION,new Date().toISOString(),`synthetic-${i}@example.test`).run();}
+ const {readAllPages}=await import('../../src/scripts/econ-pages.mjs');let requests=0;
+ const rows=await readAllPages(async path=>{requests++;const page=await t.call(path,null,'test-only-admin');assert.equal(page.status,200);assert.ok(page.students.length<=100);return page;},'/admin/students','students');
+ assert.equal(requests,3);assert.deepEqual(rows.map(r=>r.id),ids.sort());
+ assert.equal((await t.call('/admin/students?after=invalid',null,'test-only-admin')).status,400);t.env.DB.close();
+});
+test('client list retrieval fails visibly if a cursor repeats',async()=>{
+ const {readAllPages}=await import('../../src/scripts/econ-pages.mjs');
+ await assert.rejects(readAllPages(async()=>({students:[],hasMore:true,nextCursor:'same'}),'/admin/students','students'),/did not advance/);
+});
