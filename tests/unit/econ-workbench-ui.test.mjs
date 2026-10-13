@@ -25,6 +25,13 @@ test('instructor exclusion control requires a reason, shows it safely, and clear
   q('irt-analysis-form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));
   for(let i=0;i<20&&q('irt-results').hidden;i++)await new Promise(r=>setTimeout(r,5));
   assert.equal(q('irt-results').hidden,false);assert.match(q('irt-exclusions').textContent,/<b>Disputed key<\/b>/);assert.equal(q('irt-exclusions').querySelector('b'),null);
+  const identity=q('irt-summary').querySelector('details');
+  assert.match(identity.textContent,/ap-micro · Unit 1 · Bank test-bank/);
+  assert.match(identity.textContent,/Declared collected response data/);
+  assert.equal(identity.querySelector('summary').textContent,'Dataset and export identity');
+  const fingerprints=[...identity.querySelectorAll('dd')].map(n=>n.textContent);
+  assert.equal(fingerprints.length,2);for(const value of fingerprints)assert.match(value,/^[a-f0-9]{64}$/);
+  assert.notEqual(fingerprints[0],fingerprints[1]);
   q('irt-scope').dispatchEvent(new f.window.Event('change'));
   assert.equal(q('irt-excluded').value,'');assert.equal(q('irt-exclusion-reason').value,'');assert.equal(q('irt-results').hidden,true);
  }finally{f.window.happyDOM.abort();}
