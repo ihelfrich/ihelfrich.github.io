@@ -1,13 +1,14 @@
+import {createOutbox} from './econ-outbox.mjs';
 import {setupIdentity} from './econ-identity.mjs';
 import {courses} from '../lib/econ-practice/curriculum.mjs';
 import {renderGraph} from '../lib/econ-practice/figures.mjs';
 const $=id=>document.getElementById(id),root=$('econ-app');
 if(root){
- const API=root.dataset.api,PROFILE_KEY='econ-profile-v1',QUEUE_KEY='econ-answer-outbox-v1',SESSION_KEY='econ-session-v1';
+ const API=root.dataset.api,PROFILE_KEY='econ-profile-v1',SESSION_KEY='econ-session-v1';
  let profile=null,session=null,current=null,started=0,active=0,lastTick=0,report=null,available=false,busy=false;
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
  const save=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
- profile=read(PROFILE_KEY,null);session=read(SESSION_KEY,null);
+ profile=read(PROFILE_KEY,null);session=read(SESSION_KEY,null);const outbox=createOutbox(localStorage);
  const node=(tag,text)=>{const el=document.createElement(tag);el.textContent=text;return el;};
  async function request(path,data){const response=await fetch(`${API}${path}`,{method:data?'POST':'GET',headers:{...(data?{'Content-Type':'application/json'}:{}),...(profile?{Authorization:`Bearer ${profile.token}`}:{})},...(data?{body:JSON.stringify(data)}:{})});const result=await response.json();if(!response.ok)throw new Error(result.error??'The request failed.');return result;}
  function show(panel){for(const id of ['setup','question-panel','report'])$(id).hidden=id!==panel;}
@@ -16,10 +17,10 @@ if(root){
  function ready(){ $('start').disabled=!available||!$('consent').checked||busy;$('prepare-signin').disabled=!available||!$('consent').checked||busy||!root.dataset.signin; }
  $('consent').addEventListener('change',ready);
  async function flush(){
-  const queue=read(QUEUE_KEY,[]);for(const event of queue){
+  const queue=outbox.list();for(const event of queue){
    const receipt=await request(`/sessions/${event.sessionId}/answers`,event.payload);
    if(receipt.persisted!==true||receipt.eventId!==event.payload.eventId)throw new Error('No storage receipt was returned. Your answer remains queued.');
-   const remaining=read(QUEUE_KEY,[]).filter(e=>e.payload.eventId!==event.payload.eventId);save(QUEUE_KEY,remaining);
+   outbox.acknowledge(event,receipt);
    if(current?.presentationId===event.payload.presentationId)displayReceipt(receipt);
   }
  }
@@ -44,8 +45,8 @@ if(root){
  $('answer-form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;busy=true;$('submit-answer').disabled=true;try{
   const value=new FormData($('answer-form')).get('answer');if(value===null||String(value).trim()==='')throw new Error('Enter an answer first.');
   const elapsed=Math.round(performance.now()-started);const event={sessionId:session.sessionId,payload:{eventId:crypto.randomUUID(),presentationId:current.presentationId,attemptNumber:1,response:current.item.format==='choice'?Number(value):String(value),elapsedMs:elapsed,activeMs:Math.min(elapsed,Math.round(active)),submittedAt:new Date().toISOString()}};
-  const queue=read(QUEUE_KEY,[]);if(queue.some(q=>q.payload.presentationId===current.presentationId))throw new Error('This answer is already queued. Reconnect to save it.');queue.push(event);save(QUEUE_KEY,queue);$('receipt').textContent='Saving answer…';await flush();
- }catch(error){const queued=read(QUEUE_KEY,[]).some(e=>e.payload.presentationId===current?.presentationId);$('retry-save').hidden=!queued;$('submit-answer').disabled=queued;$('receipt').textContent=queued?`${error.message} Your queued answer remains on this browser. Reconnect to retry.`:error.message;}finally{busy=false;}});
+  const queue=outbox.list();if(queue.some(q=>q.payload.presentationId===current.presentationId))throw new Error('This answer is already queued. Reconnect to save it.');outbox.enqueue(event);$('receipt').textContent='Saving answer…';await flush();
+ }catch(error){let queued=true;try{queued=outbox.list().some(e=>e.payload.presentationId===current?.presentationId);}catch{};$('retry-save').hidden=!queued;$('submit-answer').disabled=queued;$('receipt').textContent=queued?`${error.message} Your queued answer remains on this browser. Reconnect to retry.`:error.message;}finally{busy=false;}});
  $('retry-save').addEventListener('click',()=>flush().catch(e=>$('receipt').textContent=e.message));
  $('next').addEventListener('click',()=>next().catch(e=>$('receipt').textContent=e.message));$('finish').addEventListener('click',()=>finish().catch(e=>$('receipt').textContent=e.message));
  $('hint').addEventListener('click',async()=>{try{const r=await request(`/sessions/${session.sessionId}/hint`,{presentationId:current.presentationId});$('feedback').replaceChildren(node('p',r.hint));}catch(e){$('receipt').textContent=e.message;}});

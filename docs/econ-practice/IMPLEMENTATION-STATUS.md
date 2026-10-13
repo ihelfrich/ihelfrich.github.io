@@ -148,3 +148,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Clarified continuous-time Solow convention for golden-rule capital, growth-accounting approximation, and constant-purchasing-power payment for a real discount rate. Bank2026.10.12.9.
 - Test development initially misread the signed negative target in the displayed Taylor rule; corrected the independent parser calculation and reran successfully. No key error found in current undergraduate set.
 - Across tracks, all2280 current numerical variants now have prompt-based economic checks. This is arithmetic/model-identity evidence, not full substantive certification, variety or course completeness. Undergraduate courses remain thin (15 micro/12 macro families) and need conceptual breadth and review.
+
+## Continuation: per-event browser outbox
+
+- Replaced the shared read-modify-write pending-answer array with one durable localStorage entry per event ID. Independent tab submissions no longer overwrite an unrelated queued event, and receipt removal affects only the acknowledged event.
+- Existing legacy arrays migrate before retrieval; malformed data and conflicting event payloads are preserved with explicit errors. Matching durable server receipts remain mandatory for removal.
+- Three regressions cover interleaved independent tabs, acknowledgment/conflict safeguards and legacy preservation. All51 focused tests pass. This does not prove full multi-tab reliability: two tabs answering the same presentation can still produce an attempt conflict, cross-tab account changes/recovery and real browser outage tests remain open. Browser storage can be cleared by its owner; server receipts distinguish durable uploads from local pending work.
