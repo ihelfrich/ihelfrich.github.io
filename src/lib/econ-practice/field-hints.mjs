@@ -1,6 +1,8 @@
+import {tradeHints} from './trade-hints.mjs';
 import {ioHints} from './io-hints.mjs';
 // Method scaffolds for reviewed field questions; never generated from their keys.
 export const fieldHints={
+'international-trade':tradeHints,
 'industrial-organization':ioHints,
 'intro-econometrics':{
 'intro-econometrics-u1-q01':'Compare the population the researcher wants to describe with the people who could actually enter the sample.',

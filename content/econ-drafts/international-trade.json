@@ -216,13 +216,13 @@
     "topic": "2.1",
     "title": "A higher price for manufacturing",
     "prompt": "In the specific-factors model, labor moves between manufacturing and agriculture; capital is fixed in manufacturing and land in agriculture. Manufacturing's price rises while agriculture's is unchanged. With diminishing marginal products and both sectors active, what happens?",
-    "correct": "Labor moves to manufacturing and its wage rises by less than the manufacturing price.",
+    "correct": "Labor moves to manufacturing and the wage rises by a smaller percentage than the manufacturing price.",
     "wrong": [
       "Labor moves to agriculture and the wage falls.",
       "Labor stays fixed because manufacturing capital is immobile.",
-      "The wage rises by more than the manufacturing price and labor leaves manufacturing."
+      "The wage rises by a larger percentage than the manufacturing price and labor leaves manufacturing."
     ],
-    "explanation": "The higher manufacturing value marginal product attracts labor. Its marginal product then falls, so the wage increase is smaller than the price increase.",
+    "explanation": "The higher manufacturing value marginal product attracts labor. Its marginal product then falls, so the percentage wage increase is smaller than the percentage manufacturing-price increase.",
     "skill": "trace mobile-factor adjustment",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-54-international-trade-fall-2016/pages/calendar/",
@@ -278,7 +278,7 @@
     "unit": 2,
     "topic": "2.4",
     "title": "A short-run factory windfall",
-    "prompt": "A textile price increase draws additional workers into textiles in the specific-factors model. Textile capital is fixed and complements labor. What happens to textile capital owners' purchasing power?",
+    "prompt": "With the other good’s price fixed, a textile price increase draws additional workers into textiles in the specific-factors model. Textile capital is fixed and complements labor. What happens to textile capital owners' purchasing power?",
     "correct": "It rises in units of textiles and of the other good.",
     "wrong": [
       "It rises only in the other good because the textile price absorbs the whole gain.",
@@ -320,7 +320,7 @@
     "unit": 2,
     "topic": "2.6",
     "title": "Immigration with fixed sector assets",
-    "prompt": "A small economy has two active specific-factors sectors, fixed goods prices, and diminishing labor marginal products. An inflow raises total labor while sector-specific assets remain fixed. What happens to the common wage and specific-asset returns?",
+    "prompt": "A small economy has two active specific-factors sectors, fixed goods prices, diminishing labor marginal products, and complementarity between labor and each sector’s specific asset. An inflow raises total labor while sector-specific assets remain fixed. What happens to the common wage and specific-asset returns?",
     "correct": "The wage falls and returns to both specific assets rise.",
     "wrong": [
       "The wage rises and both asset returns fall.",
@@ -767,7 +767,7 @@
     "unit": 4,
     "topic": "4.7",
     "title": "A differentiated-product markup",
-    "prompt": "A monopolistically competitive firm faces constant demand elasticity 5 and constant marginal cost $24. With an interior profit-maximizing price and no other variable costs, what price does the constant-elasticity markup rule imply?",
+    "prompt": "A monopolistically competitive firm faces a constant absolute demand elasticity of 5 and constant marginal cost $24. With an interior profit-maximizing price and no other variable costs, what price does the constant-elasticity markup rule imply?",
     "correct": "$30.",
     "wrong": [
       "$24.",
@@ -1023,7 +1023,7 @@
     "unit": 5,
     "topic": "5.9",
     "title": "A subsidy with a production externality",
-    "prompt": "A small open economy has a positive external benefit of domestic production but no consumption externality. The world price is fixed and policy administration is costless. Which instrument directly targets the distortion?",
+    "prompt": "A small open economy has a positive external benefit of domestic production but no other market distortions. The world price is fixed and policy administration is costless, and subsidies can be financed by nondistortionary lump-sum taxes. Which instrument directly targets the distortion?",
     "correct": "A production subsidy equal to the marginal external benefit at the efficient output.",
     "wrong": [
       "An import tariff that taxes domestic consumption as well as encouraging production.",
@@ -1086,14 +1086,14 @@
     "unit": 6,
     "topic": "6.2",
     "title": "Distance in logarithms",
-    "prompt": "A hypothetical gravity regression has coefficient -1.2 on log distance. Under the fitted equation, a 10% increase in distance changes predicted trade by what exact factor, holding regressors fixed?",
+    "prompt": "A hypothetical regression of log trade on log distance has slope -1.2 on log distance. For a 10% increase in distance, by what exact factor does the exponentiated fitted value change, holding all other regressors fixed?",
     "correct": "1.10 raised to -1.2, approximately 0.892.",
     "wrong": [
       "1.10 raised to 1.2, approximately 1.121.",
       "0.10 times -1.2, or -0.12.",
       "1.20 raised to -1.1, approximately 0.818."
     ],
-    "explanation": "A log-log coefficient implies trade scales as distance to that power. The exact decrease is about 10.8%, while 12% is a local approximation.",
+    "explanation": "Exponentiating the fitted log change gives 1.10 raised to -1.2. The exact decrease is about 10.8%; 12% is a local approximation. This concerns the exponentiated fit, not a claim about the conditional arithmetic mean without retransformation assumptions.",
     "skill": "interpret a log-log coefficient",
     "sourceUrls": [
       "https://ocw.mit.edu/courses/14-54-international-trade-fall-2016/pages/calendar/",
@@ -1192,7 +1192,7 @@
     "unit": 6,
     "topic": "6.7",
     "title": "Offshoring and the skill mix",
-    "prompt": "A home firm moves its least skill-intensive stage abroad while keeping its more skill-intensive stages. Holding each stage's input ratios fixed, what happens mechanically to the average skill intensity of its remaining domestic activity?",
+    "prompt": "A home firm moves its least skill-intensive stage abroad while keeping its more skill-intensive stages. Holding the input use of every remaining domestic stage fixed, what happens mechanically to the average skill intensity of its remaining domestic activity?",
     "correct": "It rises because the least skill-intensive stage is removed.",
     "wrong": [
       "It falls because some jobs have moved abroad.",
@@ -1256,7 +1256,7 @@
     "unit": 6,
     "topic": "6.10",
     "title": "A local loss and an aggregate gain",
-    "prompt": "A credible study finds persistent earnings losses among workers in regions exposed to import competition. A separate model predicts a positive national consumption gain. Which statement best reconciles these findings?",
+    "prompt": "Suppose a credible study finds persistent earnings losses among workers in regions exposed to import competition, while a separate model predicts a positive national consumption gain. Which statement best reconciles these results?",
     "correct": "Aggregate gains can coexist with concentrated losses when gains are unevenly distributed and compensation is incomplete.",
     "wrong": [
       "The national gain logically implies exposed workers' earnings cannot fall.",
