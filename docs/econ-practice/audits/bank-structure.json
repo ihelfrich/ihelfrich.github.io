@@ -1,11 +1,11 @@
 {
-  "bankVersion": "2026.10.12.10",
-  "bankSHA256": "55d0c93281c55cc6bb030609c08661ca2de7fdbaa1c86d04085f850d06abaa47",
+  "bankVersion": "2026.10.12.11",
+  "bankSHA256": "0c064aefaed43acc92d04d6c240b6ccdd2e2d640df899aa111b1d2858dc69cc1",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
-      "items": 1292,
-      "families": 142
+      "items": 1316,
+      "families": 144
     },
     "ap-macro": {
       "items": 463,
@@ -4548,6 +4548,56 @@
         "explanation": "Uncovered interest parity without a premium is a restricted benchmark. Compensation for currency or other risk can create expected-return differentials."
       },
       "last": null
+    },
+    {
+      "course": "ap-micro",
+      "family": "market-tax-sequence",
+      "topic": "2.8",
+      "count": 12,
+      "format": "multipart",
+      "distinctAnswers": 12,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:market-tax-sequence:01",
+        "prompt": "A competitive market has inverse demand P = 80 − Q and inverse supply P = 20 + Q. A per-unit seller tax of $8 is then imposed. There are no externalities. Calculate each requested quantity.",
+        "answer": [
+          30,
+          26,
+          208
+        ],
+        "explanation": "The tax creates a wedge between buyer and seller prices and reduces mutually beneficial trade. Each part is scored separately."
+      },
+      "last": {
+        "id": "ap-micro:market-tax-sequence:12",
+        "prompt": "A competitive market has inverse demand P = 124 − Q and inverse supply P = 20 + Q. A per-unit seller tax of $30 is then imposed. There are no externalities. Calculate each requested quantity."
+      }
+    },
+    {
+      "course": "ap-micro",
+      "family": "monopoly-sequence",
+      "topic": "4.2",
+      "count": 12,
+      "format": "multipart",
+      "distinctAnswers": 12,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-micro:monopoly-sequence:01",
+        "prompt": "A single-price monopolist faces P = 100 − 2Q, MR = 100 − 4Q, and constant MC = 20. It remains open and has no capacity constraint. There are no externalities.",
+        "answer": [
+          20,
+          60,
+          400
+        ],
+        "explanation": "Quantity follows the marginal revenue condition, price comes from demand, and welfare loss concerns forgone gains from trade. These are numeric rubric parts, not a complete AP free-response rubric."
+      },
+      "last": {
+        "id": "ap-micro:monopoly-sequence:12",
+        "prompt": "A single-price monopolist faces P = 144 − 2Q, MR = 144 − 4Q, and constant MC = 20. It remains open and has no capacity constraint. There are no externalities."
+      }
     }
   ]
 }

@@ -1,5 +1,5 @@
 import {microTopics} from './curriculum.mjs';
-export const BANK_VERSION='2026.10.12.10';
+export const BANK_VERSION='2026.10.12.11';
 export const families=[];
 const num=x=>Number(x.toFixed(3));
 const fmt=x=>Number.isInteger(x)?String(x):String(num(x));
@@ -93,7 +93,7 @@ export function buildBank(){
    const opts=[q.correct,...q.wrong];let seed=2166136261;for(const char of id)seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
    for(let j=opts.length-1;j>0;j--){seed=(Math.imul(1664525,seed)+1013904223)>>>0;const k=Math.floor(seed/4294967296*(j+1));[opts[j],opts[k]]=[opts[k],opts[j]];}
    item.options=opts;item.answerIndex=item.options.indexOf(q.correct);delete item.correct;delete item.wrong;
-  }else{item.tolerance=0.005;item.answerDisplay=fmt(q.answer);}
+  }else if(q.format==='numeric'){item.tolerance=0.005;item.answerDisplay=fmt(q.answer);}
   bank.push(item);
  }
  return bank;

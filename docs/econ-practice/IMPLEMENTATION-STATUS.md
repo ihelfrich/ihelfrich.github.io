@@ -180,3 +180,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Multipart responses are explicitly excluded from binary IRT updates and calibration eligibility pending a validated polytomous/testlet model. Ordinary choice/numeric grading now shares the same scoring module.
 - All56 focused tests pass, including an actual Worker/D1 partial-credit fixture, durable raw responses, withheld keys and no binary calibration evidence.
 - This is backend/scoring infrastructure only: no multipart bank items are yet served, and the student input/report UI and instructor partial-score summaries still need integration before enabling the format. It is not full AP free-response or graph-production support.
+
+## Continuation: multipart student and instructor integration
+
+- Added reusable numeric/choice/multipart form rendering, validated per-part collection and readable object-response formatting. Student feedback/reports show part-level credit/explanations and aggregate rubric points; instructor assignment reports add normalized credit (0–1 per item) alongside fully correct counts.
+- Added24 multipart AP Micro items in two12-variant families: competitive equilibrium/tax/revenue and monopoly quantity/price/welfare. AP Micro now1316 items/144 families. Bank2026.10.12.11. Rubric parts remain excluded from binary calibration and are not treated as independent IRT items.
+- Added DOM form tests plus independent prompt-data checks of all new rubric answers. All58 focused tests and Astro fast build pass. Structural audit understands multipart fields.
+- New families need substantive second review and browser layout testing. This is numeric partial credit only; written justification, drawing/graph production, error-carried-forward rules and validated polytomous models remain unfinished.
