@@ -1,6 +1,7 @@
+import {validCourseUnit} from './curriculum.mjs';
 import {itemDiagnostics} from './item-diagnostics.mjs';
 export function prepare(rows,{course,unit,bankVersion,minItemResponses=100,minPersons=300,minItemsPerPerson=3}={}){
- if(!course||!Number.isInteger(unit)||unit<1||unit>6||!bankVersion)throw new Error('Specify course, unit 1–6 and bank version.');
+ if(!validCourseUnit(course,unit)||!bankVersion)throw new Error('Specify a registered course, a unit in that course, and bank version.');
  const exclusions={},exclude=reason=>exclusions[reason]=(exclusions[reason]??0)+1;
  const seenEvents=new Map(),eligible=[];
  for(const r of rows){

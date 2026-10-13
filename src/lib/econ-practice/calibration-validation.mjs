@@ -1,3 +1,4 @@
+import {validCourseUnit} from './curriculum.mjs';
 // Caller computes reportSHA256 from the complete canonical report, never from input metadata.
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const text=value=>typeof value==='string'&&value.trim().length>0;
@@ -11,7 +12,7 @@ export function validateCandidateContent(report,{model='2PL',bankVersion,review,
  if(!['1PL','2PL'].includes(model))issues.push('Unsupported calibration model.');
  if(!text(bankVersion)||report.bankVersion!==bankVersion)issues.push('Bank version mismatch.');
  if(typeof report.sourceSHA256!=='string'||!/^[a-f0-9]{64}$/.test(report.sourceSHA256))issues.push('Missing or invalid source data hash.');
- if(!['ap-micro','ap-macro','college-micro','college-macro'].includes(report.course)||!Number.isInteger(report.unit)||report.unit<1||report.unit>6)issues.push('Missing or invalid calibration course/unit scope.');
+ if(!validCourseUnit(report.course,report.unit))issues.push('Missing or invalid calibration course/unit scope.');
  if(!object(candidate))issues.push('Selected model unavailable.');
  else{
   if(candidate.converged!==true)issues.push('Model convergence is not explicitly confirmed.');

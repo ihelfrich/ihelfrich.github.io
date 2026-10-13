@@ -1,11 +1,12 @@
+import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
 import {listPage} from './pagination.mjs';
 import {iso,uuid,query,all,requireValue,HttpError} from './common.mjs';
 import {BANK_VERSION,courses,buildBank} from '../../src/lib/econ-practice/index.mjs';
 const bank=buildBank();
 export async function createAssignment(env,instructor,b){
- requireValue(typeof b.title==='string'&&b.title.trim().length>0&&b.title.length<=160,'Provide an assignment title.');requireValue(courses[b.course],'Unknown course.');
- requireValue(Number.isInteger(b.unit??0)&&(b.unit??0)>=0&&(b.unit??0)<=6,'Invalid unit.');
+ requireValue(typeof b.title==='string'&&b.title.trim().length>0&&b.title.length<=160,'Provide an assignment title.');requireValue(knownCourse(b.course),'Unknown course.');
+ requireValue(validCourseUnit(b.course,b.unit??0,{allowAll:true}),'Invalid unit.');
  requireValue(typeof (b.topic??'')==='string','Invalid topic.');
  requireValue(Number.isInteger(b.itemCount)&&b.itemCount>=6&&b.itemCount<=48,'Use 6–48 items.');requireValue(Number.isInteger(b.maxAttempts)&&b.maxAttempts>=1&&b.maxAttempts<=10,'Use 1–10 attempts.');
  requireValue(Number.isFinite(Date.parse(b.opensAt))&&Number.isFinite(Date.parse(b.closesAt))&&Date.parse(b.closesAt)>Date.parse(b.opensAt),'Provide valid opening and closing times.');

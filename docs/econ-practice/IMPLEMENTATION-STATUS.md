@@ -541,3 +541,9 @@ Inspected the first prompt of all 49 AP Macro families against authored topic gu
 ## AP Micro Units 1–2 hint-fit review (2026-10-12)
 
 Inspected first-variant prompts for all current AP Micro families in Units 1–2. Added 14 family overrides for normative statements, PPF classification/shape/shifts, revenue elasticity, fixed supply, producer surplus versus profit, tariff revenue, tax incidence/deadweight loss, and subsidy welfare. Version topic-scaffolds-v5. All 131 focused tests pass. Review is representative first prompts; variants and Units 3–6 still require hint-fit review.
+
+## Expanded economics scope and curriculum research (2026-10-12)
+
+Latest user requirement: more than 5,000 active/useful questions spanning economics disciplines, with general course titles and efficient managed parallel work. See EXPANDED-SCOPE.md for preserved acceptance criteria. Three bounded research agents produced separate official-source maps for micro, macro and fields; the parent inspected all three. These maps distinguish evidence from proposed authoring scope and disclose missing areas.
+
+Removed fixed four-course/six-unit assumptions from operational session/assignment scope validation, calibration validation/preparation, and adaptive unit counting. Shared registry helpers reject inherited object names. Instructor course options now derive from the same registry; existing college IDs remain stable while visible names become Intermediate Microeconomics/Macroeconomics. This does not activate empty future courses or add bank items. 132 focused tests passed; Astro built 130 pages. Current baseline remains 2,439 items / 232 families. Next integration: reconcile a concept/course/level catalog, assign bounded original-authoring batches, and activate only verified content while separately tracking family diversity and variants.

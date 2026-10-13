@@ -1,8 +1,8 @@
 export const courses = {
  'ap-micro': {name:'AP Microeconomics', units:['Choice and opportunity cost','Markets and price formation','Production and competitive firms','Market power and strategic behavior','Labor and other inputs','Welfare and public policy'], weights:[.135,.225,.235,.18,.115,.11]},
  'ap-macro': {name:'AP Macroeconomics', units:['Economic foundations','Measuring the economy','Aggregate demand and supply','Money and finance','Inflation, policy, and growth','International economics'], weights:[.075,.145,.22,.205,.24,.115]},
- 'college-micro': {name:'Undergraduate Microeconomics', units:['Preferences and choice','Demand and exchange','Technology and costs','Competition and market power','Strategic interaction','Welfare and information'],weights:[.2,.15,.15,.2,.15,.15]},
- 'college-macro': {name:'Undergraduate Macroeconomics', units:['National accounts','Long-run growth','Consumption and investment','Business cycles','Monetary and fiscal policy','Open-economy models'],weights:[.15,.2,.15,.2,.15,.15]}
+ 'college-micro': {name:'Intermediate Microeconomics', units:['Preferences and choice','Demand and exchange','Technology and costs','Competition and market power','Strategic interaction','Welfare and information'],weights:[.2,.15,.15,.2,.15,.15]},
+ 'college-macro': {name:'Intermediate Macroeconomics', units:['National accounts','Long-run growth','Consumption and investment','Business cycles','Monetary and fiscal policy','Open-economy models'],weights:[.15,.2,.15,.2,.15,.15]}
 };
 export const microTopics = {
  '1.1':'Scarcity','1.2':'Allocation and economic systems','1.3':'Production possibilities','1.4':'Comparative advantage','1.5':'Cost-benefit analysis','1.6':'Marginal analysis and consumer choice',
@@ -21,3 +21,9 @@ export const prerequisitesByCourse={
  'college-micro':{'1.4':['1.1'],'2.1':['1.1','1.2'],'2.2':['1.1'],'3.2':['3.1'],'4.1':['3.1'],'4.2':['4.1','5.1'],'4.3':['4.1'],'5.2':['5.1'],'6.1':['3.1','4.1']},
  'college-macro':{'2.2':['2.1'],'2.3':['2.1'],'3.1':['3.2'],'4.1':['1.1'],'4.2':['4.1'],'5.1':['4.2'],'5.2':['1.1'],'6.1':['3.2'],'6.2':['1.1']}
 };
+
+// Operational scopes come from the course registry, not a fixed AP-sized unit count.
+export function knownCourse(course){return typeof course==='string'&&Object.hasOwn(courses,course);}
+export function validCourseUnit(course,unit,{allowAll=false}={}){
+ return knownCourse(course)&&Number.isInteger(unit)&&unit>=(allowAll?0:1)&&unit<=courses[course].units.length;
+}

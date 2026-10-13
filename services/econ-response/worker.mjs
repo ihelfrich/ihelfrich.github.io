@@ -1,3 +1,4 @@
+import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {hintFor} from '../../src/lib/econ-practice/hints.mjs';
 import {registerModel} from './model-registry.mjs';
 import {ensureCurrentBank,archivedBank} from './bank-archive.mjs';
@@ -104,9 +105,9 @@ async function route(request,env){
  if(path==='/auth/logout'&&method==='POST'){await query(env.DB,'UPDATE credentials SET revoked_at=? WHERE token_hash=?',iso(),await hash(bearer(request))).run();return {signedOut:true};}
  if(path==='/assignments'&&method==='GET')return listAssignments(env,p,pageCursor(url.searchParams.get('after')??''));
  if(path==='/sessions'&&method==='POST'){
-  const b=await body(request);if(b.assignmentId)return startAssignment(env,p,b);requireValue(!b.assigned,'Provide an instructor assignment ID; assigned mode cannot be self-declared.',403);requireValue(courses[b.course],'Unknown course.');requireValue(['practice','assessment'].includes(b.mode),'Unknown mode.');
+  const b=await body(request);if(b.assignmentId)return startAssignment(env,p,b);requireValue(!b.assigned,'Provide an instructor assignment ID; assigned mode cannot be self-declared.',403);requireValue(knownCourse(b.course),'Unknown course.');requireValue(['practice','assessment'].includes(b.mode),'Unknown mode.');
   requireValue(!b.assigned||p.identity_kind==='account','Assigned assessments require a verified account.',403);
-  requireValue(Number.isInteger(b.unit??0)&&(b.unit??0)>=0&&(b.unit??0)<=6,'Invalid unit.');
+  requireValue(validCourseUnit(b.course,b.unit??0,{allowAll:true}),'Invalid unit.');
   requireValue(!b.topic||(typeof b.topic==='string'&&bank.some(q=>q.course===b.course&&q.topic===b.topic)),'Invalid topic.');
   const recent=await query(env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE participant_id=? AND started_at>?',p.id,new Date(Date.now()-86400000).toISOString()).first();requireValue(recent.n<100,'Daily session limit reached.',429);
   await ensureCurrentBank(env.DB);

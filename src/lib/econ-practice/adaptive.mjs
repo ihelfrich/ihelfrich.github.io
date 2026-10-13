@@ -1,5 +1,5 @@
 import {gradeResponse} from './scoring.mjs';
-import {courses,prerequisitesByCourse} from './curriculum.mjs';
+import {courses,prerequisitesByCourse,validCourseUnit} from './curriculum.mjs';
 import {prior,itemParameters,validateParameterSnapshot,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
 export const ENGINE_VERSION='content-constrained-v9';
 export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
@@ -38,11 +38,12 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  return state;
 }
 export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration,calibrationsByUnit,exposedFamilies=[]}={}){
+ if(!validCourseUnit(course,unit,{allowAll:true}))throw new Error('Invalid course or unit.');
  if(calibration&&calibrationsByUnit)throw new Error('Provide one calibration source.');
  if(calibrationsByUnit!==undefined){
   if(!calibrationsByUnit||typeof calibrationsByUnit!=='object'||Array.isArray(calibrationsByUnit))throw new Error('Invalid unit calibration map.');
   for(const [dimension,model] of Object.entries(calibrationsByUnit)){
-   if(!/^[1-6]$/.test(dimension))throw new Error('Invalid calibrated unit.');
+   if(! /^[1-9][0-9]*$/.test(dimension)||!validCourseUnit(course,Number(dimension)))throw new Error('Invalid calibrated unit.');
    if(model!==null&&(!model||model.status!=='approved'||model.course!==course||model.unit!==Number(dimension)||typeof model.id!=='string'||!model.id.trim()||!model.items||typeof model.items!=='object'||Array.isArray(model.items)))throw new Error('Invalid or mismatched unit calibration.');
   }
  }
@@ -78,7 +79,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
   const fresh=pool.filter(q=>!exposed.has(q.family));
   if(fresh.length){pool=fresh;exposureStatus='fresh-family';}else exposureStatus='previously-exposed-family';
  }
- const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
+ const unitCounts=Array(courses[course].units.length).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
  const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
  const scored=pool.map(q=>{
   const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibrationFor(q));
