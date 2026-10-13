@@ -289,7 +289,7 @@ test('question library protects keys, audits access, and paginates the complete 
   assert.equal((await t.call('/admin/questions',null,p.token)).status,403);
   assert.equal((await t.call('/admin/questions')).status,401);
   const ids=[];let cursor='',version='',hasMore=true;
-  while(hasMore){const page=await t.call(`/admin/questions?course=ap-micro&unit=1&after=${encodeURIComponent(cursor)}${version?`&version=${encodeURIComponent(version)}`:''}`,null,'test-only-admin');assert.equal(page.status,200);assert.ok(page.items.length<=30);for(const q of page.items){assert.deepEqual(q,bank.get(q.id));ids.push(q.id);}hasMore=page.hasMore;cursor=page.nextCursor;version=page.bankVersion;}
+  while(hasMore){const page=await t.call(`/admin/questions?course=ap-micro&unit=1&after=${encodeURIComponent(cursor)}${version?`&version=${encodeURIComponent(version)}`:''}`,null,'test-only-admin');assert.equal(page.status,200);assert.ok(page.items.length<=30);for(const q of page.items){assert.deepEqual(q,bank.get(q.id));assert.ok(page.hints[q.id].hintVersion);assert.ok(page.hints[q.id].hint);ids.push(q.id);}hasMore=page.hasMore;cursor=page.nextCursor;version=page.bankVersion;}
   assert.equal((await t.call('/admin/questions?version=old-bank',null,'test-only-admin')).status,409);
   assert.equal((await t.call('/admin/questions?after=some-id',null,'test-only-admin')).status,400);
   const expected=[...bank.values()].filter(q=>q.course==='ap-micro'&&q.unit===1).map(q=>q.id).sort();assert.deepEqual(ids,expected);

@@ -529,3 +529,7 @@ Added course-specific method prompts for every populated AP Macro topic, based o
 ## Undergraduate family guidance (2026-10-12)
 
 Added method prompts for all 39 undergraduate question families, using family-level selection because shared topic codes include distinct models. Guidance emphasizes model assumptions, corners/constraints, timing, and accounting-versus-causal distinctions. Hint version advances to topic-scaffolds-v3. All current undergraduate items resolve to a family-specific hint; all 129 focused tests pass. Coverage is structural evidence only; item-level pedagogical usefulness and learning effects remain unvalidated.
+
+## Instructor hint inspection (2026-10-12)
+
+Private question-library pages now include current hint text, version and scope alongside each question's key and explanation. The UI distinguishes current guidance from historical immutable hint events. Question item snapshots remain unchanged: guidance is a separate response field. Existing API and DOM regressions now verify hint presence/rendering; all 129 focused tests pass. This exposes guidance for review but does not itself constitute pedagogical approval.

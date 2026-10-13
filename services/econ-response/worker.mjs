@@ -55,7 +55,7 @@ async function route(request,env){
    const filtered=bank.filter(q=>(!course||q.course===course)&&(!unit||q.unit===Number(unit))&&(!search||[q.id,q.family,q.title,q.topicName,q.prompt].join(' ').toLowerCase().includes(search))).sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
    const remaining=filtered.filter(q=>q.id>after),items=remaining.slice(0,30);
    await audit('question-library-read',BANK_VERSION,{course,unit,count:items.length});
-   return {bankVersion:BANK_VERSION,total:filtered.length,families:new Set(filtered.map(q=>q.family)).size,items,hasMore:remaining.length>30,nextCursor:items.at(-1)?.id??null};
+   return {bankVersion:BANK_VERSION,total:filtered.length,families:new Set(filtered.map(q=>q.family)).size,items,hints:Object.fromEntries(items.map(q=>[q.id,hintFor(q)])),hasMore:remaining.length>30,nextCursor:items.at(-1)?.id??null};
   }
   if(path==='/admin/model-packages'&&method==='POST')return registerModel(env,instructor,await body(request,1024*1024));
   const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
