@@ -25,9 +25,9 @@ if(root){
    if(current?.presentationId===event.payload.presentationId)displayReceipt(receipt);
   }
  }
- function displayReceipt(r){$('retry-save').hidden=true;$('receipt').textContent=r.countsTowardResult===false?'Answer saved to your history, but received after the deadline or session completion. It does not count toward this assessment.':'Answer saved to your response history.';$('submit-answer').disabled=true;$('next').hidden=false;$('hint').hidden=true;
+ function displayReceipt(r){$('retry-save').hidden=true;$('receipt').textContent=r.receiptId?'Submission saved separately because an answer was already recorded or its attempt number was out of sequence. The scored answer has not changed.':r.countsTowardResult===false?'Answer saved to your history, but received after the deadline or session completion. It does not count toward this assessment.':'Answer saved to your response history.';$('submit-answer').disabled=true;$('next').hidden=false;$('hint').hidden=true;
   if('correct' in r){$('feedback').replaceChildren(node('h3',r.correct?'Correct':'Review this answer'),node('p',`Answer: ${r.answer}`),node('p',r.explanation));if(r.parts)for(const part of r.parts)$('feedback').append(node('p',`${part.id}: ${part.earned}/${part.possible} points. ${part.explanation}`));}
-  else $('feedback').replaceChildren(node('p','Answer recorded. Explanations will appear when you finish the diagnostic.'));
+  else $('feedback').replaceChildren(node('p',r.receiptId?'This submission is available in your downloaded history and is excluded from scores and ability estimates.':'Answer recorded. Explanations will appear when you finish the diagnostic.'));
  }
  async function next(){
   await flush();const result=await request(`/sessions/${session.sessionId}/next`,{});if(result.done){await finish();return;}

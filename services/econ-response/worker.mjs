@@ -1,3 +1,4 @@
+import {findUnscored,retainUnscored,unscoredReceipt} from './unscored.mjs';
 import {responseWindow} from './response-cursor.mjs';
 import {replayHistory} from './history.mjs';
 import {gradeResponse,publicQuestion,responseFeedback,validResponseShape} from '../../src/lib/econ-practice/scoring.mjs';
@@ -23,6 +24,11 @@ async function body(request){
  let parsed;try{parsed=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));}catch{throw new HttpError(400,'Invalid JSON.');}
  requireValue(parsed!==null&&typeof parsed==='object'&&!Array.isArray(parsed),'Provide a JSON object.');return parsed;
 }
+async function unscoredPage(env,url,participantId){
+ const window=await responseWindow(env.DB,url.searchParams.get('after')??'',participantId,'unscored_submissions');
+ const rows=await all(env.DB,`SELECT * FROM unscored_submissions WHERE ledger_sequence>? AND ledger_sequence<=?${participantId?' AND participant_id=?':''} ORDER BY ledger_sequence LIMIT 501`,window.after,window.until,...(participantId?[participantId]:[]));
+ const page=rows.slice(0,500);return {rows:page,nextCursor:page.length?window.next(page.at(-1).ledger_sequence):null,hasMore:rows.length>500,snapshotThrough:window.until};
+}
 async function route(request,env){
  const url=new URL(request.url),path=url.pathname,method=request.method;
  if(path==='/health'&&method==='GET')return {ok:true,bankVersion:BANK_VERSION,consentVersion:CONSENT_VERSION,tracking:'server-receipts',signInConfigured:!!env.GOOGLE_CLIENT_ID};
@@ -39,6 +45,7 @@ async function route(request,env){
   if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
   if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}
   const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET'){const report=await assignmentReport(env,assignmentMatch[1]);await audit('assignment-report-read',assignmentMatch[1],{});return report;}
+  if(path==='/admin/unscored-submissions'&&method==='GET'){const page=await unscoredPage(env,url);await audit('unscored-submission-export',page.nextCursor??'empty',{count:page.rows.length,snapshotThrough:page.snapshotThrough});return page;}
   if(path==='/admin/responses'&&method==='GET'){
    const window=await responseWindow(env.DB,url.searchParams.get('after')??'');
    const rows=await all(env.DB,`SELECT r.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.selection_probability,p.selection_pool_size,p.selection_engine_version,p.model_version,p.first_family_exposure,s.course,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.ledger_sequence>? AND r.ledger_sequence<=? ORDER BY r.ledger_sequence LIMIT 501`,window.after,window.until);
@@ -60,6 +67,7 @@ async function route(request,env){
  }
  const p=await participant(request,env);
  if(path==='/profile'&&method==='GET')return {participantId:p.id,identityKind:p.identity_kind,email:p.verified_email,isInstructor:isInstructor(p,env)};
+ if(path==='/profile/unscored-submissions'&&method==='GET')return unscoredPage(env,url,p.id);
  if(path==='/profile/responses'&&method==='GET'){
   const window=await responseWindow(env.DB,url.searchParams.get('after')??'',p.id);
   const raw=await all(env.DB,`SELECT r.*,pr.item_snapshot_json,s.course,s.mode,s.completed_at FROM responses r JOIN presentations pr ON pr.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.ledger_sequence>? AND r.ledger_sequence<=? ORDER BY r.ledger_sequence LIMIT 501`,p.id,window.after,window.until);
@@ -97,19 +105,21 @@ async function route(request,env){
   requireValue(Number.isInteger(b.elapsedMs)&&b.elapsedMs>=0&&b.elapsedMs<=86400000,'Invalid elapsed time.');requireValue(Number.isInteger(b.activeMs)&&b.activeMs>=0&&b.activeMs<=b.elapsedMs,'Invalid active time.');
   requireValue(typeof b.submittedAt==='string'&&Number.isFinite(Date.parse(b.submittedAt)),'Invalid submission time.');
   const canonical=JSON.stringify({presentationId:b.presentationId,attemptNumber:b.attemptNumber,response:b.response,elapsedMs:b.elapsedMs,activeMs:b.activeMs,submittedAt:b.submittedAt});const digest=await hash(canonical);
-  const existing=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
-  if(existing){requireValue(existing.participant_id===p.id&&existing.session_id===sid&&existing.payload_sha256===digest,'Idempotency conflict.',409);const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=?',existing.presentation_id).first();return {eventId:b.eventId,receipt:existing.server_received_at,persisted:true,validity:existing.validity,countsTowardResult:!['late-receipt','after-completion'].includes(existing.validity),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(pr.item_snapshot_json),b.response):{})};}
   const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=? AND session_id=?',b.presentationId,sid).first();requireValue(pr,'Presentation not found.',404);
   const item=JSON.parse(pr.item_snapshot_json);
   requireValue(validResponseShape(item,b.response),'Provide a valid answer for every part.');
-  const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM responses WHERE presentation_id=?',pr.id).first();requireValue(b.attemptNumber===previous.n+1,'Attempt sequence conflict.',409);requireValue(s.mode==='practice'||previous.n===0,'Assessment answers cannot be changed.',409);
+  const retained=await findUnscored(env.DB,p.id,sid,b.eventId,digest);if(retained)return unscoredReceipt(retained);
+  const archive=reason=>retainUnscored(env.DB,p.id,sid,{eventId:b.eventId,...JSON.parse(canonical)},digest,reason);
+  const existing=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
+  if(existing){if(existing.participant_id!==p.id||existing.session_id!==sid||existing.payload_sha256!==digest)return archive('idempotency-conflict');const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=?',existing.presentation_id).first();return {eventId:b.eventId,receipt:existing.server_received_at,persisted:true,validity:existing.validity,countsTowardResult:!['late-receipt','after-completion'].includes(existing.validity),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(pr.item_snapshot_json),b.response):{})};}
+  const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM responses WHERE presentation_id=?',pr.id).first();if(b.attemptNumber!==previous.n+1)return archive('attempt-sequence-conflict');if(s.mode!=='practice'&&previous.n!==0)return archive('assessment-answer-locked');
   const grade=gradeResponse(item,b.response),correct=grade.correct,validity=b.activeMs<1500?'rapid-response':'valid';
   const eligible=item.format!=='multipart'&&s.mode==='assessment'&&pr.first_family_exposure===1&&pr.hints_used===0&&previous.n===0&&validity==='valid';
   try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,strftime('%Y-%m-%dT%H:%M:%fZ','now'),?,?,current.hints_used,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=strftime('%Y-%m-%dT%H:%M:%fZ','now') THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=strftime('%Y-%m-%dT%H:%M:%fZ','now') OR current.hints_used>0 THEN 0 ELSE ? END,? FROM sessions JOIN presentations current ON current.id=? WHERE sessions.id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),grade.score,b.submittedAt,b.elapsedMs,b.activeMs,Number(previous.n>0&&s.mode==='practice'),validity,Number(eligible),digest,pr.id,sid).run();}
   catch(error){
    const raced=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
-   if(!raced){const duplicate=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? AND attempt_number=?',pr.id,b.attemptNumber).first();if(duplicate)throw new HttpError(409,'This attempt was already saved under a different event ID.');throw error;}
-   requireValue(raced.participant_id===p.id&&raced.session_id===sid&&raced.payload_sha256===digest,'Idempotency conflict.',409);
+   if(!raced){const duplicate=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? AND attempt_number=?',pr.id,b.attemptNumber).first();if(duplicate)return archive('attempt-sequence-conflict');throw error;}
+   if(raced.participant_id!==p.id||raced.session_id!==sid||raced.payload_sha256!==digest)return archive('idempotency-conflict');
    return {eventId:b.eventId,receipt:raced.server_received_at,persisted:true,validity:raced.validity,countsTowardResult:!['late-receipt','after-completion'].includes(raced.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
   }
   const stored=await query(env.DB,'SELECT validity,server_received_at FROM responses WHERE event_id=?',b.eventId).first();

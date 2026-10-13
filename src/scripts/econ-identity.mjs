@@ -26,9 +26,10 @@ export function setupIdentity({request,flush,getProfile,setProfile,getSession,se
   try{
    await flush();let cursor='0',rows=[],seen=new Set();
    for(;;){const page=await request(`/profile/responses?after=${encodeURIComponent(cursor)}`);rows.push(...page.rows);if(!page.hasMore)break;if(!page.nextCursor||seen.has(page.nextCursor))throw new Error('History retrieval did not advance. No partial file was downloaded.');seen.add(page.nextCursor);cursor=page.nextCursor;}
-   const url=URL.createObjectURL(new Blob([JSON.stringify({exportedAt:new Date().toISOString(),participantId:getProfile().participantId,rows},null,2)],{type:'application/json'}));
+   const unscoredSubmissions=await readAllPages(request,'/profile/unscored-submissions','rows');
+   const url=URL.createObjectURL(new Blob([JSON.stringify({exportedAt:new Date().toISOString(),participantId:getProfile().participantId,rows,unscoredSubmissions},null,2)],{type:'application/json'}));
    const a=document.createElement('a');a.href=url;a.download='my-economics-answer-history.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-   $('identity-error').textContent=`Downloaded ${rows.length} submitted answers. Unfinished assessment keys remain hidden.`;
+   $('identity-error').textContent=`Downloaded ${rows.length} response records and ${unscoredSubmissions.length} separately retained submissions. Unfinished assessment keys remain hidden.`;
   }catch(e){$('identity-error').textContent=e.message;}finally{button.disabled=false;}
  });
  return {ensureProfile,refresh};

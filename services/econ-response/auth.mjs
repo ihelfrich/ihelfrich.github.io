@@ -44,6 +44,7 @@ export async function finishSignIn(env,p,b,verify=verifyGoogleToken){
  if(b.linkAnonymous&&p.identity_kind==='anonymous'){
   await env.DB.batch([
    query(env.DB,'UPDATE responses SET participant_id=? WHERE participant_id=?',account.id,p.id),
+   query(env.DB,'UPDATE unscored_submissions SET participant_id=? WHERE participant_id=?',account.id,p.id),
    query(env.DB,'UPDATE sessions SET participant_id=? WHERE participant_id=?',account.id,p.id),
    query(env.DB,'UPDATE credentials SET revoked_at=? WHERE participant_id=?',iso(),p.id),
    query(env.DB,'UPDATE participants SET disabled_at=? WHERE id=?',iso(),p.id),

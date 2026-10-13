@@ -413,3 +413,11 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 
 The calibration importer now requires explicit valid assistance and attempt metadata before testing eligibility. Null, missing, string, boolean hint counts, and invalid numeric counts cannot be coerced into clean first-attempt evidence. Boolean feedback indicators remain supported alongside database 0/1 values. Exclusions distinguish malformed metadata from valid assisted/repeated responses. All 89 focused economics tests pass, and the unchanged 2,439-item bank passes structural checks. This does not supply empirical calibration or operational model approval.
 
+# Conflicting answer retention
+
+Valid, authenticated submissions for an owned presentation are now retained even when an event ID conflicts, an attempt is out of sequence, or an assessment answer is locked. Migration `0004_unscored_submissions.sql` adds a separate ledger with database receipt times, canonical submitted fields, payload hashes, exclusion reasons, and stable receipt IDs. Exact retries return the original receipt. A previously excluded submission cannot become scored on a later retry; the original scored response remains unchanged.
+
+The browser acknowledges these durable receipts and explains the exclusion, allowing the pending queue to advance. Participant and instructor downloads include `unscoredSubmissions` separately from calibration-compatible `rows`. Both new export routes enforce authorization; instructor reads are audited. Each ledger export has its own fixed upper boundary, so a combined download is not an atomic snapshot across both ledgers. Explicit anonymous linking transfers the additional records.
+
+Verification: 93 focused tests pass, including concurrent duplicate retention, score isolation, private exports, stable pagination, and receipt preservation through account linking. Astro builds all 130 pages; the Cloudflare Worker dry-run bundle succeeds. These checks do not establish live deployment or real-browser outage behavior. Malformed requests, invalid answer shapes, unauthorized requests, and traffic that never reaches the service are not claimed as stored answers. Storage quotas, abuse protection, identity-link concurrency, and retention/deletion remain follow-up work.
+

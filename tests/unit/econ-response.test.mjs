@@ -8,9 +8,9 @@ const bank=new Map(buildBank().map(q=>[q.id,q]));
 function setup(){const DB=createLocalDB();for(const file of readdirSync(new URL('../../services/econ-response/migrations/',import.meta.url)).filter(n=>n.endsWith('.sql')).sort())DB.exec(readFileSync(new URL(`../../services/econ-response/migrations/${file}`,import.meta.url),'utf8'));const env={DB,ADMIN_TOKEN:'test-only-admin',ALLOW_BOOTSTRAP_ADMIN:'true',ALLOWED_ORIGINS:'https://ihelfrich.github.io'};return {env,call:async(path,data,token,method=data?'POST':'GET')=>{const res=await worker.fetch(new Request(`https://api.example${path}`,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{})},...(data?{body:JSON.stringify(data)}:{})}),env);return {status:res.status,...await res.json()};}};}
 async function enrolled(t,mode='practice'){const p=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});assert.equal(p.status,200);const s=await t.call('/sessions',{course:'ap-micro',mode},p.token);assert.equal(s.status,200);const next=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(next.status,200);return {p,s,next};}
 function answer(next){const q=bank.get(next.item.id);return {eventId:crypto.randomUUID(),presentationId:next.presentationId,attemptNumber:1,response:q.format==='multipart'?Object.fromEntries(q.parts.map(p=>[p.id,p.answer])):q.format==='choice'?q.answerIndex:q.answer,elapsedMs:5000,activeMs:4500,submittedAt:new Date().toISOString()};}
-test('answer receipt proves durable storage and duplicate retry does not create another row',async()=>{const t=setup(),{p,s,next}=await enrolled(t);assert.equal(next.item.answer,undefined);assert.equal(next.item.answerIndex,undefined);const a=answer(next);const r=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(r.status,200,JSON.stringify(r));assert.equal(r.persisted,true);assert.equal(r.correct,true);const retry=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(retry.receipt,r.receipt);const count=await t.env.DB.prepare('SELECT COUNT(*) AS n FROM responses').first();assert.equal(count.n,1);const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,response:999999},p.token);assert.equal(conflict.status,409);t.env.DB.close();});
+test('answer receipt proves durable storage and duplicate retry does not create another row',async()=>{const t=setup(),{p,s,next}=await enrolled(t);assert.equal(next.item.answer,undefined);assert.equal(next.item.answerIndex,undefined);const a=answer(next);const r=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(r.status,200,JSON.stringify(r));assert.equal(r.persisted,true);assert.equal(r.correct,true);const retry=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(retry.receipt,r.receipt);const count=await t.env.DB.prepare('SELECT COUNT(*) AS n FROM responses').first();assert.equal(count.n,1);const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,activeMs:4000},p.token);assert.equal(conflict.status,200);assert.equal(conflict.persisted,true);assert.equal(conflict.countsTowardResult,false);assert.ok(conflict.receiptId);t.env.DB.close();});
 test('profiles cannot read or write another participant session',async()=>{const t=setup(),a=await enrolled(t),b=await enrolled(t);const result=await t.call(`/sessions/${a.s.sessionId}/answers`,answer(a.next),b.p.token);assert.equal(result.status,404);assert.equal((await t.call(`/sessions/${a.s.sessionId}/report`,null,b.p.token)).status,404);t.env.DB.close();});
-test('assessment withholds feedback, disallows retries and requires sign-in for assigned mode',async()=>{const t=setup(),{p,s,next}=await enrolled(t,'assessment');const a=answer(next),r=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(r.status,200);assert.equal(r.correct,undefined);assert.equal((await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token)).status,403);assert.equal((await t.call('/sessions',{course:'ap-micro',mode:'assessment',assigned:true},p.token)).status,403);assert.equal((await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID(),attemptNumber:2},p.token)).status,409);await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.rows[0].correct,true);t.env.DB.close();});
+test('assessment withholds feedback, disallows retries and requires sign-in for assigned mode',async()=>{const t=setup(),{p,s,next}=await enrolled(t,'assessment');const a=answer(next),r=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(r.status,200);assert.equal(r.correct,undefined);assert.equal((await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token)).status,403);assert.equal((await t.call('/sessions',{course:'ap-micro',mode:'assessment',assigned:true},p.token)).status,403);assert.equal((await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID(),attemptNumber:2},p.token)).countsTowardResult,false);await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.rows[0].correct,true);t.env.DB.close();});
 test('repeated next calls return the same outstanding presentation',async()=>{const t=setup(),{p,s,next}=await enrolled(t);const r=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(r.presentationId,next.presentationId);t.env.DB.close();});
 test('admin exports are private and record an audit entry',async()=>{const t=setup(),{p,s,next}=await enrolled(t);await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);assert.equal((await t.call('/admin/responses',null,p.token)).status,403);const exported=await t.call('/admin/responses',null,'test-only-admin');assert.equal(exported.rows.length,1);assert.equal(exported.hasMore,false);assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM audit_log').first()).n,1);t.env.DB.close();});
 test('untrusted origins and invalid consent are rejected',async()=>{const t=setup();assert.equal((await t.call('/profiles',{accepted:false,consentVersion:CONSENT_VERSION})).status,400);const r=await worker.fetch(new Request('https://api.example/health',{headers:{Origin:'https://untrusted.example'}}),t.env);assert.equal(r.status,403);t.env.DB.close();});
@@ -98,7 +98,7 @@ test('concurrent retries return one durable receipt and conflicting events canno
  const t=setup(),{p,s,next}=await enrolled(t,'assessment'),a=answer(next);
  const receipts=await Promise.all([t.call(`/sessions/${s.sessionId}/answers`,a,p.token),t.call(`/sessions/${s.sessionId}/answers`,a,p.token)]);
  receipts.forEach(r=>assert.equal(r.status,200));assert.equal(receipts[0].receipt,receipts[1].receipt);
- const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID()},p.token);assert.equal(conflict.status,409);
+ const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID()},p.token);assert.equal(conflict.status,200);assert.equal(conflict.persisted,true);assert.equal(conflict.countsTowardResult,false);assert.ok(conflict.receiptId);
  const row=await t.env.DB.prepare('SELECT COUNT(*) AS n,event_id FROM responses').first();assert.equal(row.n,1);assert.equal(row.event_id,a.eventId);t.env.DB.close();
 });
 
@@ -185,4 +185,59 @@ test('instructor summary separates practice retries, first attempts, assessments
  const p=report.courses.find(r=>r.mode==='practice'),d=report.courses.find(r=>r.mode==='assessment');
  assert.equal(p.responses,3);assert.equal(p.countedAttempts,2);assert.equal(p.excludedReceipts,1);assert.equal(p.attemptAccuracy,.5);assert.equal(p.firstAttempts,1);assert.equal(p.firstAttemptAccuracy,0);assert.equal(p.firstAttemptMeanCredit,0);
  assert.equal(d.responses,1);assert.equal(d.firstAttempts,1);assert.equal(d.firstAttemptAccuracy,1);assert.equal(d.firstAttemptMeanCredit,1);t.env.DB.close();
+});
+
+test('conflicting submissions have durable idempotent receipts and private exports without changing scores',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment'),a=answer(next),path=`/sessions/${s.sessionId}/answers`;
+ const original=await t.call(path,a,p.token);
+ const alternate={...a,eventId:crypto.randomUUID(),activeMs:4000};
+ const receipts=await Promise.all([t.call(path,alternate,p.token),t.call(path,alternate,p.token)]);
+ for(const r of receipts){assert.equal(r.status,200);assert.equal(r.persisted,true);assert.equal(r.countsTowardResult,false);assert.equal(r.correct,undefined);assert.equal(r.calibrationEligible,false);}
+ assert.equal(receipts[0].receiptId,receipts[1].receiptId);assert.equal(receipts[0].receipt,receipts[1].receipt);
+ const changed={...a,activeMs:3500};const conflict=await t.call(path,changed,p.token);assert.equal(conflict.validity,'idempotency-conflict');
+ const originalRetry=await t.call(path,a,p.token);assert.equal(originalRetry.receipt,original.receipt);assert.equal(originalRetry.receiptId,undefined);
+ const history=await t.call('/profile/unscored-submissions',null,p.token);assert.equal(history.rows.length,2);assert.deepEqual(JSON.parse(history.rows[0].payload_json),alternate);
+ const stranger=await enrolled(t);assert.equal((await t.call('/profile/unscored-submissions',null,stranger.p.token)).rows.length,0);
+ assert.equal((await t.call('/admin/unscored-submissions',null,p.token)).status,403);
+ const exported=await t.call('/admin/unscored-submissions',null,'test-only-admin');assert.equal(exported.rows.length,2);
+ assert.equal((await t.env.DB.prepare("SELECT COUNT(*) AS n FROM audit_log WHERE action='unscored-submission-export'").first()).n,1);
+ const summary=await t.call('/admin/summary',null,'test-only-admin');assert.equal(summary.courses[0].responses,1);
+ assert.equal((await t.call(`/sessions/${s.sessionId}/report`,null,p.token)).rows.length,1);
+ // An invalid shape and another participant's presentation are not accepted into this ledger.
+ assert.equal((await t.call(path,{...a,eventId:crypto.randomUUID(),response:[]},p.token)).status,400);
+ assert.equal((await t.call(path,{...a,eventId:crypto.randomUUID(),presentationId:stranger.next.presentationId},p.token)).status,404);
+ assert.equal((await t.call('/profile/unscored-submissions',null,p.token)).rows.length,2);
+ t.env.DB.close();
+});
+
+test('a retained out-of-sequence submission never becomes scored on a later retry',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t),a=answer(next),path=`/sessions/${s.sessionId}/answers`,early={...a,eventId:crypto.randomUUID(),attemptNumber:2};
+ const retained=await t.call(path,early,p.token);assert.equal(retained.validity,'attempt-sequence-conflict');
+ await t.call(path,a,p.token);
+ const retry=await t.call(path,early,p.token);assert.equal(retry.receiptId,retained.receiptId);assert.equal(retry.countsTowardResult,false);
+ assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM responses').first()).n,1);
+ const fresh=await t.call(path,{...early,eventId:crypto.randomUUID()},p.token);assert.equal(fresh.countsTowardResult,true);
+ t.env.DB.close();
+});
+
+test('anonymous linking transfers separately retained submissions and preserves their receipt identity',async()=>{
+ const {createChallenge,finishSignIn}=await import('../../services/econ-response/auth.mjs');
+ const t=setup(),{p,s,next}=await enrolled(t),a=answer(next),path=`/sessions/${s.sessionId}/answers`;
+ await t.call(path,a,p.token);const alternate={...a,eventId:crypto.randomUUID()};const receipt=await t.call(path,alternate,p.token);
+ const anonymous=await t.env.DB.prepare('SELECT * FROM participants WHERE id=?').bind(p.participantId).first();
+ t.env.GOOGLE_CLIENT_ID='test-only-client';const challenge=await createChallenge(t.env,anonymous);
+ const signed=await finishSignIn(t.env,anonymous,{challengeId:challenge.challengeId,credential:'test-only',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:true},async()=>({subjectHash:'test-link-submission',email:'link@example.test'}));
+ const history=await t.call('/profile/unscored-submissions',null,signed.token);assert.equal(history.rows.length,1);assert.equal(history.rows[0].participant_id,signed.participantId);assert.equal(history.rows[0].receipt_id,receipt.receiptId);
+ assert.equal((await t.call(path,alternate,signed.token)).receiptId,receipt.receiptId);
+ assert.equal((await t.call('/profile/unscored-submissions',null,p.token)).status,401);t.env.DB.close();
+});
+
+test('unscored export pagination pins its own boundary while new submissions arrive',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t),a=answer(next),path=`/sessions/${s.sessionId}/answers`;
+ const retained=await t.call(path,{...a,attemptNumber:3},p.token);assert.ok(retained.receiptId);
+ for(let i=0;i<500;i++)await t.env.DB.prepare("INSERT INTO unscored_submissions (receipt_id,participant_id,session_id,presentation_id,event_id,payload_sha256,payload_json,reason,server_received_at) VALUES (?,?,?,?,?,?,?,'attempt-sequence-conflict',?)").bind(crypto.randomUUID(),p.participantId,s.sessionId,next.presentationId,crypto.randomUUID(),`fixture-${i}`,'{}',new Date().toISOString()).run();
+ const first=await t.call('/profile/unscored-submissions',null,p.token);assert.equal(first.rows.length,500);assert.equal(first.hasMore,true);assert.equal(first.snapshotThrough,501);
+ await t.call(path,{...a,eventId:crypto.randomUUID(),attemptNumber:4},p.token);
+ const last=await t.call(`/profile/unscored-submissions?after=${encodeURIComponent(first.nextCursor)}`,null,p.token);assert.equal(last.rows.length,1);assert.equal(last.hasMore,false);assert.equal(last.snapshotThrough,501);
+ const refreshed=await t.call('/profile/unscored-submissions',null,p.token);assert.equal(refreshed.snapshotThrough,502);t.env.DB.close();
 });
