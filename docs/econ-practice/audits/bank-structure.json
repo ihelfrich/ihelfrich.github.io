@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.12",
-  "bankSHA256": "cebeac087396806f9f5b9e52f01ada76bd4e8f97120376f818ef22591c175170",
+  "bankVersion": "2026.10.12.13",
+  "bankSHA256": "2d44bfdcdef8f9a172a24a64438baa256e6d6218c02ac914e3998dd477ca388b",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -2791,20 +2791,20 @@
       "topic": "1.1",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 6,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:opportunity:01",
-        "prompt": "Producing 10 additional machines requires sacrificing 30 units of food. What is the opportunity cost of one machine in food units?",
-        "answer": 3,
-        "explanation": "Divide food sacrificed by additional machines: 3 food units per machine."
+        "prompt": "Producing 10 additional machines requires sacrificing 10 units of food. What is the average opportunity cost per additional machine in food units over this change?",
+        "answer": 1,
+        "explanation": "Divide the total food sacrificed by the additional machines produced."
       },
       "last": {
         "id": "ap-macro:opportunity:24",
-        "prompt": "Producing 33 additional machines requires sacrificing 99 units of food. What is the opportunity cost of one machine in food units?",
-        "answer": 3
+        "prompt": "Producing 33 additional machines requires sacrificing 198 units of food. What is the average opportunity cost per additional machine in food units over this change?",
+        "answer": 6
       }
     },
     {
@@ -2819,7 +2819,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:trade:01",
-        "prompt": "Country A gives up 2 cloth per bushel of wheat; Country B gives up 4 cloth. Which pattern of specialization follows comparative advantage?",
+        "prompt": "Country A gives up 2 cloth per bushel of wheat; Country B gives up 4 cloth. Assume constant opportunity costs and mutually beneficial trade without trade costs. Which pattern of specialization follows comparative advantage?",
         "answer": "A exports wheat; B exports cloth",
         "explanation": "A has the lower opportunity cost of wheat; B has the lower reciprocal opportunity cost of cloth."
       },
@@ -2875,7 +2875,7 @@
       "topic": "2.3",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -2887,8 +2887,8 @@
       },
       "last": {
         "id": "ap-macro:unemployment:24",
-        "prompt": "There are 2970 employed people and 330 unemployed people actively seeking work. What is the unemployment rate in percent?",
-        "answer": 10
+        "prompt": "There are 1590 employed people and 445 unemployed people actively seeking work. What is the unemployment rate in percent?",
+        "answer": 21.867
       }
     },
     {
@@ -2897,7 +2897,7 @@
       "topic": "2.3",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -2905,12 +2905,12 @@
         "id": "ap-macro:participation:01",
         "prompt": "The working-age population is 2000. Employment is 1000, and 200 people are unemployed and seeking work. What is the labor-force participation rate in percent?",
         "answer": 60,
-        "explanation": "Labor force is 1200; population is 2000. Their ratio is 0.6, or 60%."
+        "explanation": "Divide the labor force (employed plus unemployed) by the stated working-age population and multiply by 100."
       },
       "last": {
         "id": "ap-macro:participation:24",
-        "prompt": "The working-age population is 6600. Employment is 3300, and 660 people are unemployed and seeking work. What is the labor-force participation rate in percent?",
-        "answer": 60
+        "prompt": "The working-age population is 4300. Employment is 1575, and 430 people are unemployed and seeking work. What is the labor-force participation rate in percent?",
+        "answer": 46.628
       }
     },
     {
@@ -2919,20 +2919,20 @@
       "topic": "2.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 7,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:inflation:01",
-        "prompt": "A price index rises from 100 to 105. What is inflation in percent?",
-        "answer": 5,
+        "prompt": "A price index rises from 100 to 102. What is inflation in percent?",
+        "answer": 2,
         "explanation": "Use (new index − old index)/old index × 100."
       },
       "last": {
         "id": "ap-macro:inflation:24",
-        "prompt": "A price index rises from 330 to 346.5. What is inflation in percent?",
-        "answer": 5
+        "prompt": "A price index rises from 330 to 343.2. What is inflation in percent?",
+        "answer": 4
       }
     },
     {
@@ -2941,20 +2941,20 @@
       "topic": "2.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:real-interest:01",
-        "prompt": "A nominal interest rate is 6% and expected inflation is 2%. What is the approximate expected real interest rate in percent?",
-        "answer": 4,
+        "prompt": "A nominal interest rate is 6% and expected inflation is 1%. What is the approximate expected real interest rate in percent?",
+        "answer": 5,
         "explanation": "Approximate expected real interest = nominal interest − expected inflation."
       },
       "last": {
         "id": "ap-macro:real-interest:24",
-        "prompt": "A nominal interest rate is 8.3% and expected inflation is 4.3%. What is the approximate expected real interest rate in percent?",
-        "answer": 4
+        "prompt": "A nominal interest rate is 8.3% and expected inflation is 2.5%. What is the approximate expected real interest rate in percent?",
+        "answer": 5.8
       }
     },
     {
@@ -3101,20 +3101,20 @@
       "topic": "4.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 9,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:bond-price:01",
-        "prompt": "A one-year zero-coupon bond pays $110 at maturity and sells today for $100. What is its annual yield in percent?",
-        "answer": 10,
+        "prompt": "A one-year zero-coupon bond pays $102 at maturity and sells today for $100. What is its annual yield in percent?",
+        "answer": 2,
         "explanation": "Yield = (face value − purchase price)/purchase price × 100."
       },
       "last": {
         "id": "ap-macro:bond-price:24",
-        "prompt": "A one-year zero-coupon bond pays $363 at maturity and sells today for $330. What is its annual yield in percent?",
-        "answer": 10
+        "prompt": "A one-year zero-coupon bond pays $353.1 at maturity and sells today for $330. What is its annual yield in percent?",
+        "answer": 7
       }
     },
     {
@@ -3151,13 +3151,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:deposit-multiplier:01",
-        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $10 occurs, with no cash leakage banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $10 occurs, with no cash leakage, banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
         "answer": 50,
         "explanation": "The maximum textbook deposit multiplier is 1/0.2 = 5. This is not a mechanical description of an ample-reserves operating framework."
       },
       "last": {
         "id": "ap-macro:deposit-multiplier:24",
-        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $33 occurs, with no cash leakage banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
+        "prompt": "In a simplified limited-reserves banking model, the required reserve ratio is 0.2. A new reserve injection of $33 occurs, with no cash leakage, banks lending all excess reserves, and willing borrowers redepositing every loan. What is the maximum total deposit expansion?",
         "answer": 165
       }
     },
@@ -3191,7 +3191,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:loanable-funds:01",
-        "prompt": "The government increases borrowing by 10 billion. Holding private saving and other determinants fixed, what does the standard loanable-funds model predict?",
+        "prompt": "The government increases borrowing by 10 billion. In a closed-economy loanable-funds model with an upward-sloping private saving supply and downward-sloping private investment demand, hold both schedules and other determinants fixed. What does the increase in government borrowing predict?",
         "answer": "Higher real interest rates and lower private investment",
         "explanation": "Higher borrowing demand places upward pressure on the real interest rate and can crowd out interest-sensitive investment."
       },
@@ -3221,20 +3221,20 @@
       "topic": "5.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:quantity-theory:01",
-        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 7%, velocity is constant, and real output grows 2%. What inflation rate is implied?",
-        "answer": 5,
+        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 4%, velocity is constant, and real output grows 2%. What inflation rate is implied?",
+        "answer": 2,
         "explanation": "Approximate inflation = money growth + velocity growth − real output growth."
       },
       "last": {
         "id": "ap-macro:quantity-theory:24",
-        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 9.3%, velocity is constant, and real output grows 4.3%. What inflation rate is implied?",
-        "answer": 5
+        "prompt": "Use the growth-rate approximation to MV = PY. Money grows 13.2%, velocity is constant, and real output grows 4.3%. What inflation rate is implied?",
+        "answer": 8.9
       }
     },
     {
@@ -3265,20 +3265,20 @@
       "topic": "5.4",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 9,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:growth:01",
-        "prompt": "Real output rises from 100 to 110, while total hours worked stay unchanged. What is labor productivity growth in percent?",
-        "answer": 10,
+        "prompt": "Real output rises from 100 to 102, while total hours worked stay unchanged. What is labor productivity growth in percent?",
+        "answer": 2,
         "explanation": "With hours fixed, output per hour grows at the same percentage rate as output."
       },
       "last": {
         "id": "ap-macro:growth:24",
-        "prompt": "Real output rises from 330 to 363, while total hours worked stay unchanged. What is labor productivity growth in percent?",
-        "answer": 10
+        "prompt": "Real output rises from 330 to 353.1, while total hours worked stay unchanged. What is labor productivity growth in percent?",
+        "answer": 7
       }
     },
     {
@@ -3373,7 +3373,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-macro:capital-flows:01",
-        "prompt": "Domestic real interest rates rise by 1 percentage points relative to foreign rates, with risk and expected exchange-rate changes fixed. What pressure is expected?",
+        "prompt": "Domestic real interest rates rise by 1 percentage points relative to foreign rates, with expected inflation in both countries, risk, and expected exchange-rate changes fixed. Under a floating exchange rate, what initial financial-flow and currency-market pressure is expected?",
         "answer": "Financial inflows and domestic currency appreciation",
         "explanation": "Higher relative returns attract financial capital, increasing demand for domestic currency under these assumptions."
       },

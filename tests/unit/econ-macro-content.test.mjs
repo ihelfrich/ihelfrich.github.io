@@ -27,3 +27,10 @@ test('every current AP Macro numeric variant agrees with the values shown to stu
  assert.equal(items.length,432);
  for(const item of items){assert.ok(checks[item.family],`Missing independent check for ${item.family}`);const expected=checks[item.family](values(item));assert.ok(Number.isFinite(expected)&&Math.abs(expected-item.answer)<=.000501,`${item.id}: ${expected} vs ${item.answer}`);}
 });
+
+test('repeated macro calculation practice varies answers rather than only surface numbers',()=>{
+ for(const family of ['opportunity','unemployment','participation','inflation','real-interest','bond-price','quantity-theory','growth']){
+  const variants=items.filter(q=>q.family===family);
+  assert.ok(new Set(variants.map(q=>q.answer)).size>=5,`${family} needs varied calculation outcomes`);
+ }
+});
