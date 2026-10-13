@@ -1,0 +1,1344 @@
+[
+  {
+    "id": "advanced-econometrics-u1-01",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Pointwise convergence is not enough",
+    "prompt": "An extremum estimator maximizes Qn(θ) over a compact parameter space. The population Q has a unique separated maximum and Qn(θ) converges in probability to Q(θ) for each fixed θ. Why is consistency not established by these facts alone?",
+    "correct": "Pointwise convergence can miss sample peaks at parameter values that move with n; uniform control or a substitute is needed.",
+    "wrong": [
+      "Compactness automatically turns every pointwise limit into a uniform limit.",
+      "A unique population maximum guarantees any numerical output is consistent.",
+      "Consistency requires Qn to equal Q exactly at every n."
+    ],
+    "explanation": "A moving narrow spike can defeat maximization even when every fixed point behaves well. A uniform law of large numbers, or suitable stochastic equicontinuity and other conditions, controls the criterion at its random maximizer.",
+    "hint": "Ask whether the convergence statement controls a parameter chosen using the data.",
+    "skill": "pointwise convergence is not enough",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-02",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "A scalar sandwich variance",
+    "prompt": "An iid smooth estimating equation has derivative limit A=−2 and moment variance B=9 at its identified true parameter. Standard regularity gives √n(θhat−θ0) a centered normal limit. What is its variance?",
+    "correct": "9/4=2.25.",
+    "wrong": [
+      "9/2=4.5.",
+      "36.",
+      "−4.5."
+    ],
+    "explanation": "The scalar sandwich variance is A^(−1)BA^(−1)=B/A². The sign of the derivative does not make a variance negative.",
+    "hint": "The derivative rescales the fluctuation on both sides of the covariance.",
+    "skill": "a scalar sandwich variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-03",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "A nonlinear transformation away from zero",
+    "prompt": "Suppose √n(θhat−θ0) converges to N(0,4), with θ0=2. What is the asymptotic variance of √n(log θhat−log 2), assuming θhat is positive with probability approaching one?",
+    "correct": "1.",
+    "wrong": [
+      "4.",
+      "2.",
+      "16."
+    ],
+    "explanation": "The derivative of log θ at two is one-half. Squaring this derivative and multiplying by four yields one.",
+    "hint": "Evaluate the transformation derivative at the true parameter.",
+    "skill": "a nonlinear transformation away from zero",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-04",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "A transformation with zero derivative",
+    "prompt": "Let √n θhat converge to Z~N(0,1) when θ0=0. What nondegenerate limit follows for n θhat²?",
+    "correct": "Z², a chi-squared distribution with one degree of freedom.",
+    "wrong": [
+      "N(0,1).",
+      "A constant zero.",
+      "N(0,2)."
+    ],
+    "explanation": "The continuous mapping theorem applied to √n θhat gives its square converging to Z². The ordinary first-order delta method is degenerate because the square’s derivative at zero vanishes.",
+    "hint": "Square the properly normalized estimator before taking its limit.",
+    "skill": "a transformation with zero derivative",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-05",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Boundary-constrained estimation",
+    "prompt": "For iid observations Xi~N(θ,1), the parameter space is θ≥0. The MLE is max(0,Xbar). At θ0=0, what is the limit of √n θhat?",
+    "correct": "max(0,Z) for Z~N(0,1), including a point mass of one-half at zero.",
+    "wrong": [
+      "N(0,1) with no atom.",
+      "The absolute value of Z, with no point mass.",
+      "A constant zero."
+    ],
+    "explanation": "Negative sample means are projected to the boundary rather than reflected. Positive means remain unchanged, producing an atom plus the positive part of the normal distribution.",
+    "hint": "Apply the constraint to the normalized unconstrained estimator.",
+    "skill": "boundary-constrained estimation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-06",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Rare events and the triangular-array CLT",
+    "prompt": "Within row n, independent variables Xni equal √n and −√n with probability 1/(2n) each, and zero otherwise. Each has mean zero and variance one. For 0<ε<1, what is the Lindeberg quantity (1/n) Σi E[Xni² 1{|Xni|>ε√n}]?",
+    "correct": "It equals one for every n, so the Lindeberg condition fails.",
+    "wrong": [
+      "It equals zero because the variables have mean zero.",
+      "It converges to zero because each row is independent.",
+      "It equals 1/n, so finite variance alone establishes the condition."
+    ],
+    "explanation": "Each nonzero magnitude √n exceeds ε√n. Each truncated second moment is n×(1/n)=1. Summing n terms and dividing by n leaves one; rare large terms retain all the variance.",
+    "hint": "Compute the second moment from the nonzero outcomes before summing across the row.",
+    "skill": "rare events and the triangular-array CLT",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-07",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Sampling variance versus asymptotic variance",
+    "prompt": "A consistent covariance estimate Vhat=16 estimates the variance of the limiting distribution of √n(θhat−θ0). With n=400, what estimated standard error should be reported for θhat?",
+    "correct": "0.20.",
+    "wrong": [
+      "4.00.",
+      "0.04.",
+      "0.80."
+    ],
+    "explanation": "The estimator variance is estimated by Vhat/n=16/400=0.04. Taking the square root gives 0.20.",
+    "hint": "Identify whether the covariance belongs to θhat or its root-n normalization.",
+    "skill": "sampling variance versus asymptotic variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-08",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Dependence between two estimated quantities",
+    "prompt": "The joint root-n limit of (ahat−a,bhat−b) has variances 4 and 9 and covariance 2. What is the asymptotic variance of √n[(ahat−bhat)−(a−b)]?",
+    "correct": "9.",
+    "wrong": [
+      "13.",
+      "17.",
+      "5."
+    ],
+    "explanation": "For a difference the covariance enters twice with a negative sign: 4+9−2×2=9. Estimating both quantities from the same data does not make them independent.",
+    "hint": "Use the full covariance matrix and gradient (1,−1).",
+    "skill": "dependence between two estimated quantities",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-09",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "A population criterion with two optima",
+    "prompt": "The limiting criterion is Q(θ)=−(θ²−1)² on [−2,2]. What identification statement is correct?",
+    "correct": "Its maximizing set is {−1,1}; the criterion does not point-identify a sign.",
+    "wrong": [
+      "Its unique maximizer is 1 because it is positive.",
+      "Its unique maximizer is 0 because Q is symmetric.",
+      "Every point in [−2,2] maximizes Q."
+    ],
+    "explanation": "Q attains its maximum zero when θ²=1. Convergence of the sample criterion cannot choose a uniquely true sign without another restriction.",
+    "hint": "Solve for all points attaining the largest criterion value.",
+    "skill": "a population criterion with two optima",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u1-10",
+    "course": "advanced-econometrics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "A one-step correction",
+    "prompt": "A scalar smooth moment has sample value gn(θtilde)=0.04 and derivative An(θtilde)=−2. What Newton one-step update solves its local linear approximation?",
+    "correct": "θnew=θtilde+0.02.",
+    "wrong": [
+      "θnew=θtilde−0.02.",
+      "θnew=θtilde+0.08.",
+      "θnew=θtilde−0.08."
+    ],
+    "explanation": "Set 0≈gn(θtilde)+An(θtilde)(θnew−θtilde). The update is θtilde−0.04/(−2)=θtilde+0.02. Asymptotic equivalence to a fully solved estimator requires additional regularity and an adequate initial estimator.",
+    "hint": "Set the linearized moment to zero rather than moving in the raw moment’s direction.",
+    "skill": "a one-step correction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-01",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Counting moments does not establish rank",
+    "prompt": "A two-parameter model has three population moments, but their Jacobian at θ0 is D=[[1,2],[2,4],[3,6]]. Does the standard full-column-rank condition for regular local GMM identification hold?",
+    "correct": "No; D has rank one because its columns are proportional.",
+    "wrong": [
+      "Yes; three moments always identify two parameters.",
+      "Yes; all nonzero entries guarantee rank two.",
+      "No; local identification requires exactly two moments."
+    ],
+    "explanation": "Moment count is an order condition, not the rank condition. The stated derivatives move only one independent combination of the two parameters.",
+    "hint": "Check linear independence rather than the number of rows.",
+    "skill": "counting moments does not establish rank",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-02",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Efficiently combining noisy measurements",
+    "prompt": "Two sample means estimate the same scalar θ. Their realized values are 2 and 4, and their joint root-n covariance is diag(1,4). What efficient GMM estimate minimizes the inverse-covariance-weighted quadratic criterion?",
+    "correct": "2.4.",
+    "wrong": [
+      "3.0.",
+      "3.6.",
+      "2.0."
+    ],
+    "explanation": "The inverse-variance weights are 1 and 1/4. Their normalized values are 0.8 and 0.2, giving 0.8×2+0.2×4=2.4.",
+    "hint": "Normalize precision weights before averaging the two moment estimates.",
+    "skill": "efficiently combining noisy measurements",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-03",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "The efficient scalar GMM variance",
+    "prompt": "A scalar parameter has two moments with derivative vector D=(1,1)′ and covariance S=diag(1,4). Under regular identification, what is efficient root-n asymptotic variance?",
+    "correct": "0.8.",
+    "wrong": [
+      "1.25.",
+      "2.5.",
+      "5.0."
+    ],
+    "explanation": "Efficient variance is (D′S^(−1)D)^(−1)=(1+1/4)^(−1)=0.8. Both moments contribute information despite their different noise.",
+    "hint": "Add the information contributions, then invert.",
+    "skill": "the efficient scalar gmm variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-04",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Exactly identified weighting",
+    "prompt": "A model has as many moments as parameters, and the sample moment equation has a unique feasible zero. How does a positive-definite GMM weighting matrix affect the estimate when that zero is reached?",
+    "correct": "It does not change the estimate because every such criterion attains zero there.",
+    "wrong": [
+      "It necessarily changes the estimate whenever the weights change.",
+      "Only the identity matrix can produce a consistent estimate.",
+      "The estimate equals the largest diagonal weight."
+    ],
+    "explanation": "At the unique root all sample moments vanish, giving the minimum possible quadratic objective for any positive-definite weight. Weighting matters for overidentified tradeoffs among nonzero moments.",
+    "hint": "Evaluate the objective at the common zero of all moments.",
+    "skill": "exactly identified weighting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-05",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Overidentification degrees of freedom",
+    "prompt": "A correctly specified regular GMM model has six linearly nonredundant moments and two identified parameters, and uses a consistent efficient weight. What is the standard limiting null distribution of its J statistic?",
+    "correct": "Chi-squared with four degrees of freedom.",
+    "wrong": [
+      "Chi-squared with six degrees of freedom.",
+      "Chi-squared with two degrees of freedom.",
+      "Standard normal."
+    ],
+    "explanation": "After fitting two parameter directions, four independent moment restrictions remain to be tested. The result requires the stated rank, covariance and regularity conditions.",
+    "hint": "Subtract the number of fitted parameter directions from the number of independent moments.",
+    "skill": "overidentification degrees of freedom",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-06",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "A nonrejected J test",
+    "prompt": "An overidentification test does not reject at 5 percent. What conclusion is justified?",
+    "correct": "The test has not detected incompatibility among the maintained moment restrictions at that level; validity is not proved.",
+    "wrong": [
+      "Every instrument is now known to be exogenous.",
+      "The structural model is true with probability 0.95.",
+      "The estimator has no finite-sample bias."
+    ],
+    "explanation": "A test can have low power or miss violations that offset one another. Failure to reject a set of restrictions is not certification of every moment’s substantive validity.",
+    "hint": "Distinguish a test decision from proof of its null.",
+    "skill": "a nonrejected j test",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-07",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Rescaling a moment",
+    "prompt": "For nonsingular R, replace a moment vector g by gtilde=Rg. Which weight preserves the original criterion g′Wg exactly?",
+    "correct": "Wtilde=R^(−T) W R^(−1).",
+    "wrong": [
+      "Wtilde=R W R′.",
+      "Wtilde=W for every nonsingular R.",
+      "Wtilde=R′R regardless of W."
+    ],
+    "explanation": "Substitution gives gtilde′Wtilde gtilde=g′R′Wtilde Rg. Choosing the inverse transformation on both sides yields the original W.",
+    "hint": "Require R′Wtilde R=W and solve for Wtilde.",
+    "skill": "rescaling a moment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-08",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Conditional moments imply instruments",
+    "prompt": "Suppose E[u|Z]=0 and the relevant products are integrable. Which unconditional moment is guaranteed for a measurable vector function h(Z)?",
+    "correct": "E[h(Z)u]=0.",
+    "wrong": [
+      "E[h(X)u]=0 for every variable X, regardless of its relation to Z.",
+      "E[u|X]=0 for every X.",
+      "E[u²|Z]=0."
+    ],
+    "explanation": "Iterated expectations give E[h(Z)u]=E[h(Z)E(u|Z)]=0. This does not imply zero error variance or exogeneity with respect to arbitrary additional variables.",
+    "hint": "Condition on the information that makes the error mean zero.",
+    "skill": "conditional moments imply instruments",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-09",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Flat derivatives and nonstandard rates",
+    "prompt": "A scalar population moment is g(θ)=θ², with parameter θ≥0 and true θ0=0. What is correct about identification and the standard root-n GMM theorem?",
+    "correct": "The zero is unique, but g′(0)=0 violates the usual nonsingular-Jacobian condition.",
+    "wrong": [
+      "The parameter is unidentified because every θ gives the same moment.",
+      "The usual root-n normal theorem applies because the zero is unique.",
+      "The unique zero is θ=1."
+    ],
+    "explanation": "Global uniqueness alone does not guarantee regular local curvature. At this boundary the moment changes only at second order, so ordinary linearization does not deliver the standard normal result.",
+    "hint": "Check the zero set and the derivative condition separately.",
+    "skill": "flat derivatives and nonstandard rates",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u2-10",
+    "course": "advanced-econometrics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Misspecified GMM and weighting",
+    "prompt": "No parameter makes every population moment zero in an overidentified model. Under otherwise suitable convergence conditions, why can changing W change the probability limit of GMM?",
+    "correct": "Different weights choose different compromises among incompatible population moments.",
+    "wrong": [
+      "The weighting matrix can make all incompatible moments true by definition.",
+      "Every positive-definite weight always has the same pseudo-true minimizer.",
+      "Probability limits cannot exist under any misspecification."
+    ],
+    "explanation": "The limit minimizes g(θ)′Wg(θ). When all components cannot vanish simultaneously, their relative penalties can change the minimizing parameter.",
+    "hint": "Consider what the criterion optimizes when its minimum is strictly positive.",
+    "skill": "misspecified gmm and weighting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-01",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Logit slope and probability sensitivity",
+    "prompt": "A logit model has P(Y=1|x)=Λ(β0+β1x), with β1=0.8. At an observation whose fitted probability is 0.25, what is ∂P/∂x?",
+    "correct": "0.15.",
+    "wrong": [
+      "0.80.",
+      "0.20.",
+      "0.60."
+    ],
+    "explanation": "The derivative is β1p(1−p)=0.8×0.25×0.75=0.15. The slope is a log-odds coefficient, not a constant probability derivative.",
+    "hint": "Differentiate the logistic link before inserting the coefficient.",
+    "skill": "logit slope and probability sensitivity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-02",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "A binary regressor in a nonlinear model",
+    "prompt": "A binary regressor d enters an otherwise fixed fitted logit index as η+βd. What is the discrete probability effect of changing d from zero to one at the given other covariates?",
+    "correct": "Λ(η+β)−Λ(η).",
+    "wrong": [
+      "β for every η.",
+      "βΛ(η)[1−Λ(η)] exactly for every β.",
+      "Λ(β) regardless of η."
+    ],
+    "explanation": "A discrete switch compares the two fitted probabilities. The derivative formula is a local continuous-change approximation and need not equal this finite change.",
+    "hint": "Evaluate the model at both admissible values of the regressor.",
+    "skill": "a binary regressor in a nonlinear model",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-03",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Scale normalization in binary choice",
+    "prompt": "The observed outcome is Y=1{X′β+ε>0}. For any c>0, replacing β by cβ and ε by cε leaves outcomes unchanged. What must be imposed to identify coefficient scale?",
+    "correct": "A normalization of the latent error scale or an equivalent coefficient-scale restriction.",
+    "wrong": [
+      "A larger sample alone separates every positive rescaling.",
+      "An unrestricted error variance can always be estimated jointly with every coefficient scale.",
+      "Changing the binary labels to 2 and 3 identifies scale."
+    ],
+    "explanation": "The inequality is unchanged by multiplying both sides of the latent index by a positive constant. Binary observations do not identify the original latent units without normalization.",
+    "hint": "Identify transformations of latent quantities that leave all observable probabilities unchanged.",
+    "skill": "scale normalization in binary choice",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-04",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "A censored zero in a normal model",
+    "prompt": "In a Tobit model Y=max(0,Y*) with Y*=μ+σε and ε~N(0,1) and σ>0, what likelihood contribution comes from observing Y=0?",
+    "correct": "Φ(−μ/σ).",
+    "wrong": [
+      "φ(−μ/σ)/σ.",
+      "1−Φ(−μ/σ).",
+      "The likelihood contribution is always zero."
+    ],
+    "explanation": "A censored zero records the event Y*≤0, not a continuous latent observation exactly at zero. Its likelihood is the probability mass of that event.",
+    "hint": "Determine whether the observation reveals a point value or a range of latent outcomes.",
+    "skill": "a censored zero in a normal model",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-05",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Truncation changes the observed density",
+    "prompt": "A latent variable Y*~N(μ,σ²), with σ>0, is observed only when Y*>0; omitted observations are absent from the sample. What density applies to a positive observed y?",
+    "correct": "[φ((y−μ)/σ)/σ]/Φ(μ/σ).",
+    "wrong": [
+      "φ((y−μ)/σ)/σ without renormalization.",
+      "Φ(−μ/σ) for every positive y.",
+      "[φ((y−μ)/σ)/σ]×Φ(μ/σ)."
+    ],
+    "explanation": "The selected sample has the original density divided by its probability of inclusion, P(Y*>0)=Φ(μ/σ). Censoring would retain observations outside the positive region as zeros instead.",
+    "hint": "Normalize the density over the set that can enter the sample.",
+    "skill": "truncation changes the observed density",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-06",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Tobit effects on the observed mean",
+    "prompt": "For Y=max(0,X′β+σε), ε standard normal and σ>0 fixed, a continuous regressor xj has no interactions. What is ∂E[Y|X]/∂xj?",
+    "correct": "βj Φ(X′β/σ).",
+    "wrong": [
+      "βj.",
+      "βj φ(X′β/σ)/σ.",
+      "βj divided by Φ(X′β/σ)."
+    ],
+    "explanation": "Differentiating E[Y|X]=μΦ(μ/σ)+σφ(μ/σ) cancels the density terms and leaves βjΦ(μ/σ). This is the unconditional observed mean, not the mean among positive observations.",
+    "hint": "Differentiate both terms of the censored normal mean and simplify.",
+    "skill": "tobit effects on the observed mean",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-07",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Poisson quasi-likelihood without equidispersion",
+    "prompt": "For nonnegative count Y, suppose E[Y|X]=exp(X′β0) is correctly specified but Var(Y|X) differs from the mean. Under identification and suitable iid regularity, what is true of Poisson quasi-MLE?",
+    "correct": "It can consistently estimate β0, but inference generally needs a robust sandwich covariance.",
+    "wrong": [
+      "It is necessarily inconsistent whenever variance differs from the mean.",
+      "The model forces the empirical variance to equal the mean.",
+      "Conventional Poisson information-matrix standard errors are always valid."
+    ],
+    "explanation": "The score X[Y−exp(X′β)] has conditional mean zero at β0. Correct conditional mean supports consistency, while distribution misspecification breaks the usual information equality.",
+    "hint": "Separate the score’s mean condition from the assumed conditional variance.",
+    "skill": "poisson quasi-likelihood without equidispersion",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-08",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Complete separation in logit",
+    "prompt": "A regressor perfectly separates all observed successes from failures in an unpenalized binary logit sample. What can happen to the finite MLE?",
+    "correct": "The likelihood supremum can occur only as some coefficient magnitudes diverge, so no finite maximizer exists.",
+    "wrong": [
+      "The fitted coefficient must equal zero.",
+      "The finite MLE is guaranteed by having more observations than regressors.",
+      "Separation proves that future classification is error free."
+    ],
+    "explanation": "Moving farther along a separating direction can keep improving the fit as probabilities approach zero or one. Penalization can produce finite estimates but changes the estimation problem.",
+    "hint": "Examine whether the likelihood stops increasing along a separating direction.",
+    "skill": "complete separation in logit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-09",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "The information equality under misspecification",
+    "prompt": "For a quasi-MLE, let H be minus the expected Hessian and J the score covariance at the pseudo-true parameter. Under standard regularity, what is the root-n covariance when H and J differ?",
+    "correct": "H^(−1) J H^(−1).",
+    "wrong": [
+      "H^(−1) regardless of J.",
+      "J^(−1) regardless of H.",
+      "H J H."
+    ],
+    "explanation": "The objective’s curvature and the score’s sampling variability play separate roles. They coincide under information equality for a correctly specified regular likelihood, but not generally under misspecification.",
+    "hint": "Keep the curvature and score-variance matrices distinct.",
+    "skill": "the information equality under misspecification",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u3-10",
+    "course": "advanced-econometrics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "A regular likelihood-ratio statistic",
+    "prompt": "Nested regular iid models impose two smooth independent restrictions. Maximized unrestricted and restricted log likelihoods are −120 and −125. What is the LR statistic and its standard asymptotic null reference?",
+    "correct": "10, compared with chi-squared with two degrees of freedom.",
+    "wrong": [
+      "5, compared with standard normal.",
+      "−10, compared with chi-squared with two degrees of freedom.",
+      "10, compared with chi-squared with five degrees of freedom."
+    ],
+    "explanation": "LR=2(ℓunrestricted−ℓrestricted)=2×5=10. The number of restrictions, not the log-likelihood difference, supplies the degrees of freedom; boundary and unidentified-nuisance cases need other theory.",
+    "hint": "Double the improvement in log likelihood and count independent restrictions.",
+    "skill": "a regular likelihood-ratio statistic",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-01",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Feedback and strict exogeneity",
+    "prompt": "In Yit=αi+βXit+uit, X_i,t+1 responds to uit while Xit is uncorrelated with current and past errors. Which condition fails and matters for the usual fixed-T within estimator?",
+    "correct": "Strict exogeneity E[uit|Xi1,…,XiT,αi]=0 can fail because future regressors contain current error information.",
+    "wrong": [
+      "Contemporaneous exogeneity must fail solely because future X responds.",
+      "Removing αi also removes every feedback link.",
+      "Strict exogeneity imposes no restrictions involving future regressors."
+    ],
+    "explanation": "Demeaning Xit uses future X observations. Feedback from today’s error to tomorrow’s X can therefore correlate the demeaned regressor with the demeaned error despite contemporaneous orthogonality.",
+    "hint": "Expand the unit mean of X and inspect its future components.",
+    "skill": "feedback and strict exogeneity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-02",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "A valid lag for differenced dynamics",
+    "prompt": "Consider Yit=αi+ρY_i,t−1+uit, where errors are serially independent and each uit is orthogonal to αi and all past outcomes. In the equation differenced at t≥3, which lag is a valid instrument for ΔY_i,t−1?",
+    "correct": "Y_i,t−2, provided it has relevance.",
+    "wrong": [
+      "Y_i,t−1, without further restrictions.",
+      "uit, because it appears in the equation.",
+      "Yit, because it is observed."
+    ],
+    "explanation": "The differenced error is uit−u_i,t−1. Y_i,t−2 is orthogonal to both components under the timing assumptions, whereas Y_i,t−1 contains u_i,t−1.",
+    "hint": "Match each candidate’s information date against both differenced-error components.",
+    "skill": "a valid lag for differenced dynamics",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-03",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "First-order correlation after differencing",
+    "prompt": "Level errors uit are iid across t with variance σ²>0. What is Corr(Δuit,Δu_i,t−1)?",
+    "correct": "−1/2.",
+    "wrong": [
+      "0.",
+      "1/2.",
+      "−1."
+    ],
+    "explanation": "The adjacent differences share u_i,t−1 with opposite signs, giving covariance −σ². Each difference has variance 2σ², so correlation is −1/2.",
+    "hint": "Expand both differences and identify their shared error.",
+    "skill": "first-order correlation after differencing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-04",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "An extra assumption behind system moments",
+    "prompt": "Difference GMM moment validity follows from serially uncorrelated level errors and appropriate initial orthogonality. Why do level-equation instruments such as ΔY_i,t−1 require additional justification in system GMM?",
+    "correct": "They must also be orthogonal to the unit effect, a restriction not implied by serially uncorrelated idiosyncratic errors alone.",
+    "wrong": [
+      "Differencing mechanically makes every variable independent of the unit effect.",
+      "Valid difference moments imply every possible level moment.",
+      "System GMM never uses the level equation."
+    ],
+    "explanation": "The level-equation error contains αi+uit. A change in lagged outcomes may remain correlated with αi unless restrictions such as appropriate mean stationarity are imposed.",
+    "hint": "Write the error term in the level equation before checking instrument orthogonality.",
+    "skill": "an extra assumption behind system moments",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-05",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Incidental intercepts in nonlinear panels",
+    "prompt": "A nonlinear panel likelihood estimates one individual intercept per unit, with T fixed as N increases. Why can the slope estimator remain inconsistent even though N grows?",
+    "correct": "Each intercept is informed by only T observations, and its estimation error can contaminate the nonlinear slope likelihood.",
+    "wrong": [
+      "The number of slope parameters must equal N.",
+      "Every fixed-effects estimator is inconsistent even in a strictly exogenous linear model.",
+      "Increasing N automatically estimates every intercept precisely."
+    ],
+    "explanation": "More units add more nuisance intercepts rather than more information per intercept. Nonlinear estimation generally does not eliminate their errors as the linear within transformation can.",
+    "hint": "Track observations per nuisance parameter, not only total sample size.",
+    "skill": "incidental intercepts in nonlinear panels",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-06",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Conditional fixed-effects logit",
+    "prompt": "For binary panel outcomes conditionally independent over time given Xi and αi, with logit probabilities Λ(αi+Xit′β), what statistic can be conditioned on to remove αi from the likelihood for β?",
+    "correct": "The individual success total Σt Yit.",
+    "wrong": [
+      "The cross-sectional average of all X values.",
+      "Only the final outcome YiT.",
+      "The individual maximum of Xit."
+    ],
+    "explanation": "The individual success count is sufficient for the additive logit intercept. Conditioning removes that intercept; units with all zeros or all ones supply no conditional variation for slope estimation.",
+    "hint": "Identify the statistic multiplying the individual intercept in the likelihood.",
+    "skill": "conditional fixed-effects logit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-07",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Correlated random effects as a restriction",
+    "prompt": "A model writes αi=a+Xbar_i′π+vi with E[vi|Xi1,…,XiT]=0. What substantive restriction does this impose?",
+    "correct": "The conditional mean of αi given the full regressor history is captured by a linear function of its time average.",
+    "wrong": [
+      "αi must be independent of every Xit unconditionally.",
+      "Adding Xbar_i proves the conditional-mean restriction from the data alone.",
+      "The unit effect is necessarily zero."
+    ],
+    "explanation": "The model permits correlation between αi and X history through Xbar_i but restricts its form. Including means is a modeling device, not an automatic solution to arbitrary dependence.",
+    "hint": "Take the conditional expectation of the specified decomposition.",
+    "skill": "correlated random effects as a restriction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-08",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Random-effects quasi-demeaning",
+    "prompt": "In a balanced error-components model with T=4, idiosyncratic variance σu²=1 and individual-effect variance σα²=2, the GLS transformation uses θ=1−sqrt[σu²/(σu²+Tσα²)]. What is θ?",
+    "correct": "2/3.",
+    "wrong": [
+      "1/3.",
+      "8/9.",
+      "1.0."
+    ],
+    "explanation": "The variance denominator is 1+4×2=9, so θ=1−sqrt(1/9)=2/3. This partially removes unit means rather than performing full demeaning.",
+    "hint": "Insert variances, not standard deviations, into the supplied formula.",
+    "skill": "random-effects quasi-demeaning",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-09",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Within slopes under heterogeneous responses",
+    "prompt": "Suppose Yit=αi+βiXit+uit and within-regressor sums of squares converge to qi>0 for each type of unit. Under suitable error orthogonality, what does a pooled within slope generally average across units?",
+    "correct": "The βi values weighted by their within-X variation qi.",
+    "wrong": [
+      "The unweighted mean of βi regardless of qi.",
+      "Only the largest βi.",
+      "The between-unit slope from individual means."
+    ],
+    "explanation": "The within normal equation sums qiβi in its numerator and qi in its denominator. Units supplying more within variation receive greater weight, so the target need not be the simple average response.",
+    "hint": "Insert each unit’s slope into the within-estimator numerator.",
+    "skill": "within slopes under heterogeneous responses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u4-10",
+    "course": "advanced-econometrics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Many instruments and overfitting",
+    "prompt": "In a dynamic panel, using all available lag instruments can make their count large relative to the number of units. What is a legitimate concern?",
+    "correct": "Overfitting endogenous variables and unreliable finite-sample moment tests can arise; adding lags is not free information.",
+    "wrong": [
+      "Every extra lag guarantees a strict reduction in finite-sample bias.",
+      "Instrument validity alone guarantees accurate small-sample inference with arbitrarily many instruments.",
+      "More instruments always leave the numerical estimate unchanged."
+    ],
+    "explanation": "Large instrument sets can fit endogenous variation too closely and degrade covariance and test behavior. Restricting lag depth or collapsing moments addresses dimensionality but does not establish validity.",
+    "hint": "Distinguish asymptotic information with fixed dimension from a growing instrument set.",
+    "skill": "many instruments and overfitting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://www.ssc.wisc.edu/~bhansen/710/710.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-01",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Stationary AR variance",
+    "prompt": "A causal covariance-stationary AR(1) satisfies Xt=0.6 X_t−1+εt, where innovations have mean zero, variance 4 and are uncorrelated over time. What is Var(Xt)?",
+    "correct": "6.25.",
+    "wrong": [
+      "10.00.",
+      "4.00.",
+      "2.50."
+    ],
+    "explanation": "Stationarity gives V=0.6²V+4, so V=4/(1−0.36)=6.25. Persistence accumulates past innovation variance.",
+    "hint": "Use the variance recursion and innovation orthogonality.",
+    "skill": "stationary ar variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-02",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Moving-average invertibility",
+    "prompt": "Xt=εt+2ε_t−1 is an MA(1) with iid innovations of finite variance. Which statement is correct under the usual causal invertibility convention?",
+    "correct": "It is stationary but not invertible in this representation because the MA root is inside the unit circle.",
+    "wrong": [
+      "It is nonstationary because the MA coefficient exceeds one.",
+      "It is both stationary and invertible because it has finite order.",
+      "It has a unit root at one."
+    ],
+    "explanation": "A finite moving average of iid finite-variance innovations is stationary. The polynomial 1+2z has root −1/2, violating the outside-unit-circle condition for a stable inverse using current and past X.",
+    "hint": "Check stationarity and invertibility using their different conditions.",
+    "skill": "moving-average invertibility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-03",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Long-run variance of an average",
+    "prompt": "A zero-mean stationary process has autocovariances γ0=4, γ1=1 and γk=0 for all |k|≥2. Under a suitable CLT, what is the variance of the limiting distribution of √T Xbar?",
+    "correct": "6.",
+    "wrong": [
+      "4.",
+      "5.",
+      "2."
+    ],
+    "explanation": "The long-run variance sums all integer-lag autocovariances: γ0+2Σk≥1γk=4+2=6. The single-observation variance alone omits serial dependence.",
+    "hint": "Include both positive and negative lags in the covariance sum.",
+    "skill": "long-run variance of an average",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-04",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Random-walk forecast uncertainty",
+    "prompt": "Xt=X_t−1+εt with iid mean-zero innovations of variance 3. Parameters are known. Conditional on information through t, what is the mean-squared error of the optimal squared-loss forecast of X_t+4?",
+    "correct": "12.",
+    "wrong": [
+      "3.",
+      "48.",
+      "0."
+    ],
+    "explanation": "The forecast is Xt and its error is the sum of four future innovations. Independence makes its variance 4×3=12. There is no parameter-estimation uncertainty under the stated assumptions.",
+    "hint": "Write the multistep forecast error as accumulated future shocks.",
+    "skill": "random-walk forecast uncertainty",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-05",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "A unit-root regression statistic",
+    "prompt": "In Xt=ρX_t−1+εt, an analyst tests ρ=1 using the usual stationary-regression normal critical values. Why is that reference generally invalid under the unit-root null?",
+    "correct": "The regressor is nonstationary and the normalized statistic has a nonstandard limit that depends on the deterministic specification.",
+    "wrong": [
+      "The central limit theorem implies every regression statistic is standard normal.",
+      "The null forces all observations to be equal.",
+      "The coefficient ρ cannot be estimated numerically when its true value is one."
+    ],
+    "explanation": "A unit root changes the growth order of regressor sums and their joint limit with errors. Dickey–Fuller-type distributions, with appropriate intercept/trend treatment, replace ordinary stationary asymptotics.",
+    "hint": "Check the stochastic order of accumulated innovations under the null.",
+    "skill": "a unit-root regression statistic",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-06",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "A stationary combination of integrated series",
+    "prompt": "Let Xt be a random walk and Yt=2Xt+vt, where vt is covariance-stationary and the joint conditions ensure Xt and Yt are I(1). What is the cointegrating combination?",
+    "correct": "Yt−2Xt=vt.",
+    "wrong": [
+      "Yt+2Xt.",
+      "Yt−Xt.",
+      "Xt alone."
+    ],
+    "explanation": "Subtracting twice X cancels the shared stochastic trend and leaves the stationary component. Individual integration does not preclude a stationary linear combination.",
+    "hint": "Cancel the common random-walk component algebraically.",
+    "skill": "a stationary combination of integrated series",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-07",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "An error-correction coefficient",
+    "prompt": "A conditional adjustment equation is ΔYt=−0.3(Y_t−1−2X_t−1)+εt, with mean-zero forecast error. If the lagged equilibrium error Y_t−1−2X_t−1 equals 5, what contribution does error correction make to predicted ΔYt?",
+    "correct": "−1.5.",
+    "wrong": [
+      "1.5.",
+      "−0.3.",
+      "5.0."
+    ],
+    "explanation": "Multiplying the lagged disequilibrium by −0.3 yields −1.5. This is the conditional contribution; stability of a full multivariate system requires its other equations as well.",
+    "hint": "Keep the equilibrium-error sign separate from the adjustment coefficient.",
+    "skill": "an error-correction coefficient",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-08",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Reduced-form shocks and structural interpretation",
+    "prompt": "A reduced-form VAR has correlated innovations with covariance Σ. Why does estimating Σ alone not identify a unique structural impulse response when structural shocks are normalized to have identity covariance?",
+    "correct": "Multiple impact matrices B can satisfy BB′=Σ, so identifying restrictions are needed to interpret orthogonal shocks.",
+    "wrong": [
+      "A covariance matrix always identifies one unique economically labeled shock system.",
+      "Correlated innovations prevent reduced-form forecasting entirely.",
+      "Cholesky ordering is a theorem that proves the true economic ordering."
+    ],
+    "explanation": "Different orthogonal rotations can reproduce the same reduced-form covariance. Recursive ordering is one identifying choice, not a result established solely by covariance estimation.",
+    "hint": "Compare what the covariance fixes with the freedom left in its matrix factorization.",
+    "skill": "reduced-form shocks and structural interpretation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-09",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Forecasting with asymmetric absolute loss",
+    "prompt": "A forecast a minimizes E[2(Y−a)+ + (a−Y)+ | information], where z+=max(z,0), and the conditional distribution is continuous with a unique relevant quantile. What functional is optimal?",
+    "correct": "The conditional 2/3 quantile.",
+    "wrong": [
+      "The conditional mean.",
+      "The conditional median.",
+      "The conditional 1/3 quantile."
+    ],
+    "explanation": "An underestimate costs twice an overestimate. Differentiating expected loss gives −2[1−F(a)]+F(a)=0, so F(a)=2/3.",
+    "hint": "Balance the marginal expected penalties from under- and overprediction.",
+    "skill": "forecasting with asymmetric absolute loss",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u5-10",
+    "course": "advanced-econometrics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "A scalar state update",
+    "prompt": "A Gaussian state prior has mean 10 and variance P=4. A measurement equals the state plus independent mean-zero Gaussian noise of variance R=1 and is observed as 12. What is the posterior state mean?",
+    "correct": "11.6.",
+    "wrong": [
+      "10.4.",
+      "12.0.",
+      "10.0."
+    ],
+    "explanation": "The Kalman gain is P/(P+R)=4/5. Updating by gain times innovation gives 10+0.8(12−10)=11.6. The noisier prior receives less weight than the measurement.",
+    "hint": "Weight the measurement innovation by the prior share of total prediction-error variance.",
+    "skill": "a scalar state update",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-01",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Balancing kernel bias and variance",
+    "prompt": "At an interior point, a second-order kernel density estimator has leading MSE C1 h^4+C2/(nh), where both constants are positive. Ignoring constants, what bandwidth rate minimizes this tradeoff?",
+    "correct": "h proportional to n^(−1/5).",
+    "wrong": [
+      "h proportional to n^(−1/2).",
+      "h proportional to n^(−1).",
+      "h proportional to n^(1/5)."
+    ],
+    "explanation": "Balancing h^4 with 1/(nh) gives h^5 proportional to 1/n. The resulting MSE rate is n^(−4/5), slower than a regular parametric rate.",
+    "hint": "Equate the orders of squared bias and variance.",
+    "skill": "balancing kernel bias and variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-02",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Dimension and nonparametric rates",
+    "prompt": "A twice-smooth d-dimensional regression function is estimated at an interior point with squared bias order h^4 and variance order 1/(nh^d). For d=6, what is the optimized MSE rate?",
+    "correct": "n^(−2/5).",
+    "wrong": [
+      "n^(−4/5).",
+      "n^(−1).",
+      "n^(−3/2)."
+    ],
+    "explanation": "The optimal bandwidth is n^(−1/(d+4))=n^(−1/10), giving MSE n^(−4/(d+4))=n^(−2/5). More dimensions dilute local observations.",
+    "hint": "Balance approximation and sampling errors with the full h^d volume term.",
+    "skill": "dimension and nonparametric rates",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-03",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Local linear reproduction at a boundary",
+    "prompt": "A noiseless dataset satisfies Yi=a+bXi exactly. At a boundary evaluation point x0, a local linear weighted least-squares fit has a nonsingular weighted design matrix. What value does its intercept at x0 recover?",
+    "correct": "a+b x0 exactly.",
+    "wrong": [
+      "The unweighted mean of all Yi regardless of x0.",
+      "a only, because slopes cannot be estimated at a boundary.",
+      "Zero because kernel support is one-sided."
+    ],
+    "explanation": "The line fits every observation with zero residual, so the local linear fit reproduces it even with asymmetric support. Nonsingularity ensures the fitted coefficients are determined.",
+    "hint": "Express the exact line using regressors 1 and Xi−x0.",
+    "skill": "local linear reproduction at a boundary",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-04",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Quantile precision depends on local density",
+    "prompt": "For iid continuous observations, a regular sample median has root-n asymptotic variance 1/[4 f(m)^2]. If the density at the unique median is f(m)=0.25, what is that variance?",
+    "correct": "4.",
+    "wrong": [
+      "1.",
+      "0.25.",
+      "16."
+    ],
+    "explanation": "Substituting gives 1/[4×0.25²]=1/0.25=4. Low density around a quantile makes its location harder to estimate.",
+    "hint": "Square the local density before inverting.",
+    "skill": "quantile precision depends on local density",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-05",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Partialling out a nonlinear nuisance",
+    "prompt": "In Y=Dθ0+g0(X)+u with E[u|D,X]=0, define m0(X)=E[D|X] and ℓ0(X)=E[Y|X]. Which residual relation identifies θ0 when E[(D−m0(X))²]>0?",
+    "correct": "Y−ℓ0(X)=θ0[D−m0(X)]+u.",
+    "wrong": [
+      "Y−g0(X)=θ0m0(X)+u.",
+      "Y−ℓ0(X)=θ0D+u without residualizing D.",
+      "Y−ℓ0(X)=g0(X)+u."
+    ],
+    "explanation": "Taking conditional expectations gives ℓ0=θ0m0+g0. Subtracting eliminates g0 and isolates variation in D not predicted by X; positive residual variance supplies identification.",
+    "hint": "Subtract the conditional mean equation from the original model.",
+    "skill": "partialling out a nonlinear nuisance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-06",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "A second-order nuisance remainder",
+    "prompt": "An orthogonal estimator’s scaled remainder is bounded by √n an bn, where nuisance errors satisfy an=O_p(n^(−0.3)) and bn=O_p(n^(−0.3)). Ignoring other required conditions, what happens to this remainder bound?",
+    "correct": "It is O_p(n^(−0.1)) and vanishes.",
+    "wrong": [
+      "It is O_p(n^0.2) and diverges.",
+      "It remains O_p(1) exactly.",
+      "It is O_p(n^(−0.6)) after root-n scaling."
+    ],
+    "explanation": "The product has order n^(−0.6); multiplying by n^0.5 gives n^(−0.1). This checks the product-rate condition only, not every requirement for asymptotic normality.",
+    "hint": "Add the nuisance exponents before applying the root-n factor.",
+    "skill": "a second-order nuisance remainder",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/",
+      "https://ocw.mit.edu/courses/14-382-econometrics-spring-2017/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-07",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Prediction-optimal smoothing and inference",
+    "prompt": "For an interior kernel regression estimate, leading bias is order h² and standard error is order (nh)^(−1/2). With MSE-optimal h proportional to n^(−1/5), is bias negligible relative to standard error automatically?",
+    "correct": "No; both have order n^(−2/5), so inference needs bias treatment or suitable undersmoothing.",
+    "wrong": [
+      "Yes; any bandwidth that minimizes MSE makes bias exactly zero.",
+      "Yes; standard error is always order n^(−1/2) regardless of h.",
+      "No; the estimator cannot be consistent at that bandwidth."
+    ],
+    "explanation": "At h=n^(−1/5), bias is n^(−2/5) and standard error is also n^(−2/5). Centering a confidence interval as though bias were negligible can distort coverage.",
+    "hint": "Compare bias and standard-error orders rather than bias and variance.",
+    "skill": "prediction-optimal smoothing and inference",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-08",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "An ordinary bootstrap at a support endpoint",
+    "prompt": "Xi are iid Uniform(0,θ), θ>0, and M_n=max Xi. Why does the ordinary n-out-of-n empirical bootstrap generally fail for the limiting distribution of n(θ−M_n)?",
+    "correct": "A resample cannot exceed M_n and selects the original maximum with probability tending to 1−e^(−1), producing an atom incompatible with the continuous endpoint limit.",
+    "wrong": [
+      "The sample maximum is root-n normal under this model.",
+      "The empirical bootstrap automatically generates values above every observed Xi.",
+      "Uniform samples are dependent, so resampling cannot be used."
+    ],
+    "explanation": "For centered bootstrap statistic n(M_n−M_n*), the probability of zero tends to 1−e^(−1). The target n(θ−M_n) has a continuous exponential limit, so this atom prevents consistency of the ordinary bootstrap.",
+    "hint": "Compare the bootstrap support and point masses with the target endpoint distribution.",
+    "skill": "an ordinary bootstrap at a support endpoint",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-09",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Series dimension and approximation",
+    "prompt": "A series regression uses K basis terms. With a fixed finite K, the true regression function is not in their span. What generally persists as n increases?",
+    "correct": "Approximation bias relative to the true function, even if coefficients are precisely estimated.",
+    "wrong": [
+      "Sampling variance must remain constant forever.",
+      "The fixed basis automatically becomes dense as the sample grows.",
+      "All fitted coefficients diverge by necessity."
+    ],
+    "explanation": "More observations improve estimation of the best projection onto a fixed space, but do not enlarge that space. Nonparametric consistency usually requires increasing complexity at a controlled rate.",
+    "hint": "Separate estimating coefficients from enriching the function class.",
+    "skill": "series dimension and approximation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-econometrics-u6-10",
+    "course": "advanced-econometrics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Regularization and a coefficient test",
+    "prompt": "A researcher fits a high-dimensional lasso and reports an ordinary unpenalized OLS t statistic using a selected coefficient as if selection and shrinkage had not occurred. What is the central inferential problem?",
+    "correct": "Regularization and data-dependent selection change the coefficient’s distribution, so ordinary OLS calibration is not automatically valid.",
+    "wrong": [
+      "A good prediction score alone proves valid confidence coverage for every selected coefficient.",
+      "Every lasso coefficient is exactly unbiased in finite samples.",
+      "Having more observations than selected variables removes all selection effects."
+    ],
+    "explanation": "Prediction tuning targets predictive loss, not the distribution required for a coefficient test. Valid inference needs an appropriate procedure and assumptions, such as suitably constructed debiasing or a valid post-selection design.",
+    "hint": "Ask whether the stated reference law matches the full estimation and selection procedure.",
+    "skill": "regularization and a coefficient test",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-385-nonlinear-econometric-analysis-fall-2007/pages/lecture-notes/",
+      "https://users.ssc.wisc.edu/~behansen/718/",
+      "https://ocw.mit.edu/courses/14-382-econometrics-spring-2017/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]
