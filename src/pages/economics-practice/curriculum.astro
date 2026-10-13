@@ -12,7 +12,12 @@ const groups=[...new Set(plan.map(c=>c.group))];
 <section><h2>Practice available now</h2><p>These collections cover selected topics. Open a course to see its current question counts by unit. Content and platform review are ongoing.</p>
 {Object.entries(courses).map(([id,course])=>{
  const items=bank.filter(q=>q.course===id),familyCount=new Set(items.map(q=>q.family)).size;
- return <details class="session-answer"><summary>{course.name} — {items.length.toLocaleString('en-US')} questions</summary><p>{familyCount} distinct question families. Numerical or contextual variants within a family practice the same underlying task.</p><ul>{course.units.map((unit,i)=><li>{unit}: {items.filter(q=>q.unit===i+1).length} questions</li>)}</ul></details>;
+ return <details class="session-answer"><summary>{course.name} — {items.length.toLocaleString('en-US')} questions</summary><p>{familyCount} distinct question families. Numerical or contextual variants within a family practice the same underlying task.</p>
+ {course.units.map((unit,i)=>{
+  const unitItems=items.filter(q=>q.unit===i+1);
+  const tasks=[...new Map(unitItems.map(q=>[q.family,q.title])).values()];
+  return <details class="session-answer"><summary>{unit} — {unitItems.length} questions</summary><p>{tasks.length} question families currently available:</p><ul>{tasks.map(title=><li>{title}</li>)}</ul></details>;
+ })}</details>;
 })}
 <p><a href="/economics-practice/">Choose a practice session</a></p></section>
 <section><h2>Expanded curriculum in development</h2><p>The course outlines below guide new question writing. They do not mean that every listed topic already has active questions. Undergraduate and graduate requirements differ; advanced extensions will be labeled separately.</p><p>This map draws on official university course materials and combines overlapping topics into general course titles. It is not an exhaustive census of every university or theory. Course-specific sources appear where available; field outlines also draw on the <a href="https://catalog.yale.edu/ycps/courses/econ/">Yale economics catalog</a> and <a href="https://economics.stanford.edu/courses">Stanford course list</a>.</p><nav aria-label="Curriculum areas">{groups.map((group,i)=><p><a href={`#area-${i}`}>{group}</a></p>)}</nav></section>
