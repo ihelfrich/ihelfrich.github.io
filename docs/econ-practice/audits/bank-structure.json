@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.28",
-  "bankSHA256": "a6bb10ae77282c874e5469a0125d12cb13307a0131ca32e58e0e2e46860d9d52",
+  "bankVersion": "2026.10.12.29",
+  "bankSHA256": "44bca988e12f613e5ec6268e7a2f7c7908776fdc7845ac7efff0c6b52e7a177a",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -55,6 +55,18 @@
       "items": 60,
       "families": 60
     },
+    "advanced-microeconomics": {
+      "items": 60,
+      "families": 60
+    },
+    "advanced-macroeconomics": {
+      "items": 60,
+      "families": 60
+    },
+    "game-theory": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -69,10 +81,10 @@
     }
   },
   "answerPositions": [
-    198,
-    212,
-    200,
-    155
+    234,
+    258,
+    249,
+    204
   ],
   "errors": [],
   "warnings": [],
@@ -13084,6 +13096,3246 @@
         "prompt": "A constructed policy creates verified external benefits worth 5 million and uses 2 million of real administrative resources. It also pays a 10 million transfer from domestic taxpayers to domestic firms. Assume no tax distortions, no foreign recipients, and no other effects. What is net national resource surplus?",
         "answer": "3 million.",
         "explanation": "Benefits minus real resource costs give 5 − 2 = 3 million. The domestic transfer cancels in aggregate under the stated assumptions; distribution still changes."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-01:01",
+        "prompt": "On strictly positive bundles, u(x,y)=xy. Which alternative represents exactly the same preference ordering?",
+        "answer": "v(x,y)=log x + log y.",
+        "explanation": "Logarithms are strictly increasing and log(xy)=log x+log y. Summation changes indifference curves, negation reverses rankings, and the square is not increasing over all positive products."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-02:01",
+        "prompt": "A consumer has continuous, strictly convex preferences on the nonnegative orthant, strictly positive prices, and positive finite wealth. What follows for maximization over the budget set?",
+        "answer": "An optimum exists and is unique.",
+        "explanation": "The budget set is nonempty and compact, and continuity gives existence. If two different bundles were optimal, their affordable midpoint would be strictly preferred by strict convexity, a contradiction."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-03:01",
+        "prompt": "On [0,1]², x is preferred to y if x₁>y₁, or if x₁=y₁ and x₂>y₂. Which property fails?",
+        "answer": "Continuity of preferences.",
+        "explanation": "Take a sequence of bundles whose first coordinate is positive and tends to zero, with second coordinate fixed at zero. Every bundle is preferred to (0,1), but the sequence converges to (0,0), which is worse than (0,1). Thus the weak upper contour set is not closed. The lexicographic rule is complete, transitive, and strictly monotone."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-04:01",
+        "prompt": "A continuous preference relation is locally nonsatiated on the nonnegative orthant. Prices are strictly positive and wealth is positive. Why must any budget optimum exhaust wealth?",
+        "answer": "A slack optimum admits a sufficiently nearby affordable bundle that is strictly preferred.",
+        "explanation": "Positive budget slack leaves a relative neighborhood of the bundle affordable. Local nonsatiation supplies a strictly preferred bundle in that neighborhood. It does not require differentiability or an interior optimum."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-05:01",
+        "prompt": "At prices (2,1), a consumer chooses a=(2,1) with wealth 5. At prices (1,2), the consumer chooses b=(1,2) with wealth 5. Both are single-valued choices. Which conclusion is correct?",
+        "answer": "The observations violate WARP because each chosen bundle is affordable at the other observation.",
+        "explanation": "At the first prices, b costs 4; at the second prices, a costs 4. Each bundle is chosen while the other is strictly affordable, creating a revealed-preference reversal."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-06:01",
+        "prompt": "A choice rule selects only a from {a,b,c}, but selects only b from {a,b}. Can maximization of a fixed complete and transitive preference relation, selecting all maximizers, generate this rule?",
+        "answer": "No; a chosen from the larger set must remain chosen in the smaller set containing a.",
+        "explanation": "If a is a maximizer in the larger set, it weakly outranks b and must be a maximizer in the subset. Choosing only b contradicts contraction consistency."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-07:01",
+        "prompt": "On the nonnegative orthant let u(x,y)=(x+y)². Which statement is true?",
+        "answer": "Preferences are convex even though this utility function is not concave.",
+        "explanation": "The function represents the same ordering as x+y, whose upper contour sets are half-spaces intersected with the orthant. Distinct bundles with equal sums remain indifferent at their midpoint, so strict convexity fails."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-08:01",
+        "prompt": "A consumer chooses x≥0 to maximize u(x)=−(x−3)² subject to 2x≤10. What diagnoses the optimum?",
+        "answer": "x=3 is optimal and leaves 4 units of wealth unspent because local nonsatiation fails there.",
+        "explanation": "Utility is uniquely maximized at the satiation point x=3, which costs 6. A compact budget ensures existence, while satiation invalidates the usual budget-exhaustion argument."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-09:01",
+        "prompt": "On X=(0,1), preferences are represented by u(x)=x and every x in X is feasible. What occurs?",
+        "answer": "Utility has supremum 1 but no maximizing choice.",
+        "explanation": "Feasible points approach 1, but 1 is excluded. Every feasible x is dominated by (x+1)/2. Continuity does not replace compactness in an existence argument."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u1-10:01",
+        "prompt": "A finite set contains a,b,c. A strict preference ranks a above b, b above c, and c above a. Which necessary condition for utility representation fails?",
+        "answer": "Transitivity.",
+        "explanation": "A utility representation would require u(a)>u(b)>u(c)>u(a), an impossible chain of real-number inequalities. Finiteness removes continuity issues but cannot repair a cycle."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-01:01",
+        "prompt": "For u(x,y)=√(xy), x,y≥0, prices pₓ,pᵧ>0 and target ū>0, which expenditure function and Hicksian x demand are correct?",
+        "answer": "e(p,ū)=2ū√(pₓpᵧ), and hₓ=ū√(pᵧ/pₓ).",
+        "explanation": "The binding utility constraint gives xy=ū². Minimizing pₓx+pᵧū²/x yields x=ū√(pᵧ/pₓ). Substitution gives the stated expenditure; differentiating it in pₓ gives the same demand."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-02:01",
+        "prompt": "At an interior differentiable demand point, x₁=4, ∂x₁/∂p₁=−3 and ∂x₁/∂m=0.25. What is the compensated own-price derivative at the same utility?",
+        "answer": "−2.",
+        "explanation": "The Slutsky identity gives ∂h₁/∂p₁=∂x₁/∂p₁+x₁∂x₁/∂m=−3+4(0.25)=−2. The Marshallian derivative includes a negative income effect because the good is normal."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-03:01",
+        "prompt": "A differentiable rational demand has x₁=2, ∂h₁/∂p₁=−1 and ∂x₁/∂m=−1. At this point, what is ∂x₁/∂p₁?",
+        "answer": "+1, because the inferior-good income effect dominates substitution.",
+        "explanation": "Slutsky gives ∂x₁/∂p₁=−1−2(−1)=1. Compensated demand slopes downward, but the loss of purchasing power raises demand for this sufficiently inferior good."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-04:01",
+        "prompt": "For fixed target utility ū>0 and positive two-good prices, which proposed expenditure function is ruled out by price homogeneity alone?",
+        "answer": "e(p,ū)=ū(p₁²+p₂²).",
+        "explanation": "Scaling all prices by λ must scale minimum expenditure by λ. The squared-price expression scales by λ². The other expressions are all homogeneous of degree one."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-05:01",
+        "prompt": "A consumer has indirect utility v(p₁,p₂,m)=m/[2√(p₁p₂)] for strictly positive arguments. What is Marshallian demand for good 1?",
+        "answer": "m/(2p₁).",
+        "explanation": "Roy’s identity is x₁=−vₚ₁/vₘ. The numerator is m/[4p₁√(p₁p₂)] after negation and the denominator is 1/[2√(p₁p₂)], leaving m/(2p₁)."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-06:01",
+        "prompt": "A consumer has u(x,y)=√(xy), wealth 12, initial prices (1,1), and new prices (4,1). Define compensation as the extra wealth needed at new prices to restore initial utility. How much is required?",
+        "answer": "12.",
+        "explanation": "Initial demand is (6,6), giving utility 6. At the new prices, e(p,6)=2(6)√4=24. Subtract existing wealth 12 to get compensation 12."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-07:01",
+        "prompt": "For perfect substitutes u(x,y)=x+y and target ū>0, e(p,ū)=ū min{pₓ,pᵧ}. At equal positive prices, what does Hicksian demand look like?",
+        "answer": "Every nonnegative bundle with x+y=ū minimizes expenditure; a unique price gradient does not exist.",
+        "explanation": "When both unit prices coincide, every split of the required total amount has equal cost. The expenditure function has a kink because demand switches toward whichever good becomes cheaper."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-08:01",
+        "prompt": "At p=(1,1,1), a proposed compensated-demand derivative matrix is S=[[-2,2,0],[1,−2,1],[1,0,−1]]. For a twice continuously differentiable expenditure function, what rules this out?",
+        "answer": "S is not symmetric, although its row and column sums are zero.",
+        "explanation": "A Hessian of a C² scalar expenditure function must be symmetric. Here S₁₂=2 but S₂₁=1. Homogeneity and adding-up restrictions do not alone establish integrability."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-09:01",
+        "prompt": "A consumer maximizes log x+y over x>0,y≥0 with prices (2,1). How does x demand differ between wealth 4 and wealth 0.5?",
+        "answer": "It is 0.5 at wealth 4 and 0.25 at wealth 0.5.",
+        "explanation": "An interior y choice implies 1/x=2, giving x=0.5 and spending 1 on x. Wealth 0.5 cannot finance that bundle, so y=0 and x=m/2=0.25. Quasilinearity eliminates income effects only on the interior branch."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u2-10:01",
+        "prompt": "For a fixed attainable utility target, why is the expenditure function concave in positive prices, assuming finite minima exist?",
+        "answer": "It is the pointwise infimum of linear expenditure functions over a price-independent target set.",
+        "explanation": "For each feasible target-achieving bundle, expenditure is linear in prices. Minimization over that common set produces a concave value function, without requiring convex preferences for this particular property."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-01:01",
+        "prompt": "A firm produces q=min{L,2K}, with nonnegative inputs, wage w=3 and capital price r=4. What is minimum cost at q=6?",
+        "answer": "30, attained at L=6 and K=3.",
+        "explanation": "Feasibility requires L≥6 and K≥3. Strictly positive input prices make both constraints bind, giving cost 3(6)+4(3)=30."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-02:01",
+        "prompt": "For q=√(LK), w,r>0 and q>0, which conditional labor demand and cost are correct?",
+        "answer": "L=q√(r/w) and c(w,r,q)=2q√(wr).",
+        "explanation": "The constraint LK≥q² binds. Minimizing wL+rq²/L yields L=q√(r/w), K=q√(w/r), and cost 2q√(wr). The input whose price rises is used less relative to the other input."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-03:01",
+        "prompt": "A firm has a fixed nonempty production set Y and finite profit π(p)=sup{p·y:y∈Y}. Even when Y is nonconvex, what property must π have?",
+        "answer": "Convexity in the output and input net-price vector p.",
+        "explanation": "Profit is a supremum of linear functions of p, so it is convex regardless of whether the feasible production set is convex. Nonconvexity can affect the supply correspondence without changing this value-function property."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-04:01",
+        "prompt": "A price-taking firm may shut down at zero cost. Producing any q>0 costs 9+q², and output price is 5. What is the global profit-maximizing choice?",
+        "answer": "Shut down at q=0.",
+        "explanation": "Conditional on operating, profit is 5q−q²−9, maximized at q=2.5 with profit −2.75. Shutdown gives 0. The first-order condition does not compare the discrete operating decision."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-05:01",
+        "prompt": "A firm has already paid a nonrefundable fixed cost of 9. Its additional cost is q² for q≥0, and price is 5. What output maximizes profit from this point forward?",
+        "answer": "q=2.5, even though profit including the sunk payment is negative.",
+        "explanation": "The sunk payment is identical under every current output decision. Maximizing 5q−q² gives q=2.5 and operating surplus 6.25. Counting the sunk payment yields −2.75, still better than −9 under shutdown."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-06:01",
+        "prompt": "A competitive firm can produce q≥0 at cost cq, where c>0 and there is no capacity limit. What happens if output price p>c?",
+        "answer": "Profit is unbounded above, so no finite output maximizes it.",
+        "explanation": "Profit equals (p−c)q and rises without bound as q increases. Constant returns with unrestricted scale requires p≤c for finite maximal profit; at p=c every scale yields zero."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-07:01",
+        "prompt": "A firm chooses q≥0 with cost aq+q², where a>0. Its optimized profit is π(p)=(p−a)²/4 for p>a and π(p)=0 for p≤a. What is supply for p>a?",
+        "answer": "(p−a)/2.",
+        "explanation": "For p>a the interior profit envelope has derivative π′(p)=(p−a)/2, which equals optimal output. Below a the nonnegativity constraint binds and supply is zero."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-08:01",
+        "prompt": "A firm has technology q=√(LK) and must produce q=4. Initially w=r=1; then w rises to 4 while r stays 1. How do cost-minimizing inputs change?",
+        "answer": "Labor falls from 4 to 2 and capital rises from 4 to 8.",
+        "explanation": "Initially L=K=4. After the wage increase, L=4√(1/4)=2 and K=4√(4/1)=8; their product remains 16. Holding output fixed permits substitution, not proportional contraction."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-09:01",
+        "prompt": "A technology Y⊂Rⁿ uses positive coordinates for outputs and negative coordinates for inputs. Which condition expresses free disposal?",
+        "answer": "If y∈Y and y′≤y componentwise, then y′∈Y.",
+        "explanation": "Reducing a net-output coordinate means discarding output or using more input. Free disposal permits those changes, not arbitrary output increases or reversal of production."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u3-10:01",
+        "prompt": "A finite cost function minimizes input expenditure over a fixed technology at a given output. Which curvature restriction is always valid in strictly positive input prices?",
+        "answer": "Cost is concave in input prices; its curvature in output depends on technology.",
+        "explanation": "At fixed output, cost is an infimum of linear functions of input prices and is therefore concave. Constant returns can yield linear output cost, while other technologies produce different output curvature."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-01:01",
+        "prompt": "Two consumers each have utility √(xy). Endowments are ωᴬ=(6,0) and ωᴮ=(0,6). With pᵧ=1 and strictly positive pₓ, what competitive equilibrium allocation clears both markets?",
+        "answer": "pₓ=1 and both consumers receive (3,3).",
+        "explanation": "A has wealth 6pₓ and B has wealth 6. Total x demand is 3+3/pₓ, which equals supply 6 only at pₓ=1. Both then spend half their wealth on each good and consume (3,3)."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-02:01",
+        "prompt": "An exchange economy has p=(2,3,1) and aggregate excess demand z satisfying p·z=0. If z₁=1 and z₂=−1, what is z₃?",
+        "answer": "1.",
+        "explanation": "Walras law gives 2(1)+3(−1)+z₃=0, hence z₃=1. Clearing all but one market would force the remaining market to clear at a positive price, but here two markets already have opposite quantity imbalances."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-03:01",
+        "prompt": "In a finite exchange economy with no externalities, each consumer maximizes a locally nonsatiated preference over their competitive budget set, and all markets clear. Is preference convexity additionally necessary for the first welfare theorem?",
+        "answer": "No; local nonsatiation and competitive budget optimality support Pareto efficiency without convexity.",
+        "explanation": "If a feasible allocation weakly improves all consumers, local nonsatiation implies its bundles cost at least their equilibrium wealth; a strict improvement must cost more. Summing contradicts feasibility and market clearing. Convexity is not used in this argument."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-04:01",
+        "prompt": "Suppose an economy satisfies the convexity and regularity assumptions needed to support a Pareto-efficient allocation competitively with transfers. What role do lump-sum transfers play?",
+        "answer": "They align individual purchasing power with the target allocation at supporting prices.",
+        "explanation": "Supporting prices separate preferred bundles from feasible resources, but the target bundle need not match each consumer’s initial wealth. Lump-sum wealth redistribution supplies the required budgets without changing marginal prices."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-05:01",
+        "prompt": "Two consumers have uᵢ(xᵢ,yᵢ)=log xᵢ+log yᵢ on strictly positive consumption. Total resources are (8,4). Which equation characterizes interior Pareto-efficient allocations?",
+        "answer": "yᴬ=xᴬ/2, with B receiving the remainder.",
+        "explanation": "Interior efficiency equates MRS values: yᴬ/xᴬ=(4−yᴬ)/(8−xᴬ). Cross multiplication gives 8yᴬ=4xᴬ. Equal division is one efficient point, not the whole contract curve."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-06:01",
+        "prompt": "A competitive industry has private marginal cost q and inverse demand 12−q. Each output unit causes marginal external damage 2. With no other distortions, what is efficient output?",
+        "answer": "5, below the unregulated competitive output 6.",
+        "explanation": "Private equilibrium solves 12−q=q, yielding 6. Efficiency uses social marginal cost q+2, so 12−q=q+2 gives 5. The omitted external effect breaks the welfare theorem’s market environment."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-07:01",
+        "prompt": "In a pure exchange economy, each consumer’s income is the value of their fixed endowment. If all equilibrium prices are multiplied by λ>0, what happens to individual budget sets?",
+        "answer": "They are unchanged because both expenditure and endowment income scale by λ.",
+        "explanation": "The inequality λp·x≤λp·ω is equivalent to p·x≤p·ω. Absolute price levels are therefore indeterminate under this nominal rescaling, while relative prices matter."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-08:01",
+        "prompt": "An economy has 10 units of a single good and two consumers with strictly increasing utility in their own consumption. At allocation (4,6), someone proposes (5,6) as a Pareto improvement. What is wrong?",
+        "answer": "The proposed allocation is infeasible; every allocation exhausting the 10 units is Pareto efficient here.",
+        "explanation": "The proposal requires 11 units. With one desirable good and fixed resources, increasing one consumer’s consumption from an exhaustive allocation requires lowering the other’s, which hurts that consumer."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-09:01",
+        "prompt": "Two consumers have u(x,y)=max{x,y} on nonnegative bundles and each is endowed with (1,1). At positive prices, can a competitive equilibrium exist?",
+        "answer": "Yes: equal prices support A consuming (2,0) and B consuming (0,2), despite nonconvex preferences.",
+        "explanation": "At equal prices each consumer can buy two units of either good, yielding utility 2, and no affordable bundle gives more. Assigning opposite corners clears markets. Nonconvexity removes a standard sufficient existence condition but is not itself proof of nonexistence."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u4-10:01",
+        "prompt": "Two consumers have identical log x+log y utility and total resources (10,10). At prices (1,1), target consumptions are A=(8,8), B=(2,2). What individual wealth levels implement the target?",
+        "answer": "16 for A and 4 for B.",
+        "explanation": "Each consumer spends half their wealth on each good. Target expenditure is 16 for A and 4 for B; the total 20 equals the value of resources. Identical tastes do not require equal equilibrium allocations when wealth differs."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-01:01",
+        "prompt": "A consumer has Bernoulli utility √w and faces wealth 25 or 81, each with probability one half. What are the certainty equivalent and risk premium, defined as expected wealth minus certainty equivalent?",
+        "answer": "Certainty equivalent 49 and risk premium 4.",
+        "explanation": "Expected utility is (5+9)/2=7, so certain wealth 49 reproduces it. Expected wealth is 53, giving a risk premium of 4. Expected utility itself is not measured in wealth units."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-02:01",
+        "prompt": "A Bernoulli utility u represents preferences over all finite lotteries under expected utility. Which transformation is guaranteed to preserve those lottery preferences for arbitrary u?",
+        "answer": "v=3u+7.",
+        "explanation": "A positive affine transformation gives E[v]=3E[u]+7 and preserves all expected-utility rankings. An arbitrary increasing transformation preserves rankings of sure outcomes but can alter attitudes toward lotteries."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-03:01",
+        "prompt": "An expected-utility decision maker weakly prefers lottery L to M. For a common lottery N and α=0.3, which ranking must hold?",
+        "answer": "0.3L+0.7N is weakly preferred to 0.3M+0.7N.",
+        "explanation": "The common N component cancels in the expected-utility difference, leaving 0.3(EU(L)−EU(M))≥0. Independence restricts mixtures, not the monetary expectations of the lotteries."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-04:01",
+        "prompt": "Initial wealth is 100, a loss of 40 occurs with probability 0.25, and coverage z∈[0,40] costs premium 0.25z. A consumer has strictly increasing, strictly concave Bernoulli utility. What coverage is optimal?",
+        "answer": "z=40, giving wealth 90 in both states.",
+        "explanation": "Expected wealth is 90 for every coverage level. Full coverage equalizes wealth across states; strict concavity makes that constant wealth strictly preferable to any remaining risk."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-05:01",
+        "prompt": "For u(w)=log w on w>0, what happens to Arrow–Pratt absolute risk aversion when wealth rises from 20 to 40?",
+        "answer": "It falls from 1/20 to 1/40.",
+        "explanation": "Absolute risk aversion is −u″/u′=1/w. Relative risk aversion is the distinct quantity −wu″/u′=1, which does remain constant."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-06:01",
+        "prompt": "Lottery A pays 10 with certainty; lottery B pays 6 or 14 with equal probabilities. For every increasing concave Bernoulli utility on [6,14], which statement is correct?",
+        "answer": "A is weakly preferred to B, and strictly preferred if utility is strictly concave.",
+        "explanation": "Jensen’s inequality gives u(10)≥[u(6)+u(14)]/2. Their cumulative distributions cross, so this is a concavity-based comparison rather than first-order dominance."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-07:01",
+        "prompt": "Lottery A pays 3 or 7 with equal probabilities; B pays 2 or 6 with equal probabilities. Which comparison is valid?",
+        "answer": "Every strictly increasing Bernoulli utility ranks A strictly above B, even if it is convex.",
+        "explanation": "Couple the two equally likely outcomes: A is exactly one higher in either case. Thus u(3)>u(2) and u(7)>u(6) for strictly increasing utility, independently of curvature."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-08:01",
+        "prompt": "A decision maker maximizes expected utility, can choose any action from a fixed set after observing a free signal, and can ignore the signal. Relative to committing before observing it, what is guaranteed?",
+        "answer": "The optimized ex ante value is weakly higher.",
+        "explanation": "Every constant action remains available as a signal-contingent plan that ignores information. Enlarging the feasible set of plans cannot reduce its maximum. An uninformative or behaviorally irrelevant signal can have zero value."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-09:01",
+        "prompt": "There are two states with probabilities (1/2,1/2). A consumer maximizes expected log consumption, buys state claims at prices (1/4,3/4), and has claim-market wealth 12. What optimal state consumptions result?",
+        "answer": "c₁=24 and c₂=8.",
+        "explanation": "The first-order conditions imply (1/2)/cₛ=λqₛ, so each state claim receives expenditure 6. Dividing by its state price gives 24 and 8. Unequal state prices per unit probability make equal consumption suboptimal."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u5-10:01",
+        "prompt": "A smooth increasing concave utility has absolute risk aversion A(w)=0.04 at wealth w. A small additive zero-mean risk has variance 9. Using the second-order local approximation, what risk premium is predicted?",
+        "answer": "Approximately 0.18; the formula does not generally give an exact premium for a finite risk.",
+        "explanation": "The local risk premium is approximately (1/2)A(w)Var(ε)=0.5(0.04)(9)=0.18. Higher-order utility terms and the risk distribution can matter outside the small-risk approximation."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-01:01",
+        "prompt": "A consumer maximizes log c₀+0.8 log c₁ with positive consumption and present-value budget c₀+c₁/1.25=18. Borrowing and lending are unrestricted at this rate. What is optimal?",
+        "answer": "c₀=10 and c₁=10.",
+        "explanation": "The Euler equation is c₁=0.8(1.25)c₀=c₀. The budget then gives 1.8c₀=18. Equal consumption here follows from the discount factor times gross return equaling one, not from equal present-value spending."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-02:01",
+        "prompt": "A consumer has income (2,8), zero interest, utility log c₀+log c₁, and may save s≥0 but cannot borrow: c₀=2−s and c₁=8+s. What is optimal?",
+        "answer": "s=0, c₀=2, c₁=8, with current marginal utility exceeding future marginal utility.",
+        "explanation": "Unconstrained smoothing would require borrowing 3, which is prohibited. At s=0, increasing saving changes utility at rate −1/2+1/8<0, so the lower bound binds. The Euler equality is replaced by an inequality."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-03:01",
+        "prompt": "Let T act on bounded value functions by (TV)(s)=maxₐ{r(s,a)+βE[V(s′)|s,a]}, with bounded rewards, nonempty feasible actions, existing maxima, and 0<β<1. Which sup-norm bound holds?",
+        "answer": "‖TV−TW‖∞≤β‖V−W‖∞.",
+        "explanation": "For any action, continuation values differ by at most β‖V−W‖∞. Maximizing cannot increase that bound. The discount factor delivers contraction, not necessarily a tighter β² bound."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-04:01",
+        "prompt": "For a Bellman operator that is a contraction with modulus 0.8, suppose ‖V₁−V₀‖∞=2 and V₁=TV₀. What a posteriori bound on ‖V₁−V*‖∞ follows from the geometric series of later increments?",
+        "answer": "At most 8.",
+        "explanation": "The first omitted increment is bounded by 0.8(2), then 0.8²(2), and so on. Their sum is 2(0.8)/(1−0.8)=8. The bound 10 instead applies to the error at V₀."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-05:01",
+        "prompt": "A quasi-hyperbolic consumer uses β=0.5 and δ=1. At date 0, she chooses between receiving utility 6 at date 1 or utility 10 at date 2. At date 1 she may reconsider; no other payoffs occur. What happens?",
+        "answer": "At date 0 she prefers date 2; at date 1 she prefers the immediate date-1 payoff.",
+        "explanation": "At date 0 the two values are 0.5(6)=3 and 0.5(10)=5. At date 1 they become 6 now versus 0.5(10)=5 later. The relative present-bias penalty changes when a payoff becomes immediate."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-06:01",
+        "prompt": "An agent chooses x∈[0,10] to maximize f(x,t)=tx−x²/2 for t∈[0,10]. Which statement links increasing differences to the policy?",
+        "answer": "fₓₜ=1>0 and the unique optimum x*(t)=t is nondecreasing.",
+        "explanation": "The cross partial is positive, so higher t raises the marginal payoff to x. Strict concavity gives the unique stationary optimum x=t, feasible throughout the stated parameter interval."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-07:01",
+        "prompt": "An agent chooses x∈{0,1,2} to maximize tx−c(x), where c(0)=0,c(1)=2,c(2)=5. What is the maximizing set at t=3?",
+        "answer": "{1,2}; at higher t just above 3, only 2 maximizes.",
+        "explanation": "At t=3, payoffs are 0,1,1. Raising t by ε raises the payoff of 2 twice as much as that of 1, so action 2 becomes uniquely optimal. Monotonicity can concern extremal selections from a correspondence."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-08:01",
+        "prompt": "An agent maximizes f(x,t)=tx over 0≤x≤1/t² for t>0. Although f has strictly increasing differences in (x,t), what is the optimal choice?",
+        "answer": "x*(t)=1/t², which decreases because the feasible set shrinks.",
+        "explanation": "For each t>0, the objective increases in x, so the upper bound binds. Increasing differences alone does not deliver increasing choice when the parameter-dependent feasible sets move in the opposite direction."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-09:01",
+        "prompt": "There are two actions, low and high, and parameter t∈R. Their payoff difference f(high,t)−f(low,t)=t³. What follows?",
+        "answer": "High becomes weakly optimal at t=0 and strictly optimal for t>0; a derivative bounded away from zero is unnecessary.",
+        "explanation": "The difference is negative for t<0, zero at 0, and positive for t>0. The sign-crossing comparison determines the optimal action; global convexity and strictly positive derivatives everywhere are not required."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-microeconomics",
+      "family": "advanced-microeconomics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-microeconomics:advanced-microeconomics-u6-10:01",
+        "prompt": "For t∈(0,10), define V(t)=max over x∈[0,10] of {tx−x²/2}. What is V′(t)?",
+        "answer": "t, equal to the chosen x and to the objective’s partial derivative in t at the optimum.",
+        "explanation": "The optimizer is x*=t and V(t)=t²/2, so V′(t)=t. The indirect policy terms cancel through the first-order condition; the envelope derivative is not the policy derivative."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-01:01",
+        "prompt": "A deterministic household has CRRA utility with coefficient σ=2, discount factor β=0.96 and an unconstrained interior saving choice. The gross real return between t and t+1 is R=1.05. What is c(t+1)/c(t)?",
+        "answer": "√1.008, approximately 1.004.",
+        "explanation": "The discrete Euler equation is c(t)^−σ=βR c(t+1)^−σ. Thus consumption growth as a gross ratio is (βR)^(1/σ). R already includes principal."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-02:01",
+        "prompt": "In a discrete-time Ramsey economy without growth, β=0.96 and depreciation δ=0.08. What marginal product f′(k*) supports constant positive consumption at an interior steady state?",
+        "answer": "Approximately 0.12167.",
+        "explanation": "The gross return is 1−δ+f′. Setting β(1−δ+f′)=1 yields f′=1/β−1+δ."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-03:01",
+        "prompt": "In continuous time with CRRA coefficient σ=2, pure discount rate ρ=0.03, marginal product f′=0.09 and depreciation δ=0.04, what is the instantaneous consumption growth rate in the interior Ramsey solution?",
+        "answer": "0.01 per unit time.",
+        "explanation": "The continuous-time Euler equation gives ċ/c=(f′−δ−ρ)/σ=(0.09−0.04−0.03)/2. This is a rate, not a gross discrete-time factor."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-04:01",
+        "prompt": "A deterministic planner has current capital k and resource constraint c+k′=f(k)+(1−δ)k. Productivity is constant and utility is time separable. Which recursive formulation is appropriate?",
+        "answer": "V(k)=max over feasible k′ of {u(f(k)+(1−δ)k−k′)+βV(k′)}.",
+        "explanation": "Capital summarizes inherited productive resources. Choosing next capital determines current consumption and the next value-function argument."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-05:01",
+        "prompt": "A feasible positive-consumption path satisfies the interior Euler equation in an infinite-horizon deterministic Ramsey model. Is this alone sufficient to certify optimality?",
+        "answer": "No; an appropriate transversality condition and the model’s sufficiency conditions are also needed.",
+        "explanation": "The Euler equation controls local intertemporal tradeoffs. It can also hold along paths that accumulate unused wealth; boundary behavior must be checked. Concavity can provide sufficiency with feasibility and transversality."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-06:01",
+        "prompt": "A household chooses next-period assets a′≥0. Its optimal choice is a′=0; increasing saving is feasible, but borrowing is not. For differentiable concave utility and deterministic gross return R, which Euler restriction holds?",
+        "answer": "u′(c)≥βR u′(c′).",
+        "explanation": "The directional derivative of utility with respect to extra saving is −u′(c)+βR u′(c′). At the lower bound it cannot be positive."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-07:01",
+        "prompt": "In a continuous-time economy with no population or technology growth and strictly decreasing f′, the golden-rule stock satisfies f′(k_GR)=δ. A Ramsey steady state has ρ>0 and f′(k_R)=δ+ρ. What follows?",
+        "answer": "k_R<k_GR.",
+        "explanation": "The Ramsey condition requires a larger marginal product. A decreasing marginal product implies less capital than at the consumption-maximizing golden rule."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-08:01",
+        "prompt": "A local continuous-time Ramsey system has one negative and one positive eigenvalue. Initial capital is predetermined and consumption can jump. Under a transverse intersection and the usual terminal restriction, what selects the convergent path?",
+        "answer": "Initial consumption adjusts to place the economy on the stable arm.",
+        "explanation": "There is one stable direction and one jump variable. The terminal restriction removes the unstable component while the inherited capital stock fixes the point on the stable arm."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-09:01",
+        "prompt": "In discrete time with no population growth, current output is 10, consumption 6, capital 20 and depreciation 0.1. There is no government or external trade. What is next-period capital?",
+        "answer": "22.",
+        "explanation": "Investment is output minus consumption, or 4. Surviving capital is 18, so next capital is 22."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u1-10:01",
+        "prompt": "In continuous time let A grow at rate g, population L at rate n, and k=K/(AL). If aggregate capital obeys K̇=Y−C−δK, what is k̇?",
+        "answer": "y−c−(δ+n+g)k, with y=Y/(AL) and c=C/(AL).",
+        "explanation": "Differentiating K/(AL) subtracts growth of both efficiency and population from capital per effective worker. Continuous-time dilution rates add."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-01:01",
+        "prompt": "A young household earns w=12, earns nothing when old, and maximizes log(c_y)+0.5 log(c_o). With c_y+s=w, c_o=Rs and R=1.2, what is optimal saving?",
+        "answer": "4.",
+        "explanation": "The first-order condition is 1/(12−s)=0.5/s, so s=4. The gross return cancels under logarithmic utility without old-age income."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-02:01",
+        "prompt": "In a closed two-period OLG economy, each young person saves 6 units. The young population grows by 20% between dates, and only the young save. All saving finances next-period productive capital. What is next capital per young person?",
+        "answer": "5.",
+        "explanation": "K(t+1)=6N(t), whereas N(t+1)=1.2N(t). Capital per next-period young person is 6/1.2."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-03:01",
+        "prompt": "Production per worker is f(k)=k^(1/3), firms are competitive, and capital depreciates completely within one period. What gross return does a unit of installed capital earn?",
+        "answer": "(1/3)k^(−2/3).",
+        "explanation": "The gross return is f′(k)+1−δ. Complete depreciation sets 1−δ to zero; the remaining payoff is the marginal product."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-04:01",
+        "prompt": "Young agents have log(c_y)+log(c_o), no old-age endowment, and supply one unit of labor. Production is f(k)=√k, capital depreciates fully, and population is constant. What is the positive stationary capital per worker?",
+        "answer": "1/16.",
+        "explanation": "The wage is f−kf′=√k/2. Agents save half the wage, so k′=√k/4. A positive fixed point satisfies √k=1/4, hence k=1/16."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-05:01",
+        "prompt": "Consider a stationary deterministic Diamond economy without technical change. Population growth is n=0.02 and the gross capital return is R=1.01. Under standard neoclassical assumptions, what does R<1+n indicate?",
+        "answer": "Overaccumulation: the stationary allocation is dynamically inefficient.",
+        "explanation": "The net return is 1%, below population growth of 2%. A sustained reduction of excessive capital can release resources and improve consumption across generations in the standard setting."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-06:01",
+        "prompt": "A stationary pay-as-you-go pension collects a fixed real contribution τ from each young worker and divides receipts equally among the old. Population grows at n=0.03; wages and contribution rules are unchanged. What gross implicit return does a contributor receive when old?",
+        "answer": "1.03.",
+        "explanation": "The next young cohort is 1.03 times the contributor’s cohort. Each old person receives 1.03τ, so benefit divided by prior contribution is 1.03."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-07:01",
+        "prompt": "A government cuts taxes on current young agents and finances repayment with taxes on a later, unborn generation. Agents have no operative altruistic bequests. Why can the tax cut affect current consumption?",
+        "answer": "Current recipients need not internalize the future generation’s repayment burden.",
+        "explanation": "The government still has a budget constraint, but individual dynastic consolidation fails without operative intergenerational links. This removes a key condition for Ricardian equivalence."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-08:01",
+        "prompt": "A young household maximizes log(12−s)+log(1.2s+6). Saving is unconstrained near the optimum. What is optimal s?",
+        "answer": "3.5.",
+        "explanation": "The Euler condition is 1/(12−s)=1.2/(1.2s+6). Thus 2.4s=8.4 and s=3.5. Old-age income lowers the need to save."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-09:01",
+        "prompt": "In an OLG economy, the young can save in productive capital and a fixed supply of land bought from the old. Why is equating all young saving with next-period physical capital generally incorrect?",
+        "answer": "Part of saving purchases land rather than financing physical capital.",
+        "explanation": "The young’s wealth acquisition includes existing land. Asset-market clearing must distinguish purchases of existing assets from creation of productive capital."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u2-10:01",
+        "prompt": "Every cohort in a competitive OLG equilibrium optimizes and firms maximize profit. Which conclusion is justified without further assumptions?",
+        "answer": "Individual optimality alone does not rule out dynamic inefficiency.",
+        "explanation": "Infinite sequences of overlapping finite-lived agents do not automatically satisfy the conditions used for standard welfare conclusions. Overaccumulation is a counterexample to equating private optimality with dynamic efficiency."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-01:01",
+        "prompt": "A representative household has period utility log c−χh²/2 and faces real wage w. At an interior labor choice with no labor tax, which condition holds?",
+        "answer": "χh=w/c.",
+        "explanation": "The marginal disutility of work is χh. An additional hour buys w units of consumption, valued at marginal utility 1/c."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-02:01",
+        "prompt": "A closed RBC economy has output 100, government absorption 15 and investment 25. There are no adjustment costs or inventories. What private consumption satisfies market clearing?",
+        "answer": "60.",
+        "explanation": "The goods-market resource constraint is Y=C+I+G. Taxes and transfers redistribute claims but are not extra goods in this identity."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-03:01",
+        "prompt": "Competitive production is Y=AK^0.3H^0.7. At Y=100 and H=50, what is the real hourly wage?",
+        "answer": "1.4.",
+        "explanation": "The wage equals the marginal product of labor, (1−α)Y/H=0.7×100/50."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-04:01",
+        "prompt": "An unanticipated positive productivity shock arrives at the start of period t in a standard RBC model. Installed K_t was chosen at t−1 and has no intraperiod installation margin. What can adjust immediately?",
+        "answer": "Hours and consumption can adjust, while installed K_t is predetermined.",
+        "explanation": "Information changes current choices, but cannot alter capital already installed under the stated timing. Investment today changes K_(t+1)."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-05:01",
+        "prompt": "With standard separable preferences and endogenous labor, why is the sign of hours’ response to a favorable permanent productivity shock not determined by the wage increase alone?",
+        "answer": "Substitution toward work and a wealth effect toward leisure can oppose each other.",
+        "explanation": "A larger wage makes leisure expensive, but higher lifetime resources can raise desired leisure. Preferences and equilibrium dynamics determine the net response."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-06:01",
+        "prompt": "A household with stochastic discount factor m_(t+1)=βu′(c_(t+1))/u′(c_t) holds an interior risky asset. Which pricing equation is correct for its gross return R_(t+1)?",
+        "answer": "E_t[m_(t+1)R_(t+1)]=1.",
+        "explanation": "The first-order condition prices the expected product. Covariance matters, so multiplying means or imposing state-by-state equality generally fails."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-07:01",
+        "prompt": "True production is Y=A(uK)^αH^(1−α). A researcher treats measured K as capital services and computes Y/(K^αH^(1−α)). What does this residual equal?",
+        "answer": "Au^α.",
+        "explanation": "Substitution into the measured residual leaves the utilization term u^α. A cyclical residual can therefore reflect utilization as well as technology."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-08:01",
+        "prompt": "An RBC model is calibrated to match the mean investment-output ratio and then also matches output volatility. What can be concluded from these two matches alone?",
+        "answer": "They do not uniquely identify technology shocks as the cause of observed cycles.",
+        "explanation": "Matching selected moments provides a model-fit check. Alternative mechanisms can generate the same moments, so causal and welfare conclusions require additional restrictions and evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-09:01",
+        "prompt": "In a closed flexible-price model, government purchases rise by 5. Output and investment are held fixed for this accounting exercise. What must happen to private consumption?",
+        "answer": "It falls by 5.",
+        "explanation": "With Y=C+I+G, holding Y and I fixed implies ΔC=−ΔG. A full equilibrium may alter Y and I; the question deliberately fixes them."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u3-10:01",
+        "prompt": "Which set of assumptions supports equating a representative-agent RBC competitive allocation with a planner allocation?",
+        "answer": "Competitive markets, complete relevant contingent markets, no externalities or distortionary wedges, and standard regularity conditions.",
+        "explanation": "The equivalence relies on removing wedges between private and social marginal conditions. Rational expectations or flexible prices alone cannot remove market power, taxes or externalities."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-01:01",
+        "prompt": "Let Y=AK^0.3H^0.7 and define hats as log deviations from a positive reference steady state. Which relation holds?",
+        "answer": "ŷ=â+0.3k̂+0.7ĥ.",
+        "explanation": "Taking logs of the Cobb–Douglas function is exact. Subtracting its steady-state log equation produces the stated relation."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-02:01",
+        "prompt": "At a steady state, Y=C+I, C/Y=0.8 and I/Y=0.2. Using first-order log deviations, what is ŷ when ĉ=0.01 and î=0.05?",
+        "answer": "0.018.",
+        "explanation": "A sum linearizes with steady-state shares: ŷ=0.8ĉ+0.2î=0.008+0.010. Logs do not turn addition into addition of logs."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-03:01",
+        "prompt": "Net bond holdings have steady-state value zero. What is a valid local approximation choice?",
+        "answer": "Use level deviations or a nonzero scale such as steady-state output.",
+        "explanation": "A conventional log deviation needs a positive reference level. Level deviations preserve meaningful variation through zero."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-04:01",
+        "prompt": "Productivity follows a_(t+1)=0.8a_t+ε_(t+1), with E_t ε_(t+1)=0. Given a_t=0.02, what is E_t a_(t+2), assuming future innovations also have zero conditional mean?",
+        "answer": "0.0128.",
+        "explanation": "Iterated expectations yield 0.8²×0.02. A two-period forecast compounds the persistence parameter twice."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-05:01",
+        "prompt": "A scalar variable satisfies x_t=0.9E_t x_(t+1)+z_t. Let z_(t+j)=0.5^j z_t deterministically and impose lim as J→∞ of 0.9^J E_t x_(t+J)=0. What is x_t?",
+        "answer": "z_t/(1−0.45).",
+        "explanation": "Forward substitution sums Σ_j≥0 (0.9×0.5)^j z_t. The terminal restriction removes the remaining forward term."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-06:01",
+        "prompt": "A regular linear rational-expectations system has one predetermined state and one jump variable. Its transition eigenvalues are 0.7 and 1.2, with no unit roots. If the required rank condition holds, what does the usual saddle-path criterion imply?",
+        "answer": "A unique local nonexplosive solution.",
+        "explanation": "One unstable root matches one jump variable. The rank condition ensures the unstable direction can be eliminated consistently with the inherited state."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-07:01",
+        "prompt": "Around a net real rate r̄=0.04, a small level change Δr occurs. What is the first-order change in log(1+r)?",
+        "answer": "Δr/1.04.",
+        "explanation": "The derivative of log(1+r) is 1/(1+r). This is different from the proportional change in the net rate itself."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-08:01",
+        "prompt": "In a smooth model perturbed around a deterministic steady state, what limitation typically applies to a first-order policy-function approximation with zero-mean additive shocks?",
+        "answer": "It omits second-order precautionary effects of shock variance on the policy level.",
+        "explanation": "Curvature-induced variance terms enter at second order. Their absence from a first-order approximation is a computational property, not a preference assumption."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-09:01",
+        "prompt": "Under rational expectations, e_(t+1)=y_(t+1)−E_t y_(t+1) has finite moments. For any bounded variable z_t known at t, which population restriction follows?",
+        "answer": "E[z_t e_(t+1)]=0.",
+        "explanation": "The conditional mean of the error is zero. Multiplying by a known bounded variable and using iterated expectations gives orthogonality, without perfect foresight."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u4-10:01",
+        "prompt": "In a stationary discrete-time model with positive steady-state capital and 0<δ<1, K′=(1−δ)K+I and Ī=δK̄. What is the first-order relation between log deviations?",
+        "answer": "k̂′=(1−δ)k̂+δî.",
+        "explanation": "Divide the differential dK′=(1−δ)dK+dI by K̄ and use Ī/K̄=δ. The weights reflect steady-state levels."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-01:01",
+        "prompt": "Use x_t=E_t x_(t+1)−(i_t−E_tπ_(t+1)−r_t^n)/σ. All rates and gaps use decimal units, σ=2, expected next gap is 0, and the real-rate gap is 0.02. What is x_t?",
+        "answer": "−0.01.",
+        "explanation": "The output gap is minus the real-rate gap divided by σ. A rate above the natural rate depresses current demand relative to expected future demand."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-02:01",
+        "prompt": "The linearized NK Phillips curve is π_t=βE_tπ_(t+1)+κx_t+u_t. Let β=0.99, expected inflation 0.02, κ=0.1, x_t=−0.01 and u_t=0. What is π_t?",
+        "answer": "0.0188.",
+        "explanation": "Inflation is 0.99×0.02+0.1×(−0.01)=0.0198−0.001. All inputs are decimals at the same model frequency."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-03:01",
+        "prompt": "Each period a firm independently has probability 0.25 of resetting its price. Counting the current period in a newly set price spell, what is its expected duration?",
+        "answer": "4 periods.",
+        "explanation": "The spell length has a geometric distribution on 1,2,… with reset hazard 0.25. Its mean is 1/0.25."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-04:01",
+        "prompt": "In a sticky-price model with monopolistic markups and no corrective subsidy, how should natural output be interpreted?",
+        "answer": "The flexible-price equilibrium output, which need not equal efficient output.",
+        "explanation": "Removing nominal rigidity does not remove monopoly distortions. Natural and efficient output coincide only with additional conditions correcting real wedges."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-05:01",
+        "prompt": "Using the linearized Fisher relation, a policy rule raises the nominal rate by 1.5 percentage points when sustained inflation and expected inflation rise by 1 percentage point. Ignoring other terms, how does the expected real rate change?",
+        "answer": "It rises by 0.5 percentage points.",
+        "explanation": "The expected real rate is approximately the nominal rate minus expected inflation. The change is 1.5−1=0.5 percentage points. This mechanism alone is not a universal determinacy theorem."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-06:01",
+        "prompt": "Use the one-period NK IS equation with σ=1 and expected next output gap zero. The nominal rate is constrained to zero, expected inflation is zero, and the natural real rate is −0.02. What is the current output gap?",
+        "answer": "−0.02.",
+        "explanation": "The real-rate gap is 0−0−(−0.02)=0.02. The IS equation gives a current gap of −0.02. Zero nominal rates can still be tight relative to the natural rate."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-07:01",
+        "prompt": "In π_t=βE_tπ_(t+1)+κx_t+u_t, suppose expected future inflation is zero, κ>0 and u_t>0. Can policy set both π_t=0 and x_t=0 at date t?",
+        "answer": "No; at x_t=0 inflation equals u_t>0.",
+        "explanation": "With zero expected inflation, zero current inflation requires x_t=−u_t/κ. A positive cost-push shock creates a contemporaneous stabilization tradeoff."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-08:01",
+        "prompt": "In the NK IS equation, hold the nominal rate, natural rate and expected next output gap fixed. Expected inflation increases. For σ>0, what happens to the current gap?",
+        "answer": "It increases.",
+        "explanation": "Higher expected inflation lowers the expected real rate at the fixed nominal rate. The real-rate gap falls, increasing demand through the IS equation."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-09:01",
+        "prompt": "The linearized IS equation and Phillips curve jointly contain x_t, π_t and i_t. What is generally needed to determine equilibrium, along with shocks, expectations and terminal conditions?",
+        "answer": "A monetary-policy rule or equivalent policy specification.",
+        "explanation": "The two private-sector equations leave policy unspecified. A policy rule provides the missing relationship; determinacy still depends on its form and the system’s conditions."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u5-10:01",
+        "prompt": "A basic NK model predicts a large current response to a promised rate cut far in the future. What is a defensible interpretation?",
+        "answer": "The prediction depends on credible expectations and the model’s intertemporal transmission assumptions.",
+        "explanation": "Future policy affects today through expected real rates and future activity. Altered credibility, household behavior or market structure can change the prediction."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-01:01",
+        "prompt": "A policymaker minimizes [π²+λ(x−x*)²]/2, where x=π−π^e, λ=2 and x*=0.03. Expectations are fixed when policy is chosen and rational in equilibrium. What is the discretionary equilibrium inflation rate?",
+        "answer": "0.06.",
+        "explanation": "The policy first-order condition is π+λ(π−π^e−x*)=0. Rational expectations imply π=π^e and x=0, leaving π=λx*=0.06."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-02:01",
+        "prompt": "In x=π−π^e with loss [π²+λ(x−x*)²]/2 and x*>0, suppose policy can credibly commit before expectations form and there are no shocks. What allocation minimizes loss over credible deterministic choices?",
+        "answer": "π=0 and x=0.",
+        "explanation": "Every credible deterministic inflation choice is anticipated, so x=0 regardless of its value. Inflation therefore adds cost without raising output, making zero inflation optimal."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-03:01",
+        "prompt": "Why can a previously optimal low-inflation commitment become unattractive after private nominal decisions are fixed in an inflation-bias model?",
+        "answer": "The policymaker then has an incentive to create surprise inflation to push output toward a target above its natural level.",
+        "explanation": "The feasible tradeoff changes once expectations or contracts are fixed. Preferences may be unchanged; the incentive to exploit surprise creates the inconsistency."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-04:01",
+        "prompt": "At a single date, take expected future inflation as fixed at zero. A policymaker minimizes (π²+λx²)/2 subject to π=κx+u. With λ=0.25, κ=0.5 and u=0.02, what is the optimal output gap?",
+        "answer": "−0.02.",
+        "explanation": "The first-order condition κ(κx+u)+λx=0 gives x=−κu/(κ²+λ)=−0.01/0.5. Inflation is then 0.01."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-05:01",
+        "prompt": "In a forward-looking NK Phillips curve, why can commitment improve the inflation-output tradeoff after a cost-push shock?",
+        "answer": "A credible plan for future gaps changes expected future inflation and therefore current inflation.",
+        "explanation": "Expected future inflation enters the current Phillips curve. A policymaker able to bind future actions can influence that expectation; the resulting optimal plan may depend on past promises."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-06:01",
+        "prompt": "A government’s real debt obeys B_t=R B_(t−1)−S_t, where S_t is the primary surplus and R is the gross real return. If B_(t−1)=100, R=1.03 and S_t=4, what is B_t?",
+        "answer": "99.",
+        "explanation": "Interest-inclusive obligations are 103, and a primary surplus of 4 retires debt. The resulting stock is 99."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-07:01",
+        "prompt": "With debt-ratio dynamics b_t=[(1+r)/(1+g)]b_(t−1)−s_t, r=0.04, g=0.02 and b_(t−1)=0.6, which current-GDP primary surplus ratio keeps b_t=0.6?",
+        "answer": "Approximately 0.011765.",
+        "explanation": "The exact stabilizing surplus is [(1.04/1.02)−1]×0.6=0.0117647. The familiar (r−g)b=0.012 is an approximation rather than the exact value."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-08:01",
+        "prompt": "An infinitely lived household faces lump-sum taxes, perfect credit access and a fixed government-purchase path. Debt is repaid through future taxes on the same household, and terminal budget restrictions hold. What does a debt-financed current tax cut do to its present-value disposable resources?",
+        "answer": "It leaves them unchanged.",
+        "explanation": "The tax cut is offset by the present value of future repayment taxes. Under the stated conditions, debt changes tax timing rather than household lifetime resources."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-09:01",
+        "prompt": "A historical reduced-form spending equation fits behavior under one tax rule. Why might it forecast poorly after a permanent change in the rule?",
+        "answer": "Expectations and decision rules may change when the policy regime changes.",
+        "explanation": "A reduced-form relationship can embed responses to the old policy process. A new regime changes incentives and forecasts, so historical coefficients need not remain stable."
+      },
+      "last": null
+    },
+    {
+      "course": "advanced-macroeconomics",
+      "family": "advanced-macroeconomics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "advanced-macroeconomics:advanced-macroeconomics-u6-10:01",
+        "prompt": "A government unexpectedly taxes installed capital after investment is sunk, then considers announcing repeated future levies. Why can the announced policy affect future investment even if today’s surprise levy leaves today’s installed stock unchanged?",
+        "answer": "Future investors anticipate lower after-tax returns and can change accumulation before the tax is imposed.",
+        "explanation": "Predetermined capital limits the current quantity response but does not freeze future choices. Expected tax treatment changes the return relevant for prospective investment."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-01:01",
+        "prompt": "A row player chooses A, B, or C simultaneously with a column player choosing L or R. Row payoffs (L,R) are A=(5,2), B=(3,1), C=(0,4). Which dominance claim is correct?",
+        "answer": "A strictly dominates B.",
+        "explanation": "A exceeds B at both columns: 5>3 and 2>1. C trades a lower L payoff for a higher R payoff."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-02:01",
+        "prompt": "Row payoffs against L,R are A=(4,0), B=(0,4), C=(1,1). Expected utility is linear in probabilities. Which statement holds?",
+        "answer": "An equal mixture of A and B strictly dominates C.",
+        "explanation": "The mixture yields (2,2), strictly above (1,1). Neither pure action dominates C; at equal column probabilities A and B each yield 2."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-03:01",
+        "prompt": "A simultaneous game has payoffs (row,column): (U,L)=(1,1), (U,R)=(1,0), (D,L)=(1,1), (D,R)=(0,0). What happens if weakly dominated D is removed?",
+        "answer": "The Nash equilibrium (D,L) is removed.",
+        "explanation": "U weakly dominates D, but both are best responses to L. L strictly dominates R, so every row mixture paired with L is Nash. Deleting D removes some equilibria."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-04:01",
+        "prompt": "A simultaneous game has (U,L)=(3,2), (U,R)=(0,1), (D,L)=(2,0), (D,R)=(1,-1). What survives iterated deletion of strictly dominated pure actions?",
+        "answer": "Only (U,L).",
+        "explanation": "L strictly dominates R for the column player. Against remaining L, U strictly dominates D. The unique Nash equilibrium is also (U,L)."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-05:01",
+        "prompt": "Row payoffs against L,R are U=(6,0) and D=(2,3). Row believes L occurs with probability q. When is U a best response, allowing ties?",
+        "answer": "q ≥ 3/7.",
+        "explanation": "U yields 6q and D yields 2q+3(1-q)=3-q. Thus U is optimal when 7q≥3. Both are optimal at equality."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-06:01",
+        "prompt": "In a finite game with expected-utility payoffs, each payoff of player 1 is replaced by 7u1+9; player 2 payoffs are unchanged. What happens to Nash equilibria?",
+        "answer": "The full set of mixed and pure Nash equilibria is unchanged.",
+        "explanation": "Positive affine transformations preserve all expected-payoff rankings and therefore every best-response correspondence."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-07:01",
+        "prompt": "Player 1 chooses A paying 2 for sure or B paying 0 and 3 with equal probability. Replace each outcome payoff u by u². What changes?",
+        "answer": "A is preferred originally, but B is preferred after transformation.",
+        "explanation": "Originally 2>1.5. After squaring, A pays 4 and B has expectation 4.5. Increasing nonlinear transformations need not preserve lottery preferences."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-08:01",
+        "prompt": "Two players simultaneously choose C or D. Payoffs are CC=(4,4), CD=(0,6), DC=(6,0), DD=(1,1). Which statement is correct?",
+        "answer": "DD is the unique Nash equilibrium and is Pareto dominated by CC.",
+        "explanation": "D strictly dominates C for each player, yet both earn more at CC than at DD. Individual deviation incentives differ from joint gains."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-09:01",
+        "prompt": "In matching pennies, each player chooses H or T simultaneously. Row earns 1 for a match and -1 otherwise; column earns the negative of row payoff. Which pure actions are rationalizable?",
+        "answer": "Both actions for both players.",
+        "explanation": "Every action is a best response to some belief about the opponent. Rationalizability does not require a pure action profile to be mutual best responses."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u1-10:01",
+        "prompt": "Two players choose x1,x2 in {0,1}; player i earns 2xi+5xj. Choices are simultaneous and payoffs are common knowledge. Which statement is correct?",
+        "answer": "Choosing 1 is strictly dominant for each player despite the external effect.",
+        "explanation": "Changing one’s own action from 0 to 1 adds 2 regardless of the opponent. The cross-player payoff effect does not alter the own-action ranking."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-01:01",
+        "prompt": "A zero-sum simultaneous game gives row payoffs (U,L)=2, (U,R)=-1, (D,L)=-2, (D,R)=1. Column earns their negative. In its mixed Nash equilibrium, what are p=Pr(U) and q=Pr(L)?",
+        "answer": "p=1/2 and q=1/3.",
+        "explanation": "Row indifference is 3q-1=1-3q, so q=1/3. Column indifference is 4p-2=1-2p, so p=1/2. No pure profile is Nash."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-02:01",
+        "prompt": "A simultaneous game has AA=(3,2), AB=(0,0), BA=(0,0), BB=(1,4), with row action first. What is the complete Nash equilibrium set?",
+        "answer": "AA, BB, and a mixed equilibrium with Pr(row A)=2/3 and Pr(column A)=1/4.",
+        "explanation": "Row indifference requires 3q=1-q. Column indifference requires 2p=4(1-p). The two diagonal profiles are strict pure equilibria; no other supports work."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-03:01",
+        "prompt": "A row player faces L,R with payoffs A=(2,0), B=(0,2), C=(3,3). A candidate has both players mixing equally over their first two actions. Can this be Nash?",
+        "answer": "No; C yields 3 while A and B each yield 1.",
+        "explanation": "Equal payoffs within a proposed support are necessary but not sufficient. Every action outside the support must earn no more."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-04:01",
+        "prompt": "Which assumption is sufficient for every finite normal-form game to have a Nash equilibrium in independently mixed strategies?",
+        "answer": "Every player has a nonempty finite action set and finite real payoffs, evaluated by expected utility.",
+        "explanation": "The mixed-strategy existence theorem applies to arbitrary finite games with expected utility. Neither dominance, zero-sum structure, nor aligned preferences is required."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-05:01",
+        "prompt": "Each of two players independently chooses xi in the open interval (0,1), earning ui=xi. Does a Nash equilibrium exist?",
+        "answer": "No; every feasible choice can be increased profitably.",
+        "explanation": "The supremum 1 is unavailable. Every feasible xi admits a larger feasible action, so there is no best response and no equilibrium."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-06:01",
+        "prompt": "For a finite number of players with nonempty compact convex action sets in Euclidean spaces, which additional conditions support the standard pure Nash existence theorem?",
+        "answer": "Payoffs are jointly continuous and quasiconcave in each player’s own action.",
+        "explanation": "Continuity and compactness yield nonempty best-response sets; own-action quasiconcavity yields convex values. A fixed-point theorem then applies. Uniqueness is unnecessary."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-07:01",
+        "prompt": "Two firms simultaneously choose nonnegative quantities. Inverse price is P=12-q1-q2, allowed to be negative, and constant marginal cost is 2 with no fixed cost. What is the Nash quantity profile?",
+        "answer": "q1=q2=10/3.",
+        "explanation": "Firm i maximizes (10-qi-qj)qi and responds with max{0,(10-qj)/2}. Solving the two interior responses gives 10/3 each; neither boundary profile is mutual best response."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-08:01",
+        "prompt": "In a zero-sum game row chooses U,D and column L,R. Row payoff matrix is [[3,1],[2,0]]. What is the equilibrium payoff to row?",
+        "answer": "1.",
+        "explanation": "U strictly dominates D, and R strictly minimizes row’s payoff against either row action. The unique equilibrium is (U,R) with row payoff 1."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-09:01",
+        "prompt": "At a mixed Nash equilibrium, a player has two actions in support. Holding the opponent’s equilibrium strategy fixed, what happens if this player switches to one supported pure action?",
+        "answer": "The player’s expected payoff is unchanged.",
+        "explanation": "Supported actions all maximize expected payoff against the fixed opponent strategy. A unilateral deviation is evaluated with opponents’ strategies held fixed."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u2-10:01",
+        "prompt": "A device recommends (A,A) or (B,B), each with probability 1/2. Each player observes only their recommendation. Both players earn 1 when actions match and 0 otherwise. What is this distribution?",
+        "answer": "A correlated equilibrium, but not a product distribution of independent mixed strategies.",
+        "explanation": "Following the recommendation guarantees payoff 1, while deviating gives 0. The joint distribution has no mismatches, unlike independent fair mixing."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-01:01",
+        "prompt": "Player 1 chooses Out or In. After In, player 2 observes that choice and chooses Fight or Accommodate. What is a pure strategy for player 2?",
+        "answer": "A choice of Fight or Accommodate even if In is never reached.",
+        "explanation": "A strategy specifies behavior at every information set where the player could act, including unreached ones."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-02:01",
+        "prompt": "Player 1 chooses Out, giving (2,2), or In. After observing In, player 2 chooses Fight giving (0,0) or Accommodate giving (3,1). What is the unique subgame-perfect equilibrium?",
+        "answer": "In; player 2 accommodates.",
+        "explanation": "After In, player 2 prefers 1 to 0. Anticipating accommodation, player 1 prefers 3 to 2. Fighting cannot support a credible deterrent."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-03:01",
+        "prompt": "In the entry game Out=(2,2), In-Fight=(0,0), In-Accommodate=(3,1), with player 2 observing entry, which pure Nash equilibrium is not subgame perfect?",
+        "answer": "Out with Fight prescribed after In.",
+        "explanation": "At (Out,Fight), entry lowers player 1 payoff and player 2 cannot change the realized payoff unilaterally. But Fight is not optimal in the entry subgame. Pure Nash equilibria are exactly (Out,Fight) and (In,Accommodate)."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-04:01",
+        "prompt": "Player 1 privately chooses L or R. Player 2 then chooses U or D without observing that choice; both player-2 nodes lie in one information set. Which is a proper subgame?",
+        "answer": "Neither individual player-2 node begins a proper subgame.",
+        "explanation": "A subgame must begin at a singleton information set and cannot cut an information set. The two hidden-history nodes fail that condition."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-05:01",
+        "prompt": "Player 1 chooses Out=(1,1) or In. After observed In, player 2 chooses A=(2,0) or B=(0,0). What are the pure subgame-perfect equilibria?",
+        "answer": "(In,A) and (Out,B).",
+        "explanation": "Player 2 is indifferent between A and B in the subgame. If A is prescribed, player 1 enters; if B is prescribed, player 1 stays out. No arbitrary tie rule is imposed."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-06:01",
+        "prompt": "A leader chooses q1≥0; a follower observes it and chooses q2≥0. Both earn (10-q1-q2)qi, with price-cost margin allowed to be negative. What is the subgame-perfect outcome?",
+        "answer": "q1=5 and q2=5/2.",
+        "explanation": "The follower chooses max{0,(10-q1)/2}. For q1≤10 the leader earns q1(10-q1)/2, maximized at 5. For q1≥10 its payoff is nonpositive."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-07:01",
+        "prompt": "Using Out=(2,2), In-Fight=(0,0), In-Accommodate=(3,1), suppose player 2 first publicly and irrevocably commits to Fight or Accommodate, then player 1 chooses Out or In. What is the equilibrium outcome?",
+        "answer": "Player 2 commits to Fight and player 1 stays Out.",
+        "explanation": "Fight induces Out and earns player 2 payoff 2; Accommodate induces In and earns 1. An enforceable prior commitment differs from a noncredible future threat."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-08:01",
+        "prompt": "In a finite extensive-form game with perfect recall, how are mixed and behavioral strategies related?",
+        "answer": "Every mixed strategy has a realization-equivalent behavioral strategy, and conversely.",
+        "explanation": "Perfect recall supports equivalence of induced terminal-history distributions against every opponent strategy. It does not require identical distributions over full contingent plans."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-09:01",
+        "prompt": "A finite-horizon game has perfect information. In every subgame, a proposed strategy profile admits no profitable deviation at a single decision node followed by a return to prescribed play. What does the one-shot deviation principle establish?",
+        "answer": "The profile is subgame perfect.",
+        "explanation": "For a finite horizon with perfect information, a profitable multi-stage deviation would imply a profitable last local deviation. This characterizes subgame perfection, not uniqueness or efficiency."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u3-10:01",
+        "prompt": "A player-2 decision following hidden L or R belongs to one information set. An analyst allows player 2 to choose U after L and D after R. What is the error?",
+        "answer": "The proposed plan conditions on information player 2 does not observe.",
+        "explanation": "Actions must be constant within an information set. Treating the two histories separately grants player 2 an observation absent from the model."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-01:01",
+        "prompt": "The stage game is CC=(3,3), CD=(0,5), DC=(5,0), DD=(1,1). It is repeated exactly three times with perfect public observation, additive payoffs, and no terminal bonus. What occurs in every subgame-perfect equilibrium?",
+        "answer": "Both choose D after every history in every period.",
+        "explanation": "D is strictly dominant in the final stage. The unique continuation then removes reward leverage one stage earlier, so backward induction gives D throughout."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-02:01",
+        "prompt": "The stage game is CC=(4,4), CD=(0,7), DC=(7,0), DD=(1,1). It repeats infinitely with perfect public monitoring and discounted sum payoff, common δ∈[0,1). Under grim trigger, which condition deters deviation from cooperation?",
+        "answer": "δ ≥ 1/2.",
+        "explanation": "Cooperation yields 4/(1-δ); deviation yields 7+δ/(1-δ). The constraint reduces to 6δ≥3. Permanent DD is credible because D is a stage best response to D."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-03:01",
+        "prompt": "Cooperation yields 5 each period, one deviation yields 9 now, and a credible permanent punishment yields 3 thereafter. Under perfect monitoring, what is the minimum discount factor for grim-trigger cooperation?",
+        "answer": "2/3.",
+        "explanation": "The condition 5/(1-δ)≥9+3δ/(1-δ) becomes 6δ≥4. A less severe punishment makes cooperation harder to sustain."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-04:01",
+        "prompt": "An infinite repeated game proposal threatens an action profile forever after a deviation. At that profile a player can gain by switching this period while leaving all later prescribed play unchanged. What follows?",
+        "answer": "The proposed profile is not subgame perfect.",
+        "explanation": "In the punishment subgame, a one-period deviation improves current payoff without changing continuation. Severity does not substitute for sequential rationality."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-05:01",
+        "prompt": "A repeated game uses a publicly observed coin to select one of two continuation equilibria after a history. Why can this help describe attainable continuation payoffs?",
+        "answer": "It permits convex combinations of the two equilibrium payoff vectors before the coin is observed.",
+        "explanation": "A public draw selects a continuation both players observe. Ex ante payoffs average the selected equilibrium payoffs; feasibility and incentives still impose restrictions."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-06:01",
+        "prompt": "A learner claims any payoff vector can be sustained in any infinitely repeated game when δ is near 1. Which objection is decisive?",
+        "answer": "Candidate payoffs still need feasibility and appropriate individual-rationality conditions; theorem-specific assumptions also matter.",
+        "explanation": "Patience cannot create resources outside the feasible payoff set or generally force a player below its security payoff. Folk theorems also vary in monitoring and dimensionality assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-07:01",
+        "prompt": "Player 1 divides a divisible pie of 10 by offering x∈[0,10] to player 2. Player 2 observes x and accepts or rejects; acceptance pays (10-x,x), rejection (0,0). Player 2 accepts when indifferent. What offer is made by backward induction?",
+        "answer": "x=0.",
+        "explanation": "Every nonnegative offer is accepted under the specified tie rule, so player 1 maximizes 10-x at zero. The conclusion uses both monetary utility and acceptance at indifference."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-08:01",
+        "prompt": "A pie of 12 is divided over at most two rounds. Player 1 offers in round 1; after rejection, player 2 offers in round 2. Rejection in round 2 pays zero. Both discount round-2 payoffs by 1/2 and accept at indifference. What amount does player 1 offer player 2 in round 1?",
+        "answer": "6.",
+        "explanation": "In the last round player 2 keeps all 12, offering player 1 zero. Player 2’s discounted rejection value in round 1 is 6, so an offer of 6 is accepted and maximizes player 1’s payoff."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-09:01",
+        "prompt": "In infinite alternating-offer bargaining over a unit pie with common discount δ=1/2, complete information, no breakdown, and acceptance at indifference, let x be player 1’s stationary share when player 1 proposes and y player 1’s share when player 2 proposes. Which pair satisfies the stationary equilibrium conditions?",
+        "answer": "x=2/3 and y=1/3.",
+        "explanation": "Responder indifference gives y=δx and 1-x=δ(1-y). With δ=1/2 these imply x=2/3 and y=1/3."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u4-10:01",
+        "prompt": "A feasible agreement allocates a pie of 10 as nonnegative utilities u1+u2=10. Disagreement utilities are (2,0). What allocation maximizes the symmetric Nash product among individually rational agreements?",
+        "answer": "(6,4).",
+        "explanation": "The surplus above disagreement is 8. Maximizing (u1-2)(10-u1) splits that surplus equally, giving u1=6 and u2=4. Equal gains need not mean equal levels."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-01:01",
+        "prompt": "A firm privately observes cost c∈{1,4} before simultaneously choosing Enter or Out against a rival. Both costs have positive prior probability. What is a pure strategy for this firm?",
+        "answer": "A mapping specifying Enter or Out for each possible cost.",
+        "explanation": "A Bayesian pure strategy specifies an action for every type, such as Enter at cost 1 and Out at cost 4. Types are drawn by nature rather than chosen."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-02:01",
+        "prompt": "A firm knows its cost is 3. If it enters alone it receives revenue 8; if both firms enter its revenue is 2. Staying out pays zero; entry payoff is revenue minus cost. It assigns probability p to rival entry. When is entry optimal, allowing indifference?",
+        "answer": "p ≤ 5/6.",
+        "explanation": "Expected entry payoff is (1-p)(8-3)+p(2-3)=5-6p. Compare this with the zero outside payoff."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-03:01",
+        "prompt": "Each firm has type H or L. Joint probabilities are HH=0.4, HL=0.1, LH=0.1, LL=0.4, with own type first. A firm observes H. What probability does it assign to rival H?",
+        "answer": "0.8.",
+        "explanation": "Conditional probability is 0.4/(0.4+0.1)=0.8. Correlation makes the observed own type informative about the rival."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-04:01",
+        "prompt": "Two players independently draw costs uniformly on [0,1], observe only their own cost, then simultaneously choose Provide or Abstain. Each receives benefit 1 if either provides; a provider pays its own cost. In a symmetric cutoff equilibrium, each provides iff c≤t. What is t?",
+        "answer": "1/2.",
+        "explanation": "Providing yields 1-c; abstaining yields probability the other provides, t. Indifference at c=t gives 1-t=t. The equality type has probability zero and may use either action."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-05:01",
+        "prompt": "Two risk-neutral bidders have independent nonnegative private values and quasi-linear utility. Each submits a nonnegative bid; highest bid wins and pays the other bid, with ties split equally. Why is bidding one’s value weakly dominant?",
+        "answer": "Against each rival bid, it wins exactly when winning at that price is beneficial, with zero surplus at equality.",
+        "explanation": "A rival bid below value is a profitable purchase; one above value is unprofitable. At equality either allocation gives zero surplus. Alternative bids can coincide in payoff, so dominance is weak."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-06:01",
+        "prompt": "Two risk-neutral bidders draw independent values uniformly on [0,1]. Highest bid wins and pays its own bid; ties split equally. If the rival bids v/2, what bid maximizes a value-v bidder’s expected surplus?",
+        "answer": "v/2.",
+        "explanation": "For b∈[0,1/2], win probability is 2b, so profit is 2b(v-b), maximized at b=v/2. Bids above 1/2 win for sure but cannot improve on this solution; at v=0 the optimum is zero."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-07:01",
+        "prompt": "Two risk-neutral bidders have independent uniform [0,1] private values and bid truthfully in a second-price auction with no reserve. What is expected seller revenue?",
+        "answer": "1/3.",
+        "explanation": "The price is the smaller value. Its survival probability at z∈[0,1] is (1-z)²; integrating from zero to one gives 1/3."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-08:01",
+        "prompt": "A truthful second-price auction has private values 9 and 5 and reserve 6. Bids below reserve are ineligible; the winner pays the larger of reserve and the highest other bid. What is the outcome?",
+        "answer": "The value-9 bidder wins and pays 6.",
+        "explanation": "The high bidder meets the reserve and the low bidder does not. The specified payment rule sets price at max{6,5}=6."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-09:01",
+        "prompt": "In a common-value sealed-bid auction, bidders observe noisy private signals of the same unknown object value. Why can bidding one’s unconditional signal-based expected value be too aggressive?",
+        "answer": "Winning can convey additional bad news about value relative to one’s signal because rival signals were lower.",
+        "explanation": "The relevant valuation accounts for the information in winning. With positively informative signals, being highest may reflect an unusually optimistic error. This does not imply every realized winner loses money."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u5-10:01",
+        "prompt": "A claim equates expected revenues across standard auctions using the usual independent private-value, symmetric risk-neutral benchmark and matching allocation and lowest-type utility. Which change can invalidate that argument?",
+        "answer": "Making bidders risk averse while holding the value distribution fixed.",
+        "explanation": "Risk aversion changes first-price bidding incentives and breaks the risk-neutral payment identity argument used for revenue equivalence. It need not alter second-price truthful bidding with private values."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-01:01",
+        "prompt": "A sender has type H with prior probability 1/3 and L otherwise. H sends message m with probability 1/2; L sends m with probability 1/4. The receiver observes m. What is its posterior probability of H?",
+        "answer": "1/2.",
+        "explanation": "The probability mass for (H,m) is 1/6 and for (L,m) is also 1/6. Normalizing gives 1/2."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-02:01",
+        "prompt": "In a proposed pooling assessment, both sender types always choose m0. What does Bayes’ rule alone require for the receiver’s belief after unused message m1?",
+        "answer": "It imposes no posterior through the zero-probability conditional; other equilibrium restrictions may still matter.",
+        "explanation": "Both numerator and denominator are zero at m1. Weak perfect Bayesian assessments allow off-path beliefs subject to the specified solution concept, while receiver actions still must be optimal at those beliefs."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-03:01",
+        "prompt": "A sender has type H or L. After a message, a receiver chooses Invest or Decline. Receiver payoffs from Invest are 3 for H and -2 for L; Decline pays zero. For posterior μ=Pr(H), when is Invest a best response, allowing ties?",
+        "answer": "μ ≥ 2/5.",
+        "explanation": "Invest has expected payoff 3μ-2(1-μ)=5μ-2. Both actions are optimal at μ=2/5."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-04:01",
+        "prompt": "Workers privately know productivity 4 or 1. Competitive employers observe education e∈{0,1} and pay expected productivity. Worker utility is wage minus education cost; e=1 costs H one and L four, while e=0 costs zero. Both types have positive prior probability. Is H choosing 1 and L choosing 0 a separating equilibrium?",
+        "answer": "Yes; wages are 4 after 1 and 1 after 0, and neither type wants to imitate.",
+        "explanation": "H earns 4-1=3 rather than 1. L earns 1 rather than 4-4=0. Bayes-consistent beliefs identify types at both observed signals, and competitive wages follow."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-05:01",
+        "prompt": "H and L productivities are 4 and 1, each with prior probability 1/2. Competitive employers observe e∈{0,1} and pay expected productivity. Education 1 costs H two and L four; education 0 is free. Can pooling at e=0 be supported by believing an e=1 worker is L?",
+        "answer": "Yes; the pooling wage is 2.5, while deviation utilities are -1 for H and -3 for L.",
+        "explanation": "The on-path wage is the prior mean 2.5. At the unused signal, belief L implies wage 1, so neither type deviates. This establishes a weak PBE assessment, not robustness to every refinement."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-06:01",
+        "prompt": "Productivities are H=4 and L=1. Competitive employers pay expected productivity after e∈{0,1}. Education 1 costs H one and L two; education 0 costs zero. Both types have positive prior probability. Why is H choosing 1 and L choosing 0 not a separating equilibrium?",
+        "answer": "L gains by imitating: 4-2=2 exceeds its separating wage 1.",
+        "explanation": "Although H prefers 3 to 1, L prefers the imitation payoff 2 to its own payoff 1. Both incentive constraints must hold."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-07:01",
+        "prompt": "A sender privately sees state H or L, each with positive prior probability, then sends either of two costless messages. Receiver chooses a∈{0,1} and earns 1 for a=1 in H or a=0 in L, zero otherwise. Sender earns a regardless of state. Why can a fully revealing equilibrium not exist?",
+        "answer": "The L sender would imitate the H message to induce action 1.",
+        "explanation": "Full revelation would induce action 0 after L and 1 after H. The L sender strictly prefers the action induced by the H message, so truthful separation fails. The conclusion depends on preferences, not costlessness alone."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-08:01",
+        "prompt": "In a finite extensive-form game with perfect recall, what extra discipline does sequential equilibrium impose beyond sequential rationality and Bayes updating only at positive-probability information sets?",
+        "answer": "Beliefs must arise as limits of Bayes beliefs from a sequence of completely mixed strategy profiles converging to the proposed strategies.",
+        "explanation": "Completely mixed approximations reach information sets and generate Bayes beliefs before taking limits. The limiting equilibrium may still have off-path information sets."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-09:01",
+        "prompt": "A simultaneous game has (U,L)=(1,1), (U,R)=(1,0), (D,L)=(1,1), (D,R)=(0,0). Why is the Nash profile (D,L) not trembling-hand perfect?",
+        "answer": "Any positive probability of R makes U strictly better than D.",
+        "explanation": "Against Pr(R)=ε>0, U gives 1 and D gives 1-ε. Thus D cannot be a best response to completely mixed opponent strategies approaching L. Some non-strict equilibria in other games are perfect."
+      },
+      "last": null
+    },
+    {
+      "course": "game-theory",
+      "family": "game-theory-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "game-theory:game-theory-u6-10:01",
+        "prompt": "Two sender types H,L receive equilibrium payoff 2. At an unused signal, H could receive net payoff 3 if the receiver chooses Invest and 0 if Decline; L could receive at most 1 under any receiver response. If the receiver would strictly Invest upon believing H with certainty, what is the intuitive-criterion objection to the pooling equilibrium?",
+        "answer": "The deviation is unattractive to L under every response but profitable for H if attributed to H, so the pooling assessment is rejected.",
+        "explanation": "L cannot improve on 2 through this signal, whereas H can earn 3 if correctly inferred. Assigning the deviation to H induces Invest and a profitable deviation, contradicting the proposed pooling outcome under this criterion."
       },
       "last": null
     },

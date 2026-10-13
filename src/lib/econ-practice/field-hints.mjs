@@ -1,3 +1,6 @@
+import {gameTheoryHints} from './game-theory-hints.mjs';
+import {advancedMacroHints} from './advanced-macro-hints.mjs';
+import {advancedMicroHints} from './advanced-micro-hints.mjs';
 import {urbanHints} from './urban-hints.mjs';
 import {politicalHints} from './political-hints.mjs';
 import {healthHints} from './health-hints.mjs';
@@ -9,6 +12,9 @@ import {tradeHints} from './trade-hints.mjs';
 import {ioHints} from './io-hints.mjs';
 // Method scaffolds for reviewed field questions; never generated from their keys.
 export const fieldHints={
+'game-theory':gameTheoryHints,
+'advanced-macroeconomics':advancedMacroHints,
+'advanced-microeconomics':advancedMicroHints,
 'urban-economics':urbanHints,
 'political-economy':politicalHints,
 'health-economics':healthHints,

@@ -1,3 +1,9 @@
+import gameTheory from '../../../content/econ-drafts/game-theory.json' with {type:'json'};
+import gameTheoryRelease from '../../../content/econ-drafts/game-theory-release.json' with {type:'json'};
+import advancedMacro from '../../../content/econ-drafts/advanced-macroeconomics.json' with {type:'json'};
+import advancedMacroRelease from '../../../content/econ-drafts/advanced-macroeconomics-release.json' with {type:'json'};
+import advancedMicro from '../../../content/econ-drafts/advanced-microeconomics.json' with {type:'json'};
+import advancedMicroRelease from '../../../content/econ-drafts/advanced-microeconomics-release.json' with {type:'json'};
 import urban from '../../../content/econ-drafts/urban-economics.json' with {type:'json'};
 import urbanRelease from '../../../content/econ-drafts/urban-economics-release.json' with {type:'json'};
 import political from '../../../content/econ-drafts/political-economy.json' with {type:'json'};
@@ -30,7 +36,7 @@ import {family,families} from './bank.mjs';
 import {fieldQuestionAt} from './field-expansions.mjs';
 import {auditFieldRelease} from './field-release.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease]];
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease],[io,ioRelease],[trade,tradeRelease],[development,developmentRelease],[financial,financialRelease],[behavioral,behavioralRelease],[environmental,environmentalRelease],[health,healthRelease],[political,politicalRelease],[urban,urbanRelease],[advancedMicro,advancedMicroRelease],[advancedMacro,advancedMacroRelease],[gameTheory,gameTheoryRelease]];
 // Hot module reload can preserve the bank registry while re-evaluating this module.
 // Validate the entire replacement before removing only the courses owned here.
 const extensionsByCourse=new Map([['industrial-organization',ioExtensions],['international-trade',tradeExtensions],['development-economics',developmentExtensions]]);
