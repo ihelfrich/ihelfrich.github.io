@@ -63,3 +63,11 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - All 32 focused tests and Astro fast build pass. Wrangler production bundle dry run passes (158.71 KiB, 47.44 KiB gzip). This does not deploy or validate a live database.
 - wrangler.jsonc contains an explicit placeholder D1 ID. Cloudflare CLI is unauthenticated; no production resource created. Needed setup: account connection, actual D1 ID, Google web client ID and instructor subject allowlist, then approved deployment and live verification.
 - Package installation reported 14 dependency vulnerabilities across the tree; determine applicability before deployment rather than applying blanket upgrades.
+
+## Continuation: late delivery and durable receipts
+
+- Fixed rejection of valid, owned outstanding answers arriving after a deadline or session completion. They now receive durable, idempotent receipts and explicit `late-receipt`/`after-completion` classifications. Client-reported submission times do not override server deadlines.
+- Classification and measurement eligibility are calculated in the insert statement against current session state, preventing a completion between request validation and insertion from creating eligible evidence.
+- Late/post-completion answers remain visible in history/exports but are excluded from adaptive evidence, instructor assessment counts/accuracy, and calibration. Student reports distinguish retained from counted answers.
+- Added regression coverage for both conditions, receipt replay, persistent row count, ineligible calibration flags and no new question after closure. All 33 focused tests pass.
+- Fixed a client validation failure that left Submit disabled even when no answer had been queued. Browser outage/reload and multi-tab tests remain required; localStorage outbox concurrency and expired credential recovery are still open.

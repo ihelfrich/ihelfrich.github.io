@@ -14,3 +14,16 @@ test('assessment withholds feedback, disallows retries and requires sign-in for 
 test('repeated next calls return the same outstanding presentation',async()=>{const t=setup(),{p,s,next}=await enrolled(t);const r=await t.call(`/sessions/${s.sessionId}/next`,{},p.token);assert.equal(r.presentationId,next.presentationId);t.env.DB.close();});
 test('admin exports are private and record an audit entry',async()=>{const t=setup(),{p,s,next}=await enrolled(t);await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);assert.equal((await t.call('/admin/responses',null,p.token)).status,403);const exported=await t.call('/admin/responses',null,'test-only-admin');assert.equal(exported.rows.length,1);assert.equal(exported.hasMore,false);assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM audit_log').first()).n,1);t.env.DB.close();});
 test('untrusted origins and invalid consent are rejected',async()=>{const t=setup();assert.equal((await t.call('/profiles',{accepted:false,consentVersion:CONSENT_VERSION})).status,400);const r=await worker.fetch(new Request('https://api.example/health',{headers:{Origin:'https://untrusted.example'}}),t.env);assert.equal(r.status,403);t.env.DB.close();});
+test('late and post-completion answers are retained exactly once but excluded from measurement',async()=>{
+ for(const reason of ['late-receipt','after-completion']){
+  const t=setup(),{p,s,next}=await enrolled(t,'assessment');
+  if(reason==='late-receipt')await t.env.DB.prepare('UPDATE sessions SET expires_at=? WHERE id=?').bind('2000-01-01T00:00:00.000Z',s.sessionId).run();
+  else await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);
+  const a=answer(next),r=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);
+  assert.equal(r.status,200,JSON.stringify(r));assert.equal(r.persisted,true);assert.equal(r.validity,reason);assert.equal(r.countsTowardResult,false);
+  const retry=await t.call(`/sessions/${s.sessionId}/answers`,a,p.token);assert.equal(retry.validity,reason);assert.equal(retry.receipt,r.receipt);
+  const stored=await t.env.DB.prepare('SELECT COUNT(*) AS n,calibration_eligible FROM responses').first();assert.equal(stored.n,1);assert.equal(stored.calibration_eligible,0);
+  const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.rows[0].countsTowardResult,false);assert.equal(report.rows[0].validity,reason);
+  assert.equal((await t.call(`/sessions/${s.sessionId}/next`,{},p.token)).status,409);t.env.DB.close();
+ }
+});

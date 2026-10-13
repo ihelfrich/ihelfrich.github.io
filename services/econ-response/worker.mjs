@@ -15,7 +15,7 @@ async function stateFor(env,p){
  const rows=await all(env.DB,`SELECT r.*,p.item_id,p.item_snapshot_json,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.attempt_number=1 ORDER BY r.server_received_at,r.event_id LIMIT 10001`,p.id);
  requireValue(rows.length<=10000,'This profile needs a history checkpoint before starting more sessions.',409);
  const state=newState();
- for(const r of rows){const item=JSON.parse(r.item_snapshot_json);recordAnswer(state,item,{response:JSON.parse(r.raw_answer_json),at:Date.parse(r.server_received_at),mode:r.mode,hints:r.hints_used,sessionId:r.session_id,eventId:r.event_id,measurementEligible:r.calibration_eligible===1});}
+ for(const r of rows){if(['late-receipt','after-completion'].includes(r.validity))continue;const item=JSON.parse(r.item_snapshot_json);recordAnswer(state,item,{response:JSON.parse(r.raw_answer_json),at:Date.parse(r.server_received_at),mode:r.mode,hints:r.hints_used,sessionId:r.session_id,eventId:r.event_id,measurementEligible:r.calibration_eligible===1});}
  return state;
 }
 async function body(request){
@@ -48,7 +48,7 @@ async function route(request,env){
    await query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),'instructor','response-export',next??'empty',JSON.stringify({count:page.length})).run();
    return {rows:page,nextCursor:next,hasMore:rows.length>500};
   }
-  if(path==='/admin/summary'&&method==='GET')return {courses:await all(env.DB,`SELECT s.course,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,AVG(r.correct) AS observedAccuracy,SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course`)};
+  if(path==='/admin/summary'&&method==='GET')return {courses:await all(env.DB,`SELECT s.course,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,AVG(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS observedAccuracy,SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course`)};
   throw new HttpError(404,'Unknown instructor route.');
  }
  const p=await participant(request,env);
@@ -70,7 +70,7 @@ async function route(request,env){
  const [,sid,action]=match,s=await ownSession(env,p,sid);
  if(action==='report'&&method==='GET'){
   const rows=await all(env.DB,'SELECT r.*,p.item_snapshot_json FROM responses r JOIN presentations p ON p.id=r.presentation_id WHERE r.session_id=? ORDER BY p.sequence,r.attempt_number',sid);
-  return {sessionId:sid,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at})),progress:progress(await stateFor(env,p),s.course)};
+  return {sessionId:sid,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course)};
  }
  requireValue(method==='POST','Method not allowed.',405);
  if(action==='complete'){
@@ -85,8 +85,7 @@ async function route(request,env){
   requireValue(typeof b.submittedAt==='string'&&Number.isFinite(Date.parse(b.submittedAt)),'Invalid submission time.');
   const canonical=JSON.stringify({presentationId:b.presentationId,attemptNumber:b.attemptNumber,response:b.response,elapsedMs:b.elapsedMs,activeMs:b.activeMs,submittedAt:b.submittedAt});const digest=await hash(canonical);
   const existing=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
-  if(existing){requireValue(existing.participant_id===p.id&&existing.session_id===sid&&existing.payload_sha256===digest,'Idempotency conflict.',409);const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=?',existing.presentation_id).first();return {eventId:b.eventId,receipt:existing.server_received_at,persisted:true,...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(pr.item_snapshot_json),b.response):{})};}
-  requireValue(!s.completed_at,'Session is complete.',409);requireValue(s.expires_at>iso(),'Session expired.',409);
+  if(existing){requireValue(existing.participant_id===p.id&&existing.session_id===sid&&existing.payload_sha256===digest,'Idempotency conflict.',409);const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=?',existing.presentation_id).first();return {eventId:b.eventId,receipt:existing.server_received_at,persisted:true,validity:existing.validity,countsTowardResult:!['late-receipt','after-completion'].includes(existing.validity),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(pr.item_snapshot_json),b.response):{})};}
   const pr=await query(env.DB,'SELECT * FROM presentations WHERE id=? AND session_id=?',b.presentationId,sid).first();requireValue(pr,'Presentation not found.',404);
   const item=JSON.parse(pr.item_snapshot_json);
   if(item.format==='choice')requireValue(Number.isInteger(b.response)&&b.response>=0&&b.response<item.options.length,'Choose an available answer.');
@@ -94,14 +93,15 @@ async function route(request,env){
   const previous=await query(env.DB,'SELECT COUNT(*) AS n FROM responses WHERE presentation_id=?',pr.id).first();requireValue(b.attemptNumber===previous.n+1,'Attempt sequence conflict.',409);requireValue(s.mode==='practice'||previous.n===0,'Assessment answers cannot be changed.',409);
   const correct=score(item,b.response),at=iso(),validity=b.activeMs<1500?'rapid-response':'valid';
   const eligible=s.mode==='assessment'&&pr.first_family_exposure===1&&pr.hints_used===0&&previous.n===0&&validity==='valid';
-  try{await query(env.DB,'INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),Number(correct),b.submittedAt,at,b.elapsedMs,b.activeMs,pr.hints_used,Number(previous.n>0&&s.mode==='practice'),validity,Number(eligible),digest).run();}
+  try{await query(env.DB,`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN completed_at IS NOT NULL THEN 'after-completion' WHEN expires_at<=? THEN 'late-receipt' ELSE ? END,CASE WHEN completed_at IS NOT NULL OR expires_at<=? THEN 0 ELSE ? END,? FROM sessions WHERE id=?`,b.eventId,pr.id,sid,p.id,b.attemptNumber,JSON.stringify(b.response),Number(correct),Number(correct),b.submittedAt,at,b.elapsedMs,b.activeMs,pr.hints_used,Number(previous.n>0&&s.mode==='practice'),at,validity,at,Number(eligible),digest,sid).run();}
   catch(error){
    const raced=await query(env.DB,'SELECT * FROM responses WHERE event_id=?',b.eventId).first();
    if(!raced){const duplicate=await query(env.DB,'SELECT event_id FROM responses WHERE presentation_id=? AND attempt_number=?',pr.id,b.attemptNumber).first();if(duplicate)throw new HttpError(409,'This attempt was already saved under a different event ID.');throw error;}
    requireValue(raced.participant_id===p.id&&raced.session_id===sid&&raced.payload_sha256===digest,'Idempotency conflict.',409);
-   return {eventId:b.eventId,receipt:raced.server_received_at,persisted:true,...(s.mode==='practice'?feedback(item,b.response):{})};
+   return {eventId:b.eventId,receipt:raced.server_received_at,persisted:true,validity:raced.validity,countsTowardResult:!['late-receipt','after-completion'].includes(raced.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
   }
-  return {eventId:b.eventId,receipt:at,persisted:true,...(s.mode==='practice'?feedback(item,b.response):{})};
+  const stored=await query(env.DB,'SELECT validity FROM responses WHERE event_id=?',b.eventId).first();
+  return {eventId:b.eventId,receipt:at,persisted:true,validity:stored.validity,countsTowardResult:!['late-receipt','after-completion'].includes(stored.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
  }
  requireValue(!s.completed_at,'Session is complete.',409);requireValue(s.expires_at>iso(),'Session expired.',409);
  if(action==='hint'){
