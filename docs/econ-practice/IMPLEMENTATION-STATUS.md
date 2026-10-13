@@ -86,3 +86,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - First substantive self-review covers the remaining 38 original core families (636 items), recorded with family-specific reasoning and content hashes in audits/ap-micro-core-units-3-6.json. Together with the prior review this covers all 71 original core families, not the 71 additional conceptual families.
 - Student-visible-data arithmetic checks now cover all 50 AP Micro numeric families and 1,200 numeric variants. All 36 focused tests and structural checks pass. These checks do not establish empirical item quality or AP skill coverage.
 - Remaining invariant-answer families, adversarial second review, additional concepts, diagrams/FRQs and all operational/deployment gates remain open. Prior-version review artifacts are retained as versioned historical evidence, not assertions that later content hashes match.
+
+## Continuation: diagram geometry and accessible descriptions
+
+- Replaced sampled straight-line paths with analytically clipped segments, preserving exact axis intercepts for positive, negative and zero slopes.
+- Moved curve labels into a separate line-style legend to avoid obscuring intersections. Accessible names/descriptions now include all equations and axis ranges; labels are escaped.
+- Added tests for clipping edge cases, every existing bank diagram's bounds/equation consistency, escaped markup and accessible equations. All 39 focused tests pass. This verifies mathematical geometry and generated markup, not visual layout; desktop/mobile visual review remains open.
