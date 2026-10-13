@@ -9,9 +9,20 @@ From the checkout, run `npx wrangler login` and complete Cloudflare's login in t
 In [Google Auth Platform](https://console.cloud.google.com/auth/clients), use an existing appropriate project or create one, configure its branding/audience, and create an OAuth client of type **Web application**. Add these authorized JavaScript origins:
 
 - `https://ihelfrich.github.io`
+- `http://localhost`
 - `http://localhost:4321`
 
 Use `localhost:4321` for Google testing; the anonymous browser checks on `127.0.0.1:4321` do not establish an authorized Google origin. This implementation uses the Google Identity Services JavaScript callback, so it needs the public client ID and no client secret or application redirect handler. Keep the client secret out of the checkout and chat. If the Google app remains in testing, ensure the intended test accounts can use it. See [Google's setup guide](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid).
+
+### Exact Google console steps
+
+1. Open the Clients link above and select the intended project. If Google shows an initial configuration form, enter **Economics practice** as the app name and choose your support email.
+2. For a public student-facing application, choose **External** as the audience if asked. Supply your developer contact email and complete Google's required setup yourself.
+3. Open **Clients → Create client**, select **Web application**, and name it **Economics practice web**.
+4. Add the three JavaScript origins listed above as separate entries, without trailing slashes or paths. Leave redirect URIs empty for this callback-based implementation. No additional Google API scopes are needed beyond basic sign-in.
+5. Create the client and copy the field labeled **Client ID**. It resembles `1234567890-example.apps.googleusercontent.com`; the example is not usable. A localhost URL is a website origin, not this identifier. Share only the public Client ID so it can be configured here.
+
+Cloudflare login and database provisioning are already complete. There is no further Cloudflare command to run before the Google client exists.
 
 Set `GOOGLE_CLIENT_ID` to that public ID in the Worker's `vars` in `services/econ-response/wrangler.jsonc`. For the local Node service, set the same environment variable before running `node services/econ-response/dev.mjs`. Do not enable `ALLOW_BOOTSTRAP_ADMIN` in production.
 
