@@ -12,3 +12,14 @@ test('session report distinguishes review from excluded receipts and preserves g
  const select=container.querySelector('select');select.value='review';select.dispatchEvent(new window.Event('change'));assert.equal(container.querySelectorAll('details').length,1);assert.ok(container.querySelector('summary').textContent.startsWith('2. Review'));
  select.value='excluded';select.dispatchEvent(new window.Event('change'));assert.equal(container.querySelectorAll('details').length,1);assert.match(container.querySelector('summary').textContent,/Excluded receipt/);window.happyDOM.abort();
 });
+
+test('session report shows terminal reasons without treating limits or provisional estimates as precision',()=>{
+ const window=new Window(),container=window.document.createElement('div');
+ const report={rows:[],bankVersion:'v',currentBankVersion:'v',progress:[{unit:1,name:'Choice',measurementResponses:8,measurementStatus:'calibrated',estimate:{theta:0.6,sd:0.3,interval:[0.01,1.19]}},{unit:2,name:'Markets',measurementResponses:4,measurementStatus:'provisional',estimate:{theta:-0.2,sd:0.6,interval:[-1.38,0.98]}},{unit:3,name:'Policy',measurementResponses:0,measurementStatus:'no-eligible-evidence',estimate:null}]};
+ for(const [reason,message] of [['precision-and-coverage',/every required unit met/],['maximum-length',/Reaching the limit does not establish/],['session-length',/fixed question count/],['eligible-bank-exhausted',/no additional eligible questions/],['participant-ended',/You ended this session/]]){
+ renderSessionReport(container,{...report,terminalReason:reason});assert.match(container.textContent,message);
+ assert.match(container.textContent,/Calibrated model\. 8 eligible responses\. Theta 0.60; posterior SD 0.30; 95% posterior interval \[0.01, 1.19\]/);
+ assert.match(container.textContent,/Provisional model\. 4 eligible responses/);assert.match(container.textContent,/No eligible evidence\. 0 eligible responses\. No estimate available/);assert.match(container.textContent,/not standardized scores or mastery classifications/);
+ }
+ window.happyDOM.abort();
+});

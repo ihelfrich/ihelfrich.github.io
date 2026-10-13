@@ -36,3 +36,12 @@ test('instructor exclusion control requires a reason, shows it safely, and clear
   assert.equal(q('irt-excluded').value,'');assert.equal(q('irt-exclusion-reason').value,'');assert.equal(q('irt-results').hidden,true);
  }finally{f.window.happyDOM.abort();}
 });
+
+test('populated synthetic screening explains exclusions and exposes named keyboard table regions',async()=>{
+ const records=[];for(let group=0;group<2;group++)for(let p=0;p<4;p++)for(let i=0;i<4;i++)records.push({...row,event_id:`${group}-${p}-${i}`,participant_id:`${group}-${p}`,session_id:`${group}-${p}`,item_id:`${group}-${i}`,family_id:`${group}-${i}`,mode:'assessment',first_family_exposure:1,hints_used:0,feedback_before_answer:0,attempt_number:1,validity:'valid',calibration_eligible:1,server_received_at:'2026-10-12T00:00:00Z',payload_sha256:'test',correct:i===3?1:p%2,raw_answer_json:'0',active_ms:5000,selection_probability:0.25});
+ const f=fixture(async()=>({rows:records,snapshotThrough:records.length,hasMore:false}));try{
+ f.click();await f.flush();const q=id=>f.d.getElementById(id);q('irt-provenance').value='synthetic';q('irt-min-persons').value='10';q('irt-min-item').value='3';q('irt-min-person-items').value='3';q('irt-analysis-form').dispatchEvent(new f.window.Event('submit',{cancelable:true}));for(let i=0;i<20&&q('irt-results').hidden;i++)await new Promise(r=>setTimeout(r,5));
+ assert.equal(q('irt-results').hidden,false);assert.match(q('irt-exclusions').textContent,/8 people retained; at least 10 required/);assert.match(q('irt-exclusions').textContent,/disconnected administration groups/);assert.match(q('irt-exclusions').textContent,/2 items have no score variation/);
+ for(const id of ['irt-items','irt-answers']){const region=q(id);assert.equal(region.tabIndex,0);assert.equal(region.getAttribute('role'),'region');assert.ok(region.getAttribute('aria-label'));assert.ok(region.querySelector('th[scope="col"]'));assert.ok(region.querySelector('tbody tr'));}
+ }finally{f.window.happyDOM.abort();}
+});

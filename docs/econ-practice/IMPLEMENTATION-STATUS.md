@@ -7,18 +7,26 @@ Agent Log: 3f808471-6405-8177-9fd4-db6c6d4478b3
 
 ## Current verified snapshot — bank 2026.10.13.35
 
-Active inventory: 5,037 questions, 2,062 families, 36 courses. Latest economics suite: 207 passing tests; full site check chain passes; structural bank audit clean; 131-page static build. Calibration approval, release/withdrawal history and atomic session model pins are implemented with instructor controls. Authenticated browser verification, production configuration/deployment and empirical calibration remain incomplete. Principles of Microeconomics and Principles of Macroeconomics are active, each with 60 reviewed singleton questions. History of Economic Thought, Mathematical Economics and Computational Economics are now active with60 reviewed singleton questions each. Focused runtime reviews found lost-link credential recovery and receipt-order-dependent eligibility defects; fixes are underway. The older continuation entries below are historical evidence, not the current inventory.
+Active inventory remains 5,037 questions, 2,062 families, 36 courses (AP Microeconomics: 1,316 questions / 144 families). The October 13 continuation passes all 225 economics tests and the full npm run check chain, including the 131-page build. Worker dry-run succeeds at 3,059.87 KiB uncompressed / 619.08 KiB gzip. npm audit --omit=dev reports zero known vulnerabilities at this check.
 
-Previous bank .32 Worker dry-run: 2,438.98 KiB uncompressed (478.47 KiB gzip). Local startup profile: 32.2 ms sampled / 21.7 ms active. See audits/deployment-preflight-current.json for scope and limitations; neither result verifies a live deployment.
+Lost-link recovery now preserves queued answers and sessions, requires the verified destination account plus old anonymous ownership proof, rejects competing link destinations, and handles expired unlinked anonymous profiles with fresh linking consent. Revoked credentials remain invalid. Replay honors validated persisted presentation eligibility; reversing receipt order does not erase valid assessment evidence. Course/session-scoped replay is equivalent in tests and never truncates the ledger.
+
+Unit-wise precision stopping is called by the live next-item route and pinned immutably to each session. Fixed assignments remain fixed unless their author selects precision stopping. Terminal reasons and session-unit provisional/calibrated estimates appear in reports. No empirical calibration was activated.
+
+Browser checks verified course/unit handoff, invalid-query fallback, Back-filter restoration, unconfigured sign-in explanations, synthetic workbench screening, narrow-screen table keyboard access/scrolling, and anonymous diagnostic receipt/reload/report. A local SQLite read confirmed the diagnostic receipt. Real Google login, authenticated instructor UI, Cloudflare D1 execution/load, Safari/Firefox and screen-reader checks remain unverified.
+
+**Next gate: account setup.** Wrangler is unauthenticated; the D1 ID is still an explicit placeholder; Google Web client ID and a verified instructor subject allowlist are absent. Deployment instructions are in DEPLOYMENT.md. No push, production database provisioning, or publishing has occurred. User setup question is pending in continuation chat 01a13593-58df-7f70-999a-a237ed5bd6a1. Keep the goal open until this gate is resolved; do not claim production readiness or calibration from the local checks.
+
+The focused original review reports are preserved in audits/. Resolution evidence is in audits/continuation-verification.json. Within-course lifetime replay still grows; scoped replay is a reduction, not a checkpoint implementation or production capacity guarantee.
 
 ## User decisions
 
-- Budget below five million tokens; active Codex goal owns continuation.
+- Explicit new continuation goal: token budget 1,000,000; created immediately in the continuation chat.
 - Cloudflare Worker plus D1 backend.
 - Anonymous practice plus optional sign-in; assigned assessments require verified sign-in.
 - Track every submitted answer, including attempts and revisions, with private instructor reporting.
 
-## Implemented locally
+## Historical implementation entries (superseded by current snapshot)
 
 - 1,292 AP Micro items / 142 families, 443 AP Macro / 29, 360 college micro / 15, 288 college macro / 12.
 - Stable IDs and family metadata, authored numerical and choice items, a small initial SVG graph set.

@@ -1,3 +1,4 @@
+import {stoppingPolicy,sessionStoppingPolicy,sessionStoppingDecision} from './stopping.mjs';
 import {recordModelRelease,latestModelRelease} from './model-releases.mjs';
 import {sessionModels,prepareSessionModels,sessionModelPinStatement} from './session-models.mjs';
 import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
@@ -21,7 +22,7 @@ async function ownSession(env,p,id){
  const s=await query(env.DB,'SELECT * FROM sessions WHERE id=? AND participant_id=?',id,p.id).first();
  requireValue(s,'Session not found.',404);return s;
 }
-const stateFor=(env,p)=>replayHistory(env,p.id);
+const stateFor=(env,p,scope)=>replayHistory(env,p.id,scope);
 async function body(request,maxBytes=8192){
  requireValue(request.headers.get('Content-Type')?.split(';')[0]==='application/json','Use JSON.');
  const reader=request.body?.getReader();requireValue(reader,'Missing request body.');let chunks=[],size=0;
@@ -138,8 +139,10 @@ async function route(request,env){
   const id=uuid(),at=iso();
   const eligible=bank.filter(q=>q.course===b.course&&(!b.unit||q.unit===b.unit)&&(!b.topic||q.topic===b.topic));
   const targetCount=Math.min(36,new Set(eligible.map(q=>q.family)).size);
+  const policy=stoppingPolicy({kind:b.mode==='assessment'?(b.stoppingPolicy??'unit-precision'):'fixed',maxItems:b.mode==='assessment'?targetCount:100,units:eligible.map(q=>q.unit)});
   const plan=b.mode==='assessment'?await prepareSessionModels(env,{bankVersion:BANK_VERSION,course:b.course,unit:b.unit??0,topic:b.topic??'',targetCount},bank):null;
   const statements=[query(env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at,assigned,unit_filter,topic_filter,target_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',id,p.id,b.course,b.mode,BANK_VERSION,at,'participant-auth',new Date(Date.now()+30*86400000).toISOString(),0,b.unit??0,b.topic??'',targetCount)];
+  statements.push(query(env.DB,'UPDATE sessions SET stopping_policy_json=? WHERE id=?',JSON.stringify(policy),id));
   if(plan)statements.push(sessionModelPinStatement(env,id,plan,at));
   try{await env.DB.batch(statements);}catch(error){if(String(error.message).includes('json_valid'))requireValue(false,'Calibration release changed while starting. Please retry.',409);throw error;}
   return {sessionId:id,course:b.course,mode:b.mode,bankVersion:BANK_VERSION};
@@ -150,11 +153,11 @@ async function route(request,env){
   const rows=await all(env.DB,'SELECT r.*,p.item_snapshot_json,p.sequence FROM responses r JOIN presentations p ON p.id=r.presentation_id WHERE r.session_id=? ORDER BY p.sequence,r.attempt_number',sid);
   const hints=await all(env.DB,'SELECT h.* FROM hint_events h JOIN presentations p ON p.id=h.presentation_id WHERE p.session_id=? ORDER BY h.ledger_sequence',sid);
   const presentationCounts=await query(env.DB,'SELECT COUNT(*) AS presented,COUNT(CASE WHEN NOT EXISTS (SELECT 1 FROM responses r WHERE r.presentation_id=p.id) THEN 1 END) AS unanswered FROM presentations p WHERE p.session_id=?',sid).first();
-  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,hints,coverage:{planned:s.target_count,presented:presentationCounts.presented,unanswered:presentationCounts.unanswered,answered:presentationCounts.presented-presentationCounts.unanswered},rows:rows.map(r=>({eventId:r.event_id,presentationId:r.presentation_id,sequence:r.sequence,attemptNumber:r.attempt_number,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course,{sessionId:sid})};
+  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,terminalReason:s.terminal_reason,stoppingPolicy:sessionStoppingPolicy(s),hints,coverage:{planned:s.target_count,presented:presentationCounts.presented,unanswered:presentationCounts.unanswered,answered:presentationCounts.presented-presentationCounts.unanswered},rows:rows.map(r=>({eventId:r.event_id,presentationId:r.presentation_id,sequence:r.sequence,attemptNumber:r.attempt_number,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p,{course:s.course,sessionId:sid}),s.course,{sessionId:sid})};
  }
  requireValue(method==='POST','Method not allowed.',405);
  if(action==='complete'){
-  await query(env.DB,'UPDATE sessions SET completed_at=COALESCE(completed_at,?) WHERE id=?',iso(),sid).run();return {completed:true};
+  await query(env.DB,"UPDATE sessions SET completed_at=COALESCE(completed_at,?),terminal_reason=COALESCE(terminal_reason,'participant-ended') WHERE id=?",iso(),sid).run();return {completed:true};
  }
  if(action==='answers'){
   const b=await body(request);requireValue(typeof b.eventId==='string'&&/^[a-f0-9-]{36}$/.test(b.eventId),'Invalid event ID.');
@@ -185,6 +188,7 @@ async function route(request,env){
   const stored=await query(env.DB,'SELECT validity,server_received_at FROM responses WHERE event_id=?',b.eventId).first();
   return {eventId:b.eventId,receipt:stored.server_received_at,persisted:true,validity:stored.validity,countsTowardResult:!['late-receipt','after-completion'].includes(stored.validity),...(s.mode==='practice'?feedback(item,b.response):{})};
  }
+ if(action==='next'&&s.terminal_reason&&!s.completed_at)return {done:true,reason:s.terminal_reason};
  requireValue(!s.completed_at,'Session is complete.',409);requireValue(s.expires_at>iso(),'Session expired.',409);
  if(action==='hint'){
   requireValue(s.mode==='practice','Hints are unavailable during assessments.',403);const b=await body(request);
@@ -200,12 +204,13 @@ async function route(request,env){
   // Continue with the immutable bank selected when the session was created.
   if(s.bank_version===BANK_VERSION)await ensureCurrentBank(env.DB);
   const sessionBank=await archivedBank(env.DB,s.bank_version,s.course);
-  const length=s.mode==='assessment'?s.target_count:100;
-  if((current?.sequence??0)>=length)return {done:true,reason:'session-length'};
+  const stop=async reason=>{const result=await query(env.DB,`UPDATE sessions SET terminal_reason=? WHERE id=? AND participant_id=? AND completed_at IS NULL AND terminal_reason IS NULL AND (SELECT COALESCE(MAX(sequence),0) FROM presentations WHERE session_id=?)=? AND NOT EXISTS (SELECT 1 FROM presentations pr WHERE pr.session_id=? AND NOT EXISTS (SELECT 1 FROM responses r WHERE r.presentation_id=pr.id))`,reason,sid,p.id,sid,current?.sequence??0,sid).run();requireValue(result.meta.changes===1,'Session changed while deciding whether to finish. Retry.',409);return {done:true,reason};};
+  const state=await stateFor(env,p,{course:s.course}),decision=sessionStoppingDecision(s,state,current?.sequence??0);
+  if(decision.stop)return stop(decision.reason);
   const calibrationsByUnit=s.mode==='assessment'?await sessionModels(env,s):undefined;
-  const state=await stateFor(env,p),exposed=s.mode==='assessment'?await all(env.DB,'SELECT DISTINCT pr.family_id FROM presentations pr JOIN sessions owner ON owner.id=pr.session_id WHERE owner.participant_id=? AND owner.course=?',p.id,s.course):[],selected=selectItem(sessionBank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid,calibrationsByUnit,exposedFamilies:exposed.map(r=>r.family_id)});if(!selected)return {done:true,reason:'eligible-bank-exhausted'};
+  const exposed=s.mode==='assessment'?await all(env.DB,'SELECT DISTINCT pr.family_id FROM presentations pr JOIN sessions owner ON owner.id=pr.session_id WHERE owner.participant_id=? AND owner.course=?',p.id,s.course):[],selected=selectItem(sessionBank,state,{course:s.course,mode:s.mode,unit:s.unit_filter,topic:s.topic_filter,sessionId:sid,calibrationsByUnit,exposedFamilies:exposed.map(r=>r.family_id)});if(!selected)return stop('eligible-bank-exhausted');
   const {item,selection,parameters}=selected,id=uuid(),sequence=(current?.sequence??0)+1;
-  try{const inserted=await query(env.DB,`INSERT INTO presentations (id,session_id,item_id,item_version,family_id,topic,unit,presented_at,selection_probability,selection_pool_size,selection_engine_version,model_version,first_family_exposure,item_snapshot_json,sequence,measurement_parameters_json) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN EXISTS (SELECT 1 FROM presentations old JOIN sessions owner ON owner.id=old.session_id WHERE owner.participant_id=? AND old.family_id=? AND owner.course=?) THEN 0 ELSE 1 END,?,?,? FROM sessions target WHERE target.id=? AND target.participant_id=? AND target.completed_at IS NULL AND target.expires_at>strftime('%Y-%m-%dT%H:%M:%fZ','now')`,id,sid,item.id,item.version,item.family,item.topic,item.unit,iso(),selection.probability,selection.eligibleItems,selection.engineVersion,selection.modelVersion,p.id,item.family,s.course,JSON.stringify(item),sequence,JSON.stringify(parameters),sid,p.id).run();requireValue(inserted.meta.changes===1,'Session is no longer available for new questions.',409);}
+  try{const inserted=await query(env.DB,`INSERT INTO presentations (id,session_id,item_id,item_version,family_id,topic,unit,presented_at,selection_probability,selection_pool_size,selection_engine_version,model_version,first_family_exposure,item_snapshot_json,sequence,measurement_parameters_json) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,CASE WHEN EXISTS (SELECT 1 FROM presentations old JOIN sessions owner ON owner.id=old.session_id WHERE owner.participant_id=? AND old.family_id=? AND owner.course=?) THEN 0 ELSE 1 END,?,?,? FROM sessions target WHERE target.id=? AND target.participant_id=? AND target.completed_at IS NULL AND target.terminal_reason IS NULL AND target.expires_at>strftime('%Y-%m-%dT%H:%M:%fZ','now')`,id,sid,item.id,item.version,item.family,item.topic,item.unit,iso(),selection.probability,selection.eligibleItems,selection.engineVersion,selection.modelVersion,p.id,item.family,s.course,JSON.stringify(item),sequence,JSON.stringify(parameters),sid,p.id).run();requireValue(inserted.meta.changes===1,'Session is no longer available for new questions.',409);}
   catch(error){if(error instanceof HttpError)throw error;const raced=await query(env.DB,'SELECT * FROM presentations WHERE session_id=? AND sequence=?',sid,sequence).first();if(!raced)throw error;return {presentationId:raced.id,item:publicItem(JSON.parse(raced.item_snapshot_json)),sequence:raced.sequence};}
   return {presentationId:id,item:publicItem(item),sequence,selection};
  }

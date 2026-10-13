@@ -17,7 +17,7 @@ export function createAnswerRecorder(state){
  const index={events:new Set(state.history.map(h=>h.eventId).filter(Boolean)),families:new Set(state.history.map(h=>JSON.stringify([h.course,h.family])))};
  return (item,options)=>recordWithIndex(state,item,options,index);
 }
-function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,parameterSnapshot,measurementEligible=true},index){
+function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,parameterSnapshot,measurementEligible=true,persistedPresentationEligible=false},index){
  if(eventId&&(index?index.events.has(eventId):state.history.some(h=>h.eventId===eventId)))return state;
  if(parameterSnapshot&&calibration)throw new Error('Provide one measurement parameter source.');
  const p=parameterSnapshot?validateParameterSnapshot(parameterSnapshot):itemParameters(item,calibration);
@@ -26,8 +26,9 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  const familyKey=JSON.stringify([item.course,item.family]);
  const firstExposure=index?!index.families.has(familyKey):!state.history.some(h=>h.course===item.course&&h.family===item.family);
  const dimension=posteriorKey(sessionId,item.course,item.unit);
- // Repeated family variants and assisted practice do not count as independent IRT evidence.
- const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
+ // Server replay validates durable presentation provenance before supplying this
+ // override. Local callers retain conservative answer-order exposure inference.
+ const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&(firstExposure||persistedPresentationEligible===true)&&hints===0;
  if(psychometricEligible)requireCompatibleModel(state,sessionId,item.course,item.unit,p.modelVersion);
  t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
  t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;

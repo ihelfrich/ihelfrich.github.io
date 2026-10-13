@@ -1,17 +1,10 @@
 {
-  "bankVersion": "2026.10.13.32",
+  "bankVersion": "2026.10.13.35",
   "wranglerVersion": "4.149.0",
   "dryRun": {
     "passed": true,
-    "uploadKiB": 2438.98,
-    "gzipKiB": 478.47
-  },
-  "localStartup": {
-    "sampledMs": 32.2,
-    "activeMs": 21.7,
-    "garbageCollectionMs": 4.3,
-    "idleMs": 10.5,
-    "samples": 22
+    "uploadKiB": 3059.87,
+    "gzipKiB": 619.08
   },
   "source": "https://developers.cloudflare.com/workers/platform/limits/",
   "documentedLimits": {
@@ -23,5 +16,18 @@
     "No remote database provisioned or deployment performed.",
     "Request CPU, D1 query limits, concurrent load and production authentication still need verification."
   ],
-  "toolingNote": "wrangler check startup from repository root did not propagate the supplied config to its build; retried successfully from services/econ-response."
+  "toolingNote": "wrangler check startup from repository root did not propagate the supplied config to its build; retried successfully from services/econ-response.",
+  "previousBankLocalStartup": {
+    "sampledMs": 32.2,
+    "activeMs": 21.7,
+    "garbageCollectionMs": 4.3,
+    "idleMs": 10.5,
+    "samples": 22,
+    "bankVersion": "2026.10.13.32"
+  },
+  "authentication": "Wrangler whoami: unauthenticated",
+  "productionDependencyAudit": {
+    "knownVulnerabilities": 0,
+    "command": "npm audit --omit=dev --json"
+  }
 }

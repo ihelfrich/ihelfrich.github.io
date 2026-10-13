@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-13",
+  "bankVersion": "2026.10.13.35",
+  "economicsTests": 225,
+  "fullCheck": "passed",
+  "buildPages": 131,
+  "findings": {
+    "lostLink": "fixed and regression tested with pending answer, reload, wrong-account rejection and recovery",
+    "linkConcurrency": "atomic single destination; competing destination rejected",
+    "expiredAnonymous": "explicit fresh linking consent, verified Google identity and old ownership proof; never reactivates token",
+    "eligibility": "persisted provenance validated, receipt-order invariant posterior, local callers conservative",
+    "stopping": "immutable session policy, unit-wise runtime termination, terminal CAS concurrent-presentation regression",
+    "scopedReplay": "course for selection, session for report; SQLite equivalence, delayed receipts, account transfer, high-water tests",
+    "usability": "course/unit query links, safe fallback, Back filter, identity-state reasons, screening explanations and focusable named tables"
+  },
+  "browser": {
+    "surface": "Codex in-app Chromium, localhost only",
+    "syntheticScreening": {
+      "rows": 960,
+      "retainedPeople": 240,
+      "retainedItems": 6,
+      "constantItems": 2,
+      "excludedResponses": 240,
+      "blocking": [
+        "insufficient persons",
+        "disconnected item design"
+      ]
+    },
+    "keyboardTables": "Tab reaches both named regions; ArrowRight moves each scrollLeft from 0 to 40",
+    "narrowViewportRequested": {
+      "width": 375,
+      "height": 812
+    },
+    "measuredDocumentClientWidth": 360,
+    "viewportReset": true,
+    "diagnostic": "Computational Economics unit2; correct answer7; receipt shown; reload resumes question2; manually ended; DB confirms1 receipt and1 correct",
+    "screenshot": ".local/econ-response/workbench-verification.jpg"
+  },
+  "notVerified": [
+    "Live Google sign-in",
+    "Authenticated instructor browser workflow",
+    "Remote Cloudflare D1 execution",
+    "Production load",
+    "Safari/Firefox",
+    "Screen reader"
+  ],
+  "deployment": "not performed; account configuration pending"
+}

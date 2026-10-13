@@ -33,7 +33,23 @@ export async function finishSignIn(env,p,b,verify=verifyGoogleToken){
  const challenge=await query(env.DB,'SELECT * FROM auth_challenges WHERE id=? AND participant_id=? AND consumed_at IS NULL AND expires_at>?',b.challengeId,p.id,iso()).first();requireValue(challenge,'Sign-in challenge expired or already used.',401);
  const identity=await verify(b.credential,env,challenge.nonce);
  const consumed=await query(env.DB,'UPDATE auth_challenges SET consumed_at=? WHERE id=? AND consumed_at IS NULL RETURNING id',iso(),challenge.id).first();requireValue(consumed,'Sign-in challenge already used.',409);
+ let linkSource=p;
  let account=await query(env.DB,'SELECT * FROM participants WHERE identity_subject_hash=? AND disabled_at IS NULL',identity.subjectHash).first();
+ // A revoked anonymous token is ownership proof only for recovering an already
+ // committed link. It never authenticates API requests or becomes valid again.
+ if(b.recoverAnonymousToken!==undefined){
+  requireValue(b.linkAnonymous===false&&typeof b.recoverAnonymousToken==='string'&&/^[a-f0-9]{64}$/.test(b.recoverAnonymousToken),'Invalid anonymous-link recovery proof.',409);
+  const old=await query(env.DB,`SELECT p.*,c.revoked_at,c.expires_at FROM credentials c JOIN participants p ON p.id=c.participant_id WHERE c.token_hash=? AND p.identity_kind='anonymous'`,await hash(b.recoverAnonymousToken)).first();
+  requireValue(old,'This browser credential cannot prove ownership of the saved history. Your pending answers remain on this browser.',409);
+  const link=await query(env.DB,"SELECT COUNT(*) AS n,MIN(details_json) AS details_json FROM audit_log WHERE action='explicit-anonymous-link' AND target=?",old.id).first();
+  if(link.n){
+   requireValue(link.n===1&&old.revoked_at&&old.disabled_at&&account?.id===JSON.parse(link.details_json).destination,'Sign in with the same account that linked this anonymous history.',409);
+  }else{
+   requireValue(!old.revoked_at&&!old.disabled_at&&old.expires_at<=iso(),'This browser credential cannot recover anonymous history.',409);
+   requireValue(b.recoverExpiredAnonymous===true,'Your anonymous profile expired. Select the history-linking checkbox and sign in again to recover its session and pending answers.',428);
+   linkSource=old;
+  }
+ }
  if(b.expectedParticipantId!==undefined)requireValue(typeof b.expectedParticipantId==='string'&&account?.id===b.expectedParticipantId,'Sign in with the same account to recover these queued answers.',409);
  if(!account){
   const id=uuid(),at=iso();
@@ -41,15 +57,20 @@ export async function finishSignIn(env,p,b,verify=verifyGoogleToken){
   account=await query(env.DB,'SELECT * FROM participants WHERE identity_subject_hash=? AND disabled_at IS NULL',identity.subjectHash).first();requireValue(account,'This account is unavailable.',403);
  }
  requireValue(p.identity_kind==='anonymous'||p.id===account.id,'Sign out before switching to a different account.',409);
- if(b.linkAnonymous&&p.identity_kind==='anonymous'){
-  await env.DB.batch([
-   query(env.DB,'UPDATE responses SET participant_id=? WHERE participant_id=?',account.id,p.id),
-   query(env.DB,'UPDATE unscored_submissions SET participant_id=? WHERE participant_id=?',account.id,p.id),
-   query(env.DB,'UPDATE sessions SET participant_id=? WHERE participant_id=?',account.id,p.id),
-   query(env.DB,'UPDATE credentials SET revoked_at=? WHERE participant_id=?',iso(),p.id),
-   query(env.DB,'UPDATE participants SET disabled_at=? WHERE id=?',iso(),p.id),
-   query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),account.id,'explicit-anonymous-link',p.id,JSON.stringify({destination:account.id}))
+ if((b.linkAnonymous&&p.identity_kind==='anonymous')||linkSource!==p){
+  // D1 batches are atomic: the first statement claims this still-active source.
+  // Every write is gated by this request's audit id, so a concurrent loser cannot
+  // move history, replace the recovery destination, or receive a success response.
+  const linkId=uuid(),at=iso();
+  const result=await env.DB.batch([
+   query(env.DB,`INSERT INTO audit_log SELECT ?,?,?,?,id,? FROM participants WHERE id=? AND identity_kind='anonymous' AND disabled_at IS NULL AND NOT EXISTS (SELECT 1 FROM audit_log WHERE action='explicit-anonymous-link' AND target=participants.id)`,linkId,at,account.id,'explicit-anonymous-link',JSON.stringify({destination:account.id}),linkSource.id),
+   query(env.DB,'UPDATE responses SET participant_id=? WHERE participant_id=? AND EXISTS (SELECT 1 FROM audit_log WHERE id=?)',account.id,linkSource.id,linkId),
+   query(env.DB,'UPDATE unscored_submissions SET participant_id=? WHERE participant_id=? AND EXISTS (SELECT 1 FROM audit_log WHERE id=?)',account.id,linkSource.id,linkId),
+   query(env.DB,'UPDATE sessions SET participant_id=? WHERE participant_id=? AND EXISTS (SELECT 1 FROM audit_log WHERE id=?)',account.id,linkSource.id,linkId),
+   query(env.DB,'UPDATE credentials SET revoked_at=? WHERE participant_id=? AND EXISTS (SELECT 1 FROM audit_log WHERE id=?)',at,linkSource.id,linkId),
+   query(env.DB,'UPDATE participants SET disabled_at=? WHERE id=? AND EXISTS (SELECT 1 FROM audit_log WHERE id=?)',at,linkSource.id,linkId)
   ]);
+  requireValue(result[0].meta.changes===1,'This anonymous history was already linked. Sign in with the account that linked it.',409);
  }
  await query(env.DB,'UPDATE participants SET verified_email=?,consent_version=?,consent_at=? WHERE id=?',identity.email,CONSENT_VERSION,iso(),account.id).run();
  return {participantId:account.id,identityKind:'account',email:identity.email,isInstructor:isInstructor(account,env),...await issueCredential(env,account.id,'account')};

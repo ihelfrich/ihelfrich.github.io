@@ -61,3 +61,50 @@ test('an assigned assessment starts and finishes on its archived bank after the 
  const done=await call('next');assert.equal(done.done,true);assert.equal(done.reason,'session-length');await call('complete');
  const stored=await query(f.env.DB,'SELECT COUNT(*) AS n,SUM(correct) AS correct FROM responses WHERE session_id=?',session.sessionId).first();assert.equal(stored.n,6);assert.equal(stored.correct,6);f.env.DB.close();
 });
+
+test('lost-link recovery requires old anonymous ownership and the verified destination account',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous'),signed=await login(f,true);
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','temporary',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','temporary').first();
+ async function recover(identity,proof=old.token){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'test',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:proof},async()=>({subjectHash:await hash(identity),email:`${identity}@example.test`}));}
+ await assert.rejects(recover('wrong-account'),/same account/);
+ await assert.rejects(recover('student','0'.repeat(64)),/cannot prove ownership/);
+ const restored=await recover('student');assert.equal(restored.participantId,signed.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));
+ assert.equal((await participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${restored.token}`}}),f.env)).id,signed.participantId);
+ const active=await issueCredential(f.env,temporary.id,'anonymous');await assert.rejects(recover('student',active.token),/cannot recover/);
+ assert.equal((await query(f.env.DB,"SELECT COUNT(*) AS n FROM audit_log WHERE action='explicit-anonymous-link'").first()).n,1);f.env.DB.close();
+});
+
+test('concurrent anonymous links claim exactly one destination and recovery cannot select the loser',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous');
+ await query(f.env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)','racing-session',f.p.id,'ap-micro','practice','test',iso(),'unused','2099-01-01T00:00:00Z').run();
+ const challenges=await Promise.all([createChallenge(f.env,f.p),createChallenge(f.env,f.p)]);
+ let verified=0,release;const barrier=new Promise(resolve=>release=resolve);
+ const results=await Promise.allSettled(challenges.map((c,i)=>finishSignIn(f.env,f.p,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:true},async()=>{if(++verified===2)release();await barrier;return {subjectHash:`racing-${i}`,email:`racing-${i}@example.test`};})));
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);const winner=results.find(r=>r.status==='fulfilled').value,loser=results.findIndex(r=>r.status==='rejected');
+ assert.equal(results[loser].reason.status,409);
+ const links=(await query(f.env.DB,"SELECT * FROM audit_log WHERE action='explicit-anonymous-link' AND target=?",f.p.id).all()).results;
+ assert.equal(links.length,1);assert.equal(JSON.parse(links[0].details_json).destination,winner.participantId);
+ assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','racing-session').first()).participant_id,winner.participantId);
+ assert.equal((await query(f.env.DB,"SELECT COUNT(*) AS n FROM credentials WHERE participant_id=(SELECT id FROM participants WHERE identity_subject_hash=?)",`racing-${loser}`).first()).n,0);
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','recovery-temp',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','recovery-temp').first();
+ async function recover(i){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:old.token},async()=>({subjectHash:`racing-${i}`,email:`racing-${i}@example.test`}));}
+ await assert.rejects(recover(loser),/same account/);assert.equal((await recover(1-loser)).participantId,winner.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));f.env.DB.close();
+});
+
+test('expired anonymous ownership requires fresh linking consent and never renews the old credential',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous');
+ await query(f.env.DB,'UPDATE credentials SET expires_at=? WHERE token_hash=?','2000-01-01T00:00:00.000Z',await hash(old.token)).run();
+ await query(f.env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)','expired-session',f.p.id,'ap-micro','practice','test',iso(),'unused','2099-01-01T00:00:00Z').run();
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','expired-temp',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','expired-temp').first();
+ async function recover(consent,identity='expiry-owner'){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:old.token,recoverExpiredAnonymous:consent},async()=>({subjectHash:identity,email:identity+'@example.test'}));}
+ await assert.rejects(recover(false),e=>e.status===428);
+ assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','expired-session').first()).participant_id,f.p.id);
+ const recovered=await recover(true);assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','expired-session').first()).participant_id,recovered.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));
+ await assert.rejects(recover(true,'different-account'),/same account/);assert.equal((await recover(false)).participantId,recovered.participantId);f.env.DB.close();
+});

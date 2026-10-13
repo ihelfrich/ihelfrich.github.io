@@ -1,3 +1,4 @@
+import {selectionFromSearch,signInReason} from './econ-setup-state.mjs';
 import {renderSessionReport} from './econ-session-report.mjs';
 import {createSessionActions,loadCurrentHint} from './econ-session-actions.mjs';
 import {renderAnswerInputs,readAnswerInputs} from './econ-answer-form.mjs';
@@ -8,7 +9,7 @@ import {renderGraph} from '../lib/econ-practice/figures.mjs';
 const $=id=>document.getElementById(id),root=$('econ-app');
 if(root){
  const API=root.dataset.api,PROFILE_KEY='econ-profile-v1',SESSION_KEY='econ-session-v1';
- let profile=null,session=null,current=null,started=0,active=0,lastTick=0,report=null,available=false,busy=false;
+ let profile=null,session=null,current=null,started=0,active=0,lastTick=0,report=null,available=false,busy=false,connection=API?'connecting':'disconnected';
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
  const save=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
  profile=read(PROFILE_KEY,null);session=read(SESSION_KEY,null);const outbox=createOutbox(localStorage);
@@ -16,9 +17,9 @@ if(root){
  async function request(path,data){const response=await fetch(`${API}${path}`,{method:data?'POST':'GET',headers:{...(data?{'Content-Type':'application/json'}:{}),...(profile?{Authorization:`Bearer ${profile.token}`}:{})},...(data?{body:JSON.stringify(data)}:{})});const result=await response.json();if(!response.ok){const error=new Error(result.error??'The request failed.');error.status=response.status;throw error;}return result;}
  function show(panel){for(const id of ['setup','question-panel','report'])$(id).hidden=id!==panel;}
  function coursesChanged(){const course=$('course').value;$('unit').replaceChildren(new Option('All units','0'),...courses[course].units.map((u,i)=>new Option(`${i+1}. ${u}`,String(i+1))));$('course-count').textContent='Questions adapt within your chosen course and coverage.';}
- coursesChanged();$('course').addEventListener('change',coursesChanged);
- function ready(){ $('start').disabled=!available||!$('consent').checked||busy;$('prepare-signin').disabled=!available||!$('consent').checked||busy||!root.dataset.signin; }
- $('consent').addEventListener('change',ready);
+ const selection=selectionFromSearch(location.search,courses,$('course').value);$('course').value=selection.course;coursesChanged();$('unit').value=String(selection.unit);$('course').addEventListener('change',coursesChanged);
+ function ready(){ $('start').disabled=!available||!$('consent').checked||busy;const reason=signInReason({connection,configured:!!root.dataset.signin,consent:$('consent').checked,busy});$('prepare-signin').disabled=!!reason;$('signin-reason').textContent=reason; }
+ $('consent').addEventListener('change',ready);ready();
  async function flush(){
   const queue=outbox.list();for(const event of queue){
    const receipt=await request(`/sessions/${event.sessionId}/answers`,event.payload);
@@ -56,5 +57,5 @@ if(root){
  setInterval(()=>{const now=performance.now();if(current&&!document.hidden)active+=Math.min(now-lastTick,1200);lastTick=now;},1000);
  window.addEventListener('online',()=>flush().catch(e=>$('connection-status').textContent=e.message));
  if(!API){$('connection-status').textContent='Preview: the response service is not connected. Sessions are disabled until answers can be saved.';}
- else request('/health').then(async health=>{available=true;root.dataset.signin=health.signInConfigured?'true':'';$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){if(await identity.refresh()===false)return;await flush();if(session){await next();}}}).catch(e=>{$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
+ else request('/health').then(async health=>{available=true;connection='connected';root.dataset.signin=health.signInConfigured?'true':'';$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){if(await identity.refresh()===false)return;await flush();if(session){await next();}}}).catch(e=>{if(!available)connection='disconnected';ready();$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
 }
