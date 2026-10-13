@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.7",
-  "bankSHA256": "17fb60cba5548481b06d0cbf18fd6a59106f773f87551300121f1ef05235d28f",
+  "bankVersion": "2026.10.12.8",
+  "bankSHA256": "ecb1a0fd5d403895c49b0a7d3e329edc006b202e62265a31add385dab68db350",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -8,8 +8,8 @@
       "families": 142
     },
     "ap-macro": {
-      "items": 443,
-      "families": 29
+      "items": 463,
+      "families": 49
     },
     "college-micro": {
       "items": 360,
@@ -21,10 +21,10 @@
     }
   },
   "answerPositions": [
-    25,
-    25,
-    32,
-    21
+    30,
+    31,
+    36,
+    26
   ],
   "errors": [],
   "warnings": [],
@@ -3972,6 +3972,366 @@
         "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=330, and P_home=660. What is q?",
         "answer": 1
       }
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-ppf-idle",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-ppf-idle:01",
+        "prompt": "A country puts previously idle resources to work without changing technology or resource quantities. Which change is possible?",
+        "answer": "Production moves from inside its existing PPF toward the frontier.",
+        "explanation": "Higher utilization changes actual production; it need not change maximum productive capacity."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-trade-price",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-trade-price:01",
+        "prompt": "Two countries have constant opportunity costs of two and four units of cloth per unit of grain. At a trade price of exactly two cloth per grain, what follows in the basic model?",
+        "answer": "The country with the two-cloth opportunity cost has no strict per-unit gain from that exchange.",
+        "explanation": "Strict gains for both require a price strictly between opportunity costs. An endpoint leaves one country indifferent on the marginal exchange."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-used-goods",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-used-goods:01",
+        "prompt": "A household sells a used car produced several years ago. A broker earns a fee for arranging the sale this year. What enters current GDP?",
+        "answer": "The broker’s current service fee, but not the value of the used car itself",
+        "explanation": "GDP measures current production. The car was produced previously, but brokerage is a newly produced service."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-transfers",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-transfers:01",
+        "prompt": "The government pays a household a cash transfer without receiving a good or service in exchange. How is the transfer treated in expenditure GDP?",
+        "answer": "It is not itself a government purchase of current output.",
+        "explanation": "A transfer redistributes purchasing power. A later purchase of newly produced goods may enter GDP, but the transfer itself is not production."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-inventory",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-inventory:01",
+        "prompt": "A domestic firm produces a final good this year but leaves it unsold in inventory. With no other changes, how is the production recorded?",
+        "answer": "As inventory investment in current GDP",
+        "explanation": "Inventory investment includes additions of current production to inventories. Later sale out of inventory does not count that production twice."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-import-cpi",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-import-cpi:01",
+        "prompt": "The price of an imported consumer good in the CPI basket rises, while prices of all domestically produced output are unchanged. Which index can rise directly because of that imported price?",
+        "answer": "The CPI, while the GDP deflator need not rise",
+        "explanation": "The CPI covers household purchases including imported basket goods; the GDP deflator covers domestically produced final output."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-discouraged",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-discouraged:01",
+        "prompt": "An unemployed person stops actively searching and is no longer counted in the labor force. Employment and all other classifications remain unchanged, and some people are employed. What happens to the measured unemployment rate?",
+        "answer": "It falls, although no additional person has a job.",
+        "explanation": "Removing one unemployed person reduces both unemployment and the labor force. With positive employment, the unemployment-to-labor-force ratio falls."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-natural-rate",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-natural-rate:01",
+        "prompt": "An economy produces at potential output in the standard model. Which unemployment can remain?",
+        "answer": "Frictional and structural unemployment",
+        "explanation": "Potential output is consistent with the natural rate, including search and mismatch. Full employment does not mean every person has a job."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-unexpected-inflation",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-unexpected-inflation:01",
+        "prompt": "Inflation is unexpectedly higher than anticipated on an existing fixed nominal loan. Other things equal, who benefits from the change in the real value of repayment?",
+        "answer": "The borrower benefits at the lender’s expense.",
+        "explanation": "A fixed nominal payment buys fewer goods when prices rise unexpectedly. The contract does not adjust to compensate the lender."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-stabilizers",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-stabilizers:01",
+        "prompt": "A recession lowers household income under an existing progressive income-tax system. Without a new law, tax payments fall. What role does this play?",
+        "answer": "It cushions the decline in disposable income and aggregate demand.",
+        "explanation": "The existing tax rules respond automatically to income. They dampen fluctuations without guaranteeing full stabilization."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-longrun-adjustment",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-longrun-adjustment:01",
+        "prompt": "In the standard self-correcting AD-AS model, output is below potential and aggregate demand stays fixed. As nominal wages and input prices adjust downward, what happens?",
+        "answer": "SRAS shifts right toward potential output.",
+        "explanation": "Lower nominal production costs raise short-run supply at a given price level. The model’s adjustment need not be rapid in practice."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-wealth-money",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-wealth-money:01",
+        "prompt": "A household owns a house and holds currency. Why is the house not usually classified as money?",
+        "answer": "It is not generally accepted directly as a medium of exchange.",
+        "explanation": "Wealth includes many valuable assets. Money is the subset serving monetary functions, especially general acceptability in payments."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-bond-direction",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-bond-direction:01",
+        "prompt": "Market yields rise for bonds of a given risk and maturity. What happens to the price of an existing fixed-payment bond, other things equal?",
+        "answer": "Its price falls.",
+        "explanation": "The present value of fixed future payments falls when the discount rate rises."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-bank-capital",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-bank-capital:01",
+        "prompt": "Which statement distinguishes bank reserves from bank capital?",
+        "answer": "Reserves are assets used for settlement; capital is the residual of assets minus liabilities.",
+        "explanation": "Reserve balances are on the asset side of a bank balance sheet. Equity capital absorbs losses and is distinct from reserves and deposit liabilities."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-money-demand",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-money-demand:01",
+        "prompt": "In the standard money-market model, nominal income rises while the nominal money supply is unchanged. What is the usual effect?",
+        "answer": "Money demand shifts right and the equilibrium nominal interest rate rises.",
+        "explanation": "More nominal transactions increase desired money holdings. With a fixed supply, the interest rate rises to equilibrate the market. This is the standard money-market model, not a description of every operating framework."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-longrun-phillips",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-longrun-phillips:01",
+        "prompt": "In the standard expectations-adjusted model, why is the long-run Phillips curve vertical?",
+        "answer": "Inflation expectations adjust, so a permanently higher inflation rate does not sustain unemployment below its natural rate.",
+        "explanation": "Once expectations adjust, unemployment returns to its natural rate in this model. This does not assert that the natural rate itself can never change."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-capital-deepening",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-capital-deepening:01",
+        "prompt": "With technology unchanged and a positive but diminishing marginal product of capital, what happens as capital per worker rises?",
+        "answer": "Output per worker rises, but successive additions of capital add less output.",
+        "explanation": "A positive but diminishing marginal product raises the level of output with decreasing increments. Sustained growth depends on additional mechanisms."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-real-exchange",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-real-exchange:01",
+        "prompt": "Define the real exchange rate as eP/P*, where e is foreign currency per domestic unit. If e and the foreign price level are fixed while the domestic price level rises, what happens?",
+        "answer": "Domestic goods become more expensive relative to foreign goods.",
+        "explanation": "Under this explicitly stated convention, eP/P* rises. The convention matters because inverse exchange-rate definitions reverse the numerical direction."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-ca-saving",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-ca-saving:01",
+        "prompt": "In a simplified national-accounting setting with no capital transfers or statistical discrepancy, domestic investment exceeds national saving. What follows?",
+        "answer": "The current account is in deficit.",
+        "explanation": "The saving-investment identity gives CA = S − I under the stated accounting simplifications. Investment above saving implies a negative balance."
+      },
+      "last": null
+    },
+    {
+      "course": "ap-macro",
+      "family": "macro-capital-risk",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "ap-macro:macro-capital-risk:01",
+        "prompt": "A country’s interest rate rises, but investors also perceive a large increase in default risk. Can the interest-rate change alone establish that financial inflows rise?",
+        "answer": "No; risk-adjusted expected returns also matter.",
+        "explanation": "Capital-flow predictions that hold risk fixed cannot be applied without adjustment when risk changes substantially."
+      },
+      "last": null
     }
   ]
 }

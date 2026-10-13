@@ -129,3 +129,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added independent student-visible-data checks for all18 current AP Macro numeric families (432 variants): national accounts, labor statistics, prices/interest, multipliers, simplified banking, debt/growth, exchange conversion and current-account signs. All46 focused tests pass.
 - Clarified closed-economy/no-income-tax/unchanged-autonomous-investment assumptions for fiscal multipliers and willing borrowers/redepositing for maximum deposit expansion. Bank version2026.10.12.7.
 - No arithmetic defects found in this numeric set. Invariant-answer patterns remain common and need diversification. AP Macro still has only29 families/443 items, and curriculum breadth, conceptual distractor review, diagrams and model diversity remain incomplete. Passing these arithmetic tests is not a claim of complete course coverage or empirical quality.
+
+## Continuation: AP Macro conceptual expansion
+
+- Added20 original single-instance conceptual families spanning all six broad course units: GDP treatment of used goods/transfers/inventories, CPI versus deflator, discouraged workers/natural unemployment, inflation redistribution, stabilizers/self-correction, money/bonds/bank capital, monetary models, growth, real exchange rates, saving-investment and risk-sensitive flows.
+- AP Macro now463 items/49 families, including31 conceptual items and432 numeric variants. Bank2026.10.12.8. All46 focused tests and structural checks pass.
+- Authoring self-check clarified positive (not merely diminishing) marginal product in capital deepening. New cases still require a separate recorded substantive review and alignment/diagram checks. Broader testing/platform/deployment gates remain open.
