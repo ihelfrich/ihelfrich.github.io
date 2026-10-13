@@ -201,3 +201,8 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Browser entered20,60,399; observed saved receipt and per-part scores1/1,1/1,0/1. Finished session and observed2/3 rubric points with0/1 fully correct. Separate SQLite query confirmed one response, score2/3, calibration eligibility0.
 - Narrow mobile viewport displayed the report without apparent horizontal overflow; screenshot multipart-browser-proof.png. No real student data. Full desktop, keyboard/accessibility, network outage/reload and configured Google sign-in tests remain.
 - Browser tab1 is now localhost:4321/economics-practice and marked for continuation. The prior127.0.0.1-origin profile points to the preserved older synthetic DB and is not valid in the new fixture database; production recovery behavior remains an open gate.
+
+## Continuation: malformed request handling
+
+- JSON request parsing now requires a non-null object and valid UTF-8 before route-specific access. Scalar/null/array payloads no longer trigger misleading internal-server errors.
+- Regressions cover malformed JSON, scalar/array/null bodies and oversized payloads, confirming explicit400/413 responses and no participant/response side effects. All61 focused tests pass.

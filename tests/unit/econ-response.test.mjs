@@ -67,3 +67,12 @@ test('multipart partial credit is durably stored and excluded from binary calibr
  const stored=await t.env.DB.prepare('SELECT score,correct,calibration_eligible,raw_answer_json FROM responses').first();assert.equal(stored.score,2/3);assert.equal(stored.correct,0);assert.equal(stored.calibration_eligible,0);assert.deepEqual(JSON.parse(stored.raw_answer_json),{q:20,p:41});
  await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.rows[0].score,2/3);assert.equal(report.rows[0].parts[0].earned,2);t.env.DB.close();
 });
+test('malformed request bodies fail without creating participant or response records',async()=>{
+ const t=setup();
+ for(const raw of ['null','[]','1','"text"','{bad',JSON.stringify({accepted:true,consentVersion:CONSENT_VERSION,padding:'x'.repeat(9000)})]){
+  const res=await worker.fetch(new Request('https://api.example/profiles',{method:'POST',headers:{'Content-Type':'application/json'},body:raw}),t.env);
+  assert.equal(res.status,raw.length>8192?413:400);
+ }
+ assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM participants').first()).n,0);
+ assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM responses').first()).n,0);t.env.DB.close();
+});

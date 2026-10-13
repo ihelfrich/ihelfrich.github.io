@@ -24,7 +24,8 @@ async function body(request){
  const reader=request.body?.getReader();requireValue(reader,'Missing request body.');let chunks=[],size=0;
  for(;;){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>8192){await reader.cancel();throw new HttpError(413,'Request too large.');}chunks.push(value);}
  const bytes=new Uint8Array(size);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.length;}
- try{return JSON.parse(new TextDecoder().decode(bytes));}catch{throw new HttpError(400,'Invalid JSON.');}
+ let parsed;try{parsed=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));}catch{throw new HttpError(400,'Invalid JSON.');}
+ requireValue(parsed!==null&&typeof parsed==='object'&&!Array.isArray(parsed),'Provide a JSON object.');return parsed;
 }
 async function route(request,env){
  const url=new URL(request.url),path=url.pathname,method=request.method;
