@@ -41,6 +41,8 @@ The validator leaves status as candidate even when the review is complete. Actua
 
 ## Descriptive item screening
 
+Assistance and attempt metadata must be explicit: `hints_used` is a nonnegative safe integer, `feedback_before_answer` is a numeric 0/1 or boolean, and `attempt_number` is a positive safe integer. Missing, null, string-coerced, or otherwise invalid values are excluded under `invalid_assistance_metadata` or `invalid_attempt_metadata`; they never establish unassisted first-attempt evidence. Valid assisted and repeated responses retain their separate exclusion reasons.
+
 The preparation manifest now includes `diagnostics.items`. These describe eligible first-family, unassisted responses from one occasion per person after the minimum-person-response screen, before sparse/constant items are removed. Each item reports observed and retained-matrix counts separately, sample facility, a working-binomial Wilson95% interval, constant-response flag, active-time and selection-probability distributions, and raw response frequencies. Raw response codes are not labeled distractors without matching the item format/key.
 
 Keep the manifest private. Facility depends on who adaptively received an item; its interval does not adjust for adaptive selection, clustering or calibration-parameter uncertainty and is not a population or IRT-difficulty estimate. Missing/invalid timing values are counted separately, never converted to zero. An all-correct item remains in diagnostics even though it fails candidate-fit screening. No diagnostic automatically approves an item or model.

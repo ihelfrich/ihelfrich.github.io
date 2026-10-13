@@ -3,6 +3,17 @@ import assert from 'node:assert/strict';
 import {prepare} from '../../scripts/econ-practice/prepare-calibration.mjs';
 const row=(person,item,extra={})=>({event_id:`${person}-${item}`,participant_id:person,session_id:`s-${person}`,course:'ap-micro',unit:2,item_version:'test',mode:'assessment',first_family_exposure:1,hints_used:0,feedback_before_answer:0,attempt_number:1,validity:'valid',calibration_eligible:1,server_received_at:'2026-10-12T00:00:00Z',payload_sha256:'fixture',item_id:item,family_id:item,correct:Number(person.endsWith('1')),selection_probability:.1,active_ms:5000,raw_answer_json:'0',...extra});
 const opts={course:'ap-micro',unit:2,bankVersion:'test',minItemResponses:2,minPersons:2,minItemsPerPerson:3};
+test('calibration never coerces missing or malformed assistance and attempt metadata into eligibility',()=>{
+ for(const [field,values,reason] of [
+  ['hints_used',[null,undefined,'',false,'0',-1,.5,NaN,Infinity],'invalid_assistance_metadata'],
+  ['feedback_before_answer',[null,undefined,'','0','1',-1,2],'invalid_assistance_metadata'],
+  ['attempt_number',[null,undefined,'',false,true,'1',0,-1,1.5,NaN,Infinity],'invalid_attempt_metadata']
+ ])for(const value of values){const result=prepare([row('p1','a',{[field]:value})],opts);assert.equal(result.manifest.eligibleRows,0,`${field}: ${String(value)}`);assert.equal(result.manifest.exclusions[reason],1);}
+ for(const value of [0,false])assert.equal(prepare([row('p1','a',{feedback_before_answer:value})],opts).manifest.eligibleRows,1);
+ for(const value of [1,true])assert.equal(prepare([row('p1','a',{feedback_before_answer:value})],opts).manifest.exclusions.assisted,1);
+ assert.equal(prepare([row('p1','a',{hints_used:1})],opts).manifest.exclusions.assisted,1);
+ assert.equal(prepare([row('p1','a',{attempt_number:2})],opts).manifest.exclusions.repeat_attempt,1);
+});
 test('calibration keeps missing responses missing and filters assisted/repeated evidence',()=>{const rows=[];for(const p of ['p1','p2','p3'])for(const i of ['a','b','c','d','e'])rows.push(row(p,i));rows.push(row('p4','a',{hints_used:1}));rows.push(row('p1','f',{session_id:'later',server_received_at:'2026-10-13T00:00:00Z'}));const out=prepare(rows,opts);assert.equal(out.manifest.readyForCandidateFit,true);assert.equal(out.manifest.exclusions.assisted,1);assert.equal(out.manifest.exclusions.later_occasion,1);assert.equal(out.people.length,3);});
 test('conflicting duplicate events are a hard error',()=>{assert.throws(()=>prepare([row('p1','a'),row('p1','a',{correct:0})],opts),/Conflicting duplicate/);});
 test('disconnected item designs cannot pass screening',()=>{const rows=[];for(const p of ['p1','p2'])for(const i of ['a','b','c'])rows.push(row(p,i));for(const p of ['q1','q2'])for(const i of ['d','e','f'])rows.push(row(p,i));assert.ok(prepare(rows,opts).manifest.blockingReasons.includes('disconnected_item_design'));});

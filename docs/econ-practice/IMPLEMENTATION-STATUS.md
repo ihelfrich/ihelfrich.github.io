@@ -409,3 +409,7 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Found that removing respondents with too few remaining items could turn a previously varying item constant after the initial item screen. The old preparation result could still report readyForCandidateFit=true.
 - Added finalItemStats (observed/correct/constant) on the actual exported matrix and a constant_items_after_person_filter blocking reason. Constant items are retained in evidence for review rather than silently discarded through repeated pruning.
 - Regression constructs this exact filtering cascade, reproduces the old false-ready result and verifies explicit blocking.88 focused tests pass. This adds a screening condition, not proof of identifiability or sufficient sample size.
+# Calibration metadata validation follow-up
+
+The calibration importer now requires explicit valid assistance and attempt metadata before testing eligibility. Null, missing, string, boolean hint counts, and invalid numeric counts cannot be coerced into clean first-attempt evidence. Boolean feedback indicators remain supported alongside database 0/1 values. Exclusions distinguish malformed metadata from valid assisted/repeated responses. All 89 focused economics tests pass, and the unchanged 2,439-item bank passes structural checks. This does not supply empirical calibration or operational model approval.
+

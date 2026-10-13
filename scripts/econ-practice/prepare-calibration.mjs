@@ -16,8 +16,10 @@ export function prepare(rows,{course,unit,bankVersion,minItemResponses=100,minPe
   if(r.item_version!==bankVersion){exclude('other_bank_version');continue;}
   if(r.mode!=='assessment'){exclude('practice');continue;}
   if(![true,1].includes(r.first_family_exposure)){exclude('prior_family_exposure');continue;}
-  if(Number(r.hints_used)!==0||Number(r.feedback_before_answer)!==0){exclude('assisted');continue;}
-  if(Number(r.attempt_number)!==1){exclude('repeat_attempt');continue;}
+  if(!Number.isSafeInteger(r.hints_used)||r.hints_used<0||![0,1,false,true].includes(r.feedback_before_answer)){exclude('invalid_assistance_metadata');continue;}
+  if(!Number.isSafeInteger(r.attempt_number)||r.attempt_number<1){exclude('invalid_attempt_metadata');continue;}
+  if(r.hints_used!==0||![0,false].includes(r.feedback_before_answer)){exclude('assisted');continue;}
+  if(r.attempt_number!==1){exclude('repeat_attempt');continue;}
   if(r.validity!=='valid'){exclude('validity_flag');continue;}
   if(![true,1].includes(r.calibration_eligible)){exclude('server_ineligible');continue;}
   if(!Number.isFinite(Date.parse(r.server_received_at))||!r.payload_sha256){exclude('missing_receipt');continue;}
