@@ -64,9 +64,12 @@ async function route(request,env){
   if(path==='/admin/model-releases'&&method==='GET'){
    const bankVersion=url.searchParams.get('bankVersion')??'',course=url.searchParams.get('course')??'',unit=Number(url.searchParams.get('unit'));
    requireValue(bankVersion.length>0&&bankVersion.length<=100&&knownCourse(course)&&validCourseUnit(course,unit),'Invalid release scope.');
+   const before=url.searchParams.get('before');requireValue(before===null||/^[1-9][0-9]*$/.test(before)&&Number.isSafeInteger(Number(before)),'Invalid release history cursor.');
+   const history=await all(env.DB,'SELECT id,approval_id,previous_id,revision,released_at,rationale FROM model_releases WHERE bank_version=? AND course=? AND unit=? AND revision<? ORDER BY revision DESC LIMIT 51',bankVersion,course,unit,before===null?Number.MAX_SAFE_INTEGER:Number(before));
+   const records=history.slice(0,50);
    const current=await latestModelRelease(env,{bankVersion,course,unit});
    await audit('model-release-read',current?.id??'unreleased',{bankVersion,course,unit});
-   return {bankVersion,course,unit,current};
+   return {bankVersion,course,unit,current,history:records,hasMore:history.length>50,nextBefore:records.at(-1)?.revision??null};
   }
   if(path==='/admin/model-packages'&&method==='GET'){
 

@@ -4,11 +4,17 @@ export async function renderModelRelease(artifact,approvals,panel,request,status
  const response=await request('/admin/model-releases?'+new URLSearchParams(scope));
  if(response.bankVersion!==scope.bankVersion||response.course!==scope.course||response.unit!==scope.unit)throw new Error('Release scope did not match this package.');
  const current=response.current;
+ const history=node('details',''),historyList=node('ol','');history.append(node('summary','Release decision history'),historyList);
+ const showHistory=rows=>{for(const row of rows){historyList.append(node('li',`Revision ${row.revision} · ${row.released_at} · ${row.approval_id?'Selected approval '+row.approval_id:'Withdrew calibration'} · ${row.rationale}`));}};
+ showHistory(response.history??[]);let before=response.nextBefore;
+ const more=node('button','Show earlier decisions');more.type='button';more.hidden=!response.hasMore;history.append(more);
+ more.addEventListener('click',async()=>{more.disabled=true;try{const page=await request('/admin/model-releases?'+new URLSearchParams({...scope,before}));if(page.bankVersion!==scope.bankVersion||page.course!==scope.course||page.unit!==scope.unit||!Array.isArray(page.history)||page.hasMore&&(!page.nextBefore||page.nextBefore>=before))throw new Error('Release history could not be continued. Reload this review.');showHistory(page.history);before=page.nextBefore;more.hidden=!page.hasMore;}catch(error){status.textContent=error.message;}finally{more.disabled=false;}});
  const section=node('section','');section.append(node('h4','Use in new assessments'));
  section.append(node('p',current?.approval_id?`An approved calibration is selected for this bank, course and unit (revision ${current.revision}).`:'New assessments use provisional parameters for this bank, course and unit.'));
  if(current)section.append(node('p',`Last decision: ${current.released_at}. ${current.rationale}`));
  section.append(node('p','Changes apply to new assessments. Assessments already started keep their original models. Coverage checks can prevent a start if a released model has too few question families.'));
- if(!approvals.length&&!current?.approval_id){section.append(node('p','Record an approval, then reload this review to enable release.'));panel.append(section);return;}
+ if(!approvals.length&&!current?.approval_id){section.append(history);section.append(node('p','Record an approval, then reload this review to enable release.'));panel.append(section);return;}
+ section.append(history);
  const form=node('form',''),choice=doc.createElement('select'),choiceLabel=node('label','Release decision');choice.required=true;
  const blank=node('option','Choose a decision');blank.value='';choice.append(blank);
  for(const approval of approvals){const option=node('option',`Use this package — approval ${approval.approved_at}`);option.value=approval.id;choice.append(option);}

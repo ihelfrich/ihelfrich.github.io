@@ -25,3 +25,12 @@ test('stale release rejection remains visible and scope mismatch supplies no con
   assert.match(status.textContent,/reload/);assert.equal(form.querySelector('button').disabled,false);
  }finally{window.happyDOM.abort();}
 });
+
+test('release history loads earlier decisions and renders rationale safely',async()=>{
+ const window=new Window(),doc=window.document,panel=doc.createElement('div'),status=doc.createElement('p'),paths=[];
+ try{
+  await renderModelRelease(artifact,[],panel,async path=>{paths.push(path);return {bankVersion:'bank',course:'ap-micro',unit:1,current:null,history:[{revision:paths.length===1?2:1,released_at:'today',approval_id:null,rationale:'<script>not markup</script>'}],hasMore:paths.length===1,nextBefore:paths.length===1?2:1};},status,doc);
+  panel.querySelector('button').click();await new Promise(setImmediate);
+  assert.match(paths[1],/before=2/);assert.equal(panel.querySelectorAll('li').length,2);assert.equal(panel.querySelector('script'),null);assert.equal(panel.querySelector('button').hidden,true);
+ }finally{window.happyDOM.abort();}
+});

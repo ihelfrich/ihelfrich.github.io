@@ -216,3 +216,16 @@ test('release routes require instructor authorization and report live activation
   assert.equal((await call('/admin/model-packages')).packages[0].activated,false);
  }finally{DB.close();}
 });
+
+test('release history uses bounded revision pagination without skipping decisions',async()=>{
+ const {DB,artifact,call}=fixture();try{
+  await call('/admin/model-packages',artifact);
+  const approval=await call(`/admin/model-packages/${artifact.id}/approve`,{confirmApproval:true,rationale:'Technical fixture only.'});
+  for(let revision=1;revision<=53;revision++)await DB.prepare('INSERT INTO model_releases VALUES (?,?,?,?,?,?,?,?,?,?)').bind('history-'+revision,artifact.bankVersion,artifact.course,artifact.unit,revision%2?approval.approvalId:null,revision===1?null:'history-'+(revision-1),revision,'today','fixture','History fixture').run();
+  const path='/admin/model-releases?'+new URLSearchParams({bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit});
+  const first=await call(path);assert.equal(first.history.length,50);assert.equal(first.hasMore,true);assert.equal(first.nextBefore,4);
+  const second=await call(path+'&before='+first.nextBefore);assert.deepEqual(second.history.map(x=>x.revision),[3,2,1]);assert.equal(second.hasMore,false);
+  assert.equal(new Set([...first.history,...second.history].map(x=>x.id)).size,53);
+  assert.equal((await call(path+'&before=-1')).httpStatus,400);
+ }finally{DB.close();}
+});
