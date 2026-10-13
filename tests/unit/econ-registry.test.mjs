@@ -1,3 +1,4 @@
+import {sessionModels} from '../../services/econ-response/session-models.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -71,6 +72,16 @@ test('session model pins require approved matching scope and remain immutable',a
   await assert.rejects(insert({[artifact.unit+1]:'approval-test'}),/approval mismatch/);
   await assert.rejects(insert({[artifact.unit]:42}),/approval mismatch/);
   await insert({[artifact.unit]:'approval-test'});
+  const storedSession=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(session.sessionId).first();
+  const models=await sessionModels({DB},storedSession);
+  assert.equal(models[artifact.unit].id,artifact.id);assert.equal(models[artifact.unit].approvalId,'approval-test');
+  assert.deepEqual(models[artifact.unit].items,artifact.parameters);
+  const next=await call('/sessions/'+session.sessionId+'/next',{},profile.token);
+  assert.equal(next.httpStatus,200);assert.equal(next.item.id,Object.keys(artifact.parameters)[0]);
+  const presentation=await DB.prepare('SELECT * FROM presentations WHERE session_id=?').bind(session.sessionId).first();
+  assert.equal(presentation.model_version,artifact.id);
+  assert.equal(JSON.parse(presentation.measurement_parameters_json).status,'calibrated');
+  await assert.rejects(sessionModels({DB},{...storedSession,course:'wrong'}),/scope/);
   await assert.rejects(DB.prepare("UPDATE session_model_pins SET approvals_json='{}'").run(),/immutable/);
   await assert.rejects(DB.prepare('DELETE FROM session_model_pins').run(),/retained/);
   await assert.rejects(DB.prepare("UPDATE model_approvals SET rationale='changed'").run(),/immutable/);
@@ -78,5 +89,12 @@ test('session model pins require approved matching scope and remain immutable',a
   const legacy=await call('/sessions',{course:artifact.course,mode:'assessment'},profile.token);
   await DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(legacy.sessionId,artifact.bankVersion,artifact.course,'{}','2026-10-13').run();
   assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM session_model_pins').first()).n,2);
+  const emptySession=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(legacy.sessionId).first();
+  assert.deepEqual(await sessionModels({DB},emptySession),{});
+  const shown=await call('/sessions',{course:artifact.course,mode:'assessment'},profile.token);
+  const unpinned=await DB.prepare('SELECT * FROM sessions WHERE id=?').bind(shown.sessionId).first();
+  assert.deepEqual(await sessionModels({DB},unpinned),{});
+  assert.equal((await call('/sessions/'+shown.sessionId+'/next',{},profile.token)).httpStatus,200);
+  await assert.rejects(DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(shown.sessionId,artifact.bankVersion,artifact.course,'{}','2026-10-13').run(),/before presentation/);
  }finally{DB.close();}
 });
