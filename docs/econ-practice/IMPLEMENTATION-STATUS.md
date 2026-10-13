@@ -92,3 +92,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Replaced sampled straight-line paths with analytically clipped segments, preserving exact axis intercepts for positive, negative and zero slopes.
 - Moved curve labels into a separate line-style legend to avoid obscuring intersections. Accessible names/descriptions now include all equations and axis ranges; labels are escaped.
 - Added tests for clipping edge cases, every existing bank diagram's bounds/equation consistency, escaped markup and accessible equations. All 39 focused tests pass. This verifies mathematical geometry and generated markup, not visual layout; desktop/mobile visual review remains open.
+
+## Continuation: conceptual assumptions review
+
+- Reviewed 30 additional conceptual families, from own-price-supply through constant-cost-entry. Six prompts needed tighter assumptions: upward-sloping supply; next-unit rather than current marginal product; positive fixed cost/output; output along LRAC rather than arbitrary input scaling; an available next-best salary alternative; and unconstrained interior marginal output adjustment.
+- Bank version 2026.10.12.5. Findings and per-item hashes are in audits/ap-micro-concepts-middle.json. All 39 focused tests and structural checks pass. These tests do not validate conceptual interpretation; the recorded substantive self-review is separate evidence.
+- Forty-one additional conceptual families remain outside this recorded first pass. Second review, further content/format expansion, psychometric operations and deployment gates remain open.
