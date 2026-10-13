@@ -1,3 +1,4 @@
+import {renderModelRelease} from './econ-model-release.mjs';
 export async function renderModelReview(record,panel,request,status,doc=document){
  const node=(tag,text)=>{const n=doc.createElement(tag);n.textContent=text;return n;};
  const result=await request('/admin/model-packages/'+encodeURIComponent(record.id));
@@ -14,4 +15,5 @@ export async function renderModelReview(record,panel,request,status,doc=document
  const approve=node('button','Record approval');approve.type='submit';form.append(label,confirmLabel,approve);
  form.addEventListener('submit',async event=>{event.preventDefault();if(!confirm.checked||!reason.value.trim()){status.textContent='Review confirmation and an approval rationale are required.';return;}approve.disabled=true;try{const saved=await request('/admin/model-packages/'+encodeURIComponent(record.id)+'/approve',{confirmApproval:true,rationale:reason.value.trim()});status.textContent=`Approval recorded: ${saved.approvalId}. Student scoring has not changed.`;form.remove();panel.append(node('p','Approval recorded. Reload evidence to see the saved history.'));}catch(error){status.textContent=error.message;}finally{approve.disabled=false;}});
  panel.append(form);
+ await renderModelRelease(artifact,result.approvals??[],panel,request,status,doc);
 }

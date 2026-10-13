@@ -1,3 +1,4 @@
+import {recordModelRelease,latestModelRelease} from './model-releases.mjs';
 import {sessionModels,prepareSessionModels,sessionModelPinStatement} from './session-models.mjs';
 import {knownCourse,validCourseUnit} from '../../src/lib/econ-practice/curriculum.mjs';
 import {hintFor} from '../../src/lib/econ-practice/hints.mjs';
@@ -59,11 +60,20 @@ async function route(request,env){
    await audit('question-library-read',BANK_VERSION,{course,unit,count:items.length});
    return {bankVersion:BANK_VERSION,total:filtered.length,families:new Set(filtered.map(q=>q.family)).size,items,hints:Object.fromEntries(items.map(q=>[q.id,hintFor(q)])),hasMore:remaining.length>30,nextCursor:items.at(-1)?.id??null};
   }
+  if(path==='/admin/model-releases'&&method==='POST')return recordModelRelease(env,instructor,await body(request));
+  if(path==='/admin/model-releases'&&method==='GET'){
+   const bankVersion=url.searchParams.get('bankVersion')??'',course=url.searchParams.get('course')??'',unit=Number(url.searchParams.get('unit'));
+   requireValue(bankVersion.length>0&&bankVersion.length<=100&&knownCourse(course)&&validCourseUnit(course,unit),'Invalid release scope.');
+   const current=await latestModelRelease(env,{bankVersion,course,unit});
+   await audit('model-release-read',current?.id??'unreleased',{bankVersion,course,unit});
+   return {bankVersion,course,unit,current};
+  }
   if(path==='/admin/model-packages'&&method==='GET'){
+
    const after=url.searchParams.get('after')??'';
    requireValue(!after||/^calibration-[a-f0-9]{64}$/.test(after),'Invalid model package cursor.');
-   const records=await all(env.DB,'SELECT id,bank_version,course,unit,model,created_at FROM model_packages WHERE id>? ORDER BY id LIMIT 101',after);
-   const rows=records.slice(0,100).map(row=>({...row,status:'candidate',activated:false}));
+   const records=await all(env.DB,'SELECT p.id,p.bank_version,p.course,p.unit,p.model,p.created_at,EXISTS(SELECT 1 FROM model_releases r JOIN model_approvals a ON a.id=r.approval_id WHERE a.package_id=p.id AND NOT EXISTS(SELECT 1 FROM model_releases n WHERE n.bank_version=r.bank_version AND n.course=r.course AND n.unit=r.unit AND n.revision>r.revision)) AS active FROM model_packages p WHERE p.id>? ORDER BY p.id LIMIT 101',after);
+   const rows=records.slice(0,100).map(row=>({...row,status:'candidate',activated:!!row.active}));
    await audit('model-package-directory-read',after||'start',{count:rows.length});
    return {packages:rows,hasMore:records.length>100,nextCursor:rows.at(-1)?.id??null};
   }
@@ -71,7 +81,7 @@ async function route(request,env){
   const approvalMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})\/approve$/);
   if(approvalMatch&&method==='POST')return approveModel(env,instructor,approvalMatch[1],await body(request));
   const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
-  if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);const approvals=await all(env.DB,'SELECT id,approved_at,rationale FROM model_approvals WHERE package_id=? ORDER BY approved_at DESC,id LIMIT 100',record.id);const approvalCount=(await query(env.DB,'SELECT COUNT(*) AS n FROM model_approvals WHERE package_id=?',record.id).first()).n;await audit('model-package-read',record.id,{});return {approvals,approvalCount,artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated:false};}
+  if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);const approvals=await all(env.DB,'SELECT id,approved_at,rationale FROM model_approvals WHERE package_id=? ORDER BY approved_at DESC,id LIMIT 100',record.id);const approvalCount=(await query(env.DB,'SELECT COUNT(*) AS n FROM model_approvals WHERE package_id=?',record.id).first()).n;const currentRelease=await latestModelRelease(env,{bankVersion:record.bank_version,course:record.course,unit:record.unit});const activated=!!currentRelease?.approval_id&&!!(await query(env.DB,'SELECT id FROM model_approvals WHERE id=? AND package_id=?',currentRelease.approval_id,record.id).first());await audit('model-package-read',record.id,{});return {currentRelease,approvals,approvalCount,artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated};}
   if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));
   if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
   if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}

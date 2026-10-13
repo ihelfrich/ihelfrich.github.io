@@ -194,3 +194,25 @@ test('insufficient calibrated coverage rejects assessment before consuming a ses
   assert.equal((await DB.prepare('SELECT COUNT(*) n FROM sessions').first()).n,0);
  }finally{DB.close();}
 });
+
+test('release routes require instructor authorization and report live activation honestly',async()=>{
+ const {DB,artifact,call}=fixture({course:'intro-econometrics',complete:true});try{
+  await call('/admin/model-packages',artifact);
+  const approval=await call(`/admin/model-packages/${artifact.id}/approve`,{confirmApproval:true,rationale:'Technical fixture only.'});
+  const scope={bankVersion:artifact.bankVersion,course:artifact.course,unit:artifact.unit},path='/admin/model-releases?'+new URLSearchParams(scope);
+  const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  const input={...scope,approvalId:approval.approvalId,expectedReleaseId:null,confirmRelease:true,rationale:'Test route only.'};
+  assert.equal((await call(path,null,profile.token)).httpStatus,403);
+  assert.equal((await call('/admin/model-releases',input,profile.token)).httpStatus,403);
+  assert.equal((await call('/admin/model-releases?unit=0')).httpStatus,400);
+  assert.equal((await call(path)).current,null);
+  const released=await call('/admin/model-releases',input);assert.equal(released.httpStatus,200);
+  assert.equal((await call(path)).current.id,released.release.id);
+  assert.equal((await call(`/admin/model-packages/${artifact.id}`)).activated,true);
+  assert.equal((await call('/admin/model-packages')).packages[0].activated,true);
+  assert.equal((await call('/admin/model-releases',{...input,rationale:'Stale competing request'})).httpStatus,409);
+  const withdrawn=await call('/admin/model-releases',{...input,approvalId:null,expectedReleaseId:released.release.id,rationale:'Withdraw technical fixture.'});assert.equal(withdrawn.httpStatus,200);
+  assert.equal((await call(`/admin/model-packages/${artifact.id}`)).activated,false);
+  assert.equal((await call('/admin/model-packages')).packages[0].activated,false);
+ }finally{DB.close();}
+});
