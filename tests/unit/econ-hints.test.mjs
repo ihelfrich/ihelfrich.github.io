@@ -30,8 +30,8 @@ test('foundational micro exceptions distinguish classification and welfare metho
 
 test('reviewed field items have stable question-specific guidance independent of answer payloads',async()=>{
  const {buildBank}=await import('../../src/lib/econ-practice/index.mjs');
- const items=buildBank().filter(q=>['intro-econometrics','labor-economics','public-economics','industrial-organization','international-trade'].includes(q.course));
- assert.equal(items.length,210);
+ const items=buildBank().filter(q=>['intro-econometrics','labor-economics','public-economics','industrial-organization','international-trade','development-economics'].includes(q.course));
+ assert.equal(items.length,270);
  for(const item of items){
   const hint=hintFor(item);assert.equal(hint.hintScope,`${item.course}:family:${item.family}`);assert.ok(hint.hint.length>60);
   assert.deepEqual(hint,hintFor({course:item.course,family:item.family,answerIndex:999,explanation:'DO NOT USE THIS KEY'}));

@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.20",
-  "bankSHA256": "275e43c4331d60039cdf7712ff1bec455f71f2e108e911595a70a674425b907f",
+  "bankVersion": "2026.10.12.21",
+  "bankSHA256": "91bb46f268f9b5ae1e22bd98c25df3a4426199cc6689e60b14486472ada900e0",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -27,6 +27,10 @@
       "items": 60,
       "families": 60
     },
+    "development-economics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -41,10 +45,10 @@
     }
   },
   "answerPositions": [
-    92,
-    89,
-    93,
-    71
+    110,
+    103,
+    105,
+    87
   ],
   "errors": [],
   "warnings": [],
@@ -5304,6 +5308,1086 @@
         "prompt": "Suppose a credible study finds persistent earnings losses among workers in regions exposed to import competition, while a separate model predicts a positive national consumption gain. Which statement best reconciles these results?",
         "answer": "Aggregate gains can coexist with concentrated losses when gains are unevenly distributed and compensation is incomplete.",
         "explanation": "National welfare and local labor-market outcomes measure different objects. Consumer gains and other gains need not reach displaced workers or offset their individual losses."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-01:01",
+        "prompt": "In a village, five people consume 40, 60, 90, 110 and 200 units per month. The poverty line is 100; a person is poor when consumption is strictly below it. What is the headcount ratio?",
+        "answer": "60%.",
+        "explanation": "Three of five people are below 100, so the headcount ratio is 3/5. The measure counts people, not their consumption shortfalls."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-02:01",
+        "prompt": "In a four-person population, consumption is 40, 80, 120 and 160. The poverty line is 100. The poverty-gap index averages max(100 minus consumption, 0)/100 across everyone. What is its value?",
+        "answer": "0.20.",
+        "explanation": "The normalized gaps are 0.6, 0.2, 0 and 0. Their population average is 0.8/4 = 0.20. Averaging only over poor people would give 0.40."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-03:01",
+        "prompt": "Two otherwise identical populations have individual consumption (20, 80, 150) and (40, 60, 150). The poverty line is 100. Which comparison follows for the second population?",
+        "answer": "The headcount and poverty-gap indices are unchanged, but the squared-gap index is lower.",
+        "explanation": "Both populations have two poor people and total shortfalls of 100. Squared normalized gaps sum to 0.68 initially and 0.52 after the equalizing transfer, so their average falls."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-04:01",
+        "prompt": "In a economy, every person’s real consumption doubles. Population and the fixed real poverty line are unchanged. Which conclusion is warranted?",
+        "answer": "The Gini coefficient is unchanged, while the poverty headcount cannot rise.",
+        "explanation": "The Gini is invariant to common positive scaling. With a fixed real line, doubling consumption cannot move a previously nonpoor person into poverty, although nobody may cross the line."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-05:01",
+        "prompt": "Two countries have the same mean income. Country A’s Lorenz curve lies above B’s for the bottom 30% but below B’s for the bottom 70%. What does this establish?",
+        "answer": "Neither distribution Lorenz-dominates the other.",
+        "explanation": "Lorenz dominance requires the curve to be weakly above the other at every population share, with a strict inequality somewhere. Crossing prevents that ordering; it does not determine whether Ginis coincide."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-06:01",
+        "prompt": "In a hypothetical survey, households in two regions each spend 200 currency units monthly. The same consumption basket costs 100 in one region and 125 in the other. What adjustment supports a real-consumption comparison?",
+        "answer": "Divide each household’s spending by its region’s basket price.",
+        "explanation": "Deflating by local prices converts spending into comparable basket quantities: 2 baskets versus 1.6. A common currency does not imply equal purchasing power."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-07:01",
+        "prompt": "In a comparison, household A consumes 300 with two members and household B consumes 500 with five members. Under a per-capita consumption measure with no economies of scale, which household has higher measured living standards?",
+        "answer": "A, at 150 per person versus B at 100.",
+        "explanation": "Divide each household’s consumption by its own membership. This particular measure does not account for age-specific needs or shared household goods."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-08:01",
+        "prompt": "A hypothetical farm survey measures income only just after harvest and treats that month as typical. Net farm income is concentrated at harvest, whereas consumption is smoother. What is the central measurement risk?",
+        "answer": "Annualizing that month’s income overstates typical monthly income.",
+        "explanation": "A harvest month has unusually high net income. Multiplying it by twelve without a seasonality adjustment misrepresents annual income even if households smooth consumption."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-09:01",
+        "prompt": "In a hypothetical country, mean real income rises from 100 to 120 while a survey panel shows that the poorest tenth’s mean falls from 30 to 25. What can be concluded?",
+        "answer": "Aggregate growth does not establish that the poorest tenth benefited.",
+        "explanation": "An aggregate average permits unequal changes across people. Neither the poverty headcount nor the Gini is determined by these two mean comparisons."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u1-10:01",
+        "prompt": "In a economy, every income rises by 10%. One poverty line is fixed in real terms; another equals half the current median. Prices do not change. What happens to poverty under the median-based line?",
+        "answer": "Its headcount ratio is unchanged.",
+        "explanation": "Both every income and the median-based threshold scale by 1.1, preserving each person’s position relative to that line. A fixed line need not give the same outcome."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-01:01",
+        "prompt": "In a two-period economy, a machine costs 100 today and yields 140 next period with certainty and no resale value. A household has 60 and cannot borrow. Saving earns no interest. What prevents purchase despite its positive net return?",
+        "answer": "The household cannot finance the indivisible upfront cost.",
+        "explanation": "Profitability and feasibility differ: 140 exceeds 100, but available funds of 60 cannot meet the minimum purchase cost."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-02:01",
+        "prompt": "In a asset model, next year’s assets equal 0.8 times current assets when assets are below 100, and 120 when current assets are at least 100. A household starts with 80. Which one-time grant is the smallest that enters the high-asset region immediately?",
+        "answer": "20.",
+        "explanation": "The grant must raise current assets from 80 to at least 100. A grant of 20 reaches the threshold; the specified transition then gives 120."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-03:01",
+        "prompt": "In a model, assets evolve as next year’s assets = 20 + 0.8 times current assets for every nonnegative asset level. What does the model imply?",
+        "answer": "Assets converge to a single steady state of 100, so low initial assets alone do not create a separate low-asset trap.",
+        "explanation": "The fixed point solves a = 20 + 0.8a, giving 100. Deviations shrink by a factor of 0.8, so this rule has one attracting steady state."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-04:01",
+        "prompt": "A lender advances 100. Repayment occurs with probability 0.8; default yields zero. The lender is risk-neutral, has zero funding and administrative costs, and must break even in expectation. What repayment is required when repayment occurs?",
+        "answer": "125.",
+        "explanation": "Expected repayment is 0.8R. Setting it equal to the 100 advanced gives R = 125. The promised interest rate exceeds the expected net return."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-05:01",
+        "prompt": "A lender raises its interest rate. Safer applicants withdraw, but riskier applicants remain, and the lender cannot observe borrower risk. Which mechanism could make another rate increase unattractive?",
+        "answer": "Adverse selection can lower average repayment probability enough to offset higher promised repayment.",
+        "explanation": "The change concerns which types apply, making it adverse selection. Expected revenue depends on repayment probabilities as well as promised amounts."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-06:01",
+        "prompt": "In a loan contract, a borrower chooses a riskier project only after receiving the loan because limited liability leaves some losses with the lender. The lender cannot observe the choice. What friction is illustrated?",
+        "answer": "Moral hazard in project choice.",
+        "explanation": "The hidden action occurs after contracting. Limited liability can alter incentives over project risk even if the borrower’s original type is known."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-07:01",
+        "prompt": "A village uses reciprocal transfers to insure household-specific crop losses. Every household is then hit by the same drought. Why may this arrangement provide little protection?",
+        "answer": "The shock reduces resources across the entire transfer network at once.",
+        "explanation": "Transfers within the village redistribute available resources. They cannot fully replace a common aggregate resource loss without outside assets, credit or insurance."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-08:01",
+        "prompt": "In a insurance contract, payouts depend on rainfall at a regional station. A farmer’s field suffers a severe loss, but the station records enough rain that no payout occurs. What risk is illustrated?",
+        "answer": "Basis risk: the index does not perfectly track the farmer’s loss.",
+        "explanation": "The insurer can honor an index contract while the index fails to capture an individual loss. That imperfect match is basis risk."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-09:01",
+        "prompt": "A household has utility equal to the square root of consumption. Consumption will be 100 or 400 with equal probability. What certain consumption level gives the same expected utility?",
+        "answer": "225.",
+        "explanation": "Expected utility is (10 + 20)/2 = 15. Certain consumption of 225 has square root 15, below expected consumption of 250 because utility is concave."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u2-10:01",
+        "prompt": "A bank opens nearby, yet few households borrow. The only evidence collected is the number of new loans. Which conclusion is justified?",
+        "answer": "Low take-up alone does not distinguish low returns, costly terms, distrust or remaining borrowing barriers.",
+        "explanation": "Observed take-up combines demand, contract terms, information and eligibility. A loan count alone does not isolate the mechanism."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-01:01",
+        "prompt": "A tenant chooses effort e. Output is f(e), crop price is one, and effort cost is c(e). The landlord takes half of output and supplies no inputs. Ignoring risk and enforcement issues, what is the tenant’s interior first-order condition?",
+        "answer": "0.5 times f′(e) = c′(e).",
+        "explanation": "The tenant keeps half the marginal output but bears all marginal effort cost. The condition concerns marginal products and costs, not total output and total cost."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-02:01",
+        "prompt": "In a setting, fruit trees require an upfront investment and produce only after five years. A reform credibly protects the same farmer’s right to harvest for ten years instead of one. Prices and borrowing conditions are fixed. Why can investment rise?",
+        "answer": "The farmer is more likely to retain the delayed return from planting.",
+        "explanation": "More secure future control raises the expected return the investor can capture. The mechanism does not require a change in biological productivity or current prices."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-03:01",
+        "prompt": "A price-taking farmer can buy one extra fertilizer bag for 30. It adds 20 kilograms of output, sold at 2 per kilogram. There are no other incremental costs or risks. What is the profit change from buying it?",
+        "answer": "An increase of 10.",
+        "explanation": "The bag adds revenue of 20 × 2 = 40 and costs 30, leaving a marginal profit of 10."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-04:01",
+        "prompt": "In a village, a new seed has higher expected profit but much larger losses in drought years than the old seed. A risk-averse farmer cannot insure or borrow for consumption. What could explain retaining the old seed?",
+        "answer": "Avoiding bad-state consumption losses can outweigh the increase in expected profit.",
+        "explanation": "With concave utility and limited smoothing, the consumption consequences of downside risk matter beyond average profit."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-05:01",
+        "prompt": "In a hypothetical randomized experiment, some farmers receive credible local demonstration results showing a new crop’s profitability; others do not. Prices, access and credit are unchanged. Adoption rises in the information group. Which explanation is most directly supported?",
+        "answer": "Information or beliefs were a barrier for at least some farmers.",
+        "explanation": "Random information provision isolates a change in available evidence. The result supports an information mechanism without establishing that all nonadoption had the same cause."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-06:01",
+        "prompt": "A hypothetical survey finds higher output per hectare on smaller farms. It lacks soil quality and family labor hours. Why does this not establish that dividing farms raises total output?",
+        "answer": "Soil differences and unmeasured labor intensity may account for the correlation.",
+        "explanation": "Farm size is not randomly assigned, and land productivity is not total factor productivity. Omitted inputs and land quality can change the comparison."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-07:01",
+        "prompt": "In a household farm model, competitive markets allow any labor hiring or sale at a fixed wage, and credit and output markets work without restrictions. What happens to the profit-maximizing production plan when household tastes for leisure change, holding prices and technology fixed?",
+        "answer": "The production plan is unchanged; household labor supply can adjust through the labor market.",
+        "explanation": "Complete relevant markets allow production to maximize profits independently of consumption and leisure preferences. The household can hire labor or change off-farm work."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-08:01",
+        "prompt": "A family farm cannot hire workers or sell labor outside the farm. Its members value leisure and choose farm work jointly with consumption. What distinguishes this case from a complete labor-market model?",
+        "answer": "Household preferences can affect farm labor and output even with unchanged technology.",
+        "explanation": "Without labor trading, the family’s time allocation directly constrains production. Its shadow value of time can depend on preferences and resources."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-09:01",
+        "prompt": "In a competitive crop market, the city price is fixed at 10 per kilogram. Transport costs fall from 3 to 1 per kilogram, and competitive traders pass the full reduction to farmers. What happens to the farm-gate price?",
+        "answer": "It rises from 7 to 9.",
+        "explanation": "The farm-gate price equals the city price minus transport cost under the stipulated competitive pass-through. The two-unit reduction raises farmers’ receipts by two."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u3-10:01",
+        "prompt": "In a village, each of two farmers can build an irrigation connection for 40. Each receives a benefit of 70 only if both connect; a lone connection produces zero benefit. What is true?",
+        "answer": "Both connecting and neither connecting are Nash equilibria.",
+        "explanation": "If the other connects, connecting yields 30 rather than zero. If the other does not connect, connecting loses 40. These are the two pure-strategy equilibria. There is also a mixed-strategy equilibrium; the key does not claim to list every equilibrium."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-01:01",
+        "prompt": "In a hypothetical randomized study, a transport subsidy raises school attendance. Test scores are not measured. What can the study establish from this outcome alone?",
+        "answer": "The offer raises attendance, but its effect on learning remains unmeasured.",
+        "explanation": "Attendance is an input into education, not a direct measurement of knowledge or future earnings. The causal outcome measured is attendance."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-02:01",
+        "prompt": "In a two-period choice, one additional school year costs 100 in fees and 300 in forgone earnings now. It raises earnings next period by 450. With no other effects and a zero discount rate, what is its net monetary benefit?",
+        "answer": "50.",
+        "explanation": "Total current cost is 400, including foregone work. The future gain of 450 leaves a net benefit of 50."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-03:01",
+        "prompt": "In a setting, a scholarship randomly offered to eligible pupils raises completion. Assume the offer never prevents a pupil from completing. Which group’s completion behavior is directly changed by the offer?",
+        "answer": "Pupils who complete with the scholarship but would not complete without it.",
+        "explanation": "The affected margin compares potential completion choices. Many scholarship recipients may have completed anyway, while some control noncompleters may remain noncompleters even with support."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-04:01",
+        "prompt": "In a disease model, vaccination reduces both the recipient’s infection risk and transmission to others. People choosing vaccination consider only their own benefits and pay its resource cost. What wedge arises?",
+        "answer": "The social marginal benefit exceeds the private marginal benefit.",
+        "explanation": "Reduced transmission benefits other people without entering the stipulated private decision. This positive externality can make privately chosen vaccination too low relative to the social optimum."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-05:01",
+        "prompt": "In a hypothetical program, clinic fees are removed, but attendance barely changes. Distance, opening hours, quality and information remain unchanged. Which inference is strongest?",
+        "answer": "Removing fees alone was insufficient to produce a large attendance increase in this setting.",
+        "explanation": "A small response to one intervention does not isolate all other barriers or establish a universal zero price response."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-06:01",
+        "prompt": "In a hypothetical experiment, an equal-sized transfer is randomly paid to either adult in two-adult households. Prices and purchase opportunities are unchanged. Total household resources are identical, but spending patterns differ by recipient. Which simple model is challenged?",
+        "answer": "A unitary model in which spending depends on total resources and prices but not who receives income.",
+        "explanation": "The result rejects income pooling in the specified unitary model. It is consistent with several mechanisms involving control or bargaining and does not uniquely identify one."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-07:01",
+        "prompt": "In a model, extra food raises a severely undernourished worker’s productive capacity, and higher earnings allow more food purchases. Does this feedback alone establish a poverty trap?",
+        "answer": "No; the shapes and strengths of the relationships must generate distinct long-run outcomes.",
+        "explanation": "Positive feedback is compatible with a single stable outcome. A trap requires a specified dynamic structure that prevents convergence from some initial states to a higher outcome."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-08:01",
+        "prompt": "In a hypothetical dataset, clinic patients have worse health than nonpatients after visits. No baseline health or random assignment is available. What threatens interpreting this as harmful treatment?",
+        "answer": "Sicker people may be more likely to seek care.",
+        "explanation": "Selection by initial illness can produce worse observed outcomes among treated people even when treatment helps. Sample size alone does not solve this identification problem."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-09:01",
+        "prompt": "In a district, a scholarship expands enrollment from 40 to 60 pupils per classroom while teacher staffing is fixed. What should an evaluation of learning consider?",
+        "answer": "Congestion may change instructional conditions as enrollment expands.",
+        "explanation": "Demand-side access policies can affect the supply environment. With fixed staffing, larger classes may alter learning and should be measured rather than assumed away."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u4-10:01",
+        "prompt": "A hypothetical agency must choose one indivisible program to maximize expected illness episodes prevented. Program A costs 100 and prevents 20; B costs 150 and prevents 40. Its budget is 150, benefits are certain, and neither program has other effects. Which should it choose?",
+        "answer": "B, because it prevents 40 episodes within budget.",
+        "explanation": "Both programs are affordable, but only one can be selected. B prevents more episodes and also has lower cost per episode: 3.75 versus 5. The objective is explicitly specified."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-01:01",
+        "prompt": "In a one-period migration model, rural work pays 60 for certain. Urban work pays 100 with probability 0.7 and zero otherwise. Moving costs 5. A risk-neutral worker considers only monetary income. Should the worker migrate?",
+        "answer": "Yes; expected net urban income is 65, above 60.",
+        "explanation": "Expected urban income net of the moving cost is 0.7 × 100 − 5 = 65. This conclusion uses risk neutrality and the specified payoff comparison."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-02:01",
+        "prompt": "A worker would gain 200 in present-value earnings from moving, before a required upfront fare of 50. The worker has 20 and cannot borrow or defer payment. What follows?",
+        "answer": "The move has a positive net return but is currently infeasible.",
+        "explanation": "The net return is 150, but the worker cannot pay the immediate 50. A liquidity constraint can prevent a beneficial move."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-03:01",
+        "prompt": "In a economy, agricultural employment falls from 70% to 50% of total employment. Total employment doubles. What happens to the number of agricultural workers?",
+        "answer": "It rises by about 43%.",
+        "explanation": "Normalize initial employment to 100: agriculture employs 70. Final total employment is 200, of which 100 work in agriculture. The increase is 30/70, about 43%."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-04:01",
+        "prompt": "In a two-sector economy, real value added per worker, measured at common fixed prices, stays at 2 in agriculture and 6 in manufacturing. Manufacturing’s employment share rises from 25% to 50%. What happens to aggregate real value added per worker?",
+        "answer": "It rises from 3 to 4.",
+        "explanation": "The initial weighted average is 0.75 × 2 + 0.25 × 6 = 3; the final average is 0.5 × 2 + 0.5 × 6 = 4. This is an accounting reallocation effect."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-05:01",
+        "prompt": "In a village, average output per farm worker exceeds zero. A policymaker claims this proves removing one farm worker must reduce farm output by that average amount. What is the error?",
+        "answer": "The relevant loss is marginal product, which need not equal average product.",
+        "explanation": "Average output divides total output by workers; marginal output is the change from one additional or fewer worker. The two differ with the production technology and work organization."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-06:01",
+        "prompt": "In a hypothetical survey, urban formal workers earn twice as much as rural workers. Urban workers also have more education, and housing costs differ. What can the wage gap establish on its own?",
+        "answer": "It does not identify the causal real-income gain from moving a particular rural worker.",
+        "explanation": "Selection and living costs complicate the comparison. A nominal cross-sectional wage difference is not an individual causal migration return."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-07:01",
+        "prompt": "In a destination city, relatives provide credible job leads and temporary housing to new migrants. Holding wage offers fixed, why can an established network increase migration?",
+        "answer": "It reduces search and arrival costs.",
+        "explanation": "Information and initial accommodation can lower the cost of moving and finding work without changing wages or guaranteeing success."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-08:01",
+        "prompt": "In a rural labor market, a new factory increases labor demand. Labor supply slopes upward, wages are flexible, and no other curves shift. What is the competitive short-run prediction?",
+        "answer": "The local wage and employment both rise.",
+        "explanation": "An outward demand shift along upward-sloping supply raises both equilibrium wage and employment. The result depends on the stated market assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-09:01",
+        "prompt": "In a city, formal registration offers enforceable contracts but requires a fixed fee. Small firms with low expected gains remain informal. What mechanism can explain the size pattern?",
+        "answer": "A fixed registration cost can exceed the benefit for small firms while remaining worthwhile for larger firms.",
+        "explanation": "A fixed cost absorbs a larger revenue share for smaller firms. Comparing its size with expected registration benefits can generate different choices across firm sizes."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u5-10:01",
+        "prompt": "In a village, farm labor demand is low between planting and harvest. Temporary city jobs are available only during that interval. Travel costs are modest and work does not overlap. Why can seasonal migration raise annual household income?",
+        "answer": "It uses time with a low local earnings opportunity without requiring permanent relocation.",
+        "explanation": "Seasonal migration can match idle or low-return periods at origin with work elsewhere. Its return depends on timing, earnings and travel costs."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-01:01",
+        "prompt": "In a hypothetical cross-country dataset, stronger contract enforcement correlates with higher income. What prevents interpreting the correlation alone as the causal effect of enforcement?",
+        "answer": "Income can influence enforcement, and other factors can influence both.",
+        "explanation": "Reverse causality and omitted common causes are plausible. A causal interpretation needs a design or assumptions that address them."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-02:01",
+        "prompt": "In a hypothetical randomized program offer, mean earnings are 120 for the offered group and 100 for the control group, with complete follow-up. Only 40% of offered households participate. What is the intention-to-treat estimate?",
+        "answer": "20 earnings units.",
+        "explanation": "Intention to treat compares groups by assignment: 120 − 100 = 20. Dividing by take-up changes the estimand and requires additional assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-03:01",
+        "prompt": "In a randomized offer, participation is 60% in the offered group and 20% in controls. The offer increases mean earnings by 12. Assume exclusion, monotonicity, relevance and no spillovers. What is the local average treatment effect?",
+        "answer": "30 earnings units for people induced to participate by the offer.",
+        "explanation": "The participation first stage is 0.60 − 0.20 = 0.40. The Wald estimate is 12/0.40 = 30 for compliers under the stated assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-04:01",
+        "prompt": "In a hypothetical randomized deworming program, treated villages reduce disease transmission to nearby untreated villages. An analyst wants the total benefit relative to a world with no program. Why can a treated-control comparison miss part of that benefit?",
+        "answer": "Control outcomes improve through spillovers, so they do not represent the no-program world.",
+        "explanation": "A contaminated control group can share program benefits. The simple contrast measures a different comparison from total effects against universal nonimplementation."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-05:01",
+        "prompt": "In a hypothetical study, income rises from 50 to 70 in grant villages and from 40 to 55 in comparison villages. Under parallel untreated trends, no anticipation and no spillovers, what is the difference-in-differences estimate?",
+        "answer": "5.",
+        "explanation": "The treated increase is 20 and the comparison increase is 15. Subtracting gives 5, the causal estimate under the maintained assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-06:01",
+        "prompt": "In a hypothetical randomized training trial, follow-up earnings are missing for 30% of treated workers and 5% of controls. Missingness is related to employment success. What is the main problem with comparing observed means?",
+        "answer": "Random assignment does not ensure comparable groups among those observed after selective attrition.",
+        "explanation": "Selection into follow-up can undo comparability in observed samples. The direction of bias depends on whose outcomes are missing; equalizing counts alone is insufficient."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-07:01",
+        "prompt": "In a small pilot, business grants raise recipients’ profits. The grants are then offered to nearly every local seller of the same product. What must a scale-up assessment consider?",
+        "answer": "Expanded supply may change prices and profits for recipients and other sellers.",
+        "explanation": "Large adoption can change market conditions held approximately fixed in a small pilot. These equilibrium effects can alter both treatment benefits and spillovers."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-08:01",
+        "prompt": "In a model, an official gains 40 from diverting funds. An audit detects diversion with probability p and imposes a total payment of 100, including any repayment of diverted funds; the official is risk-neutral and has no other incentives. What is the smallest p that makes diversion no better than honesty?",
+        "answer": "0.40.",
+        "explanation": "Expected net diversion gain is 40 − 100p. Setting this weakly below zero requires p at least 0.40."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-09:01",
+        "prompt": "In a hypothetical randomized trial, a package combines an asset grant, coaching and savings support. With complete follow-up and no spillovers, the package offer raises household income. Which claim is identified by assignment alone?",
+        "answer": "The causal effect of offering the package, not each component’s separate contribution.",
+        "explanation": "Randomization distinguishes the package from the control condition. Separating component effects and interactions needs additional treatment arms or identifying assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "development-economics",
+      "family": "development-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "development-economics:development-economics-u6-10:01",
+        "prompt": "In a hypothetical trial, a credit product is offered only to established profitable firms with good records. The offer raises investment. What limits extending the finding to all informal start-ups?",
+        "answer": "Start-ups may differ in returns, risk and constraints from the trial’s eligible firms.",
+        "explanation": "Randomization supports internal comparisons among eligible firms. Transporting the effect to a different population requires evidence or assumptions about relevant differences."
       },
       "last": null
     },
