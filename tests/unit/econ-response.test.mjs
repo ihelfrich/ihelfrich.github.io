@@ -101,3 +101,17 @@ test('concurrent retries return one durable receipt and conflicting events canno
  const conflict=await t.call(`/sessions/${s.sessionId}/answers`,{...a,eventId:crypto.randomUUID()},p.token);assert.equal(conflict.status,409);
  const row=await t.env.DB.prepare('SELECT COUNT(*) AS n,event_id FROM responses').first();assert.equal(row.n,1);assert.equal(row.event_id,a.eventId);t.env.DB.close();
 });
+
+test('a hint committed during answer processing is captured at receipt time without retroactive changes',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t,'practice');
+ const prepare=t.env.DB.prepare.bind(t.env.DB);let injected=false;
+ t.env.DB.prepare=sql=>{const statement=prepare(sql);if(!sql.startsWith('INSERT INTO responses'))return statement;return {bind(...args){const bound=statement.bind(...args);return {...bound,run:async()=>{
+  if(!injected){injected=true;const hint=await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token);assert.equal(hint.status,200);}
+  return bound.run();
+ }};}};};
+ const receipt=await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);assert.equal(receipt.status,200);
+ const stored=await t.env.DB.prepare('SELECT hints_used FROM responses').first();assert.equal(stored.hints_used,1);
+ const later=await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token);assert.equal(later.status,200);
+ const unchanged=await t.env.DB.prepare('SELECT hints_used FROM responses').first();assert.equal(unchanged.hints_used,1);
+ const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.status,200);t.env.DB.close();
+});

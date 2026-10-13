@@ -289,3 +289,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Found a check-then-insert race: concurrent sessions could both mark the same participant/course/family as first exposure. Moved the existence check into the presentation INSERT SELECT, so serialized database writes determine first exposure atomically.
 - Added a deterministic concurrency barrier holding both presentation writes until both requests finish preliminary reads. Verified the regression fails on the prior committed worker (two first exposures) and passes on the revised worker (one). Subsequent assessment answers yield only one calibration-eligible receipt.
 - Added concurrent same-event retry verification plus conflicting-event rejection; the accepted receipt remains one durable row.74 focused tests pass. This does not yet preserve conflicting alternate submissions as separate non-scoring events; that broader tracking requirement remains open. No deployment.
+
+## Continuation: hint receipt-time race correction
+
+- Reproduced a race where a hint committed after the answer handler read the presentation but before receipt insertion was omitted from response.hints_used. Answer insertion now joins the current presentation and stores its hint count atomically; calibration eligibility also checks the current count.
+- Deterministic regression injects an actual hint request immediately before the response write. It fails on the prior worker (zero hints instead of one) and passes on the fix. A subsequent hint leaves the saved response count unchanged.
+- All75 focused tests pass. Receipt ordering establishes recorded assistance, not proof the student read a delivered hint. No deployment or bank change.
