@@ -39,3 +39,24 @@ test('an item that becomes constant after respondent filtering cannot pass fit s
  assert.equal(result.manifest.readyForCandidateFit,false);assert.deepEqual(result.manifest.finalItemStats.a,{n:3,correct:0,constantResponse:true});assert.ok(result.manifest.blockingReasons.includes('constant_items_after_person_filter'));
  assert.equal(result.people.includes('removed'),false);assert.equal(result.manifest.finalItemStats.b.constantResponse,false);
 });
+
+test('candidate review is bound to exact report parameters, diagnostics, selected model and scope',async()=>{
+ const {validateCandidate,reportHash}=await import('../../scripts/econ-practice/validate-candidate.mjs');
+ // Fabricated technical fixture only; this is not substantive review evidence or an operational model.
+ const report={synthetic:false,bankVersion:'fixture-v1',course:'ap-micro',unit:2,sourceSHA256:'a'.repeat(64),models:{'2PL':{converged:true,finiteParameters:true,positiveFiniteCovarianceDiagonal:true,holdout:{predictions:200},items:{i:{a:1,b:0,c:0,d:1}}}}};
+ const gates=Object.fromEntries(['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'].map(key=>[key,{decision:'accepted',evidence:'Technical fixture',rationale:'Testing validator binding only'}]));
+ const review={reviewer:'Fixture reviewer',reviewedAt:'2026-10-12T00:00:00Z',sourceSHA256:report.sourceSHA256,reportSHA256:reportHash(report),model:'2PL',bankVersion:'fixture-v1',course:'ap-micro',unit:2,gates};
+ const options={bankVersion:'fixture-v1',review};assert.equal(validateCandidate(report,options).readyForInstructorApproval,true);
+ const parameters=structuredClone(report);parameters.models['2PL'].items.i.b=.5;
+ const diagnostics=structuredClone(report);diagnostics.models['2PL'].holdout.predictions=201;
+ for(const altered of [parameters,diagnostics]){const result=validateCandidate(altered,options);assert.equal(result.readyForInstructorApproval,false);assert.ok(result.issues.some(x=>x.includes('exact candidate report hash')));}
+ for(const patch of [{model:'1PL'},{course:'ap-macro'},{unit:3},{bankVersion:'other'},{reviewedAt:'not-a-date'},{reportSHA256:undefined}])assert.equal(validateCandidate(report,{...options,review:{...review,...patch}}).readyForInstructorApproval,false);
+ const reordered=Object.fromEntries(Object.entries(report).reverse());assert.equal(reportHash(reordered),reportHash(report));
+ const synthetic={...report,synthetic:true};assert.equal(validateCandidate(synthetic,{...options,review:{...review,reportSHA256:reportHash(synthetic)}}).readyForInstructorApproval,false);
+});
+
+test('canonical artifact hashing rejects silently lossy JSON values',async()=>{
+ const {canonicalJSON}=await import('../../src/lib/econ-practice/canonical-json.mjs');
+ assert.equal(canonicalJSON({z:[1,null],a:{y:true,x:'text'}}),'{'+'"a":{"x":"text","y":true},"z":[1,null]}');
+ for(const value of [NaN,Infinity,{a:undefined},[undefined],new Array(2),new Date(),{f:()=>1},1n])assert.throws(()=>canonicalJSON(value));
+});

@@ -433,3 +433,7 @@ Selection loads the session's registered bank, verifies manifest and chunk hashe
 
 A regression starts an assigned assessment on an archived fixture version that differs from the deployed version, answers all six questions, and verifies six correct records plus normal length completion. Archive tests reject changed content under an existing version, reject direct chunk updates, and detect a missing chunk. All 96 focused tests and the structural bank audit pass. The archive pins question content, not historical engine code or a future operational calibration policy; those remain separate versioning requirements. Apply all D1 migrations before deploying this Worker.
 
+# Binding calibration review to model content
+
+Candidate reviews now match the SHA-256 of the entire canonical report as well as the source-data hash, selected model, bank version, course and unit. The validator returns the report hash and its serialization format. This closes the previous gap where changed fitted parameters or diagnostics could retain a technically matching source-data review. Canonical serialization rejects non-finite or unsupported values instead of silently coercing or dropping them. Tests confirm parameter/diagnostic changes invalidate review, object key order preserves the hash, scope mismatches fail, and synthetic reports remain ineligible. All 98 focused tests and bank structural checks pass. This is review-artifact integrity, not an operational model registry, reviewer authentication or empirical validation.
+

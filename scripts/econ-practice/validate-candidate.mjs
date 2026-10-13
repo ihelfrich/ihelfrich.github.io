@@ -1,10 +1,15 @@
 import fs from 'node:fs';
 import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+import {canonicalJSON} from '../../src/lib/econ-practice/canonical-json.mjs';
+export const reportHash=report=>createHash('sha256').update(canonicalJSON(report)).digest('hex');
 export function validateCandidate(report,{model='2PL',bankVersion,review}={}){
  const issues=[],candidate=report.models?.[model];
+ let reportSHA256;try{reportSHA256=reportHash(report);}catch{issues.push('Report is not a finite JSON artifact.');}
  if(report.synthetic)issues.push('Synthetic data cannot authorize an operational calibration.');
  if(report.bankVersion!==bankVersion)issues.push('Bank version mismatch.');
- if(!report.sourceSHA256)issues.push('Missing source data hash.');
+ if(typeof report.sourceSHA256!=='string'||!/^[a-f0-9]{64}$/.test(report.sourceSHA256))issues.push('Missing or invalid source data hash.');
+ if(!['ap-micro','ap-macro','college-micro','college-macro'].includes(report.course)||!Number.isInteger(report.unit)||report.unit<1||report.unit>6)issues.push('Missing or invalid calibration course/unit scope.');
  if(!candidate)issues.push('Selected model unavailable.');
  else{
   if(!candidate.converged)issues.push('Model did not converge.');
@@ -15,7 +20,9 @@ export function validateCandidate(report,{model='2PL',bankVersion,review}={}){
  }
  const required=['content','dimensionality','localDependence','itemFit','fairness','catSimulation','linking','scoreInterpretation'];
  for(const key of required){const gate=review?.gates?.[key];if(!gate||!['accepted','not-applicable-with-rationale'].includes(gate.decision)||!gate.evidence||!gate.rationale)issues.push(`Missing substantive review: ${key}`);}
- if(!review?.reviewer||!review?.reviewedAt||review?.sourceSHA256!==report.sourceSHA256)issues.push('Review must identify a reviewer, time and matching data hash.');
- return {readyForInstructorApproval:issues.length===0,issues,status:'candidate',note:'This validator never approves or activates a model. Instructor approval is a separate authenticated action.'};
+ if(typeof review?.reviewer!=='string'||!review.reviewer.trim()||typeof review?.reviewedAt!=='string'||!Number.isFinite(Date.parse(review.reviewedAt))||review?.sourceSHA256!==report.sourceSHA256)issues.push('Review must identify a reviewer, valid time and matching data hash.');
+ if(!reportSHA256||review?.reportSHA256!==reportSHA256)issues.push('Review must match the exact candidate report hash.');
+ if(review?.model!==model||review?.bankVersion!==bankVersion||review?.course!==report.course||review?.unit!==report.unit)issues.push('Review must match the selected model, bank version and course/unit scope.');
+ return {readyForInstructorApproval:issues.length===0,issues,status:'candidate',reportSHA256:reportSHA256??null,hashFormat:'sorted-json-sha256-v1',note:'This validator never approves or activates a model. Instructor approval is a separate authenticated action.'};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const [file,version,reviewFile]=process.argv.slice(2);const result=validateCandidate(JSON.parse(fs.readFileSync(file)),{bankVersion:version,review:reviewFile?JSON.parse(fs.readFileSync(reviewFile)):null});console.log(JSON.stringify(result,null,2));if(!result.readyForInstructorApproval)process.exitCode=2;}

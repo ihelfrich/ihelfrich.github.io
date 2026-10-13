@@ -37,7 +37,9 @@ Synthetic reports carry an explicit flag. They cannot authorize operational cali
 
 Run `node scripts/econ-practice/validate-candidate.mjs REPORT.json BANK_VERSION REVIEW.json` to check whether evidence is assembled for instructor review. A review identifies the reviewer, time, matching source hash, and evidence/rationale for content, dimensionality, local dependence, item fit, fairness, CAT simulation, linking, and score interpretation. A justified not-applicable decision is possible; missing evidence is not acceptance.
 
-The validator leaves status as candidate even when the review is complete. Actual authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
+The validator emits `reportSHA256` using `sorted-json-sha256-v1`: recursively sort object keys, preserve array order, serialize finite JSON, then hash the UTF-8 bytes with SHA-256. This is a content hash, not the hash of the report file's whitespace. The review must include that exact `reportSHA256`, along with `model`, `bankVersion`, `course`, `unit`, a valid `reviewedAt`, reviewer identity and matching 64-character hexadecimal `sourceSHA256`. Changing any parameters, diagnostics or report metadata invalidates the existing review. Obtain a fresh review for the changed report; do not mechanically copy a new hash into an old review.
+
+The validator leaves status as candidate even when the review is complete. Hash binding detects changes; it does not authenticate the reviewer or establish that the evidence is adequate. Actual immutable operational registration, authenticated activation and model rollback integration are still to be implemented. No fitted model is currently in production.
 
 ## Descriptive item screening
 
