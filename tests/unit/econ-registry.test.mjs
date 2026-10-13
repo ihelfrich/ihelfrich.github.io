@@ -59,3 +59,24 @@ test('local transaction batches roll back entirely and do not interleave under c
   assert.deepEqual((await DB.prepare('SELECT id FROM fixture ORDER BY id').all()).results.map(r=>r.id),[2,3]);
  }finally{DB.close();}
 });
+
+test('session model pins require approved matching scope and remain immutable',async()=>{
+ const {DB,artifact,call}=fixture();try{
+  await call('/admin/model-packages',artifact);
+  const profile=await call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  const session=await call('/sessions',{course:artifact.course,mode:'assessment',unit:artifact.unit},profile.token);
+  const insert=map=>DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(session.sessionId,artifact.bankVersion,artifact.course,JSON.stringify(map),'2026-10-13').run();
+  await assert.rejects(insert({[artifact.unit]:'not-approved'}),/approval mismatch/);
+  await DB.prepare('INSERT INTO model_approvals VALUES (?,?,?,?,?)').bind('approval-test',artifact.id,'2026-10-13','fixture','Technical fixture, not scientific approval').run();
+  await assert.rejects(insert({[artifact.unit+1]:'approval-test'}),/approval mismatch/);
+  await assert.rejects(insert({[artifact.unit]:42}),/approval mismatch/);
+  await insert({[artifact.unit]:'approval-test'});
+  await assert.rejects(DB.prepare("UPDATE session_model_pins SET approvals_json='{}'").run(),/immutable/);
+  await assert.rejects(DB.prepare('DELETE FROM session_model_pins').run(),/retained/);
+  await assert.rejects(DB.prepare("UPDATE model_approvals SET rationale='changed'").run(),/immutable/);
+  await assert.rejects(DB.prepare('DELETE FROM model_approvals').run(),/retained/);
+  const legacy=await call('/sessions',{course:artifact.course,mode:'assessment'},profile.token);
+  await DB.prepare('INSERT INTO session_model_pins VALUES (?,?,?,?,?)').bind(legacy.sessionId,artifact.bankVersion,artifact.course,'{}','2026-10-13').run();
+  assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM session_model_pins').first()).n,2);
+ }finally{DB.close();}
+});
