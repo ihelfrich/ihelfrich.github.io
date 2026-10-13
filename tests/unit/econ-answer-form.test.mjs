@@ -18,3 +18,18 @@ test('initial multipart market and monopoly rubrics satisfy independent economic
   q.parts.forEach((p,i)=>assert.ok(Math.abs(p.answer-expected[i])<1e-9,q.id));
  }
 });
+
+test('multipart bank rubrics award each part separately without error-carried-forward credit',()=>{
+ for(const item of buildBank().filter(q=>q.format==='multipart')){
+  const answers=Object.fromEntries(item.parts.map(p=>[p.id,p.answer]));
+  for(const wrongPart of item.parts){
+   const result=gradeResponse(item,{...answers,[wrongPart.id]:wrongPart.answer+10});
+   assert.equal(result.earned,2,item.id);assert.equal(result.possible,3);assert.equal(result.correct,false);
+   assert.equal(result.parts.filter(p=>p.correct).length,2);
+  }
+  const carried=item.family==='market-tax-sequence'
+   ? {...answers,after:answers.after+1,revenue:(answers.revenue/answers.after)*(answers.after+1)}
+   : {...answers,quantity:answers.quantity+1,price:answers.price-2};
+  const result=gradeResponse(item,carried);assert.equal(result.earned,1,item.id);
+ }
+});
