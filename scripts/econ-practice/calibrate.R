@@ -5,6 +5,9 @@ if(!requireNamespace('mirt',quietly=TRUE)||!requireNamespace('jsonlite',quietly=
 suppressPackageStartupMessages(library(mirt))
 manifest <- jsonlite::fromJSON(file.path(args[1],'manifest.json'),simplifyVector=FALSE)
 if(!isTRUE(manifest$readyForCandidateFit)) stop('Calibration preparation did not pass screening.')
+if(!requireNamespace('digest',quietly=TRUE)) stop('Install digest to verify the prepared matrix.')
+expected_hash <- manifest$matrixArtifact$sha256
+if(is.null(expected_hash)||!identical(expected_hash,digest::digest(file=file.path(args[1],'responses.csv'),algo='sha256'))) stop('Response matrix hash does not match the manifest. Re-export the analysis before fitting.')
 dir.create(args[2],recursive=TRUE,showWarnings=FALSE)
 d <- read.csv(file.path(args[1],'responses.csv'),check.names=FALSE,na.strings=c('','NA'))
 persons <- d[[1]]; d <- as.matrix(d[,-1,drop=FALSE]); storage.mode(d)<-'numeric'
@@ -54,6 +57,6 @@ for(kind in c('1PL','2PL')){
  reports[[kind]]<-list(status='candidate',converged=converge,finiteParameters=finite,positiveFiniteCovarianceDiagonal=se_ok,warnings=unique(warnings),AIC=extract.mirt(fit,'AIC'),BIC=extract.mirt(fit,'BIC'),itemFit=fitstat,localDependence=q3_summary,holdout=list(persons=length(hold),predictions=length(predictions),leaveOneItemOutLogLoss=if(length(logloss))mean(logloss) else NULL,brier=if(length(brier))mean(brier) else NULL,calibrationCurve=curve),extremeItems=rownames(co)[co[,'a']<.25|co[,'a']>3|abs(co[,'b'])>4],items=parameters)
  saveRDS(fit,file.path(args[2],paste0(kind,'-candidate.rds')))
 }
-output<-list(schemaVersion=1,status='candidate',synthetic=isTRUE(manifest$synthetic),approvalRequired=TRUE,course=manifest$course,unit=manifest$unit,bankVersion=manifest$bankVersion,sourceSHA256=manifest$sourceSHA256,seed=20261012,trainingPersons=nrow(train),holdoutPersons=nrow(heldout),models=reports,unresolved=c('Substantive item and family review','Dimensionality and testlet model comparison','DIF requires suitable voluntarily supplied group data and anchors','CAT operating-characteristic simulation','External validity and score interpretation','Instructor approval'),software=list(R=R.version.string,mirt=as.character(packageVersion('mirt'))))
+output<-list(schemaVersion=1,status='candidate',synthetic=isTRUE(manifest$synthetic),approvalRequired=TRUE,course=manifest$course,unit=manifest$unit,bankVersion=manifest$bankVersion,sourceSHA256=manifest$sourceSHA256,matrixSHA256=expected_hash,seed=20261012,trainingPersons=nrow(train),holdoutPersons=nrow(heldout),models=reports,unresolved=c('Substantive item and family review','Dimensionality and testlet model comparison','DIF requires suitable voluntarily supplied group data and anchors','CAT operating-characteristic simulation','External validity and score interpretation','Instructor approval'),software=list(R=R.version.string,mirt=as.character(packageVersion('mirt'))))
 jsonlite::write_json(output,file.path(args[2],'candidate-report.json'),auto_unbox=TRUE,pretty=TRUE,na='null',null='null',digits=10)
 cat('Candidate reports written; no model approved.\n')

@@ -30,3 +30,15 @@ test('analyst exclusions require an exported rationale without modifying the led
  assert.equal(r.prepared.manifest.analystExclusions.reason,'Sensitivity analysis for disputed key');
  assert.equal(rows.length,14);
 });
+
+test('analysis manifest binds the exact exported matrix bytes and preserves missing cells',async()=>{
+ const {preparedArtifacts}=await import('../../src/lib/econ-practice/irt-workbench.mjs');
+ const {writePrepared}=await import('../../scripts/econ-practice/prepare-calibration.mjs');
+ const fs=await import('node:fs'),os=await import('node:os'),path=await import('node:path');
+ const p=analyzeRows(fixture(),scope,thresholds).prepared,a=await preparedArtifacts(p,hash);
+ assert.equal(a.manifest.matrixArtifact.sha256,hash(a.matrix));
+ assert.notEqual(a.manifest.matrixArtifact.sha256,hash(a.matrix.replace(',""',',"0"')));
+ assert.equal(p.manifest.matrixArtifact,undefined);
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'econ-matrix-'));
+ try{writePrepared(p,dir);const text=fs.readFileSync(path.join(dir,'responses.csv'),'utf8'),m=JSON.parse(fs.readFileSync(path.join(dir,'manifest.json')));assert.equal(m.matrixArtifact.sha256,hash(text));assert.equal(text,a.matrix);assert.deepEqual(m.matrixArtifact,a.manifest.matrixArtifact);}finally{fs.rmSync(dir,{recursive:true,force:true});}
+});

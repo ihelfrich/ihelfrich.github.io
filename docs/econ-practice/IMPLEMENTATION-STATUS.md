@@ -561,3 +561,7 @@ The instructor IRT workbench now requires a nonblank rationale whenever item IDs
 ### Exclusion interface regression
 
 Added a DOM integration regression using the actual instructor-page markup and workbench event handlers. It loads a constructed ledger, rejects exclusion without a reason, accepts and visibly displays the rationale as plain text, and clears both fields/results on scope change. This verifies the interface wiring and prevents HTML interpretation in rationale display. It is not production authentication or browser visual validation. The first ten in-progress financial-economics draft items were parent-inspected; full course release review remains pending.
+
+### Matrix/manifest integrity
+
+Browser and CLI preparation now attach the exact responses.csv SHA-256, dimensions, encoding, person-key transformation and missing-cell convention to exported manifests. Browser downloads reuse the analyzed matrix bytes. R candidate fitting rejects missing or mismatched matrix hashes before creating fit output and propagates the verified matrix hash into its report. Legacy prepared exports require re-export. Tests verify browser/CLI matrix agreement, missing versus zero sensitivity, and unchanged source manifest; a direct R execution confirmed a mismatched matrix fails before output-directory creation. All161unit tests pass; R parses and the static build passes. This verifies file pairing, not authenticity or empirical validity.

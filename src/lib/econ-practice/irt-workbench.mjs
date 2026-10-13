@@ -22,3 +22,9 @@ export async function matrixCSV(prepared,hash){
  const keys=await Promise.all(prepared.people.map(async id=>(await hash(id)).slice(0,20)));
  return csvTable(['person',...prepared.items],prepared.matrix.map((row,i)=>[keys[i],...row]));
 }
+
+export async function preparedArtifacts(prepared,hash){
+ const matrix=await matrixCSV(prepared,hash);
+ const matrixSHA256=await hash(matrix);
+ return {matrix,manifest:{...prepared.manifest,matrixArtifact:{file:'responses.csv',sha256:matrixSHA256,encoding:'UTF-8',personKey:'SHA-256 truncated to 20 hexadecimal characters',missing:'empty CSV cell',rows:prepared.people.length,columns:prepared.items.length+1}}};
+}
