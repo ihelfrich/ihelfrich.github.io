@@ -244,3 +244,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Eight numeric families now yield varied answers rather than invariant results: opportunity cost, unemployment, participation, inflation, real interest, bond yields, quantity-theory inflation and productivity growth. Independent prompt-based numeric checks pass for all432 variants; a new regression requires at least five distinct outcomes per revised family.
 - Clarified average opportunity cost, frictionless mutually beneficial trade, closed-economy loanable-funds supply/demand, and fixed inflation expectations plus floating exchange for initial capital-flow pressure. Repaired deposit-multiplier punctuation.
 - Bank2026.10.12.13;66 focused tests pass. Reconciliation verifies191 current family reviews without hash errors;41 families remain without recorded substantive review (39 undergraduate and2 multipart). This does not establish complete curricular breadth, second/independent review or empirical validation.
+
+## Continuation: undergraduate conceptual first review
+
+- Recorded substantive first review of all12 undergraduate conceptual cases, six per course. Keys/distractors checked against ordinal utility, duality/envelope conditions, welfare, subgame perfection, hidden types, accounting identities, Solow transitions, constrained optimality, identification, Ricardian assumptions and risk premia.
+- Corrected the borrowing-constraint explanation: a binding constraint alone need not have a positive multiplier. The stem's strict desire to borrow more supports the constrained Euler condition under usual regularity.
+- Bank2026.10.12.14;66 focused tests pass. Reconciliation now handles two review artifacts sharing one source commit.203 families match current first-review evidence;29 remain without recorded substantive review (27 undergraduate numeric,2 multipart). No historical hash errors.
+- Undergraduate coverage is still limited despite these reviewed examples. Second/independent review, richer formats and empirical validation remain open.

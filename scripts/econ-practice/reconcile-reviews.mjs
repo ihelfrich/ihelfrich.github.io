@@ -13,14 +13,16 @@ const sources=[
  ['437e7897','ap-micro-concepts-middle.json',true],
  ['45f9b6e4','ap-micro-concepts-remainder.json',true],
  ['1aa241df','ap-macro-concepts-additional.json',true,'ap-macro'],
- ['d3f541ee','ap-macro-core.json',false,'ap-macro']
+ ['d3f541ee','ap-macro-core.json',false,'ap-macro'],
+ ['34da9a1f','college-micro-concepts.json',true,'college-micro'],
+ ['34da9a1f','college-macro-concepts.json',true,'college-macro']
 ];
 const current=buildBank(),evidence=new Map(),errors=[];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'econ-review-'));
 try{
  for(const [commit,file,single,course='ap-micro'] of sources){
   const review=JSON.parse(fs.readFileSync(`docs/econ-practice/audits/${file}`,'utf8'));
-  const directory=path.join(scratch,commit);fs.mkdirSync(directory);
+  const directory=path.join(scratch,commit);fs.mkdirSync(directory,{recursive:true});
   const files=execFileSync('git',['ls-tree','--name-only',commit,'src/lib/econ-practice/'],{encoding:'utf8',timeout:10000}).trim().split('\n');
   for(const source of files.filter(f=>f.endsWith('.mjs')))fs.writeFileSync(path.join(directory,path.basename(source)),execFileSync('git',['show',`${commit}:${source}`],{timeout:10000}));
   const historical=await import(pathToFileURL(path.join(directory,'index.mjs')).href);const oldBank=historical.buildBank();
