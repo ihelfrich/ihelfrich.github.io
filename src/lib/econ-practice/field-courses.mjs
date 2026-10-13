@@ -4,11 +4,22 @@ import labor from '../../../content/econ-drafts/labor-economics.json' with {type
 import laborRelease from '../../../content/econ-drafts/labor-economics-release.json' with {type:'json'};
 import publicEconomics from '../../../content/econ-drafts/public-economics.json' with {type:'json'};
 import publicRelease from '../../../content/econ-drafts/public-economics-release.json' with {type:'json'};
-import {family,choice} from './bank.mjs';
+import {family,choice,families} from './bank.mjs';
 // Explicit imports define active batches; the build audit verifies source-byte review hashes.
-for(const [items,release] of [[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease]]){
+const batches=[[econometrics,econometricsRelease],[labor,laborRelease],[publicEconomics,publicRelease]];
+// Hot module reload can preserve the bank registry while re-evaluating this module.
+// Validate the entire replacement before removing only the courses owned here.
+for(const [items,release] of batches)for(const q of items){
+ if(q.course!==release.course||!release.reviewedIds.includes(q.id))throw new Error(`Unreviewed item: ${q.id}`);
+}
+const ownedCourses=new Set(batches.map(([,release])=>release.course));
+const insertionIndex=families.findIndex(f=>ownedCourses.has(f.course));
+for(let i=families.length-1;i>=0;i--)if(ownedCourses.has(families[i].course))families.splice(i,1);
+const replacementStart=families.length;
+for(const [items,release] of batches){
  for(const q of items){
-  if(q.course!==release.course||!release.reviewedIds.includes(q.id))throw new Error(`Unreviewed item: ${q.id}`);
   family(q.id,q.topic,q.title,2,()=>choice(q.prompt,q.correct,q.wrong,q.explanation,{skill:q.skill,sourceUrls:q.sourceUrls,review:release.reviewStatus,reviewSourceSHA256:release.sourceSHA256}),q.course,1);
  }
 }
+// Preserve deterministic bank order as well as membership across a reload.
+if(insertionIndex>=0){const replacement=families.splice(replacementStart);families.splice(insertionIndex,0,...replacement);}

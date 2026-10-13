@@ -10,3 +10,12 @@ for(const course of ['intro-econometrics','labor-economics','public-economics'])
  const bank=buildBank(),items=bank.filter(q=>q.course===course);assert.equal(items.length,30);assert.equal(new Set(items.map(q=>q.family)).size,30);assert.ok(items.every(q=>q.review==='content-reviewed-provisional'));
  const state=newState();for(let i=0;i<6;i++){const q=selectItem(bank,state,{course,mode:'assessment',sessionId:'scope',rng:()=>.3}).item;recordAnswer(state,q,{response:q.answerIndex,mode:'assessment',sessionId:'scope'});}assert.equal(new Set(state.history.map(h=>h.unit)).size,6);
 });
+
+
+test('re-evaluating the field module replaces its registrations without duplicating IDs',async()=>{
+ const before=buildBank().map(q=>q.id);
+ await import('../../src/lib/econ-practice/field-courses.mjs?reload-regression=1');
+ const after=buildBank().map(q=>q.id);
+ assert.deepEqual(after,before);
+ assert.equal(new Set(after).size,after.length);
+});

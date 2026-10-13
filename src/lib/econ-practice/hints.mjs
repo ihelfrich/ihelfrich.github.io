@@ -1,6 +1,7 @@
+import {fieldHints} from './field-hints.mjs';
 import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v5';
+export const HINT_VERSION='topic-scaffolds-v6';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -95,7 +96,7 @@ const macroFamily={
 export function hintFor(item){
  if(item.course==='ap-micro'&&microFamily[item.family])return {hint:microFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-micro:family:${item.family}`};
  if(item.course==='ap-macro'&&macroFamily[item.family])return {hint:macroFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-macro:family:${item.family}`};
- const specific=undergraduateHints[item.course]?.[item.family];
+ const specific=undergraduateHints[item.course]?.[item.family]??fieldHints[item.course]?.[item.family];
  if(specific)return {hint:specific,hintVersion:HINT_VERSION,hintScope:`${item.course}:family:${item.family}`};
  if(item.course==='ap-macro'&&macro[item.topic])return {hint:macro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-macro:${item.topic}`};
  if(item.course==='ap-micro'&&micro[item.topic])return {hint:micro[item.topic],hintVersion:HINT_VERSION,hintScope:`ap-micro:${item.topic}`};

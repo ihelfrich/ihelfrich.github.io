@@ -26,3 +26,14 @@ test('macro family exceptions target the actual calculation or classification',(
 test('foundational micro exceptions distinguish classification and welfare methods',()=>{
  for(const family of ['positive-normative','ppc-feasible','ppf-bowed','ppf-unemployment','ppf-sector-tech','revenue-elasticity','inelastic-revenue','elasticity-slope','fixed-supply','surplus-transfer','tariff-revenue','tax-incidence','tax-dwl','subsidy-welfare'])assert.equal(hintFor({course:'ap-micro',family}).hintScope,`ap-micro:family:${family}`);
 });
+
+
+test('reviewed field items have stable question-specific guidance independent of answer payloads',async()=>{
+ const {buildBank}=await import('../../src/lib/econ-practice/index.mjs');
+ const items=buildBank().filter(q=>['intro-econometrics','labor-economics','public-economics'].includes(q.course));
+ assert.equal(items.length,90);
+ for(const item of items){
+  const hint=hintFor(item);assert.equal(hint.hintScope,`${item.course}:family:${item.family}`);assert.ok(hint.hint.length>60);
+  assert.deepEqual(hint,hintFor({course:item.course,family:item.family,answerIndex:999,explanation:'DO NOT USE THIS KEY'}));
+ }
+});
