@@ -42,3 +42,38 @@ test('revised numeric families vary correct answers and include distinct margina
  assert.deepEqual([...new Set(bank.filter(q=>q.family==='marginal-choice').map(q=>q.answer))].sort(),[0,1,2,3,4]);
  const elasticity=bank.filter(q=>q.family==='demand-elasticity');assert.ok(elasticity.some(q=>q.answer<1)&&elasticity.some(q=>q.answer===1)&&elasticity.some(q=>q.answer>1));
 });
+
+const upperOracles={
+ 'marginal-product':([l,q0,q1])=>q1-q0,
+ 'average-product':([l,q])=>q/l,
+ 'marginal-cost':([q0,q1,c0,c1])=>(c1-c0)/(q1-q0),
+ 'average-variable-cost':([q,tc,fc])=>(tc-fc)/q,
+ 'fixed-cost':([q,atc,avc])=>q*(atc-avc),
+ 'economic-profit':([revenue,explicit,implicit])=>revenue-explicit-implicit,
+ 'accounting-profit':([revenue,explicit])=>revenue-explicit,
+ 'competitive-output':([intercept,slope,price])=>(price-intercept)/slope,
+ 'profit-rectangle':([q,p,atc])=>q*(p-atc),
+ 'shutdown-loss':([fc])=>fc,
+ 'competitive-revenue':([p])=>p,
+ 'monopoly-output':([a,b,mra,mrb,mc])=>(mra-mc)/mrb,
+ 'monopoly-price':([a,b,mra,mrb,mc])=>a-b*(mra-mc)/mrb,
+ 'monopoly-dwl':([mc,a,b,qm,qe])=>(qe-qm)*(a-b*qm-mc)/2,
+ 'mrp':([mp,p])=>mp*p,
+ 'hiring-rule':([a,b,w])=>(a-w)/b,
+ 'least-cost':([mpl,w,r])=>mpl*r/w,
+ 'monopsony-employment':([supplyIntercept,mfcIntercept,mfcSlope,mrpIntercept])=>(mrpIntercept-mfcIntercept)/(mfcSlope+1),
+ 'monopsony-wage':([intercept,mrpIntercept,l])=>intercept+l,
+ 'efficient-quantity':([benefitIntercept,costIntercept,costSlope])=>(benefitIntercept-costIntercept)/(1+costSlope),
+ 'negative-externality':([damage])=>damage,
+ 'externality-output':([benefitIntercept,costIntercept,damage])=>(benefitIntercept-costIntercept-damage)/2,
+ 'positive-externality':([benefit])=>benefit,
+ 'public-good-sum':v=>v.reduce((a,b)=>a+b,0),
+ 'regulation':([mc,q,atc])=>q*(atc-mc),
+ 'income-share':([income,total])=>100*income/total
+};
+test('unit 3–6 numeric keys agree with student-visible data and independent economic identities',()=>{
+ for(const [family,oracle] of Object.entries(upperOracles)){
+  const items=bank.filter(q=>q.family===family);assert.equal(items.length,24,family);
+  for(const q of items){const expected=oracle(numbers(q));assert.ok(Number.isFinite(expected)&&Math.abs(q.answer-expected)<=0.000501,`${q.id}: ${q.answer} versus ${expected}`);}
+ }
+});

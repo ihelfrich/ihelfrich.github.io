@@ -79,3 +79,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - New independent economic identities parse student-visible prompt quantities for all 576 numeric variants in these families. Tests additionally verify decision variety and elasticity classifications. All 35 focused tests and structural checks pass; count remains 1,292 AP Micro items /142 families.
 - Clarified the positive-trade assumption in tax incidence. Fixed a dimensional wording error in competitive output: price, rather than output, must exceed minimum AVC.
 - Several other families intentionally or currently retain invariant keys (e.g., midpoint elasticity and price controls); the review record flags this limitation. Second substantive pass, other families, diagram/FRQ expansion and live setup remain pending.
+
+## Continuation: original core Units 3–6 review
+
+- Bank version 2026.10.12.4 adds explicit operating/capacity assumptions to monopoly quantity/price and no-other-distortions assumptions to the externality-output prompt.
+- First substantive self-review covers the remaining 38 original core families (636 items), recorded with family-specific reasoning and content hashes in audits/ap-micro-core-units-3-6.json. Together with the prior review this covers all 71 original core families, not the 71 additional conceptual families.
+- Student-visible-data arithmetic checks now cover all 50 AP Micro numeric families and 1,200 numeric variants. All 36 focused tests and structural checks pass. These checks do not establish empirical item quality or AP skill coverage.
+- Remaining invariant-answer families, adversarial second review, additional concepts, diagrams/FRQs and all operational/deployment gates remain open. Prior-version review artifacts are retained as versioned historical evidence, not assertions that later content hashes match.

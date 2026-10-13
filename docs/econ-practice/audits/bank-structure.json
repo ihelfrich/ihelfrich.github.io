@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.3",
-  "bankSHA256": "385362bce90baafa7f003874f664984209e78414f1ecd587ff665339ec6bdbf0",
+  "bankVersion": "2026.10.12.4",
+  "bankSHA256": "8c5b88d98ea6a722294b1b21218e45dc3f33b65488b1a031d592460ab3265677",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -1045,13 +1045,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:monopoly-output:01",
-        "prompt": "A monopolist faces P = 100 − 2Q, so MR = 100 − 4Q. Marginal cost is 20. What quantity maximizes profit?",
+        "prompt": "A monopolist faces P = 100 − 2Q, so MR = 100 − 4Q. Marginal cost is 20. Assume operation is profitable and there is no capacity constraint. What quantity maximizes profit?",
         "answer": 20,
         "explanation": "Set MR = MC: Q = (demand intercept − 20)/4. Assume production is profitable and there are no capacity constraints."
       },
       "last": {
         "id": "ap-micro:monopoly-output:24",
-        "prompt": "A monopolist faces P = 192 − 2Q, so MR = 192 − 4Q. Marginal cost is 20. What quantity maximizes profit?",
+        "prompt": "A monopolist faces P = 192 − 2Q, so MR = 192 − 4Q. Marginal cost is 20. Assume operation is profitable and there is no capacity constraint. What quantity maximizes profit?",
         "answer": 43
       }
     },
@@ -1067,13 +1067,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:monopoly-price:01",
-        "prompt": "Demand is P = 100 − 2Q, MR = 100 − 4Q, and MC = 20. What price does the profit-maximizing monopolist charge?",
+        "prompt": "Demand is P = 100 − 2Q, MR = 100 − 4Q, and MC = 20. Assume operation is profitable and there is no capacity constraint. What price does the profit-maximizing monopolist charge?",
         "answer": 60,
         "explanation": "MR = MC gives Q = 20. Substitute into demand, not MR: P = 60."
       },
       "last": {
         "id": "ap-micro:monopoly-price:24",
-        "prompt": "Demand is P = 192 − 2Q, MR = 192 − 4Q, and MC = 20. What price does the profit-maximizing monopolist charge?",
+        "prompt": "Demand is P = 192 − 2Q, MR = 192 − 4Q, and MC = 20. Assume operation is profitable and there is no capacity constraint. What price does the profit-maximizing monopolist charge?",
         "answer": 106
       }
     },
@@ -1355,13 +1355,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:externality-output:01",
-        "prompt": "Demand is P = 100 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. What is efficient output?",
+        "prompt": "Demand is P = 100 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. There are no other externalities or distortions. What is efficient output?",
         "answer": 34,
         "explanation": "Social marginal cost is 32 + Q. Equating it with demand gives Q = (intercept − 32)/2."
       },
       "last": {
         "id": "ap-micro:externality-output:24",
-        "prompt": "Demand is P = 192 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. What is efficient output?",
+        "prompt": "Demand is P = 192 − Q. Private marginal cost is 20 + Q and marginal external damage is 12. There are no other externalities or distortions. What is efficient output?",
         "answer": 80
       }
     },

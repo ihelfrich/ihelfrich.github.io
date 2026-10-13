@@ -1,0 +1,358 @@
+{
+  "bankVersion": "2026.10.12.4",
+  "reviewer": "Codex self-review",
+  "scope": "Original core Units 3–6 families only. Does not cover additional conceptual cases, independent human review or empirical item quality.",
+  "families": 38,
+  "items": 636,
+  "verification": "tests/unit/econ-content-oracles.test.mjs",
+  "remaining": [
+    "Adversarial second pass",
+    "Additional conceptual families",
+    "Graph and free-response coverage",
+    "Empirical calibration and validation"
+  ],
+  "entries": [
+    {
+      "family": "marginal-product",
+      "topic": "3.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "One additional worker makes the output difference equal to marginal product.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "ba824fa927d965c7488ab6caacfff8bfe75c4067b90fe47ab189647310d82bd6"
+    },
+    {
+      "family": "average-product",
+      "topic": "3.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Total output divided by labor gives average product; all variants retain the same ratio, a variety limitation.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "86862178f746b6cdac172ed4921bddce4a148e1e47fc6d723aead487f4d94721"
+    },
+    {
+      "family": "marginal-cost",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "An interval average of marginal cost is explicitly requested, so total-cost change divided by five units is appropriate.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "763f6fee7290d98395ce086e94eee446661e9ed3e0c25bce7ddd1b6269e86cd0"
+    },
+    {
+      "family": "average-variable-cost",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Subtract fixed cost before dividing by quantity. Constant answer across variants remains a variety limitation.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "18746302fe6c099828d2ee1c61e6013e2809ca373bf9699382542bf502c15d97"
+    },
+    {
+      "family": "fixed-cost",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "ATC minus AVC is average fixed cost; multiply by quantity to recover the total.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "405a3a17a173d883f71a2ae66fdf1d48bc53c52700bb0492ee520f34800a8a5c"
+    },
+    {
+      "family": "scale-economies",
+      "topic": "3.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "All inputs double while output grows by factor 2.4: increasing returns to scale. This is a technological claim, not an unconditional cost claim.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "028f4f49d15687ee510476622c9cbe24030bb8a190b860ccff27c052b9c87454"
+    },
+    {
+      "family": "economic-profit",
+      "topic": "3.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Deduct explicit and implicit costs once each.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "c0d5b4008843a9ba9650fc02c6c29092f30d12fd52d375c682950ecdd87b6630"
+    },
+    {
+      "family": "accounting-profit",
+      "topic": "3.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Deduct explicit costs only; implicit costs are deliberately irrelevant to accounting profit.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "05a8388762e47675cb32c751e7ffbf768a9bd370df301ffb1f8cf7dffe24af05"
+    },
+    {
+      "family": "competitive-output",
+      "topic": "3.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Increasing MC yields a unique price-equals-MC output. The stated shutdown and capacity assumptions support this choice.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "eabb56cecb73c218a530e6c48abd826e90f1485331d960aff6b08dfaaffffd7d"
+    },
+    {
+      "family": "profit-rectangle",
+      "topic": "3.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At the given optimum, quantity times price less ATC gives economic profit.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "eb6d9b04fae859151f769e24d35416685d99bdb140d7bfdb2b70e62291169147"
+    },
+    {
+      "family": "shutdown",
+      "topic": "3.6",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Price covers AVC but not ATC, so operating covers part of unavoidable fixed costs and dominates temporary shutdown.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "e06c89fa0c15ac26e92f7e977c55819aca5ea08a1f025b041d99c3bf9e091794"
+    },
+    {
+      "family": "shutdown-loss",
+      "topic": "3.6",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With zero output and avoidable variable cost, unavoidable fixed cost is the loss.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "ddb4bda70368571533c0c6201e75740262d29cf814ed5a08ea2ab6b290d69c35"
+    },
+    {
+      "family": "entry",
+      "topic": "3.7",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "In the standard identical-firm free-entry model, entry expands supply and eliminates economic profit. Input-price effects could move the eventual cost curve.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "3b710707c884bbf0b45af374b14360986f7492f0439c83792479517f2c19b785"
+    },
+    {
+      "family": "competitive-revenue",
+      "topic": "3.7",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "A price taker has constant revenue per additional unit over the relevant range.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "701c422091f93e7f6ea6b2d6a4bc25c5e1a298f5c54e48e8ea90db22f3964445"
+    },
+    {
+      "family": "structure",
+      "topic": "4.1",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Differentiation with free entry most closely fits monopolistic competition; number of firms alone is not the criterion.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "3caf4575efbb1ef5ddb3e303e21cd26a79cb9241c6bf80f11bce46243fb52385"
+    },
+    {
+      "family": "monopoly-output",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "MR equals constant MC at a positive interior output. Moved operating-profitability and capacity assumptions into the prompt so the student sees them before answering.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "9f1ba672a9751d3711f940edc3a584ed3014afe86ec006ae8d881197ebf7dc19"
+    },
+    {
+      "family": "monopoly-price",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Quantity comes from MR=MC; price is read from demand. Added operating and capacity assumptions in the prompt.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "9c688f2f337118adb4257e99732a11c14b9b5cc0223310ccb3bbda1c4140a22a"
+    },
+    {
+      "family": "monopoly-dwl",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The lost-trade triangle lies between monopoly and efficient output; height is monopoly price minus MC. All stated quantities are consistent.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "514510cd8c073cf7d4505527b4d89f29bc5b5516469f28fc383882ac1665c569"
+    },
+    {
+      "family": "discrimination",
+      "topic": "4.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Perfect discrimination captures each unit’s willingness to pay; produce through the efficient boundary without externalities. Equality units are optional under profit indifference.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "6a484ee671f2db14017993bc829efe81888a7bffa9841c85302e1e74f5b6eef4"
+    },
+    {
+      "family": "monopolistic-longrun",
+      "topic": "4.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "P=ATC implies zero economic profit but allows P>MC with downward-sloping demand; no claim of productive efficiency follows.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "775e658a9449742652bc07bc7b5d7768b0aabec090f9adb8486809c6f46fc533"
+    },
+    {
+      "family": "dominant-strategy",
+      "topic": "4.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Cutting gives a strictly higher payoff against each of the rival’s two actions.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "fd34fd94e12fb259cf514766f31a972e97d5f3d5f3f8d0f2b52e52d5f02b56e1"
+    },
+    {
+      "family": "nash-equilibrium",
+      "topic": "4.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Defection strictly dominates cooperation for each firm; both defect is the unique one-shot equilibrium in this stated game.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "f84c02bb010cf39161b476e81999cbfa7914520a5b1e5ac2f643f29678bd52ea"
+    },
+    {
+      "family": "mrp",
+      "topic": "5.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With a competitive output market, marginal revenue equals price, so MRP=MP times price.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "20d9b0c369b9ae13fccdef9189e46a73aa6564987a66167170235d37ceeb5f90"
+    },
+    {
+      "family": "factor-demand",
+      "topic": "5.2",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Higher output price at unchanged marginal productivity raises labor MRP and shifts labor demand.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "5b92bcbfb63d994f748fd4bc432ead8a87017c8c673b3fabe838087600a8cf51"
+    },
+    {
+      "family": "hiring-rule",
+      "topic": "5.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Divisible labor and wage taking permit solving decreasing MRP equal to wage.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "7dead95ab538c3f3d2c39bbdce5f3992526e062f1562504c72600d6ede5eeaef"
+    },
+    {
+      "family": "least-cost",
+      "topic": "5.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At an interior optimum, marginal product per dollar must be equal across inputs.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "e4120ab3e4662b85ece19e14867bc8c53525fdb5ccc6a91efd799a0521bc7707"
+    },
+    {
+      "family": "monopsony-employment",
+      "topic": "5.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Equate MFC to MRP, not supply wage to MRP. The stated MFC is the derivative of uniform-wage expenditure.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "b08e0889688f45e98d416a2896a3bb8476f5f7d64d22a3a06060df974fe0c141"
+    },
+    {
+      "family": "monopsony-wage",
+      "topic": "5.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Read the wage from labor supply at the supplied optimal employment; MFC is not the wage.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "f8f84eee6990b3c3edba8e2eeb3aca8e920f7feed55df68f56c926644f75c1f7"
+    },
+    {
+      "family": "efficient-quantity",
+      "topic": "6.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Downward MSB and upward MSC intersect at a positive unique surplus maximum.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "65d7821095fe6636643443e5193831c7610f5ae17612801040ecc4eddbb5a96a"
+    },
+    {
+      "family": "negative-externality",
+      "topic": "6.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Constant marginal damage makes the corrective unit tax equal to that damage under the no-other-distortions assumption.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "7cfb8f260ab9b2f3e86582dd07131204f7db3157e05f07f42b0772f78f52d710"
+    },
+    {
+      "family": "externality-output",
+      "topic": "6.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Add external damage to private MC before comparing to demand. Added no-other-externalities/distortions assumption so demand represents MSB.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "4c38cc92fcdc001cb5f1bb694237d44955eee9eacbb912ba03f6418c29ef243f"
+    },
+    {
+      "family": "positive-externality",
+      "topic": "6.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Constant external benefit is the corrective subsidy under competitive supply and no other distortions.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "a6f7a083b12c0a0d601646e3fb8e2fa83222ecf99c85b2fcc23f4f7260bf5f52"
+    },
+    {
+      "family": "public-good-sum",
+      "topic": "6.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At a shared nonrival quantity, sum marginal willingness to pay vertically; all three valuations are positive.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "3ecc74f0dc4ed7372925c85e87997fc478025654263cbfadcd1ba21719c275a7"
+    },
+    {
+      "family": "common-resource",
+      "topic": "6.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Fish are rival and access is nonexcludable, distinguishing a common-pool resource from a pure public good.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "435938d7a452d480ecc806691c09638827d35bb4256330af86a78a92409ae46e"
+    },
+    {
+      "family": "lump-sum-tax",
+      "topic": "6.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Conditional on continued operation, fixed tax changes profit rather than the marginal output condition.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "1c9c772047133558cd1de81bd1e083b6494746b8b3692f1d98d64ce2644117c1"
+    },
+    {
+      "family": "regulation",
+      "topic": "6.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At MC pricing, subsidy covering economic loss equals output times ATC minus price.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "9cd88bf20bdfe87804a71151f2feace42f43235c43c041eb13b44dc284163fd3"
+    },
+    {
+      "family": "income-share",
+      "topic": "6.5",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Group income divided by total income gives its share; the population quintile is not its income share. Constant five-percent answers remain a variety limitation.",
+      "numericVerification": "All 24 variants checked by student-visible-data oracle",
+      "contentSHA256": "a0a3f10a80691ef15600943f13c94d3fcab8c380c97f01a8e9950fc60407c5f2"
+    },
+    {
+      "family": "lorenz",
+      "topic": "6.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The new curve is weakly above everywhere and strictly above at the stated point, establishing Lorenz dominance without an absolute-income or mean-income claim.",
+      "numericVerification": "Conceptual key and distractors reviewed",
+      "contentSHA256": "ec7c396a4dcd60623dc49a70bae2d1ddb83695a97e877c9f0351019fd1a5dbbf"
+    }
+  ]
+}
