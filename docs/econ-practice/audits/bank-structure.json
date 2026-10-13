@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.5",
-  "bankSHA256": "cb377e1af783f01c5d7ea357dac85f48aed16b287c592be20d083f2ff4cd9a45",
+  "bankVersion": "2026.10.12.6",
+  "bankSHA256": "ca78b0add3337aec5b281cc4b40b5a1d57e232257df29f1fec4ee0c16ea128d8",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -1717,7 +1717,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:utility-reallocation:01",
-        "prompt": "At an interior bundle, MUx/Px exceeds MUy/Py. What change initially increases utility without raising expenditure?",
+        "prompt": "For smoothly divisible goods at an interior bundle, MUx/Px exceeds MUy/Py. What change initially increases utility without raising expenditure?",
         "answer": "Shift spending from Y toward X.",
         "explanation": "An extra dollar on X adds more utility than the dollar taken away from Y loses."
       },
@@ -2419,8 +2419,8 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:group-markups:01",
-        "prompt": "A firm price-discriminates across two separated groups with the same marginal cost. Which group usually receives the higher optimal markup?",
-        "answer": "The group with less elastic demand",
+        "prompt": "A firm price-discriminates across two separated groups with the same positive constant marginal cost and interior optima. Which group has the higher optimal percentage markup over price?",
+        "answer": "The group with the smaller absolute price elasticity at its optimum",
         "explanation": "The inverse-elasticity pricing rule permits a larger markup where quantity responds less strongly to price."
       },
       "last": null
@@ -2671,7 +2671,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:positive-consumption:01",
-        "prompt": "Vaccination creates benefits for people other than the vaccinated person. In a simple competitive model, how does unregulated quantity compare with efficient quantity?",
+        "prompt": "Vaccination creates positive marginal benefits for others. With no other distortions and interior private and social optima in the standard competitive model, how does unregulated quantity compare with efficient quantity?",
         "answer": "It is below the efficient quantity.",
         "explanation": "Private demand omits external benefits, so private incentives support too little consumption."
       },
@@ -2743,7 +2743,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:per-unit-monopoly-tax:01",
-        "prompt": "A per-unit tax raises a monopolist’s marginal cost. With standard downward demand and increasing marginal cost, what is the usual output effect?",
+        "prompt": "A per-unit tax raises a monopolist’s marginal cost. With downward-sloping marginal revenue, increasing marginal cost, and interior optima before and after the tax, what is the output effect?",
         "answer": "Profit-maximizing output falls.",
         "explanation": "The higher MC intersects MR at a lower quantity under the stated regularity conditions."
       },
@@ -2761,7 +2761,7 @@
       "structuralChecks": "passed",
       "first": {
         "id": "ap-micro:gini-extremes:01",
-        "prompt": "Which distribution is represented by a Gini coefficient of zero?",
+        "prompt": "For nonnegative incomes with a positive mean, which distribution is represented by a Gini coefficient of zero?",
         "answer": "Complete equality of the measured income distribution",
         "explanation": "Zero Gini means no measured inequality. It does not specify the common income level."
       },

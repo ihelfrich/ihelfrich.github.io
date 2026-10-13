@@ -98,3 +98,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Reviewed 30 additional conceptual families, from own-price-supply through constant-cost-entry. Six prompts needed tighter assumptions: upward-sloping supply; next-unit rather than current marginal product; positive fixed cost/output; output along LRAC rather than arbitrary input scaling; an available next-best salary alternative; and unconstrained interior marginal output adjustment.
 - Bank version 2026.10.12.5. Findings and per-item hashes are in audits/ap-micro-concepts-middle.json. All 39 focused tests and structural checks pass. These tests do not validate conceptual interpretation; the recorded substantive self-review is separate evidence.
 - Forty-one additional conceptual families remain outside this recorded first pass. Second review, further content/format expansion, psychometric operations and deployment gates remain open.
+
+## Continuation: remaining conceptual first pass
+
+- Reviewed the remaining 41 added conceptual families and clarified five prompts: divisible goods for local utility reallocation; positive common MC/interior solutions and percentage markup for the inverse-elasticity rule; no offsetting distortions/interior optima for positive-externality underproduction; downward MR for the monopoly-tax comparative static; nonnegative incomes/positive mean for the conventional Gini.
+- Bank version 2026.10.12.6. Findings and current item hashes are in audits/ap-micro-concepts-remainder.json. All 39 focused tests and structural checks pass.
+- First substantive self-review now covers all 142 AP Micro families (71 core plus71 added concepts). The four review records retain their original bank versions/hashes, so this is historical review coverage, not automatic current-hash certification. A second pass must consolidate current content and review evidence before publication. Item metadata deliberately still says draft-awaiting-content-audit.
+- No empirical validation is implied. Content breadth/format expansion, second pass, other-course reviews, psychometric operation, reliability/security and live setup remain open.
