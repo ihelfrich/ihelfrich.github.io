@@ -1,6 +1,6 @@
 import {undergraduateHints} from './undergraduate-hints.mjs';
 // Authored method prompts. Never interpolate an answer or worked explanation.
-export const HINT_VERSION='topic-scaffolds-v4';
+export const HINT_VERSION='topic-scaffolds-v5';
 const micro={
  '1.1':'Name the scarce resource. What alternative use must be given up when it is used here?',
  '1.2':'Separate the allocation rule from its consequences. Who decides what is produced and who receives it?',
@@ -66,6 +66,22 @@ const macro={
  '6.3':'Identify which cross-border transactions belong in the current account. When using saving minus investment, apply the accounting definitions given.',
  '6.4':'Compare expected returns after accounting for exchange-rate expectations and risk. A higher quoted interest rate alone need not guarantee a higher expected return.'
 };
+const microFamily={
+ 'positive-normative':'Ask whether each statement could be tested against evidence or instead expresses a judgment about what ought to happen.',
+ 'ppc-feasible':'At the stated X, calculate the largest feasible Y. Compare actual Y with that frontier value before classifying the bundle.',
+ 'ppf-bowed':'Consider whether resources are equally well suited to both activities. Which resources must be shifted as production becomes more specialized?',
+ 'ppf-unemployment':'The economy’s productive capacity has not changed. Locate the initial and new bundles relative to the same frontier.',
+ 'ppf-sector-tech':'Compare the two intercepts separately. A productivity improvement confined to one sector need not move both intercepts.',
+ 'revenue-elasticity':'Total revenue is price times quantity. Compare the percentage quantity response with the percentage price change.',
+ 'inelastic-revenue':'Compare the proportional loss of sales with the proportional increase in price. Revenue depends on both.',
+ 'elasticity-slope':'Point elasticity combines the curve’s slope with the price-to-quantity ratio. Which of those stays constant along a straight line?',
+ 'fixed-supply':'Draw a vertical supply curve. When demand shifts, check which coordinate of the intersection can move.',
+ 'surplus-transfer':'Write producer surplus as revenue minus variable cost and economic profit as revenue minus total cost. Compare what each subtracts.',
+ 'tariff-revenue':'Use imports after the tariff, not total domestic purchases. Each imported unit generates the stated tariff payment.',
+ 'tax-incidence':'Use the tax wedge and both inverse-curve slopes to relate the quantity reduction to the buyer and seller price changes.',
+ 'tax-dwl':'Identify the tax wedge and the reduction in mutually beneficial trade. With straight curves, the lost-surplus region is a triangle.',
+ 'subsidy-welfare':'For the extra units beyond the efficient quantity, compare marginal willingness to pay with marginal resource cost.'
+};
 const macroFamily={
  opportunity:'Divide the amount of food forgone by the number of additional machines. The requested units are food per machine, not machines per food unit.',
  'bond-price':'For a one-year zero-coupon bond, compare the maturity payment with the purchase price. Express the gain as a percentage of the amount paid today.',
@@ -77,6 +93,7 @@ const macroFamily={
  'macro-stabilizers':'Trace how the existing tax rule changes disposable income as earnings fall. Compare the income decline with what would happen if tax payments did not respond.'
 };
 export function hintFor(item){
+ if(item.course==='ap-micro'&&microFamily[item.family])return {hint:microFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-micro:family:${item.family}`};
  if(item.course==='ap-macro'&&macroFamily[item.family])return {hint:macroFamily[item.family],hintVersion:HINT_VERSION,hintScope:`ap-macro:family:${item.family}`};
  const specific=undergraduateHints[item.course]?.[item.family];
  if(specific)return {hint:specific,hintVersion:HINT_VERSION,hintScope:`${item.course}:family:${item.family}`};

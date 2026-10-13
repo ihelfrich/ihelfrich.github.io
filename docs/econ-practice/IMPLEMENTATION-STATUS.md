@@ -537,3 +537,7 @@ Private question-library pages now include current hint text, version and scope 
 ## AP Macro hint-fit review (2026-10-12)
 
 Inspected the first prompt of all 49 AP Macro families against authored topic guidance. Added eight family overrides: opportunity cost, one-year bond yield, productivity growth, currency appreciation, unemployment at potential, excess reserves, money demand, and automatic stabilizers. These correct broad topic scaffolds that did not directly address the requested calculation/classification. Guidance version is topic-scaffolds-v4. Review scope is representative first variants, not every numeric variant or empirical learning validation. All 130 focused tests pass.
+
+## AP Micro Units 1–2 hint-fit review (2026-10-12)
+
+Inspected first-variant prompts for all current AP Micro families in Units 1–2. Added 14 family overrides for normative statements, PPF classification/shape/shifts, revenue elasticity, fixed supply, producer surplus versus profit, tariff revenue, tax incidence/deadweight loss, and subsidy welfare. Version topic-scaffolds-v5. All 131 focused tests pass. Review is representative first prompts; variants and Units 3–6 still require hint-fit review.

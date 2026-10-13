@@ -22,3 +22,7 @@ test('macro family exceptions target the actual calculation or classification',(
  assert.match(hintFor({course:'ap-macro',family:'bond-price'}).hint,/amount paid today/);
  assert.match(hintFor({course:'ap-macro',family:'growth'}).hint,/per hour/);
 });
+
+test('foundational micro exceptions distinguish classification and welfare methods',()=>{
+ for(const family of ['positive-normative','ppc-feasible','ppf-bowed','ppf-unemployment','ppf-sector-tech','revenue-elasticity','inelastic-revenue','elasticity-slope','fixed-supply','surplus-transfer','tariff-revenue','tax-incidence','tax-dwl','subsidy-welfare'])assert.equal(hintFor({course:'ap-micro',family}).hintScope,`ap-micro:family:${family}`);
+});
