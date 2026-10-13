@@ -80,9 +80,89 @@
     {
       "id": "causal-inference-u2-10",
       "sha256": "f11e4cdc050139004a44823cf787596c03b74461515d9b08ceb28f510bb38f88"
+    },
+    {
+      "id": "causal-inference-u3-01",
+      "sha256": "638fff78966cbf999f3031933831cd248bff463e2125c9671930775c760526cc"
+    },
+    {
+      "id": "causal-inference-u3-02",
+      "sha256": "49f4e53e6f1b38a2798b6f3c822512db9690a370f2843f6a3847c45d5ce13d66"
+    },
+    {
+      "id": "causal-inference-u3-03",
+      "sha256": "c0ed1935f955e71da004fb586d5da93ab5f39bcf032ac8aecebc6c92667b7ed1"
+    },
+    {
+      "id": "causal-inference-u3-04",
+      "sha256": "298b4b76013d8960316e721bf4efe14d36811b13ff49429539c789bd1ccf8c03"
+    },
+    {
+      "id": "causal-inference-u3-05",
+      "sha256": "62005cacdb3dd7b45508758834f5e2b877ae5a374e7f44bc53d882a1c2d88240"
+    },
+    {
+      "id": "causal-inference-u3-06",
+      "sha256": "73cde26f03868740a0a35587a2f97490f8748eb2f8da433de0ae314853af9de3"
+    },
+    {
+      "id": "causal-inference-u3-07",
+      "sha256": "9d11bb39bf0efdad34fd5772a11f54de7f2daae0e6826acb35844e7d2ea3c87e"
+    },
+    {
+      "id": "causal-inference-u3-08",
+      "sha256": "d3f2d7104c750f9c91a50bf449963a91c3c95283abcc7cd1a23eba37e59e59f3"
+    },
+    {
+      "id": "causal-inference-u3-09",
+      "sha256": "717c6e75ea5ba4ac7006486c69338e696df027e672c91b04d5ab4670c96f149e"
+    },
+    {
+      "id": "causal-inference-u3-10",
+      "sha256": "33faac146e594c6e8b2e3b7cac853054f10653bb7f41796ee0b5bd2a3bda91ff"
+    },
+    {
+      "id": "causal-inference-u4-01",
+      "sha256": "5f0f458c03485c43eb385266802a89f55da6964904d1812766409191757e3024"
+    },
+    {
+      "id": "causal-inference-u4-02",
+      "sha256": "65aea57888159ec05d0541487b1c7f9b02917d0c1cd7eeea20dc02d8799e8f31"
+    },
+    {
+      "id": "causal-inference-u4-03",
+      "sha256": "4873dcda89d1af283d94dc1e34affdd710883630876052ca80d6d5dc5bf2dcaa"
+    },
+    {
+      "id": "causal-inference-u4-04",
+      "sha256": "89d5e9630275d98ed029162c8dc8983da49f427c62c921ace48b66d24f6edd12"
+    },
+    {
+      "id": "causal-inference-u4-05",
+      "sha256": "dd0ab150b7e4c967b5f23f037c08ae92c6a4f1c871db2fac1056ccbfece0af5e"
+    },
+    {
+      "id": "causal-inference-u4-06",
+      "sha256": "299eeda814b4506150cc4a6645842b1c74636048831a91eec8702d67b71fd8e7"
+    },
+    {
+      "id": "causal-inference-u4-07",
+      "sha256": "a7f0098c68eb1fd0ead4614515562e21aad91af1c4de6f35e332cb8df9b46171"
+    },
+    {
+      "id": "causal-inference-u4-08",
+      "sha256": "e27a5db5f024a79658fc7515f1354e2ae96359183e9bcab92088c55ad237fd20"
+    },
+    {
+      "id": "causal-inference-u4-09",
+      "sha256": "547b7b23fc7106814a4854a96498943dd7f1b3d3121adef9ba59f90cc1834bd1"
+    },
+    {
+      "id": "causal-inference-u4-10",
+      "sha256": "cc09e3964a0a44e2d04da47a99fa3b0a13682c556f228b9432a70317034d8a72"
     }
   ],
-  "scope": "Parent reviewed first20 complete records. Keys and stated identification distinctions sound; malformed options prevent release.",
+  "scope": "Parent reviewed first40 complete records; keys/assumptions sound, option serialization defects prevent release.",
   "checks": [
     {
       "id": "u1-01",
@@ -125,11 +205,40 @@
       "check": "Stratum target weighting",
       "value": 2,
       "passed": true
+    },
+    {
+      "id": "u3-02",
+      "value": 3.1999999999999997,
+      "passed": true
+    },
+    {
+      "id": "u3-04",
+      "value": 4,
+      "passed": true
+    },
+    {
+      "id": "u4-01",
+      "value": 5,
+      "passed": true
+    },
+    {
+      "id": "u4-05",
+      "value": 0.39999999999999997,
+      "passed": true
+    },
+    {
+      "id": "u4-10",
+      "value": 7.333333333333333,
+      "passed": true
     }
   ],
   "structuralFindings": [
     {
       "id": "causal-inference-u1-03",
+      "wrongCount": 6
+    },
+    {
+      "id": "causal-inference-u3-01",
       "wrongCount": 6
     }
   ],
@@ -139,7 +248,12 @@
       "issue": "Conditional-expectation vertical bars split distractors into six fragments.",
       "resolution": "Requested explicit three-string array preserving notation and complete-bank option checks.",
       "status": "sent-to-author"
+    },
+    {
+      "id": "causal-inference-u3-01",
+      "issue": "Same conditional-bar delimiter defect.",
+      "status": "sent-to-author"
     }
   ],
-  "remaining": "Verify correction and review remaining40; no release or calibration."
+  "remaining": "Verify option corrections, final20 review and release integration; no empirical calibration."
 }
