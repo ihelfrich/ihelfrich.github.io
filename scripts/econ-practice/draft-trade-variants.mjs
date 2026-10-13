@@ -106,8 +106,8 @@ family('u6-01',i=>{
 });
 family('u6-02',i=>{
  const increase=5+2*i,beta=-1.2,ans=round((1+increase/100)**beta);
- return item(`A hypothetical regression of log trade on log distance has slope ${beta} on log distance. Distance rises ${increase}%. Holding all other regressors fixed, by what factor does the exponentiated fitted value change? Compute the exact multiplicative expression and round to six decimal places.`,ans,
- `The factor is (1+${increase}/100)^(${beta})=${ans} after rounding. This is the exponentiated fitted log value, not the conditional arithmetic mean without additional retransformation assumptions.`,
+ return item(`A hypothetical regression of log trade on log distance has slope ${beta} on log distance. Distance rises ${increase}%. Holding all other regressors fixed, by what factor does the exponentiated fitted value change? Compute the exact multiplicative expression and round to three decimal places.`,ans,
+ `The factor is (1+${increase}/100)^(${beta})≈${round(ans,3)} after rounding to three decimal places. This is the exponentiated fitted log value, not the conditional arithmetic mean without additional retransformation assumptions.`,
  'Multiply the coefficient by the log of the distance multiplier, then exponentiate.',v=>{near(v,Math.exp(beta*Math.log1p(increase/100)),.00000051);assert.ok(v>0&&v<1);});
 });
 family('u6-05',i=>{
