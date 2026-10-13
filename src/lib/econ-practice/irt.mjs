@@ -36,6 +36,11 @@ export function itemParameters(item,calibration){
  }
  return {a:1,b:item.difficulty-2,c:0,d:1,status:'provisional',modelVersion:'author-seeded-rasch-v1'};
 }
+export function validateParameterSnapshot(value){
+ if(!value||!['provisional','calibrated'].includes(value.status)||typeof value.modelVersion!=='string'||!value.modelVersion.trim()||![value.a,value.b,value.c,value.d].every(Number.isFinite))throw new Error('Invalid measurement parameter snapshot');
+ probability(0,value);
+ return {a:value.a,b:value.b,c:value.c,d:value.d,status:value.status,modelVersion:value.modelVersion};
+}
 export function expectedInformation(weights,params){return weights.reduce((s,w,i)=>s+w*information(GRID[i],params),0);}
 export function eligibleForCalibration(event){
  return event.mode==='assessment'&&event.firstExposure===true&&event.hints===0&&event.feedbackBeforeAnswer===false&&event.receiptVerified===true&&event.validity==='valid'&&typeof event.correct==='boolean';

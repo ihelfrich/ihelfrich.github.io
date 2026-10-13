@@ -272,3 +272,13 @@ test('bank archive rejects version reuse and detects missing chunks instead of e
  await t.env.DB.prepare("DELETE FROM bank_chunks WHERE version='archive-test' AND unit=?").bind(items[0].unit).run();
  await assert.rejects(archivedBank(t.env.DB,'archive-test','college-macro'),/incomplete/);t.env.DB.close();
 });
+
+test('presentations retain and export the exact parameters returned by selection',async()=>{
+ const {itemParameters}=await import('../../src/lib/econ-practice/irt.mjs');
+ const t=setup(),{p,s,next}=await enrolled(t,'assessment');
+ const row=await t.env.DB.prepare('SELECT * FROM presentations WHERE id=?').bind(next.presentationId).first();
+ await assert.rejects(t.env.DB.prepare('UPDATE presentations SET model_version=? WHERE id=?').bind('changed',next.presentationId).run(),/immutable/);
+ const params=JSON.parse(row.measurement_parameters_json);assert.deepEqual(params,itemParameters(JSON.parse(row.item_snapshot_json)));assert.equal(params.modelVersion,row.model_version);
+ await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);
+ const exported=await t.call('/admin/responses',null,'test-only-admin');assert.deepEqual(JSON.parse(exported.rows[0].measurement_parameters_json),params);t.env.DB.close();
+});

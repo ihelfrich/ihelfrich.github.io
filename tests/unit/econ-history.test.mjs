@@ -7,10 +7,10 @@ import {buildBank} from '../../src/lib/econ-practice/index.mjs';
 test('history replay crosses 10000 answers without truncation and excludes other owners and late receipts',async()=>{
  const DB=createLocalDB();
  DB.exec(`CREATE TABLE responses(ledger_sequence INTEGER PRIMARY KEY,participant_id TEXT,presentation_id TEXT,session_id TEXT,attempt_number INTEGER,event_id TEXT,raw_answer_json TEXT,server_received_at TEXT,hints_used INTEGER,calibration_eligible INTEGER,validity TEXT);
- CREATE TABLE presentations(id TEXT PRIMARY KEY,item_snapshot_json TEXT);
+ CREATE TABLE presentations(id TEXT PRIMARY KEY,item_snapshot_json TEXT,model_version TEXT DEFAULT 'author-seeded-rasch-v1',measurement_parameters_json TEXT);
  CREATE TABLE sessions(id TEXT PRIMARY KEY,mode TEXT);`);
  const item=buildBank().find(q=>q.format==='numeric');
- await DB.prepare('INSERT INTO presentations VALUES (?,?)').bind('q',JSON.stringify(item)).run();
+ await DB.prepare('INSERT INTO presentations (id,item_snapshot_json) VALUES (?,?)').bind('q',JSON.stringify(item)).run();
  await DB.prepare('INSERT INTO sessions VALUES (?,?)').bind('s','practice').run();
  for(let i=1;i<=10005;i++)await DB.prepare('INSERT INTO responses VALUES (?,?,?,?,?,?,?,?,?,?,?)').bind(i,'owner','q','s',1,`e${i}`,JSON.stringify(item.answer),'2026-10-12T00:00:00.000Z',0,0,'valid').run();
  await DB.prepare('INSERT INTO responses VALUES (?,?,?,?,?,?,?,?,?,?,?)').bind(10006,'other','q','s',1,'other',JSON.stringify(item.answer),'2026-10-12T00:00:00.000Z',0,0,'valid').run();
@@ -34,10 +34,21 @@ test('indexed replay matches ordinary scoring including duplicates, assisted ans
 
 test('replay excludes receipts arriving after its captured high-water mark',async()=>{
  const item=buildBank().find(q=>q.format==='numeric');let pages=0;
- const row=n=>({ledger_sequence:n,item_snapshot_json:JSON.stringify(item),raw_answer_json:JSON.stringify(item.answer),server_received_at:'2026-10-12T00:00:00Z',mode:'practice',hints_used:0,event_id:`e${n}`,session_id:'s',validity:'valid',calibration_eligible:0});
+ const row=n=>({model_version:'author-seeded-rasch-v1',measurement_parameters_json:null,ledger_sequence:n,item_snapshot_json:JSON.stringify(item),raw_answer_json:JSON.stringify(item.answer),server_received_at:'2026-10-12T00:00:00Z',mode:'practice',hints_used:0,event_id:`e${n}`,session_id:'s',validity:'valid',calibration_eligible:0});
  const DB={prepare(sql){return {bind(...args){return {
  first:async()=>({last:501}),
  all:async()=>{assert.ok(sql.includes('r.ledger_sequence<=?'));const [owner,after,last]=args;assert.equal(owner,'owner');assert.equal(last,501);pages++;return {results:Array.from({length:502},(_,i)=>row(i+1)).filter(r=>r.ledger_sequence>after&&r.ledger_sequence<=last).slice(0,500)};}
  };}};}};
  const state=await replayHistory({DB},'owner');assert.equal(pages,2);assert.equal(state.history.length,501);assert.equal(state.history.at(-1).eventId,'e501');
+});
+
+test('history replay uses stored measurement parameters rather than current authored difficulty',async()=>{
+ const {prior,posteriorUpdate}=await import('../../src/lib/econ-practice/irt.mjs');
+ const item=buildBank().find(q=>q.format==='numeric'),parameters={a:1.7,b:-.8,c:0,d:1,status:'calibrated',modelVersion:'fixture-model'};
+ const row={ledger_sequence:1,item_snapshot_json:JSON.stringify(item),measurement_parameters_json:JSON.stringify(parameters),model_version:'fixture-model',raw_answer_json:JSON.stringify(item.answer),server_received_at:'2026-10-12T00:00:00Z',mode:'assessment',hints_used:0,event_id:'e',session_id:'s',validity:'valid',calibration_eligible:1};
+ const DB={prepare(){return {bind(){return {first:async()=>({last:1}),all:async()=>({results:[row]})};}};}};
+ const state=await replayHistory({DB},'owner');assert.deepEqual(state.posteriors[JSON.stringify(['s',item.course,item.unit])],posteriorUpdate(prior(),true,parameters));assert.equal(state.history[0].modelVersion,'fixture-model');assert.equal(state.history[0].parameterStatus,'calibrated');
+ row.model_version='different-model';await assert.rejects(replayHistory({DB},'owner'),/does not match/);
+ row.measurement_parameters_json=null;await assert.rejects(replayHistory({DB},'owner'),/unavailable/);
+ row.measurement_parameters_json=JSON.stringify({...parameters,a:-1});await assert.rejects(replayHistory({DB},'owner'),/Invalid/);
 });

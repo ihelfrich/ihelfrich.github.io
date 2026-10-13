@@ -1,6 +1,6 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
-import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
+import {prior,itemParameters,validateParameterSnapshot,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
 export const ENGINE_VERSION='content-constrained-v8';
 export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
 const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
@@ -17,9 +17,10 @@ export function createAnswerRecorder(state){
  const index={events:new Set(state.history.map(h=>h.eventId).filter(Boolean)),families:new Set(state.history.map(h=>JSON.stringify([h.course,h.family])))};
  return (item,options)=>recordWithIndex(state,item,options,index);
 }
-function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true},index){
+function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,parameterSnapshot,measurementEligible=true},index){
  if(eventId&&(index?index.events.has(eventId):state.history.some(h=>h.eventId===eventId)))return state;
- const p=itemParameters(item,calibration);
+ if(parameterSnapshot&&calibration)throw new Error('Provide one measurement parameter source.');
+ const p=parameterSnapshot?validateParameterSnapshot(parameterSnapshot):itemParameters(item,calibration);
  const grade=gradeResponse(item,response),correct=grade.correct,key=`${item.course}:${item.topic}`;
  const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
  const familyKey=JSON.stringify([item.course,item.family]);
@@ -86,7 +87,8 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const mass=sums.map((sum,i)=>sum/groups[i].length),total=mass.reduce((a,b)=>a+b,0);
  const sample=weights=>{let draw=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){draw-=weights[i];if(draw<0)return i;}return weights.length-1;};
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
- return {item:picked,selection:{engineVersion:ENGINE_VERSION,exposureStatus,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
+ const parameters=itemParameters(picked,calibration);
+ return {item:picked,parameters,selection:{engineVersion:ENGINE_VERSION,exposureStatus,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:parameters.modelVersion}};
 }
 export function progress(state,course,{sessionId='local'}={}){
  return courses[course].units.map((name,i)=>{

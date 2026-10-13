@@ -451,3 +451,9 @@ Added migration 0006, private instructor upload/read routes and an upload form. 
 
 Concurrent registration exposed an existing local SQLite adapter bug: asynchronous yields inside its transaction could permit nested BEGIN calls. Local batch execution is now synchronous within the transaction while preserving the external asynchronous API. Regression tests verify rollback and concurrent batch isolation. All 105 focused tests and bank structural checks pass; the 130-page Astro build and Worker dry-run bundle also pass. These are local tests and build checks, not a live Cloudflare or browser-upload verification. The registry is implemented for candidate retention; authenticated activation, session pinning and rollback remain outstanding.
 
+# Reproducible measurement parameter replay
+
+Migration 0007 stores the exact selected item's measurement parameters, status and model ID on each presentation. The selector returns that parameter record; the Worker persists it with the presentation, and instructor response exports include it. Database triggers prevent changing an existing parameter snapshot or its model ID. History replay uses the stored parameters rather than a current model lookup, validates finite admissible values and model-ID agreement, and refuses unknown historical models without snapshots. Legacy `author-seeded-rasch-v1` presentations alone use an explicitly frozen reconstruction (a=1, b=authored difficulty minus 2, c=0, d=1).
+
+Tests compare replay directly with the posterior from known stored parameters, reject invalid/missing/mismatched snapshots, verify storage/export, and reject model-ID mutation. All 107 focused tests, the structural bank audit and Worker dry-run bundle pass. This pins measurement parameters per presentation; activation, selection from approved registered models, full session model pinning and historical scoring-algorithm versioning are still separate work. No empirical model has been activated.
+
