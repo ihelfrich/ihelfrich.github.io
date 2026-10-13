@@ -62,7 +62,6 @@ jobs:
         run: npm run build:fast
         env:
           PUBLIC_ECON_API_URL: ${{ vars.PUBLIC_ECON_API_URL }}
-        env:
           PUBLIC_CESIUM_ION_TOKEN: ${{ secrets.CESIUM_ION_TOKEN }}
       - name: Verify homepage interactions and portrait
         run: node --test tests/unit/homepage-data.test.mjs tests/unit/homepage-ui.test.mjs tests/unit/homepage-continuum.test.mjs
