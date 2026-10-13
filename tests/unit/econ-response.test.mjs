@@ -158,3 +158,18 @@ test('private history exports and student-directory reads identify the authentic
  const outsider=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});assert.equal((await t.call('/admin/responses',null,outsider.token)).status,403);
  assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM audit_log').first()).n,6);t.env.DB.close();
 });
+
+test('response exports pin their ledger boundary while later answers continue arriving',async()=>{
+ const t=setup(),{p,s,next}=await enrolled(t);await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);
+ // Synthetic receipt fixtures isolate pagination from the interactive attempt limit.
+ for(let i=2;i<=501;i++)await t.env.DB.prepare(`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,presentation_id,session_id,participant_id,?,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,0,payload_sha256 FROM responses WHERE ledger_sequence=1`).bind(crypto.randomUUID(),i).run();
+ for(const [route,token] of [['/profile/responses',p.token],['/admin/responses','test-only-admin']]){
+  const first=await t.call(route,null,token);assert.equal(first.rows.length,500);assert.equal(first.hasMore,true);
+  const before=first.snapshotThrough;
+  await t.env.DB.prepare(`INSERT INTO responses (event_id,presentation_id,session_id,participant_id,attempt_number,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,calibration_eligible,payload_sha256) SELECT ?,presentation_id,session_id,participant_id,?,raw_answer_json,correct,score,client_submitted_at,server_received_at,elapsed_ms,active_ms,hints_used,feedback_before_answer,validity,0,payload_sha256 FROM responses WHERE ledger_sequence=1`).bind(crypto.randomUUID(),before+1).run();
+  const second=await t.call(route+'?after='+encodeURIComponent(first.nextCursor),null,token);assert.equal(second.status,200);assert.equal(second.snapshotThrough,before);assert.equal(second.rows.length,before-500);assert.equal(second.hasMore,false);
+  const fresh=await t.call(route,null,token);assert.equal(fresh.snapshotThrough,before+1);
+  assert.equal((await t.call(route+'?after=v1:10:2',null,token)).status,400);
+ }
+ t.env.DB.close();
+});

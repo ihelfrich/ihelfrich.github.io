@@ -372,3 +372,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Replaced the generic instructor actor on response exports with the authenticated participant ID (or explicit local-bootstrap identity in local mode). Export details include cursor/count, not answer copies.
 - Added audit records for student-directory reads and assignment-report reads before returning those private results. Student emails are not copied into audit metadata. Existing assignment creation attribution retained.
 - Regression verifies two distinct instructors' export/directory actors, assignment creation/report attribution and denial to an anonymous outsider.81 focused tests pass. This is application access logging, not tamper-proof external audit storage or full privacy compliance. No deployment.
+
+## Continuation: bounded response exports under incoming traffic
+
+- Added versioned response cursors carrying last sequence and fixed upper ledger boundary. Student-history and instructor exports capture the boundary on their first page and retain it across later pages; new receipts appear in a fresh export. Existing numeric starting cursors remain accepted for starting a new window.
+- Both routes validate cursor syntax/ranges; owner filtering still applies independently of cursor values. Instructor export audit includes the ledger boundary. Existing browser loops already treat cursors as opaque strings.
+- Regression uses501 synthetic receipts and inserts another between pages on each route, verifying fixed membership and fresh-export inclusion, plus malformed-range rejection.82 focused tests pass.
+- This freezes receipt membership, not all mutable joined metadata: session completion/identity linkage can still change during an export. Full transactional export snapshots and account-link concurrency remain open. No deployment.

@@ -1,3 +1,4 @@
+import {responseWindow} from './response-cursor.mjs';
 import {replayHistory} from './history.mjs';
 import {gradeResponse,publicQuestion,responseFeedback,validResponseShape} from '../../src/lib/econ-practice/scoring.mjs';
 import {pageCursor,listPage} from './pagination.mjs';
@@ -39,12 +40,12 @@ async function route(request,env){
   if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}
   const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET'){const report=await assignmentReport(env,assignmentMatch[1]);await audit('assignment-report-read',assignmentMatch[1],{});return report;}
   if(path==='/admin/responses'&&method==='GET'){
-   const after=url.searchParams.get('after')??'';
-   const rows=await all(env.DB,`SELECT r.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.selection_probability,p.selection_pool_size,p.selection_engine_version,p.model_version,p.first_family_exposure,s.course,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.ledger_sequence > CAST(? AS INTEGER) ORDER BY r.ledger_sequence LIMIT 501`,after||'0');
+   const window=await responseWindow(env.DB,url.searchParams.get('after')??'');
+   const rows=await all(env.DB,`SELECT r.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.selection_probability,p.selection_pool_size,p.selection_engine_version,p.model_version,p.first_family_exposure,s.course,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.ledger_sequence>? AND r.ledger_sequence<=? ORDER BY r.ledger_sequence LIMIT 501`,window.after,window.until);
    // Cursor is obtained independently by row identity, not timestamps which can collide.
-   const page=rows.slice(0,500);let next=null;if(page.length){const last=await query(env.DB,'SELECT ledger_sequence AS cursor FROM responses WHERE event_id=?',page.at(-1).event_id).first();next=String(last.cursor);}
-   await audit('response-export',next??'empty',{count:page.length,after:after||'0'});
-   return {rows:page,nextCursor:next,hasMore:rows.length>500};
+   const page=rows.slice(0,500),next=page.length?window.next(page.at(-1).ledger_sequence):null;
+   await audit('response-export',next??'empty',{count:page.length,after:window.after,snapshotThrough:window.until});
+   return {rows:page,nextCursor:next,hasMore:rows.length>500,snapshotThrough:window.until};
   }
   if(path==='/admin/summary'&&method==='GET')return {courses:await all(env.DB,`SELECT s.course,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,AVG(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS observedAccuracy,SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course`)};
   throw new HttpError(404,'Unknown instructor route.');
@@ -52,10 +53,10 @@ async function route(request,env){
  const p=await participant(request,env);
  if(path==='/profile'&&method==='GET')return {participantId:p.id,identityKind:p.identity_kind,email:p.verified_email,isInstructor:isInstructor(p,env)};
  if(path==='/profile/responses'&&method==='GET'){
-  const after=url.searchParams.get('after')??'0';requireValue(/^\d{1,16}$/.test(after)&&Number.isSafeInteger(Number(after)),'Invalid response cursor.');
-  const raw=await all(env.DB,`SELECT r.*,pr.item_snapshot_json,s.course,s.mode,s.completed_at FROM responses r JOIN presentations pr ON pr.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.ledger_sequence>? ORDER BY r.ledger_sequence LIMIT 501`,p.id,Number(after));
+  const window=await responseWindow(env.DB,url.searchParams.get('after')??'',p.id);
+  const raw=await all(env.DB,`SELECT r.*,pr.item_snapshot_json,s.course,s.mode,s.completed_at FROM responses r JOIN presentations pr ON pr.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.participant_id=? AND r.ledger_sequence>? AND r.ledger_sequence<=? ORDER BY r.ledger_sequence LIMIT 501`,p.id,window.after,window.until);
   const page=raw.slice(0,500);
-  return {participantId:p.id,rows:page.map(r=>({eventId:r.event_id,sessionId:r.session_id,presentationId:r.presentation_id,course:r.course,mode:r.mode,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),attemptNumber:r.attempt_number,submittedAt:r.client_submitted_at,receipt:r.server_received_at,elapsedMs:r.elapsed_ms,activeMs:r.active_ms,hintsUsed:r.hints_used,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity),...(r.mode==='practice'||r.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)): {})})),hasMore:raw.length>500,nextCursor:page.length?String(page.at(-1).ledger_sequence):null};
+  return {participantId:p.id,rows:page.map(r=>({eventId:r.event_id,sessionId:r.session_id,presentationId:r.presentation_id,course:r.course,mode:r.mode,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),attemptNumber:r.attempt_number,submittedAt:r.client_submitted_at,receipt:r.server_received_at,elapsedMs:r.elapsed_ms,activeMs:r.active_ms,hintsUsed:r.hints_used,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity),...(r.mode==='practice'||r.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)): {})})),hasMore:raw.length>500,snapshotThrough:window.until,nextCursor:page.length?window.next(page.at(-1).ledger_sequence):null};
  }
  if(path==='/auth/challenge'&&method==='POST')return createChallenge(env,p);
  if(path==='/auth/google'&&method==='POST')return finishSignIn(env,p,await body(request));
