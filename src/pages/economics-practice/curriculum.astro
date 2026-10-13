@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import plan from '../../data/economics-curriculum-plan.json';
+import {courses} from '../../lib/econ-practice/curriculum.mjs';
+import '../../styles/econ-practice.css';
+const groups=[...new Set(plan.map(c=>c.group))];
+---
+<Base title="Economics curriculum" description="Explore the economics practice curriculum and planned course coverage.">
+<div class="econ-practice">
+<header><p class="eyebrow"><a href="/economics-practice/">Economics practice</a> / Curriculum</p><h1>Explore economics</h1><p class="intro">From first principles to advanced models and applied fields.</p></header>
+<section><h2>Practice available now</h2><p>The current collections cover selected topics in {Object.values(courses).map(c=>c.name).join(', ')}. They are still undergoing content and platform review.</p><a href="/economics-practice/">Choose a practice session</a></section>
+<section><h2>Expanded curriculum in development</h2><p>The course outlines below guide new question writing. They do not mean that every listed topic already has active questions. Undergraduate and graduate requirements differ; advanced extensions will be labeled separately.</p><p>This map draws on official university course materials and combines overlapping topics into general course titles. It is not an exhaustive census of every university or theory. Course-specific sources appear where available; field outlines also draw on the <a href="https://catalog.yale.edu/ycps/courses/econ/">Yale economics catalog</a> and <a href="https://economics.stanford.edu/courses">Stanford course list</a>.</p><nav aria-label="Curriculum areas">{groups.map((group,i)=><p><a href={`#area-${i}`}>{group}</a></p>)}</nav></section>
+{groups.map((group,i)=><section id={`area-${i}`}><h2>{group}</h2>{plan.filter(c=>c.group===group).map(c=><details class="session-answer"><summary>{c.title}</summary><p>{c.level}</p><ul>{c.topics.map(topic=><li>{topic}</li>)}</ul><p>{c.notes}</p>{c.sources.length>0&&<p>Curriculum evidence: {c.sources.map((source,i)=><><a href={source.url}>{source.label}</a>{i<c.sources.length-1?'; ':''}</>)}</p>}</details>)}</section>)}
+</div>
+</Base>
