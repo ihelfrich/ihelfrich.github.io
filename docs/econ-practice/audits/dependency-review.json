@@ -137,5 +137,28 @@
     "economicsTests": 78,
     "workerDryRun": "passed"
   },
-  "limitations": "Registry findings do not establish exploitability or complete security. Remaining KaTeX and UUID/ExcelJS findings require targeted compatibility and reachability review. No automatic force downgrade applied."
+  "limitations": "Registry findings do not establish exploitability or complete security. Remaining KaTeX and UUID/ExcelJS findings require targeted compatibility and reachability review. No automatic force downgrade applied.",
+  "finalPass": {
+    "checkedAt": "2026-10-13T01:48:23.582Z",
+    "lockSHA256": "e2546eff4dafdd51b0fea8aa2142a0743e5b5563415c194333083eabbd922213",
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "changes": [
+      "KaTeX0.18.2 direct and transitive override, keeping renderer and CSS aligned.",
+      "ExcelJS-scoped UUID11.1.1 override; CommonJS v4 import retained."
+    ],
+    "verification": [
+      "Full npm run check passed, including78 economics tests and site build/styles.",
+      "check:econometrics passed against rebuilt output:512 econometrics and179 measurement math expressions plus rendering/unit tests.",
+      "ExcelJS UUID-backed extended conditional formatting and in-memory XLSX write/read round trip passed.",
+      "Wrangler local packaging dry run passed."
+    ],
+    "limitations": "Zero registry findings is not proof of application security or absence of undisclosed vulnerabilities. Scoped overrides cross upstream declared dependency ranges and must be rechecked on upstream upgrades."
+  }
 }

@@ -327,3 +327,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Fresh npm audit found16 affected packages (8 high,3 moderate,5 low). Applied compatible transitive updates and advanced the existing sharp override from0.35.4 to0.35.5, including matching native/libvips packages.
 - Audit now reports6 affected packages (0 high,2 moderate,4 low). Remaining chains are KaTeX/math-rendering and UUID/ExcelJS; require targeted API/reachability review instead of the audit tool's suggested forced downgrades. Registry counts are not a complete application-security assessment.
 - Full npm run check passes after updates, including78 economics tests, static build and rendered styles. Wrangler local deploy dry run also passes. Saved dependency-review.json with advisory data and exact lock hash. No deployment.
+
+## Continuation: remaining dependency findings resolved
+
+- Advanced KaTeX to0.18.2 and overrode transitive renderers to the same version so CSS/rendered markup remain aligned. Scoped ExcelJS's UUID dependency to11.1.1, which preserves its CommonJS v4 import. These cross upstream declared ranges and need rechecking on future upgrades.
+- Fresh npm audit reports zero findings. Verified the actual ExcelJS extended conditional-formatting UUID path plus synthetic workbook write/read. Full site check passes (78 economics tests); dedicated econometrics/math checks pass against rebuilt output, including691 source expressions. Wrangler dry run passes.
+- Updated dependency-review.json with final lock hash and validation scope. Zero registry findings does not establish full application security. No deployment.
