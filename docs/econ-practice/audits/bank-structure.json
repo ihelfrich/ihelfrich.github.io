@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.13.32",
-  "bankSHA256": "8ca8c195594ecb99696a665b6aa4f2c891602c0ce8440a89870e81c7ab7df0fb",
+  "bankVersion": "2026.10.13.33",
+  "bankSHA256": "cd44fcd672814c0a4cd16278a9db9b6a4da5463090ff02fad9394c40a7a3ab6e",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -103,6 +103,18 @@
       "items": 60,
       "families": 60
     },
+    "law-economics": {
+      "items": 60,
+      "families": 60
+    },
+    "economic-history": {
+      "items": 60,
+      "families": 60
+    },
+    "empirical-macroeconomics": {
+      "items": 60,
+      "families": 60
+    },
     "ap-macro": {
       "items": 463,
       "families": 49
@@ -117,10 +129,10 @@
     }
   },
   "answerPositions": [
-    373,
-    397,
-    375,
-    340
+    414,
+    451,
+    421,
+    379
   ],
   "errors": [],
   "warnings": [],
@@ -26092,6 +26104,3246 @@
         "prompt": "Two matching rules place the same total number of applicants. Rule A gives a disadvantaged group substantially fewer acceptable matches than rule B. What follows for evaluation?",
         "answer": "Equal total placement counts do not imply equal distributional performance.",
         "explanation": "An aggregate count can hide different allocations across groups. Stability, individual utilities and distributional objectives require their own evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-01:01",
+        "prompt": "In a constructed dispute, operating a workshop yields benefit 100 to its owner and imposes noise damage 40 on its sole neighbor. Closing produces zero benefit and zero damage. There are no other effects. Which action maximizes joint monetary surplus?",
+        "answer": "Operate, producing net surplus 60.",
+        "explanation": "Operating yields 100−40=60 relative to closure’s zero. This surplus calculation does not decide how rights or gains should be distributed."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-02:01",
+        "prompt": "A workshop gains 100 from operating and its only neighbor suffers damage 40. The neighbor has a stipulated enforceable right to stop operation. Transfers are feasible, bargaining has no cost and both parties accept weak improvements. What transfer from workshop to neighbor makes operation acceptable to both?",
+        "answer": "Any transfer from 40 through 100.",
+        "explanation": "The neighbor requires at least 40 compensation; the workshop pays at most its 100 benefit. The interval divides the positive joint surplus."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-03:01",
+        "prompt": "A two-party dispute has transferable utility, no wealth effects on valuations, costless bargaining, complete information and no outsiders. Changing the initial enforceable entitlement can leave the efficient physical action unchanged. What can still change?",
+        "answer": "The distribution of gains and transfers between the parties.",
+        "explanation": "The efficient action maximizes joint surplus under the specified benchmark, while the initial right changes disagreement payoffs and surplus division."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-04:01",
+        "prompt": "A neighbor can enjoin a workshop. Operation yields owner benefit 70 and neighbor damage 50. Completing a bargain costs 25 in real resources, borne by the parties in any division. Closure yields zero. Which outcome maximizes joint surplus among closure and bargained operation?",
+        "answer": "Closure, because bargained operation yields −5.",
+        "explanation": "The gross gains from permitting operation are 70−50=20, smaller than transaction cost 25. Net surplus from the bargain is −5."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-05:01",
+        "prompt": "In a hypothetical entitlement system, rule P requires the holder’s consent before another person may take an asset. Rule L permits taking upon payment of court-set compensation. What is the economic distinction?",
+        "answer": "P uses a consent requirement; L substitutes an administratively determined compensation amount.",
+        "explanation": "Consent and court-set compensation protect entitlements differently. The prompt defines stylized rules, not the law of any jurisdiction."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-06:01",
+        "prompt": "A rail project requires all three adjacent parcels; each owner can refuse sale. Each parcel has stand-alone opportunity cost 10, while the completed project is worth 100 before land costs. Why might sequential acquisition face a holdout problem?",
+        "answer": "The final owner may bargain over surplus created by the need for every parcel.",
+        "explanation": "Complementarity makes a remaining parcel pivotal after other commitments. This can raise bargaining costs or delay even when project value exceeds aggregate opportunity cost."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-07:01",
+        "prompt": "Private control of a resource increases gross social output by 30 relative to open access but requires monitoring and exclusion resources costing 12. All other effects are held fixed. What is the net social gain?",
+        "answer": "18.",
+        "explanation": "The output gain must be reduced by real enforcement costs: 30−12=18. Transfers for ownership are excluded from the stated resource calculation."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-08:01",
+        "prompt": "Two fishers choose effort independently. An extra unit of one fisher’s effort raises its own catch value by 8 but reduces the other fisher’s catch value by 5; the extra effort costs 4. What are private and joint marginal net gains?",
+        "answer": "Private gain 4; joint gain −1.",
+        "explanation": "The fisher counts 8−4=4. Joint accounting also subtracts the other fisher’s loss, giving 8−4−5=−1."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-09:01",
+        "prompt": "A public project uses land worth 60 in its best forgone use and pays the owner compensation 80. In a total-surplus calculation that counts owner and public treasury equally and ignores tax distortions, what is the land’s real opportunity cost?",
+        "answer": "60; compensation redistributes resources between included parties.",
+        "explanation": "The forgone alternative use is a real loss. The payment is a transfer within the counted population, so adding it again double-counts a distributional flow."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u1-10:01",
+        "prompt": "Two parties bargain over factory operation and fully internalize their own benefits and costs. Downstream residents suffer unpriced damage but are excluded from the bargain. What limits an efficiency claim about their agreement?",
+        "answer": "The two-party bargain need not internalize the residents’ external costs.",
+        "explanation": "Efficiency of bilateral bargaining relative to the parties’ joint surplus does not imply efficiency for affected outsiders."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-01:01",
+        "prompt": "A firm chooses no precaution at cost 0 with accident probability 0.10, or precaution at cost 6 with accident probability 0.02. Each accident causes harm 100. There are no other effects. Which minimizes precaution plus expected accident harm?",
+        "answer": "Precaution, with total expected cost 8.",
+        "explanation": "No precaution costs 0+0.10×100=10. Precaution costs 6+0.02×100=8."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-02:01",
+        "prompt": "A risk-neutral firm chooses no care (cost 0, accident probability 0.10) or care (cost 6, probability 0.02). Harm is 100 and a stipulated strict-liability rule requires fully collected damages of 100 after every accident. No insurance or other effects exist. What does the firm choose?",
+        "answer": "Care, since expected private cost is 8 rather than 10.",
+        "explanation": "Strict liability makes the firm bear expected harm as damages. Its private objective coincides with the stated social cost comparison."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-03:01",
+        "prompt": "A hypothetical negligence rule imposes full accident damages 100 only if a firm fails to take due care. Due care costs 6 and reduces accident probability from 0.10 to 0.02; compliant firms pay no damages. The firm is risk neutral and collection is certain. What choice minimizes private expected cost?",
+        "answer": "Due care, costing 6 rather than expected liability 10.",
+        "explanation": "Compliance costs 6 and avoids liability; noncompliance costs 0.10×100=10. Social residual harm still exists despite zero liability for compliant firms."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-04:01",
+        "prompt": "A risk-neutral firm chooses no care (cost 0, accident probability 0.10) or care (cost 6, probability 0.02). Harm is 100, but collectible damages under strict liability are capped at assets of 20. No other costs or effects exist. What does it choose?",
+        "answer": "No care, with expected cost 2 rather than 6.4.",
+        "explanation": "Collectible expected damages are 2 without care and 0.4 with care. Adding care cost gives 6.4, so limited assets weaken prevention incentives here."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-05:01",
+        "prompt": "A firm has already taken legally specified due care. In a constructed negligence model this eliminates liability, but each additional trip still causes expected external harm 3. An extra trip gives private net benefit 2 before accident harm. What happens absent other constraints?",
+        "answer": "The firm takes the trip although its social marginal net benefit is −1.",
+        "explanation": "When compliant activity bears no residual liability, the firm ignores the remaining expected harm. Private gain 2 contrasts with social gain 2−3=−1."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-06:01",
+        "prompt": "Either a driver or a pedestrian can independently eliminate the same accident loss of 20. Driver care costs 7 and pedestrian care costs 4; doing both produces no extra benefit. Among no care, driver only, pedestrian only and both, what minimizes total social cost?",
+        "answer": "Pedestrian care only, costing 4.",
+        "explanation": "Only one precaution is needed. The pedestrian supplies the cheaper complete prevention, so its cost 4 is the minimum."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-07:01",
+        "prompt": "A firm buys full insurance at a premium fixed before its unobservable care choice. The insurer cannot condition future premiums or coverage on care or claims; all damages are covered. Care is costly and only reduces insured accident losses, with no other effects. What incentive concern arises?",
+        "answer": "The firm may underinvest in care because it does not bear the marginal insured loss.",
+        "explanation": "Once the premium is fixed, reduced insured payouts do not benefit the firm under these assumptions. Deductibles or monitoring could change incentives but are excluded here."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-08:01",
+        "prompt": "A harmful act causes loss 90. A stipulated civil enforcement process imposes damages D only with probability 0.3, independent of harm, and otherwise collects zero. The actor is risk neutral and collection is complete when imposed. What D makes expected payment equal harm?",
+        "answer": "300.",
+        "explanation": "Expected payment is 0.3D. Setting it equal to 90 gives D=300. This stylized incentive calculation is not a statement of actual damages law."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-09:01",
+        "prompt": "A prevention measure costs 12 and reduces expected harm by 8. A hypothetical negligence standard requires it and imposes large enough liability for noncompliance to ensure adoption. With no other effects, what is its change in social surplus?",
+        "answer": "−4.",
+        "explanation": "The harm reduction adds 8 while resources cost 12, giving 8−12=−4. Legal compliance and efficiency are separate questions."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u2-10:01",
+        "prompt": "A court’s negligence threshold is uncertain to a firm. More precaution can reduce both accident probability and the probability of being found negligent conditional on an accident. Why may a fixed-threshold calculation misstate incentives?",
+        "answer": "Care can change the liability probability as well as the physical accident probability.",
+        "explanation": "Expected liability depends on both probabilities and their relationship to care. The direction of distortion needs a model, not merely the existence of uncertainty."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-01:01",
+        "prompt": "A constructed contract promises a service valued by the buyer at 100 for price 70, payable only on performance. The seller breaches, no substitute is available, and the buyer pays nothing. Ignoring all other costs, what damages restore the buyer’s promised net payoff?",
+        "answer": "30.",
+        "explanation": "Performance would give net utility 100−70=30. With no service and no payment after breach, damages of 30 restore that payoff."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-02:01",
+        "prompt": "A service is worth 100 to a buyer; the contract price is 70, paid only if delivered. Delivery would now cost the seller 110. Breach requires damages 30 and no price payment. Parties are risk neutral and damages are transfers; there are no other effects. What does the seller choose, and is nonperformance efficient?",
+        "answer": "Breach; payoff −30 exceeds −40 from performance, and cost 110 exceeds value 100.",
+        "explanation": "Seller performance payoff is 70−110=−40, while breach payoff is −30. Forgoing a service worth 100 that costs 110 avoids a real net loss of 10."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-03:01",
+        "prompt": "A buyer values performance at 100, price 70 is payable only on performance, and the seller’s cost is 110. A hypothetical contract enforces a fixed breach payment of 50. No renegotiation is available. What does the seller choose?",
+        "answer": "Perform, receiving −40 rather than −50, despite negative joint performance surplus.",
+        "explanation": "The seller compares 70−110=−40 with −50. The high stipulated payment can induce performance even when cost exceeds buyer value; renegotiation is explicitly excluded."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-04:01",
+        "prompt": "A service contract price is 70, payable only on delivery, and buyer value is 100. After breach, the buyer buys an identical substitute for 90 and receives damages equal to the extra procurement cost. What damages preserve the original net benefit?",
+        "answer": "20.",
+        "explanation": "Original net benefit is 30. Substitute purchase yields 10, so damages of 90−70=20 restore the promised net benefit."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-05:01",
+        "prompt": "Before uncertain performance, a buyer can spend 12 to raise the value of performance by 20. Performance occurs with fixed probability 0.5 regardless of spending. On breach, a stipulated remedy fully reimburses this expenditure; there are no other effects and the buyer is risk neutral. What are the private and social incremental expected gains from spending?",
+        "answer": "Private gain 4; social gain −2.",
+        "explanation": "If performed, private increment is 20−12=8; if breached reimbursement offsets cost, giving zero. Expected private gain is 4. Social gain ignores the transfer and is 0.5×20−12=−2."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-06:01",
+        "prompt": "A buyer and seller observe whether a custom design is elegant, but a court cannot verify elegance. An economic model allows formal transfers only on verifiable events. What issue arises?",
+        "answer": "A formally enforceable elegance-contingent payment is unavailable without another verifiable measure.",
+        "explanation": "The model distinguishes shared observation from court verifiability. Other contractual terms or relational enforcement may remain feasible."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-07:01",
+        "prompt": "A fixed construction cost shock is beyond either party’s control. The builder is risk neutral, the buyer is strictly risk averse, and both can commit to enforceable unrestricted payments with no incentive or wealth constraints. Who should bear this risk in the efficient insurance benchmark?",
+        "answer": "The risk-neutral builder.",
+        "explanation": "With no incentive benefit from shifting risk to the buyer, assigning risk to the risk-neutral party reduces the insurance cost of satisfying participation."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-08:01",
+        "prompt": "A seller’s performance would cost 120 and yield buyer value 100. A contract initially requires performance, but both parties can costlessly agree to cancel with any transfer. Relative to performing, how much joint surplus can cancellation create?",
+        "answer": "20.",
+        "explanation": "Cancellation avoids cost 120 while forgoing value 100, increasing joint surplus by 20. Transfers divide that gain without changing it."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-09:01",
+        "prompt": "A hypothetical contract law supplies a delivery date when parties leave the term silent but allows them to specify a different date. What is the economic role of this kind of default?",
+        "answer": "It fills an omitted term while permitting parties to contract around it.",
+        "explanation": "A default governs silence and can economize on drafting when suitable. Its suitability and information effects depend on the environment."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u3-10:01",
+        "prompt": "A long-term procurement contract promises future rent to induce an initial noncontractible investment. After investment is sunk, the buyer can force a reduction of the promised payment. What incentive problem can arise before investment?",
+        "answer": "Anticipated ex post extraction can reduce investment incentives.",
+        "explanation": "The supplier chooses investment using expected future returns. Inability to commit to those returns can undermine the purpose of the initial promise."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-01:01",
+        "prompt": "A risk-neutral plaintiff wins damages 100 with probability 0.6 and pays litigation cost 10 regardless of outcome. No fee shifting applies, and losing yields zero damages. What is the expected net value of trial relative to dropping the case at zero?",
+        "answer": "50.",
+        "explanation": "Expected award is 0.6×100=60. Subtract the plaintiff’s own cost 10 to obtain 50."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-02:01",
+        "prompt": "Both risk-neutral parties agree the plaintiff wins damages 100 with probability 0.6. Trial costs are 10 for plaintiff and 20 for defendant, each paid regardless of outcome, with no fee shifting. Settlement has no cost and transfers S from defendant to plaintiff. Both accept weak improvements. What settlement range is mutually acceptable?",
+        "answer": "50≤S≤80.",
+        "explanation": "Plaintiff trial value is 60−10=50. Defendant expected trial cost is 60+20=80. Any transfer between these values avoids a total 30 in trial resources."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-03:01",
+        "prompt": "A risk-neutral plaintiff believes its chance of winning damages 100 is 0.8; the defendant believes that chance is 0.3. Each bears own trial cost 10. Costless settlement is a payment from defendant to plaintiff, with no other terms. Is there a mutually acceptable settlement interval under these beliefs?",
+        "answer": "No; plaintiff requires at least 70 while defendant pays at most 40.",
+        "explanation": "Optimistic plaintiff expects 80−10=70; defendant expects cost 30+10=40. Their reservation values do not overlap in this instance."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-04:01",
+        "prompt": "A hypothetical fee rule makes the losing party bear both sides’ total litigation resources of 30; a winner bears none after reimbursement. Plaintiff wins damages 100 with probability 0.6. Parties are risk neutral and collection is certain. What is the plaintiff’s expected net trial payoff?",
+        "answer": "48.",
+        "explanation": "Winning yields 100 and losing yields −30. Expected payoff is 0.6×100−0.4×30=48. The rule is stipulated rather than a jurisdictional claim."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-05:01",
+        "prompt": "A risk-neutral claimant has probability 0.5 of collecting damages 40 and must spend nonrecoverable legal resources 25 to bring the case. Dropping it gives zero. There are no other payoffs. What does the claimant choose?",
+        "answer": "Do not sue, because expected net payoff is −5.",
+        "explanation": "Expected award is 20, less than legal cost 25. A positive legal claim need not be privately worth pursuing."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-06:01",
+        "prompt": "One additional lawsuit uses total real legal resources 30 and causes defendants to prevent future expected harm 50 at prevention cost 8. Damages paid in the case are transfers between equally weighted parties. Ignoring all other effects, what is net social gain from the added enforcement?",
+        "answer": "12.",
+        "explanation": "The social gain is prevented harm 50 less prevention cost 8 and legal resources 30, totaling 12. Damages are not an additional resource loss in this accounting."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-07:01",
+        "prompt": "A policy change reduces wrongful liability costs by 12 but increases missed-harm costs by 7 and administrative resources by 2. These are stipulated expected social costs measured on the same scale. What is the net reduction in social cost?",
+        "answer": "3.",
+        "explanation": "Cost reduction is 12−7−2=3. The exercise supplies the valuations rather than claiming universal welfare weights for errors."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-08:01",
+        "prompt": "A dataset contains only cases that reached trial, while many disputes settled beforehand. Why may the trial win rate fail to represent the merits of all disputes?",
+        "answer": "Settlement and filing select which disputes appear in the trial sample.",
+        "explanation": "Parties’ stakes, information and expected outcomes can affect settlement and trial decisions. No universal win-rate value follows without a specific selection model."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-09:01",
+        "prompt": "A risk-neutral claimant will receive a certain award of 110 one year from now. The annual discount rate is 10%, with no litigation cost or default risk. What immediate payment has the same present value?",
+        "answer": "100.",
+        "explanation": "Present value is 110/1.10=100. The discount rate is applied over the stated one-year delay."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u4-10:01",
+        "prompt": "An agency has budget 100. Each investigation costs 20 and prevents expected harm 30, independent across identical investigations. It cannot borrow, there are at least five available cases and no other costs. What maximum net social benefit is feasible?",
+        "answer": "50 from five investigations.",
+        "explanation": "The budget permits five investigations. Each yields net benefit 30−20=10, so five yield 50; counting avoided harm alone would omit resources."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-01:01",
+        "prompt": "In a constructed deterrence model, a prohibited act yields private benefit 40. Detection and punishment occur with probability 0.25, imposing a fully collectible fine of 200; otherwise the fine is zero. A risk-neutral person has no other payoffs and refrains at indifference. What is the choice?",
+        "answer": "Refrain, because expected net payoff from the act is −10.",
+        "explanation": "Expected fine is 0.25×200=50, exceeding benefit 40. The result is conditional on the stipulated risk-neutral monetary model."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-02:01",
+        "prompt": "A risk-neutral person receives benefit 30 from a prohibited act and pays fine 100 if caught, with probability p. There are no other effects, and the person refrains when indifferent. What is the smallest p that deters the act?",
+        "answer": "0.3.",
+        "explanation": "Deterrence requires 30−100p≤0, or p≥0.3. The tie convention makes equality sufficient."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-03:01",
+        "prompt": "A risk-neutral person’s benefit from a prohibited act is 30 and punishment probability is 0.5. Collectible monetary penalties cannot exceed wealth 40. No other sanction exists. Can increasing the nominal fine alone deter this person?",
+        "answer": "No; the maximum expected collectible fine is 20.",
+        "explanation": "Even a larger nominal fine collects at most 40, so expected payment cannot exceed 0.5×40=20<30."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-04:01",
+        "prompt": "In a risk-neutral deterrence model with complete fine collection and no stigma, delay or probability misperception, policy A catches with probability 0.5 and fines 80; policy B catches with probability 0.25 and fines 160. What is the private expected monetary sanction?",
+        "answer": "40 under both policies.",
+        "explanation": "Both products pF equal 40. Equal expected sanctions need not mean equal enforcement resources or equal effects outside this narrow model."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-05:01",
+        "prompt": "A government collects fines of 100 from people included equally in a stipulated total-surplus objective and spends 15 in real collection resources. Ignore behavioral responses, distributional weights and all other effects. What is the direct net social resource effect?",
+        "answer": "A loss of 15.",
+        "explanation": "The fine is a transfer from included payers to the treasury. Collection consumes 15 real resources, producing the direct net loss."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-06:01",
+        "prompt": "Two prohibited acts have the same detection probability and the same sanction, but the more harmful act yields an extra private benefit. In a narrow model with no other consequences, what incentive does the sanction schedule fail to supply?",
+        "answer": "An additional expected penalty for choosing the more harmful act.",
+        "explanation": "Equal expected sanctions cancel when comparing the two acts. The schedule may deter both, but it creates no extra sanction for escalation conditional on that comparison."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-07:01",
+        "prompt": "A person pays fine 50 with probability 0.8 after offending and probability 0.1 after complying because of classification error. All else is equal and the person is risk neutral. What is the incremental expected fine from offending rather than complying?",
+        "answer": "35.",
+        "explanation": "The relevant difference is (0.8−0.1)×50=35. Expected punishment of compliance reduces the sanction difference relative to a no-error benchmark."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-08:01",
+        "prompt": "A policy temporarily prevents detained people from committing acts outside detention. Separately, fear of future detention may discourage acts by people who remain free. Which distinction is correct?",
+        "answer": "The first channel is incapacitation; the second is deterrence.",
+        "explanation": "Physical prevention and behavioral response to expected future sanctions are distinct mechanisms. An observed outcome change alone may not separate them."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-09:01",
+        "prompt": "A hypothetical policy prevents harm valued at 100 but uses public resources 40 and imposes additional social costs valued at 35 under the analyst’s explicitly stated welfare criterion. Ignore transfers and all other effects. What is its net social benefit?",
+        "answer": "25.",
+        "explanation": "Net benefit is 100−40−35=25. The problem supplies the welfare valuation of additional costs rather than treating those weights as universal."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u5-10:01",
+        "prompt": "A randomized patrol increase reduces prohibited acts in treated locations by 20, but causes 15 additional acts in nearby untreated locations. There are no other changes and all acts have equal harm. What is the total reduction across both areas?",
+        "answer": "5.",
+        "explanation": "The treated-area reduction is partly offset by displacement: 20−15=5. Evaluating only treated locations overstates the aggregate reduction."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-01:01",
+        "prompt": "Two regions have identical written contract rules. One region’s courts enforce judgments reliably; the other rarely collects them. Why might economic behavior differ?",
+        "answer": "De facto enforcement changes expected returns and obligations despite identical written rules.",
+        "explanation": "Economic incentives depend on implementation as well as text. Identical rules do not fix the probability, delay or cost of enforcement."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-02:01",
+        "prompt": "Across cities, faster courts are associated with higher investment. Wealthier cities can also fund faster courts, and no research design addresses this. What does the association alone identify?",
+        "answer": "A descriptive relationship, not a separately identified causal effect of court speed.",
+        "explanation": "Reverse causality and omitted city characteristics can generate the correlation. The sign or magnitude of the causal effect remains unresolved by this evidence alone."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-03:01",
+        "prompt": "Investment averages rise from 20 to 29 in reform cities and from 18 to 22 in comparison cities. Assuming parallel untreated trends, no anticipation, stable composition and no spillovers, what is the two-period DiD estimate of the reform’s effect on treated cities?",
+        "answer": "5.",
+        "explanation": "The treated change is 9 and comparison change 4, so DiD is 9−4=5. The assumptions supply the counterfactual treated trend."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-04:01",
+        "prompt": "A study instruments court staffing using a historical policy that also directly changed transport infrastructure and thus current investment. The outcome is investment. What identification condition is threatened by that direct pathway?",
+        "answer": "The instrument’s exclusion restriction.",
+        "explanation": "If the historical policy affects investment through infrastructure apart from court staffing, its reduced-form effect cannot be attributed solely to the staffing channel."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-05:01",
+        "prompt": "Firms above a predetermined size cutoff receive additional inspections. Under continuity of untreated and treated potential-outcome means at the cutoff, no coincident policy jump, no interference and sharp compliance with assignment, what does the outcome discontinuity identify?",
+        "answer": "The local inspection effect at the cutoff.",
+        "explanation": "The threshold provides a local counterfactual comparison. Extrapolating to distant firm sizes requires additional restrictions."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-06:01",
+        "prompt": "A policy makes reporting misconduct easier. Recorded complaints rise, but the probability a true incident is reported may also have increased. What can be concluded from complaint counts alone?",
+        "answer": "The increase need not imply an increase in true incident frequency.",
+        "explanation": "Recorded incidents combine occurrence and reporting. Without information about both processes, their changes cannot generally be separated."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-07:01",
+        "prompt": "A hypothetical exclusive right makes a research project privately profitable but raises product prices above marginal cost after success. Which economic tradeoff is present?",
+        "answer": "Stronger innovation incentives may come with reduced access and static allocation losses.",
+        "explanation": "The policy can affect both whether innovation occurs and how an existing innovation is used. Its net welfare effect requires both margins and the relevant counterfactual."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-08:01",
+        "prompt": "Under a stipulated policy, a project that otherwise would not occur creates gross social benefit 70, uses research resources 25 and creates allocative losses of 15 after launch. Licensing payments are internal transfers and no other effects exist. What is incremental net social surplus?",
+        "answer": "30.",
+        "explanation": "Net surplus is 70−25−15=30. Transfer revenue is not added again as a separate social product."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-09:01",
+        "prompt": "A randomized legal-aid pilot estimates an effect among volunteers in one city. Policymakers want the effect of universal access nationally, where eligible people and court capacity differ. What is needed beyond the pilot’s internal validity?",
+        "answer": "Assumptions or evidence about population transport and the consequences of scaling access.",
+        "explanation": "Randomization addresses the trial comparison. Different composition and capacity responses can change effects under the national policy."
+      },
+      "last": null
+    },
+    {
+      "course": "law-economics",
+      "family": "law-economics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "law-economics:law-economics-u6-10:01",
+        "prompt": "A hypothetical procedural reform raises aggregate monetary surplus by 20 but shifts 50 from low-income claimants to wealthy defendants. What follows from the aggregate surplus increase alone?",
+        "answer": "It does not establish that the reform is desirable under every distribution-sensitive welfare criterion.",
+        "explanation": "Positive aggregate surplus permits potential compensation in the stated accounting, but does not imply actual compensation or improvement for every person. Distribution-sensitive criteria may rank outcomes differently."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-01:01",
+        "prompt": "A hypothetical preindustrial economy produces grain Y=A√(TL), with fixed land T and labor equal to population L. Grain per person is y=Y/L. Holding A and T fixed, what happens to y when population quadruples?",
+        "answer": "It is halved.",
+        "explanation": "Per-person output is A√(T/L). Multiplying L by four therefore multiplies y by one half. This is a diminishing-land-per-person mechanism within the stipulated model."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-02:01",
+        "prompt": "In a stylized agrarian economy, grain per person is y=A/√L, and population grows whenever y exceeds a fixed subsistence level s and falls whenever y is below s. At a stationary population, how does doubling A change L?",
+        "answer": "Stationary population quadruples while stationary y remains s.",
+        "explanation": "Stationarity requires A/√L=s, so L=(A/s)². The assumed demographic response turns a permanent productivity gain into a higher stationary population, not a higher stationary per-person income."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-03:01",
+        "prompt": "In a constructed land-labor economy, a mortality shock reduces workers while land and technology stay fixed. Competitive labor demand has diminishing marginal product, so surviving workers’ real wages rise. What does this wage rise establish about total human welfare?",
+        "answer": "It does not establish an overall welfare gain, because deaths and other losses are omitted from survivors’ wages.",
+        "explanation": "A survivors-only wage comparison excludes those who died and does not aggregate all welfare components. The wage mechanism can be valid without supporting a favorable welfare judgment about the shock."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-04:01",
+        "prompt": "An estate ledger records a harvest of 120 sacks. Thirty must be retained as seed and 10 spoil before consumption. There are no imports, exports or other grain uses. What net quantity is available for consumption?",
+        "answer": "80 sacks.",
+        "explanation": "Consumable grain equals gross harvest less seed and spoilage: 120−30−10=80. Gross yield is not the same as net food availability."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-05:01",
+        "prompt": "A historical account gives a daily wage of 3 coins, but independent records show only 150 paid days per year for the worker. A required annual consumption basket costs 300 coins. Ignoring other income and costs, how many baskets can annual wages buy?",
+        "answer": "1.5 baskets.",
+        "explanation": "Annual paid earnings are 3×150=450 coins, which buy 450/300=1.5 baskets. A daily quotation does not itself establish year-round employment."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-06:01",
+        "prompt": "Two grain markets trade freely whenever profitable. Shipping one sack from A to B costs 2 coins, with no loss, tariffs or capacity limits. The same grain sells for 5 in A and 8 in B. Can these prices persist under competitive arbitrage?",
+        "answer": "No; buying in A and shipping to B yields profit of 1 coin per sack.",
+        "explanation": "A sack delivered from A costs 5+2=7, below B’s price of 8. The stated market conditions therefore permit positive arbitrage profit, inconsistent with persistent equilibrium prices."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-07:01",
+        "prompt": "One sack of grain costs 4 coins after harvest. Storing it until spring costs 0.5 coins and leaves 0.9 sacks because of spoilage. There is no interest cost or uncertainty. What spring price per sack makes storage break even?",
+        "answer": "5 coins.",
+        "explanation": "The surviving grain must cover total cost 4.5: 0.9P=4.5, so P=5. A seasonal price rise can cover real carrying costs without requiring monopoly."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-08:01",
+        "prompt": "A hypothetical town consumes 100 units of wood fuel, produced at 5 units per hectare of woodland per year. A new fuel source replaces half of wood consumption without requiring local land. Holding wood yield fixed, how much woodland area is no longer required for fuel?",
+        "answer": "10 hectares.",
+        "explanation": "Original wood requirements use 100/5=20 hectares. Replacing 50 units frees 50/5=10 hectares from this particular use; other consequences are not specified."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-09:01",
+        "prompt": "Two crop plots have identical expected harvest and variance. Harvest shocks across distant plots are less positively correlated than shocks across adjacent plots. Travel to distant plots is costly. Which explanation can rationalize cultivating scattered plots?",
+        "answer": "Lower portfolio harvest risk may compensate for added travel cost.",
+        "explanation": "Diversifying locations can lower the variance of total harvest without raising its mean. Whether this compensates for travel depends on risk preferences and the magnitude of costs."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u1-10:01",
+        "prompt": "An estate requires a household to perform 20 compulsory workdays. On those days the household could otherwise produce goods worth 2 coins per day on its own plot; there is no wage market and no other displaced activity. What is the direct opportunity cost of the obligation?",
+        "answer": "40 coins of forgone own production.",
+        "explanation": "The obligation displaces output worth 20×2=40. Missing wage transactions do not imply a zero economic labor cost. This accounting omits any additional harms of coercion."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-01:01",
+        "prompt": "A hypothetical workshop can produce a fixed output using 10 labor days, or a machine costing 12 per period plus 4 labor days. All output quality and other costs are identical. At what daily wage is the machine method exactly as costly as the manual method?",
+        "answer": "2 monetary units per day.",
+        "explanation": "Equating 10w to 12+4w gives 6w=12 and w=2. Adoption incentives depend on relative costs, not the mere availability of a machine."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-02:01",
+        "prompt": "A hypothetical mill can replace water power with steam. Steam saves 8 in expected annual interruption losses but adds annual fuel and maintenance costs of 6 and an annualized engine cost of 4. No other outcome changes. Is replacement privately profitable?",
+        "answer": "No; its annual net gain is −2.",
+        "explanation": "The relevant net flow is 8−6−4=−2. Technological feasibility and a useful benefit do not alone cover all adoption costs in this mill."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-03:01",
+        "prompt": "A hypothetical railway carries 100 tons for a resource cost of 3 per ton. The specified alternative would carry exactly the same tonnage for 5 per ton. Ignore construction costs, external effects and demand changes. What is the transport-cost saving for this traffic?",
+        "answer": "200 monetary units.",
+        "explanation": "For fixed traffic, the resource saving is (5−3)×100=200. This partial counterfactual does not value induced traffic or costs explicitly excluded from the calculation."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-04:01",
+        "prompt": "A craft method costs 8 per unit with no fixed cost. A factory has fixed cost 120 and variable cost 5 per unit. Quality is identical and each can meet the entire market. At what output are total costs equal?",
+        "answer": "40 units.",
+        "explanation": "The equality 8Q=120+5Q gives 3Q=120. Larger market scale spreads the factory’s fixed cost over enough units to offset its lower variable cost."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-05:01",
+        "prompt": "An archive dates the first working prototype of a machine to year 1, but production censuses show most firms adopt only after year 20. Which interpretation respects both observations?",
+        "answer": "Technical invention preceded widespread adoption; the delay calls for evidence about adoption costs, complements or incentives.",
+        "explanation": "A prototype establishes technical existence, whereas census use measures diffusion. The gap is compatible with several mechanisms and does not by itself identify one."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-06:01",
+        "prompt": "Two local rail lines can form a through-route only if they use compatible gauges. Each line alone yields benefit 4; compatible operation gives an additional network benefit 10. Converting one line to achieve compatibility costs 6. What is the net gain from conversion relative to keeping both isolated?",
+        "answer": "4.",
+        "explanation": "Both local benefits already exist before conversion. The incremental comparison is network gain 10 minus conversion cost 6=4, without recounting the original 8."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-07:01",
+        "prompt": "A hypothetical textile works must spin and then weave each unit. Spinning capacity is 100 units per day and weaving capacity is 60. There are no inventories, imports of intermediate yarn or other constraints. A new spinning machine doubles spinning capacity. What is maximum daily final output before and after adoption?",
+        "answer": "60 units in both cases.",
+        "explanation": "Final output cannot exceed the smaller sequential-stage capacity. Weaving remains the bottleneck at 60 even after spinning capacity rises from 100 to 200."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-08:01",
+        "prompt": "In a hypothetical early industrial corporation, an investor has paid 50 for fully paid shares. The corporation later fails owing creditors more than its assets. The charter gives shareholders limited liability, with no guarantees or exceptions. What is the investor’s maximum additional obligation solely as shareholder?",
+        "answer": "Zero beyond the 50 already invested.",
+        "explanation": "Under the stipulated charter, the investor can lose the paid-in investment but creditors cannot demand further personal payments solely because of share ownership. This allocates losses; it does not make corporate risk disappear."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-09:01",
+        "prompt": "A patent reform lowers filing fees and expands the inventions eligible for registration. Patent counts then rise. What can the increase alone establish about the underlying rate of invention?",
+        "answer": "It cannot separate more invention from greater registration of existing inventive activity.",
+        "explanation": "The reform changes how innovations enter the administrative record. Counts mix the underlying activity with eligibility and filing incentives, so a stable measurement process cannot be assumed."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u2-10:01",
+        "prompt": "Relative to dispersed household workshops, a hypothetical factory saves 8 per day in coordinating intermediate deliveries and 4 in supervision costs, but adds 7 in premises and commuting resources. Output and every other cost are unchanged. What is the net daily resource saving from centralizing production?",
+        "answer": "5 monetary units.",
+        "explanation": "Centralization saves 8+4=12 and adds 7, leaving net resource savings of 5. The example isolates organizational costs rather than assuming every productivity gain requires a new machine."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-01:01",
+        "prompt": "A constructed colonial concession raises tax collections from 100 to 140 while residents’ consumption falls by 30 and extraction requires 10 more units of real administrative resources. The extra revenue goes abroad. What does higher tax collection alone demonstrate?",
+        "answer": "Greater revenue extraction, not an improvement in residents’ welfare.",
+        "explanation": "Revenue is a fiscal flow and may be transferred away from residents. Its increase is not a sufficient welfare measure, particularly when the stated consumption and resource effects differ."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-02:01",
+        "prompt": "A hypothetical colonial rail network connects mines to a port but leaves large farming districts unconnected. A researcher observes this route pattern. Which conclusion is best supported by that pattern alone?",
+        "answer": "The network’s connectivity favors mine-to-port transport; its full welfare effects and the designers’ motives require additional evidence.",
+        "explanation": "A map documents what locations were linked and which routes were made easier. Establishing motives or net welfare requires evidence about costs, use, alternative routes and affected groups."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-03:01",
+        "prompt": "A historical administrative boundary separates districts with different past institutions. A present-day outcome jumps at that boundary, but households could selectively migrate across it for generations. What additional mechanism can contribute to the observed difference?",
+        "answer": "Changes in the composition of residents through selective migration.",
+        "explanation": "Present residents need not be the descendants of comparable initial populations. Persistent place differences can combine effects on places with sorting of people, requiring a clear target population and migration evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-04:01",
+        "prompt": "An empire establishes intensive administrative institutions first in regions with profitable mines. Centuries later those regions have higher infrastructure density. Why does comparing them with other regions not isolate the institution’s effect without further evidence?",
+        "answer": "Initial mineral profitability may have independently attracted infrastructure and shaped administrative assignment.",
+        "explanation": "The same preexisting characteristic can predict both assignment and subsequent development. Historical depth does not turn a selected assignment into an exogenous one."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-05:01",
+        "prompt": "In a constructed historical balance sheet, slaveholders record legal claims over enslaved people at value 1,000. An analyst adds this amount to society’s productive capital and treats it as an equal net welfare gain for everyone combined. What is the central error?",
+        "answer": "The ownership claim capitalizes coerced extraction and is not itself an additional productive resource or a net benefit to enslaved people.",
+        "explanation": "A market value to a claimant does not establish a new real resource or a welfare gain for all affected people. Accounting must distinguish productive capacities from coercive rights over people and include the people harmed."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-06:01",
+        "prompt": "After emancipation in a hypothetical region, formerly coerced workers choose fewer hours, retain more of what they produce and obtain freedom of movement. Recorded market output falls. What does the output decline alone establish about their welfare?",
+        "answer": "It does not establish a welfare decline; freedom, retained income and chosen leisure are not fully summarized by market output.",
+        "explanation": "Output is not a sufficient statistic for the welfare of people previously denied control over their labor. The stated changes alter both material command and choices in ways a production total omits."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-07:01",
+        "prompt": "A guild restricts entry and certifies training quality. An archive shows higher member earnings after the rule is introduced but contains no price, quality or outsider employment data. Which interpretation is warranted?",
+        "answer": "Higher earnings could reflect restricted competition, certified quality or both; the available evidence does not separate them.",
+        "explanation": "Entry restrictions can create rents while certification can affect information and skill. Member earnings alone cannot assign the effect to one channel or evaluate gains and losses across groups."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-08:01",
+        "prompt": "A historical tax system has an assessed base of 1,000 and a statutory rate of 10%. It collects only 60% of assessed taxes. A reform raises collection to 90% with the base and rate unchanged. How much does collected revenue increase?",
+        "answer": "30 monetary units.",
+        "explanation": "Assessed revenue is 100. Actual collection rises from 60 to 90, an increase of 30. Greater collection capacity is distinct from raising the legal rate."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-09:01",
+        "prompt": "A new land register recognizes only written titles. An archive records fewer overlapping formal claims afterwards, but residents with customary use rights are omitted from registration. Which limitation matters when interpreting the decline in recorded disputes?",
+        "answer": "Losses or unresolved claims among customary users excluded from the formal record.",
+        "explanation": "Formal records describe the recognized category of claims. A decline within that category may coexist with dispossession or unrecorded conflict among excluded users."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u3-10:01",
+        "prompt": "One hypothesis says a former colonial tax institution affects present outcomes through inherited public infrastructure; another says it works through persistent distrust of officials. Which evidence is most directly useful for distinguishing these mechanisms?",
+        "answer": "Evidence tracing infrastructure stocks and measures of trust over time, together with variation that can separate their contributions.",
+        "explanation": "Competing channels require evidence on the intermediate processes and a design capable of distinguishing them. Restating the total association does not reveal which mechanism carries it."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-01:01",
+        "prompt": "A town begins a decade with 10,000 residents. Registers record 2,000 births, 1,500 deaths, 800 arrivals and 300 departures, with no boundary change or missing flow. What population should the next census find?",
+        "answer": "11,000.",
+        "explanation": "Population changes by births minus deaths plus arrivals minus departures: 10,000+2,000−1,500+800−300=11,000. The accounting assumes identical geographic coverage."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-02:01",
+        "prompt": "Two hypothetical populations have identical age-specific annual death rates: 1% among young people and 10% among older people. Population A is 90% young; B is 50% young. Which has the higher crude death rate?",
+        "answer": "B, at 5.5% rather than A’s 1.9%.",
+        "explanation": "The crude rate averages age-specific rates with population shares. A’s rate is 0.9×0.01+0.1×0.10=0.019; B’s is 0.5×0.01+0.5×0.10=0.055."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-03:01",
+        "prompt": "In a constructed comparison, infant mortality falls while mortality after age one is unchanged. Life expectancy at birth rises. Does this imply that adults who already reached age twenty now face longer remaining lives?",
+        "answer": "No; the supplied change affects survival to adulthood, not mortality conditional on already being twenty.",
+        "explanation": "Life expectancy at birth incorporates early-life survival. Better infant survival can raise it without changing the future mortality schedule faced by existing adults."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-04:01",
+        "prompt": "A parish records 120 births in one year and 150 in a later year. The number of women in the relevant reproductive-age group rises from 600 to 1,000; age composition within that group is unchanged. What happens to births per woman in that group?",
+        "answer": "They fall from 0.20 to 0.15.",
+        "explanation": "The corresponding rates are 120/600=0.20 and 150/1,000=0.15. Increasing births can coexist with decreasing births per woman when the at-risk population grows."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-05:01",
+        "prompt": "In a simple model, parents target two expected surviving children and choose a continuous desired birth target b so that pb=2, where each child’s survival probability p is taken as given. If p rises from 0.5 to 0.8, how does the birth target change?",
+        "answer": "It falls from 4 to 2.5.",
+        "explanation": "The stipulated target implies b=2/p. Better survival lowers the number of births needed for that expected target. This mechanism alone is not a complete empirical explanation of demographic transition."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-06:01",
+        "prompt": "An early census records married women’s farm and home-based production as having no occupation. A later census counts the same activities as work. The activities and hours are unchanged. What can an increase in recorded female employment reflect?",
+        "answer": "A classification change rather than an actual increase in work.",
+        "explanation": "The statistical boundary of recorded employment changed. Comparability requires reconciling definitions before interpreting the series as behavioral change."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-07:01",
+        "prompt": "A historical study compares immigrants’ arrival earnings with earnings ten years later among those still present. Low earners were more likely to return to their origin country. Even if no individual’s earnings changed, what pattern could appear?",
+        "answer": "Average earnings of the observed remaining group could rise.",
+        "explanation": "Removing relatively low earners raises the mean of the observed population. Within-person earnings growth and compositional change must be separated when evaluating assimilation."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-08:01",
+        "prompt": "A researcher compares heights of adults measured in two different calendar years. The later sample contains more people born after a childhood nutrition improvement. Adult heights do not change with the measurement date in this example. What could explain a rising average height?",
+        "answer": "Cohort replacement in the measured population.",
+        "explanation": "The later cross-section contains different birth cohorts with different childhood exposures. A period mean can move even when an individual adult’s height is fixed."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-09:01",
+        "prompt": "A hypothetical migrant cannot afford a voyage costing 40. A contract pays the fare in exchange for four years of restricted labor mobility. Why is observing acceptance of the contract insufficient to show that the restrictions imposed no welfare cost?",
+        "answer": "Acceptance compares the constrained options available; it does not show indifference between restricted and unrestricted mobility with the same financing.",
+        "explanation": "The fare relaxes one constraint while the contract imposes another. Choosing the offered bundle does not reveal the value of a better financed alternative without its restrictions."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u4-10:01",
+        "prompt": "A hypothetical factory ban removes a child’s paid job. The household loses income, adult work is possible and school attendance remains costly. No income transfer accompanies the rule. Which prediction follows without further assumptions about preferences and opportunities?",
+        "answer": "The direction and size of the schooling response are not determined by the ban alone.",
+        "explanation": "A restriction on one activity does not select among all remaining activities. Income effects, adult labor options, school costs and alternative child work affect the response."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-01:01",
+        "prompt": "In a hypothetical convertible system, one unit of currency A redeems for 2 grams of gold and one unit of currency B for 0.5 grams. Ignore shipping costs and all restrictions. What exchange rate is implied by equal gold value?",
+        "answer": "4 units of B per unit of A.",
+        "explanation": "A unit of A buys 2 grams; at 0.5 grams per B, the same gold corresponds to 4 B. The rate’s units determine which ratio to use."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-02:01",
+        "prompt": "A hypothetical mint makes gold and silver coins legal tender at 1 gold coin=15 silver coins, but bullion markets value the metal in one gold coin at 16 silver coins. Debts may legally be settled with either metal at the mint ratio, and melting and trade are costless. Which payment incentive follows?",
+        "answer": "Use silver for debts and retain or sell gold at its higher bullion value.",
+        "explanation": "Settling a 15-silver debt with gold sacrifices metal worth 16 silver. Paying 15 silver preserves the extra bullion value of gold; the legally undervalued metal is costly to spend at face value."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-03:01",
+        "prompt": "A hypothetical note-issuing bank must keep gold equal to at least 40% of outstanding notes. It holds gold 40 against notes 100. An external payment removes 4 gold without initially changing notes. With no new gold or other eligible reserve asset available, how much must notes fall to restore the required ratio?",
+        "answer": "10, leaving notes of 90.",
+        "explanation": "After the drain gold is 36. The cover rule permits notes of at most 36/0.4=90, requiring a contraction of 10. This is a hypothetical mechanical constraint, not a description of every historical gold system."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-04:01",
+        "prompt": "A distant banknote promises redemption of 100 coins for certain. Transport and redemption cost 3 coins and there is no delay or other risk. In a competitive market with free access to redemption, what local price makes a purchaser break even?",
+        "answer": "97 coins.",
+        "explanation": "Net redemption proceeds are face value less collection cost: 100−3=97. A discount need not measure default risk when redemption itself consumes resources."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-05:01",
+        "prompt": "A historical borrower owes 120 nominal units. A consumption basket’s price falls from 2 to 1.5 units, while the nominal obligation remains fixed. By what percentage does the debt measured in baskets increase?",
+        "answer": "One third, approximately 33.3%.",
+        "explanation": "The debt rises from 120/2=60 baskets to 120/1.5=80 baskets. The proportional increase is 20/60=1/3, not the percentage fall in prices."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-06:01",
+        "prompt": "A hypothetical one-year loan has a nominal gross repayment factor of 1.02. The price level is known to fall by 5% over the year. What is the exact gross real repayment factor?",
+        "answer": "1.02/0.95, approximately 1.0737.",
+        "explanation": "A future nominal payment buys more goods when prices fall. Dividing the nominal factor by the price-level factor gives about 1.0737; a low nominal rate need not mean a low real borrowing cost."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-07:01",
+        "prompt": "Compare two banks with equal total loans. Bank A lends only in one farming district. Bank B divides loans equally between two districts. The return on each whole district loan portfolio has the same variance σ²>0, and the two district returns are independent. Ignoring all other differences, what happens to B’s portfolio-return variance relative to A’s?",
+        "answer": "It is half as large.",
+        "explanation": "With district variance σ², the equally weighted two-district return has variance 0.25σ²+0.25σ²=0.5σ². Diversification helps under independence but does not eliminate uncertainty."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-08:01",
+        "prompt": "In a hypothetical panic, banks may use clearinghouse certificates to settle obligations to one another, but households do not accept certificates as currency. Which shortage can the certificates relieve directly?",
+        "answer": "The shortage of settlement assets for eligible interbank payments.",
+        "explanation": "The certificates substitute within the specified clearing arrangement. Their usefulness to banks does not automatically make them acceptable to households or repair insolvency."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-09:01",
+        "prompt": "A hypothetical bank suspends immediate withdrawals, avoiding costly liquidation but preventing depositors from using funds for purchases. What is needed to assess the suspension’s net economic effect?",
+        "answer": "Evidence on both avoided liquidation losses and the costs of restricting depositor access.",
+        "explanation": "The intervention preserves assets through one channel while restricting payments through another. A net assessment must examine both rather than equating institutional survival with overall success."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u5-10:01",
+        "prompt": "A note issuer begins a year with 500 notes outstanding, issues 200 during the year and redeems and cancels 150. There are no other changes. What is the year-end stock?",
+        "answer": "550 notes.",
+        "explanation": "Outstanding notes are a stock reconciled by gross issues minus redemptions: 500+200−150=550. The gross issue flow is not itself the change in circulation."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-01:01",
+        "prompt": "An archive contains complete records only for firms that survived a long downturn. Failed firms’ records were discarded. A historian uses the surviving firms’ average profit to describe all firms operating before the downturn. What is the main limitation?",
+        "answer": "Archival survival selects firms on an outcome related to profitability.",
+        "explanation": "Detailed measurement within surviving records does not repair selective absence of failed firms. The target population must include those firms or the interpretation must be restricted."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-02:01",
+        "prompt": "A historical army accepted recruits only above a fixed minimum height. A researcher observes every accepted recruit’s height but none for rejected applicants or nonapplicants. What distribution is directly observed?",
+        "answer": "The height distribution of accepted recruits, selected by application and the height threshold.",
+        "explanation": "Universal coverage of accepted recruits does not remove truncation or selection into application. Inference about broader population nutrition requires addressing both mechanisms."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-03:01",
+        "prompt": "In a constructed adult-age sample, 30% of reported ages end in 0 or 5. A benchmark with no heaping places 20% in those endings. Define a heaping index as 100 times observed share divided by benchmark share. What is the index?",
+        "answer": "150.",
+        "explanation": "The index is 100×0.30/0.20=150. It describes excess concentration at favored digits relative to the benchmark; interpreting its cause requires additional evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-04:01",
+        "prompt": "A historical price index uses a fixed basket of 2 grain units and 1 cloth unit. Base prices are 3 per grain unit and 4 per cloth unit; later prices are 4 and 2. What is the fixed-basket price index with base 100?",
+        "answer": "100.",
+        "explanation": "The basket costs 2×3+4=10 initially and 2×4+2=10 later. The index is unchanged despite opposite movements in individual prices. It does not measure substitution or changes in basket quality."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-05:01",
+        "prompt": "A city reports population 100,000 in one census and 130,000 in the next. Between them it annexes territory containing 20,000 residents at the second census. No land leaves the city. What is the later population within the old boundary?",
+        "answer": "110,000.",
+        "explanation": "Subtracting the annexed territory’s later population gives 130,000−20,000=110,000 within the original area. Administrative expansion is distinct from growth on a constant boundary."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-06:01",
+        "prompt": "A region is observed only in years 0 and 10. A researcher fills years 1 through 9 by linear interpolation, then reports a precisely dated turning point in year 6 based only on those filled values. What is the problem?",
+        "answer": "The interpolated annual path supplies no independent annual evidence for a turning point in year 6.",
+        "explanation": "Interpolation imposes a path between observations. It can be a useful approximation, but cannot itself establish within-interval timing absent additional evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-07:01",
+        "prompt": "A study uses distance to an old navigable river as an instrument for early factory location when estimating factories’ effects on present income. The river still lowers modern transport costs independently of early factories. Which identifying claim is threatened?",
+        "answer": "That river distance affects present income only through early factory location.",
+        "explanation": "The continuing transport channel provides a path from the instrument to the outcome outside the proposed historical treatment. Historical origin does not by itself establish exclusion."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-08:01",
+        "prompt": "A study attributes a town’s wage rise in year 10 to a railway. New construction records show the line was first proposed in year 15 and opened in year 20; there was no earlier anticipation or related infrastructure in this scenario. What follows for the claimed year-10 effect?",
+        "answer": "The proposed railway timing cannot explain that earlier rise under the stated absence of anticipation.",
+        "explanation": "A cause must precede its effect or operate through an established anticipatory channel. The corrected chronology rules out the stated mechanism for year 10 without identifying the actual cause."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-09:01",
+        "prompt": "Tax records show a large increase in land values, while contemporaneous sale records for the same parcels show little change. An administrative reform changed assessed values during the interval. What is the most direct next check?",
+        "answer": "Reconcile assessment rules and transaction-price definitions before interpreting the tax series as market appreciation.",
+        "explanation": "The series may measure different objects, especially when assessment procedures change. Comparing definitions and matched parcels can diagnose the discrepancy before drawing a substantive price conclusion."
+      },
+      "last": null
+    },
+    {
+      "course": "economic-history",
+      "family": "economic-history-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "economic-history:economic-history-u6-10:01",
+        "prompt": "A historian argues that a coercive labor institution persisted because powerful beneficiaries could block reform. Which statement correctly interprets this argument?",
+        "answer": "It is a proposed explanation of persistence, not by itself an endorsement of the institution or proof that it maximized social welfare.",
+        "explanation": "An account of incentives and political constraints explains how an outcome can persist. It does not convert beneficiaries’ preferences into a welfare criterion or settle whether the proposed explanation fits the evidence."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-01",
+      "topic": "1.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-01:01",
+        "prompt": "A forecast is dated March 15. February employment was released March 8, but February industrial production will be released March 18. Which inputs belong in a genuine real-time March 15 forecast?",
+        "answer": "The March 8 employment vintage, but not the March 18 industrial-production release.",
+        "explanation": "Observation dates and publication dates are different. Real-time prediction may use only information actually available by the forecast origin, with its then-current vintage."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-02",
+      "topic": "1.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-02:01",
+        "prompt": "A model predicts quarterly growth of 2.0 percent. The first release is 1.5 percent and the later benchmark estimate is 2.5 percent. Define error as actual minus forecast. What are the two errors?",
+        "answer": "−0.5 percentage points against the first release and +0.5 against the benchmark.",
+        "explanation": "Subtract the same forecast from each target vintage. The evaluation question differs between predicting the first announcement and predicting a later estimate of activity."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-03",
+      "topic": "1.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-03:01",
+        "prompt": "Real output rises from 100 to 101 in one quarter. What exact annualized growth rate extrapolates that quarterly pace for four quarters?",
+        "answer": "100[(1.01)^4−1]≈4.0604 percent.",
+        "explanation": "Annualization compounds the quarterly factor four times. It is not the observed year-over-year change unless the other three quarterly factors happen to match."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-04",
+      "topic": "1.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-04:01",
+        "prompt": "A national-accounts series reports government purchases of 800 billion at a seasonally adjusted annual rate in a quarter. What quarterly flow does that rate represent, ignoring rounding?",
+        "answer": "200 billion during the quarter.",
+        "explanation": "An annual-rate flow scales a quarter’s seasonally adjusted flow by four. A multiplier calculation must put spending and output in consistent frequency units."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-05",
+      "topic": "1.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-05:01",
+        "prompt": "Suppose a first-release estimate Y1 equals E[Yfinal|I1], with square-integrable quantities and I1 the complete first-release information set. The revision is R=Yfinal−Y1. Which restriction follows?",
+        "answer": "E[R|I1]=0, so the revision is orthogonal to Y1.",
+        "explanation": "Under this news benchmark, the first release is the conditional expectation of the final target. The remaining revision is a forecast error relative to I1."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-06",
+      "topic": "1.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-06:01",
+        "prompt": "Suppose the first release is Y1=Yfinal+e, with e mean zero and independent of Yfinal, and both have finite variances. For R=Yfinal−Y1, what is Cov(R,Y1)?",
+        "answer": "−Var(e).",
+        "explanation": "R=−e, so Cov(−e,Yfinal+e)=−Var(e). Predictable revisions from noisy preliminary estimates differ from the ideal news benchmark."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-07",
+      "topic": "1.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-07:01",
+        "prompt": "At a quarter’s end, a forecaster observes all three employment months, two industrial-production months and one retail-sales month. What does this ragged edge mean for estimation?",
+        "answer": "The model must respect series-specific missing releases instead of treating unavailable observations as known zeros.",
+        "explanation": "Different release calendars create an unbalanced end of the data matrix. A missing observation is an information constraint, not a measured zero; mixed-frequency or missing-data methods can handle it."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-08",
+      "topic": "1.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-08:01",
+        "prompt": "An analyst adds all published chain-volume expenditure components, including consumption, investment, government purchases and exports less imports, to reproduce a chain-volume GDP level away from the reference year. Why may the sum fail?",
+        "answer": "Chain-volume component levels are generally not additive away from the reference year.",
+        "explanation": "Changing relative-price weights in chained indexes can break additivity of component levels. Published contribution-to-growth measures or an appropriate index decomposition address a different, coherent accounting task."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-09",
+      "topic": "1.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-09:01",
+        "prompt": "A historical backtest uses a seasonally adjusted series produced today by a two-sided filter that incorporates observations after every past forecast origin. What is the concern?",
+        "answer": "The transformed regressors can contain future information unavailable at the historical origins.",
+        "explanation": "A two-sided transformation can revise historical estimates as later data arrive. Real-time backtesting needs vintage-consistent transformations or an explicitly retrospective interpretation."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u1-10",
+      "topic": "1.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u1-10:01",
+        "prompt": "Debt is measured as 60 and initial nominal GDP as 100. A benchmark revision raises GDP to 105 without changing debt. What is the revised debt-to-GDP ratio?",
+        "answer": "About 57.14 percent, down 2.86 percentage points.",
+        "explanation": "The new ratio is 60/105≈0.57143. The ratio changes mechanically because its denominator changes; this does not establish a new borrowing or repayment transaction."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-01",
+      "topic": "2.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-01:01",
+        "prompt": "A central bank raises its policy rate in response to strong private forecasts of future output. Why is regressing subsequent output on the observed rate change not automatically an estimate of a contractionary policy shock’s effect?",
+        "answer": "The rate change combines an endogenous response to information with any exogenous policy innovation.",
+        "explanation": "Systematic reactions to expected activity can correlate policy actions with the future outcome even without the causal policy channel of interest. Identification must isolate variation not driven by those outcome determinants."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-02",
+      "topic": "2.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-02:01",
+        "prompt": "A quarterly recursive VAR orders output before the policy rate and interprets the policy innovation using that ordering. What contemporaneous restriction does it impose on output’s response to that innovation?",
+        "answer": "The identified policy shock has zero within-quarter impact on output.",
+        "explanation": "In the recursive impact matrix, earlier variables do not respond on impact to later shocks. Lagged transmission remains possible; the restriction is a maintained timing assumption at the chosen frequency."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-03",
+      "topic": "2.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-03:01",
+        "prompt": "Several admissible structural models all satisfy the imposed signs for a monetary tightening, but imply year-two output responses ranging from −0.8 to −0.2 percent. What does reporting −0.5 percent as uniquely identified omit?",
+        "answer": "The imposed restrictions allow multiple response values rather than a single point.",
+        "explanation": "A set of allowed responses describes identification uncertainty under the restrictions. Selecting a central value adds a summary rule or prior, not additional point-identifying information."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-04",
+      "topic": "2.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-04:01",
+        "prompt": "A valid scalar proxy Z is correlated only with one structural shock in reduced-form innovations (ur,uy). Cov(Z,ur)=0.20 and Cov(Z,uy)=−0.06. What output impact is identified when the shock is normalized to raise r by one unit?",
+        "answer": "−0.30 output units.",
+        "explanation": "Both covariances share the proxy’s covariance with the target shock. Their ratio cancels that common factor: −0.06/0.20=−0.30. The result is a relative impact, not a unit-variance shock without further normalization."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-05",
+      "topic": "2.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-05:01",
+        "prompt": "Within a narrow central-bank announcement window, rates and equity prices both rise. Why might using the rate surprise as a pure tightening shock be problematic?",
+        "answer": "The announcement may also reveal favorable private information about the economy.",
+        "explanation": "A short window reduces some confounding news but does not separate policy decisions from information revealed by the same announcement. Additional identifying restrictions are needed to distinguish those components."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-06",
+      "topic": "2.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-06:01",
+        "prompt": "A spending increase is credibly announced two years before purchases occur. Households and firms respond at announcement. What happens if an empirical design dates the shock only at the purchase increase?",
+        "answer": "It can misclassify anticipated implementation as a new shock and miss earlier responses.",
+        "explanation": "Forward-looking decisions can react to news before realized purchases. The shock’s information arrival date must be distinguished from the spending-flow date."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-07",
+      "topic": "2.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-07:01",
+        "prompt": "A structural VAR identifies one demand shock by imposing zero long-run effect on the level of output. What is the correct interpretation?",
+        "answer": "The restriction is a maintained identifying assumption, not a result independently established by the estimated short-run response.",
+        "explanation": "The assumption allocates permanent output movements to other shocks. Its credibility and the estimation of long-run dynamics must be assessed separately from the model’s fitted responses."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-08",
+      "topic": "2.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-08:01",
+        "prompt": "A two-shock system has constant impact matrix B and mutually uncorrelated shocks. Across two regimes, both shock variances rise by the same factor of four. Does this proportional covariance shift alone separate the two shocks?",
+        "answer": "No; the equal relative variance changes do not distinguish their impact directions.",
+        "explanation": "Both covariance matrices are proportional, leaving the same rotational ambiguity. Identification through variance shifts needs stronger conditions, such as distinct relative shifts and a stable impact matrix."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-09",
+      "topic": "2.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-09:01",
+        "prompt": "An external instrument is substantively credible but has very weak covariance with the target policy innovation. What can happen to conventional proxy-based impulse-response inference?",
+        "answer": "Ratio estimates and normal confidence intervals can behave poorly despite credible exclusion.",
+        "explanation": "Exogeneity and relevance are separate requirements. A nearly zero normalization covariance makes ratios unstable, so weak-instrument-robust methods or different information may be needed."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u2-10",
+      "topic": "2.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u2-10:01",
+        "prompt": "Agents observe a future productivity improvement before it affects current measured productivity, but the econometrician’s VAR omits the news signal. What is the identification concern?",
+        "answer": "The shock may not be recoverable from current and past observed VAR variables even though agents already respond.",
+        "explanation": "A gap between agents’ and the econometrician’s information can create noninvertibility relative to the observed variables. Adding a relevant forward-looking indicator may help but requires validation."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-01",
+      "topic": "3.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-01:01",
+        "prompt": "A VAR(1) has transition matrix A=[[0.5,0.2],[0,0.4]]. An identified unit shock has impact vector b=(1,2)′ at horizon zero. What is the first variable’s response at horizon one?",
+        "answer": "0.9.",
+        "explanation": "The horizon-one vector is Ab=(0.5×1+0.2×2,0.4×2)′=(0.9,0.8)′. The off-diagonal coefficient transmits the initial second-variable response."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-02",
+      "topic": "3.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-02:01",
+        "prompt": "At a two-quarter forecast horizon, an output variable has impulse coefficients (1,0.5) on one structural shock and (2,0) on a second. Both shocks are serially independent, mutually orthogonal and have unit variance. What share of the forecast-error variance is due to the first shock?",
+        "answer": "5/21≈23.81 percent.",
+        "explanation": "The first shock contributes 1²+0.5²=1.25, and the second contributes 2²+0²=4. The share is 1.25/(1.25+4)=5/21. Orthogonality and unit variance justify adding squared response coefficients."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-03",
+      "topic": "3.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-03:01",
+        "prompt": "A shock changes quarterly log-output growth by −0.01 at impact, −0.005 one quarter later and zero thereafter. What is the log-output level response after the second affected quarter, relative to the unshocked path?",
+        "answer": "−0.015.",
+        "explanation": "A growth response is the first difference of the level response. Summing the two affected growth increments gives a persistent log-level displacement of −0.015 unless later growth offsets it."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-04",
+      "topic": "3.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-04:01",
+        "prompt": "A local projection regresses Y_t+h on an observed structural innovation εt and sufficient predetermined controls. εt is mean independent of those controls and of other shocks affecting the outcome, and the conditional response is linear and stable. What does its εt coefficient represent?",
+        "answer": "The horizon-h response to a one-unit innovation under the maintained shock and specification assumptions.",
+        "explanation": "The shock’s exogeneity supplies the causal interpretation; the horizon-specific regression estimates its dynamic response. The method name alone does not establish identification."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-05",
+      "topic": "3.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-05:01",
+        "prompt": "In a quarterly local projection for Y_t+4, adjacent regression errors share some future shocks even when one-quarter structural innovations are serially independent. What inference issue follows?",
+        "answer": "The horizon regression errors can be serially correlated, requiring an inference method valid for that dependence.",
+        "explanation": "Adjacent horizon outcomes can contain common innovations, inducing dependence in residuals. Inference must match the estimator and dependence assumptions, rather than treating horizon observations as iid by default."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-06",
+      "topic": "3.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-06:01",
+        "prompt": "Two researchers use the same variables and same valid shock restrictions, one with local projections and one with a finite-lag VAR. Why can finite-sample impulse responses differ without different causal estimands?",
+        "answer": "They impose different dynamic approximation and estimation structures, creating different bias and variance.",
+        "explanation": "Under suitable population conditions the methods can target the same responses. Finite-lag restrictions and horizon-by-horizon estimation need not produce the same estimates in limited data."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-07",
+      "topic": "3.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-07:01",
+        "prompt": "A short-lag VAR gives narrow bands but omits relevant dynamics. Why is this not necessarily preferable to a longer-lag specification with wider bands?",
+        "answer": "Lower reported variance may come at the cost of approximation bias and distorted coverage.",
+        "explanation": "Bands quantify uncertainty under a fitted specification. If its dynamics are misspecified, apparent precision can omit an important source of error; lag choice requires more than minimizing width."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-08",
+      "topic": "3.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-08:01",
+        "prompt": "A state-dependent policy-response model compares recessions with expansions. Why is a state indicator measured before the shock often preferable to classifying observations using future output?",
+        "answer": "Future output may itself respond to the shock, so conditioning on it can select on an outcome of the intervention.",
+        "explanation": "If the policy shock changes future recession status, sorting by that status changes who enters each regime partly because of the treatment. A pre-shock state defines the comparison without that particular post-shock selection."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-09",
+      "topic": "3.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-09:01",
+        "prompt": "Each of twenty impulse-response horizons has a pointwise 95 percent confidence interval. Does this imply 95 percent coverage of the entire true response path?",
+        "answer": "No; joint coverage of all horizons requires a simultaneous inference construction.",
+        "explanation": "Pointwise coverage concerns one prespecified horizon. Simultaneous coverage concerns all horizons together and depends on their joint distribution and multiple-comparison procedure."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u3-10",
+      "topic": "3.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u3-10:01",
+        "prompt": "A structural impulse response depends on estimated VAR coefficients and an estimated proxy normalization. A bootstrap resamples data but holds the original proxy normalization fixed. What uncertainty can it omit?",
+        "answer": "Sampling uncertainty in the normalization and its covariance with the estimated dynamics.",
+        "explanation": "An estimated normalization is part of the estimator. A bootstrap intended to approximate its full sampling law must reproduce the relevant estimation steps or otherwise account for the omitted uncertainty."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-01",
+      "topic": "4.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-01:01",
+        "prompt": "A model is evaluated at successive quarterly forecast origins. Its coefficients and tuning parameters are selected once using the full dataset, including the evaluation years. Why is this not an honest historical out-of-sample experiment?",
+        "answer": "The selection step has used future outcomes that were unavailable at earlier forecast origins.",
+        "explanation": "Out-of-sample separation applies to tuning and model choice as well as coefficient fitting. Repeating the full procedure within each origin or a valid training scheme avoids that particular leakage."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-02",
+      "topic": "4.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-02:01",
+        "prompt": "A researcher suspects a recent persistent change in an inflation equation. What tradeoff does a fixed-length rolling estimation window make relative to an expanding window?",
+        "answer": "It discards older observations to reduce exposure to obsolete relationships, at the cost of less estimation data.",
+        "explanation": "A rolling window can adapt to change by omitting distant regimes, but increased sampling variability can offset that benefit. Its performance depends on the type and timing of instability."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-03",
+      "topic": "4.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-03:01",
+        "prompt": "Two unbiased forecasts have error variances 4 and 9 and error covariance 1. What is the error variance of their equal-weight average?",
+        "answer": "3.75.",
+        "explanation": "The combined error is (e1+e2)/2, with variance (4+9+2×1)/4=3.75. Diversification depends on covariance as well as each individual error variance."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-04",
+      "topic": "4.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-04:01",
+        "prompt": "Two unbiased forecast errors have variances 4 and 9 and covariance 1. A combination places weight w on forecast 1 and 1−w on forecast 2. What w minimizes error variance?",
+        "answer": "8/11≈0.727.",
+        "explanation": "Differentiating w²4+(1−w)²9+2w(1−w) gives w=(9−1)/(4+9−2)=8/11. The covariance matters; inverse-variance weights alone apply only when it is zero."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-05",
+      "topic": "4.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-05:01",
+        "prompt": "A loss differential between two quarterly four-step forecasts is serially correlated because their horizons overlap. What must a standard-error calculation for its average address?",
+        "answer": "The long-run covariance of the loss differential under the maintained forecast-comparison asymptotics.",
+        "explanation": "The average loss differential aggregates dependent observations. Its uncertainty depends on cross-time covariances; nested models or estimated tuning can also require special treatment beyond an off-the-shelf comparison."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-06",
+      "topic": "4.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-06:01",
+        "prompt": "Model A and model B have identical conditional mean forecasts but different predictive variances. Can they have different logarithmic predictive scores on the same realized outcomes?",
+        "answer": "Yes; the score evaluates the density assigned to realizations, including dispersion.",
+        "explanation": "A density forecast describes more than its mean. Different dispersion assigns different probabilities to the observed outcomes even when point forecasts coincide."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-07",
+      "topic": "4.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-07:01",
+        "prompt": "A recession model issues probability 0.30 in many comparable forecast instances. What is the calibration implication for the event frequency in that probability group?",
+        "answer": "It should be approximately 30 percent in a sufficiently informative evaluation sample.",
+        "explanation": "Calibration compares stated probabilities with observed frequencies. Finite-sample noise and dependence affect the precision of the check, and calibration alone does not establish sharp or useful predictions."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-08",
+      "topic": "4.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-08:01",
+        "prompt": "A forecast assumes the policy rate remains fixed for two years, even though the model’s estimated policy rule would normally respond to activity. What should accompany the forecast’s interpretation?",
+        "answer": "It is conditional on the imposed rate path and on how that path is implemented in the model.",
+        "explanation": "An imposed instrument path changes the conditioning or intervention problem. Different anticipated policy shocks or rule changes can support the same path with different outcomes, so implementation matters."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-09",
+      "topic": "4.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-09:01",
+        "prompt": "In a valid evaluation sample, a forecast-combination regression finds that adding forecast B to forecast A improves prediction under a specified loss after accounting for estimation uncertainty. What does this suggest?",
+        "answer": "B contains incremental predictive information relative to A for that target and evaluation setting.",
+        "explanation": "Encompassing is about whether one forecast summarizes another’s useful predictive content. It does not identify structural mechanisms or establish universal superiority."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u4-10",
+      "topic": "4.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u4-10:01",
+        "prompt": "An output forecast misses a downturn. Why is its residual not automatically a measured technology shock?",
+        "answer": "Forecast errors can combine several structural shocks, parameter error, model misspecification and data revisions.",
+        "explanation": "A prediction residual is defined relative to an information set and model. Assigning it a structural label requires restrictions that distinguish the proposed mechanism from other sources."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-01",
+      "topic": "5.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-01:01",
+        "prompt": "A latent output gap at quarter t is estimated once using data through t and again using data through T>t under the same known state-space model. Which labels apply?",
+        "answer": "The first is a filtered estimate and the second a smoothed estimate.",
+        "explanation": "Filtering conditions on information available through the state’s date; smoothing incorporates later observations. A smoothed historical estimate cannot be treated as what policymakers knew in real time."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-02",
+      "topic": "5.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-02:01",
+        "prompt": "In a scalar Gaussian measurement update with positive prior state variance P fixed, measurement noise variance R rises while the observed innovation remains the same. What happens to the Kalman gain K=P/(P+R)?",
+        "answer": "It falls, reducing the state update’s response to that innovation.",
+        "explanation": "A larger R raises the denominator while holding the numerator fixed. The model places less weight on the less precise observation."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-03",
+      "topic": "5.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-03:01",
+        "prompt": "Observed log GDP satisfies yt=τt+ct, where both components are unobserved and no other restrictions are imposed. Is this equation alone enough to identify the trend and cycle separately?",
+        "answer": "No; many pairs of component paths generate the same observed series.",
+        "explanation": "For any path at, replacing τt by τt+at and ct by ct−at preserves yt. Dynamics, frequency restrictions, other measurements or priors are needed to distinguish components."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-04",
+      "topic": "5.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-04:01",
+        "prompt": "In yt=μt+εt and μt=μ_t−1+ηt, ε and η are mutually independent iid zero-mean sequences with variances R and Q. Population Var(Δyt)=5 and Cov(Δyt,Δy_t−1)=−1. What are R and Q?",
+        "answer": "R=1 and Q=3.",
+        "explanation": "Δyt=ηt+εt−ε_t−1 gives lag-one covariance −R and variance Q+2R. Hence R=1 and Q=5−2=3."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-05",
+      "topic": "5.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-05:01",
+        "prompt": "A scalar Gaussian state has prior variance P=4. It is measured with unit loading and independent mean-zero Gaussian measurement noise of variance R=6. What is its posterior variance after the measurement?",
+        "answer": "2.4.",
+        "explanation": "Posterior precision is 1/P+1/R, so posterior variance is PR/(P+R)=24/10=2.4. A noisy but informative measurement still reduces uncertainty relative to the prior."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-06",
+      "topic": "5.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-06:01",
+        "prompt": "The latent state follows xt=0.8x_t−1+ηt with innovation variance 0.72 independent of past information. The previous filtered variance is 2. What is the next one-step prediction variance before a new observation?",
+        "answer": "2.0.",
+        "explanation": "Propagating uncertainty yields Ppred=0.8²×2+0.72=2. The state coefficient rescales variance quadratically, and process noise adds new uncertainty."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-07",
+      "topic": "5.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-07:01",
+        "prompt": "Conditional on existing information, GDP and an upcoming indicator are jointly Gaussian. Their conditional covariance is 0.6, the indicator’s conditional variance is 0.4, and its release exceeds its prior forecast by 0.2. What is the GDP nowcast revision under this model?",
+        "answer": "+0.3 GDP units.",
+        "explanation": "The conditional update is Cov(GDP,indicator)/Var(indicator) times the indicator surprise: (0.6/0.4)×0.2=0.3. The covariance and variance must refer to the same pre-release information set."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-08",
+      "topic": "5.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-08:01",
+        "prompt": "A macro factor model is Xi,t=λi ft+ei,t. With no normalization on factor scale, why are numerical loadings not uniquely determined?",
+        "answer": "Multiplying ft by any nonzero c and dividing every λi by c preserves fitted common components.",
+        "explanation": "Only the loading–factor products enter the observation equation. A variance or loading normalization fixes scale and often sign before individual loading magnitudes can be compared."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-09",
+      "topic": "5.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-09:01",
+        "prompt": "A quarterly total spending measure Qq equals the sum of three monthly flows m1,m2,m3 in consistent currency units. What linear measurement equation correctly links the quarterly observation to monthly states?",
+        "answer": "Qq=m1+m2+m3.",
+        "explanation": "A period total aggregates flows by summation. An average-rate target or a quarter-end stock would require a different observation equation, so frequency alone does not determine aggregation."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u5-10",
+      "topic": "5.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u5-10:01",
+        "prompt": "An output-gap estimate changes sharply after two more years of data arrive, even though the underlying historical GDP vintage is unchanged. What can explain this within a latent trend-cycle model?",
+        "answer": "Later observations change the inferred historical trend and cycle through smoothing.",
+        "explanation": "The latent decomposition is conditional on a model and information set. New observations can alter past component estimates without changing the observed historical sum. Endpoint uncertainty therefore matters when assessing real-time policy."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-01",
+      "topic": "6.1",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-01:01",
+        "prompt": "An identified spending shock produces output responses of 2, 3 and 1 billion and government-purchase responses of 1, 2 and 1 billion over horizons zero through two. All are comparable quarterly flows, and discounting is omitted. What is the cumulative multiplier over these horizons?",
+        "answer": "1.5.",
+        "explanation": "The cumulative multiplier is the ratio of cumulative responses: (2+3+1)/(1+2+1)=6/4=1.5. It is not the average of the horizon-specific ratios."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-02",
+      "topic": "6.2",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-02:01",
+        "prompt": "At a given horizon, an identified fiscal shock raises output by 0.4 percent of baseline output and purchases by 2 percent of baseline purchases. Baseline purchases are 20 percent of baseline output. Using these exact percentage changes and the same period units, what is the ratio ΔY/ΔG?",
+        "answer": "1.0.",
+        "explanation": "ΔY=0.004Y and ΔG=0.02×0.20Y=0.004Y. Dividing raw percentage responses would ignore the different baseline quantities."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-03",
+      "topic": "6.3",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-03:01",
+        "prompt": "A study identifies how a region’s output responds to spending received relative to other regions, while national monetary policy and national taxes are held common by time effects. Why is its coefficient not automatically a national fiscal multiplier?",
+        "answer": "A national expansion can change common financing, monetary policy and cross-region equilibrium effects that the relative design holds fixed or differences out.",
+        "explanation": "A relative allocation experiment and an aggregate spending experiment are different interventions. Translating between them needs assumptions or a model for omitted common and spillover responses."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-04",
+      "topic": "6.4",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-04:01",
+        "prompt": "A proposed tax-shock series codes a tax change as exogenous because an official document says it was motivated by long-run reform rather than near-term stabilization. What further issue must the researcher examine?",
+        "answer": "Whether the classified changes still correlate with expected macroeconomic conditions or other policies affecting outcomes.",
+        "explanation": "Documents can support a causal design by revealing motives and timing, but their labels are evidence to assess rather than mathematical guarantees of exclusion or unpredictability."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-05",
+      "topic": "6.5",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-05:01",
+        "prompt": "A firm borrows from two banks, one exposed to an external funding disruption and one not. A design compares their lending to that same firm at the same time using firm-time effects. What variation is it trying to isolate?",
+        "answer": "Differential lender credit supply while absorbing demand factors common to that firm-time pair.",
+        "explanation": "The same-borrower comparison holds common firm demand conditions fixed and uses bank exposure variation. Its validity still requires the exposure and bank-specific borrower interactions to satisfy the design’s assumptions."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-06",
+      "topic": "6.6",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-06:01",
+        "prompt": "An estimated impulse response measures a one-time unexpected rate increase under the historical policy regime. Why is it insufficient by itself to predict a permanent replacement of the policy rule?",
+        "answer": "A rule change can alter expectations and future responses, so the historical surprise experiment need not be invariant.",
+        "explanation": "The estimated experiment holds the surrounding regime implicit in the data. A counterfactual regime requires assumptions about expectation formation and the systematic response of policy, beyond repeating one historical surprise."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-07",
+      "topic": "6.7",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-07:01",
+        "prompt": "In a historical episode, bank distress rises just before output falls. Why does this ordering alone not identify the output effect of distress?",
+        "answer": "Both may reflect prior worsening fundamentals or anticipated losses, even if measured distress appears first.",
+        "explanation": "Timing can be informative but does not eliminate common causes or anticipatory responses. A stronger design needs variation or restrictions that separate the credit mechanism from those alternatives."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-08",
+      "topic": "6.8",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-08:01",
+        "prompt": "A fitted inflation series is highly persistent. Does that fact alone identify strong intrinsic price-setting inertia?",
+        "answer": "No; persistent driving shocks or policy behavior can generate persistent inflation without the same intrinsic propagation.",
+        "explanation": "Observed persistence combines shock persistence, structural propagation and policy responses. Separating these components requires additional restrictions and information beyond a univariate autocorrelation."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-09",
+      "topic": "6.9",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-09:01",
+        "prompt": "An identified VAR attributes most of a particular recession’s fitted output decline to one shock category. What is the correct status of this attribution?",
+        "answer": "It is conditional on the model, shock-identification restrictions, normalization and sample.",
+        "explanation": "A historical decomposition propagates estimated identified shocks through estimated dynamics. Changing its identifying assumptions or information set can change the allocation of observed movements."
+      },
+      "last": null
+    },
+    {
+      "course": "empirical-macroeconomics",
+      "family": "empirical-macroeconomics-u6-10",
+      "topic": "6.10",
+      "count": 1,
+      "format": "choice",
+      "distinctAnswers": 1,
+      "graphItems": 0,
+      "contentReview": "pending",
+      "structuralChecks": "passed",
+      "first": {
+        "id": "empirical-macroeconomics:empirical-macroeconomics-u6-10:01",
+        "prompt": "A researcher reports the largest statistically significant output response among many horizons and specifications after inspecting the results. What must an evidentiary assessment account for?",
+        "answer": "The search across horizons and specifications, rather than treating the selected interval as prespecified evidence.",
+        "explanation": "Outcome-dependent selection can exaggerate effect size and evidence. Prespecification, transparent reporting and an appropriate simultaneous or selection-aware procedure address the distinction between a planned test and an exploratory search."
       },
       "last": null
     },

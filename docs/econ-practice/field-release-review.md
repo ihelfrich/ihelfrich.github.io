@@ -105,3 +105,11 @@ Released 180 singleton families after author and parent review, bringing the act
 Parent checks include 45 statistics calculations/design checks, 36 advanced-econometrics calculations and conditional-likelihood checks, and 20 market-design allocation/incentive checks. Review repaired a missing Gaussian measurement-noise assumption, replaced a repeated Cauchy example with a Lindeberg counterexample, clarified a guaranteed matching-market lower bound, and made sample-size notation explicit. Integration clarified the Cauchy explanation without changing its mathematical claim.
 
 All 191 tests pass; the full structural bank audit reports zero errors and warnings; review reconciliation reports 232 legacy self-reviewed and 1,350 authored/parent-reviewed provisional families, with no reconciliation errors. The static build produces 131 pages. These checks do not establish empirical item calibration, authenticated end-to-end browser behavior or production deployment. More than 5,000 active useful questions and broader discipline coverage remain required.
+
+## Law, Economic History and Empirical Macroeconomics — bank 2026.10.13.33
+
+Released 180 singleton questions across three courses after author and parent review. Active bank: 4,737 items / 1,762 families / 31 courses. Each course includes six units, prerequisites and private authored hints (topic-scaffolds-v21). Review checkpoints bind every released record; manifests bind exact source bytes.
+
+Parent verification records 48 law checks, 37 history checks and 24 empirical-macro checks. Revisions include complete expenditure-component accounting, Gaussian measurement-noise assumptions, a VAR variance decomposition replacing repetitive arithmetic, and distinct historical production/organization cases. Final demographic, portfolio and archival wording changes were rereviewed; additional macro measurement citations were verified to change sources only.
+
+All 202 tests pass. Structural audit and review reconciliation report no errors; build produces 131 pages. Questions retain provisional psychometric parameters. Authenticated browser behavior and production deployment have not been established by these checks. The >5,000-item and broader coverage requirements remain open; principles courses and history of thought are being authored separately.

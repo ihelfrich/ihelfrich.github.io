@@ -5,11 +5,11 @@ Branch: codex/adaptive-economics
 Base site: ihelfrich/ihelfrich.github.io
 Agent Log: 3f808471-6405-8177-9fd4-db6c6d4478b3
 
-## Current verified snapshot — bank 2026.10.13.32
+## Current verified snapshot — bank 2026.10.13.33
 
-Active inventory: 4,557 questions, 1,582 families, 28 courses. Latest full suite: 199 passing tests; structural bank audit clean; 131-page static build. Calibration approval, release/withdrawal history and atomic session model pins are implemented with instructor controls. Authenticated browser verification, production configuration/deployment and empirical calibration remain incomplete. Three additional 60-item field batches are being authored and parent-reviewed; they are not active. The older continuation entries below are historical evidence, not the current inventory.
+Active inventory: 4,737 questions, 1,762 families, 31 courses. Latest full suite: 202 passing tests; structural bank audit clean; 131-page static build. Calibration approval, release/withdrawal history and atomic session model pins are implemented with instructor controls. Authenticated browser verification, production configuration/deployment and empirical calibration remain incomplete. Principles of Microeconomics, Principles of Macroeconomics and History of Economic Thought are being authored; they are not active. The older continuation entries below are historical evidence, not the current inventory.
 
-Current Worker dry-run: 2,438.98 KiB uncompressed (478.47 KiB gzip). Local startup profile: 32.2 ms sampled / 21.7 ms active. See audits/deployment-preflight-current.json for scope and limitations; neither result verifies a live deployment.
+Previous bank .32 Worker dry-run: 2,438.98 KiB uncompressed (478.47 KiB gzip). Local startup profile: 32.2 ms sampled / 21.7 ms active. See audits/deployment-preflight-current.json for scope and limitations; neither result verifies a live deployment.
 
 ## User decisions
 
