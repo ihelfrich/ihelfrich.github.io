@@ -10,13 +10,14 @@ export function score(item,response){
 }
 export function recordAnswer(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,measurementEligible=true}){
  if(eventId&&state.history.some(h=>h.eventId===eventId))return state;
+ const p=itemParameters(item,calibration);
  const correct=score(item,response),key=`${item.course}:${item.topic}`;
  const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
  const firstExposure=!state.history.some(h=>h.course===item.course&&h.family===item.family);
  t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
  t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
  t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
- const dimension=`${item.course}:${item.unit}`;const p=itemParameters(item,calibration);
+ const dimension=`${item.course}:${item.unit}`;
  // Repeated family variants and assisted practice do not count as independent IRT evidence.
  const psychometricEligible=measurementEligible&&mode==='assessment'&&firstExposure&&hints===0;
  if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);

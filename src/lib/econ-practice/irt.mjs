@@ -28,7 +28,12 @@ export function summarize(weights){
 }
 export function itemParameters(item,calibration){
  const p=calibration?.status==='approved'&&calibration.bankVersion===item.version?calibration.items?.[item.id]:null;
- if(p)return {...p,status:'calibrated',modelVersion:calibration.id};
+ if(p){
+  if(typeof calibration.id!=='string'||!calibration.id.trim()||!Number.isFinite(p.a)||!Number.isFinite(p.b))throw new Error('Approved calibration requires a model ID and explicit finite item parameters');
+  const parameters={a:p.a,b:p.b,c:p.c??0,d:p.d??1};
+  probability(0,parameters); // Validate discrimination and asymptotes before updating any state.
+  return {...parameters,status:'calibrated',modelVersion:calibration.id};
+ }
  return {a:1,b:item.difficulty-2,c:0,d:1,status:'provisional',modelVersion:'author-seeded-rasch-v1'};
 }
 export function expectedInformation(weights,params){return weights.reduce((s,w,i)=>s+w*information(GRID[i],params),0);}
@@ -36,7 +41,8 @@ export function eligibleForCalibration(event){
  return event.mode==='assessment'&&event.firstExposure===true&&event.hints===0&&event.feedbackBeforeAnswer===false&&event.receiptVerified===true&&event.validity==='valid'&&typeof event.correct==='boolean';
 }
 export function stoppingDecision({count,uniqueFamilies,summary,minItems=18,maxItems=48,targetSD=.35,coverageComplete,calibrated}){
- if(count>=maxItems)return {stop:true,reason:'maximum-length',precisionMet:calibrated&&summary.sd<=targetSD};
- if(calibrated&&count>=minItems&&uniqueFamilies>=minItems&&coverageComplete&&summary.sd<=targetSD&&summary.boundaryMass<.01)return {stop:true,reason:'precision-and-coverage',precisionMet:true};
+ const precisionMet=calibrated&&count>=minItems&&uniqueFamilies>=minItems&&coverageComplete&&Number.isFinite(summary.sd)&&summary.sd>0&&summary.sd<=targetSD&&Number.isFinite(summary.boundaryMass)&&summary.boundaryMass>=0&&summary.boundaryMass<.01;
+ if(count>=maxItems)return {stop:true,reason:'maximum-length',precisionMet:!!precisionMet};
+ if(precisionMet)return {stop:true,reason:'precision-and-coverage',precisionMet:true};
  return {stop:false,reason:calibrated?'more-evidence-needed':'provisional-fixed-length',precisionMet:false};
 }

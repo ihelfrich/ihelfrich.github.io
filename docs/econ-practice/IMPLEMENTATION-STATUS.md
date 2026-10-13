@@ -117,3 +117,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Removed silent 101-record limits from instructor students/assignments and student assignments. APIs now return bounded pages with stable-ID cursors and explicit hasMore/nextCursor; client lists retrieve all pages and reject repeated cursors.
 - Integration test seeds205 synthetic account profiles and verifies all appear once across three pages; malformed cursor and nonadvancing client cursor regressions added. All43 focused tests pass.
 - Lists are live rather than snapshot exports: concurrent new records can require refresh. Rendering/search for very large student rosters remains a usability consideration; no real student data were used.
+
+## Continuation: calibration boundary and stopping claims
+
+- Approved item parameters now require an explicit finite discrimination/difficulty pair and model ID, plus valid asymptotes. Validation occurs before recordAnswer mutates student state. Missing difficulty can no longer silently default to zero in an approved model.
+- Maximum-length stopping reports precisionMet only when the same minimum evidence, coverage, finite positive SD and posterior boundary checks used by precision stopping are satisfied. A short SD alone is insufficient.
+- Regression tests verify malformed calibrations leave state unchanged and max-length stops do not make false precision claims. All45 focused tests pass. The live service still requires operational calibration activation and stopping integration; these are mathematical-engine safeguards, not a claim of deployed calibrated CAT.

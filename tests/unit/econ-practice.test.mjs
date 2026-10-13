@@ -52,3 +52,18 @@ test('selection respects within-family information and records the exact joint p
  const selected=selectItem(equal,newState(),{unit:base.unit,mode:'assessment',rng:()=>[0,0][calls++]});
  assert.ok(Math.abs(selected.selection.probability-.25)<1e-12,'two equal families each get half the mass, two siblings each get one quarter');
 });
+test('malformed approved calibration cannot partially change student state',()=>{
+ const q=bank.find(q=>q.format==='numeric');
+ for(const params of [{a:1},{a:-1,b:0},{a:1,b:Infinity},{a:1,b:0,c:.9,d:.8}]){
+  const state=newState(),before=JSON.stringify(state);
+  assert.throws(()=>recordAnswer(state,q,{response:q.answer,mode:'assessment',calibration:{id:'invalid-model',status:'approved',bankVersion:q.version,items:{[q.id]:params}}}));
+  assert.equal(JSON.stringify(state),before);
+ }
+});
+test('maximum length never falsely claims precision when coverage or boundary checks fail',()=>{
+ const base={count:48,uniqueFamilies:48,coverageComplete:true,calibrated:true,summary:{sd:.2,boundaryMass:0}};
+ assert.equal(stoppingDecision(base).precisionMet,true);
+ for(const override of [{coverageComplete:false},{uniqueFamilies:5},{summary:{sd:.2,boundaryMass:.1}},{summary:{sd:0,boundaryMass:0}},{summary:{sd:.2,boundaryMass:NaN}}]){
+  const result=stoppingDecision({...base,...override});assert.equal(result.stop,true);assert.equal(result.reason,'maximum-length');assert.equal(result.precisionMet,false);
+ }
+});
