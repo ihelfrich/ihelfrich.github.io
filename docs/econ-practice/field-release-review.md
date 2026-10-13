@@ -53,3 +53,7 @@ A separate test reconstructs all 256 answers from saved prompts; all pass within
 ## Runtime review gate hardening
 
 The browser-safe registration gate now explicitly validates base review status, hash syntax, course membership, unique base IDs, exact unique reviewed-ID membership, and corresponding extension evidence before mutating the family registry. Previously base review status was carried through without an explicit runtime approval check, and duplicate entries appended to reviewed-ID arrays could evade set-size-only checks. Regression cases now reject these states. This is an inventory/status gate; only the existing build audit verifies hashes against actual file bytes, and neither mechanism substitutes for substantive review. Active bank content and hash are unchanged.
+
+## Financial content review checkpoint (not activated)
+
+Parent inspected all 60 financial-economics prompts, keys, distractors, explanations and hints. Requested explicit positive strike in the American-call early-exercise item and replaced social-welfare language with total financial value in the debt-overhang explanation. Independent regression checks now cover 41 numerical keys plus portfolio hedge/diversification results. All checks pass. Author is completing final self-review and those wording corrections; source pinning and runtime integration must wait for the final saved version. Behavioral course has delivered 60 draft items with author review; independent parent review remains pending.

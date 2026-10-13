@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "behavioral-economics-u1-01",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Evaluating a mixed gamble",
+    "prompt": "In a constructed model, v(x)=x for gains and v(x)=2x for losses relative to zero. Probabilities are weighted linearly. What is the value of a 50\u201350 gamble yielding +30 or \u221220, compared with receiving zero?",
+    "correct": "\u22125, so zero is preferred.",
+    "wrong": [
+      "+5, so the gamble is preferred.",
+      "\u221210, so zero is preferred.",
+      "0, so the decision maker is indifferent."
+    ],
+    "explanation": "The value is 0.5(30)+0.5(\u221240)=\u22125. The monetary expected payoff is +5, but losses receive twice the slope.",
+    "hint": "Apply the loss slope before averaging.",
+    "skill": "evaluating a mixed gamble",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-02",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Loss aversion and curvature",
+    "prompt": "A value function is linear with slope 1 above its reference point and slope 2 below it. What feature does it exhibit?",
+    "correct": "Loss aversion without diminishing sensitivity within either domain.",
+    "wrong": [
+      "Diminishing sensitivity without loss aversion.",
+      "Strict risk aversion over every possible gamble.",
+      "Probability overweighting without reference dependence."
+    ],
+    "explanation": "The steeper loss slope is loss aversion. Linear segments have no within-domain curvature; probability weights are a separate component.",
+    "hint": "Separate the kink at zero from curvature away from zero.",
+    "skill": "loss aversion and curvature",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-03",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Reference point movement",
+    "prompt": "An outcome pays 80. In a constructed reference-dependent model, the reference point changes from 70 to 100. How is the same outcome coded?",
+    "correct": "It changes from a gain of 10 to a loss of 20.",
+    "wrong": [
+      "It remains a gain of 80.",
+      "It changes from a loss of 10 to a gain of 20.",
+      "Its objective payoff falls by 30."
+    ],
+    "explanation": "Coding subtracts the reference point from the outcome. The payment stays 80 even though its gain\u2013loss classification changes.",
+    "hint": "Compute outcome minus reference point twice.",
+    "skill": "reference point movement",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-04",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Diminishing sensitivity over losses",
+    "prompt": "Suppose v(x)=\u2212sqrt(\u2212x) for x<0 and v(0)=0, with linear probability weights. Which is preferred: a sure loss of 50 or equal chances of losing 100 and losing zero?",
+    "correct": "The risky loss is preferred: \u22125 exceeds approximately \u22127.07.",
+    "wrong": [
+      "The sure loss is preferred: \u22127.07 exceeds \u22125.",
+      "They are tied because both have expected monetary loss 50.",
+      "The risky loss is preferred because its expected monetary loss is zero."
+    ],
+    "explanation": "The sure loss has value \u2212sqrt(50), approximately \u22127.07. The gamble has value 0.5(\u221210)+0.5(0)=\u22125. Convexity on this loss domain favors the mean-preserving spread.",
+    "hint": "Evaluate each option using v before comparing.",
+    "skill": "diminishing sensitivity over losses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-05",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Weighting a rare gain",
+    "prompt": "For a binary prospect paying 100 with probability 0.01 and zero otherwise, use v(x)=x and decision weight w(0.01)=0.05 on the gain. What is its prospect value?",
+    "correct": "5.",
+    "wrong": [
+      "1.",
+      "50.",
+      "0.05."
+    ],
+    "explanation": "The nonzero outcome contributes 0.05\u00d7100=5. The objective expected payment would be 1; the stipulated decision weight differs from probability.",
+    "hint": "Multiply the gain by its decision weight.",
+    "skill": "weighting a rare gain",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-06",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Endowment evidence",
+    "prompt": "Randomly assigned owners ask more to sell an identical mug than nonowners offer to buy it. Which conclusion is strongest from this observation alone?",
+    "correct": "The ownership-related valuation gap is consistent with reference dependence, but does not uniquely identify it.",
+    "wrong": [
+      "Loss aversion is the only possible explanation.",
+      "Every owner must have greater objective wealth than every nonowner.",
+      "The gap proves buyers made arithmetic errors."
+    ],
+    "explanation": "Random assignment strengthens attribution to the ownership treatment, but mechanisms such as transaction perceptions or elicitation effects still require separation.",
+    "hint": "An experimental treatment effect need not uniquely reveal its mechanism.",
+    "skill": "endowment evidence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-07",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Narrow bracketing",
+    "prompt": "A decision maker evaluates each of two gambles separately, rejecting each, although a model evaluating their combined payoff would accept the pair. What differs between the evaluations?",
+    "correct": "The payoff aggregation used before applying preferences.",
+    "wrong": [
+      "The objective probabilities must have changed.",
+      "The individual must have learned new outcome information.",
+      "The number of possible reference points must be zero."
+    ],
+    "explanation": "Narrow versus broad bracketing changes the object to which preferences are applied. Neither learning nor changed objective probabilities is required.",
+    "hint": "Ask whether utility is applied to each gamble or to the total.",
+    "skill": "narrow bracketing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-08",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Sunk expenditure",
+    "prompt": "A ticket is nonrefundable and cannot be resold. Attending now provides benefit 12 and requires new travel cost 18; staying home yields zero. Under a forward-looking monetary-benefit criterion, what should happen?",
+    "correct": "Stay home regardless of the ticket price already paid.",
+    "wrong": [
+      "Attend if the ticket originally cost more than 6.",
+      "Attend because not using the ticket creates an additional financial loss.",
+      "Stay home only if the ticket was free."
+    ],
+    "explanation": "The relevant incremental net benefit is 12\u221218=\u22126. The sunk payment is identical under both current choices.",
+    "hint": "Compare consequences that still change with the decision.",
+    "skill": "sunk expenditure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-09",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Identifying a reference point",
+    "prompt": "A worker stops at a daily earnings target. Which additional evidence would most directly help distinguish target-based preferences from ordinary fatigue?",
+    "correct": "Exogenous changes in the target while measuring hours and working conditions.",
+    "wrong": [
+      "A second observation that the worker earned the same amount.",
+      "The fact that the worker prefers higher wages.",
+      "An assumption that fatigue does not exist."
+    ],
+    "explanation": "Variation in the hypothesized reference point, separated from fatigue and conditions, provides a discriminating prediction. A stopping pattern alone is not unique to reference dependence.",
+    "hint": "Vary the proposed mechanism while accounting for competing explanations.",
+    "skill": "identifying a reference point",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u1-10",
+    "course": "behavioral-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Expected utility and framing",
+    "prompt": "Two descriptions induce different choices over exactly the same final-wealth lotteries, with no information differences. What benchmark restriction is challenged?",
+    "correct": "Description invariance of preferences over those final-wealth lotteries.",
+    "wrong": [
+      "The arithmetic rule that probabilities sum to one.",
+      "The claim that all people have identical wealth.",
+      "The law of diminishing marginal product."
+    ],
+    "explanation": "If alternatives and information are truly unchanged, a final-wealth expected-utility representation gives the same ranking under both descriptions.",
+    "hint": "Hold outcomes and probabilities fixed.",
+    "skill": "expected utility and framing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-01",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Exponential discounting",
+    "prompt": "A constructed agent has linear utility and exponential discount factor \u03b4=0.9 per year. What present value does the agent assign to 100 received in two years?",
+    "correct": "81.",
+    "wrong": [
+      "90.",
+      "100.",
+      "180."
+    ],
+    "explanation": "The weight is \u03b4\u00b2, so 0.9\u00b2\u00d7100=81.",
+    "hint": "Apply the annual discount factor twice.",
+    "skill": "exponential discounting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-02",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Quasi-hyperbolic discounting",
+    "prompt": "At date 0, utility is u(c0)+\u03b2\u03b4u(c1)+\u03b2\u03b4\u00b2u(c2). With \u03b2=0.6, \u03b4=1 and linear utility, choose between 50 now and 70 next period.",
+    "correct": "Choose 50 now because 50 exceeds 42.",
+    "wrong": [
+      "Choose 70 later because 70 exceeds 50.",
+      "Be indifferent because \u03b4=1.",
+      "Choose later because its discounted value is 116.67."
+    ],
+    "explanation": "The immediate option is worth 50 and the delayed option is worth 0.6\u00d770=42. \u03b2 applies to delayed utility even with \u03b4=1.",
+    "hint": "Only future utility receives \u03b2 from the current perspective.",
+    "skill": "quasi-hyperbolic discounting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-03",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Preference reversal",
+    "prompt": "Use \u03b2=0.6, \u03b4=1 and linear utility. At date 0 choose between 50 at date 1 and 70 at date 2; at date 1 reconsider those same payments. What happens?",
+    "correct": "Choose 70 initially, then prefer 50 when it becomes immediate.",
+    "wrong": [
+      "Choose 50 at both dates.",
+      "Choose 70 at both dates.",
+      "Choose 50 initially, then switch to 70."
+    ],
+    "explanation": "At date 0 the values are 30 and 42. At date 1 they are 50 and 42, producing a reversal.",
+    "hint": "The earlier payment loses its \u03b2 discount when its date arrives.",
+    "skill": "preference reversal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-04",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Sophistication",
+    "prompt": "A present-biased person accurately predicts that their future self will postpone a task. In the standard distinction, this person is what?",
+    "correct": "Sophisticated about their present bias.",
+    "wrong": [
+      "Time consistent because their prediction is accurate.",
+      "Naive because they still have present bias.",
+      "Exponentially patient because they plan ahead."
+    ],
+    "explanation": "Sophistication concerns beliefs about future behavior, not the absence of present bias. Accurate anticipation can coexist with dynamic inconsistency.",
+    "hint": "Separate preferences from beliefs about future preferences.",
+    "skill": "sophistication",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-05",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Commitment demand",
+    "prompt": "A person pays to block a tempting purchase tomorrow, despite receiving no informational or financial benefit from the block. What does this support?",
+    "correct": "A possible demand for commitment, conditional on those excluded benefits.",
+    "wrong": [
+      "Proof that every restriction improves their welfare.",
+      "Proof that the person has exponential discounting.",
+      "Proof that all future consumption is undesirable."
+    ],
+    "explanation": "A costly restriction can be attractive when it changes anticipated future behavior. It does not settle whose preferences should define welfare or guarantee a universal effect.",
+    "hint": "Why pay to remove an option?",
+    "skill": "commitment demand",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-06",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Commitment fee threshold",
+    "prompt": "At date 0 a sophisticated agent has \u03b2=0.5 and \u03b4=1. Tomorrow an action costs 8 immediately and yields 12 the next day. A binding contract purchased today forces the action. Using date-0 utility and linear money utility, what is the maximum fee today?",
+    "correct": "2.",
+    "wrong": [
+      "4.",
+      "6.",
+      "8."
+    ],
+    "explanation": "Tomorrow the agent rejects the action because \u22128+0.5\u00d712=\u22122. From today the forced action is worth 0.5(\u22128+12)=2, which is the maximum immediate fee.",
+    "hint": "Evaluate the uncommitted choice tomorrow, then the contract from today.",
+    "skill": "commitment fee threshold",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-07",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Money delay and consumption",
+    "prompt": "A participant prefers a payment today to a larger payment next week. Why does this alone fail to identify present bias in consumption utility?",
+    "correct": "Liquidity needs, payment trust and transaction costs can affect payment choices.",
+    "wrong": [
+      "Any preference for sooner money logically implies \u03b2<1.",
+      "Discounting can never apply to money.",
+      "Randomizing payment order makes liquidity irrelevant."
+    ],
+    "explanation": "Payment timing is not automatically consumption timing. Constraints and payment credibility can mimic apparent impatience.",
+    "hint": "What other consequences differ between payment dates?",
+    "skill": "money delay and consumption",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-08",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Projection bias",
+    "prompt": "In a constructed study, a hungry shopper overpredicts how much food they will want after eating. Which mechanism does this illustrate?",
+    "correct": "Projecting the current preference state too strongly onto a future state.",
+    "wrong": [
+      "Accurately forecasting stable tastes.",
+      "Exponential discounting alone.",
+      "Learning the objective probability of hunger by Bayes\u2019 rule."
+    ],
+    "explanation": "Projection bias underadjusts for a future change in state. It is conceptually distinct from impatience over fixed future preferences.",
+    "hint": "The error concerns future tastes rather than the passage of time alone.",
+    "skill": "projection bias",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-09",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Dynamic consistency",
+    "prompt": "An agent has stable exponential utility weights and no new information, liquidity changes or state-dependent tastes. How do rankings of two fixed future consumption streams evolve as both remain feasible?",
+    "correct": "Their ranking is unchanged as time passes.",
+    "wrong": [
+      "They must reverse whenever one payment becomes immediate.",
+      "The later stream always becomes more attractive.",
+      "They become indifferent when both are delayed."
+    ],
+    "explanation": "Exponential discounting rescales all remaining utility differences by a common positive factor. The exclusions prevent other sources of changing rankings.",
+    "hint": "Compare ratios of discount weights across evaluation dates.",
+    "skill": "dynamic consistency",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u2-10",
+    "course": "behavioral-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Welfare across selves",
+    "prompt": "A commitment device raises the date-0 self\u2019s utility but lowers utility evaluated by the date-1 self. What is needed to call it a welfare improvement?",
+    "correct": "An explicit criterion specifying which preferences or aggregation define welfare.",
+    "wrong": [
+      "Only evidence that the device is called a nudge.",
+      "Only proof that date 0 occurs first.",
+      "No further criterion because every commitment purchase is welfare improving."
+    ],
+    "explanation": "Conflicting temporal rankings do not identify a unique welfare ordering. A normative criterion must specify how those rankings are used.",
+    "hint": "A behavioral prediction does not select a normative objective.",
+    "skill": "welfare across selves",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-01",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Bayesian base rates",
+    "prompt": "In a constructed population, 10% have trait T. A signal is positive for 80% with T and 20% without T. What is P(T|positive)?",
+    "correct": "About 30.8%.",
+    "wrong": [
+      "80%.",
+      "10%.",
+      "44.4%."
+    ],
+    "explanation": "Bayes\u2019 rule gives 0.08/(0.08+0.18)=4/13\u22480.308. The false positives arise from the much larger group without T.",
+    "hint": "Count true and false positives per 100 people.",
+    "skill": "bayesian base rates",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-02",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Posterior odds",
+    "prompt": "Prior odds of hypothesis H are 1:4. A signal has likelihood ratio 6 in favor of H. What are the posterior odds?",
+    "correct": "3:2.",
+    "wrong": [
+      "6:1.",
+      "1:24.",
+      "7:10."
+    ],
+    "explanation": "Posterior odds equal prior odds times the likelihood ratio: (1/4)\u00d76=3/2.",
+    "hint": "Multiply odds, not probabilities, by the likelihood ratio.",
+    "skill": "posterior odds",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-03",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Conjunction judgment",
+    "prompt": "A respondent assigns probability 0.40 to A and 0.55 to A and B jointly. What is wrong with these stated probabilities?",
+    "correct": "A conjunction cannot be more probable than either component.",
+    "wrong": [
+      "Independent events must have equal probabilities.",
+      "The probabilities of A and A-and-B must sum to one.",
+      "The conjunction must have probability zero."
+    ],
+    "explanation": "The event A-and-B is a subset of A, so its probability cannot exceed 0.40, regardless of independence.",
+    "hint": "Use event containment.",
+    "skill": "conjunction judgment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-04",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Independent streaks",
+    "prompt": "A known fair coin is flipped independently. After five heads, what is the probability of tails next?",
+    "correct": "One half.",
+    "wrong": [
+      "Greater than one half because tails is due.",
+      "Less than one half because heads has momentum.",
+      "One thirty-second."
+    ],
+    "explanation": "Known fairness and independence keep the next-flip probability at 0.5. The probability of the past streak is not the conditional probability of the next result.",
+    "hint": "Does the past alter the stipulated data-generating process?",
+    "skill": "independent streaks",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-05",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Unknown coin quality",
+    "prompt": "A coin\u2019s probability of heads is unknown. Why can observing many heads rationally increase a forecast of heads?",
+    "correct": "The observations provide information about the unknown probability.",
+    "wrong": [
+      "Independent flips require negative serial correlation.",
+      "Bayesian updating forbids learning from streaks.",
+      "The law of small numbers guarantees another head."
+    ],
+    "explanation": "Conditional independence given an unknown parameter does not eliminate learning about that parameter. This differs from a coin already known to be fair.",
+    "hint": "Distinguish known randomness from uncertainty about its parameter.",
+    "skill": "unknown coin quality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-06",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Overprecision",
+    "prompt": "Across a large constructed set of comparable questions, intervals labeled 90% confidence contain the truth only 50% of the time. Which calibration problem does this suggest?",
+    "correct": "Overprecision in the reported intervals.",
+    "wrong": [
+      "Underconfidence because 50 is below 90.",
+      "Proof that the point estimates are systematically too high.",
+      "Perfect calibration if the intervals are narrow."
+    ],
+    "explanation": "Coverage much below the stated level indicates intervals are too confident for their performance. It does not by itself determine the direction of point-estimate errors.",
+    "hint": "Compare nominal and realized coverage.",
+    "skill": "overprecision",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-07",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Anchoring design",
+    "prompt": "Participants randomly see a high or low irrelevant number before estimating the same quantity. What contrast identifies the causal effect of the assigned anchor in this sample?",
+    "correct": "The difference in mean estimates across assigned anchor groups.",
+    "wrong": [
+      "The correlation between estimates and participants\u2019 chosen anchors.",
+      "The high-anchor group\u2019s mean minus the true quantity alone.",
+      "The largest estimate minus the smallest estimate."
+    ],
+    "explanation": "Random assignment makes the between-group mean difference an estimator of the assignment effect. A group\u2019s error alone combines anchoring with other errors.",
+    "hint": "Use the randomized contrast.",
+    "skill": "anchoring design",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-08",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Correlation neglect",
+    "prompt": "Two advisers repeat the same original report verbatim. A listener treats them as two conditionally independent signals. What may go wrong?",
+    "correct": "The listener can become too confident by double-counting common information.",
+    "wrong": [
+      "The listener must become less confident than after one report.",
+      "Identical reports are necessarily independent.",
+      "Bayesian updating requires counting sources rather than information."
+    ],
+    "explanation": "Perfectly duplicated evidence contains no extra independent observation. Treating it as independent can magnify posterior odds improperly.",
+    "hint": "Ask whether the second report contains new information.",
+    "skill": "correlation neglect",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-09",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Limited attention to fees",
+    "prompt": "A buyer perceives cost as base price plus 0.2 times a fee. Offer A has base 40 and fee 20; B has base 50 and fee zero. What does this model predict?",
+    "correct": "Choose A at perceived cost 44, although its total payment is 60.",
+    "wrong": [
+      "Choose B because perceived cost A is 60.",
+      "Choose A because its total payment is 44.",
+      "Be indifferent because both base prices include fees."
+    ],
+    "explanation": "A\u2019s perceived cost is 40+0.2\u00d720=44, below B\u2019s 50. Its actual cost remains 60.",
+    "hint": "Keep perceived cost separate from the payment.",
+    "skill": "limited attention to fees",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u3-10",
+    "course": "behavioral-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Testing selective updating",
+    "prompt": "People update more after favorable than unfavorable news. What is needed before attributing the difference to motivated belief updating?",
+    "correct": "Account for prior beliefs, signal diagnosticity and other differences between the news conditions.",
+    "wrong": [
+      "Assume favorable news is always equally informative.",
+      "Ignore the direction of the signal.",
+      "Show only that posterior beliefs differ from prior beliefs."
+    ],
+    "explanation": "A Bayesian can update differently when likelihood ratios or priors differ. A behavioral interpretation requires a benchmark accounting for those differences.",
+    "hint": "Compare updates to what each signal warrants.",
+    "skill": "testing selective updating",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-01",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Altruistic allocation",
+    "prompt": "An allocator chooses between (own,other) payoffs A=(12,0) and B=(8,10). Utility is own+0.5\u00d7other. Which is preferred?",
+    "correct": "B, with utility 13 rather than 12.",
+    "wrong": [
+      "A, with utility 12 rather than 8.",
+      "They tie at utility 12.",
+      "B, because its own payoff is larger."
+    ],
+    "explanation": "B yields 8+0.5\u00d710=13; A yields 12. The comparison follows from the stipulated social weight.",
+    "hint": "Include the other person\u2019s payoff in utility.",
+    "skill": "altruistic allocation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-02",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Disadvantageous inequality",
+    "prompt": "Utility is own\u22120.5 max(other\u2212own,0)\u22120.25 max(own\u2212other,0). What utility comes from payoffs (own,other)=(10,18)?",
+    "correct": "6.",
+    "wrong": [
+      "8.",
+      "10.",
+      "14."
+    ],
+    "explanation": "The disadvantageous gap is 8, producing a penalty of 4. There is no advantageous gap, so utility is 10\u22124=6.",
+    "hint": "Only one of the two inequality terms is positive.",
+    "skill": "disadvantageous inequality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-03",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Advantageous inequality",
+    "prompt": "Using utility own\u22120.5 max(other\u2212own,0)\u22120.25 max(own\u2212other,0), compare A=(16,8) with B=(14,14).",
+    "correct": "Both yield utility 14.",
+    "wrong": [
+      "A yields 16 and therefore strictly dominates in utility.",
+      "B yields 7 and is strictly worse.",
+      "A yields 12 while B yields 14."
+    ],
+    "explanation": "A\u2019s advantageous gap of 8 costs 2, leaving 14. B has no gap and also yields 14.",
+    "hint": "Apply the advantageous-inequality coefficient to A.",
+    "skill": "advantageous inequality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-04",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Dictator giving and identification",
+    "prompt": "A person gives money in an anonymous dictator game. What can be concluded from giving alone?",
+    "correct": "Pure own-money maximization is insufficient under the stated choice conditions, but the precise social motive remains unidentified.",
+    "wrong": [
+      "Reciprocity is proven because the recipient can reject.",
+      "Inequality aversion is the only possible preference.",
+      "The recipient must have threatened punishment."
+    ],
+    "explanation": "In a dictator game the recipient has no rejection choice. Giving can reflect altruism, inequality concerns, norms or other motives, which require further designs to separate.",
+    "hint": "Separate the observed choice from its possible motives.",
+    "skill": "dictator giving and identification",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-05",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Ultimatum benchmark",
+    "prompt": "In a one-shot ultimatum game over 10 indivisible dollars, both players maximize own money and the responder accepts when indifferent. What is the proposer\u2019s optimal offer if these facts are common knowledge?",
+    "correct": "Offer zero.",
+    "wrong": [
+      "Offer five because equal splits are mandatory.",
+      "Offer one because zero must be rejected.",
+      "Offer all ten to avoid uncertainty."
+    ],
+    "explanation": "The tie-breaking rule makes a zero offer acceptable. A money-maximizing proposer keeps the entire surplus by offering zero.",
+    "hint": "The stated response to indifference matters.",
+    "skill": "ultimatum benchmark",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-06",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Reciprocity versus outcomes",
+    "prompt": "A responder treats the same payoff allocation differently depending on whether another person intentionally chose it or a computer assigned it. What does this contrast most directly test?",
+    "correct": "Whether intentions affect responses beyond final payoff inequality.",
+    "wrong": [
+      "Whether the two allocations have different monetary totals.",
+      "Whether own-money utility is increasing.",
+      "Whether all social preferences are altruism."
+    ],
+    "explanation": "Holding final payoffs fixed while varying intentional choice isolates a role for perceived intentions, subject to the rest of the design.",
+    "hint": "What changes when outcomes do not?",
+    "skill": "reciprocity versus outcomes",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-07",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Public good incentives",
+    "prompt": "Four people each choose a contribution from a 10-dollar endowment. Each contributed dollar returns 0.4 dollars to every person. For a selfish money maximizer in a one-shot game, what is optimal?",
+    "correct": "Contribute zero, though a dollar contributed raises total group earnings by 0.6.",
+    "wrong": [
+      "Contribute ten because the private return is 1.6.",
+      "Contribute five because the private return equals its cost.",
+      "Contribute ten because everyone else must contribute."
+    ],
+    "explanation": "A dollar costs its contributor 1 and returns only 0.4 privately. Across four people it returns 1.6, a net group gain of 0.6.",
+    "hint": "Distinguish the private marginal return from the group return.",
+    "skill": "public good incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-08",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Crowding out arithmetic",
+    "prompt": "In constructed data, a subsidy raises paid participation by 30 people and reduces unpaid participation by 12. What is the change in total participation?",
+    "correct": "An increase of 18.",
+    "wrong": [
+      "An increase of 42.",
+      "A decrease of 12.",
+      "An increase of 30."
+    ],
+    "explanation": "Total participation changes by 30\u221212=18. Partial displacement of unpaid activity does not imply a fall in the total.",
+    "hint": "Add changes across both categories.",
+    "skill": "crowding out arithmetic",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-09",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Warm glow",
+    "prompt": "Under U=u(private consumption)+a(total provision)+g(own donation), what does g represent?",
+    "correct": "Utility attached to one\u2019s own act or amount of giving beyond total provision.",
+    "wrong": [
+      "The recipient\u2019s consumption alone.",
+      "A tax on all other donors.",
+      "The assumption that own giving never responds to subsidies."
+    ],
+    "explanation": "The separate own-donation term captures warm glow. It changes preferences, but does not fix a universal comparative-static response.",
+    "hint": "Contrast total provision with own contribution.",
+    "skill": "warm glow",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u4-10",
+    "course": "behavioral-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Transporting social-preference estimates",
+    "prompt": "A laboratory sample displays costly punishment. Which extrapolation is justified without further evidence?",
+    "correct": "The finding establishes behavior in that design and sample; other contexts require transportability arguments.",
+    "wrong": [
+      "The estimated punishment rate applies to every workplace.",
+      "All cooperation in society is caused by punishment.",
+      "The behavior cannot occur outside laboratories."
+    ],
+    "explanation": "Neither universal generalization nor universal dismissal follows from a laboratory result. Stakes, selection, institutions and framing may matter.",
+    "hint": "Distinguish internal evidence from external validity.",
+    "skill": "transporting social-preference estimates",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-01",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Level-one reasoning",
+    "prompt": "In a guessing game, each player chooses a number from 0 to 100 and wants to be closest to two thirds of the group mean. A level-one player believes all others choose 50 and treats their own influence on the mean as negligible. What is their best target?",
+    "correct": "About 33.3.",
+    "wrong": [
+      "50.",
+      "66.7.",
+      "0."
+    ],
+    "explanation": "Against a believed mean of 50, two thirds of that mean is 100/3. This is a level-one response to the specified belief, not the equilibrium calculation.",
+    "hint": "Respond to the believed mean.",
+    "skill": "level-one reasoning",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-02",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Level-two reasoning",
+    "prompt": "In the same negligible-own-influence guessing model, a level-two player believes all others choose 100/3. What number targets two thirds of that mean?",
+    "correct": "200/9, about 22.2.",
+    "wrong": [
+      "100/3, about 33.3.",
+      "50.",
+      "0."
+    ],
+    "explanation": "Multiplying 100/3 by 2/3 gives 200/9. The answer depends on the stipulated lower-level belief.",
+    "hint": "Apply one more best-response step.",
+    "skill": "level-two reasoning",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-03",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Equilibrium consistency",
+    "prompt": "In a continuum guessing game with choices in [0,100], each player minimizes squared distance from two thirds of the population mean. What is the symmetric Nash equilibrium choice?",
+    "correct": "0.",
+    "wrong": [
+      "50.",
+      "100/3.",
+      "100."
+    ],
+    "explanation": "If everyone chooses x, a negligible individual best responds with 2x/3. Symmetry and optimality require x=2x/3, so x=0.",
+    "hint": "Solve the fixed-point equation.",
+    "skill": "equilibrium consistency",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-04",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Logit response",
+    "prompt": "Two actions have expected payoffs 3 and 1. A logit rule assigns probabilities proportional to exp(\u03bb\u00d7payoff), with \u03bb=ln(2). What is the probability of the higher-payoff action?",
+    "correct": "0.8.",
+    "wrong": [
+      "0.5.",
+      "2/3.",
+      "1.0."
+    ],
+    "explanation": "The weights are 2\u00b3=8 and 2\u00b9=2, giving 8/(8+2)=0.8. Finite sensitivity permits mistakes.",
+    "hint": "Compute the ratio of exponential weights.",
+    "skill": "logit response",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-05",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Random-response limit",
+    "prompt": "Under logit choice with a finite set of actions and fixed finite payoffs, what happens as payoff sensitivity \u03bb tends to zero?",
+    "correct": "Choice probabilities approach equal probabilities across actions.",
+    "wrong": [
+      "All probability goes to the worst action.",
+      "All probability goes to the best action.",
+      "The probability of every action approaches zero."
+    ],
+    "explanation": "As \u03bb approaches zero, every exponential weight approaches one. Normalization makes the distribution uniform.",
+    "hint": "Evaluate exp(\u03bbu) near \u03bb=0.",
+    "skill": "random-response limit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-06",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Beliefs and best responses",
+    "prompt": "Action A pays 8 against Left and 0 against Right; B pays 3 against either. A player assigns probability 0.25 to Left and maximizes expected money. What is their choice?",
+    "correct": "B, since 3 exceeds A\u2019s expected payoff of 2.",
+    "wrong": [
+      "A, since its maximum payoff is 8.",
+      "A, since its expected payoff is 6.",
+      "Indifferent because both pay something positive."
+    ],
+    "explanation": "A gives 0.25\u00d78+0.75\u00d70=2. B guarantees 3. Optimal behavior is evaluated relative to the stated belief.",
+    "hint": "Average over the believed opponent action.",
+    "skill": "beliefs and best responses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-07",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Observed choice versus belief error",
+    "prompt": "A player chooses a best response to an inaccurate belief about an opponent. Which description is accurate?",
+    "correct": "The belief may be mistaken even though choice is optimal conditional on that belief.",
+    "wrong": [
+      "An inaccurate belief logically makes every action a dominated action.",
+      "The player must have nonmonetary preferences.",
+      "Best response requires the belief to be objectively correct."
+    ],
+    "explanation": "Optimization conditional on beliefs and accuracy of beliefs are separate restrictions. Observed mistakes need not identify a preference error.",
+    "hint": "Separate the belief formation and action selection stages.",
+    "skill": "observed choice versus belief error",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-08",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Learning a value estimate",
+    "prompt": "A learner updates Qnew=Qold+\u03b1(reward\u2212Qold). With Qold=4, reward=10 and \u03b1=0.25, what is Qnew?",
+    "correct": "5.5.",
+    "wrong": [
+      "6.5.",
+      "7.5.",
+      "10."
+    ],
+    "explanation": "The prediction error is 6 and the update is 1.5, so the new estimate is 5.5.",
+    "hint": "Apply the learning rate to the prediction error.",
+    "skill": "learning a value estimate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-09",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Repeated cooperation",
+    "prompt": "Players cooperate in a repeated prisoner\u2019s dilemma. Why does this alone fail to prove altruistic preferences?",
+    "correct": "Future rewards and punishments can support cooperation by selfish players under suitable conditions.",
+    "wrong": [
+      "A prisoner\u2019s dilemma has no incentives to defect in a single round.",
+      "Repeated interaction guarantees cooperation at every discount factor.",
+      "Altruism and repetition are the same mathematical assumption."
+    ],
+    "explanation": "Repeated-game incentives can change the value of current defection. Whether they sustain cooperation depends on patience, monitoring and strategies.",
+    "hint": "Include continuation payoffs.",
+    "skill": "repeated cooperation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u5-10",
+    "course": "behavioral-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Coordination treatments",
+    "prompt": "Two randomized treatments change an announcement and players\u2019 expectations. Coordination improves. Which claim is warranted without additional mechanism evidence?",
+    "correct": "The announcement treatment affects coordination, but its effect need not operate solely through beliefs.",
+    "wrong": [
+      "Belief mediation is proven by treatment randomization alone.",
+      "The result proves the announcement changes no preferences.",
+      "Improved coordination proves all players are fully rational."
+    ],
+    "explanation": "Randomization identifies the assignment effect. Attributing all of it to beliefs needs assumptions or interventions that separate other channels.",
+    "hint": "A causal treatment effect is not automatically a causal mediation estimate.",
+    "skill": "coordination treatments",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-01",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Default effects and welfare",
+    "prompt": "Automatic enrollment increases plan participation in a randomized trial. What follows directly?",
+    "correct": "The default changes participation in that setting; welfare requires additional information and a criterion.",
+    "wrong": [
+      "Every additional enrollee is better off.",
+      "Every nonenrollee is worse off.",
+      "The participation effect proves retirement consumption increased by the same percentage."
+    ],
+    "explanation": "Participation is an outcome, not a complete welfare measure. Costs, preferences, other saving and decision errors can affect the welfare assessment.",
+    "hint": "Separate behavior from the value assigned to its consequences.",
+    "skill": "default effects and welfare",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-02",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Intent to treat",
+    "prompt": "In constructed randomized data, mean saving is 120 for those assigned a reminder and 100 for controls. Some assigned participants do not read it. What is the intent-to-treat estimate?",
+    "correct": "20.",
+    "wrong": [
+      "120.",
+      "The difference among readers and nonreaders only.",
+      "It is undefined unless everyone reads the reminder."
+    ],
+    "explanation": "Intent to treat compares assignment groups: 120\u2212100=20. Noncompliance does not prevent estimating this assignment effect.",
+    "hint": "Keep people in the groups to which they were randomized.",
+    "skill": "intent to treat",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-03",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Instrumental-variable scaling",
+    "prompt": "A randomized encouragement raises take-up by 0.4 and saving by 20. Assuming relevance, exclusion, monotonicity and random assignment, what Wald estimate applies to compliers?",
+    "correct": "50 units of saving.",
+    "wrong": [
+      "8 units.",
+      "20 units.",
+      "0.02 units."
+    ],
+    "explanation": "The Wald ratio is 20/0.4=50. The assumptions give a local effect for compliers, not necessarily a population average.",
+    "hint": "Divide the reduced-form effect by the first stage.",
+    "skill": "instrumental-variable scaling",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-04",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Correcting an internality",
+    "prompt": "In a constructed quasilinear model, perceived marginal private benefit exceeds welfare-relevant marginal benefit by a constant 3 per unit. There are no externalities or other distortions, and a fully perceived tax is rebated lump sum. What corrective per-unit tax aligns marginal incentives?",
+    "correct": "3.",
+    "wrong": [
+      "0 because externalities are absent.",
+      "\u22123, a subsidy.",
+      "A tax equal to the entire purchase price regardless of the gap."
+    ],
+    "explanation": "A tax of 3 offsets the stipulated internality gap. The conclusion depends on the chosen welfare-relevant benefit and full perception of the tax.",
+    "hint": "Match the marginal wedge under the specified welfare criterion.",
+    "skill": "correcting an internality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-05",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Multiple comparisons",
+    "prompt": "A researcher tests 20 prespecified nulls that are all true, each at size 0.05. What is the expected number of false rejections, without needing independence?",
+    "correct": "1.",
+    "wrong": [
+      "0.05.",
+      "0.95.",
+      "20."
+    ],
+    "explanation": "Linearity of expectation gives 20\u00d70.05=1. Independence is unnecessary for this expected count, though it matters for some familywise-probability calculations.",
+    "hint": "Add the marginal rejection probabilities.",
+    "skill": "multiple comparisons",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-06",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Differential attrition",
+    "prompt": "In a randomized intervention, outcome data are missing for 30% of treated people and 5% of controls. Why is a complete-case difference potentially problematic?",
+    "correct": "Conditioning on observation can break the comparability created by random assignment.",
+    "wrong": [
+      "Randomization guarantees complete cases remain representative.",
+      "Missing outcomes necessarily imply a negative treatment effect.",
+      "Dropping the same number from controls automatically fixes selection."
+    ],
+    "explanation": "Observation may depend on treatment and outcome-related traits. Random assignment alone does not justify ignoring selective missingness.",
+    "hint": "Randomization preceded selection into the observed sample.",
+    "skill": "differential attrition",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-07",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Demand effects",
+    "prompt": "Participants infer a researcher\u2019s desired response after treatment instructions. What design feature most directly helps assess this concern?",
+    "correct": "Vary or mask perceived researcher expectations while preserving the substantive treatment as much as possible.",
+    "wrong": [
+      "Increase the font size of the hypothesis.",
+      "Drop all participants who disagree with the hypothesis.",
+      "Treat statistical significance as proof demand effects are absent."
+    ],
+    "explanation": "Manipulating or reducing expectation cues can probe responses to perceived researcher demand. Interpretation still depends on what else the design changes.",
+    "hint": "Separate the treatment\u2019s intended content from expectations about pleasing the researcher.",
+    "skill": "demand effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-08",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Mechanism versus total effect",
+    "prompt": "A simplification treatment both reduces paperwork and draws attention to a benefit. Take-up rises. Which interpretation is justified by randomization of this bundled treatment alone?",
+    "correct": "The bundle\u2019s assignment effect is identified; paperwork and attention channels are not separately identified.",
+    "wrong": [
+      "All of the increase is necessarily an attention effect.",
+      "All of the increase is necessarily a paperwork effect.",
+      "Randomization cannot identify any effect when two features change."
+    ],
+    "explanation": "The randomized contrast identifies the combined intervention. Separate arms or further assumptions are needed to decompose its mechanisms.",
+    "hint": "Count how many components move together.",
+    "skill": "mechanism versus total effect",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-09",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Policy benefit arithmetic",
+    "prompt": "Under an explicitly chosen monetary welfare criterion, a constructed intervention benefits 80 people by 5 each, harms 20 by 4 each, and costs 100 in real resources. What is net welfare?",
+    "correct": "220.",
+    "wrong": [
+      "320.",
+      "400.",
+      "\u2212180."
+    ],
+    "explanation": "Net welfare is 80\u00d75\u221220\u00d74\u2212100=220. These are stipulated welfare values, not inferences from participation alone.",
+    "hint": "Subtract both harms and resource costs from benefits.",
+    "skill": "policy benefit arithmetic",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "behavioral-economics-u6-10",
+    "course": "behavioral-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Heterogeneous nudge effects",
+    "prompt": "A randomized study finds positive average effects but credible negative effects for a prespecified subgroup. What policy analysis follows?",
+    "correct": "Compare targeted and universal implementation using subgroup benefits, costs and the stated welfare criterion.",
+    "wrong": [
+      "Implement universally because a positive average rules out individual harm.",
+      "Reject universally because any negative subgroup proves every person loses.",
+      "Ignore subgroup evidence whenever the average is significant."
+    ],
+    "explanation": "Average gains do not establish universal gains. Targeting may help, but administrative costs, feasibility and the normative treatment of distribution matter.",
+    "hint": "An average effect does not erase heterogeneity.",
+    "skill": "heterogeneous nudge effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/pages/syllabus/",
+      "https://eml.berkeley.edu/~webfac/dellavigna/e219b_s12/219BSyllabusSpring2012_Jan12-2.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]
