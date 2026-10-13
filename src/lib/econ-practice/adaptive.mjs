@@ -1,8 +1,9 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v5';
-export function newState(){return {version:1,history:[],topics:{},posteriors:{},courseSessions:{}};}
+export const ENGINE_VERSION='content-constrained-v6';
+export function newState(){return {version:2,history:[],topics:{},posteriors:{},courseSessions:{}};}
+const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
 export function score(item,response){return gradeResponse(item,response).correct;}
 export function recordAnswer(state,item,options){return recordWithIndex(state,item,options);}
 // A recorder owns appends during a replay. Do not mutate its history externally.
@@ -20,7 +21,7 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
  t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
  t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
- const dimension=`${item.course}:${item.unit}`;
+ const dimension=posteriorKey(sessionId,item.course,item.unit);
  // Repeated family variants and assisted practice do not count as independent IRT evidence.
  const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&firstExposure&&hints===0;
  if(psychometricEligible)state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);
@@ -48,7 +49,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
  const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
  const scored=pool.map(q=>{
-  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[`${course}:${q.unit}`]??prior();const params=itemParameters(q,calibration);
+  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibration);
   const deficit=courses[course].weights[q.unit-1]*(session.length+1)-unitCounts[q.unit-1];
   let utility=2*deficit;
   if(mode==='assessment')utility+=expectedInformation(weights,params);
@@ -74,4 +75,4 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
  return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
 }
-export function progress(state,course){return courses[course].units.map((name,i)=>{const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1);return {unit:i+1,name,attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,estimate:summarize(state.posteriors[`${course}:${i+1}`]??prior())};});}
+export function progress(state,course,{sessionId='local'}={}){return courses[course].units.map((name,i)=>{const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1&&h.sessionId===sessionId);return {unit:i+1,name,sessionId,estimationScope:'session',attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,measurementResponses:attempts.filter(h=>h.psychometricEligible).length,estimate:summarize(state.posteriors[posteriorKey(sessionId,course,i+1)]??prior())};});}

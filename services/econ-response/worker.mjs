@@ -73,7 +73,7 @@ async function route(request,env){
  const [,sid,action]=match,s=await ownSession(env,p,sid);
  if(action==='report'&&method==='GET'){
   const rows=await all(env.DB,'SELECT r.*,p.item_snapshot_json FROM responses r JOIN presentations p ON p.id=r.presentation_id WHERE r.session_id=? ORDER BY p.sequence,r.attempt_number',sid);
-  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course)};
+  return {sessionId:sid,bankVersion:s.bank_version,currentBankVersion:BANK_VERSION,completed:!!s.completed_at,rows:rows.map(r=>({eventId:r.event_id,item:publicItem(JSON.parse(r.item_snapshot_json)),response:JSON.parse(r.raw_answer_json),...(s.mode==='practice'||s.completed_at?feedback(JSON.parse(r.item_snapshot_json),JSON.parse(r.raw_answer_json)):{}),receipt:r.server_received_at,validity:r.validity,countsTowardResult:!['late-receipt','after-completion'].includes(r.validity)})),progress:progress(await stateFor(env,p),s.course,{sessionId:sid})};
  }
  requireValue(method==='POST','Method not allowed.',405);
  if(action==='complete'){

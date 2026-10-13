@@ -41,3 +41,7 @@ Anonymous identity means a pseudonymous browser participant, not a verified uniq
 - Chalmers (2016), mirtCAT: https://www.jstatsoft.org/article/view/v071i05
 - College Board, AP Microeconomics CED, effective fall 2026: https://apcentral.collegeboard.org/media/pdf/ap-microeconomics-course-and-exam-description.pdf
 - Cloudflare D1 documentation: https://developers.cloudflare.com/d1/
+
+## Implemented occasion boundary
+
+Engine `content-constrained-v6` stores provisional unit posteriors separately for each session. Assessment routing and report estimates use the requested session only. Reports include the estimation scope and count of eligible measurement responses. A prior-only estimate is possible when a session contains no fresh eligible evidence; it must not be interpreted as demonstrated ability. Lifetime topic summaries remain formative inputs to practice and spaced review. Prior exposure anywhere in the participant history still prevents a repeated family from becoming new binary IRT evidence. Session separation does not itself establish comparability across sessions, fit a learning model, or validate the authored item parameters.

@@ -302,3 +302,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Cloudflare Wrangler4.149.0 deploy dry run passed; Worker bundle191.90KiB, gzip57.75KiB. This verifies local packaging only, not account access, actual D1 bindings, OAuth or deployed behavior.
 - Existing site build reports Markdown plugin configuration deprecation and large-chunk warnings. No tracked source changes resulted from the build. Saved bounded verification evidence in audits/integration-verification.json.
 - Goal remains incomplete: content/format breadth and further review, operational psychometrics, checkpointing, version continuity, tracking conflicts, privacy/security and live deployment gates remain open.
+
+## Continuation: assessment occasion separation
+
+- Corrected lifetime pooling of unit measurement posteriors. Enginev6 keys posteriors by session/course/unit; information-based selection uses the current occasion. Report progress now explicitly carries sessionId, estimationScope=session and eligible measurement-response counts, with attempts/credit restricted to that session.
+- Lifetime topic learning/review state remains formative. Lifetime family exposure still excludes previously practiced families from fresh binary evidence; starting a new session does not erase exposure history.
+- Regressions verify a new occasion starts at the prior, later responses do not alter earlier estimates, current routing matches an isolated occasion, and previously practiced families remain excluded.77 focused tests pass. No bank change; no empirical calibration or longitudinal linking claim. Persisted checkpoints, when implemented, must use state version2 or rebuild.
