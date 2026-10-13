@@ -282,3 +282,16 @@ test('presentations retain and export the exact parameters returned by selection
  await t.call(`/sessions/${s.sessionId}/answers`,answer(next),p.token);
  const exported=await t.call('/admin/responses',null,'test-only-admin');assert.deepEqual(JSON.parse(exported.rows[0].measurement_parameters_json),params);t.env.DB.close();
 });
+
+test('question library protects keys, audits access, and paginates the complete filtered bank',async()=>{
+ const t=setup();try{
+  const p=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  assert.equal((await t.call('/admin/questions',null,p.token)).status,403);
+  assert.equal((await t.call('/admin/questions')).status,401);
+  const ids=[];let cursor='',hasMore=true;
+  while(hasMore){const page=await t.call(`/admin/questions?course=ap-micro&unit=1&after=${encodeURIComponent(cursor)}`,null,'test-only-admin');assert.equal(page.status,200);assert.ok(page.items.length<=30);for(const q of page.items){assert.deepEqual(q,bank.get(q.id));ids.push(q.id);}hasMore=page.hasMore;cursor=page.nextCursor;}
+  const expected=[...bank.values()].filter(q=>q.course==='ap-micro'&&q.unit===1).map(q=>q.id).sort();assert.deepEqual(ids,expected);
+  assert.ok((await t.env.DB.prepare("SELECT COUNT(*) n FROM audit_log WHERE action='question-library-read'").first()).n>0);
+  assert.equal((await t.call('/admin/questions?course=invalid',null,'test-only-admin')).status,400);
+ }finally{t.env.DB.close();}
+});

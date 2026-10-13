@@ -43,6 +43,16 @@ async function route(request,env){
  if(path.startsWith('/admin/')){
   const instructor=await requireInstructor(request,env);
   const audit=async(action,target,details)=>query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),instructor.id,action,target,JSON.stringify(details)).run();
+  if(path==='/admin/questions'&&method==='GET'){
+   const course=url.searchParams.get('course')??'',unit=url.searchParams.get('unit')??'',search=(url.searchParams.get('q')??'').trim().toLowerCase(),after=url.searchParams.get('after')??'';
+   requireValue(search.length<=200&&after.length<=160,'Invalid question filter.');
+   requireValue(!course||bank.some(q=>q.course===course),'Unknown course.');
+   requireValue(!unit||/^[1-9][0-9]*$/.test(unit),'Invalid unit.');
+   const filtered=bank.filter(q=>(!course||q.course===course)&&(!unit||q.unit===Number(unit))&&(!search||[q.id,q.family,q.title,q.topicName,q.prompt].join(' ').toLowerCase().includes(search))).sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+   const remaining=filtered.filter(q=>q.id>after),items=remaining.slice(0,30);
+   await audit('question-library-read',BANK_VERSION,{course,unit,count:items.length});
+   return {bankVersion:BANK_VERSION,total:filtered.length,families:new Set(filtered.map(q=>q.family)).size,items,hasMore:remaining.length>30,nextCursor:items.at(-1)?.id??null};
+  }
   if(path==='/admin/model-packages'&&method==='POST')return registerModel(env,instructor,await body(request,1024*1024));
   const modelMatch=path.match(/^\/admin\/model-packages\/(calibration-[a-f0-9]{64})$/);
   if(modelMatch&&method==='GET'){const record=await query(env.DB,'SELECT * FROM model_packages WHERE id=?',modelMatch[1]).first();requireValue(record,'Model package not found.',404);await audit('model-package-read',record.id,{});return {artifact:JSON.parse(record.artifact_json),registeredAt:record.created_at,registeredBy:record.created_by,status:'candidate',activated:false};}

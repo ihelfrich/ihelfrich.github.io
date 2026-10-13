@@ -471,3 +471,9 @@ Verified in the actual local browser with a synthetic 16-record ledger: 15 asses
 
 The updated goal explicitly adds research-informed human question writing, comprehensive instructor access to questions/data, polished client-facing workflows, high-quality visual design and accessible motion. The current workbench is functional infrastructure, not the final design or evidence of universal usability. Preserve these requirements in the remaining content/design review; do not mark the broader goal complete based on this feature.
 
+
+## Instructor question library (2026-10-12)
+
+Added an authenticated, audited `/admin/questions` endpoint and instructor search interface. Course, unit, and text filters return 30 keyed items per page with distinct family counts. Expanded entries expose prompts, choices, numeric or multipart keys, explanations, available graphs, bank version, and draft release metadata. Keys remain absent from the public frontend bundle. This browser library currently covers the running bank, not historical archived versions. Existing self-review records remain separate from item release status; empirical approval is not implied.
+
+Verification: 114 focused tests passed, including unauthorized access rejection and complete filtered pagination checked against the bank. Visual interaction review remains pending. Production account setup, deployment, empirical calibration, design polish, and further content review remain open.
