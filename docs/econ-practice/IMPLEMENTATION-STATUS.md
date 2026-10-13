@@ -251,3 +251,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Corrected the borrowing-constraint explanation: a binding constraint alone need not have a positive multiplier. The stem's strict desire to borrow more supports the constrained Euler condition under usual regularity.
 - Bank2026.10.12.14;66 focused tests pass. Reconciliation now handles two review artifacts sharing one source commit.203 families match current first-review evidence;29 remain without recorded substantive review (27 undergraduate numeric,2 multipart). No historical hash errors.
 - Undergraduate coverage is still limited despite these reviewed examples. Second/independent review, richer formats and empirical validation remain open.
+
+## Continuation: multipart substantive review
+
+- Recorded first substantive review of both multipart AP Micro families:24 items/72 numeric parts. Checked equilibrium/interiority, monopoly optimization, tax revenue and welfare identities, and actual scoring rules.
+- Regression now tests every one-part error across all24 variants, plus selected internally consistent carried-forward errors. Parts receive separate keyed credit; the scorer does not award error-carried-forward credit. All67 focused tests pass.
+- Current first-review evidence covers205 families;27 undergraduate numeric families remain pending. All144 AP Micro families now have a recorded first pass. No content change or bank version bump in this continuation.
+- These multipart exercises are not complete AP free-response rubrics. Written reasoning, graph production, carried-forward credit and empirically validated polytomous scoring remain unfinished. Shared-stem parts remain excluded from binary IRT calibration.

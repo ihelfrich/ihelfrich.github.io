@@ -2,8 +2,8 @@
   "bankVersion": "2026.10.12.14",
   "scope": "Verifies historical review hashes against their committed bank, then compares current content excluding only the global bank version field. Matching a first self-review is not second review, independent review, empirical validation, or release approval.",
   "counts": {
-    "first-self-review-content-matches": 203,
-    "no-recorded-substantive-review": 29
+    "first-self-review-content-matches": 205,
+    "no-recorded-substantive-review": 27
   },
   "errors": [],
   "families": [
@@ -2230,14 +2230,20 @@
       "course": "ap-micro",
       "family": "market-tax-sequence",
       "items": 12,
-      "status": "no-recorded-substantive-review",
+      "status": "first-self-review-content-matches",
+      "source": "ap-micro-multipart.json",
+      "sourceCommit": "9bbc62f8",
+      "reviewBankVersion": "2026.10.12.14",
       "currentContentSHA256": "57b57e182a163bb33c4f6a25032a2c4fc646253c0a71a51a578758e562f91a6e"
     },
     {
       "course": "ap-micro",
       "family": "monopoly-sequence",
       "items": 12,
-      "status": "no-recorded-substantive-review",
+      "status": "first-self-review-content-matches",
+      "source": "ap-micro-multipart.json",
+      "sourceCommit": "9bbc62f8",
+      "reviewBankVersion": "2026.10.12.14",
       "currentContentSHA256": "abc577b85964e3f6afdffa839262f7905d976a0a055de8276c2331fd602cf165"
     }
   ]
