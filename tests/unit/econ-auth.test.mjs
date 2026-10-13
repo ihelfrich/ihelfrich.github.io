@@ -35,3 +35,10 @@ test('JWT verification rejects an expired token and an untrusted issuer',async()
   await assert.rejects(verifyGoogleToken(token,{GOOGLE_CLIENT_ID:'test-client'},'challenge',keys));
  }
 });
+test('reauthentication can require the original account without linking temporary history',async()=>{
+ const f=await fixture(),signed=await login(f,false),target=signed.participantId;
+ async function attempt(identity){const c=await createChallenge(f.env,f.p);return finishSignIn(f.env,f.p,{challengeId:c.challengeId,credential:'test',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,expectedParticipantId:target},async()=>({subjectHash:await hash(identity),email:`${identity}@example.test`}));}
+ await assert.rejects(attempt('wrong-account'),/same account/);
+ const recovered=await attempt('student');assert.equal(recovered.participantId,target);assert.notEqual(recovered.token,signed.token);
+ assert.equal((await query(f.env.DB,'SELECT identity_kind FROM participants WHERE id=?',f.p.id).first()).identity_kind,'anonymous');f.env.DB.close();
+});

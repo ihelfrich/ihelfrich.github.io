@@ -34,6 +34,7 @@ export async function finishSignIn(env,p,b,verify=verifyGoogleToken){
  const identity=await verify(b.credential,env,challenge.nonce);
  const consumed=await query(env.DB,'UPDATE auth_challenges SET consumed_at=? WHERE id=? AND consumed_at IS NULL RETURNING id',iso(),challenge.id).first();requireValue(consumed,'Sign-in challenge already used.',409);
  let account=await query(env.DB,'SELECT * FROM participants WHERE identity_subject_hash=? AND disabled_at IS NULL',identity.subjectHash).first();
+ if(b.expectedParticipantId!==undefined)requireValue(typeof b.expectedParticipantId==='string'&&account?.id===b.expectedParticipantId,'Sign in with the same account to recover these queued answers.',409);
  if(!account){
   const id=uuid(),at=iso();
   await query(env.DB,'INSERT INTO participants (id,created_at,identity_kind,identity_subject_hash,consent_version,consent_at,verified_email) VALUES (?,?,?,?,?,?,?) ON CONFLICT(identity_subject_hash) DO NOTHING',id,at,'account',identity.subjectHash,CONSENT_VERSION,at,identity.email).run();

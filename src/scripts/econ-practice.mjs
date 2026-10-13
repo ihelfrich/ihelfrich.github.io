@@ -11,7 +11,7 @@ if(root){
  const save=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
  profile=read(PROFILE_KEY,null);session=read(SESSION_KEY,null);const outbox=createOutbox(localStorage);
  const node=(tag,text)=>{const el=document.createElement(tag);el.textContent=text;return el;};
- async function request(path,data){const response=await fetch(`${API}${path}`,{method:data?'POST':'GET',headers:{...(data?{'Content-Type':'application/json'}:{}),...(profile?{Authorization:`Bearer ${profile.token}`}:{})},...(data?{body:JSON.stringify(data)}:{})});const result=await response.json();if(!response.ok)throw new Error(result.error??'The request failed.');return result;}
+ async function request(path,data){const response=await fetch(`${API}${path}`,{method:data?'POST':'GET',headers:{...(data?{'Content-Type':'application/json'}:{}),...(profile?{Authorization:`Bearer ${profile.token}`}:{})},...(data?{body:JSON.stringify(data)}:{})});const result=await response.json();if(!response.ok){const error=new Error(result.error??'The request failed.');error.status=response.status;throw error;}return result;}
  function show(panel){for(const id of ['setup','question-panel','report'])$(id).hidden=id!==panel;}
  function coursesChanged(){const course=$('course').value;$('unit').replaceChildren(new Option('All units','0'),...courses[course].units.map((u,i)=>new Option(`${i+1}. ${u}`,String(i+1))));$('course-count').textContent='Questions adapt within your chosen course and coverage.';}
  coursesChanged();$('course').addEventListener('change',coursesChanged);
@@ -45,7 +45,7 @@ if(root){
   const value=readAnswerInputs($('answer-options'),current.item);
   const elapsed=Math.round(performance.now()-started);const event={sessionId:session.sessionId,payload:{eventId:crypto.randomUUID(),presentationId:current.presentationId,attemptNumber:1,response:value,elapsedMs:elapsed,activeMs:Math.min(elapsed,Math.round(active)),submittedAt:new Date().toISOString()}};
   const queue=outbox.list();if(queue.some(q=>q.payload.presentationId===current.presentationId))throw new Error('This answer is already queued. Reconnect to save it.');outbox.enqueue(event);$('receipt').textContent='Saving answer…';await flush();
- }catch(error){let queued=true;try{queued=outbox.list().some(e=>e.payload.presentationId===current?.presentationId);}catch{};$('retry-save').hidden=!queued;$('submit-answer').disabled=queued;$('receipt').textContent=queued?`${error.message} Your queued answer remains on this browser. Reconnect to retry.`:error.message;}finally{busy=false;}});
+ }catch(error){if(error.status===401&&profile?.identityKind==='account'){await identity.refresh();show('setup');}let queued=true;try{queued=outbox.list().some(e=>e.payload.presentationId===current?.presentationId);}catch{};$('retry-save').hidden=!queued;$('submit-answer').disabled=queued;$('receipt').textContent=queued?`${error.message} Your queued answer remains on this browser. Reconnect to retry.`:error.message;}finally{busy=false;}});
  $('retry-save').addEventListener('click',()=>flush().catch(e=>$('receipt').textContent=e.message));
  $('next').addEventListener('click',()=>next().catch(e=>$('receipt').textContent=e.message));$('finish').addEventListener('click',()=>finish().catch(e=>$('receipt').textContent=e.message));
  $('hint').addEventListener('click',async()=>{try{const r=await request(`/sessions/${session.sessionId}/hint`,{presentationId:current.presentationId});$('feedback').replaceChildren(node('p',r.hint));}catch(e){$('receipt').textContent=e.message;}});
@@ -54,5 +54,5 @@ if(root){
  setInterval(()=>{const now=performance.now();if(current&&!document.hidden)active+=Math.min(now-lastTick,1200);lastTick=now;},1000);
  window.addEventListener('online',()=>flush().catch(e=>$('connection-status').textContent=e.message));
  if(!API){$('connection-status').textContent='Preview: the response service is not connected. Sessions are disabled until answers can be saved.';}
- else request('/health').then(async health=>{available=true;root.dataset.signin=health.signInConfigured?'true':'';$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){await identity.refresh();await flush();if(session){await next();}}}).catch(e=>{$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
+ else request('/health').then(async health=>{available=true;root.dataset.signin=health.signInConfigured?'true':'';$('connection-status').textContent='Response service connected. Submitted answers receive a storage receipt.';ready();if(profile){if(await identity.refresh()===false)return;await flush();if(session){await next();}}}).catch(e=>{$('connection-status').textContent=`Response service unavailable: ${e.message}`;});
 }

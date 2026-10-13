@@ -212,3 +212,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Fixed AP Micro prerequisite IDs being reused for every course even though topic numbers have different meanings. Added separate authored maps for AP Macro and undergraduate micro/macro; enginev4 resolves only the selected course map.
 - Regression verifies poor macro GDP performance does not apply the AP Micro demand-to-elasticity penalty to macro unemployment. All62 focused tests pass.
 - These prerequisite maps are formative author judgments, not empirically identified prerequisite structures. The current mechanism still penalizes advanced selections rather than providing a full explicit remediation sequence; that remains open.
+
+## Continuation: signed-account reauthentication
+
+- API client retains HTTP status. Expired signed-account refresh exposes reauthentication instead of trapping the user behind a pre-login queue flush; an answer-save401 returns to setup with the queue preserved.
+- Reauthentication creates a temporary challenge profile, retains the prior participant target/session, skips premature upload, and requires Google verification to resolve to the same account before saving queued answers. The backend rejects a different verified account before creating/linking it; original histories are not transferred to the temporary profile.
+- Regression covers wrong-account rejection and successful same-account credential issuance without linking temporary anonymous history. All63 tests pass; identity module syntax checked.
+- Live Google/browser recovery remains unverified because OAuth is unconfigured. Anonymous expired-credential recovery, mid-session failures outside submission and cross-tab switching remain open. Temporary challenge profiles currently require eventual housekeeping.
