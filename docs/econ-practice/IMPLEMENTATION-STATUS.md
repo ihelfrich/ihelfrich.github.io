@@ -565,3 +565,7 @@ Added a DOM integration regression using the actual instructor-page markup and w
 ### Matrix/manifest integrity
 
 Browser and CLI preparation now attach the exact responses.csv SHA-256, dimensions, encoding, person-key transformation and missing-cell convention to exported manifests. Browser downloads reuse the analyzed matrix bytes. R candidate fitting rejects missing or mismatched matrix hashes before creating fit output and propagates the verified matrix hash into its report. Legacy prepared exports require re-export. Tests verify browser/CLI matrix agreement, missing versus zero sensitivity, and unchanged source manifest; a direct R execution confirmed a mismatched matrix fails before output-directory creation. All161unit tests pass; R parses and the static build passes. This verifies file pairing, not authenticity or empirical validity.
+
+### Verified matrix-bound synthetic fitting
+
+Generated the existing deterministic synthetic design (1,000people,12items), prepared it with matrix hashes, and ran the R1PL/2PL candidate fitter successfully. The new verify-matrix-fit.mjs checks actual CSV bytes against both preparation and candidate-report hashes, source/bank provenance, synthetic/candidate status, approval requirement, convergence and finite holdout loss. Results saved in audits/matrix-fit-verification.json. This complements the prior direct tamper-rejection execution; it is an implementation smoke test, not empirical validation. No model was activated.
