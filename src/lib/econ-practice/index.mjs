@@ -1,3 +1,4 @@
+import './field-courses.mjs';
 import './concepts.mjs';
 import './other-courses.mjs';
 import './macro-concepts.mjs';

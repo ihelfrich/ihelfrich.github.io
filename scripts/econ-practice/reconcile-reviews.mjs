@@ -40,6 +40,18 @@ try{
    evidence.set(`${course}:${entry.family}`,{status:matches?'first-self-review-content-matches':'changed-since-first-self-review',source:file,sourceCommit:commit,reviewBankVersion:review.bankVersion,currentContentSHA256:sha(content(now))});
   }
  }
+ // Reviewed field batches have byte-pinned source manifests rather than historical generators.
+ for(const file of fs.readdirSync('content/econ-drafts').filter(f=>f.endsWith('-release.json'))){
+  const release=JSON.parse(fs.readFileSync(`content/econ-drafts/${file}`,'utf8'));
+  const raw=fs.readFileSync(`content/econ-drafts/${file.replace('-release.json','.json')}`);
+  const matches=crypto.createHash('sha256').update(raw).digest('hex')===release.sourceSHA256;
+  if(!matches)errors.push(`Reviewed field source changed: ${file}`);
+  for(const id of release.reviewedIds){
+   const items=current.filter(q=>q.course===release.course&&q.family===id);
+   if(items.length!==1){errors.push(`Missing or non-singleton reviewed field item: ${id}`);continue;}
+   evidence.set(`${release.course}:${id}`,{status:matches?'authored-and-parent-reviewed-provisional':'changed-since-field-review',source:`content/econ-drafts/${file}`,currentContentSHA256:sha(content(items))});
+  }
+ }
  const groups=new Map();for(const item of current){const key=`${item.course}:${item.family}`;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item);}
  const families=[...groups].map(([key,items])=>({course:items[0].course,family:items[0].family,items:items.length,...(evidence.get(key)??{status:'no-recorded-substantive-review',currentContentSHA256:sha(content(items))})}));
  const counts={};for(const family of families)counts[family.status]=(counts[family.status]??0)+1;

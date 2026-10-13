@@ -22,7 +22,7 @@ export function auditDraftItems(items){
  return {errors,courses};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname)){
- const root='content/econ-drafts',files=fs.readdirSync(root).filter(f=>f.endsWith('.json')).sort();
+ const root='content/econ-drafts',files=fs.readdirSync(root).filter(f=>f.endsWith('.json')&&!f.endsWith('-release.json')).sort();
  const items=files.flatMap(f=>JSON.parse(fs.readFileSync(path.join(root,f),'utf8'))),result=auditDraftItems(items);
  const report={scope:'Structural draft audit only; not content approval or activation.',files,sha256:crypto.createHash('sha256').update(JSON.stringify(items)).digest('hex'),...result};
  fs.mkdirSync('docs/econ-practice/audits',{recursive:true});fs.writeFileSync('docs/econ-practice/audits/field-drafts.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(result.errors.length)process.exitCode=1;

@@ -7,8 +7,8 @@
   },
   "scripts": {
     "predev": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
-    "prebuild": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
-    "prebuild:fast": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
+    "prebuild": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs",
+    "prebuild:fast": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs",
     "dev": "astro dev",
     "build": "npm run check:copy && astro build && npm run fetch-spokes && npm run pagefind && npm run clean-spokes && npm run check:discovery",
     "build:fast": "astro build",

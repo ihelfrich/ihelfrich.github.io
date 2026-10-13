@@ -2,7 +2,8 @@ export const courses = {
  'ap-micro': {name:'AP Microeconomics', units:['Choice and opportunity cost','Markets and price formation','Production and competitive firms','Market power and strategic behavior','Labor and other inputs','Welfare and public policy'], weights:[.135,.225,.235,.18,.115,.11]},
  'ap-macro': {name:'AP Macroeconomics', units:['Economic foundations','Measuring the economy','Aggregate demand and supply','Money and finance','Inflation, policy, and growth','International economics'], weights:[.075,.145,.22,.205,.24,.115]},
  'college-micro': {name:'Intermediate Microeconomics', units:['Preferences and choice','Demand and exchange','Technology and costs','Competition and market power','Strategic interaction','Welfare and information'],weights:[.2,.15,.15,.2,.15,.15]},
- 'college-macro': {name:'Intermediate Macroeconomics', units:['National accounts','Long-run growth','Consumption and investment','Business cycles','Monetary and fiscal policy','Open-economy models'],weights:[.15,.2,.15,.2,.15,.15]}
+ 'college-macro': {name:'Intermediate Macroeconomics', units:['National accounts','Long-run growth','Consumption and investment','Business cycles','Monetary and fiscal policy','Open-economy models'],weights:[.15,.2,.15,.2,.15,.15]},
+ 'intro-econometrics':{name:'Introductory Econometrics',units:['Data and estimands','Simple linear regression','Multiple regression and confounding','Inference and uncertainty','Functional forms and prediction','Introduction to causal designs'],weights:[1/6,1/6,1/6,1/6,1/6,1/6]}
 };
 export const microTopics = {
  '1.1':'Scarcity','1.2':'Allocation and economic systems','1.3':'Production possibilities','1.4':'Comparative advantage','1.5':'Cost-benefit analysis','1.6':'Marginal analysis and consumer choice',

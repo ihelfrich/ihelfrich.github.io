@@ -3,6 +3,14 @@ import crypto from 'node:crypto';
 import {buildBank,families,BANK_VERSION} from '../../src/lib/econ-practice/index.mjs';
 import {microTopics} from '../../src/lib/econ-practice/curriculum.mjs';
 const bank=buildBank(),errors=[],warnings=[],ids=new Set(),prompts=new Map(),positions=[0,0,0,0];
+// A content edit invalidates its reviewed release, including in production builds.
+for(const file of fs.readdirSync('content/econ-drafts').filter(f=>f.endsWith('-release.json'))){
+ const release=JSON.parse(fs.readFileSync(`content/econ-drafts/${file}`,'utf8'));
+ const raw=fs.readFileSync(`content/econ-drafts/${file.replace('-release.json','.json')}`);
+ const source=JSON.parse(raw),active=bank.filter(q=>q.course===release.course);
+ if(crypto.createHash('sha256').update(raw).digest('hex')!==release.sourceSHA256)errors.push(`Reviewed source changed: ${file}`);
+ if(source.length!==release.itemCount||active.length!==release.itemCount||new Set(release.reviewedIds).size!==source.length||source.some(q=>!release.reviewedIds.includes(q.id)))errors.push(`Release inventory mismatch: ${file}`);
+}
 for(const q of bank){
  if(ids.has(q.id))errors.push(`Duplicate ID: ${q.id}`);ids.add(q.id);
  if(!q.prompt||!q.explanation||q.prompt.includes('undefined')||q.explanation.includes('undefined'))errors.push(`Incomplete text: ${q.id}`);

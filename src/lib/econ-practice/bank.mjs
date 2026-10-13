@@ -1,5 +1,5 @@
 import {microTopics} from './curriculum.mjs';
-export const BANK_VERSION='2026.10.12.16';
+export const BANK_VERSION='2026.10.12.17';
 export const families=[];
 const num=x=>Number(x.toFixed(3));
 const fmt=x=>Number.isInteger(x)?String(x):String(num(x));
@@ -88,7 +88,7 @@ export function buildBank(){
  const bank=[];
  for(const f of families)for(let n=0;n<f.count;n++){
   const q=f.make(n);const id=`${f.course}:${f.id}:${String(n+1).padStart(2,'0')}`;
-  const item={...q,id,family:f.id,course:f.course,topic:f.topic,topicName:f.course==='ap-micro'?microTopics[f.topic]:f.title,unit:Number(f.topic.split('.')[0]),difficulty:f.level,title:f.title,variant:n+1,version:BANK_VERSION,review:'draft-awaiting-content-audit'};
+  const item={...q,id,family:f.id,course:f.course,topic:f.topic,topicName:f.course==='ap-micro'?microTopics[f.topic]:f.title,unit:Number(f.topic.split('.')[0]),difficulty:f.level,title:f.title,variant:n+1,version:BANK_VERSION,review:q.review??'draft-awaiting-content-audit'};
   if(q.format==='choice'){
    const opts=[q.correct,...q.wrong];let seed=2166136261;for(const char of id)seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
    for(let j=opts.length-1;j>0;j--){seed=(Math.imul(1664525,seed)+1013904223)>>>0;const k=Math.floor(seed/4294967296*(j+1));[opts[j],opts[k]]=[opts[k],opts[j]];}

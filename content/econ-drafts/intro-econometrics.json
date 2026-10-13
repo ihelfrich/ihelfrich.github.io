@@ -185,7 +185,7 @@
     "unit": 2,
     "topic": "2.5",
     "title": "Changing measurement units",
-    "prompt": "A simple OLS regression with an intercept uses annual earnings in dollars as its outcome. The analyst divides every earnings value by 1,000, leaving the regressor unchanged. What happens to the slope and R-squared?",
+    "prompt": "A simple OLS regression with an intercept uses nonconstant annual earnings in dollars as its outcome. The analyst divides every earnings value by 1,000, leaving the regressor unchanged. What happens to the slope and R-squared?",
     "correct": "The slope is divided by 1,000; R-squared is unchanged.",
     "wrong": [
       "The slope is unchanged; R-squared is divided by 1,000.",
@@ -465,7 +465,7 @@
     "unit": 5,
     "topic": "5.4",
     "title": "Individual versus mean prediction",
-    "prompt": "Under a correctly specified linear model with nonzero outcome noise, compare a prediction interval for one new household with a confidence interval for mean spending at the same covariates and confidence level. Which is wider?",
+    "prompt": "In the usual homoskedastic normal-error linear regression model with positive error variance, compare the textbook prediction interval for one new household with the confidence interval for mean spending at the same covariates and confidence level. Which is wider?",
     "correct": "The individual prediction interval, because it includes new outcome noise as well as estimation uncertainty.",
     "wrong": [
       "The mean confidence interval, because averages always vary more than individual outcomes.",
