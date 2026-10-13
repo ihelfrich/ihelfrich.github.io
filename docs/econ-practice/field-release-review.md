@@ -91,3 +91,9 @@ Activated 180 independently reviewed questions: 60 each in Monetary Economics, I
 The active bank has 4,197 items across 22 courses and 1,222 families. This remains below the requested total exceeding 5,000. Parent review includes 38 monetary, 39 international macro and 19 causal numerical/model checks. Assumption and answer-choice repairs are recorded in the course checkpoints. Parameters remain provisional, with no empirical calibration or claim of exhaustive disciplinary coverage.
 
 Verification: 180 automated tests pass; bank audit reports zero errors and warnings; review reconciliation reports zero errors; production site build generates 131 pages successfully. This release has not been deployed to production Cloudflare and does not establish authenticated end-to-end browser behavior.
+
+## Education, growth and contracts release — 2026.10.13.31
+
+Activated 180 reviewed questions: Economics of Education, Economic Growth, and Information and Contract Theory, each with 60 families. Added six-unit course outlines, prerequisite levels and private method hints (topic-scaffolds-v19). All released source items match their independent parent-review fingerprints. Review included 41 education, 40 growth and 31 contract checks; the contract multitasking defect and growth parameter-domain omissions were corrected before release.
+
+Active bank: 4,377 items, 1,402 families, 25 courses. The >5,000 target remains incomplete. All185 automated tests pass; bank audit and review reconciliation have zero errors; production site build succeeds with131 pages. Content approval remains distinct from empirical calibration, and all new parameters remain provisional. No production deployment or authenticated browser verification is implied by these checks.

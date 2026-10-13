@@ -1,3 +1,6 @@
+import {contractHints} from './contract-theory-hints.mjs';
+import {growthHints} from './economic-growth-hints.mjs';
+import {educationHints} from './education-economics-hints.mjs';
 import {causalHints} from './causal-inference-hints.mjs';
 import {internationalMacroHints} from './international-macroeconomics-hints.mjs';
 import {monetaryHints} from './monetary-economics-hints.mjs';
@@ -15,6 +18,9 @@ import {tradeHints} from './trade-hints.mjs';
 import {ioHints} from './io-hints.mjs';
 // Method scaffolds for reviewed field questions; never generated from their keys.
 export const fieldHints={
+'contract-theory':contractHints,
+'economic-growth':growthHints,
+'education-economics':educationHints,
 'causal-inference':causalHints,
 'international-macroeconomics':internationalMacroHints,
 'monetary-economics':monetaryHints,
