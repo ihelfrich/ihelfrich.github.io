@@ -317,3 +317,12 @@ test('instructor assignment report separates unanswered questions from excluded 
 test('hint content and version are durable and counted atomically in the owner report',async()=>{
  const t=setup();try{const {p,s,next}=await enrolled(t);const hint=await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token);assert.equal(hint.status,200);assert.ok(hint.hintId);const stored=await t.env.DB.prepare('SELECT * FROM hint_events WHERE id=?').bind(hint.hintId).first();assert.equal(stored.hint_text,hint.hint);assert.equal(stored.hint_version,hint.hintVersion);assert.equal((await t.env.DB.prepare('SELECT hints_used FROM presentations WHERE id=?').bind(next.presentationId).first()).hints_used,1);const report=await t.call(`/sessions/${s.sessionId}/report`,null,p.token);assert.equal(report.hints[0].id,hint.hintId);await assert.rejects(t.env.DB.prepare('UPDATE hint_events SET hint_text=? WHERE id=?').bind('changed',hint.hintId).run(),/immutable/);await t.call(`/sessions/${s.sessionId}/complete`,{},p.token);assert.equal((await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token)).status,409);assert.equal((await t.env.DB.prepare('SELECT COUNT(*) n FROM hint_events').first()).n,1);}finally{t.env.DB.close();}
 });
+
+test('instructor hint export is private and freezes its ledger boundary across pages',async()=>{
+ const t=setup();try{const {p,s,next}=await enrolled(t);assert.equal((await t.call('/admin/hints',null,p.token)).status,403);
+ for(let i=0;i<501;i++)await t.env.DB.prepare('INSERT INTO hint_events (id,presentation_id,hint_version,hint_scope,hint_text) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(),next.presentationId,'test','test','Synthetic guidance').run();
+ const first=await t.call('/admin/hints',null,'test-only-admin');assert.equal(first.rows.length,500);assert.equal(first.hasMore,true);assert.equal(first.snapshotThrough,501);assert.equal(first.rows[0].participant_id,p.participantId);
+ await t.call(`/sessions/${s.sessionId}/hint`,{presentationId:next.presentationId},p.token);
+ const last=await t.call(`/admin/hints?after=${encodeURIComponent(first.nextCursor)}`,null,'test-only-admin');assert.equal(last.rows.length,1);assert.equal(last.hasMore,false);assert.equal(last.snapshotThrough,501);assert.equal((await t.env.DB.prepare("SELECT COUNT(*) n FROM audit_log WHERE action='hint-export'").first()).n,2);
+ }finally{t.env.DB.close();}
+});

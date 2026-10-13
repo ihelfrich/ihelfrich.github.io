@@ -64,6 +64,12 @@ async function route(request,env){
   if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
   if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}
   const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET'){const report=await assignmentReport(env,assignmentMatch[1]);await audit('assignment-report-read',assignmentMatch[1],{});return report;}
+  if(path==='/admin/hints'&&method==='GET'){
+   const window=await responseWindow(env.DB,url.searchParams.get('after')??'',undefined,'hint_events');
+   const records=await all(env.DB,`SELECT h.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.session_id,s.participant_id,s.course,s.mode FROM hint_events h JOIN presentations p ON p.id=h.presentation_id JOIN sessions s ON s.id=p.session_id WHERE h.ledger_sequence>? AND h.ledger_sequence<=? ORDER BY h.ledger_sequence LIMIT 501`,window.after,window.until);
+   const rows=records.slice(0,500);await audit('hint-export',String(window.until),{count:rows.length,after:window.after});
+   return {rows,hasMore:records.length>500,nextCursor:rows.length?window.next(rows.at(-1).ledger_sequence):null,snapshotThrough:window.until};
+  }
   if(path==='/admin/unscored-submissions'&&method==='GET'){const page=await unscoredPage(env,url);await audit('unscored-submission-export',page.nextCursor??'empty',{count:page.rows.length,snapshotThrough:page.snapshotThrough});return page;}
   if(path==='/admin/responses'&&method==='GET'){
    const window=await responseWindow(env.DB,url.searchParams.get('after')??'');

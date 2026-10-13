@@ -517,3 +517,7 @@ Replaced the universal hint with authored method prompts for every AP Micro topi
 ## Durable hint exposure records (2026-10-12)
 
 Migration 0008 adds immutable hint events with exact text, version, scope, presentation reference and database receipt time. An insert trigger increments hints_used atomically; the insert itself rechecks current session ownership, practice mode, completion and expiry. Owner session reports include events. Events identify server-returned guidance, not proof that a human read it. Historical counts before migration have no recoverable exact text. Retries currently produce distinct request events; instructor bulk hint export remains to be added. All 126 focused tests pass, including persistence, count agreement, immutable content and completed-session rejection. Production migration has not been applied.
+
+## Instructor hint export (2026-10-12)
+
+Added authenticated/audited `/admin/hints` with 500-row pages and a frozen ledger boundary. Rows link immutable guidance events to current session ownership and question metadata without email addresses. The instructor's full ledger download now includes a hints array. Response, unscored-submission and hint exports freeze their boundaries independently, not as a transactionally synchronized snapshot. A regression verifies access denial and pagination across 501 events while a later event is inserted; all 127 focused tests pass.
