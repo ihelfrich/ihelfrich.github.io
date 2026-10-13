@@ -391,3 +391,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Replaced pooled course-only accuracy with course/mode summaries. API distinguishes total receipts, counted attempts, excluded late/after-completion receipts, all-attempt accuracy, first-attempt accuracy, first-attempt mean normalized credit and assisted first attempts. Counts of calibration-eligible responses remain separate.
 - Instructor summary labels now include practice/assessment mode. API explicitly describes these as descriptive response statistics, not ability estimates. First-attempt statistics can still include hinted responses; assisted count makes this visible rather than silently treating all first attempts as unassisted.
 - Regression constructs wrong-first/correct-retry practice, a correct assessment and a retained after-completion receipt. Verifies separate denominators and no retry/late inflation of first-attempt accuracy.84 focused tests pass. No deployment.
+
+## Continuation: fresh-family diagnostic preference
+
+- Enginev8 narrows assessment selection to previously unexposed families when available after unit/topic filters and uncovered-unit requirements. If only familiar families remain within coverage, it allows them with explicit exposureStatus; existing calibration exclusions still apply.
+- Worker supplies lifetime presentation-family exposure, including unanswered presentations, in addition to answered history. Atomic insertion remains the final authority under concurrent selections. Selection probability is conditional on the resulting eligible pool.
+- Regression verifies fresh preference, unanswered-presentation input, unit-filter preservation, uncovered-unit priority and exhausted-fresh-bank fallback. Updated occasion test to compare identical eligible pools.85 focused tests pass. Freshness is not empirical item calibration or proof of independence across different families.

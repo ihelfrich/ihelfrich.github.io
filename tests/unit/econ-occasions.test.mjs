@@ -14,7 +14,7 @@ test('assessment estimates and counts use the requested occasion rather than a l
  const isolated=newState();recordAnswer(isolated,second,{response:second.answer+100,mode:'assessment',sessionId:'later',eventId:'two',at:2});
  assert.deepEqual(now.estimate,progress(isolated,'ap-micro',{sessionId:'later'})[0].estimate);
  const options={course:'ap-micro',mode:'assessment',unit:1,sessionId:'later',rng:()=>.4};
- assert.deepEqual(selectItem(items,state,options),selectItem(items,isolated,options));
+ const unseen=items.filter(q=>q.family!==first.family);assert.deepEqual(selectItem(unseen,state,options),selectItem(unseen,isolated,options));
 });
 
 test('occasion separation does not turn previously practiced families into fresh IRT evidence',()=>{
@@ -37,4 +37,14 @@ test('reports distinguish authored estimates from calibrated evidence and suppre
  const mixed=progress(state,'ap-micro',{sessionId:'one'})[0];assert.equal(mixed.measurementStatus,'incompatible-model-versions');assert.equal(mixed.estimate,null);
  const clean=newState();recordAnswer(clean,b,{response:b.answer,mode:'assessment',sessionId:'two',eventId:'c',calibration});
  assert.equal(progress(clean,'ap-micro',{sessionId:'two'})[0].measurementStatus,'calibrated');
+});
+
+test('diagnostics prefer fresh families without violating unit coverage or preventing an exhausted-bank attempt',()=>{
+ const q=buildBank().find(q=>q.format==='numeric'),a={...q,id:'a',family:'a',unit:1},b={...q,id:'b',family:'b',unit:1},c={...q,id:'c',family:'c',unit:2},state=newState();
+ recordAnswer(state,a,{response:a.answer,sessionId:'prior',eventId:'one'});
+ const fresh=selectItem([a,b,c],state,{mode:'assessment',unit:1,sessionId:'now',rng:()=>0});assert.equal(fresh.item.id,'b');assert.equal(fresh.selection.exposureStatus,'fresh-family');assert.equal(fresh.selection.eligibleItems,1);
+ const fallback=selectItem([a,c],state,{mode:'assessment',unit:1,sessionId:'now',rng:()=>0});assert.equal(fallback.item.id,'a');assert.equal(fallback.selection.exposureStatus,'previously-exposed-family');
+ const shown=selectItem([a,b],newState(),{mode:'assessment',unit:1,sessionId:'now',rng:()=>0,exposedFamilies:['a']});assert.equal(shown.item.id,'b');
+ recordAnswer(state,b,{response:b.answer,mode:'assessment',sessionId:'now',eventId:'two'});
+ const uncovered=selectItem([a,b,c],state,{mode:'assessment',sessionId:'now',rng:()=>0,exposedFamilies:['c']});assert.equal(uncovered.item.unit,2);assert.equal(uncovered.selection.exposureStatus,'previously-exposed-family');
 });

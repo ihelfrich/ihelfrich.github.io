@@ -1,7 +1,7 @@
 import {gradeResponse} from './scoring.mjs';
 import {courses,prerequisitesByCourse} from './curriculum.mjs';
 import {prior,itemParameters,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
-export const ENGINE_VERSION='content-constrained-v7';
+export const ENGINE_VERSION='content-constrained-v8';
 export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
 const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
 function requireCompatibleModel(state,sessionId,course,unit,modelVersion){
@@ -36,7 +36,7 @@ function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hint
  if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
  return state;
 }
-export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration}={}){
+export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration,exposedFamilies=[]}={}){
  const session=state.history.filter(h=>h.sessionId===sessionId&&h.course===course);
  const used=new Set(session.map(h=>h.itemId));const families=new Set(session.map(h=>h.family));
  let pool=bank.filter(q=>q.course===course&&(!unit||q.unit===Number(unit))&&(!topic||q.topic===topic)&&!used.has(q.id));
@@ -53,6 +53,12 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  }
  // Fill missing units before optimizing information; this is a hard coverage constraint.
  if(mode==='assessment'&&!unit&&!topic){const seenUnits=new Set(session.map(h=>h.unit));const uncovered=pool.filter(q=>!seenUnits.has(q.unit));if(uncovered.length)pool=uncovered;}
+ let exposureStatus=null;
+ if(mode==='assessment'){
+  const exposed=new Set([...exposedFamilies,...state.history.filter(h=>h.course===course).map(h=>h.family)]);
+  const fresh=pool.filter(q=>!exposed.has(q.family));
+  if(fresh.length){pool=fresh;exposureStatus='fresh-family';}else exposureStatus='previously-exposed-family';
+ }
  const unitCounts=Array(6).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
  const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
  const scored=pool.map(q=>{
@@ -80,7 +86,7 @@ export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,
  const mass=sums.map((sum,i)=>sum/groups[i].length),total=mass.reduce((a,b)=>a+b,0);
  const sample=weights=>{let draw=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){draw-=weights[i];if(draw<0)return i;}return weights.length-1;};
  const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
- return {item:picked,selection:{engineVersion:ENGINE_VERSION,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
+ return {item:picked,selection:{engineVersion:ENGINE_VERSION,exposureStatus,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:itemParameters(picked,calibration).modelVersion}};
 }
 export function progress(state,course,{sessionId='local'}={}){
  return courses[course].units.map((name,i)=>{
