@@ -187,3 +187,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Added24 multipart AP Micro items in two12-variant families: competitive equilibrium/tax/revenue and monopoly quantity/price/welfare. AP Micro now1316 items/144 families. Bank2026.10.12.11. Rubric parts remain excluded from binary calibration and are not treated as independent IRT items.
 - Added DOM form tests plus independent prompt-data checks of all new rubric answers. All58 focused tests and Astro fast build pass. Structural audit understands multipart fields.
 - New families need substantive second review and browser layout testing. This is numeric partial credit only; written justification, drawing/graph production, error-carried-forward rules and validated polytomous models remain unfinished.
+
+## Continuation: partial-credit formative adaptation
+
+- Enginev3 accumulates normalized rubric credit separately from fully correct counts and uses credit for practice difficulty/prerequisite routing. A partially correct response no longer has the same formative accuracy contribution as a wholly incorrect one.
+- Full-correct streaks still require every part correct without hints. History/progress preserve score and rubric totals; multipart responses remain excluded from binary IRT evidence.
+- Regression verifies actual selection probability shifts toward medium difficulty for partial understanding compared with all-wrong history, as well as separate streak/credit accounting. All60 focused tests pass. This is a formative heuristic, not a validated polytomous ability model.
