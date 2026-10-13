@@ -4,7 +4,7 @@ Working checkout: `/Users/ian/Developer/agent-playground/economics-practice`, br
 
 ## Account setup
 
-From the checkout, run `npx wrangler login` and complete Cloudflare's login in the local browser. Verify with `npx wrangler whoami`. Do not copy authentication tokens into a chat or commit them. The October 13 preflight found Wrangler unauthenticated.
+From the checkout, run `npx wrangler login` and complete Cloudflare's login in the local browser. Verify with `npx wrangler whoami`. Do not copy authentication tokens into a chat or commit them. The latest October 13 continuation verified Cloudflare authentication.
 
 In [Google Auth Platform](https://console.cloud.google.com/auth/clients), use an existing appropriate project or create one, configure its branding/audience, and create an OAuth client of type **Web application**. Add these authorized JavaScript origins:
 
@@ -17,7 +17,7 @@ Set `GOOGLE_CLIENT_ID` to that public ID in the Worker's `vars` in `services/eco
 
 ## Provision the database
 
-After account selection, run these commands from the checkout:
+The existing database is already provisioned and configured: `19781a1a-1085-436a-ad73-0526476fcd1e`. All 13 remote migrations applied; no participants or responses were present at verification. Do not create another database. The following creation command is retained only for a new environment:
 
 ```sh
 npx wrangler d1 create helfrich-economics-responses --config services/econ-response/wrangler.jsonc
