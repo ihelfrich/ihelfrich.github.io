@@ -485,3 +485,7 @@ Added workspace section links, consistent native form and file controls, bounded
 ## Question-library integrity (2026-10-12)
 
 Paging now pins the running bank version. The API rejects continuation without a version and rejects mismatched versions with HTTP 409; instructors must restart their search after a deployment changes the bank. The interface also rejects mismatched response versions, ignores stale searches, and exposes loading state through aria-busy. Two interface regressions verify safe prompt rendering, numeric/choice/multipart keys, stale-request handling, and version continuity. All 116 focused tests pass. These DOM tests supplement, but do not replace, authenticated browser interaction review.
+
+## Workbench dataset replacement (2026-10-12)
+
+Starting an import or live load now clears the previous dataset, hides analysis controls/results, invalidates pending analysis, and disables competing loaders until completion. A failed replacement cannot leave an old dataset available under the new error message. Live pagination validates page shape and requires an unchanged snapshot boundary. Added interface regressions for interrupted replacement and inconsistent snapshot pages. All 118 focused tests pass. This does not remove the documented browser size limits or replace production recovery/deployment validation.
