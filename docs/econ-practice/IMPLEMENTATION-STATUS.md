@@ -345,3 +345,10 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Reproduced an answer write delayed beyond expiry that the old handler classified as valid using its earlier application timestamp. The database now generates server_received_at and compares expiry with the same statement's database time.
 - API receipt comes from the persisted row. Late answers retain raw responses and receive late-receipt status, no result credit and no calibration eligibility. Identical retries return the original persisted timestamp/classification.
 - Regression delays the write past a newly set deadline: prior code fails (valid instead of late-receipt), current code passes and retains the answer.80 focused tests pass. Client submission time remains contextual metadata, not the deadline authority. No deployment.
+
+## Continuation: current-engine CAT simulation and undercoverage
+
+- Found simulator coupling to the obsolete course/unit posterior key after occasion separation. Replaced manual state injection with actual recordAnswer calls; every step now verifies operational report theta against an independently updated posterior. Simulation records enginev7.
+- Ran200 replications at seven theta points for adaptive and random selection (2,800 synthetic administrations). Known synthetic parameters, one dimension,48-item bank only; not real-bank validation.
+- Adaptive nominal95% interval coverage is89.5% at theta-3 and89% at+3 (Monte Carlo SE about2.2 percentage points), with biases+.399 and-.358 and mean length47.7 at both extremes. Random baseline shows similar shrinkage/undercoverage. Central coverage is higher. This is an unresolved validation result, not a passed precision gate.
+- Saved full results in audits/cat-current-engine.json.80 focused tests still pass. Next psychometric work: prior/grid/item-bank sensitivity, greater extreme-trait information, parameter uncertainty and multi-unit design simulations. No operational calibrated/precision-stopping deployment.
