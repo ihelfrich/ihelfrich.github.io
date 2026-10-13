@@ -1,0 +1,129 @@
+{
+  "status": "partial-review",
+  "reviewedItems": [
+    {
+      "id": "market-design-u1-01",
+      "sha256": "0d7fc6203505daba8758922fda8067591feb4742066404d4e6b90359035f741d"
+    },
+    {
+      "id": "market-design-u1-02",
+      "sha256": "0fafef8e90e621585edc72a43c8226c45c4d2cf2bff376d7818acc8294ef9ecf"
+    },
+    {
+      "id": "market-design-u1-03",
+      "sha256": "87474ee732e055716896600ca10dd6c79b0bd1a8e752bb50b8b47a881aeeaacb"
+    },
+    {
+      "id": "market-design-u1-04",
+      "sha256": "7577fba8fa9e0b7c8bf894fd7dc525ae53db3bef07ac8899888d1b33fa986c62"
+    },
+    {
+      "id": "market-design-u1-05",
+      "sha256": "48f1478c66c4a374536b2281bf9226151808e441b4e6ff10e1632e0782f485cf"
+    },
+    {
+      "id": "market-design-u1-06",
+      "sha256": "7bfcc726e99c7dcf871b5b48da444c284d221a9dd148c2c8516093a551d02965"
+    },
+    {
+      "id": "market-design-u1-07",
+      "sha256": "fba9efb4d0588edea5ba9a6924cf96759d9d4caa783ba80f6a7665aa007d160c"
+    },
+    {
+      "id": "market-design-u1-08",
+      "sha256": "518d4ece74018fd9a1fd58c4c4b659ebe6a34cac13d37fc4bfc3e5171c963234"
+    },
+    {
+      "id": "market-design-u1-09",
+      "sha256": "b18d85f155c3a25ddd54d92aa3539b5da262595b37221957de8fb336f55fa9e3"
+    },
+    {
+      "id": "market-design-u1-10",
+      "sha256": "1eb6b62168d5ce968f5ea29aca663d68c10667b60acaaa9dedf4c7061ee69cab"
+    },
+    {
+      "id": "market-design-u2-01",
+      "sha256": "7a4b891570b7205e6b423aafaf10902a409b5cbf525d1545dfaf221d63b4c07c"
+    },
+    {
+      "id": "market-design-u2-02",
+      "sha256": "10352fe9c0e1453a716e9ffb27468899ade67c730adbbf43a43065bcc03f891e"
+    },
+    {
+      "id": "market-design-u2-03",
+      "sha256": "efc47beb2bda49f4ad7f31c174bd7913aae6ee88d3861c2c3b55db020d8c58ef"
+    },
+    {
+      "id": "market-design-u2-04",
+      "sha256": "e036187222ccefc4a9f15a12a25185a8c0c9402ae700827c1854ed26882af182"
+    },
+    {
+      "id": "market-design-u2-05",
+      "sha256": "09f3f507c30cf253e5572a8a5f7d1809b0673f8b779d9be8dbe89a8368a217c0"
+    },
+    {
+      "id": "market-design-u2-06",
+      "sha256": "3311ea18a91cbccefa93b1662c3dd90161878b69575b916eeffa3212ce89aae1"
+    },
+    {
+      "id": "market-design-u2-07",
+      "sha256": "b81baef3eb6798d03a855e417eb0d0a615289b599f84d5ff664712d0d2531c0b"
+    },
+    {
+      "id": "market-design-u2-08",
+      "sha256": "3344cccf3fd7c0fae7e6a7b341de1ba91dd114f5d5c6e5e4f16b8a2f1b555651"
+    },
+    {
+      "id": "market-design-u2-09",
+      "sha256": "5636695bdcd8f5a0b1362ea7b5ec92faf7d4e67947dabfc921620eec5eef1087"
+    },
+    {
+      "id": "market-design-u2-10",
+      "sha256": "5bd60e9fc0e3b34236dddfafeeb1b8bb617c4a73162ba7c1a57d4f32306b8577"
+    }
+  ],
+  "checks": [
+    {
+      "id": "u1-05",
+      "check": "Independent deferred acceptance execution",
+      "passed": true
+    },
+    {
+      "id": "u1-06",
+      "check": "Independent firm-proposing execution",
+      "passed": true
+    },
+    {
+      "id": "u1-04",
+      "check": "Enumerated complete matchings and all potential blocking pairs; incomplete matchings blocked by acceptable vacancies",
+      "passed": true
+    },
+    {
+      "id": "u2-01",
+      "check": "Independent rejection-chain execution",
+      "value": {
+        "held": {
+          "A": "2",
+          "B": "1",
+          "C": "3"
+        },
+        "proposals": 6
+      },
+      "passed": true
+    },
+    {
+      "id": "u2-07",
+      "check": "Trading cycle and self-cycle verified from ownership graph",
+      "passed": true
+    },
+    {
+      "id": "u1-09",
+      "check": "Finite distinct-proposal bound",
+      "value": 12,
+      "passed": true
+    }
+  ],
+  "findings": [],
+  "reviewScope": "First20 full records read for stability, individual rationality, capacities, proposer optimality, DA strategy-proofness assumptions, list constraints, TTC, lottery scope and soft reserves. Independent algorithm and matching enumeration checks passed.",
+  "remaining": "Review remaining40 and final author changes; release integration and empirical calibration."
+}
