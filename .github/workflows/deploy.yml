@@ -46,6 +46,7 @@ jobs:
           npm run check:macroeconomics
           npm run check:calculus
           npm run check:ols
+          npm run check:econ-practice
       - name: Verify ocean calculations, coastal retrieval, and scientific release files
         run: |
           node --test tests/unit/hidden-rivers*.test.mjs tests/unit/water-atlas.test.mjs tests/unit/dye-tank*.test.mjs
@@ -59,6 +60,8 @@ jobs:
         run: npm run check:city
       - name: Build hub
         run: npm run build:fast
+        env:
+          PUBLIC_ECON_API_URL: ${{ vars.PUBLIC_ECON_API_URL }}
         env:
           PUBLIC_CESIUM_ION_TOKEN: ${{ secrets.CESIUM_ION_TOKEN }}
       - name: Verify homepage interactions and portrait

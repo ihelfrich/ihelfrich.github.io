@@ -160,3 +160,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Prevented new-version questions entering an older session after a deployment. An outstanding presentation remains answerable from its stored snapshot; the next selection then returns bank-version-changed, allowing completion/report instead of silent mixed-bank assessment.
 - Reports expose session/current bank versions and explain the update to students. Regression verifies outstanding presentation reuse, durable answer, no added presentation and retained scored report. All52 focused tests pass.
 - This is a transitional integrity safeguard, not seamless pinned-bank hosting: continuing old assessments to full length across releases still requires retaining deployable historical banks or a rollout policy that drains active assignments. Assigned sessions ended by an update may be shorter than their target; instructors can see the count.
+
+## Continuation: whole-site integration gate
+
+- Full existing npm check pipeline passed: copy/fieldbook/navigation/tokens/components, city and teaching-model tests, Astro build, rendered-style checks and public-CV safety. Local output /tmp/econ-whole-site-check.log. This is broader integration evidence, not browser interaction or production verification.
+- Added check:econ-practice to the regular npm check chain and GitHub deployment workflow so economics regressions participate in future releases. Workflow YAML parses and includes the gate.
+- Build now accepts PUBLIC_ECON_API_URL from the repository variable of that name. It remains unset; absent configuration keeps practice disabled. No GitHub setting, live service, push or deployment was changed.
