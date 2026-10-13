@@ -40,3 +40,8 @@ test('repeated undergraduate micro calculations vary keyed outcomes',()=>{
  const bank=buildBank().filter(q=>q.course==='college-micro');
  for(const family of ['mrs','elastic-demand','mixed-strategy','repeated-collusion','insurance'])assert.ok(new Set(bank.filter(q=>q.family===family).map(q=>q.answer)).size>=5,family);
 });
+
+test('Solow and real-exchange variants require different calculated answers',()=>{
+ const bank=buildBank().filter(q=>q.course==='college-macro');
+ for(const family of ['solow','real-exchange'])assert.equal(new Set(bank.filter(q=>q.family===family).map(q=>q.answer)).size,24,family);
+});

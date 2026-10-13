@@ -1,0 +1,119 @@
+{
+  "bankVersion": "2026.10.12.16",
+  "reviewer": "Codex self-review",
+  "scope": "All12 undergraduate macro numeric families/288 variants. Derivations, units, assumptions and domain checks. First self-review only, not independent review or empirical validation.",
+  "findings": {
+    "timing": "Clarified the GDP denominator of the primary deficit ratio.",
+    "variation": "Solow and real-exchange families now each contain24 distinct keyed outcomes."
+  },
+  "entries": [
+    {
+      "family": "national-saving",
+      "topic": "1.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Closed-economy national saving is Y-C-G. Positive generated values imply saving200+5n. Government spending is purchases; transfers are not separately subtracted. This is an accounting calculation, not a behavioral prediction.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "4ebc34de1b784334b9f6f8662ec99c25ccb5e89ee3d928debad2c782d6f870e1"
+    },
+    {
+      "family": "solow",
+      "topic": "2.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "For positive k, s sqrt(k)=.1k gives k=(s/.1) squared. The zero fixed point is excluded explicitly; positive initial capital excludes the absorbing zero path. Revised saving rates.1 through.33 remain interior and produce24 different positive steady states rather than varying irrelevant initial conditions alone.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "15d60f815fa8b7407da8b62357b778a199aa7516c68758f13aa0ae3518615496"
+    },
+    {
+      "family": "golden-rule",
+      "topic": "2.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "In continuous time without technical progress, sustainable consumption is sqrt(k)-(depreciation+population growth)k. Its first-order condition1/(2sqrt(k))=break-even rate gives the key; strict concavity and positive break-even rates make this the unique positive maximum.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "e0ebc9a113264abcf459a6ee90ed4fbeb2cea3361915a68aff0a1457d79a9c96"
+    },
+    {
+      "family": "growth-accounting",
+      "topic": "2.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Log-differentiating A K^.3 L^.7 gives approximate TFP growth as output growth minus.3 times capital growth minus.7 times labor growth. The stem explicitly requests a growth-rate approximation; all percentage units are consistent.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "3814528be5ec6cf5f8ed6888e60630d85cd4b91358479fc2f9e920e0b19426e6"
+    },
+    {
+      "family": "euler",
+      "topic": "3.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "For deterministic interior log-utility choice the Euler relation1/c_t=beta*(1+r)/c_next gives c_next=.96*1.05*c_t. This is conditional on the unconstrained interior Euler equation, not a claim for binding borrowing limits or uncertain returns.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "fb10c51fdb317543e37ac32e319cf68810db75b131d868066b476271b1671775"
+    },
+    {
+      "family": "present-value",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The future payment is measured in constant purchasing power and the discount rate is real, so dividing by1.10 uses consistent units. The one-year horizon precludes additional compounding periods.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "45be9360916a4f9d74d8d058d3609c81d0b3548367745275543dabbe40abf321"
+    },
+    {
+      "family": "is-curve",
+      "topic": "4.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Goods-market clearing is Y=.8Y+autonomous investment-10r+100. At r2 solve.2Y=180+10n. Fixed specified r and absent taxes/trade remove other simultaneous-equilibrium adjustments from this calculation.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "e472080345e40cfe984c9b6d9e866076f29a6d5e5a137fb51948363f864ebbac"
+    },
+    {
+      "family": "new-keynesian-phillips",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Direct substitution into the stated linear relation gives.99*2+.1*x with zero cost-push shock. Inputs are percentage-point representations throughout; no additional division by100 is appropriate.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "4a71f13d41322cefa61cb3655d284cb52f6aecc4d680a9a5374e688eb9d5efef"
+    },
+    {
+      "family": "taylor",
+      "topic": "5.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Substituting inflation3 into2+pi+.5(pi-2)+.5x gives5.5+.5x, hence5.5+.05n. The task is evaluating a prescribed rule, not identifying the optimal or actual monetary policy rate.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "ce5e8c7d25f8fb05e1ba312271c64450ad2e0251761f6b905d68cc84be149085"
+    },
+    {
+      "family": "debt-dynamics",
+      "topic": "5.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The supplied equation carries old debt forward by(1+r)/(1+g), then adds d. With equal rates that factor is1. Clarified that the added primary deficit uses next-period GDP as denominator, consistent with the displayed timing; an old-GDP denominator would require another growth adjustment.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "f40435156f9c60e139769e94500886af33b75bdf99255be66c4be78e4076c7c6"
+    },
+    {
+      "family": "uip",
+      "topic": "6.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Under the explicitly supplied no-premium first-order approximation, expected home depreciation equals home minus foreign nominal interest. The exchange-rate direction is stated in words and the result is an expected depreciation rate, not a realized forecast guarantee.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "b740ec049e20f92fe8a168708149f514dd310b801116db9429141708cd7d8c10"
+    },
+    {
+      "family": "real-exchange",
+      "topic": "6.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Given home currency per foreign unit, e times foreign prices converts to home currency and dividing by home prices gives q. Revised domestic and foreign index levels no longer move proportionally, producing24 distinct ratios. The explicit convention avoids reciprocal-definition ambiguity.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "45e196d9ca604cbbea741b4940554e7b3770b35da62d4053f96f2e32321ce5a9"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
-  "bankVersion": "2026.10.12.15",
-  "bankSHA256": "6a612d31c0ba54576d1bc54ff5823582a68942d3b3cfbf45659eece5f8f2c7b6",
+  "bankVersion": "2026.10.12.16",
+  "bankSHA256": "9bc8d441dcf4ba7bf7d551dbe1d59499e4743bfe4d5d5e5ceec43a55ce04e370",
   "scope": "Structural checks and review inventory only; not a claim of substantive review, empirical calibration, or complete AP skill coverage.",
   "counts": {
     "ap-micro": {
@@ -3737,20 +3737,20 @@
       "topic": "2.1",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
       "first": {
         "id": "college-macro:solow:01",
-        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.2, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 5, what is the positive steady-state capital per worker?",
-        "answer": 4,
-        "explanation": "The positive steady state solves 0.2 sqrt(k) = 0.1k, giving sqrt(k)=2 and k=4. Initial capital does not change this steady state."
+        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.1, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 5, what is the positive steady-state capital per worker?",
+        "answer": 1,
+        "explanation": "The positive steady state solves s sqrt(k) = depreciation times k, so k = (s/depreciation) squared. Positive initial capital does not change this steady state."
       },
       "last": {
         "id": "college-macro:solow:24",
-        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.2, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 28, what is the positive steady-state capital per worker?",
-        "answer": 4
+        "prompt": "Per-worker output is y = sqrt(k), the saving rate is 0.33, and depreciation is 0.1. There is no population or technology growth. Starting from positive capital 28, what is the positive steady-state capital per worker?",
+        "answer": 10.89
       }
     },
     {
@@ -3919,13 +3919,13 @@
       "structuralChecks": "passed",
       "first": {
         "id": "college-macro:debt-dynamics:01",
-        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.5, r=g=0.02, and primary deficit/GDP is 0.01. What is next-period debt/GDP as a decimal?",
+        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.5, r=g=0.02, and the primary deficit divided by next-period GDP is 0.01. What is next-period debt/GDP as a decimal?",
         "answer": 0.51,
         "explanation": "When r=g the debt carryover factor is one. Add the primary deficit ratio 0.01."
       },
       "last": {
         "id": "college-macro:debt-dynamics:24",
-        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.73, r=g=0.02, and primary deficit/GDP is 0.01. What is next-period debt/GDP as a decimal?",
+        "prompt": "Use b_next = (1+r)/(1+g) × b + d. Current debt/GDP is 0.73, r=g=0.02, and the primary deficit divided by next-period GDP is 0.01. What is next-period debt/GDP as a decimal?",
         "answer": 0.74
       }
     },
@@ -3957,7 +3957,7 @@
       "topic": "6.2",
       "count": 24,
       "format": "numeric",
-      "distinctAnswers": 1,
+      "distinctAnswers": 24,
       "graphItems": 0,
       "contentReview": "pending",
       "structuralChecks": "passed",
@@ -3965,12 +3965,12 @@
         "id": "college-macro:real-exchange:01",
         "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=100, and P_home=200. What is q?",
         "answer": 1,
-        "explanation": "Using the stated convention, q = 2P_foreign/P_home = 1. Other conventions invert this ratio."
+        "explanation": "Multiply the foreign price level by the nominal exchange rate and divide by the home price level. Other conventions invert this ratio."
       },
       "last": {
         "id": "college-macro:real-exchange:24",
-        "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=330, and P_home=660. What is q?",
-        "answer": 1
+        "prompt": "Define q = eP_foreign/P_home, where e is home currency per foreign currency. Let e=2, P_foreign=330, and P_home=315. What is q?",
+        "answer": 2.095
       }
     },
     {
