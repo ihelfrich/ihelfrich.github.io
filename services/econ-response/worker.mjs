@@ -33,16 +33,17 @@ async function route(request,env){
  }
  if(path.startsWith('/admin/')){
   const instructor=await requireInstructor(request,env);
+  const audit=async(action,target,details)=>query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),instructor.id,action,target,JSON.stringify(details)).run();
   if(path==='/admin/assignments'&&method==='POST')return createAssignment(env,instructor,await body(request));
   if(path==='/admin/assignments'&&method==='GET')return listPage(await all(env.DB,'SELECT * FROM assignments WHERE id>? ORDER BY id LIMIT 101',pageCursor(url.searchParams.get('after')??'')),'assignments');
-  if(path==='/admin/students'&&method==='GET')return listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",pageCursor(url.searchParams.get('after')??'')),'students');
-  const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET')return assignmentReport(env,assignmentMatch[1]);
+  if(path==='/admin/students'&&method==='GET'){const after=pageCursor(url.searchParams.get('after')??'');const page=listPage(await all(env.DB,"SELECT id,verified_email,created_at FROM participants WHERE identity_kind='account' AND disabled_at IS NULL AND id>? ORDER BY id LIMIT 101",after),'students');await audit('student-directory-read',after||'start',{count:page.students.length,nextCursor:page.nextCursor});return page;}
+  const assignmentMatch=path.match(/^\/admin\/assignments\/([a-f0-9-]{36})$/);if(assignmentMatch&&method==='GET'){const report=await assignmentReport(env,assignmentMatch[1]);await audit('assignment-report-read',assignmentMatch[1],{});return report;}
   if(path==='/admin/responses'&&method==='GET'){
    const after=url.searchParams.get('after')??'';
    const rows=await all(env.DB,`SELECT r.*,p.item_id,p.family_id,p.item_version,p.topic,p.unit,p.selection_probability,p.selection_pool_size,p.selection_engine_version,p.model_version,p.first_family_exposure,s.course,s.mode FROM responses r JOIN presentations p ON p.id=r.presentation_id JOIN sessions s ON s.id=r.session_id WHERE r.ledger_sequence > CAST(? AS INTEGER) ORDER BY r.ledger_sequence LIMIT 501`,after||'0');
    // Cursor is obtained independently by row identity, not timestamps which can collide.
    const page=rows.slice(0,500);let next=null;if(page.length){const last=await query(env.DB,'SELECT ledger_sequence AS cursor FROM responses WHERE event_id=?',page.at(-1).event_id).first();next=String(last.cursor);}
-   await query(env.DB,'INSERT INTO audit_log VALUES (?,?,?,?,?,?)',uuid(),iso(),'instructor','response-export',next??'empty',JSON.stringify({count:page.length})).run();
+   await audit('response-export',next??'empty',{count:page.length,after:after||'0'});
    return {rows:page,nextCursor:next,hasMore:rows.length>500};
   }
   if(path==='/admin/summary'&&method==='GET')return {courses:await all(env.DB,`SELECT s.course,COUNT(*) AS responses,COUNT(DISTINCT r.participant_id) AS participants,AVG(CASE WHEN r.validity NOT IN ('late-receipt','after-completion') THEN r.correct END) AS observedAccuracy,SUM(r.calibration_eligible) AS calibrationResponses FROM responses r JOIN sessions s ON s.id=r.session_id GROUP BY s.course`)};

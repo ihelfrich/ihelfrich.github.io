@@ -366,3 +366,9 @@ Local response dev process session 97731, Astro dev process session 83319. Reval
 - Final scenarios contain8,400 synthetic administrations (200 per trait/method/scenario). Uniform expansion still has adaptive extreme coverage89.5–90.5% and bias about.33–.37. Balanced tail enrichment reaches precision stops in191/200 and182/200 extreme cases, but coverage remains89%/88%, while theta0 reaches the cap in every case.
 - Tail enrichment plus SD2 prior reduces extreme bias to.109/-.131, coverage98.5%/94%, with161/163 precision stops; center remains cap-limited. Saved cat-bank-expansion.json. These results show the posterior-SD stop is not a uniform coverage guarantee and identify center/tail information tradeoffs.
 - Production settings unchanged. Actual variant counts do not imply these independent-family/information assumptions. Parameter uncertainty, grid sensitivity, multi-unit design and empirical validation remain open.
+
+## Continuation: attributable instructor access audit
+
+- Replaced the generic instructor actor on response exports with the authenticated participant ID (or explicit local-bootstrap identity in local mode). Export details include cursor/count, not answer copies.
+- Added audit records for student-directory reads and assignment-report reads before returning those private results. Student emails are not copied into audit metadata. Existing assignment creation attribution retained.
+- Regression verifies two distinct instructors' export/directory actors, assignment creation/report attribution and denial to an anonymous outsider.81 focused tests pass. This is application access logging, not tamper-proof external audit storage or full privacy compliance. No deployment.

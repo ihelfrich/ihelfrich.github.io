@@ -140,3 +140,21 @@ test('an answer delayed past expiry is retained with the actual database receipt
  const stored=await prepare('SELECT raw_answer_json,server_received_at,calibration_eligible FROM responses').first();assert.equal(stored.raw_answer_json,JSON.stringify(payload.response));assert.equal(stored.server_received_at,receipt.receipt);assert.equal(stored.calibration_eligible,0);
  const retry=await t.call(`/sessions/${s.sessionId}/answers`,payload,p.token);assert.equal(retry.receipt,receipt.receipt);assert.equal(retry.validity,'late-receipt');t.env.DB.close();
 });
+
+test('private history exports and student-directory reads identify the authenticated instructor',async()=>{
+ const t=setup();t.env.INSTRUCTOR_SUBJECT_HASHES='synthetic-instructor-a,synthetic-instructor-b';
+ const instructors=[];
+ for(const subject of t.env.INSTRUCTOR_SUBJECT_HASHES.split(',')){
+  const p=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});
+  await t.env.DB.prepare("UPDATE participants SET identity_kind='account',identity_subject_hash=? WHERE id=?").bind(subject,p.participantId).run();instructors.push(p);
+ }
+ for(const p of instructors){assert.equal((await t.call('/admin/responses',null,p.token)).status,200);assert.equal((await t.call('/admin/students',null,p.token)).status,200);}
+ const rows=(await t.env.DB.prepare('SELECT actor,action,details_json FROM audit_log ORDER BY rowid').all()).results;
+ assert.deepEqual(rows.map(r=>[r.actor,r.action]),instructors.flatMap(p=>[[p.participantId,'response-export'],[p.participantId,'student-directory-read']]));
+ assert.equal(rows.some(r=>r.details_json.includes('verified_email')),false);
+ const assignment=await t.call('/admin/assignments',{title:'Synthetic audit test',course:'ap-micro',itemCount:6,maxAttempts:1,opensAt:new Date(Date.now()-1000).toISOString(),closesAt:new Date(Date.now()+60000).toISOString(),participantIds:[instructors[1].participantId]},instructors[0].token);assert.equal(assignment.status,200);
+ assert.equal((await t.call('/admin/assignments/'+assignment.assignmentId,null,instructors[0].token)).status,200);
+ const access=await t.env.DB.prepare("SELECT actor,target FROM audit_log WHERE action='assignment-report-read'").first();assert.equal(access.actor,instructors[0].participantId);assert.equal(access.target,assignment.assignmentId);
+ const outsider=await t.call('/profiles',{accepted:true,consentVersion:CONSENT_VERSION});assert.equal((await t.call('/admin/responses',null,outsider.token)).status,403);
+ assert.equal((await t.env.DB.prepare('SELECT COUNT(*) AS n FROM audit_log').first()).n,6);t.env.DB.close();
+});
