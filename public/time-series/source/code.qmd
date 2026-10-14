@@ -58,6 +58,8 @@ The tests include deliberately failing cases: an inadmissible centered feature r
 
 Run `uv run python verify-boundaries.py` for seven additional state-space checks in each language. They compare filtering and smoothing with exact single-observation Gaussian calculations, check zero process variance and missing observations, and reject empty inputs or nonfinite parameters. The [boundary report](https://ihelfrich.github.io/time-series/code/results/boundary-verification.json) records the results.
 
+Lecture 2's changing-risk example has independent [Python](https://ihelfrich.github.io/time-series/code/risk-example.py), [R](https://ihelfrich.github.io/time-series/code/risk-example.R), and [Julia](https://ihelfrich.github.io/time-series/code/risk-example.jl) sources. Run `uv run python verify-risk.py` to check 42 matched quantities, nine analytic targets, and fifteen finite-sum identities. The [risk verification report](https://ihelfrich.github.io/time-series/code/results/risk-verification.json) records exact enumeration of the two risk states, including conditional variances 1.25 and 11.25 and their unconditional average 6.25. The calculation uses no random draws.
+
 ## Lecture entry points
 
 Each row runs a complete case and writes its metrics. The chapter describes the economic argument, exact conventions, and the relevant functions in the full source. Entry points are intentionally short so the common algorithms remain in one inspectable file per language.

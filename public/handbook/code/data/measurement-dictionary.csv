@@ -1,0 +1,7 @@
+field,concept,unit,operation,support,coverage,validation,status
+X,true daily facility energy,MWh,controlled generator chooses 8 or 12,one declared facility-day type,all 36 possible states,known only because this teaching generator declares it,controlled latent quantity
+Y,daily bill,dollars,30+50X+epsilon,same declared facility-day,all 36 states,not an observed tariff,controlled recorded outcome
+M1,first recorded energy,MWh,X+kappa*(X-10)+hZ1,same facility-day as X,all 36 states,classical only when kappa=0,controlled proxy
+M2,second recorded energy,MWh,X+kappa*(X-10)+hZ2,same facility-day as X,all 36 states,independent noise but shared calibration,controlled repeated proxy
+Q,district daily total energy,MWh,fixed total of 3000,same controlled district on both days,all 300 actual customers,deliberately fixed generator,separate coverage example
+N_recorded,counted customers,customers,customer file counts 300 then 240,same controlled district on both days,second day omits 60 of 300,compare with fixed true population of 300,controlled denominator error

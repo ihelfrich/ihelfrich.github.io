@@ -1,10 +1,10 @@
 type RoomRow={origin:string;target:string;latest:string;actual:number;forecasts:Record<string,number>;history:[string,number][]};
 const ink='var(--ink)',blue='var(--blue)',red='var(--orange)';
-function plot(svg:SVGElement,values:number[],labels:string[]=[],divider?:number){
+function plot(svg:SVGElement,values:number[],labels:string[]=[],divider?:number,color=blue){
   const left=55,right=620,top=25,bottom=250;const min=Math.min(...values,0),max=Math.max(...values,1);const span=Math.max(max-min,1);
   const x=(i:number)=>left+i*(right-left)/Math.max(values.length-1,1);const y=(v:number)=>bottom-(v-min)/span*(bottom-top);
   const points=values.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-  svg.innerHTML=`<path d="M${left},${top}V${bottom}H${right}" fill="none" stroke="${ink}" opacity=".4"/><polyline points="${points}" fill="none" stroke="${blue}" stroke-width="2.5"/>${values.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${blue}"/>`).join('')}<text x="${left-7}" y="${top+5}" text-anchor="end" fill="${ink}" font-size="12">${max.toFixed(1)}</text><text x="${left-7}" y="${bottom}" text-anchor="end" fill="${ink}" font-size="12">${min.toFixed(1)}</text>${labels.map((l,i)=>`<text x="${x(i)}" y="278" text-anchor="middle" fill="${ink}" font-size="12">${l}</text>`).join('')}${divider===undefined?'':`<path d="M${x(divider+.5)},${top}V${bottom}" fill="none" stroke="${red}" stroke-dasharray="5 4"/>`}`;
+  svg.innerHTML=`<path d="M${left},${top}V${bottom}H${right}" fill="none" stroke="${ink}" opacity=".4"/><polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.5"/>${values.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${color}"/>`).join('')}<text x="${left-7}" y="${top+5}" text-anchor="end" fill="${ink}" font-size="12">${max.toFixed(1)}</text><text x="${left-7}" y="${bottom}" text-anchor="end" fill="${ink}" font-size="12">${min.toFixed(1)}</text>${labels.map((l,i)=>`<text x="${x(i)}" y="278" text-anchor="middle" fill="${ink}" font-size="12">${l}</text>`).join('')}${divider===undefined?'':`<path d="M${x(divider+.5)},${top}V${bottom}" fill="none" stroke="${red}" stroke-dasharray="5 4"/>`}`;
 }
 export function initializeTimeSeriesExperiments(){
   document.querySelectorAll<HTMLElement>('[data-ts-lab]').forEach(lab=>{
@@ -16,7 +16,13 @@ export function initializeTimeSeriesExperiments(){
         const phi=value('phi'),h=value('h');write('phi-value',phi,2);write('h-value',h,0);write('response',phi**h);
         write('variance',Array.from({length:h},(_,j)=>phi**(2*j)).reduce((a,b)=>a+b,0));
         const end=Math.max(12,h),labelEvery=Math.ceil(end/12);
-        plot(chart,Array.from({length:end+1},(_,j)=>phi**j),Array.from({length:end+1},(_,j)=>j%labelEvery===0||j===end?String(j):''));
+        const response=Array.from({length:end+1},(_,j)=>phi**j),risk=Array.from({length:end+1},(_,k)=>Array.from({length:k},(_,j)=>phi**(2*j)).reduce((a,b)=>a+b,0));
+        const labels=Array.from({length:end+1},(_,j)=>j%labelEvery===0||j===end?String(j):'');
+        plot(chart,response,labels);
+        const riskChart=lab.querySelector<SVGElement>('[data-ts-risk-chart]');if(riskChart)plot(riskChart,risk,labels,undefined,red);
+        const table=lab.querySelector<HTMLElement>('[data-ts-risk-values]');if(table)table.innerHTML=response.map((v,j)=>`<tr${j===h?' aria-current="true"':''}><th scope="row">${j}${j===h?' (selected)':''}</th><td>${v.toFixed(6)}</td><td>${risk[j].toFixed(6)}</td></tr>`).join('');
+        chart.setAttribute('aria-label',`Unit-shock response for persistence ${phi}, horizons zero through ${end}, in outcome units`);
+        riskChart?.setAttribute('aria-label',`Forecast error variance for persistence ${phi}, horizons zero through ${end}, in squared outcome units; innovation variance one`);
       }else if(lab.dataset.tsLab==='filter'){
         const delta=value('delta');const t=Array.from({length:9},(_,i)=>i+16);const series=t.map(i=>Math.sin(i*.3)+.3*Math.cos(i*1.7)+(i>20&&i<=22?delta:0));
         write('delta-value',delta,0);write('trailing',0);write('centered',2*delta/5);plot(chart,series,t.map(String),4);
@@ -28,7 +34,7 @@ export function initializeTimeSeriesExperiments(){
         const shock=value('shock'),next=.1+.1*shock**2+.8;write('shock-value',shock,1);write('next-variance',next);write('quantile',-1.6448536269514722*Math.sqrt(next));
         plot(chart,Array.from({length:13},(_,j)=>1+.9**j*(next-1)),Array.from({length:13},(_,j)=>String(j+1)));
       }
-    };lab.addEventListener('input',update);update();
+    };lab.addEventListener('input',update);lab.querySelector('[data-ts-reset]')?.addEventListener('click',()=>{lab.querySelectorAll<HTMLInputElement>('input[type=range]').forEach(input=>input.value=input.defaultValue);update()});update();lab.querySelectorAll<HTMLInputElement|HTMLButtonElement>('input[disabled],button[disabled]').forEach(control=>control.disabled=false);lab.querySelector('[data-ts-static]')?.setAttribute('hidden','');
   });
   const room=document.querySelector<HTMLElement>('[data-ts-room]');if(!room)return;
   const get=<T extends HTMLElement>(key:string)=>room.querySelector<T>(`[data-room-${key}]`)!;

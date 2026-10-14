@@ -1,0 +1,45 @@
+---
+import '../styles/tokens.css';
+import '../styles/econometrics.css';
+import '../styles/handbook.css';
+import 'katex/dist/katex.min.css';
+import { THEME_COLOR } from '../data/theme.mjs';
+const {title='Econometrics Across Disciplines', description='Measurement, models, and decisions. A developing handbook with intuitive examples, complete proofs, and independently tested Python, Julia, and R calculations.'}=Astro.props;
+const canonical=new URL(Astro.url.pathname,Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ian Helfrich" />
+    <meta name="theme-color" content={THEME_COLOR.course} />
+    <title>{title} · Ian Helfrich</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={`${title} · Ian Helfrich`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body class="ea hb" data-surface="course">
+    <a class="ea-skip" href="#main-content">Skip to content</a>
+    <header class="ea-header">
+      <a class="ea-brand" href="/handbook/"><span class="ea-mark" aria-hidden="true">∑</span><span>Econometrics<br /><strong>Across Disciplines</strong></span></a>
+      <nav aria-label="Handbook navigation">
+        <a href="/handbook/#contents">Contents</a>
+        <a href="/handbook/#reading-levels">Reading levels</a>
+        <a href="/time-series/">Time-series course</a>
+        <a href="/handbook/print/">Print &amp; source</a>
+      </nav>
+      <a class="ea-author" href="/">Ian Helfrich <span>PhD ↗</span></a>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="ea-footer">
+      <div><strong>Econometrics Across Disciplines</strong><p>Measurement, models, and decisions.</p></div>
+      <div><a href="/handbook/print/">Working PDF &amp; editable source</a><a href="/time-series/research/">Time-series source register</a><a href="https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/content/handbook">Manuscript source ↗</a></div>
+      <p class="ea-small">Working edition · October 2026. © Ian Helfrich. All rights reserved. Cited works and bundled fonts retain their own terms.</p>
+    </footer>
+  </body>
+</html>

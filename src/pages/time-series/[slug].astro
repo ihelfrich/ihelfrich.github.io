@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import TimeSeries from '../../layouts/TimeSeries.astro';
+import Persistence from '../../components/time-series/Persistence.astro';
 export async function getStaticPaths(){const chapters=(await getCollection('timeseries')).sort((a,b)=>a.data.order-b.data.order);return chapters.map((chapter,i)=>({params:{slug:chapter.id},props:{chapter,chapters,previous:chapters[i-1],next:chapters[i+1]}}));}
 const {chapter,chapters,previous,next}=Astro.props;
 const {Content,headings}=await render(chapter);
@@ -12,8 +13,10 @@ const n=String(chapter.data.order).padStart(2,'0');
     <article>
       <header class="ea-chapter-heading"><p class="ea-kicker">Lecture {chapter.data.order} of 15 · {chapter.data.lecture}</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-prereq">Prerequisites: {chapter.data.prerequisites}</p><div class="ts-code-tabs" aria-label="Executable chapter sources">{[['Python','py'],['R','R'],['Julia','jl']].map(([language,ext])=><a href={`/time-series/code/ch${n}.${ext}`} download>{language} source ↓</a>)}<a href={`/time-series/code/#lecture-${n}`}>Run &amp; verify</a></div></header>
       <div class="ea-prose"><Content /></div>
+      {chapter.data.order===2&&<Persistence inline />}
       <nav class="ea-chapter-next" aria-label="Adjacent chapters">{previous?<a href={`/time-series/${previous.id}/`}>← {previous.data.title}</a>:<a href="/time-series/">← Contents</a>}{next?<a href={`/time-series/${next.id}/`}>{next.data.title} →</a>:<a href="/time-series/projects/">Complete the revision project →</a>}</nav>
     </article>
     <aside class="ea-margin" aria-label="On this page"><p>This lecture</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href="/time-series/methods/">References</a></aside>
   </div>
 </TimeSeries>
+<script>import {initializeTimeSeriesExperiments} from '../../scripts/time-series-experiments';initializeTimeSeriesExperiments();</script>

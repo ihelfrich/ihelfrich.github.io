@@ -1,0 +1,42 @@
+{
+  "kind": "authored controlled finite teaching fixture",
+  "empirical_observations": false,
+  "file": "meter-states.csv",
+  "sha256": "bc26dbfb50567a12bcda39ddc1260b8f46815e93c5f0f89dc6319e74c8ecc532",
+  "rows": 36,
+  "probability": "each positive integer weight divided by total weight; all 36 weights equal one",
+  "schema": {
+    "state": "row identifier",
+    "x_mwh": "true facility-day energy in MWh, 8 or 12",
+    "z1": "first meter noise multiplier, -1, 0, or 1",
+    "z2": "independent second multiplier",
+    "epsilon_dollars": "independent billing perturbation, -20 or 20 dollars",
+    "weight": "integer probability weight"
+  },
+  "model": "Y=30+50X+epsilon; Mj=X+kappa*(X-10)+h*Zj",
+  "units": {
+    "Y": "dollars",
+    "X": "MWh",
+    "Mj": "MWh",
+    "h": "MWh",
+    "kappa": "dimensionless",
+    "billing_slope": "dollars/MWh"
+  },
+  "parameters": {
+    "h_mwh": [
+      0,
+      2,
+      4
+    ],
+    "kappa": [
+      0,
+      -0.5,
+      -2
+    ]
+  },
+  "assumptions": "X,Z1,Z2,epsilon independent; two readings share the declared calibration",
+  "denominator_example": "energy remains 3000 MWh; true population remains 300; counted denominator changes from 300 to 240",
+  "aggregate_example": "two disjoint zones: Q=(1000,3000) MWh; N=(100,200) customers",
+  "timing": "enumerated facility-day possibilities and controlled coverage examples; no dated empirical records",
+  "rights": "Author-owned teaching fixture; all rights reserved. No external data included."
+}
