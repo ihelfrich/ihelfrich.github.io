@@ -1,6 +1,6 @@
 # Spatial Investment Lab
 
-Client-demonstration prototype at `/spatial-economics/`, linked from the Lab, project collection and selected GIS portfolio. Built at Dr. Helfrich's request for an investment-incentives and regional-growth example. Public inputs only. Publication to the existing GitHub Pages site authorized on October 16, 2026. Deployment verification is recorded separately.
+Client-demonstration prototype at `/spatial-economics/`, linked from the Lab, project collection and selected GIS portfolio. Built at Dr. Helfrich's request for an investment-incentives and regional-growth example. Public inputs only. Publication to the existing GitHub Pages site authorized on October 16, 2026. Published and verified at https://ihelfrich.github.io/spatial-economics/; deployment evidence is recorded separately.
 
 ## Empirical inputs
 

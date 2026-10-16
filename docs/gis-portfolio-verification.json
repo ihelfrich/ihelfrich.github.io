@@ -1,6 +1,6 @@
 {
   "date": "2026-10-16",
-  "status": "release_candidate_checked",
+  "status": "published_verified",
   "checks": {
     "astro_build": "140 pages built after integrating current origin/main",
     "copy": "115 public-facing files passed",
@@ -17,5 +17,12 @@
     "Original mesh sampling is 100 m; exaggeration land 1.2x and seabed 6x.",
     "No independent survey-accuracy validation.",
     "Historical satellite-textured Caribbean image excluded from this release pending imagery license verification."
-  ]
+  ],
+  "deployment": {
+    "commit": "2243fa2aa7ac5e7cf186b270294419ab722a8540",
+    "workflow": "https://github.com/ihelfrich/ihelfrich.github.io/actions/runs/38956196851",
+    "conclusion": "success",
+    "verified_date": "2026-10-16"
+  },
+  "live_check": "HTTP 200; original mesh loaded from public URL; 264194 vertices / 525474 triangles; wireframe and shaded view verified."
 }
