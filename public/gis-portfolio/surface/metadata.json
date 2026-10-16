@@ -11,7 +11,7 @@
     "land": 1.2,
     "seabed": 6
   },
-  "transformations": "Original mesh topology retained; ECEF translated and rotated to local frame. Source textures and UVs excluded. Elevations recovered from ECEF and original exaggeration for display coloring.",
+  "transformations": "Clipped to unpadded bounds [-74.275, 18.36, -73.9, 18.96] to exclude the archive's zero-filled outer rim; original topology retained inside clip, unused vertices removed. ECEF translated and rotated to local frame. Source textures and UVs excluded. Elevations recovered from ECEF and original exaggeration for display coloring.",
   "sources": [
     {
       "name": "Global Multi-Resolution Topography Synthesis (GMRT)",
@@ -33,21 +33,22 @@
   "chunks": [
     {
       "file": "b2_10.bin",
-      "vertices": 134736,
-      "triangles": 268000,
-      "bytes": 5371776,
-      "sha256": "95e6f7688fed07acf45f5540abd06176f36a599f1c2bd8d75fbc865a698259f8",
+      "vertices": 132264,
+      "triangles": 263070,
+      "excluded_boundary_triangles": 4930,
+      "bytes": 5273064,
+      "sha256": "6dfb3974c613f83e721791cd72456e199e8adaa084db37f7855c8cd046c1dc98",
       "source_sha256": "3b36dbb28de17f9eb1e1908694e2172f1b107127b1fdf86b334a2515b1f0c518",
       "bounds_km": [
         [
-          -19.97858238220215,
+          -19.778308868408203,
           -8.883475303649902,
-          -0.18292002379894257
+          -0.18271130323410034
         ],
         [
-          20.075847625732422,
+          19.774700164794922,
           2.731194019317627,
-          33.384376525878906
+          33.18403244018555
         ]
       ],
       "elevation_range_m": [
@@ -57,19 +58,20 @@
     },
     {
       "file": "b2_11.bin",
-      "vertices": 134400,
-      "triangles": 267330,
-      "bytes": 5358360,
-      "sha256": "f7b92b27f1253bf8f79c7ac80647a9f11db08667b6cf7c6b0711dd70c54ebc56",
+      "vertices": 131930,
+      "triangles": 262404,
+      "excluded_boundary_triangles": 4926,
+      "bytes": 5259728,
+      "sha256": "ec7fdcfceb4fad39068d3dfddb806c8ef223b70df017937a716a1dd656a96e5b",
       "source_sha256": "f2af80a386f817edd9381d3853da13d0acfd205105a05c3f4ef859d34e2fe078",
       "bounds_km": [
         [
-          -19.93987274169922,
+          -19.739635467529297,
           -21.912843704223633,
-          -33.389793395996094
+          -33.10540771484375
         ],
         [
-          19.993677139282227,
+          19.69365882873535,
           0.24947045743465424,
           0.16598263382911682
         ]

@@ -79,7 +79,7 @@
     {
       "output": "public/gis-portfolio/surface/metadata.json",
       "scope": "Public-source Haiti terrain geometry only; no source textures, scene routes or operational data",
-      "transformation": "Selected archived GLB position/index buffers converted to local ENU kilometre frame; source and output hashes in metadata; original topology retained"
+      "transformation": "Clip padded zero-filled outer boundary; retain original topology inside clip; convert ECEF to local frame. Source/output hashes and exclusions in surface metadata."
     }
   ],
   "limits": [

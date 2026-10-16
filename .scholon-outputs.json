@@ -13,7 +13,7 @@
       "path": "src/pages/gis-portfolio.astro",
       "kind": "presentation",
       "title": "Selected GIS and spatial-analysis client portfolio",
-      "summary": "Nine selected spatial-analysis samples, including NC terrain diagnostics, plus a link to the Spatial Investment Lab.",
+      "summary": "LiDAR-first portfolio with eight selected samples and interactive Haiti surface reconstruction; wireframe and mesh-vertex modes; supporting investment scenario.",
       "facets": [
         "GIS",
         "portfolio",
@@ -21,13 +21,10 @@
         "survey-design",
         "research"
       ],
-      "status": "local_preview_extended_not_published",
+      "status": "publication_prepared_locally_verified",
       "limits": [
         "No new scientific analysis or replication performed",
-        "Historical Caribbean visualization explicitly separated from final southern Haiti sampler design",
-        "External demo URLs checked; comprehensive scientific or interaction audit of those apps not repeated",
-        "Local preview only; no commit, push or publication",
-        "Latest NC portfolio additions built successfully; previous eight-sample gallery verification retained, full gallery interaction audit not repeated after the investment-lab pivot."
+        "External demo URLs checked; comprehensive scientific or interaction audit of those apps not repeated"
       ],
       "depends_on": [
         "ian-website.gis-portfolio-sources"
@@ -67,14 +64,13 @@
         "network-analysis",
         "LODES"
       ],
-      "status": "local_prototype_verified_not_published",
+      "status": "publication_prepared_locally_verified",
       "limits": [
         "Policy response parameters are illustrative, not estimated.",
         "No fiscal return, general equilibrium, wages or agglomeration model.",
         "Roads and employment have different vintages; external employment is excluded.",
         "Cesium shows Upgrade for commercial use; account entitlement was not changed.",
-        "Existing environment and GitHub-secret connection reused; browser credential remains visible by design; token restrictions not independently verified.",
-        "No commit, push or public deployment."
+        "Existing environment and GitHub-secret connection reused; browser credential remains visible by design; token restrictions not independently verified."
       ],
       "depends_on": [
         "ian-website.spatial-investment-inputs"
@@ -126,6 +122,24 @@
         "tests/unit/spatial-investment.test.mjs",
         "docs/spatial-investment-verification.json"
       ]
+    },
+    {
+      "id": "ian-website.haiti-terrain-excerpt",
+      "project": "ian-public-website",
+      "path": "public/gis-portfolio/surface/metadata.json",
+      "kind": "data",
+      "title": "Haiti coastal terrain mesh excerpt",
+      "summary": "Public-source geometry from archived GLB export, clipped to exclude zero-filled padded boundary; ECEF to local frame; textures excluded.",
+      "status": "geometry_checked_visual_inspection_passed",
+      "limits": [
+        "No independent measurement-accuracy validation.",
+        "100 m sampling; land exaggerated 1.2x and seabed 6x.",
+        "Not LiDAR, photogrammetry, or navigation data."
+      ],
+      "evidence": [
+        "docs/gis-portfolio-verification.json"
+      ],
+      "depends_on": []
     }
   ]
 }

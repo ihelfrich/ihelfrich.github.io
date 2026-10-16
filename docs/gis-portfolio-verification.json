@@ -1,42 +1,21 @@
 {
   "date": "2026-10-16",
-  "status": "local_preview_verified_not_published",
-  "sample_count": 8,
-  "local_resource_http_status": {
-    "/": 200,
-    "/@id/astro/runtime/client/dev-toolbar/entrypoint.js": 200,
-    "/@vite/client": 200,
-    "/contact/": 200,
-    "/favicon.svg": 200,
-    "/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg": 200,
-    "/gis-portfolio/showcase/arcscene-terrain.png": 200,
-    "/gis-portfolio/showcase/bankhead-building-age.jpg": 200,
-    "/gis-portfolio/showcase/bankhead-building-age.pdf": 200,
-    "/gis-portfolio/showcase/caribbean-relief.jpg": 200,
-    "/gis-portfolio/showcase/english-avenue-poster.jpg": 200,
-    "/gis-portfolio/showcase/english-avenue.mp4": 200,
-    "/gis-portfolio/showcase/haiti-coverage.jpg": 200,
-    "/gis-portfolio/showcase/haiti-survey.jpg": 200,
-    "/gis-portfolio/showcase/nmtc-nonmetro-share.jpg": 200,
-    "/hidden-rivers/film-global-currents-poster.jpg": 200,
-    "/research/gonchar-helfrich-2025-spotlight/": 200,
-    "/research/helfrich-2026-nmtc-rural-gap/": 200,
-    "/src/pages/gis-portfolio.astro?astro&type=script&index=0&lang.ts": 200,
-    "/src/styles/gis-portfolio.css": 200,
-    "/src/styles/tokens.css": 200
-  },
+  "status": "release_candidate_checked",
   "checks": {
-    "astro_build": "129 pages built successfully",
-    "copy": "102 public-facing files passed",
-    "design_tokens": "123 files clean",
-    "browser": "Haiti coverage, Caribbean scene, NMTC and retained animation selection verified; enlarged next/close controls verified",
-    "responsive": "1280, 1000 and 390 pixel widths; no horizontal overflow; phone research column stacks",
+    "astro_build": "140 pages built after integrating current origin/main",
+    "copy": "115 public-facing files passed",
+    "design_tokens": "139 files clean",
+    "styles": "142 rendered pages passed",
+    "public_cv": "passed",
+    "discovery": "passed after Pagefind indexing",
+    "browser": "LiDAR first; Haiti mesh loaded, shaded/wireframe/vertex modes, zoom and reset exercised; desktop and 390px phone width checked",
+    "mesh": "264194 vertices, 525474 triangles; source ECEF geometry converted to local frame; padded zero-filled boundary excluded; no source textures or operational scene data",
     "full_english_avenue_report": "Not embedded or linked from portfolio"
   },
   "limits": [
-    "No new scientific analysis or replication performed",
-    "Historical Caribbean visualization explicitly separated from final southern Haiti sampler design",
-    "External demo URLs checked; comprehensive scientific or interaction audit of those apps not repeated",
-    "Local preview only; no commit, push or publication"
+    "Gridded terrain reconstruction, not photogrammetry; point mode displays mesh vertices, not LiDAR returns.",
+    "Original mesh sampling is 100 m; exaggeration land 1.2x and seabed 6x.",
+    "No independent survey-accuracy validation.",
+    "Historical satellite-textured Caribbean image excluded from this release pending imagery license verification."
   ]
 }

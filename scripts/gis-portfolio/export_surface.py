@@ -45,7 +45,17 @@ for name in ("b2_10.glb", "b2_11.glb"):
     pos = accessor(primitive["attributes"]["POSITION"], "<f4", 3).astype("f8")
     indices = accessor(primitive["indices"], "<u4", 1)
     ecef = pos + np.array(anchors[name])
-    _, _, heights = to_geo.transform(*ecef.T)
+    longitude, latitude, heights = to_geo.transform(*ecef.T)
+    # The archive padded every tile beyond the data extent and filled missing
+    # elevations with zero. Clip to the unpadded excerpt; do not present that
+    # zero-filled outer rim as a physical cliff or interpolate across it.
+    inside = (longitude >= -74.275) & (longitude <= -73.9) & (latitude >= 18.36) & (latitude <= 18.96)
+    triangles = indices.reshape(-1, 3)
+    triangles = triangles[np.all(inside[triangles], axis=1)]
+    used, inverse = np.unique(triangles, return_inverse=True)
+    removed = indices.size // 3 - len(triangles)
+    indices = inverse.astype('<u4').reshape(-1, 1)
+    ecef, heights = ecef[used], heights[used]
     elevations = np.where(heights < 0, heights / 6, heights / 1.2).astype("<f4")
     local = ((ecef-origin) @ rotation.T / 1000).astype("<f4")
     assert np.isfinite(local).all() and np.isfinite(elevations).all()
@@ -53,7 +63,7 @@ for name in ("b2_10.glb", "b2_11.glb"):
     payload = local.tobytes() + elevations.tobytes() + indices.tobytes()
     filename = name.replace(".glb", ".bin")
     (out / filename).write_bytes(payload)
-    chunks.append(dict(file=filename, vertices=len(pos), triangles=indices.size//3,
+    chunks.append(dict(file=filename, vertices=len(local), triangles=indices.size//3, excluded_boundary_triangles=removed,
                        bytes=len(payload), sha256=hashlib.sha256(payload).hexdigest(),
                        source_sha256=hashlib.sha256(raw).hexdigest(),
                        bounds_km=[local.min(0).tolist(), local.max(0).tolist()],
@@ -62,7 +72,7 @@ metadata = dict(title="Southern Haiti coastal terrain", origin_lon_lat=[lon, lat
     axes="east, up, south; kilometres; WGS84 local tangent frame",
     format="Little endian: float32 XYZ[n,3], float32 elevation[n], uint32 triangle indices[m,3]",
     grid_spacing_m=100, vertical_exaggeration=dict(land=1.2, seabed=6),
-    transformations="Original mesh topology retained; ECEF translated and rotated to local frame. Source textures and UVs excluded. Elevations recovered from ECEF and original exaggeration for display coloring.",
+    transformations="Clipped to unpadded bounds [-74.275, 18.36, -73.9, 18.96] to exclude the archive's zero-filled outer rim; original topology retained inside clip, unused vertices removed. ECEF translated and rotated to local frame. Source textures and UVs excluded. Elevations recovered from ECEF and original exaggeration for display coloring.",
     sources=[dict(name="Global Multi-Resolution Topography Synthesis (GMRT)", url="https://gmrt.org/about/terms_of_use.php", license="CC BY 4.0", citation="Ryan et al. (2009), doi:10.1029/2008GC002332; data doi:10.1594/IEDA.100001"),
              dict(name="Mapzen Terrain Tiles / AWS; SRTM and GMTED2010 courtesy of USGS; ETOPO1 courtesy of NOAA", url="https://github.com/tilezen/joerd/blob/master/docs/attribution.md", license="Public-domain USGS/NOAA sources; attribution retained")],
     limits=["100 m is mesh sampling, not measurement accuracy.", "Gridded elevation reconstruction, not photogrammetry or measured LiDAR returns.", "Not for navigation; no routes or operational survey data included."], chunks=chunks)

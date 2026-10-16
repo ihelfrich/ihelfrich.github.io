@@ -72,10 +72,17 @@ load?.addEventListener('click', async () => {
     }
     const box = new T.Box3().setFromObject(group);
     const center = box.getCenter(new T.Vector3());
+    const radius = box.getBoundingSphere(new T.Sphere()).radius;
     const render = () => renderer.render(scene, camera);
     function reset() {
       controls.target.copy(center);
-      camera.position.copy(center).add(new T.Vector3(44, 50, 63));
+      const vertical = T.MathUtils.degToRad(camera.fov);
+      const horizontal = 2 * Math.atan(Math.tan(vertical / 2) * camera.aspect);
+      const distance = radius / Math.sin(Math.min(vertical, horizontal) / 2) * 1.04;
+      controls.maxDistance = Math.max(220, distance * 2);
+      camera.far = Math.max(600, distance * 4);
+      camera.updateProjectionMatrix();
+      camera.position.copy(center).add(new T.Vector3(44, 50, 63).normalize().multiplyScalar(distance));
       controls.update();
       render();
     }
@@ -83,7 +90,7 @@ load?.addEventListener('click', async () => {
       camera.aspect = root.clientWidth / root.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(root.clientWidth, root.clientHeight);
-      render();
+      reset();
     });
     resize.observe(root);
     controls.addEventListener('change', render);
