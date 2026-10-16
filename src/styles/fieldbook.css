@@ -613,3 +613,13 @@ samp,
   .evidence-aperture { break-inside: avoid; }
   a { color: var(--p-neutral-00); text-decoration: underline; }
 }
+
+/* Expose the canonical work records on desktop as well as in the mobile menu. */
+@media (min-width: 63.751rem) {
+  .mobile-nav-sheet { display: flex; flex-direction: column; align-items: flex-end; gap: 0; padding-top: 8px; }
+  .secondary-nav { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--rule); margin-top: 7px; }
+  .secondary-nav-label { font: 500 9px var(--font-data); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .secondary-nav-links { display: flex; flex-wrap: wrap; gap: 16px; }
+  .secondary-nav a { display: inline-flex; align-items: center; min-height: 44px; font: 500 11px var(--font-display); color: var(--ef-ink); text-decoration: none; }
+  .secondary-nav a:hover,.secondary-nav a[aria-current=page] { text-decoration: underline; text-underline-offset: 4px; }
+}

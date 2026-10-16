@@ -1,4 +1,5 @@
 ---
+import SpatialProjectNav from "../components/SpatialProjectNav.astro";
 import '../styles/tokens.css';
 import '../styles/gis-portfolio.css';
 
@@ -109,6 +110,7 @@ const animation = works.find(work => work.kind === 'video')!;
       <a class="brand" href="/">Ian Helfrich<span>PhD</span></a>
       <nav aria-label="Portfolio navigation"><a href="#work">Selected work</a><a href="#surface-demo">3D model</a><a href="#analysis">Analysis</a><a href="#interactive">Interactive demos</a><a class="contact-link" href="/contact/">Discuss a project <span aria-hidden="true">↗</span></a></nav>
     </header>
+<SpatialProjectNav />
 
     <main>
       <section class="intro shell" aria-labelledby="portfolio-title">

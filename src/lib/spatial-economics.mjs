@@ -28,7 +28,7 @@ export function shortestPaths(adj, source, closed = new Set(), targets) {
   return dist;
 }
 export function travelMatrix(data, adj, closed = []) {
-  const n=data.cells.length, result=new Float32Array(n*n),targets=data.cells.map(c=>c.node), set=new Set(closed);
+  const n=data.cells.length, result=new Float64Array(n*n),targets=data.cells.map(c=>c.node), set=new Set(closed);
   const connector=c=>c.snapMeters/(15*1609.344/60);
   for(let i=0;i<n;i++){
     const d=shortestPaths(adj,data.cells[i].node,set,targets);
@@ -40,7 +40,7 @@ export function travelMatrix(data, adj, closed = []) {
   return result;
 }
 export function accessibility(data,matrix,{halfLife=15,threshold=30,speedFactor=1}={}){
-  if(!(halfLife>0&&threshold>0&&speedFactor>0))throw new Error('Positive parameters required');
+  if(!(Number.isFinite(halfLife)&&halfLife>0&&threshold>0&&speedFactor>0))throw new Error('Positive parameters required');
   const n=data.cells.length,gravity=new Float64Array(n),within=new Float64Array(n),reachable=new Float64Array(n);
   for(let i=0;i<n;i++)for(let j=0;j<n;j++){
     const t=matrix[i*n+j]/speedFactor,jobs=data.cells[j].jobs;

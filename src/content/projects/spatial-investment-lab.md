@@ -1,6 +1,6 @@
 ---
 title: "Spatial Investment Lab"
-blurb: "A 3D policy scenario connecting investment incentives, additional employment, constrained budget allocation and access to jobs across earnings groups."
+blurb: "A national atlas of observed NMTC financing and a 3D Asheville scenario connecting investment incentives, additional employment, constrained allocation and access to jobs."
 status: in-progress
 url: "https://ihelfrich.github.io/spatial-economics/"
 tags: ["spatial economics", "investment incentives", "3D GIS", "regional development", "network analysis"]
@@ -16,5 +16,7 @@ Visitors vary the subsidy per offered job, site additionality, within-area reloc
 The 3D layers show existing employment, changes in potential job access and budget allocation. Distributional results, sensitivity tables, source hashes and scenario exports expose the assumptions behind the display. Independent original-graph routing checks and conservation tests accompany the model.
 
 This is a conditional policy prototype. Behavioral parameters are illustrative; the model does not estimate causal incentive effects, incentive eligibility, land availability, wage effects, fiscal returns or general-equilibrium growth. The study window limits job destinations and residential weights.
+
+The [national investment atlas](/spatial-economics/national/) adds the FY2025 public CDFI release: 8,439 projects and $71.019 billion in QLICI financing, reconciled to 21,202 transactions. State and tract views, origination-year filters and exports describe observed financing; they do not estimate economic effects. This atlas uses a later vintage than the NMTC working paper.
 
 [Open the Spatial Investment Lab](/spatial-economics/) · [Selected GIS work](/gis-portfolio/)

@@ -27,6 +27,14 @@ export function cesiumCoastConnectionStatus() {
   return { available: result.status === 'saved', status: result.status };
 }
 
+// Shared imagery access for the national atlas. The provider owns its request
+// credential; callers receive no token and exports never contain the provider.
+export async function connectedAerialImagery(C) {
+  const saved = savedConnection();
+  if (saved.status !== 'saved') return null;
+  return providerDeadline(C.IonImageryProvider.fromAssetId(2, { accessToken: saved.credentials.token }));
+}
+
 // Reuse the existing browser/deployment connection without exposing credentials.
 export async function connectWaterWorldTerrain(C, viewer, onStatus = () => {}) {
   const saved = savedConnection();

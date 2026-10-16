@@ -17,7 +17,7 @@ const hrefs = (items) => items.map(({ href }) => href);
 test("every navigation link is a root-relative path with a unique label and destination", () => {
   const all = [...PRIMARY, CONTACT, ...RECORDS, ...SECONDARY_PAGES];
   for (const item of all) {
-    assert.match(item.href, /^\/[a-z0-9-]*$/, `${item.label} must be a bare root-relative path: ${item.href}`);
+    assert.match(item.href, /^\/[a-z0-9-]+(?:\/[a-z0-9-]+)*$/, `${item.label} must be a root-relative path without a trailing slash: ${item.href}`);
     assert.ok(item.label.trim(), `${item.href} needs a label`);
     assert.ok(item.detail.trim(), `${item.href} needs a detail line for the site index`);
   }
@@ -34,7 +34,7 @@ test("primary navigation is the approved label set in order", () => {
     "Writing:/writing",
     "About:/about",
   ]);
-  assert.deepEqual(hrefs(RECORDS), ["/job-market", "/projects", "/hidden-rivers", "/datasets", "/library", "/cv"]);
+  assert.deepEqual(hrefs(RECORDS), ["/job-market", "/projects", "/spatial", "/hidden-rivers", "/datasets", "/library", "/cv"]);
   assert.equal(CONTACT.href, "/contact");
 });
 

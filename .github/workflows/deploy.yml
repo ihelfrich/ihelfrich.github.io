@@ -66,7 +66,9 @@ jobs:
           python3 scripts/hidden-rivers/validate-release.py
           python3 -m unittest discover -s tests/unit -p 'hidden_rivers_release_test.py'
       - name: Check policy statistics calculations
-        run: node --test tests/unit/policy-statistics.test.mjs tests/unit/spatial-investment.test.mjs
+        run: |
+          node --test tests/unit/policy-statistics.test.mjs tests/unit/spatial-investment.test.mjs tests/unit/national-investment.test.mjs
+          python3 scripts/spatial-economics/test_graph_contract.py
       - name: Check market mechanics calculations and rendering
         run: node --test tests/unit/market-mechanics*.test.cjs
       - name: Verify city walking comparisons

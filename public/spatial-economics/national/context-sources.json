@@ -1,0 +1,11 @@
+{
+  "source": "https://ihelfrich.github.io/american-policy-atlas/data/us_counties.min.geojson",
+  "sourceSha256": "28f7eb9ad74ce993b5e0f13e5e75201c00a9995fed3474d4f79fb5c4d3aec083",
+  "upstream": "https://www2.census.gov/geo/tiger/TIGER2023/COUNTY/tl_2023_us_county.zip",
+  "vintage": "TIGER 2023, topology-simplified by American Policy Atlas",
+  "transformation": "Make valid, dissolve county polygons by state name, simplify at 0.015 geographic degrees, retain outer rings, round coordinates to five decimals. Cartographic context only, never used to assign investment geography.",
+  "coverage": "50 states and DC; no territory outlines. Territory projects are retained independently in the atlas.",
+  "license": "U.S. Census Bureau public-domain source geometry.",
+  "states": 51,
+  "build": "scripts/spatial-economics/build_national_context.py"
+}

@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-16",
+  "status": "local_checks_passed_release_pending",
+  "routesAdded": [
+    "/spatial/",
+    "/spatial-economics/national/",
+    "/projects/gis-portfolio/",
+    "/projects/st-louis-property-lab/",
+    "/datasets/nmtc-national-atlas/"
+  ],
+  "preservation": "Existing routes, primary navigation labels, tools and older NMTC research vintage retained. No full English Avenue report featured.",
+  "nationalSource": {
+    "projects": 8439,
+    "transactions": 21202,
+    "financingCents": 7101879285855,
+    "mappedProjects": 8434,
+    "unmappedFinancingCents": 4520000000,
+    "projectReconciliationFailures": 0,
+    "multiYearProjects": 751,
+    "sourceManifest": "public/spatial-economics/national/sources.json"
+  },
+  "numericalTests": {
+    "national": 5,
+    "spatialInvestment": 19,
+    "navigation": 6,
+    "roadContraction": 4,
+    "tokenTests": 14,
+    "cityRegressionTests": 729,
+    "coastalRegressionTests": 4,
+    "hiddenRiversRegressionTests": 13
+  },
+  "routing": {
+    "pairs": 88804,
+    "finitePairs": 88804,
+    "maxAbsoluteMinutesError": 9.668644267435411e-07,
+    "toleranceMinutes": 1e-05
+  },
+  "browserChecks": {
+    "desktopNationalColumns": 52,
+    "northCarolina": {
+      "projects": 138,
+      "tractColumns": 92
+    },
+    "guam": {
+      "projects": 2,
+      "mappedProjects": 0,
+      "financingDollars": 23900000,
+      "mapColumns": 0
+    },
+    "emptyGuam2023": {
+      "projects": 0,
+      "financingDollars": 0,
+      "explicitNoRecordsMessage": true
+    },
+    "northCarolina2018to2023Export": {
+      "projects": 19,
+      "financingCents": 22864254100,
+      "downloadedJSONExactlyMatchesCoreCalculation": true
+    },
+    "yearRangeCorrection": "Moving last year before first year synchronizes the first year; 2010\u20132010 verified",
+    "mobileViewportWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "mobileMenuToHub": true,
+    "desktopRecordsNavigationVisible": true,
+    "asheville": {
+      "terrainSampledColumns": 298,
+      "netJobs": 60,
+      "discountedJobYearCost": 19538,
+      "lowerEarningsAccessGain": 41.1,
+      "grossAndNetClusterJobsShown": true,
+      "positiveDistributionBarsTeal": true,
+      "allocationColumnsGold": true,
+      "zeroAdditionality": {
+        "netJobs": 0,
+        "costRatio": "Undefined",
+        "accessGain": 0
+      }
+    }
+  },
+  "limits": [
+    "National descriptive financing, not causal effects or growth forecasts.",
+    "Tract internal points and project-sheet representative geography, not site coordinates.",
+    "Source nominal dollars; no population or eligibility normalization.",
+    "Map failure fallback is implemented, but WebGL failure was not forcibly injected in the browser.",
+    "Public-work inventory covers canonical public records and selected known sources, not every private file."
+  ],
+  "independentReview": {
+    "initial": "Claude public-work audit and AGY technical review; verified fixes recorded in REVIEW-DECISIONS.md",
+    "national": "Claude bounded read-only review: no blocking findings. Two non-blocking notes checked: absent territory columns now explicit in legend; all source flows validated nonnegative.",
+    "agyFinal": "Timed out without a verdict; not represented as completed."
+  }
+}

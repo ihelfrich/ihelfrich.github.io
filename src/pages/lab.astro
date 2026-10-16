@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 
 const demonstrations = [
+  { label: "Spatial investment", title: "National NMTC financing atlas", href: "/spatial-economics/national/", description: "Observed New Markets Tax Credit financing across the United States: 8,439 projects and $71.019 billion in QLICI, 2001–2023 origination. Observed records, not outcomes." },
   { label: "LiDAR & 3D GIS", title: "3D geospatial portfolio", href: "/gis-portfolio/", description: "Classified point clouds, building animations, reconstructed land and seabed surfaces, and an interactive terrain mesh." },
   { label: "Geospatial economics", title: "Spatial Investment Lab", href: "/spatial-economics/", description: "Compare investment locations in 3D, separate incentive offers from additional employment, and allocate a fixed budget using road-network access and distributional objectives." },
   { label: "Oceanographic visualization", title: "Hidden Rivers", href: "/hidden-rivers/", description: "Compare depth-resolved current layers, real seafloor relief, and Tessera coastal embeddings in a 3D atlas." },
@@ -58,6 +59,7 @@ const demonstrations = [
     </header>
 
     <p><a class="fieldbook-action" href="/#instruments">Open transport, regression, and spatial allocation tools</a></p>
+    <p class="spatial-record"><a href="/spatial/">Spatial &amp; 3D GIS overview →</a> The spatial investment and LiDAR entries below, with the data type and limit of each.</p>
     <ol class="demo-list">
       {demonstrations.map((demo) => (
         <li>
@@ -85,6 +87,8 @@ const demonstrations = [
   .demo-list h2 { margin: .35rem 0 .75rem; font-size: clamp(1.8rem, 4vw, 3.2rem); }
   .demo-list h2 a { color: var(--ef-ink); }
   .demo-list article > p:last-child { max-width: 60ch; }
+  .spatial-record { max-width: 60ch; }
+  .spatial-record a { display: inline-flex; min-height: 44px; align-items: center; margin-right: .5rem; font: 650 .72rem/1.4 var(--font-data); text-transform: uppercase; }
   .demo-open { align-self:center; padding: .75rem; }
   .demo-list aside p { font-size: .95rem; }
   .demo-list aside a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }

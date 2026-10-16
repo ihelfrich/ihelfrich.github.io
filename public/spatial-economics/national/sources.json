@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "release": "FY 2025 NMTC public data release, FY 2003\u20132023",
+  "releaseUpdated": "2026-08-07",
+  "retrieved": "2026-10-16",
+  "originationYears": [
+    2001,
+    2023
+  ],
+  "sources": [
+    {
+      "file": "NMTC_FY2003_FY2023_2026-08.xlsx",
+      "url": "https://www.cdfifund.gov/system/files?file=2026-08%2FNMTC_Public_Data_Release_includes_FY2003_FY_2023_Data_Final_08062026.xlsx",
+      "bytes": 2451852,
+      "sha256": "640c57ff8b639a82ede020d2b96c4d09877c5bed50b72c794d5f5a9ca666d1a4"
+    },
+    {
+      "file": "2020_Gaz_tracts_national.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_tracts_national.zip",
+      "bytes": 2420793,
+      "sha256": "992378ed33221d06e099e655a89d96a62fe2a67fca4f914af2288f2426136ffe"
+    }
+  ],
+  "coverage": {
+    "projects": 8439,
+    "transactions": 21202,
+    "financingCents": 7101879285855,
+    "mappedProjects": 8434,
+    "unmappedFinancingCents": 4520000000,
+    "unmappedProjects": [
+      "AS0001",
+      "AS0002",
+      "GU0001",
+      "GU0002",
+      "VI0001"
+    ],
+    "statesAndTerritories": 55,
+    "multiYearProjects": 751,
+    "multiTractProjects": 531,
+    "projectReconciliationFailures": 0
+  },
+  "method": {
+    "unit": "Unique project; financing flows grouped by transaction origination year.",
+    "amounts": "Integer US cents. Nominal reported QLICI financing, not inflation-adjusted, tax expenditure, additional investment or causal effects.",
+    "geography": "2020 Census tract internal points, not project coordinates. All flows assigned to the project sheet representative tract, state and metro classification. Multi-tract projects may finance activity elsewhere.",
+    "missing": "Five projects in AS, GU and VI have no match in the national Gazetteer. Retained in all relevant totals and tables; no invented map positions.",
+    "time": "Filter transaction origination years; a project may appear in several years, counted once within a selected interval. Project-level characteristics are held fixed. Years 2001 and 2002 occur in the published workbook despite the release title.",
+    "metro": "Project-sheet classification using 2020 tracts and March 2020 OMB definitions, not current rural eligibility.",
+    "cost": "Estimated total project cost is retained for source inspection, not interpreted as private capital or multiplied by financing.",
+    "research": "Separate descriptive atlas. The NMTC paper retains its 2001\u20132022 dataset and original estimates."
+  },
+  "build": "scripts/spatial-economics/build_national.py"
+}

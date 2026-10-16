@@ -129,28 +129,9 @@ for (gx,gy),c in sorted(cells.items()):
 
 # Collapse degree-two geometry nodes only when neither routing nor intervention
 # identity changes. All snapped cells and selected bridge endpoints are kept.
-incoming=defaultdict(list); outgoing=defaultdict(list); neighbors=defaultdict(set)
-for e in edges:
-    a,b=e[:2]
-    if labels[a]!=largest:continue
-    outgoing[a].append(e);incoming[b].append(e);neighbors[a].add(b);neighbors[b].add(a)
-keep={c['node'] for c in included}
-keep.update(n for n,ns in neighbors.items() if len(ns)!=2)
-keep.update(e[k] for e in edges if e[3]>=0 for k in [0,1])
-kept=sorted(keep); remap={old:i for i,old in enumerate(kept)}
-compressed={}
-for a in kept:
-    for initial in outgoing[a]:
-        prev=a;curr=initial[1];cost=initial[2];group=initial[3];seen={a}
-        while curr not in keep:
-            if curr in seen:break
-            seen.add(curr)
-            onward=[e for e in outgoing[curr] if e[1]!=prev]
-            if len(onward)!=1:break
-            e=onward[0];prev,curr=curr,e[1];cost+=e[2]
-        if curr in remap and curr!=a:
-            key=(remap[a],remap[curr],group)
-            compressed[key]=min(cost,compressed.get(key,float('inf')))
+from graph_contract import contract_graph
+component_edges=[e for e in edges if labels[e[0]]==largest]
+kept,remap,compressed=contract_graph(component_edges,{c['node'] for c in included})
 for c in included:c['node']=remap[c['node']]
 final_edges=[[a,b,round(t,7),g] for (a,b,g),t in sorted(compressed.items())]
 # Independent full-geometry routing oracle checks compression and JS routing.
@@ -158,6 +139,22 @@ raw_min={}
 for a,b,t,g in edges:
     key=(a,b);raw_min[key]=min(t,raw_min.get(key,float('inf')))
 raw_matrix=coo_matrix((list(raw_min.values()),([k[0] for k in raw_min],[k[1] for k in raw_min])),shape=(len(used),len(used))).tocsr()
+# Verify every included origin/destination, not just the downloadable sample.
+all_targets=[c['node'] for c in included]
+all_sources=[kept[n] for n in all_targets]
+raw_od=dijkstra(raw_matrix,directed=True,indices=all_sources)[:,all_sources]
+contracted_min={}
+for a,b,t,g in final_edges:
+    contracted_min[a,b]=min(t,contracted_min.get((a,b),float('inf')))
+contracted_matrix=coo_matrix((list(contracted_min.values()),([k[0] for k in contracted_min],[k[1] for k in contracted_min])),shape=(len(kept),len(kept))).tocsr()
+contracted_od=dijkstra(contracted_matrix,directed=True,indices=all_targets)[:,all_targets]
+assert np.array_equal(np.isfinite(raw_od),np.isfinite(contracted_od)), 'Contraction changes route reachability'
+finite=np.isfinite(raw_od)
+max_error=float(np.max(np.abs(raw_od[finite]-contracted_od[finite])))
+assert max_error < 0.00001, f'Contraction changes minimum travel time: {max_error} minutes'
+contraction_check={'originDestinationPairs':int(raw_od.size),'finitePairs':int(finite.sum()),'maxAbsoluteMinutesError':max_error,'toleranceMinutes':0.00001,'method':'All included OD pairs: SciPy original geometry graph versus contracted published graph.'}
+(OUT/'contraction-verification.json').write_text(json.dumps(contraction_check,indent=2)+'\n')
+del raw_od,contracted_od
 sample_cells=included[::max(1,len(included)//8)][:8]
 source_nodes=[kept[c['node']] for c in sample_cells]
 oracle_distances=dijkstra(raw_matrix,directed=True,indices=source_nodes)

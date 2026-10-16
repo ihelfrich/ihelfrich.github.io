@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {makeGraph,shortestPaths,travelMatrix} from '../../src/lib/spatial-economics.mjs';
-import {allocate,annuity,evaluatePolicy} from '../../src/lib/spatial-incentives.mjs';
+import {accessibility,makeGraph,shortestPaths,travelMatrix} from '../../src/lib/spatial-economics.mjs';
+import {allocate,annuity,candidateSites,candidateSpacingOk,evaluatePolicy,jobAccounting,sensitivityGrid} from '../../src/lib/spatial-incentives.mjs';
 const data=JSON.parse(fs.readFileSync(new URL('../../public/spatial-economics/asheville.json',import.meta.url)));
 const graph=makeGraph(data),matrix=travelMatrix(data,graph);
 const near=(a,b,tolerance=1e-6)=>assert.ok(Math.abs(a-b)<tolerance,`${a} vs ${b}`);
@@ -45,4 +45,94 @@ test('optimized allocation weakly improves its stated objective over equal share
 });
 test('invalid or infeasible policy inputs are rejected',()=>{
   for(const p of [{subsidy:0},{additionality:-.1},{displacement:1.1},{years:2.5},{maxShare:.1},{halfLife:0}])assert.throws(()=>evaluatePolicy(data,matrix,p));
+});
+// --- Regressions: grid spacing, halfLife validation, Float64 matrix, scalar sensitivity accounting ---
+const cell=(id,jobs,extra={})=>({id,jobs,workers:50,low:20,middle:20,high:10,lon:-82.5,lat:35.5,snapMeters:0,node:0,...extra});
+test('candidate spacing uses exact 1 km grid indices, ignoring coordinates, and rejects sub-2 km neighbours',()=>{
+  // lon/lat are deliberately identical: only the gx-gy IDs can separate these cells.
+  const sites=candidateSites({cells:[cell('100-200',10),cell('101-201',9),cell('102-200',8),cell('100-202',7),cell('101-200',6)]});
+  assert.deepEqual(sites.map(s=>s.id),['100-200','102-200','100-202']);
+  assert.deepEqual(sites.map(s=>s.index),[0,2,3]);
+  assert.ok(candidateSpacingOk({id:'0-0'},{id:'2-0'}),'exactly 2 km is admitted');
+  assert.ok(!candidateSpacingOk({id:'0-0'},{id:'1-1'}),'sqrt(2) km is rejected');
+  assert.ok(!candidateSpacingOk({id:'0-0'},{id:'2-0'},2001),'threshold is not rounded');
+  assert.ok(candidateSpacingOk({id:'0-0'},{id:'2-0'},1999));
+});
+test('candidate selection is deterministic under job ties and input order',()=>{
+  const cells=[cell('300-400',5),cell('301-400',5),cell('200-400',5),cell('250-400',5)];
+  const ids=list=>candidateSites({cells:list}).map(s=>s.id);
+  const expected=['200-400','250-400','300-400'];
+  assert.deepEqual(ids(cells),expected);
+  assert.deepEqual(ids([...cells].reverse()),expected);
+  assert.deepEqual(ids([cells[1],cells[3],cells[0],cells[2]]),expected);
+});
+test('non-grid cell IDs fall back to geodesic spacing at 2 km',()=>{
+  const at=(id,lat)=>({id,jobs:1,lon:-82.5,lat});
+  assert.ok(!candidateSpacingOk(at('a',35.5),at('b',35.5+0.0179)));
+  assert.ok(candidateSpacingOk(at('a',35.5),at('b',35.5+0.0181)));
+  assert.ok(!candidateSpacingOk(at('1-1',35.5),at('b',35.5+0.0179)),'mixed ID forms use the fallback');
+});
+test('real-data candidate clusters are the same six under the grid method as under the legacy planar rule',()=>{
+  const sites=candidateSites(data);assert.equal(sites.length,6);
+  const legacy=[];for(const c of [...data.cells].sort((a,b)=>b.jobs-a.jobs)){if(legacy.every(s=>Math.hypot((s.lon-c.lon)*90500,(s.lat-c.lat)*111100)>=2000))legacy.push(c);if(legacy.length===6)break;}
+  assert.deepEqual(sites.map(s=>s.id).sort(),legacy.map(s=>s.id).sort());
+  sites.forEach((s,i)=>{assert.equal(data.cells[s.index].id,s.id);sites.slice(0,i).forEach(t=>assert.ok(candidateSpacingOk(s,t)));});
+});
+test('travel matrix keeps double precision',()=>{
+  const tiny={nodes:[0,1],edges:[[0,1,1.1,-1],[1,0,1.1,-1]],cells:[{node:0,snapMeters:0},{node:1,snapMeters:0}]};
+  const m=travelMatrix(tiny,makeGraph(tiny));
+  assert.ok(m instanceof Float64Array);assert.equal(m[1],1.1);assert.equal(m[0],2);
+});
+test('nonfinite or nonpositive half-lives are rejected, including with unreachable OD pairs',()=>{
+  const two={cells:[cell('10-10',100,{lon:-82.5}),cell('20-10',100,{lon:-82.4})]};
+  const split=new Float64Array([2,Infinity,Infinity,2]);
+  for(const halfLife of [Infinity,-Infinity,NaN,0,-5]){
+    assert.throws(()=>evaluatePolicy(two,split,{halfLife,maxShare:1}),/Invalid policy/);
+    assert.throws(()=>accessibility(two,split,{halfLife}),/Positive parameters/);
+  }
+  // An Infinity half-life on an unreachable pair would give Infinity/Infinity = NaN inside exp(); finite values stay finite.
+  const ok=evaluatePolicy(two,split,{halfLife:15,maxShare:1});
+  assert.ok(ok.cells.every(c=>Number.isFinite(c.gain)&&Number.isFinite(c.baseline)));
+  assert.ok(Object.values(ok.groups).every(g=>Number.isFinite(g.gain)));
+});
+test('scalar job accounting agrees with the full evaluation for every feasible sensitivity cell',()=>{
+  const grid=sensitivityGrid(data,{});
+  assert.equal(grid.length,5);grid.forEach(row=>assert.equal(row.length,4));
+  for(const row of grid)for(const c of row){
+    assert.ok(c.feasible);const full=evaluatePolicy(data,matrix,{additionality:c.additionality,displacement:c.displacement});
+    near(c.netJobs,full.netJobs);
+    if(full.costPerJobYear===null)assert.equal(c.costPerJobYear,null);else near(c.costPerJobYear,full.costPerJobYear,1e-6);
+  }
+  const jobs=data.cells.reduce((s,c)=>s+c.jobs,0),a=jobAccounting(evaluatePolicy(data,matrix).parameters,jobs);
+  near(a.netJobs,60);near(a.induced,80);near(a.displaced,20);assert.ok(a.feasible);
+});
+test('sensitivity cells whose relocations exceed the donor stock are marked unavailable rather than throwing',()=>{
+  const small={cells:[cell('10-10',100),cell('20-10',100)]},p={subsidy:1000,maxShare:1};
+  const grid=sensitivityGrid(small,p);
+  // 10,000 offers: displaced = 10,000·a·d against 200 observed jobs.
+  const at=(a,d)=>grid.flat().find(c=>c.additionality===a&&c.displacement===d);
+  assert.equal(at(.05,.25).feasible,true);near(at(.05,.25).netJobs,375);
+  for(const [a,d] of [[.05,.5],[.6,.75],[.2,.25]]){const c=at(a,d);assert.equal(c.feasible,false);assert.equal(c.netJobs,null);assert.equal(c.costPerJobYear,null);}
+  const split=new Float64Array([2,Infinity,Infinity,2]);
+  assert.throws(()=>evaluatePolicy(small,split,{...p,additionality:.2,displacement:.25}),/Displacement exceeds/);
+  assert.throws(()=>sensitivityGrid(small,{halfLife:Infinity}),/Invalid policy/);
+});
+test('candidate sites report gross induced jobs and net cell job change separately',()=>{
+  const r=evaluatePolicy(data,matrix),jobs=data.cells.reduce((s,c)=>s+c.jobs,0);
+  r.sites.forEach(s=>{
+    const index=data.cells.findIndex(c=>c.id===s.id);
+    near(s.netCellJobs,r.cells[index].deltaJobs);
+    near(s.netCellJobs,s.induced-r.displaced*s.existingJobs/jobs);
+    assert.ok(s.netCellJobs<s.induced);
+  });
+});
+test('worker computes scalar sensitivity and tags errors with the request id',async()=>{
+  const out=[];globalThis.self={postMessage:m=>out.push(m)};
+  await import('../../src/scripts/spatial-economics.worker.mjs');
+  self.onmessage({data:{id:0,kind:'init',dataset:data}});
+  self.onmessage({data:{id:3,kind:'calculate',parameters:{}}});
+  self.onmessage({data:{id:4,kind:'calculate',parameters:{halfLife:Infinity}}});
+  delete globalThis.self;
+  assert.deepEqual(out.map(m=>[m.id,m.kind]),[[0,'ready'],[3,'result'],[4,'error']]);
+  assert.equal(out[1].sensitivity.length,5);assert.ok(out[1].sensitivity.flat().every(c=>typeof c.feasible==='boolean'));
 });

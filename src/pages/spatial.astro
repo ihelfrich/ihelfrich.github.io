@@ -1,0 +1,255 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import "../styles/spatial.css";
+
+const projects = await getCollection("projects");
+const statusLabel = { live: "Live", "in-progress": "In progress", archived: "Archived", planned: "Planned" };
+const statusOf = (id) => {
+  const entry = projects.find((project) => project.id === id);
+  return entry ? statusLabel[entry.data.status] : null;
+};
+
+const nmtcFigures = [
+  { value: "8,439", label: "projects" },
+  { value: "$71.019 bn", label: "QLICI" },
+  { value: "2001–2023", label: "origination years" },
+];
+
+const dataTypes = [
+  { term: "Observed records", body: "Administrative financing records from the CDFI Fund. They describe what was reported, not what the financing caused." },
+  { term: "Scenario model", body: "Calculated output under stated assumptions. Asheville parameters are illustrative, not estimated." },
+  { term: "LiDAR returns", body: "Classified laser-return points, processed into ground, building and vegetation layers." },
+  { term: "Gridded terrain", body: "A mesh built from gridded elevation. Its vertices are not LiDAR returns." },
+];
+
+const resolution = [
+  { cell: "3 ft", missing: "38.6%" },
+  { cell: "1 ft", missing: "77.1%" },
+  { cell: "0.5 ft", missing: "87.5%" },
+];
+
+const instruments = [
+  {
+    kind: "Application",
+    name: "St. Louis City & Property Lab",
+    href: "/st-louis/",
+    body: "City and County geometry, official City property evidence and rental scenarios in a 3D city model. Scenario outputs remain separate from recorded parcel data.",
+    status: null,
+  },
+  {
+    kind: "Ocean data",
+    name: "Hidden Rivers",
+    href: "/hidden-rivers/",
+    body: "Depth-resolved HYCOM and NOAA current fields, Sentinel-2 water imagery and a 3D tank model with published numerical checks. The tank is a qualitative laminar model, not laboratory-calibrated.",
+    status: statusOf("hidden-rivers"),
+  },
+  {
+    kind: "Spatial statistics",
+    name: "American Policy Atlas",
+    href: "/projects/american-policy-atlas/",
+    body: "County-level spatial statistics, regression diagnostics, empirical-Bayes shrinkage and a California redlining case study. Associations remain distinct from causal effects.",
+    status: statusOf("american-policy-atlas"),
+    external: { href: "https://ihelfrich.github.io/american-policy-atlas/", label: "Open the atlas" },
+  },
+];
+---
+
+<Base
+  wide
+  title="Spatial investment and 3D GIS"
+  description="Place-based investment records and scenarios, classified LiDAR, reconstructed terrain, and geospatial applications, each labeled by data type and limit."
+  pageClass="sp-page"
+>
+  <div class="sp-intro">
+  <header class="sp-hero sp-shell">
+    <p class="sp-kicker">Spatial &amp; 3D GIS</p>
+    <h1>Spatial investment and 3D GIS</h1>
+    <p class="sp-deck">I connect investment incentives and economic geography with network analysis, classified LiDAR and 3D terrain. Explore the national financing record, then test how a local incentive budget changes access to jobs.</p>
+    <p class="sp-hero-actions"><a href="/spatial-economics/national/">Explore national investment ↗</a><a href="/spatial-economics/">Run a local scenario ↗</a></p>
+    <nav class="sp-jump" aria-label="Sections on this page">
+      <a href="#investment">Spatial investment</a>
+      <a href="#lidar-terrain">LiDAR and terrain</a>
+      <a href="#applications">Applications</a>
+      <a href="#more-work">More work</a>
+    </nav>
+  </header>
+
+  <figure class="sp-figure sp-figure--hero">
+    <a href="/gis-portfolio/#work" class="sp-figure__link">
+      <img
+        src="/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg"
+        alt="Oblique LiDAR point cloud of English Avenue, with cyan buildings, green vegetation and gray ground."
+        width="2560"
+        height="1920"
+        fetchpriority="high"
+      />
+    </a>
+    <figcaption class="sp-shell">
+      <span>Classified LiDAR returns · English Avenue, Atlanta · 2021</span>
+      <span>USGS 3DEP point cloud: buildings cyan, vegetation green, ground gray. Georgia Tech academic work.</span>
+    </figcaption>
+  </figure>
+  </div>
+
+  <section class="sp-types sp-shell" aria-labelledby="types-heading">
+    <h2 id="types-heading" class="sp-label">Data types on this page</h2>
+    <dl>
+      {dataTypes.map((item) => (
+        <div>
+          <dt>{item.term}</dt>
+          <dd>{item.body}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section id="investment" class="sp-section sp-shell" aria-labelledby="investment-heading">
+    <header class="sp-section__head">
+      <p class="sp-label">01 · Spatial investment</p>
+      <h2 id="investment-heading">Place-based investment: observed financing and a conditional scenario</h2>
+      <p>The national atlas reports where New Markets Tax Credit financing was observed. The Asheville scenario asks a separate, conditional question: how a fixed incentive budget changes road-network access to jobs once offers, additionality and relocation take stated values.</p>
+    </header>
+
+    <article class="sp-entry sp-entry--lead">
+      <div class="sp-entry__meta">
+        <p class="sp-tag">Observed records · national</p>
+        <ul class="sp-figures" aria-label="Atlas totals">
+          {nmtcFigures.map((item) => (
+            <li><strong>{item.value}</strong><span>{item.label}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="sp-entry__body">
+        <h3><a href="/spatial-economics/national/">National NMTC financing atlas</a></h3>
+        <p>Observed New Markets Tax Credit projects across the United States, built from the public CDFI Fund FY2025 release updated August 2026. Dollar totals are qualified low-income community investments (QLICI).</p>
+        <p class="sp-limit"><strong>Limit.</strong> Financing records show where investment was observed. They do not measure jobs or outcomes, or what would have happened without the credit.</p>
+        <p class="sp-actions"><a href="/spatial-economics/national/">Open the national atlas</a></p>
+      </div>
+    </article>
+
+    <article class="sp-entry">
+      <div class="sp-entry__meta">
+        <p class="sp-tag">Scenario model · Asheville, NC</p>
+        <p class="sp-status">{statusOf("spatial-investment-lab") ?? "In progress"}</p>
+      </div>
+      <div class="sp-entry__body">
+        <h3><a href="/spatial-economics/">Spatial Investment Lab</a></h3>
+        <p>A 3D scenario over Asheville terrain. It separates supported incentive offers from induced site employment and additional study-area jobs, then compares an equal split of the budget with an access-maximizing allocation across six existing employment clusters. Inputs are 2023 Census primary-job counts and a directed OpenStreetMap road network.</p>
+        <p class="sp-limit"><strong>Limit.</strong> A conditional scenario, not a causal estimate. Behavioral parameters are illustrative; the model has no fiscal return, wage or general-equilibrium component.</p>
+        <p class="sp-actions"><a href="/spatial-economics/">Open the Asheville scenario</a><a href="/projects/spatial-investment-lab/">Project record</a></p>
+      </div>
+    </article>
+
+    <article class="sp-entry">
+      <div class="sp-entry__meta">
+        <p class="sp-tag">Research · working paper</p>
+        <p class="sp-status">August 2026</p>
+      </div>
+      <div class="sp-entry__body">
+        <h3><a href="/research/helfrich-2026-nmtc-rural-gap/">The NMTC rural mobilization gap</a></h3>
+        <p>Compares rural and urban investment within the same Community Development Entity, using 19,907 transactions across 8,024 projects, with intermediary fixed effects and an order-invariant decomposition.</p>
+        <p class="sp-limit"><strong>Limit.</strong> The paper uses an earlier data vintage than the national atlas and its estimates are not restated with the 2023 data. Its results are descriptive and noncausal.</p>
+        <p class="sp-actions"><a href="/research/helfrich-2026-nmtc-rural-gap/">Read the paper</a></p>
+      </div>
+    </article>
+  </section>
+
+  <section id="lidar-terrain" class="sp-section sp-shell" aria-labelledby="lidar-heading">
+    <header class="sp-section__head">
+      <p class="sp-label">02 · LiDAR and terrain</p>
+      <h2 id="lidar-heading">LiDAR diagnostics and reconstructed terrain</h2>
+      <p>The portfolio holds eight selected artifacts, including academic exercises and group work that are credited as such. The terrain diagnostic and interactive mesh use different source measurements.</p>
+    </header>
+
+    <figure class="sp-figure sp-figure--inline">
+      <a href="/gis-portfolio/#analysis" class="sp-figure__link">
+        <img
+          src="/gis-portfolio/showcase/nc-terrain-building.png"
+          alt="LiDAR-derived hillshade and contours with pink building returns, reference footprints and parcel lines on a North Carolina hillside; no address or coordinate labels."
+        width="1320"
+        height="840"
+          loading="lazy"
+        />
+      </a>
+      <figcaption>
+        <span>Classified LiDAR returns · Henderson County, NC · 2026 analysis</span>
+        <span>Ground surface, hillshade, contours and building returns. Footprints and parcel lines are reference geometry, not surveyed positions. Acquisition date and survey accuracy were not established.</span>
+      </figcaption>
+    </figure>
+
+    <article class="sp-entry">
+      <div class="sp-entry__meta">
+        <p class="sp-tag">LiDAR returns</p>
+        <table class="sp-table">
+          <caption>Missing cells in the inspected building footprint</caption>
+          <thead><tr><th scope="col">Cell size</th><th scope="col">Missing</th></tr></thead>
+          <tbody>
+            {resolution.map((row) => (
+              <tr><th scope="row">{row.cell}</th><td>{row.missing}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="sp-entry__body">
+        <h3><a href="/gis-portfolio/#analysis">North Carolina terrain diagnostic</a></h3>
+        <p>An independently processed ground-only surface was used to check a reported raster streak. The streak was absent from the comparison hillshade, which narrowed the diagnosis. Refining the grid could not recover ground returns that were not collected: missing cells rose as cells shrank.</p>
+        <p class="sp-limit"><strong>Limit.</strong> Terrain diagnostics only. Rainfall, infiltration, discharge and calibrated flood depth are outside the analysis.</p>
+        <p class="sp-actions"><a href="/gis-portfolio/#analysis">Read the diagnostic</a><a href="/gis-portfolio/">All eight artifacts</a></p>
+      </div>
+    </article>
+
+    <article class="sp-entry">
+      <div class="sp-entry__meta">
+        <p class="sp-tag">Gridded terrain · not LiDAR</p>
+        <ul class="sp-figures" aria-label="Haiti mesh parameters">
+          <li><strong>525,474</strong><span>triangles</span></li>
+          <li><strong>100 m</strong><span>mesh sampling</span></li>
+          <li><strong>1.2× / 6×</strong><span>land / seabed exaggeration</span></li>
+        </ul>
+      </div>
+      <div class="sp-entry__body">
+        <h3><a href="/gis-portfolio/#surface-demo">Southern Haiti coastal terrain mesh</a></h3>
+        <p>An original triangulated surface joining land elevation and seabed bathymetry, loadable in the browser for rotation, wireframe and vertex inspection. Sources are GMRT bathymetry (CC BY 4.0) and Mapzen terrain tiles built from SRTM, GMTED2010 and ETOPO1.</p>
+        <p class="sp-limit"><strong>Limit.</strong> The mesh vertices are gridded elevations, not LiDAR returns, photogrammetry or navigation data. A 100 m grid does not establish measurement accuracy.</p>
+        <p class="sp-actions"><a href="/gis-portfolio/#surface-demo">Open the mesh</a><a href="/gis-portfolio/surface/metadata.json">Geometry and provenance</a></p>
+      </div>
+    </article>
+  </section>
+
+  <section id="applications" class="sp-section sp-shell" aria-labelledby="applications-heading">
+    <header class="sp-section__head">
+      <p class="sp-label">03 · Applications</p>
+      <h2 id="applications-heading">Geospatial applications</h2>
+      <p>Urban property evidence, ocean dynamics and county-level spatial statistics.</p>
+    </header>
+    <ol class="sp-ledger">
+      {instruments.map((item) => (
+        <li>
+          <p class="sp-tag">{item.kind}{item.status ? ` · ${item.status}` : ""}</p>
+          <div>
+            <h3><a href={item.href}>{item.name}</a></h3>
+            <p>{item.body}</p>
+            {item.external && (
+              <p class="sp-actions"><a href={item.external.href} rel="noopener">{item.external.label} ↗</a></p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="more-work" class="sp-section sp-shell" aria-labelledby="more-heading">
+    <header class="sp-section__head">
+      <p class="sp-label">04 · More work</p>
+      <h2 id="more-heading">Other spatial and quantitative work</h2>
+    </header>
+    <ul class="sp-more">
+      <li><a href="/projects/">Projects</a><span>Software, viewers and research infrastructure, including the <a href="/projects/gis-portfolio/">portfolio record</a>.</span></li>
+      <li><a href="/research/">Research</a><span>Papers and data, including <a href="/research/gonchar-helfrich-2025-spotlight/"><cite>Trade in the Spotlight</cite></a> on night-light and population-weighted distance.</span></li>
+      <li><a href="/lab/">Lab</a><span>Working instruments for economics, statistics and calculus.</span></li>
+      <li><a href="/gis/">Academic GIS record</a><span>Coursework and planning dossiers, retained as an archive.</span></li>
+      <li><a href="/projects/oceanographic-systems/">Oceanographic systems</a><span>{statusOf("oceanographic-systems") ?? "In progress"}: 3D bathymetry and acoustic-model integration for survey planning. No public artifact yet.</span></li>
+    </ul>
+  </section>
+</Base>

@@ -1,0 +1,490 @@
+/* /spatial/ hub. Roles and scales from tokens.css only; no color literals. */
+
+.sp-page {
+  --sp-edge: clamp(1.25rem, 4vw, 4rem);
+  --sp-max: 90rem;
+  color: var(--ink);
+}
+
+.sp-shell {
+  width: min(calc(100% - 2 * var(--sp-edge)), var(--sp-max));
+  margin-inline: auto;
+}
+
+.sp-label,
+.sp-tag,
+.sp-kicker,
+.sp-status {
+  margin: 0;
+  color: var(--ink-muted);
+  font: 620 0.72rem/1.4 var(--font-data);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Hero */
+.sp-hero {
+  display: grid;
+  padding-block: var(--space-7) var(--space-5);
+  gap: var(--space-4);
+}
+
+.sp-hero h1 {
+  max-width: 14ch;
+  margin: 0;
+  font: 600 clamp(3rem, 7vw, 7.5rem)/0.94 var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.sp-deck {
+  max-width: 46ch;
+  margin: 0;
+  font: 400 clamp(1.3rem, 2vw, 1.8rem)/1.35 var(--font-text);
+}
+
+.sp-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.sp-jump a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--ink);
+  font: 620 0.72rem/1.4 var(--font-data);
+  letter-spacing: 0.06em;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  text-transform: uppercase;
+}
+
+/* Figures: square corners, no shadow */
+.sp-figure {
+  margin: 0;
+}
+
+.sp-figure__link {
+  display: block;
+  background: var(--ink);
+}
+
+.sp-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.sp-figure--hero {
+  border-block: 1px solid var(--rule-strong);
+}
+
+.sp-figure--hero img {
+  max-height: min(78vh, 56rem);
+  min-height: 22rem;
+}
+
+.sp-figure figcaption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: var(--space-2) var(--space-5);
+  padding-block: var(--space-3);
+  color: var(--ink-muted);
+  font: 500 0.78rem/1.5 var(--font-data);
+}
+
+.sp-figure figcaption span:first-child {
+  color: var(--ink);
+  font-weight: 620;
+}
+
+.sp-figure--inline figcaption {
+  padding-inline: 0;
+}
+
+/* Data-type key */
+.sp-types {
+  padding-block: var(--space-5) var(--space-6);
+}
+
+.sp-types dl {
+  display: grid;
+  margin: var(--space-3) 0 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 var(--space-4);
+  border-top: 1px solid var(--ink);
+}
+
+.sp-types dl > div {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+.sp-types dt {
+  margin-bottom: var(--space-1);
+  font: 650 0.78rem/1.4 var(--font-data);
+  text-transform: uppercase;
+}
+
+.sp-types dd {
+  margin: 0;
+  font: 400 0.98rem/1.5 var(--font-text);
+}
+
+/* Sections */
+.sp-section {
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--ink);
+}
+
+.sp-section__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.sp-section__head > .sp-label,
+.sp-section__head > h2,
+.sp-section__head > p:last-child {
+  grid-column: 1 / -1;
+}
+
+.sp-section__head h2 {
+  max-width: 24ch;
+  margin: 0;
+  font: 600 clamp(2rem, 4vw, 4rem)/1.04 var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.sp-section__head > p:last-child:not(.sp-label) {
+  max-width: 68ch;
+  margin: var(--space-2) 0 0;
+  font: 400 clamp(1rem, 1.1vw, 1.125rem)/1.67 var(--font-text);
+}
+
+/* Entries: margin evidence left, narrative right */
+.sp-entry {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.sp-entry__meta {
+  grid-column: 1 / span 4;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.sp-entry__body {
+  grid-column: 5 / span 7;
+  max-width: 68ch;
+}
+
+.sp-entry h3,
+.sp-ledger h3 {
+  margin: 0 0 var(--space-2);
+  font: 600 clamp(1.4rem, 2.2vw, 2rem)/1.15 var(--font-display);
+}
+
+.sp-entry h3 a,
+.sp-ledger h3 a {
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.sp-entry h3 a:hover,
+.sp-ledger h3 a:hover {
+  color: var(--accent);
+}
+
+.sp-entry p,
+.sp-ledger p,
+.sp-more span {
+  font: 400 clamp(1rem, 1.1vw, 1.125rem)/1.67 var(--font-text);
+}
+
+.sp-entry__body p {
+  margin: 0 0 var(--space-3);
+}
+
+.sp-limit {
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--rule-strong);
+}
+
+.sp-limit strong {
+  font: 650 0.72rem/1.4 var(--font-data);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sp-entry--lead {
+  border-top: 2px solid var(--ink);
+}
+
+/* Restrained data typography */
+.sp-figures {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sp-figures li {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.sp-figures strong {
+  font: 560 clamp(1.6rem, 2.6vw, 2.6rem)/1 var(--font-data);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.sp-figures span {
+  color: var(--ink-muted);
+  font: 500 0.74rem/1.4 var(--font-data);
+  text-transform: uppercase;
+}
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 500 0.82rem/1.4 var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-table caption {
+  padding-bottom: var(--space-2);
+  color: var(--ink-muted);
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.sp-table th,
+.sp-table td {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--rule-strong);
+  text-align: left;
+  font-weight: 560;
+}
+
+.sp-table td {
+  text-align: right;
+}
+
+.sp-table thead th {
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.sp-table thead th:last-child {
+  text-align: right;
+}
+
+.sp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin-bottom: 0;
+}
+
+.sp-actions a,
+.sp-more a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent);
+  font: 650 0.74rem/1.4 var(--font-data);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-underline-offset: 0.25em;
+}
+
+.sp-actions a:hover,
+.sp-more a:hover {
+  color: var(--ink);
+}
+
+.sp-actions a::after {
+  margin-left: 0.4em;
+  content: "→";
+}
+
+.sp-actions a[rel]::after {
+  content: "";
+}
+
+/* Ledger of applications */
+.sp-ledger {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+  list-style: none;
+}
+
+.sp-ledger > li {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-2) var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.sp-ledger > li > .sp-tag {
+  grid-column: 1 / span 4;
+}
+
+.sp-ledger > li > div {
+  grid-column: 5 / span 7;
+  max-width: 68ch;
+}
+
+.sp-ledger p {
+  margin: 0 0 var(--space-2);
+}
+
+/* More work */
+.sp-more {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+  list-style: none;
+}
+
+.sp-more > li {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr);
+  gap: var(--space-1) var(--space-4);
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.sp-more > li > a:first-child {
+  font-size: 0.78rem;
+}
+
+.sp-more span a {
+  min-height: 0;
+  font-size: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: underline;
+}
+
+.sp-more span {
+  max-width: 68ch;
+  padding-block: var(--space-2);
+}
+
+.sp-page a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+@media (max-width: 60rem) {
+  .sp-types dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-entry__meta,
+  .sp-ledger > li > .sp-tag {
+    grid-column: 1 / span 3;
+  }
+
+  .sp-entry__body,
+  .sp-ledger > li > div {
+    grid-column: 4 / span 5;
+  }
+
+  .sp-entry,
+  .sp-ledger > li,
+  .sp-section__head {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .sp-figure figcaption {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 45rem) {
+  .sp-hero {
+    padding-block: var(--space-6) var(--space-4);
+  }
+
+  .sp-figure--hero img {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .sp-types dl {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-entry,
+  .sp-ledger > li,
+  .sp-section__head {
+    display: block;
+  }
+
+  .sp-entry__meta {
+    margin-bottom: var(--space-3);
+  }
+
+  .sp-more > li {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .sp-figure__link,
+  .sp-limit {
+    border: 1px solid;
+  }
+}
+
+@media print {
+  .sp-jump {
+    display: none;
+  }
+
+  .sp-figure img {
+    max-height: none;
+  }
+
+  .sp-entry,
+  .sp-ledger > li {
+    break-inside: avoid;
+  }
+}
+
+/* Place the substantive 3D work beside the entry points on the first screen. */
+.sp-page #main-content { padding-top: 28px; }
+.sp-intro { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; padding-block: 28px; }
+.sp-intro .sp-hero { width: auto; margin: 0; padding: 0 0 0 clamp(20px,3vw,48px); }
+.sp-intro h1 { font-size: clamp(40px,4.4vw,66px); line-height: 1.02; }
+.sp-intro .sp-deck { font-size: clamp(18px,1.6vw,23px); }
+.sp-intro .sp-figure--hero { border: 0; margin-right: 24px; }
+.sp-intro .sp-figure--hero img { min-height: 0; max-height: none; aspect-ratio: 4 / 3; object-fit: contain; background: var(--p-neutral-00); }
+.sp-intro figcaption { width: auto; margin: 0; grid-template-columns: 1fr; font-size: 10px; gap: 5px; }
+.sp-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 0; }
+.sp-hero-actions a { display: inline-flex; align-items: center; min-height: 44px; font: 600 12px var(--font-display); padding: 10px 14px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; }
+.sp-hero-actions a:first-child { background: var(--ink); color: var(--surface); }
+.sp-intro .sp-jump { gap: 0 16px; margin-top: 0; }
+.sp-intro .sp-jump a { font-size: 10px; }
+@media(max-width:800px){.sp-intro{grid-template-columns:1fr;gap:26px;padding-top:10px}.sp-intro .sp-hero{padding:0 20px}.sp-intro .sp-figure--hero{margin:0 20px}.sp-intro .sp-figure--hero img{aspect-ratio:4/3}.sp-intro h1{font-size:clamp(40px,8vw,62px)}}

@@ -120,7 +120,9 @@
       ],
       "evidence": [
         "tests/unit/spatial-investment.test.mjs",
-        "docs/spatial-investment-verification.json"
+        "docs/spatial-investment-verification.json",
+        "docs/portfolio-program/verification.json",
+        "public/spatial-economics/contraction-verification.json"
       ]
     },
     {
@@ -147,6 +149,80 @@
         "bathymetry",
         "mesh",
         "Haiti"
+      ]
+    },
+    {
+      "id": "ian-website.national-investment-data",
+      "project": "ian-public-website",
+      "path": "public/spatial-economics/national/projects.json",
+      "kind": "data",
+      "title": "National NMTC financing atlas dataset, 2001\u20132023 origination years",
+      "summary": "8439 projects and 21202 transactions reconciled in integer cents; transaction-year financing flows, representative 2020 tract points and explicit missing geography.",
+      "facets": [
+        "NMTC",
+        "investment",
+        "GIS",
+        "public-data",
+        "regional-economics"
+      ],
+      "status": "source_reconciled_numerically_checked",
+      "limits": [
+        "Nominal QLICI financing is not tax expenditure, additional capital or causal effects.",
+        "Five territory locations are missing and retained in totals. Representative project geography is fixed across flows.",
+        "Distinct from the earlier NMTC research panel."
+      ],
+      "evidence": [
+        "public/spatial-economics/national/sources.json",
+        "tests/unit/national-investment.test.mjs",
+        "docs/portfolio-program/verification.json"
+      ]
+    },
+    {
+      "id": "ian-website.national-investment-atlas",
+      "project": "ian-public-website",
+      "path": "src/pages/spatial-economics/national.astro",
+      "kind": "presentation",
+      "title": "National Investment Atlas",
+      "summary": "Cesium national/state/tract financing instrument with filters, annual flows, source records, exports and preserved missing-geography totals.",
+      "facets": [
+        "GIS",
+        "Cesium",
+        "NMTC",
+        "financing",
+        "portfolio"
+      ],
+      "status": "locally_browser_verified_release_pending",
+      "limits": [
+        "Descriptive investment geography only; fixed display scales, nominal dollars and no population normalization."
+      ],
+      "depends_on": [
+        "ian-website.national-investment-data"
+      ],
+      "evidence": [
+        "docs/portfolio-program/verification.json"
+      ]
+    },
+    {
+      "id": "ian-website.spatial-hub",
+      "project": "ian-public-website",
+      "path": "src/pages/spatial.astro",
+      "kind": "presentation",
+      "title": "Spatial investment and 3D GIS portfolio entry point",
+      "summary": "Additive curated hub and site navigation connecting investment, LiDAR, terrain, public applications, research and canonical project records.",
+      "facets": [
+        "portfolio",
+        "GIS",
+        "navigation",
+        "research",
+        "3D"
+      ],
+      "status": "locally_browser_verified_release_pending",
+      "limits": [
+        "Bounded public-work audit; no assertion that every private artifact has been inspected or validated."
+      ],
+      "evidence": [
+        "docs/portfolio-program/public-work-inventory.json",
+        "docs/portfolio-program/verification.json"
       ]
     }
   ]

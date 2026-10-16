@@ -78,6 +78,18 @@ const filterOptions = [
     ))}
   </section>
 
+  <section class="spatial-feature route-shell" data-rail-label="Spatial and 3D GIS" aria-labelledby="spatial-feature-heading">
+    <p class="record-label">Spatial &amp; 3D GIS</p>
+    <h2 id="spatial-feature-heading"><a href="/spatial/">Spatial investment and 3D GIS</a></h2>
+    <p>Observed New Markets Tax Credit financing and a conditional Asheville scenario, classified LiDAR and terrain diagnostics, and an original Haiti terrain mesh. The mesh is gridded elevation, not LiDAR returns.</p>
+    <ul class="spatial-feature__links">
+      <li><a href="/spatial/">Overview</a></li>
+      <li><a href="/spatial-economics/national/">National NMTC atlas</a></li>
+      <li><a href="/spatial-economics/">Asheville scenario</a></li>
+      <li><a href="/gis-portfolio/">LiDAR &amp; 3D GIS portfolio</a></li>
+    </ul>
+  </section>
+
   <div class="route-shell"><TechnicalProjects heading="Software, sound, and spatial systems."/></div>
 
   <section class="additional-practice route-shell" data-rail-label="Additional practice">
@@ -161,6 +173,12 @@ const filterOptions = [
   .case-entry[hidden] { display: none; }
   .case-entry__number { padding-top: var(--ef-space-5); color: var(--ef-signal); font: 580 clamp(1.5rem, 3vw, 3rem)/1 var(--font-data); }
   .case-entry :global(.case-record) { border-top: 0; padding-block: var(--ef-space-5); }
+  .spatial-feature { padding-block: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
+  .spatial-feature h2 { margin: 0 0 1rem; }
+  .spatial-feature h2 a { color: var(--ef-ink); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .spatial-feature > p:not(.record-label) { max-width: 68ch; }
+  .spatial-feature__links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+  .spatial-feature__links a { display: inline-flex; min-height: 44px; align-items: center; font: 650 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   .additional-practice { border-top: 1px solid var(--ef-ink); }
   .practice-ledger { margin-top: var(--ef-space-6); border-top: 1px solid var(--ef-ink); }
   .practice-ledger > div { display: grid; padding-block: 1rem; grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-bottom: 1px solid var(--rule); }
