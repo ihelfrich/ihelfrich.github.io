@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-16",
+  "status": "local_prototype_verified_not_published",
+  "coverage": {
+    "blocksInWindow": 2459,
+    "includedCells": 298,
+    "excludedCells": 0,
+    "includedJobs": 92264,
+    "includedWorkers": 54050,
+    "excludedJobs": 0,
+    "excludedWorkers": 0,
+    "rawNodes": 199741,
+    "connectedNodes": 197349,
+    "graphNodes": 16350,
+    "directedEdges": 36303,
+    "maxSnapMeters": 750
+  },
+  "numerical_checks": {
+    "tests": 9,
+    "passed": 9,
+    "independent_routing_pairs": 144,
+    "routing_reference": "SciPy Dijkstra on the original unsimplified directed OSM graph",
+    "route_tolerance_minutes": 1e-05,
+    "checks": [
+      "one-way reachability and closures",
+      "compressed route equivalence",
+      "allocation cap and independent brute-force optimum",
+      "spatial job and budget conservation",
+      "zero additionality",
+      "full relocation with zero net jobs",
+      "end-of-year discounting",
+      "optimized objective weakly dominates equal shares",
+      "invalid-input rejection"
+    ]
+  },
+  "browser_checks": {
+    "terrain": "World Terrain ready",
+    "imagery": "aerial imagery connected",
+    "buildings": "41 OSM building tiles received",
+    "terrain_sampled_columns": 298,
+    "desktop_width": 1000,
+    "mobile_width": 390,
+    "horizontal_overflow": false,
+    "zero_additionality": {
+      "jobs": 0,
+      "cost_ratio": "Undefined",
+      "access_gain": 0
+    },
+    "default_optimized": {
+      "net_jobs": 60,
+      "cost_per_discounted_job_year": 19538,
+      "lower_earnings_access_gain": 41.1
+    },
+    "equal_allocation": {
+      "net_jobs": 60,
+      "lower_earnings_access_gain": 36.3
+    },
+    "layers": [
+      "employment",
+      "access change",
+      "budget allocation"
+    ],
+    "export": {
+      "valid_json": true,
+      "cells": 298,
+      "sites": 6,
+      "source_count": 5,
+      "configured_credential_absent": true
+    }
+  },
+  "site_checks": [
+    "Astro production build",
+    "copy",
+    "design tokens",
+    "rendered styles",
+    "public discovery",
+    "git diff --check"
+  ],
+  "limits": [
+    "Policy response parameters are illustrative, not estimated.",
+    "No fiscal return, general equilibrium, wages or agglomeration model.",
+    "Roads and employment have different vintages; external employment is excluded.",
+    "Cesium shows Upgrade for commercial use; account entitlement was not changed.",
+    "Existing environment and GitHub-secret connection reused; browser credential remains visible by design; token restrictions not independently verified.",
+    "No commit, push or public deployment."
+  ],
+  "files": {
+    "public/spatial-economics/asheville.json": "d15372c86188030bdb67fdda7d24a57ba35d7987513e9e529fc6c924b9b81aa0",
+    "src/lib/spatial-incentives.mjs": "0ea347cc081394b6780c67d71ab3b6ad6293279b52f6108bb0c45285b4340ff9",
+    "src/lib/spatial-economics.mjs": "388c5cfdce86e9e3908f5b34cf91b7bfb1c13a7f20d2a2d4f60632c984a930a0"
+  }
+}

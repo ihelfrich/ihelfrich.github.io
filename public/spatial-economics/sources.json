@@ -1,0 +1,71 @@
+{
+  "sources": {
+    "retrieved": "2026-10-16T18:47:26.458129+00:00",
+    "sources": [
+      {
+        "file": "nc_wac.csv.gz",
+        "url": "https://lehd.ces.census.gov/data/lodes/LODES8/nc/wac/nc_wac_S000_JT01_2023.csv.gz",
+        "bytes": 1793980,
+        "sha256": "bb9e869eafc6bde2bd6d62debbc34bf950fafd80fdf09d1346cb39a3d674dde3"
+      },
+      {
+        "file": "nc_rac.csv.gz",
+        "url": "https://lehd.ces.census.gov/data/lodes/LODES8/nc/rac/nc_rac_S000_JT01_2023.csv.gz",
+        "bytes": 4369023,
+        "sha256": "2adc529e1019b3e8c392159b90dbba5a814b09d5a81523840cafb99505b6eb16"
+      },
+      {
+        "file": "nc_xwalk.csv.gz",
+        "url": "https://lehd.ces.census.gov/data/lodes/LODES8/nc/nc_xwalk.csv.gz",
+        "bytes": 4268708,
+        "sha256": "7576e2072bb9e4df02d4fcc4c83e9727077c5f5066fe69625c6fdb1c6135280e"
+      },
+      {
+        "file": "version.txt",
+        "url": "https://lehd.ces.census.gov/data/lodes/LODES8/nc/version.txt",
+        "bytes": 129,
+        "sha256": "8adb60f44c922c12fa95b83a41c019bc57fe3eb455fcf8df9b7029d78ba6d9d5"
+      },
+      {
+        "file": "osm.json",
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:80];(\nway[\"highway\"~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link)$\"](35.43,-82.74,35.75,-82.36);\nway[\"waterway\"=\"river\"](35.43,-82.74,35.75,-82.36);\n);out body;>;out skel qt;",
+        "timestamp": "2026-10-16T18:45:35Z",
+        "bytes": 25151302,
+        "sha256": "1869c5edc664fb13d562c5288713ac68ac392cf3045cc88765c9dfa9b9b077af"
+      }
+    ]
+  },
+  "coverage": {
+    "blocksInWindow": 2459,
+    "includedCells": 298,
+    "excludedCells": 0,
+    "includedJobs": 92264,
+    "includedWorkers": 54050,
+    "excludedJobs": 0,
+    "excludedWorkers": 0,
+    "rawNodes": 199741,
+    "connectedNodes": 197349,
+    "graphNodes": 16350,
+    "directedEdges": 36303,
+    "maxSnapMeters": 750
+  },
+  "assumptions": {
+    "jobYear": 2023,
+    "jobType": "JT01 primary jobs",
+    "roadSnapshot": "2026-10-16T18:45:35Z",
+    "speedMphFallback": {
+      "motorway": 55,
+      "trunk": 45,
+      "primary": 35,
+      "secondary": 30,
+      "tertiary": 25,
+      "unclassified": 25,
+      "residential": 20,
+      "living_street": 10
+    },
+    "linkSpeedMph": 20,
+    "connectorSpeedMph": 15,
+    "boundary": "Only jobs and residents inside the study window; roads extend into a surrounding buffer. No external jobs, traffic, turn restrictions, flood hydraulics, damage functions or mode choice."
+  }
+}

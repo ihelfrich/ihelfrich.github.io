@@ -1,0 +1,270 @@
+---
+import '../styles/tokens.css';
+import '../styles/gis-portfolio.css';
+
+const works = [
+  {
+    id: 'nc-terrain', label: 'North Carolina terrain', kind: 'image',
+    title: 'Inspecting a hillside in North Carolina', place: 'Henderson County, NC · 2026 analysis',
+    src: '/gis-portfolio/showcase/nc-terrain-building.png',
+    alt: 'LiDAR-derived hillshade and contours with pink building returns, reference footprints and parcel lines on a North Carolina hillside; no address or coordinate labels.',
+    description: 'Classified LiDAR becomes a ground surface, hillshade, contours and a separate building-return layer. Comparing those layers helps diagnose raster artifacts and inspect the relationship between a building and the surrounding slope. The outlined footprint and parcel lines are reference geometry, not surveyed wall or boundary positions.',
+    detail: 'LiDAR quality assurance · PDAL / GDAL · QGIS',
+    credit: 'Ian Helfrich · September 2026 terrain investigation. County building footprints: 2023; parcels: NC OneMap. LiDAR acquisition date and survey accuracy were not established. Grid spacing is not positional accuracy. Client name, address and coordinate labels omitted.',
+    download: '/gis-portfolio/showcase/nc-terrain-building.png', downloadLabel: 'Open terrain diagnostic',
+  },
+  {
+    id: 'haiti-survey', label: 'Haiti survey design', kind: 'image',
+    title: 'Designing a marine survey', place: 'Southern Haiti · 2026',
+    src: '/gis-portfolio/showcase/haiti-survey.jpg',
+    alt: 'Southern Haiti study area with blue zigzag survey samplers, red study and stratum boundaries, coordinates, scale and Esri Ocean basemap.',
+    description: 'A marine survey brings statistical sampling, coastal geography and field constraints into the same design. This overview preserves the original scientific samplers across two southern Haiti study blocks. Daily sailing and transfers are accounted for separately from survey effort.',
+    detail: 'Survey design · R / dssd · QGIS',
+    credit: 'Ian Helfrich · September 2026 survey-design work using the CAMAC method. Esri Ocean and other map credits retained in the figure. Planning analysis; not a navigation chart or clearance assessment.',
+    download: '/gis-portfolio/showcase/haiti-survey.jpg', downloadLabel: 'Open survey map',
+  },
+  {
+    id: 'haiti-coverage', label: 'Coverage simulation', kind: 'image',
+    title: 'Testing the sampling design', place: 'Southern Haiti · Block 1',
+    src: '/gis-portfolio/showcase/haiti-coverage.jpg',
+    alt: 'Simulation map of the probability of at least one sampler hit in southern Haiti Block 1, with color scale, coordinates and Esri Ocean basemap.',
+    description: 'Repeated survey designs reveal how geographic coverage varies within the study area. This diagnostic uses 5,000 archived design-family draws to estimate the chance that a location falls within at least one sampler buffer. It measures the sampling design, not animal detection or abundance.',
+    detail: 'Monte Carlo simulation · Spatial coverage',
+    credit: 'Ian Helfrich · Archived September 2026 diagnostic. EPSG:3857; 800 projected-metre half-width. Design-family probabilities do not account for subsequent logistical selection. Esri Ocean attribution retained.',
+    download: '/gis-portfolio/showcase/haiti-coverage.jpg', downloadLabel: 'Open coverage figure',
+  },
+  {
+    id: 'nmtc', label: 'Investment geography', kind: 'image',
+    title: 'Where investment reaches', place: 'United States · 2001–2022',
+    src: '/gis-portfolio/showcase/nmtc-nonmetro-share.jpg',
+    alt: 'Time series of non-metro share of New Markets Tax Credit QLICI dollars by origination year, with a 20 percent administrative reference line.',
+    description: 'My New Markets Tax Credit research links project-level investment records, geography and financial intermediaries. This figure tracks the non-metro share of QLICI dollars over time; the wider study examines rural–urban leverage differences within the same intermediary.',
+    detail: 'Spatial data linkage · Panel analysis · Policy research',
+    credit: 'Ian Helfrich, sole author; Katia Antunes and Elizaveta Gonchar acknowledged contributors. Source: CDFI Fund public release. Descriptive analysis; the reference line does not establish allocation-agreement compliance.',
+    download: '/research/helfrich-2026-nmtc-rural-gap/', downloadLabel: 'Read the research',
+  },
+  {
+    id: 'lidar', label: 'LiDAR classification', kind: 'image',
+    title: 'English Avenue, in three dimensions', place: 'Atlanta, Georgia · 2021',
+    src: '/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg',
+    alt: 'Oblique LiDAR point cloud of English Avenue, with cyan buildings, green vegetation and gray ground.',
+    description: 'Classified elevation returns reveal buildings, tree cover and ground beneath the urban scene. This map combines USGS 3DEP LiDAR with geographic context for Atlanta’s English Avenue neighborhood.',
+    detail: 'Point-cloud classification · 3D cartography',
+    credit: 'Ian Helfrich · Georgia Tech academic work. USGS 3DEP; additional map credits retained in the image.',
+    download: '/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg', downloadLabel: 'Open full-resolution image',
+  },
+  {
+    id: 'animation', label: 'Neighborhood animation', kind: 'video',
+    title: 'A moving view of the neighborhood', place: 'English Avenue, Atlanta · 2021',
+    src: '/gis-portfolio/showcase/english-avenue.mp4', poster: '/gis-portfolio/showcase/english-avenue-poster.jpg',
+    alt: 'Animated oblique view of extruded buildings, streets and aerial imagery in English Avenue.',
+    description: 'A short geographic animation brings building form and street relationships into view. Extruded buildings sit over aerial imagery, with the camera moving through the neighborhood.',
+    detail: 'ArcGIS visualization · 10-second animation',
+    credit: 'Ian Helfrich · Georgia Tech academic work. Building extrusions are a visualization, not a surveyed architectural model.',
+    download: '/gis-portfolio/showcase/english-avenue.mp4', downloadLabel: 'Open video',
+  },
+  {
+    id: 'bankhead', label: 'Building-age map', kind: 'image',
+    title: 'The age of the built environment', place: 'Bankhead, Atlanta · 2021',
+    src: '/gis-portfolio/showcase/bankhead-building-age.jpg',
+    alt: 'Perspective map of Bankhead with buildings colored by construction era, from 1900–1920 through 1991–2021; unknown dates are gray.',
+    description: 'Building geometry and construction-era categories share a single perspective map. The result places historical development patterns in their street and neighborhood context, while keeping unknown dates visible.',
+    detail: 'Building attributes · Thematic 3D mapping',
+    credit: 'Georgia Tech academic work · Map imagery credits: Maxar and Microsoft. Original legend and attribution retained.',
+    download: '/gis-portfolio/showcase/bankhead-building-age.pdf', downloadLabel: 'Open standalone map PDF',
+  },
+  {
+    id: 'terrain', label: 'Terrain surface', kind: 'image',
+    title: 'Reading the shape of the land', place: 'Environmental GIS · Academic terrain study',
+    src: '/gis-portfolio/showcase/arcscene-terrain.png',
+    alt: 'ArcScene perspective terrain surface with elevation shading and contour overlays showing ridges, valleys and lowlands.',
+    description: 'An ArcScene terrain study combines surface relief, shading and contour overlays. The oblique view makes ridges, valleys and changes in elevation legible together.',
+    detail: 'ArcScene · Elevation surfaces · Contours',
+    credit: 'Ian Helfrich · Georgia Tech environmental GIS coursework, Lab 10. Retained academic rendering.',
+    download: '/gis-portfolio/showcase/arcscene-terrain.png', downloadLabel: 'Open original terrain image',
+  },
+];
+const order = ['lidar', 'animation', 'terrain', 'nc-terrain', 'bankhead', 'haiti-survey', 'haiti-coverage', 'nmtc'];
+works.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const animation = works.find(work => work.kind === 'video')!;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LiDAR & 3D GIS | Ian Helfrich</title>
+    <meta name="description" content="LiDAR point clouds, reconstructed terrain, building visualization and interactive 3D models by Dr. Ian Helfrich." />
+    <meta name="author" content="Dr. Ian Helfrich" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://ihelfrich.github.io/gis-portfolio/" />
+    <meta property="og:title" content="LiDAR & 3D GIS | Ian Helfrich" />
+    <meta property="og:description" content="LiDAR, urban form, terrain and interactive geographic tools. Selected work." />
+    <meta property="og:image" content="https://ihelfrich.github.io/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg" />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <a class="skip-link" href="#work">Skip to selected work</a>
+    <header class="portfolio-header shell">
+      <a class="brand" href="/">Ian Helfrich<span>PhD</span></a>
+      <nav aria-label="Portfolio navigation"><a href="#work">Selected work</a><a href="#surface-demo">3D model</a><a href="#analysis">Analysis</a><a href="#interactive">Interactive demos</a><a class="contact-link" href="/contact/">Discuss a project <span aria-hidden="true">↗</span></a></nav>
+    </header>
+
+    <main>
+      <section class="intro shell" aria-labelledby="portfolio-title">
+        <div><p class="eyebrow">Geographic information science / Selected work</p><h1 id="portfolio-title">LiDAR &amp;<br />3D GIS<span class="period">.</span></h1></div>
+        <div class="intro-copy"><p>Point clouds, reconstructed surfaces and the shape of places.</p><p class="intro-detail">My work connects classified LiDAR, terrain reconstruction and 3D cartography with the questions behind a site: landform, building context, survey design and economic access.</p><a class="text-link" href="#work">Explore the work <span aria-hidden="true">↓</span></a></div>
+      </section>
+
+      <section id="work" class="work-section shell" aria-label="Selected 3D GIS work" data-works={JSON.stringify(works)}>
+        <div class="section-line"><h2>Selected work</h2><span>01–{String(works.length).padStart(2, '0')} / LiDAR · Surfaces · Buildings · Analysis</span></div>
+        <div class="work-picker" role="group" aria-label="Choose a work sample">
+          {works.map((work, index) => <button type="button" data-work-index={index} aria-pressed={index === 0}><span class="work-number">0{index + 1}</span><span>{work.label}</span><span class="picker-arrow" aria-hidden="true">↗</span></button>)}
+        </div>
+        <div class="showcase">
+          <div class="media-column">
+            <div class="media-stage">
+              <img id="work-image" src={works[0].src} alt={works[0].alt} width="2560" height="1920" fetchpriority="high" />
+              <video id="work-video" controls playsinline preload="none" poster={animation.poster} aria-label={animation.alt} hidden><source src={animation.src} type="video/mp4" />Your browser does not support embedded video. <a href={animation.src}>Open the video.</a></video>
+            </div>
+            <div class="media-bar"><span id="work-detail">{works[0].detail}</span><button id="present-work" type="button">Enlarge <span aria-hidden="true">⤢</span></button></div>
+          </div>
+          <div class="work-copy" aria-live="polite" aria-atomic="true">
+            <p class="eyebrow" id="work-place">{works[0].place}</p>
+            <h3 id="work-title">{works[0].title}</h3>
+            <p id="work-description">{works[0].description}</p>
+            <a class="text-link" id="work-download" href={works[0].download} target="_blank" rel="noopener">{works[0].downloadLabel} <span aria-hidden="true">↗</span></a>
+            <p class="source-note" id="work-credit">{works[0].credit}</p>
+          </div>
+        </div>
+        <noscript><p>Explore each sample: {works.map(work => <a href={work.download}>{work.label} · </a>)}</p></noscript>
+      </section>
+
+      <section id="surface-demo" class="terrain-demo shell" aria-labelledby="surface-heading">
+        <div class="section-line"><h2 id="surface-heading">Reconstructing Haiti’s coastal terrain</h2><span>Original surface / Interactive 3D</span></div>
+        <p class="demo-intro">Land elevation and seabed bathymetry meet in a continuous triangulated surface. This excerpt from my Haiti terrain workflow retains 535,330 triangles, with elevation shading that exposes the shelf, slopes and mountain relief.</p>
+        <div class="demo-controls"><button type="button" id="load-surface">Explore the terrain model</button><div id="surface-tools" hidden><button type="button" data-surface-mode="surface" aria-pressed="true">Shaded surface</button><button type="button" data-surface-mode="wireframe" aria-pressed="false">Wireframe</button><button type="button" data-surface-mode="vertices" aria-pressed="false">Mesh vertices</button><button type="button" id="surface-reset">Reset view</button><button type="button" data-surface-zoom="0.8" aria-label="Zoom into terrain">+</button><button type="button" data-surface-zoom="1.25" aria-label="Zoom out of terrain">−</button></div></div>
+        <div id="surface-model" hidden></div>
+        <p id="surface-status" class="source-note" role="status">10.7 MB, loaded on demand. Rotate, zoom and inspect the underlying mesh.</p>
+        <p class="source-note surface-method">100 m mesh sampling; original vertical exaggeration: land 1.2×, seabed 6×. Reconstructed from gridded elevations, not photogrammetry. Geometry is retained from the original export, transformed to a local coordinate frame; source imagery is replaced with elevation shading. Grid spacing does not establish measurement accuracy.</p>
+        <p class="source-note surface-method">Bathymetry: <a href="https://gmrt.org/about/terms_of_use.php">Global Multi-Resolution Topography Synthesis (GMRT), CC BY 4.0</a>; Ryan et al. (2009), <a href="https://doi.org/10.1029/2008GC002332">doi:10.1029/2008GC002332</a>; <a href="https://doi.org/10.1594/IEDA.100001">data DOI</a>. Land: <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md">Mapzen Terrain Tiles / AWS; SRTM and GMTED2010 courtesy of USGS; ETOPO1 courtesy of NOAA</a>. Not for navigation. <a href="/gis-portfolio/surface/metadata.json">Geometry &amp; provenance</a>.</p>
+      </section>
+
+      <section id="analysis" class="analysis-section shell" aria-labelledby="analysis-heading">
+        <div class="section-line"><h2 id="analysis-heading">The analysis behind the geography</h2><span>Research &amp; applied methods</span></div>
+        <div class="research-grid">
+          <article class="nc-case"><div><p class="eyebrow">North Carolina / Terrain &amp; drainage</p><h3>Checking what the terrain can support</h3><p>A reconstructed ground surface made it possible to compare a reported raster streak against independently processed LiDAR. The streak was absent in the comparison hillshade; that narrowed the diagnosis without claiming to identify the original processing fault.</p><p>Resolution sensitivity mattered: missing cells within the inspected building footprint rose from 38.6% at 3-foot cells to 77.1% at 1-foot cells and 87.5% at half-foot cells, with search radii reduced alongside cell size. A finer grid could not recover ground returns that were not there.</p><p>The related site-assessment workflow adds slope, depression storage and D8 contributing-area screening. Those are terrain diagnostics. Rainfall, infiltration, discharge and calibrated flood depth are outside that model.</p><p class="source-note">Archived September 2026 diagnostics. Black areas in the hillshade retain missing ground data. The related USGS terrain source is from the 2018 NC Phase 5 survey and predates Hurricane Helene; this does not establish the acquisition date of the separately supplied LAS.</p></div><figure><a href="/gis-portfolio/showcase/nc-ground-hillshade.png" target="_blank" rel="noopener"><img src="/gis-portfolio/showcase/nc-ground-hillshade.png" alt="Independent ground-only hillshade of the inspected hillside, preserving black gaps where ground data are missing." width="1200" height="700" loading="lazy" /></a><figcaption>Ground-only reconstruction used to check the reported raster artifact. Open the image to inspect it.</figcaption></figure></article>
+          <article><p class="eyebrow">Place-based investment / Working paper</p><h3>The rural mobilization gap</h3><p>Does a rural–urban investment gap remain when projects are compared within the same Community Development Entity? I built a panel from 19,907 transactions covering 8,024 projects and examined the gap with intermediary fixed effects and an order-invariant decomposition.</p><p>The mean within-intermediary estimate is −0.047, with a 95% interval from −0.245 to +0.152. The estimates do not establish a causal mechanism or rule out a meaningful within-intermediary component.</p><a class="text-link" href="/research/helfrich-2026-nmtc-rural-gap/">Read the working paper <span aria-hidden="true">↗</span></a><p class="source-note">Ian Helfrich · Sole author. Contributors acknowledged on the research page. Public CDFI Fund data; descriptive, noncausal analysis.</p></article>
+          <article><p class="eyebrow">Remote sensing / Trade / Preprint</p><h3>Trade in the spotlight</h3><p>Country-to-country distance depends on where people and economic activity are located. With Elizaveta Gonchar, I studied gravity-model distance measures built from VIIRS nightlights and gridded population, using weighted centroids as the endpoints of geodesic distance.</p><p>The 2025 preprint connects satellite data processing to an economic measurement problem. A proposed time-varying transport-network extension remains separate work in development.</p><a class="text-link" href="/research/gonchar-helfrich-2025-spotlight/">Explore the preprint <span aria-hidden="true">↗</span></a><p class="source-note">Elizaveta Gonchar &amp; Ian Helfrich · April 2025 preprint. No completed panel or transport-network extension is claimed.</p></article>
+        </div>
+      </section>
+
+      <section id="terrain-demo" class="terrain-demo shell" aria-labelledby="terrain-demo-heading">
+        <div class="section-line"><h2 id="terrain-demo-heading">Explore the geographic setting in 3D</h2><span>Cesium ion / Regional context</span></div>
+        <p class="demo-intro">Rotate and zoom through terrain, aerial imagery and available OSM buildings. This regional context is separate from the source LiDAR, survey designs and analytical results above.</p>
+        <div class="demo-controls"><button type="button" id="load-portfolio-3d">Load interactive 3D</button><div id="portfolio-3d-places" hidden><button type="button" data-place="nc" aria-pressed="true">Western North Carolina</button><button type="button" data-place="haiti" aria-pressed="false">Southern Haiti</button><button type="button" data-place="atlanta" aria-pressed="false">Atlanta</button></div></div>
+        <div id="portfolio-3d" hidden></div><p id="portfolio-3d-status" class="source-note" role="status">Load on demand. Source attribution remains visible in the 3D view.</p>
+      </section>
+
+      <section id="interactive" class="interactive-section shell" aria-labelledby="interactive-heading">
+        <div class="section-line"><h2 id="interactive-heading">Interactive geographic tools</h2><span>Explore in the browser</span></div>
+        <article class="city-feature"><div><p class="eyebrow">Investment incentives / Regional growth</p><h3>Spatial Investment Lab</h3></div><p>Compare investment locations over Asheville’s 3D terrain. Allocate a fixed budget, separate incentive offers from additional jobs, and inspect road-network access by earnings group.</p><a class="text-link" href="/spatial-economics/">Open investment lab <span aria-hidden="true">↗</span></a></article>
+        <article class="ocean-feature">
+          <a class="ocean-image" href="https://ihelfrich.github.io/hidden-rivers/" target="_blank" rel="noopener" aria-label="Open Hidden Rivers in a new tab"><img src="/hidden-rivers/film-global-currents-poster.jpg" alt="Global ocean-current visualization showing the structure of circulation across ocean basins." loading="lazy" width="1920" height="1080" /><span class="image-link">Open interactive globe ↗</span></a>
+          <div><p class="eyebrow">Ocean &amp; remote sensing</p><h3>Hidden Rivers</h3><p>Explore ocean currents, Amazon waters and coastal scenes through a geographic globe, satellite imagery and depth views. Compare places, inspect the data and change the view.</p><a class="text-link" href="https://ihelfrich.github.io/hidden-rivers/" target="_blank" rel="noopener">Launch Hidden Rivers <span aria-hidden="true">↗</span></a><p class="source-note">Sources include Sentinel-2, HydroRIVERS, HYCOM and NOAA drifter climatology. Source dates and model distinctions accompany the views.</p></div>
+        </article>
+        <article class="city-feature"><div><p class="eyebrow">Urban geography &amp; property</p><h3>St. Louis City &amp; Property Lab</h3></div><p>Explore mapped buildings and streets alongside parcel and zoning information. Building heights and property scenarios retain their source and assumption distinctions.</p><a class="text-link" href="https://ihelfrich.github.io/st-louis/" target="_blank" rel="noopener">Open the city lab <span aria-hidden="true">↗</span></a></article>
+        <article class="city-feature"><div><p class="eyebrow">Spatial statistics &amp; public policy</p><h3>American Policy Atlas</h3></div><p>Move from county-level maps to spatial autocorrelation, regression and empirical-Bayes shrinkage. A California redlining case study connects historical geography with present-day outcomes while keeping association distinct from causation.</p><a class="text-link" href="https://ihelfrich.github.io/american-policy-atlas/" target="_blank" rel="noopener">Open the policy atlas <span aria-hidden="true">↗</span></a></article>
+      </section>
+
+      <section class="contact-section shell" aria-labelledby="contact-heading"><div><p class="eyebrow">Work with me</p><h2 id="contact-heading">Have a spatial question?</h2><p>I work on geographic analysis, research visualization and technical instruction. Share the question you need to answer and the data you have.</p></div><a class="contact-button" href="/contact/">Discuss your project <span aria-hidden="true">↗</span></a></section>
+    </main>
+    <footer class="shell"><span>Dr. Ian Helfrich</span><span>3D GIS &amp; spatial analysis</span><a href="/">Research &amp; other work ↗</a></footer>
+
+    <dialog id="presentation" aria-labelledby="presentation-title">
+      <div class="presentation-top"><span id="presentation-title">{works[0].title}</span><button id="close-presentation" type="button" aria-label="Close enlarged work">Close ×</button></div>
+      <div class="presentation-media"><img id="presentation-image" alt="" /><video id="presentation-video" controls playsinline preload="none" hidden></video></div>
+      <div class="presentation-bottom"><button id="previous-work" type="button" aria-label="Previous work">← Previous</button><span id="presentation-count" aria-live="polite">1 / {works.length}</span><button id="next-work" type="button" aria-label="Next work">Next →</button></div>
+    </dialog>
+    <script>
+      import { mountCesiumCoast } from '../scripts/hidden-rivers/cesium-coast.js';
+      const section = document.querySelector<HTMLElement>('[data-works]')!;
+      const works = JSON.parse(section.dataset.works!);
+      const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-work-index]'));
+      const image = document.querySelector<HTMLImageElement>('#work-image')!;
+      const video = document.querySelector<HTMLVideoElement>('#work-video')!;
+      const dialog = document.querySelector<HTMLDialogElement>('#presentation')!;
+      const bigImage = document.querySelector<HTMLImageElement>('#presentation-image')!;
+      const bigVideo = document.querySelector<HTMLVideoElement>('#presentation-video')!;
+      let index = 0;
+      const setText = (id: string, value: string) => { document.getElementById(id)!.textContent = value; };
+      function updatePresentation() {
+        const work = works[index];
+        bigVideo.pause();
+        bigVideo.hidden = work.kind !== 'video';
+        bigImage.hidden = work.kind === 'video';
+        if (work.kind === 'video') {
+          bigVideo.src = work.src;
+          bigVideo.poster = work.poster;
+          bigVideo.setAttribute('aria-label', work.alt);
+        } else { bigImage.src = work.src; bigImage.alt = work.alt; }
+        setText('presentation-title', work.title);
+        setText('presentation-count', `${index + 1} / ${works.length}`);
+      }
+      function selectWork(next: number) {
+        index = (next + works.length) % works.length;
+        const work = works[index];
+        video.pause();
+        image.hidden = work.kind === 'video';
+        video.hidden = work.kind !== 'video';
+        if (work.kind === 'image') { image.src = work.src; image.alt = work.alt; }
+        buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+        for (const key of ['title', 'description', 'place', 'detail', 'credit']) setText(`work-${key}`, work[key]);
+        const link = document.querySelector<HTMLAnchorElement>('#work-download')!;
+        link.href = work.download;
+        link.textContent = `${work.downloadLabel} ↗`;
+        if (dialog.open) updatePresentation();
+      }
+      buttons.forEach((button, i) => button.addEventListener('click', () => selectWork(i)));
+      document.querySelector('#present-work')!.addEventListener('click', () => {
+        video.pause(); updatePresentation(); dialog.showModal(); document.body.classList.add('presenting');
+      });
+      document.querySelector('#close-presentation')!.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', () => { bigVideo.pause(); document.body.classList.remove('presenting'); });
+      document.querySelector('#previous-work')!.addEventListener('click', () => selectWork(index - 1));
+      document.querySelector('#next-work')!.addEventListener('click', () => selectWork(index + 1));
+      dialog.addEventListener('keydown', event => {
+        if ((event.target as HTMLElement).tagName === 'VIDEO') return;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); selectWork(index + (event.key === 'ArrowRight' ? 1 : -1)); }
+      });
+      document.addEventListener('visibilitychange', () => { if (document.hidden) { video.pause(); bigVideo.pause(); } });
+      const load3d = document.querySelector<HTMLButtonElement>('#load-portfolio-3d')!;
+      const map3d = document.querySelector<HTMLElement>('#portfolio-3d')!;
+      const mapStatus = document.querySelector<HTMLElement>('#portfolio-3d-status')!;
+      const places: Record<string, {longitude: number; latitude: number; range: number; height: number}> = {
+        nc: {longitude: -82.46, latitude: 35.32, range: 22000, height: 650},
+        haiti: {longitude: -73.35, latitude: 18.6, range: 100000, height: 0},
+        atlanta: {longitude: -84.41, latitude: 33.77, range: 6500, height: 300},
+      };
+      let scene: Awaited<ReturnType<typeof mountCesiumCoast>> | undefined;
+      const placeButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-place]'));
+      function visitPlace(name: string) {
+        const place = places[name];
+        if (!place || !scene) return;
+        scene.flyTo(place.longitude, place.latitude, { ...place, immediate: true });
+        placeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.place === name)));
+      }
+      placeButtons.forEach(button => button.addEventListener('click', () => visitPlace(button.dataset.place!)));
+      load3d.addEventListener('click', async () => {
+        load3d.disabled = true; map3d.hidden = false; mapStatus.textContent = 'Loading regional 3D context…';
+        try {
+          scene = await mountCesiumCoast(map3d, { initialPreset: 'fayetteville', statusElement: mapStatus });
+          visitPlace('nc'); document.querySelector<HTMLElement>('#portfolio-3d-places')!.hidden = false;
+          load3d.hidden = true;
+        } catch { mapStatus.textContent = 'The 3D context could not start. The work samples above remain available.'; load3d.disabled = false; }
+      });
+      window.addEventListener('pagehide', () => scene?.dispose());
+    </script>
+    <script>import "../scripts/portfolio-surface.mjs";</script>
+  </body>
+</html>

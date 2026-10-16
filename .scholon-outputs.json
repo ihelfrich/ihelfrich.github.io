@@ -1,0 +1,131 @@
+{
+  "projects": [
+    {
+      "id": "ian-public-website",
+      "root": "/Users/ian/Developer/ihelfrich.github.io",
+      "description": "Personal research website and selected spatial-analysis portfolio"
+    }
+  ],
+  "assets": [
+    {
+      "id": "ian-website.gis-portfolio",
+      "project": "ian-public-website",
+      "path": "src/pages/gis-portfolio.astro",
+      "kind": "presentation",
+      "title": "Selected GIS and spatial-analysis client portfolio",
+      "summary": "Nine selected spatial-analysis samples, including NC terrain diagnostics, plus a link to the Spatial Investment Lab.",
+      "facets": [
+        "GIS",
+        "portfolio",
+        "spatial-analysis",
+        "survey-design",
+        "research"
+      ],
+      "status": "local_preview_extended_not_published",
+      "limits": [
+        "No new scientific analysis or replication performed",
+        "Historical Caribbean visualization explicitly separated from final southern Haiti sampler design",
+        "External demo URLs checked; comprehensive scientific or interaction audit of those apps not repeated",
+        "Local preview only; no commit, push or publication",
+        "Latest NC portfolio additions built successfully; previous eight-sample gallery verification retained, full gallery interaction audit not repeated after the investment-lab pivot."
+      ],
+      "depends_on": [
+        "ian-website.gis-portfolio-sources"
+      ],
+      "evidence": [
+        "docs/gis-portfolio-verification.json"
+      ]
+    },
+    {
+      "id": "ian-website.gis-portfolio-sources",
+      "project": "ian-public-website",
+      "path": "docs/gis-portfolio-assets.json",
+      "kind": "receipt",
+      "title": "GIS portfolio selected-asset provenance",
+      "summary": "Selected output hashes, source identities, transformations and scope limits; no private communication or raw source material.",
+      "facets": [
+        "provenance",
+        "GIS",
+        "portfolio"
+      ],
+      "status": "curated_source_receipt",
+      "limits": [
+        "Does not independently validate scientific source results or grant publication approval."
+      ]
+    },
+    {
+      "id": "ian-website.spatial-investment-lab",
+      "project": "ian-public-website",
+      "path": "src/pages/spatial-economics.astro",
+      "kind": "presentation",
+      "title": "Spatial Investment Lab",
+      "summary": "Asheville 3D public-data policy scenario: additionality, displacement, constrained allocation and earnings-group accessibility.",
+      "facets": [
+        "spatial-economics",
+        "incentives",
+        "Cesium",
+        "network-analysis",
+        "LODES"
+      ],
+      "status": "local_prototype_verified_not_published",
+      "limits": [
+        "Policy response parameters are illustrative, not estimated.",
+        "No fiscal return, general equilibrium, wages or agglomeration model.",
+        "Roads and employment have different vintages; external employment is excluded.",
+        "Cesium shows Upgrade for commercial use; account entitlement was not changed.",
+        "Existing environment and GitHub-secret connection reused; browser credential remains visible by design; token restrictions not independently verified.",
+        "No commit, push or public deployment."
+      ],
+      "depends_on": [
+        "ian-website.spatial-investment-inputs"
+      ],
+      "evidence": [
+        "docs/spatial-investment-verification.json"
+      ]
+    },
+    {
+      "id": "ian-website.spatial-investment-inputs",
+      "project": "ian-public-website",
+      "path": "public/spatial-economics/asheville.json",
+      "kind": "data",
+      "title": "Asheville public employment and directed road graph",
+      "summary": "Explicit LODES/OSM inputs with source hashes, retrieval query, aggregation and coverage; no client material.",
+      "facets": [
+        "LODES",
+        "OSM",
+        "directed-network",
+        "employment"
+      ],
+      "status": "public_source_derived_with_numerical_checks",
+      "limits": [
+        "Cross-vintage, bounded study window; grid and snapping approximations.",
+        "OSM-derived graph and geometry subject to ODbL attribution."
+      ],
+      "evidence": [
+        "public/spatial-economics/sources.json",
+        "docs/spatial-investment-verification.json"
+      ]
+    },
+    {
+      "id": "ian-website.spatial-investment-model",
+      "project": "ian-public-website",
+      "path": "src/lib/spatial-incentives.mjs",
+      "kind": "procedure",
+      "title": "Spatial incentive allocation and accounting procedure",
+      "summary": "Tested pure implementation with explicit conditional assumptions, conservation and allocation checks.",
+      "facets": [
+        "incentives",
+        "allocation",
+        "accessibility"
+      ],
+      "status": "numerically_checked_not_empirically_calibrated",
+      "limits": [
+        "Scenario mechanics only; no identified causal effect or investment recommendation."
+      ],
+      "evidence": [
+        "tests/unit/spatial-investment.test.mjs",
+        "docs/spatial-investment-verification.json"
+      ]
+    }
+  ]
+}

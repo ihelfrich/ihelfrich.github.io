@@ -75,7 +75,7 @@ function safeFailure(layer, error) {
  */
 export async function mountCesiumCoast(container, {
   onLocation = () => {}, statusElement, onStatus = () => {},
-  initialPreset = 'cape', signal,
+  initialPreset = 'cape', signal, onScene = () => {},
 } = {}) {
   if (!container) throw new Error('A coastal map container is required.');
   let disposed = false, epoch = 0, viewer, C, tileset, input, observer, frameTimer;
@@ -267,6 +267,8 @@ export async function mountCesiumCoast(container, {
       const complete = state.terrain === 'ready' && state.buildings !== 'unavailable' && state.imagery === 'ready';
       publish(`${describe()}${errors.length ? ` ${errors.join(' ')}` : ''}`, { state: complete ? 'ready' : connected ? 'partial' : 'unavailable' });
       if (!connected) showForm('This token could not load World Terrain or OSM buildings. The token needs assets:read and access to assets 1 and 96188. Aerial imagery uses asset 2. Tokens saved on another device are not available in this browser.');
+      // Optional analytical overlays share this renderer, never its credential.
+      onScene({ Cesium: C, viewer: activeViewer });
       activeViewer.scene.requestRender();
     } catch {
       if (disposed || attempt !== epoch) return;
