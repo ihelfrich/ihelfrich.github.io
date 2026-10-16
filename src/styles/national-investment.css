@@ -8,3 +8,21 @@
 .ni{--ink:var(--ni-text);--ink-strong:var(--ni-text);--ink-muted:var(--ni-muted)}
 .ni h1,.ni h2,.ni strong{color:var(--ni-text)}
 @media(max-width:500px){.ni-controls>label:first-child,.ni-controls>fieldset{grid-column:1/-1}.ni-controls>fieldset select{flex:1;min-width:0}.ni-controls select{padding-inline:8px}}
+
+/* Compact instrument header: keep geography in the initial viewport. */
+.ni{padding:24px clamp(20px,3vw,40px)}
+.ni-path{margin-bottom:20px;gap:12px}
+.ni-heading{grid-template-columns:1.3fr 1fr;gap:28px;margin-bottom:20px}
+.ni h1{font-size:clamp(30px,3.7vw,52px);line-height:1.08;letter-spacing:-.04em}
+.ni-heading>p{font-size:13px;max-width:47ch}
+.ni-kicker{margin-bottom:8px!important}
+.ni-vintage{padding:10px 0;gap:18px;font-size:10px}
+.ni-controls{padding:18px 0 10px;gap:12px}
+.ni-notice{padding-bottom:10px;min-height:26px}
+.ni-metrics>div{padding:14px 20px}
+.ni-metrics strong{font-size:clamp(24px,2.6vw,36px);margin:4px 0}
+.ni-map-layout{grid-template-columns:minmax(0,1fr) 260px}
+.ni-map-shell{height:600px}
+.ni-inspector{padding:24px 20px}
+@media(max-width:760px){.ni{padding:20px 16px}.ni-heading{grid-template-columns:1fr;gap:12px}.ni-path{font-size:10px;gap:8px;margin-bottom:20px}.ni-vintage{gap:8px 16px}.ni-map-layout{grid-template-columns:1fr}.ni-map-shell{height:480px}.ni-metrics>div{padding:12px}.ni-controls{gap:12px}.ni-heading>p{font-size:13px}.ni-inspector{border-left:0;border-top:1px solid var(--ni-line)}}
+.ni-page #main-content{padding-top:0}

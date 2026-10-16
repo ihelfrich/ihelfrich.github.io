@@ -154,3 +154,20 @@ dialog button { background: transparent; color: inherit; border: 1px solid color
 #surface-tools { display: flex; flex-wrap: wrap; gap: .6rem; }
 #surface-status { margin-top: .8rem; }
 .surface-method { max-width: 110ch; margin-top: .8rem; }
+
+/* Bring the selected artifact into view sooner; retain all sample controls. */
+.portfolio-header { min-height: 76px; border-color:var(--rule-strong); }
+.intro { padding-block: 32px; grid-template-columns:1.1fr 1fr; align-items:center; }
+.intro h1 { font-size:clamp(40px,5vw,68px); margin-top:12px; }
+.intro h1 br { display:none; }
+.intro-copy > p:first-child { font-size:18px; }
+.intro-detail { font-size:13px; margin-block:8px 12px; }
+.work-picker { grid-template-columns:repeat(4,minmax(0,1fr)); border-color:var(--rule-strong); }
+.work-picker button { min-height:48px; font-size:11px; border-color:var(--rule-strong); }
+.work-picker button:nth-child(3n) { border-right:1px solid var(--rule-strong); }
+.work-picker button:nth-child(4n) { border-right:0; }
+.work-picker button:last-child { grid-column:auto; }
+.work-picker button[aria-pressed=true] { background:var(--p-neutral-06);color:var(--p-teal-76); }
+.media-stage { border:1px solid var(--rule-strong); }
+.work-copy h3 { font-size:clamp(24px,2.7vw,36px); }
+@media(max-width:700px){.intro{grid-template-columns:1fr;gap:20px;padding-block:24px}.intro h1{font-size:44px}.work-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.work-picker button:nth-child(2n){border-right:0}.work-picker button:nth-child(2n+1){border-right:1px solid var(--rule-strong)}.work-picker button{min-height:48px}.portfolio-header{min-height:68px}.work-copy h3{font-size:28px}}

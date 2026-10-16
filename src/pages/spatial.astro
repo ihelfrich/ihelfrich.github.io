@@ -62,52 +62,38 @@ const instruments = [
   pageClass="sp-page"
 >
   <div class="sp-intro">
-  <header class="sp-hero sp-shell">
-    <p class="sp-kicker">Spatial &amp; 3D GIS</p>
-    <h1>Spatial investment and 3D GIS</h1>
-    <p class="sp-deck">I connect investment incentives and economic geography with network analysis, classified LiDAR and 3D terrain. Explore the national financing record, then test how a local incentive budget changes access to jobs.</p>
-    <p class="sp-hero-actions"><a href="/spatial-economics/national/">Explore national investment ↗</a><a href="/spatial-economics/">Run a local scenario ↗</a></p>
-    <nav class="sp-jump" aria-label="Sections on this page">
-      <a href="#investment">Spatial investment</a>
-      <a href="#lidar-terrain">LiDAR and terrain</a>
-      <a href="#applications">Applications</a>
-      <a href="#more-work">More work</a>
-    </nav>
-  </header>
-
-  <figure class="sp-figure sp-figure--hero">
-    <a href="/gis-portfolio/#work" class="sp-figure__link">
-      <img
-        src="/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg"
-        alt="Oblique LiDAR point cloud of English Avenue, with cyan buildings, green vegetation and gray ground."
-        width="2560"
-        height="1920"
-        fetchpriority="high"
-      />
-    </a>
-    <figcaption class="sp-shell">
-      <span>Classified LiDAR returns · English Avenue, Atlanta · 2021</span>
-      <span>USGS 3DEP point cloud: buildings cyan, vegetation green, ground gray. Georgia Tech academic work.</span>
-    </figcaption>
-  </figure>
+    <header class="sp-hero">
+      <p class="sp-kicker">Ian Helfrich / Selected spatial work</p>
+      <h1>Spatial economics<br />&amp; 3D GIS</h1>
+      <p class="sp-deck">Investment geography, classified LiDAR and reconstructed terrain. Research and working models at the scale of a neighborhood, a region and a country.</p>
+      <p class="sp-hero-actions"><a href="/gis-portfolio/#work">Explore the 3D work <span aria-hidden="true">↗</span></a><a href="/spatial-economics/national/">National investment atlas <span aria-hidden="true">↗</span></a></p>
+      <p class="sp-hero-note">Econometrics · Network analysis · Point clouds · Terrain</p>
+    </header>
+    <figure class="sp-hero-film">
+      <div class="sp-film-label"><span>01 / Urban form</span><span>Atlanta, Georgia</span></div>
+      <video controls playsinline preload="none" poster="/gis-portfolio/showcase/english-avenue-poster.jpg" aria-label="English Avenue 3D neighborhood animation">
+        <source src="/gis-portfolio/showcase/english-avenue.mp4" type="video/mp4" />
+        <a href="/gis-portfolio/showcase/english-avenue.mp4">Watch the neighborhood animation</a>
+      </video>
+      <figcaption><span>English Avenue · 10-second ArcGIS animation</span><span>Building extrusions over aerial imagery · Academic work, 2021</span></figcaption>
+    </figure>
   </div>
-
-  <section class="sp-types sp-shell" aria-labelledby="types-heading">
-    <h2 id="types-heading" class="sp-label">Data types on this page</h2>
-    <dl>
-      {dataTypes.map((item) => (
-        <div>
-          <dt>{item.term}</dt>
-          <dd>{item.body}</dd>
-        </div>
-      ))}
-    </dl>
+  <nav class="sp-jump sp-shell" aria-label="Sections on this page">
+    <a href="#selected">Selected 3D work <span>01</span></a><a href="#investment">Spatial investment <span>02</span></a><a href="#lidar-terrain">Terrain analysis <span>03</span></a><a href="#applications">Applications <span>04</span></a>
+  </nav>
+  <section id="selected" class="sp-selected sp-shell" aria-labelledby="selected-heading">
+    <div class="sp-selected-head"><div><p class="sp-label">Selected visual work</p><h2 id="selected-heading">LiDAR, buildings &amp; terrain</h2></div><a href="/gis-portfolio/#work">View all eight samples ↗</a></div>
+    <div class="sp-visual-grid">
+      <a class="sp-visual-card" href="/gis-portfolio/?work=lidar#work"><div class="sp-visual-media"><img src="/gis-portfolio/Helfrich_EnglishAveLiDAR2.jpg" width="2560" height="1920" alt="Original classified LiDAR map of English Avenue, Atlanta" loading="lazy" /></div><div class="sp-visual-title"><span class="sp-tag">Point-cloud classification</span><h3>English Avenue LiDAR <span aria-hidden="true">↗</span></h3><p>Ground, buildings and vegetation from USGS 3DEP returns.</p></div></a>
+      <a class="sp-visual-card" href="/gis-portfolio/?work=nc-terrain#work"><div class="sp-visual-media"><img src="/gis-portfolio/showcase/nc-terrain-building.png" width="1320" height="840" alt="North Carolina hillside with classified building returns and terrain contours" loading="lazy" /></div><div class="sp-visual-title"><span class="sp-tag">Surface diagnostics</span><h3>North Carolina terrain <span aria-hidden="true">↗</span></h3><p>Ground surfaces, contours and building context.</p></div></a>
+      <a class="sp-visual-card" href="/gis-portfolio/#surface-demo"><div class="sp-visual-media"><img src="/gis-portfolio/showcase/haiti-mesh-preview.png" width="800" height="450" alt="Rendered Haiti terrain mesh joining green land relief and blue seabed bathymetry" loading="lazy" /></div><div class="sp-visual-title"><span class="sp-tag">Interactive surface reconstruction</span><h3>Southern Haiti <span aria-hidden="true">↗</span></h3><p>Rotate and inspect a land–seabed mesh with 525,474 triangles.</p></div></a>
+    </div>
   </section>
 
   <section id="investment" class="sp-section sp-shell" aria-labelledby="investment-heading">
     <header class="sp-section__head">
-      <p class="sp-label">01 · Spatial investment</p>
-      <h2 id="investment-heading">Place-based investment: observed financing and a conditional scenario</h2>
+      <p class="sp-label">02 · Spatial investment</p>
+      <h2 id="investment-heading">Investment incentives & regional geography</h2>
       <p>The national atlas reports where New Markets Tax Credit financing was observed. The Asheville scenario asks a separate, conditional question: how a fixed incentive budget changes road-network access to jobs once offers, additionality and relocation take stated values.</p>
     </header>
 
@@ -157,7 +143,7 @@ const instruments = [
 
   <section id="lidar-terrain" class="sp-section sp-shell" aria-labelledby="lidar-heading">
     <header class="sp-section__head">
-      <p class="sp-label">02 · LiDAR and terrain</p>
+      <p class="sp-label">03 · LiDAR and terrain</p>
       <h2 id="lidar-heading">LiDAR diagnostics and reconstructed terrain</h2>
       <p>The portfolio holds eight selected artifacts, including academic exercises and group work that are credited as such. The terrain diagnostic and interactive mesh use different source measurements.</p>
     </header>
@@ -219,7 +205,7 @@ const instruments = [
 
   <section id="applications" class="sp-section sp-shell" aria-labelledby="applications-heading">
     <header class="sp-section__head">
-      <p class="sp-label">03 · Applications</p>
+      <p class="sp-label">04 · Applications</p>
       <h2 id="applications-heading">Geospatial applications</h2>
       <p>Urban property evidence, ocean dynamics and county-level spatial statistics.</p>
     </header>
@@ -239,9 +225,11 @@ const instruments = [
     </ol>
   </section>
 
+  <details class="sp-types sp-shell"><summary>How to read the evidence</summary><dl>{dataTypes.map((item) => <div><dt>{item.term}</dt><dd>{item.body}</dd></div>)}</dl></details>
+
   <section id="more-work" class="sp-section sp-shell" aria-labelledby="more-heading">
     <header class="sp-section__head">
-      <p class="sp-label">04 · More work</p>
+      <p class="sp-label">05 · More work</p>
       <h2 id="more-heading">Other spatial and quantitative work</h2>
     </header>
     <ul class="sp-more">
@@ -252,4 +240,5 @@ const instruments = [
       <li><a href="/projects/oceanographic-systems/">Oceanographic systems</a><span>{statusOf("oceanographic-systems") ?? "In progress"}: 3D bathymetry and acoustic-model integration for survey planning. No public artifact yet.</span></li>
     </ul>
   </section>
+  <section class="sp-contact sp-shell"><div><p class="sp-label">Spatial analysis & technical instruction</p><h2>Discuss a project</h2><p>Tell me what you need to understand, visualize or build, and which data you have.</p></div><a href="/contact/">Get in touch ↗</a></section>
 </Base>

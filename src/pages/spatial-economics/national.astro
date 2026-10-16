@@ -2,10 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import '../../styles/national-investment.css';
 ---
-<Base title="National Investment Atlas" description="An interactive 3D atlas of $71.019 billion in reported New Markets Tax Credit financing: geographic concentration, annual flows and metro/non-metro comparisons." wide={true}>
+<Base title="National Investment Atlas" description="An interactive 3D atlas of $71.019 billion in reported New Markets Tax Credit financing: geographic concentration, annual flows and metro/non-metro comparisons." wide={true} pageClass="ni-page">
 <div class="ni" id="national-investment">
   <nav class="ni-path" aria-label="Spatial work"><a href="/spatial/">Spatial &amp; 3D GIS</a><span>/</span><a href="/spatial-economics/">Asheville scenario</a><span>/</span><a href="/gis-portfolio/">Terrain &amp; reconstruction</a></nav>
-  <header class="ni-heading"><div><p class="ni-kicker">SPATIAL INVESTMENT / UNITED STATES</p><h1>Where investment<br />takes place.</h1></div><p>New Markets Tax Credit financing across the United States and its territories. Compare regional concentration, inspect tract-level investment and trace each total to the public source.</p></header>
+  <header class="ni-heading"><div><p class="ni-kicker">SPATIAL INVESTMENT / UNITED STATES</p><h1>National Investment Atlas</h1></div><p>New Markets Tax Credit financing across the United States and its territories. Regional concentration, tract-level records and annual financing flows.</p></header>
   <div class="ni-vintage"><span>OBSERVED FINANCING</span><span>2001–2023 origination years</span><span>CDFI release · August 2026</span><a href="#national-methods">Method &amp; coverage ↓</a></div>
   <section class="ni-controls" aria-label="Investment filters">
     <label>State or territory<select id="ni-state" disabled><option value="">United States &amp; territories</option></select></label>
@@ -21,7 +21,7 @@ import '../../styles/national-investment.css';
     <div><span>Non-metro financing share</span><strong id="ni-share">…</strong><small>Project-sheet classification</small></div>
     <div><span>Mean financing / project</span><strong id="ni-mean">…</strong><small>Selected financing / distinct projects</small></div>
   </section>
-  <section class="ni-map-layout" aria-label="3D investment geography">
+  <section class="ni-map-layout" id="investment-map" aria-label="3D investment geography">
     <div class="ni-map-shell"><div id="ni-map" aria-label="3D map of reported investment"></div>
       <div class="ni-map-heading"><span id="ni-map-region">UNITED STATES</span><button id="ni-view" type="button">Reset view</button></div>
       <div class="ni-legend"><strong id="ni-map-unit">State &amp; territory totals</strong><span id="ni-height">Height: 100 km per $1 billion</span><span><i class="ni-metro-dot"></i> Metro majority <i class="ni-rural-dot"></i> Non-metro majority</span><span id="ni-point-note">Summary positions derived from financed tracts</span></div>

@@ -9,7 +9,7 @@ const current=Astro.url.pathname.replace(/\/$/,'');
   {links.map(link=><a href={link.href} aria-current={current===link.href?'page':undefined}>{link.label}</a>)}
 </nav>
 <style>
-  .spatial-project-nav{display:flex;flex-wrap:wrap;gap:4px 24px;max-width:1600px;margin:0 auto;padding:10px 4vw;border-bottom:1px solid var(--p-neutral-26);font:11px/1.4 var(--font-display);color:var(--p-paper)}
+  .spatial-project-nav{display:flex;flex-wrap:wrap;gap:4px 24px;max-width:1600px;margin:0 auto;padding:6px 4vw;border-bottom:1px solid var(--p-neutral-26);background:var(--p-neutral-06);font:11px/1.4 var(--font-display);color:var(--p-paper)}
   .spatial-project-nav a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:none;border-bottom:2px solid transparent}
   .spatial-project-nav a:hover,.spatial-project-nav a[aria-current=page]{border-bottom-color:var(--p-teal-76)}
   .spatial-project-nav a:focus-visible{outline:2px solid var(--p-teal-76);outline-offset:3px}

@@ -80,6 +80,12 @@
       "output": "public/gis-portfolio/surface/metadata.json",
       "scope": "Public-source Haiti terrain geometry only; no source textures, scene routes or operational data",
       "transformation": "Clip padded zero-filled outer boundary; retain original topology inside clip; convert ECEF to local frame. Source/output hashes and exclusions in surface metadata."
+    },
+    {
+      "output": "public/gis-portfolio/showcase/haiti-mesh-preview.png",
+      "output_sha256": "db95e87294397b4896413e71429354aaca073cc901b6a4cea74e4b45be0b43bc",
+      "scope": "Preview of the existing public Haiti gridded terrain reconstruction; GMRT and Mapzen attribution retained with the interactive model and portfolio methods.",
+      "transformation": "Browser screenshot of production WebGL rendering, cropped to the model panel; 800 by 450 pixels. No geometry or scientific output changed."
     }
   ],
   "limits": [
