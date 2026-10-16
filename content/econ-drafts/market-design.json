@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "market-design-u1-01",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Blocking pair",
+    "prompt": "Workers a,b each need one job; firms X,Y each have one position. All matches are acceptable. Preferences: a: X>Y; b: Y>X; X: a>b; Y: b>a. Assignment is a–Y,b–X. Which statement is correct?",
+    "correct": "Both (a,X) and (b,Y) are blocking pairs.",
+    "wrong": [
+      "Only (a,X) blocks.",
+      "Only (b,Y) blocks.",
+      "There is no blocking pair."
+    ],
+    "explanation": "Each worker prefers the other firm, and each firm prefers that worker to its assigned worker. Both pairs would mutually improve by deviating.",
+    "hint": "Check both members’ preferences for each unmatched pair.",
+    "skill": "blocking pair",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-02",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Individual rationality",
+    "prompt": "In a one-to-one matching market, worker a ranks being unmatched above job X. A proposed matching assigns a to X. What condition fails regardless of other agents’ preferences?",
+    "correct": "Individual rationality for a.",
+    "wrong": [
+      "Capacity feasibility necessarily.",
+      "The requirement that every firm have two workers.",
+      "Transfer balance, even though no transfers are specified."
+    ],
+    "explanation": "A matching is individually rational only if assigned partners are acceptable relative to remaining unmatched.",
+    "hint": "Compare the assigned match with the outside option.",
+    "skill": "individual rationality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-03",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Vacancy blocking",
+    "prompt": "Hospital H has capacity two and finds residents a,b,c acceptable, with strict priority a>b>c. It currently employs only a; c is unmatched and prefers H to remaining unmatched. Under responsive hospital preferences, what follows?",
+    "correct": "The pair (c,H) blocks because H has an acceptable vacancy.",
+    "wrong": [
+      "No blocking pair can involve an unfilled seat.",
+      "H must fire a before taking c.",
+      "Only resident b can fill any vacancy."
+    ],
+    "explanation": "With a vacancy and acceptable c, H wants to add c and c wants H. No replacement of a is needed.",
+    "hint": "Account for unused capacity as well as priority comparisons.",
+    "skill": "vacancy blocking",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-04",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Counting stable matchings",
+    "prompt": "Workers a,b rank X>Y and Y>X respectively. One-seat firms X,Y rank b>a and a>b respectively. Every match is acceptable and preferences are strict. How many stable matchings exist?",
+    "correct": "Two: a–X,b–Y and a–Y,b–X.",
+    "wrong": [
+      "Only a–X,b–Y.",
+      "Only a–Y,b–X.",
+      "None."
+    ],
+    "explanation": "In the first matching both workers get first choices; in the second both firms do. Neither has a blocking pair. An incomplete matching cannot be stable when all pairs are acceptable and vacancies remain.",
+    "hint": "Enumerate the two complete matchings and check unmatched pairs.",
+    "skill": "counting stable matchings",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-05",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Worker-proposing deferred acceptance",
+    "prompt": "Workers a,b rank X>Y and Y>X respectively. One-seat firms X,Y rank b>a and a>b. Everyone is acceptable. In worker-proposing deferred acceptance, firms tentatively hold their favorite applicant and reject the rest. What is the final matching?",
+    "correct": "a–X,b–Y.",
+    "wrong": [
+      "a–Y,b–X.",
+      "a–X,b unmatched.",
+      "Both workers assigned to X."
+    ],
+    "explanation": "Each worker initially applies to a different first-choice firm. Both offers are held, so there is no rejection and the algorithm terminates.",
+    "hint": "Start with each worker’s first proposal.",
+    "skill": "worker-proposing deferred acceptance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-06",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Firm-proposing deferred acceptance",
+    "prompt": "Workers a,b rank X>Y and Y>X respectively. One-seat firms X,Y rank b>a and a>b. Everyone is acceptable. Firms propose and workers hold their preferred offer, rejecting other offers. What matching results?",
+    "correct": "a–Y,b–X.",
+    "wrong": [
+      "a–X,b–Y.",
+      "a unmatched,b–X.",
+      "Both firms matched to a."
+    ],
+    "explanation": "X proposes to b and Y to a. Each worker receives one offer, so both are held and no further proposals occur.",
+    "hint": "Reverse which side starts proposals.",
+    "skill": "firm-proposing deferred acceptance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-07",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Proposer optimality scope",
+    "prompt": "In a finite one-to-one marriage market with strict preferences, acceptable partners and no transfers, what does proposer-optimality of deferred acceptance mean?",
+    "correct": "Every proposer weakly prefers its DA partner to its partner in any other stable matching.",
+    "wrong": [
+      "The DA outcome maximizes every participant’s utility over every feasible matching.",
+      "Both sides always receive their first choices.",
+      "DA maximizes a cardinal sum of utilities regardless of their values."
+    ],
+    "explanation": "The comparison set is stable matchings and the guarantee favors the proposing side. It is not an unrestricted utilitarian optimum.",
+    "hint": "Identify the side and the set over which optimality is claimed.",
+    "skill": "proposer optimality scope",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-08",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Stability is ordinal",
+    "prompt": "A planner knows only strict preference rankings in a no-transfer matching market. Why can stability be evaluated without knowing numerical utility magnitudes?",
+    "correct": "Blocking depends on whether both parties prefer a deviation, not the size of their gains.",
+    "wrong": [
+      "Rankings determine a unique interpersonal cardinal welfare sum.",
+      "Stability requires every utility to equal one.",
+      "Capacities become irrelevant with ordinal preferences."
+    ],
+    "explanation": "Pairwise blocking uses ordinal comparisons. Cardinal welfare comparisons across people require additional information and normative choices.",
+    "hint": "Separate preference comparisons from magnitudes.",
+    "skill": "stability is ordinal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-09",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Finite proposal bound",
+    "prompt": "There are four workers and three one-seat firms. Worker-proposing deferred acceptance never allows a worker to propose to the same firm twice, and all firms are acceptable. How many distinct worker-to-firm pairs are available, giving a simple counting upper bound on proposals?",
+    "correct": "12.",
+    "wrong": [
+      "7.",
+      "24.",
+      "An unbounded number."
+    ],
+    "explanation": "There are 4×3=12 distinct worker-firm pairs, so counting pairs gives an upper bound of 12 proposals. This does not assert that 12 is an attainable or tight worst-case run length.",
+    "hint": "Count available proposer-recipient pairs.",
+    "skill": "finite proposal bound",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u1-10",
+    "course": "market-design",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Coupled preferences",
+    "prompt": "Two job applicants rank pairs of locations jointly and will accept only if both obtain an acceptable joint placement. What assumption behind the simplest individual-proposal matching model is threatened?",
+    "correct": "Each applicant’s choice can no longer be described independently of the partner’s placement.",
+    "wrong": [
+      "Every firm must have infinite capacity.",
+      "All priorities become cardinal utilities.",
+      "A stable matching is now guaranteed for every possible profile."
+    ],
+    "explanation": "Complementary joint preferences complicate individual substitutability and can undermine standard existence guarantees. The question does not claim every coupled instance fails.",
+    "hint": "Check whether one assignment’s desirability depends on another assignment.",
+    "skill": "coupled preferences",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-01",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "School DA rejection chain",
+    "prompt": "Students 1,2,3 rank schools as 1:A>B>C, 2:A>B>C, 3:B>A>C. All schools have one seat and all students prefer any school to unmatched. Priorities are A:2>1>3, B:1>3>2, C:1>2>3. Student-proposing DA holds highest-priority applicants tentatively. What is the final assignment?",
+    "correct": "1–B,2–A,3–C.",
+    "wrong": [
+      "1–A,2–B,3–C.",
+      "1–C,2–A,3–B.",
+      "1–B,2–C,3–A."
+    ],
+    "explanation": "A first holds 2 and rejects 1; B holds 3. Student 1 then displaces 3 at B. Student 3 is rejected by A and takes C.",
+    "hint": "Track tentative holders after each rejection.",
+    "skill": "school da rejection chain",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-02",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Priorities versus preferences",
+    "prompt": "In public-school choice, students rank schools and the district supplies schools with fixed priority orders. What is the role of school priorities in student-proposing DA?",
+    "correct": "They determine which applicants a school tentatively retains when applications exceed capacity.",
+    "wrong": [
+      "They reveal each student’s own preference ranking.",
+      "They are always freely chosen utility rankings reported by profit-maximizing schools.",
+      "They determine tuition payments in every school-choice model."
+    ],
+    "explanation": "Priorities implement the district’s admission ordering. They need not represent welfare-bearing school preferences or monetary bids.",
+    "hint": "Distinguish applicant choice from institutional admission precedence.",
+    "skill": "priorities versus preferences",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-03",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Justified envy",
+    "prompt": "Schools A,B each have one seat. Student i prefers A to assigned B. School A is assigned j and its strict priority ranks i above j. All matches are acceptable. What does i have?",
+    "correct": "Justified envy of j under these priorities.",
+    "wrong": [
+      "A capacity violation merely because i prefers A.",
+      "No complaint unless monetary transfers are allowed.",
+      "Proof that j also prefers B to A."
+    ],
+    "explanation": "The student wants another seat and has higher priority than its occupant. This is the school-choice analogue of the relevant blocking condition.",
+    "hint": "Check both the student’s preference and the school’s priority.",
+    "skill": "justified envy",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-04",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Truthfulness domain of student DA",
+    "prompt": "In student-proposing DA with fixed strict school priorities, fixed capacities, no preference-list length limits and students wanting at most one seat, what is the individual strategy guarantee?",
+    "correct": "Truthfully ranking acceptable schools is weakly dominant for each student.",
+    "wrong": [
+      "Every school has a dominant strategy to report any priority it likes.",
+      "A student gains by always listing only a safe school.",
+      "All students obtain their top school."
+    ],
+    "explanation": "The standard student strategy-proofness result uses fixed priorities and the stated unit-demand reporting domain. It does not promise first choices or apply unchanged under arbitrary constraints.",
+    "hint": "Keep the strategic side and domain restrictions explicit.",
+    "skill": "truthfulness domain of student da",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-05",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Constrained application lists",
+    "prompt": "A student can rank at most one school. School A is preferred to B, but A has no chance of admitting the student under its fixed priority and filled capacity; B would admit the student if listed. Being unmatched is worst. What report is optimal in this restricted mechanism?",
+    "correct": "List B.",
+    "wrong": [
+      "List A because truthful full-list DA guarantees apply unchanged.",
+      "List neither school.",
+      "Both lists yield the same assignment."
+    ],
+    "explanation": "With only one listed school allowed, listing A yields unmatched while listing B yields B. The list cap changes the reporting problem.",
+    "hint": "Compare assignments under the available one-school reports.",
+    "skill": "constrained application lists",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-06",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Immediate acceptance versus DA",
+    "prompt": "A school assignment rule permanently fills seats each round using that round’s applicants and school priorities. A student rejected in a later round cannot displace an earlier admit even with higher priority. What distinguishes this rule from deferred acceptance?",
+    "correct": "Earlier acceptances are final rather than tentative.",
+    "wrong": [
+      "DA also forbids every displacement of an earlier tentative admit.",
+      "This rule needs no student rankings.",
+      "Every assignment from this rule is necessarily priority-stable."
+    ],
+    "explanation": "Immediate acceptance protects earlier admits; DA can replace a lower-priority tentative holder with a later higher-priority applicant.",
+    "hint": "Ask whether an acceptance can later be withdrawn by the algorithm.",
+    "skill": "immediate acceptance versus da",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-07",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Housing top trading cycle",
+    "prompt": "Agents 1,2,3 initially own houses h1,h2,h3 respectively. Their strict rankings are 1:h2>h1>h3, 2:h1>h2>h3, 3:h3>h1>h2. In TTC each remaining agent points to a favorite remaining house and each house points to its owner; execute every cycle and remove its agents and houses. What allocation results?",
+    "correct": "1 gets h2, 2 gets h1, 3 gets h3.",
+    "wrong": [
+      "Everyone keeps the initial house.",
+      "1 gets h3, 2 gets h2, 3 gets h1.",
+      "1 gets h2 and 2 also gets h2."
+    ],
+    "explanation": "Agents 1 and 2 form a trading cycle through h2 and h1; agent 3 forms a self-cycle with h3. All cycles execute together.",
+    "hint": "Trace alternating agent-house arrows.",
+    "skill": "housing top trading cycle",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-08",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "TTC individual rationality",
+    "prompt": "In the standard housing model, each agent owns one house, has strict preferences over houses, and can keep the endowment. TTC assigns houses through cycles. What does individual rationality require?",
+    "correct": "Each agent weakly prefers the assigned house to the initially owned house.",
+    "wrong": [
+      "Each agent receives the top house in the entire market.",
+      "Every agent must trade.",
+      "All agents must have the same preference ranking."
+    ],
+    "explanation": "The endowment is the relevant outside option. TTC’s individual-rationality benchmark is not a guarantee of global first choices.",
+    "hint": "Compare assignment with the agent’s initial property right.",
+    "skill": "ttc individual rationality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-09",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Lottery tie-breaking",
+    "prompt": "Two students have equal statutory priority for one school seat and both rank that school first. A fixed, publicly specified fair lottery breaks their tie before DA. What does the lottery supply?",
+    "correct": "A strict order for the algorithm, with equal ex ante chances for these two tied students in this isolated seat example.",
+    "wrong": [
+      "A guarantee both receive the single seat.",
+      "Permission to exceed capacity.",
+      "A cardinal measure of educational benefit."
+    ],
+    "explanation": "The draw resolves a priority tie without creating extra seats. The isolated example ensures the stated equal chances are not confounded by other assignments.",
+    "hint": "Separate the random order from the deterministic DA run conditional on it.",
+    "skill": "lottery tie-breaking",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u2-10",
+    "course": "market-design",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Reserves versus hard quotas",
+    "prompt": "A school has two seats and one soft reserve for disadvantaged applicants: it first fills the reserved seat with an eligible applicant if available, then opens any unfilled reserve to all applicants. Only two noneligible applicants apply. Both are acceptable. How many can be admitted under this rule?",
+    "correct": "Two.",
+    "wrong": [
+      "One.",
+      "Zero.",
+      "Three."
+    ],
+    "explanation": "No eligible applicant uses the reserve, so its seat reverts to the open pool. Both seats can be filled; a hard set-aside could behave differently.",
+    "hint": "Apply the stated rule for unused reserved capacity.",
+    "skill": "reserves versus hard quotas",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-01",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Efficient package allocation",
+    "prompt": "Two indivisible licenses A,B can be allocated without overlap. Bidder 1 values bundle {A,B} at 12 and either singleton at zero; bidder 2 values A at 7; bidder 3 values B at 6. Unlisted bundles for bidders 2 and 3 add no extra value, and empty bundles are worth zero. Which allocation maximizes total reported value?",
+    "correct": "Give A to 2 and B to 3, for total value 13.",
+    "wrong": [
+      "Give both to 1, for value 12.",
+      "Give only A to 2, for value 7.",
+      "Give A simultaneously to 1 and 2."
+    ],
+    "explanation": "The disjoint singleton allocation has value 7+6=13, exceeding the package bid 12. Allocating an item twice is infeasible.",
+    "hint": "Compare feasible disjoint packages rather than individual bid sizes.",
+    "skill": "efficient package allocation",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-02",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "VCG externality payment",
+    "prompt": "Two licenses A,B have package valuations: bidder 1 values {A,B} at 12 and singletons at zero; bidder 2 values A at 7; bidder 3 values B at 6, with no additional value from other items. Efficient allocation gives A to 2 and B to 3. In Clarke-pivot VCG, what does bidder 2 pay?",
+    "correct": "6.",
+    "wrong": [
+      "7.",
+      "12.",
+      "1."
+    ],
+    "explanation": "Without bidder 2, others can obtain 12 by giving both licenses to 1. With bidder 2 present, the other winners’ value is 6. The externality is 12−6=6.",
+    "hint": "Subtract others’ realized value from their optimal value when this bidder is absent.",
+    "skill": "vcg externality payment",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-03",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "VCG payment for the other winner",
+    "prompt": "Two licenses A,B: bidder 1 values the pair at 12 and each singleton at zero; bidder 2 values A at 7; bidder 3 values B at 6, with no extra value for other items. Efficient allocation gives A to 2 and B to 3. Under Clarke-pivot VCG, what does bidder 3 pay?",
+    "correct": "5.",
+    "wrong": [
+      "6.",
+      "7.",
+      "12."
+    ],
+    "explanation": "Without bidder 3, bidder 1 can generate value 12. In the chosen allocation, other agents obtain value 7 from bidder 2. The externality is 12−7=5.",
+    "hint": "Recompute the efficient allocation after removing bidder 3.",
+    "skill": "vcg payment for the other winner",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-04",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Unit-demand multiunit allocation",
+    "prompt": "There are two identical seats and three unit-demand bidders with reported values 9,7,4. Each can receive at most one seat; unassigned utility is zero and utility if assigned is value minus payment. Efficient VCG uses Clarke-pivot payments. What are the winners’ payments?",
+    "correct": "Each winner pays 4.",
+    "wrong": [
+      "The winners pay 9 and 7 respectively.",
+      "Each winner pays 7.",
+      "Each winner pays zero."
+    ],
+    "explanation": "The winners have values 9 and 7. Removing either allows the value-4 bidder to enter, so each imposes an externality of 4 on the other bidders.",
+    "hint": "Find the displaced bidder when each winner is removed.",
+    "skill": "unit-demand multiunit allocation",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-05",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Exposure risk",
+    "prompt": "A bidder values a pair of complementary permits at 20, either permit alone at zero, and has quasilinear utility. Separate auctions can award only one permit at a positive price. What risk does this create for the bidder?",
+    "correct": "Winning a costly incomplete bundle can yield negative utility.",
+    "wrong": [
+      "Winning one permit always delivers value 20.",
+      "Separate sales guarantee the efficient bundle allocation.",
+      "The bidder cannot lose money because bids are nonnegative."
+    ],
+    "explanation": "If the bidder pays a positive amount but gets only a valueless singleton, its value minus payment is negative. Package bids can address this particular exposure problem.",
+    "hint": "Evaluate the payoff from winning only part of the desired bundle.",
+    "skill": "exposure risk",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-06",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Uniform-price demand reduction",
+    "prompt": "Two units are sold using marginal bids; the two highest bids win and each unit pays the highest rejected bid. Bidder A’s true marginal values are 10 and 9; bidder B demands one unit and bids 8. Ties favor A. Compare A bidding (10,9) with (10,0). Which gives A higher realized utility against B’s fixed bid?",
+    "correct": "Bidding (10,0): utility 10 instead of 3.",
+    "wrong": [
+      "Bidding (10,9): utility 19 instead of 10.",
+      "Both give A utility 3.",
+      "Bidding (10,0) gives A no unit."
+    ],
+    "explanation": "With (10,9), A wins both and pays 8 each, giving 19−16=3. With (10,0), A and B win one each at rejected bid 0, giving A utility 10. This is a fixed-rival example, not an equilibrium claim.",
+    "hint": "Recompute both allocation and market-clearing payment after reducing the second bid.",
+    "skill": "uniform-price demand reduction",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-07",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Budget feasibility",
+    "prompt": "An allocation rule awards an indivisible item to the highest reported value and asks payment 8. The selected bidder has a hard enforceable budget 5 and cannot borrow. What prevents implementation as stated?",
+    "correct": "The requested payment exceeds the bidder’s feasible budget.",
+    "wrong": [
+      "The bidder’s value must be below 5.",
+      "Quasilinear preferences automatically remove liquidity constraints.",
+      "The item must be divisible."
+    ],
+    "explanation": "A hard budget constrains feasible transfers separately from willingness to pay. A mechanism must incorporate the payment constraint rather than infer it from value alone.",
+    "hint": "Compare the required transfer with available funds.",
+    "skill": "budget feasibility",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-08",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Procurement winner and payment",
+    "prompt": "A buyer needs one service. Three suppliers have costs 3,5,8 and bid those costs. A reverse second-price procurement auction selects the lowest bid and pays the second-lowest bid; ties use supplier index. What is the winning supplier’s profit?",
+    "correct": "2.",
+    "wrong": [
+      "3.",
+      "5.",
+      "−2."
+    ],
+    "explanation": "The cost-3 supplier wins and receives payment 5. Profit is 5−3=2.",
+    "hint": "Reverse the value-auction direction: the buyer pays the low-cost seller.",
+    "skill": "procurement winner and payment",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-09",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Efficient trade and budget balance",
+    "prompt": "One buyer values a good at 10 and one seller has cost 4. A stipulated efficient pivot mechanism trades and charges the buyer 4 while paying the seller 10. What is the mechanism’s net revenue?",
+    "correct": "−6, a deficit of 6.",
+    "wrong": [
+      "6.",
+      "14.",
+      "0."
+    ],
+    "explanation": "Revenue received is 4 and paid out is 10, so the mechanism runs a deficit of 6. This arithmetic illustrates that these transfers do not balance the budget.",
+    "hint": "Keep the buyer’s payment separate from the seller’s receipt.",
+    "skill": "efficient trade and budget balance",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u3-10",
+    "course": "market-design",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Allocation and payment rules",
+    "prompt": "A platform switches from a pay-your-bid auction to a pivot-payment auction but leaves the announced set of feasible allocations unchanged. Why can outcomes still change when bidders are strategic?",
+    "correct": "Different payment rules can change bidding incentives and thus submitted information.",
+    "wrong": [
+      "Feasibility alone uniquely determines strategic bids.",
+      "Payment rules affect only the seller and never bidder choices.",
+      "The same feasible set guarantees the same equilibrium allocation."
+    ],
+    "explanation": "An allocation set constrains what can be assigned; the payment rule shapes payoffs from reports. Strategic behavior can therefore change even without a feasibility change.",
+    "hint": "Trace payments into the bidder’s optimization problem.",
+    "skill": "allocation and payment rules",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-01",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "A contract includes terms",
+    "prompt": "A labor allocation assigns worker a to hospital H. Two available contracts pay 40 or 50 for different specified hours. Why is naming only the worker-hospital pair insufficient in a matching-with-contracts model?",
+    "correct": "The terms affect preferences and must be part of the assigned object.",
+    "wrong": [
+      "Wages can never appear in matching models.",
+      "Every pair can hold an unlimited number of contracts for the same worker.",
+      "The worker must be indifferent across all terms."
+    ],
+    "explanation": "A contract identifies parties and relevant terms such as wage or hours. Pair identity alone does not determine utility or the institution’s choice.",
+    "hint": "Specify what the parties are agreeing to, not only who meets whom.",
+    "skill": "a contract includes terms",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-02",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Unit-demand contract feasibility",
+    "prompt": "Worker a may sign at most one employment contract. A proposed allocation includes (a,H,40) and (a,J,50). Hospitals have sufficient capacity. What is wrong?",
+    "correct": "The allocation violates worker a’s unit-demand feasibility constraint.",
+    "wrong": [
+      "Higher wages automatically make both contracts feasible.",
+      "There is no problem unless H=J.",
+      "Hospital capacity alone guarantees overall feasibility."
+    ],
+    "explanation": "Even if hospitals have space, a worker cannot occupy two mutually exclusive contracts when the model allows only one.",
+    "hint": "Check constraints on both sides of a contract.",
+    "skill": "unit-demand contract feasibility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-03",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Responsive institutional choice",
+    "prompt": "Hospital H has capacity two and ranks individual applicants a>b>c>d, all acceptable. Its choice rule selects up to two highest-ranked available applicants. From the offer set {b,c,d}, what does H choose?",
+    "correct": "{b,c}.",
+    "wrong": [
+      "{a,b}.",
+      "{c,d}.",
+      "{b,c,d}."
+    ],
+    "explanation": "Applicant a is unavailable, so the two highest available applicants are b and c. Choice cannot select an absent contract or exceed capacity.",
+    "hint": "Apply priority to the available set, then impose capacity.",
+    "skill": "responsive institutional choice",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-04",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Substitutability test",
+    "prompt": "Graduate extension. An institution’s choice rule C is substitutable if, whenever A⊆B and x∈A is chosen from B, x is also chosen from A. What situation violates this definition?",
+    "correct": "x is chosen from {x,y} but not from {x}.",
+    "wrong": [
+      "x is chosen from {x} and from {x,y}.",
+      "Neither set contains x.",
+      "Removing y causes x to remain chosen."
+    ],
+    "explanation": "A={x} is a subset of B={x,y}; choosing x only when y is present makes the two contracts complementary under this test.",
+    "hint": "Apply the implication from a larger offer set to a smaller one containing x.",
+    "skill": "substitutability test",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-05",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Complementary staffing contracts",
+    "prompt": "A clinic chooses both contracts x and y when both are offered, but chooses nothing when offered only x or only y. Which feature is present?",
+    "correct": "Complementarity that violates substitutability.",
+    "wrong": [
+      "Responsive choice with capacity one.",
+      "A guarantee that ordinary DA existence results apply without additional assumptions.",
+      "A rule that always chooses the same number after arbitrary removals."
+    ],
+    "explanation": "The clinic wants x only alongside y. Removing y rejects x despite x being chosen from the larger set, violating the stated substitute property.",
+    "hint": "Compare the choice from the pair with the choice from a singleton.",
+    "skill": "complementary staffing contracts",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-06",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Blocking employment contract",
+    "prompt": "Firm H can employ one worker and currently employs a at wage 4, generating revenue 8. Unmatched worker b has outside utility zero, utility equal to wage, and would generate revenue 10. A feasible alternative contract pays b wage 5; H’s payoff is revenue minus wage. Does it block the current allocation?",
+    "correct": "Yes: b gains 5 and H’s profit rises from 4 to 5.",
+    "wrong": [
+      "No: any incumbent worker vetoes replacement in this model.",
+      "No: H’s profit falls from 8 to 5.",
+      "Yes only if b is paid above 10."
+    ],
+    "explanation": "The proposed parties both improve: b prefers 5 to zero, and H prefers 10−5=5 to 8−4=4. The stated one-seat constraint allows replacing a.",
+    "hint": "Compare the new contract’s utility for both consenting parties with their current outcomes.",
+    "skill": "blocking employment contract",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-07",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Choice consistency after removing rejected offers",
+    "prompt": "Graduate extension. A hospital chooses {a,b} from {a,b,c} under a fixed top-two priority rule with a>b>c. What does it choose from {a,b} after rejected offer c is removed?",
+    "correct": "{a,b}.",
+    "wrong": [
+      "{a}.",
+      "{b}.",
+      "The empty set."
+    ],
+    "explanation": "Removing an unchosen lower-priority offer does not change the top two remaining choices in this rule. This is a concrete consistency check, not a general claim about arbitrary choice rules.",
+    "hint": "Remove only the rejected offer and reapply the same rule.",
+    "skill": "choice consistency after removing rejected offers",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-08",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Rural-hospitals conclusion scope",
+    "prompt": "In a finite many-to-one hospital-resident market with strict preferences, responsive hospital preferences, fixed capacities and all residents wanting at most one job, which statement is a standard rural-hospitals conclusion across stable matchings?",
+    "correct": "The set of matched residents and the number assigned to each hospital are unchanged.",
+    "wrong": [
+      "Every matched resident has the same hospital in all stable matchings.",
+      "Every hospital is filled to capacity in every stable matching.",
+      "All residents prefer the same stable matching as all hospitals."
+    ],
+    "explanation": "Stable partners may change, but matched residents and hospital occupancy counts remain invariant under this domain. More general contracts or complementarities require separate conditions.",
+    "hint": "Distinguish identity of partners from participation and occupancy.",
+    "skill": "rural-hospitals conclusion scope",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-09",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Capacity manipulation is a separate issue",
+    "prompt": "A student-proposing DA mechanism is strategy-proof for students under fixed capacities and strict priorities. A school may strategically underreport capacity. What follows from student strategy-proofness alone?",
+    "correct": "It gives no guarantee that school capacity manipulation is unprofitable.",
+    "wrong": [
+      "It proves every capacity report is equally profitable for the school.",
+      "It makes actual capacity irrelevant.",
+      "It proves truthfulness for every agent on every margin."
+    ],
+    "explanation": "The guarantee concerns student preference reports with capacities held fixed. A different agent and reporting instrument require a separate analysis.",
+    "hint": "Identify which reports the theorem actually covers.",
+    "skill": "capacity manipulation is a separate issue",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u4-10",
+    "course": "market-design",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Regional cap feasibility",
+    "prompt": "Hospitals H1,H2 each have capacity two, but a binding regional cap permits at most three total hires. A proposed allocation gives each hospital two workers. What condition fails?",
+    "correct": "The regional cap, although each local capacity is respected.",
+    "wrong": [
+      "Each hospital’s own capacity.",
+      "Every worker’s individual rationality necessarily.",
+      "No condition, because local capacity is the only possible feasibility restriction."
+    ],
+    "explanation": "Four total hires exceed the regional maximum of three. Regional constraints couple choices across hospitals and must be represented explicitly.",
+    "hint": "Check aggregate constraints after checking local constraints.",
+    "skill": "regional cap feasibility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-01",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Exchange graph meaning",
+    "prompt": "In a constructed kidney-exchange graph, each vertex is a patient with an incompatible willing donor. A directed edge i→j means donor i can donate to patient j; all medical compatibility decisions are already stipulated. What does the cycle a→b→a represent?",
+    "correct": "Two transplants: donor a to patient b and donor b to patient a.",
+    "wrong": [
+      "Only donor a gives to patient a.",
+      "Both donors give to patient b.",
+      "An exchange with three patient recipients."
+    ],
+    "explanation": "Each edge identifies a donor-to-recipient transplant. The directed two-cycle exchanges the two pairs’ donors.",
+    "hint": "Read edge direction as donor-pair to recipient-pair.",
+    "skill": "exchange graph meaning",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-02",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Directed three-cycle",
+    "prompt": "A constructed graph on pairs a,b,c has only edges a→b,b→c,c→a. Only closed exchange cycles are allowed, with maximum cycle length three. How many patients can be transplanted in one feasible exchange?",
+    "correct": "Three.",
+    "wrong": [
+      "Two.",
+      "One.",
+      "Zero."
+    ],
+    "explanation": "All three edges form one directed three-cycle. No two-cycle exists, but the allowed length includes three.",
+    "hint": "Trace a path that returns to its starting vertex.",
+    "skill": "directed three-cycle",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-03",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Cycle-length constraint",
+    "prompt": "A constructed graph on pairs a,b,c has only edges a→b,b→c,c→a. Only closed cycles of length at most two are allowed; there is no altruistic donor and no self-edge. What is the maximum number of transplants?",
+    "correct": "Zero.",
+    "wrong": [
+      "One.",
+      "Two.",
+      "Three."
+    ],
+    "explanation": "The only directed cycle has length three and is prohibited. Paths alone do not execute under this cycle-only rule.",
+    "hint": "Check feasible cycle lengths rather than graph connectivity alone.",
+    "skill": "cycle-length constraint",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-04",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Disjoint-cycle optimization",
+    "prompt": "Four exchange pairs a,b,c,d have only reciprocal links a↔b, b↔c and c↔d. Only two-cycles are allowed and each pair may appear in at most one cycle. What maximizes the number of transplants?",
+    "correct": "Choose cycles (a,b) and (c,d), producing four transplants.",
+    "wrong": [
+      "Choose only (b,c), producing four transplants.",
+      "Choose all three two-cycles simultaneously.",
+      "Choose only (a,b), producing three transplants."
+    ],
+    "explanation": "The two end cycles are vertex-disjoint and cover all four pairs. The middle cycle conflicts with both and covers only two.",
+    "hint": "Treat each pair as a resource usable in one selected cycle.",
+    "skill": "disjoint-cycle optimization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-05",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Weighted objective tradeoff",
+    "prompt": "The only allowed exchange cycles are (a,b), (b,c) and (c,d), with total cycle scores 5,15 and 5 respectively. Cycles sharing a vertex cannot both execute. Which solution maximizes total score?",
+    "correct": "Only (b,c), with score 15.",
+    "wrong": [
+      "Both (a,b) and (c,d), with score 10.",
+      "All three, with score 25.",
+      "Only (a,b), with score 5."
+    ],
+    "explanation": "The high-score middle cycle excludes both end cycles but has score 15, exceeding their combined 10. A score objective can differ from maximizing transplant count.",
+    "hint": "Enumerate compatible cycle subsets and sum their scores.",
+    "skill": "weighted objective tradeoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-06",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Altruist-started chain",
+    "prompt": "An altruistic donor n has no paired patient. The only directed links are n→a, a→b and b→c, where a,b,c are patient-donor pairs. Chains starting at n are allowed and need not return to n. What is the maximum number of recipient transplants along this chain?",
+    "correct": "Three.",
+    "wrong": [
+      "Four.",
+      "Two.",
+      "Zero because n has no paired patient."
+    ],
+    "explanation": "Recipients a,b,c each receive one transplant; n supplies the first donation but is not a recipient. The chain is not required to close.",
+    "hint": "Count recipients reached, not all graph vertices.",
+    "skill": "altruist-started chain",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-07",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Overlapping plans",
+    "prompt": "A matching plan includes cycle (a,b) and an altruist-started chain n→c→a. Each pair may participate in at most one selected exchange component. Why is this plan infeasible?",
+    "correct": "Pair a is used by both components.",
+    "wrong": [
+      "Every chain must return to its altruist.",
+      "A cycle can never coexist with a disjoint chain.",
+      "Pair c must donate to itself."
+    ],
+    "explanation": "The two proposed components overlap at a. Disjoint cycles and chains can coexist, but the stated pair-use constraint forbids this overlap.",
+    "hint": "List vertices used by each component and compare.",
+    "skill": "overlapping plans",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-08",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Expected completed transplants",
+    "prompt": "A stipulated exchange policy executes a three-cycle only if all three independent required compatibility confirmations succeed. Each succeeds with probability 0.9. If any fails, no transplant occurs. What is the expected transplant count from this planned cycle?",
+    "correct": "2.187.",
+    "wrong": [
+      "2.7.",
+      "0.729.",
+      "3."
+    ],
+    "explanation": "The probability all confirmations succeed is 0.9³=0.729. Successful execution gives three transplants, so expected count is 3×0.729=2.187.",
+    "hint": "Multiply all-success probability by the conditional transplant count.",
+    "skill": "expected completed transplants",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-09",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Operational capacity",
+    "prompt": "An exchange program’s stipulated daily capacity is two recipient transplants. A three-cycle must execute entirely on one day, while a two-cycle also must execute entirely on one day. Which plan is feasible on a single day?",
+    "correct": "One two-cycle.",
+    "wrong": [
+      "One three-cycle.",
+      "Two disjoint two-cycles.",
+      "A three-cycle split into two days despite the execution rule."
+    ],
+    "explanation": "A two-cycle uses exactly two recipient slots. Three or four transplants exceed capacity, and splitting is disallowed by the stated synchronization requirement.",
+    "hint": "Check both the daily count and the indivisibility of an exchange component.",
+    "skill": "operational capacity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u5-10",
+    "course": "market-design",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Pool participation incentives",
+    "prompt": "A hospital can internally match an easy pair or submit it with harder pairs to a shared exchange pool. A central algorithm maximizes total transplants across submitted pairs. Why does this objective alone not guarantee full hospital participation?",
+    "correct": "The hospital may gain by withholding pairs if its own allocation incentives are not addressed.",
+    "wrong": [
+      "Total-count maximization necessarily makes all institutional reports truthful.",
+      "A larger submitted pool is always mathematically infeasible.",
+      "Hospitals cannot have preferences over outcomes for their own patients."
+    ],
+    "explanation": "An objective defines what the algorithm optimizes conditional on reports; it does not automatically align each institution’s submission incentives with the overall objective.",
+    "hint": "Separate optimization given submitted data from incentives to submit data.",
+    "skill": "pool participation incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-16-strategy-and-information-spring-2016/53dbe8d681978367f9c04182aa3c9b97_MIT14_16S16_Matching.pdf",
+      "https://web.stanford.edu/~niederle/marketdesign2012.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-01",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Thickness and congestion",
+    "prompt": "A job platform attracts more applicants and vacancies, but each employer can review only a small fixed number of applications before offers expire. Which design problem can coexist with greater market thickness?",
+    "correct": "Congestion from limited time to evaluate potential matches.",
+    "wrong": [
+      "The mathematical impossibility of having more feasible matches.",
+      "Automatic truthful reporting by all participants.",
+      "A guarantee that all offers clear at one price."
+    ],
+    "explanation": "More potential partners can improve opportunities while increasing screening burdens. Thickness and manageable transaction processing are separate design concerns.",
+    "hint": "Distinguish availability of partners from the ability to evaluate them.",
+    "skill": "thickness and congestion",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-02",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Processing capacity",
+    "prompt": "A clearinghouse receives 100 complete applications at the start of a three-day review window. It can process at most 20 applications per day, no application is reviewed twice, and there is no backlog before these arrivals. Which option gives the strongest guaranteed lower bound on the number left unprocessed when the window closes?",
+    "correct": "At least 40.",
+    "wrong": [
+      "At least 20.",
+      "None, because arrivals are simultaneous.",
+      "Exactly 100."
+    ],
+    "explanation": "Maximum processing is 3×20=60, leaving at least 100−60=40. The bound allows processing below capacity.",
+    "hint": "Compare total arrivals with maximum processing over the available days.",
+    "skill": "processing capacity",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-03",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Early contracting and information",
+    "prompt": "A hiring market moves offers earlier, before applicants’ final performance becomes observable. What is one possible cost of this unraveling?",
+    "correct": "Assignments may use less informative evidence about fit.",
+    "wrong": [
+      "Earlier offers necessarily maximize allocative efficiency.",
+      "More time before employment always means more information at the offer date.",
+      "Every applicant must receive a higher wage."
+    ],
+    "explanation": "Earlier decisions can precede useful information and constrain later rematching. The direction of total welfare is not asserted without a fuller model.",
+    "hint": "Identify what is known at the earlier decision date.",
+    "skill": "early contracting and information",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-04",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Exploding offer",
+    "prompt": "An employer gives an applicant an offer that expires before the applicant can hear from other employers. What choice limitation does the short deadline create?",
+    "correct": "The applicant may have to decide before comparing available alternatives.",
+    "wrong": [
+      "It guarantees that the offered job is the applicant’s favorite.",
+      "It removes uncertainty about future offers.",
+      "It makes the applicant’s acceptance strategy independent of beliefs."
+    ],
+    "explanation": "A short deadline can force a decision while alternatives remain unresolved. It does not identify which employer is best or eliminate strategic uncertainty.",
+    "hint": "Compare the offer deadline with the arrival of information.",
+    "skill": "exploding offer",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-05",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Batch matching tradeoff",
+    "prompt": "A platform can match an applicant immediately for expected match value 8, or wait one period to obtain expected value 11. Waiting incurs certain cost 2 and there is no discounting, exit risk or other effect. Which option gives higher expected net value?",
+    "correct": "Wait: net value 9 rather than 8.",
+    "wrong": [
+      "Match immediately: net value 10 rather than 8.",
+      "Both have net value 8.",
+      "Wait: net value 13."
+    ],
+    "explanation": "Waiting yields 11−2=9, exceeding immediate value 8. In richer markets delay also changes exit risk and incentives, excluded here.",
+    "hint": "Subtract the specified delay cost from the later match value.",
+    "skill": "batch matching tradeoff",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-06",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Randomized mechanism comparison",
+    "prompt": "A district randomly assigns independent school-choice markets to mechanism A or B before preferences are submitted, with no cross-market spillovers and complete outcome measurement. What does the mean outcome difference estimate in expectation over assignment?",
+    "correct": "The causal effect of assignment to mechanism A rather than B for these markets.",
+    "wrong": [
+      "The pure effect of one payment rule holding all strategic responses fixed.",
+      "The effect in every future district without transport assumptions.",
+      "Only an association even under the stipulated random assignment."
+    ],
+    "explanation": "Random assignment identifies the overall mechanism-assignment effect, including induced reporting and behavior. External transport and decomposition require additional assumptions.",
+    "hint": "Define the treatment as the implemented institutional rule.",
+    "skill": "randomized mechanism comparison",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-07",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Before-and-after adoption evidence",
+    "prompt": "A platform changes its matching algorithm in the same month that a recession sharply reduces vacancies. Match rates fall. Without a comparison group or other identifying assumptions, what can the before-after contrast establish?",
+    "correct": "A change in observed match rates, not an isolated causal algorithm effect.",
+    "wrong": [
+      "The algorithm necessarily reduced match rates.",
+      "The recession necessarily explains the entire fall.",
+      "The algorithm’s treatment effect is exactly zero."
+    ],
+    "explanation": "The timing combines multiple changes. Neither the algorithm nor the recession contribution is separately identified from the raw contrast alone.",
+    "hint": "List contemporaneous changes in the counterfactual comparison.",
+    "skill": "before-and-after adoption evidence",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-08",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Priority compliance audit",
+    "prompt": "An assignment report lists students and schools but omits capacities, student submitted rankings and school priorities. Why is this insufficient to audit priority-based stability?",
+    "correct": "Blocking and vacancy conditions require those omitted inputs.",
+    "wrong": [
+      "The names alone determine all rankings.",
+      "Any complete assignment is automatically stable.",
+      "Stability concerns only total payments."
+    ],
+    "explanation": "A stability audit must compare desired alternatives with priorities and available capacity. Outcome labels alone do not supply those comparisons.",
+    "hint": "Identify the evidence needed to test each part of a blocking condition.",
+    "skill": "priority compliance audit",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-09",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Prediction contract payoff",
+    "prompt": "A risk-neutral trader believes event E has probability 0.7. A contract pays 1 if E occurs and 0 otherwise, costs 0.6 now, and has no fees or discounting. What is the expected net payoff from buying one contract?",
+    "correct": "0.1.",
+    "wrong": [
+      "0.7.",
+      "0.6.",
+      "−0.1."
+    ],
+    "explanation": "Expected payout is 0.7×1+0.3×0=0.7. Subtract price 0.6 to obtain 0.1. This is the trader’s belief-based calculation, not proof of the event probability.",
+    "hint": "Compute the expectation under the stated belief before subtracting price.",
+    "skill": "prediction contract payoff",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "market-design-u6-10",
+    "course": "market-design",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Distributional evaluation",
+    "prompt": "Two matching rules place the same total number of applicants. Rule A gives a disadvantaged group substantially fewer acceptable matches than rule B. What follows for evaluation?",
+    "correct": "Equal total placement counts do not imply equal distributional performance.",
+    "wrong": [
+      "The rules are identical on every welfare criterion.",
+      "Rule A is necessarily unstable solely because totals match.",
+      "Rule B must generate higher cardinal utility for every individual."
+    ],
+    "explanation": "An aggregate count can hide different allocations across groups. Stability, individual utilities and distributional objectives require their own evidence.",
+    "hint": "Separate the aggregate objective from who receives the placements.",
+    "skill": "distributional evaluation",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://publicpolicy.stanford.edu/courses/market-design/1"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

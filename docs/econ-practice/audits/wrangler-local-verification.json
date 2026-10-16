@@ -1,0 +1,22 @@
+{
+  "verifiedAt": "2026-10-13T14:23:09.760Z",
+  "runtime": "Wrangler local workerd + D1",
+  "bankVersion": "2026.10.13.35",
+  "assessmentReceipts": 4,
+  "checks": [
+    "Worker entrypoint starts",
+    "bank archive and model/stopping pin creation",
+    "outstanding presentation idempotency",
+    "cross-participant write denied",
+    "durable receipt and duplicate retry",
+    "assessment feedback withheld until completion",
+    "terminal maximum length persisted",
+    "report rows equal receipt count",
+    "instructor route denied to anonymous"
+  ],
+  "passed": true,
+  "limits": [
+    "Local emulation only; no remote D1 verification",
+    "No live Google identity or account linking exercised"
+  ]
+}

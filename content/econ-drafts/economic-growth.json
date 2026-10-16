@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "economic-growth-u1-01",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Separating capital deepening from efficiency",
+    "prompt": "For Y=A K^0.4 L^0.6, continuous log growth rates are gY=0.05, gK=0.06 and gL=0.01. What is the growth-accounting residual gA?",
+    "correct": "0.020, or 2 percent per year.",
+    "wrong": [
+      "0.030, or 3 percent per year.",
+      "0.010, or 1 percent per year.",
+      "0.050, or 5 percent per year."
+    ],
+    "explanation": "Log differentiation gives gA=gY−0.4gK−0.6gL=0.05−0.024−0.006. The residual is an accounting object, not automatically pure invention.",
+    "hint": "Weight each input growth rate by its production elasticity.",
+    "skill": "separating capital deepening from efficiency",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-02",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Hours versus workers",
+    "prompt": "Real output rises 6 percent, the number employed rises 2 percent and hours per employed person fall 1 percent between two dates. What is the exact growth of output per hour?",
+    "correct": "About 4.97 percent.",
+    "wrong": [
+      "Exactly 4 percent.",
+      "About 2.89 percent.",
+      "Exactly 7 percent."
+    ],
+    "explanation": "Total hours grow by the factor 1.02×0.99=1.0098. Output per hour grows by 1.06/1.0098−1≈0.04971.",
+    "hint": "Construct total hours before dividing output by the labor input.",
+    "skill": "hours versus workers",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-03",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Income gaps and capital intensity",
+    "prompt": "Two economies satisfy y=A k^(1/3), with common units and no human-capital differences. Country H has eight times country L’s capital per worker but four times its output per worker. What is AH/AL?",
+    "correct": "2.",
+    "wrong": [
+      "4.",
+      "8.",
+      "0.5."
+    ],
+    "explanation": "The capital contribution to the output ratio is 8^(1/3)=2. The remaining multiplicative factor is 4/2=2.",
+    "hint": "Decompose the output ratio into the capital and efficiency factors.",
+    "skill": "income gaps and capital intensity",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-04",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Capital-output normalization",
+    "prompt": "Production is Y=K^α(AhL)^(1−α), with 0<α<1. Let y=Y/L and v=K/Y. Which expression isolates capital intensity as v?",
+    "correct": "y=v^[α/(1−α)]Ah.",
+    "wrong": [
+      "y=v^αAh.",
+      "y=v^[1/(1−α)]A/h.",
+      "y=v^(1−α)/(Ah)."
+    ],
+    "explanation": "Substitute K/L=(K/Y)(Y/L)=vy into y=(vy)^α(Ah)^(1−α), then divide by y^α and raise both sides to 1/(1−α).",
+    "hint": "Substitute k=vy before collecting powers of y.",
+    "skill": "capital-output normalization",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-05",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "A geometric growth rate",
+    "prompt": "Real GDP per person grows from 100 to 121 over two years. What constant annual compound growth rate reproduces that increase?",
+    "correct": "10 percent.",
+    "wrong": [
+      "10.5 percent.",
+      "21 percent.",
+      "11 percent."
+    ],
+    "explanation": "The annual factor solves (1+g)^2=1.21, so 1+g=1.10. Averaging the two-year percentage increase arithmetically is not compounding.",
+    "hint": "Take the appropriate root of the total growth factor.",
+    "skill": "a geometric growth rate",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-06",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Using capital services",
+    "prompt": "Two capital types have rental-cost shares of 0.75 and 0.25. Their service-flow log growth rates are 0.02 and 0.10. Under a Divisia capital-services index, what is aggregate capital-service growth?",
+    "correct": "0.04.",
+    "wrong": [
+      "0.06.",
+      "0.12.",
+      "0.08."
+    ],
+    "explanation": "The share-weighted growth rate is 0.75×0.02+0.25×0.10=0.04. A simple average would ignore each type’s contribution to capital-service payments.",
+    "hint": "Use rental-cost shares, not an unweighted equipment count.",
+    "skill": "using capital services",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-07",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Quality-adjusted labor",
+    "prompt": "Measured hours are unchanged, but an appropriately constructed labor-quality index rises 3 percent in log terms. In Y=A K^0.3 H^0.7, H is quality-adjusted hours and K is fixed. If log output rises 4 percent, what residual remains?",
+    "correct": "1.9 percent in log terms.",
+    "wrong": [
+      "4 percent in log terms.",
+      "1 percent in log terms.",
+      "3.1 percent in log terms."
+    ],
+    "explanation": "Effective labor contributes 0.7×3=2.1 percentage points. The residual is 4−2.1=1.9 percentage points.",
+    "hint": "Treat improved worker composition as an input change before taking the residual.",
+    "skill": "quality-adjusted labor",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-08",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Output prices and real growth",
+    "prompt": "Nominal GDP rises from 500 to 550 while the GDP deflator rises from 100 to 104. Using these consistently constructed indexes, what is real GDP growth?",
+    "correct": "About 5.77 percent.",
+    "wrong": [
+      "Exactly 6 percent.",
+      "10 percent.",
+      "14.4 percent."
+    ],
+    "explanation": "Real growth is the nominal growth factor divided by the price factor: 1.10/1.04−1≈0.05769. Subtracting inflation gives only an approximation.",
+    "hint": "Deflate using a ratio of gross changes.",
+    "skill": "output prices and real growth",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-09",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "A common efficiency measurement error",
+    "prompt": "Researchers measure output correctly but understate the capital stock by the same factor 0.8 at both dates in Y=A K^αL^(1−α), with constant 0<α<1. How does this affect estimated TFP growth between those dates?",
+    "correct": "It leaves TFP growth unchanged while overstating its level.",
+    "wrong": [
+      "It raises TFP growth by 20 percentage points every year.",
+      "It lowers TFP growth because capital is understated.",
+      "It leaves both the TFP level and growth unchanged."
+    ],
+    "explanation": "Estimated A is multiplied by 0.8^(−α) at both dates. The constant factor cancels from the growth ratio but remains in the level.",
+    "hint": "Distinguish a fixed level error from a changing measurement error.",
+    "skill": "a common efficiency measurement error",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u1-10",
+    "course": "economic-growth",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "GDP growth and welfare",
+    "prompt": "Two economies have identical paths of real consumption per person, but one has longer working hours and greater mortality risk. What can be inferred about welfare from consumption growth alone?",
+    "correct": "It is insufficient to rank welfare without preferences and the other welfare-relevant outcomes.",
+    "wrong": [
+      "Equal consumption growth proves equal welfare.",
+      "Longer hours always improve welfare regardless of preferences.",
+      "Mortality cannot enter an economic welfare comparison."
+    ],
+    "explanation": "Consumption measures command over goods, while welfare can also depend on leisure and survival. A welfare comparison requires a stated valuation framework rather than treating a growth statistic as sufficient.",
+    "hint": "Identify which valued outcomes the observed statistic leaves out.",
+    "skill": "gdp growth and welfare",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-01",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Convergence halfway to a target",
+    "prompt": "An economy’s log income gap from its own balanced-growth path follows x(t)=x(0)e^(−λt), with λ=0.035 per year. What is the gap’s half-life?",
+    "correct": "About 19.8 years.",
+    "wrong": [
+      "About 28.6 years.",
+      "About 9.9 years.",
+      "About 3.5 years."
+    ],
+    "explanation": "Set e^(−0.035t)=1/2. Then t=ln(2)/0.035≈19.80 years. The time unit follows the rate parameter.",
+    "hint": "Solve for when the initial log gap is multiplied by one-half.",
+    "skill": "convergence halfway to a target",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-02",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "A finite-horizon convergence coefficient",
+    "prompt": "Suppose log y(T)−log y(0)=(1−e^(−λT))[log y*−log y(0)] for a fixed target y*. A regression of the total log change over ten years on log y(0), controlling for log y*, has coefficient −0.30. What λ does the model imply?",
+    "correct": "−ln(0.70)/10≈0.03567 per year.",
+    "wrong": [
+      "0.30 per year.",
+      "−ln(0.30)/10≈0.12040 per year.",
+      "0.70 per year."
+    ],
+    "explanation": "The coefficient equals −(1−e^(−10λ)). Therefore e^(−10λ)=0.70. The dependent variable is the total ten-year change, not annualized growth.",
+    "hint": "Recover the remaining fraction of the initial gap, then take logs.",
+    "skill": "a finite-horizon convergence coefficient",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-03",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Different long-run targets",
+    "prompt": "Country A starts poorer than B but also has a much lower steady-state income because its saving rate and technology differ. Does the Solow model necessarily predict faster growth in A?",
+    "correct": "No; growth depends on distance from each country’s own target.",
+    "wrong": [
+      "Yes; initial poverty alone guarantees faster growth.",
+      "Yes; capital’s diminishing returns remove every parameter difference.",
+      "No; Solow forbids any poor economy from catching up."
+    ],
+    "explanation": "Conditional convergence compares otherwise similar economies or controls for their determinants of steady states. A lower absolute income need not mean a larger proportional gap to the relevant target.",
+    "hint": "Compare income with the country-specific steady state, not only the other country.",
+    "skill": "different long-run targets",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-04",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Convergence without narrowing dispersion",
+    "prompt": "In a cross section, initially poorer economies tend to grow faster on average, yet large idiosyncratic shocks increase dispersion of log income. Which conclusion is possible?",
+    "correct": "Beta convergence can coexist with failure of sigma convergence.",
+    "wrong": [
+      "Beta convergence logically forces sigma convergence in every sample.",
+      "Sigma convergence means a negative initial-income regression coefficient by definition.",
+      "Any shock invalidates the definition of beta convergence."
+    ],
+    "explanation": "A negative conditional relationship between growth and initial income does not prevent shocks from widening the distribution. The two concepts describe different features of the transition.",
+    "hint": "Separate mean reversion from the variance of realized outcomes.",
+    "skill": "convergence without narrowing dispersion",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-05",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Saving and the long-run income level",
+    "prompt": "In a continuous-time Solow economy with y=k^α, fixed technology, fixed n+δ>0 and α=0.5, the saving rate permanently rises from 0.20 to 0.30. What is the ratio of new to old steady-state output per worker?",
+    "correct": "1.5.",
+    "wrong": [
+      "2.25.",
+      "1.225 approximately.",
+      "1.0."
+    ],
+    "explanation": "Since y*=[s/(n+δ)]^[α/(1−α)], the exponent is one. The steady-state output ratio equals 0.30/0.20=1.5; this is a level effect.",
+    "hint": "Use the elasticity of steady-state output to saving, not of capital to saving.",
+    "skill": "saving and the long-run income level",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-06",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Growth during transition and after it",
+    "prompt": "A permanent saving increase occurs in the standard Solow model with exogenous labor-augmenting technology growth. Which statement describes output per worker?",
+    "correct": "Growth rises during the transition, then returns to the exogenous technology growth rate at a higher level path.",
+    "wrong": [
+      "Its long-run growth rate permanently rises by the saving-rate increase.",
+      "Its level cannot change because technology growth is exogenous.",
+      "Its growth rate becomes zero even when technology keeps improving."
+    ],
+    "explanation": "Higher saving raises capital per effective worker toward a new stationary value. Once that adjustment is complete, output per worker again grows with labor-augmenting technology.",
+    "hint": "Separate movement toward the balanced-growth path from movement along it.",
+    "skill": "growth during transition and after it",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-07",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "A destruction shock and the marginal product",
+    "prompt": "Two otherwise identical Solow economies share y=k^(1/3). One loses half its capital per worker instantaneously while its technology and labor remain intact. By what factor does its marginal product of capital change on impact?",
+    "correct": "2^(2/3), about 1.587.",
+    "wrong": [
+      "2^(1/3), about 1.260.",
+      "0.5.",
+      "2.0."
+    ],
+    "explanation": "MPK=(1/3)k^(−2/3). Halving k multiplies MPK by (1/2)^(−2/3). The result concerns a marginal return, not the output loss.",
+    "hint": "Differentiate production first and then evaluate the proportional capital change.",
+    "skill": "a destruction shock and the marginal product",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-08",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "A local speed predicted by Solow",
+    "prompt": "For continuous-time Solow dynamics in capital per effective worker with Cobb–Douglas share α=0.4, n=0.01, technology growth g=0.02 and δ=0.04, what local convergence speed is implied?",
+    "correct": "λ=(1−α)(n+g+δ)=0.042 per year.",
+    "wrong": [
+      "λ=0.07 per year.",
+      "λ=0.028 per year.",
+      "λ=0.024 per year."
+    ],
+    "explanation": "Linearizing the accumulation equation around its positive steady state yields λ=(1−α)(n+g+δ). The 0.07 replacement-and-dilution rate is reduced by diminishing returns.",
+    "hint": "Differentiate net accumulation at the steady state.",
+    "skill": "a local speed predicted by solow",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-09",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "No catch-up with a moving frontier gap",
+    "prompt": "A country’s output per worker and the technological frontier both grow at 2 percent annually from different initial levels. What happens to the country’s relative income and absolute income gap?",
+    "correct": "Relative income stays constant while the absolute gap grows at 2 percent.",
+    "wrong": [
+      "Relative income converges to one and the absolute gap vanishes.",
+      "Both gaps remain fixed in currency units.",
+      "Relative income falls every year because the country starts poorer."
+    ],
+    "explanation": "If both levels are multiplied by 1.02 each year, their ratio is unchanged and their difference is multiplied by 1.02. Rising living standards do not necessarily mean relative catch-up.",
+    "hint": "Track the ratio and difference separately.",
+    "skill": "no catch-up with a moving frontier gap",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u2-10",
+    "course": "economic-growth",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "A policy level effect observed as growth",
+    "prompt": "An economy gradually gains 20 percent in output relative to an unchanged baseline over ten years after a reform, then keeps that proportional advantage forever. What does the assumed path imply after year ten?",
+    "correct": "The reform’s contribution to the growth-rate difference is zero, although its level effect persists.",
+    "wrong": [
+      "The growth-rate advantage remains 20 percentage points forever.",
+      "The output advantage must disappear once extra growth ends.",
+      "The reform has no cumulative output effect."
+    ],
+    "explanation": "A constant proportional level gap has zero change in its log. Temporary faster growth can generate a permanent level gain without permanently changing trend growth.",
+    "hint": "Differentiate the log of the relative output path.",
+    "skill": "a policy level effect observed as growth",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-01",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Schooling embodied in effective labor",
+    "prompt": "Human capital per worker is h=e^(0.08s), where s is completed years of schooling. Holding all other inputs fixed, what is h at twelve years relative to ten years?",
+    "correct": "e^0.16≈1.174.",
+    "wrong": [
+      "1.16 exactly.",
+      "e^0.08≈1.083.",
+      "1.20 exactly."
+    ],
+    "explanation": "The ratio is e^[0.08(12−10)]=e^0.16. A log return of 0.08 per year does not imply an exact 8 percent proportional return for every finite change.",
+    "hint": "Take the difference in schooling inside the exponential.",
+    "skill": "schooling embodied in effective labor",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-02",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Education time and human-capital growth",
+    "prompt": "In a continuous-time learning model, human capital follows dh/dt=φ(1−u)h−δ_h h. The fraction u=0.75 works in production, φ=0.12 and δ_h=0.01 per year. What is human-capital growth?",
+    "correct": "2 percent per year.",
+    "wrong": [
+      "3 percent per year.",
+      "8 percent per year.",
+      "11 percent per year."
+    ],
+    "explanation": "The learning share is 1−u=0.25. Thus hdot/h=0.12×0.25−0.01=0.02. Current output time and learning time compete for the same unit of time.",
+    "hint": "Apply learning productivity to time outside production before subtracting depreciation.",
+    "skill": "education time and human-capital growth",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-03",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "A higher skill share in production",
+    "prompt": "An economy produces Y=K^0.3(u h L)^0.7. At the instant u rises from 0.8 to 1, K, h and L cannot change. By what factor does current output change?",
+    "correct": "(1/0.8)^0.7≈1.169.",
+    "wrong": [
+      "1.25 exactly.",
+      "0.8^0.7≈0.855.",
+      "1.0 because human capital is predetermined."
+    ],
+    "explanation": "The current effective labor input rises by 25 percent, and output responds with elasticity 0.7. Predetermined human capital does not prevent a change in the fraction used in production.",
+    "hint": "Hold the skill stock fixed while changing its current use.",
+    "skill": "a higher skill share in production",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-04",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Private and aggregate capital elasticities",
+    "prompt": "Each competitive firm has yi=A ki^α li^(1−α) Kbar^η and takes aggregate capital Kbar as given. Along a symmetric aggregate expansion with total labor fixed, α=0.35 and η=0.65. What are the private capital elasticity and aggregate capital elasticity?",
+    "correct": "0.35 privately and 1.00 in aggregate.",
+    "wrong": [
+      "1.00 privately and 0.35 in aggregate.",
+      "0.65 privately and 0.35 in aggregate.",
+      "0.35 privately and 0.65 in aggregate."
+    ],
+    "explanation": "A firm ignores its negligible effect on Kbar. When all firms expand capital together, the direct elasticity α and external elasticity η add to one.",
+    "hint": "Separate a unilateral derivative from a change shared by all firms.",
+    "skill": "private and aggregate capital elasticities",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-05",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Capital accumulation with learning spillovers",
+    "prompt": "In an aggregate learning-externality model, Y=A K with constant A=0.25, fixed labor, saving rate s=0.20 and depreciation δ=0.03 in continuous time. What growth rate follows from Kdot=sY−δK?",
+    "correct": "2 percent per year.",
+    "wrong": [
+      "5 percent per year.",
+      "22 percent per year.",
+      "8 percent per year."
+    ],
+    "explanation": "Dividing by K gives gK=sA−δ=0.05−0.03=0.02. The nondeclining aggregate return supports sustained growth in this reduced-form model.",
+    "hint": "Substitute linear aggregate output into the accumulation identity.",
+    "skill": "capital accumulation with learning spillovers",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-06",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "A knowledge spillover and a subsidy",
+    "prompt": "At the current education choice, one additional unit of training has a private marginal benefit of 8, an external marginal benefit of 3 and a marginal resource cost of 10, all in present-value units. With no other distortions, which comparison guides the social expansion decision?",
+    "correct": "Social marginal benefit is 11, exceeding cost by 1.",
+    "wrong": [
+      "Private benefit of 8 proves training must contract socially.",
+      "Social benefit is 5 after subtracting the spillover.",
+      "The external benefit makes the resource cost zero."
+    ],
+    "explanation": "The social benefit adds effects on the trainee and others: 8+3=11. Since 11 exceeds 10, a small expansion is socially beneficial at this margin.",
+    "hint": "Add benefits accruing outside the private decision maker before comparing with cost.",
+    "skill": "a knowledge spillover and a subsidy",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-07",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "A growth-accounting schooling coefficient",
+    "prompt": "In Y=A K^α(hL)^(1−α), h=e^(φs). With fixed K and L, α=0.4 and φ=0.10, what is the partial derivative of log Y with respect to s?",
+    "correct": "0.06 per additional schooling year.",
+    "wrong": [
+      "0.10 per additional schooling year.",
+      "0.04 per additional schooling year.",
+      "0.60 per additional schooling year."
+    ],
+    "explanation": "Log output includes (1−α)φs. Its derivative is 0.6×0.10=0.06, holding capital fixed; general-equilibrium capital adjustment is a different question.",
+    "hint": "Combine the schooling-to-skill coefficient with labor’s output elasticity.",
+    "skill": "a growth-accounting schooling coefficient",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-08",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Human capital helps technology adoption",
+    "prompt": "An adoption model is Adot=κh(Afront−A), with κ>0, h>0 and a fixed frontier Afront>A. What is the immediate effect of higher h, holding the technology gap fixed?",
+    "correct": "It raises the speed at which domestic technology approaches the frontier.",
+    "wrong": [
+      "It reduces the speed because the frontier is fixed.",
+      "It eliminates the gap instantaneously for any positive increase.",
+      "It has no effect unless h exceeds Afront."
+    ],
+    "explanation": "The adoption coefficient κh increases with human capital. The model links skills to learning existing techniques rather than only to direct labor services.",
+    "hint": "Read h as a multiplier on the technology gap.",
+    "skill": "human capital helps technology adoption",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-09",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Skills are not the same as credentials",
+    "prompt": "In a growth-accounting dataset, mean schooling years rise but independently measured skill proficiency and effective labor quality do not. What is the problem with automatically treating the schooling increase as proportional human-capital growth?",
+    "correct": "The mapping from schooling years to productive skills is an additional assumption that may fail.",
+    "wrong": [
+      "Schooling counts measure productive skill exactly by definition.",
+      "Growth accounting requires human capital to be constant in every country.",
+      "Skills can affect output only if the population grows."
+    ],
+    "explanation": "Years are an observable input proxy, while productive human capital is the economically relevant input. Changes in school quality, curriculum and selection can alter the relationship.",
+    "hint": "Identify what the proxy measures and what the production function requires.",
+    "skill": "skills are not the same as credentials",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u3-10",
+    "course": "economic-growth",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Spillovers versus worker sorting",
+    "prompt": "Cities with more graduates also have higher wages for nongraduates. What evidence would help distinguish a human-capital spillover from sorting by unobserved nongraduate ability?",
+    "correct": "Tracking comparable incumbent nongraduates around plausibly exogenous changes in local graduate supply.",
+    "wrong": [
+      "Comparing only unadjusted average wages across cities.",
+      "Assuming every wage difference is an externality.",
+      "Dropping all nongraduates from the sample."
+    ],
+    "explanation": "Stable incumbent comparisons reduce the role of changing worker composition, while exogenous variation addresses endogenous graduate location. Additional local demand shocks still require attention.",
+    "hint": "Separate changes in who lives in a city from changes in what the same workers earn.",
+    "skill": "spillovers versus worker sorting",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-01",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Nonrival knowledge and replication",
+    "prompt": "A production recipe can be used simultaneously in two factories without diminishing its usefulness in either. Developing it requires a fixed research cost. Which feature follows?",
+    "correct": "The recipe is nonrival even if legal rules make access excludable.",
+    "wrong": [
+      "Nonrivalry implies research has zero resource cost.",
+      "A patent makes simultaneous use physically impossible.",
+      "Using the recipe twice consumes twice the original stock of knowledge."
+    ],
+    "explanation": "Nonrivalry concerns whether one use reduces the possibilities for another. Excludability concerns the ability to restrict access, which can be created by law or secrecy despite nonrival use.",
+    "hint": "Keep the technological property distinct from the access rule.",
+    "skill": "nonrival knowledge and replication",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-02",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Variety with fixed total intermediate input",
+    "prompt": "Final output is Y=L^(1−α)∫ from 0 to N of x(j)^α dj, with 0<α<1. All varieties receive equal input and total intermediate quantity X=Nx is fixed, as is L. With α=0.5, what happens to Y if N quadruples?",
+    "correct": "Y doubles.",
+    "wrong": [
+      "Y quadruples.",
+      "Y stays fixed.",
+      "Y falls by half."
+    ],
+    "explanation": "Symmetry gives Y=L^(1−α)N(X/N)^α=L^(1−α)X^αN^(1−α). With α=0.5, quadrupling varieties multiplies output by two.",
+    "hint": "Substitute per-variety input X/N before changing the number of varieties.",
+    "skill": "variety with fixed total intermediate input",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-03",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Quality steps and expected log growth",
+    "prompt": "A technology’s quality is multiplied by γ=1.10 whenever an innovation arrives. Innovations follow a Poisson process with rate λ=0.20 per year. What is expected log quality growth per year?",
+    "correct": "0.20 ln(1.10)≈0.01906.",
+    "wrong": [
+      "0.20×1.10=0.22.",
+      "ln(1.20)≈0.18232.",
+      "Exactly 0.02."
+    ],
+    "explanation": "The expected number of steps per year is 0.20 and each step adds ln(1.10) to log quality. Expected level growth uses a different expression.",
+    "hint": "Multiply the expected number of arrivals by the log size of each step.",
+    "skill": "quality steps and expected log growth",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-04",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "A patent exposed to displacement",
+    "prompt": "A patent earns a constant profit flow π=6 per year until a rival innovation displaces it with constant Poisson hazard λ=0.10. The continuous discount rate is r=0.05, with no other growth or salvage value. What is its value?",
+    "correct": "40.",
+    "wrong": [
+      "120.",
+      "60.",
+      "90."
+    ],
+    "explanation": "Expected survival to t is e^(−λt), so V=∫0∞6e^[−(r+λ)t]dt=6/0.15=40. Displacement adds to the effective discount rate.",
+    "hint": "Discount profits for both time and the probability of losing the patent.",
+    "skill": "a patent exposed to displacement",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-05",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Research entry at a given patent value",
+    "prompt": "One unit of research effort costs 12 now and produces a patent immediately with probability 0.25. The patent’s value is 40, failure yields zero and researchers are risk neutral. At these fixed values, what is expected net profit from one unit?",
+    "correct": "−2, so this unit is not privately profitable.",
+    "wrong": [
+      "2, so it is profitable.",
+      "28, because success is certain in expectation.",
+      "10, because research cost is a transfer."
+    ],
+    "explanation": "Expected benefit is 0.25×40=10. Subtracting the resource payment 12 gives −2. An equilibrium entry calculation would also allow patent value and research costs to adjust.",
+    "hint": "Weight the prize by its success probability before subtracting cost.",
+    "skill": "research entry at a given patent value",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-06",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Semi-endogenous balanced growth",
+    "prompt": "Idea production is Adot=δ L_A^λ A^φ, where δ>0, λ=0.6, φ=0.4 and the number of researchers grows at 0.02 per year. On a balanced-growth path with constant positive gA, what is gA?",
+    "correct": "0.02 per year.",
+    "wrong": [
+      "0.012 per year.",
+      "0.05 per year.",
+      "0.008 per year."
+    ],
+    "explanation": "Constancy of gA=δL_A^λ/A^(1−φ) requires λgL_A−(1−φ)gA=0. Thus gA=0.6×0.02/0.6=0.02.",
+    "hint": "Take the log derivative of the expression for the idea growth rate.",
+    "skill": "semi-endogenous balanced growth",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-07",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Research share in a semi-endogenous model",
+    "prompt": "In Adot=δ L_A^λ A^φ with 0<φ<1 and λ>0, researchers are a constant positive share of a population growing at rate n>0. The research share permanently doubles. What happens to balanced-growth gA after transition?",
+    "correct": "It returns to λn/(1−φ), while the level of A is higher.",
+    "wrong": [
+      "It permanently doubles solely because the share doubles.",
+      "It becomes zero because the share no longer changes.",
+      "It falls permanently to half its previous value."
+    ],
+    "explanation": "A higher constant research share raises the level of research input, not its long-run growth rate. Diminishing returns to the knowledge stock absorb the initial increase in gA during transition.",
+    "hint": "Distinguish a change in the level of research labor from its growth rate.",
+    "skill": "research share in a semi-endogenous model",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-08",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Research productivity inferred from an identity",
+    "prompt": "Define research productivity R as the idea-stock growth rate gA divided by researcher count L_A. gA remains 0.02 while L_A rises from 100 to 200 in consistent units. What happens to R?",
+    "correct": "It falls by 50 percent.",
+    "wrong": [
+      "It rises by 100 percent.",
+      "It stays constant.",
+      "It falls by 2 percent."
+    ],
+    "explanation": "Initially R=0.02/100=0.0002; afterward R=0.02/200=0.0001. This constructed identity does not by itself explain the source of the decline.",
+    "hint": "Hold the numerator fixed while changing the denominator.",
+    "skill": "research productivity inferred from an identity",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-09",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Creative destruction and business stealing",
+    "prompt": "A new product earns its innovator profits partly by displacing an incumbent’s profits, with no corresponding consumer or resource gain from that displaced portion alone. Why can private innovation incentives exceed the social gain from this component?",
+    "correct": "The entrant counts transferred profits as a benefit while social welfare also counts the incumbent’s loss.",
+    "wrong": [
+      "All entrant profits are necessarily net additions to social welfare.",
+      "Business stealing means no innovation can benefit consumers.",
+      "Social welfare excludes every firm’s profit."
+    ],
+    "explanation": "Profit transfers between firms cancel in aggregate unless they reflect other changes in surplus or costs. Quality improvements and knowledge spillovers must be assessed separately.",
+    "hint": "Separate newly created surplus from a transfer of existing surplus.",
+    "skill": "creative destruction and business stealing",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u4-10",
+    "course": "economic-growth",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "The opposing innovation wedges",
+    "prompt": "In an innovation model, new discoveries generate uncompensated knowledge benefits for later researchers, but entrants also duplicate effort and displace incumbent rents. What follows for the optimal research subsidy?",
+    "correct": "Its sign and size require comparing the model’s positive and negative external effects.",
+    "wrong": [
+      "It must be positive and equal to all private research spending.",
+      "It must always be zero because firms maximize profits.",
+      "It must always be a tax because patents create rents."
+    ],
+    "explanation": "Knowledge spillovers can cause underinvestment, whereas duplication or business stealing can push the other way. Naming one mechanism does not establish the net welfare wedge.",
+    "hint": "Write the social marginal benefit net of private benefit, including every specified channel.",
+    "skill": "the opposing innovation wedges",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-01",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Skill supply in a CES production model",
+    "prompt": "At fixed technology, a competitive CES model implies wH/wL=C(H/L)^(−1/σ), where σ=2 and C is constant. If relative skilled labor supply H/L rises by 44 percent, how does the skill premium change?",
+    "correct": "It is multiplied by 1/1.2, a decline of about 16.67 percent.",
+    "wrong": [
+      "It rises by 44 percent.",
+      "It falls by 22 percent exactly.",
+      "It is unchanged because production is competitive."
+    ],
+    "explanation": "The premium changes by 1.44^(−1/2)=1/1.2. A larger relative supply lowers its relative marginal product when technology is held fixed.",
+    "hint": "Apply the inverse substitution-elasticity exponent to the gross supply change.",
+    "skill": "skill supply in a ces production model",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-02",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Demand shifts inferred from a rising skill premium",
+    "prompt": "In a stable competitive two-skill CES model, both H/L and wH/wL rise. Holding the substitution elasticity fixed, what must have occurred within that model?",
+    "correct": "Relative demand for skilled labor shifted outward enough to offset its greater relative supply.",
+    "wrong": [
+      "The rise in supply alone caused the premium to rise.",
+      "The substitution elasticity must equal zero.",
+      "Competitive wages no longer equal marginal products by assumption."
+    ],
+    "explanation": "At fixed relative demand, more skilled labor reduces its premium. Observing both increases therefore requires an offsetting relative demand shift in the maintained model.",
+    "hint": "Compare the observed sign with the fixed-technology supply prediction.",
+    "skill": "demand shifts inferred from a rising skill premium",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-03",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Automation and newly created tasks",
+    "prompt": "A task model separates automation, which shifts existing tasks from workers to machines, from creation of new tasks in which labor has comparative advantage. Which statement is consistent with that framework?",
+    "correct": "New labor-intensive tasks can offset some labor displacement caused by automation.",
+    "wrong": [
+      "Every productivity improvement mechanically reduces labor demand.",
+      "New tasks cannot affect labor’s share because the number of workers is fixed.",
+      "Automation and new-task creation are identical shifts by definition."
+    ],
+    "explanation": "Automation changes who performs existing tasks; new-task creation changes the task set available to labor. Net employment and wage effects depend on their balance and on other equilibrium responses.",
+    "hint": "Track the task boundary and the creation of additional tasks separately.",
+    "skill": "automation and newly created tasks",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-04",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "A two-firm allocation gain",
+    "prompt": "Two firms produce a homogeneous output: y1=2√k1 and y2=√k2. Total capital is 10, there are no other inputs or distortions, and initial allocation is k1=k2=5. Which allocation maximizes total output?",
+    "correct": "k1=8 and k2=2.",
+    "wrong": [
+      "k1=5 and k2=5.",
+      "k1=2 and k2=8.",
+      "k1=10 and k2=0."
+    ],
+    "explanation": "Equality of marginal products requires 1/√k1=1/(2√k2), hence k1=4k2. Together with k1+k2=10 this gives 8 and 2; concavity ensures optimality.",
+    "hint": "Equalize physical marginal products rather than average products.",
+    "skill": "a two-firm allocation gain",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-05",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "A capital wedge in the allocation condition",
+    "prompt": "Two firms face the same rental rate r, but firm 1 pays an extra proportional capital tax τ=0.25 and firm 2 does not. Output prices equal one and choices are interior. What ratio MPK1/MPK2 is implied by profit maximization?",
+    "correct": "1.25.",
+    "wrong": [
+      "0.80.",
+      "1.00.",
+      "0.25."
+    ],
+    "explanation": "Firm 1 sets MPK1=(1+τ)r while firm 2 sets MPK2=r. The wedge sustains unequal physical marginal products even with a common pre-tax rental rate.",
+    "hint": "Write each firm’s own after-tax first-order condition before taking the ratio.",
+    "skill": "a capital wedge in the allocation condition",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-06",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Revenue productivity is not physical productivity",
+    "prompt": "Two plants have the same physical production technology, but one charges a higher markup and faces different product demand. Why need a difference in revenue per unit of input not measure a technology gap?",
+    "correct": "Revenue combines physical quantities with prices and demand conditions.",
+    "wrong": [
+      "Revenue and physical output always have identical units.",
+      "Higher markups mechanically double physical productivity.",
+      "Product demand cannot affect revenue under any market structure."
+    ],
+    "explanation": "A plant’s sales depend on both its output quantity and its selling price. Interpreting revenue-based productivity requires assumptions about demand, markups and input choices.",
+    "hint": "Separate price times quantity before attributing the difference to technology.",
+    "skill": "revenue productivity is not physical productivity",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-07",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Allocation of talent across occupations",
+    "prompt": "Two workers can each choose one occupation. Worker A produces 12 as an engineer or 8 as a manager; worker B produces 9 as an engineer or 3 as a manager. Exactly one worker is needed in each occupation. Which assignment maximizes output?",
+    "correct": "A manages and B engineers, producing 17.",
+    "wrong": [
+      "A engineers and B manages, producing 15.",
+      "Both engineer, producing 21 despite the staffing constraint.",
+      "Both manage, producing 11 despite the staffing constraint."
+    ],
+    "explanation": "A has the smaller engineering opportunity cost of management: 4 versus B’s 6. Assigning A to management preserves more total output, despite A’s absolute advantage in both jobs.",
+    "hint": "Compare the feasible assignments or each worker’s opportunity cost.",
+    "skill": "allocation of talent across occupations",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-08",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Selection after exit",
+    "prompt": "A dataset’s average plant productivity rises after low-productivity plants exit, while each surviving plant’s productivity is unchanged. What does this show?",
+    "correct": "Aggregate measured productivity can rise through selection without within-plant technical improvement.",
+    "wrong": [
+      "Every surviving plant must have invented a better technology.",
+      "Average productivity cannot change when survivor productivity is fixed.",
+      "Exit establishes that output per person rose by the same percentage."
+    ],
+    "explanation": "Changing the set of operating plants changes the measured average. The aggregate output and employment consequences require information beyond survivor productivity.",
+    "hint": "Separate within-unit changes from changes in the set or weights of units.",
+    "skill": "selection after exit",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-09",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "A directed innovation incentive",
+    "prompt": "There are two research lines with the same success technology and research cost. A policy permanently raises the expected patent profit of clean technology while leaving dirty-technology patent profit unchanged. Holding all other prices fixed, what is the direct incentive effect?",
+    "correct": "Research shifts toward the clean line at the margin.",
+    "wrong": [
+      "Research must shift toward the dirty line.",
+      "Both research lines become equally profitable by arithmetic.",
+      "The policy cannot affect innovation because technology is exogenous in every growth model."
+    ],
+    "explanation": "A larger expected prize raises the return to otherwise identical research effort in the clean line. General-equilibrium wage and market-size changes may modify the final magnitude.",
+    "hint": "Compare expected prizes per unit research cost across the two lines.",
+    "skill": "a directed innovation incentive",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u5-10",
+    "course": "economic-growth",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "One distortion versus many",
+    "prompt": "An economy has several interacting taxes and markups. Removing one wedge raises its affected sector’s output but worsens resource allocation elsewhere. Which conclusion is warranted?",
+    "correct": "The aggregate welfare effect requires an economy-wide calculation; the sector’s expansion alone is insufficient.",
+    "wrong": [
+      "Any single wedge removal must raise welfare regardless of the others.",
+      "Higher sector output proves that every household gains.",
+      "The sector’s output response identifies the optimal policy package."
+    ],
+    "explanation": "In a second-best environment, distortions interact through prices and resource constraints. A local quantity increase does not establish the net welfare effect of a partial reform.",
+    "hint": "Evaluate opportunity costs and remaining distortions across sectors.",
+    "skill": "one distortion versus many",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-01",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Proximate accounting and fundamental causes",
+    "prompt": "A development-accounting exercise assigns half an international income gap to capital and measured skills and half to residual efficiency. Does this establish that institutions account for none of the first half?",
+    "correct": "No; institutions may influence capital, skills and efficiency together.",
+    "wrong": [
+      "Yes; institutions can operate only through the residual by definition.",
+      "Yes; accounted input differences are necessarily exogenous.",
+      "No; the exercise proves institutions explain the entire gap."
+    ],
+    "explanation": "Accounting locates differences in production inputs and efficiency without identifying what caused them. Institutional arrangements can shape saving, education, adoption and allocation.",
+    "hint": "Distinguish the production decomposition from explanations of its components.",
+    "skill": "proximate accounting and fundamental causes",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-02",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Expropriation risk and a project threshold",
+    "prompt": "A firm pays 80 now for a project yielding 110 next year if not expropriated and zero if expropriated. It is risk neutral, has no recovery or other benefits, and discounts at gross factor 1.10. At what expropriation probability is it indifferent?",
+    "correct": "20 percent.",
+    "wrong": [
+      "10 percent.",
+      "30 percent.",
+      "27.27 percent."
+    ],
+    "explanation": "Indifference requires (1−p)110/1.10=80, or 100(1−p)=80, hence p=0.20. Institutional risk can change investment without changing engineering productivity.",
+    "hint": "Equate discounted expected receipts with the sunk cost.",
+    "skill": "expropriation risk and a project threshold",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-03",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Political resistance to an efficient technology",
+    "prompt": "A new technology raises aggregate net output by 20, while a politically decisive incumbent group loses 8 and other residents gain 28. Compensation is not feasible. Why might adoption be blocked despite the aggregate gain?",
+    "correct": "The group with veto power can prefer the old allocation because it bears a loss.",
+    "wrong": [
+      "An aggregate gain implies every group gains.",
+      "The stated gains and losses sum to a negative total.",
+      "Higher technical efficiency automatically removes political vetoes."
+    ],
+    "explanation": "Aggregate surplus does not determine the political distribution of benefits. Without compensation, the incumbent’s loss can motivate opposition even when total resources rise.",
+    "hint": "Evaluate the decisive group’s payoff separately from the aggregate change.",
+    "skill": "political resistance to an efficient technology",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-04",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Complementary institutional reforms",
+    "prompt": "A firm’s productivity is 10 under existing rules. Reform A alone raises it to 11, reform B alone to 12, and both together to 18. What is the interaction effect relative to adding the two separate gains?",
+    "correct": "5 additional units.",
+    "wrong": [
+      "3 additional units.",
+      "8 additional units.",
+      "21 additional units."
+    ],
+    "explanation": "Separate gains total (11−10)+(12−10)=3. The joint gain is 18−10=8, leaving an interaction of 5. Evaluation of one reform need not reveal a complementary package’s effect.",
+    "hint": "Subtract the baseline and the two individual gains from the joint outcome.",
+    "skill": "complementary institutional reforms",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-05",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Initial-income error and apparent catch-up",
+    "prompt": "True log income is constant over two dates. Observed log income is true income plus independent mean-zero measurement errors u0 and u1 of equal positive variance, independent of true income. Why is regressing observed growth on observed initial income biased toward a negative relationship?",
+    "correct": "The initial error enters the regressor positively and measured growth as −u0.",
+    "wrong": [
+      "The final error enters both variables with the same positive sign.",
+      "Independent measurement errors cannot affect a regression using differences.",
+      "True income must be falling whenever measured growth is negative."
+    ],
+    "explanation": "The covariance contributed by measurement is Cov(u0,u1−u0)=−Var(u0). A spurious mean-reversion pattern can appear even though true income does not change.",
+    "hint": "Expand observed growth and locate the initial measurement error in both variables.",
+    "skill": "initial-income error and apparent catch-up",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-06",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Controlling away an institutional channel",
+    "prompt": "A reform may raise long-run income partly by increasing physical investment. A regression intended to estimate its total causal effect controls for investment measured after the reform. What is the concern?",
+    "correct": "The control can block part of the reform’s causal pathway and change the estimand.",
+    "wrong": [
+      "Post-reform investment is necessarily a valid pre-treatment confounder.",
+      "Adding any measured variable always improves identification of the total effect.",
+      "The control guarantees that the estimated effect includes all investment-mediated gains."
+    ],
+    "explanation": "A mediator is different from a baseline confounder. Conditioning on it can remove the investment channel and may introduce further bias if mediator–outcome confounding is present.",
+    "hint": "Draw the reform-to-investment-to-income path before choosing controls.",
+    "skill": "controlling away an institutional channel",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-07",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Lagged income in a short panel",
+    "prompt": "A growth researcher estimates log y_it=αi+ρ log y_i,t−1+εit using the within transformation in a panel with few time periods and many countries. Errors are serially independent before demeaning. Why can within-estimator bias remain?",
+    "correct": "The demeaned lagged outcome is correlated with the demeaned error through shared time-series observations.",
+    "wrong": [
+      "Country fixed effects eliminate all dynamic-panel bias exactly.",
+      "A large number of countries automatically makes each time series long.",
+      "Serial independence implies the lagged dependent variable is identically zero."
+    ],
+    "explanation": "Demeaning uses averages containing errors that also affect lagged outcomes. With fixed short T, this correlation need not vanish as the number of countries grows.",
+    "hint": "Check what observations enter both the unit mean and the lagged outcome.",
+    "skill": "lagged income in a short panel",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-08",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "A common global trend and year effects",
+    "prompt": "A panel regression of log output per worker includes country and year fixed effects. Every country faces exactly the same measured global frontier series F_t in each year. Can its separate coefficient be estimated alongside unrestricted year effects?",
+    "correct": "No; the common frontier series is perfectly collinear with the year effects.",
+    "wrong": [
+      "Yes; increasing the number of countries removes the exact collinearity.",
+      "Yes; country fixed effects make every time-varying regressor independent of year effects.",
+      "No; all country-specific variables are also necessarily collinear with year effects."
+    ],
+    "explanation": "A variable that takes one common value in each year lies in the span of the year indicators. Identifying a frontier effect needs a restriction on common time effects or distinct exposure variation, along with a causal design.",
+    "hint": "Check whether the common time series can be written as a weighted sum of the year indicators.",
+    "skill": "a common global trend and year effects",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-09",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Diffusion while the frontier advances",
+    "prompt": "Technology adoption obeys Adot=μ(F−A), with μ=0.08 and frontier technology F growing at gF=0.02 in continuous time. On a path with constant positive ratio a=A/F, what is a?",
+    "correct": "0.80.",
+    "wrong": [
+      "1.00.",
+      "0.25.",
+      "0.60."
+    ],
+    "explanation": "The ratio obeys adot=μ(1−a)−gF a. Setting it to zero yields a=μ/(μ+gF)=0.08/0.10=0.8. A country can grow at the frontier rate while retaining a technology gap.",
+    "hint": "Differentiate the follower-to-frontier ratio, including growth in the denominator.",
+    "skill": "diffusion while the frontier advances",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "economic-growth-u6-10",
+    "course": "economic-growth",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "What a residual-based policy ranking misses",
+    "prompt": "Two otherwise similar countries have the same measured TFP shortfall. In one the cause is barriers to adopting existing methods; in the other it is inefficient allocation among plants using available methods. Can the residual alone identify the better reform?",
+    "correct": "No; the same residual can arise from mechanisms requiring different policy changes.",
+    "wrong": [
+      "Yes; equal residuals imply identical structural distortions.",
+      "Yes; every TFP shortfall is a shortage of research scientists.",
+      "No policy can affect a residual because it is computed by subtraction."
+    ],
+    "explanation": "A residual aggregates unmeasured mechanisms. Choosing between adoption reform and reallocation reform requires evidence that distinguishes those mechanisms, not just their common accounting consequence.",
+    "hint": "Ask which observations discriminate among mechanisms compatible with the same residual.",
+    "skill": "what a residual-based policy ranking misses",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/syllabus_Fall_2025.pdf",
+      "https://web.stanford.edu/~chadj/PhDGrowth2024.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

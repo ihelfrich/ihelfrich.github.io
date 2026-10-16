@@ -10,7 +10,13 @@ concepts: [difference equations, AR1, stationarity, moments, multi-step forecast
 
 ## A model for a persistent economic level
 
-Let an economic series obey
+Suppose a monthly economic indicator is 10 today. We need a forecast for the next two months. Our model adds 3 each month and carries forward half the previous value. With no new shock, next month's value is $3+0.5\times10=8$. One month later it is $3+0.5\times8=7$.
+
+Why does the forecast move down? A value of 6 reproduces itself: $3+0.5\times6=6$. Today the indicator is 4 units above that level. One step leaves half the gap; two steps leave a quarter. We can therefore calculate the same two-month forecast as $6+0.5^2(10-6)=7$. These are invented numbers for a hand calculation; they are not estimates for the Texas electricity case.
+
+![The forecast starts at 10, moves to 8, then to 7. The reference level is 6, and the remaining gaps are 4, 2, and 1 indicator units. This is an original analytic teaching example.](/time-series/figures/ar-two-step.svg)
+
+Now write the rule as
 
 $$
 Y_t=c+\phi Y_{t-1}+\varepsilon_t,
@@ -18,9 +24,13 @@ Y_t=c+\phi Y_{t-1}+\varepsilon_t,
 \qquad\mathbb E[\varepsilon_t^2]=\sigma^2.
 $$
 
-The model is an autoregression of order one, abbreviated AR(1). The coefficient $\phi$ describes how much of the previous deviation is carried forward. The intercept $c$ is an increment in the recursion, not generally the series mean. The innovation is the part of today's observation not predictable from yesterday's information under this model.
+The model is an autoregression of order one, abbreviated AR(1). Here $c=3$ and $\phi=0.5$. The coefficient $\phi$ describes how much of a deviation survives one period. The intercept $c$ is the increment in the recursion; the reference level is $c/(1-\phi)$ when $|\phi|<1$. The innovation $\varepsilon_t$ is what the previous information could not predict. Its zero conditional mean lets the calculations above serve as forecasts even though future shocks will usually be nonzero.
 
-The conditional-mean restriction does more work than the word “noise.” It rules out predictable innovations. Serially uncorrelated errors alone do not imply independence, Gaussianity, or the conditional-mean restriction. For the elementary moment derivations below, we assume innovations have constant variance and are uncorrelated across dates; for conditional forecasts, we use their zero conditional means. State those assumptions separately in the ledger.
+The conditional-mean restriction rules out predictable innovations. Serially uncorrelated errors alone do not imply independence, Gaussianity, or this restriction. The second moment displayed above is unconditional: it averages across histories. It does not require the risk faced at each history to be the same. We will state the stronger condition when we calculate a conditional forecast variance. Treat $c$ and $\phi$ as known until the section on estimation uncertainty.
+
+Here $\mathcal I_t$ contains the observations and innovations through $t$; these information sets grow as records arrive. The known recursion lets us recover an observed innovation as $Y_t-c-\phi Y_{t-1}$. All innovations have finite second moments. These conditions make the conditioning steps below meaningful.
+
+[Lecture 1's conditional-expectation proof](/time-series/01-information/#why-conditional-expectation-solves-this-loss) explains why averaging the unknown future given today's information minimizes squared forecast loss. Here we apply that result to a specific recursion.
 
 If $Y$ is in MWh, $c$ and $\varepsilon$ are in MWh and $\phi$ is dimensionless. The interval represented by one time step matters. A monthly persistence coefficient cannot be substituted directly into a quarterly recursion.
 
@@ -33,14 +43,20 @@ Y_t=\phi^tY_0+c\sum_{j=0}^{t-1}\phi^j+
 \sum_{j=0}^{t-1}\phi^j\varepsilon_{t-j}.
 $$
 
-For $\phi\ne1$, the deterministic component is $\phi^tY_0+c(1-\phi^t)/(1-\phi)$. If $|\phi|<1$, the initial condition's influence decays. Under suitable finite-moment innovation assumptions, a stationary solution can be written
+To see the pattern, the first substitution gives $Y_2=\phi^2Y_0+c(1+\phi)+\phi\varepsilon_1+\varepsilon_2$. One more substitution multiplies every existing term by $\phi$, then adds $c+\varepsilon_3$. Thus a shock from $j$ periods ago receives exactly $j$ multiplications by $\phi$.
+
+The finite geometric sum also has a short proof. Write $S_t=1+\phi+\cdots+\phi^{t-1}$. Subtract $\phi S_t=\phi+\cdots+\phi^t$ from it; all interior terms cancel, leaving $(1-\phi)S_t=1-\phi^t$. Hence $S_t=(1-\phi^t)/(1-\phi)$ when $\phi\ne1$. At $\phi=1$, each term equals one and $S_t=t$.
+
+For $\phi\ne1$, the deterministic component is $\phi^tY_0+c(1-\phi^t)/(1-\phi)$. If $|\phi|<1$, the initial condition's influence decays. Under the finite-moment conditions specified next, a stationary solution can be written
 
 $$
 Y_t=\mu+\sum_{j=0}^{\infty}\phi^j\varepsilon_{t-j},
 \qquad \mu=\frac{c}{1-\phi}.
 $$
 
-The infinite series converges in mean square because $\sum_j\phi^{2j}<\infty$. This gives existence of a finite-variance stationary solution when the innovations themselves have the appropriate time-invariant joint properties. A simulation initialized at an arbitrary fixed $Y_0$ has a transient; it is not exactly stationary from its first row. Discarding a burn-in approximates the stationary regime, with approximation quality depending on persistence.
+For this representation, let the innovation sequence extend through all integer dates, with zero means, common variance $\sigma^2$, and zero covariances across distinct dates. The mean-square size of the omitted tail after $m$ terms is $\sigma^2\sum_{j=m}^{\infty}\phi^{2j}$, which tends to zero when $|\phi|<1$. That establishes mean-square convergence. The resulting mean is constant and its covariance depends only on the lag, so the solution is covariance-stationary. Strict stationarity, which concerns the entire joint distribution, requires a strictly stationary innovation sequence as well.
+
+A simulation initialized at an arbitrary fixed $Y_0$ has a transient; it is not exactly stationary from its first row. Discarding a burn-in approximates the covariance-stationary regime, with approximation quality depending on persistence.
 
 For $\phi=0$, each observation is $c+\varepsilon_t$. For $0<\phi<1$, deviations decay without alternating signs. For $-1<\phi<0$, their signs alternate while their magnitudes decay. At $\phi=1$, the formula for $\mu$ is undefined and the model becomes a random walk with drift. For $|\phi|>1$, the forward recursion is explosive. Those boundary cases should change an implementation's interpretation, not merely trigger a divide-by-zero warning.
 
@@ -52,15 +68,15 @@ $$
 X_t=\phi X_{t-1}+\varepsilon_t.
 $$
 
-Since the innovation is uncorrelated with the previous state,
+The previous state is known in $\mathcal I_{t-1}$, so $\mathbb E[X_{t-1}\varepsilon_t]=\mathbb E[X_{t-1}\mathbb E[\varepsilon_t\mid\mathcal I_{t-1}]]=0$. Squaring the centered recursion and taking expectations therefore gives
 
 $$
-\gamma(0)=\operatorname{Var}(Y_t)
-=\phi^2\gamma(0)+\sigma^2
-=\frac{\sigma^2}{1-\phi^2}.
+\gamma(0)=\phi^2\gamma(0)+\sigma^2.
 $$
 
-Multiply the centered recursion by $X_{t-k}$ and take expectations. For $k\ge1$, the innovation contributes zero, so $\gamma(k)=\phi\gamma(k-1)$. Iterating gives
+Stationarity supplies the same variance for $X_t$ and $X_{t-1}$. Subtract $\phi^2\gamma(0)$ from both sides and divide by $1-\phi^2$, which is positive for $|\phi|<1$: $\operatorname{Var}(Y_t)=\gamma(0)=\sigma^2/(1-\phi^2)$.
+
+Define $\gamma(k)=\mathbb E[X_tX_{t-k}]$. Multiply the centered recursion by $X_{t-k}$ and take expectations. For $k\ge1$, $X_{t-k}$ is known before the innovation, so the same conditioning argument makes its product with $\varepsilon_t$ contribute zero. The remaining product is $\phi\mathbb E[X_{t-1}X_{t-k}]=\phi\gamma(k-1)$ by stationarity. Iterating gives
 
 $$
 \gamma(k)=\phi^k\gamma(0),\qquad\rho(k)=\phi^k.
@@ -82,21 +98,42 @@ $$
 Under the innovation conditional-mean restriction, the forecast is
 
 $$
-\widehat Y_{t+h|t}=\mu+\phi^h(Y_t-\mu).
+\widehat Y_{t+h|t}=\mu+\underbrace{\phi^h(Y_t-\mu)}_{\text{retained deviation}}.
 $$
 
-Its error variance, with parameters known, is
+Each future innovation has zero conditional mean given date-$t$ information: condition first on the information immediately before that innovation, use its zero conditional mean, then condition on $\mathcal I_t$. That removes it from the forecast, but its squared contribution remains in the error. The same conditioning argument makes the cross-products of innovations at different dates vanish.
+
+Take two future dates $t<i<k$. The earlier innovation is already known in $\mathcal I_{k-1}$, and $\mathcal I_t$ is contained in that information set. Conditional expectation therefore gives
+
+$$
+\mathbb E[\varepsilon_i\varepsilon_k\mid\mathcal I_t]
+=\mathbb E[\varepsilon_i\mathbb E[\varepsilon_k\mid\mathcal I_{k-1}]\mid\mathcal I_t]=0.
+$$
+
+The inner expectation is zero by the model's innovation restriction. Averaging the resulting zero over the histories also gives an unconditional zero cross-product. Expand the squared forecast error: the cross-terms disappear, leaving each innovation's second moment multiplied by its squared coefficient. With the common unconditional second moment $\sigma^2$, this yields the **unconditional** mean-squared forecast error
 
 $$
 V_h=\sigma^2\sum_{j=0}^{h-1}\phi^{2j}
 =\sigma^2\frac{1-\phi^{2h}}{1-\phi^2}.
 $$
 
-For $h=1$, $V_h=\sigma^2$. For a stable process, it increases toward the unconditional variance. At $\phi=1$, use the finite sum directly: $V_h=h\sigma^2$. This limit is a practical reason to implement the finite sum as well as the closed form. Numerical cancellation near one can make the quotient less accurate than the sum.
+For this same number to be the **conditional** forecast variance at every history, assume conditional homoskedasticity: $\mathbb E[\varepsilon_s^2\mid\mathcal I_{s-1}]=\sigma^2$ for the future dates involved. The word means that the next innovation's variance is constant given the available history. Without that condition, the conditional variance instead sums $\phi^{2j}\mathbb E[\varepsilon_{t+h-j}^2\mid\mathcal I_t]$ over $j=0,\ldots,h-1$. The forecast mean can remain correct while its conditional risk changes.
 
-A shock's response after $h$ periods is $\phi^h$ times its initial size. For positive $\phi$, the half-life is $\log(0.5)/\log(\phi)$. It is a continuous-time count measured in model periods; actual discrete responses cross half their original magnitude at the next integer horizon. For negative $\phi$, use $|\phi|$ to describe magnitude decay and retain the alternating sign separately.
+For $h=1$, $V_h=\sigma^2$. For a stable process, it increases toward the unconditional level variance. At $\phi=1$, use the finite sum directly: $V_h=h\sigma^2$. Numerical cancellation near one can make the quotient less accurate than the sum.
 
-The known-parameter variance excludes parameter uncertainty. When $c$ and $\phi$ are estimated, a plug-in forecast is a random function of an estimated model. Its interval requires additional care, especially in a short sample or near a unit root. Lecture 4 will distinguish process uncertainty, estimation uncertainty, and uncertainty about model selection.
+With the opening example's $\phi=0.5$ and innovation standard deviation 2, the two-month error is $0.5\varepsilon_{t+1}+\varepsilon_{t+2}$. Under conditional homoskedasticity its variance is $0.5^2\times4+4=5$ squared indicator units. Changing $\phi$ to $-0.5$ reverses the first innovation's contribution but leaves its squared weight at $0.25$. The response can alternate while the variance remains positive. [Change persistence and compare both quantities](/time-series/02-dynamics/#persistence).
+
+<details><summary>A changed example: what if risk depends on the history?</summary>
+
+An observed risk state chooses an innovation scale of 1 or 3, each with probability one half, and retains that scale over the two forecast months. Each month's innovation is the scale times an independent sign, equally likely to be $-1$ or $1$. What are the two conditional error variances when $\phi=0.5$? What is their unconditional average?
+
+In the low-risk state, variance is $1^2(1+0.5^2)=1.25$. In the high-risk state it is $3^2(1+0.5^2)=11.25$. Their average is $6.25$, which also equals $\mathbb E[\varepsilon_s^2](1+0.5^2)=5\times1.25$. Zero conditional means and constant unconditional second moments hold, but conditional homoskedasticity fails. Reporting 6.25 as the risk at either observed history would be wrong. The independent signs permit an exact eight-outcome enumeration across the two risk states; no simulation is needed for this example.
+
+</details>
+
+A shock's response after $h$ periods is $\phi^h$ times its initial size. For $0<\phi<1$, solving $\phi^h=0.5$ gives the half-life $\log(0.5)/\log(\phi)$. This is a real-valued number of model periods; actual discrete responses reach or fall below half their original magnitude at the ceiling of that number. For $-1<\phi<0$, use $|\phi|$ to describe magnitude decay and retain the alternating sign separately.
+
+The known-parameter variance excludes parameter uncertainty. When $c$ and $\phi$ are estimated, a plug-in forecast is a random function of an estimated model. Its interval requires additional care, especially in a short sample or near a unit root. [Lecture 4's forecast-uncertainty discussion](/time-series/04-forecasting/#identify-the-uncertainty-in-an-interval) distinguishes process uncertainty, estimation uncertainty, and uncertainty about model selection.
 
 ## Time aggregation changes the dependence
 
@@ -123,9 +160,7 @@ Their ratio is generally different from $\phi^3$. Sampling the last month of eac
 
 For a quarterly flow total, replace the average by a sum. Variance and covariance both multiply by nine, leaving the correlation unchanged. The level's units change from a monthly quantity to a quarterly total, so its intercept and forecast scale change. A rate or index may instead require an economically defined weighted average.
 
-![A unit shock can alternate while error variance remains positive. These curves are analytic, with innovation variance one.](/time-series/figures/ar-persistence.svg)
-
-A unit shock can alternate while error variance remains positive. These curves are analytic, with innovation variance one.
+![A unit shock can alternate while error variance remains positive. These are original analytic curves with innovation variance one; the variance is conditional under homoskedasticity and unconditional under constant unconditional second moments.](/time-series/figures/ar-persistence.svg)
 
 ## Execute the recursion and audit the result
 
@@ -137,12 +172,12 @@ Then repeat the recursion at $\phi=0$, $0.95$, $-0.7$, and $1$. At one, retain t
 
 ## Worked problem and project connection
 
-An AR(1) has $c=3$, $\phi=0.5$, innovation standard deviation 2, and current value 10. Its stationary mean is $3/(1-0.5)=6$. The two-period forecast is $6+0.5^2(10-6)=7$. Its known-parameter error variance is $4(1+0.5^2)=5$, and its standard deviation is $\sqrt5$. An approximate Gaussian 95% interval would be $7\pm1.96\sqrt5$, conditional on the stated model and known parameters.
+Return to the opening example with $c=3$, $\phi=0.5$, innovation standard deviation 2, and current value 10. Its stationary mean is 6 and its two-period forecast is 7. Under conditional homoskedasticity, its known-parameter conditional error variance is 5 and its standard deviation is $\sqrt5$. If the future innovations are independent Gaussian draws, the conditional Gaussian 95% interval is $7\pm1.96\sqrt5$. Using 1.96 rounds the normal quantile; variance alone does not justify a Gaussian interval.
 
 If the current value changes from 10 to 14, the two-period forecast increases by $0.5^2(4)=1$. The error variance is unchanged because this homoskedastic model makes variance independent of the current level. If observed forecast risk increases with the level, this model's variance assumption deserves an audit.
 
-In Project 1, use an AR model as a transparent competitor to the benchmark. Report the series frequency, its aggregation rule, fitted persistence, and the estimation window. Describe which disturbance remains unexplained. The next lecture will expand the dependence structure while preserving the distinction between observable histories and unobserved innovations.
+In [Project 1: A forecast someone can use](/time-series/projects/#project-1-a-forecast-someone-can-use), use an AR model as a transparent competitor to the benchmark. Report the series frequency, its aggregation rule, fitted persistence, and the estimation window. Describe which disturbance remains unexplained. The next lecture will expand the dependence structure while preserving the distinction between observable histories and unobserved innovations.
 
 ## Further reading
 
-The representation of stochastic linear systems is developed in [QuantEcon's Linear State Space Models](https://python.quantecon.org/linear_models.html). The [ARIMA chapter in Forecasting: Principles and Practice](https://otexts.com/fpp3/arima.html) supplies forecasting context.
+For the transition from independent Gaussian shocks to the weaker zero-conditional-mean condition, see [QuantEcon's discussion of martingale difference shocks](https://python.quantecon.org/linear_models.html#martingale-difference-shocks). Its [prediction section](https://python.quantecon.org/linear_models.html#prediction) develops the state-space generalization. The [ARIMA chapter in Forecasting: Principles and Practice](https://otexts.com/fpp3/arima.html) supplies forecasting context. The numerical examples and graphics in this lecture are original teaching calculations.

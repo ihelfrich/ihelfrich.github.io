@@ -1,0 +1,288 @@
+{
+  "course": "computational-economics",
+  "title": "Computational Economics",
+  "description": "Advanced undergraduate and graduate numerical economic methods. Prerequisites: calculus, linear algebra, probability, constrained optimization, and basic programming; dynamic-programming familiarity is helpful. Graduate extensions include Bellman error certificates, equilibrium continuation and numerical conditioning. All economic and numerical scenarios are original and constructed.",
+  "reviewStatus": "draft",
+  "sourceUrls": [
+    "https://web.stanford.edu/~judd/econ288/SUsyll2K.pdf",
+    "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/"
+  ],
+  "units": [
+    {
+      "unit": 1,
+      "title": "Numerical roots and constrained optimization",
+      "topics": [
+        {
+          "topic": "1.1",
+          "title": "Bracketing a market-clearing price"
+        },
+        {
+          "topic": "1.2",
+          "title": "A Newton price update"
+        },
+        {
+          "topic": "1.3",
+          "title": "When a bracket certifies existence"
+        },
+        {
+          "topic": "1.4",
+          "title": "Budget-feasible projected steps"
+        },
+        {
+          "topic": "1.5",
+          "title": "A stationary point that is not a maximum"
+        },
+        {
+          "topic": "1.6",
+          "title": "Backtracking an overshooting step"
+        },
+        {
+          "topic": "1.7",
+          "title": "A misleading residual scale"
+        },
+        {
+          "topic": "1.8",
+          "title": "A flat equation near its root"
+        },
+        {
+          "topic": "1.9",
+          "title": "A constrained profit maximum"
+        },
+        {
+          "topic": "1.10",
+          "title": "Multiple starting values"
+        }
+      ]
+    },
+    {
+      "unit": 2,
+      "title": "Quadrature and simulation",
+      "topics": [
+        {
+          "topic": "2.1",
+          "title": "A trapezoidal expected payoff"
+        },
+        {
+          "topic": "2.2",
+          "title": "A midpoint expected payoff"
+        },
+        {
+          "topic": "2.3",
+          "title": "Quadrature with probability weights"
+        },
+        {
+          "topic": "2.4",
+          "title": "Monte Carlo precision"
+        },
+        {
+          "topic": "2.5",
+          "title": "Paired policy simulations"
+        },
+        {
+          "topic": "2.6",
+          "title": "Antithetic draws for a linear payoff"
+        },
+        {
+          "topic": "2.7",
+          "title": "Importance sampling support"
+        },
+        {
+          "topic": "2.8",
+          "title": "An autocorrelated simulation mean"
+        },
+        {
+          "topic": "2.9",
+          "title": "A control variate with known mean"
+        },
+        {
+          "topic": "2.10",
+          "title": "Simulation noise inside optimization"
+        }
+      ]
+    },
+    {
+      "unit": 3,
+      "title": "Dynamic programming and policy evaluation",
+      "topics": [
+        {
+          "topic": "3.1",
+          "title": "A Bellman improvement step"
+        },
+        {
+          "topic": "3.2",
+          "title": "A Bellman residual certificate"
+        },
+        {
+          "topic": "3.3",
+          "title": "Evaluating a fixed policy"
+        },
+        {
+          "topic": "3.4",
+          "title": "Finite-horizon terminal conditions"
+        },
+        {
+          "topic": "3.5",
+          "title": "Nested action grids"
+        },
+        {
+          "topic": "3.6",
+          "title": "Infeasible consumption in a grid search"
+        },
+        {
+          "topic": "3.7",
+          "title": "Nearly tied actions"
+        },
+        {
+          "topic": "3.8",
+          "title": "A stochastic continuation value"
+        },
+        {
+          "topic": "3.9",
+          "title": "In-place and simultaneous updates"
+        },
+        {
+          "topic": "3.10",
+          "title": "A supplied feasible policy"
+        }
+      ]
+    },
+    {
+      "unit": 4,
+      "title": "Equilibrium algorithms",
+      "topics": [
+        {
+          "topic": "4.1",
+          "title": "A damped price adjustment"
+        },
+        {
+          "topic": "4.2",
+          "title": "An oscillating market algorithm"
+        },
+        {
+          "topic": "4.3",
+          "title": "Solving a two-equation equilibrium"
+        },
+        {
+          "topic": "4.4",
+          "title": "A stationary distribution"
+        },
+        {
+          "topic": "4.5",
+          "title": "Price normalization in homogeneous markets"
+        },
+        {
+          "topic": "4.6",
+          "title": "A complementarity condition"
+        },
+        {
+          "topic": "4.7",
+          "title": "Inner-solver error in aggregate equilibrium"
+        },
+        {
+          "topic": "4.8",
+          "title": "Continuation across parameter values"
+        },
+        {
+          "topic": "4.9",
+          "title": "A game best-response trace"
+        },
+        {
+          "topic": "4.10",
+          "title": "Checking all markets"
+        }
+      ]
+    },
+    {
+      "unit": 5,
+      "title": "Approximation and interpolation",
+      "topics": [
+        {
+          "topic": "5.1",
+          "title": "Interpolating a savings policy"
+        },
+        {
+          "topic": "5.2",
+          "title": "Interpolation versus extrapolation"
+        },
+        {
+          "topic": "5.3",
+          "title": "A local Taylor approximation"
+        },
+        {
+          "topic": "5.4",
+          "title": "Error scaling under grid refinement"
+        },
+        {
+          "topic": "5.5",
+          "title": "A tensor grid’s size"
+        },
+        {
+          "topic": "5.6",
+          "title": "A borrowing constraint creates a kink"
+        },
+        {
+          "topic": "5.7",
+          "title": "On-node fit and off-node accuracy"
+        },
+        {
+          "topic": "5.8",
+          "title": "Linear interpolation preserves interval bounds"
+        },
+        {
+          "topic": "5.9",
+          "title": "Testing an approximated equilibrium policy"
+        },
+        {
+          "topic": "5.10",
+          "title": "A two-state expectation interpolated incorrectly"
+        }
+      ]
+    },
+    {
+      "unit": 6,
+      "title": "Error, stability and reproducibility",
+      "topics": [
+        {
+          "topic": "6.1",
+          "title": "Cancellation in a small difference"
+        },
+        {
+          "topic": "6.2",
+          "title": "Absolute and relative error"
+        },
+        {
+          "topic": "6.3",
+          "title": "A central finite difference"
+        },
+        {
+          "topic": "6.4",
+          "title": "Making a derivative step too small"
+        },
+        {
+          "topic": "6.5",
+          "title": "A residual is not a forward-error guarantee"
+        },
+        {
+          "topic": "6.6",
+          "title": "A timestep stability restriction"
+        },
+        {
+          "topic": "6.7",
+          "title": "A deterministic seed is not full provenance"
+        },
+        {
+          "topic": "6.8",
+          "title": "Separating error sources"
+        },
+        {
+          "topic": "6.9",
+          "title": "A validation identity for a transition matrix"
+        },
+        {
+          "topic": "6.10",
+          "title": "An analytic benchmark test"
+        }
+      ]
+    }
+  ]
+}

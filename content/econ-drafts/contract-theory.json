@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "contract-theory-u1-01",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Private type at contracting",
+    "prompt": "A seller offers a menu before a buyer chooses quantity. The buyer already knows her valuation θ, but the seller knows only its distribution. Utility is θq−t. Which informational friction does the menu address?",
+    "correct": "Adverse selection through a privately known preference type.",
+    "wrong": [
+      "Hidden effort chosen only after contracting.",
+      "Uncertainty shared identically by buyer and seller.",
+      "A lack of enforceable transfers by assumption."
+    ],
+    "explanation": "The relevant information exists privately before the contract choice. The seller uses self-selection constraints to design a menu.",
+    "hint": "Locate the private information in the contracting timeline.",
+    "skill": "private type at contracting",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-02",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Participation for a known type",
+    "prompt": "A buyer has utility 3q−t and outside utility zero. A seller offers q=2 at payment t, and the buyer accepts when indifferent. What is the largest payment satisfying participation?",
+    "correct": "6.",
+    "wrong": [
+      "3.",
+      "2.",
+      "9."
+    ],
+    "explanation": "Participation requires 3×2−t≥0, hence t≤6. Acceptance at equality makes the upper bound feasible.",
+    "hint": "Compare utility from the contract with the stated outside option.",
+    "skill": "participation for a known type",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-03",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Menu incentive compatibility",
+    "prompt": "A buyer privately knows θ∈{1,3} and has utility θq−t, outside option zero. The seller offers A=(q=1,t=1) and B=(q=2,t=4). Each type picks the option intended for it when indifferent. Which allocation results?",
+    "correct": "Type 1 chooses A and type 3 chooses B.",
+    "wrong": [
+      "Both types choose B.",
+      "Type 1 chooses B and type 3 chooses A.",
+      "Both types reject every option."
+    ],
+    "explanation": "Type 1 obtains 0 from A and −2 from B. Type 3 obtains 2 from either, so the specified tie rule selects B.",
+    "hint": "Calculate each type’s utility from every menu option.",
+    "skill": "menu incentive compatibility",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-04",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Information rent",
+    "prompt": "Types θ_L=2 and θ_H=5 have utility θq−t and outside utility zero. A low-type contract assigns q_L=1 and binds low-type participation. How much utility can the high type obtain by choosing this contract?",
+    "correct": "3.",
+    "wrong": [
+      "0.",
+      "2.",
+      "5."
+    ],
+    "explanation": "Binding low participation sets t_L=2. A high type mimicking low then gets 5−2=3, creating a lower bound on high-type rent under IC.",
+    "hint": "First infer the low payment, then evaluate high-type utility there.",
+    "skill": "information rent",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-05",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Monotone quantity necessity",
+    "prompt": "Two types θ_H>θ_L have utility θq−t. A deterministic direct menu must satisfy both type incentive constraints. What quantity restriction follows?",
+    "correct": "q_H≥q_L.",
+    "wrong": [
+      "q_H<q_L necessarily.",
+      "q_H=q_L necessarily.",
+      "No restriction on the quantity ordering follows."
+    ],
+    "explanation": "Adding the two IC inequalities yields (θ_H−θ_L)(q_H−q_L)≥0. Positive type ordering requires nondecreasing quantities.",
+    "hint": "Add the two truth-telling inequalities so transfers cancel.",
+    "skill": "monotone quantity necessity",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-06",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Information rent and low allocation",
+    "prompt": "A seller serves types θ_L=2 and θ_H=4 with utility θq−t. Low participation and high downward IC bind, with outside utility zero. If q_L rises from 1 to 1.5 while these constraints remain binding, how does the high type’s rent change?",
+    "correct": "It rises by 1.",
+    "wrong": [
+      "It falls by 1.",
+      "It stays zero.",
+      "It rises by 3."
+    ],
+    "explanation": "High rent equals (θ_H−θ_L)q_L=2q_L. The increase is 2×0.5=1.",
+    "hint": "Use the mimicking utility implied by the two binding constraints.",
+    "skill": "information rent and low allocation",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-07",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Efficient high-type quantity",
+    "prompt": "A risk-neutral seller offers a two-type screening menu with θ∈{2,4}, utility θq−t, zero outside option, equal probabilities and cost q²/2. Quantities are nonnegative; low IR and high downward IC bind. What high-type quantity maximizes expected profit for any feasible fixed q_L≤4?",
+    "correct": "q_H=4.",
+    "wrong": [
+      "q_H=2.",
+      "q_H=0.",
+      "q_H=8."
+    ],
+    "explanation": "The high allocation contributes its own surplus 4q_H−q_H²/2, while high rent depends on q_L. Its derivative is 4−q_H, so the maximizer is 4.",
+    "hint": "Hold the low allocation fixed when differentiating with respect to the high allocation.",
+    "skill": "efficient high-type quantity",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-08",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Low-type exclusion boundary",
+    "prompt": "A seller screens equally likely types θ_L=2 and θ_H=4 with utility θq−t, zero outside option and cost q²/2. Low IR and high downward IC bind; q_H=4 and q_L≥0. What low quantity maximizes expected profit?",
+    "correct": "q_L=0.",
+    "wrong": [
+      "q_L=2.",
+      "q_L=4.",
+      "q_L=1."
+    ],
+    "explanation": "The q_L-dependent profit is 0.5(2q_L−q_L²/2)−0.5(4−2)q_L=−q_L²/4. It is maximized at zero, a boundary solution.",
+    "hint": "Include the high type’s extra information rent in the marginal cost of q_L.",
+    "skill": "low-type exclusion boundary",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-09",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Envelope rent gradient",
+    "prompt": "Graduate extension. In an incentive-compatible differentiable one-dimensional menu, utility is U(θ)=θq(θ)−t(θ), and θ∈[1,2]. Under the envelope conditions, U′(θ)=q(θ). If q(θ)=θ and U(1)=0, what is U(2)?",
+    "correct": "1.5.",
+    "wrong": [
+      "1.",
+      "2.",
+      "3."
+    ],
+    "explanation": "Rent growth is the integral of quantity: ∫₁² θ dθ=(4−1)/2=1.5. The envelope relation is supplied, not assumed to establish global IC on its own.",
+    "hint": "Integrate the given rent derivative using its boundary value.",
+    "skill": "envelope rent gradient",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u1-10",
+    "course": "contract-theory",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Single crossing and its limits",
+    "prompt": "In a scalar-type screening model with utility θq−t, why does a higher θ have a stronger willingness to pay for an increase in q?",
+    "correct": "The marginal utility of quantity is θ, which rises with type.",
+    "wrong": [
+      "All types receive identical utility from every contract.",
+      "Higher types necessarily have lower outside options.",
+      "Single crossing removes all participation constraints."
+    ],
+    "explanation": "The difference in willingness to pay for a quantity increment is (θ_H−θ_L)Δq. This supports monotone screening; it does not eliminate IR or IC constraints.",
+    "hint": "Differentiate valuation with respect to quantity.",
+    "skill": "single crossing and its limits",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-01",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Hidden action timing",
+    "prompt": "An employer offers a wage schedule, a worker accepts, then privately chooses effort; only output is verifiable. Which restriction distinguishes moral hazard from a contractible-effort benchmark?",
+    "correct": "The wage cannot be conditioned directly on the unverified effort choice.",
+    "wrong": [
+      "No output-contingent pay is possible.",
+      "The worker must know a private type before contracting.",
+      "Every effort choice has the same output distribution."
+    ],
+    "explanation": "Hidden action requires the proposed effort to be optimal under the outcome-based wage schedule. Observable output can still carry incentive information.",
+    "hint": "Identify which action a court can verify.",
+    "skill": "hidden action timing",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-02",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Binary-effort incentive spread",
+    "prompt": "After accepting an output contract, a risk-neutral worker chooses H or L. H costs 3 and succeeds with probability 0.8; L costs zero and succeeds with probability 0.5. Wages are w_S on success and w_F on failure. Ties favor H. What condition induces H?",
+    "correct": "w_S−w_F≥10.",
+    "wrong": [
+      "w_S−w_F≥3.",
+      "w_S+w_F≥10.",
+      "w_S−w_F≤10."
+    ],
+    "explanation": "H rather than L raises expected pay by (0.8−0.5)(w_S−w_F). This must cover cost 3, so the spread must be at least 10.",
+    "hint": "Compare expected utilities under both actions.",
+    "skill": "binary-effort incentive spread",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-03",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Participation under effort",
+    "prompt": "A risk-neutral worker chooses high effort costing 3 under wages w_S=12,w_F=2 and success probability 0.8. Outside utility is 5; acceptance at equality is allowed. Does this high-effort outcome satisfy participation?",
+    "correct": "Yes; expected utility is 7.",
+    "wrong": [
+      "No; expected utility is 2.",
+      "No; expected utility is 3.",
+      "Yes; expected utility is 12."
+    ],
+    "explanation": "Expected wage is 0.8×12+0.2×2=10; after effort cost it is 7≥5. This checks participation, not the omitted alternative effort comparison.",
+    "hint": "Subtract effort cost from expected wage, then compare with the outside option.",
+    "skill": "participation under effort",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-04",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Limited-liability implementation cost",
+    "prompt": "A risk-neutral worker has outside utility zero and nonnegative wages. H costs 3 and succeeds with probability 0.8; L costs zero and succeeds with probability 0.5. Effort follows acceptance, ties favor H and acceptance. What is the minimum expected wage implementing H?",
+    "correct": "8.",
+    "wrong": [
+      "3.",
+      "5.",
+      "10."
+    ],
+    "explanation": "IC requires spread at least 10. Expected H wage is w_F+0.8(w_S−w_F), minimized at w_F=0 and w_S=10, giving 8. IR then holds with rent 5.",
+    "hint": "Minimize expected wage subject to the spread and nonnegativity constraints.",
+    "skill": "limited-liability implementation cost",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-05",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Unrestricted transfers benchmark",
+    "prompt": "A risk-neutral worker has outside utility zero. H costs 3 and succeeds with probability 0.8; L costs zero and succeeds with probability 0.5. Positive and negative wages are enforceable; ties favor H and acceptance. Which schedule implements H with binding participation?",
+    "correct": "w_S=5 and w_F=−5.",
+    "wrong": [
+      "w_S=10 and w_F=0.",
+      "w_S=3 and w_F=3.",
+      "w_S=0 and w_F=10."
+    ],
+    "explanation": "The spread is 10, satisfying IC. Expected H wage is 0.8×5+0.2×(−5)=3, exactly covering effort cost. Negative wages remove the limited-liability rent here.",
+    "hint": "Use the minimal incentive spread together with expected utility zero.",
+    "skill": "unrestricted transfers benchmark",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-06",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Profit from implemented effort",
+    "prompt": "A principal receives 20 on success and zero on failure. A contract induces H with success probability 0.8 and wages w_S=10,w_F=0. The principal is risk neutral and has no other cost. What is expected profit?",
+    "correct": "8.",
+    "wrong": [
+      "16.",
+      "10.",
+      "6."
+    ],
+    "explanation": "Expected output is 0.8×20=16 and expected wage is 0.8×10=8. Profit is 8.",
+    "hint": "Subtract expected wage from expected revenue using the same probability.",
+    "skill": "profit from implemented effort",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-07",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Salary alone",
+    "prompt": "After accepting a constant wage w, a worker chooses H costing 2 or L costing zero. Utility is expected wage minus effort cost, and no other motive or future consequence exists. Which effort is chosen?",
+    "correct": "L strictly.",
+    "wrong": [
+      "H strictly for any w.",
+      "H if w exceeds 2.",
+      "Both actions always tie."
+    ],
+    "explanation": "The wage is identical across actions, so H reduces utility by 2 without an offsetting benefit. A larger constant wage affects participation, not this incentive comparison.",
+    "hint": "Cancel the common wage in the action utilities.",
+    "skill": "salary alone",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-08",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Monitoring changes feasible contracts",
+    "prompt": "Initially effort is privately observed and unverifiable. A reliable monitor makes effort verifiable at no cost and enforceable before wages are paid. What new contractual possibility arises?",
+    "correct": "Wages can be conditioned on the verified effort directly.",
+    "wrong": [
+      "Every worker becomes risk neutral.",
+      "Participation ceases to matter.",
+      "The principal must still rely exclusively on output noise."
+    ],
+    "explanation": "Contractible effort expands the feasible contingencies. It does not remove the worker’s outside option or alter preferences.",
+    "hint": "Ask which previously unavailable contingency can now be enforced.",
+    "skill": "monitoring changes feasible contracts",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-09",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Uninformative performance measure",
+    "prompt": "For every effort choice e, an extra signal Z is independent of output Y and has the same distribution independent of e. Under expected utility, a risk-neutral principal can condition wages on Y and Z. What does Z add as evidence about effort beyond Y?",
+    "correct": "No additional information about effort.",
+    "wrong": [
+      "Perfect evidence of effort.",
+      "A guaranteed strict increase in profit for any preferences.",
+      "Proof that Y is also uninformative."
+    ],
+    "explanation": "The stipulated independent signal has an effort-invariant likelihood. It may randomize pay, but cannot distinguish actions statistically.",
+    "hint": "Compare the signal’s conditional distribution across actions.",
+    "skill": "uninformative performance measure",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u2-10",
+    "course": "contract-theory",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "First-order approach caveat",
+    "prompt": "Graduate extension. A hidden-action model has a differentiable expected-utility objective in continuous effort, but no global concavity assumption. Why is imposing only the worker’s first-order condition insufficient for global IC?",
+    "correct": "A stationary point may not be the worker’s global optimum.",
+    "wrong": [
+      "Every stationary point is necessarily a strict global maximum.",
+      "Differentiability makes participation automatic.",
+      "The first-order condition identifies the worker’s private type."
+    ],
+    "explanation": "The first-order approach requires conditions justifying replacement of the full action-maximization constraint. Without them, other efforts may be preferred.",
+    "hint": "Distinguish stationarity from global optimality.",
+    "skill": "first-order approach caveat",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-01",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Insurance with contractible effort",
+    "prompt": "A risk-neutral principal employs a strictly risk-averse worker. Effort is contractible and fixed, output is risky, transfers are unrestricted and enforceable, and the only worker constraint is expected-utility participation. What wage pattern minimizes expected wage cost?",
+    "correct": "A constant wage across output states.",
+    "wrong": [
+      "A wage exactly equal to output in every state.",
+      "The highest possible wage variance at a fixed mean.",
+      "Zero wages regardless of reservation utility."
+    ],
+    "explanation": "With effort enforceable, output-dependent risk supplies no incentive benefit. Jensen’s inequality implies a constant wage can deliver the same utility at weakly lower expected cost.",
+    "hint": "Use concavity to compare risky and certain compensation.",
+    "skill": "insurance with contractible effort",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-02",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Certain equivalent",
+    "prompt": "A worker has utility √w over nonnegative wages and no effort cost. A lottery pays 0 or 100 with equal probability. What certain wage gives the same utility?",
+    "correct": "25.",
+    "wrong": [
+      "50.",
+      "5.",
+      "100."
+    ],
+    "explanation": "Expected utility is (0+10)/2=5; solving √CE=5 yields CE=25.",
+    "hint": "Average utilities before inverting the utility function.",
+    "skill": "certain equivalent",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-03",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Risk premium",
+    "prompt": "A worker’s wage lottery pays 0 and 100 with equal probability and utility is √w. What is the monetary risk premium, defined as mean wage minus certainty equivalent?",
+    "correct": "25.",
+    "wrong": [
+      "50.",
+      "75.",
+      "5."
+    ],
+    "explanation": "The mean is 50, while the certainty equivalent is 25. Their difference is 25.",
+    "hint": "Compute the expected wage and the certain wage yielding equal utility separately.",
+    "skill": "risk premium",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-04",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Linear incentives and effort",
+    "prompt": "A worker accepts a linear wage a+bY, then chooses e≥0. Output is Y=e+ε with mean-zero noise. The worker’s certainty equivalent is a+be−e²/2−(r/2)b²σ², where r and σ² are fixed. For b=0.6, what effort maximizes this expression?",
+    "correct": "e=0.6.",
+    "wrong": [
+      "e=0.3.",
+      "e=1.2.",
+      "e=0 regardless of b."
+    ],
+    "explanation": "Only be−e²/2 varies with effort; its derivative is b−e and its second derivative is −1. The unique optimum is e=b=0.6.",
+    "hint": "Treat the risk term as fixed when differentiating over effort.",
+    "skill": "linear incentives and effort",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-05",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Optimal linear incentive slope",
+    "prompt": "Graduate extension. Output is e+ε, ε is normal with variance σ², effort cost is e²/2 and a CARA worker has coefficient r. A risk-neutral principal restricts wages to a+bY, can set a to bind participation, and transfers are unrestricted. The resulting profit is b−(1+rσ²)b²/2 minus a constant. With rσ²=3, what b maximizes profit?",
+    "correct": "b=0.25.",
+    "wrong": [
+      "b=0.75.",
+      "b=1.",
+      "b=3."
+    ],
+    "explanation": "Differentiate the supplied strictly concave objective: 1−(1+3)b=0 gives b=1/4. This is optimal within the stated linear-contract class.",
+    "hint": "Solve the first-order condition and check negative curvature.",
+    "skill": "optimal linear incentive slope",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-06",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Noise and incentives",
+    "prompt": "In a CARA-normal model with quadratic effort cost e²/2 and optimal linear wage slope b*=1/(1+rσ²), r>0. Holding everything else fixed, what happens as output-noise variance σ² rises?",
+    "correct": "The optimal slope falls.",
+    "wrong": [
+      "The optimal slope rises.",
+      "The slope remains one.",
+      "Effort becomes observable."
+    ],
+    "explanation": "Higher variance increases the risk cost of a given slope, so the specified optimum provides weaker incentives. The conclusion is model-specific.",
+    "hint": "Differentiate the stated slope with respect to variance.",
+    "skill": "noise and incentives",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-07",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Common-shock filtering",
+    "prompt": "Two workers’ outputs are Y_i=e_i+η+ε_i, where η is a common shock and ε_i are idiosyncratic. Holding coworker effort fixed, what feature does Y_i−Y_j have as a performance measure?",
+    "correct": "It removes η but includes both idiosyncratic shocks.",
+    "wrong": [
+      "It removes every source of noise.",
+      "It identifies e_i alone with certainty.",
+      "It adds twice the common shock."
+    ],
+    "explanation": "Subtracting yields e_i−e_j+ε_i−ε_j. Relative performance can filter common noise without becoming noise-free.",
+    "hint": "Expand the output difference term by term.",
+    "skill": "common-shock filtering",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-08",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Multitask effort substitution",
+    "prompt": "A worker allocates a fixed effort budget e_s+e_m=1 between measured sales and unmeasured maintenance, with both efforts nonnegative. Utility is a+b e_s and there is no other allocation cost or preference. At b=0, ties are resolved by choosing e_m=1. The employer then introduces b>0. How does the worker’s effort allocation change?",
+    "correct": "All effort shifts to sales, and maintenance falls from one to zero.",
+    "wrong": [
+      "Both efforts increase.",
+      "Maintenance rises above one.",
+      "The allocation remains all maintenance."
+    ],
+    "explanation": "At b=0 the stated tie rule gives e_s=0 and e_m=1. For b>0 utility is strictly increasing in e_s, so the unique optimum is e_s=1 and e_m=0. This illustrates the possible cost of rewarding only one task.",
+    "hint": "Solve the allocation problem before and after the bonus using the fixed effort budget.",
+    "skill": "multitask effort substitution",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-09",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Team residual shares",
+    "prompt": "Two risk-neutral workers choose e_i≥0 at cost e_i²/2. Verifiable team output is e_1+e_2, and each receives half of output with no other transfers. They choose efforts simultaneously. What is the symmetric Nash effort pair?",
+    "correct": "(0.5,0.5).",
+    "wrong": [
+      "(1,1).",
+      "(0,0).",
+      "(2,2)."
+    ],
+    "explanation": "Worker i maximizes 0.5(e_i+e_j)−e_i²/2, giving e_i=0.5. Each captures only half the marginal team product.",
+    "hint": "Differentiate each worker’s own payoff holding the other effort fixed.",
+    "skill": "team residual shares",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u3-10",
+    "course": "contract-theory",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Incentives versus total surplus",
+    "prompt": "Two workers choose nonnegative effort at cost e_i²/2, and total output is e_1+e_2. Ignoring transfers, what effort pair maximizes total surplus?",
+    "correct": "(1,1).",
+    "wrong": [
+      "(0.5,0.5).",
+      "(0,0).",
+      "(2,2)."
+    ],
+    "explanation": "Total surplus is e_1+e_2−e_1²/2−e_2²/2. Each marginal condition is 1−e_i=0, producing e_i=1.",
+    "hint": "Differentiate total output less both effort costs, rather than individual pay.",
+    "skill": "incentives versus total surplus",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-01",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Two-dimensional private values",
+    "prompt": "A buyer has private type (θ_1,θ_2), utility θ_1q_1+θ_2q_2−t and outside utility zero. Types A=(4,1) and B=(1,4) value two services. Why is a single high-versus-low ranking inadequate without further restrictions?",
+    "correct": "A values service 1 more, while B values service 2 more.",
+    "wrong": [
+      "Both types have identical preferences over every bundle.",
+      "All multidimensional problems are unsolvable.",
+      "A must value every bundle more because its first coordinate is larger."
+    ],
+    "explanation": "The types cross in their relative valuations. Their ranking depends on the bundle, so one scalar ordering does not automatically capture self-selection.",
+    "hint": "Compare the two coordinates separately.",
+    "skill": "two-dimensional private values",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-02",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Multidimensional menu choice",
+    "prompt": "A buyer has utility θ_1q_1+θ_2q_2−t and outside utility zero. Type A=(4,1), type B=(1,4). A menu offers X=((1,0),3) and Y=((0,1),3). Which choices are strict?",
+    "correct": "A chooses X and B chooses Y.",
+    "wrong": [
+      "Both choose X.",
+      "Both choose Y.",
+      "Both reject both options."
+    ],
+    "explanation": "A gets 1 from X and −2 from Y; B gets −2 from X and 1 from Y. Both best choices dominate the outside option.",
+    "hint": "Evaluate each bundle using the relevant type vector.",
+    "skill": "multidimensional menu choice",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-03",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Checking all report deviations",
+    "prompt": "A direct mechanism has three possible private types and one allocation-payment pair for each report. Why is checking only participation for all types insufficient for truthful implementation?",
+    "correct": "A participating type may prefer the contract assigned to another report.",
+    "wrong": [
+      "Participation already implies every report is truthful.",
+      "Reporting incentives matter only with two types.",
+      "Transfers can never influence reports."
+    ],
+    "explanation": "IR compares assigned utility with exit; IC compares assigned utility with every alternative report. They are different restrictions.",
+    "hint": "Compare truth with misreports as well as with rejection.",
+    "skill": "checking all report deviations",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-04",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Bayesian versus dominant IC",
+    "prompt": "A mechanism serves several agents whose types are private. Which statement describes Bayesian incentive compatibility rather than dominant-strategy incentive compatibility?",
+    "correct": "Truth maximizes expected utility over other agents’ types and truthful reports, conditional on one’s own type.",
+    "wrong": [
+      "Truth is best for every realized profile of others’ reports without averaging.",
+      "Truth guarantees strictly positive profits to the designer.",
+      "Truth is best only after all private types become public."
+    ],
+    "explanation": "Bayesian IC uses the relevant conditional belief over other types. Dominant-strategy IC requires optimal truth telling for each report profile of others.",
+    "hint": "Identify whether the incentive comparison averages over others’ uncertainty.",
+    "skill": "bayesian versus dominant ic",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-05",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Direct revelation scope",
+    "prompt": "Graduate extension. An indirect mechanism has a Bayesian equilibrium and agents can report their private types to a mediator who reproduces their equilibrium strategies. Under the standard commitment and information assumptions of the revelation principle, what follows?",
+    "correct": "The same equilibrium allocation distribution can be implemented by a truthful direct mechanism.",
+    "wrong": [
+      "Every allocation is implementable.",
+      "Truth must be strictly optimal rather than weakly optimal.",
+      "The direct mechanism eliminates all participation restrictions."
+    ],
+    "explanation": "The direct mechanism simulates the given equilibrium strategies. The result preserves implementable outcomes; it does not make arbitrary allocations feasible or remove IR.",
+    "hint": "Start with an existing implementable equilibrium, not an arbitrary desired allocation.",
+    "skill": "direct revelation scope",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-06",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Pairwise allocation test",
+    "prompt": "Graduate extension. Two buyer types θ_A=(3,1) and θ_B=(1,3) have quasilinear utility θ·q−t. A proposed direct allocation gives q_A=(0,1) and q_B=(1,0). Can any transfers make both truth-telling constraints hold?",
+    "correct": "No; (θ_A−θ_B)·(q_A−q_B)=−4 violates their summed IC condition.",
+    "wrong": [
+      "Yes; transfers can repair every allocation rule.",
+      "Yes; the dot product is 4.",
+      "Only the outside options determine whether IC is possible."
+    ],
+    "explanation": "Adding the two IC constraints gives a necessary nonnegative dot product. Here (2,−2)·(−1,1)=−4, so no transfers satisfy both.",
+    "hint": "Cancel transfers by adding the two incentive inequalities.",
+    "skill": "pairwise allocation test",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-07",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Information value before contracting",
+    "prompt": "A buyer must choose action A or B after a signal. There are two equally likely states. A pays 10 in state 1 and 0 in state 2; B pays 0 in state 1 and 10 in state 2. The buyer is risk neutral. What is the maximum price for a perfectly revealing signal bought before the action, with purchase at indifference?",
+    "correct": "5.",
+    "wrong": [
+      "10.",
+      "0.",
+      "20."
+    ],
+    "explanation": "Without information either action yields 5; perfect information yields 10. The incremental value is 5, so any higher price is rejected.",
+    "hint": "Compare optimized expected payoffs with and without the signal.",
+    "skill": "information value before contracting",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-08",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Verification changes report incentives",
+    "prompt": "A supplier privately knows a verifiable production-cost type. A buyer can audit the report before trade with certainty and enforce a sufficiently large penalty for a lie. What distinguishes this setting from unverifiable-type screening?",
+    "correct": "Truthful reports can be supported by verification and penalties rather than solely by allocation-payment self-selection.",
+    "wrong": [
+      "Private knowledge ceases to exist before the audit.",
+      "Every possible audit is costless by definition.",
+      "The supplier’s outside option becomes irrelevant."
+    ],
+    "explanation": "Verifiability expands enforceable contingencies. The prompt stipulates certain auditing and enforceable penalties, not their optimality or costlessness.",
+    "hint": "Separate information privately known now from information a court can later verify.",
+    "skill": "verification changes report incentives",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-09",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Correlated private information",
+    "prompt": "In a multi-agent contract, one agent’s type is statistically correlated with another’s report. Why can payments contingent on the other report change the feasible incentive design relative to independent types?",
+    "correct": "The other report can carry information about the first agent’s type.",
+    "wrong": [
+      "Correlation by itself guarantees complete surplus extraction in every environment.",
+      "Correlation means every type is publicly observed.",
+      "Independence is required for all Bayesian mechanisms."
+    ],
+    "explanation": "Correlation can create informative cross-report contingencies. Full extraction requires much stronger conditions on distributions, commitment, transfers and participation.",
+    "hint": "Ask what observing one report reveals about another agent.",
+    "skill": "correlated private information",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u4-10",
+    "course": "contract-theory",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Global versus local IC",
+    "prompt": "Graduate extension. A multidimensional screening candidate satisfies selected derivative-based local incentive conditions. No global convexity or implementability argument is supplied. What remains to be checked?",
+    "correct": "That no type gains from a distant report, so global IC actually holds.",
+    "wrong": [
+      "Only whether payments are measured in money.",
+      "Nothing, because local stationarity universally implies global truth telling.",
+      "Whether there is exactly one private dimension, which the premise rules out."
+    ],
+    "explanation": "Local conditions need not rule out nonlocal deviations. Global IC or appropriate sufficient implementability conditions must still be established.",
+    "hint": "Compare a local perturbation with the full report space.",
+    "skill": "global versus local ic",
+    "sourceUrls": [
+      "https://www.ocw.mit.edu/courses/14-124-microeconomic-theory-iv-spring-2017/pages/lecture-notes/",
+      "https://student.mit.edu/catalog/m14a.html"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-01",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Observable but not verifiable",
+    "prompt": "A supplier and buyer can both observe whether a design fits the buyer’s needs, but a court cannot verify fit. What contracting limitation follows in a model that permits only court-enforceable formal transfers?",
+    "correct": "A formal payment cannot be made enforceably contingent on fit alone.",
+    "wrong": [
+      "Neither party can condition its own behavior on observed fit.",
+      "Fit must be statistically independent of investment.",
+      "Ownership has no possible effect on bargaining."
+    ],
+    "explanation": "Observability to the parties differs from third-party verifiability. Informal enforcement or control-right allocation may still use the parties’ information.",
+    "hint": "Distinguish what the parties see from what an adjudicator can enforce.",
+    "skill": "observable but not verifiable",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-02",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Residual control rights",
+    "prompt": "An asset-use decision is not specified in an enforceable contract. In a property-rights model, what does ownership typically assign?",
+    "correct": "The residual right to decide that asset’s use, subject to existing enforceable rights.",
+    "wrong": [
+      "Ownership of every worker’s human capital.",
+      "An obligation to choose the socially efficient action regardless of incentives.",
+      "A complete contract for every future contingency."
+    ],
+    "explanation": "Ownership allocates authority over unspecified asset uses. It does not automatically determine efficient behavior or erase existing contracts.",
+    "hint": "Identify who has authority where the written agreement is silent.",
+    "skill": "residual control rights",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-03",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Hold-up investment",
+    "prompt": "A supplier first chooses noncontractible investment i≥0 at cost i²/2. Trade then produces joint surplus 10i. Ex post bargaining gives the supplier half of that surplus, with zero disagreement payoffs. What investment does the supplier choose?",
+    "correct": "i=5.",
+    "wrong": [
+      "i=10.",
+      "i=0.",
+      "i=20."
+    ],
+    "explanation": "The supplier maximizes 5i−i²/2, giving i=5. The ex post share of returns is smaller than the social marginal return.",
+    "hint": "Optimize the supplier’s anticipated share less its sunk investment cost.",
+    "skill": "hold-up investment",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-04",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Efficient relationship investment",
+    "prompt": "A supplier chooses i≥0 at cost i²/2 and creates joint trade surplus 10i. What investment maximizes joint surplus net of investment cost?",
+    "correct": "i=10.",
+    "wrong": [
+      "i=5.",
+      "i=0.",
+      "i=20."
+    ],
+    "explanation": "Joint net surplus is 10i−i²/2. Its derivative is 10−i, yielding i=10. Transfers between the parties do not alter this objective.",
+    "hint": "Use the full marginal return when maximizing joint surplus.",
+    "skill": "efficient relationship investment",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-05",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Disagreement payoff and bargaining",
+    "prompt": "After investment is sunk, trade generates total transferable payoff 100. Buyer and supplier disagreement payoffs are 20 and 10. Symmetric Nash bargaining splits the surplus above disagreement equally. What total payoff does the supplier receive before sunk costs?",
+    "correct": "45.",
+    "wrong": [
+      "50.",
+      "35.",
+      "10."
+    ],
+    "explanation": "The surplus over disagreement is 100−20−10=70. The supplier obtains 10+70/2=45.",
+    "hint": "Add half the incremental bargaining surplus to the supplier’s disagreement payoff.",
+    "skill": "disagreement payoff and bargaining",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-06",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Ownership and marginal incentives",
+    "prompt": "A supplier invests i≥0 at cost i²/2 before bargaining. Trade value is 10i. Buyer disagreement is zero; supplier disagreement is αi, with 0≤α≤10. Equal Nash bargaining gives the supplier its disagreement payoff plus half the remaining surplus. What investment is privately optimal?",
+    "correct": "i=(10+α)/2.",
+    "wrong": [
+      "i=α/2.",
+      "i=10−α.",
+      "i=10 for every α."
+    ],
+    "explanation": "Supplier gross payoff is αi+(10i−αi)/2=(10+α)i/2. Subtract cost and differentiate to obtain the stated investment.",
+    "hint": "Substitute the investment-dependent outside payoff before differentiating.",
+    "skill": "ownership and marginal incentives",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-07",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Integration is a tradeoff",
+    "prompt": "Both buyer and supplier make noncontractible investments. Giving one party asset ownership raises its marginal disagreement return but lowers the other party’s. What is the relevant ownership tradeoff?",
+    "correct": "Better incentives for one investment may come at the expense of the other.",
+    "wrong": [
+      "Integration must improve both investments simultaneously.",
+      "Ownership can affect only fixed transfers, never incentives.",
+      "The party with the larger accounting profit must always own the asset."
+    ],
+    "explanation": "Ownership can reallocate marginal bargaining returns across parties. The efficient allocation depends on the resulting joint investment incentives.",
+    "hint": "Track each party’s marginal return, not only its payoff level.",
+    "skill": "integration is a tradeoff",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-08",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Sunk transfer versus investment incentive",
+    "prompt": "Before a supplier chooses i, a buyer pays an unconditional fixed transfer F. The supplier then maximizes F+5i−i²/2, with no wealth constraints or renegotiation effects. How does F affect its optimal investment?",
+    "correct": "It does not change the optimum i=5.",
+    "wrong": [
+      "It raises the optimum one-for-one.",
+      "It lowers the optimum one-for-one.",
+      "Any positive F induces i=10."
+    ],
+    "explanation": "The fixed transfer changes payoff levels but disappears from the marginal investment condition 5−i=0. Wealth or commitment effects are excluded explicitly.",
+    "hint": "Differentiate with respect to investment after including F.",
+    "skill": "sunk transfer versus investment incentive",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-09",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Efficient renegotiation does not ensure efficient investment",
+    "prompt": "A supplier invests before a noncontractible trading decision. Parties always bargain efficiently after investment, but the supplier captures only half the additional trade surplus generated by its investment. Why can investment still be inefficient?",
+    "correct": "Ex post efficiency does not make the supplier internalize the full ex ante marginal return.",
+    "wrong": [
+      "Efficient bargaining means trade never occurs.",
+      "Ex post efficiency logically requires first-best investment.",
+      "Investment costs cannot be sunk in an efficient bargain."
+    ],
+    "explanation": "Efficient trade conditional on sunk investment and efficient choice of investment are distinct margins. Bargaining shares can distort the latter.",
+    "hint": "Separate the timing of investment from the timing of trade.",
+    "skill": "efficient renegotiation does not ensure efficient investment",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u5-10",
+    "course": "contract-theory",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Exclusion rights and outside use",
+    "prompt": "A supplier owns a specialized asset and can use it to serve an alternative customer if bargaining fails. Under buyer ownership, the buyer can prevent that alternative use. In a property-rights model, what channel can change the supplier’s investment incentives?",
+    "correct": "Ownership changes the supplier’s disagreement payoff and potentially its marginal return to investment.",
+    "wrong": [
+      "Ownership necessarily makes all investment contractible.",
+      "The alternative use affects only current revenue, never bargaining.",
+      "The supplier acquires a guaranteed claim to all joint surplus."
+    ],
+    "explanation": "Control over fallback uses affects disagreement values. How investment responds depends on how those values vary with investment, not merely on their levels.",
+    "hint": "Connect residual control to the fallback position in bargaining.",
+    "skill": "exclusion rights and outside use",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-01",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Self-enforcing bonus promise",
+    "prompt": "A worker’s quality is observed by employer and worker but cannot be verified by a court. The employer promises a discretionary quality bonus in an ongoing relationship. What must support payment in a relational contract?",
+    "correct": "The employer’s incentive to preserve sufficiently valuable future cooperation.",
+    "wrong": [
+      "Court enforcement of quality, which the premise excludes.",
+      "The worker’s risk aversion alone.",
+      "The promise’s wording regardless of future payoffs."
+    ],
+    "explanation": "An unenforceable bonus needs a self-enforcement constraint: the current gain from reneging must not exceed the continuation loss.",
+    "hint": "Compare current temptation with future relationship value.",
+    "skill": "self-enforcing bonus promise",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-02",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Employer bonus enforcement",
+    "prompt": "At the end of the current period, an employer can save a promised bonus of 4 by reneging. Paying preserves net profit 2 each future period; reneging yields zero in every future period. Both paths have the same other current payoff. With discount δ∈[0,1), what threshold supports payment, allowing payment at indifference?",
+    "correct": "δ≥2/3.",
+    "wrong": [
+      "δ≥1/3.",
+      "δ≥1/2.",
+      "Every δ≥0."
+    ],
+    "explanation": "Payment is optimal when 4≤2δ/(1−δ). Rearranging gives 4≤6δ, or δ≥2/3. Future profit begins next period.",
+    "hint": "Discount the continuation stream once before comparing with the current saved bonus.",
+    "skill": "employer bonus enforcement",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-03",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Worker’s dynamic effort incentive",
+    "prompt": "A worker can shirk once for a current gain of 3. Shirking is detected before the next period and ends a relationship providing net utility 1 each future period; outside utility thereafter is zero. Other current payoffs are the same. With δ∈[0,1), what threshold deters shirking, with effort at indifference?",
+    "correct": "δ≥3/4.",
+    "wrong": [
+      "δ≥1/4.",
+      "δ≥1/2.",
+      "δ≥1/3."
+    ],
+    "explanation": "The lost continuation value is δ/(1−δ). Requiring this to be at least 3 gives δ≥3/4.",
+    "hint": "Compare the one-time gain with discounted future net rents.",
+    "skill": "worker’s dynamic effort incentive",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-04",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Two-sided relational constraints",
+    "prompt": "A proposed ongoing contract requires the employer’s discount factor to satisfy δ≥2/3 to pay bonuses and the worker’s to satisfy δ≥3/4 to supply effort. They share one δ and ties favor cooperation. When are both stated conditions satisfied?",
+    "correct": "δ≥3/4.",
+    "wrong": [
+      "δ≥2/3.",
+      "δ≥1/12.",
+      "δ≤2/3."
+    ],
+    "explanation": "Both inequalities must hold, so the binding threshold is their maximum, 3/4. Satisfying only one party’s condition is insufficient.",
+    "hint": "Intersect the two feasible discount-factor intervals.",
+    "skill": "two-sided relational constraints",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-05",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Known final period",
+    "prompt": "A relationship ends after a publicly known final period. After current work is completed, the employer chooses whether to pay an unenforceable bonus. There is no reputation outside this relationship, legal penalty, altruism or other future consequence. What does narrow monetary self-interest predict at this payment stage?",
+    "correct": "The employer withholds a strictly positive bonus.",
+    "wrong": [
+      "The employer pays because an infinite future follows.",
+      "The employer is indifferent for any positive bonus.",
+      "The bonus becomes legally enforceable automatically."
+    ],
+    "explanation": "At the final payment stage, withholding saves money and carries no stipulated cost. The question concerns this stage, not every possible finite-horizon relationship.",
+    "hint": "Remove continuation value at the last decision date.",
+    "skill": "known final period",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-06",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Survival-adjusted continuation",
+    "prompt": "After each period, a relationship survives independently with probability s=0.8. The monetary discount factor is δ=0.9. Each surviving future period yields rent R, and no rent is received after termination. What factor discounts expected rent one period forward?",
+    "correct": "0.72.",
+    "wrong": [
+      "0.9.",
+      "0.8.",
+      "1.7."
+    ],
+    "explanation": "Next-period rent is both discounted and conditional on survival, giving δs=0.9×0.8=0.72. For constant rents the future stream is 0.72R/(1−0.72).",
+    "hint": "Multiply survival probability by time discounting.",
+    "skill": "survival-adjusted continuation",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-07",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Ratchet effect",
+    "prompt": "A regulator observes a supplier’s first-period performance and cannot commit not to demand a lower price from apparently efficient suppliers in period 2. Why might an efficient supplier suppress first-period performance?",
+    "correct": "Revealing efficiency can reduce its future informational rent.",
+    "wrong": [
+      "Higher performance always raises all future transfers.",
+      "The supplier’s type becomes contractible before period 1 by assumption.",
+      "Commitment is irrelevant whenever there are two periods."
+    ],
+    "explanation": "Performance can reveal private productivity and induce tougher later terms. The anticipation of such updating can distort present behavior.",
+    "hint": "Evaluate how today’s information changes tomorrow’s contract.",
+    "skill": "ratchet effect",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-08",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Promised continuation utility",
+    "prompt": "Graduate extension. In a committed dynamic contract, a risk-neutral agent receives current expected transfer w, bears effort cost c, and has expected next-period continuation utility V′ discounted by δ. What promise-keeping equation delivers current promised utility V?",
+    "correct": "V=w−c+δE[V′].",
+    "wrong": [
+      "V=w+c+δE[V′].",
+      "V=δw−c+E[V′].",
+      "V=w−c−δE[V′]."
+    ],
+    "explanation": "Current net utility plus discounted expected continuation utility equals the promise. The equation alone does not impose action or reporting IC.",
+    "hint": "Add current net utility and next-period value in current units.",
+    "skill": "promised continuation utility",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-09",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Deferred rewards as incentives",
+    "prompt": "A worker chooses hidden H or L after signing a committed two-period contract. H raises success probability by 0.2 and costs 1 more than L. Current pay is independent of success; next-period utility is V_S after success and V_F after failure, discounted by δ=0.5. Ties favor H. What continuation-utility spread induces H?",
+    "correct": "V_S−V_F≥10.",
+    "wrong": [
+      "V_S−V_F≥5.",
+      "V_S+V_F≥10.",
+      "V_S−V_F≤10."
+    ],
+    "explanation": "The extra expected discounted reward is 0.5×0.2×(V_S−V_F). Covering cost 1 requires a spread of at least 10.",
+    "hint": "Include both the probability change and the discount factor.",
+    "skill": "deferred rewards as incentives",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "contract-theory-u6-10",
+    "course": "contract-theory",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Renegotiation credibility",
+    "prompt": "A relational contract deters deviation by threatening a continuation that both parties would strictly prefer to replace with another feasible continuation once reached. What issue does this raise?",
+    "correct": "The punishment may fail a renegotiation-proofness requirement.",
+    "wrong": [
+      "The initial action is necessarily observable to a court.",
+      "The contract must satisfy every commitment assumption automatically.",
+      "All repeated cooperation is impossible."
+    ],
+    "explanation": "A threat can be an equilibrium device under one commitment structure yet vulnerable to mutually beneficial renegotiation. Whether it survives depends on the specified renegotiation and bargaining possibilities.",
+    "hint": "Evaluate incentives again at the threatened continuation history.",
+    "skill": "renegotiation credibility",
+    "sourceUrls": [
+      "https://student.mit.edu/catalog/m14a.html",
+      "https://ocw.mit.edu/courses/15-963-advanced-strategy-spring-2008/resources/gibbons4/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

@@ -1,0 +1,23 @@
+---
+const {inline=false}=Astro.props;
+const axis='0 0 640 300';
+const initialRows=Array.from({length:13},(_,h)=>({h,response:0.7**h,variance:Array.from({length:h},(_,j)=>0.7**(2*j)).reduce((a,b)=>a+b,0)}));
+const initialPoints=(field:'response'|'variance')=>{const values=initialRows.map(row=>row[field]);const max=Math.max(...values,1);return values.map((v,i)=>`${55+i*565/12},${250-v*225/max}`).join(' ')};
+---
+<section class:list={['ea-band','ea-experiment',{'ts-inline-lab':inline}]} id="persistence">
+  <div><h2>Persistence and forecast risk</h2><p>Set persistence to −0.5. The response changes sign each period; the error variance keeps accumulating squared weights.</p>{!inline&&<p><a href="/time-series/02-dynamics/#forecast-more-than-one-period-ahead">Derivation in Lecture 2 →</a></p>}</div>
+  <div class="ea-lab" data-ts-lab="ar">
+    <div class="ts-risk-panels">
+      <figure class="ea-figure"><svg viewBox={axis} role="img" aria-label="Response to a unit shock for persistence 0.7, horizons zero through twelve, in outcome units" data-ts-chart><path d="M55,25V250H620" fill="none" stroke="currentColor" opacity=".4"/><polyline points={initialPoints('response')} fill="none" stroke="var(--blue)" stroke-width="2.5"/>{[0,4,8,12].map(h=><text x={55+h*565/12} y="278" text-anchor="middle" fill="currentColor" font-size="12">{h}</text>)}</svg><figcaption>Response to a unit shock · outcome units</figcaption></figure>
+      <figure class="ea-figure"><svg viewBox={axis} role="img" aria-label="Forecast error variance for persistence 0.7, horizons zero through twelve, in squared outcome units" data-ts-risk-chart><path d="M55,25V250H620" fill="none" stroke="currentColor" opacity=".4"/><polyline points={initialPoints('variance')} fill="none" stroke="var(--orange)" stroke-width="2.5"/>{[0,4,8,12].map(h=><text x={55+h*565/12} y="278" text-anchor="middle" fill="currentColor" font-size="12">{h}</text>)}</svg><figcaption>Error variance · squared outcome units</figcaption></figure>
+    </div>
+    <div class="ea-controls">
+      <label class="ea-control">Persistence φ <output aria-label="Persistence φ" data-ts-phi-value>0.70</output><input type="range" min="-0.95" max="0.95" step="0.05" value="0.7" aria-label="Persistence φ" data-ts-phi disabled /></label>
+      <label class="ea-control">Horizon <output aria-label="Horizon" data-ts-h-value>4</output><input type="range" min="1" max="24" step="1" value="4" aria-label="Horizon" data-ts-h disabled /></label>
+      <button class="ea-button secondary" data-ts-reset disabled>Reset persistence and horizon</button>
+    </div>
+    <div class="ea-lab-readouts"><div>Response at selected horizon<strong data-ts-response>0.240</strong></div><div>Error variance at selected horizon<strong data-ts-variance>1.848</strong></div></div>
+    <details class="ts-risk-table"><summary>Values used in both graphs</summary><div class="ts-results"><table><caption>Analytic values; innovation variance = 1</caption><thead><tr><th scope="col">Horizon</th><th scope="col">Response, outcome units</th><th scope="col">Variance, squared units</th></tr></thead><tbody data-ts-risk-values>{initialRows.map(row=><tr aria-current={row.h===4?'true':undefined}><th scope="row">{row.h}{row.h===4?' (selected)':''}</th><td>{row.response.toFixed(6)}</td><td>{row.variance.toFixed(6)}</td></tr>)}</tbody></table></div></details>
+    <div class="ea-lab-foot"><p>Original analytic teaching example. Parameters are known and innovation variance is one. These are conditional variances under conditional homoskedasticity; constant unconditional second moments support the same values as unconditional mean-squared errors.</p><p><a href="/time-series/02-dynamics/#time-aggregation-changes-the-dependence">Compare quarterly averaging with sampling every third month →</a></p><p data-ts-static>JavaScript enables the controls. The printed lecture includes the analytic curves and hand calculations.</p></div>
+  </div>
+</section>

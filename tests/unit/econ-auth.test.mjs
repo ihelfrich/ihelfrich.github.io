@@ -1,0 +1,110 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,readdirSync} from 'node:fs';
+import {generateKeyPair,SignJWT,exportJWK,createLocalJWKSet} from 'jose';
+import {createLocalDB} from '../../services/econ-response/local-db.mjs';
+import {verifyGoogleToken,createChallenge,finishSignIn,participant,issueCredential} from '../../services/econ-response/auth.mjs';
+import {createAssignment,startAssignment,listAssignments} from '../../services/econ-response/assignments.mjs';
+import {CONSENT_VERSION,query,iso,hash} from '../../services/econ-response/common.mjs';
+import worker from '../../services/econ-response/worker.mjs';
+async function fixture(){const DB=createLocalDB();for(const file of readdirSync(new URL('../../services/econ-response/migrations/',import.meta.url)).filter(n=>n.endsWith('.sql')).sort())DB.exec(readFileSync(new URL(`../../services/econ-response/migrations/${file}`,import.meta.url),'utf8'));const env={DB,GOOGLE_CLIENT_ID:'test-client'};await query(DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','anonymous',iso(),'anonymous',CONSENT_VERSION,iso()).run();const p=await query(DB,'SELECT * FROM participants WHERE id=?','anonymous').first();return {env,p};}
+async function login(f,link=true,identity='student'){const c=await createChallenge(f.env,f.p);return finishSignIn(f.env,f.p,{challengeId:c.challengeId,credential:'test-only',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:link},async()=>({subjectHash:await hash(identity),email:`${identity}@example.test`}));}
+test('JWT verification checks signature, issuer, audience, nonce and email verification',async()=>{const {privateKey,publicKey}=await generateKeyPair('RS256'),jwk=await exportJWK(publicKey);jwk.kid='test';const keys=createLocalJWKSet({keys:[jwk]});const token=claims=>new SignJWT({nonce:'challenge',email:'student@example.test',email_verified:true,...claims}).setProtectedHeader({alg:'RS256',kid:'test'}).setSubject('subject').setIssuer('https://accounts.google.com').setAudience('test-client').setIssuedAt().setExpirationTime('5m').sign(privateKey);assert.equal((await verifyGoogleToken(await token({}),{GOOGLE_CLIENT_ID:'test-client'},'challenge',keys)).email,'student@example.test');await assert.rejects(verifyGoogleToken(await token({nonce:'other'}),{GOOGLE_CLIENT_ID:'test-client'},'challenge',keys));await assert.rejects(verifyGoogleToken(await token({email_verified:false}),{GOOGLE_CLIENT_ID:'test-client'},'challenge',keys));await assert.rejects(verifyGoogleToken(await token({}),{GOOGLE_CLIENT_ID:'wrong'},'challenge',keys));});
+test('explicit linking moves owned sessions and revokes the anonymous credential',async()=>{const f=await fixture(),anonymous=await issueCredential(f.env,f.p.id,'anonymous');await query(f.env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)','old-session',f.p.id,'ap-micro','practice','test',iso(),'unused','2099-01-01T00:00:00Z').run();const result=await login(f,true);assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','old-session').first()).participant_id,result.participantId);await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${anonymous.token}`}}),f.env));assert.equal((await participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${result.token}`}}),f.env)).id,result.participantId);f.env.DB.close();});
+test('declining linking leaves anonymous history and credential intact',async()=>{const f=await fixture(),anonymous=await issueCredential(f.env,f.p.id,'anonymous');const signed=await login(f,false);assert.notEqual(signed.participantId,f.p.id);assert.equal((await participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${anonymous.token}`}}),f.env)).id,f.p.id);f.env.DB.close();});
+test('challenges cannot be replayed',async()=>{const f=await fixture(),c=await createChallenge(f.env,f.p),b={challengeId:c.challengeId,credential:'test',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false},verify=async()=>({subjectHash:await hash('student'),email:'s@example.test'});await finishSignIn(f.env,f.p,b,verify);await assert.rejects(finishSignIn(f.env,f.p,b,verify),/expired or already used/);f.env.DB.close();});
+test('assignment membership, timing, attempt limits and replay are enforced by the server',async()=>{const f=await fixture(),signed=await login(f),p=await query(f.env.DB,'SELECT * FROM participants WHERE id=?',signed.participantId).first();const a=await createAssignment(f.env,{id:'instructor'},{title:'Diagnostic',course:'ap-micro',itemCount:6,maxAttempts:1,opensAt:new Date(Date.now()-60000).toISOString(),closesAt:new Date(Date.now()+3600000).toISOString(),participantIds:[p.id]});const requestId=crypto.randomUUID(),s=await startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId});assert.equal(s.mode,'assessment');assert.equal((await startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId})).sessionId,s.sessionId);await assert.rejects(startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId:crypto.randomUUID()}),/No assignment attempts/);assert.equal((await listAssignments(f.env,p)).assignments.length,1);await assert.rejects(startAssignment(f.env,{...p,id:'outsider'},{assignmentId:a.assignmentId,requestId:crypto.randomUUID()}),/not available/);f.env.DB.close();});
+test('bootstrap admin token is disabled unless explicitly allowed for local development',async()=>{const f=await fixture();f.env.ADMIN_TOKEN='test-secret';const r=await worker.fetch(new Request('https://api.test/admin/summary',{headers:{Authorization:'Bearer test-secret'}}),f.env);assert.equal(r.status,401);f.env.DB.close();});
+test('logout revokes the credential server-side',async()=>{const f=await fixture(),signed=await login(f);const headers={Authorization:`Bearer ${signed.token}`};const out=await worker.fetch(new Request('https://api.test/auth/logout',{method:'POST',headers}),f.env);assert.equal(out.status,200);const after=await worker.fetch(new Request('https://api.test/profile',{headers}),f.env);assert.equal(after.status,401);f.env.DB.close();});
+test('closed and future assignments cannot start, and concurrent requests cannot exceed the attempt limit',async()=>{
+ const f=await fixture(),signed=await login(f),p=await query(f.env.DB,'SELECT * FROM participants WHERE id=?',signed.participantId).first();
+ const base={title:'Window check',course:'ap-micro',itemCount:6,maxAttempts:1,participantIds:[p.id]};
+ for(const [open,close] of [[-120000,-60000],[60000,120000]]){
+  const a=await createAssignment(f.env,{id:'instructor'},{...base,opensAt:new Date(Date.now()+open).toISOString(),closesAt:new Date(Date.now()+close).toISOString()});
+  await assert.rejects(startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId:crypto.randomUUID()}),/not open/);
+ }
+ const a=await createAssignment(f.env,{id:'instructor'},{...base,opensAt:new Date(Date.now()-60000).toISOString(),closesAt:new Date(Date.now()+60000).toISOString()});
+ const results=await Promise.allSettled([1,2].map(()=>startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId:crypto.randomUUID()})));
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+ assert.equal((await query(f.env.DB,'SELECT COUNT(*) AS n FROM sessions WHERE assignment_id=?',a.assignmentId).first()).n,1);f.env.DB.close();
+});
+test('JWT verification rejects an expired token and an untrusted issuer',async()=>{
+ const {privateKey,publicKey}=await generateKeyPair('RS256'),jwk=await exportJWK(publicKey);jwk.kid='test';const keys=createLocalJWKSet({keys:[jwk]});
+ for(const [issuer,expiration] of [['https://attacker.example','5m'],['https://accounts.google.com',Math.floor(Date.now()/1000)-60]]){
+  const token=await new SignJWT({nonce:'challenge',email:'student@example.test',email_verified:true}).setProtectedHeader({alg:'RS256',kid:'test'}).setSubject('subject').setIssuer(issuer).setAudience('test-client').setIssuedAt().setExpirationTime(expiration).sign(privateKey);
+  await assert.rejects(verifyGoogleToken(token,{GOOGLE_CLIENT_ID:'test-client'},'challenge',keys));
+ }
+});
+test('reauthentication can require the original account without linking temporary history',async()=>{
+ const f=await fixture(),signed=await login(f,false),target=signed.participantId;
+ async function attempt(identity){const c=await createChallenge(f.env,f.p);return finishSignIn(f.env,f.p,{challengeId:c.challengeId,credential:'test',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,expectedParticipantId:target},async()=>({subjectHash:await hash(identity),email:`${identity}@example.test`}));}
+ await assert.rejects(attempt('wrong-account'),/same account/);
+ const recovered=await attempt('student');assert.equal(recovered.participantId,target);assert.notEqual(recovered.token,signed.token);
+ assert.equal((await query(f.env.DB,'SELECT identity_kind FROM participants WHERE id=?',f.p.id).first()).identity_kind,'anonymous');f.env.DB.close();
+});
+
+test('an assigned assessment starts and finishes on its archived bank after the deployed version changes',async()=>{
+ const {registerBank}=await import('../../services/econ-response/bank-archive.mjs');
+ const {buildBank,BANK_VERSION}=await import('../../src/lib/econ-practice/index.mjs');
+ const f=await fixture(),signed=await login(f),p=await query(f.env.DB,'SELECT * FROM participants WHERE id=?',signed.participantId).first();
+ const version='historical-assignment-fixture',items=buildBank().filter(q=>q.course==='ap-micro').map(q=>({...q,version,prompt:`Archived fixture: ${q.prompt}`}));
+ await registerBank(f.env.DB,version,items);
+ const a=await createAssignment(f.env,{id:'instructor'},{title:'Archived diagnostic',course:'ap-micro',itemCount:6,maxAttempts:1,opensAt:new Date(Date.now()-60000).toISOString(),closesAt:new Date(Date.now()+600000).toISOString(),participantIds:[p.id]});
+ await query(f.env.DB,'UPDATE assignments SET bank_version=? WHERE id=?',version,a.assignmentId).run();
+ const session=await startAssignment(f.env,p,{assignmentId:a.assignmentId,requestId:crypto.randomUUID()});assert.equal(session.bankVersion,version);assert.notEqual(version,BANK_VERSION);
+ async function call(action,data={}){const result=await worker.fetch(new Request(`https://api.test/sessions/${session.sessionId}/${action}`,{method:'POST',headers:{Authorization:`Bearer ${signed.token}`,'Content-Type':'application/json'},body:JSON.stringify(data)}),f.env);assert.equal(result.status,200);return result.json();}
+ for(let i=0;i<6;i++){
+  const next=await call('next');assert.equal(next.sequence,i+1);assert.ok(next.item.prompt.startsWith('Archived fixture:'));assert.equal(next.item.version,version);
+  const item=items.find(q=>q.id===next.item.id),response=item.format==='multipart'?Object.fromEntries(item.parts.map(p=>[p.id,p.answer])):item.format==='choice'?item.answerIndex:item.answer;
+  const receipt=await call('answers',{eventId:crypto.randomUUID(),presentationId:next.presentationId,attemptNumber:1,response,elapsedMs:5000,activeMs:4500,submittedAt:new Date().toISOString()});assert.equal(receipt.persisted,true);assert.equal(receipt.correct,undefined);
+ }
+ const done=await call('next');assert.equal(done.done,true);assert.equal(done.reason,'session-length');await call('complete');
+ const stored=await query(f.env.DB,'SELECT COUNT(*) AS n,SUM(correct) AS correct FROM responses WHERE session_id=?',session.sessionId).first();assert.equal(stored.n,6);assert.equal(stored.correct,6);f.env.DB.close();
+});
+
+test('lost-link recovery requires old anonymous ownership and the verified destination account',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous'),signed=await login(f,true);
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','temporary',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','temporary').first();
+ async function recover(identity,proof=old.token){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'test',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:proof},async()=>({subjectHash:await hash(identity),email:`${identity}@example.test`}));}
+ await assert.rejects(recover('wrong-account'),/same account/);
+ await assert.rejects(recover('student','0'.repeat(64)),/cannot prove ownership/);
+ const restored=await recover('student');assert.equal(restored.participantId,signed.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));
+ assert.equal((await participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${restored.token}`}}),f.env)).id,signed.participantId);
+ const active=await issueCredential(f.env,temporary.id,'anonymous');await assert.rejects(recover('student',active.token),/cannot recover/);
+ assert.equal((await query(f.env.DB,"SELECT COUNT(*) AS n FROM audit_log WHERE action='explicit-anonymous-link'").first()).n,1);f.env.DB.close();
+});
+
+test('concurrent anonymous links claim exactly one destination and recovery cannot select the loser',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous');
+ await query(f.env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)','racing-session',f.p.id,'ap-micro','practice','test',iso(),'unused','2099-01-01T00:00:00Z').run();
+ const challenges=await Promise.all([createChallenge(f.env,f.p),createChallenge(f.env,f.p)]);
+ let verified=0,release;const barrier=new Promise(resolve=>release=resolve);
+ const results=await Promise.allSettled(challenges.map((c,i)=>finishSignIn(f.env,f.p,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:true},async()=>{if(++verified===2)release();await barrier;return {subjectHash:`racing-${i}`,email:`racing-${i}@example.test`};})));
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);const winner=results.find(r=>r.status==='fulfilled').value,loser=results.findIndex(r=>r.status==='rejected');
+ assert.equal(results[loser].reason.status,409);
+ const links=(await query(f.env.DB,"SELECT * FROM audit_log WHERE action='explicit-anonymous-link' AND target=?",f.p.id).all()).results;
+ assert.equal(links.length,1);assert.equal(JSON.parse(links[0].details_json).destination,winner.participantId);
+ assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','racing-session').first()).participant_id,winner.participantId);
+ assert.equal((await query(f.env.DB,"SELECT COUNT(*) AS n FROM credentials WHERE participant_id=(SELECT id FROM participants WHERE identity_subject_hash=?)",`racing-${loser}`).first()).n,0);
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','recovery-temp',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','recovery-temp').first();
+ async function recover(i){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:old.token},async()=>({subjectHash:`racing-${i}`,email:`racing-${i}@example.test`}));}
+ await assert.rejects(recover(loser),/same account/);assert.equal((await recover(1-loser)).participantId,winner.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));f.env.DB.close();
+});
+
+test('expired anonymous ownership requires fresh linking consent and never renews the old credential',async()=>{
+ const f=await fixture(),old=await issueCredential(f.env,f.p.id,'anonymous');
+ await query(f.env.DB,'UPDATE credentials SET expires_at=? WHERE token_hash=?','2000-01-01T00:00:00.000Z',await hash(old.token)).run();
+ await query(f.env.DB,'INSERT INTO sessions (id,participant_id,course,mode,bank_version,started_at,token_hash,expires_at) VALUES (?,?,?,?,?,?,?,?)','expired-session',f.p.id,'ap-micro','practice','test',iso(),'unused','2099-01-01T00:00:00Z').run();
+ await query(f.env.DB,'INSERT INTO participants (id,created_at,identity_kind,consent_version,consent_at) VALUES (?,?,?,?,?)','expired-temp',iso(),'anonymous',CONSENT_VERSION,iso()).run();
+ const temporary=await query(f.env.DB,'SELECT * FROM participants WHERE id=?','expired-temp').first();
+ async function recover(consent,identity='expiry-owner'){const c=await createChallenge(f.env,temporary);return finishSignIn(f.env,temporary,{challengeId:c.challengeId,credential:'synthetic',accepted:true,consentVersion:CONSENT_VERSION,linkAnonymous:false,recoverAnonymousToken:old.token,recoverExpiredAnonymous:consent},async()=>({subjectHash:identity,email:identity+'@example.test'}));}
+ await assert.rejects(recover(false),e=>e.status===428);
+ assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','expired-session').first()).participant_id,f.p.id);
+ const recovered=await recover(true);assert.equal((await query(f.env.DB,'SELECT participant_id FROM sessions WHERE id=?','expired-session').first()).participant_id,recovered.participantId);
+ await assert.rejects(participant(new Request('https://api.test',{headers:{Authorization:`Bearer ${old.token}`}}),f.env));
+ await assert.rejects(recover(true,'different-account'),/same account/);assert.equal((await recover(false)).participantId,recovered.participantId);f.env.DB.close();
+});

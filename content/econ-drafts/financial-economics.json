@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "financial-economics-u1-01",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Two-year discounting",
+    "prompt": "A default-free claim pays 1,210 exactly two years from today and nothing earlier. The effective annual discount rate is 10%, constant across maturities. What is its present value?",
+    "correct": "1,000.",
+    "wrong": [
+      "1,100.",
+      "1,008.33.",
+      "1,464.10."
+    ],
+    "explanation": "Discount twice: 1,210/1.10\u00b2 = 1,000. The first distractor discounts once, the second uses simple interest, and the third compounds instead of discounting.",
+    "hint": "Bring the terminal payment back one year at a time.",
+    "skill": "two-year discounting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-02",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Annuity timing",
+    "prompt": "A default-free contract pays 110 at the end of year 1 and 110 at the end of year 2. With a flat effective annual rate of 10%, what is its value today?",
+    "correct": "190.91, approximately.",
+    "wrong": [
+      "200.",
+      "210.",
+      "220."
+    ],
+    "explanation": "The value is 110/1.1 + 110/1.1\u00b2 = 190.91. Dividing the total by 1.1 ignores the second payment's timing; 210 treats the first payment as immediate; 220 ignores discounting.",
+    "hint": "Discount each payment from its own date.",
+    "skill": "annuity timing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-03",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Nominal versus effective rates",
+    "prompt": "An account quotes a nominal annual rate of 12% compounded monthly. Interest is reinvested and there are no fees. What is its effective annual rate?",
+    "correct": "About 12.68%.",
+    "wrong": [
+      "12%.",
+      "1%.",
+      "144%."
+    ],
+    "explanation": "Each month earns 12%/12 = 1%; twelve periods give 1.01\u00b9\u00b2 \u2212 1 = 12.68%. The distractors ignore intra-year compounding, report the monthly rate, or multiply the nominal rate by twelve.",
+    "hint": "The annual growth factor is the product of twelve monthly factors.",
+    "skill": "nominal versus effective rates",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-04",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Perpetuity start date",
+    "prompt": "A default-free perpetuity first pays 60 one year from today and then pays 60 every year forever. At a constant effective annual discount rate of 5%, what is its value today?",
+    "correct": "1,200.",
+    "wrong": [
+      "1,260.",
+      "1,142.86.",
+      "3."
+    ],
+    "explanation": "For the first payment at year 1, value is 60/0.05 = 1,200. Adding 60 assumes an immediate payment; dividing 1,200 by 1.05 delays every payment a year; multiplying by the rate reverses capitalization.",
+    "hint": "Use the payment divided by the discount rate, checking the first payment date.",
+    "skill": "perpetuity start date",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-05",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Coupon bond at a premium",
+    "prompt": "A default-free bond has face value 1,000, a 60 annual coupon, and two years remaining. Its required effective annual yield is 5%. What is its price immediately after a coupon date?",
+    "correct": "1,018.59, approximately.",
+    "wrong": [
+      "1,000.",
+      "981.41.",
+      "1,120."
+    ],
+    "explanation": "Price is 60/1.05 + 1,060/1.05\u00b2 = 1,018.59. A coupon rate above yield implies a premium; par ignores that gap, the below-par answer reverses it, and 1,120 ignores time value.",
+    "hint": "Discount both coupons and the principal.",
+    "skill": "coupon bond at a premium",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-06",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Zero-coupon yield",
+    "prompt": "A default-free zero-coupon bond costs 800 today and pays 968 exactly two years later. What is its annual effective yield if held to maturity?",
+    "correct": "10%.",
+    "wrong": [
+      "21%.",
+      "10.5%.",
+      "17.36%."
+    ],
+    "explanation": "The annual factor is sqrt(968/800) = 1.10. The 21% is the two-year return, 10.5% divides that return arithmetically, and 17.36% uses terminal value as the return denominator.",
+    "hint": "Solve 800(1+y)\u00b2 = 968.",
+    "skill": "zero-coupon yield",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-07",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Duration of a zero",
+    "prompt": "A default-free zero-coupon bond matures in four years and has an effective annual yield of 5%. What is its Macaulay duration?",
+    "correct": "4 years.",
+    "wrong": [
+      "3.81 years.",
+      "0 years.",
+      "5 years."
+    ],
+    "explanation": "All present-value weight lies on the payment at year 4, so Macaulay duration is 4. Dividing by 1.05 gives modified duration; no coupons do not imply no duration; yield is not a maturity measure.",
+    "hint": "Macaulay duration weights payment dates by their present values.",
+    "skill": "duration of a zero",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-08",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Duration price approximation",
+    "prompt": "A bond has modified duration 6 years. Its annual yield rises by 0.50 percentage points. Ignoring convexity, what approximate percentage price change does duration predict?",
+    "correct": "\u22123%.",
+    "wrong": [
+      "+3%.",
+      "\u2212300%.",
+      "\u22120.0833%."
+    ],
+    "explanation": "The approximation is \u0394P/P = \u22126(0.005) = \u22120.03. The distractors reverse the sign, treat percentage points as whole units, or divide by duration instead of multiplying.",
+    "hint": "Convert the yield change into decimal units before using duration.",
+    "skill": "duration price approximation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-09",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Spot-implied forward rate",
+    "prompt": "Default-free annual effective spot rates are 4% for one year and 5% for two years. Under frictionless no-arbitrage trading, what one-year forward rate from year 1 to year 2 is implied?",
+    "correct": "About 6.01%.",
+    "wrong": [
+      "1%.",
+      "5%.",
+      "10.25%."
+    ],
+    "explanation": "The forward factor satisfies 1.04(1+f) = 1.05\u00b2, giving 6.0096%. Subtracting spot rates is not a forward rate; 5% is the two-year annual spot rate; 10.25% is its cumulative two-year return.",
+    "hint": "Equate investing for two years with rolling a one-year investment into the locked forward rate.",
+    "skill": "spot-implied forward rate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u1-10",
+    "course": "financial-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Exact real return",
+    "prompt": "A hypothetical investment earns a 10% nominal return over one year while the price level rises 4%. What is its purchasing-power return?",
+    "correct": "About 5.77%.",
+    "wrong": [
+      "6%.",
+      "14%.",
+      "10%."
+    ],
+    "explanation": "The real growth factor is 1.10/1.04, yielding 5.7692%. Subtraction gives only an approximation; addition reverses inflation's role; 10% ignores inflation.",
+    "hint": "Deflate the nominal terminal wealth by the inflation factor.",
+    "skill": "exact real return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-01",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Probability-weighted return",
+    "prompt": "A one-year asset returns 20% with probability 0.25 and \u22124% with probability 0.75. These are exhaustive states. What is its expected return?",
+    "correct": "2%.",
+    "wrong": [
+      "8%.",
+      "5%.",
+      "\u22123%."
+    ],
+    "explanation": "The mean is 0.25(20%) + 0.75(\u22124%) = 2%. The distractors use equal state weights or omit respectively the loss contribution or the gain contribution.",
+    "hint": "Weight each state's return by its probability before adding.",
+    "skill": "probability-weighted return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-02",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Two-state variance",
+    "prompt": "An asset's one-period return is 10% or \u221210%, each with probability one-half. Using decimal returns, what is its variance?",
+    "correct": "0.01.",
+    "wrong": [
+      "0.10.",
+      "0.",
+      "0.02."
+    ],
+    "explanation": "Mean return is zero and variance is 0.5(0.10\u00b2)+0.5(\u22120.10)\u00b2 = 0.01. The alternatives report standard deviation, confuse a zero mean with zero variation, or fail to probability-weight squared deviations.",
+    "hint": "Square deviations from the expected return, then take their probability-weighted mean.",
+    "skill": "two-state variance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-03",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Portfolio expected return",
+    "prompt": "At the start of a year, a portfolio invests 30% in an asset with expected return 12% and 70% in one with expected return 4%. There is no rebalancing or leverage. What is the portfolio's expected annual return?",
+    "correct": "6.4%.",
+    "wrong": [
+      "8%.",
+      "9.6%.",
+      "16%."
+    ],
+    "explanation": "Linearity gives 0.3(12%)+0.7(4%)=6.4%. An unweighted average gives 8%, reversing weights gives 9.6%, and adding returns ignores invested shares.",
+    "hint": "Use beginning-of-period portfolio weights.",
+    "skill": "portfolio expected return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-04",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Covariance and diversification",
+    "prompt": "Two assets each have return standard deviation 20% and zero correlation. A portfolio holds equal initial weights. What is its one-period standard deviation?",
+    "correct": "About 14.14%.",
+    "wrong": [
+      "20%.",
+      "10%.",
+      "2%."
+    ],
+    "explanation": "Variance is 0.5\u00b2(0.2\u00b2)+0.5\u00b2(0.2\u00b2)=0.02 and standard deviation is sqrt(0.02). The distractors average volatilities, divide volatility by the number of assets, or report variance as a percentage.",
+    "hint": "Combine variances and covariance before taking the square root.",
+    "skill": "covariance and diversification",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-05",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "A perfect hedge",
+    "prompt": "Two assets have equal expected returns and standard deviations of 10% and 20%. Their one-period returns have correlation \u22121. What weight in the first asset makes portfolio variance zero, with the remaining weight in the second?",
+    "correct": "Two-thirds.",
+    "wrong": [
+      "One-half.",
+      "One-third.",
+      "Zero."
+    ],
+    "explanation": "Set w(0.10)=(1\u2212w)(0.20), giving w=2/3. Equal weights fail because volatilities differ; one-third reverses the volatility adjustment; holding only the second asset retains its risk.",
+    "hint": "Offset the weighted standard deviations when correlation is negative one.",
+    "skill": "a perfect hedge",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-06",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Common versus independent risk",
+    "prompt": "Each of n assets has return R_i = F + e_i, where F has variance 0.01, each e_i has variance 0.04, and all e_i are mutually independent and independent of F. As n grows, what happens to equal-weight portfolio variance?",
+    "correct": "It approaches 0.01.",
+    "wrong": [
+      "It approaches zero.",
+      "It remains 0.05 for all n.",
+      "It grows without bound."
+    ],
+    "explanation": "The portfolio is F plus the average idiosyncratic shock, so variance is 0.01 + 0.04/n. Common risk survives; complete diversification to zero ignores it, constant 0.05 ignores diversification, and explosive risk ignores equal weighting.",
+    "hint": "Average the independent components but retain the common component.",
+    "skill": "common versus independent risk",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-07",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Sharpe ratio units",
+    "prompt": "A portfolio has expected annual return 9% and annual return standard deviation 15%; the matching risk-free annual return is 3%. What is its Sharpe ratio?",
+    "correct": "0.40.",
+    "wrong": [
+      "0.60.",
+      "2.50.",
+      "0.06."
+    ],
+    "explanation": "The ratio is (0.09\u22120.03)/0.15 = 0.40. The alternatives omit the risk-free subtraction, invert the ratio, or report only the excess return.",
+    "hint": "Divide expected excess return by return standard deviation.",
+    "skill": "sharpe ratio units",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-08",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Leveraged risky allocation",
+    "prompt": "An investor places 150% of initial wealth in a risky asset with expected one-year return 8%, financing the extra 50% by borrowing at a fixed 2% annual rate. Ignore fees and default. What is expected return on initial wealth?",
+    "correct": "11%.",
+    "wrong": [
+      "12%.",
+      "13%.",
+      "9%."
+    ],
+    "explanation": "Expected return is 1.5(8%)\u22120.5(2%)=11%. Ignoring interest gives 12%; treating the borrowing cost as income gives 13%; multiplying only the excess return by 1.5 gives 9% and omits the risk-free intercept.",
+    "hint": "The borrowing position has a negative portfolio weight.",
+    "skill": "leveraged risky allocation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-09",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Certainty equivalent under square-root utility",
+    "prompt": "An investor chooses between final wealth of 100 or 400, each with probability one-half, and a certain final wealth amount. With utility sqrt(wealth), what certain amount gives equal expected utility?",
+    "correct": "225.",
+    "wrong": [
+      "250.",
+      "15.",
+      "300."
+    ],
+    "explanation": "Expected utility is (10+20)/2=15, whose inverse utility is 225. Mean wealth is 250; 15 remains in utility units; 300 has utility above the lottery's expected utility.",
+    "hint": "Average utility first and then invert the utility function.",
+    "skill": "certainty equivalent under square-root utility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u2-10",
+    "course": "financial-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Efficient frontier dominance",
+    "prompt": "Two feasible portfolios have the same expected one-year return of 7%. Portfolio A has standard deviation 8%; B has 12%. In mean-variance preferences with strictly positive risk aversion, what follows?",
+    "correct": "A is strictly preferred to B.",
+    "wrong": [
+      "B is preferred because more risk always earns more return.",
+      "They are indifferent because expected returns match.",
+      "Neither can be compared without observing their realized returns."
+    ],
+    "explanation": "With identical expected return, the smaller variance raises mean-variance utility for every positive risk-aversion coefficient. Risk does not automatically provide extra return here, equal means do not erase risk preferences, and ex ante choice does not require realized outcomes.",
+    "hint": "Compare their risk while holding the expected payoff criterion fixed.",
+    "skill": "efficient frontier dominance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-01",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Identical cash-flow claims",
+    "prompt": "In frictionless markets with unrestricted short selling and no default, claims A and B both pay exactly 100 in one year in every state. A costs 94 and B costs 96 today. Which trade is an arbitrage?",
+    "correct": "Buy A and short B, receiving 2 today and zero net payoff later.",
+    "wrong": [
+      "Buy B and short A.",
+      "Buy both claims.",
+      "Short both claims."
+    ],
+    "explanation": "Buying the cheaper identical payoff and selling the dearer locks in 2 now with offsetting future obligations. The reverse loses 2; buying both requires investment; shorting both leaves an uncovered future liability.",
+    "hint": "Match future cash flows before comparing current prices.",
+    "skill": "identical cash-flow claims",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-02",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "State-price valuation",
+    "prompt": "In a frictionless two-state one-year economy, a claim paying 1 only in state U costs 0.4 and a claim paying 1 only in state D costs 0.5. A security pays 80 in U and 20 in D. What is its no-arbitrage price?",
+    "correct": "42.",
+    "wrong": [
+      "50.",
+      "46.67.",
+      "48."
+    ],
+    "explanation": "Replicating the security costs 80(0.4)+20(0.5)=42. Equal-weight averaging invents probabilities; normalizing state prices gives a risk-neutral expected payoff before discounting; 48 interchanges the two state prices.",
+    "hint": "Buy the needed number of each state claim.",
+    "skill": "state-price valuation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-03",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Risk-free rate from state prices",
+    "prompt": "Two exhaustive one-year state claims cost 0.35 and 0.60, each paying 1 only in its own state. Under no arbitrage, what is the effective one-year risk-free rate?",
+    "correct": "About 5.26%.",
+    "wrong": [
+      "5%.",
+      "95%.",
+      "\u22125%."
+    ],
+    "explanation": "One of each claim pays 1 for certain and costs 0.95; return is 1/0.95\u22121 = 5.263%. The alternatives use the discount rather than return base, report the price, or reverse the return sign.",
+    "hint": "Sum state prices to find the price of one certain future unit.",
+    "skill": "risk-free rate from state prices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-04",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "CAPM required return",
+    "prompt": "Assume the one-period CAPM holds. The risk-free rate is 2%, expected market return is 8%, and an asset's beta is 1.5. What is its required expected return?",
+    "correct": "11%.",
+    "wrong": [
+      "12%.",
+      "9%.",
+      "8%."
+    ],
+    "explanation": "CAPM gives 2%+1.5(8%\u22122%)=11%. The alternatives multiply total market return by beta, omit the risk-free intercept, or ignore beta.",
+    "hint": "Apply beta to the market excess return.",
+    "skill": "capm required return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-05",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Beta from covariance",
+    "prompt": "An asset's return covariance with the market is 0.018 and market return variance is 0.012, both in squared decimal-return units. What is the asset's beta?",
+    "correct": "1.5.",
+    "wrong": [
+      "0.667.",
+      "0.164, approximately.",
+      "0.006."
+    ],
+    "explanation": "Beta is covariance divided by market variance: 0.018/0.012=1.5. The alternatives invert the ratio, divide by market standard deviation, or subtract variance from covariance.",
+    "hint": "Beta is the slope of the return's linear projection on the market return.",
+    "skill": "beta from covariance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-06",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Negative beta pricing",
+    "prompt": "Assume CAPM, a risk-free rate of 3%, and an expected market risk premium of 6%. A security has beta \u22120.5. What expected return does the model assign?",
+    "correct": "0%.",
+    "wrong": [
+      "6%.",
+      "\u22123%.",
+      "3%."
+    ],
+    "explanation": "The return is 3%\u22120.5(6%)=0%. A negative beta provides market-risk insurance in this model. The distractors reverse beta's sign, omit the intercept, or treat negative beta as zero beta.",
+    "hint": "Keep the sign of beta when multiplying the risk premium.",
+    "skill": "negative beta pricing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-07",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Stochastic discount factor",
+    "prompt": "Two states each occur with probability one-half. The stochastic discount factor is 1.2 in the bad state and 0.8 in the good state. A claim pays 10 only in the bad state. What is its price under P=E[mX]?",
+    "correct": "6.",
+    "wrong": [
+      "5.",
+      "12.",
+      "4."
+    ],
+    "explanation": "Price is 0.5(1.2)(10)+0.5(0.8)(0)=6. Ignoring the discount factor gives 5; omitting probability weighting gives 12; using the good-state factor for the bad-state payoff gives 4.",
+    "hint": "Multiply probability, discount factor, and payoff within each state.",
+    "skill": "stochastic discount factor",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-08",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Insurance value of state payoffs",
+    "prompt": "States B and G each have probability one-half, with discount factors 1.2 and 0.8 respectively. Claim A pays (10,0) and claim C pays (0,10). Which comparison follows from P=E[mX]?",
+    "correct": "A costs more than C despite equal expected payoffs.",
+    "wrong": [
+      "They cost the same because expected payoffs are equal.",
+      "C costs more because its payoff occurs in G.",
+      "Both cost 10 because their positive payoffs equal 10."
+    ],
+    "explanation": "A costs 6 and C costs 4. State-dependent valuation distinguishes equally likely payoffs; using only expected payoffs misses that distinction, privileging G reverses the discount-factor weights, and 10 ignores both probabilities and discounting.",
+    "hint": "Payoffs in states with larger discount factors carry greater price weight.",
+    "skill": "insurance value of state payoffs",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-09",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Spanning and completeness",
+    "prompt": "A one-period economy has three possible states. Two traded securities have linearly independent payoff vectors. With unrestricted portfolios and no other securities, what can be concluded?",
+    "correct": "Some state-contingent payoff vectors cannot be replicated.",
+    "wrong": [
+      "Every contingent payoff can be replicated because the two securities are independent.",
+      "No payoff can be replicated because markets are incomplete.",
+      "Arbitrage must exist because there are fewer securities than states."
+    ],
+    "explanation": "Two independent vectors span a two-dimensional subspace of a three-dimensional payoff space. Their span includes some payoffs but not all; incompleteness alone neither eliminates replication nor implies arbitrage.",
+    "hint": "Compare the rank of traded payoffs with the number of states.",
+    "skill": "spanning and completeness",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u3-10",
+    "course": "financial-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Risk-neutral probability",
+    "prompt": "A non-dividend stock costs 100 and will be 120 or 80 in one year. Borrowing and lending are frictionless at a 5% effective annual rate. What risk-neutral probability of the up state is implied?",
+    "correct": "0.625.",
+    "wrong": [
+      "0.5.",
+      "0.375.",
+      "0.25."
+    ],
+    "explanation": "Set 100=[q(120)+(1\u2212q)(80)]/1.05, giving q=25/40=0.625. Equal physical likelihoods are not supplied; 0.375 is the down-state probability; 0.25 divides the required increment above 80 by the initial price instead of the 40-point state spread.",
+    "hint": "The risk-neutral expected stock price must equal its risk-free grown current price.",
+    "skill": "risk-neutral probability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-01",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Forward delivery price",
+    "prompt": "A non-dividend stock costs 80 today. The one-year borrowing and lending rate is 5% effective annually; markets are frictionless and short selling is allowed. What delivery price makes a new one-year forward have zero initial value?",
+    "correct": "84.",
+    "wrong": [
+      "80.",
+      "76.19.",
+      "4."
+    ],
+    "explanation": "Cash-and-carry replication gives K=80(1.05)=84. Spot ignores financing, 76.19 discounts rather than carries the stock, and 4 is only the financing cost.",
+    "hint": "Finance the stock purchase until delivery.",
+    "skill": "forward delivery price",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-02",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "An existing forward's value",
+    "prompt": "A one-year forward was entered earlier with delivery price 90. Six months remain; spot is now 100 and the risk-free effective rate over the remaining six months is 5%. The asset pays no dividends. What is the current value to the long in frictionless markets?",
+    "correct": "14.29, approximately.",
+    "wrong": [
+      "10.",
+      "15.",
+      "\u221214.29."
+    ],
+    "explanation": "Value is S\u2212PV(K)=100\u221290/1.05=14.29. Spot minus delivery ignores payment timing; 15 is the terminal difference from a new 105 forward before discounting; the negative sign values the short.",
+    "hint": "The delivery payment is still in the future.",
+    "skill": "an existing forward's value",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-03",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Call payoff versus profit",
+    "prompt": "A European call has strike 50 and premium 4 paid today. At expiration in one year, the underlying price is 62. Assume a zero interest rate and no fees. What is the buyer's net profit?",
+    "correct": "8.",
+    "wrong": [
+      "12.",
+      "\u22124.",
+      "58."
+    ],
+    "explanation": "Exercise payoff is max(62\u221250,0)=12 and net profit subtracts the premium, giving 8. The alternatives report payoff, ignore profitable exercise, or subtract premium directly from the underlying price without paying the strike.",
+    "hint": "First calculate exercise payoff, then account for purchase cost.",
+    "skill": "call payoff versus profit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-04",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Put exercise payoff",
+    "prompt": "At expiration, a European put has strike 70 and the underlying is worth 58. What is the put holder's exercise payoff, before any premium cost?",
+    "correct": "12.",
+    "wrong": [
+      "\u221212.",
+      "58.",
+      "0."
+    ],
+    "explanation": "The payoff is max(70\u221258,0)=12. A holder cannot be forced to accept a negative exercise payoff; the stock price is not the put payoff, and zero mistakes the put for a call.",
+    "hint": "A put grants the right to sell at its strike.",
+    "skill": "put exercise payoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-05",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Put-call parity",
+    "prompt": "European calls and puts on a non-dividend stock have the same one-year maturity and strike 105. Spot is 100 and the effective annual risk-free rate is 5%. With frictionless trading, what must C\u2212P equal?",
+    "correct": "0.",
+    "wrong": [
+      "\u22125.",
+      "5.",
+      "100."
+    ],
+    "explanation": "Parity is C\u2212P=S\u2212K/1.05=100\u2212100=0. Using undiscounted strike yields \u22125; reversing that error gives 5; omitting the strike claim gives 100.",
+    "hint": "Compare a call plus discounted strike cash with a put plus the stock.",
+    "skill": "put-call parity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-06",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "One-step call replication",
+    "prompt": "A non-dividend stock costs 100 and will be 120 or 80 after one year. Borrowing and lending are at zero interest with frictionless trading. A European call has strike 100. How is one call replicated?",
+    "correct": "Buy 0.5 shares and borrow 40.",
+    "wrong": [
+      "Buy one share and borrow 100.",
+      "Buy 0.5 shares and lend 40.",
+      "Buy 0.25 shares and borrow 20."
+    ],
+    "explanation": "The call pays 20 or 0. A half-share pays 60 or 40; subtracting repayment of 40 produces exactly those payoffs. The other portfolios produce respectively (20,\u221220), (100,80), and (10,0).",
+    "hint": "Solve two payoff equations for stock holdings and cash.",
+    "skill": "one-step call replication",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-07",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Binomial option price",
+    "prompt": "A stock costs 100 and pays no dividends. In one year it is 120 or 80; a European call has strike 100. With frictionless 5% annual borrowing and lending, what is the call price?",
+    "correct": "11.90, approximately.",
+    "wrong": [
+      "10.",
+      "12.50.",
+      "20."
+    ],
+    "explanation": "Risk-neutral up probability is (105\u221280)/40=0.625. Discounting the expected payoff gives 0.625(20)/1.05=11.90. The alternatives use zero-rate pricing, omit discounting, or use the maximum payoff as price.",
+    "hint": "Use the risk-neutral probability and discount the option payoff.",
+    "skill": "binomial option price",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-08",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Covered-call terminal payoff",
+    "prompt": "An investor owns one share and has written one call with strike 60 on that share. At expiration, ignoring initial costs and any dividends, what is the portfolio payoff when stock price is 75?",
+    "correct": "60.",
+    "wrong": [
+      "75.",
+      "90.",
+      "15."
+    ],
+    "explanation": "The share pays 75 while the written call costs 15, leaving 60. Ignoring the call gives 75, adding its payoff gives 90, and 15 is the call holder's payoff alone.",
+    "hint": "The written call subtracts max(S\u2212K,0) from the share's value.",
+    "skill": "covered-call terminal payoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-09",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Early exercise of a call",
+    "prompt": "An American call has a strictly positive strike. Its underlying stock pays no dividends; interest rates are strictly positive and markets have no taxes or trading frictions. For an in-the-money American call before expiration, what does standard no-arbitrage reasoning imply?",
+    "correct": "Early exercise is suboptimal because it sacrifices remaining optionality and pays the strike early.",
+    "wrong": [
+      "Early exercise is always optimal as soon as the call is in the money.",
+      "Early exercise is required because American options cannot be sold.",
+      "Early exercise becomes optimal solely because the strike is positive."
+    ],
+    "explanation": "Without dividends, holding or selling preserves time value and defers the strike payment. Being in the money does not require exercise; an American exercise right does not forbid resale; a positive strike creates a financing reason to wait.",
+    "hint": "Compare exercising now with retaining the option and the strike cash.",
+    "skill": "early exercise of a call",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u4-10",
+    "course": "financial-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Choosing a hedge direction",
+    "prompt": "A producer will sell 1,000 units of a commodity in three months and wants to lock its sale price using a forward on exactly the same commodity, quantity, and date. Ignore counterparty risk. Which position offsets its price exposure?",
+    "correct": "Short a forward for 1,000 units.",
+    "wrong": [
+      "Long a forward for 1,000 units.",
+      "Buy a call on 1,000 units, which guarantees a fixed sale price.",
+      "Take no position because future sales already fix the price."
+    ],
+    "explanation": "Physical sale revenue rises with spot price while the short-forward payoff falls by the same amount, locking revenue. A long forward doubles directional exposure; a purchased call does not impose a fixed sale price; an unpriced future sale remains exposed.",
+    "hint": "The hedge should gain when the price received for production falls.",
+    "skill": "choosing a hedge direction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-01",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Weak-form information set",
+    "prompt": "In the weak-form efficient-market hypothesis, which strategy is ruled out as a source of systematic risk-adjusted excess returns after trading costs?",
+    "correct": "A strategy using only past prices and trading volume.",
+    "wrong": [
+      "Every strategy using private information.",
+      "Every investment with a positive average return.",
+      "Every trade that is profitable after the fact."
+    ],
+    "explanation": "Weak-form efficiency concerns historical market data. It does not assert strong-form incorporation of private information, prohibit compensation for risk, or eliminate realized gains.",
+    "hint": "Identify which information set defines the weak form.",
+    "skill": "weak-form information set",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-02",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Public news and semi-strong efficiency",
+    "prompt": "Assume semi-strong efficiency and an unexpected public announcement with positive value implications. What price response is consistent with the hypothesis?",
+    "correct": "An immediate upward adjustment when the news becomes public.",
+    "wrong": [
+      "A predictable costless risk-adjusted gain available to everyone for weeks after the release.",
+      "No adjustment because efficient prices never change.",
+      "A guaranteed rise before the unanticipated news exists."
+    ],
+    "explanation": "Prices can react sharply to surprises. Persistent exploitable public-information delay conflicts with the premise; constant prices confuse efficiency with stability; advance certainty contradicts an unanticipated announcement.",
+    "hint": "Efficiency concerns incorporation of available information, not absence of news.",
+    "skill": "public news and semi-strong efficiency",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-03",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "An event-study abnormal return",
+    "prompt": "On an announcement day, a stock returns 4%. Its estimated benchmark model predicts 1.5% for that same day given realized market conditions. What is its model-based abnormal return?",
+    "correct": "2.5 percentage points.",
+    "wrong": [
+      "4 percentage points.",
+      "5.5 percentage points.",
+      "About 166.7%."
+    ],
+    "explanation": "Abnormal return is actual minus benchmark return: 4%\u22121.5%=2.5 percentage points. The alternatives ignore the benchmark, add it, or divide by it instead of subtracting.",
+    "hint": "Use the return difference, not a ratio.",
+    "skill": "an event-study abnormal return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-04",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "The joint-hypothesis problem",
+    "prompt": "A researcher rejects zero average abnormal returns using a particular asset-pricing benchmark. What can be concluded without further evidence?",
+    "correct": "The result challenges the joint combination of efficiency and the benchmark, not efficiency alone.",
+    "wrong": [
+      "Market inefficiency has been established independently of any pricing model.",
+      "The benchmark must be correct because returns were observed.",
+      "All financial markets are necessarily incomplete."
+    ],
+    "explanation": "Abnormal returns depend on the chosen expected-return model. Rejection may reflect inefficiency or a misspecified benchmark; observed returns do not validate that benchmark, and payoff spanning is a separate issue.",
+    "hint": "Ask how the researcher decided what normal return should have been.",
+    "skill": "the joint-hypothesis problem",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-05",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Gross versus net strategy returns",
+    "prompt": "A hypothetical trading rule earns 0.30% abnormal return per round trip before costs. Commissions and execution costs total 0.40% per round trip, measured on the same capital base. What is its net abnormal return per round trip?",
+    "correct": "\u22120.10%.",
+    "wrong": [
+      "+0.30%.",
+      "+0.70%.",
+      "\u22120.40%."
+    ],
+    "explanation": "Net abnormal return is 0.30%\u22120.40%=\u22120.10%. The alternatives omit costs, add costs as gains, or omit the gross return. A gross pattern alone does not establish a profitable anomaly.",
+    "hint": "Subtract all costs measured over the same trading interval.",
+    "skill": "gross versus net strategy returns",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-06",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Information acquisition incentives",
+    "prompt": "In a model, private research is costly and traders can profit only from information absent from current prices. If prices fully reveal all private information and there are no other benefits to research, what problem arises?",
+    "correct": "No trader has a private incentive to pay for the research needed to generate that information.",
+    "wrong": [
+      "Research costs automatically become zero.",
+      "Every trader earns larger information rents.",
+      "Full revelation logically proves that nobody ever researched in any prior period."
+    ],
+    "explanation": "Once prices reveal everything, paying for duplicative information yields no private gain under the stated assumptions. Costs need not vanish, information rents shrink rather than rise, and a static incentive problem is not a historical claim.",
+    "hint": "Compare the private gain from research with its positive cost.",
+    "skill": "information acquisition incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-07",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Limits to arbitrage",
+    "prompt": "A trader believes an asset is undervalued, but must finance the position using debt subject to margin calls. Why might the trader avoid a large position even if the valuation analysis is correct in the long run?",
+    "correct": "A further short-run price fall can force liquidation before convergence.",
+    "wrong": [
+      "Long-run undervaluation guarantees no interim losses.",
+      "Margin calls make every price discrepancy disappear instantly.",
+      "An undervalued risky asset is automatically a riskless arbitrage."
+    ],
+    "explanation": "Financing constraints create path-dependent loss and liquidation risk. A correct terminal valuation does not guarantee interim funding; margin pressure can impede convergence; perceived undervaluation is not a matched-payoff arbitrage.",
+    "hint": "Separate eventual convergence from the ability to hold the position until then.",
+    "skill": "limits to arbitrage",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-08",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Adverse selection in a quoted market",
+    "prompt": "A risk-neutral dealer faces some better-informed traders and earns no other revenue. Holding inventory and processing costs fixed, what effect can a higher probability of informed counterparties have on competitive bid-ask spreads in a standard adverse-selection model?",
+    "correct": "It can widen spreads to offset larger expected losses to informed traders.",
+    "wrong": [
+      "It must narrow spreads because informed traders are always easier to serve.",
+      "It removes adverse-selection losses because the dealer is risk neutral.",
+      "It forces bid and ask to equal the unconditional expected value."
+    ],
+    "explanation": "Risk neutrality removes compensation for variance but not expected trading losses. More informed order flow can require a wider spread; easier service does not offset informational disadvantage, and a single unconditional quote ignores selection.",
+    "hint": "Consider the dealer's expected value conditional on someone choosing to buy or sell.",
+    "skill": "adverse selection in a quoted market",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-09",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Bayesian updating from a signal",
+    "prompt": "A firm's value is high with prior probability one-half. A positive signal occurs with probability 0.8 if value is high and 0.2 if value is low. What is the posterior probability of high value after a positive signal?",
+    "correct": "0.8.",
+    "wrong": [
+      "0.5.",
+      "0.4.",
+      "1."
+    ],
+    "explanation": "Bayes' rule gives (0.8\u00d70.5)/(0.8\u00d70.5+0.2\u00d70.5)=0.8. The alternatives ignore the signal, report the joint probability rather than conditional probability, or treat a noisy signal as certainty.",
+    "hint": "Normalize the high-value positive-signal probability by all positive-signal probability.",
+    "skill": "bayesian updating from a signal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u5-10",
+    "course": "financial-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Predictability versus excess profit",
+    "prompt": "Expected returns vary predictably with a public state variable because that variable changes priced risk. If an appropriate risk model explains the variation and net risk-adjusted excess returns are zero, what follows?",
+    "correct": "Return predictability alone does not refute informational efficiency.",
+    "wrong": [
+      "Any predictable return necessarily proves a free arbitrage.",
+      "Efficiency requires the same expected return in every state.",
+      "The state variable must be private because it forecasts returns."
+    ],
+    "explanation": "Time-varying compensation for risk can generate predictable returns without abnormal profits. Predictability is not riskless arbitrage, efficiency need not imply constant required returns, and public variables can forecast risk.",
+    "hint": "Distinguish forecasting returns from earning returns beyond compensation for risk and costs.",
+    "skill": "predictability versus excess profit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-01",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Net present value",
+    "prompt": "A hypothetical project costs 100 now and pays a certain 60 at each of the next two year-ends. The matching effective annual opportunity cost is 10%. What is its NPV?",
+    "correct": "About 4.13.",
+    "wrong": [
+      "20.",
+      "About 104.13.",
+      "About 9.09."
+    ],
+    "explanation": "NPV is \u2212100+60/1.1+60/1.1\u00b2=4.1322. The alternatives ignore discounting, omit initial cost, or discount both receipts as if received in year 1.",
+    "hint": "Separate the initial outlay from the dated future receipts.",
+    "skill": "net present value",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-02",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Incremental versus sunk cost",
+    "prompt": "A company has already paid a nonrefundable 20 for a feasibility study. A project now requires 100 and will pay 115 in one year with certainty. The annual opportunity cost is 10%. No other effects exist. What is the project's NPV at the current decision date?",
+    "correct": "About +4.55.",
+    "wrong": [
+      "About \u221215.45.",
+      "+15.",
+      "About +24.55."
+    ],
+    "explanation": "The study cost is sunk, so current NPV is \u2212100+115/1.1=4.55. Subtracting 20 counts an unavoidable past cost; 15 ignores discounting; adding 20 treats the sunk outlay as a recoverable benefit.",
+    "hint": "Include only cash flows that change with today's decision.",
+    "skill": "incremental versus sunk cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-03",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Opportunity cost of owned land",
+    "prompt": "A firm owns land that can be sold today for 50. A project uses the land permanently, also costs 100 today, and yields one certain payment of 160 in one year. At a 10% annual discount rate with no taxes, what is NPV relative to selling the land and rejecting the project?",
+    "correct": "About \u22124.55.",
+    "wrong": [
+      "About +45.45.",
+      "+10.",
+      "About \u221254.55."
+    ],
+    "explanation": "Using the land forgoes 50 today, so NPV is \u2212150+160/1.1=\u22124.55. Ignoring owned-resource cost gives 45.45; ignoring discounting gives 10; subtracting the land twice gives \u221254.55.",
+    "hint": "Owned assets still have opportunity costs.",
+    "skill": "opportunity cost of owned land",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-04",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Two-year internal rate of return",
+    "prompt": "A conventional project costs 200 today and pays 242 exactly two years later, with no intermediate cash flows. What is its effective annual IRR?",
+    "correct": "10%.",
+    "wrong": [
+      "21%.",
+      "10.5%.",
+      "42%."
+    ],
+    "explanation": "Set 200=242/(1+r)\u00b2, giving r=10%. The two-year cumulative return is 21%; halving that misses compounding; 42 confuses the monetary gain with a percentage.",
+    "hint": "Find the annual rate that sets NPV to zero.",
+    "skill": "calculate an annual internal rate of return",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-05",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Scale and project ranking",
+    "prompt": "Two mutually exclusive one-year projects are equally risky, with a 10% discount rate. A costs 10 now and pays 13; B costs 100 now and pays 120. Capital is unconstrained. Which choice maximizes value?",
+    "correct": "Choose B because its NPV is about 9.09 versus A's 1.82.",
+    "wrong": [
+      "Choose A because its IRR is 30% versus B's 20%.",
+      "Choose A because smaller outlays always create more value.",
+      "Either project is equally good because both have positive NPV."
+    ],
+    "explanation": "NPV compares value added on a common date. B adds 120/1.1\u2212100=9.09 while A adds 13/1.1\u221210=1.82. Higher percentage return need not mean more value at different scales; outlay size alone does not rank projects; two positive NPVs need not be equal.",
+    "hint": "Compare discounted monetary gains, not just percentage returns.",
+    "skill": "scale and project ranking",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-06",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Weighted average cost of capital",
+    "prompt": "A firm targets market-value weights of 60% equity and 40% debt. Equity cost is 10%, pretax debt cost 5%, and the corporate tax rate 25%. Using the standard interest-tax-shield WACC formula, what is WACC?",
+    "correct": "7.5%.",
+    "wrong": [
+      "8%.",
+      "6%.",
+      "6.5%."
+    ],
+    "explanation": "WACC is 0.6(10%)+0.4(5%)(1\u22120.25)=7.5%. Ignoring the debt tax shield gives 8%; taxing both components gives 6%; applying the tax rate instead of one minus it gives 6.5%.",
+    "hint": "Apply the tax adjustment to the debt component only.",
+    "skill": "weighted average cost of capital",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-07",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Capital structure irrelevance",
+    "prompt": "Under Modigliani-Miller assumptions of no taxes, no bankruptcy or transaction costs, identical borrowing opportunities, and fixed operating cash flows, what does replacing equity with debt do to total firm value?",
+    "correct": "It leaves total firm value unchanged.",
+    "wrong": [
+      "It always raises firm value because debt has a lower required return.",
+      "It always lowers firm value because equity becomes riskier.",
+      "It doubles firm value whenever debt equals equity."
+    ],
+    "explanation": "Financing changes split a fixed operating payoff without creating value under these assumptions. Lower debt cost is offset by riskier equity; equity risk alone is not lost total value; a leverage ratio is not a value multiplier.",
+    "hint": "Separate the operating payoff from how claims on it are divided.",
+    "skill": "capital structure irrelevance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-08",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Leverage and equity risk",
+    "prompt": "In a no-tax Modigliani-Miller setting, the unlevered cost of capital is 8%, debt cost is 4%, and the market-value debt-equity ratio is 0.5. What is the levered equity cost?",
+    "correct": "10%.",
+    "wrong": [
+      "8%.",
+      "6%.",
+      "12%."
+    ],
+    "explanation": "The levered cost is rE=rA+(D/E)(rA\u2212rD)=8%+0.5(4%)=10%. The alternatives ignore leverage, reverse its sign, or use the entire asset return as the leverage premium.",
+    "hint": "Equity absorbs the residual risk after debt financing.",
+    "skill": "leverage and equity risk",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-09",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Debt overhang",
+    "prompt": "A distressed firm can undertake a new project costing shareholders 10 now. The present value of its incremental payoff is 15, of which 12 accrues to existing creditors and 3 to shareholders. No other effects exist. What explains shareholder rejection?",
+    "correct": "The project has positive total NPV but negative incremental shareholder NPV.",
+    "wrong": [
+      "The project has negative total NPV because creditors benefit.",
+      "Shareholders receive all 15 because they supply the new funds.",
+      "Positive total NPV guarantees shareholders will privately choose it."
+    ],
+    "explanation": "Total NPV is 15\u221210=5, but shareholders gain 3\u221210=\u22127. Existing creditor claims divert benefits; their benefit does not make the project negative in total financial value, and financing contributions do not automatically override existing priority.",
+    "hint": "Compare the total project surplus with the part captured by those paying the new cost.",
+    "skill": "debt overhang",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "financial-economics-u6-10",
+    "course": "financial-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Value of waiting",
+    "prompt": "A firm can invest 80 now for a payoff in one year of 120 or 40 with equal probability. Alternatively it can wait one year, observe which payoff opportunity is available, and then pay 80 for that immediate payoff or decline. Assume zero interest, no competition, and unchanged opportunity terms. What is the value at time zero of the wait-and-choose opportunity?",
+    "correct": "20.",
+    "wrong": [
+      "0.",
+      "40.",
+      "80."
+    ],
+    "explanation": "Waiting yields max(120\u221280,0)=40 in the high state and max(40\u221280,0)=0 in the low state, so value is 0.5(40)=20. Immediate commitment has expected NPV zero; 40 ignores the low-state probability; 80 is the unconditional gross payoff, not the option's net value.",
+    "hint": "Apply the investment decision separately after observing each state, then average.",
+    "skill": "value of waiting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/pages/calendar/",
+      "https://oyc.yale.edu/economics/econ-251"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

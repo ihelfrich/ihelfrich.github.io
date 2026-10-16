@@ -1,0 +1,50 @@
+---
+import {courses} from '../../../lib/econ-practice/curriculum.mjs';
+import Base from '../../../layouts/Base.astro';
+import '../../../styles/econ-practice.css';
+const api=import.meta.env.PUBLIC_ECON_API_URL??'';
+---
+<Base title="Economics instructor dashboard" description="Private economics response and assignment management." noindex excludeFromSearch>
+<div class="econ-practice" id="econ-instructor" data-api={api}>
+<header class="instructor-hero"><p class="eyebrow"><a href="/economics-practice/">Economics practice</a> / Instructor workspace</p><h1>Economics instructor workspace</h1><p class="intro">Review question content and response records, assign assessments, and evaluate calibration candidates.</p></header>
+<nav class="instructor-nav" aria-label="Instructor workspace"><a href="#irt-workbench">IRT workbench</a><span id="instructor-private-nav" hidden><a href="#question-library">Questions</a><a href="#response-ledger">Responses</a><a href="#assignment-builder">Assign</a><a href="#assignment-results">Results</a><a href="#calibration-candidates">Models</a></span></nav>
+<p id="instructor-status" role="status">Checking instructor access…</p>
+<p id="instructor-signin-help" hidden><a href="/economics-practice/#identity-controls">Sign in with your instructor account</a>, then return here to manage questions, responses and assessments.</p>
+<section id="irt-workbench" aria-labelledby="irt-heading">
+<h2 id="irt-heading">IRT data workbench</h2>
+<p>Inspect response records, screen a course and unit, and export a person-by-item matrix for R. Imported files stay in this browser tab; they are not uploaded. Live data require instructor access.</p>
+<div class="actions"><button id="irt-load-live" disabled>Load collected responses</button><label>Or open a response-ledger JSON file<input id="irt-file" type="file" accept=".json,application/json" /></label></div>
+<p id="irt-load-status" role="status">No response data loaded.</p>
+<form id="irt-analysis-form" hidden>
+<label>Dataset<select id="irt-scope" required></select></label>
+<label>Data provenance<select id="irt-provenance" required><option value="">Select data provenance</option><option value="collected">Collected participant responses</option><option value="synthetic">Synthetic or test responses</option></select></label>
+<div class="setup-grid"><label>Minimum people<input id="irt-min-persons" type="number" min="1" value="300" required /></label><label>Responses per item<input id="irt-min-item" type="number" min="1" value="100" required /></label><label>Items per person<input id="irt-min-person-items" type="number" min="1" value="3" required /></label></div>
+<label>Items to exclude from this analysis (one exact item ID per line)<textarea id="irt-excluded" rows="3"></textarea></label>
+<label>Reason for exclusions (required when excluding items)<textarea id="irt-exclusion-reason" rows="2" maxlength="2000" placeholder="For example: ambiguous wording identified in content review."></textarea></label>
+<p>Exclusions affect this analysis only. Original answers remain intact. Thresholds are screening choices, not proof of sufficient power or valid measurement.</p>
+<button type="submit">Analyze dataset</button></form>
+<p id="irt-analysis-status" role="status"></p>
+<div id="irt-results" hidden><div id="irt-summary"></div><h3>Exclusions and fit readiness</h3><div id="irt-exclusions"></div>
+<h3>Item diagnostics</h3><p id="irt-scroll-help">For wide tables, focus the table region and use the left and right arrow keys to scroll.</p><p>Facility describes the adaptively selected sample; it is not IRT difficulty. Working binomial intervals do not adjust for adaptive selection.</p><div id="irt-items" class="irt-table-scroll" role="region" aria-label="Item diagnostics table" aria-describedby="irt-scroll-help" tabindex="0"></div><button id="irt-more-items" class="secondary" hidden>Show more items</button>
+<details><summary>Inspect submitted answers</summary><div id="irt-answers" class="irt-table-scroll" role="region" aria-label="Submitted answers table" aria-describedby="irt-scroll-help" tabindex="0"></div><button id="irt-more-answers" class="secondary" hidden>Show more answers</button></details>
+<h3>Export for analysis</h3><div class="actions"><button id="irt-export-matrix">Download responses.csv</button><button id="irt-export-manifest">Download manifest.json</button><button id="irt-export-source">Download source ledger</button></div>
+<p>Save responses.csv and manifest.json together for the calibration workflow. Missing responses are blank, not zero. Person keys are pseudonymous, not anonymous. Keep these files private. Separately retained conflicting submissions never enter the IRT matrix.</p></div>
+</section>
+<div id="instructor-content" hidden>
+<section id="question-library" aria-labelledby="question-library-heading"><h2 id="question-library-heading">Question library</h2>
+<p>Inspect every current question, its answer key, and its explanation. Item counts include numerical variants; family counts show the distinct question structures. Release status is separate from recorded self-review and empirical validation.</p>
+<form id="question-library-form"><div class="setup-grid"><label>Course<select id="question-course"><option value="">All courses</option>{Object.entries(courses).map(([id,course])=><option value={id}>{course.name}</option>)}</select></label><label>Unit<input id="question-unit" type="number" min="1" step="1" placeholder="All units" /></label><label>Search questions<input id="question-search" type="search" maxlength="200" placeholder="Topic, wording, or item ID" /></label></div><button type="submit">Search question library</button></form>
+<p id="question-library-status" role="status">Search to load questions.</p><div id="question-library-results"></div><button id="question-library-more" class="secondary" hidden>Show more questions</button></section>
+<section id="response-ledger"><h2>Response ledger</h2><div id="ledger-summary"></div><button id="download-ledger">Download all response pages</button><p id="export-status" role="status"></p></section>
+<section id="calibration-candidates"><h2>Calibration candidates</h2><p>Upload a reviewed calibration package to retain its exact parameters and evidence. Registration does not approve the model or change student scoring.</p><form id="model-package-form"><label for="model-package-file">Candidate package (JSON, up to 1 MB)</label><input id="model-package-file" type="file" accept=".json,application/json" required /><button type="submit">Register candidate</button></form><p id="model-package-status" role="status"></p><h3>Saved candidates</h3><button id="model-directory-refresh" type="button" class="secondary">Refresh saved candidates</button><p id="model-directory-status" role="status">Load saved candidates to inspect earlier fits.</p><div id="model-directory"></div><button id="model-directory-more" type="button" class="secondary" hidden>Show more candidates</button></section>
+<section id="assignment-builder"><h2>Create an assignment</h2><form id="assignment-form">
+<label>Title<input name="title" type="text" maxlength="160" required/></label>
+<div class="setup-grid"><label>Course<select name="course">{Object.entries(courses).map(([id,course])=><option value={id}>{course.name}</option>)}</select></label>
+<label>Length policy<select name="stoppingPolicy" aria-describedby="assignment-length-help"><option value="fixed">Fixed question count</option><option value="unit-precision">Unit-wise precision (may finish early)</option></select></label><label>Questions<input type="number" name="itemCount" min="6" max="48" value="24" required/></label><label>Allowed attempts<input type="number" name="maxAttempts" min="1" max="10" value="1" required/></label></div>
+<p id="assignment-length-help">Fixed length uses the selected question count. Unit-wise precision uses Questions as a maximum and requires an approved calibration pinned to the session, at least 18 eligible answers overall, and at least 6 eligible distinct question families in every required unit. Each unit must have posterior SD ≤ 0.35 and posterior boundary mass &lt; 0.01. Provisional models keep the full question count. A six-unit assignment capped at 36 questions cannot finish early under this policy.</p>
+<label>Opens at (your browser’s local time)<input type="datetime-local" name="opensAt" required/></label><label>Closes at (your browser’s local time)<input type="datetime-local" name="closesAt" required/></label>
+<fieldset id="student-list"><legend>Signed-in students</legend></fieldset><button type="submit">Create assignment</button></form><p id="assignment-status" role="status"></p></section>
+<section id="assignment-results"><h2>Assignments</h2><div id="instructor-assignments"></div><div id="assignment-report"></div></section>
+</div></div>
+<script>import '../../../scripts/econ-instructor.mjs';</script>
+</Base>

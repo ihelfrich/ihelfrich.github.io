@@ -1,0 +1,1365 @@
+[
+  {
+    "id": "empirical-macroeconomics-u1-01",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Reconstructing a historical information set",
+    "prompt": "A forecast is dated March 15. February employment was released March 8, but February industrial production will be released March 18. Which inputs belong in a genuine real-time March 15 forecast?",
+    "correct": "The March 8 employment vintage, but not the March 18 industrial-production release.",
+    "wrong": [
+      "Both February series because they refer to the same month.",
+      "Neither series because March has not ended.",
+      "The latest revised values of both series downloaded years later."
+    ],
+    "explanation": "Observation dates and publication dates are different. Real-time prediction may use only information actually available by the forecast origin, with its then-current vintage.",
+    "hint": "Compare release dates with the forecast timestamp.",
+    "skill": "reconstructing a historical information set",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-02",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "A forecast error changes with the evaluation vintage",
+    "prompt": "A model predicts quarterly growth of 2.0 percent. The first release is 1.5 percent and the later benchmark estimate is 2.5 percent. Define error as actual minus forecast. What are the two errors?",
+    "correct": "−0.5 percentage points against the first release and +0.5 against the benchmark.",
+    "wrong": [
+      "+0.5 against the first release and −0.5 against the benchmark.",
+      "−0.5 against both releases.",
+      "+1.0 against the benchmark and zero against the first release."
+    ],
+    "explanation": "Subtract the same forecast from each target vintage. The evaluation question differs between predicting the first announcement and predicting a later estimate of activity.",
+    "hint": "Keep the forecast fixed while changing the stated target vintage.",
+    "skill": "a forecast error changes with the evaluation vintage",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-03",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Quarterly annualization",
+    "prompt": "Real output rises from 100 to 101 in one quarter. What exact annualized growth rate extrapolates that quarterly pace for four quarters?",
+    "correct": "100[(1.01)^4−1]≈4.0604 percent.",
+    "wrong": [
+      "Exactly 4 percent.",
+      "1 percent.",
+      "Approximately 0.25 percent."
+    ],
+    "explanation": "Annualization compounds the quarterly factor four times. It is not the observed year-over-year change unless the other three quarterly factors happen to match.",
+    "hint": "Raise the quarterly gross growth factor to the fourth power.",
+    "skill": "quarterly annualization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research",
+      "https://www.bea.gov/help/faq/122"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-04",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Converting a quarterly spending flow",
+    "prompt": "A national-accounts series reports government purchases of 800 billion at a seasonally adjusted annual rate in a quarter. What quarterly flow does that rate represent, ignoring rounding?",
+    "correct": "200 billion during the quarter.",
+    "wrong": [
+      "800 billion during the quarter.",
+      "3,200 billion during the quarter.",
+      "66.67 billion during the quarter."
+    ],
+    "explanation": "An annual-rate flow scales a quarter’s seasonally adjusted flow by four. A multiplier calculation must put spending and output in consistent frequency units.",
+    "hint": "Undo the annual-rate scaling before comparing quarterly amounts.",
+    "skill": "converting a quarterly spending flow",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-05",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Release revisions as news",
+    "prompt": "Suppose a first-release estimate Y1 equals E[Yfinal|I1], with square-integrable quantities and I1 the complete first-release information set. The revision is R=Yfinal−Y1. Which restriction follows?",
+    "correct": "E[R|I1]=0, so the revision is orthogonal to Y1.",
+    "wrong": [
+      "R must equal zero for every observation.",
+      "R is necessarily orthogonal to Yfinal.",
+      "Y1 and Yfinal must have equal variances."
+    ],
+    "explanation": "Under this news benchmark, the first release is the conditional expectation of the final target. The remaining revision is a forecast error relative to I1.",
+    "hint": "Apply iterated expectations to the conditional-expectation residual.",
+    "skill": "release revisions as news",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-06",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Release revisions as noise removal",
+    "prompt": "Suppose the first release is Y1=Yfinal+e, with e mean zero and independent of Yfinal, and both have finite variances. For R=Yfinal−Y1, what is Cov(R,Y1)?",
+    "correct": "−Var(e).",
+    "wrong": [
+      "Zero.",
+      "Var(e).",
+      "Var(Yfinal)."
+    ],
+    "explanation": "R=−e, so Cov(−e,Yfinal+e)=−Var(e). Predictable revisions from noisy preliminary estimates differ from the ideal news benchmark.",
+    "hint": "Substitute the noise representation into both revision and first release.",
+    "skill": "release revisions as noise removal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-07",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "An unbalanced monthly information set",
+    "prompt": "At a quarter’s end, a forecaster observes all three employment months, two industrial-production months and one retail-sales month. What does this ragged edge mean for estimation?",
+    "correct": "The model must respect series-specific missing releases instead of treating unavailable observations as known zeros.",
+    "wrong": [
+      "All missing observations should be coded zero because the quarter has ended.",
+      "Every series must have three observed months if they share a quarterly target.",
+      "Missing releases imply that their economic quantities are zero."
+    ],
+    "explanation": "Different release calendars create an unbalanced end of the data matrix. A missing observation is an information constraint, not a measured zero; mixed-frequency or missing-data methods can handle it.",
+    "hint": "Distinguish an unreleased quantity from an observed zero quantity.",
+    "skill": "an unbalanced monthly information set",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-08",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Chain-weighted component levels",
+    "prompt": "An analyst adds all published chain-volume expenditure components, including consumption, investment, government purchases and exports less imports, to reproduce a chain-volume GDP level away from the reference year. Why may the sum fail?",
+    "correct": "Chain-volume component levels are generally not additive away from the reference year.",
+    "wrong": [
+      "GDP has no expenditure components by definition.",
+      "The sum must work exactly in every year because all series are real.",
+      "Any discrepancy proves one component is fabricated."
+    ],
+    "explanation": "Changing relative-price weights in chained indexes can break additivity of component levels. Published contribution-to-growth measures or an appropriate index decomposition address a different, coherent accounting task.",
+    "hint": "Check the index-number construction before imposing nominal-accounting additivity on real levels.",
+    "skill": "chain-weighted component levels",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research",
+      "https://www.bea.gov/help/faq/79",
+      "https://apps.bea.gov/scb/issues/2020/08-august/0820-nipa-update.htm"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-09",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Seasonal adjustment and future information",
+    "prompt": "A historical backtest uses a seasonally adjusted series produced today by a two-sided filter that incorporates observations after every past forecast origin. What is the concern?",
+    "correct": "The transformed regressors can contain future information unavailable at the historical origins.",
+    "wrong": [
+      "Seasonal adjustment always removes all revision risk.",
+      "Two-sided filtering is necessarily invalid for retrospective descriptive analysis.",
+      "Using calendar dummies alone guarantees the same numerical series."
+    ],
+    "explanation": "A two-sided transformation can revise historical estimates as later data arrive. Real-time backtesting needs vintage-consistent transformations or an explicitly retrospective interpretation.",
+    "hint": "Trace the information used in constructing each transformed observation.",
+    "skill": "seasonal adjustment and future information",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u1-10",
+    "course": "empirical-macroeconomics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "A denominator revision in a debt ratio",
+    "prompt": "Debt is measured as 60 and initial nominal GDP as 100. A benchmark revision raises GDP to 105 without changing debt. What is the revised debt-to-GDP ratio?",
+    "correct": "About 57.14 percent, down 2.86 percentage points.",
+    "wrong": [
+      "65 percent, up 5 percentage points.",
+      "60 percent, unchanged.",
+      "55 percent, down 5 percentage points."
+    ],
+    "explanation": "The new ratio is 60/105≈0.57143. The ratio changes mechanically because its denominator changes; this does not establish a new borrowing or repayment transaction.",
+    "hint": "Hold the numerator fixed and recompute the ratio with the revised denominator.",
+    "skill": "a denominator revision in a debt ratio",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/",
+      "https://www.philadelphiafed.org/surveys-and-data/real-time-data-research"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-01",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Policy actions and policy innovations",
+    "prompt": "A central bank raises its policy rate in response to strong private forecasts of future output. Why is regressing subsequent output on the observed rate change not automatically an estimate of a contractionary policy shock’s effect?",
+    "correct": "The rate change combines an endogenous response to information with any exogenous policy innovation.",
+    "wrong": [
+      "Every announced rate change is randomly assigned.",
+      "Anticipated output cannot influence current policy choices.",
+      "A positive rate change rules out every nonmonetary shock."
+    ],
+    "explanation": "Systematic reactions to expected activity can correlate policy actions with the future outcome even without the causal policy channel of interest. Identification must isolate variation not driven by those outcome determinants.",
+    "hint": "Separate the policy rule’s predictable component from its disturbance.",
+    "skill": "policy actions and policy innovations",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-02",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "A recursive within-quarter restriction",
+    "prompt": "A quarterly recursive VAR orders output before the policy rate and interprets the policy innovation using that ordering. What contemporaneous restriction does it impose on output’s response to that innovation?",
+    "correct": "The identified policy shock has zero within-quarter impact on output.",
+    "wrong": [
+      "Output cannot respond at any future horizon.",
+      "The policy rate cannot respond contemporaneously to output innovations.",
+      "Output is excluded from the VAR."
+    ],
+    "explanation": "In the recursive impact matrix, earlier variables do not respond on impact to later shocks. Lagged transmission remains possible; the restriction is a maintained timing assumption at the chosen frequency.",
+    "hint": "Read which impact-matrix entries the ordering sets to zero.",
+    "skill": "a recursive within-quarter restriction",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-03",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Sign restrictions and a response range",
+    "prompt": "Several admissible structural models all satisfy the imposed signs for a monetary tightening, but imply year-two output responses ranging from −0.8 to −0.2 percent. What does reporting −0.5 percent as uniquely identified omit?",
+    "correct": "The imposed restrictions allow multiple response values rather than a single point.",
+    "wrong": [
+      "The sign restrictions have established that −0.5 is the true value.",
+      "All values in the range must have equal posterior probability.",
+      "A negative response range proves the shock was measured without error."
+    ],
+    "explanation": "A set of allowed responses describes identification uncertainty under the restrictions. Selecting a central value adds a summary rule or prior, not additional point-identifying information.",
+    "hint": "Distinguish the admissible set from a chosen representative element.",
+    "skill": "sign restrictions and a response range",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-04",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Normalizing a proxy-identified impact",
+    "prompt": "A valid scalar proxy Z is correlated only with one structural shock in reduced-form innovations (ur,uy). Cov(Z,ur)=0.20 and Cov(Z,uy)=−0.06. What output impact is identified when the shock is normalized to raise r by one unit?",
+    "correct": "−0.30 output units.",
+    "wrong": [
+      "−0.012 output units.",
+      "−3.333 output units.",
+      "+0.30 output units."
+    ],
+    "explanation": "Both covariances share the proxy’s covariance with the target shock. Their ratio cancels that common factor: −0.06/0.20=−0.30. The result is a relative impact, not a unit-variance shock without further normalization.",
+    "hint": "Divide the outcome covariance by the covariance for the normalization variable.",
+    "skill": "normalizing a proxy-identified impact",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-05",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Announcement surprises with information content",
+    "prompt": "Within a narrow central-bank announcement window, rates and equity prices both rise. Why might using the rate surprise as a pure tightening shock be problematic?",
+    "correct": "The announcement may also reveal favorable private information about the economy.",
+    "wrong": [
+      "A narrow window mechanically excludes every information effect.",
+      "Equity prices cannot react to expectations of future earnings.",
+      "Positive rate surprises always identify expansionary monetary policy."
+    ],
+    "explanation": "A short window reduces some confounding news but does not separate policy decisions from information revealed by the same announcement. Additional identifying restrictions are needed to distinguish those components.",
+    "hint": "Ask what other news the announcement itself can convey.",
+    "skill": "announcement surprises with information content",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-06",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Fiscal news before implementation",
+    "prompt": "A spending increase is credibly announced two years before purchases occur. Households and firms respond at announcement. What happens if an empirical design dates the shock only at the purchase increase?",
+    "correct": "It can misclassify anticipated implementation as a new shock and miss earlier responses.",
+    "wrong": [
+      "No response can occur until cash is spent under any model.",
+      "The announcement date and implementation date are econometrically interchangeable.",
+      "Adding future spending as a control always repairs anticipation without assumptions."
+    ],
+    "explanation": "Forward-looking decisions can react to news before realized purchases. The shock’s information arrival date must be distinguished from the spending-flow date.",
+    "hint": "Locate when expectations changed rather than only when the budget line changed.",
+    "skill": "fiscal news before implementation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-07",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "A long-run neutrality restriction",
+    "prompt": "A structural VAR identifies one demand shock by imposing zero long-run effect on the level of output. What is the correct interpretation?",
+    "correct": "The restriction is a maintained identifying assumption, not a result independently established by the estimated short-run response.",
+    "wrong": [
+      "The restriction proves that every demand shock has no short-run effect.",
+      "The data alone established neutrality before the restriction was imposed.",
+      "Long-run restrictions eliminate sensitivity to low-frequency specification."
+    ],
+    "explanation": "The assumption allocates permanent output movements to other shocks. Its credibility and the estimation of long-run dynamics must be assessed separately from the model’s fitted responses.",
+    "hint": "Separate information imposed on the model from information learned conditional on it.",
+    "skill": "a long-run neutrality restriction",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-08",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Heteroskedasticity without distinct variance shifts",
+    "prompt": "A two-shock system has constant impact matrix B and mutually uncorrelated shocks. Across two regimes, both shock variances rise by the same factor of four. Does this proportional covariance shift alone separate the two shocks?",
+    "correct": "No; the equal relative variance changes do not distinguish their impact directions.",
+    "wrong": [
+      "Yes; any change in total volatility uniquely labels both shocks.",
+      "Yes; fourfold variance growth identifies which shock is monetary.",
+      "No; heteroskedasticity can never aid structural identification."
+    ],
+    "explanation": "Both covariance matrices are proportional, leaving the same rotational ambiguity. Identification through variance shifts needs stronger conditions, such as distinct relative shifts and a stable impact matrix.",
+    "hint": "Check whether the second covariance adds direction-specific information.",
+    "skill": "heteroskedasticity without distinct variance shifts",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-09",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "A weak macro shock proxy",
+    "prompt": "An external instrument is substantively credible but has very weak covariance with the target policy innovation. What can happen to conventional proxy-based impulse-response inference?",
+    "correct": "Ratio estimates and normal confidence intervals can behave poorly despite credible exclusion.",
+    "wrong": [
+      "Credible exclusion guarantees a strong first stage.",
+      "Weak relevance makes the instrument necessarily endogenous.",
+      "A large number of VAR variables automatically fixes weak relevance."
+    ],
+    "explanation": "Exogeneity and relevance are separate requirements. A nearly zero normalization covariance makes ratios unstable, so weak-instrument-robust methods or different information may be needed.",
+    "hint": "Inspect the denominator that converts proxy covariances into relative responses.",
+    "skill": "a weak macro shock proxy",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u2-10",
+    "course": "empirical-macroeconomics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "News shocks outside the observed information set",
+    "prompt": "Agents observe a future productivity improvement before it affects current measured productivity, but the econometrician’s VAR omits the news signal. What is the identification concern?",
+    "correct": "The shock may not be recoverable from current and past observed VAR variables even though agents already respond.",
+    "wrong": [
+      "Agents can respond only to variables included in the econometrician’s dataset.",
+      "A longer sample necessarily reconstructs every omitted private signal.",
+      "Future productivity news cannot affect current asset prices."
+    ],
+    "explanation": "A gap between agents’ and the econometrician’s information can create noninvertibility relative to the observed variables. Adding a relevant forward-looking indicator may help but requires validation.",
+    "hint": "Compare the information driving private decisions with the information spanning the VAR innovations.",
+    "skill": "news shocks outside the observed information set",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-01",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Propagating an identified VAR impact",
+    "prompt": "A VAR(1) has transition matrix A=[[0.5,0.2],[0,0.4]]. An identified unit shock has impact vector b=(1,2)′ at horizon zero. What is the first variable’s response at horizon one?",
+    "correct": "0.9.",
+    "wrong": [
+      "0.5.",
+      "1.4.",
+      "0.4."
+    ],
+    "explanation": "The horizon-one vector is Ab=(0.5×1+0.2×2,0.4×2)′=(0.9,0.8)′. The off-diagonal coefficient transmits the initial second-variable response.",
+    "hint": "Multiply the transition matrix by the full impact vector.",
+    "skill": "propagating an identified var impact",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-02",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "A shock share of forecast-error variance",
+    "prompt": "At a two-quarter forecast horizon, an output variable has impulse coefficients (1,0.5) on one structural shock and (2,0) on a second. Both shocks are serially independent, mutually orthogonal and have unit variance. What share of the forecast-error variance is due to the first shock?",
+    "correct": "5/21≈23.81 percent.",
+    "wrong": [
+      "1/3≈33.33 percent.",
+      "1/5=20 percent.",
+      "5/9≈55.56 percent."
+    ],
+    "explanation": "The first shock contributes 1²+0.5²=1.25, and the second contributes 2²+0²=4. The share is 1.25/(1.25+4)=5/21. Orthogonality and unit variance justify adding squared response coefficients.",
+    "hint": "Square and sum each shock’s horizon coefficients before taking its share of the total.",
+    "skill": "a shock share of forecast-error variance",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-03",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "From growth responses to a level response",
+    "prompt": "A shock changes quarterly log-output growth by −0.01 at impact, −0.005 one quarter later and zero thereafter. What is the log-output level response after the second affected quarter, relative to the unshocked path?",
+    "correct": "−0.015.",
+    "wrong": [
+      "−0.005.",
+      "−0.010.",
+      "+0.015."
+    ],
+    "explanation": "A growth response is the first difference of the level response. Summing the two affected growth increments gives a persistent log-level displacement of −0.015 unless later growth offsets it.",
+    "hint": "Accumulate the growth increments over the relevant horizon.",
+    "skill": "from growth responses to a level response",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-04",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "A local-projection coefficient as an impulse response",
+    "prompt": "A local projection regresses Y_t+h on an observed structural innovation εt and sufficient predetermined controls. εt is mean independent of those controls and of other shocks affecting the outcome, and the conditional response is linear and stable. What does its εt coefficient represent?",
+    "correct": "The horizon-h response to a one-unit innovation under the maintained shock and specification assumptions.",
+    "wrong": [
+      "A causal response merely because the regression is called a local projection.",
+      "The response to a permanent unit increase in every future innovation.",
+      "The unconditional autocorrelation of Y at lag h."
+    ],
+    "explanation": "The shock’s exogeneity supplies the causal interpretation; the horizon-specific regression estimates its dynamic response. The method name alone does not establish identification.",
+    "hint": "Separate the identifying shock assumption from the regression used to estimate its effect.",
+    "skill": "a local-projection coefficient as an impulse response",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-05",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Overlapping forecast horizons",
+    "prompt": "In a quarterly local projection for Y_t+4, adjacent regression errors share some future shocks even when one-quarter structural innovations are serially independent. What inference issue follows?",
+    "correct": "The horizon regression errors can be serially correlated, requiring an inference method valid for that dependence.",
+    "wrong": [
+      "One-quarter shock independence guarantees independent four-quarter regression errors.",
+      "The coefficient is necessarily unidentified.",
+      "Using heteroskedasticity-only standard errors automatically handles every overlap."
+    ],
+    "explanation": "Adjacent horizon outcomes can contain common innovations, inducing dependence in residuals. Inference must match the estimator and dependence assumptions, rather than treating horizon observations as iid by default.",
+    "hint": "Write the two neighboring horizon errors in terms of future shocks.",
+    "skill": "overlapping forecast horizons",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-06",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "LP and VAR identification",
+    "prompt": "Two researchers use the same variables and same valid shock restrictions, one with local projections and one with a finite-lag VAR. Why can finite-sample impulse responses differ without different causal estimands?",
+    "correct": "They impose different dynamic approximation and estimation structures, creating different bias and variance.",
+    "wrong": [
+      "Local projections automatically identify a different economic intervention.",
+      "VARs are causal by construction while local projections never are.",
+      "Equal identification assumptions force numerically identical estimates in every finite sample."
+    ],
+    "explanation": "Under suitable population conditions the methods can target the same responses. Finite-lag restrictions and horizon-by-horizon estimation need not produce the same estimates in limited data.",
+    "hint": "Distinguish the target response from its finite-sample estimator.",
+    "skill": "lp and var identification",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-07",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Lag length and estimated precision",
+    "prompt": "A short-lag VAR gives narrow bands but omits relevant dynamics. Why is this not necessarily preferable to a longer-lag specification with wider bands?",
+    "correct": "Lower reported variance may come at the cost of approximation bias and distorted coverage.",
+    "wrong": [
+      "Narrower bands prove the omitted lags are irrelevant.",
+      "Extra lags always improve every finite-sample criterion.",
+      "An omitted lag cannot affect an impulse response beyond impact."
+    ],
+    "explanation": "Bands quantify uncertainty under a fitted specification. If its dynamics are misspecified, apparent precision can omit an important source of error; lag choice requires more than minimizing width.",
+    "hint": "Compare the model’s restrictions with the dynamics the data-generating process can contain.",
+    "skill": "lag length and estimated precision",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-08",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Defining the state before the shock",
+    "prompt": "A state-dependent policy-response model compares recessions with expansions. Why is a state indicator measured before the shock often preferable to classifying observations using future output?",
+    "correct": "Future output may itself respond to the shock, so conditioning on it can select on an outcome of the intervention.",
+    "wrong": [
+      "A predetermined indicator guarantees shock exogeneity by itself.",
+      "Future output is always measured without revision.",
+      "State dependence cannot be estimated with any macro time series."
+    ],
+    "explanation": "If the policy shock changes future recession status, sorting by that status changes who enters each regime partly because of the treatment. A pre-shock state defines the comparison without that particular post-shock selection.",
+    "hint": "Place the state variable on the intervention timeline.",
+    "skill": "defining the state before the shock",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-09",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Pointwise bands versus a response path",
+    "prompt": "Each of twenty impulse-response horizons has a pointwise 95 percent confidence interval. Does this imply 95 percent coverage of the entire true response path?",
+    "correct": "No; joint coverage of all horizons requires a simultaneous inference construction.",
+    "wrong": [
+      "Yes; the number of horizons has no effect on joint coverage.",
+      "Yes; adding the twenty coverage probabilities gives the joint probability.",
+      "No; every pointwise interval must therefore be invalid individually."
+    ],
+    "explanation": "Pointwise coverage concerns one prespecified horizon. Simultaneous coverage concerns all horizons together and depends on their joint distribution and multiple-comparison procedure.",
+    "hint": "Identify whether the probability statement concerns one coefficient or a vector.",
+    "skill": "pointwise bands versus a response path",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u3-10",
+    "course": "empirical-macroeconomics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Resampling an identified response",
+    "prompt": "A structural impulse response depends on estimated VAR coefficients and an estimated proxy normalization. A bootstrap resamples data but holds the original proxy normalization fixed. What uncertainty can it omit?",
+    "correct": "Sampling uncertainty in the normalization and its covariance with the estimated dynamics.",
+    "wrong": [
+      "All uncertainty in the observed sample size.",
+      "Only uncertainty about which calendar years exist.",
+      "No uncertainty, because normalizations are never estimated."
+    ],
+    "explanation": "An estimated normalization is part of the estimator. A bootstrap intended to approximate its full sampling law must reproduce the relevant estimation steps or otherwise account for the omitted uncertainty.",
+    "hint": "List every data-dependent component of the reported response.",
+    "skill": "resampling an identified response",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf",
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-01",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Recursive forecast evaluation",
+    "prompt": "A model is evaluated at successive quarterly forecast origins. Its coefficients and tuning parameters are selected once using the full dataset, including the evaluation years. Why is this not an honest historical out-of-sample experiment?",
+    "correct": "The selection step has used future outcomes that were unavailable at earlier forecast origins.",
+    "wrong": [
+      "A model must never update its parameters after initial estimation.",
+      "Quarterly observations cannot support out-of-sample evaluation.",
+      "Forecast errors are always zero when parameters use all data."
+    ],
+    "explanation": "Out-of-sample separation applies to tuning and model choice as well as coefficient fitting. Repeating the full procedure within each origin or a valid training scheme avoids that particular leakage.",
+    "hint": "Trace the data used by every fitting and selection step.",
+    "skill": "recursive forecast evaluation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-02",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Rolling versus expanding windows",
+    "prompt": "A researcher suspects a recent persistent change in an inflation equation. What tradeoff does a fixed-length rolling estimation window make relative to an expanding window?",
+    "correct": "It discards older observations to reduce exposure to obsolete relationships, at the cost of less estimation data.",
+    "wrong": [
+      "It always delivers lower forecast error under every data-generating process.",
+      "It uses more historical observations at each origin than an expanding window.",
+      "It guarantees parameters are stable within the retained window."
+    ],
+    "explanation": "A rolling window can adapt to change by omitting distant regimes, but increased sampling variability can offset that benefit. Its performance depends on the type and timing of instability.",
+    "hint": "Compare adaptability with the information lost by discarding observations.",
+    "skill": "rolling versus expanding windows",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-03",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Combining forecasts with imperfectly correlated errors",
+    "prompt": "Two unbiased forecasts have error variances 4 and 9 and error covariance 1. What is the error variance of their equal-weight average?",
+    "correct": "3.75.",
+    "wrong": [
+      "6.5.",
+      "3.25.",
+      "7.5."
+    ],
+    "explanation": "The combined error is (e1+e2)/2, with variance (4+9+2×1)/4=3.75. Diversification depends on covariance as well as each individual error variance.",
+    "hint": "Apply the covariance formula to the weighted error, not to the forecasts’ levels.",
+    "skill": "combining forecasts with imperfectly correlated errors",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-04",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "A variance-minimizing forecast weight",
+    "prompt": "Two unbiased forecast errors have variances 4 and 9 and covariance 1. A combination places weight w on forecast 1 and 1−w on forecast 2. What w minimizes error variance?",
+    "correct": "8/11≈0.727.",
+    "wrong": [
+      "1/2.",
+      "3/11≈0.273.",
+      "9/13≈0.692."
+    ],
+    "explanation": "Differentiating w²4+(1−w)²9+2w(1−w) gives w=(9−1)/(4+9−2)=8/11. The covariance matters; inverse-variance weights alone apply only when it is zero.",
+    "hint": "Differentiate the combined variance subject to the weights summing to one.",
+    "skill": "a variance-minimizing forecast weight",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-05",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Forecast-comparison dependence",
+    "prompt": "A loss differential between two quarterly four-step forecasts is serially correlated because their horizons overlap. What must a standard-error calculation for its average address?",
+    "correct": "The long-run covariance of the loss differential under the maintained forecast-comparison asymptotics.",
+    "wrong": [
+      "Only its contemporaneous variance, regardless of dependence.",
+      "The variance of the target series alone.",
+      "The number of estimated coefficients only, with no loss data."
+    ],
+    "explanation": "The average loss differential aggregates dependent observations. Its uncertainty depends on cross-time covariances; nested models or estimated tuning can also require special treatment beyond an off-the-shelf comparison.",
+    "hint": "Analyze dependence in the loss difference actually being averaged.",
+    "skill": "forecast-comparison dependence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-06",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Predictive density versus point prediction",
+    "prompt": "Model A and model B have identical conditional mean forecasts but different predictive variances. Can they have different logarithmic predictive scores on the same realized outcomes?",
+    "correct": "Yes; the score evaluates the density assigned to realizations, including dispersion.",
+    "wrong": [
+      "No; identical means imply identical predictive distributions.",
+      "No; predictive scores use only the sign of the forecast error.",
+      "Yes, but only if one model’s mean is biased."
+    ],
+    "explanation": "A density forecast describes more than its mean. Different dispersion assigns different probabilities to the observed outcomes even when point forecasts coincide.",
+    "hint": "Identify what probability the scoring rule evaluates.",
+    "skill": "predictive density versus point prediction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-07",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "A probability calibration check",
+    "prompt": "A recession model issues probability 0.30 in many comparable forecast instances. What is the calibration implication for the event frequency in that probability group?",
+    "correct": "It should be approximately 30 percent in a sufficiently informative evaluation sample.",
+    "wrong": [
+      "It should be zero because probabilities below one-half predict no recession.",
+      "It should be exactly 30 percent in every finite sample.",
+      "It should be 70 percent because recession is the adverse event."
+    ],
+    "explanation": "Calibration compares stated probabilities with observed frequencies. Finite-sample noise and dependence affect the precision of the check, and calibration alone does not establish sharp or useful predictions.",
+    "hint": "Compare probability statements with event frequencies, not with a classification threshold.",
+    "skill": "a probability calibration check",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-08",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Conditional scenarios and unconditional forecasts",
+    "prompt": "A forecast assumes the policy rate remains fixed for two years, even though the model’s estimated policy rule would normally respond to activity. What should accompany the forecast’s interpretation?",
+    "correct": "It is conditional on the imposed rate path and on how that path is implemented in the model.",
+    "wrong": [
+      "It is automatically the model’s unconditional forecast.",
+      "It is an identified causal policy experiment regardless of expectations or shock implementation.",
+      "Its uncertainty is zero because the rate path is fixed."
+    ],
+    "explanation": "An imposed instrument path changes the conditioning or intervention problem. Different anticipated policy shocks or rule changes can support the same path with different outcomes, so implementation matters.",
+    "hint": "Distinguish fixing an observed path from specifying the policy mechanism behind it.",
+    "skill": "conditional scenarios and unconditional forecasts",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-09",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Forecast encompassing",
+    "prompt": "In a valid evaluation sample, a forecast-combination regression finds that adding forecast B to forecast A improves prediction under a specified loss after accounting for estimation uncertainty. What does this suggest?",
+    "correct": "B contains incremental predictive information relative to A for that target and evaluation setting.",
+    "wrong": [
+      "B has identified an exogenous structural shock.",
+      "A must be biased in every population.",
+      "B is guaranteed to outperform A under every future regime and loss."
+    ],
+    "explanation": "Encompassing is about whether one forecast summarizes another’s useful predictive content. It does not identify structural mechanisms or establish universal superiority.",
+    "hint": "Keep the conclusion tied to the forecast target, loss and evaluation population.",
+    "skill": "forecast encompassing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u4-10",
+    "course": "empirical-macroeconomics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Error attribution from a forecasting failure",
+    "prompt": "An output forecast misses a downturn. Why is its residual not automatically a measured technology shock?",
+    "correct": "Forecast errors can combine several structural shocks, parameter error, model misspecification and data revisions.",
+    "wrong": [
+      "Every unexplained output movement is technology by definition.",
+      "A large forecast error proves the data are wrong.",
+      "A forecast model has no residual unless it is causal."
+    ],
+    "explanation": "A prediction residual is defined relative to an information set and model. Assigning it a structural label requires restrictions that distinguish the proposed mechanism from other sources.",
+    "hint": "List the distinct components that can produce the same prediction error.",
+    "skill": "error attribution from a forecasting failure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-01",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Filtering and smoothing an output gap",
+    "prompt": "A latent output gap at quarter t is estimated once using data through t and again using data through T>t under the same known state-space model. Which labels apply?",
+    "correct": "The first is a filtered estimate and the second a smoothed estimate.",
+    "wrong": [
+      "The first is smoothed and the second filtered.",
+      "Both are real-time estimates available at t.",
+      "Both must be identical because they estimate the same state."
+    ],
+    "explanation": "Filtering conditions on information available through the state’s date; smoothing incorporates later observations. A smoothed historical estimate cannot be treated as what policymakers knew in real time.",
+    "hint": "Compare the conditioning information sets, not the date of the latent state.",
+    "skill": "filtering and smoothing an output gap",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-02",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "A noisier indicator and its signal weight",
+    "prompt": "In a scalar Gaussian measurement update with positive prior state variance P fixed, measurement noise variance R rises while the observed innovation remains the same. What happens to the Kalman gain K=P/(P+R)?",
+    "correct": "It falls, reducing the state update’s response to that innovation.",
+    "wrong": [
+      "It rises because a noisier measurement contains more information.",
+      "It stays one for every positive R.",
+      "It becomes negative whenever R exceeds P."
+    ],
+    "explanation": "A larger R raises the denominator while holding the numerator fixed. The model places less weight on the less precise observation.",
+    "hint": "Differentiate the signal weight with respect to measurement-noise variance.",
+    "skill": "a noisier indicator and its signal weight",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-03",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Trend-cycle decomposition needs restrictions",
+    "prompt": "Observed log GDP satisfies yt=τt+ct, where both components are unobserved and no other restrictions are imposed. Is this equation alone enough to identify the trend and cycle separately?",
+    "correct": "No; many pairs of component paths generate the same observed series.",
+    "wrong": [
+      "Yes; one observed equation identifies any number of latent paths.",
+      "Yes; the trend is always exactly a straight line by definition.",
+      "No; GDP cannot be observed when its components are latent."
+    ],
+    "explanation": "For any path at, replacing τt by τt+at and ct by ct−at preserves yt. Dynamics, frequency restrictions, other measurements or priors are needed to distinguish components.",
+    "hint": "Look for transformations of the latent paths that leave observed output unchanged.",
+    "skill": "trend-cycle decomposition needs restrictions",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-04",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Noise identified from differenced covariances",
+    "prompt": "In yt=μt+εt and μt=μ_t−1+ηt, ε and η are mutually independent iid zero-mean sequences with variances R and Q. Population Var(Δyt)=5 and Cov(Δyt,Δy_t−1)=−1. What are R and Q?",
+    "correct": "R=1 and Q=3.",
+    "wrong": [
+      "R=3 and Q=1.",
+      "R=1 and Q=5.",
+      "R=−1 and Q=7."
+    ],
+    "explanation": "Δyt=ηt+εt−ε_t−1 gives lag-one covariance −R and variance Q+2R. Hence R=1 and Q=5−2=3.",
+    "hint": "Use the shared measurement error to recover R before solving the variance equation.",
+    "skill": "noise identified from differenced covariances",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-05",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Uncertainty after an informative measurement",
+    "prompt": "A scalar Gaussian state has prior variance P=4. It is measured with unit loading and independent mean-zero Gaussian measurement noise of variance R=6. What is its posterior variance after the measurement?",
+    "correct": "2.4.",
+    "wrong": [
+      "4.0.",
+      "6.0.",
+      "10.0."
+    ],
+    "explanation": "Posterior precision is 1/P+1/R, so posterior variance is PR/(P+R)=24/10=2.4. A noisy but informative measurement still reduces uncertainty relative to the prior.",
+    "hint": "Add precisions or apply (1−K)P.",
+    "skill": "uncertainty after an informative measurement",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-06",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Prediction variance between releases",
+    "prompt": "The latent state follows xt=0.8x_t−1+ηt with innovation variance 0.72 independent of past information. The previous filtered variance is 2. What is the next one-step prediction variance before a new observation?",
+    "correct": "2.0.",
+    "wrong": [
+      "2.72.",
+      "1.28.",
+      "2.32."
+    ],
+    "explanation": "Propagating uncertainty yields Ppred=0.8²×2+0.72=2. The state coefficient rescales variance quadratically, and process noise adds new uncertainty.",
+    "hint": "Square the transition coefficient before adding innovation variance.",
+    "skill": "prediction variance between releases",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-07",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "News from a release changes a nowcast",
+    "prompt": "Conditional on existing information, GDP and an upcoming indicator are jointly Gaussian. Their conditional covariance is 0.6, the indicator’s conditional variance is 0.4, and its release exceeds its prior forecast by 0.2. What is the GDP nowcast revision under this model?",
+    "correct": "+0.3 GDP units.",
+    "wrong": [
+      "+0.12 GDP units.",
+      "+0.08 GDP units.",
+      "+1.5 GDP units."
+    ],
+    "explanation": "The conditional update is Cov(GDP,indicator)/Var(indicator) times the indicator surprise: (0.6/0.4)×0.2=0.3. The covariance and variance must refer to the same pre-release information set.",
+    "hint": "Multiply the conditional signal coefficient by the genuinely new release information.",
+    "skill": "news from a release changes a nowcast",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-08",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "A common factor’s arbitrary scale",
+    "prompt": "A macro factor model is Xi,t=λi ft+ei,t. With no normalization on factor scale, why are numerical loadings not uniquely determined?",
+    "correct": "Multiplying ft by any nonzero c and dividing every λi by c preserves fitted common components.",
+    "wrong": [
+      "Every factor must have variance zero.",
+      "All loadings must equal one even if the data differ.",
+      "A factor’s name identifies its measurement units mathematically."
+    ],
+    "explanation": "Only the loading–factor products enter the observation equation. A variance or loading normalization fixes scale and often sign before individual loading magnitudes can be compared.",
+    "hint": "Find an observationally equivalent rescaling of the latent factor.",
+    "skill": "a common factor’s arbitrary scale",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-09",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "A monthly-flow measurement equation",
+    "prompt": "A quarterly total spending measure Qq equals the sum of three monthly flows m1,m2,m3 in consistent currency units. What linear measurement equation correctly links the quarterly observation to monthly states?",
+    "correct": "Qq=m1+m2+m3.",
+    "wrong": [
+      "Qq=(m1+m2+m3)/3.",
+      "Qq=m3 only.",
+      "Qq=12(m1+m2+m3)."
+    ],
+    "explanation": "A period total aggregates flows by summation. An average-rate target or a quarter-end stock would require a different observation equation, so frequency alone does not determine aggregation.",
+    "hint": "Identify whether the low-frequency target is a total flow, average rate or end-period stock.",
+    "skill": "a monthly-flow measurement equation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u5-10",
+    "course": "empirical-macroeconomics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "An output gap at the sample endpoint",
+    "prompt": "An output-gap estimate changes sharply after two more years of data arrive, even though the underlying historical GDP vintage is unchanged. What can explain this within a latent trend-cycle model?",
+    "correct": "Later observations change the inferred historical trend and cycle through smoothing.",
+    "wrong": [
+      "An unchanged historical GDP observation forces unchanged latent components.",
+      "Every revision must reflect a coding error.",
+      "The original filtered estimate necessarily used those later observations."
+    ],
+    "explanation": "The latent decomposition is conditional on a model and information set. New observations can alter past component estimates without changing the observed historical sum. Endpoint uncertainty therefore matters when assessing real-time policy.",
+    "hint": "Separate revisions to observed GDP from revisions to its latent decomposition.",
+    "skill": "an output gap at the sample endpoint",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-01",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "A cumulative fiscal multiplier",
+    "prompt": "An identified spending shock produces output responses of 2, 3 and 1 billion and government-purchase responses of 1, 2 and 1 billion over horizons zero through two. All are comparable quarterly flows, and discounting is omitted. What is the cumulative multiplier over these horizons?",
+    "correct": "1.5.",
+    "wrong": [
+      "2.0.",
+      "1.0.",
+      "6.0."
+    ],
+    "explanation": "The cumulative multiplier is the ratio of cumulative responses: (2+3+1)/(1+2+1)=6/4=1.5. It is not the average of the horizon-specific ratios.",
+    "hint": "Sum the flow responses before taking their ratio.",
+    "skill": "a cumulative fiscal multiplier",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-02",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Converting percent responses to a dollar multiplier",
+    "prompt": "At a given horizon, an identified fiscal shock raises output by 0.4 percent of baseline output and purchases by 2 percent of baseline purchases. Baseline purchases are 20 percent of baseline output. Using these exact percentage changes and the same period units, what is the ratio ΔY/ΔG?",
+    "correct": "1.0.",
+    "wrong": [
+      "0.2.",
+      "2.0.",
+      "5.0."
+    ],
+    "explanation": "ΔY=0.004Y and ΔG=0.02×0.20Y=0.004Y. Dividing raw percentage responses would ignore the different baseline quantities.",
+    "hint": "Convert both responses into the same baseline currency scale.",
+    "skill": "converting percent responses to a dollar multiplier",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-03",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Regional spending effects and national policy",
+    "prompt": "A study identifies how a region’s output responds to spending received relative to other regions, while national monetary policy and national taxes are held common by time effects. Why is its coefficient not automatically a national fiscal multiplier?",
+    "correct": "A national expansion can change common financing, monetary policy and cross-region equilibrium effects that the relative design holds fixed or differences out.",
+    "wrong": [
+      "Regional evidence contains no useful information about macroeconomic transmission.",
+      "National and regional multipliers are equal by the expenditure identity.",
+      "Time effects identify every possible aggregate policy counterfactual."
+    ],
+    "explanation": "A relative allocation experiment and an aggregate spending experiment are different interventions. Translating between them needs assumptions or a model for omitted common and spillover responses.",
+    "hint": "Compare the variation used for identification with the national intervention of interest.",
+    "skill": "regional spending effects and national policy",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-04",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Narrative tax classification",
+    "prompt": "A proposed tax-shock series codes a tax change as exogenous because an official document says it was motivated by long-run reform rather than near-term stabilization. What further issue must the researcher examine?",
+    "correct": "Whether the classified changes still correlate with expected macroeconomic conditions or other policies affecting outcomes.",
+    "wrong": [
+      "The stated motive alone proves statistical independence from every outcome determinant.",
+      "Narrative evidence can never contribute to identification.",
+      "A tax change has no effect unless its official motive is stabilization."
+    ],
+    "explanation": "Documents can support a causal design by revealing motives and timing, but their labels are evidence to assess rather than mathematical guarantees of exclusion or unpredictability.",
+    "hint": "Test the link between the stated classification and the required shock assumptions.",
+    "skill": "narrative tax classification",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-05",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Separating bank credit supply from borrower demand",
+    "prompt": "A firm borrows from two banks, one exposed to an external funding disruption and one not. A design compares their lending to that same firm at the same time using firm-time effects. What variation is it trying to isolate?",
+    "correct": "Differential lender credit supply while absorbing demand factors common to that firm-time pair.",
+    "wrong": [
+      "The firm’s aggregate demand increase, which necessarily differs across its banks by definition.",
+      "Every bank’s total effect on national GDP without additional aggregation assumptions.",
+      "The causal effect of loan demand on both banks automatically."
+    ],
+    "explanation": "The same-borrower comparison holds common firm demand conditions fixed and uses bank exposure variation. Its validity still requires the exposure and bank-specific borrower interactions to satisfy the design’s assumptions.",
+    "hint": "Identify what the firm-time comparison absorbs and what remains different across lenders.",
+    "skill": "separating bank credit supply from borrower demand",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-06",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "From an estimated shock response to a new policy rule",
+    "prompt": "An estimated impulse response measures a one-time unexpected rate increase under the historical policy regime. Why is it insufficient by itself to predict a permanent replacement of the policy rule?",
+    "correct": "A rule change can alter expectations and future responses, so the historical surprise experiment need not be invariant.",
+    "wrong": [
+      "Every one-time shock has the same effect as a permanent change in policy behavior.",
+      "Historical impulse responses are useless for every policy question.",
+      "Changing a rule cannot affect private forecasts if current rates initially match."
+    ],
+    "explanation": "The estimated experiment holds the surrounding regime implicit in the data. A counterfactual regime requires assumptions about expectation formation and the systematic response of policy, beyond repeating one historical surprise.",
+    "hint": "Compare the intervention in the study with the intervention in the counterfactual.",
+    "skill": "from an estimated shock response to a new policy rule",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-07",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "A banking panic and output timing",
+    "prompt": "In a historical episode, bank distress rises just before output falls. Why does this ordering alone not identify the output effect of distress?",
+    "correct": "Both may reflect prior worsening fundamentals or anticipated losses, even if measured distress appears first.",
+    "wrong": [
+      "Temporal ordering always establishes an exogenous cause.",
+      "Financial distress cannot affect real activity under any model.",
+      "Output data and bank records must have identical observation timing."
+    ],
+    "explanation": "Timing can be informative but does not eliminate common causes or anticipatory responses. A stronger design needs variation or restrictions that separate the credit mechanism from those alternatives.",
+    "hint": "Ask what information could drive both series before the measured decline.",
+    "skill": "a banking panic and output timing",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-08",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Inflation persistence and persistent shocks",
+    "prompt": "A fitted inflation series is highly persistent. Does that fact alone identify strong intrinsic price-setting inertia?",
+    "correct": "No; persistent driving shocks or policy behavior can generate persistent inflation without the same intrinsic propagation.",
+    "wrong": [
+      "Yes; the inflation autocorrelation equals a structural price-rigidity parameter by definition.",
+      "No model can generate persistent inflation from persistent disturbances.",
+      "The result proves that inflation expectations never matter."
+    ],
+    "explanation": "Observed persistence combines shock persistence, structural propagation and policy responses. Separating these components requires additional restrictions and information beyond a univariate autocorrelation.",
+    "hint": "Distinguish persistence in inputs from persistence created by the transmission mechanism.",
+    "skill": "inflation persistence and persistent shocks",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-09",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "A historical shock decomposition",
+    "prompt": "An identified VAR attributes most of a particular recession’s fitted output decline to one shock category. What is the correct status of this attribution?",
+    "correct": "It is conditional on the model, shock-identification restrictions, normalization and sample.",
+    "wrong": [
+      "It proves a model-free historical causal fact.",
+      "It is independent of which variables enter the VAR.",
+      "It establishes that all omitted mechanisms had zero effect."
+    ],
+    "explanation": "A historical decomposition propagates estimated identified shocks through estimated dynamics. Changing its identifying assumptions or information set can change the allocation of observed movements.",
+    "hint": "Trace which estimated and imposed objects enter the decomposition.",
+    "skill": "a historical shock decomposition",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "empirical-macroeconomics-u6-10",
+    "course": "empirical-macroeconomics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Selecting an impressive response horizon",
+    "prompt": "A researcher reports the largest statistically significant output response among many horizons and specifications after inspecting the results. What must an evidentiary assessment account for?",
+    "correct": "The search across horizons and specifications, rather than treating the selected interval as prespecified evidence.",
+    "wrong": [
+      "The selected nominal p-value automatically controls the entire search’s error rate.",
+      "Only the sign of the selected coefficient matters.",
+      "Searching many specifications guarantees the largest estimate is unbiased."
+    ],
+    "explanation": "Outcome-dependent selection can exaggerate effect size and evidence. Prespecification, transparent reporting and an appropriate simultaneous or selection-aware procedure address the distinction between a planned test and an exploratory search.",
+    "hint": "Include the selection rule in the inferential procedure being assessed.",
+    "skill": "selecting an impressive response horizon",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/cromer/e210c_f08/e210c.shtml",
+      "https://economics.mit.edu/sites/default/files/2025-03/lp_var_primer.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

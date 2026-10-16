@@ -1,0 +1,602 @@
+[
+  {
+    "id": "intro-econometrics-u1-q01",
+    "course": "intro-econometrics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Who is represented?",
+    "prompt": "A hypothetical city wants mean commute time for all employed residents. It surveys only riders boarding downtown buses at noon. Which problem most directly threatens that estimate?",
+    "correct": "The sampling frame excludes many employed residents with different commuting patterns.",
+    "wrong": [
+      "A mean cannot summarize commute times.",
+      "A larger sample from those same buses necessarily removes selection bias.",
+      "Commute times must be normally distributed for a population mean to exist."
+    ],
+    "explanation": "People using other modes, routes, or travel times are outside the frame. More observations within this frame do not establish population representativeness.",
+    "skill": "diagnose sampling frame",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u1-q02",
+    "course": "intro-econometrics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "What does the difference estimate?",
+    "prompt": "In a constructed survey, voluntary training participants earn $4 more per hour on average than nonparticipants. No assignment mechanism or controls are available. What does the difference directly describe?",
+    "correct": "An observed earnings association between participation groups.",
+    "wrong": [
+      "The average causal effect of training for all workers.",
+      "The causal effect for participants, because participation is observed.",
+      "The causal effect for nonparticipants if they were trained."
+    ],
+    "explanation": "The observed contrast combines any treatment effects with preexisting differences between groups. It does not by itself identify a causal effect.",
+    "skill": "distinguish association and estimand",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u1-q03",
+    "course": "intro-econometrics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Following the same firms",
+    "prompt": "A dataset follows the same 200 firms annually for five years. Which description is correct?",
+    "correct": "It is a panel, permitting measurement of changes within firms.",
+    "wrong": [
+      "It is a single cross section because firms are the units.",
+      "It is a repeated cross section with no firm linkage.",
+      "It necessarily identifies the causal effect of every changing firm characteristic."
+    ],
+    "explanation": "Repeated linked observations form a panel. Linkage permits within-firm comparisons but does not automatically remove time-varying confounding.",
+    "skill": "classify data structure",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u1-q04",
+    "course": "intro-econometrics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "The unobserved outcome",
+    "prompt": "For each worker, define Y(1) as earnings with training and Y(0) as earnings without training. A worker receives training. Under consistency, which outcome is observed?",
+    "correct": "Y(1); Y(0) remains counterfactual for that worker.",
+    "wrong": [
+      "Both Y(1) and Y(0), because treatment status is known.",
+      "Y(0); Y(1) is the untreated counterfactual.",
+      "Y(1) minus Y(0), directly measured by observed earnings."
+    ],
+    "explanation": "Consistency links the observed outcome to the potential outcome under the received treatment. The other potential outcome is not observed for the same worker in that setting.",
+    "skill": "identify counterfactual",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u1-q05",
+    "course": "intro-econometrics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Missing follow-up surveys",
+    "prompt": "A randomized job-search program has complete baseline data, but follow-up earnings are missing disproportionately for treated workers who lost jobs. An analyst compares earnings only among respondents. What is the main concern?",
+    "correct": "Conditioning on response may destroy the comparability created by random assignment.",
+    "wrong": [
+      "Random assignment guarantees unbiased comparisons after any observations are dropped.",
+      "The only consequence of missing outcomes is a smaller standard error.",
+      "Baseline balance proves that follow-up response is unrelated to earnings."
+    ],
+    "explanation": "Outcome-related differential attrition can select different types of workers into the observed treatment and control groups. Initial randomization does not guarantee comparability among respondents.",
+    "skill": "diagnose attrition",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u2-q01",
+    "course": "intro-econometrics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Reading a slope",
+    "prompt": "A constructed OLS regression predicts weekly grocery spending in dollars as 30 + 18 times household size. How should the slope be read?",
+    "correct": "One additional household member is associated with $18 higher predicted weekly spending.",
+    "wrong": [
+      "One additional dollar of spending predicts 18 more household members.",
+      "Every household spends exactly $18 per person.",
+      "Adding a household member causally raises spending by $30."
+    ],
+    "explanation": "The slope is the change in fitted spending for a one-unit change in household size. The regression alone does not establish causation.",
+    "skill": "interpret slope units",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u2-q02",
+    "course": "intro-econometrics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Computing a residual",
+    "prompt": "A fitted model predicts a shop’s daily sales as $700. Actual sales are $640. Using residual = actual minus fitted, what is the residual?",
+    "correct": "−$60",
+    "wrong": [
+      "$60",
+      "$640",
+      "$1,340"
+    ],
+    "explanation": "The residual is 640 − 700 = −60 dollars, so the model overpredicts this observation.",
+    "skill": "compute residual",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u2-q03",
+    "course": "intro-econometrics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "The OLS criterion",
+    "prompt": "An analyst fits a line with an intercept to apartment rent and floor area by ordinary least squares. Which quantity does OLS minimize?",
+    "correct": "The sum of squared vertical residuals in rent.",
+    "wrong": [
+      "The sum of absolute residuals in rent.",
+      "The sum of squared horizontal distances in floor area.",
+      "The number of observations with nonzero residuals."
+    ],
+    "explanation": "OLS minimizes squared differences between observed and fitted dependent-variable values. Absolute-error and horizontal-distance criteria define different fitting problems.",
+    "skill": "identify optimization criterion",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u2-q04",
+    "course": "intro-econometrics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "An intercept outside the data",
+    "prompt": "A regression fitted to adults aged 25–60 predicts earnings from age with an intercept. What is the safest interpretation of the intercept?",
+    "correct": "The fitted earnings at age zero, which is an extrapolation outside the observed ages.",
+    "wrong": [
+      "The mean earnings of the sampled adults.",
+      "The causal earnings gain from one additional year of age.",
+      "The observed earnings of newborns in this sample."
+    ],
+    "explanation": "The intercept evaluates the fitted line at age zero. No observations near zero support treating this extrapolation as a meaningful earnings estimate.",
+    "skill": "interpret extrapolation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u2-q05",
+    "course": "intro-econometrics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Changing measurement units",
+    "prompt": "A simple OLS regression with an intercept uses nonconstant annual earnings in dollars as its outcome. The analyst divides every earnings value by 1,000, leaving the regressor unchanged. What happens to the slope and R-squared?",
+    "correct": "The slope is divided by 1,000; R-squared is unchanged.",
+    "wrong": [
+      "The slope is unchanged; R-squared is divided by 1,000.",
+      "Both the slope and R-squared are divided by 1,000.",
+      "The slope is multiplied by 1,000; R-squared is unchanged."
+    ],
+    "explanation": "Outcome rescaling scales coefficients and residuals equally. The ratio of residual to total sums of squares is unchanged. Assume outcome variation is nonzero.",
+    "skill": "track units and fit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u3-q01",
+    "course": "intro-econometrics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Omitted ability",
+    "prompt": "Suppose the true wage equation is linear in schooling and ability, with an otherwise conditionally mean-zero error. Ability raises wages and is positively correlated with schooling. If ability is omitted, how does the population simple-regression schooling slope compare with the true schooling coefficient?",
+    "correct": "It is larger because omitted-variable bias is positive.",
+    "wrong": [
+      "It is smaller because omitted-variable bias is negative.",
+      "It is equal because OLS always removes confounding.",
+      "Its bias must be zero whenever the sample is large."
+    ],
+    "explanation": "The bias equals the ability coefficient times the slope from regressing ability on schooling. Both are positive under the stated assumptions.",
+    "skill": "sign omitted-variable bias",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u3-q02",
+    "course": "intro-econometrics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Holding included variables fixed",
+    "prompt": "A constructed regression predicts rent from floor area and distance to downtown. The floor-area coefficient is 2 dollars per square foot. What does it describe?",
+    "correct": "A $2 fitted rent difference per additional square foot at the same included distance.",
+    "wrong": [
+      "A $2 causal effect regardless of omitted housing quality.",
+      "A $2 fitted difference only when distance also rises by one mile.",
+      "A 2 percent rent increase for every square foot."
+    ],
+    "explanation": "A multiple-regression coefficient describes a partial fitted relationship holding other included regressors fixed. Causal interpretation requires additional assumptions.",
+    "skill": "interpret partial association",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u3-q03",
+    "course": "intro-econometrics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Controlling for a mediator",
+    "prompt": "A randomly assigned training program may raise earnings partly by improving skills. An analyst controls for skills measured after training to estimate the program’s total effect. What is the main conceptual problem?",
+    "correct": "The control can block part of the pathway included in the total effect.",
+    "wrong": [
+      "Randomization requires controlling for every variable measured after assignment.",
+      "A mediator is necessarily unrelated to treatment.",
+      "Adding a mediator guarantees a more accurate estimate of the total effect."
+    ],
+    "explanation": "The total effect includes effects transmitted through skills. Conditioning on post-treatment skills can remove that pathway and may introduce additional bias; it does not automatically identify a direct effect either.",
+    "skill": "recognize bad control",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u3-q04",
+    "course": "intro-econometrics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Perfect collinearity",
+    "prompt": "A regression includes an intercept and three mutually exclusive, exhaustive indicators for small, medium, and large firms. What prevents unique coefficient estimation?",
+    "correct": "The three indicators sum to the intercept column.",
+    "wrong": [
+      "Indicator variables cannot be used in OLS.",
+      "Each firm must belong to at least two categories.",
+      "The dependent variable must also have three categories."
+    ],
+    "explanation": "The columns are exactly linearly dependent. Omitting one category indicator, or using an appropriate alternative parameterization, removes this redundancy.",
+    "skill": "diagnose perfect collinearity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u3-q05",
+    "course": "intro-econometrics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Highly related controls",
+    "prompt": "In a correctly specified linear model, two included regressors are strongly but not perfectly correlated. Under the usual exogeneity assumption, what is a typical consequence?",
+    "correct": "Their separate coefficients may be estimated imprecisely without correlation itself causing bias.",
+    "wrong": [
+      "OLS cannot compute any coefficients.",
+      "The coefficients must both be biased upward.",
+      "Their standard errors must fall because the variables reinforce each other."
+    ],
+    "explanation": "Little independent variation makes separate effects difficult to distinguish. Imperfect multicollinearity is a precision issue, not by itself an exogeneity violation.",
+    "skill": "distinguish precision and bias",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u4-q01",
+    "course": "intro-econometrics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "A confidence interval",
+    "prompt": "A constructed large-sample regression reports a coefficient of 2.0 and a valid standard error of 0.5. Using 1.96 as the normal critical value, what is the approximate 95 percent confidence interval?",
+    "correct": "[1.02, 2.98]",
+    "wrong": [
+      "[1.50, 2.50]",
+      "[−0.98, 0.98]",
+      "[0.04, 3.96]"
+    ],
+    "explanation": "The interval is 2.0 ± 1.96 × 0.5, giving [1.02, 2.98]. This uses the stated large-sample approximation.",
+    "skill": "construct confidence interval",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u4-q02",
+    "course": "intro-econometrics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "What a p-value says",
+    "prompt": "For a prespecified two-sided test of a zero coefficient, an analyst obtains p = 0.03 using a valid test. What does this mean?",
+    "correct": "Under the null and maintained assumptions, results at least as extreme have probability 0.03.",
+    "wrong": [
+      "There is a 3 percent probability that the null hypothesis is true.",
+      "There is a 97 percent probability that the coefficient is economically large.",
+      "The estimated coefficient will equal the true coefficient in 97 percent of samples."
+    ],
+    "explanation": "A p-value is a probability of data extremeness under a null model, not a posterior probability of the hypothesis or a measure of practical importance.",
+    "skill": "interpret p-value",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u4-q03",
+    "course": "intro-econometrics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Unequal error variances",
+    "prompt": "In an otherwise correctly specified exogenous wage regression, error variance rises with schooling. For a large independent random sample, what is an appropriate response when estimating coefficient uncertainty?",
+    "correct": "Use heteroskedasticity-robust standard errors.",
+    "wrong": [
+      "Conclude that the OLS slope must be inconsistent solely because variance differs.",
+      "Use conventional homoskedastic standard errors because the sample is large.",
+      "Multiply the slope by its standard error to remove heteroskedasticity."
+    ],
+    "explanation": "With exogeneity, unequal conditional error variances do not alone invalidate the OLS point estimator. Robust standard errors address the relevant variance estimation problem under suitable large-sample conditions.",
+    "skill": "choose robust inference",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u4-q04",
+    "course": "intro-econometrics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Shared school shocks",
+    "prompt": "A school-level program is randomized across many independent schools. Student outcomes share school-specific shocks. Which approach addresses this within-school dependence when analyzing student-level data?",
+    "correct": "Cluster standard errors by school, with enough schools for the approximation.",
+    "wrong": [
+      "Treat every student as an independent randomization unit.",
+      "Cluster each student separately to account for school shocks.",
+      "Use smaller standard errors because there are many students per school."
+    ],
+    "explanation": "Assignment and common shocks occur at school level. School clustering allows residual dependence within schools; the number of independent schools matters for inference.",
+    "skill": "choose clustering level",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u4-q05",
+    "course": "intro-econometrics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Failure to reject",
+    "prompt": "An estimated employment effect is 1 percentage point with a 95 percent confidence interval from −4 to 6 points. What conclusion is warranted?",
+    "correct": "The data are compatible with zero and with some substantively nonzero effects.",
+    "wrong": [
+      "The true effect is exactly zero.",
+      "The program has been proved equivalent to no treatment within 1 point.",
+      "There is a 95 percent probability that this fixed true effect lies in the reported interval."
+    ],
+    "explanation": "The interval is too broad to establish a narrowly negligible effect. Failure to reject zero is not proof of zero or a successful equivalence test.",
+    "skill": "interpret imprecision",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u5-q01",
+    "course": "intro-econometrics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "A log outcome",
+    "prompt": "A fitted model is log(monthly rent) = a + 0.04 × bedrooms, where log means natural log. Holding other included regressors fixed, what is the exact percent change in the exponentiated fitted value for one more bedroom?",
+    "correct": "100 × (exp(0.04) − 1), approximately 4.08 percent.",
+    "wrong": [
+      "Exactly 0.04 percent.",
+      "Exactly $4.",
+      "100 × log(0.04), approximately −322 percent."
+    ],
+    "explanation": "A one-unit increase multiplies the exponentiated fitted value by exp(0.04). This is not automatically a change in conditional mean rent without addressing retransformation.",
+    "skill": "interpret log-level model",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u5-q02",
+    "course": "intro-econometrics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "An elasticity",
+    "prompt": "A fitted log-log model relates quantity demanded to price with coefficient −1.5. What does this coefficient represent for fitted quantity?",
+    "correct": "A price elasticity of −1.5: locally, a 1 percent price rise corresponds to about a 1.5 percent quantity decline.",
+    "wrong": [
+      "A $1 price rise corresponds to exactly 1.5 fewer units.",
+      "A 1 percent price rise corresponds to a 150 percent quantity decline.",
+      "A causal demand elasticity regardless of how prices were determined."
+    ],
+    "explanation": "A log-log slope is an elasticity of the fitted relationship. Its causal interpretation requires identification; the percent-change shorthand is local.",
+    "skill": "interpret elasticity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u5-q03",
+    "course": "intro-econometrics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "An interaction",
+    "prompt": "A fitted hourly-wage model is 10 + 2E + 3D + 0.5ED, where E is years of experience and D = 1 for a union member. What is the fitted experience slope for union members?",
+    "correct": "2.5 dollars per year of experience.",
+    "wrong": [
+      "2 dollars per year of experience.",
+      "3.5 dollars per year of experience.",
+      "5.5 dollars per year of experience."
+    ],
+    "explanation": "The experience slope is 2 + 0.5D. At D = 1 it is 2.5; the level coefficient on D does not enter this slope.",
+    "skill": "interpret interaction slope",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u5-q04",
+    "course": "intro-econometrics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Individual versus mean prediction",
+    "prompt": "In the usual homoskedastic normal-error linear regression model with positive error variance, compare the textbook prediction interval for one new household with the confidence interval for mean spending at the same covariates and confidence level. Which is wider?",
+    "correct": "The individual prediction interval, because it includes new outcome noise as well as estimation uncertainty.",
+    "wrong": [
+      "The mean confidence interval, because averages always vary more than individual outcomes.",
+      "They must be equal because the covariates are identical.",
+      "Neither interval can be computed unless the model is causal."
+    ],
+    "explanation": "Predicting an individual outcome adds its irreducible disturbance to uncertainty about the conditional mean. Causal identification is not required for this statistical prediction task.",
+    "skill": "distinguish prediction uncertainty",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u5-q05",
+    "course": "intro-econometrics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Choosing a forecasting model",
+    "prompt": "A retailer compares two sales models. Model A fits historical training data better, but Model B has lower squared prediction error on an untouched validation sample drawn from the deployment distribution. The objective is squared-error prediction. Which choice is best supported?",
+    "correct": "Model B, because its validation performance better measures the stated deployment objective.",
+    "wrong": [
+      "Model A, because training fit always determines future accuracy.",
+      "The model with more regressors, regardless of validation error.",
+      "Neither model can predict unless every regressor has a causal interpretation."
+    ],
+    "explanation": "Relevant out-of-sample performance targets generalization under the stated distribution and loss. Validation evidence is finite-sample evidence, not a guarantee of future dominance.",
+    "skill": "evaluate out-of-sample prediction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/pages/syllabus/"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u6-q01",
+    "course": "intro-econometrics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Randomized offers",
+    "prompt": "A job-coaching offer is randomly assigned. Some offered workers decline, and some controls obtain coaching elsewhere. With complete outcomes, no interference, and consistency, what does the difference in mean outcomes by assigned offer identify?",
+    "correct": "The intention-to-treat effect of being offered coaching.",
+    "wrong": [
+      "The average effect of actually receiving coaching for every worker.",
+      "The effect of coaching for participants without further assumptions.",
+      "No causal effect because compliance is imperfect."
+    ],
+    "explanation": "Randomization identifies the effect of assignment or offer. Noncompliance changes the interpretation; identifying receipt effects requires additional assumptions and methods.",
+    "skill": "identify intention-to-treat",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u6-q02",
+    "course": "intro-econometrics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Difference in differences",
+    "prompt": "In a synthetic two-period example, mean employment rises from 60 to 68 percent in a treated town and from 50 to 53 percent in a comparison town. What is the difference-in-differences estimate?",
+    "correct": "5 percentage points.",
+    "wrong": [
+      "8 percentage points.",
+      "15 percentage points.",
+      "11 percentage points."
+    ],
+    "explanation": "The estimate is (68 − 60) − (53 − 50) = 5 points. A causal interpretation additionally needs parallel untreated trends, no anticipation, and suitable absence of spillovers or composition changes.",
+    "skill": "compute difference in differences",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u6-q03",
+    "course": "intro-econometrics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "A cutoff design",
+    "prompt": "A scholarship is awarded exactly when an exam score reaches 80. To interpret the outcome discontinuity at 80 causally in a sharp regression discontinuity design, which condition is central?",
+    "correct": "Absent the scholarship, expected outcomes would vary continuously through the cutoff.",
+    "wrong": [
+      "Students above and below 80 must have identical outcomes at every score.",
+      "Exam scores must be unrelated to any outcome throughout the full sample.",
+      "The scholarship effect must be the same for students at every score."
+    ],
+    "explanation": "Continuity of untreated and treated potential-outcome expectations at the cutoff permits the local comparison. The central identifying restriction rules out other discontinuous changes; global comparability is unnecessary.",
+    "skill": "identify regression discontinuity assumption",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u6-q04",
+    "course": "intro-econometrics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "An instrument with a direct route",
+    "prompt": "An analyst proposes distance to a training center as an instrument for training participation. Suppose distance also changes access to employers directly, even holding training fixed. Which instrumental-variable requirement is threatened?",
+    "correct": "The exclusion restriction.",
+    "wrong": [
+      "The requirement that the instrument predicts participation, solely because it has a direct route.",
+      "The requirement that an outcome be measured in dollars.",
+      "The requirement that the first-stage coefficient equal one."
+    ],
+    "explanation": "The instrument must not affect the outcome through routes other than the treatment under the exclusion restriction. A direct employer-access pathway violates that restriction even if the instrument predicts training.",
+    "skill": "diagnose instrument validity",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft"
+  },
+  {
+    "id": "intro-econometrics-u6-q05",
+    "course": "intro-econometrics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "What fixed effects remove",
+    "prompt": "A panel regression includes firm fixed effects to study how a changing management practice relates to productivity. Which omitted factor is absorbed by firm fixed effects?",
+    "correct": "A firm-specific productivity component that is constant over the observed periods.",
+    "wrong": [
+      "Every firm-specific demand shock that changes over time.",
+      "Any reverse causality from current productivity to current management practice.",
+      "All nationwide time shocks without including time effects."
+    ],
+    "explanation": "Firm fixed effects absorb additive time-invariant firm components. Time-varying confounding, reverse causality, and common time shocks require further treatment.",
+    "skill": "scope fixed-effects control",
+    "sourceUrls": [
+      "https://economics.mit.edu/sites/default/files/inline-files/Syl32SP22r3.pdf"
+    ],
+    "reviewStatus": "draft"
+  }
+]

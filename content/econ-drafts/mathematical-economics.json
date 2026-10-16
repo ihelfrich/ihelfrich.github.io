@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "mathematical-economics-u1-01",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Solving an allocation system",
+    "prompt": "Two resource-balance equations are 2x+y=5 and x+3y=5, with x,y real. What allocation solves both equations?",
+    "correct": "x=2,y=1.",
+    "wrong": [
+      "x=1,y=2.",
+      "x=5,y=5.",
+      "No real solution exists."
+    ],
+    "explanation": "The coefficient determinant is 2×3−1×1=5, so the solution is unique. Substituting (2,1) gives 5 in both equations.",
+    "hint": "Eliminate one variable or invert the coefficient matrix.",
+    "skill": "solving an allocation system",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-02",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Redundant accounting equations",
+    "prompt": "A linear model imposes x+2y=3 and 2x+4y=6, with x,y real and no other constraints. What is its solution set?",
+    "correct": "Infinitely many points on x+2y=3.",
+    "wrong": [
+      "A unique point x=3,y=0.",
+      "No solution because the matrix is singular.",
+      "Every point in the plane."
+    ],
+    "explanation": "The second equation is twice the first, including its right-hand side. Rank is one, leaving one free variable; singularity need not mean inconsistency.",
+    "hint": "Check whether both sides of one equation are proportional to the other.",
+    "skill": "redundant accounting equations",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-03",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Inconsistent accounting equations",
+    "prompt": "A model requires x+2y=3 and 2x+4y=7 for real x,y. What follows?",
+    "correct": "No solution exists.",
+    "wrong": [
+      "There is a unique solution x=3,y=0.",
+      "All points satisfying the first equation also satisfy the second.",
+      "There are infinitely many solutions because the coefficient matrix is singular."
+    ],
+    "explanation": "Twice the first equation requires 2x+4y=6, contradicting 7. The augmented matrix has higher rank than the coefficient matrix.",
+    "hint": "Compare the implied right-hand sides after eliminating variables.",
+    "skill": "inconsistent accounting equations",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-04",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Eigenvalues of a transition matrix",
+    "prompt": "A two-state linear transition has matrix A=[[0.8,0],[0.1,0.5]], with column state vectors. What are its eigenvalues?",
+    "correct": "0.8 and 0.5.",
+    "wrong": [
+      "0.1 and 0.8.",
+      "1.3 and 0.4.",
+      "0.8 and −0.5."
+    ],
+    "explanation": "A is triangular, so its eigenvalues are its diagonal entries. The off-diagonal coefficient affects eigenvectors and transition coupling.",
+    "hint": "Use the characteristic determinant of a triangular matrix.",
+    "skill": "eigenvalues of a transition matrix",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-05",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Linear comparative statics",
+    "prompt": "The equilibrium system is 2x+y=b1 and x+3y=b2, with real variables. Holding b2 fixed, what is the response to a one-unit increase in b1?",
+    "correct": "x rises by 3/5 and y falls by 1/5.",
+    "wrong": [
+      "x rises by one and y is unchanged.",
+      "Both rise by 1/5.",
+      "x falls by 3/5 and y rises by 1/5."
+    ],
+    "explanation": "The inverse matrix is (1/5)[[3,−1],[−1,2]]. Its first column maps the change (1,0) in right-hand sides into equilibrium changes.",
+    "hint": "Apply the inverse coefficient matrix to the right-hand-side shock.",
+    "skill": "linear comparative statics",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-06",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Gross output and intermediate requirements",
+    "prompt": "A two-sector input-output model is q=Aq+d, where A=diag(0.2,0.4), d=(8,12) and q is gross output. What is q?",
+    "correct": "(10,20).",
+    "wrong": [
+      "(8,12).",
+      "(6.4,7.2).",
+      "(40,30)."
+    ],
+    "explanation": "Solving (I−A)q=d gives q1=8/0.8=10 and q2=12/0.6=20. Final demand differs from gross production because each sector uses intermediates.",
+    "hint": "Subtract intermediate requirements from gross output before matching final demand.",
+    "skill": "gross output and intermediate requirements",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-07",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Positive definite curvature",
+    "prompt": "For real vector z=(x,y), consider z′Az with A=[[2,1],[1,2]]. Which statement is correct?",
+    "correct": "It is strictly positive for every nonzero z.",
+    "wrong": [
+      "It is negative for every nonzero z.",
+      "It equals zero along the nonzero line x=y.",
+      "It is indefinite."
+    ],
+    "explanation": "The symmetric matrix has eigenvalues 1 and 3, both positive. Equivalently, its leading principal minors are 2 and 3.",
+    "hint": "Check eigenvalue signs or the positive-definite principal-minor criterion.",
+    "skill": "positive definite curvature",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-08",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Semidefinite versus definite",
+    "prompt": "Let f(x,y)=−(x+y)² on all of R². What does its Hessian imply?",
+    "correct": "f is concave but not strictly concave on R².",
+    "wrong": [
+      "f is strictly concave because both diagonal Hessian entries are negative.",
+      "f is convex and not concave.",
+      "f has positive definite Hessian."
+    ],
+    "explanation": "The Hessian [[−2,−2],[−2,−2]] has eigenvalues −4 and 0. The function is constant along each line with fixed x+y, which rules out strict concavity on the full domain.",
+    "hint": "Check the zero-curvature direction, not just diagonal entries.",
+    "skill": "semidefinite versus definite",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-09",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Projection onto a common component",
+    "prompt": "A vector of two observations is b=(3,1). Its Euclidean orthogonal projection onto span{(1,1)} is used to extract a common level. What is the projected vector?",
+    "correct": "(2,2).",
+    "wrong": [
+      "(3,1).",
+      "(1,−1).",
+      "(4,4)."
+    ],
+    "explanation": "The coefficient is ((1,1)·(3,1))/((1,1)·(1,1))=4/2=2. Multiplying the spanning vector gives (2,2); residual (1,−1) is orthogonal to it.",
+    "hint": "Compute the scalar projection coefficient before reconstructing the fitted vector.",
+    "skill": "projection onto a common component",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u1-10",
+    "course": "mathematical-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Affine feasible-set dimension",
+    "prompt": "The only restriction on (x,y,z)∈R³ is x+y+z=1. How should the feasible set be described?",
+    "correct": "A two-dimensional affine plane that is not a vector subspace.",
+    "wrong": [
+      "A three-dimensional vector subspace.",
+      "A one-dimensional line through the origin.",
+      "A single point."
+    ],
+    "explanation": "One independent equality removes one degree of freedom. The plane excludes the origin, so it is affine rather than a linear subspace.",
+    "hint": "Count independent restrictions and test whether the origin is feasible.",
+    "skill": "affine feasible-set dimension",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-01",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "A gradient with interacting inputs",
+    "prompt": "Let f(x,y)=x²y+ln y on x∈R,y>0. What is its gradient at (2,1), in the order (∂f/∂x,∂f/∂y)?",
+    "correct": "(4,5).",
+    "wrong": [
+      "(4,4).",
+      "(2,1).",
+      "(5,4)."
+    ],
+    "explanation": "The derivatives are 2xy and x²+1/y. At (2,1), these are 4 and 5. The logarithm requires y>0.",
+    "hint": "Differentiate separately with respect to each argument before substituting.",
+    "skill": "a gradient with interacting inputs",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-02",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Total change along a path",
+    "prompt": "Inputs follow x(t)=t² and y(t)=3t, and output is f(x,y)=xy. What is d f(x(t),y(t))/dt at t=2?",
+    "correct": "36.",
+    "wrong": [
+      "12.",
+      "24.",
+      "18."
+    ],
+    "explanation": "Along the path, output is 3t³, whose derivative is 9t². Evaluating at t=2 gives 36; both input changes matter.",
+    "hint": "Substitute the paths or apply the multivariate chain rule.",
+    "skill": "total change along a path",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-03",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Implicit tradeoff slope",
+    "prompt": "A feasible boundary satisfies x²+y²=25. Near (3,4), y is a differentiable function of x with y>0. What is dy/dx there?",
+    "correct": "−3/4.",
+    "wrong": [
+      "−4/3.",
+      "3/4.",
+      "−7."
+    ],
+    "explanation": "Differentiation gives 2x+2y y′=0, hence y′=−x/y=−3/4. The nonzero y derivative supports a local implicit function.",
+    "hint": "Differentiate the boundary while allowing y to change with x.",
+    "skill": "implicit tradeoff slope",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-04",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Implicit demand response",
+    "prompt": "A positive quantity q is locally defined by q²+pq−6=0. At p=1,q=2, what is dq/dp?",
+    "correct": "−2/5.",
+    "wrong": [
+      "−5/2.",
+      "2/5.",
+      "−2."
+    ],
+    "explanation": "The equation’s q derivative is 2q+p=5 and its p derivative is q=2. Implicit differentiation yields −q/(2q+p)=−2/5.",
+    "hint": "Use minus the parameter derivative divided by the endogenous-variable derivative.",
+    "skill": "implicit demand response",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-05",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Hessian test for a quadratic",
+    "prompt": "Consider f(x,y)=−x²−2y²+2xy on R². Which classification applies to the stationary point (0,0)?",
+    "correct": "A unique global maximum.",
+    "wrong": [
+      "A strict local minimum.",
+      "A saddle point.",
+      "A maximum only along x=0, with no joint optimum."
+    ],
+    "explanation": "The constant Hessian has first leading minor −2 and determinant 4, so it is negative definite. The function is strictly concave and the stationary point is its global maximum.",
+    "hint": "Check both Hessian principal minors rather than only the cross term.",
+    "skill": "hessian test for a quadratic",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-06",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Stationarity without optimality",
+    "prompt": "For f(x,y)=x²−y² on R², the gradient is zero at the origin. What is the origin?",
+    "correct": "A saddle point: increases occur along x and decreases along y.",
+    "wrong": [
+      "A global maximum.",
+      "A global minimum.",
+      "A point where f is not differentiable."
+    ],
+    "explanation": "Along y=0, f=x²>0 away from zero; along x=0, f=−y²<0. A zero gradient alone does not determine optimality.",
+    "hint": "Compare nearby values along two coordinate directions.",
+    "skill": "stationarity without optimality",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-07",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Second-order Taylor approximation",
+    "prompt": "Use the second-order Taylor polynomial of exp(x) around zero to approximate exp(0.1). What value results?",
+    "correct": "1.105.",
+    "wrong": [
+      "1.1.",
+      "1.01.",
+      "1.21."
+    ],
+    "explanation": "The polynomial is 1+x+x²/2. At 0.1 it is 1+0.1+0.005=1.105; this is an approximation, not an exact identity with exp(0.1).",
+    "hint": "Retain the quadratic term and its factorial denominator.",
+    "skill": "second-order taylor approximation",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-08",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Logarithmic sensitivity",
+    "prompt": "Demand is q(p)=3p^−2 for p>0. What is the signed point elasticity (dq/dp)(p/q)?",
+    "correct": "−2.",
+    "wrong": [
+      "−6.",
+      "2.",
+      "−2p."
+    ],
+    "explanation": "The derivative is −6p^−3. Multiplying by p/(3p^−2) cancels both scale and price powers, leaving −2.",
+    "hint": "Convert a level derivative into a proportional response.",
+    "skill": "logarithmic sensitivity",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-09",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Euler identity for homogeneous output",
+    "prompt": "For f(x,y)=√(xy) on x>0,y>0, what does x f_x+y f_y equal?",
+    "correct": "f(x,y).",
+    "wrong": [
+      "2f(x,y).",
+      "f(x,y)/2.",
+      "Zero."
+    ],
+    "explanation": "Each term equals √(xy)/2. Their sum is f, consistent with homogeneity of degree one. Positivity ensures the derivatives are well-defined.",
+    "hint": "Differentiate each input contribution and multiply by its input level.",
+    "skill": "euler identity for homogeneous output",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u2-10",
+    "course": "mathematical-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Envelope derivative",
+    "prompt": "For each real parameter a, define V(a)=max over x∈R of ax−x². What is V′(4)?",
+    "correct": "2.",
+    "wrong": [
+      "4.",
+      "8.",
+      "16."
+    ],
+    "explanation": "The unique maximizer is x*=a/2, and V(a)=a²/4. Thus V′(a)=a/2, giving 2 at a=4; it also equals the objective’s partial derivative with respect to a at the optimum.",
+    "hint": "Solve the optimizer or use the envelope derivative at the unique interior optimum.",
+    "skill": "envelope derivative",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-01",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Equality-constrained product maximization",
+    "prompt": "Maximize xy subject to x+y=10 and x,y≥0. Which allocation is globally optimal?",
+    "correct": "(5,5), giving value 25.",
+    "wrong": [
+      "(10,0), giving value 0.",
+      "(0,10), giving value 0.",
+      "Every feasible point gives the same value."
+    ],
+    "explanation": "Substitute y=10−x to get 10x−x² on [0,10]. This strictly concave quadratic is maximized at x=5, and both endpoints yield zero.",
+    "hint": "Reduce the problem to one variable and check the boundary.",
+    "skill": "equality-constrained product maximization",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-02",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Multiplier sign convention",
+    "prompt": "Minimize x²+y² subject to x+y=6, with real x,y. Use L=x²+y²+λ(6−x−y). What is the multiplier at the optimum?",
+    "correct": "λ=6.",
+    "wrong": [
+      "λ=−6.",
+      "λ=3.",
+      "λ=0."
+    ],
+    "explanation": "Stationarity gives 2x=λ and 2y=λ. The constraint yields x=y=3, so λ=6 under the specified Lagrangian sign.",
+    "hint": "Use the stated sign convention rather than memorizing a multiplier sign.",
+    "skill": "multiplier sign convention",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-03",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Logarithmic allocation and shadow value",
+    "prompt": "Maximize ln x+ln y subject to 2x+y≤12 and x,y>0. Use L=ln x+ln y+λ(12−2x−y), λ≥0. What is the optimum including the resource multiplier?",
+    "correct": "x=3,y=6,λ=1/6.",
+    "wrong": [
+      "x=6,y=0,λ=0.",
+      "x=4,y=4,λ=1/4.",
+      "x=3,y=6,λ=6."
+    ],
+    "explanation": "Monotonicity makes the budget bind. Stationarity gives 1/x=2λ and 1/y=λ, hence y=2x and 4x=12; λ=1/6. Strict concavity gives uniqueness.",
+    "hint": "Combine the two first-order conditions with the binding resource constraint.",
+    "skill": "logarithmic allocation and shadow value",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-04",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Binding upper constraint",
+    "prompt": "Maximize −(x−3)² on 0≤x≤2. Use L=−(x−3)²+λ(2−x)+μx with λ,μ≥0. What are x*,λ,μ?",
+    "correct": "x*=2,λ=2,μ=0.",
+    "wrong": [
+      "x*=3,λ=0,μ=0.",
+      "x*=2,λ=0,μ=2.",
+      "x*=0,λ=2,μ=0."
+    ],
+    "explanation": "The unconstrained maximum 3 is infeasible; the function rises up to the upper endpoint 2. Stationarity there is 2−λ+μ=0, and the slack lower constraint implies μ=0.",
+    "hint": "Find the active constraint, then use complementary slackness and stationarity.",
+    "skill": "binding upper constraint",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-05",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Slack constraint and zero multiplier",
+    "prompt": "Maximize −(x−1)² subject to x≤2, with x real. Use L=−(x−1)²+λ(2−x), λ≥0. What is the solution?",
+    "correct": "x*=1 and λ=0.",
+    "wrong": [
+      "x*=2 and λ=1.",
+      "x*=1 and λ=1.",
+      "No maximum exists because the feasible set is unbounded."
+    ],
+    "explanation": "The unconstrained maximizer 1 is feasible. The inequality is slack, so complementary slackness sets λ=0; unboundedness of the set does not prevent this objective from attaining a maximum.",
+    "hint": "Check whether the unconstrained maximizer already satisfies the inequality.",
+    "skill": "slack constraint and zero multiplier",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-06",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Complementary slackness interpretation",
+    "prompt": "For a maximization problem with constraint g(x)≥0 and multiplier λ≥0 in L=f(x)+λg(x), a candidate satisfies λg(x)=0. If g(x)=4, what must λ equal?",
+    "correct": "Zero.",
+    "wrong": [
+      "Four.",
+      "Any strictly positive number.",
+      "One fourth."
+    ],
+    "explanation": "A strictly positive slack multiplied by a nonnegative multiplier can equal zero only when the multiplier is zero. The condition alone does not establish optimality.",
+    "hint": "Apply the product restriction to a strictly slack constraint.",
+    "skill": "complementary slackness interpretation",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-07",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "A boundary maximum without a zero derivative",
+    "prompt": "Maximize √x over x∈[0,4]. Which statement is correct?",
+    "correct": "The maximum is at x=4 even though the derivative there is positive.",
+    "wrong": [
+      "No maximum exists because the derivative never equals zero in the interior.",
+      "The maximum is at x=0 because the derivative is undefined there.",
+      "Every point has the same objective value."
+    ],
+    "explanation": "The function is increasing throughout the feasible interval, so the upper endpoint is optimal. A zero interior derivative is not a necessary condition for a constrained boundary optimum.",
+    "hint": "Check monotonicity and feasible endpoints rather than searching only for interior stationarity.",
+    "skill": "a boundary maximum without a zero derivative",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-08",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Constraint qualification failure",
+    "prompt": "Maximize x over real x subject to x²≤0. The only feasible point is x=0. Using L=x−λx², λ≥0, what happens to the usual differentiable KKT stationarity condition at the optimum?",
+    "correct": "No multiplier satisfies stationarity, illustrating failure of a constraint qualification.",
+    "wrong": [
+      "Every nonnegative multiplier satisfies stationarity.",
+      "The feasible point is not an optimum.",
+      "The optimum is x=1."
+    ],
+    "explanation": "At x=0, ∂L/∂x=1−2λx=1 for every λ. The constraint gradient is zero, so standard constraint qualifications fail and KKT need not be necessary.",
+    "hint": "Evaluate both the feasible set and the constraint gradient at zero.",
+    "skill": "constraint qualification failure",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-09",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Linear objective on a ball",
+    "prompt": "Maximize x+y subject to x²+y²≤1 and x,y≥0. What is the unique maximizing point?",
+    "correct": "(1/√2,1/√2).",
+    "wrong": [
+      "(1,1).",
+      "(1,0).",
+      "(0,0)."
+    ],
+    "explanation": "Cauchy–Schwarz gives x+y≤√2√(x²+y²)≤√2. Equality requires x=y≥0 on the unit circle, giving the stated point.",
+    "hint": "Compare the objective direction with the radius constraint.",
+    "skill": "linear objective on a ball",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u3-10",
+    "course": "mathematical-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Multiple boundary optima",
+    "prompt": "Minimize xy subject to x+y=1 and x,y≥0. What is the set of global minimizers?",
+    "correct": "Exactly (0,1) and (1,0).",
+    "wrong": [
+      "Only (1/2,1/2).",
+      "Every feasible point.",
+      "No minimizer exists."
+    ],
+    "explanation": "On the feasible interval, xy=x(1−x)≥0 and equals zero only at x=0 or x=1. The interior stationary point instead maximizes the product.",
+    "hint": "Evaluate endpoint values and identify whether the interior critical point is a minimum or maximum.",
+    "skill": "multiple boundary optima",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-01",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "A convex production requirement",
+    "prompt": "Consider the feasible set S={(x,y):x>0,y>0,xy≥1}. Is S convex?",
+    "correct": "Yes; it is the epigraph y≥1/x on the positive x domain.",
+    "wrong": [
+      "No; any set defined by a product is nonconvex.",
+      "No; the midpoint of (1,1) and (2,1/2) violates the constraint.",
+      "Yes only if x=y is also imposed."
+    ],
+    "explanation": "The function 1/x is convex for x>0 because its second derivative is 2/x³>0. Its epigraph is convex; positivity of y follows from y≥1/x.",
+    "hint": "Rewrite the constraint as an epigraph of a one-variable function.",
+    "skill": "a convex production requirement",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-02",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "A disconnected feasible set",
+    "prompt": "For S={x∈R:x²≥1}, what demonstrates that S is not convex?",
+    "correct": "−1 and 1 belong to S, but their midpoint 0 does not.",
+    "wrong": [
+      "Every point in S has a positive square.",
+      "S contains more than one point.",
+      "S is described by an inequality."
+    ],
+    "explanation": "Convexity requires every segment between feasible points to stay in the set. The segment between −1 and 1 crosses infeasible points.",
+    "hint": "Find two feasible endpoints with an infeasible weighted average.",
+    "skill": "a disconnected feasible set",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-03",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Strict concavity and existence",
+    "prompt": "An objective is strictly concave on a nonempty convex feasible set, which is not assumed compact. What follows without further assumptions?",
+    "correct": "There is at most one maximizer, but a maximizer need not exist.",
+    "wrong": [
+      "A unique maximizer necessarily exists.",
+      "Every stationary point is a minimum.",
+      "The feasible set must be bounded."
+    ],
+    "explanation": "Two different maximizers would contradict strict concavity at their midpoint. Existence requires separate conditions; for example, a supremum on an open set may not be attained.",
+    "hint": "Separate uniqueness conditional on attainment from existence.",
+    "skill": "strict concavity and existence",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-04",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Existence on a compact set",
+    "prompt": "A real-valued objective is continuous on a nonempty compact subset of finite-dimensional Euclidean space. What is guaranteed?",
+    "correct": "It attains both a maximum and a minimum.",
+    "wrong": [
+      "Its maximizer is unique.",
+      "Its maximizer lies in the interior.",
+      "It is differentiable everywhere."
+    ],
+    "explanation": "The extreme-value theorem ensures attainment of both extrema. Neither uniqueness, interiority nor differentiability follows from continuity and compactness.",
+    "hint": "Identify exactly what compactness and continuity deliver.",
+    "skill": "existence on a compact set",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-05",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Supremum versus maximum",
+    "prompt": "Maximize f(x)=x over the open interval 0<x<1. Which statement is correct?",
+    "correct": "The supremum is 1, but no feasible point attains it.",
+    "wrong": [
+      "The maximum is attained at x=1.",
+      "The supremum is zero.",
+      "The maximum is attained at x=1/2."
+    ],
+    "explanation": "Values can approach 1 arbitrarily closely, but 1 is not feasible. Every feasible x can be improved by another point closer to 1.",
+    "hint": "Check whether the boundary value belongs to the domain.",
+    "skill": "supremum versus maximum",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-06",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Strict Jensen inequality",
+    "prompt": "Let utility be ln c for c>0. Compare ln((1+4)/2) with (ln 1+ln 4)/2. Which is correct?",
+    "correct": "ln(2.5) is strictly larger than ln 2.",
+    "wrong": [
+      "They are equal because logarithms are linear.",
+      "ln(2.5) is strictly smaller than ln 2.",
+      "The comparison is undefined because ln 1 does not exist."
+    ],
+    "explanation": "The average consumption is 2.5; average log consumption is ln 2. Strict concavity makes utility of the nondegenerate mean strictly greater than mean utility.",
+    "hint": "Keep the logarithm outside versus inside the average distinct.",
+    "skill": "strict jensen inequality",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-07",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Expenditure with perfect substitutes",
+    "prompt": "Minimize wx+ry subject to x+y≥q and x,y≥0, where w,r,q>0. At w=2,r=5,q=3, what is the minimum expenditure and minimizing bundle?",
+    "correct": "Cost 6 at (x,y)=(3,0).",
+    "wrong": [
+      "Cost 15 at (0,3).",
+      "Cost 10.5 at (1.5,1.5).",
+      "Cost zero at (0,0)."
+    ],
+    "explanation": "Each input supplies one unit of the requirement, so only the cheaper input is used when prices differ. The general cost is q min(w,r), which has a kink when prices tie.",
+    "hint": "Compare cost per unit of the identical contribution to the constraint.",
+    "skill": "expenditure with perfect substitutes",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-08",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Convex conjugate",
+    "prompt": "For f(x)=x²/2 on R, define f*(p)=sup over x∈R of px−f(x), with p real. What is f*(p)?",
+    "correct": "p²/2.",
+    "wrong": [
+      "−p²/2.",
+      "p².",
+      "Infinity for every nonzero p."
+    ],
+    "explanation": "The expression is a strictly concave quadratic in x, maximized at x=p. Substitution gives p²−p²/2=p²/2.",
+    "hint": "Optimize over x while treating p as a fixed parameter.",
+    "skill": "convex conjugate",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-09",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Primal-dual optimality certificate",
+    "prompt": "Consider max 3x+2y subject to x+y≤4, x≤2 and x,y≥0. Its dual is min 4λ+2μ subject to λ+μ≥3, λ≥2 and λ,μ≥0. What do primal candidate (x,y)=(2,2) and dual candidate (λ,μ)=(2,1) establish?",
+    "correct": "Both are feasible with equal objective 10, certifying optimality by weak duality.",
+    "wrong": [
+      "The primal is infeasible because y exceeds μ.",
+      "A duality gap of 2 remains.",
+      "Equal objectives certify optimality even if feasibility is ignored."
+    ],
+    "explanation": "The primal uses resources 4 and 2; dual inequalities hold at 3 and 2. Both values are 10, so the primal lower bound and dual upper bound coincide.",
+    "hint": "Check both candidates’ feasibility before comparing objective values.",
+    "skill": "primal-dual optimality certificate",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u4-10",
+    "course": "mathematical-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Continuous value with a kink",
+    "prompt": "Let V(a)=max over x∈[0,1] of ax, where a∈R. What is true at a=0?",
+    "correct": "V is continuous but not differentiable there, and every x∈[0,1] is optimal.",
+    "wrong": [
+      "V is discontinuous there.",
+      "The unique optimizer is x=1/2 for every a.",
+      "V′(0)=1/2 because it is the midpoint of the one-sided slopes."
+    ],
+    "explanation": "The value is max{0,a}: left derivative zero and right derivative one. At zero, every feasible x gives value zero, illustrating how optimizer changes can create a value-function kink.",
+    "hint": "Solve separately for negative, zero and positive a.",
+    "skill": "continuous value with a kink",
+    "sourceUrls": [
+      "https://web.mit.edu/14.102/www/syllabus.html",
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-01",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Steady state of an affine recursion",
+    "prompt": "A real-valued stock follows x_(t+1)=0.5x_t+3 for integer t≥0. What is its steady state?",
+    "correct": "x*=6.",
+    "wrong": [
+      "x*=3.",
+      "x*=1.5.",
+      "No steady state exists."
+    ],
+    "explanation": "A steady state solves x*=0.5x*+3, hence 0.5x*=3 and x*=6. The steady-state condition sets consecutive stock levels equal.",
+    "hint": "Solve the fixed-point equation for the transition rule.",
+    "skill": "steady state of an affine recursion",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-02",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Closed-form adjustment path",
+    "prompt": "For x_(t+1)=0.5x_t+3 with given real initial condition x_0, which expression gives x_t for integer t≥0?",
+    "correct": "x_t=6+(x_0−6)(0.5)^t.",
+    "wrong": [
+      "x_t=3+x_0(0.5)^t.",
+      "x_t=6+(x_0−6)2^t.",
+      "x_t=x_0+3t."
+    ],
+    "explanation": "Subtract steady state 6: x_(t+1)−6=0.5(x_t−6). Repeated substitution yields the formula, which also returns x_0 at t=0.",
+    "hint": "Solve the recursion for deviations from the steady state.",
+    "skill": "closed-form adjustment path",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-03",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Damped oscillations",
+    "prompt": "A real variable follows x_(t+1)=3−0.5x_t. If x_0 differs from steady state 2, what is the qualitative path of deviations from 2?",
+    "correct": "They alternate signs and shrink in magnitude by half each period.",
+    "wrong": [
+      "They alternate signs and double in magnitude.",
+      "They keep the same sign and shrink by half.",
+      "They remain constant in magnitude forever."
+    ],
+    "explanation": "The deviation equation is x_(t+1)−2=−0.5(x_t−2). The negative sign reverses direction while absolute coefficient 0.5 contracts the distance.",
+    "hint": "Separate the sign and magnitude of the transition coefficient.",
+    "skill": "damped oscillations",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-04",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Unstable discrete equilibrium",
+    "prompt": "A discrete system is x_(t+1)=1.2x_t for real x_t. Which statement describes the steady state zero?",
+    "correct": "It is unstable: any nonzero initial deviation grows in magnitude.",
+    "wrong": [
+      "It is asymptotically stable because 1.2 is positive.",
+      "It is not a fixed point.",
+      "Every initial state reaches zero after one period."
+    ],
+    "explanation": "The path is x_t=(1.2)^t x_0. Absolute deviations grow for x_0≠0, even though the exactly-zero path remains at zero.",
+    "hint": "Use the absolute value of the discrete transition multiplier.",
+    "skill": "unstable discrete equilibrium",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-05",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Unit coefficient with drift",
+    "prompt": "A real-valued process obeys x_(t+1)=x_t+2 with initial value x_0. Which statement is correct?",
+    "correct": "x_t=x_0+2t, and no finite steady state exists.",
+    "wrong": [
+      "x_t converges to 2 for every x_0.",
+      "Every initial value is a steady state.",
+      "x_t=x_0×2^t."
+    ],
+    "explanation": "Repeated addition gives a linear trend. The steady-state equation x*=x*+2 is inconsistent.",
+    "hint": "Distinguish an additive drift from a multiplicative growth factor.",
+    "skill": "unit coefficient with drift",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-06",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Second-order difference dynamics",
+    "prompt": "For real initial values x_0,x_1, a sequence satisfies x_(t+2)=0.7x_(t+1)−0.1x_t. What are the characteristic roots and long-run behavior?",
+    "correct": "Roots 0.5 and 0.2; every solution converges to zero.",
+    "wrong": [
+      "Roots 0.7 and −0.1; every solution diverges.",
+      "Roots 2 and 5; every solution converges to zero.",
+      "A repeated unit root; solutions generally trend linearly."
+    ],
+    "explanation": "The characteristic polynomial r²−0.7r+0.1 factors as (r−0.5)(r−0.2). Both roots have absolute value below one, so both components vanish.",
+    "hint": "Solve the characteristic polynomial rather than reading coefficients as roots.",
+    "skill": "second-order difference dynamics",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-07",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Continuous adjustment solution",
+    "prompt": "A continuous-time stock obeys dx/dt=4−2x with x(0)=x_0 real. What is its solution for t≥0?",
+    "correct": "x(t)=2+(x_0−2)e^(−2t).",
+    "wrong": [
+      "x(t)=4+(x_0−4)e^(−2t).",
+      "x(t)=2+(x_0−2)e^(2t).",
+      "x(t)=x_0+4t."
+    ],
+    "explanation": "The steady state is 2. Deviations satisfy dz/dt=−2z, giving exponential decay; the formula matches both the differential equation and initial condition.",
+    "hint": "Shift to deviations from the steady state and solve the homogeneous equation.",
+    "skill": "continuous adjustment solution",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-08",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Nonlinear local stability",
+    "prompt": "For the continuous-time equation dx/dt=x(1−x) on the nonnegative state domain, how do small positive states near zero and states near one behave?",
+    "correct": "Zero repels nearby positive states; one attracts nearby states within the domain.",
+    "wrong": [
+      "Both equilibria attract nearby states.",
+      "Zero attracts while one repels.",
+      "Neither zero nor one is a steady state."
+    ],
+    "explanation": "The derivative of x(1−x) is 1−2x, equal to 1 at zero and −1 at one. Nearby positive states rise away from zero, while flows on either side of one point toward one.",
+    "hint": "Check flow signs or the derivative at each equilibrium.",
+    "skill": "nonlinear local stability",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-09",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Stable path in a saddle system",
+    "prompt": "A continuous linear system is dx/dt=−x and dy/dt=2y on R². Which initial conditions produce convergence to (0,0) as t→∞?",
+    "correct": "Exactly those with y(0)=0, with x(0) arbitrary.",
+    "wrong": [
+      "Every real initial condition.",
+      "Exactly those with x(0)=0, with y(0) arbitrary.",
+      "Only initial conditions with x(0)=y(0)."
+    ],
+    "explanation": "Solutions are x(t)=x(0)e^(−t) and y(t)=y(0)e^(2t). The growing component must start at zero; the decaying component can start anywhere.",
+    "hint": "Eliminate the coefficient on the unstable eigenmode.",
+    "skill": "stable path in a saddle system",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u5-10",
+    "course": "mathematical-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Euler discretization stability",
+    "prompt": "The differential equation dx/dt=−2x is approximated by forward Euler with positive step h: x_(n+1)=(1−2h)x_n. For which h is the discrete zero steady state asymptotically stable?",
+    "correct": "0<h<1.",
+    "wrong": [
+      "Every h>0.",
+      "h>1.",
+      "h=1 only."
+    ],
+    "explanation": "Discrete stability requires |1−2h|<1, equivalent to 0<h<1. At h=1 the multiplier is −1, so nonzero deviations do not decay.",
+    "hint": "Apply the discrete absolute-multiplier criterion to the numerical update.",
+    "skill": "euler discretization stability",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-01",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Brouwer’s existence guarantee",
+    "prompt": "A continuous function T maps the closed interval [0,1] into itself. Which conclusion is guaranteed without any contraction assumption?",
+    "correct": "At least one fixed point exists in [0,1].",
+    "wrong": [
+      "Exactly one fixed point exists.",
+      "Repeated iteration converges from every starting point.",
+      "Every point in the interval is fixed."
+    ],
+    "explanation": "Brouwer’s theorem ensures existence on a nonempty compact convex domain. It does not supply uniqueness or convergence under repeated application of the function.",
+    "hint": "Separate fixed-point existence from an algorithm’s convergence.",
+    "skill": "brouwer’s existence guarantee",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-02",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Contraction and its fixed point",
+    "prompt": "Let T(x)=0.3x+0.7 on the complete metric space R with ordinary distance. What follows for x_(n+1)=T(x_n)?",
+    "correct": "It converges from every real initial state to the unique fixed point 1.",
+    "wrong": [
+      "It converges to 0.7 only from nonnegative initial states.",
+      "Every point is fixed because T is affine.",
+      "It has no fixed point because the domain is unbounded."
+    ],
+    "explanation": "The Lipschitz constant is 0.3<1 and R is complete. Solving x=0.3x+0.7 gives 1; deviations contract by 0.3 each step.",
+    "hint": "Verify contraction and solve its fixed-point equation.",
+    "skill": "contraction and its fixed point",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-03",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Existence without convergence",
+    "prompt": "Consider T(x)=1−x on [0,1]. Starting at x_0=0.2, what happens under iteration x_(n+1)=T(x_n)?",
+    "correct": "The sequence alternates between 0.2 and 0.8, despite a unique fixed point at 0.5.",
+    "wrong": [
+      "It converges monotonically to 0.5.",
+      "It reaches zero in two steps.",
+      "No fixed point exists."
+    ],
+    "explanation": "The fixed point solves x=1−x, but T reverses deviations without shrinking them. The initial 0.2 therefore maps to 0.8 and back indefinitely.",
+    "hint": "Compute two iterations before inferring convergence from existence.",
+    "skill": "existence without convergence",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-04",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Kakutani hypothesis check",
+    "prompt": "A correspondence F:[0,1]⇒[0,1] assigns F(x)={0,1} for every x. Values are nonempty and compact, and the graph is closed. Which standard Kakutani hypothesis fails?",
+    "correct": "Convex-valuedness.",
+    "wrong": [
+      "Nonemptiness of the domain.",
+      "Compactness of each value.",
+      "Existence of every fixed point is logically impossible."
+    ],
+    "explanation": "The set {0,1} omits the segment between its points, so it is not convex. This failure prevents invoking the standard theorem, although this specific correspondence does have fixed points 0 and 1.",
+    "hint": "Test convexity of each image set, not merely the domain.",
+    "skill": "kakutani hypothesis check",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-05",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "A Bellman action comparison",
+    "prompt": "At one state, action A gives current reward 3 and a deterministic next-state continuation value 8; action B gives current reward 5 and continuation value 2. The discount factor is 0.5, both actions are feasible, and these are the only payoffs. Which action maximizes current reward plus discounted continuation value?",
+    "correct": "A, with total value 7 rather than 6.",
+    "wrong": [
+      "B, with total value 5 rather than 3.",
+      "The actions tie at 6.",
+      "A, with total value 11 rather than 7."
+    ],
+    "explanation": "A yields 3+0.5×8=7, while B yields 5+0.5×2=6. Current reward alone does not determine the optimal action.",
+    "hint": "Discount continuation values before adding current rewards.",
+    "skill": "a bellman action comparison",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-06",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Bellman contraction error bound",
+    "prompt": "For a discounted finite-state decision problem with bounded rewards, nonempty finite action sets and discount β=0.9, the Bellman operator obeys ||TV−TW||∞≤β||V−W||∞. If ||V−W||∞=2, what numerical upper bound does this displayed inequality give?",
+    "correct": "1.8.",
+    "wrong": [
+      "0.9.",
+      "2.9.",
+      "0.2."
+    ],
+    "explanation": "Substitute β=0.9 and distance 2 to obtain 0.9×2=1.8. The actual distance may be smaller; this is the stated inequality’s bound.",
+    "hint": "Multiply the original sup-norm difference by the discount factor.",
+    "skill": "bellman contraction error bound",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-07",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Two-period consumption allocation",
+    "prompt": "Maximize ln c0+0.5 ln c1 subject to c0+c1=3 and c0,c1>0. There is no interest or other resource flow. What consumption allocation is optimal?",
+    "correct": "c0=2,c1=1.",
+    "wrong": [
+      "c0=1,c1=2.",
+      "c0=c1=1.5.",
+      "c0=3,c1=0."
+    ],
+    "explanation": "Substituting c1=3−c0 gives first-order condition 1/c0=0.5/(3−c0), hence c0=2. Strict concavity and utility approaching −∞ at the endpoints ensure the interior solution is the unique maximum.",
+    "hint": "Equalize marginal utility today with discounted marginal utility tomorrow.",
+    "skill": "two-period consumption allocation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-08",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Terminal condition in a finite problem",
+    "prompt": "At the final date T, a planner has stock k≥0, chooses consumption c∈[0,k], receives utility c, and receives no utility or payment from leftover stock. There are no further dates. What is the terminal value V_T(k)?",
+    "correct": "V_T(k)=k, achieved by c=k.",
+    "wrong": [
+      "V_T(k)=0 for all k.",
+      "V_T(k)=k/2, achieved by c=k/2.",
+      "V_T(k) is infinite."
+    ],
+    "explanation": "With increasing linear terminal utility and no value for leftovers, consuming the whole feasible stock is optimal. The boundary k=0 gives value zero consistently.",
+    "hint": "Use the actual terminal payoff rather than an infinite-horizon continuation formula.",
+    "skill": "terminal condition in a finite problem",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-09",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Choosing a sufficient state",
+    "prompt": "A worker’s future income depends on current wealth and a persistent productivity level observed by the worker. Two histories can have the same wealth but different productivity and therefore different next-income distributions. Why may a Bellman model using wealth alone be inadequate?",
+    "correct": "Wealth alone may not summarize the information needed for transition probabilities and optimal decisions.",
+    "wrong": [
+      "A state variable must include every past action even when redundant.",
+      "Persistent productivity has no effect on the future by definition.",
+      "Dynamic programming requires that income be deterministic."
+    ],
+    "explanation": "A Markov state should contain payoff-relevant information for future transitions. Adding productivity can distinguish histories that wealth alone conflates.",
+    "hint": "Ask whether identical proposed states imply identical decision problems.",
+    "skill": "choosing a sufficient state",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "mathematical-economics-u6-10",
+    "course": "mathematical-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Discounting does not ensure a vanishing terminal term",
+    "prompt": "A candidate verification argument requires β^T V(k_T)→0. Let β=3/4, V(k)=k for k≥0, and a stipulated feasible path k_T=2^T for integer T≥0. What is the limit of the terminal term?",
+    "correct": "It diverges to positive infinity.",
+    "wrong": [
+      "It converges to zero because β<1.",
+      "It converges to one.",
+      "It alternates between positive and negative values."
+    ],
+    "explanation": "The term is (3/4)^T 2^T=(3/2)^T, which grows without bound. Discounting alone does not control an unbounded value function along a sufficiently fast-growing path.",
+    "hint": "Combine the discount factor and state-growth factor before taking the limit.",
+    "skill": "discounting does not ensure a vanishing terminal term",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~hie/econ204/Syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import items from '../../content/econ-drafts/industrial-organization.json' with {type:'json'};
+const key=suffix=>items.find(q=>q.id===`industrial-organization-u${suffix}`).correct;
+test('reviewed IO numerical keys satisfy the stated profit, incentive and welfare calculations',()=>{
+ // Independent calculations from the fixed scenarios; no question-generator helpers.
+ assert.equal(key('1-01'),`${(100-20)/2} tickets.`);
+ assert.equal(key('1-02'),`${100/4}%.`);
+ assert.equal(key('1-04'),`$${.5*(80-40)*(60-20)}.`);
+ assert.equal(key('1-08'),`$${(2*(1200+6*200)-(1200+6*400)).toLocaleString('en-US')}.`);
+ assert.equal(key('1-10'),`$${((80+20+6)/2)-((80+20)/2)}.`);
+ assert.equal(key('2-01'),`${(90-30)/3} units.`);
+ assert.equal(key('2-05'),`Leader ${(100-20)/2}; follower ${(100-20)/4}.`);
+ assert.equal(key('2-08'),`It rises by $${4/4}.`);
+ assert.equal(key('2-09'),`Monopoly ${(90-30)/2}; Cournot ${2*(90-30)/3}.`);
+ assert.equal(key('2-10'),`From $${20+80/4} to $${20+80/5}.`);
+ assert.equal(key('3-01'),`x = ${(24-20+10)/20}.`);
+ assert.equal(key('3-07'),`An increase of $${50*(20-12)-300}.`);
+ assert.equal(key('4-01'),`$${4*25-80}.`);
+ assert.ok(120/3**2>=10&&120/4**2<=10);
+ for(const delta of [.5,2/3,.8])assert.equal(5/(1-delta)+1e-12>=9+3*delta/(1-delta),delta>=2/3);
+ assert.equal(key('5-05'),`$${15-(8-5)}.`);
+ const wholesale=100/2,retailQuantity=(100-wholesale)/2;
+ assert.equal(key('5-06'),`$${100-retailQuantity}.`);
+ assert.equal(key('5-07'),`$${100-(100/2)}.`);
+ const separate=[0,2,8].reduce((best,p)=>Math.max(best,p*([8,2].filter(v=>v>=p).length)),0)*2;
+ assert.equal(key('5-10'),`Bundle revenue ${2*(8+2)}; separate-price revenue ${separate}.`);
+ assert.equal(key('6-01'),`$${100+5*35-5*35}.`);
+ assert.equal(key('6-04'),`${30**2-20**2-10**2} points.`);
+ assert.equal(key('6-06'),`$${.25*12-2} of net upward pressure per unit of A.`);
+});

@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+const prepared=process.argv[2]??'.local/econ-calibration/matrix-integrity-smoke';
+const fitted=process.argv[3]??'.local/econ-calibration/matrix-integrity-fit';
+const read=(dir,name)=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));
+const manifest=read(prepared,'manifest.json'),report=read(fitted,'candidate-report.json');
+const matrixHash=crypto.createHash('sha256').update(fs.readFileSync(path.join(prepared,'responses.csv'))).digest('hex');
+assert.equal(report.synthetic,true,'This check is only for synthetic pipeline verification');
+assert.equal(report.status,'candidate');assert.equal(report.approvalRequired,true);
+assert.equal(manifest.matrixArtifact.sha256,matrixHash);assert.equal(report.matrixSHA256,matrixHash);
+assert.equal(report.sourceSHA256,manifest.sourceSHA256);assert.equal(report.bankVersion,manifest.bankVersion);
+const models=Object.fromEntries(Object.entries(report.models).map(([name,m])=>{assert.equal(m.converged,true);assert(Number.isFinite(m.holdout.leaveOneItemOutLogLoss));return [name,{converged:m.converged,holdoutLogLoss:m.holdout.leaveOneItemOutLogLoss}];}));
+const result={synthetic:true,scope:'Matrix-manifest-R pipeline integrity smoke test; not real-item calibration or score validation.',bankVersion:report.bankVersion,matrixSHA256:matrixHash,trainingPersons:report.trainingPersons,holdoutPersons:report.holdoutPersons,models};
+fs.writeFileSync('docs/econ-practice/audits/matrix-fit-verification.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

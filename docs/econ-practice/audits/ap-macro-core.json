@@ -1,0 +1,273 @@
+{
+  "bankVersion": "2026.10.12.13",
+  "reviewer": "Codex self-review",
+  "scope": "All29 original AP Macro families:432 numeric variants and11 conceptual items. Economic assumptions, keys, distractors and arithmetic. First substantive self-review only; not independent review or empirical validation.",
+  "findings": {
+    "variety": "Eight numeric families now have varied keyed outcomes.",
+    "assumptions": "Average opportunity cost; frictionless mutually beneficial trade; closed loanable-funds market; fixed expected inflation and floating exchange for initial capital-flow pressure.",
+    "copy": "Repaired deposit-multiplier punctuation."
+  },
+  "entries": [
+    {
+      "family": "opportunity",
+      "topic": "1.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The ratio of food forgone to additional machines is the average opportunity cost over the stated change. Added average wording so nonlinear frontiers do not imply a constant marginal cost. Six distinct ratios replace the former invariant answer.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "8d36c1d7770d241a1538c86422c70e52df4d5181bbabed56cef3f04e66db109a"
+    },
+    {
+      "family": "trade",
+      "topic": "1.2",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Under constant opportunity costs A sacrifices less cloth per wheat; reciprocation makes B the lower-cost cloth producer. Added mutually beneficial frictionless trade assumptions so comparative advantage supports the stated export pattern.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "366b6fc0acdf0b1d828151e9c626a2adcf982cd2f19051dfab947fc6fd918103"
+    },
+    {
+      "family": "gdp",
+      "topic": "2.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "C+I+G+X-M equals the keyed value in every variant. Imports subtract foreign production already included in expenditure components. All amounts share billions as the unit.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "a9f8c1c9a93270cf7ff3c12946d5488223b3534c99ff0b935bda11dfa925ac85"
+    },
+    {
+      "family": "deflator",
+      "topic": "2.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The GDP deflator uses a base of100, so real output is nominal output divided by1.2, not by120. Units stay billions.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "f1c6d1b81598b49202bf661d1b6eaa15f75060393ba34e696f8a4f1cd2bc9706"
+    },
+    {
+      "family": "unemployment",
+      "topic": "2.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The denominator is employed plus unemployed, not total population. All generated counts are positive; independent prompt checks verify every ratio. Varied counts now produce distinct rates.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "a3f4e702dc183f21e1be3103be8b59b4ae3a77b2bcc114069474a4ac889c7cd3"
+    },
+    {
+      "family": "participation",
+      "topic": "2.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Labor force is employment plus active-search unemployment. Generated labor force stays below the stated working-age population. Numerator and denominator now vary nonproportionally, yielding varied rates.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "68838bfaaa236f4a1c0e212f8354e95afb6c03823bee51f2961a45f70f330461"
+    },
+    {
+      "family": "inflation",
+      "topic": "2.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Percentage change divides by the initial index, not the new index. Revised rates span2 through8percent; displayed endpoint values preserve each exact rate.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "d6b9b9302075982e0b89f65d9f0dd3a7dddae360033904e204ffd40da7f7e425"
+    },
+    {
+      "family": "real-interest",
+      "topic": "2.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The stem explicitly requests the Fisher approximation and expected inflation, so nominal minus expected inflation is appropriate rather than the exact gross-rate ratio. Revised parameters vary the result.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "b553b33ccca0eccc1047588c393bfba19c6b04a7f9ee6dfd41f74a10ef9a92c6"
+    },
+    {
+      "family": "cycle",
+      "topic": "2.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Actual output is below potential in the displayed values, yielding a negative output gap. This does not imply potential must fall or that cyclical unemployment is impossible.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "bcc808b02cee65f2ba5bc29d2a121de4a51c87d4396c7861d742d15c81eac291"
+    },
+    {
+      "family": "multiplier",
+      "topic": "3.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With prices fixed, no tax/import leakages and autonomous spending, the geometric expenditure feedback at MPC.8 gives multiplier5. The question is model-conditional and asks the change, not total output.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "cf59fd430f0a1dd6fdc2464d4628cf9bc272cd7ddf11e6794817606a927b74b8"
+    },
+    {
+      "family": "tax-multiplier",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "A lump-sum tax increase first reduces consumption by MPC times the tax change, with subsequent fixed-price feedback. At MPC.75 the total multiplier is-3; the key includes the negative sign.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "0285aaaa40b3cf4c4d33a1cca2c4bc848bbf151b7d39533ec5243453ef980be6"
+    },
+    {
+      "family": "balanced-budget",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At MPC.8 spending multiplier5 plus tax multiplier-4 yields1 for equal changes. Closed fixed-price conditions, lump-sum taxes and unchanged autonomous investment exclude usual counterexamples.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "554a3e3cd2bc29b3b574f1fb5b4fd06d7724e75cdafd0e6e6cb07b2f2c3e715c"
+    },
+    {
+      "family": "supply-shock",
+      "topic": "3.3",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Higher energy input costs shift SRAS left. With unchanged AD in the conventional short-run model, the intersection has lower real output and higher prices. This is a usual model result, not a universal causal estimate.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "ada3c5df29d9400bc2dbf11d9dd0bb1dcddcfd0002fe9cde7b2c39bd197cfbc4"
+    },
+    {
+      "family": "demand-policy",
+      "topic": "3.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Government purchases enter expenditure demand directly. A rise shifts AD right; it does not by definition change technology or input costs. The stem asks the direct shift rather than the final net equilibrium effect.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "72d9d9ba28106108b24bcfc10369c93cf4937a8a7c82563b6110950d1e537c4f"
+    },
+    {
+      "family": "money-functions",
+      "topic": "4.1",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Quoting a notebook price in dollars demonstrates a common unit of account. It does not by itself demonstrate storing purchasing power or executing monetary policy.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "e9ab9092abc4950cb8878a40f7408a116cee282bf0e519cdf135d6952fc60b53"
+    },
+    {
+      "family": "bond-price",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "A one-year zero-coupon bond has only its maturity payment; annual yield is face/price-1. Revised positive prices and face values generate distinct yields while prompt-based oracles verify rounding.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "7f93860bd7ecdf9ccd7c532a0d6a3a815268a5c4d39356e42eff343bd234b074"
+    },
+    {
+      "family": "bank-reserves",
+      "topic": "4.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Excess reserves are actual reserves minus.1 times transaction deposits. Every variant has positive excess reserves. The stated reserve regime is hypothetical, avoiding a current-policy assertion.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "0455acd2b9aacfb7b4a0fb3def927a589995d02bf79c8d58a27379c42290c34a"
+    },
+    {
+      "family": "deposit-multiplier",
+      "topic": "4.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With a new reserve injection, no cash leakage, full lending and redepositing, total potential deposits expand by reserves/.2. This asks total expansion, not just one bank loan or expansion excluding the initial injection. Repaired a missing comma.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "1fa28e8f4e4a30c8a6aa0b4513c63ad40471936a73ac012dee1619d51ef859d9"
+    },
+    {
+      "family": "ample-reserves",
+      "topic": "4.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Raising administered rates is intended to raise short-term market rates under ample reserves. The key states intended immediate effect rather than guaranteed one-for-one transmission or a reserve multiplier.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "dbdadf466664a2d37e27354d05bfdf7a9fcb3054ac18ac7f450b2749bff83fe3"
+    },
+    {
+      "family": "loanable-funds",
+      "topic": "4.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Added a closed economy and explicit upward private-saving supply/downward private-investment demand. Increased government borrowing raises total demand for funds; the interest rate rises and private investment falls along its schedule. This excludes perfectly elastic foreign funding.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "44c3aa299aba57cc138b6520123963ebf42fcd81238b247abee89f9ae26a46b3"
+    },
+    {
+      "family": "phillips",
+      "topic": "5.1",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Higher inflation expectations enter the standard short-run inflation-unemployment relation additively, raising inflation at a fixed unemployment rate. It is a shift, not movement along the unchanged curve or a permanent long-run tradeoff.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "f3ef6b0f39a503e9df44d9f68167b0e8f4723bcd2acbf828c3de08f3854bc543"
+    },
+    {
+      "family": "quantity-theory",
+      "topic": "5.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Log-growth approximation gives inflation=money growth-output growth when velocity growth is zero. The prompt explicitly requests the approximation. Revised growth pairs give varied differences, all independently checked.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "aef5516d780541227bdb993f2649427fda0ddccbea50378e4b881f968657285d"
+    },
+    {
+      "family": "debt",
+      "topic": "5.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The inclusive budget deficit adds once to initial debt; interest is already included. No valuation adjustment is allowed. Debt is a stock and deficit a flow over the specified year.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "1156fcc901f4549260550201cdc15f8372fcbb0f1aab7d7934279cab38f19e94"
+    },
+    {
+      "family": "growth",
+      "topic": "5.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With hours unchanged, proportional output growth equals output-per-hour growth. Revised endpoint output values vary the growth rate and retain exact displayed arithmetic.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "b095deaad12dc78d2cf70f3569e0b38e1d0a508f7c91aceb60cbc5349dc4eec1"
+    },
+    {
+      "family": "longrun-money",
+      "topic": "5.5",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The classical long-run model fixes real output at productive capacity. With V fixed, doubling M doubles P in MV=PY. Nominal wages may adjust but unchanged real wages/output distinguish neutrality.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "e58863a78811f953507e8cf6b76194bee38c2791ee803b3e08e279ebb30e0e26"
+    },
+    {
+      "family": "exchange",
+      "topic": "6.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Foreign price times domestic currency per foreign unit has domestic-currency units. The explicit no-transport/no-tariff condition avoids delivered-price ambiguity.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "34922ff201cb1c7f38d20a6c275227bd9ecd4aaea6c79c4f905de3e392fdb3ac"
+    },
+    {
+      "family": "appreciation",
+      "topic": "6.2",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "More yen per dollar means each dollar buys more yen, so dollar appreciation and yen depreciation are reciprocal descriptions. The distractor claiming yen appreciation reverses the quote.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "b23ee877eb4d67cbca5fdc212cf7eacccb03703594c7be7e163f00242d26cc91"
+    },
+    {
+      "family": "current-account",
+      "topic": "6.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Net exports plus net primary income plus net current transfers produces15+n. The transfer is negative and must be subtracted once; financial flows are not current-account components.",
+      "numericVerification": "All24 variants independently evaluated from student-visible prompt quantities by econ-macro-content.test.mjs.",
+      "contentSHA256": "751636b63af2ecfe23ab0c4be1a7aa4fe984a8c1b0b7b6e97b0bfea2adf3dcdd"
+    },
+    {
+      "family": "capital-flows",
+      "topic": "6.4",
+      "items": 1,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Added fixed expected inflation in both countries so a relative real-rate increase also implies a nominal-rate differential increase, holding risk and expected currency change fixed. Floating exchange and initial pressure wording avoids asserting a permanent arbitrage gap or a currency move under a peg.",
+      "numericVerification": "Not applicable: single conceptual item.",
+      "contentSHA256": "4833efa84013e2844c7924941023f6ca3efadfd5086b2e9ed59b2912a771c4c7"
+    }
+  ]
+}

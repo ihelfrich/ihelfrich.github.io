@@ -1,0 +1,46 @@
+// Family-specific because undergraduate topic codes sometimes contain distinct models.
+export const undergraduateHints={
+ 'college-micro':{
+ 'cobb-demand':'Use the budget constraint with the Cobb-Douglas expenditure shares. Check whether the exponents have been normalized to sum to one.',
+ 'mrs':'Differentiate utility with respect to each good, then take the ratio in the order requested. Keep the units of the tradeoff explicit.',
+ 'perfect-complements':'At an efficient bundle, the two arguments inside the minimum are equal. Combine that fixed proportion with the budget constraint.',
+ 'quasilinear':'Solve the interior marginal condition, then check whether the implied bundle is affordable and nonnegative. An interior formula need not apply at a corner.',
+ 'slutsky':'Separate the compensated price response from the purchasing-power effect. Keep the sign of the income derivative and the initial quantity explicit.',
+ 'elastic-demand':'Point elasticity uses the derivative at the stated price and quantity. Multiply the slope by price divided by quantity.',
+ 'cost-min':'Compare marginal products per dollar and impose the output requirement. Check whether the technology permits an interior solution.',
+ 'shephard':'Differentiate the cost function with respect to the relevant input price, holding output and other prices fixed.',
+ 'competitive-supply':'Use price equal to marginal cost for a candidate output, then check the relevant shutdown condition and nonnegative output constraint.',
+ 'cournot':'Derive one firm’s best response holding its rival’s output fixed. Impose symmetry only after finding the strategic condition.',
+ 'bertrand':'Consider whether a firm charging above marginal cost can be profitably undercut. Check the assumptions about identical goods, costs, and capacity.',
+ 'mixed-strategy':'Choose a player’s mixing probability to make the other player indifferent between actions used with positive probability.',
+ 'repeated-collusion':'Compare the discounted value of cooperation with the one-period deviation gain followed by the stated punishment.',
+ 'pigou':'Evaluate marginal external damage at the efficient quantity. A constant per-unit corrective tax need not equal average damage.',
+ 'insurance':'Separate the expected payout from the premium and compare wealth across states. Fair pricing alone does not establish the buyer’s risk preference.',
+ 'ordinal-utility':'Check whether the transformation preserves the ordering of bundles. Utility differences and ratios need not have behavioral meaning.',
+ 'compensated-law':'Hold utility fixed when tracing the price response. Distinguish Hicksian substitution from the income effect in ordinary demand.',
+ 'cost-envelope':'At an optimized cost, a small input-price change has a direct effect evaluated at the chosen input quantity. Avoid adding an unnecessary adjustment term.',
+ 'market-power-welfare':'Compare output where marginal revenue equals marginal cost with output where willingness to pay equals marginal cost.',
+ 'credible-threat':'Start at the last decision node. Would the threatened action actually be optimal if that node were reached?',
+ 'adverse-selection':'Identify what is privately known before the contract is signed. Distinguish a hidden characteristic from an action taken after contracting.'
+ },
+ 'college-macro':{
+ 'national-saving':'Separate private saving from government saving, then combine them. Keep transfers, taxes, and purchases consistent with the stated definitions.',
+ 'solow':'Set investment per worker equal to the capital needed to offset depreciation and any stated dilution. Check whether variables are per worker or per effective worker.',
+ 'golden-rule':'Write steady-state consumption as output minus replacement and dilution investment. Differentiate with respect to the steady-state capital stock.',
+ 'growth-accounting':'Weight input growth by the production elasticities specified in the model. The unexplained residual is not automatically a causal technology effect.',
+ 'euler':'Compare the marginal utility lost from saving today with discounted expected marginal utility gained tomorrow. Check whether constraints bind.',
+ 'present-value':'Place every cash flow at its payment date and discount it back to the same reference date.',
+ 'is-curve':'Substitute consumption and investment into goods-market equilibrium. Collect the income terms before solving.',
+ 'new-keynesian-phillips':'Separate expected future inflation, the output-gap term, and any cost-push shock. Use the timing specified in the equation.',
+ 'taylor':'Identify the baseline real rate and the responses to inflation and the output gap. Distinguish a level from a deviation from target.',
+ 'debt-dynamics':'Keep the interest-growth term separate from the primary balance. Check whether a positive primary balance denotes a surplus or a deficit.',
+ 'uip':'Write the exchange-rate quotation explicitly before interpreting expected depreciation. Use the parity convention specified in the question.',
+ 'real-exchange':'Combine the nominal exchange rate with the relative price levels in the stated quotation. Check which basket becomes relatively expensive.',
+ 'saving-identity':'An accounting identity must hold after all adjustments. It does not, by itself, identify which variable caused another to change.',
+ 'solow-level-growth':'Distinguish the transition to a new steady-state level from sustained growth at that steady state. Identify the source of ongoing productivity growth.',
+ 'borrowing-constraint':'Check whether the unconstrained consumption plan is feasible. A binding borrowing limit changes the Euler equality into an inequality.',
+ 'identification-shocks':'Ask whether the observed movements uniquely identify the shock. Multiple structural disturbances can generate similar reduced-form patterns.',
+ 'ricardian-assumptions':'Check the assumptions about borrowing constraints, horizons, taxes, and expectations before treating a debt-financed tax cut as neutral.',
+ 'uip-risk-premium':'Separate expected currency changes from compensation for risk. Interest differentials need not reflect expected depreciation alone.'
+ }
+};

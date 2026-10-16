@@ -1,0 +1,152 @@
+{
+  "status": "content-reviewed-not-released",
+  "reviewedIds": [
+    "health-economics-u1-01",
+    "health-economics-u1-02",
+    "health-economics-u1-03",
+    "health-economics-u1-04",
+    "health-economics-u1-05",
+    "health-economics-u1-06",
+    "health-economics-u1-07",
+    "health-economics-u1-08",
+    "health-economics-u1-09",
+    "health-economics-u1-10",
+    "health-economics-u2-01",
+    "health-economics-u2-02",
+    "health-economics-u2-03",
+    "health-economics-u2-04",
+    "health-economics-u2-05",
+    "health-economics-u2-06",
+    "health-economics-u2-07",
+    "health-economics-u2-08",
+    "health-economics-u2-09",
+    "health-economics-u2-10",
+    "health-economics-u3-01",
+    "health-economics-u3-02",
+    "health-economics-u3-03",
+    "health-economics-u3-04",
+    "health-economics-u3-05",
+    "health-economics-u3-06",
+    "health-economics-u3-07",
+    "health-economics-u3-08",
+    "health-economics-u3-09",
+    "health-economics-u3-10",
+    "health-economics-u4-01",
+    "health-economics-u4-02",
+    "health-economics-u4-03",
+    "health-economics-u4-04",
+    "health-economics-u4-05",
+    "health-economics-u4-06",
+    "health-economics-u4-07",
+    "health-economics-u4-08",
+    "health-economics-u4-09",
+    "health-economics-u4-10",
+    "health-economics-u5-01",
+    "health-economics-u5-02",
+    "health-economics-u5-03",
+    "health-economics-u5-04",
+    "health-economics-u5-05",
+    "health-economics-u5-06",
+    "health-economics-u5-07",
+    "health-economics-u5-08",
+    "health-economics-u5-09",
+    "health-economics-u5-10",
+    "health-economics-u6-01",
+    "health-economics-u6-02",
+    "health-economics-u6-03",
+    "health-economics-u6-04",
+    "health-economics-u6-05",
+    "health-economics-u6-06",
+    "health-economics-u6-07",
+    "health-economics-u6-08",
+    "health-economics-u6-09",
+    "health-economics-u6-10"
+  ],
+  "numericChecks": [
+    {
+      "id": "u1-02",
+      "value": 105
+    },
+    {
+      "id": "u1-03",
+      "value": 12
+    },
+    {
+      "id": "u1-04",
+      "value": 70
+    },
+    {
+      "id": "u1-09",
+      "value": -0.5
+    },
+    {
+      "id": "u2-01",
+      "value": 800
+    },
+    {
+      "id": "u2-03",
+      "value": 100
+    },
+    {
+      "id": "u2-05",
+      "value": 700
+    },
+    {
+      "id": "u2-09",
+      "value": 1800
+    },
+    {
+      "id": "u3-01",
+      "value": 30
+    },
+    {
+      "id": "u3-02",
+      "value": 0
+    },
+    {
+      "id": "u3-08",
+      "value": 140
+    },
+    {
+      "id": "u3-09",
+      "value": 40
+    },
+    {
+      "id": "u4-01",
+      "value": 500
+    },
+    {
+      "id": "u4-05",
+      "value": 3800
+    },
+    {
+      "id": "u4-06",
+      "value": 1200
+    }
+  ],
+  "findings": [
+    {
+      "id": "health-economics-u4-09",
+      "issue": "Negative-stem question has multiple defensible answers: below-cost price is also not guaranteed.",
+      "resolution": "Verified replacement distractors all follow algebraically from marginal-cost pricing."
+    },
+    {
+      "id": "health-economics-u3-10",
+      "issue": "40-dollar distractor mislabeled as chosen benefit instead of benefit difference.",
+      "resolution": "Verified 40-dollar distractor correctly described as the difference between alternatives."
+    },
+    {
+      "id": "health-economics-u6-03",
+      "issue": "Free availability does not establish inability to exclude.",
+      "resolution": "Prompt now explicitly states producers cannot prevent recipients from receiving the broadcast; explanation distinguishes price from exclusion."
+    },
+    {
+      "id": "health-economics-u5-10",
+      "issue": "Causal interpretation benefits from explicit interference assumption.",
+      "resolution": "Added no spillovers."
+    }
+  ],
+  "remaining": "Release manifest, private hints, course integration, full-bank checks and build; empirical calibration requires response data.",
+  "sourceSHA256": "cc5577f3db4113d5c77786546eed63d0707e6c530eb5923f6df8ce3e005c50b7",
+  "additionalNumericVerification": "tests/unit/econ-health-numerics.test.mjs: nine independent numerical calculations, strict and extended dominance comparisons passed."
+}

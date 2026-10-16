@@ -1,0 +1,159 @@
+import {computationalEconomicsHints} from './computational-economics-hints.mjs';
+import {mathematicalEconomicsHints} from './mathematical-economics-hints.mjs';
+import {historyThoughtHints} from './history-economic-thought-hints.mjs';
+import {principlesMacroHints} from './principles-macro-hints.mjs';
+import {principlesMicroHints} from './principles-micro-hints.mjs';
+import {lawHints} from './law-economics-hints.mjs';
+import {economicHistoryHints} from './economic-history-hints.mjs';
+import {empiricalMacroHints} from './empirical-macroeconomics-hints.mjs';
+import {statisticsHints} from './statistics-economics-hints.mjs';
+import {advancedEconometricsHints} from './advanced-econometrics-hints.mjs';
+import {marketDesignHints} from './market-design-hints.mjs';
+import {contractHints} from './contract-theory-hints.mjs';
+import {growthHints} from './economic-growth-hints.mjs';
+import {educationHints} from './education-economics-hints.mjs';
+import {causalHints} from './causal-inference-hints.mjs';
+import {internationalMacroHints} from './international-macroeconomics-hints.mjs';
+import {monetaryHints} from './monetary-economics-hints.mjs';
+import {gameTheoryHints} from './game-theory-hints.mjs';
+import {advancedMacroHints} from './advanced-macro-hints.mjs';
+import {advancedMicroHints} from './advanced-micro-hints.mjs';
+import {urbanHints} from './urban-hints.mjs';
+import {politicalHints} from './political-hints.mjs';
+import {healthHints} from './health-hints.mjs';
+import {environmentalHints} from './environmental-hints.mjs';
+import {behavioralHints} from './behavioral-hints.mjs';
+import {financialHints} from './financial-hints.mjs';
+import {developmentHints} from './development-hints.mjs';
+import {tradeHints} from './trade-hints.mjs';
+import {ioHints} from './io-hints.mjs';
+// Method scaffolds for reviewed field questions; never generated from their keys.
+export const fieldHints={
+'computational-economics':computationalEconomicsHints,
+'mathematical-economics':mathematicalEconomicsHints,
+'history-economic-thought':historyThoughtHints,
+'principles-macro':principlesMacroHints,
+'principles-micro':principlesMicroHints,
+'law-economics':lawHints,
+'economic-history':economicHistoryHints,
+'empirical-macroeconomics':empiricalMacroHints,
+
+'statistics-economics':statisticsHints,
+'advanced-econometrics':advancedEconometricsHints,
+'market-design':marketDesignHints,
+
+'contract-theory':contractHints,
+'economic-growth':growthHints,
+'education-economics':educationHints,
+'causal-inference':causalHints,
+'international-macroeconomics':internationalMacroHints,
+'monetary-economics':monetaryHints,
+'game-theory':gameTheoryHints,
+'advanced-macroeconomics':advancedMacroHints,
+'advanced-microeconomics':advancedMicroHints,
+'urban-economics':urbanHints,
+'political-economy':politicalHints,
+'health-economics':healthHints,
+'environmental-economics':environmentalHints,
+'behavioral-economics':behavioralHints,
+'financial-economics':financialHints,
+'development-economics':developmentHints,
+'international-trade':tradeHints,
+'industrial-organization':ioHints,
+'intro-econometrics':{
+'intro-econometrics-u1-q01':'Compare the population the researcher wants to describe with the people who could actually enter the sample.',
+'intro-econometrics-u1-q02':'Separate the observed comparison from the causal quantity of interest. What could differ between the groups before treatment?',
+'intro-econometrics-u1-q03':'Check whether observations follow the same units through time or sample different units at each date.',
+'intro-econometrics-u1-q04':'For one person at one time, distinguish the outcome observed under their treatment from the outcome under the alternative.',
+'intro-econometrics-u1-q05':'Ask whether remaining in the follow-up sample could depend on treatment or the outcome. Initial randomization does not settle that question.',
+'intro-econometrics-u2-q01':'Write the outcome units per one unit of the regressor beside the slope. Then translate that change into the setting.',
+'intro-econometrics-u2-q02':'Use the fitted value supplied in the question. Subtract it from the actual observation, keeping the direction of the subtraction explicit.',
+'intro-econometrics-u2-q03':'Distinguish signed errors, absolute errors and squared errors. Which objective defines the estimator named in the question?',
+'intro-econometrics-u2-q04':'Locate zero on the regressor axis and compare it with the observed range before assigning a practical meaning to the intercept.',
+'intro-econometrics-u2-q05':'Track how rescaling the outcome changes fitted values, residuals and both sums of squares in the fit statistic.',
+'intro-econometrics-u3-q01':'Combine two signs: how the omitted variable relates to the included regressor, and how it affects the outcome.',
+'intro-econometrics-u3-q02':'List the variables held fixed by the regression. Decide whether the stated design also justifies a causal interpretation.',
+'intro-econometrics-u3-q03':'Draw the treatment-to-outcome pathways. Does the proposed control sit on a pathway the total effect is supposed to include?',
+'intro-econometrics-u3-q04':'Check whether one regressor can be written exactly as a linear combination of the others, including the intercept.',
+'intro-econometrics-u3-q05':'Distinguish an exact linear dependence from a strong association. Then separate identifying a coefficient from estimating it precisely.',
+'intro-econometrics-u4-q01':'Use the estimate as the center and the relevant critical value times its standard error as the margin.',
+'intro-econometrics-u4-q02':'State the null model under which the probability is calculated. Identify the statistic whose extremeness is being assessed.',
+'intro-econometrics-u4-q03':'Separate the assumption needed for the coefficient estimate from the variance assumptions used by its standard error.',
+'intro-econometrics-u4-q04':'Identify which observations can share an unobserved shock. Independence across people may fail within that group.',
+'intro-econometrics-u4-q05':'Look at the range of effects compatible with the uncertainty interval, not just whether the null was rejected.',
+'intro-econometrics-u5-q01':'Check which side is logged. Distinguish an approximate percentage change from an exact exponential transformation.',
+'intro-econometrics-u5-q02':'In a log-log specification, relate a proportional regressor change to a proportional outcome change; keep percentages distinct from levels.',
+'intro-econometrics-u5-q03':'Collect every term containing the regressor of interest. Its slope can depend on the variable it interacts with.',
+'intro-econometrics-u5-q04':'Separate uncertainty about the conditional mean from variation of a new individual outcome around that mean.',
+'intro-econometrics-u5-q05':'Compare the models using the stated loss on observations that were not used to fit them. A better training fit need not predict better.',
+'intro-econometrics-u6-q01':'Identify what was randomized: an offer or actual participation. Compare groups using that assignment.',
+'intro-econometrics-u6-q02':'Calculate each group’s before-to-after change, then compare those changes rather than their final levels.',
+'intro-econometrics-u6-q03':'Focus on units just across the cutoff. What must be smooth there in the absence of the assigned intervention?',
+'intro-econometrics-u6-q04':'Trace every route from the proposed instrument to the outcome. Does any route bypass the treatment?',
+'intro-econometrics-u6-q05':'Ask which omitted characteristics stay constant within a unit, and which can change over time.'
+},
+'labor-economics':{
+'labor-economics-u1-01':'Separate a change in nonlabor resources from a change in the wage. Which relative price, if any, changes?',
+'labor-economics-u1-02':'An hour of leisure costs the earnings forgone. Hold utility fixed before tracing the response to that relative price.',
+'labor-economics-u1-03':'Compare the full shift’s earnings with childcare and the value of time forgone. Find the subsidy needed to close any gap.',
+'labor-economics-u1-04':'Compute earnings from another hour and subtract the associated benefit withdrawal. Use the phaseout rate on earnings.',
+'labor-economics-u1-05':'Trace the income and substitution effects separately. Which must dominate to produce the observed hours response?',
+'labor-economics-u2-01':'Value the additional output at the selling price, then compare that revenue with the additional wage cost.',
+'labor-economics-u2-02':'Draw fixed labor supply. At that employment level, distinguish the employer’s total cost from the worker’s net receipt.',
+'labor-economics-u2-03':'Use elasticity as the ratio of percentage employment change to percentage wage change. Check the sign.',
+'labor-economics-u2-04':'Separate labor per unit of output from the number of units produced. Total labor use depends on both.',
+'labor-economics-u2-05':'Evaluate both curves at the wage floor. Compare the amount firms want to hire with the amount workers offer.',
+'labor-economics-u3-01':'Discount the earnings payment for the full number of years before subtracting the cost paid today.',
+'labor-economics-u3-02':'For each worker type, compare the credential premium with that type’s cost. Check both incentive constraints.',
+'labor-economics-u3-03':'Consider what competing employers would pay for the portable skill after training. Who can capture the resulting return?',
+'labor-economics-u3-04':'Ask how people enter the graduate and nongraduate groups. Could those selection factors also predict earnings?',
+'labor-economics-u3-05':'Write the streams of earnings gains on a timeline. Compare the additional discounted payments with the shared cost.',
+'labor-economics-u4-01':'Compare the entire job package, including the schedule. Equal productivity does not make every job equally attractive.',
+'labor-economics-u4-02':'Name the randomly changed feature and the measured outcome. Keep the causal claim within those boundaries.',
+'labor-economics-u4-03':'Separate an accounting decomposition from identification of a mechanism. Consider both omitted attributes and how included attributes arose.',
+'labor-economics-u4-04':'Calculate the salary forgone for flexibility, then compare that amount with each worker’s valuation.',
+'labor-economics-u4-05':'Distinguish an employer’s preferences about groups from its use of group information to predict missing individual information.',
+'labor-economics-u5-01':'Write the total wage bill as wage times employment. Differentiating it must account for the wage increase paid to existing workers.',
+'labor-economics-u5-02':'Find labor supplied at the floor. Compare marginal hiring costs below that quantity with costs after supply becomes binding.',
+'labor-economics-u5-03':'Combine the rate of receiving offers with the probability that an offer meets the acceptance rule.',
+'labor-economics-u5-04':'At a steady state, the flow into unemployment equals the flow out. Each rate applies to a different population stock.',
+'labor-economics-u5-05':'Identify who chooses employment after wages are set. Apply that institutional rule before using the labor-demand curve.',
+'labor-economics-u6-01':'Subtract the untreated region’s earnings change from the training region’s change. Keep the weekly units.',
+'labor-economics-u6-02':'Compare the lottery’s effect on earnings with its effect on participation. Convert percentage-point changes to proportions.',
+'labor-economics-u6-03':'Draw the initial labor-market equilibrium, then move only the curve affected under the question’s fixed-demand assumptions.',
+'labor-economics-u6-04':'Sign the relation between the omitted demand shock and each of the two measured variables.',
+'labor-economics-u6-05':'Consider applicants arbitrarily close to the threshold. Distinguish the local comparison from extrapolation to other scores.'
+},
+'public-economics':{
+'public-economics-001':'Check both aggregate monetized surplus and whether any person actually loses. Potential compensation is distinct from payment.',
+'public-economics-002':'Apply each household’s stated marginal welfare weight to its own resource change. Avoid counting the delivery loss twice.',
+'public-economics-003':'Separate a payment within the evaluation boundary from the opportunity cost of resources used to perform the work.',
+'public-economics-004':'Compute each allocation’s sum and its smallest utility level separately. Apply the corresponding objective to each.',
+'public-economics-005':'List costs borne by the decision maker and costs borne by others. Which enter the private output decision?',
+'public-economics-006':'Write the buyer-price minus seller-price wedge in both remittance arrangements. Compare the equilibrium conditions.',
+'public-economics-007':'With quantity fixed, use demand to locate the gross price. Then place the tax wedge between gross and net receipts.',
+'public-economics-008':'Identify the price suppliers require net of the local tax. Then translate that requirement into buyers’ total payment.',
+'public-economics-009':'Use the tax wedge to express both prices in terms of one unknown, then equate supplied and demanded quantities.',
+'public-economics-010':'Think like a buyer bidding for the future stream of land services net of future liabilities.',
+'public-economics-011':'Identify the trades lost because of the tax. For linear curves, relate their quantity and the wedge to the surplus triangle.',
+'public-economics-012':'Track how both the tax wedge and the quantity reduction change when the tax doubles under linear curves.',
+'public-economics-013':'Trace the compensated relative-price response separately from the response to lower purchasing power.',
+'public-economics-014':'Follow one additional dollar through both rules. Calculate how much reaches disposable income.',
+'public-economics-015':'Separate changes in services produced from changes in when income is reported or which deductions are claimed.',
+'public-economics-016':'Test rivalry and excludability separately. The cost of installing equipment is a different question.',
+'public-economics-017':'One shared unit benefits several residents at once. Compare the relevant combined benefit with its resource cost.',
+'public-economics-018':'For each possible neighbor action, compare your payoff from contributing with your payoff from declining.',
+'public-economics-019':'Write the town’s marginal-benefit condition, then add benefits outside its boundary and compare the interior optima.',
+'public-economics-020':'Identify the assumptions that allow households to reveal preferences by moving. Check them against the described housing market.',
+'public-economics-021':'Compare consumption across illness states with and without insurance, holding expected resources fixed.',
+'public-economics-022':'Track how the risk composition of those remaining changes when a particular group exits.',
+'public-economics-023':'A quantity response describes behavior. A welfare comparison also needs the benefits and resource costs of the extra care.',
+'public-economics-024':'List the consumption-smoothing benefit and the behavioral and financing consequences before judging the policy.',
+'public-economics-025':'Write total contributions and total benefit payments as number of people times payment per person.',
+'public-economics-026':'Separate random assignment to an offer from the later decision to use it. Which contrast preserves randomization?',
+'public-economics-027':'Describe the untreated path the treated town would have followed. Equality of starting levels is a separate restriction.',
+'public-economics-028':'Identify the narrow comparison supported by continuity at the threshold. Keep broader extrapolation separate.',
+'public-economics-029':'Distinguish formal eligibility and payment amounts from the costs of applying for the program.',
+'public-economics-030':'Consider which prices can respond when many more people receive vouchers. Include people outside the treatment group.'
+}
+};

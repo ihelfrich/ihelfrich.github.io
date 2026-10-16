@@ -1,0 +1,214 @@
+{
+  "synthetic": true,
+  "scope": "Deterministic implementation smoke tests, not validation of real items or student scores.",
+  "fit": {
+    "training": 800,
+    "holdout": 200,
+    "rmseA": 0.1041222113097739,
+    "rmseB": 0.14732465149145002,
+    "models": {
+      "1PL": {
+        "converged": true,
+        "AIC": 10157.7426023785,
+        "BIC": 10213.9579431105,
+        "holdoutLogLoss": 0.50898647226
+      },
+      "2PL": {
+        "converged": true,
+        "AIC": 10121.3894387448,
+        "BIC": 10233.8201202088,
+        "holdoutLogLoss": 0.49888297766
+      }
+    }
+  },
+  "dif": {
+    "injectedItem": "item-10",
+    "adjustedP": 2.8422e-8,
+    "otherFlags": 0
+  },
+  "cat": [
+    {
+      "method": "adaptive",
+      "theta": -3,
+      "replications": 30,
+      "bias": 0.3657982903842268,
+      "rmse": 0.4780097470383497,
+      "intervalCoverage": 0.9,
+      "coverageMonteCarloSE": 0.054772255750516606,
+      "meanLength": 47.733333333333334,
+      "meanPosteriorSD": 0.37895208739804864,
+      "precisionStops": 2,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "adaptive",
+      "theta": -2,
+      "replications": 30,
+      "bias": 0.15873618189291977,
+      "rmse": 0.39912599230100027,
+      "intervalCoverage": 0.9333333333333333,
+      "coverageMonteCarloSE": 0.045542003404264876,
+      "meanLength": 42.7,
+      "meanPosteriorSD": 0.3495313857617622,
+      "precisionStops": 22,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "adaptive",
+      "theta": -1,
+      "replications": 30,
+      "bias": 0.20033857365684085,
+      "rmse": 0.4000702682829701,
+      "intervalCoverage": 0.9666666666666667,
+      "coverageMonteCarloSE": 0.0327730693416725,
+      "meanLength": 36.5,
+      "meanPosteriorSD": 0.346673285092389,
+      "precisionStops": 30,
+      "maximumItemExposure": 0.9666666666666667
+    },
+    {
+      "method": "adaptive",
+      "theta": 0,
+      "replications": 30,
+      "bias": 0.04230773644946851,
+      "rmse": 0.27041838182351124,
+      "intervalCoverage": 1,
+      "coverageMonteCarloSE": 0,
+      "meanLength": 35.86666666666667,
+      "meanPosteriorSD": 0.34703305270477003,
+      "precisionStops": 30,
+      "maximumItemExposure": 0.9666666666666667
+    },
+    {
+      "method": "adaptive",
+      "theta": 1,
+      "replications": 30,
+      "bias": -0.01876037683431433,
+      "rmse": 0.35127827783543764,
+      "intervalCoverage": 0.9333333333333333,
+      "coverageMonteCarloSE": 0.045542003404264876,
+      "meanLength": 36.93333333333333,
+      "meanPosteriorSD": 0.34679230564825014,
+      "precisionStops": 30,
+      "maximumItemExposure": 0.9666666666666667
+    },
+    {
+      "method": "adaptive",
+      "theta": 2,
+      "replications": 30,
+      "bias": -0.13823133962814776,
+      "rmse": 0.2827853527244393,
+      "intervalCoverage": 0.9666666666666667,
+      "coverageMonteCarloSE": 0.0327730693416725,
+      "meanLength": 41.1,
+      "meanPosteriorSD": 0.34610785262974275,
+      "precisionStops": 28,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "adaptive",
+      "theta": 3,
+      "replications": 30,
+      "bias": -0.43766964508525674,
+      "rmse": 0.5288260849849971,
+      "intervalCoverage": 0.8333333333333334,
+      "coverageMonteCarloSE": 0.06804138174397716,
+      "meanLength": 47.7,
+      "meanPosteriorSD": 0.36478825003793663,
+      "precisionStops": 3,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "random",
+      "theta": -3,
+      "replications": 30,
+      "bias": 0.44061132736627123,
+      "rmse": 0.5482242569837747,
+      "intervalCoverage": 0.8,
+      "coverageMonteCarloSE": 0.07302967433402215,
+      "meanLength": 47.63333333333333,
+      "meanPosteriorSD": 0.3755971454568495,
+      "precisionStops": 3,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "random",
+      "theta": -2,
+      "replications": 30,
+      "bias": 0.1649013865856807,
+      "rmse": 0.3228468394120185,
+      "intervalCoverage": 1,
+      "coverageMonteCarloSE": 0,
+      "meanLength": 44.166666666666664,
+      "meanPosteriorSD": 0.34785655114828706,
+      "precisionStops": 25,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "random",
+      "theta": -1,
+      "replications": 30,
+      "bias": 0.19422074010922433,
+      "rmse": 0.3627879661937015,
+      "intervalCoverage": 0.9666666666666667,
+      "coverageMonteCarloSE": 0.0327730693416725,
+      "meanLength": 38.93333333333333,
+      "meanPosteriorSD": 0.3464395851622892,
+      "precisionStops": 30,
+      "maximumItemExposure": 0.9333333333333333
+    },
+    {
+      "method": "random",
+      "theta": 0,
+      "replications": 30,
+      "bias": -0.03487592192301189,
+      "rmse": 0.33338831991547935,
+      "intervalCoverage": 0.9666666666666667,
+      "coverageMonteCarloSE": 0.0327730693416725,
+      "meanLength": 37.766666666666666,
+      "meanPosteriorSD": 0.34641301084189446,
+      "precisionStops": 30,
+      "maximumItemExposure": 0.9
+    },
+    {
+      "method": "random",
+      "theta": 1,
+      "replications": 30,
+      "bias": -0.12658476210950034,
+      "rmse": 0.26225070439715437,
+      "intervalCoverage": 1,
+      "coverageMonteCarloSE": 0,
+      "meanLength": 38.233333333333334,
+      "meanPosteriorSD": 0.34588259146492095,
+      "precisionStops": 30,
+      "maximumItemExposure": 1
+    },
+    {
+      "method": "random",
+      "theta": 2,
+      "replications": 30,
+      "bias": -0.185165458148721,
+      "rmse": 0.4279292137654241,
+      "intervalCoverage": 0.9333333333333333,
+      "coverageMonteCarloSE": 0.045542003404264876,
+      "meanLength": 43,
+      "meanPosteriorSD": 0.3491188219900076,
+      "precisionStops": 24,
+      "maximumItemExposure": 0.9666666666666667
+    },
+    {
+      "method": "random",
+      "theta": 3,
+      "replications": 30,
+      "bias": -0.3664241162304918,
+      "rmse": 0.4743488032290581,
+      "intervalCoverage": 0.9,
+      "coverageMonteCarloSE": 0.054772255750516606,
+      "meanLength": 47.733333333333334,
+      "meanPosteriorSD": 0.3707365372551616,
+      "precisionStops": 3,
+      "maximumItemExposure": 1
+    }
+  ],
+  "openFinding": "CAT smoke test shows prior shrinkage and conditional interval undercoverage at extreme traits. More replications and prior/grid/design sensitivity analyses required before operational validation."
+}

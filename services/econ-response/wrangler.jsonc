@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "helfrich-economics-responses",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://ihelfrich.github.io",
+    "GOOGLE_CLIENT_ID": "1033463602915-1noqkcnim431i3btde7q0ng3sf11pl0h.apps.googleusercontent.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "helfrich-economics-responses",
+      "database_id": "19781a1a-1085-436a-ad73-0526476fcd1e",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

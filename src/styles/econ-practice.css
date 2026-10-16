@@ -1,0 +1,66 @@
+.econ-practice{max-width:1100px;margin:0 auto;padding:var(--space-5);color:var(--ink)}
+.econ-practice h1{font-family:var(--font-display);font-size:clamp(2.7rem,6vw,5.5rem);line-height:1.04;margin:var(--space-5) 0}
+.econ-practice h2{font-family:var(--font-display);font-size:clamp(1.4rem,2.5vw,2.1rem);line-height:1.35}
+.econ-practice p{max-width:75ch;line-height:1.65}.econ-practice .intro{font-size:1.35rem}.econ-practice section{padding:var(--space-5) 0;border-top:1px solid var(--rule)}
+.econ-practice .setup-grid{display:grid;grid-template-columns:2fr 1.5fr 1.5fr;gap:var(--space-4)}
+.econ-practice label{display:block;font-family:var(--font-display)}
+.econ-practice select,.econ-practice input[type=number],.econ-practice input[type=text],.econ-practice input[type=datetime-local]{display:block;width:100%;padding:12px;margin:8px 0 16px;border:1px solid var(--rule-strong);background:var(--surface-raised);color:var(--ink);font:inherit}
+.econ-practice button{min-height:44px;padding:10px 20px;background:var(--ink);color:var(--surface);border:1px solid var(--ink);border-radius:var(--radius-control);font:inherit;cursor:pointer}
+.econ-practice button.secondary{background:var(--surface);color:var(--ink)}.econ-practice button:disabled{opacity:.5;cursor:wait}
+.econ-practice :focus-visible{outline:3px solid var(--focus-ring);outline-offset:3px}
+.econ-practice .consent{display:flex;gap:12px;align-items:flex-start;margin:20px 0}.econ-practice input[type=checkbox],.econ-practice input[type=radio]{width:20px;height:20px;flex-shrink:0}
+.econ-practice fieldset{border:0;padding:0;margin:24px 0}.econ-practice fieldset label{display:flex;gap:14px;padding:16px;margin:8px 0;border:1px solid var(--rule);align-items:center}
+.econ-practice .question-meta,.econ-practice .actions{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:20px 0}
+.econ-practice .question-meta{font-family:var(--font-data);font-size:.82rem}.econ-practice #feedback{padding:16px 0}.econ-practice #receipt{font-family:var(--font-data);font-size:.85rem}
+.econ-practice svg{max-width:650px;width:100%;height:auto;display:block;margin:auto}.econ-practice svg text{fill:var(--ink);font:14px var(--font-data)}.econ-practice .axis,.econ-practice .curve{fill:none;stroke:var(--ink);stroke-width:2}.econ-practice .curve-1{stroke-dasharray:8 5}.econ-practice .curve-2{stroke-dasharray:2 4}.econ-practice .curve-label{font-weight:bold}
+.econ-practice table{width:100%;border-collapse:collapse}.econ-practice th,.econ-practice td{padding:12px 6px;border-bottom:1px solid var(--rule);text-align:left}.econ-practice details{margin:16px 0}.econ-practice summary{cursor:pointer;min-height:44px}.econ-practice [hidden]{display:none!important}
+@media(max-width:720px){.econ-practice{padding:20px}.econ-practice .setup-grid{grid-template-columns:1fr}.econ-practice .question-meta{align-items:flex-start}.econ-practice th,.econ-practice td{font-size:.85rem;padding:8px 4px}}
+@media print{.econ-practice button,.econ-practice #setup,.econ-practice .bank-notes{display:none}.econ-practice details{break-inside:avoid}}
+.econ-practice .irt-table-scroll{overflow-x:auto;max-width:100%}.econ-practice .irt-table-scroll table{min-width:650px}.econ-practice textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+
+/* Instructor workspace: quiet hierarchy, clear destinations, native controls. */
+#econ-instructor{max-width:1180px}
+#econ-instructor .instructor-hero{padding-block:24px 32px}
+#econ-instructor .instructor-hero h1{max-width:12ch;letter-spacing:-.035em;margin-block:24px}
+#econ-instructor .eyebrow{font-family:var(--font-data);font-size:.8rem;letter-spacing:.04em}
+#econ-instructor .instructor-nav,#instructor-private-nav{display:flex;flex-wrap:wrap;gap:8px}
+#econ-instructor .instructor-nav{padding:12px 0 24px;border-bottom:1px solid var(--rule)}
+#econ-instructor .instructor-nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border:1px solid var(--rule);border-radius:var(--radius-control);text-decoration:none;color:var(--ink);background:var(--surface-raised)}
+#econ-instructor .instructor-nav a:hover{border-color:var(--ink)}
+#econ-instructor section{scroll-margin-top:32px;padding-block:36px}
+#econ-instructor section>h2{margin-top:0}
+#econ-instructor form{padding:24px;border:1px solid var(--rule);background:var(--surface-raised);border-radius:var(--radius-control)}
+#econ-instructor input[type=search]{display:block;width:100%;padding:12px;margin:8px 0 16px;border:1px solid var(--rule-strong);background:var(--surface-raised);color:var(--ink);font:inherit}
+#econ-instructor .actions{flex-wrap:wrap;justify-content:flex-start;align-items:flex-end}
+#econ-instructor input[type=file]{display:block;max-width:100%;margin-block:12px;font:inherit;font-size:.9rem}
+#econ-instructor input::file-selector-button{padding:10px 14px;margin-right:12px;border:1px solid var(--rule-strong);border-radius:var(--radius-control);background:var(--surface-raised);color:var(--ink);font:inherit;cursor:pointer}
+#econ-instructor [role=status]:not(:empty){padding:12px 16px;border-left:3px solid var(--rule-strong);background:var(--surface-raised);font-size:.95rem}
+#econ-instructor .question-library-item{border:1px solid var(--rule);border-radius:var(--radius-control);background:var(--surface-raised);padding:16px 20px;overflow-wrap:anywhere}
+#econ-instructor .question-library-item summary{font-family:var(--font-display);line-height:1.5;padding-block:8px}
+#econ-instructor .question-library-item[open] summary{border-bottom:1px solid var(--rule);margin-bottom:20px}
+#econ-instructor .question-library-item ol{padding-left:28px}
+#econ-instructor .question-library-item li{padding-block:8px}
+#econ-instructor .irt-table-scroll{border:1px solid var(--rule);border-radius:var(--radius-control);margin-block:20px}
+#econ-instructor th{background:var(--surface-raised);font-family:var(--font-data);font-size:.8rem}
+#econ-instructor td,#econ-instructor th{padding:14px 12px}
+#econ-instructor button:disabled{cursor:not-allowed}
+@media(max-width:720px){#econ-instructor form{padding:16px}#econ-instructor .instructor-hero{padding-top:8px}#econ-instructor .instructor-nav a{padding-inline:12px}#econ-instructor .actions>*{max-width:100%}#econ-instructor .setup-grid>*{min-width:0}}
+@media(prefers-reduced-motion:no-preference){#econ-instructor button,#econ-instructor .instructor-nav a{transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}#econ-instructor .question-library-item[open]>:not(summary){animation:econ-reveal 180ms ease-out}@keyframes econ-reveal{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}}
+@media print{#econ-instructor .instructor-nav{display:none}}
+
+/* Keep answer layout and saved selections readable throughout submission. */
+.econ-practice fieldset label.numeric-answer{display:block;padding:20px}
+.econ-practice .numeric-answer input{max-width:24rem;margin-bottom:0;font-family:var(--font-data)}
+.econ-practice .answer-guidance{font-size:.9rem;margin-top:12px}
+.econ-practice .choice-answer{border-radius:var(--radius-control);cursor:pointer}
+.econ-practice .choice-answer:has(input:checked){border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink);background:var(--surface-raised)}
+.econ-practice .choice-answer:has(input:focus-visible){outline:3px solid var(--focus-ring);outline-offset:3px}
+.econ-practice fieldset:disabled label{cursor:default}
+.econ-practice fieldset:disabled input{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+.econ-practice #feedback:not(:empty){border-top:1px solid var(--rule);margin-top:24px;padding-top:24px}
+@media(prefers-reduced-motion:no-preference){.econ-practice .choice-answer{transition:border-color 140ms ease,background-color 140ms ease,box-shadow 140ms ease}}
+.econ-practice .session-answer{padding:16px 20px;border:1px solid var(--rule);border-radius:var(--radius-control);background:var(--surface-raised)}
+.econ-practice .session-answer summary{font-family:var(--font-display);line-height:1.5;padding-block:8px}
+.econ-practice .session-answer[open] summary{border-bottom:1px solid var(--rule);margin-bottom:20px}
+
+.econ-practice .irt-table-scroll:focus-visible{outline:3px solid currentColor;outline-offset:3px}

@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "political-economy-u1-01",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Pairwise majority cycle",
+    "prompt": "Three equally sized blocs rank policies A>B>C, B>C>A, and C>A>B. Voting is sincere in each pairwise contest. What happens?",
+    "correct": "A beats B, B beats C, and C beats A.",
+    "wrong": [
+      "A defeats both alternatives.",
+      "B defeats both alternatives.",
+      "Every pairwise contest ties."
+    ],
+    "explanation": "Each comparison has two blocs against one; the majority relation cycles despite transitive individual rankings.",
+    "hint": "Count blocs separately for each pair.",
+    "skill": "pairwise majority cycle",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-02",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Median ideal point",
+    "prompt": "Five voters have ideal policies 1, 3, 4, 8, and 10 and utility equal to minus absolute distance from policy. Under sincere pairwise majority voting, which policy defeats every other feasible real-valued policy?",
+    "correct": "4.",
+    "wrong": [
+      "3.",
+      "5.2.",
+      "8."
+    ],
+    "explanation": "The middle ideal point is 4. For a challenger on either side, at least three voters prefer 4. The mean need not be the majority winner.",
+    "hint": "Identify the third ordered ideal point.",
+    "skill": "median ideal point",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-03",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Single-peakedness restriction",
+    "prompt": "Policies are ordered L<M<R. Which strict ranking violates single-peakedness on this order?",
+    "correct": "L>R>M.",
+    "wrong": [
+      "L>M>R.",
+      "M>L>R.",
+      "R>M>L."
+    ],
+    "explanation": "L>R>M ranks the middle policy below both endpoints, creating a valley. Each other ranking falls away from its peak.",
+    "hint": "Look for a middle alternative ranked last.",
+    "skill": "single-peakedness restriction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-04",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Sincere agenda control",
+    "prompt": "Three voters rank A>B>C, B>C>A, and C>A>B. They vote sincerely in a sequential agenda: first A versus B, then the winner versus C. Which policy wins?",
+    "correct": "C.",
+    "wrong": [
+      "A.",
+      "B.",
+      "The agenda must end in a tie."
+    ],
+    "explanation": "A beats B by two votes, then C beats A by two votes. The sincerity assumption excludes strategic first-round ballots.",
+    "hint": "Resolve the two contests in order.",
+    "skill": "sincere agenda control",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-05",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Plurality and majority",
+    "prompt": "There are 40 voters ranking A>B>C, 35 ranking B>C>A, and 25 ranking C>B>A. Everyone votes sincerely. Which statement is correct?",
+    "correct": "A wins plurality, but B defeats both rivals pairwise.",
+    "wrong": [
+      "A wins plurality and defeats both rivals pairwise.",
+      "B wins plurality, but C is the pairwise winner.",
+      "C wins plurality and defeats B pairwise."
+    ],
+    "explanation": "First choices give A 40, B 35, C 25. B beats A 60–40 and C 75–25.",
+    "hint": "Distinguish first choices from pairwise support.",
+    "skill": "plurality and majority",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-06",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Borda calculation",
+    "prompt": "Five voters rank A>B>C, three rank B>C>A, and two rank C>A>B. Under Borda scores 2 for first, 1 for second, and 0 for third, which outcome follows?",
+    "correct": "A wins with 12 points.",
+    "wrong": [
+      "B wins with 12 points.",
+      "C wins with 11 points.",
+      "All alternatives receive 10 points."
+    ],
+    "explanation": "A gets 5(2)+3(0)+2(1)=12, B gets 5+6=11, and C gets 3+4=7. Borda uses the entire ranking rather than only first choices.",
+    "hint": "Sum scores across voter blocs.",
+    "skill": "borda calculation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-07",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Unanimity and welfare ranking",
+    "prompt": "A hypothetical social ranking puts X above Y even though every individual strictly prefers Y to X. Which standard social-choice condition is directly violated?",
+    "correct": "Pareto unanimity.",
+    "wrong": [
+      "Independence of irrelevant alternatives alone.",
+      "Anonymity alone.",
+      "Single-peakedness of individual preferences."
+    ],
+    "explanation": "Pareto unanimity requires society to preserve unanimous strict comparisons. This observation alone does not diagnose anonymity or domain shape.",
+    "hint": "Which condition governs agreement by everyone?",
+    "skill": "unanimity and welfare ranking",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-08",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Arrow and restricted domains",
+    "prompt": "A committee restricts preferences to be single-peaked on one common policy line. Why does a well-behaved majority ordering on this domain not refute Arrow’s impossibility theorem?",
+    "correct": "The unrestricted-domain requirement is no longer imposed.",
+    "wrong": [
+      "The theorem applies only to cardinal utility.",
+      "Majority voting becomes dictatorial by definition.",
+      "The restriction guarantees all voters have the same ideal point."
+    ],
+    "explanation": "Arrow’s incompatible conditions include an unrestricted domain of rankings. Restricting the domain changes the theorem’s premises.",
+    "hint": "Check which assumption the committee removed.",
+    "skill": "arrow and restricted domains",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-09",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Supermajority status quo",
+    "prompt": "A committee has 9 members. A proposal requires at least 7 yes votes to replace the status quo. Six members strictly prefer the proposal, three prefer the status quo, and all vote sincerely. What occurs?",
+    "correct": "The status quo remains despite a strict majority favoring change.",
+    "wrong": [
+      "The proposal passes because six exceeds half.",
+      "The proposal passes only if the six have stronger preferences.",
+      "The status quo wins a sincere simple-majority contest."
+    ],
+    "explanation": "Six votes fail the stated threshold of seven; preference intensity is not counted. Under simple majority the proposal would win.",
+    "hint": "Use the actual passage threshold.",
+    "skill": "supermajority status quo",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u1-10",
+    "course": "political-economy",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Strategic plurality ballot",
+    "prompt": "In a plurality election a voter ranks A>B>C. The voter knows that, excluding her ballot, totals are A=2, B=5, C=5; tied leaders win by equal lottery. She values A at 3, B at 2, C at 0. Which ballot maximizes expected utility?",
+    "correct": "Vote for B.",
+    "wrong": [
+      "Vote for A.",
+      "Vote for C.",
+      "Abstain; all actions have the same value."
+    ],
+    "explanation": "Voting B makes B win and yields 2. Voting A or abstaining leaves a B/C lottery worth 1; voting C yields 0.",
+    "hint": "Only one ballot can break the tie among viable leaders.",
+    "skill": "strategic plurality ballot",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-01",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Downsian convergence",
+    "prompt": "Two purely office-seeking candidates simultaneously choose policies on a line. Voters have single-peaked distance preferences with unique median 6, vote for the closer candidate, and split ties equally. Both candidates can commit. Which profile is a Nash equilibrium?",
+    "correct": "Both choose 6.",
+    "wrong": [
+      "Both choose 0.",
+      "Both choose 10.",
+      "One chooses 0 and the other 10."
+    ],
+    "explanation": "At the median each candidate obtains half the votes. A unilateral move loses the majority to the candidate at 6.",
+    "hint": "Consider a deviation away from the median.",
+    "skill": "downsian convergence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-02",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Commitment versus identity",
+    "prompt": "An elected citizen-candidate implements her own ideal policy because campaign promises are unenforceable. Which step of the standard committed-platform convergence argument fails?",
+    "correct": "Candidates cannot freely commit to implementing the median policy.",
+    "wrong": [
+      "Voters cannot rank any policies.",
+      "Elections cannot have a winner.",
+      "All candidates must have identical ideals."
+    ],
+    "explanation": "Citizen-candidate identity constrains implemented policy; costless binding repositioning is unavailable. This does not itself prove divergence in every equilibrium.",
+    "hint": "Separate announcements from implemented choices.",
+    "skill": "commitment versus identity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-03",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Pivotal turnout calculus",
+    "prompt": "Voting costs 3 utility units. A voter’s ballot changes the outcome with probability 0.02, the preferred outcome is worth 100 more units, and voting gives expressive benefit 0.5. Under expected utility, should she vote?",
+    "correct": "No; net benefit is −0.5.",
+    "wrong": [
+      "Yes; net benefit is 97.5.",
+      "Yes; net benefit is 2.5.",
+      "No; net benefit is −3.5."
+    ],
+    "explanation": "The net gain is 0.02(100)+0.5−3=−0.5. Outcome benefits must be weighted by pivotality.",
+    "hint": "Add expected instrumental and expressive benefits, then subtract cost.",
+    "skill": "pivotal turnout calculus",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-04",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Probabilistic electoral responsiveness",
+    "prompt": "In a local approximation, an extra unit of transfer to group g raises expected votes by n_g f_g. Groups A and B each have 100 voters, with ideological densities at indifference f_A=0.2 and f_B=0.05. Transfers have equal marginal cost. Which group gives the larger marginal vote gain?",
+    "correct": "A, with four times B’s marginal gain.",
+    "wrong": [
+      "B, with four times A’s marginal gain.",
+      "They give equal gains because population is equal.",
+      "A, with only twice B’s marginal gain."
+    ],
+    "explanation": "The gains are 20 versus 5. Density at the switching margin, not population alone, determines responsiveness in this approximation.",
+    "hint": "Multiply size by density at indifference.",
+    "skill": "probabilistic electoral responsiveness",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-05",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Fixed candidate distance",
+    "prompt": "Voters are uniformly distributed on [0,10] and vote for the nearest of candidates at 2 and 6, with indifferent voters split equally. What vote share does the candidate at 2 receive?",
+    "correct": "40%.",
+    "wrong": [
+      "20%.",
+      "50%.",
+      "60%."
+    ],
+    "explanation": "The indifferent ideal point is 4, so voters from 0 to 4 support the left candidate: 4/10. The single indifferent point has zero mass.",
+    "hint": "Locate the midpoint of the two positions.",
+    "skill": "fixed candidate distance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-06",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Valence advantage",
+    "prompt": "A voter at ideal point 5 evaluates candidate j by v_j−|x_j−5|. Candidate A has x_A=2 and v_A=2; B has x_B=6 and v_B=0. How does this voter rank them?",
+    "correct": "The voter is indifferent.",
+    "wrong": [
+      "A is strictly preferred by 2 units.",
+      "B is strictly preferred by 2 units.",
+      "A is strictly preferred by 4 units."
+    ],
+    "explanation": "Both utilities equal −1: 2−3 for A and 0−1 for B. Valence offsets A’s additional distance.",
+    "hint": "Calculate total utility, not distance alone.",
+    "skill": "valence advantage",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-07",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Entry with office rents",
+    "prompt": "A prospective candidate pays entry cost 8. Entry gives a 0.25 chance of office worth 40 and otherwise zero; abstaining yields zero. There are no policy benefits or other costs. What is the expected net return to entry?",
+    "correct": "2, so entry is strictly preferred.",
+    "wrong": [
+      "10, so entry is strictly preferred.",
+      "−2, so abstention is strictly preferred.",
+      "32, so entry is strictly preferred."
+    ],
+    "explanation": "Expected office benefit is 0.25(40)=10; subtracting the certain cost 8 leaves 2.",
+    "hint": "The entry cost is paid even after losing.",
+    "skill": "entry with office rents",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-08",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "District votes versus seats",
+    "prompt": "Three equal-sized single-member districts award seats by plurality. Party A receives 51%, 51%, and 10% of votes against one opponent; turnout is equal across districts. What follows?",
+    "correct": "A wins two seats with about 37.3% of total votes.",
+    "wrong": [
+      "A wins one seat with about 37.3% of votes.",
+      "A wins two seats with 51% of total votes.",
+      "A wins no seats because its aggregate share is below half."
+    ],
+    "explanation": "A wins the first two districts. Its aggregate share is (51+51+10)/3=37.33%. District-level aggregation can differ from aggregate vote rankings.",
+    "hint": "Count district victories separately from the average share.",
+    "skill": "district votes versus seats",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-09",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Campaign spending and selection",
+    "prompt": "In hypothetical observational data, stronger candidates both raise more funds and win more often. Why does a positive spending–victory correlation not identify spending’s causal effect?",
+    "correct": "Candidate strength can affect both spending and victory.",
+    "wrong": [
+      "A positive correlation logically proves spending has no effect.",
+      "Election outcomes cannot be analyzed statistically.",
+      "Controlling for spending eliminates all selection."
+    ],
+    "explanation": "Candidate strength is a common cause, and expected electoral success may also attract funds. The stated correlation alone separates neither mechanism.",
+    "hint": "Identify a variable influencing both sides of the comparison.",
+    "skill": "campaign spending and selection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u2-10",
+    "course": "political-economy",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Voter information choice",
+    "prompt": "A risk-neutral voter can buy information for cost 1. It improves her choice conditional on being pivotal by an expected 60 utility units. Her pivotal probability is 0.01, and information has no other value. What is optimal?",
+    "correct": "Do not buy; expected benefit is 0.6.",
+    "wrong": [
+      "Buy; expected benefit is 60.",
+      "Buy; expected benefit is 6.",
+      "Do not buy; expected benefit is exactly zero."
+    ],
+    "explanation": "The unconditional improvement is 0.01(60)=0.6, below cost 1. This is an information-acquisition incentive in the stipulated model.",
+    "hint": "Weight decision improvement by the chance of affecting the outcome.",
+    "skill": "voter information choice",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-01",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Public-good free riding",
+    "prompt": "Four residents simultaneously choose contributions g_i in [0,10]. Utility is 10−g_i+0.4Σg_j. What is each resident’s dominant choice?",
+    "correct": "Contribute zero.",
+    "wrong": [
+      "Contribute 10.",
+      "Contribute 5.",
+      "Match the average contribution of others."
+    ],
+    "explanation": "A private contribution costs 1 and returns only 0.4 to its contributor, so the private marginal payoff is −0.6 regardless of others.",
+    "hint": "Hold the other three contributions fixed.",
+    "skill": "public-good free riding",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-02",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Social return to contributions",
+    "prompt": "Four residents have utility 10−g_i+0.4Σg_j, with each contribution between 0 and 10. What contributions maximize the sum of utilities?",
+    "correct": "All four contribute 10.",
+    "wrong": [
+      "All four contribute zero.",
+      "Exactly one contributes 10.",
+      "Any contribution profile has the same total utility."
+    ],
+    "explanation": "One additional contribution raises summed benefits by 4(0.4)=1.6 and costs 1, a net social gain of 0.6. Thus all bounds bind.",
+    "hint": "Count the benefit to every resident.",
+    "skill": "social return to contributions",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-03",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Threshold coordination",
+    "prompt": "Two residents can each pay 4 toward a project. The project is supplied only if both pay, giving each benefit 7; payments are lost if provision fails. Which pure-strategy Nash equilibria exist?",
+    "correct": "Both pay and neither pays.",
+    "wrong": [
+      "Only both pay.",
+      "Only neither pays.",
+      "Exactly one pays."
+    ],
+    "explanation": "If the other pays, paying yields 3 versus 0. If the other does not, paying yields −4 versus 0. Both coordinated profiles are equilibria.",
+    "hint": "Evaluate each best response under each possible partner action.",
+    "skill": "threshold coordination",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-04",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Selective participation benefit",
+    "prompt": "A group member’s political contribution costs 6 and gives her an incremental policy benefit of 2. The group can give contributors an exclusive benefit worth 5. Ignoring other effects, how does this change her participation incentive?",
+    "correct": "Net benefit changes from −4 to 1.",
+    "wrong": [
+      "Net benefit changes from −4 to −1.",
+      "Net benefit changes from 4 to 9.",
+      "There is no change because policy benefits are nonexcludable."
+    ],
+    "explanation": "An exclusive reward changes the private payoff even when the political outcome itself is shared: 2−6=−4; 2+5−6=1.",
+    "hint": "Add the benefit available only to contributors.",
+    "skill": "selective participation benefit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-05",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Concentrated gains",
+    "prompt": "A policy gives each of 10 firms 1,000 and costs each of 10,000 consumers 2. An individual can oppose or support it at a fixed organizing cost of 100. Holding effectiveness equal, what incentive asymmetry is suggested?",
+    "correct": "Each firm has much more at stake than each consumer, even though total consumer losses exceed firm gains.",
+    "wrong": [
+      "Total firm gains exceed total consumer losses.",
+      "Each consumer has more at stake than each firm.",
+      "The totals imply every consumer will organize individually."
+    ],
+    "explanation": "Firm gains total 10,000 while consumer losses total 20,000. Individual stakes are 1,000 versus 2; aggregate harm does not automatically create strong individual organizing incentives.",
+    "hint": "Compare both per-person stakes and aggregate amounts.",
+    "skill": "concentrated gains",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-06",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Rent-seeking best response",
+    "prompt": "Two groups contest a prize worth 100. Group i spends x≥0 and wins with probability x/(x+y), where its rival spends y=25. Its payoff is 100x/(x+25)−x. What is its optimal expenditure?",
+    "correct": "25.",
+    "wrong": [
+      "0.",
+      "50.",
+      "100."
+    ],
+    "explanation": "The marginal payoff is 2500/(x+25)^2−1; it equals zero at x=25. The payoff is strictly concave for x≥0, so this is the maximum.",
+    "hint": "Set the marginal increase in expected prize equal to marginal cost.",
+    "skill": "rent-seeking best response",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-07",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Transfers versus resource losses",
+    "prompt": "A hypothetical license transfers 50 from consumers to a license holder, with no output distortion. Competing firms also burn 15 of real resources lobbying for it. Using total monetary surplus and ignoring distributional weights, what is the net social loss?",
+    "correct": "15.",
+    "wrong": [
+      "50.",
+      "65.",
+      "35."
+    ],
+    "explanation": "The 50 transfer cancels across recipients and payers; the 15 resource use does not. Distributional objectives could value the transfer differently, but are explicitly excluded.",
+    "hint": "Separate redistribution from real resource consumption.",
+    "skill": "transfers versus resource losses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-08",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Repeated cooperation",
+    "prompt": "A member gets 4 each period from cooperation. A one-time deviation gives 7 now, followed by 1 per period forever under a credible punishment. With discount factor δ, cooperation is incentive compatible when:",
+    "correct": "δ is at least 1/2.",
+    "wrong": [
+      "δ is at most 1/2.",
+      "δ is at least 3/4.",
+      "δ is at least 1/4."
+    ],
+    "explanation": "Compare 4/(1−δ) with 7+δ/(1−δ): 4≥7−6δ, so δ≥1/2.",
+    "hint": "Compare the full discounted paths.",
+    "skill": "repeated cooperation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-09",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Expected penalty",
+    "prompt": "A risk-neutral official can take a bribe worth 12. Detection probability is 0.3 and the monetary fine, paid only on detection, is 50. The bribe is retained and there are no other consequences. What is the expected gain?",
+    "correct": "−3.",
+    "wrong": [
+      "12.",
+      "−15.",
+      "−38."
+    ],
+    "explanation": "The expected gain is 12−0.3(50)=−3. Because the bribe is retained, it is not multiplied by nondetection probability.",
+    "hint": "Apply the probability only to the contingent fine.",
+    "skill": "expected penalty",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u3-10",
+    "course": "political-economy",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Lobbying access and causality",
+    "prompt": "A researcher compares policy success for groups granted meetings with officials to groups without meetings. Officials choose whom to meet based on expected policy viability. What is the main identification problem?",
+    "correct": "Meeting access is selected on a determinant of policy success.",
+    "wrong": [
+      "Policy success necessarily causes all meetings retrospectively.",
+      "Selection guarantees the estimated effect is negative.",
+      "A larger sample alone makes access effectively randomized."
+    ],
+    "explanation": "Officials select viable proposals, so treated and untreated proposals can differ before meetings. More observations do not remove this confounding.",
+    "hint": "Ask how treatment was assigned.",
+    "skill": "lobbying access and causality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-01",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Effort and reelection",
+    "prompt": "An incumbent can pay effort cost 3 to raise reelection probability from 0.4 to 0.7. Another term is worth 20, received next period with discount factor 0.8. Effort has no other payoff. What is the net incentive to exert effort?",
+    "correct": "1.8, so effort is preferred.",
+    "wrong": [
+      "6, so effort is preferred.",
+      "−0.6, so no effort is preferred.",
+      "13, so effort is preferred."
+    ],
+    "explanation": "The incremental discounted reward is 0.8(0.7−0.4)(20)=4.8. Subtract cost 3 to obtain 1.8.",
+    "hint": "Use the change in reelection probability.",
+    "skill": "effort and reelection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-02",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Binding term limit",
+    "prompt": "In a political-agency model the only benefit of effort is an increased chance of a valuable next term. Effort is costly. A binding term limit eliminates eligibility, with no reputation or future career payoffs. What happens to this effort incentive?",
+    "correct": "It disappears.",
+    "wrong": [
+      "It necessarily doubles.",
+      "It remains unchanged.",
+      "It becomes a benefit from winning a third term."
+    ],
+    "explanation": "The stipulated electoral reward is unavailable. This is a conditional model prediction, not a claim that term-limited officials never work.",
+    "hint": "Identify the only channel rewarding effort in the prompt.",
+    "skill": "binding term limit",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-03",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Bayesian competence update",
+    "prompt": "A voter’s prior probability an incumbent is competent is 0.5. A good outcome occurs with probability 0.8 if competent and 0.2 otherwise. After observing a good outcome, what is the posterior probability of competence?",
+    "correct": "0.8.",
+    "wrong": [
+      "0.5.",
+      "0.6.",
+      "1.0."
+    ],
+    "explanation": "Bayes’ rule gives 0.8(0.5)/[0.8(0.5)+0.2(0.5)]=0.8. A favorable outcome is informative but not conclusive.",
+    "hint": "Normalize the two joint probabilities of a good outcome.",
+    "skill": "bayesian competence update",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-04",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Selection versus discipline",
+    "prompt": "An election replaces low-ability officials with higher-ability challengers, but officials’ actions are fixed and cannot respond to incentives. Which mechanism operates?",
+    "correct": "Selection, without behavioral discipline.",
+    "wrong": [
+      "Discipline, without selection.",
+      "Both mechanisms necessarily operate.",
+      "Neither can operate unless effort is observed."
+    ],
+    "explanation": "Changing who serves is selection. Discipline requires incumbents to alter actions in response to electoral rewards, excluded here.",
+    "hint": "Distinguish the identity of the officeholder from behavior while in office.",
+    "skill": "selection versus discipline",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-05",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Noisy outcome evaluation",
+    "prompt": "Observed service quality equals incumbent effort plus an independent mean-zero shock. Voters observe quality but not the shock or effort. What inference is valid?",
+    "correct": "A low outcome can occur despite high effort.",
+    "wrong": [
+      "A low outcome proves zero effort.",
+      "Mean-zero shocks are always zero in each election.",
+      "Effort cannot affect the distribution of outcomes."
+    ],
+    "explanation": "Mean zero describes an average, not each realization. Outcomes contain both effort and noise, so single outcomes do not perfectly reveal effort.",
+    "hint": "Separate the systematic component from the random realization.",
+    "skill": "noisy outcome evaluation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-06",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Audits and deterrence",
+    "prompt": "An official keeps an illicit gain of 8 and pays a fine of 40 if detected. She is risk neutral. An audit raises detection probability from 0.1 to 0.3, with no other changes. What happens to the net expected gain?",
+    "correct": "It falls from 4 to −4.",
+    "wrong": [
+      "It rises from 4 to 12.",
+      "It falls from 8 to 4.",
+      "It stays at 8 because the gain is retained."
+    ],
+    "explanation": "The gains are 8−0.1(40)=4 and 8−0.3(40)=−4. The increased expected fine reverses the private incentive.",
+    "hint": "Subtract the expected fine under each audit regime.",
+    "skill": "audits and deterrence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-07",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Career concerns without reelection",
+    "prompt": "An official cannot seek reelection, but future employers reward evidence of competence. Can this official still have a career-based incentive to improve observable performance?",
+    "correct": "Yes, if performance changes expected future employment rewards.",
+    "wrong": [
+      "No, all dynamic incentives require reelection.",
+      "Yes, regardless of whether employers observe anything relevant.",
+      "No, future compensation cannot affect present choices."
+    ],
+    "explanation": "Future employment can provide a continuation payoff outside electoral office. Its incentive effect depends on performance being informative for rewards.",
+    "hint": "Consider continuation payoffs other than office rents.",
+    "skill": "career concerns without reelection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-08",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Pooling political types",
+    "prompt": "Competent and incompetent incumbents both choose the same observed action in an equilibrium. A voter observes only that action; its probability is one under either type. What happens to the voter’s prior over types?",
+    "correct": "It remains unchanged.",
+    "wrong": [
+      "It becomes certainty of competence.",
+      "It becomes certainty of incompetence.",
+      "It must become one-half regardless of the prior."
+    ],
+    "explanation": "The likelihood ratio of the observed action is one, so Bayes’ rule leaves prior odds unchanged.",
+    "hint": "Does the observation distinguish the two types?",
+    "skill": "pooling political types",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-09",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Accountability information experiment",
+    "prompt": "Municipalities are randomly assigned publication of an audit before an election. With full compliance, no spillovers, and no attrition, the treated reelection rate is 0.42 and the control rate is 0.50. What is the estimated average assignment effect?",
+    "correct": "−8 percentage points.",
+    "wrong": [
+      "−8 percent of the control rate.",
+      "8 percentage points.",
+      "−0.8 percentage points."
+    ],
+    "explanation": "The difference is 0.42−0.50=−0.08, or −8 percentage points. The relative change would be −16%, a different quantity.",
+    "hint": "Subtract probabilities before converting to percentage points.",
+    "skill": "accountability information experiment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u4-10",
+    "course": "political-economy",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Policy pandering",
+    "prompt": "A politician privately knows policy A yields greater voter welfare, but voters currently believe B is better and reward B with reelection. She chooses B solely to increase reelection chances. What does this scenario illustrate?",
+    "correct": "Pandering induced by electoral incentives.",
+    "wrong": [
+      "Perfect revelation of private information.",
+      "Policy choice entirely independent of voter beliefs.",
+      "A logical proof that elections always reduce welfare."
+    ],
+    "explanation": "The official conforms to current voter beliefs despite contrary private information. The example demonstrates a possible agency distortion, not a universal welfare result.",
+    "hint": "Compare the informed welfare ranking with the electorally rewarded action.",
+    "skill": "policy pandering",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-01",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Expropriation and investment",
+    "prompt": "An investor pays 6 now for output worth 10 later. A ruler then chooses whether to seize all output. Seizure gives the ruler 10 instead of 0, carries no penalty, and promises cannot bind. Under backward induction and complete information, what occurs?",
+    "correct": "The investor does not invest.",
+    "wrong": [
+      "The investor invests because gross output exceeds cost.",
+      "The ruler voluntarily leaves output solely because of a costless promise.",
+      "Investment occurs with certainty and the investor earns 4."
+    ],
+    "explanation": "After investment the ruler seizes; anticipating zero retained output and cost 6, the investor abstains. Commitment failure prevents an otherwise productive investment.",
+    "hint": "Solve the ruler’s decision after costs are sunk.",
+    "skill": "expropriation and investment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-02",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Credible enforcement",
+    "prompt": "An investor can pay 6 now to produce output worth 10. After investment, a ruler chooses whether to seize it. Seizure yields the ruler 10 but triggers an enforceable personal penalty of 12; leaving the output gives the ruler 0. The investor retains the output only if it is not seized. With complete information and no other payoffs, what is the backward-induction outcome?",
+    "correct": "The ruler refrains from seizure and investment occurs.",
+    "wrong": [
+      "The ruler seizes and investment occurs.",
+      "No investment, because every promise is necessarily incredible.",
+      "The investor invests only if the ruler receives all output."
+    ],
+    "explanation": "Seizure now yields −2, below 0. Anticipating retention, the investor obtains 10−6=4 and invests. Credibility follows from changed payoffs.",
+    "hint": "Recompute the ruler’s continuation payoff with the penalty.",
+    "skill": "credible enforcement",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-03",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Veto-player acceptance",
+    "prompt": "Policies lie on a line. Status quo is 0. Two veto players have utilities minus distance from ideal points 2 and 6, and each must strictly prefer a proposal to 0 for passage. Which proposal passes?",
+    "correct": "3.",
+    "wrong": [
+      "4.",
+      "5.",
+      "−1."
+    ],
+    "explanation": "At 3 both are one or three units from their ideals, improving on distances 2 and 6 at 0. At 4 the first player is indifferent, so the strict-consent rule blocks it.",
+    "hint": "Check both players and the strict preference requirement.",
+    "skill": "veto-player acceptance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-04",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Adding a veto player",
+    "prompt": "A policy change requires assent of every veto player. Existing players’ preferences and status quo remain fixed. Adding another required veto player can do what to the set of feasible changes?",
+    "correct": "Only shrink it or leave it unchanged.",
+    "wrong": [
+      "Only expand it.",
+      "Necessarily leave it unchanged.",
+      "Necessarily make it empty."
+    ],
+    "explanation": "The new acceptance set is intersected with the old feasible set, which cannot add proposals. The intersection may still equal the old set.",
+    "hint": "Think of passage as satisfying an additional constraint.",
+    "skill": "adding a veto player",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-05",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Legislative proposal power",
+    "prompt": "Three legislators divide 90. A proposer needs one other yes vote; the proposer votes yes. A responder votes yes exactly when offered at least 20. There is one proposal, no other payoff, and divisible transfers. What maximum can the proposer retain?",
+    "correct": "70.",
+    "wrong": [
+      "30.",
+      "45.",
+      "90."
+    ],
+    "explanation": "Offer one responder 20 and the other 0, keeping 70. A majority needs only one responder; retaining 90 attracts none.",
+    "hint": "Buy the minimum number of votes at the reservation amount.",
+    "skill": "legislative proposal power",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-06",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Formal versus effective constraints",
+    "prompt": "A constitution prohibits executive seizure, but no court or political actor can impose a cost for violating it. In a model where the executive gains from seizure and faces no other consequences, what should an analyst examine?",
+    "correct": "Whether any mechanism makes compliance incentive compatible.",
+    "wrong": [
+      "Only whether the prohibition is written down.",
+      "Whether the document uses stronger adjectives.",
+      "Whether all institutions can be ignored in every setting."
+    ],
+    "explanation": "A formal rule alone does not alter the stated violation payoff. Effective enforcement or other consequences are needed to support compliance in this model.",
+    "hint": "Ask what changes the payoff from violating the rule.",
+    "skill": "formal versus effective constraints",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-07",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Persistence and sunk organizational costs",
+    "prompt": "An incumbent coalition has already paid an organizing cost that a challenger must newly incur. Both expect the same gross political benefit. What mechanism can favor incumbent persistence?",
+    "correct": "The challenger faces an entry cost that is sunk for the incumbent.",
+    "wrong": [
+      "Sunk costs must be paid again by the incumbent every period.",
+      "Equal gross benefits imply equal net entry payoffs.",
+      "Past payment alone proves the incumbent is socially efficient."
+    ],
+    "explanation": "The relevant future cost differs: the challenger must incur it, while the incumbent cannot recover its past outlay. Persistence need not imply efficiency.",
+    "hint": "Compare costs that remain avoidable from today onward.",
+    "skill": "persistence and sunk organizational costs",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-08",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Delegation with preference conflict",
+    "prompt": "A principal wants policy 2 but delegates unconstrained final choice to an agent whose utility is −(x−5)^2. There are no transfers, reputational effects, or future interactions. Which policy does the agent choose?",
+    "correct": "5.",
+    "wrong": [
+      "2.",
+      "3.5.",
+      "0."
+    ],
+    "explanation": "The agent maximizes its own utility at its ideal point 5. Without a constraint or incentive, delegation does not implement the principal’s ideal.",
+    "hint": "Maximize the agent’s stated objective.",
+    "skill": "delegation with preference conflict",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-09",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Common-pool spending",
+    "prompt": "Three districts each choose nonnegative spending g_i. District i’s benefit is 6g_i−g_i²/2. Each unit of spending costs 1, and the total cost is split equally across districts. Each district maximizes its benefit minus its tax payment. What is district i’s best response regardless of others?",
+    "correct": "g_i=17/3.",
+    "wrong": [
+      "g_i=5.",
+      "g_i=6.",
+      "g_i=3."
+    ],
+    "explanation": "Its marginal benefit is 6−g_i and its marginal tax cost is 1/3. Thus g_i=6−1/3=17/3; it does not internalize the full cost of 1.",
+    "hint": "Use the district’s own share of the marginal bill.",
+    "skill": "common-pool spending",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u5-10",
+    "course": "political-economy",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Institutional endogeneity",
+    "prompt": "A cross-country regression links stronger executive constraints with higher income. Political coalitions and historical shocks affect both variables. What conclusion is warranted from the regression alone?",
+    "correct": "It describes an association but does not isolate a causal institutional effect.",
+    "wrong": [
+      "It identifies causality because constitutions precede the survey date.",
+      "It proves income has no effect on institutions.",
+      "It proves constraints reduce income once selection is considered."
+    ],
+    "explanation": "Common causes and reverse causality remain possible. Timing or the label “institution” alone does not establish exogenous variation.",
+    "hint": "Ask whether institutional variation is as-good-as randomly assigned.",
+    "skill": "institutional endogeneity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-01",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Bargaining range under costly conflict",
+    "prompt": "Two risk-neutral groups divide 100. In conflict A wins all with probability 0.6 and B with probability 0.4; A pays cost 10 and B cost 15 regardless of who wins. A peaceful deal gives A amount s and B 100−s. Which range is weakly preferred to conflict by both?",
+    "correct": "50≤s≤75.",
+    "wrong": [
+      "60≤s≤85.",
+      "25≤s≤50.",
+      "There is no mutually acceptable division."
+    ],
+    "explanation": "A’s conflict payoff is 60−10=50; B’s is 40−15=25. Peace requires s≥50 and 100−s≥25, giving s≤75.",
+    "hint": "Compute each side’s outside option separately.",
+    "skill": "bargaining range under costly conflict",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-02",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Commitment problem in peace",
+    "prompt": "A peaceful settlement would benefit both sides today. Tomorrow one side becomes much stronger and can seize resources without penalty; it cannot bind its future choices. What can obstruct peace today even with complete information?",
+    "correct": "An inability to credibly commit to the future allocation.",
+    "wrong": [
+      "A necessary disagreement over today’s arithmetic.",
+      "A guarantee that war is jointly efficient.",
+      "A theorem that information always eliminates conflict."
+    ],
+    "explanation": "Future power changes may undermine promises even when present payoffs are common knowledge. A current bargaining surplus does not ensure an enforceable intertemporal bargain.",
+    "hint": "Distinguish common knowledge from enforceable future behavior.",
+    "skill": "commitment problem in peace",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-03",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Conflict opportunity cost",
+    "prompt": "A person chooses peaceful work earning 9 or joining a risky raid with expected monetary payoff 7. There are no other benefits or costs and the person is risk neutral. A wage shock lowers peaceful earnings to 5 without changing raid payoffs. What follows?",
+    "correct": "The preferred choice switches from work to the raid.",
+    "wrong": [
+      "The preferred choice switches from the raid to work.",
+      "The raid was preferred before and after.",
+      "Work remains preferred because its payoff is certain."
+    ],
+    "explanation": "Initially 9 exceeds 7; after the shock 7 exceeds 5. Under risk neutrality certainty has no separate value. This is a model-based opportunity-cost mechanism.",
+    "hint": "Compare expected net payoffs before and after the shock.",
+    "skill": "conflict opportunity cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-04",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Redistribution with exogenous incomes",
+    "prompt": "Three equal-sized groups earn 20, 40, and 90 before taxes. A proportional tax rate t in [0,1] finances an equal per-person transfer with no administrative costs or behavioral response. Voters care only about their own consumption and strictly prefer more to less. What tax rate does the median-income voter prefer?",
+    "correct": "1.",
+    "wrong": [
+      "0.",
+      "1/2.",
+      "2/3."
+    ],
+    "explanation": "Mean income is 50. The median-income voter’s consumption is (1−t)40+t(50)=40+10t, increasing throughout the feasible interval.",
+    "hint": "Compare the voter’s income with the tax-base mean.",
+    "skill": "redistribution with exogenous incomes",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-05",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Redistribution with a reduced-form cost",
+    "prompt": "A voter with income 40 faces mean income 60. Her indirect utility from tax rate t in [0,1] is 40+t(60−40)−20t². Which tax rate maximizes this utility?",
+    "correct": "1/2.",
+    "wrong": [
+      "0.",
+      "1.",
+      "1/4."
+    ],
+    "explanation": "The derivative is 20−40t, yielding t=1/2. The second derivative is −40, so the interior critical point is the unique maximum.",
+    "hint": "Balance marginal redistribution gain against marginal cost.",
+    "skill": "redistribution with a reduced-form cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-06",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Close-election discontinuity",
+    "prompt": "A candidate wins office if her vote margin exceeds zero. A study compares municipalities just above and below zero. Under continuity of potential outcomes, no precise sorting, and no other discontinuous treatment, what does the local outcome jump identify?",
+    "correct": "The causal effect of winning office for elections at the threshold.",
+    "wrong": [
+      "The effect for all candidates in all electoral systems.",
+      "The effect of campaign spending regardless of winning.",
+      "The effect of changing every municipality’s constitution."
+    ],
+    "explanation": "A sharp regression discontinuity identifies the treatment effect at the cutoff under these assumptions. Extrapolation beyond close elections requires additional assumptions.",
+    "hint": "Match the discontinuous assignment and the local population.",
+    "skill": "close-election discontinuity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-07",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Difference-in-differences calculation",
+    "prompt": "In hypothetical municipalities an institutional reform group’s turnout rises from 50% to 62%, while untreated municipalities rise from 55% to 60%. Assume parallel untreated trends, no anticipation, and no spillovers. What is the two-period difference-in-differences estimate?",
+    "correct": "7 percentage points.",
+    "wrong": [
+      "12 percentage points.",
+      "2 percentage points.",
+      "17 percentage points."
+    ],
+    "explanation": "The treated change is 12 points and the control change is 5, so the estimated effect is 12−5=7 points.",
+    "hint": "Subtract the comparison group’s change from the reform group’s change.",
+    "skill": "difference-in-differences calculation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-08",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Instrumental-variable exclusion",
+    "prompt": "A randomized encouragement increases voter information, but also directly subsidizes transport to polling stations. A researcher instruments information with encouragement to estimate its effect on turnout. Which assumption is threatened?",
+    "correct": "Exclusion, because encouragement can affect turnout outside the information channel.",
+    "wrong": [
+      "Random assignment, solely because there are two channels.",
+      "Relevance, solely because information responds.",
+      "Monotonicity, solely because transport is subsidized."
+    ],
+    "explanation": "Even randomized encouragement is not a valid instrument for information if transport provides a separate path to turnout. Randomization alone does not establish exclusion.",
+    "hint": "Trace every path from encouragement to the outcome.",
+    "skill": "instrumental-variable exclusion",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-09",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Treatment spillovers",
+    "prompt": "Villages are randomized to conflict-mediation training. Residents also share techniques with nearby control villages. What concern arises when interpreting the simple treated-minus-control difference as an effect of training versus no exposure?",
+    "correct": "Control outcomes may reflect indirect exposure, violating the no-interference comparison.",
+    "wrong": [
+      "Randomization guarantees control villages cannot be exposed.",
+      "Spillovers always make the estimated effect exactly zero.",
+      "Spillovers prove baseline assignment was manipulated."
+    ],
+    "explanation": "Training assignment can affect other villages’ outcomes. The contrast may combine direct and indirect effects and need not equal an isolated exposure effect; its bias direction is not given.",
+    "hint": "Distinguish assignment from actual direct and indirect exposure.",
+    "skill": "treatment spillovers",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "political-economy-u6-10",
+    "course": "political-economy",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Measured corruption after auditing",
+    "prompt": "A randomized audit program increases detected irregularities. Detection effort also rises under the program. What can be concluded about actual underlying corruption from detected counts alone?",
+    "correct": "Its change is ambiguous because detection probability also changed.",
+    "wrong": [
+      "Underlying corruption necessarily increased.",
+      "Underlying corruption necessarily decreased.",
+      "Randomization makes detected counts identical to true counts."
+    ],
+    "explanation": "Detected irregularities depend on both true incidence and detection. Randomization identifies the effect on observed detections, but does not separate those components without further measurement assumptions.",
+    "hint": "Treat detection as a measurement process.",
+    "skill": "measured corruption after auditing",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-75-political-economy-and-economic-development-fall-2012/pages/syllabus/",
+      "https://shapiro.scholars.harvard.edu/sites/g/files/omnuum7731/files/shapiro/files/syllabus.pdf"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

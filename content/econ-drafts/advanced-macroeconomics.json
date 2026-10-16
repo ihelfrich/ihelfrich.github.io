@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "advanced-macroeconomics-u1-01",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Discrete Euler equation",
+    "prompt": "A deterministic household has CRRA utility with coefficient σ=2, discount factor β=0.96 and an unconstrained interior saving choice. The gross real return between t and t+1 is R=1.05. What is c(t+1)/c(t)?",
+    "correct": "√1.008, approximately 1.004.",
+    "wrong": [
+      "1.008.",
+      "0.96/1.05.",
+      "√0.048, approximately 0.219."
+    ],
+    "explanation": "The discrete Euler equation is c(t)^−σ=βR c(t+1)^−σ. Thus consumption growth as a gross ratio is (βR)^(1/σ). R already includes principal.",
+    "hint": "Solve the Euler equation for the consumption ratio.",
+    "skill": "discrete euler equation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-02",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Return accounting",
+    "prompt": "In a discrete-time Ramsey economy without growth, β=0.96 and depreciation δ=0.08. What marginal product f′(k*) supports constant positive consumption at an interior steady state?",
+    "correct": "Approximately 0.12167.",
+    "wrong": [
+      "0.04167.",
+      "1.04167.",
+      "0.03833."
+    ],
+    "explanation": "The gross return is 1−δ+f′. Setting β(1−δ+f′)=1 yields f′=1/β−1+δ.",
+    "hint": "Separate the rental marginal product from the gross asset return.",
+    "skill": "return accounting",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-03",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Continuous consumption growth",
+    "prompt": "In continuous time with CRRA coefficient σ=2, pure discount rate ρ=0.03, marginal product f′=0.09 and depreciation δ=0.04, what is the instantaneous consumption growth rate in the interior Ramsey solution?",
+    "correct": "0.01 per unit time.",
+    "wrong": [
+      "0.025 per unit time.",
+      "0.04 per unit time.",
+      "1.01 per unit time."
+    ],
+    "explanation": "The continuous-time Euler equation gives ċ/c=(f′−δ−ρ)/σ=(0.09−0.04−0.03)/2. This is a rate, not a gross discrete-time factor.",
+    "hint": "Subtract depreciation and impatience before dividing by curvature.",
+    "skill": "continuous consumption growth",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-04",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Bellman state",
+    "prompt": "A deterministic planner has current capital k and resource constraint c+k′=f(k)+(1−δ)k. Productivity is constant and utility is time separable. Which recursive formulation is appropriate?",
+    "correct": "V(k)=max over feasible k′ of {u(f(k)+(1−δ)k−k′)+βV(k′)}.",
+    "wrong": [
+      "V(k)=max over feasible k′ of {u(k′)+βV(k)}.",
+      "V(c)=u(c)+βV(c), with no resource constraint.",
+      "V(k)=max over c of {u(c)+βV(k)}, with unrestricted c."
+    ],
+    "explanation": "Capital summarizes inherited productive resources. Choosing next capital determines current consumption and the next value-function argument.",
+    "hint": "Identify what is inherited and what the resource constraint makes a choice.",
+    "skill": "bellman state",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-05",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Terminal restriction",
+    "prompt": "A feasible positive-consumption path satisfies the interior Euler equation in an infinite-horizon deterministic Ramsey model. Is this alone sufficient to certify optimality?",
+    "correct": "No; an appropriate transversality condition and the model’s sufficiency conditions are also needed.",
+    "wrong": [
+      "Yes, the Euler equation rules out all wasteful accumulation.",
+      "Yes, provided capital is positive at date zero.",
+      "No infinite-horizon problem can have an optimum."
+    ],
+    "explanation": "The Euler equation controls local intertemporal tradeoffs. It can also hold along paths that accumulate unused wealth; boundary behavior must be checked. Concavity can provide sufficiency with feasibility and transversality.",
+    "hint": "Distinguish local first-order conditions from behavior at the infinite horizon.",
+    "skill": "terminal restriction",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-06",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Borrowing constraint",
+    "prompt": "A household chooses next-period assets a′≥0. Its optimal choice is a′=0; increasing saving is feasible, but borrowing is not. For differentiable concave utility and deterministic gross return R, which Euler restriction holds?",
+    "correct": "u′(c)≥βR u′(c′).",
+    "wrong": [
+      "u′(c)≤βR u′(c′) necessarily.",
+      "u′(c)=0.",
+      "βR=1 necessarily."
+    ],
+    "explanation": "The directional derivative of utility with respect to extra saving is −u′(c)+βR u′(c′). At the lower bound it cannot be positive.",
+    "hint": "Evaluate a small feasible increase in saving.",
+    "skill": "borrowing constraint",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-07",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Ramsey versus golden rule",
+    "prompt": "In a continuous-time economy with no population or technology growth and strictly decreasing f′, the golden-rule stock satisfies f′(k_GR)=δ. A Ramsey steady state has ρ>0 and f′(k_R)=δ+ρ. What follows?",
+    "correct": "k_R<k_GR.",
+    "wrong": [
+      "k_R>k_GR.",
+      "k_R=k_GR for every ρ.",
+      "The comparison requires knowing the level of utility."
+    ],
+    "explanation": "The Ramsey condition requires a larger marginal product. A decreasing marginal product implies less capital than at the consumption-maximizing golden rule.",
+    "hint": "Invert the ordering of marginal products.",
+    "skill": "ramsey versus golden rule",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-08",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Saddle-path selection",
+    "prompt": "A local continuous-time Ramsey system has one negative and one positive eigenvalue. Initial capital is predetermined and consumption can jump. Under a transverse intersection and the usual terminal restriction, what selects the convergent path?",
+    "correct": "Initial consumption adjusts to place the economy on the stable arm.",
+    "wrong": [
+      "Initial capital jumps to eliminate the unstable component.",
+      "Every nearby consumption choice converges.",
+      "Both eigenvalues must be negative for a unique convergent path."
+    ],
+    "explanation": "There is one stable direction and one jump variable. The terminal restriction removes the unstable component while the inherited capital stock fixes the point on the stable arm.",
+    "hint": "Count stable directions and inherited variables.",
+    "skill": "saddle-path selection",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-09",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Capital transition",
+    "prompt": "In discrete time with no population growth, current output is 10, consumption 6, capital 20 and depreciation 0.1. There is no government or external trade. What is next-period capital?",
+    "correct": "22.",
+    "wrong": [
+      "24.",
+      "18.",
+      "4."
+    ],
+    "explanation": "Investment is output minus consumption, or 4. Surviving capital is 18, so next capital is 22.",
+    "hint": "Add net new investment to surviving capital.",
+    "skill": "capital transition",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u1-10",
+    "course": "advanced-macroeconomics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Technology-growth normalization",
+    "prompt": "In continuous time let A grow at rate g, population L at rate n, and k=K/(AL). If aggregate capital obeys K̇=Y−C−δK, what is k̇?",
+    "correct": "y−c−(δ+n+g)k, with y=Y/(AL) and c=C/(AL).",
+    "wrong": [
+      "y−c−δk.",
+      "y−c−(δ+ng)k.",
+      "y−c+(n+g−δ)k."
+    ],
+    "explanation": "Differentiating K/(AL) subtracts growth of both efficiency and population from capital per effective worker. Continuous-time dilution rates add.",
+    "hint": "Differentiate the ratio before substituting accumulation.",
+    "skill": "technology-growth normalization",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-01",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Two-period saving",
+    "prompt": "A young household earns w=12, earns nothing when old, and maximizes log(c_y)+0.5 log(c_o). With c_y+s=w, c_o=Rs and R=1.2, what is optimal saving?",
+    "correct": "4.",
+    "wrong": [
+      "6.",
+      "8.",
+      "4.8."
+    ],
+    "explanation": "The first-order condition is 1/(12−s)=0.5/s, so s=4. The gross return cancels under logarithmic utility without old-age income.",
+    "hint": "Substitute both budget constraints into utility.",
+    "skill": "two-period saving",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-02",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Population dilution",
+    "prompt": "In a closed two-period OLG economy, each young person saves 6 units. The young population grows by 20% between dates, and only the young save. All saving finances next-period productive capital. What is next capital per young person?",
+    "correct": "5.",
+    "wrong": [
+      "6.",
+      "7.2.",
+      "1.2."
+    ],
+    "explanation": "K(t+1)=6N(t), whereas N(t+1)=1.2N(t). Capital per next-period young person is 6/1.2.",
+    "hint": "Use the next cohort in the denominator.",
+    "skill": "population dilution",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-03",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "OLG return",
+    "prompt": "Production per worker is f(k)=k^(1/3), firms are competitive, and capital depreciates completely within one period. What gross return does a unit of installed capital earn?",
+    "correct": "(1/3)k^(−2/3).",
+    "wrong": [
+      "1+(1/3)k^(−2/3).",
+      "k^(1/3).",
+      "(2/3)k^(1/3)."
+    ],
+    "explanation": "The gross return is f′(k)+1−δ. Complete depreciation sets 1−δ to zero; the remaining payoff is the marginal product.",
+    "hint": "Account for the absence of surviving principal.",
+    "skill": "olg return",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-04",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "A stationary OLG stock",
+    "prompt": "Young agents have log(c_y)+log(c_o), no old-age endowment, and supply one unit of labor. Production is f(k)=√k, capital depreciates fully, and population is constant. What is the positive stationary capital per worker?",
+    "correct": "1/16.",
+    "wrong": [
+      "1/4.",
+      "1/2.",
+      "1/64."
+    ],
+    "explanation": "The wage is f−kf′=√k/2. Agents save half the wage, so k′=√k/4. A positive fixed point satisfies √k=1/4, hence k=1/16.",
+    "hint": "Derive wages, then saving, then solve the positive fixed point.",
+    "skill": "a stationary olg stock",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-05",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Dynamic inefficiency criterion",
+    "prompt": "Consider a stationary deterministic Diamond economy without technical change. Population growth is n=0.02 and the gross capital return is R=1.01. Under standard neoclassical assumptions, what does R<1+n indicate?",
+    "correct": "Overaccumulation: the stationary allocation is dynamically inefficient.",
+    "wrong": [
+      "Capital is below the golden-rule stock.",
+      "The Euler equation must be violated by every household.",
+      "The gross return is negative."
+    ],
+    "explanation": "The net return is 1%, below population growth of 2%. A sustained reduction of excessive capital can release resources and improve consumption across generations in the standard setting.",
+    "hint": "Compare the gross return with gross population growth, not with n alone.",
+    "skill": "dynamic inefficiency criterion",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-06",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Pay-as-you-go return",
+    "prompt": "A stationary pay-as-you-go pension collects a fixed real contribution τ from each young worker and divides receipts equally among the old. Population grows at n=0.03; wages and contribution rules are unchanged. What gross implicit return does a contributor receive when old?",
+    "correct": "1.03.",
+    "wrong": [
+      "0.03.",
+      "1/1.03.",
+      "The market gross capital return regardless of n."
+    ],
+    "explanation": "The next young cohort is 1.03 times the contributor’s cohort. Each old person receives 1.03τ, so benefit divided by prior contribution is 1.03.",
+    "hint": "Compare cohort sizes at contribution and benefit dates.",
+    "skill": "pay-as-you-go return",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-07",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Finite lives and Ricardian equivalence",
+    "prompt": "A government cuts taxes on current young agents and finances repayment with taxes on a later, unborn generation. Agents have no operative altruistic bequests. Why can the tax cut affect current consumption?",
+    "correct": "Current recipients need not internalize the future generation’s repayment burden.",
+    "wrong": [
+      "Every debt issue mechanically increases aggregate output by its face value.",
+      "A government budget constraint never applies in OLG economies.",
+      "Finite lives make saving impossible."
+    ],
+    "explanation": "The government still has a budget constraint, but individual dynastic consolidation fails without operative intergenerational links. This removes a key condition for Ricardian equivalence.",
+    "hint": "Ask whether the recipient and future taxpayer share a budget objective.",
+    "skill": "finite lives and ricardian equivalence",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-08",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Old-age endowment",
+    "prompt": "A young household maximizes log(12−s)+log(1.2s+6). Saving is unconstrained near the optimum. What is optimal s?",
+    "correct": "3.5.",
+    "wrong": [
+      "6.",
+      "5.",
+      "7."
+    ],
+    "explanation": "The Euler condition is 1/(12−s)=1.2/(1.2s+6). Thus 2.4s=8.4 and s=3.5. Old-age income lowers the need to save.",
+    "hint": "Include old-age endowment in consumption before differentiating.",
+    "skill": "old-age endowment",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-09",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Land as another asset",
+    "prompt": "In an OLG economy, the young can save in productive capital and a fixed supply of land bought from the old. Why is equating all young saving with next-period physical capital generally incorrect?",
+    "correct": "Part of saving purchases land rather than financing physical capital.",
+    "wrong": [
+      "Fixed land supply means its price must be zero.",
+      "Land eliminates the household budget constraint.",
+      "Capital’s return must equal population growth by accounting identity."
+    ],
+    "explanation": "The young’s wealth acquisition includes existing land. Asset-market clearing must distinguish purchases of existing assets from creation of productive capital.",
+    "hint": "Separate portfolio saving from physical investment.",
+    "skill": "land as another asset",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u2-10",
+    "course": "advanced-macroeconomics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Private optimality and efficiency",
+    "prompt": "Every cohort in a competitive OLG equilibrium optimizes and firms maximize profit. Which conclusion is justified without further assumptions?",
+    "correct": "Individual optimality alone does not rule out dynamic inefficiency.",
+    "wrong": [
+      "The allocation necessarily maximizes consumption for every cohort.",
+      "The capital stock must equal the golden-rule stock.",
+      "A transfer to the initial old necessarily harms every future cohort."
+    ],
+    "explanation": "Infinite sequences of overlapping finite-lived agents do not automatically satisfy the conditions used for standard welfare conclusions. Overaccumulation is a counterexample to equating private optimality with dynamic efficiency.",
+    "hint": "Distinguish household Euler conditions from an intergenerational resource comparison.",
+    "skill": "private optimality and efficiency",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-01",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Competitive labor condition",
+    "prompt": "A representative household has period utility log c−χh²/2 and faces real wage w. At an interior labor choice with no labor tax, which condition holds?",
+    "correct": "χh=w/c.",
+    "wrong": [
+      "χh=wc.",
+      "χh=c/w.",
+      "h=w regardless of c and χ."
+    ],
+    "explanation": "The marginal disutility of work is χh. An additional hour buys w units of consumption, valued at marginal utility 1/c.",
+    "hint": "Value wage income in utility units.",
+    "skill": "competitive labor condition",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-02",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "RBC resource closure",
+    "prompt": "A closed RBC economy has output 100, government absorption 15 and investment 25. There are no adjustment costs or inventories. What private consumption satisfies market clearing?",
+    "correct": "60.",
+    "wrong": [
+      "75.",
+      "85.",
+      "140."
+    ],
+    "explanation": "The goods-market resource constraint is Y=C+I+G. Taxes and transfers redistribute claims but are not extra goods in this identity.",
+    "hint": "Subtract both investment and government goods absorption.",
+    "skill": "rbc resource closure",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-03",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Factor-price calculation",
+    "prompt": "Competitive production is Y=AK^0.3H^0.7. At Y=100 and H=50, what is the real hourly wage?",
+    "correct": "1.4.",
+    "wrong": [
+      "0.7.",
+      "2.0.",
+      "0.6."
+    ],
+    "explanation": "The wage equals the marginal product of labor, (1−α)Y/H=0.7×100/50.",
+    "hint": "Differentiate with respect to labor, holding capital fixed.",
+    "skill": "factor-price calculation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-04",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Predetermined capital",
+    "prompt": "An unanticipated positive productivity shock arrives at the start of period t in a standard RBC model. Installed K_t was chosen at t−1 and has no intraperiod installation margin. What can adjust immediately?",
+    "correct": "Hours and consumption can adjust, while installed K_t is predetermined.",
+    "wrong": [
+      "Installed K_t can jump while hours must remain fixed.",
+      "All quantities must wait until t+1.",
+      "Only the capital stock can adjust."
+    ],
+    "explanation": "Information changes current choices, but cannot alter capital already installed under the stated timing. Investment today changes K_(t+1).",
+    "hint": "Track the date at which each variable is chosen.",
+    "skill": "predetermined capital",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-05",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Productivity and hours ambiguity",
+    "prompt": "With standard separable preferences and endogenous labor, why is the sign of hours’ response to a favorable permanent productivity shock not determined by the wage increase alone?",
+    "correct": "Substitution toward work and a wealth effect toward leisure can oppose each other.",
+    "wrong": [
+      "A higher wage always reduces the opportunity cost of leisure.",
+      "The household has no intertemporal budget constraint.",
+      "Hours cannot change in a competitive economy."
+    ],
+    "explanation": "A larger wage makes leisure expensive, but higher lifetime resources can raise desired leisure. Preferences and equilibrium dynamics determine the net response.",
+    "hint": "Distinguish substitution and lifetime-wealth effects.",
+    "skill": "productivity and hours ambiguity",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-06",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Stochastic Euler pricing",
+    "prompt": "A household with stochastic discount factor m_(t+1)=βu′(c_(t+1))/u′(c_t) holds an interior risky asset. Which pricing equation is correct for its gross return R_(t+1)?",
+    "correct": "E_t[m_(t+1)R_(t+1)]=1.",
+    "wrong": [
+      "E_t[m_(t+1)]E_t[R_(t+1)]=1 always.",
+      "E_t[R_(t+1)]=1/β for every risky asset.",
+      "m_(t+1)R_(t+1)=1 in every state necessarily."
+    ],
+    "explanation": "The first-order condition prices the expected product. Covariance matters, so multiplying means or imposing state-by-state equality generally fails.",
+    "hint": "Keep the return inside the expectation with marginal utility.",
+    "skill": "stochastic euler pricing",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-07",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Utilization and measured productivity",
+    "prompt": "True production is Y=A(uK)^αH^(1−α). A researcher treats measured K as capital services and computes Y/(K^αH^(1−α)). What does this residual equal?",
+    "correct": "Au^α.",
+    "wrong": [
+      "A/u^α.",
+      "A regardless of utilization.",
+      "uK."
+    ],
+    "explanation": "Substitution into the measured residual leaves the utilization term u^α. A cyclical residual can therefore reflect utilization as well as technology.",
+    "hint": "Cancel measured inputs in the production function.",
+    "skill": "utilization and measured productivity",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-08",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Calibration and identification",
+    "prompt": "An RBC model is calibrated to match the mean investment-output ratio and then also matches output volatility. What can be concluded from these two matches alone?",
+    "correct": "They do not uniquely identify technology shocks as the cause of observed cycles.",
+    "wrong": [
+      "They prove no alternative model can fit the data.",
+      "They establish causal identification without restrictions on shocks.",
+      "They show the model’s welfare ranking is empirically verified."
+    ],
+    "explanation": "Matching selected moments provides a model-fit check. Alternative mechanisms can generate the same moments, so causal and welfare conclusions require additional restrictions and evidence.",
+    "hint": "Separate a fitted moment from uniqueness of the mechanism.",
+    "skill": "calibration and identification",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-09",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "Government purchases in a resource constraint",
+    "prompt": "In a closed flexible-price model, government purchases rise by 5. Output and investment are held fixed for this accounting exercise. What must happen to private consumption?",
+    "correct": "It falls by 5.",
+    "wrong": [
+      "It rises by 5.",
+      "It is unchanged because taxes are transfers.",
+      "It falls by the tax rate times 5 only."
+    ],
+    "explanation": "With Y=C+I+G, holding Y and I fixed implies ΔC=−ΔG. A full equilibrium may alter Y and I; the question deliberately fixes them.",
+    "hint": "Apply the resource identity under the stated conditional comparison.",
+    "skill": "government purchases in a resource constraint",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u3-10",
+    "course": "advanced-macroeconomics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Planner-equilibrium equivalence",
+    "prompt": "Which set of assumptions supports equating a representative-agent RBC competitive allocation with a planner allocation?",
+    "correct": "Competitive markets, complete relevant contingent markets, no externalities or distortionary wedges, and standard regularity conditions.",
+    "wrong": [
+      "Only rational expectations, even with production externalities.",
+      "Only flexible prices, even with monopoly markups.",
+      "Only a representative household, even with distortionary labor taxes."
+    ],
+    "explanation": "The equivalence relies on removing wedges between private and social marginal conditions. Rational expectations or flexible prices alone cannot remove market power, taxes or externalities.",
+    "hint": "Compare private and social first-order conditions.",
+    "skill": "planner-equilibrium equivalence",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-01",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Log-linear production",
+    "prompt": "Let Y=AK^0.3H^0.7 and define hats as log deviations from a positive reference steady state. Which relation holds?",
+    "correct": "ŷ=â+0.3k̂+0.7ĥ.",
+    "wrong": [
+      "ŷ=â+k̂+ĥ.",
+      "ŷ=0.3â+0.7k̂+ĥ.",
+      "ŷ=â+0.7k̂+0.3ĥ."
+    ],
+    "explanation": "Taking logs of the Cobb–Douglas function is exact. Subtracting its steady-state log equation produces the stated relation.",
+    "hint": "Take logs before subtracting the reference value.",
+    "skill": "log-linear production",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-02",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Linearizing a sum",
+    "prompt": "At a steady state, Y=C+I, C/Y=0.8 and I/Y=0.2. Using first-order log deviations, what is ŷ when ĉ=0.01 and î=0.05?",
+    "correct": "0.018.",
+    "wrong": [
+      "0.06.",
+      "0.03.",
+      "0.002."
+    ],
+    "explanation": "A sum linearizes with steady-state shares: ŷ=0.8ĉ+0.2î=0.008+0.010. Logs do not turn addition into addition of logs.",
+    "hint": "Weight component deviations by their shares in the level total.",
+    "skill": "linearizing a sum",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-03",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Zero steady-state variables",
+    "prompt": "Net bond holdings have steady-state value zero. What is a valid local approximation choice?",
+    "correct": "Use level deviations or a nonzero scale such as steady-state output.",
+    "wrong": [
+      "Use log(B/0).",
+      "Take log B for all negative and positive bond positions.",
+      "Assign a zero log deviation to every possible bond position."
+    ],
+    "explanation": "A conventional log deviation needs a positive reference level. Level deviations preserve meaningful variation through zero.",
+    "hint": "Check whether the logarithm and its denominator are defined.",
+    "skill": "zero steady-state variables",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-04",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Conditional forecasts",
+    "prompt": "Productivity follows a_(t+1)=0.8a_t+ε_(t+1), with E_t ε_(t+1)=0. Given a_t=0.02, what is E_t a_(t+2), assuming future innovations also have zero conditional mean?",
+    "correct": "0.0128.",
+    "wrong": [
+      "0.016.",
+      "0.02.",
+      "0.0256."
+    ],
+    "explanation": "Iterated expectations yield 0.8²×0.02. A two-period forecast compounds the persistence parameter twice.",
+    "hint": "Apply the transition twice and use zero conditional means.",
+    "skill": "conditional forecasts",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-05",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Forward solution",
+    "prompt": "A scalar variable satisfies x_t=0.9E_t x_(t+1)+z_t. Let z_(t+j)=0.5^j z_t deterministically and impose lim as J→∞ of 0.9^J E_t x_(t+J)=0. What is x_t?",
+    "correct": "z_t/(1−0.45).",
+    "wrong": [
+      "z_t/(1−0.9).",
+      "z_t/(1−0.5).",
+      "0.45z_t."
+    ],
+    "explanation": "Forward substitution sums Σ_j≥0 (0.9×0.5)^j z_t. The terminal restriction removes the remaining forward term.",
+    "hint": "Multiply discounting and persistence inside the geometric series.",
+    "skill": "forward solution",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-06",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Root counting",
+    "prompt": "A regular linear rational-expectations system has one predetermined state and one jump variable. Its transition eigenvalues are 0.7 and 1.2, with no unit roots. If the required rank condition holds, what does the usual saddle-path criterion imply?",
+    "correct": "A unique local nonexplosive solution.",
+    "wrong": [
+      "Indeterminacy because one root is stable.",
+      "No solution because any root exceeds one.",
+      "Two free initial jump choices."
+    ],
+    "explanation": "One unstable root matches one jump variable. The rank condition ensures the unstable direction can be eliminated consistently with the inherited state.",
+    "hint": "Count unstable roots and nonpredetermined variables together.",
+    "skill": "root counting",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-07",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Linearizing a gross return",
+    "prompt": "Around a net real rate r̄=0.04, a small level change Δr occurs. What is the first-order change in log(1+r)?",
+    "correct": "Δr/1.04.",
+    "wrong": [
+      "Δr/0.04.",
+      "1.04Δr.",
+      "log(Δr)."
+    ],
+    "explanation": "The derivative of log(1+r) is 1/(1+r). This is different from the proportional change in the net rate itself.",
+    "hint": "Differentiate the logarithm of the gross rate.",
+    "skill": "linearizing a gross return",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-08",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Certainty-equivalent approximation",
+    "prompt": "In a smooth model perturbed around a deterministic steady state, what limitation typically applies to a first-order policy-function approximation with zero-mean additive shocks?",
+    "correct": "It omits second-order precautionary effects of shock variance on the policy level.",
+    "wrong": [
+      "It exactly captures all welfare effects of uncertainty.",
+      "It requires all realized shocks to be zero.",
+      "It implies agents are actually risk neutral."
+    ],
+    "explanation": "Curvature-induced variance terms enter at second order. Their absence from a first-order approximation is a computational property, not a preference assumption.",
+    "hint": "Identify the order at which squared shock terms enter.",
+    "skill": "certainty-equivalent approximation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-09",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Forecast-error orthogonality",
+    "prompt": "Under rational expectations, e_(t+1)=y_(t+1)−E_t y_(t+1) has finite moments. For any bounded variable z_t known at t, which population restriction follows?",
+    "correct": "E[z_t e_(t+1)]=0.",
+    "wrong": [
+      "Every realized e_(t+1)=0.",
+      "e_(t+1) is independent of all future shocks.",
+      "Var(e_(t+1))=0."
+    ],
+    "explanation": "The conditional mean of the error is zero. Multiplying by a known bounded variable and using iterated expectations gives orthogonality, without perfect foresight.",
+    "hint": "Condition the product on date-t information.",
+    "skill": "forecast-error orthogonality",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u4-10",
+    "course": "advanced-macroeconomics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Linearizing accumulation",
+    "prompt": "In a stationary discrete-time model with positive steady-state capital and 0<δ<1, K′=(1−δ)K+I and Ī=δK̄. What is the first-order relation between log deviations?",
+    "correct": "k̂′=(1−δ)k̂+δî.",
+    "wrong": [
+      "k̂′=k̂+î.",
+      "k̂′=δk̂+(1−δ)î.",
+      "k̂′=(1−δ)(k̂+î)."
+    ],
+    "explanation": "Divide the differential dK′=(1−δ)dK+dI by K̄ and use Ī/K̄=δ. The weights reflect steady-state levels.",
+    "hint": "Convert each level differential to its proportional deviation.",
+    "skill": "linearizing accumulation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-451-dynamic-optimization-methods-with-applications-fall-2009/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-01",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "The New Keynesian IS equation",
+    "prompt": "Use x_t=E_t x_(t+1)−(i_t−E_tπ_(t+1)−r_t^n)/σ. All rates and gaps use decimal units, σ=2, expected next gap is 0, and the real-rate gap is 0.02. What is x_t?",
+    "correct": "−0.01.",
+    "wrong": [
+      "−0.04.",
+      "0.01.",
+      "0.02."
+    ],
+    "explanation": "The output gap is minus the real-rate gap divided by σ. A rate above the natural rate depresses current demand relative to expected future demand.",
+    "hint": "Keep the real-rate gap in the same units as the equation.",
+    "skill": "the new keynesian is equation",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-02",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Phillips-curve arithmetic",
+    "prompt": "The linearized NK Phillips curve is π_t=βE_tπ_(t+1)+κx_t+u_t. Let β=0.99, expected inflation 0.02, κ=0.1, x_t=−0.01 and u_t=0. What is π_t?",
+    "correct": "0.0188.",
+    "wrong": [
+      "0.0208.",
+      "0.0098.",
+      "−0.001."
+    ],
+    "explanation": "Inflation is 0.99×0.02+0.1×(−0.01)=0.0198−0.001. All inputs are decimals at the same model frequency.",
+    "hint": "Compute the expected-inflation and gap terms separately.",
+    "skill": "phillips-curve arithmetic",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-03",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Calvo duration",
+    "prompt": "Each period a firm independently has probability 0.25 of resetting its price. Counting the current period in a newly set price spell, what is its expected duration?",
+    "correct": "4 periods.",
+    "wrong": [
+      "0.25 periods.",
+      "3 periods.",
+      "1.25 periods."
+    ],
+    "explanation": "The spell length has a geometric distribution on 1,2,… with reset hazard 0.25. Its mean is 1/0.25.",
+    "hint": "Use the reciprocal of the reset probability.",
+    "skill": "calvo duration",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-04",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Natural output versus efficient output",
+    "prompt": "In a sticky-price model with monopolistic markups and no corrective subsidy, how should natural output be interpreted?",
+    "correct": "The flexible-price equilibrium output, which need not equal efficient output.",
+    "wrong": [
+      "The efficient planner allocation by definition in every model.",
+      "The actual sticky-price output in every period.",
+      "Output at full physical capacity regardless of preferences."
+    ],
+    "explanation": "Removing nominal rigidity does not remove monopoly distortions. Natural and efficient output coincide only with additional conditions correcting real wedges.",
+    "hint": "Separate nominal rigidity from the underlying real distortion.",
+    "skill": "natural output versus efficient output",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-05",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Taylor principle mechanism",
+    "prompt": "Using the linearized Fisher relation, a policy rule raises the nominal rate by 1.5 percentage points when sustained inflation and expected inflation rise by 1 percentage point. Ignoring other terms, how does the expected real rate change?",
+    "correct": "It rises by 0.5 percentage points.",
+    "wrong": [
+      "It falls by 0.5 percentage points.",
+      "It rises by 2.5 percentage points.",
+      "It is unchanged."
+    ],
+    "explanation": "The expected real rate is approximately the nominal rate minus expected inflation. The change is 1.5−1=0.5 percentage points. This mechanism alone is not a universal determinacy theorem.",
+    "hint": "Subtract the expected-inflation response from the nominal response.",
+    "skill": "taylor principle mechanism",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-06",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "Lower-bound demand gap",
+    "prompt": "Use the one-period NK IS equation with σ=1 and expected next output gap zero. The nominal rate is constrained to zero, expected inflation is zero, and the natural real rate is −0.02. What is the current output gap?",
+    "correct": "−0.02.",
+    "wrong": [
+      "0.02.",
+      "0.00.",
+      "−0.04."
+    ],
+    "explanation": "The real-rate gap is 0−0−(−0.02)=0.02. The IS equation gives a current gap of −0.02. Zero nominal rates can still be tight relative to the natural rate.",
+    "hint": "Compare the actual real rate with the natural real rate.",
+    "skill": "lower-bound demand gap",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-07",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Cost-push tradeoff",
+    "prompt": "In π_t=βE_tπ_(t+1)+κx_t+u_t, suppose expected future inflation is zero, κ>0 and u_t>0. Can policy set both π_t=0 and x_t=0 at date t?",
+    "correct": "No; at x_t=0 inflation equals u_t>0.",
+    "wrong": [
+      "Yes, because expectations are rational.",
+      "Yes, provided the nominal rate is positive.",
+      "No, because κ must be negative."
+    ],
+    "explanation": "With zero expected inflation, zero current inflation requires x_t=−u_t/κ. A positive cost-push shock creates a contemporaneous stabilization tradeoff.",
+    "hint": "Substitute both proposed targets into the Phillips curve.",
+    "skill": "cost-push tradeoff",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-08",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Expected inflation at a fixed nominal rate",
+    "prompt": "In the NK IS equation, hold the nominal rate, natural rate and expected next output gap fixed. Expected inflation increases. For σ>0, what happens to the current gap?",
+    "correct": "It increases.",
+    "wrong": [
+      "It decreases.",
+      "It must be unchanged.",
+      "It becomes exactly zero."
+    ],
+    "explanation": "Higher expected inflation lowers the expected real rate at the fixed nominal rate. The real-rate gap falls, increasing demand through the IS equation.",
+    "hint": "Follow the minus sign on expected inflation through the IS equation.",
+    "skill": "expected inflation at a fixed nominal rate",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-09",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Closing the NK model",
+    "prompt": "The linearized IS equation and Phillips curve jointly contain x_t, π_t and i_t. What is generally needed to determine equilibrium, along with shocks, expectations and terminal conditions?",
+    "correct": "A monetary-policy rule or equivalent policy specification.",
+    "wrong": [
+      "Only an additional accounting definition of nominal GDP.",
+      "The identity x_t=π_t in every period.",
+      "A stipulation that expectations are always zero."
+    ],
+    "explanation": "The two private-sector equations leave policy unspecified. A policy rule provides the missing relationship; determinacy still depends on its form and the system’s conditions.",
+    "hint": "Count endogenous variables and independent behavioral restrictions.",
+    "skill": "closing the nk model",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u5-10",
+    "course": "advanced-macroeconomics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Forward guidance dependence",
+    "prompt": "A basic NK model predicts a large current response to a promised rate cut far in the future. What is a defensible interpretation?",
+    "correct": "The prediction depends on credible expectations and the model’s intertemporal transmission assumptions.",
+    "wrong": [
+      "Any unannounced future cut must have the same current effect.",
+      "The result proves all households have access to complete credit markets in the data.",
+      "The size is invariant to horizon, heterogeneity and credibility."
+    ],
+    "explanation": "Future policy affects today through expected real rates and future activity. Altered credibility, household behavior or market structure can change the prediction.",
+    "hint": "Identify which expectations and budget decisions transmit the announcement.",
+    "skill": "forward guidance dependence",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-01",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Inflation bias under discretion",
+    "prompt": "A policymaker minimizes [π²+λ(x−x*)²]/2, where x=π−π^e, λ=2 and x*=0.03. Expectations are fixed when policy is chosen and rational in equilibrium. What is the discretionary equilibrium inflation rate?",
+    "correct": "0.06.",
+    "wrong": [
+      "0.02.",
+      "0.03.",
+      "0.00."
+    ],
+    "explanation": "The policy first-order condition is π+λ(π−π^e−x*)=0. Rational expectations imply π=π^e and x=0, leaving π=λx*=0.06.",
+    "hint": "Derive the best response before imposing fulfilled expectations.",
+    "skill": "inflation bias under discretion",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-02",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Commitment in the inflation-bias model",
+    "prompt": "In x=π−π^e with loss [π²+λ(x−x*)²]/2 and x*>0, suppose policy can credibly commit before expectations form and there are no shocks. What allocation minimizes loss over credible deterministic choices?",
+    "correct": "π=0 and x=0.",
+    "wrong": [
+      "π=λx* and x=x*.",
+      "π=x* and x=x*.",
+      "π=0 and x=x*."
+    ],
+    "explanation": "Every credible deterministic inflation choice is anticipated, so x=0 regardless of its value. Inflation therefore adds cost without raising output, making zero inflation optimal.",
+    "hint": "Impose anticipation when evaluating alternative commitments.",
+    "skill": "commitment in the inflation-bias model",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-03",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "What creates time inconsistency",
+    "prompt": "Why can a previously optimal low-inflation commitment become unattractive after private nominal decisions are fixed in an inflation-bias model?",
+    "correct": "The policymaker then has an incentive to create surprise inflation to push output toward a target above its natural level.",
+    "wrong": [
+      "Private agents cease to maximize utility after contracts are signed.",
+      "The policymaker must have changed its preferences.",
+      "Time inconsistency requires irrational expectations."
+    ],
+    "explanation": "The feasible tradeoff changes once expectations or contracts are fixed. Preferences may be unchanged; the incentive to exploit surprise creates the inconsistency.",
+    "hint": "Compare the policy choice before and after expectations become predetermined.",
+    "skill": "what creates time inconsistency",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-04",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Discretionary cost-push stabilization",
+    "prompt": "At a single date, take expected future inflation as fixed at zero. A policymaker minimizes (π²+λx²)/2 subject to π=κx+u. With λ=0.25, κ=0.5 and u=0.02, what is the optimal output gap?",
+    "correct": "−0.02.",
+    "wrong": [
+      "−0.04.",
+      "0.02.",
+      "0.00."
+    ],
+    "explanation": "The first-order condition κ(κx+u)+λx=0 gives x=−κu/(κ²+λ)=−0.01/0.5. Inflation is then 0.01.",
+    "hint": "Substitute the Phillips curve into loss before differentiating.",
+    "skill": "discretionary cost-push stabilization",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-05",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Commitment with forward-looking prices",
+    "prompt": "In a forward-looking NK Phillips curve, why can commitment improve the inflation-output tradeoff after a cost-push shock?",
+    "correct": "A credible plan for future gaps changes expected future inflation and therefore current inflation.",
+    "wrong": [
+      "Commitment removes the resource constraint.",
+      "Commitment guarantees zero current inflation and zero current gap for any shock.",
+      "Commitment makes κ equal to zero by definition."
+    ],
+    "explanation": "Expected future inflation enters the current Phillips curve. A policymaker able to bind future actions can influence that expectation; the resulting optimal plan may depend on past promises.",
+    "hint": "Locate expectations in the private-sector constraint.",
+    "skill": "commitment with forward-looking prices",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-06",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Government debt arithmetic",
+    "prompt": "A government’s real debt obeys B_t=R B_(t−1)−S_t, where S_t is the primary surplus and R is the gross real return. If B_(t−1)=100, R=1.03 and S_t=4, what is B_t?",
+    "correct": "99.",
+    "wrong": [
+      "107.",
+      "96.",
+      "103."
+    ],
+    "explanation": "Interest-inclusive obligations are 103, and a primary surplus of 4 retires debt. The resulting stock is 99.",
+    "hint": "Apply the surplus with the sign stated in the budget equation.",
+    "skill": "government debt arithmetic",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-07",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Debt ratio stabilization",
+    "prompt": "With debt-ratio dynamics b_t=[(1+r)/(1+g)]b_(t−1)−s_t, r=0.04, g=0.02 and b_(t−1)=0.6, which current-GDP primary surplus ratio keeps b_t=0.6?",
+    "correct": "Approximately 0.011765.",
+    "wrong": [
+      "Exactly 0.012.",
+      "Approximately 0.035294.",
+      "−0.011765."
+    ],
+    "explanation": "The exact stabilizing surplus is [(1.04/1.02)−1]×0.6=0.0117647. The familiar (r−g)b=0.012 is an approximation rather than the exact value.",
+    "hint": "Subtract one from the gross interest-growth factor.",
+    "skill": "debt ratio stabilization",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-08",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Ricardian equivalence conditions",
+    "prompt": "An infinitely lived household faces lump-sum taxes, perfect credit access and a fixed government-purchase path. Debt is repaid through future taxes on the same household, and terminal budget restrictions hold. What does a debt-financed current tax cut do to its present-value disposable resources?",
+    "correct": "It leaves them unchanged.",
+    "wrong": [
+      "It raises them by the full tax cut without any offset.",
+      "It lowers them by twice the tax cut.",
+      "It eliminates the government’s future financing need."
+    ],
+    "explanation": "The tax cut is offset by the present value of future repayment taxes. Under the stated conditions, debt changes tax timing rather than household lifetime resources.",
+    "hint": "Consolidate the household and government intertemporal budgets.",
+    "skill": "ricardian equivalence conditions",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-09",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "Lucas critique",
+    "prompt": "A historical reduced-form spending equation fits behavior under one tax rule. Why might it forecast poorly after a permanent change in the rule?",
+    "correct": "Expectations and decision rules may change when the policy regime changes.",
+    "wrong": [
+      "Good in-sample fit guarantees policy invariance.",
+      "Only accounting identities can ever be estimated.",
+      "Rational expectations require unchanged reduced-form coefficients."
+    ],
+    "explanation": "A reduced-form relationship can embed responses to the old policy process. A new regime changes incentives and forecasts, so historical coefficients need not remain stable.",
+    "hint": "Distinguish structural preferences and constraints from policy-dependent behavior.",
+    "skill": "lucas critique",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "advanced-macroeconomics-u6-10",
+    "course": "advanced-macroeconomics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Capital levy timing",
+    "prompt": "A government unexpectedly taxes installed capital after investment is sunk, then considers announcing repeated future levies. Why can the announced policy affect future investment even if today’s surprise levy leaves today’s installed stock unchanged?",
+    "correct": "Future investors anticipate lower after-tax returns and can change accumulation before the tax is imposed.",
+    "wrong": [
+      "Capital never responds to any anticipated tax.",
+      "A fixed current stock implies a fixed stock at every future date.",
+      "Future tax expectations cannot enter an Euler equation."
+    ],
+    "explanation": "Predetermined capital limits the current quantity response but does not freeze future choices. Expected tax treatment changes the return relevant for prospective investment.",
+    "hint": "Separate ex post incentives from the ex ante accumulation decision.",
+    "skill": "capital levy timing",
+    "sourceUrls": [
+      "https://eml.berkeley.edu/~webfac/dromer/e202b_sp08/syllabus.pdf",
+      "https://ocw.mit.edu/courses/14-461-advanced-macroeconomics-i-fall-2012/pages/syllabus/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

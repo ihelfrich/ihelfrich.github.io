@@ -1,0 +1,1322 @@
+[
+  {
+    "id": "development-economics-u1-01",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Counting people below a line",
+    "prompt": "In a village, five people consume 40, 60, 90, 110 and 200 units per month. The poverty line is 100; a person is poor when consumption is strictly below it. What is the headcount ratio?",
+    "correct": "60%.",
+    "wrong": [
+      "40%.",
+      "38%.",
+      "30%."
+    ],
+    "explanation": "Three of five people are below 100, so the headcount ratio is 3/5. The measure counts people, not their consumption shortfalls.",
+    "skill": "calculate headcount poverty",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-02",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Depth of poverty",
+    "prompt": "In a four-person population, consumption is 40, 80, 120 and 160. The poverty line is 100. The poverty-gap index averages max(100 minus consumption, 0)/100 across everyone. What is its value?",
+    "correct": "0.20.",
+    "wrong": [
+      "0.40.",
+      "0.50.",
+      "0.80."
+    ],
+    "explanation": "The normalized gaps are 0.6, 0.2, 0 and 0. Their population average is 0.8/4 = 0.20. Averaging only over poor people would give 0.40.",
+    "skill": "calculate poverty gap",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-03",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "A transfer among poor households",
+    "prompt": "Two otherwise identical populations have individual consumption (20, 80, 150) and (40, 60, 150). The poverty line is 100. Which comparison follows for the second population?",
+    "correct": "The headcount and poverty-gap indices are unchanged, but the squared-gap index is lower.",
+    "wrong": [
+      "All three indices are lower.",
+      "The headcount is unchanged, but the poverty-gap index rises.",
+      "The squared-gap index is unchanged because total consumption is fixed."
+    ],
+    "explanation": "Both populations have two poor people and total shortfalls of 100. Squared normalized gaps sum to 0.68 initially and 0.52 after the equalizing transfer, so their average falls.",
+    "skill": "compare poverty measures",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-04",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Growth with unchanged shares",
+    "prompt": "In a economy, every person’s real consumption doubles. Population and the fixed real poverty line are unchanged. Which conclusion is warranted?",
+    "correct": "The Gini coefficient is unchanged, while the poverty headcount cannot rise.",
+    "wrong": [
+      "The Gini coefficient falls by half.",
+      "The poverty headcount must fall by exactly half.",
+      "The Gini coefficient rises because absolute consumption gaps rise."
+    ],
+    "explanation": "The Gini is invariant to common positive scaling. With a fixed real line, doubling consumption cannot move a previously nonpoor person into poverty, although nobody may cross the line.",
+    "skill": "distinguish relative inequality and absolute poverty",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-05",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Crossing Lorenz curves",
+    "prompt": "Two countries have the same mean income. Country A’s Lorenz curve lies above B’s for the bottom 30% but below B’s for the bottom 70%. What does this establish?",
+    "correct": "Neither distribution Lorenz-dominates the other.",
+    "wrong": [
+      "A Lorenz-dominates B because the poorest group does better.",
+      "B Lorenz-dominates A because the larger group matters more.",
+      "The distributions must have identical Gini coefficients."
+    ],
+    "explanation": "Lorenz dominance requires the curve to be weakly above the other at every population share, with a strict inequality somewhere. Crossing prevents that ordering; it does not determine whether Ginis coincide.",
+    "skill": "interpret distributional ordering",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-06",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Purchasing power across regions",
+    "prompt": "In a hypothetical survey, households in two regions each spend 200 currency units monthly. The same consumption basket costs 100 in one region and 125 in the other. What adjustment supports a real-consumption comparison?",
+    "correct": "Divide each household’s spending by its region’s basket price.",
+    "wrong": [
+      "Compare nominal spending directly because the currency is shared.",
+      "Multiply spending by the regional basket price.",
+      "Subtract each region’s average income from spending."
+    ],
+    "explanation": "Deflating by local prices converts spending into comparable basket quantities: 2 baskets versus 1.6. A common currency does not imply equal purchasing power.",
+    "skill": "adjust for spatial price differences",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-07",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Household size and living standards",
+    "prompt": "In a comparison, household A consumes 300 with two members and household B consumes 500 with five members. Under a per-capita consumption measure with no economies of scale, which household has higher measured living standards?",
+    "correct": "A, at 150 per person versus B at 100.",
+    "wrong": [
+      "B, because 500 exceeds 300.",
+      "B, at 250 per person versus A at 60.",
+      "They are equal after adjusting for household size."
+    ],
+    "explanation": "Divide each household’s consumption by its own membership. This particular measure does not account for age-specific needs or shared household goods.",
+    "skill": "apply a stated welfare metric",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-08",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "A missed harvest month",
+    "prompt": "A hypothetical farm survey measures income only just after harvest and treats that month as typical. Net farm income is concentrated at harvest, whereas consumption is smoother. What is the central measurement risk?",
+    "correct": "Annualizing that month’s income overstates typical monthly income.",
+    "wrong": [
+      "Seasonality makes the survey understate income mechanically.",
+      "Smooth consumption proves that household income is constant.",
+      "Measuring any month gives the same annual income estimate."
+    ],
+    "explanation": "A harvest month has unusually high net income. Multiplying it by twelve without a seasonality adjustment misrepresents annual income even if households smooth consumption.",
+    "skill": "diagnose seasonal measurement bias",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-09",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Growth and population composition",
+    "prompt": "In a hypothetical country, mean real income rises from 100 to 120 while a survey panel shows that the poorest tenth’s mean falls from 30 to 25. What can be concluded?",
+    "correct": "Aggregate growth does not establish that the poorest tenth benefited.",
+    "wrong": [
+      "The surveys contradict each other because all incomes move with the mean.",
+      "The poverty headcount necessarily falls by 20%.",
+      "The Gini must fall because mean income rose."
+    ],
+    "explanation": "An aggregate average permits unequal changes across people. Neither the poverty headcount nor the Gini is determined by these two mean comparisons.",
+    "skill": "interpret aggregate growth",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u1-10",
+    "course": "development-economics",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Relative and absolute poverty lines",
+    "prompt": "In a economy, every income rises by 10%. One poverty line is fixed in real terms; another equals half the current median. Prices do not change. What happens to poverty under the median-based line?",
+    "correct": "Its headcount ratio is unchanged.",
+    "wrong": [
+      "Its headcount ratio must fall by 10%.",
+      "It becomes identical to poverty under the fixed line.",
+      "It rises because the poverty line increases."
+    ],
+    "explanation": "Both every income and the median-based threshold scale by 1.1, preserving each person’s position relative to that line. A fixed line need not give the same outcome.",
+    "skill": "compare poverty thresholds",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-01",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "A minimum investment scale",
+    "prompt": "In a two-period economy, a machine costs 100 today and yields 140 next period with certainty and no resale value. A household has 60 and cannot borrow. Saving earns no interest. What prevents purchase despite its positive net return?",
+    "correct": "The household cannot finance the indivisible upfront cost.",
+    "wrong": [
+      "The machine has a negative undiscounted net return.",
+      "The machine is unprofitable because its cost exceeds household wealth.",
+      "A positive return makes the borrowing restriction irrelevant."
+    ],
+    "explanation": "Profitability and feasibility differ: 140 exceeds 100, but available funds of 60 cannot meet the minimum purchase cost.",
+    "skill": "separate financing and profitability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-02",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Escaping a threshold",
+    "prompt": "In a asset model, next year’s assets equal 0.8 times current assets when assets are below 100, and 120 when current assets are at least 100. A household starts with 80. Which one-time grant is the smallest that enters the high-asset region immediately?",
+    "correct": "20.",
+    "wrong": [
+      "16.",
+      "40.",
+      "100."
+    ],
+    "explanation": "The grant must raise current assets from 80 to at least 100. A grant of 20 reaches the threshold; the specified transition then gives 120.",
+    "skill": "solve a threshold intervention",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-03",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Poverty persistence without a trap",
+    "prompt": "In a model, assets evolve as next year’s assets = 20 + 0.8 times current assets for every nonnegative asset level. What does the model imply?",
+    "correct": "Assets converge to a single steady state of 100, so low initial assets alone do not create a separate low-asset trap.",
+    "wrong": [
+      "There are separate stable steady states at 20 and 100.",
+      "Any household starting below 100 converges to zero.",
+      "The constant term of 20 is the steady-state asset level."
+    ],
+    "explanation": "The fixed point solves a = 20 + 0.8a, giving 100. Deviations shrink by a factor of 0.8, so this rule has one attracting steady state.",
+    "skill": "distinguish slow convergence from multiple equilibria",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-04",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "A lender’s break-even repayment",
+    "prompt": "A lender advances 100. Repayment occurs with probability 0.8; default yields zero. The lender is risk-neutral, has zero funding and administrative costs, and must break even in expectation. What repayment is required when repayment occurs?",
+    "correct": "125.",
+    "wrong": [
+      "100.",
+      "120.",
+      "80."
+    ],
+    "explanation": "Expected repayment is 0.8R. Setting it equal to the 100 advanced gives R = 125. The promised interest rate exceeds the expected net return.",
+    "skill": "calculate lending break-even",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-05",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Risk composition after a rate increase",
+    "prompt": "A lender raises its interest rate. Safer applicants withdraw, but riskier applicants remain, and the lender cannot observe borrower risk. Which mechanism could make another rate increase unattractive?",
+    "correct": "Adverse selection can lower average repayment probability enough to offset higher promised repayment.",
+    "wrong": [
+      "Moral hazard must be the mechanism because applicants changed their hidden effort.",
+      "Higher promised repayment necessarily raises expected revenue in proportion.",
+      "The departure of safe borrowers improves the remaining pool’s repayment rate."
+    ],
+    "explanation": "The change concerns which types apply, making it adverse selection. Expected revenue depends on repayment probabilities as well as promised amounts.",
+    "skill": "identify credit-market selection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-06",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Hidden project choice",
+    "prompt": "In a loan contract, a borrower chooses a riskier project only after receiving the loan because limited liability leaves some losses with the lender. The lender cannot observe the choice. What friction is illustrated?",
+    "correct": "Moral hazard in project choice.",
+    "wrong": [
+      "Adverse selection from preexisting borrower types.",
+      "A fixed transaction cost of processing the loan.",
+      "Perfect insurance against the lender’s losses."
+    ],
+    "explanation": "The hidden action occurs after contracting. Limited liability can alter incentives over project risk even if the borrower’s original type is known.",
+    "skill": "identify hidden action",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-07",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "A village-wide drought",
+    "prompt": "A village uses reciprocal transfers to insure household-specific crop losses. Every household is then hit by the same drought. Why may this arrangement provide little protection?",
+    "correct": "The shock reduces resources across the entire transfer network at once.",
+    "wrong": [
+      "Informal transfers cannot help with household-specific shocks either.",
+      "A common shock removes the need to smooth consumption.",
+      "The drought makes every household a net recipient from other village households."
+    ],
+    "explanation": "Transfers within the village redistribute available resources. They cannot fully replace a common aggregate resource loss without outside assets, credit or insurance.",
+    "skill": "distinguish aggregate and idiosyncratic risk",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-08",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Rainfall insurance misses a loss",
+    "prompt": "In a insurance contract, payouts depend on rainfall at a regional station. A farmer’s field suffers a severe loss, but the station records enough rain that no payout occurs. What risk is illustrated?",
+    "correct": "Basis risk: the index does not perfectly track the farmer’s loss.",
+    "wrong": [
+      "Default risk: the insurer has failed to honor the stated contract.",
+      "Adverse selection: the payout rule reveals the farmer’s hidden type.",
+      "Price risk: the crop’s market price has fallen."
+    ],
+    "explanation": "The insurer can honor an index contract while the index fails to capture an individual loss. That imperfect match is basis risk.",
+    "skill": "interpret index insurance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-09",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Valuing certain consumption",
+    "prompt": "A household has utility equal to the square root of consumption. Consumption will be 100 or 400 with equal probability. What certain consumption level gives the same expected utility?",
+    "correct": "225.",
+    "wrong": [
+      "250.",
+      "150.",
+      "300."
+    ],
+    "explanation": "Expected utility is (10 + 20)/2 = 15. Certain consumption of 225 has square root 15, below expected consumption of 250 because utility is concave.",
+    "skill": "compute a certainty equivalent",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u2-10",
+    "course": "development-economics",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Low borrowing after new branches",
+    "prompt": "A bank opens nearby, yet few households borrow. The only evidence collected is the number of new loans. Which conclusion is justified?",
+    "correct": "Low take-up alone does not distinguish low returns, costly terms, distrust or remaining borrowing barriers.",
+    "wrong": [
+      "The households have no profitable projects.",
+      "Credit constraints were eliminated by physical proximity.",
+      "Borrowers must prefer informal loans because their interest rates are lower."
+    ],
+    "explanation": "Observed take-up combines demand, contract terms, information and eligibility. A loan count alone does not isolate the mechanism.",
+    "skill": "evaluate competing mechanisms",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-01",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Sharecropping incentives",
+    "prompt": "A tenant chooses effort e. Output is f(e), crop price is one, and effort cost is c(e). The landlord takes half of output and supplies no inputs. Ignoring risk and enforcement issues, what is the tenant’s interior first-order condition?",
+    "correct": "0.5 times f′(e) = c′(e).",
+    "wrong": [
+      "f′(e) = c′(e).",
+      "f′(e) = 0.5 times c′(e).",
+      "0.5 times f(e) = c(e)."
+    ],
+    "explanation": "The tenant keeps half the marginal output but bears all marginal effort cost. The condition concerns marginal products and costs, not total output and total cost.",
+    "skill": "derive an agricultural incentive condition",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-02",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "A secure lease and a tree crop",
+    "prompt": "In a setting, fruit trees require an upfront investment and produce only after five years. A reform credibly protects the same farmer’s right to harvest for ten years instead of one. Prices and borrowing conditions are fixed. Why can investment rise?",
+    "correct": "The farmer is more likely to retain the delayed return from planting.",
+    "wrong": [
+      "The reform mechanically makes trees mature earlier.",
+      "A longer lease eliminates the trees’ upfront resource cost.",
+      "Tenure security lowers the market price of fruit by definition."
+    ],
+    "explanation": "More secure future control raises the expected return the investor can capture. The mechanism does not require a change in biological productivity or current prices.",
+    "skill": "trace property-rights incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-03",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Fertilizer at the margin",
+    "prompt": "A price-taking farmer can buy one extra fertilizer bag for 30. It adds 20 kilograms of output, sold at 2 per kilogram. There are no other incremental costs or risks. What is the profit change from buying it?",
+    "correct": "An increase of 10.",
+    "wrong": [
+      "An increase of 40.",
+      "A decrease of 10.",
+      "An increase of 20."
+    ],
+    "explanation": "The bag adds revenue of 20 × 2 = 40 and costs 30, leaving a marginal profit of 10.",
+    "skill": "calculate input profitability",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-04",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Profitable seeds with uninsured risk",
+    "prompt": "In a village, a new seed has higher expected profit but much larger losses in drought years than the old seed. A risk-averse farmer cannot insure or borrow for consumption. What could explain retaining the old seed?",
+    "correct": "Avoiding bad-state consumption losses can outweigh the increase in expected profit.",
+    "wrong": [
+      "Risk aversion requires choosing whichever seed has the lower purchase price.",
+      "Higher expected profit implies higher expected utility for every farmer.",
+      "The choice proves that the farmer does not understand the profit distribution."
+    ],
+    "explanation": "With concave utility and limited smoothing, the consumption consequences of downside risk matter beyond average profit.",
+    "skill": "compare expected profits and welfare",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-05",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Learning from a demonstration plot",
+    "prompt": "In a hypothetical randomized experiment, some farmers receive credible local demonstration results showing a new crop’s profitability; others do not. Prices, access and credit are unchanged. Adoption rises in the information group. Which explanation is most directly supported?",
+    "correct": "Information or beliefs were a barrier for at least some farmers.",
+    "wrong": [
+      "The crop’s physical yield rose because information changed its biology.",
+      "Credit restrictions explain the entire difference because loan limits changed.",
+      "Every nonadopter before the experiment was irrational."
+    ],
+    "explanation": "Random information provision isolates a change in available evidence. The result supports an information mechanism without establishing that all nonadoption had the same cause.",
+    "skill": "interpret an information intervention",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-06",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Why small farms look productive",
+    "prompt": "A hypothetical survey finds higher output per hectare on smaller farms. It lacks soil quality and family labor hours. Why does this not establish that dividing farms raises total output?",
+    "correct": "Soil differences and unmeasured labor intensity may account for the correlation.",
+    "wrong": [
+      "Output per hectare already controls for all input differences.",
+      "A correlation between size and output proves the causal effect of subdivision.",
+      "The comparison identifies returns to scale without measuring other inputs."
+    ],
+    "explanation": "Farm size is not randomly assigned, and land productivity is not total factor productivity. Omitted inputs and land quality can change the comparison.",
+    "skill": "assess agricultural productivity evidence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-07",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "When farm and household decisions separate",
+    "prompt": "In a household farm model, competitive markets allow any labor hiring or sale at a fixed wage, and credit and output markets work without restrictions. What happens to the profit-maximizing production plan when household tastes for leisure change, holding prices and technology fixed?",
+    "correct": "The production plan is unchanged; household labor supply can adjust through the labor market.",
+    "wrong": [
+      "Farm output must fall one-for-one with the household’s reduced labor supply.",
+      "The farm’s marginal product condition switches from wages to household income.",
+      "Household size becomes the sole determinant of efficient production."
+    ],
+    "explanation": "Complete relevant markets allow production to maximize profits independently of consumption and leisure preferences. The household can hire labor or change off-farm work.",
+    "skill": "apply farm-household separation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-08",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "A missing labor market",
+    "prompt": "A family farm cannot hire workers or sell labor outside the farm. Its members value leisure and choose farm work jointly with consumption. What distinguishes this case from a complete labor-market model?",
+    "correct": "Household preferences can affect farm labor and output even with unchanged technology.",
+    "wrong": [
+      "The farm must use every available hour regardless of leisure preferences.",
+      "Production remains independent of household preferences because land is fixed.",
+      "The market wage pins down farm labor despite being unavailable to the family."
+    ],
+    "explanation": "Without labor trading, the family’s time allocation directly constrains production. Its shadow value of time can depend on preferences and resources.",
+    "skill": "identify nonseparable production decisions",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-09",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "A road and the farm-gate price",
+    "prompt": "In a competitive crop market, the city price is fixed at 10 per kilogram. Transport costs fall from 3 to 1 per kilogram, and competitive traders pass the full reduction to farmers. What happens to the farm-gate price?",
+    "correct": "It rises from 7 to 9.",
+    "wrong": [
+      "It falls from 7 to 5.",
+      "It stays at 7 because the city price is fixed.",
+      "It rises from 10 to 12."
+    ],
+    "explanation": "The farm-gate price equals the city price minus transport cost under the stipulated competitive pass-through. The two-unit reduction raises farmers’ receipts by two.",
+    "skill": "trace market access through prices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u3-10",
+    "course": "development-economics",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Irrigation coordination",
+    "prompt": "In a village, each of two farmers can build an irrigation connection for 40. Each receives a benefit of 70 only if both connect; a lone connection produces zero benefit. What is true?",
+    "correct": "Both connecting and neither connecting are Nash equilibria.",
+    "wrong": [
+      "Only both connecting is a Nash equilibrium.",
+      "Only neither connecting is a Nash equilibrium.",
+      "Exactly one farmer connecting is a Nash equilibrium."
+    ],
+    "explanation": "If the other connects, connecting yields 30 rather than zero. If the other does not connect, connecting loses 40. These are the two pure-strategy equilibria. There is also a mixed-strategy equilibrium; the key does not claim to list every equilibrium.",
+    "skill": "identify an adoption coordination problem",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-01",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "School attendance versus learning",
+    "prompt": "In a hypothetical randomized study, a transport subsidy raises school attendance. Test scores are not measured. What can the study establish from this outcome alone?",
+    "correct": "The offer raises attendance, but its effect on learning remains unmeasured.",
+    "wrong": [
+      "The offer increases learning by the same percentage as attendance.",
+      "Additional attendance establishes higher adult earnings.",
+      "An attendance effect shows that school instruction is effective."
+    ],
+    "explanation": "Attendance is an input into education, not a direct measurement of knowledge or future earnings. The causal outcome measured is attendance.",
+    "skill": "distinguish educational inputs and outcomes",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-02",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "The opportunity cost of a school year",
+    "prompt": "In a two-period choice, one additional school year costs 100 in fees and 300 in forgone earnings now. It raises earnings next period by 450. With no other effects and a zero discount rate, what is its net monetary benefit?",
+    "correct": "50.",
+    "wrong": [
+      "350.",
+      "150.",
+      "450."
+    ],
+    "explanation": "Total current cost is 400, including foregone work. The future gain of 450 leaves a net benefit of 50.",
+    "skill": "include schooling opportunity cost",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-03",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "A scholarship changes the margin",
+    "prompt": "In a setting, a scholarship randomly offered to eligible pupils raises completion. Assume the offer never prevents a pupil from completing. Which group’s completion behavior is directly changed by the offer?",
+    "correct": "Pupils who complete with the scholarship but would not complete without it.",
+    "wrong": [
+      "All pupils who complete when offered the scholarship.",
+      "Only pupils who would complete even without the scholarship.",
+      "All pupils who fail to complete in the control group."
+    ],
+    "explanation": "The affected margin compares potential completion choices. Many scholarship recipients may have completed anyway, while some control noncompleters may remain noncompleters even with support.",
+    "skill": "identify marginal educational choices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-04",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Preventive health spillovers",
+    "prompt": "In a disease model, vaccination reduces both the recipient’s infection risk and transmission to others. People choosing vaccination consider only their own benefits and pay its resource cost. What wedge arises?",
+    "correct": "The social marginal benefit exceeds the private marginal benefit.",
+    "wrong": [
+      "The private marginal benefit exceeds the social marginal benefit.",
+      "Private and social benefits are equal because vaccination is an individual choice.",
+      "Transmission benefits are a private cost to the vaccinated person."
+    ],
+    "explanation": "Reduced transmission benefits other people without entering the stipulated private decision. This positive externality can make privately chosen vaccination too low relative to the social optimum.",
+    "skill": "identify a health externality",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-05",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Diagnosing low clinic use",
+    "prompt": "In a hypothetical program, clinic fees are removed, but attendance barely changes. Distance, opening hours, quality and information remain unchanged. Which inference is strongest?",
+    "correct": "Removing fees alone was insufficient to produce a large attendance increase in this setting.",
+    "wrong": [
+      "Price has no effect on health demand in any population.",
+      "Distance is the sole cause of low attendance.",
+      "The clinic has no health benefits because utilization did not rise."
+    ],
+    "explanation": "A small response to one intervention does not isolate all other barriers or establish a universal zero price response.",
+    "skill": "interpret a limited treatment response",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-06",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Who controls a transfer?",
+    "prompt": "In a hypothetical experiment, an equal-sized transfer is randomly paid to either adult in two-adult households. Prices and purchase opportunities are unchanged. Total household resources are identical, but spending patterns differ by recipient. Which simple model is challenged?",
+    "correct": "A unitary model in which spending depends on total resources and prices but not who receives income.",
+    "wrong": [
+      "A bargaining model in which control over resources affects decisions.",
+      "A model allowing adults to have different preferences.",
+      "A model in which recipient identity can affect bargaining power."
+    ],
+    "explanation": "The result rejects income pooling in the specified unitary model. It is consistent with several mechanisms involving control or bargaining and does not uniquely identify one.",
+    "skill": "test household income pooling",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-07",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Nutrition and work capacity",
+    "prompt": "In a model, extra food raises a severely undernourished worker’s productive capacity, and higher earnings allow more food purchases. Does this feedback alone establish a poverty trap?",
+    "correct": "No; the shapes and strengths of the relationships must generate distinct long-run outcomes.",
+    "wrong": [
+      "Yes; any positive feedback creates multiple stable equilibria.",
+      "Yes; a nutrition effect implies that income cannot grow without a permanent subsidy.",
+      "No; nutritional productivity effects cannot influence income dynamics."
+    ],
+    "explanation": "Positive feedback is compatible with a single stable outcome. A trap requires a specified dynamic structure that prevents convergence from some initial states to a higher outcome.",
+    "skill": "evaluate a proposed trap mechanism",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-08",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "A misleading treatment comparison",
+    "prompt": "In a hypothetical dataset, clinic patients have worse health than nonpatients after visits. No baseline health or random assignment is available. What threatens interpreting this as harmful treatment?",
+    "correct": "Sicker people may be more likely to seek care.",
+    "wrong": [
+      "Patients must have had better baseline health because they sought help.",
+      "The observed health gap equals the treatment effect by definition.",
+      "A larger sample would remove selection into care."
+    ],
+    "explanation": "Selection by initial illness can produce worse observed outcomes among treated people even when treatment helps. Sample size alone does not solve this identification problem.",
+    "skill": "recognize health-care selection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-09",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Teacher resources and enrollment",
+    "prompt": "In a district, a scholarship expands enrollment from 40 to 60 pupils per classroom while teacher staffing is fixed. What should an evaluation of learning consider?",
+    "correct": "Congestion may change instructional conditions as enrollment expands.",
+    "wrong": [
+      "The attendance increase fixes the learning gain independently of class size.",
+      "The scholarship changes only family income and cannot affect classrooms.",
+      "More pupils automatically increase teacher time per pupil."
+    ],
+    "explanation": "Demand-side access policies can affect the supply environment. With fixed staffing, larger classes may alter learning and should be measured rather than assumed away.",
+    "skill": "trace education supply constraints",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u4-10",
+    "course": "development-economics",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Choosing a health program under a stated objective",
+    "prompt": "A hypothetical agency must choose one indivisible program to maximize expected illness episodes prevented. Program A costs 100 and prevents 20; B costs 150 and prevents 40. Its budget is 150, benefits are certain, and neither program has other effects. Which should it choose?",
+    "correct": "B, because it prevents 40 episodes within budget.",
+    "wrong": [
+      "A, because its total cost is lower.",
+      "A, because it prevents more episodes per unit of cost.",
+      "Neither, because comparing illness episodes requires income data."
+    ],
+    "explanation": "Both programs are affordable, but only one can be selected. B prevents more episodes and also has lower cost per episode: 3.75 versus 5. The objective is explicitly specified.",
+    "skill": "apply a constrained program objective",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-01",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Expected urban earnings",
+    "prompt": "In a one-period migration model, rural work pays 60 for certain. Urban work pays 100 with probability 0.7 and zero otherwise. Moving costs 5. A risk-neutral worker considers only monetary income. Should the worker migrate?",
+    "correct": "Yes; expected net urban income is 65, above 60.",
+    "wrong": [
+      "No; expected net urban income is 55.",
+      "Yes; net urban income is certainly 95.",
+      "No; unemployment risk makes expected urban income zero."
+    ],
+    "explanation": "Expected urban income net of the moving cost is 0.7 × 100 − 5 = 65. This conclusion uses risk neutrality and the specified payoff comparison.",
+    "skill": "calculate a migration incentive",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-02",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Migration with a borrowing barrier",
+    "prompt": "A worker would gain 200 in present-value earnings from moving, before a required upfront fare of 50. The worker has 20 and cannot borrow or defer payment. What follows?",
+    "correct": "The move has a positive net return but is currently infeasible.",
+    "wrong": [
+      "The move has a negative net return because the worker is poor.",
+      "Future earnings can pay the fare before departure without financing.",
+      "The worker’s decision identifies a preference for rural life."
+    ],
+    "explanation": "The net return is 150, but the worker cannot pay the immediate 50. A liquidity constraint can prevent a beneficial move.",
+    "skill": "separate migration returns and feasibility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-03",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "A decline in agriculture’s employment share",
+    "prompt": "In a economy, agricultural employment falls from 70% to 50% of total employment. Total employment doubles. What happens to the number of agricultural workers?",
+    "correct": "It rises by about 43%.",
+    "wrong": [
+      "It falls by about 29%.",
+      "It falls by 20%.",
+      "It remains unchanged."
+    ],
+    "explanation": "Normalize initial employment to 100: agriculture employs 70. Final total employment is 200, of which 100 work in agriculture. The increase is 30/70, about 43%.",
+    "skill": "distinguish shares and levels",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-04",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "Reallocation and average productivity",
+    "prompt": "In a two-sector economy, real value added per worker, measured at common fixed prices, stays at 2 in agriculture and 6 in manufacturing. Manufacturing’s employment share rises from 25% to 50%. What happens to aggregate real value added per worker?",
+    "correct": "It rises from 3 to 4.",
+    "wrong": [
+      "It rises from 2 to 6.",
+      "It stays at 4 because sector productivities do not change.",
+      "It falls from 4 to 3."
+    ],
+    "explanation": "The initial weighted average is 0.75 × 2 + 0.25 × 6 = 3; the final average is 0.5 × 2 + 0.5 × 6 = 4. This is an accounting reallocation effect.",
+    "skill": "calculate structural-transformation accounting",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-05",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Average versus marginal farm output",
+    "prompt": "In a village, average output per farm worker exceeds zero. A policymaker claims this proves removing one farm worker must reduce farm output by that average amount. What is the error?",
+    "correct": "The relevant loss is marginal product, which need not equal average product.",
+    "wrong": [
+      "Average product measures only manufacturing output.",
+      "A positive average product implies a negative marginal product.",
+      "A worker’s marginal product is equal to total farm output."
+    ],
+    "explanation": "Average output divides total output by workers; marginal output is the change from one additional or fewer worker. The two differ with the production technology and work organization.",
+    "skill": "distinguish average and marginal productivity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-06",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "A wage gap across sectors",
+    "prompt": "In a hypothetical survey, urban formal workers earn twice as much as rural workers. Urban workers also have more education, and housing costs differ. What can the wage gap establish on its own?",
+    "correct": "It does not identify the causal real-income gain from moving a particular rural worker.",
+    "wrong": [
+      "Moving doubles every rural worker’s purchasing power.",
+      "Education has no role because sector labels determine wages.",
+      "The gap proves rural workers face no moving costs."
+    ],
+    "explanation": "Selection and living costs complicate the comparison. A nominal cross-sectional wage difference is not an individual causal migration return.",
+    "skill": "interpret sectoral wage comparisons",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-07",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Migration networks",
+    "prompt": "In a destination city, relatives provide credible job leads and temporary housing to new migrants. Holding wage offers fixed, why can an established network increase migration?",
+    "correct": "It reduces search and arrival costs.",
+    "wrong": [
+      "It raises the origin wage mechanically.",
+      "It guarantees employment for every migrant.",
+      "It eliminates differences in migrants’ skills."
+    ],
+    "explanation": "Information and initial accommodation can lower the cost of moving and finding work without changing wages or guaranteeing success.",
+    "skill": "trace network mechanisms",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-08",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Labor demand and a local factory",
+    "prompt": "In a rural labor market, a new factory increases labor demand. Labor supply slopes upward, wages are flexible, and no other curves shift. What is the competitive short-run prediction?",
+    "correct": "The local wage and employment both rise.",
+    "wrong": [
+      "Employment rises but wages must fall.",
+      "Wages rise while employment must fall.",
+      "Both wage and employment remain fixed because the factory is new."
+    ],
+    "explanation": "An outward demand shift along upward-sloping supply raises both equilibrium wage and employment. The result depends on the stated market assumptions.",
+    "skill": "analyze a local labor-demand shock",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-09",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Informal work and entry costs",
+    "prompt": "In a city, formal registration offers enforceable contracts but requires a fixed fee. Small firms with low expected gains remain informal. What mechanism can explain the size pattern?",
+    "correct": "A fixed registration cost can exceed the benefit for small firms while remaining worthwhile for larger firms.",
+    "wrong": [
+      "Formal registration must reduce the productivity of every small firm.",
+      "Informal firms reveal a preference for illegality independently of costs.",
+      "The fee has the same share of revenue for every firm."
+    ],
+    "explanation": "A fixed cost absorbs a larger revenue share for smaller firms. Comparing its size with expected registration benefits can generate different choices across firm sizes.",
+    "skill": "interpret informality choices",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u5-10",
+    "course": "development-economics",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "A seasonal job offer",
+    "prompt": "In a village, farm labor demand is low between planting and harvest. Temporary city jobs are available only during that interval. Travel costs are modest and work does not overlap. Why can seasonal migration raise annual household income?",
+    "correct": "It uses time with a low local earnings opportunity without requiring permanent relocation.",
+    "wrong": [
+      "It raises income only if it eliminates farm production.",
+      "Seasonal movement proves rural annual wages are higher than city wages.",
+      "It requires the migrant to receive both rural and city wages for the same work hours."
+    ],
+    "explanation": "Seasonal migration can match idle or low-return periods at origin with work elsewhere. Its return depends on timing, earnings and travel costs.",
+    "skill": "analyze seasonal labor allocation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-01",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Institutions and correlation",
+    "prompt": "In a hypothetical cross-country dataset, stronger contract enforcement correlates with higher income. What prevents interpreting the correlation alone as the causal effect of enforcement?",
+    "correct": "Income can influence enforcement, and other factors can influence both.",
+    "wrong": [
+      "A positive correlation rules out reverse causality.",
+      "Institutional measures cannot contain measurement error.",
+      "A country-level correlation directly identifies household-level effects."
+    ],
+    "explanation": "Reverse causality and omitted common causes are plausible. A causal interpretation needs a design or assumptions that address them.",
+    "skill": "assess institutional causal claims",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-02",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "An experiment with partial take-up",
+    "prompt": "In a hypothetical randomized program offer, mean earnings are 120 for the offered group and 100 for the control group, with complete follow-up. Only 40% of offered households participate. What is the intention-to-treat estimate?",
+    "correct": "20 earnings units.",
+    "wrong": [
+      "50 earnings units.",
+      "8 earnings units.",
+      "120 earnings units."
+    ],
+    "explanation": "Intention to treat compares groups by assignment: 120 − 100 = 20. Dividing by take-up changes the estimand and requires additional assumptions.",
+    "skill": "calculate intention to treat",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-03",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Using an offer as an instrument",
+    "prompt": "In a randomized offer, participation is 60% in the offered group and 20% in controls. The offer increases mean earnings by 12. Assume exclusion, monotonicity, relevance and no spillovers. What is the local average treatment effect?",
+    "correct": "30 earnings units for people induced to participate by the offer.",
+    "wrong": [
+      "12 earnings units for all participants.",
+      "20 earnings units for the whole population.",
+      "4.8 earnings units for people induced to participate."
+    ],
+    "explanation": "The participation first stage is 0.60 − 0.20 = 0.40. The Wald estimate is 12/0.40 = 30 for compliers under the stated assumptions.",
+    "skill": "calculate a local treatment effect",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-04",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "A control village benefits too",
+    "prompt": "In a hypothetical randomized deworming program, treated villages reduce disease transmission to nearby untreated villages. An analyst wants the total benefit relative to a world with no program. Why can a treated-control comparison miss part of that benefit?",
+    "correct": "Control outcomes improve through spillovers, so they do not represent the no-program world.",
+    "wrong": [
+      "Random assignment stops spillovers from occurring.",
+      "Control improvements must reflect nonrandom assignment.",
+      "The comparison necessarily overstates the total benefit by the control gain."
+    ],
+    "explanation": "A contaminated control group can share program benefits. The simple contrast measures a different comparison from total effects against universal nonimplementation.",
+    "skill": "identify spillover contamination",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-05",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Before and after a grant",
+    "prompt": "In a hypothetical study, income rises from 50 to 70 in grant villages and from 40 to 55 in comparison villages. Under parallel untreated trends, no anticipation and no spillovers, what is the difference-in-differences estimate?",
+    "correct": "5.",
+    "wrong": [
+      "20.",
+      "15.",
+      "10."
+    ],
+    "explanation": "The treated increase is 20 and the comparison increase is 15. Subtracting gives 5, the causal estimate under the maintained assumptions.",
+    "skill": "calculate difference in differences",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-06",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Selective missing outcomes",
+    "prompt": "In a hypothetical randomized training trial, follow-up earnings are missing for 30% of treated workers and 5% of controls. Missingness is related to employment success. What is the main problem with comparing observed means?",
+    "correct": "Random assignment does not ensure comparable groups among those observed after selective attrition.",
+    "wrong": [
+      "The difference in missingness automatically makes the estimate too large.",
+      "Random assignment guarantees observed means remain unbiased despite outcome-related missingness.",
+      "Dropping the same number of controls restores comparability without further assumptions."
+    ],
+    "explanation": "Selection into follow-up can undo comparability in observed samples. The direction of bias depends on whose outcomes are missing; equalizing counts alone is insufficient.",
+    "skill": "diagnose attrition bias",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-07",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "A pilot at national scale",
+    "prompt": "In a small pilot, business grants raise recipients’ profits. The grants are then offered to nearly every local seller of the same product. What must a scale-up assessment consider?",
+    "correct": "Expanded supply may change prices and profits for recipients and other sellers.",
+    "wrong": [
+      "The pilot’s average profit gain must apply unchanged to every seller.",
+      "Randomization in the pilot fixes prices during national expansion.",
+      "Only administrative cost can differ between the pilot and scale-up."
+    ],
+    "explanation": "Large adoption can change market conditions held approximately fixed in a small pilot. These equilibrium effects can alter both treatment benefits and spillovers.",
+    "skill": "assess equilibrium scale-up effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-08",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Monitoring a local official",
+    "prompt": "In a model, an official gains 40 from diverting funds. An audit detects diversion with probability p and imposes a total payment of 100, including any repayment of diverted funds; the official is risk-neutral and has no other incentives. What is the smallest p that makes diversion no better than honesty?",
+    "correct": "0.40.",
+    "wrong": [
+      "0.25.",
+      "0.60.",
+      "1.00."
+    ],
+    "explanation": "Expected net diversion gain is 40 − 100p. Setting this weakly below zero requires p at least 0.40.",
+    "skill": "solve an accountability incentive threshold",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-09",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "A bundled graduation program",
+    "prompt": "In a hypothetical randomized trial, a package combines an asset grant, coaching and savings support. With complete follow-up and no spillovers, the package offer raises household income. Which claim is identified by assignment alone?",
+    "correct": "The causal effect of offering the package, not each component’s separate contribution.",
+    "wrong": [
+      "The asset grant alone caused the full income gain.",
+      "Coaching and savings support each have zero effect.",
+      "Each component causes one third of the total gain."
+    ],
+    "explanation": "Randomization distinguishes the package from the control condition. Separating component effects and interactions needs additional treatment arms or identifying assumptions.",
+    "skill": "interpret bundled interventions",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "development-economics-u6-10",
+    "course": "development-economics",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Targeting and external validity",
+    "prompt": "In a hypothetical trial, a credit product is offered only to established profitable firms with good records. The offer raises investment. What limits extending the finding to all informal start-ups?",
+    "correct": "Start-ups may differ in returns, risk and constraints from the trial’s eligible firms.",
+    "wrong": [
+      "Random assignment guarantees the same effect for every excluded firm.",
+      "External validity fails only when the original trial was not randomized.",
+      "The result proves that credit cannot help start-ups."
+    ],
+    "explanation": "Randomization supports internal comparisons among eligible firms. Transporting the effect to a different population requires evidence or assumptions about relevant differences.",
+    "skill": "assess external validity",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-771-development-economics-fall-2021/pages/calendar/",
+      "https://catalog.yale.edu/ycps/courses/econ/"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]

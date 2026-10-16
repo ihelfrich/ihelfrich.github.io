@@ -149,4 +149,16 @@ const timeseries = defineCollection({
   }),
 });
 
-export const collections = { projects, writing, research, teaching, people, datasets, econometrics, measurement, timeseries };
+const handbook = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/handbook' }),
+  schema: z.object({
+    title: z.string(), order: z.number().int().min(1).max(72),
+    part: z.string(), description: z.string(), question: z.string(),
+    prerequisites: z.string(), updated: z.coerce.date(),
+    codeStem: z.string().regex(/^[a-z][a-z0-9-]*$/),
+    verificationFile: z.string().regex(/^[a-z][a-z0-9-]*\.json$/),
+    anchors: z.object({orientation:z.string(),core:z.string(),theory:z.string(),workshop:z.string()}),
+  }),
+});
+
+export const collections = { projects, writing, research, teaching, people, datasets, econometrics, measurement, timeseries, handbook };

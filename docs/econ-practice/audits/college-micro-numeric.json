@@ -1,0 +1,146 @@
+{
+  "bankVersion": "2026.10.12.15",
+  "reviewer": "Codex self-review",
+  "scope": "All15 undergraduate micro numeric families/360 variants: economic derivations, assumptions, domain checks and variation. First self-review, not independent or empirical validation.",
+  "findings": {
+    "assumptions": "Added credible punishment and other repeated-game conditions; clarified Pigouvian implementation conditions.",
+    "variety": "Varied MRS, elasticity, mixed-strategy, repeated-collusion and insurance outcomes."
+  },
+  "entries": [
+    {
+      "family": "cobb-demand",
+      "topic": "1.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Positive Cobb-Douglas exponents sum to one. With positive income and prices, the interior expenditure share on x is.4 and x=.4m/px. The displayed income variation yields feasible positive x and y.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "ab76fe030c0d6f83911da42d2267caec6be34e8a6cd9ce33d20b2c263aff0ee4"
+    },
+    {
+      "family": "mrs",
+      "topic": "1.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "For xy, derivatives are y and x. At positive displayed bundles their ratio is y/x. Revised bundles no longer have the invariant ratio3; the question explicitly requests the unsigned marginal-utility ratio rather than the signed indifference-curve slope.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "c533a93ef53540222581e6b48c229cd4a65cff8c22d0d4a1438ae6f54c037bb3"
+    },
+    {
+      "family": "perfect-complements",
+      "topic": "1.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At an optimum with positive prices, x=2y and the budget binds. With px1 and py2, spending is2x, giving x=m/2. No differentiable tangency is used at the kink.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "7fb6e1071cee7c9cb76a9a0cf00c4f537e2eccea0641c3079a4f7356dd271141"
+    },
+    {
+      "family": "quasilinear",
+      "topic": "1.4",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "At an explicitly interior allocation, a/x=px/py yields x=a/2. Strict concavity in x makes this sufficient for x; the income condition rules out a y=0 corner.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "95ddd8be51f58e8e8bb91277c422b2147c6750dd7952f6da4f3a584233327970"
+    },
+    {
+      "family": "slutsky",
+      "topic": "2.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Rearrange the Slutsky equation h_p=x_p+x*x_m. Adding10 times.2 to the negative Marshallian derivative gives the keyed compensated derivative, nonpositive throughout the generated range.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "dac7ac5a6d2f810bd0b54a58a1129bd5f7f34886535da43526e9a09dacedb366"
+    },
+    {
+      "family": "elastic-demand",
+      "topic": "2.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "For Q=a-2P, absolute point elasticity is2P/Q. Revised prices generate inelastic and elastic cases with positive quantity80 throughout, replacing the former always-unit-elastic midpoint.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "eddb4c181707096011a1570e4a37b28b16dae10d8164ad038e30327a717a3622"
+    },
+    {
+      "family": "cost-min",
+      "topic": "3.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Tangency for sqrt(LK) gives K/L=w/r=4. Combining q squared=LK gives L=q/2 and K=2q. Positive output/prices yield a positive cost-minimizing pair.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "dcb3419b973cdcb2ecebe5b6e082fed7315c540b371e44a8e22c1b7b5dabc2fa"
+    },
+    {
+      "family": "shephard",
+      "topic": "3.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Differentiating2q sqrt(wr) with respect to w gives q sqrt(r/w), which equals q/2 at w4,r1. Output is held fixed in conditional input demand.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "8f5145858e25ff68d1b082ed4b8a534e2273caeca886c49adb8d795d64072dbd"
+    },
+    {
+      "family": "competitive-supply",
+      "topic": "4.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Profit is pq-fixed-q squared. Its derivative p-2q vanishes at q=p/2 with second derivative-2. Explicit operation removes shutdown ambiguity; fixed cost does not affect this interior quantity.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "6900d2f7d1aa07a75015e6286371a420dc46d14e5340f45b02e110f777d8f2d3"
+    },
+    {
+      "family": "cournot",
+      "topic": "4.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Each linear-demand firm satisfies a-2qi-qj-c=0. Symmetry gives qi=(a-c)/3, positive at all displayed intercepts. This is quantity competition, not the Bertrand solution.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "b34737b27828781800910fd16c54da434ffc5937984bfe4ee6a49541e27b4cfd"
+    },
+    {
+      "family": "bertrand",
+      "topic": "4.3",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Homogeneous products, identical constant MC, unlimited capacity and standard continuous-price assumptions yield price=MC. The standard-model qualifier is material; capacity constraints or product differentiation would change the result.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "bcf5c7d6aaa298d603bf1b87720fd2247cd3e7963d4f92ced6d63ddbc8f78913"
+    },
+    {
+      "family": "mixed-strategy",
+      "topic": "5.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "With Up payoff a against Left and0 otherwise, and Down payoff b against Right and0 otherwise, indifference is ap=b(1-p), hence p=b/(a+b). Revised unequal payoffs yield varied probabilities strictly between0 and1. This is an opponent mixing probability that makes this player indifferent, not a full equilibrium without the other player payoffs.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "479c488bd3723afeec3a4e0436f6d595dc6dbdb53e776897e1ae34436c07577a"
+    },
+    {
+      "family": "repeated-collusion",
+      "topic": "5.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "Cooperation value C/(1-delta) must be at least D+delta*P/(1-delta), giving delta>=(D-C)/(D-P). Added best-deviation, common-payoff, perfect-observation and credible stage-equilibrium punishment conditions; without credibility, this inequality alone does not prove subgame perfection. All variants satisfy D>C>P and now span different thresholds.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "541f148d4f7a02d02db1cec4b04549ff261709130e11df82c18048c584f372c9"
+    },
+    {
+      "family": "pigou",
+      "topic": "6.1",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "A constant per-unit tax equal to MEC at the efficient quantity aligns the private marginal condition at that quantity. Added no other distortions, interiority and uniqueness so equality implements the intended equilibrium rather than merely identifying a candidate. MEC=2q gives the keyed tax.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "a7f163dc2b9099175669902b8a86764934815a6ec93c1963b505ead31518b5aa"
+    },
+    {
+      "family": "insurance",
+      "topic": "6.2",
+      "items": 24,
+      "reviewStatus": "first-substantive-pass-complete",
+      "reasoning": "The fair full-insurance premium equals probability times covered loss, without expense loading. Every generated probability is in(0,1) and wealth exceeds the loss. Revised loss/probability pairs remove the irrelevant wealth-only variation; risk preferences are unnecessary for expected payout.",
+      "numericVerification": "All24 variants independently evaluated from displayed prompt quantities by econ-undergrad-content.test.mjs.",
+      "contentSHA256": "7e76b4f9d9eec88f095ee35b7a4012a51bdcad5f6d222994e4f7063d97438ad5"
+    }
+  ]
+}

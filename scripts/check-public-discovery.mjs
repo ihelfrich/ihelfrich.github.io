@@ -183,6 +183,13 @@ const origin = `http://127.0.0.1:${address.port}`;
 try {
   const pagefind = await import(path.join(root, "pagefind", "pagefind.js"));
   await pagefind.options({ basePath: `${origin}/pagefind/` });
+  for (const [query, route] of [["Economics practice", "/economics-practice/"], ["Explore economics", "/economics-practice/curriculum/"]]) {
+    assert.ok(sitemapRoutes.includes(route), route + " must appear in the sitemap");
+    const matches = await pagefind.search(query);
+    const paths = await Promise.all(matches.results.map(async (entry) => new URL((await entry.data()).url, origin).pathname));
+    assert.ok(paths.includes(route), route + " must be searchable");
+    assert.ok(!paths.includes("/economics-practice/instructor/"), "private instructor workspace must stay out of search");
+  }
   for (const { id, title } of archivalProjects) {
     const result = await pagefind.search(title);
     const records = await Promise.all(result.results.map((entry) => entry.data()));

@@ -1,0 +1,121 @@
+import {gradeResponse} from './scoring.mjs';
+import {courses,prerequisitesByCourse,validCourseUnit} from './curriculum.mjs';
+import {prior,itemParameters,validateParameterSnapshot,posteriorUpdate,summarize,expectedInformation,probability} from './irt.mjs';
+export const ENGINE_VERSION='content-constrained-v9';
+export function newState(){return {version:3,history:[],topics:{},posteriors:{},posteriorModels:{},courseSessions:{}};}
+const posteriorKey=(sessionId,course,unit)=>JSON.stringify([sessionId,course,unit]);
+function requireCompatibleModel(state,sessionId,course,unit,modelVersion){
+ const key=posteriorKey(sessionId,course,unit);
+ if(!state.posteriors[key])return;
+ const models=state.posteriorModels?.[key]?[state.posteriorModels[key]]:[...new Set(state.history.filter(h=>h.sessionId===sessionId&&h.course===course&&h.unit===unit&&h.psychometricEligible).map(h=>h.modelVersion))];
+ if(models.length!==1||models[0]!==modelVersion)throw new Error('Assessment model changed; rebuild the occasion evidence before continuing.');
+}
+export function score(item,response){return gradeResponse(item,response).correct;}
+export function recordAnswer(state,item,options){return recordWithIndex(state,item,options);}
+// A recorder owns appends during a replay. Do not mutate its history externally.
+export function createAnswerRecorder(state){
+ const index={events:new Set(state.history.map(h=>h.eventId).filter(Boolean)),families:new Set(state.history.map(h=>JSON.stringify([h.course,h.family])))};
+ return (item,options)=>recordWithIndex(state,item,options,index);
+}
+function recordWithIndex(state,item,{response,at=Date.now(),mode='practice',hints=0,sessionId='local',eventId,calibration,parameterSnapshot,measurementEligible=true,persistedPresentationEligible=false},index){
+ if(eventId&&(index?index.events.has(eventId):state.history.some(h=>h.eventId===eventId)))return state;
+ if(parameterSnapshot&&calibration)throw new Error('Provide one measurement parameter source.');
+ const p=parameterSnapshot?validateParameterSnapshot(parameterSnapshot):itemParameters(item,calibration);
+ const grade=gradeResponse(item,response),correct=grade.correct,key=`${item.course}:${item.topic}`;
+ const t=state.topics[key]??{attempts:0,correct:0,streak:0,last:0,due:0,families:[]};
+ const familyKey=JSON.stringify([item.course,item.family]);
+ const firstExposure=index?!index.families.has(familyKey):!state.history.some(h=>h.course===item.course&&h.family===item.family);
+ const dimension=posteriorKey(sessionId,item.course,item.unit);
+ // Server replay validates durable presentation provenance before supplying this
+ // override. Local callers retain conservative answer-order exposure inference.
+ const psychometricEligible=measurementEligible&&item.format!=='multipart'&&mode==='assessment'&&(firstExposure||persistedPresentationEligible===true)&&hints===0;
+ if(psychometricEligible)requireCompatibleModel(state,sessionId,item.course,item.unit,p.modelVersion);
+ t.credit=(t.credit??t.correct)+grade.score;t.attempts++;t.correct+=Number(correct);t.streak=correct&&hints===0?t.streak+1:0;t.last=at;
+ t.due=at+(correct&&hints===0?[1,3,7,14,30][Math.min(4,t.streak-1)]:0.04)*86400000;
+ t.families=[...new Set([...t.families,item.family])];state.topics[key]=t;
+ if(psychometricEligible){state.posteriors[dimension]=posteriorUpdate(state.posteriors[dimension]??prior(),correct,p);state.posteriorModels??={};state.posteriorModels[dimension]=p.modelVersion;}
+ state.history.push({eventId,itemId:item.id,family:item.family,course:item.course,topic:item.topic,unit:item.unit,correct,score:grade.score,earned:grade.earned,possible:grade.possible,response,at,mode,hints,sessionId,firstExposure,psychometricEligible,modelVersion:p.modelVersion,parameterStatus:p.status});
+ if(index){if(eventId)index.events.add(eventId);index.families.add(familyKey);}
+ return state;
+}
+export function selectItem(bank,state,{course='ap-micro',mode='practice',unit=0,topic='',sessionId='local',now=Date.now(),rng=Math.random,calibration,calibrationsByUnit,exposedFamilies=[]}={}){
+ if(!validCourseUnit(course,unit,{allowAll:true}))throw new Error('Invalid course or unit.');
+ if(calibration&&calibrationsByUnit)throw new Error('Provide one calibration source.');
+ if(calibrationsByUnit!==undefined){
+  if(!calibrationsByUnit||typeof calibrationsByUnit!=='object'||Array.isArray(calibrationsByUnit))throw new Error('Invalid unit calibration map.');
+  for(const [dimension,model] of Object.entries(calibrationsByUnit)){
+   if(! /^[1-9][0-9]*$/.test(dimension)||!validCourseUnit(course,Number(dimension)))throw new Error('Invalid calibrated unit.');
+   if(model!==null&&(!model||model.status!=='approved'||model.course!==course||model.unit!==Number(dimension)||typeof model.id!=='string'||!model.id.trim()||!model.items||typeof model.items!=='object'||Array.isArray(model.items)))throw new Error('Invalid or mismatched unit calibration.');
+  }
+ }
+ const calibrationFor=q=>{
+  const model=calibrationsByUnit===undefined?calibration:calibrationsByUnit[q.unit];
+  if(model&&calibrationsByUnit!==undefined&&model.bankVersion!==q.version)throw new Error('Unit calibration bank version mismatch.');
+  return model;
+ };
+ const session=state.history.filter(h=>h.sessionId===sessionId&&h.course===course);
+ const used=new Set(session.map(h=>h.itemId));const families=new Set(session.map(h=>h.family));
+ let pool=bank.filter(q=>q.course===course&&(!unit||q.unit===Number(unit))&&(!topic||q.topic===topic)&&!used.has(q.id));
+ if(mode==='assessment')pool=pool.filter(q=>!families.has(q.family));
+ if(mode==='assessment'&&calibrationsByUnit!==undefined){
+  const before=pool;
+  pool=pool.filter(q=>{const model=calibrationFor(q);if(!model)return true;if(!Object.hasOwn(model.items,q.id))return false;if(itemParameters(q,model).status!=='calibrated')throw new Error('Missing parameters in calibrated unit.');return true;});
+  for(const dimension of new Set(before.map(q=>q.unit)))if(!session.some(h=>h.unit===dimension)&&!pool.some(q=>q.unit===dimension))throw new Error(`No calibrated items available for required unit ${dimension}.`);
+ }
+ if(!pool.length)return null;
+ let remediationTopic=null;
+ if(mode==='practice'&&session.length>=2){
+  const recent=session.slice(-2),last=recent.at(-1);
+  if(recent.every(h=>h.topic===last.topic&&(h.score??Number(h.correct))<.5)){
+   const prerequisiteTopics=new Set(prerequisitesByCourse[course]?.[last.topic]??[]);
+   const review=pool.filter(q=>prerequisiteTopics.has(q.topic));
+   if(review.length){pool=review;remediationTopic=last.topic;}
+  }
+ }
+ // Fill missing units before optimizing information; this is a hard coverage constraint.
+ if(mode==='assessment'&&!unit&&!topic){const seenUnits=new Set(session.map(h=>h.unit));const uncovered=pool.filter(q=>!seenUnits.has(q.unit));if(uncovered.length)pool=uncovered;}
+ let exposureStatus=null;
+ if(mode==='assessment'){
+  const exposed=new Set([...exposedFamilies,...state.history.filter(h=>h.course===course).map(h=>h.family)]);
+  const fresh=pool.filter(q=>!exposed.has(q.family));
+  if(fresh.length){pool=fresh;exposureStatus='fresh-family';}else exposureStatus='previously-exposed-family';
+ }
+ const unitCounts=Array(courses[course].units.length).fill(0);session.forEach(h=>unitCounts[h.unit-1]++);
+ const recentFamilies=new Set(session.slice(-4).map(h=>h.family));
+ const scored=pool.map(q=>{
+  const t=state.topics[`${course}:${q.topic}`];const weights=state.posteriors[posteriorKey(sessionId,course,q.unit)]??prior();const params=itemParameters(q,calibrationFor(q));
+  const deficit=courses[course].weights[q.unit-1]*(session.length+1)-unitCounts[q.unit-1];
+  let utility=2*deficit;
+  if(mode==='assessment'){requireCompatibleModel(state,sessionId,course,q.unit,params.modelVersion);utility+=expectedInformation(weights,params);}
+  else{
+   const accuracy=t?((t.credit??t.correct)+1)/(t.attempts+2):.5;
+   const targetDifficulty=accuracy>.8?3:accuracy<.45?1:2;
+   utility+=(!t?2:0)+(t&&t.due<=now?1.5:0)-.5*Math.abs(q.difficulty-targetDifficulty);
+   if(recentFamilies.has(q.family))utility-=5;
+   const needsPrereq=(prerequisitesByCourse[course]?.[q.topic]??[]).some(id=>{const p=state.topics[`${course}:${id}`];return p&&p.attempts>=2&&(p.credit??p.correct)/p.attempts<.4;});
+   if(needsPrereq)utility-=1.5;
+  }
+  return {q,utility};
+ });
+ // Softmax randomized selection provides a known, nonzero propensity within the eligible pool.
+ // Family-level sampling first prevents prolific template families from gaining exposure by count.
+ const grouped=new Map();scored.forEach(x=>{if(!grouped.has(x.q.family))grouped.set(x.q.family,[]);grouped.get(x.q.family).push(x);});
+ const groups=[...grouped.values()];const max=Math.max(...scored.map(x=>x.utility));
+ const within=groups.map(g=>g.map(x=>Math.exp(Math.max(-30,x.utility-max))));
+ // Mean mass avoids rewarding family size; conditional mass respects item-specific calibration.
+ const sums=within.map(w=>w.reduce((a,b)=>a+b,0));
+ const mass=sums.map((sum,i)=>sum/groups[i].length),total=mass.reduce((a,b)=>a+b,0);
+ const sample=weights=>{let draw=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){draw-=weights[i];if(draw<0)return i;}return weights.length-1;};
+ const gi=sample(mass),ii=sample(within[gi]),picked=groups[gi][ii].q;
+ const parameters=itemParameters(picked,calibrationFor(picked));
+ return {item:picked,parameters,selection:{engineVersion:ENGINE_VERSION,exposureStatus,probability:mass[gi]/total*within[gi][ii]/sums[gi],eligibleItems:pool.length,eligibleFamilies:groups.length,reason:remediationTopic?`prerequisite review for ${remediationTopic}`:mode==='assessment'?'content-balanced information sampling':'coverage, review, and difficulty',modelVersion:parameters.modelVersion}};
+}
+export function progress(state,course,{sessionId='local'}={}){
+ return courses[course].units.map((name,i)=>{
+  const attempts=state.history.filter(h=>h.course===course&&h.unit===i+1&&h.sessionId===sessionId);
+  const evidence=attempts.filter(h=>h.psychometricEligible),models=[...new Set(evidence.map(h=>h.modelVersion))];
+  const weights=state.posteriors[posteriorKey(sessionId,course,i+1)];
+  const measurementStatus=!evidence.length?'no-eligible-evidence':models.length!==1?'incompatible-model-versions':evidence.every(h=>h.parameterStatus==='calibrated')?'calibrated':'provisional';
+  return {unit:i+1,name,sessionId,estimationScope:'session',attempts:attempts.length,correct:attempts.filter(h=>h.correct).length,credit:attempts.reduce((sum,h)=>sum+(h.score??Number(h.correct)),0),uniqueFamilies:new Set(attempts.map(h=>h.family)).size,measurementResponses:evidence.length,measurementStatus,modelVersions:models,estimate:evidence.length&&models.length===1&&weights?summarize(weights):null};
+ });
+}

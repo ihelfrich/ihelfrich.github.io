@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "game-theory-u1-01",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.1",
+    "title": "Strict dominance",
+    "prompt": "A row player chooses A, B, or C simultaneously with a column player choosing L or R. Row payoffs (L,R) are A=(5,2), B=(3,1), C=(0,4). Which dominance claim is correct?",
+    "correct": "A strictly dominates B.",
+    "wrong": [
+      "A strictly dominates C.",
+      "B strictly dominates A.",
+      "C weakly dominates A."
+    ],
+    "explanation": "A exceeds B at both columns: 5>3 and 2>1. C trades a lower L payoff for a higher R payoff.",
+    "hint": "Compare actions against the same opponent action.",
+    "skill": "strict dominance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-02",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.2",
+    "title": "Dominance by a mixture",
+    "prompt": "Row payoffs against L,R are A=(4,0), B=(0,4), C=(1,1). Expected utility is linear in probabilities. Which statement holds?",
+    "correct": "An equal mixture of A and B strictly dominates C.",
+    "wrong": [
+      "A strictly dominates C.",
+      "B strictly dominates C.",
+      "C is a best response to an equal mixture of L and R."
+    ],
+    "explanation": "The mixture yields (2,2), strictly above (1,1). Neither pure action dominates C; at equal column probabilities A and B each yield 2.",
+    "hint": "Evaluate the mixed action separately against each column.",
+    "skill": "dominance by a mixture",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-03",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.3",
+    "title": "Weak dominance and equilibrium",
+    "prompt": "A simultaneous game has payoffs (row,column): (U,L)=(1,1), (U,R)=(1,0), (D,L)=(1,1), (D,R)=(0,0). What happens if weakly dominated D is removed?",
+    "correct": "The Nash equilibrium (D,L) is removed.",
+    "wrong": [
+      "No Nash equilibrium can be removed.",
+      "The only Nash equilibrium is removed.",
+      "U ceases to be a best response to L."
+    ],
+    "explanation": "U weakly dominates D, but both are best responses to L. L strictly dominates R, so every row mixture paired with L is Nash. Deleting D removes some equilibria.",
+    "hint": "At L, check whether D is strictly worse or tied.",
+    "skill": "weak dominance and equilibrium",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-04",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.4",
+    "title": "Iterated strict deletion",
+    "prompt": "A simultaneous game has (U,L)=(3,2), (U,R)=(0,1), (D,L)=(2,0), (D,R)=(1,-1). What survives iterated deletion of strictly dominated pure actions?",
+    "correct": "Only (U,L).",
+    "wrong": [
+      "Only (D,R).",
+      "Both row actions and L.",
+      "All four profiles."
+    ],
+    "explanation": "L strictly dominates R for the column player. Against remaining L, U strictly dominates D. The unique Nash equilibrium is also (U,L).",
+    "hint": "Start with the player having the same strict ranking at both opponent actions.",
+    "skill": "iterated strict deletion",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-05",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.5",
+    "title": "Best response to a belief",
+    "prompt": "Row payoffs against L,R are U=(6,0) and D=(2,3). Row believes L occurs with probability q. When is U a best response, allowing ties?",
+    "correct": "q ≥ 3/7.",
+    "wrong": [
+      "q ≥ 1/2.",
+      "q ≤ 3/7.",
+      "q ≥ 2/3."
+    ],
+    "explanation": "U yields 6q and D yields 2q+3(1-q)=3-q. Thus U is optimal when 7q≥3. Both are optimal at equality.",
+    "hint": "Compare expected payoffs before solving the inequality.",
+    "skill": "best response to a belief",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-06",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.6",
+    "title": "Affine utility transformations",
+    "prompt": "In a finite game with expected-utility payoffs, each payoff of player 1 is replaced by 7u1+9; player 2 payoffs are unchanged. What happens to Nash equilibria?",
+    "correct": "The full set of mixed and pure Nash equilibria is unchanged.",
+    "wrong": [
+      "Only pure equilibria are preserved.",
+      "Every equilibrium becomes strict.",
+      "Player 1 must randomize uniformly."
+    ],
+    "explanation": "Positive affine transformations preserve all expected-payoff rankings and therefore every best-response correspondence.",
+    "hint": "Apply the transformation to expected utility.",
+    "skill": "affine utility transformations",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-07",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.7",
+    "title": "Ordinal transformations under risk",
+    "prompt": "Player 1 chooses A paying 2 for sure or B paying 0 and 3 with equal probability. Replace each outcome payoff u by u². What changes?",
+    "correct": "A is preferred originally, but B is preferred after transformation.",
+    "wrong": [
+      "A is preferred in both cases.",
+      "B is preferred in both cases.",
+      "Both choices are tied after transformation."
+    ],
+    "explanation": "Originally 2>1.5. After squaring, A pays 4 and B has expectation 4.5. Increasing nonlinear transformations need not preserve lottery preferences.",
+    "hint": "Transform outcomes before averaging.",
+    "skill": "ordinal transformations under risk",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-08",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.8",
+    "title": "Efficiency versus equilibrium",
+    "prompt": "Two players simultaneously choose C or D. Payoffs are CC=(4,4), CD=(0,6), DC=(6,0), DD=(1,1). Which statement is correct?",
+    "correct": "DD is the unique Nash equilibrium and is Pareto dominated by CC.",
+    "wrong": [
+      "CC is Nash because its total payoff is larger.",
+      "CD and DC are Nash.",
+      "DD Pareto dominates CC."
+    ],
+    "explanation": "D strictly dominates C for each player, yet both earn more at CC than at DD. Individual deviation incentives differ from joint gains.",
+    "hint": "Check unilateral deviations and then compare both players’ payoffs.",
+    "skill": "efficiency versus equilibrium",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-09",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.9",
+    "title": "Rationalizability is not a realized forecast",
+    "prompt": "In matching pennies, each player chooses H or T simultaneously. Row earns 1 for a match and -1 otherwise; column earns the negative of row payoff. Which pure actions are rationalizable?",
+    "correct": "Both actions for both players.",
+    "wrong": [
+      "Only H for both players.",
+      "No pure actions because no pure Nash equilibrium exists.",
+      "Only row H and column T."
+    ],
+    "explanation": "Every action is a best response to some belief about the opponent. Rationalizability does not require a pure action profile to be mutual best responses.",
+    "hint": "Separate individual support by a belief from equilibrium consistency.",
+    "skill": "rationalizability is not a realized forecast",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u1-10",
+    "course": "game-theory",
+    "unit": 1,
+    "topic": "1.10",
+    "title": "Strategic interaction and external effects",
+    "prompt": "Two players choose x1,x2 in {0,1}; player i earns 2xi+5xj. Choices are simultaneous and payoffs are common knowledge. Which statement is correct?",
+    "correct": "Choosing 1 is strictly dominant for each player despite the external effect.",
+    "wrong": [
+      "Every action is a best response because the opponent matters.",
+      "There is no pure Nash equilibrium.",
+      "Choosing 0 is dominant because the external benefit is larger."
+    ],
+    "explanation": "Changing one’s own action from 0 to 1 adds 2 regardless of the opponent. The cross-player payoff effect does not alter the own-action ranking.",
+    "hint": "Hold the opponent’s choice fixed when calculating the gain from switching.",
+    "skill": "strategic interaction and external effects",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-01",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.1",
+    "title": "Asymmetric matching pennies",
+    "prompt": "A zero-sum simultaneous game gives row payoffs (U,L)=2, (U,R)=-1, (D,L)=-2, (D,R)=1. Column earns their negative. In its mixed Nash equilibrium, what are p=Pr(U) and q=Pr(L)?",
+    "correct": "p=1/2 and q=1/3.",
+    "wrong": [
+      "p=1/3 and q=1/2.",
+      "p=q=1/2.",
+      "p=2/3 and q=1/2."
+    ],
+    "explanation": "Row indifference is 3q-1=1-3q, so q=1/3. Column indifference is 4p-2=1-2p, so p=1/2. No pure profile is Nash.",
+    "hint": "Each player’s mixing probability makes the other player indifferent.",
+    "skill": "asymmetric matching pennies",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-02",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.2",
+    "title": "Coordination equilibrium enumeration",
+    "prompt": "A simultaneous game has AA=(3,2), AB=(0,0), BA=(0,0), BB=(1,4), with row action first. What is the complete Nash equilibrium set?",
+    "correct": "AA, BB, and a mixed equilibrium with Pr(row A)=2/3 and Pr(column A)=1/4.",
+    "wrong": [
+      "Only AA and BB.",
+      "Only one equilibrium with both choosing A with probability 1/2.",
+      "AA, BB, and a mixed equilibrium with row A probability 1/4 and column A probability 2/3."
+    ],
+    "explanation": "Row indifference requires 3q=1-q. Column indifference requires 2p=4(1-p). The two diagonal profiles are strict pure equilibria; no other supports work.",
+    "hint": "Enumerate pure best responses before solving both indifference equations.",
+    "skill": "coordination equilibrium enumeration",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-03",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.3",
+    "title": "Support must be optimal",
+    "prompt": "A row player faces L,R with payoffs A=(2,0), B=(0,2), C=(3,3). A candidate has both players mixing equally over their first two actions. Can this be Nash?",
+    "correct": "No; C yields 3 while A and B each yield 1.",
+    "wrong": [
+      "Yes; indifference between A and B is sufficient.",
+      "Yes; unused actions never matter.",
+      "No; mixed strategies cannot be equilibria in three-action games."
+    ],
+    "explanation": "Equal payoffs within a proposed support are necessary but not sufficient. Every action outside the support must earn no more.",
+    "hint": "Check unused actions after solving indifference conditions.",
+    "skill": "support must be optimal",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-04",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.4",
+    "title": "Finite-game existence",
+    "prompt": "Which assumption is sufficient for every finite normal-form game to have a Nash equilibrium in independently mixed strategies?",
+    "correct": "Every player has a nonempty finite action set and finite real payoffs, evaluated by expected utility.",
+    "wrong": [
+      "Every player must have a dominant action.",
+      "All payoffs must sum to zero.",
+      "All players must share the same action rankings."
+    ],
+    "explanation": "The mixed-strategy existence theorem applies to arbitrary finite games with expected utility. Neither dominance, zero-sum structure, nor aligned preferences is required.",
+    "hint": "Distinguish existence in mixed strategies from existence in pure strategies.",
+    "skill": "finite-game existence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-05",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.5",
+    "title": "Failure without compactness",
+    "prompt": "Each of two players independently chooses xi in the open interval (0,1), earning ui=xi. Does a Nash equilibrium exist?",
+    "correct": "No; every feasible choice can be increased profitably.",
+    "wrong": [
+      "Yes, x1=x2=1.",
+      "Yes, x1=x2=1/2.",
+      "Yes, every profile is Nash because payoffs are independent."
+    ],
+    "explanation": "The supremum 1 is unavailable. Every feasible xi admits a larger feasible action, so there is no best response and no equilibrium.",
+    "hint": "Check whether the maximizer belongs to the action set.",
+    "skill": "failure without compactness",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-06",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.6",
+    "title": "Continuous pure-strategy existence",
+    "prompt": "For a finite number of players with nonempty compact convex action sets in Euclidean spaces, which additional conditions support the standard pure Nash existence theorem?",
+    "correct": "Payoffs are jointly continuous and quasiconcave in each player’s own action.",
+    "wrong": [
+      "Payoffs are merely bounded.",
+      "Each player’s payoff is convex in the opponent’s action.",
+      "All best responses must be single-valued by assumption."
+    ],
+    "explanation": "Continuity and compactness yield nonempty best-response sets; own-action quasiconcavity yields convex values. A fixed-point theorem then applies. Uniqueness is unnecessary.",
+    "hint": "Identify the properties needed for a best-response fixed point.",
+    "skill": "continuous pure-strategy existence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-07",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.7",
+    "title": "Cournot best responses",
+    "prompt": "Two firms simultaneously choose nonnegative quantities. Inverse price is P=12-q1-q2, allowed to be negative, and constant marginal cost is 2 with no fixed cost. What is the Nash quantity profile?",
+    "correct": "q1=q2=10/3.",
+    "wrong": [
+      "q1=q2=5.",
+      "q1=q2=10.",
+      "q1=q2=4."
+    ],
+    "explanation": "Firm i maximizes (10-qi-qj)qi and responds with max{0,(10-qj)/2}. Solving the two interior responses gives 10/3 each; neither boundary profile is mutual best response.",
+    "hint": "Use own-profit derivatives, not the derivative of joint profit.",
+    "skill": "cournot best responses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-08",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.8",
+    "title": "Zero-sum value",
+    "prompt": "In a zero-sum game row chooses U,D and column L,R. Row payoff matrix is [[3,1],[2,0]]. What is the equilibrium payoff to row?",
+    "correct": "1.",
+    "wrong": [
+      "0.",
+      "2.",
+      "3."
+    ],
+    "explanation": "U strictly dominates D, and R strictly minimizes row’s payoff against either row action. The unique equilibrium is (U,R) with row payoff 1.",
+    "hint": "Look for a saddle point before solving a mixed system.",
+    "skill": "zero-sum value",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-09",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.9",
+    "title": "Indifference is not a mandate",
+    "prompt": "At a mixed Nash equilibrium, a player has two actions in support. Holding the opponent’s equilibrium strategy fixed, what happens if this player switches to one supported pure action?",
+    "correct": "The player’s expected payoff is unchanged.",
+    "wrong": [
+      "The player strictly gains.",
+      "The player strictly loses.",
+      "The opponent must immediately change strategy by definition."
+    ],
+    "explanation": "Supported actions all maximize expected payoff against the fixed opponent strategy. A unilateral deviation is evaluated with opponents’ strategies held fixed.",
+    "hint": "Use the definition of a unilateral deviation.",
+    "skill": "indifference is not a mandate",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u2-10",
+    "course": "game-theory",
+    "unit": 2,
+    "topic": "2.10",
+    "title": "Correlation and equilibrium concepts",
+    "prompt": "A device recommends (A,A) or (B,B), each with probability 1/2. Each player observes only their recommendation. Both players earn 1 when actions match and 0 otherwise. What is this distribution?",
+    "correct": "A correlated equilibrium, but not a product distribution of independent mixed strategies.",
+    "wrong": [
+      "An independent mixed Nash distribution with each probability 1/2.",
+      "Not a correlated equilibrium because the device is random.",
+      "A distribution assigning positive probability to mismatches."
+    ],
+    "explanation": "Following the recommendation guarantees payoff 1, while deviating gives 0. The joint distribution has no mismatches, unlike independent fair mixing.",
+    "hint": "Compare conditional incentives with statistical independence.",
+    "skill": "correlation and equilibrium concepts",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-01",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.1",
+    "title": "Complete contingent plans",
+    "prompt": "Player 1 chooses Out or In. After In, player 2 observes that choice and chooses Fight or Accommodate. What is a pure strategy for player 2?",
+    "correct": "A choice of Fight or Accommodate even if In is never reached.",
+    "wrong": [
+      "A probability that player 1 chooses In.",
+      "Only the action actually observed on the equilibrium path.",
+      "A choice of Out or In."
+    ],
+    "explanation": "A strategy specifies behavior at every information set where the player could act, including unreached ones.",
+    "hint": "Separate a strategy from the realized path.",
+    "skill": "complete contingent plans",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-02",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.2",
+    "title": "Entry and credible responses",
+    "prompt": "Player 1 chooses Out, giving (2,2), or In. After observing In, player 2 chooses Fight giving (0,0) or Accommodate giving (3,1). What is the unique subgame-perfect equilibrium?",
+    "correct": "In; player 2 accommodates.",
+    "wrong": [
+      "Out; player 2 fights.",
+      "Out; player 2 accommodates.",
+      "In; player 2 fights."
+    ],
+    "explanation": "After In, player 2 prefers 1 to 0. Anticipating accommodation, player 1 prefers 3 to 2. Fighting cannot support a credible deterrent.",
+    "hint": "Solve the final decision before the initial one.",
+    "skill": "entry and credible responses",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-03",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.3",
+    "title": "Nash threats off the path",
+    "prompt": "In the entry game Out=(2,2), In-Fight=(0,0), In-Accommodate=(3,1), with player 2 observing entry, which pure Nash equilibrium is not subgame perfect?",
+    "correct": "Out with Fight prescribed after In.",
+    "wrong": [
+      "In with Accommodate prescribed.",
+      "Out with Accommodate prescribed.",
+      "In with Fight prescribed."
+    ],
+    "explanation": "At (Out,Fight), entry lowers player 1 payoff and player 2 cannot change the realized payoff unilaterally. But Fight is not optimal in the entry subgame. Pure Nash equilibria are exactly (Out,Fight) and (In,Accommodate).",
+    "hint": "Nash optimality at the root does not require optimal play in every subgame.",
+    "skill": "nash threats off the path",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-04",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.4",
+    "title": "Information sets and subgames",
+    "prompt": "Player 1 privately chooses L or R. Player 2 then chooses U or D without observing that choice; both player-2 nodes lie in one information set. Which is a proper subgame?",
+    "correct": "Neither individual player-2 node begins a proper subgame.",
+    "wrong": [
+      "The node following L alone.",
+      "The node following R alone.",
+      "Each node begins a separate subgame because it occurs later."
+    ],
+    "explanation": "A subgame must begin at a singleton information set and cannot cut an information set. The two hidden-history nodes fail that condition.",
+    "hint": "Check information sets, not just chronological order.",
+    "skill": "information sets and subgames",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-05",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.5",
+    "title": "Backward induction with ties",
+    "prompt": "Player 1 chooses Out=(1,1) or In. After observed In, player 2 chooses A=(2,0) or B=(0,0). What are the pure subgame-perfect equilibria?",
+    "correct": "(In,A) and (Out,B).",
+    "wrong": [
+      "Only (In,A).",
+      "Only (Out,B).",
+      "All four pure strategy profiles."
+    ],
+    "explanation": "Player 2 is indifferent between A and B in the subgame. If A is prescribed, player 1 enters; if B is prescribed, player 1 stays out. No arbitrary tie rule is imposed.",
+    "hint": "Retain every optimal continuation when a player is indifferent.",
+    "skill": "backward induction with ties",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-06",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.6",
+    "title": "Stackelberg commitment",
+    "prompt": "A leader chooses q1≥0; a follower observes it and chooses q2≥0. Both earn (10-q1-q2)qi, with price-cost margin allowed to be negative. What is the subgame-perfect outcome?",
+    "correct": "q1=5 and q2=5/2.",
+    "wrong": [
+      "q1=q2=10/3.",
+      "q1=10 and q2=0.",
+      "q1=5/2 and q2=5."
+    ],
+    "explanation": "The follower chooses max{0,(10-q1)/2}. For q1≤10 the leader earns q1(10-q1)/2, maximized at 5. For q1≥10 its payoff is nonpositive.",
+    "hint": "Substitute the follower’s whole response into leader profit.",
+    "skill": "stackelberg commitment",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-07",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.7",
+    "title": "Observed commitment changes incentives",
+    "prompt": "Using Out=(2,2), In-Fight=(0,0), In-Accommodate=(3,1), suppose player 2 first publicly and irrevocably commits to Fight or Accommodate, then player 1 chooses Out or In. What is the equilibrium outcome?",
+    "correct": "Player 2 commits to Fight and player 1 stays Out.",
+    "wrong": [
+      "Player 2 commits to Accommodate and player 1 enters.",
+      "Player 2 commits to Fight and player 1 enters.",
+      "Commitment cannot change the outcome."
+    ],
+    "explanation": "Fight induces Out and earns player 2 payoff 2; Accommodate induces In and earns 1. An enforceable prior commitment differs from a noncredible future threat.",
+    "hint": "Compare player 2’s payoffs after player 1 responds to each commitment.",
+    "skill": "observed commitment changes incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-08",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.8",
+    "title": "Perfect recall and randomization",
+    "prompt": "In a finite extensive-form game with perfect recall, how are mixed and behavioral strategies related?",
+    "correct": "Every mixed strategy has a realization-equivalent behavioral strategy, and conversely.",
+    "wrong": [
+      "They always assign identical probabilities to complete pure plans.",
+      "Behavioral strategies forbid randomization at unreached information sets.",
+      "Equivalence holds only in zero-sum games."
+    ],
+    "explanation": "Perfect recall supports equivalence of induced terminal-history distributions against every opponent strategy. It does not require identical distributions over full contingent plans.",
+    "hint": "Distinguish outcome distributions from distributions over pure strategies.",
+    "skill": "perfect recall and randomization",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-09",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.9",
+    "title": "One-shot deviation principle",
+    "prompt": "A finite-horizon game has perfect information. In every subgame, a proposed strategy profile admits no profitable deviation at a single decision node followed by a return to prescribed play. What does the one-shot deviation principle establish?",
+    "correct": "The profile is subgame perfect.",
+    "wrong": [
+      "The profile is necessarily unique.",
+      "All actions on its path are strictly dominant.",
+      "Its outcome is Pareto efficient."
+    ],
+    "explanation": "For a finite horizon with perfect information, a profitable multi-stage deviation would imply a profitable last local deviation. This characterizes subgame perfection, not uniqueness or efficiency.",
+    "hint": "Work backward from the last decision where a profitable deviation differs.",
+    "skill": "one-shot deviation principle",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u3-10",
+    "course": "game-theory",
+    "unit": 3,
+    "topic": "3.10",
+    "title": "Changing information changes the game",
+    "prompt": "A player-2 decision following hidden L or R belongs to one information set. An analyst allows player 2 to choose U after L and D after R. What is the error?",
+    "correct": "The proposed plan conditions on information player 2 does not observe.",
+    "wrong": [
+      "A pure strategy can never condition on any history.",
+      "Only mixed strategies may condition on observed histories.",
+      "No error; chronology implies observation."
+    ],
+    "explanation": "Actions must be constant within an information set. Treating the two histories separately grants player 2 an observation absent from the model.",
+    "hint": "A feasible strategy is measurable with respect to the player’s information.",
+    "skill": "changing information changes the game",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-01",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.1",
+    "title": "Finite repeated dominance",
+    "prompt": "The stage game is CC=(3,3), CD=(0,5), DC=(5,0), DD=(1,1). It is repeated exactly three times with perfect public observation, additive payoffs, and no terminal bonus. What occurs in every subgame-perfect equilibrium?",
+    "correct": "Both choose D after every history in every period.",
+    "wrong": [
+      "CC occurs until the last period.",
+      "CC occurs throughout if players are patient.",
+      "Any first-period profile can be supported by last-period punishments."
+    ],
+    "explanation": "D is strictly dominant in the final stage. The unique continuation then removes reward leverage one stage earlier, so backward induction gives D throughout.",
+    "hint": "Start at the known final period and use uniqueness of its equilibrium.",
+    "skill": "finite repeated dominance",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-02",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.2",
+    "title": "Grim-trigger threshold",
+    "prompt": "The stage game is CC=(4,4), CD=(0,7), DC=(7,0), DD=(1,1). It repeats infinitely with perfect public monitoring and discounted sum payoff, common δ∈[0,1). Under grim trigger, which condition deters deviation from cooperation?",
+    "correct": "δ ≥ 1/2.",
+    "wrong": [
+      "δ ≥ 3/7.",
+      "δ ≤ 1/2.",
+      "δ ≥ 3/4."
+    ],
+    "explanation": "Cooperation yields 4/(1-δ); deviation yields 7+δ/(1-δ). The constraint reduces to 6δ≥3. Permanent DD is credible because D is a stage best response to D.",
+    "hint": "Compare the immediate gain 3 with the discounted permanent loss of 3 each future period.",
+    "skill": "grim-trigger threshold",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-03",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.3",
+    "title": "Patience and the punishment payoff",
+    "prompt": "Cooperation yields 5 each period, one deviation yields 9 now, and a credible permanent punishment yields 3 thereafter. Under perfect monitoring, what is the minimum discount factor for grim-trigger cooperation?",
+    "correct": "2/3.",
+    "wrong": [
+      "1/2.",
+      "4/9.",
+      "1/3."
+    ],
+    "explanation": "The condition 5/(1-δ)≥9+3δ/(1-δ) becomes 6δ≥4. A less severe punishment makes cooperation harder to sustain.",
+    "hint": "Use δ≥(temptation-cooperation)/(temptation-punishment).",
+    "skill": "patience and the punishment payoff",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-04",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.4",
+    "title": "Punishment credibility",
+    "prompt": "An infinite repeated game proposal threatens an action profile forever after a deviation. At that profile a player can gain by switching this period while leaving all later prescribed play unchanged. What follows?",
+    "correct": "The proposed profile is not subgame perfect.",
+    "wrong": [
+      "The proposal is valid if the threat is sufficiently severe.",
+      "Only on-path incentives matter.",
+      "High patience automatically removes that profitable deviation."
+    ],
+    "explanation": "In the punishment subgame, a one-period deviation improves current payoff without changing continuation. Severity does not substitute for sequential rationality.",
+    "hint": "Check incentives during punishment as well as cooperation.",
+    "skill": "punishment credibility",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-05",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.5",
+    "title": "Public randomization of continuation play",
+    "prompt": "A repeated game uses a publicly observed coin to select one of two continuation equilibria after a history. Why can this help describe attainable continuation payoffs?",
+    "correct": "It permits convex combinations of the two equilibrium payoff vectors before the coin is observed.",
+    "wrong": [
+      "It makes every infeasible payoff feasible.",
+      "It removes all incentive constraints.",
+      "It replaces public monitoring with private monitoring."
+    ],
+    "explanation": "A public draw selects a continuation both players observe. Ex ante payoffs average the selected equilibrium payoffs; feasibility and incentives still impose restrictions.",
+    "hint": "Take expectations over the public device.",
+    "skill": "public randomization of continuation play",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-06",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.6",
+    "title": "Folk-theorem qualification",
+    "prompt": "A learner claims any payoff vector can be sustained in any infinitely repeated game when δ is near 1. Which objection is decisive?",
+    "correct": "Candidate payoffs still need feasibility and appropriate individual-rationality conditions; theorem-specific assumptions also matter.",
+    "wrong": [
+      "Patience always forces the stage Nash payoff.",
+      "Repeated games cannot have multiple equilibria.",
+      "A finite set of stage actions rules out folk theorems."
+    ],
+    "explanation": "Patience cannot create resources outside the feasible payoff set or generally force a player below its security payoff. Folk theorems also vary in monitoring and dimensionality assumptions.",
+    "hint": "Ask which payoff vectors repetition can physically and strategically support.",
+    "skill": "folk-theorem qualification",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-07",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.7",
+    "title": "Ultimatum with a specified tie rule",
+    "prompt": "Player 1 divides a divisible pie of 10 by offering x∈[0,10] to player 2. Player 2 observes x and accepts or rejects; acceptance pays (10-x,x), rejection (0,0). Player 2 accepts when indifferent. What offer is made by backward induction?",
+    "correct": "x=0.",
+    "wrong": [
+      "x=5.",
+      "x=10.",
+      "No optimal offer exists under this tie rule."
+    ],
+    "explanation": "Every nonnegative offer is accepted under the specified tie rule, so player 1 maximizes 10-x at zero. The conclusion uses both monetary utility and acceptance at indifference.",
+    "hint": "Solve the responder’s action at x=0 explicitly.",
+    "skill": "ultimatum with a specified tie rule",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-08",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.8",
+    "title": "Two-round bargaining",
+    "prompt": "A pie of 12 is divided over at most two rounds. Player 1 offers in round 1; after rejection, player 2 offers in round 2. Rejection in round 2 pays zero. Both discount round-2 payoffs by 1/2 and accept at indifference. What amount does player 1 offer player 2 in round 1?",
+    "correct": "6.",
+    "wrong": [
+      "0.",
+      "4.",
+      "12."
+    ],
+    "explanation": "In the last round player 2 keeps all 12, offering player 1 zero. Player 2’s discounted rejection value in round 1 is 6, so an offer of 6 is accepted and maximizes player 1’s payoff.",
+    "hint": "Value rejection from the current date.",
+    "skill": "two-round bargaining",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-09",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.9",
+    "title": "Alternating-offer stationary shares",
+    "prompt": "In infinite alternating-offer bargaining over a unit pie with common discount δ=1/2, complete information, no breakdown, and acceptance at indifference, let x be player 1’s stationary share when player 1 proposes and y player 1’s share when player 2 proposes. Which pair satisfies the stationary equilibrium conditions?",
+    "correct": "x=2/3 and y=1/3.",
+    "wrong": [
+      "x=y=1/2.",
+      "x=1 and y=0.",
+      "x=1/3 and y=2/3."
+    ],
+    "explanation": "Responder indifference gives y=δx and 1-x=δ(1-y). With δ=1/2 these imply x=2/3 and y=1/3.",
+    "hint": "Each responder compares the offer with its discounted next-round proposer share.",
+    "skill": "alternating-offer stationary shares",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u4-10",
+    "course": "game-theory",
+    "unit": 4,
+    "topic": "4.10",
+    "title": "Nash bargaining with disagreement",
+    "prompt": "A feasible agreement allocates a pie of 10 as nonnegative utilities u1+u2=10. Disagreement utilities are (2,0). What allocation maximizes the symmetric Nash product among individually rational agreements?",
+    "correct": "(6,4).",
+    "wrong": [
+      "(5,5).",
+      "(2,8).",
+      "(10,0)."
+    ],
+    "explanation": "The surplus above disagreement is 8. Maximizing (u1-2)(10-u1) splits that surplus equally, giving u1=6 and u2=4. Equal gains need not mean equal levels.",
+    "hint": "Split the surplus above the disagreement point.",
+    "skill": "nash bargaining with disagreement",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-01",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.1",
+    "title": "Bayesian strategies specify types",
+    "prompt": "A firm privately observes cost c∈{1,4} before simultaneously choosing Enter or Out against a rival. Both costs have positive prior probability. What is a pure strategy for this firm?",
+    "correct": "A mapping specifying Enter or Out for each possible cost.",
+    "wrong": [
+      "Only its action at the realized cost.",
+      "A choice of its cost type.",
+      "A single posterior belief without an action rule."
+    ],
+    "explanation": "A Bayesian pure strategy specifies an action for every type, such as Enter at cost 1 and Out at cost 4. Types are drawn by nature rather than chosen.",
+    "hint": "Separate nature’s draw from the player’s contingent decision.",
+    "skill": "bayesian strategies specify types",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-02",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.2",
+    "title": "Interim optimal entry",
+    "prompt": "A firm knows its cost is 3. If it enters alone it receives revenue 8; if both firms enter its revenue is 2. Staying out pays zero; entry payoff is revenue minus cost. It assigns probability p to rival entry. When is entry optimal, allowing indifference?",
+    "correct": "p ≤ 5/6.",
+    "wrong": [
+      "p ≤ 1/2.",
+      "p ≥ 5/6.",
+      "Entry is never optimal."
+    ],
+    "explanation": "Expected entry payoff is (1-p)(8-3)+p(2-3)=5-6p. Compare this with the zero outside payoff.",
+    "hint": "Condition on the firm’s information before averaging rival behavior.",
+    "skill": "interim optimal entry",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-03",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.3",
+    "title": "Bayes updating correlated types",
+    "prompt": "Each firm has type H or L. Joint probabilities are HH=0.4, HL=0.1, LH=0.1, LL=0.4, with own type first. A firm observes H. What probability does it assign to rival H?",
+    "correct": "0.8.",
+    "wrong": [
+      "0.4.",
+      "0.5.",
+      "0.2."
+    ],
+    "explanation": "Conditional probability is 0.4/(0.4+0.1)=0.8. Correlation makes the observed own type informative about the rival.",
+    "hint": "Normalize joint probabilities over states compatible with the observation.",
+    "skill": "bayes updating correlated types",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-04",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.4",
+    "title": "A threshold Bayesian equilibrium",
+    "prompt": "Two players independently draw costs uniformly on [0,1], observe only their own cost, then simultaneously choose Provide or Abstain. Each receives benefit 1 if either provides; a provider pays its own cost. In a symmetric cutoff equilibrium, each provides iff c≤t. What is t?",
+    "correct": "1/2.",
+    "wrong": [
+      "1/3.",
+      "2/3.",
+      "1."
+    ],
+    "explanation": "Providing yields 1-c; abstaining yields probability the other provides, t. Indifference at c=t gives 1-t=t. The equality type has probability zero and may use either action.",
+    "hint": "Compare provision with free riding at the cutoff.",
+    "skill": "a threshold bayesian equilibrium",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-05",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.5",
+    "title": "Second-price truthful bidding",
+    "prompt": "Two risk-neutral bidders have independent nonnegative private values and quasi-linear utility. Each submits a nonnegative bid; highest bid wins and pays the other bid, with ties split equally. Why is bidding one’s value weakly dominant?",
+    "correct": "Against each rival bid, it wins exactly when winning at that price is beneficial, with zero surplus at equality.",
+    "wrong": [
+      "It always gives strictly higher utility than every other bid.",
+      "It forces the payment to equal one’s own value.",
+      "It remains dominant with arbitrary interdependent values."
+    ],
+    "explanation": "A rival bid below value is a profitable purchase; one above value is unprofitable. At equality either allocation gives zero surplus. Alternative bids can coincide in payoff, so dominance is weak.",
+    "hint": "Fix the rival bid and compare it with the private value.",
+    "skill": "second-price truthful bidding",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-06",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.6",
+    "title": "First-price shading",
+    "prompt": "Two risk-neutral bidders draw independent values uniformly on [0,1]. Highest bid wins and pays its own bid; ties split equally. If the rival bids v/2, what bid maximizes a value-v bidder’s expected surplus?",
+    "correct": "v/2.",
+    "wrong": [
+      "v.",
+      "v/3.",
+      "1/2 for every v."
+    ],
+    "explanation": "For b∈[0,1/2], win probability is 2b, so profit is 2b(v-b), maximized at b=v/2. Bids above 1/2 win for sure but cannot improve on this solution; at v=0 the optimum is zero.",
+    "hint": "Include how the bid changes both payment and winning probability.",
+    "skill": "first-price shading",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-07",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.7",
+    "title": "Revenue in a second-price auction",
+    "prompt": "Two risk-neutral bidders have independent uniform [0,1] private values and bid truthfully in a second-price auction with no reserve. What is expected seller revenue?",
+    "correct": "1/3.",
+    "wrong": [
+      "1/2.",
+      "2/3.",
+      "1/4."
+    ],
+    "explanation": "The price is the smaller value. Its survival probability at z∈[0,1] is (1-z)²; integrating from zero to one gives 1/3.",
+    "hint": "Revenue is the losing value, not the winning value.",
+    "skill": "revenue in a second-price auction",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-08",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.8",
+    "title": "Reserve-price outcome",
+    "prompt": "A truthful second-price auction has private values 9 and 5 and reserve 6. Bids below reserve are ineligible; the winner pays the larger of reserve and the highest other bid. What is the outcome?",
+    "correct": "The value-9 bidder wins and pays 6.",
+    "wrong": [
+      "The value-9 bidder wins and pays 5.",
+      "The value-9 bidder wins and pays 9.",
+      "The object is not sold."
+    ],
+    "explanation": "The high bidder meets the reserve and the low bidder does not. The specified payment rule sets price at max{6,5}=6.",
+    "hint": "Apply eligibility separately from the payment rule.",
+    "skill": "reserve-price outcome",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-09",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.9",
+    "title": "Winner’s curse as selection",
+    "prompt": "In a common-value sealed-bid auction, bidders observe noisy private signals of the same unknown object value. Why can bidding one’s unconditional signal-based expected value be too aggressive?",
+    "correct": "Winning can convey additional bad news about value relative to one’s signal because rival signals were lower.",
+    "wrong": [
+      "Winning proves the common value equals the highest signal.",
+      "Risk neutrality eliminates conditioning on winning.",
+      "The winner always pays more than the realized value."
+    ],
+    "explanation": "The relevant valuation accounts for the information in winning. With positively informative signals, being highest may reflect an unusually optimistic error. This does not imply every realized winner loses money.",
+    "hint": "Condition on the event that the bid wins.",
+    "skill": "winner’s curse as selection",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u5-10",
+    "course": "game-theory",
+    "unit": 5,
+    "topic": "5.10",
+    "title": "Revenue-equivalence limits",
+    "prompt": "A claim equates expected revenues across standard auctions using the usual independent private-value, symmetric risk-neutral benchmark and matching allocation and lowest-type utility. Which change can invalidate that argument?",
+    "correct": "Making bidders risk averse while holding the value distribution fixed.",
+    "wrong": [
+      "Renaming the bidders.",
+      "Multiplying all monetary values and bids by the same positive unit conversion.",
+      "Relabeling the object without changing preferences."
+    ],
+    "explanation": "Risk aversion changes first-price bidding incentives and breaks the risk-neutral payment identity argument used for revenue equivalence. It need not alter second-price truthful bidding with private values.",
+    "hint": "Identify an economically substantive assumption rather than a relabeling.",
+    "skill": "revenue-equivalence limits",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-01",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.1",
+    "title": "Bayesian beliefs on the path",
+    "prompt": "A sender has type H with prior probability 1/3 and L otherwise. H sends message m with probability 1/2; L sends m with probability 1/4. The receiver observes m. What is its posterior probability of H?",
+    "correct": "1/2.",
+    "wrong": [
+      "1/3.",
+      "2/3.",
+      "1/4."
+    ],
+    "explanation": "The probability mass for (H,m) is 1/6 and for (L,m) is also 1/6. Normalizing gives 1/2.",
+    "hint": "Weight likelihoods by their type priors.",
+    "skill": "bayesian beliefs on the path",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-02",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.2",
+    "title": "Zero-probability messages",
+    "prompt": "In a proposed pooling assessment, both sender types always choose m0. What does Bayes’ rule alone require for the receiver’s belief after unused message m1?",
+    "correct": "It imposes no posterior through the zero-probability conditional; other equilibrium restrictions may still matter.",
+    "wrong": [
+      "The posterior must equal the prior.",
+      "The posterior must put probability one on the high type.",
+      "The receiver may ignore sequential rationality."
+    ],
+    "explanation": "Both numerator and denominator are zero at m1. Weak perfect Bayesian assessments allow off-path beliefs subject to the specified solution concept, while receiver actions still must be optimal at those beliefs.",
+    "hint": "Separate belief consistency on the path from optimality after every information set.",
+    "skill": "zero-probability messages",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-03",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.3",
+    "title": "Receiver action threshold",
+    "prompt": "A sender has type H or L. After a message, a receiver chooses Invest or Decline. Receiver payoffs from Invest are 3 for H and -2 for L; Decline pays zero. For posterior μ=Pr(H), when is Invest a best response, allowing ties?",
+    "correct": "μ ≥ 2/5.",
+    "wrong": [
+      "μ ≥ 1/2.",
+      "μ ≤ 2/5.",
+      "μ ≥ 2/3."
+    ],
+    "explanation": "Invest has expected payoff 3μ-2(1-μ)=5μ-2. Both actions are optimal at μ=2/5.",
+    "hint": "Use the receiver’s payoff, not the sender’s payoff.",
+    "skill": "receiver action threshold",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-04",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.4",
+    "title": "Separating education incentives",
+    "prompt": "Workers privately know productivity 4 or 1. Competitive employers observe education e∈{0,1} and pay expected productivity. Worker utility is wage minus education cost; e=1 costs H one and L four, while e=0 costs zero. Both types have positive prior probability. Is H choosing 1 and L choosing 0 a separating equilibrium?",
+    "correct": "Yes; wages are 4 after 1 and 1 after 0, and neither type wants to imitate.",
+    "wrong": [
+      "No; H prefers wage 1 with no education.",
+      "No; L gains by paying four to receive wage 4.",
+      "No; separation requires identical education costs."
+    ],
+    "explanation": "H earns 4-1=3 rather than 1. L earns 1 rather than 4-4=0. Bayes-consistent beliefs identify types at both observed signals, and competitive wages follow.",
+    "hint": "Compare each type’s equilibrium utility with its imitation utility.",
+    "skill": "separating education incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-05",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.5",
+    "title": "Pooling and off-path deterrence",
+    "prompt": "H and L productivities are 4 and 1, each with prior probability 1/2. Competitive employers observe e∈{0,1} and pay expected productivity. Education 1 costs H two and L four; education 0 is free. Can pooling at e=0 be supported by believing an e=1 worker is L?",
+    "correct": "Yes; the pooling wage is 2.5, while deviation utilities are -1 for H and -3 for L.",
+    "wrong": [
+      "No; Bayes’ rule requires the prior after unused e=1.",
+      "No; H earns 4 after any deviation regardless of beliefs.",
+      "Yes; the pooling wage must be 1."
+    ],
+    "explanation": "The on-path wage is the prior mean 2.5. At the unused signal, belief L implies wage 1, so neither type deviates. This establishes a weak PBE assessment, not robustness to every refinement.",
+    "hint": "Compute wages from beliefs and subtract type-specific costs.",
+    "skill": "pooling and off-path deterrence",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-06",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.6",
+    "title": "Incentives can defeat separation",
+    "prompt": "Productivities are H=4 and L=1. Competitive employers pay expected productivity after e∈{0,1}. Education 1 costs H one and L two; education 0 costs zero. Both types have positive prior probability. Why is H choosing 1 and L choosing 0 not a separating equilibrium?",
+    "correct": "L gains by imitating: 4-2=2 exceeds its separating wage 1.",
+    "wrong": [
+      "H gains by choosing zero because 1 exceeds 3.",
+      "Employers must pay the prior mean after both signals.",
+      "H and L must have the same costs to separate."
+    ],
+    "explanation": "Although H prefers 3 to 1, L prefers the imitation payoff 2 to its own payoff 1. Both incentive constraints must hold.",
+    "hint": "Check the low type’s imitation constraint separately.",
+    "skill": "incentives can defeat separation",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-07",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.7",
+    "title": "Uninformative cheap talk",
+    "prompt": "A sender privately sees state H or L, each with positive prior probability, then sends either of two costless messages. Receiver chooses a∈{0,1} and earns 1 for a=1 in H or a=0 in L, zero otherwise. Sender earns a regardless of state. Why can a fully revealing equilibrium not exist?",
+    "correct": "The L sender would imitate the H message to induce action 1.",
+    "wrong": [
+      "Costless messages can never transmit information in any game.",
+      "Receiver always prefers action 1.",
+      "Sender and receiver have identical preferences."
+    ],
+    "explanation": "Full revelation would induce action 0 after L and 1 after H. The L sender strictly prefers the action induced by the H message, so truthful separation fails. The conclusion depends on preferences, not costlessness alone.",
+    "hint": "Test the type whose preferred receiver action differs from the truthful outcome.",
+    "skill": "uninformative cheap talk",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-08",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.8",
+    "title": "Sequential consistency and perturbations",
+    "prompt": "In a finite extensive-form game with perfect recall, what extra discipline does sequential equilibrium impose beyond sequential rationality and Bayes updating only at positive-probability information sets?",
+    "correct": "Beliefs must arise as limits of Bayes beliefs from a sequence of completely mixed strategy profiles converging to the proposed strategies.",
+    "wrong": [
+      "Every information set must have positive probability in the equilibrium itself.",
+      "All equilibria must be pure.",
+      "Every player must have a strictly dominant strategy."
+    ],
+    "explanation": "Completely mixed approximations reach information sets and generate Bayes beliefs before taking limits. The limiting equilibrium may still have off-path information sets.",
+    "hint": "Distinguish positive probabilities in approximating strategies from their limit.",
+    "skill": "sequential consistency and perturbations",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-09",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.9",
+    "title": "A tremble eliminates a weak equilibrium",
+    "prompt": "A simultaneous game has (U,L)=(1,1), (U,R)=(1,0), (D,L)=(1,1), (D,R)=(0,0). Why is the Nash profile (D,L) not trembling-hand perfect?",
+    "correct": "Any positive probability of R makes U strictly better than D.",
+    "wrong": [
+      "D is strictly dominated in the unperturbed game.",
+      "L becomes strictly worse than R under every tremble.",
+      "Every non-strict Nash equilibrium fails perfection."
+    ],
+    "explanation": "Against Pr(R)=ε>0, U gives 1 and D gives 1-ε. Thus D cannot be a best response to completely mixed opponent strategies approaching L. Some non-strict equilibria in other games are perfect.",
+    "hint": "Recompute the weakly dominated action’s payoff under a small opponent mistake.",
+    "skill": "a tremble eliminates a weak equilibrium",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  },
+  {
+    "id": "game-theory-u6-10",
+    "course": "game-theory",
+    "unit": 6,
+    "topic": "6.10",
+    "title": "Refinement through deviation incentives",
+    "prompt": "Two sender types H,L receive equilibrium payoff 2. At an unused signal, H could receive net payoff 3 if the receiver chooses Invest and 0 if Decline; L could receive at most 1 under any receiver response. If the receiver would strictly Invest upon believing H with certainty, what is the intuitive-criterion objection to the pooling equilibrium?",
+    "correct": "The deviation is unattractive to L under every response but profitable for H if attributed to H, so the pooling assessment is rejected.",
+    "wrong": [
+      "Bayes’ rule at the unused signal directly forces the prior.",
+      "Both types must be assigned equal posterior weight.",
+      "An unused signal can never eliminate a pooling equilibrium."
+    ],
+    "explanation": "L cannot improve on 2 through this signal, whereas H can earn 3 if correctly inferred. Assigning the deviation to H induces Invest and a profitable deviation, contradicting the proposed pooling outcome under this criterion.",
+    "hint": "First eliminate types that cannot benefit from the deviation under any response.",
+    "skill": "refinement through deviation incentives",
+    "sourceUrls": [
+      "https://ocw.mit.edu/courses/14-122-microeconomic-theory-ii-fall-2002/pages/calendar/",
+      "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/pages/syllabus/",
+      "https://oyc.yale.edu/economics/econ-159"
+    ],
+    "reviewStatus": "draft",
+    "scenarioType": "constructed"
+  }
+]
