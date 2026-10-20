@@ -1,0 +1,17 @@
+---
+import "../styles/site-bar.css";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import { PRIMARY, CONTACT } from "../data/navigation.mjs";
+
+const { title, pathname = Astro.url.pathname } = Astro.props;
+const pageTitle = typeof title === "string" ? title.replace(/\s*·\s*Ian Helfrich.*$/, "") : "";
+---
+<div class="site-bar" data-surface="map">
+  <a class="site-bar-name" href="/">Ian Helfrich</a>
+  <Breadcrumbs title={pageTitle} pathname={pathname} inline />
+  <nav class="site-bar-links" aria-label="Site sections">
+    {PRIMARY.map(({ label, href }) => <a href={href}>{label}</a>)}
+    <a href="/field">Map</a>
+    <a class="site-bar-contact" href={CONTACT.href}>{CONTACT.label}</a>
+  </nav>
+</div>

@@ -9,6 +9,8 @@ import "../styles/visitor-experience.css";
 import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { crumbsFor } from "../data/breadcrumbs.mjs";
 import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
 import { THEME_COLOR } from "../data/theme.mjs";
 
@@ -32,6 +34,19 @@ const personImage = new URL("/people/ian-zoom-portrait.png", Astro.site ?? Astro
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
 const year = new Date().getFullYear();
+const trail = crumbsFor(pathname, title);
+const breadcrumbSchema = trail.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [{ label: "Home", href: "/" }, ...trail].map(({ label, href }, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: label,
+        item: new URL(href ?? pathname, canonical.origin).toString(),
+      })),
+    }
+  : null;
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -89,6 +104,7 @@ const personSchema = {
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
   <link rel="canonical" href={canonical} />
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   <script is:inline>document.documentElement.classList.add('has-js');</script>
   <title>{fullTitle}</title>
 </head>
@@ -136,6 +152,8 @@ const personSchema = {
     </div>
     <button class="nav-backdrop" type="button" data-nav-backdrop aria-label="Close navigation" aria-hidden="true" tabindex="-1" hidden></button>
   </header>
+
+  <Breadcrumbs title={title} pathname={pathname} />
 
   <SiteIndex />
 

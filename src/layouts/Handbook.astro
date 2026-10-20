@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/econometrics.css';
 import '../styles/handbook.css';
 import 'katex/dist/katex.min.css';
+import SiteBar from '../components/SiteBar.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
 const {title='Econometrics Across Disciplines', description='Measurement, models, and decisions. A developing handbook with intuitive examples, complete proofs, and independently tested Python, Julia, and R calculations.'}=Astro.props;
 const canonical=new URL(Astro.url.pathname,Astro.site);
@@ -25,6 +26,7 @@ const canonical=new URL(Astro.url.pathname,Astro.site);
   </head>
   <body class="ea hb" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
+    <SiteBar title={title} />
     <header class="ea-header">
       <a class="ea-brand" href="/handbook/"><span class="ea-mark" aria-hidden="true">∑</span><span>Econometrics<br /><strong>Across Disciplines</strong></span></a>
       <nav aria-label="Handbook navigation">
