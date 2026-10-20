@@ -246,6 +246,18 @@ export const ROUTES = Object.freeze({
       ["/book/", "Book a tutoring session."],
     ],
   },
+  "Industry and policy": {
+    summary: "Selected cases, place-based policy models, the GIS portfolio, Third Space Labs, booking.",
+    steps: [
+      ["/work/", "Selected cases in applied economics, measurement, spatial analysis, and policy."],
+      ["/spatial-economics/national/", "National map of New Markets Tax Credit financing."],
+      ["/spatial-economics/", "Scenario model for investment incentives in Asheville, North Carolina."],
+      ["/gis-portfolio/", "LiDAR and 3D GIS portfolio."],
+      ["/third-space/", "Third Space Labs, with Elizaveta Gonchar."],
+      ["/book/", "Book a consulting introduction."],
+      ["/contact/", "Contact."],
+    ],
+  },
   Collaborator: {
     summary: "Research program, data, tools, Third Space Labs, contact.",
     steps: [
