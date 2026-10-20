@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/econometrics.css';
 import '../styles/time-series.css';
 import 'katex/dist/katex.min.css';
+import SiteBar from '../components/SiteBar.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
 const { title = 'Time-Series Econometrics', description = 'A complete course in time-series econometrics, with mathematical derivations, economic cases, and matched R, Julia, and Python laboratories.' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -25,6 +26,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="ea ts" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
+    <SiteBar title={title} />
     <header class="ea-header">
       <a class="ea-brand" href="/time-series/"><span class="ea-mark" aria-hidden="true">t</span><span>Time-Series<br /><strong>Econometrics</strong></span></a>
       <nav aria-label="Course navigation">

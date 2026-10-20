@@ -256,7 +256,8 @@ samp,
   border-bottom-color: currentColor;
 }
 
-.site-header .site-index-trigger {
+.site-header .site-index-trigger,
+.site-header .site-map-link {
   min-height: 44px;
   padding: 0.5rem;
   background: transparent;
@@ -264,6 +265,17 @@ samp,
   border-radius: 0;
   cursor: pointer;
 }
+
+.site-header .site-map-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ef-ink);
+  font: inherit;
+  text-decoration: none;
+}
+
+.site-header .site-map-link:hover,
+.site-header .site-map-link[aria-current="page"] { color: var(--ef-signal); }
 
 .site-header .site-index-trigger:hover { color: var(--ef-signal); }
 .site-header .site-index-trigger kbd { color: var(--muted); font: 500 0.58rem/1 var(--font-data); }
@@ -510,6 +522,8 @@ samp,
     grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--ef-space-3);
   }
+
+  .site-header .site-map-link { border-bottom: 1px solid var(--rule); font: 600 0.8rem/1 var(--font-data); }
 
   .site-header .site-index-trigger {
     justify-content: flex-start;

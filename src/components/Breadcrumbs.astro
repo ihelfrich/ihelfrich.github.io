@@ -1,0 +1,18 @@
+---
+import "../styles/site-bar.css";
+import { crumbsFor } from "../data/breadcrumbs.mjs";
+
+const { title, pathname, inline = false } = Astro.props;
+const crumbs = crumbsFor(pathname, title);
+---
+{crumbs.length > 0 && (
+  <nav class:list={["crumbs", inline && "crumbs-inline"]} aria-label="Breadcrumb">
+    <ol>
+      {crumbs.map(({ label, href }) => (
+        <li>
+          {href ? <a href={href}>{label}</a> : <span aria-current="page">{label}</span>}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

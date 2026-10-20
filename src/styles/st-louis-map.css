@@ -18,6 +18,11 @@
 .city-workbench .city-brand p { margin: 0; font: 400 11px/1.2 var(--font-data); color: var(--ink-muted); letter-spacing: 0.02em; }
 .city-workbench .city-brand p span { color: var(--ink-muted); }
 .city-workbench .workspace-edition { display: none; }
+.city-workbench .city-sitelinks { display: flex; align-items: center; gap: 14px; margin-left: auto; font: 500 12px/1 var(--font-display); white-space: nowrap; }
+.city-workbench .city-sitelinks a { color: var(--ink-muted); text-decoration: none; }
+.city-workbench .city-sitelinks a:hover { color: var(--ink); }
+.city-workbench .city-sitelinks a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (max-width: 760px) { .city-workbench .city-sitelinks a:not(:first-child) { display: none; } }
 
 /* Address search sits in the masthead's centre. */
 .city-workbench .workspace-command { position: absolute; z-index: 7; top: 8px; left: 272px; transform: none; display: flex; align-items: center; width: min(460px, calc(100% - var(--panel-width) - 272px - 372px)); height: 40px; border: 1px solid var(--rule-strong); border-radius: var(--radius-control); background: var(--surface-raised); overflow: hidden; }

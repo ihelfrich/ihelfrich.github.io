@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/field-map.css";
+import { portrait } from "../data/homepage-studio.mjs";
+import { PRIMARY, RECORDS, SECONDARY_PAGES, CONTACT } from "../data/navigation.mjs";
+
+const fallback = [...PRIMARY, ...RECORDS, ...SECONDARY_PAGES, CONTACT];
+---
+<Base
+  wide
+  title="Site map"
+  description="An interactive map of every page on this site and the links between them, with routes for hiring committees, students, and collaborators."
+  pageClass="field-page"
+>
+  <div
+    class="fm"
+    data-surface="map"
+    data-field-map
+    data-src="/field.json"
+    data-portrait="/people/ian-zoom-portrait-560.webp"
+    data-portrait-alt={portrait.alt}
+  >
+    <div class="fm-toolbar">
+      <div class="fm-seg" role="group" aria-label="Layout">
+        <button id="fm-m-t" type="button" aria-pressed="true" title="Pages that link to each other sit closer together">Clusters</button>
+        <button id="fm-m-o" type="button" aria-pressed="false" title="Pages grouped by site section">Sections</button>
+        <button id="fm-m-c" type="button" aria-pressed="false" title="Pages grouped by topic and distance from the home page">Topics</button>
+      </div>
+      <button class="fm-btn" id="fm-start" type="button">Routes</button>
+      <span class="fm-sp"></span>
+      <div class="fm-find">
+        <input id="fm-q" type="search" placeholder="Find a page" aria-label="Find a page on the map" autocomplete="off" />
+        <div id="fm-res" class="fm-results" role="listbox"></div>
+      </div>
+      <button class="fm-btn" id="fm-vt" type="button" aria-pressed="false">Index</button>
+      <button class="fm-btn" id="fm-dbtn" type="button">Dossier (<span id="fm-dn">0</span>)</button>
+    </div>
+
+    <div class="fm-app">
+      <div class="fm-stage fm-boot" id="fm-stage">
+        <a class="fm-skip" href="#fm-panel">Skip the map</a>
+        <svg id="fm-svg" class="fm-svg" role="group" aria-label="Map of the site. Points are pages and lines are links."></svg>
+        <div class="fm-cart"><h1>Site map</h1><span>Every page and the links between them.</span></div>
+        <svg id="fm-rose" class="fm-rose" width="232" height="160" viewBox="-92 -80 232 160" role="group" aria-label="Topics"></svg>
+        <div class="fm-foot"><div class="fm-cap" id="fm-cap"></div><div class="fm-key" aria-hidden="true"></div></div>
+        <div class="fm-tip" id="fm-tip"></div>
+        <p class="fm-sr" id="fm-status" role="status"></p>
+        <div class="fm-dos" id="fm-dos" aria-label="Dossier"></div>
+        <div class="fm-intro" id="fm-intro" role="dialog" aria-modal="true" aria-labelledby="fm-ih" hidden>
+          <div class="card">
+            <h2 id="fm-ih">Routes</h2>
+            <p>Short paths through the site, depending on what you need.</p>
+            <div class="go" id="fm-go"></div>
+            <div class="free"><button id="fm-free" type="button">Skip</button></div>
+          </div>
+        </div>
+        <div class="fm-index" id="fm-idx" aria-label="Index of all pages"></div>
+      </div>
+      <aside class="fm-panel" id="fm-panel" aria-live="polite" tabindex="-1"></aside>
+    </div>
+    <div class="fm-print" id="fm-dosprint"></div>
+
+    <noscript>
+      <nav class="fm-noscript" aria-label="Main pages">
+        <h2>Main pages</h2>
+        <ul>
+          {fallback.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}
+        </ul>
+        <p><a href="/library/">Public index of all research, data, projects, and writing</a></p>
+      </nav>
+    </noscript>
+  </div>
+</Base>
+
+<script>
+  import "../scripts/field-map.mjs";
+</script>

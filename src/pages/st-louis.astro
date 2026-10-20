@@ -14,6 +14,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
   <link rel="preload" href="/fonts/space-grotesk-variable.woff2" as="font" type="font/woff2" crossorigin />
   <title>{title}</title><meta name="description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." />
   <meta name="theme-color" content={THEME_COLOR.lab} /><link rel="canonical" href="https://ihelfrich.github.io/st-louis" /><link rel="icon" href="/favicon.svg" />
+  <meta property="og:title" content={title} /><meta property="og:description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." /><meta property="og:type" content="website" /><meta property="og:url" content="https://ihelfrich.github.io/st-louis" /><meta property="og:image" content="https://ihelfrich.github.io/og.png" /><meta name="twitter:card" content="summary_large_image" />
 </head>
 <body class="city-workbench">
 <main id="city-app" data-surface="lab">
@@ -24,6 +25,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
   <header class="city-header">
     <a class="city-brand" href="/st-louis" aria-label="St. Louis city and property lab"><span class="brand-mark" aria-hidden="true">∩</span><div><h1>ST. LOUIS</h1><p>City &amp; property lab <span>by Ian Helfrich</span></p></div></a>
     <span class="workspace-edition">CITY / COUNTY</span>
+    <nav class="city-sitelinks" aria-label="Site"><a href="/">Ian Helfrich</a><a href="/lab">Lab</a><a href="/field">Map</a><a href="/contact">Contact</a></nav>
   </header>
   <form id="city-search-form" class="workspace-command" role="search" aria-label="Search St. Louis">
     <label class="sr-only" for="city-search-domain">Search type</label><select id="city-search-domain"><option value="address">Address</option><option value="place">Place</option></select>

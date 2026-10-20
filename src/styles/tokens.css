@@ -679,3 +679,42 @@
   --atlas-button: #16404a;
   --atlas-button-line: #52756f;
 }
+
+/* Site map (/field/): graphite UI with four vivid topic colors. Topic colors appear only when a topic
+   or page is selected; everything else is graphite. Wide-gamut values replace the sRGB ones where supported. */
+:root {
+  --p-graphite-8: #0b0b0d;
+  --p-graphite-45: #6a6a73;
+  --p-graphite-60: #8e8e98;
+  --p-graphite-89: #e1e1e5;
+  --p-graphite-96: #f3f3f4;
+  --p-graphite-99: #ffffff;
+  --p-blue-vivid: #2f3bff;
+  --p-orange-vivid: #ff4b14;
+  --p-lime-vivid: #b8e600;
+  --p-pink-vivid: #ff2d9b;
+}
+@supports (color: color(display-p3 1 0 0)) {
+  :root {
+    --p-blue-vivid: color(display-p3 0.17 0.22 1);
+    --p-orange-vivid: color(display-p3 1 0.32 0.08);
+    --p-lime-vivid: color(display-p3 0.74 0.95 0);
+    --p-pink-vivid: color(display-p3 1 0.2 0.62);
+  }
+}
+[data-surface="map"] {
+  --surface: var(--p-graphite-96);
+  --surface-raised: var(--p-graphite-99);
+  --ink: var(--p-graphite-8);
+  --ink-muted: var(--p-graphite-45);
+  --rule: var(--p-graphite-89);
+  --rule-strong: var(--p-graphite-60);
+  --accent: var(--p-blue-vivid);
+  --accent-ink: var(--p-graphite-99);
+  --focus-ring: var(--p-blue-vivid);
+  --topic-trade: var(--p-blue-vivid);
+  --topic-place: var(--p-orange-vivid);
+  --topic-measurement: var(--p-lime-vivid);
+  --topic-teaching: var(--p-pink-vivid);
+  --topic-profile: var(--p-graphite-45);
+}
