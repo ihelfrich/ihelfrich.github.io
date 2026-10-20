@@ -116,6 +116,7 @@ const personSchema = {
               ))}
             </div>
             <div class="nav-utilities">
+              <a href="/field" class="site-map-link" aria-current={isActive("/field") ? "page" : undefined}>Map</a>
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
               <a href={CONTACT.href} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
             </div>

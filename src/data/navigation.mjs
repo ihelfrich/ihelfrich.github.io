@@ -41,6 +41,7 @@ export const RECORDS = freezeAll([
 export const SECONDARY_PAGES = freezeAll([
   { label: "Economics practice", href: "/economics-practice", detail: "Economics course practice, diagnostic sessions, worked explanations, and course directory" },
   { label: "Third Space Labs", href: "/third-space", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D." },
+  { label: "Site map", href: "/field", detail: "Interactive map of every page and the links between them, with routes for hiring committees, students, and collaborators" },
   { label: "Book a time", href: "/book", detail: "Tutoring, consulting, and job-market meetings, booked against Ian's open calendar times" },
   { label: "Colophon", href: "/colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack" },
   { label: "National Investment Atlas", href: "/spatial-economics/national", detail: "Nationwide spatial investment geography: observed New Markets Tax Credit (NMTC) financing, 8,439 projects and $71.019 billion in QLICI, 2001–2023 origination" },
