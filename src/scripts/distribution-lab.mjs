@@ -38,7 +38,7 @@ function init(root) {
     tab: "bench",
     bench: { dist: "normal", params: { ...DIST.normal.defaults }, mode: "between", a: -1.96, b: 1.96, view: "pdf", overlay: false, lock: false },
     build: { recipe: "chisq", params: {} },
-    desk: { test: "t", tail: "two", alpha: 0.05, n: 20, n2: 20, effect: 0.5, world: "alt" },
+    desk: { test: "t", tail: "two", alpha: 0.05, n: 20, n2: 20, effect: 0.5, world: "alt", obs: null },
     dept: { scenario: "department", seed: 7, years: 5000, models: null },
   };
   const live = { draws: new Float64Array(200000), n: 0, sum: 0, cps: [], next: 1, streaming: false };
@@ -752,11 +752,20 @@ function init(root) {
     if (Number.isFinite(lo)) tPlot.vline(lo, { color: c.ink, dash: [4, 3], label: fmt(lo, 3) });
     if (Number.isFinite(hi)) tPlot.vline(hi, { color: c.ink, dash: [4, 3], label: fmt(hi, 3) });
     $("#t-legend").innerHTML = `<span><i class="a"></i>Sampling distribution if the null is true; shaded area = significance level α</span><span><i class="o"></i>Sampling distribution under the stated effect; shaded area = power</span><span><i class="k"></i>Critical value</span>`;
+    const nullCdf = Tt.test === "z" ? normCdf : Tt.test === "t" ? (x) => D.t.cdf(x, { df: Tt.n - 1 }) : Tt.test === "chisq" ? (x) => D.chisq.cdf(x, { k: Tt.n - 1 }) : (x) => D.f.cdf(x, { d1: Tt.n - 1, d2: Tt.n2 - 1 });
+    let obsRow = null;
+    if (Number.isFinite(Tt.obs)) {
+      const lowP = nullCdf(Tt.obs);
+      const pv = Tt.tail === "upper" ? 1 - lowP : Tt.tail === "lower" ? lowP : Math.min(1, 2 * Math.min(lowP, 1 - lowP));
+      obsRow = ["p-value at observed statistic", `${pfmt(pv)} (${pv < Tt.alpha ? "reject" : "do not reject"} at α = ${Tt.alpha.toFixed(3)})`];
+      if (Tt.obs >= S.x0 && Tt.obs <= S.x1) tPlot.vline(Tt.obs, { color: c.pink, width: 2, label: `obs ${fmt(Tt.obs, 3)}`, top: false });
+    }
     const req = requiredN({ ...Tt });
     const beta = 1 - S.power;
     const reqText = req === null ? "Not defined without an effect" : req === Infinity ? "More than 20,000" : Tt.test === "f" ? `${req} per group` : String(req);
     const crits = Tt.tail === "two" ? `${fmt(lo, 4)} and ${fmt(hi, 4)}` : fmt(Tt.tail === "upper" ? hi : lo, 4);
     const rows = [["Critical value(s)", crits], ["Power, 1 − β", effectNull ? `${pfmt(S.power)} (equals α)` : pfmt(S.power)], ["Type II error, β", pfmt(beta)], ["Sample size for 80% power", reqText]];
+    if (obsRow) rows.push(obsRow);
     if (Tt.test === "z" || Tt.test === "t") rows.splice(1, 0, ["Non-centrality δ = d√n", fmt(S.delta, 4)]);
     $("#t-out").innerHTML = rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
     $("#t-note").textContent = {
@@ -840,8 +849,9 @@ function init(root) {
   $("#t-tail").addEventListener("change", (e) => { Tt.tail = e.target.value; pLive.ps = null; scheduleDesk(); });
   $$("[data-world]").forEach((b) => b.addEventListener("click", () => { Tt.world = b.dataset.world; $$("[data-world]").forEach((x) => x.setAttribute("aria-pressed", x === b)); }));
   $("#t-run").addEventListener("click", runStudies);
+  $("#t-obs").addEventListener("input", (e) => { const v = parseFloat(e.target.value); Tt.obs = Number.isFinite(v) ? v : null; scheduleDesk(); });
   tPlot.onResize = renderDesk; pPlot.onResize = renderP;
-  renderers.desk = () => { buildDeskControls(); $$("[data-world]").forEach((x) => x.setAttribute("aria-pressed", x.dataset.world === Tt.world)); renderDesk(); };
+  renderers.desk = () => { buildDeskControls(); $("#t-obs").value = Number.isFinite(Tt.obs) ? Tt.obs : ""; $$("[data-world]").forEach((x) => x.setAttribute("aria-pressed", x.dataset.world === Tt.world)); renderDesk(); };
 
   // ================================================================== DEPARTMENT
   const Dp = state.dept;
