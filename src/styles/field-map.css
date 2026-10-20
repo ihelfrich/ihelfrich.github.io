@@ -50,6 +50,8 @@
   position: relative; overflow: hidden; background-color: var(--surface);
   background-image: radial-gradient(var(--rule) 1px, transparent 1.3px); background-size: 22px 22px;
 }
+.fm-skip { position: absolute; left: 0.75rem; top: -4rem; z-index: 30; background: var(--ink); color: var(--surface-raised); padding: 0.5rem 0.85rem; border-radius: 6px; font-size: 0.875rem; text-decoration: none; }
+.fm-skip:focus { top: 0.75rem; }
 .fm-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
 .fm-cart { position: absolute; left: 1.25rem; top: 1.1rem; max-width: 18rem; pointer-events: none; }
 .fm .fm-cart h1 { display: block; margin: 0; font-family: var(--font-display); font-size: 1.25rem; line-height: 1.15; font-weight: 600; letter-spacing: -0.015em; text-transform: none; }

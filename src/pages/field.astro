@@ -38,6 +38,7 @@ const fallback = [...PRIMARY, ...RECORDS, ...SECONDARY_PAGES, CONTACT];
 
     <div class="fm-app">
       <div class="fm-stage fm-boot" id="fm-stage">
+        <a class="fm-skip" href="#fm-panel">Skip the map</a>
         <svg id="fm-svg" class="fm-svg" role="group" aria-label="Map of the site. Points are pages and lines are links."></svg>
         <div class="fm-cart"><h1>Site map</h1><span>Every page and the links between them.</span></div>
         <svg id="fm-rose" class="fm-rose" width="232" height="160" viewBox="-92 -80 232 160" role="group" aria-label="Topics"></svg>
@@ -54,7 +55,7 @@ const fallback = [...PRIMARY, ...RECORDS, ...SECONDARY_PAGES, CONTACT];
         </div>
         <div class="fm-index" id="fm-idx" aria-label="Index of all pages"></div>
       </div>
-      <aside class="fm-panel" id="fm-panel" aria-live="polite"></aside>
+      <aside class="fm-panel" id="fm-panel" aria-live="polite" tabindex="-1"></aside>
     </div>
     <div class="fm-print" id="fm-dosprint"></div>
 
