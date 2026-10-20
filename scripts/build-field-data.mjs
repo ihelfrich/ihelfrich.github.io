@@ -5,7 +5,7 @@
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
-import { ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
+import { OVERRIDES, ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
 
 const dist = path.resolve("dist");
 const SITE = "https://ihelfrich.github.io";
@@ -115,7 +115,10 @@ export async function buildField() {
   const linked = new Set(links.flat());
   const isolated = nodes.filter((_, i) => !linked.has(i)).map((node) => node.id);
 
-  return { generated: new Date().toISOString().slice(0, 10), site: SITE, nodes, links, routes: routesOut, isolated };
+  // Pages whose topics come from the keyword rules rather than a hand-set entry. They still appear on the map.
+  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !node.id.startsWith("/econometrics/")).map((node) => node.id);
+
+  return { generated: new Date().toISOString().slice(0, 10), site: SITE, nodes, links, routes: routesOut, isolated, provisional };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -126,4 +129,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (process.argv.includes("--public")) await writeFile(path.resolve("public/field.json"), json);
   console.log(`field.json: ${data.nodes.length} pages, ${data.links.length} links, ${data.isolated.length} unlinked (${(json.length / 1024).toFixed(0)} KB)`);
   if (data.isolated.length) console.log(`Unlinked from other pages: ${data.isolated.join(", ")}`);
+  if (data.provisional.length) console.log(`Provisional topics (add to OVERRIDES in src/data/field-topics.mjs): ${data.provisional.join(", ")}`);
 }

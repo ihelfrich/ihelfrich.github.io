@@ -36,6 +36,7 @@ npm run preview
 - `src/layouts/Base.astro` — global metadata, navigation, and footer
 - `src/styles/instrument.css` — editorial, interaction, and responsive design system
 - `public/cv/` — public CV documents
+- `src/pages/field.astro`, `src/scripts/field-map.mjs`, `src/lib/field-graph.mjs` — the interactive site map; see `docs/site-map.md`
 
 Publishing conventions are documented in `PUBLISHING.md`; the visual and motion rules are documented in `DESIGN_SYSTEM.md`.
 

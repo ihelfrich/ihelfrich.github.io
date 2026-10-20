@@ -839,6 +839,16 @@ function init(D) {
       .size(s * s * 2.6)()}" style="fill:${COL[n.p]};stroke:var(--ink);stroke-width:1"/></svg>`;
   const li = (m, s = 8) =>
     `<li><button data-id="${m.id}">${glyph(m, s)}<b>${m.title.length > 46 ? m.title.slice(0, 44) + "…" : m.title}</b></button></li>`;
+  const SELECTED = [
+    "/research/helfrich-2026-nmtc-rural-gap/",
+    "/research/helfrich-2024-dissertation/",
+    "/research/gonchar-helfrich-2025-spotlight/",
+    "/econometrics/",
+  ];
+  const selectedWork = () => {
+    const items = SELECTED.filter((id) => byId.has(id)).map((id) => li(byId.get(id)));
+    return items.length ? `<h4>Selected work</h4><ul class="near">${items.join("")}</ul>` : "";
+  };
   const orderedLinked = (id) =>
     groupLinked([...adj.get(id)].map((b) => byId.get(b)), deg, GROUPS);
   function linked(id) {
@@ -871,7 +881,7 @@ function init(D) {
     if (!n) {
       h +=
         lens === "all"
-          ? `<div class="fm-portrait"><img src="${rootEl.dataset.portrait}" alt="${rootEl.dataset.portraitAlt}" width="72" height="72" decoding="async"><div><h2>Ian Helfrich</h2><span>PhD in Economics, Georgia Tech, 2024</span></div></div><p class="d">Applied economist. Field: applied microeconomics and econometrics.</p><p class="d">Available for academic and industry roles, research collaborations, teaching, and select advisory work.</p><p class="acts"><a class="fm-btn fill" href="${SITE}/cv/">CV</a> <a class="fm-btn" href="${SITE}/job-market/">Job market page</a> <a class="fm-btn" href="${SITE}/contact/">Contact</a></p><p class="mut sm">Select a page on the map to see what it links to. The map shows ${nodes.length} pages and ${LINKS.length} links, last built ${D.generated}.</p>`
+          ? `<div class="fm-portrait"><img src="${rootEl.dataset.portrait}" alt="${rootEl.dataset.portraitAlt}" width="72" height="72" decoding="async"><div><h2>Ian Helfrich</h2><span>PhD in Economics, Georgia Tech, 2024</span></div></div><p class="d">Applied economist. Field: applied microeconomics and econometrics.</p><p class="d">Available for academic and industry roles, research collaborations, teaching, and select advisory work.</p><p class="acts"><a class="fm-btn fill" href="${SITE}/cv/">CV</a> <a class="fm-btn" href="${SITE}/job-market/">Job market page</a> <a class="fm-btn" href="${SITE}/contact/">Contact</a></p>${selectedWork()}<p class="mut sm">Select a page on the map to see what it links to. The map shows ${nodes.length} pages and ${LINKS.length} links, last built ${D.generated}.</p>`
           : `<h2>${NAME[lens]}</h2><p class="d">${nodes.filter((d) => d.lens.includes(lens)).length} pages are tagged with this topic. They are colored on the map; other pages are gray.</p><ul class="near">${nodes
               .filter((d) => d.lens.includes(lens))
               .sort((a, b) => (deg[b.id] || 0) - (deg[a.id] || 0))
