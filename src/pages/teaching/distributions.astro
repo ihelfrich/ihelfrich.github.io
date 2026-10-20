@@ -1,0 +1,213 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../styles/distribution-lab.css";
+---
+<Base
+  wide
+  title="Distribution Lab"
+  description="Explore 19 probability distributions, build the t, chi-square and F from their components, compute test power, and fit models to a simulated department whose true processes are hidden."
+  pageClass="dl-page"
+>
+  <div class="dl" data-surface="map" data-distribution-lab>
+    <header class="dl-head">
+      <div class="dl-title">
+        <h1>Distribution Lab</h1>
+        <p>Nineteen probability distributions as working objects: compute probabilities and quantiles, build test distributions from their components, find the power of a test, and fit models to a simulated department whose true processes are hidden.</p>
+      </div>
+      <div class="dl-actions">
+        <button class="dl-btn" id="dl-share" type="button">Copy link</button>
+        <button class="dl-btn" id="dl-code-open" type="button" aria-haspopup="dialog">Code</button>
+      </div>
+    </header>
+
+    <div class="dl-tabs" role="tablist" aria-label="Lab sections">
+      <button role="tab" id="tab-bench" aria-controls="dl-bench" aria-selected="true" data-tab="bench">Bench</button>
+      <button role="tab" id="tab-build" aria-controls="dl-build" aria-selected="false" data-tab="build" tabindex="-1">Constructions</button>
+      <button role="tab" id="tab-desk" aria-controls="dl-desk" aria-selected="false" data-tab="desk" tabindex="-1">Test desk</button>
+      <button role="tab" id="tab-dept" aria-controls="dl-dept" aria-selected="false" data-tab="dept" tabindex="-1">Department simulator</button>
+    </div>
+
+    <p class="dl-sr" id="dl-status" role="status" aria-live="polite"></p>
+
+    <noscript><p class="dl-noscript">This lab runs in the browser and needs JavaScript. The distributions, formulas and R, Python, Julia and Stata code for each are listed in the <a href="/econometrics/">econometrics course</a>.</p></noscript>
+
+    <section id="dl-bench" role="tabpanel" aria-labelledby="tab-bench" class="dl-panel">
+      <div class="dl-grid">
+        <div class="dl-side">
+          <h2 class="dl-h">Distribution bench</h2>
+          <label class="dl-field">Distribution<select id="b-dist"></select></label>
+          <p class="dl-formula" id="b-formula"></p>
+          <div id="b-params" class="dl-params"></div>
+          <dl class="dl-stats" id="b-stats"></dl>
+          <fieldset class="dl-calc">
+            <legend>Probability calculator</legend>
+            <div class="dl-seg" role="group" aria-label="Region">
+              <button type="button" data-mode="le" aria-pressed="false">X ≤ a</button>
+              <button type="button" data-mode="ge" aria-pressed="false">X ≥ a</button>
+              <button type="button" data-mode="between" aria-pressed="true">a to b</button>
+              <button type="button" data-mode="outside" aria-pressed="false">Outside</button>
+            </div>
+            <div class="dl-pair">
+              <label class="dl-field">a<input id="b-a" type="number" step="any" inputmode="decimal" /></label>
+              <label class="dl-field">b<input id="b-b" type="number" step="any" inputmode="decimal" /></label>
+              <label class="dl-field">Probability<input id="b-p" type="number" step="any" min="0" max="1" inputmode="decimal" /></label>
+            </div>
+            <p class="dl-result" id="b-result" aria-live="polite"></p>
+            <label class="dl-check"><input id="b-lock" type="checkbox" /> Hold the probability fixed when parameters change</label>
+          </fieldset>
+          <p class="dl-note" id="b-note"></p>
+        </div>
+        <div class="dl-main">
+          <div class="dl-bar">
+            <div class="dl-seg" role="group" aria-label="Curve">
+              <button type="button" data-view="pdf" aria-pressed="true">Density</button>
+              <button type="button" data-view="cdf" aria-pressed="false">Distribution function</button>
+            </div>
+            <label class="dl-check"><input id="b-norm" type="checkbox" /> Normal with the same mean and standard deviation</label>
+          </div>
+          <div class="dl-stage">
+            <canvas id="b-canvas" class="dl-canvas tall" role="img" aria-label="Plot of the selected distribution"></canvas>
+            <div class="dl-readout" id="b-readout" aria-hidden="true"></div>
+          </div>
+          <p class="dl-hint">Drag the circles on the horizontal axis to move a and b. The shaded area is the probability in the box at left.</p>
+          <div class="dl-bar">
+            <h3 class="dl-h3">Draws</h3>
+            <button class="dl-btn" type="button" data-draw="1">Draw 1</button>
+            <button class="dl-btn" type="button" data-draw="100">Draw 100</button>
+            <button class="dl-btn" type="button" data-draw="10000">Draw 10,000</button>
+            <button class="dl-btn" type="button" id="b-stream" aria-pressed="false">Stream</button>
+            <button class="dl-btn ghost" type="button" id="b-clear">Clear</button>
+            <span class="dl-count" id="b-count" aria-live="polite"></span>
+          </div>
+          <div class="dl-stage">
+            <canvas id="b-mean" class="dl-canvas short" role="img" aria-label="Running sample mean against the number of draws"></canvas>
+          </div>
+          <p class="dl-hint" id="b-meannote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dl-build" role="tabpanel" aria-labelledby="tab-build" class="dl-panel" hidden>
+      <div class="dl-grid">
+        <div class="dl-side">
+          <h2 class="dl-h">Constructions</h2>
+          <p class="dl-lead">Each test distribution is defined by a recipe. Here the recipe is executed draw by draw and the histogram of results is compared with the exact density.</p>
+          <label class="dl-field">Recipe<select id="c-recipe"></select></label>
+          <p class="dl-formula" id="c-formula"></p>
+          <div id="c-params" class="dl-params"></div>
+          <p class="dl-note" id="c-note"></p>
+          <h3 class="dl-h3">One draw, step by step</h3>
+          <ol class="dl-steps" id="c-steps" aria-live="polite"></ol>
+        </div>
+        <div class="dl-main">
+          <div class="dl-bar">
+            <button class="dl-btn" type="button" data-build="1">Build 1</button>
+            <button class="dl-btn" type="button" data-build="500">Build 500</button>
+            <button class="dl-btn" type="button" data-build="20000">Build 20,000</button>
+            <button class="dl-btn ghost" type="button" id="c-clear">Clear</button>
+            <span class="dl-count" id="c-count" aria-live="polite"></span>
+          </div>
+          <div class="dl-stage"><canvas id="c-canvas" class="dl-canvas tall" role="img" aria-label="Histogram of constructed draws against the exact density"></canvas></div>
+          <p class="dl-hint" id="c-readout"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dl-desk" role="tabpanel" aria-labelledby="tab-desk" class="dl-panel" hidden>
+      <div class="dl-grid">
+        <div class="dl-side">
+          <h2 class="dl-h">Test desk</h2>
+          <label class="dl-field">Test<select id="t-test">
+            <option value="z">z test for a mean (σ known)</option>
+            <option value="t">t test for a mean</option>
+            <option value="chisq">χ² test for a variance</option>
+            <option value="f">F test for a variance ratio</option>
+          </select></label>
+          <label class="dl-field">Alternative<select id="t-tail">
+            <option value="two">Two-sided</option>
+            <option value="upper">Greater than</option>
+            <option value="lower">Less than</option>
+          </select></label>
+          <div id="t-params" class="dl-params"></div>
+          <dl class="dl-stats wide" id="t-out"></dl>
+          <p class="dl-note" id="t-note"></p>
+        </div>
+        <div class="dl-main">
+          <div class="dl-stage"><canvas id="t-canvas" class="dl-canvas tall" role="img" aria-label="Null and alternative sampling distributions of the test statistic"></canvas></div>
+          <div class="dl-legend" id="t-legend"></div>
+          <div class="dl-bar">
+            <h3 class="dl-h3">Repeated studies</h3>
+            <div class="dl-seg" role="group" aria-label="True state">
+              <button type="button" data-world="alt" aria-pressed="true">Effect is as set</button>
+              <button type="button" data-world="null" aria-pressed="false">No effect</button>
+            </div>
+            <button class="dl-btn" type="button" id="t-run">Run 4,000 studies</button>
+            <span class="dl-count" id="t-count" aria-live="polite"></span>
+          </div>
+          <div class="dl-stage"><canvas id="t-pcanvas" class="dl-canvas short" role="img" aria-label="Histogram of p-values from repeated studies"></canvas></div>
+          <p class="dl-hint" id="t-pnote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dl-dept" role="tabpanel" aria-labelledby="tab-dept" class="dl-panel" hidden>
+      <div class="dl-dept-head">
+        <div>
+          <h2 class="dl-h">Department simulator</h2>
+          <p class="dl-lead">Each event below follows a true distribution that you cannot see. You observe twelve past outcomes, choose a family and parameters for each event, and simulate thousands of years. Then compare your model with reality.</p>
+        </div>
+        <div class="dl-dept-controls">
+          <div class="dl-seg" id="d-scen" role="group" aria-label="Scenario"></div>
+          <button class="dl-btn ghost" type="button" id="d-history">New history</button>
+        </div>
+      </div>
+      <p class="dl-blurb" id="d-blurb"></p>
+      <div class="dl-events" id="d-events"></div>
+      <div class="dl-runbar">
+        <label class="dl-field inline">Years to simulate
+          <select id="d-years"><option>1000</option><option selected>5000</option><option>20000</option></select>
+        </label>
+        <button class="dl-btn fill" type="button" id="d-run">Simulate</button>
+        <button class="dl-btn" type="button" id="d-replay" disabled>Replay one year</button>
+        <button class="dl-btn" type="button" id="d-reveal" disabled>Reveal reality</button>
+        <span class="dl-count" id="d-msg" aria-live="polite"></span>
+      </div>
+      <div class="dl-results" id="d-results" hidden>
+        <div class="dl-res-grid">
+          <div>
+            <h3 class="dl-h3">Years with problems</h3>
+            <div class="dl-stage"><canvas id="d-trouble" class="dl-canvas short" role="img" aria-label="Distribution of the number of problem events in a year"></canvas></div>
+            <p class="dl-hint" id="d-trouble-note"></p>
+          </div>
+          <div>
+            <h3 class="dl-h3">One simulated year</h3>
+            <ol class="dl-log" id="d-log" aria-live="polite"></ol>
+          </div>
+        </div>
+        <div id="d-score"></div>
+      </div>
+    </section>
+
+    <dialog class="dl-dialog" id="dl-code" aria-labelledby="dl-code-h">
+      <form method="dialog" class="dl-dialog-head">
+        <h2 id="dl-code-h">Reproduce this in code</h2>
+        <button class="dl-btn ghost" value="close">Close</button>
+      </form>
+      <div class="dl-seg" role="group" aria-label="Language" id="dl-lang">
+        <button type="button" data-lang="python" aria-pressed="true">Python</button>
+        <button type="button" data-lang="r" aria-pressed="false">R</button>
+        <button type="button" data-lang="julia" aria-pressed="false">Julia</button>
+        <button type="button" data-lang="stata" aria-pressed="false">Stata</button>
+      </div>
+      <pre class="dl-pre"><code id="dl-code-body"></code></pre>
+      <div class="dl-bar"><button class="dl-btn" type="button" id="dl-code-copy">Copy code</button><button class="dl-btn" type="button" id="dl-csv">Download draws as CSV</button><span class="dl-count" id="dl-code-msg" aria-live="polite"></span></div>
+      <p class="dl-hint">The code uses the parameters currently set in the active section. Seeds differ across languages, so individual draws will not match the browser; distributions and summary statistics will.</p>
+    </dialog>
+
+    <p class="dl-foot">Exact densities and distribution functions are computed in the browser and tested against R to about eight significant digits. Source: <code>src/lib/distributions.mjs</code>.</p>
+  </div>
+</Base>
+
+<script>
+  import "../../scripts/distribution-lab.mjs";
+</script>
