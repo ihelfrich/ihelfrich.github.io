@@ -45,3 +45,14 @@ test("link extraction reads main content only and normalises paths", () => {
   assert.equal(page.description, "Papers & data");
   assert.deepEqual(page.hrefs, ["/datasets/", "/research/x/"]);
 });
+
+test("every short label is for a route and stays short", async () => {
+  const { LABELS, labelFor } = await import("../../src/data/field-topics.mjs");
+  for (const [route, label] of Object.entries(LABELS)) {
+    assert.match(route, /^\/([a-z0-9-]+\/)*$/, `${route} must be a route with a trailing slash`);
+    assert.ok(label.length <= 40, `${route}: label is longer than 40 characters`);
+  }
+  assert.equal(labelFor("/research/", "Research | Ian"), "Research");
+  assert.equal(labelFor("/new-page/", "A new page"), "A new page");
+  assert.equal(new Set(Object.values(LABELS)).size, Object.keys(LABELS).length, "labels must be unique so the map is unambiguous");
+});

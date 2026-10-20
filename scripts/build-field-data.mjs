@@ -5,7 +5,7 @@
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
-import { ROUTES, topicsFor, typeFor } from "../src/data/field-topics.mjs";
+import { ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
 
 const dist = path.resolve("dist");
 const SITE = "https://ihelfrich.github.io";
@@ -43,8 +43,19 @@ async function frontmatterFor(route) {
   const year = data.year ?? (data.date ? new Date(data.date).getUTCFullYear() : null);
   const status = data.displayStatus ?? data.status ?? "";
   const question = typeof data.question === "string" ? data.question : "";
-  if (!authors.length && !year && !status && !question) return null;
-  return { authors, year: year ? String(year) : "", status: String(status), question: question.slice(0, 180) };
+  const role = typeof data.role === "string" ? data.role : "";
+  const limit = typeof data.limit === "string" ? data.limit : "";
+  const methods = Array.isArray(data.method) ? data.method.map(String).slice(0, 5) : [];
+  if (!authors.length && !year && !status && !question && !role && !limit) return null;
+  return {
+    authors,
+    year: year ? String(year) : "",
+    status: String(status),
+    question: question.slice(0, 180),
+    role,
+    limit: limit.slice(0, 260),
+    methods,
+  };
 }
 
 export async function buildField() {
@@ -69,6 +80,7 @@ export async function buildField() {
     const node = {
       id: route,
       title: page.title || route,
+      label: labelFor(route, page.title || route),
       desc: page.description.slice(0, 200),
       kb: page.kb,
       type: typeFor(route),
