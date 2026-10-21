@@ -301,10 +301,44 @@ samp,
   border-color: var(--ef-ink);
 }
 
+/* `.primary-nav a { font: inherit }` would otherwise enlarge Contact in the phone menu
+   and set it in a different face from Book a time beside it. */
+.primary-nav .nav-cta { font: 650 0.72rem/1 var(--font-data); }
+
+/* Booking sits beside Contact as the quieter of the two header actions. */
+.primary-nav .nav-book,
+.primary-nav .nav-book:hover {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--ef-ink) !important;
+  background: transparent;
+  border: 1px solid var(--ef-ink);
+  border-radius: var(--ef-control-radius);
+  font: 650 0.72rem/1 var(--font-data);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color var(--ef-motion-fast) var(--ef-ease-standard), border-color var(--ef-motion-fast) var(--ef-ease-standard);
+}
+
+.primary-nav .nav-book:hover,
+.primary-nav .nav-book[aria-current="page"] {
+  color: var(--ef-signal) !important;
+  border-color: var(--ef-signal);
+}
+
+/* Phones keep Contact in the header row beside Menu; the wide layout shows it in the nav. */
+.header-contact { display: none; }
+
 .secondary-nav { display: none; }
 
 .nav-toggle {
   display: none;
+  width: auto;
   min-width: 44px;
   min-height: 44px;
   padding: 0.5rem 0;
@@ -461,13 +495,42 @@ samp,
     visibility: visible;
   }
 
-  .has-js .site-header-inner { flex-wrap: nowrap; }
+  .has-js .site-header-inner { flex-wrap: nowrap; gap: var(--ef-space-3); }
   .has-js .nav-surface {
     display: flex;
+    flex: 0 0 auto;
     width: auto;
     margin-left: auto;
   }
   .has-js .nav-toggle { display: inline-flex; }
+
+  .has-js .header-contact,
+  .has-js .header-contact:hover {
+    display: inline-flex;
+    flex: 0 0 auto;
+    min-width: 44px;
+    min-height: 44px;
+    margin-left: auto;
+    padding: 0.5rem 0.7rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--ef-figure);
+    background: var(--ef-signal);
+    border: 1px solid var(--ef-signal);
+    border-radius: var(--ef-control-radius);
+    font: 650 0.7rem/1 var(--font-data);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .has-js .header-contact:hover {
+    background: var(--ef-ink);
+    border-color: var(--ef-ink);
+  }
+
+  .has-js .header-contact + .nav-surface { margin-left: 0; }
+  .nav-open .header-contact { visibility: hidden; }
 
   .has-js .mobile-nav-sheet {
     position: absolute;

@@ -5,6 +5,7 @@ import OptimalTransportAperture from "../../components/OptimalTransportAperture.
 import { getCollection, getEntry, render } from "astro:content";
 import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
 import { bibtexFor, scholarMetaFor } from "../../data/research-citation.mjs";
+import { clickEvent } from "../../data/analytics.mjs";
 
 export async function getStaticPaths() {
   const papers = filterDiscoverableResearch(await getCollection("research"));
@@ -53,7 +54,7 @@ const bibtex = bibtexFor(paper, recordUrl);
         <div class="artifact-record">
           <p><strong>Public artifacts</strong><span>{paper.data.displayStatus}</span></p>
           <nav aria-label="Research artifacts">
-            {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener">Manuscript PDF</a>}
+            {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener" data-goatcounter-click={clickEvent(paper.data.pdf) ?? `pdf-${paper.id}`}>Manuscript PDF</a>}
             {paper.data.ssrn && <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN record</a>}
             {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code and data</a>}
             {bibtex && <a href="#cite">Cite</a>}

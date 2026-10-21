@@ -4,7 +4,7 @@ import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-projects.mjs";
-import { navRoutes, REDIRECTS } from "../src/data/navigation.mjs";
+import { BOOK, navRoutes, REDIRECTS } from "../src/data/navigation.mjs";
 import { SCHOLAR_WITHHELD } from "../src/data/research-citation.mjs";
 
 const root = path.resolve("dist");
@@ -14,6 +14,10 @@ const collectHtml = async (directory) => (await Promise.all((await readdir(direc
   if (entry.isDirectory()) return collectHtml(entryPath);
   return entry.name.endsWith(".html") ? [entryPath] : [];
 }))).flat();
+
+// Astro escapes text content, so an apostrophe in frontmatter renders as &#39;.
+const escapeHtml = (text) => text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+const rendersText = (html, text) => html.includes(text) || html.includes(escapeHtml(text));
 
 const archive = JSON.parse(await readFile(path.join(root, "archive.json"), "utf8"));
 const archiveText = JSON.stringify(archive);
@@ -38,6 +42,14 @@ for (const entry of await readdir(path.join(root, "teaching"), { withFileTypes: 
   const html = await readFile(path.join(root, "teaching", entry.name, "index.html"), "utf8").catch(() => null);
   if (html === null || /<meta name="robots" content="noindex/.test(html)) continue;
   assert.ok(sitemapRoutes.includes(`/teaching/${entry.name}/`), `/sitemap.xml must publish the teaching lab /teaching/${entry.name}/`);
+}
+// Hidden Rivers left the Records strip for the 2026-27 market; /projects must still reach it,
+// and every page built on the shared shell must offer booking beside Contact.
+const projectsIndex = await readFile(path.join(root, "projects", "index.html"), "utf8");
+assert.match(projectsIndex, /href="\/(?:projects\/)?hidden-rivers\/?"/, "/projects/ must link Hidden Rivers now that it is not in the Records strip");
+for (const route of ["/", "/job-market/", "/research/", "/cv/"]) {
+  const html = await readFile(path.join(root, route, "index.html"), "utf8");
+  assert.match(html, new RegExp(`<a href="${BOOK.href}" class="nav-book"`), `${route} must link ${BOOK.href} beside Contact in the header`);
 }
 for (const [from, to] of Object.entries(REDIRECTS)) {
   const html = await readFile(path.join(root, from, "index.html"), "utf8").catch(() => null);
@@ -65,9 +77,9 @@ assert.ok(withheldResearch.length > 0, "the discovery regression requires at lea
 for (const record of withheldResearch) assert.ok(record.distinctiveQuery, `${record.id} must define a distinctiveQuery`);
 for (const record of researchRecords.filter(({ discovery }) => discovery !== "withheld")) {
   const detail = await readFile(path.join(root, "research", record.id, "index.html"), "utf8");
-  assert.ok(detail.includes(record.displayStatus), `/research/${record.id}/ must render displayStatus: ${record.displayStatus}`);
-  assert.ok(detail.includes(record.role), `/research/${record.id}/ must render the canonical role: ${record.role}`);
-  assert.ok(detail.includes(record.limit), `/research/${record.id}/ must render the canonical evidentiary limit`);
+  assert.ok(rendersText(detail, record.displayStatus), `/research/${record.id}/ must render displayStatus: ${record.displayStatus}`);
+  assert.ok(rendersText(detail, record.role), `/research/${record.id}/ must render the canonical role: ${record.role}`);
+  assert.ok(rendersText(detail, record.limit), `/research/${record.id}/ must render the canonical evidentiary limit`);
 }
 for (const { id, title } of withheldResearch) {
   for (const [surface, source] of [["Research index", researchIndex], ["archive.json", archiveText], ["sitemap.xml", sitemap], ["rss.xml", rss], ["Library and SiteIndex", library]]) {

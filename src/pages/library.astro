@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
+import { clickEvent } from "../data/analytics.mjs";
 
 const [allResearch, datasets, notes, allProjects] = await Promise.all([
   getCollection("research"),
@@ -113,7 +114,7 @@ const channels = [
           <aside role="note">
             <strong>{item.detail}</strong>
             <a href={item.href}>Open record</a>
-            {item.artifact && <a href={item.artifact} target="_blank" rel="noopener">Public artifact</a>}
+            {item.artifact && <a href={item.artifact} target="_blank" rel="noopener" data-goatcounter-click={clickEvent(item.artifact)}>Public artifact</a>}
           </aside>
         </li>
       ))}

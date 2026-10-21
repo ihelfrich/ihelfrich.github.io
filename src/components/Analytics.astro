@@ -1,0 +1,8 @@
+---
+// GoatCounter page-view counter. Renders nothing until GOATCOUNTER_CODE is set in
+// src/data/analytics.mjs. Links marked data-goatcounter-click are counted as events.
+import { GOATCOUNTER_SCRIPT, goatcounterEndpoint } from "../data/analytics.mjs";
+
+const endpoint = goatcounterEndpoint();
+---
+{endpoint && <script is:inline async data-goatcounter={endpoint} src={GOATCOUNTER_SCRIPT}></script>}

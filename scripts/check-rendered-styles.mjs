@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { Window } from "happy-dom";
-import { PRIMARY, CONTACT } from "../src/data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK } from "../src/data/navigation.mjs";
 
 const palette = {
   "--ef-ink": "#11131D",
@@ -609,7 +609,7 @@ if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.pus
  marketWindow.close();
 }
 
-for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button"]) {
+for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button", ".primary-nav .nav-book", ".has-js .header-contact"]) {
   if (!hasDeclarationContract(noScriptWindow, selector, { "min-width": "44px", "min-height": "44px" })) {
     failures.push(`${selector} does not declare a 44 by 44 CSS-pixel touch target`);
   }
@@ -640,7 +640,10 @@ const expectedPrimary = PRIMARY.map(({ label, href }) => `${label}:${href}`);
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");
 if (JSON.stringify(primaryContract) !== JSON.stringify(expectedPrimary)) failures.push(`primary navigation must be ${expectedPrimary.join(", ")}`);
-if (!sheet?.querySelector("[data-secondary-nav] a[href='/job-market']")) failures.push("mobile navigation needs a secondary Job market record link");
+if (!sheet?.querySelector(`a.nav-book[href='${BOOK.href}']`)) failures.push("navigation needs Book a time beside Contact");
+const headerContact = window.document.querySelector(`.site-header-inner > a.header-contact[href='${CONTACT.href}']`);
+if (!headerContact || sheet?.contains(headerContact)) failures.push("the phone header needs a Contact link outside the collapsed menu");
+if (!window.document.querySelector(`.site-footer .footer-links a[href='${BOOK.href}']`)) failures.push("the footer needs Book a time under Connect");
 if (!sheet?.querySelector("button[data-index-open]")) failures.push("mobile navigation needs Index as a utility control");
 if (!sheet?.querySelector(`a.nav-cta[href='${CONTACT.href}']`)) failures.push("mobile navigation needs Contact as its single action");
 if (!backdrop || backdrop.tagName !== "BUTTON" || backdrop.getAttribute("aria-hidden") !== "true" || backdrop.getAttribute("tabindex") !== "-1") failures.push("mobile navigation needs a pointer-only backdrop outside the focus order");
@@ -653,7 +656,7 @@ if (toggle && sheet && navSurface && visibleLabel && backdrop) {
   if (!sheet.contains(window.document.activeElement)) failures.push("opening mobile navigation does not move focus into the sheet");
   if (visibleLabel.textContent.trim() !== "Close") failures.push("open mobile navigation does not show a visible Close label");
   if (navSurface.getAttribute("role") !== "dialog" || navSurface.getAttribute("aria-modal") !== "true") failures.push("open mobile navigation does not expose modal dialog semantics");
-  for (const selector of ["main", ".site-footer", ".site-brand"]) {
+  for (const selector of ["main", ".site-footer", ".site-brand", ".header-contact"]) {
     const background = window.document.querySelector(selector);
     if (!background?.hasAttribute("inert") || background.getAttribute("aria-hidden") !== "true") failures.push(`open mobile navigation does not isolate ${selector}`);
   }

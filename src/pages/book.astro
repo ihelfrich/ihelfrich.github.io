@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
 import { bookingLinks, identityRecord, publicLinks } from "../data/public-record.mjs";
+import { bookingEvent } from "../data/analytics.mjs";
 ---
 
 <Base
@@ -27,7 +28,7 @@ import { bookingLinks, identityRecord, publicLinks } from "../data/public-record
               <p>{link.detail}</p>
             </div>
             <span class="booking-minutes">{link.minutes} min</span>
-            <a class="booking-route" href={link.href} target="_blank" rel="noopener">Choose a time <span aria-hidden="true">↗</span></a>
+            <a class="booking-route" href={link.href} target="_blank" rel="noopener" data-goatcounter-click={bookingEvent(link.id)}>Choose a time <span aria-hidden="true">↗</span></a>
           </li>
         ))}
       </ol>
@@ -39,7 +40,7 @@ import { bookingLinks, identityRecord, publicLinks } from "../data/public-record
 
     <aside role="note" class="booking-note">
       <strong>Wyzant students</strong>
-      <p>If we work together through Wyzant, please keep scheduling lessons on Wyzant. If none of the times above work, <a href={publicLinks.email}>email me</a>.</p>
+      <p>If we work together through Wyzant, please keep scheduling lessons on Wyzant. If none of the times above work, <a href={publicLinks.email} data-goatcounter-click="email">email me</a>.</p>
     </aside>
   </section>
 </Base>

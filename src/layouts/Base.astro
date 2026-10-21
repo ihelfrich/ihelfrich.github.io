@@ -11,8 +11,10 @@ import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
 import Nearby from "../components/Nearby.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Analytics from "../components/Analytics.astro";
+import { clickEvent } from "../data/analytics.mjs";
 import { crumbsFor } from "../data/breadcrumbs.mjs";
-import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK, RECORDS, CONNECT } from "../data/navigation.mjs";
 import { THEME_COLOR } from "../data/theme.mjs";
 import { portrait } from "../data/homepage-studio.mjs";
 
@@ -112,6 +114,7 @@ const personSchema = {
   <slot name="head" />
   <script is:inline>document.documentElement.classList.add('has-js');</script>
   <title>{fullTitle}</title>
+  <Analytics />
 </head>
 <body class={pageClass}>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -122,6 +125,8 @@ const personSchema = {
       <a href="/" class="site-brand" aria-label="Ian Helfrich, home">
         <span>Ian Helfrich</span><sup>PhD</sup>
       </a>
+
+      <a href={CONTACT.href} class="header-contact" data-header-contact aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
 
       <div class="nav-surface" data-nav-surface>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -139,6 +144,7 @@ const personSchema = {
             <div class="nav-utilities">
               <a href="/field" class="site-map-link" aria-current={isActive("/field") ? "page" : undefined}>Map</a>
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
+              <a href={BOOK.href} class="nav-book" aria-current={isActive(BOOK.href) ? "page" : undefined}>{BOOK.label}</a>
               <a href={CONTACT.href} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
             </div>
           </nav>
@@ -190,8 +196,9 @@ const personSchema = {
         <div>
           <strong>Connect</strong>
           <a href={CONTACT.href}>{CONTACT.label}</a>
+          <a href={BOOK.href}>{BOOK.label}</a>
           {CONNECT.map(({ label, href, external }) => (
-            <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>{label}</a>
+            <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined} data-goatcounter-click={clickEvent(href)}>{label}</a>
           ))}
         </div>
       </div>
@@ -208,6 +215,7 @@ const personSchema = {
     const navSurface = document.querySelector('[data-nav-surface]');
     const navHeader = document.querySelector('.site-header');
     const siteBrand = document.querySelector('.site-brand');
+    const headerContact = document.querySelector('[data-header-contact]');
     const navLabel = navToggle?.querySelector('.nav-toggle-label');
     const navBackdrop = document.querySelector('[data-nav-backdrop]');
     const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -216,6 +224,7 @@ const personSchema = {
       const regions = [...document.body.children]
         .filter((element) => element !== navHeader && element.tagName !== 'SCRIPT');
       if (siteBrand) regions.push(siteBrand);
+      if (headerContact) regions.push(headerContact);
       regions.forEach((element) => {
         if (!isolatedState.has(element)) {
           isolatedState.set(element, {

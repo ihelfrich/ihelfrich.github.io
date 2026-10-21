@@ -1,4 +1,5 @@
 ---
+import { clickEvent } from "../data/analytics.mjs";
 export interface EvidenceLink {
   label: string;
   href: string;
@@ -71,7 +72,7 @@ const captionId = `${id}-caption`;
     {links.length > 0 && (
       <nav aria-label="Evidence sources">
         {links.map((link) => (
-          <a href={link.href} target={linkIsExternal(link) ? "_blank" : undefined} rel={linkIsExternal(link) ? "noopener" : undefined}>
+          <a href={link.href} target={linkIsExternal(link) ? "_blank" : undefined} rel={linkIsExternal(link) ? "noopener" : undefined} data-goatcounter-click={clickEvent(link.href)}>
             {link.label}{linkIsExternal(link) ? " ↗" : " →"}
           </a>
         ))}
