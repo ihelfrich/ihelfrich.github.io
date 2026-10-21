@@ -48,7 +48,9 @@ test("the NMTC record never emits Scholar tags, even if its frontmatter opts in"
   const record = byId(id);
   assert.equal(record.data.pdf, "/research/ian-helfrich-nmtc-working-paper.pdf", "the NMTC record header links the PDF");
   assert.deepEqual(scholarMetaFor(record, recordUrl(id)), []);
-  const optedIn = { ...record, data: { ...record.data, citation: { ...record.data.citation, scholar: true } } };
+  assert.equal(record.data.citation, undefined, "no citation block until the authorship decision");
+  assert.equal(bibtexFor(record, recordUrl(id)), null);
+  const optedIn = { ...record, data: { ...record.data, citation: { type: "misc", scholar: true } } };
   assert.deepEqual(scholarMetaFor(optedIn, recordUrl(id)), []);
 });
 
@@ -66,9 +68,7 @@ test("BibTeX entries are well formed and point at the public manuscript", () => 
   const spotlight = bibtexFor(byId("gonchar-helfrich-2025-spotlight"), recordUrl("gonchar-helfrich-2025-spotlight"));
   assert.match(spotlight, /author += \{Gonchar, Elizaveta and Helfrich, Ian\}/);
   assert.match(spotlight, /url += \{https:\/\/ssrn\.com\/abstract=5202676\}/);
-  const nmtc = bibtexFor(byId("helfrich-2026-nmtc-rural-gap"), recordUrl("helfrich-2026-nmtc-rural-gap"));
-  assert.match(nmtc, /url += \{https:\/\/ihelfrich\.github\.io\/research\/ian-helfrich-nmtc-working-paper\.pdf\}/);
-  for (const entry of [dissertation, spotlight, nmtc]) {
+  for (const entry of [dissertation, spotlight]) {
     assert.equal((entry.match(/\{/g) ?? []).length, (entry.match(/\}/g) ?? []).length, "braces balance");
     assert.match(entry, /\n\}$/);
   }
