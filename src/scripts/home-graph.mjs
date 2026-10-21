@@ -96,9 +96,12 @@ export function mountHomeGraph(root) {
         const g = d3.select(this).attr("transform", `translate(${lx},${ly})`);
         const tw = d3.select(this).select("text").node().getComputedTextLength() + 10;
         let side = ux > 8 ? "start" : ux < -8 ? "end" : "middle";
-        if (side === "start" && lx + tw > W) side = "end";
-        if (side === "end" && lx - tw < 0) side = "start";
-        g.select("text").attr("text-anchor", side).attr("x", side === "start" ? 8 : side === "end" ? -8 : 0).attr("y", side === "middle" ? (uy < 0 ? -8 : 16) : 4);
+        let above = false;
+        if ((side === "start" && lx + tw > W) || (side === "end" && lx - tw < 0)) { side = "middle"; above = true; }
+        const half = tw / 2;
+        const mx = side === "middle" ? Math.max(half - 6, Math.min(W - half + 6, lx)) - lx : 0;
+        g.select("text").attr("text-anchor", side).attr("x", side === "start" ? 8 : side === "end" ? -8 : mx)
+          .attr("y", side === "middle" ? (above || uy < 0 ? -9 : 17) : 4);
       });
     };
     const layout = () => {
@@ -106,7 +109,7 @@ export function mountHomeGraph(root) {
       W = box.width; H = box.height;
       if (!W || !H) return;
       cx = W / 2; cy = H / 2;
-      const rad = Math.min(W, H) * 0.32;
+      const rad = Math.min(W, H) * (W < 560 ? 0.24 : 0.32);
       TOPIC_ORDER.forEach((t, i) => {
         const a = -Math.PI / 2 + (i * 2 * Math.PI) / TOPIC_ORDER.length;
         anchors[t] = [cx + rad * Math.cos(a), cy + rad * Math.sin(a)];

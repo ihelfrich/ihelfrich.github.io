@@ -1,5 +1,6 @@
 ---
 import "../styles/home-graph.css";
+import { TOPIC_ORDER, TOPIC_SHORT } from "../data/field-topics.mjs";
 const sections = [
   ["/research/", "Research"], ["/teaching/", "Teaching"], ["/lab/", "Lab"], ["/work/", "Work"],
   ["/projects/", "Projects"], ["/datasets/", "Datasets"], ["/writing/", "Writing"], ["/field/", "Full site map"],
@@ -16,6 +17,9 @@ const sections = [
     <button type="button" class="hg-shock" data-hg-shock>Send a shock from the selected page</button>
   </div>
   <div class="hg-stage"><svg data-hg-svg role="group" aria-label="Network of site pages. The list of sections beside it has the same destinations."></svg></div>
+  <ul class="hg-topics" aria-hidden="true">
+    {TOPIC_ORDER.map((t) => <li><span style={`background:var(--topic-${t})`}></span>{TOPIC_SHORT[t]}</li>)}
+  </ul>
   <ul class="hg-legend" aria-hidden="true">
     <li><svg viewBox="-7 -7 14 14"><rect x="-4.5" y="-4.5" width="9" height="9"/></svg>Paper</li>
     <li><svg viewBox="-7 -7 14 14"><path d="M0-6L1.8-1.9 6-1.9 2.6.9 3.8 5.4 0 2.7-3.8 5.4-2.6.9-6-1.9-1.8-1.9z"/></svg>Instrument</li>
