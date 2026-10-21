@@ -130,6 +130,7 @@ const allowedDisplayStatus = new Set([
   "Current working paper",
   "Active development · no results yet",
   "Draft · claims under verification",
+  "Work in progress",
 ]);
 const researchRecords = [];
 for (const filename of researchFiles) {
@@ -194,7 +195,7 @@ for (const record of researchRecords.filter(({ data }) => data?.discovery !== "w
 }
 
 for (const record of researchRecords.filter(({ data }) => data?.maturity === "development")) {
-  if (!["Active development · no results yet", "Draft · claims under verification"].includes(record.data.displayStatus)) {
+  if (!["Active development · no results yet", "Draft · claims under verification", "Work in progress"].includes(record.data.displayStatus)) {
     failures.push(`${record.filename} must use a maturity-safe development displayStatus.`);
   }
 }

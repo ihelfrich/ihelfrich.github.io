@@ -6,6 +6,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     blurb: z.string(),
+    // Named authors for coauthored work; the project record renders them only when present.
+    authors: z.array(z.string().min(1)).default([]),
     status: z.enum(['live', 'in-progress', 'archived', 'planned']).default('live'),
     url: z.string().optional(),
     repo: z.string().optional(),
@@ -65,6 +67,7 @@ const research = defineCollection({
       'Current working paper',
       'Active development · no results yet',
       'Draft · claims under verification',
+      'Work in progress',
     ]),
     role: z.string().min(1),
     method: z.array(z.string().min(1)).min(1),

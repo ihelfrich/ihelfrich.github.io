@@ -38,6 +38,7 @@ const limitCopy = archival
       {!featured && <dl class="project-ledger">
         <div><dt>Status</dt><dd>{archival ? "Direct-only archive" : statusCopy[project.data.status]}</dd></div>
         {!archival && <div><dt>Topics</dt><dd>{project.data.tags.join(" · ")}</dd></div>}
+        {!archival && project.data.authors.length > 0 && <div class="authors"><dt>Authors</dt><dd>{project.data.authors.join(", ")}</dd></div>}
         <div class="limit"><dt>Boundary</dt><dd>{limitCopy}</dd></div>
       </dl>}
 
@@ -86,6 +87,7 @@ const limitCopy = archival
   .project-ledger div { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); }
   .project-ledger dt { color: var(--muted); }
   .project-ledger dd { margin: .25rem 0 0; }
+  .project-ledger .authors { grid-column: 1 / -1; }
   .project-ledger .limit { grid-column: 1 / -1; color: var(--ef-oxide); }
   .artifact-links { display: flex; margin-top: 1.5rem; flex-wrap: wrap; gap: .5rem 1.5rem; }
   .artifact-links a, .project-footer a { display: inline-flex; min-height: 44px; align-items: center; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }

@@ -13,7 +13,7 @@ maturity: "earlier"
 displayStatus: "Published dissertation"
 role: "Sole-authored doctoral dissertation"
 method: ["structural gravity", "network centrality", "optimal transport"]
-limit: "The dissertation records three completed chapters; later papers and datasets have separate statuses and must not be inferred from this 2024 record."
+limit: "This record covers the three chapters of the 2024 dissertation. Later papers and datasets that build on them have their own records and statuses."
 discovery: "secondary"
 tags: ["international-trade", "networks", "gravity", "spatial-economics", "optimal-transport"]
 ---
