@@ -1,8 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
-import { availabilityRecord, publicLinks, teachingRecognition, tutoringRecord } from "../data/public-record.mjs";
+import NmtcCoefficientFigure from "../components/NmtcCoefficientFigure.astro";
+import Portrait from "../components/Portrait.astro";
+import { availabilityRecord, identityRecord, nmtcPaperRecord, publicLinks, teachingRecognition, tutoringRecord } from "../data/public-record.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
+
+const pageTitle = "Ian Helfrich: 2026–27 economics job market";
 
 const dossierIds = [
   "helfrich-2026-nmtc-rural-gap",
@@ -17,28 +21,38 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
 
 <Base
   wide
-  title="Academic job-market dossier"
-  description="Academic job-market materials for Ian Helfrich: applied economics research, teaching record, CV, and public working papers."
+  title={pageTitle}
+  documentTitle={pageTitle}
+  description="Ian Helfrich on the 2026–27 economics job market: the New Markets Tax Credit working paper, CV, resume, research record, and teaching record."
   pageClass="fieldbook-job-market"
 >
   <section class="market-hero route-grid" data-rail-label="Job-market dossier">
     <div class="market-hero__copy">
       <p class="record-label">{availabilityRecord.cycle} · {availabilityRecord.asOf}</p>
-      <h1>Academic job-market dossier</h1>
-      <p>I am an applied economist working across place-based policy, trade and spatial measurement, labor and AI, and quantitative education. This page gathers the public documents and research records most relevant to academic hiring.</p>
+      <h1>{pageTitle}</h1>
+      <p class="market-position">{identityRecord.positionLine}</p>
+      <p class="market-intro">I am an applied economist working across place-based policy, trade and spatial measurement, labor and AI, and quantitative education.</p>
       <div class="action-row">
-        <a class="fieldbook-action" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Academic CV · PDF ↗</a>
-        <a class="fieldbook-action fieldbook-action--quiet" href={publicLinks.email}>Email Ian</a>
+        <a class="fieldbook-action" href={nmtcPaperRecord.pdf}>Working paper (PDF)</a>
+        <a class="fieldbook-action fieldbook-action--quiet" href="/cv/ian-helfrich-cv.pdf">CV (PDF)</a>
+        <a class="fieldbook-action fieldbook-action--quiet" href="/cv/ian-helfrich-executive-resume.pdf">Resume (PDF)</a>
+        <span class="action-email"><a class="fieldbook-action fieldbook-action--quiet" href={publicLinks.email}>Email Ian</a><span>{publicLinks.emailAddress}</span></span>
         <a class="fieldbook-action fieldbook-action--quiet" href="/book#job-market">Book a meeting</a>
       </div>
+      <NmtcCoefficientFigure class="market-figure" plate>
+        Rural coefficient on project leverage, the ratio of project cost to subsidized investment, pooled across all projects and within the same Community Development Entity. The within-CDE bar is the cluster-robust 95% confidence interval; the figure draws no pooled interval.
+      </NmtcCoefficientFigure>
     </div>
     <aside role="note" class="market-hero__margin">
+      <figure class="market-portrait">
+        <Portrait sizes="96px" loading="eager" />
+        <figcaption>{identityRecord.name}</figcaption>
+      </figure>
       <p class="record-label">Current status</p>
       <strong>{availabilityRecord.status}</strong>
       <dl>
         <div><dt>Field</dt><dd>Applied microeconomics and econometrics</dd></div>
-        <div><dt>Training</dt><dd>PhD in Economics, Georgia Tech, 2024</dd></div>
-        <div><dt>Location</dt><dd>St. Louis, Missouri</dd></div>
+        <div><dt>Location</dt><dd>{identityRecord.location}</dd></div>
       </dl>
     </aside>
   </section>
@@ -48,8 +62,9 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
       <div class="paper-heading">
         <div>
           <p class="record-label">Primary public working paper · sole author and originator</p>
-          <h2>The rural mobilization gap in a U.S. place-based tax credit</h2>
-          <p class="paper-question">Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?</p>
+          <h2>{nmtcPaperRecord.title}:<span class="paper-subtitle"> {nmtcPaperRecord.subtitle}</span></h2>
+          <p class="paper-version">Latest version: {nmtcPaperRecord.version}</p>
+          <p class="paper-finding">{nmtcPaperRecord.finding}</p>
         </div>
         <aside role="note">
           <dl>
@@ -61,13 +76,15 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
         </aside>
       </div>
       <div class="paper-account">
-        <p>I assembled the transaction and project record, documented its provenance, estimated the pooled and within-intermediary comparisons, and decomposed the movement between them. In the base decomposition, −0.185, or 86% of the explained movement, is associated with observed CDE composition.</p>
+        <h3>Abstract</h3>
+        <p>{nmtcPaperRecord.abstract}</p>
+        <p>I assembled the transaction and project record, documented its provenance, estimated the pooled and within-intermediary comparisons, and decomposed the movement between them. {nmtcPaperRecord.design}</p>
         <p>This is descriptive, noncausal evidence. The mean interval is wide; the design does not identify why intermediaries differ or resolve the mechanism.</p>
         <p class="authorship-note">This project was my original idea, and I am its sole author. Katia Antunes and Elizaveta Gonchar contributed to it; they are not coauthors.</p>
       </div>
       <nav class="paper-links" aria-label="Primary paper links">
-        <a href="/research/ian-helfrich-nmtc-working-paper.pdf" target="_blank" rel="noopener">Working paper · PDF ↗</a>
-        <a href="/research/helfrich-2026-nmtc-rural-gap">Research record →</a>
+        <a href={nmtcPaperRecord.pdf} target="_blank" rel="noopener">Working paper · PDF ↗</a>
+        <a href={nmtcPaperRecord.record}>Research record →</a>
         <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Repository and evidence files ↗</a>
       </nav>
     </div>
@@ -92,7 +109,6 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
           </div>
           <aside role="note">
             <p><strong>Role</strong>{record.data.role}</p>
-            <p><strong>Limit</strong>{record.data.limit}</p>
           </aside>
         </article>
       ))}
@@ -141,12 +157,16 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
   .record-label,
   .status-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
-  .market-hero { min-height: 40rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  .market-hero { min-height: 40rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: start; border-bottom: 1px solid var(--ef-ink); }
   .market-hero__copy { grid-column: 2 / span 7; }
-  .market-hero h1 { max-width: 10ch; }
-  .market-hero__copy > p:last-of-type { max-width: 64ch; font-size: 1.22rem; }
+  .market-hero h1 { max-width: 16ch; margin-bottom: 1rem; font-size: clamp(2.6rem, 5.4vw, 5.25rem); }
+  .market-position { margin: 0 0 1rem; font-size: 1.08rem; font-weight: 600; }
+  .market-intro { max-width: 64ch; margin: 0; font-size: 1.22rem; }
   .market-hero__margin { grid-column: 9 / span 3; padding-top: 0.8rem; border-top: 2px solid var(--ef-signal); }
   .market-hero__margin > strong { display: block; font-size: 1.05rem; }
+  .market-portrait { display: flex; margin: 0 0 1.25rem; align-items: center; gap: 1rem; }
+  .market-portrait :global(img) { display: block; width: 6rem; height: auto; aspect-ratio: 1; object-fit: cover; }
+  .market-portrait figcaption { font: 600 1.05rem/1.3 var(--font-display); }
   .market-hero__margin dl { margin: 1rem 0 0; }
   .market-hero__margin dl > div { padding-block: 0.6rem; border-top: 1px solid var(--rule); }
   .market-hero__margin dt { color: var(--muted); font: 600 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
@@ -155,15 +175,21 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
   .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
   .fieldbook-action--quiet { color: var(--ef-ink); background: transparent; border-color: var(--ef-ink); }
+  .action-email { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; }
+  .action-email > span { font: 0.86rem/1.4 var(--font-data); }
+  .market-figure { max-width: 40rem; margin-top: var(--ef-space-6); }
   .paper-heading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(17rem, 0.8fr); gap: var(--ef-space-7); }
-  .paper-heading h2 { max-width: 16ch; margin: 0; }
-  .paper-question { max-width: 62ch; margin-top: 1.5rem; font-size: 1.25rem; }
+  .paper-heading h2 { max-width: 22ch; margin: 0; }
+  .paper-subtitle { display: block; margin-top: 0.7rem; font-size: 0.52em; font-weight: 450; line-height: 1.2; }
+  .paper-version { margin: 1rem 0 0; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .paper-finding { max-width: 62ch; margin-top: 1.5rem; font-size: 1.25rem; }
   .paper-heading aside { padding-top: 0.7rem; border-top: 2px solid var(--ef-signal); }
   .paper-heading dl { margin: 0; }
   .paper-heading dl > div { display: grid; padding-block: 0.55rem; grid-template-columns: 1fr 1fr; gap: 0.7rem; border-bottom: 1px solid var(--rule); }
   .paper-heading dt { color: var(--muted); font: 600 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
   .paper-heading dd { margin: 0; font-family: var(--font-data); font-size: 0.75rem; }
   .paper-account { max-width: 72ch; margin-top: var(--ef-space-6); font-size: 1.08rem; }
+  .paper-account h3 { margin: 0 0 0.6rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
   .authorship-note { padding-left: 1rem; border-left: 3px solid var(--ef-signal); }
   .paper-links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; margin-top: var(--ef-space-5); font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
@@ -176,7 +202,6 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .dossier-list h3 a { color: var(--ef-ink); text-decoration: none; }
   .dossier-list aside { padding-left: 1rem; border-left: 1px solid var(--rule); }
   .dossier-list aside p { margin: 0; }
-  .dossier-list aside p + p { margin-top: 1rem; padding-top: 0.7rem; color: var(--ef-oxide); border-top: 2px solid currentColor; }
   .dossier-list aside strong { display: block; margin-bottom: 0.3rem; font: 650 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
   .text-route { display: inline-block; margin-top: var(--ef-space-5); font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   .teaching-evidence { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ef-ink); }

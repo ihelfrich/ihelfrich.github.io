@@ -580,6 +580,34 @@ if(JSON.stringify(heroActions.slice(0,3))!==JSON.stringify(['/research/ian-helfr
 for(const target of ['/econometrics/','/econometrics/lab/','/learn/policy-statistics/','/library','/job-market']) {
  if(!noScriptWindow.document.querySelector(`a[href="${target}"]`)) failures.push(`homepage is missing useful destination ${target}`);
 }
+// The coefficient figure is one component (NmtcCoefficientFigure) on home and /job-market.
+const coefficientFigureLabelled=(doc,selector)=>{const svg=doc.querySelector(`${selector} svg[role="img"]`);return Boolean(svg?.querySelector('title#coefficient-title')&&svg.querySelector('desc#coefficient-desc')&&doc.querySelector(`${selector} figcaption`)?.textContent.trim());};
+if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.push('homepage coefficient figure must keep its title, description and caption');
+
+// /job-market: the paper PDF, CV and resume lead the hero; the email address is printed;
+// the paper block states the finding, abstract and version; the label stays as approved.
+{
+ const {document:marketHTML,url:marketURL}=await inlineStylesheets(await readFile(resolve('dist/job-market/index.html'),'utf8'),'job-market/index.html');
+ const marketWindow=new Window({url:marketURL});
+ marketWindow.document.write(marketHTML);
+ const market=marketWindow.document;
+ const marketTitle='Ian Helfrich: 2026–27 economics job market';
+ if(market.querySelector('h1')?.textContent.trim()!==marketTitle||market.title!==marketTitle) failures.push('/job-market h1 and <title> must name Ian and the 2026–27 economics job market');
+ const marketActions=[...market.querySelectorAll('.market-hero .action-row a')].map(link=>link.getAttribute('href'));
+ if(JSON.stringify(marketActions.slice(0,3))!==JSON.stringify(['/research/ian-helfrich-nmtc-working-paper.pdf','/cv/ian-helfrich-cv.pdf','/cv/ian-helfrich-executive-resume.pdf'])) failures.push('/job-market hero actions must begin with the paper PDF, the CV PDF and the resume PDF');
+ if(!market.querySelector('.market-hero .action-email')?.textContent.includes('ianthelfrich@gmail.com')) failures.push('/job-market must print the email address beside Email Ian');
+ if(market.querySelector('.market-position')?.textContent.trim()!=='Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024') failures.push('/job-market hero must state the current position');
+ if(!market.querySelector('.market-hero__margin .market-portrait picture img')) failures.push('/job-market hero aside must show the portrait');
+ if(!coefficientFigureLabelled(market,'.market-hero .market-figure')) failures.push('/job-market must show the coefficient figure with its title, description and caption');
+ if(market.querySelector('.paper-heading .record-label')?.textContent.trim()!=='Primary public working paper · sole author and originator') failures.push('/job-market paper label must stay as approved');
+ if(market.querySelector('.paper-version')?.textContent.trim()!=='Latest version: August 2026') failures.push('/job-market paper block must state the latest version');
+ if(!/^Pooled across intermediaries, rural New Markets Tax Credit projects/.test(market.querySelector('.paper-finding')?.textContent.trim()??'')) failures.push('/job-market paper block must open with the one-sentence finding');
+ const abstractWords=market.querySelector('.paper-account h3 + p')?.textContent.trim().split(/\s+/).length??0;
+ if(!abstractWords||abstractWords>150) failures.push(`/job-market abstract must be present and at most 150 words (found ${abstractWords})`);
+ if(/job market paper/i.test(market.body.textContent)) failures.push('/job-market must not use the Job Market Paper label before it is approved');
+ if([...market.querySelectorAll('.dossier-list aside strong')].some(label=>label.textContent.trim()==='Limit')) failures.push('/job-market dossier list must not repeat each record\'s limit');
+ marketWindow.close();
+}
 
 for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button"]) {
   if (!hasDeclarationContract(noScriptWindow, selector, { "min-width": "44px", "min-height": "44px" })) {

@@ -1,0 +1,26 @@
+---
+// The NMTC rural coefficient, pooled and within the same Community Development
+// Entity, with the within-CDE 95% confidence interval (values in
+// src/data/homepage-studio.mjs, from the working paper). The marks are light on
+// a dark plate. Home styles the plate through `.st-coeff` in
+// homepage-studio.css; other pages pass `plate` to use the styles below.
+// The <title> and <desc> ids are fixed, so a page shows the figure once.
+import { nmtc, coefficientX } from "../data/homepage-studio.mjs";
+
+const { class: className = "st-coeff", plate = false, ...attributes } = Astro.props;
+---
+<figure class:list={[className, { "nmtc-plate": plate }]} {...attributes}><div class="st-figure-head"><span>Rural–urban comparison</span><span>NMTC</span></div><svg viewBox="0 0 550 310" role="img" aria-labelledby="coefficient-title coefficient-desc"><title id="coefficient-title">Pooled and within-intermediary rural coefficients</title><desc id="coefficient-desc">Pooled coefficient minus 0.262. Within-CDE coefficient minus 0.047; 95 percent confidence interval from minus 0.245 to plus 0.152. Descriptive comparisons, not causal effects. No pooled confidence interval is shown.</desc>{[-.3,-.2,-.1,0,.1,.2].map(v=><g><line x1={coefficientX(v)} x2={coefficientX(v)} y1="55" y2="253" stroke={v===0?'#a5a5a5':'#4a4a4a'} stroke-dasharray={v===0?'3 5':undefined}/><text x={coefficientX(v)} y="278" text-anchor="middle">{v===0?'0':v.toFixed(1)}</text></g>)}<text x="55" y="35">Pooled comparison</text><circle cx={coefficientX(nmtc.pooled)} cy="85" r="7" fill="#ccc"/><text x={coefficientX(nmtc.pooled)+16} y="90" class="st-coeff-value">−0.262</text><text x="55" y="144">Within the same intermediary</text><line x1={coefficientX(nmtc.lower)} x2={coefficientX(nmtc.upper)} y1="194" y2="194" stroke="#ddd" stroke-width="3"/>{[nmtc.lower,nmtc.upper].map(v=><line x1={coefficientX(v)} x2={coefficientX(v)} y1="187" y2="201" stroke="#ddd" stroke-width="2"/>)}<circle cx={coefficientX(nmtc.within)} cy="194" r="7" fill="#fff"/><text x={coefficientX(nmtc.within)} y="226" text-anchor="middle" class="st-coeff-value">−0.047</text></svg><figcaption><slot>Within-CDE bar: 95% confidence interval.<br/>Descriptive comparisons; no causal effect is identified.</slot></figcaption></figure>
+
+<style>
+  .nmtc-plate { margin: 0; padding: 1.25rem 0.75rem 1rem; color: var(--p-neutral-85); background: var(--p-neutral-21); }
+  .nmtc-plate .st-figure-head { display: flex; justify-content: space-between; padding: 0 0.75rem 0.9rem; color: var(--p-neutral-81); font: 600 0.68rem/1.4 var(--font-data); letter-spacing: 0.06em; text-transform: uppercase; }
+  .nmtc-plate svg { display: block; width: 100%; height: auto; }
+  .nmtc-plate text { font: 12px var(--font-data); fill: var(--p-neutral-81); }
+  .nmtc-plate .st-coeff-value { fill: var(--p-neutral-93d); font-size: 16px; }
+  .nmtc-plate figcaption { max-width: 62ch; padding: 0.4rem 0.75rem 0; color: var(--p-neutral-85); font-size: 0.86rem; line-height: 1.55; }
+  /* SVG text scales with the figure; enlarge it where the figure is narrow. */
+  @media (max-width: 45rem) {
+    .nmtc-plate text { font-size: 20px; }
+    .nmtc-plate .st-coeff-value { font-size: 24px; }
+  }
+</style>

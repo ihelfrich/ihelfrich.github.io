@@ -18,6 +18,8 @@ import { portrait } from "../data/homepage-studio.mjs";
 
 const {
   title,
+  // A complete <title> for a page whose title already names Ian; skips the site suffix.
+  documentTitle,
   description,
   wide = false,
   image = "/og.png",
@@ -28,7 +30,7 @@ const {
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
+const fullTitle = documentTitle ? documentTitle : title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
 const desc = description ?? "Applied economist, quantitative research designer, and educator in St. Louis.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
