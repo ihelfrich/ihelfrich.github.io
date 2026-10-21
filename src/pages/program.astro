@@ -29,7 +29,7 @@ const records = filterDiscoverableResearch(await getCollection("research"))
             <h2><a href={`/research/${record.id}`}>{record.data.title}</a></h2>
             <p>{record.data.question}</p>
           </div>
-          <aside>
+          <aside role="note">
             <strong>{record.data.role}</strong>
             <p>{record.data.limit}</p>
           </aside>

@@ -27,7 +27,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="ea" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <SiteBar title={title} />
+    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
     <header class="ea-header">
       <a class="ea-brand" href="/econometrics/" aria-label="The Econometric Argument home"><span class="ea-mark" aria-hidden="true">∴</span><span>The Econometric<br /><strong>Argument</strong></span></a>
       <nav aria-label="Course navigation">

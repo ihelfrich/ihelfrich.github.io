@@ -60,7 +60,7 @@ const profile = person.id === "ian-helfrich"
         {relatedResearch.map((entry) => (
           <li>
             <article><p>{entry.data.displayStatus} · {entry.data.year}</p><h3><a href={`/research/${entry.id}`}>{entry.data.title}</a></h3><span>{entry.data.role}</span></article>
-            <aside><strong>Limit</strong><p>{entry.data.limit}</p></aside>
+            <aside role="note"><strong>Limit</strong><p>{entry.data.limit}</p></aside>
           </li>
         ))}
       </ol>
