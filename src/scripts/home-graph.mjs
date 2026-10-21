@@ -13,6 +13,7 @@ export function mountHomeGraph(root) {
   const card = root.querySelector("[data-hg-card]");
   const shockBtn = root.querySelector("[data-hg-shock]");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let lastPointer = "mouse";
   let sim = null, ro = null, disposed = false, selected = null;
 
   const idle = () => {
@@ -46,16 +47,16 @@ export function mountHomeGraph(root) {
       .attr("tabindex", (d) => (SECTIONS.has(d.id) ? 0 : null))
       .attr("role", (d) => (SECTIONS.has(d.id) ? "link" : null))
       .attr("aria-label", (d) => (SECTIONS.has(d.id) ? `${d.label}, ${KIND[d.type]}` : null));
+    node.append("circle").attr("class", "hg-hit").attr("r", 12);
     node.append("path").attr("class", "hg-sh").attr("d", (d) => symD(d));
     node.filter((d) => (d.topics || []).length > 1).append("circle").attr("class", "hg-ring").attr("r", (d) => R(d) + 3.5);
     node.filter((d) => SECTIONS.has(d.id)).append("text").attr("x", (d) => R(d) + 6).attr("y", 4).text((d) => d.label);
 
-    const PR = 38;
-    svg.append("defs").append("clipPath").attr("id", "hg-pc").append("circle").attr("r", PR);
+    const PR = 16;
     const hub = gp.append("g").attr("class", "hg-hub");
-    hub.append("circle").attr("r", PR + 3);
-    hub.append("image").attr("href", root.dataset.portrait).attr("x", -PR).attr("y", -PR).attr("width", PR * 2).attr("height", PR * 2)
-      .attr("clip-path", "url(#hg-pc)").attr("preserveAspectRatio", "xMidYMid slice");
+    hub.append("circle").attr("r", 9);
+    hub.append("circle").attr("class", "hg-hub-ring").attr("r", 15);
+    hub.append("text").attr("y", 31).attr("text-anchor", "middle").text("Home");
 
     const paint = (focus) => {
       const near = focus ? adj.get(focus.id) : null;
@@ -76,8 +77,13 @@ export function mountHomeGraph(root) {
       card.append(kind, title, desc, open);
       shockBtn.disabled = false;
     };
-    node.on("mouseenter focus", (e, d) => show(d)).on("mouseleave blur", () => paint(null))
-      .on("click", (e, d) => { location.href = d.id; })
+    svg.on("pointerdown pointermove", (e) => { lastPointer = e.pointerType || "mouse"; });
+    node.on("mouseenter", (e, d) => { if (lastPointer === "mouse") show(d); }).on("focus", (e, d) => { if (e.currentTarget.matches(":focus-visible")) show(d); })
+      .on("mouseleave blur", () => { if (lastPointer === "mouse") paint(null); })
+      .on("click", (e, d) => {
+        if (lastPointer !== "mouse" && e.detail !== 0 && selected !== d) { show(d); return; }
+        location.href = d.id;
+      })
       .on("keydown", (e, d) => { if (e.key === "Enter") location.href = d.id; });
 
     let W = 0, H = 0, cx = 0, cy = 0, anchors = {}, placed = false;
@@ -122,7 +128,7 @@ export function mountHomeGraph(root) {
         .force("charge", d3.forceManyBody().strength(-22))
         .force("x", d3.forceX((d) => (anchors[d.p] || [cx])[0]).strength(0.16))
         .force("y", d3.forceY((d) => (anchors[d.p] || [0, cy])[1]).strength(0.16))
-        .force("collide", d3.forceCollide((d) => (d === home ? PR + 10 : R(d) + (SECTIONS.has(d.id) ? 14 : 3))))
+        .force("collide", d3.forceCollide((d) => (d === home ? PR + 14 : R(d) + (SECTIONS.has(d.id) ? 14 : 3))))
         .on("tick", tick);
       others.forEach((n, i) => {
         if (n.x == null || !placed) {

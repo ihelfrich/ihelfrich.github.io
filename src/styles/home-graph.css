@@ -29,15 +29,25 @@
 .hg-node:focus-visible .hg-sh { stroke: var(--focus-ring); stroke-width: 3; }
 .hg-node:focus { outline: none; }
 .hg-topic text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
-.hg-hub circle { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }
+.hg-hub circle { fill: var(--ink); }
+.hg-hub .hg-hub-ring { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.hg-hub text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
+.hg-hit { fill: transparent; stroke: none; }
 @media (prefers-reduced-motion: reduce) { .hg-link, .hg-node, .hg-sh { transition: none; } }
 .hg-topics { display: none; order: 3; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.8125rem; color: var(--ink); }
 .hg-topics li { display: flex; align-items: center; gap: 0.35rem; }
 .hg-topics span { width: 0.6rem; height: 0.6rem; border-radius: 50%; }
 @media (max-width: 760px) {
-  .hg { grid-template-columns: 1fr; padding: 3rem 1.25rem; gap: 1rem; }
-  .hg-stage { min-height: 460px; order: 2; }
-  .hg-legend { position: static; order: 3; grid-auto-flow: column; gap: 0.4rem 0.9rem; flex-wrap: wrap; }
+  .hg { grid-template-columns: 1fr; padding: 2.75rem 1.25rem; gap: 0.9rem; }
+  .hg-copy { display: contents; }
+  .hg-copy h2 { order: 1; margin: 0; }
+  .hg-copy p { order: 2; margin: 0; }
+  .hg-stage { order: 3; min-height: 0; aspect-ratio: 1 / 1; width: 100%; margin: 0.25rem 0; }
+  .hg-topics { order: 4; }
+  .hg-card { order: 5; max-width: none; min-height: 0; }
+  .hg-shock { order: 6; margin-top: 0; width: 100%; }
+  .hg-links { order: 7; margin: 0.25rem 0 0; }
+  .hg-legend { position: static; order: 8; flex-wrap: wrap; gap: 0.3rem 0.9rem; }
 }
 @media print { .hg { display: none; } }
 /* On narrow screens section names crowd the topic labels: show a name only for the page in focus. */

@@ -6,10 +6,10 @@ const sections = [
   ["/projects/", "Projects"], ["/datasets/", "Datasets"], ["/writing/", "Writing"], ["/field/", "Full site map"],
 ];
 ---
-<section class="hg" data-surface="map" id="graph" aria-labelledby="hg-title" data-home-graph data-portrait="/people/ian-zoom-portrait-560.webp">
+<section class="hg" data-surface="map" id="graph" aria-labelledby="hg-title" data-home-graph>
   <div class="hg-copy">
     <h2 id="hg-title">How the site connects</h2>
-    <p>Every page on this site, grouped by topic. Each mark is a page and each line is a link. Point at one to see what it connects to, or choose it to open the page.</p>
+    <p>Every page on this site, grouped by topic. Each mark is a page and each line is a link. Point at one, or tap it on a phone, to see what it connects to; choose it again to open the page.</p>
     <ul class="hg-links" aria-label="Main sections">
       {sections.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
     </ul>
