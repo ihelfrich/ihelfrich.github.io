@@ -9,6 +9,7 @@ import "../styles/visitor-experience.css";
 import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
+import Nearby from "../components/Nearby.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { crumbsFor } from "../data/breadcrumbs.mjs";
 import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
@@ -160,6 +161,8 @@ const personSchema = {
   <main id="main-content" class:list={[wide && "wide"]}>
     <slot />
   </main>
+
+  <Nearby pathname={pathname} />
 
   <FieldRail />
 
