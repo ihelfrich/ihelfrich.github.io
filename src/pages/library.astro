@@ -110,7 +110,7 @@ const channels = [
             <p>{item.summary}</p>
             <ul aria-label="Methods and topics">{item.tags.slice(0, 5).map((tag) => <li>{tag}</li>)}</ul>
           </article>
-          <aside>
+          <aside role="note">
             <strong>{item.detail}</strong>
             <a href={item.href}>Open record</a>
             {item.artifact && <a href={item.artifact} target="_blank" rel="noopener">Public artifact</a>}

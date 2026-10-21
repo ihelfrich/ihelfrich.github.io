@@ -32,7 +32,7 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
         <a class="fieldbook-action fieldbook-action--quiet" href="/book#job-market">Book a meeting</a>
       </div>
     </div>
-    <aside class="market-hero__margin">
+    <aside role="note" class="market-hero__margin">
       <p class="record-label">Current status</p>
       <strong>{availabilityRecord.status}</strong>
       <dl>
@@ -51,7 +51,7 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
           <h2>The rural mobilization gap in a U.S. place-based tax credit</h2>
           <p class="paper-question">Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?</p>
         </div>
-        <aside>
+        <aside role="note">
           <dl>
             <div><dt>Sample</dt><dd>19,907 transactions · 8,024 projects</dd></div>
             <div><dt>Raw coefficient</dt><dd>−0.262</dd></div>
@@ -90,7 +90,7 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
             <h3><a href={`/research/${record.id}`}>{record.data.title}</a></h3>
             <p>{record.data.question}</p>
           </div>
-          <aside>
+          <aside role="note">
             <p><strong>Role</strong>{record.data.role}</p>
             <p><strong>Limit</strong>{record.data.limit}</p>
           </aside>

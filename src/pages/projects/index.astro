@@ -30,7 +30,7 @@ const statusCopy = { live: "Live public record", "in-progress": "In progress", p
             <p>{project.data.blurb}</p>
             <ul aria-label="Topics">{project.data.tags.map((tag) => <li>{tag}</li>)}</ul>
           </article>
-          <aside><a href={`/projects/${project.id}`}>Open project record</a>{project.data.repo && <span>Repository linked in record</span>}</aside>
+          <aside role="note"><a href={`/projects/${project.id}`}>Open project record</a>{project.data.repo && <span>Repository linked in record</span>}</aside>
         </li>
       ))}
     </ol>

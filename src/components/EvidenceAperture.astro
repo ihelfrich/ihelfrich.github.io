@@ -61,7 +61,7 @@ const captionId = `${id}-caption`;
 
   {liveRegionId && <p id={liveRegionId} class="evidence-aperture__live" aria-live="polite" aria-atomic="true"></p>}
 
-  <aside class="evidence-aperture__margin" aria-label="Evidence record">
+  <aside role="region" class="evidence-aperture__margin" aria-label="Evidence record">
     <dl>
       <div><dt>Status</dt><dd>{status}</dd></div>
       <div><dt>Method</dt><dd>{methods.join(" · ")}</dd></div>
