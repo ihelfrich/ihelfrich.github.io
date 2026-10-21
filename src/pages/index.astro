@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import ResearchContinuum from '../components/ResearchContinuum.astro';
 import HomepageInstruments from '../components/HomepageInstruments.astro';
 import VisitorPath from '../components/VisitorPath.astro';
+import HomeGraph from '../components/HomeGraph.astro';
 import TechnicalProjects from '../components/TechnicalProjects.astro';
 import '../styles/homepage-studio.css';
 import {identityRecord,publicLinks,tutoringRecord} from '../data/public-record.mjs';
@@ -22,6 +23,7 @@ const titles=['The rural mobilization gap.','Where economic activity happens.','
   </div>
 
  </section>
+ <HomeGraph/>
  <nav class="st-experience-nav" aria-label="Homepage experiences"><a href="#practice">Start here</a><a href="#selected-work">Selected work</a><a href="#instruments">Interactive lab</a><a href="#inquiry">Get in touch</a></nav>
  <section id="practice" class="st-path-section st-section"><VisitorPath/><p class="st-supporting">{tutoringRecord.wyzant.hoursDisplay} platform-recorded Wyzant teaching hours as of {tutoringRecord.wyzant.asOf}. <a href="/teaching">Teaching experience and source record</a>.</p></section>
  <section id="selected-work" class="st-work st-section" data-projects>

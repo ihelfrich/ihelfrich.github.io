@@ -1,0 +1,36 @@
+---
+import "../styles/home-graph.css";
+const sections = [
+  ["/research/", "Research"], ["/teaching/", "Teaching"], ["/lab/", "Lab"], ["/work/", "Work"],
+  ["/projects/", "Projects"], ["/datasets/", "Datasets"], ["/writing/", "Writing"], ["/field/", "Full site map"],
+];
+---
+<section class="hg" data-surface="map" id="graph" aria-labelledby="hg-title" data-home-graph data-portrait="/people/ian-zoom-portrait-560.webp">
+  <div class="hg-copy">
+    <h2 id="hg-title">How the site connects</h2>
+    <p>Every page on this site, grouped by topic. Each mark is a page and each line is a link. Point at one to see what it connects to, or choose it to open the page.</p>
+    <ul class="hg-links" aria-label="Main sections">
+      {sections.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+    </ul>
+    <div class="hg-card" data-hg-card aria-live="polite"><strong>Nothing selected</strong><span>The larger ringed dots are the main sections.</span></div>
+    <button type="button" class="hg-shock" data-hg-shock>Send a shock from the selected page</button>
+  </div>
+  <div class="hg-stage"><svg data-hg-svg role="group" aria-label="Network of site pages. The list of sections beside it has the same destinations."></svg></div>
+  <ul class="hg-legend" aria-hidden="true">
+    <li><svg viewBox="-7 -7 14 14"><rect x="-4.5" y="-4.5" width="9" height="9"/></svg>Paper</li>
+    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L1.8-1.9 6-1.9 2.6.9 3.8 5.4 0 2.7-3.8 5.4-2.6.9-6-1.9-1.8-1.9z"/></svg>Instrument</li>
+    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L5 4.5-5 4.5z"/></svg>Course</li>
+    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L5 0 0 6-5 0z"/></svg>Dataset</li>
+    <li><svg viewBox="-7 -7 14 14"><circle r="4.5"/></svg>Page</li>
+  </ul>
+</section>
+<script>
+  import { mountHomeGraph } from "../scripts/home-graph.mjs";
+  const root = document.querySelector("[data-home-graph]");
+  if (root) {
+    let dispose = null;
+    const start = () => { dispose = mountHomeGraph(root); };
+    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+    window.addEventListener("pagehide", () => dispose && dispose());
+  }
+</script>

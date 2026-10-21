@@ -1,0 +1,39 @@
+/* Home page network. Colors come from palette tokens; dot color encodes page type. */
+.hg { position: relative; display: grid; grid-template-columns: minmax(18rem, 26rem) 1fr; gap: 2rem; max-width: 1440px; margin: 0 auto; padding: 4.5rem 5%; align-items: start; border-top: 1px solid var(--rule); }
+.hg-copy h2 { font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 1rem; }
+.hg-copy p { color: var(--ink-muted); max-width: 26rem; margin: 0 0 1rem; }
+.hg-links { list-style: none; margin: 0 0 1.25rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1rem; font-size: 0.9375rem; }
+.hg-links a { display: inline-flex; min-height: 44px; align-items: center; text-underline-offset: 0.2em; }
+.hg-card { border: 1px solid var(--rule); border-radius: 8px; padding: 0.85rem 1rem; min-height: 6.2rem; background: var(--surface-raised); font-size: 0.9rem; line-height: 1.45; max-width: 26rem; }
+.hg-card strong { display: block; font-weight: 620; margin-bottom: 0.2rem; }
+.hg-card span { display: block; color: var(--ink-muted); }
+.hg-card a { display: inline-block; margin-top: 0.4rem; font-weight: 600; min-height: 24px; }
+.hg-shock { margin-top: 1rem; min-height: 44px; padding: 0.4rem 0.9rem; background: transparent; color: var(--ink); border: 1px solid var(--ink); border-radius: 6px; font: inherit; font-size: 0.875rem; cursor: pointer; }
+.hg-shock:hover { background: var(--ink); color: var(--surface-raised); }
+.hg-shock[disabled] { opacity: 0.45; cursor: default; }
+.hg-stage { position: relative; min-height: min(70vh, 640px); }
+.hg-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
+.hg-legend { position: absolute; right: 5%; bottom: 1.25rem; list-style: none; margin: 0; padding: 0; display: flex; gap: 0.9rem; font-size: 0.75rem; color: var(--ink-muted); }
+.hg-legend li { display: flex; align-items: center; gap: 0.35rem; }
+.hg-legend svg { width: 0.8rem; height: 0.8rem; fill: var(--ink); }
+.hg-card small { display: block; font-size: 0.75rem; color: var(--ink-muted); margin-bottom: 0.15rem; }
+.hg-link { stroke: var(--ink); stroke-opacity: 0.09; stroke-width: 0.8; transition: stroke-opacity 0.25s; }
+.hg-link.on { stroke-opacity: 0.7; stroke-width: 1.2; }
+.hg-link.dim { stroke-opacity: 0.03; }
+.hg-node { cursor: pointer; transition: opacity 0.3s; }
+.hg-node.dim { opacity: 0.18; }
+.hg-sh { fill: var(--ink); stroke: var(--surface); stroke-width: 1.2; transition: fill 0.3s; }
+.hg-node.sel .hg-sh { stroke: var(--ink); stroke-width: 1.6; }
+.hg-ring { fill: none; stroke: var(--rule-strong); stroke-width: 1.4; }
+.hg-node text { font-size: 11.5px; font-weight: 560; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; pointer-events: none; }
+.hg-node:focus-visible .hg-sh { stroke: var(--focus-ring); stroke-width: 3; }
+.hg-node:focus { outline: none; }
+.hg-topic text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
+.hg-hub circle { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }
+@media (prefers-reduced-motion: reduce) { .hg-link, .hg-node, .hg-sh { transition: none; } }
+@media (max-width: 760px) {
+  .hg { grid-template-columns: 1fr; padding: 3rem 1.25rem; gap: 1rem; }
+  .hg-stage { min-height: 460px; order: 2; }
+  .hg-legend { position: static; order: 3; grid-auto-flow: column; gap: 0.4rem 0.9rem; flex-wrap: wrap; }
+}
+@media print { .hg { display: none; } }
