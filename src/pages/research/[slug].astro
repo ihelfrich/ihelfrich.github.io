@@ -149,9 +149,15 @@ const bibtex = bibtexFor(paper, recordUrl);
   .cite-actions button:hover { color: var(--ef-figure); background: var(--ef-ink); }
   .cite-actions button[hidden] { display: none; }
   .evidence-block { margin-block: clamp(2rem, 6vw, 5rem); }
+  /* The shared aperture shell pads only its figure and margin; inside the bordered frame the question, controls and table need the same inset. */
+  .evidence-block :global(.evidence-aperture__header) { padding: var(--ef-space-5) var(--ef-space-5) 0; }
+  .evidence-block :global(.evidence-aperture__controls) { padding: 0 var(--ef-space-5); }
+  .evidence-block :global(.evidence-aperture__result) { padding: 0 var(--ef-space-5) var(--ef-space-5); }
   .methods-record { margin-block: clamp(3rem, 7vw, 6rem); border-block: 1px solid var(--ef-ink); }
   .methods-record summary { min-height: 56px; padding-block: 1rem; cursor: pointer; font: 650 .76rem/1.4 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
-  .record-body { max-width: 70ch; padding-block: 1rem 3rem; }
+  /* The global .record-body indents its children by up to 22rem above 820px; inside this 70ch panel that pushed the notes past its right edge. */
+  .record-body { box-sizing: content-box; max-width: 70ch; padding-block: 1rem 3rem; }
+  .record-body > :global(*) { margin-left: 0; }
   .record-body :global(h2) { margin-top: 2.5rem; font-size: clamp(1.9rem, 4vw, 3rem); }
   .record-body :global(h3) { margin-top: 2rem; font-size: 1.55rem; }
   .research-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }

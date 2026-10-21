@@ -606,7 +606,42 @@ if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.pus
  if(!abstractWords||abstractWords>150) failures.push(`/job-market abstract must be present and at most 150 words (found ${abstractWords})`);
  if(/job market paper/i.test(market.body.textContent)) failures.push('/job-market must not use the Job Market Paper label before it is approved');
  if([...market.querySelectorAll('.dossier-list aside strong')].some(label=>label.textContent.trim()==='Limit')) failures.push('/job-market dossier list must not repeat each record\'s limit');
+ if(!market.querySelector('.market-hero .record-label')?.textContent.includes('2026–27')) failures.push('/job-market kicker must write the cycle as 2026–27, matching the h1');
  marketWindow.close();
+}
+
+// Deploy-1 QA regressions: layout faults found in the browser at 375 and 1440 px.
+const pxAtLeast=(value,minimum)=>Number.parseFloat(value??'')>=minimum;
+{
+ // The 44px Pause motion control sat over the portrait on phones; the stage must leave it a row below the photo.
+ const stage=noScriptWindow.document.querySelector('.st-portrait-stage');
+ if(!stage||!pxAtLeast(cascadedPropertiesAtWidth(noScriptWindow,stage,375,['padding-bottom'])['padding-bottom'],44)) failures.push('375px homepage portrait stage must leave at least 44px below the portrait for the Pause motion control');
+ const windowFor=async route=>{
+  const {document:html,url}=await inlineStylesheets(await readFile(resolve(`dist/${route}/index.html`),'utf8'),`${route}/index.html`);
+  const routeWindow=new Window({url});
+  routeWindow.document.write(html);
+  routeWindow.inlinedHTML=html;
+  return routeWindow;
+ };
+ // Above 820px the global .record-body indent (clamp(0rem,21vw,22rem), which happy-dom cannot evaluate)
+ // pushed the NMTC notes past their 70ch panel, so the template must reset it with a scoped rule. The
+ // bordered evidence frame also had no inset around its question and table.
+ const recordWindow=await windowFor('research/helfrich-2026-nmtc-rural-gap');
+ if(!recordWindow.document.querySelector('.methods-record .record-body > p')||!/\.record-body\[data-astro-cid-[\w-]+\]>\*\{[^}]*margin-left:0[;}]/.test(recordWindow.inlinedHTML)) failures.push('NMTC record notes must reset the global .record-body indent inside their 70ch panel');
+ for(const selector of ['.evidence-block .evidence-aperture__header','.evidence-block .evidence-aperture__result']) {
+  const element=recordWindow.document.querySelector(selector);
+  if(!element||cascadedPropertiesAtWidth(recordWindow,element,1440,['padding-left'])['padding-left']!=='var(--ef-space-5)') failures.push(`${selector} must be inset from the evidence frame on the NMTC record`);
+ }
+ recordWindow.close();
+ // Compressed HTML removes the whitespace between sibling links on /teaching, so the CSS must space them.
+ const teachingWindow=await windowFor('teaching');
+ const registerLink=teachingWindow.document.querySelector('.system-register article > a');
+ const registerGap=registerLink&&cascadedPropertiesAtWidth(teachingWindow,registerLink,1440,['margin-right'])['margin-right'];
+ if(!registerLink||!pxAtLeast(registerGap,0.5)) failures.push(`/teaching register links must be spaced apart (margin-right ${registerGap})`);
+ const courseActions=teachingWindow.document.querySelector('.course-feature .action-row');
+ const courseLayout=courseActions&&cascadedPropertiesAtWidth(teachingWindow,courseActions,1440,['display','gap']);
+ if(!courseActions||courseLayout.display!=='flex'||!courseLayout.gap) failures.push('/teaching course links must be laid out with a gap');
+ teachingWindow.close();
 }
 
 for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button", ".primary-nav .nav-book", ".has-js .header-contact"]) {

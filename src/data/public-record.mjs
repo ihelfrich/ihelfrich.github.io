@@ -70,7 +70,7 @@ export const serviceRecord = Object.freeze({
 });
 
 export const availabilityRecord = Object.freeze({
-  cycle: "2026-27 economics job market",
+  cycle: "2026–27 economics job market",
   status: "Available for academic and industry roles, research collaborations, teaching, and select advisory work",
   asOf: "August 2026",
   evidenceLabel: "Current availability statement",

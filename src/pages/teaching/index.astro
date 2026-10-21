@@ -283,6 +283,8 @@ const subjectFamilies = [
   .system-register article:nth-child(even) { border-left: 1px solid var(--ef-ink); }
   .system-register article:nth-last-child(-n+2) { border-bottom: 0; }
   .system-register h3 { margin-top: 0; font-size: 1.45rem; }
+  /* Compressed HTML drops the whitespace between sibling links, so each needs its own spacing. */
+  .system-register article > a { display: inline-block; margin-right: 1.25rem; }
   .teaching-close { padding-block: var(--ef-space-7); border-top: 1px solid var(--ef-ink); }
   .teaching-close > div:first-child { grid-column: 2 / span 7; }
   .teaching-close > div:last-child { grid-column: 9 / span 3; }

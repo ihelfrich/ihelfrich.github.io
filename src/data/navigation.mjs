@@ -14,7 +14,7 @@ const freezeAll = (items) => Object.freeze(items.map((item) => Object.freeze(ite
  * ASSA (January 2027); whether it becomes "Consulting" is Dr. Helfrich's decision.
  */
 export const PRIMARY = freezeAll([
-  { label: "Job market", href: "/job-market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability", start: true },
+  { label: "Job market", href: "/job-market", detail: "Candidate page for the 2026–27 economics job market: fields, paper, availability", start: true },
   { label: "Research", href: "/research", detail: "Papers, programs, methods, data, and current questions", start: true },
   { label: "Teaching", href: "/teaching", detail: "University teaching, online instruction, independent tutoring, and quantitative research-design coaching", start: true },
   { label: "Work", href: "/work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", start: true },

@@ -86,7 +86,8 @@ body.fieldbook-about .route-band{background:var(--p-neutral-98)}
  body.studio-home .st-hero-copy{order:0;width:100%}
  body.studio-home .st-hero-copy h2{font-size:clamp(32px,8.7vw,52px);line-height:1.14}
  body.studio-home .st-hero-copy>p:last-of-type{font-size:16px;line-height:1.7}
- body.studio-home .st-portrait-stage{order:1;max-width:330px;margin:0 auto}
+ /* The bottom padding gives the 44px Pause motion control its own row below the portrait instead of over the photo. */
+ body.studio-home .st-portrait-stage{order:1;max-width:330px;margin:0 auto;padding-bottom:48px}
  body.studio-home .st-hero-actions .st-button{font-size:13px}
  .visitor-path-heading,.visitor-next,.visitor-compose{grid-template-columns:1fr;gap:20px}
  .visitor-choices{grid-template-columns:1fr;gap:9px}
