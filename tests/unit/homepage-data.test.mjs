@@ -18,10 +18,16 @@ test('coefficient figure shares one affine scale and interval contains zero',()=
  assert.ok(coefficientX(0)<coefficientX(nmtc.upper));
  assert.ok(Math.abs((coefficientX(.1)-coefficientX(0))-(coefficientX(0)-coefficientX(-.1)))<1e-10);
 });
-test('approved Zoom portrait remains byte-exact',async()=>{
- assert.equal(portrait.src,'/people/ian-zoom-portrait.png');
- const bytes=await readFile(new URL('../../public'+portrait.src,import.meta.url));
+test('approved Zoom portrait source remains byte-exact',async()=>{
+ assert.equal(portrait.source,'src/assets/people/ian-zoom-portrait.png');
+ const bytes=await readFile(new URL('../../'+portrait.source,import.meta.url));
  assert.equal(createHash('sha256').update(bytes).digest('hex'),'dffeed2c90ebb7e4684c42c9e4395b7c1627af0d8aa5d1e0ccc7436a0740fe4e');
+});
+test('portrait share image is a JPEG under 300 KB',async()=>{
+ assert.equal(portrait.share,'/people/ian-zoom-portrait.jpg');
+ const bytes=await readFile(new URL('../../public'+portrait.share,import.meta.url));
+ assert.deepEqual([...bytes.subarray(0,3)],[0xff,0xd8,0xff]);
+ assert.ok(bytes.length<300_000,`${bytes.length} bytes`);
 });
 test('line field stays finite and within its declared vertical bounds over time',()=>{
  for(const t of [0,1,10,1000,1e6])for(let i=0;i<=100;i++)for(let j=0;j<=41;j++){

@@ -556,8 +556,27 @@ else {
  if(!layout["font-family"]?.includes("Space Grotesk")) failures.push("homepage masthead must use the approved Space Grotesk treatment");
  if(layout["font-size"]!=="17.3vw"||layout["overflow-wrap"]!=="normal"||layout["word-break"]!=="normal") failures.push("320px studio masthead must scale without breaking the name");
 }
-const portrait=noScriptWindow.document.querySelector('.st-portrait img');
-if(portrait?.getAttribute('src')!=='/people/ian-zoom-portrait.png') failures.push('homepage must retain the verified Zoom portrait');
+// The verified Zoom portrait is served through astro:assets: AVIF and WebP sources at
+// 320, 640 and 960 px, a JPEG fallback, and intrinsic width and height.
+const portrait=noScriptWindow.document.querySelector('.st-portrait picture img');
+if(!/^\/_astro\/ian-zoom-portrait\.[^/]+\.jpg$/.test(portrait?.getAttribute('src')??'')||portrait.getAttribute('width')!=='1024'||portrait.getAttribute('height')!=='1024'||!portrait.getAttribute('sizes')) failures.push('homepage must serve the verified Zoom portrait through astro:assets with width, height and sizes');
+for(const type of ['image/avif','image/webp']) {
+ const srcset=noScriptWindow.document.querySelector(`.st-portrait picture source[type="${type}"]`)?.getAttribute('srcset')??'';
+ if(!['320w','640w','960w'].every(width=>srcset.includes(width))) failures.push(`homepage portrait lacks a 320/640/960 ${type} source`);
+}
+const shareImage=noScriptWindow.document.querySelector('meta[property="og:image"]')?.getAttribute('content')??'';
+if(!shareImage.endsWith('/people/ian-zoom-portrait.jpg')) failures.push('homepage og:image must be the portrait JPEG');
+if(!String(personJSON?.image).endsWith('/people/ian-zoom-portrait.jpg')) failures.push('Person schema image must be the portrait JPEG');
+for(const route of ['index.html','about/index.html','teaching/index.html','book/index.html']) {
+ const html=await readFile(resolve('dist',route),'utf8');
+ if(html.includes('/people/ian-zoom-portrait.png')) failures.push(`${route} still loads the 1.5 MB portrait PNG`);
+ if(!/<picture[^>]*>[\s\S]*?ian-zoom-portrait\.[^"]+\.avif/.test(html)) failures.push(`${route} must show the responsive portrait`);
+}
+// First screen: the candidacy, then the paper, the CV and the candidate page, in that order.
+const heroStatus=noScriptWindow.document.querySelector('.st-hero-copy h2')?.textContent.trim();
+if(heroStatus!=='Applied economist on the 2026–27 economics job market') failures.push('homepage hero must state the job-market status');
+const heroActions=[...noScriptWindow.document.querySelectorAll('.st-hero-actions a')].map(link=>link.getAttribute('href'));
+if(JSON.stringify(heroActions.slice(0,3))!==JSON.stringify(['/research/ian-helfrich-nmtc-working-paper.pdf','/cv/ian-helfrich-cv.pdf','/job-market'])) failures.push('homepage hero actions must be the paper PDF, the CV PDF and the candidate page');
 for(const target of ['/econometrics/','/econometrics/lab/','/learn/policy-statistics/','/library','/job-market']) {
  if(!noScriptWindow.document.querySelector(`a[href="${target}"]`)) failures.push(`homepage is missing useful destination ${target}`);
 }

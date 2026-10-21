@@ -26,6 +26,21 @@ test('built homepage retains no-JS content and enhances keyboard and motion cont
  dispose();assert.equal(frames.size,0);await w.happyDOM.abort();
 });
 
+test('home leads with the candidacy, the paper and the CV, then selected work before the site network',async()=>{
+ const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
+ assert.equal(d.querySelector('.st-hero-copy h2').textContent.trim(),'Applied economist on the 2026–27 economics job market');
+ assert.equal(d.querySelector('.st-position').textContent.trim(),'Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024');
+ assert.deepEqual([...d.querySelectorAll('.st-hero-actions a')].map(a=>[a.textContent.trim(),a.getAttribute('href')]),[['Working paper (PDF)','/research/ian-helfrich-nmtc-working-paper.pdf'],['CV (PDF)','/cv/ian-helfrich-cv.pdf'],['Candidate page','/job-market']]);
+ assert.ok(d.querySelector('.st-intro .st-portrait picture img'),'portrait stays in the hero');
+ assert.equal(d.querySelector('[data-home-graph] img'),null,'network diagram carries no portrait');
+ const order=['selected-work','graph','practice','technical-projects','explore','inquiry'].map(id=>d.getElementById(id));
+ for(let i=1;i<order.length;i++)assert.ok(order[i-1].compareDocumentPosition(order[i])&w.Node.DOCUMENT_POSITION_FOLLOWING,`${order[i-1].id} precedes ${order[i].id}`);
+ assert.ok(d.querySelector('.st-intro').compareDocumentPosition(order[0])&w.Node.DOCUMENT_POSITION_FOLLOWING);
+ const targets=[...d.querySelectorAll('.st-experience-nav a')].map(a=>d.getElementById(a.hash.slice(1)));
+ for(let i=1;i<targets.length;i++)assert.ok(targets[i-1].compareDocumentPosition(targets[i])&w.Node.DOCUMENT_POSITION_FOLLOWING,'section navigation follows page order');
+ await w.happyDOM.abort();
+});
+
 test('fluid portrait and section navigation reset correctly on preference changes and disposal',async()=>{
  const {mountFluidSurface}=await import('../../src/scripts/homepage-fluid.mjs');
  const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;

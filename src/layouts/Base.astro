@@ -14,6 +14,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { crumbsFor } from "../data/breadcrumbs.mjs";
 import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
 import { THEME_COLOR } from "../data/theme.mjs";
+import { portrait } from "../data/homepage-studio.mjs";
 
 const {
   title,
@@ -31,7 +32,7 @@ const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`
 const desc = description ?? "Applied economist, quantitative research designer, and educator in St. Louis.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
-const personImage = new URL("/people/ian-zoom-portrait.png", Astro.site ?? Astro.url.origin);
+const personImage = new URL(portrait.share, Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
 const year = new Date().getFullYear();

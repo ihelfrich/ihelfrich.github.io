@@ -9,7 +9,7 @@ const sections = [
 <section class="hg" data-surface="map" id="graph" aria-labelledby="hg-title" data-home-graph>
   <div class="hg-copy">
     <h2 id="hg-title">How the site connects</h2>
-    <p>Every page on this site, grouped by topic. Each mark is a page and each line is a link. Point at one, or tap it on a phone, to see what it connects to; choose it again to open the page.</p>
+    <p>Each mark is a page on this site, grouped by topic, and each line is a link between two pages.</p>
     <ul class="hg-links" aria-label="Main sections">
       {sections.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
     </ul>

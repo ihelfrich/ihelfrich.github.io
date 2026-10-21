@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import "../../styles/teaching-studio.css";
 import CourseFeature from "../../components/econometrics/CourseFeature.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
+import Portrait from "../../components/Portrait.astro";
 import { picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
 const institutions = [
@@ -56,9 +57,14 @@ const subjectFamilies = [
       <p>I teach economics, statistics, econometrics, programming, and research design. My work ranges from foundational instruction to advising doctoral researchers and executives on empirical design, analysis, and communication.</p>
       <div class="teaching-entry-actions"><a href="/economics-practice/">Economics practice <span aria-hidden="true">↗</span></a><a href="/econometrics/">Open the course <span aria-hidden="true">↗</span></a><a href="/teaching/distributions/">Distribution Lab <span aria-hidden="true">↗</span></a><a href="/macroeconomics/">Macroeconomics lab <span aria-hidden="true">↗</span></a><a href="/calculus/">Calculus in motion <span aria-hidden="true">↗</span></a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a><a href="/book#tutoring-intro">Book a tutoring call <span aria-hidden="true">→</span></a></div>
     </div>
-    <aside role="note" class="teaching-hero__margin">
-      <p>I have taught in university classrooms, supported Duke's Global Executive MBA program, led online courses, and worked through Wyzant and a separate private practice. </p>
-    </aside>
+    <div class="teaching-hero__side">
+      <figure class="teaching-portrait">
+        <Portrait sizes="(max-width: 45rem) 12rem, 20vw" loading="eager" />
+      </figure>
+      <aside role="note" class="teaching-hero__margin">
+        <p>I have taught in university classrooms, supported Duke's Global Executive MBA program, led online courses, and worked through Wyzant and a separate private practice. </p>
+      </aside>
+    </div>
   </section>
 
   <nav class="page-guide route-shell" aria-label="Teaching page guide"><span>On this page</span><a href="#course-start">Open course</a><a href="#teaching-relay">Try a demonstration</a><a href="#coaching">Coaching</a><a href="#teaching-record">Teaching record</a></nav>
@@ -238,6 +244,10 @@ const subjectFamilies = [
   .teaching-hero__copy h1 { max-width: 9ch; }
   .teaching-hero__copy > p:last-child { max-width: 64ch; font-size: 1.25rem; }
   .teaching-hero__margin { grid-column: 9 / span 3; padding-top: 0.8rem; border-top: 2px solid var(--ef-signal); }
+  .teaching-hero__side { display: flex; grid-column: 10 / span 3; flex-direction: column; gap: var(--ef-space-5); }
+  .teaching-portrait { margin: 0; overflow: hidden; border-radius: 18px 18px 70px 18px; }
+  .teaching-portrait :global(picture) { display: block; }
+  .teaching-portrait :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
   .section-intro { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); gap: var(--ef-space-6); align-items: end; }
   .section-intro h2 { margin: 0; }
   .section-intro > p { margin: 0; }
@@ -295,6 +305,8 @@ const subjectFamilies = [
     .route-grid { display: block; }
     .teaching-hero { min-height: auto; padding-block: var(--ef-space-7); }
     .teaching-hero__margin { margin-top: var(--ef-space-5); }
+    .teaching-hero__side { display: block; margin-top: var(--ef-space-5); }
+    .teaching-portrait { max-width: 12rem; }
     .route-shell { padding-block: var(--ef-space-6); }
     .hours-pair,
     .recognition-pair,
