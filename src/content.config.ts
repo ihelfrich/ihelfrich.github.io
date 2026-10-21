@@ -42,6 +42,17 @@ const research = defineCollection({
     ssrn: z.string().optional(),
     repo: z.string().optional(),
     abstract: z.string(),
+    // Meta description for the record page; the full abstract is too long for one.
+    summary: z.string().min(1).max(155).optional(),
+    // Bibliographic form for the record's Cite section. `scholar: true` also emits Google
+    // Scholar citation_* tags, except for records in SCHOLAR_WITHHELD
+    // (src/data/research-citation.mjs).
+    citation: z.object({
+      type: z.enum(['misc', 'phdthesis']),
+      note: z.string().min(1).optional(),
+      school: z.string().min(1).optional(),
+      scholar: z.boolean().default(false),
+    }).optional(),
     question: z.string().min(1).refine(
       (value) => (value.match(/[.!?]+(?=\s|$)/g)?.length ?? 0) <= 2,
       "Research questions must use no more than two sentences",
@@ -68,6 +79,20 @@ const research = defineCollection({
         code: 'custom',
         path: ['distinctiveQuery'],
         message: 'Withheld research must provide a distinctive Pagefind regression query',
+      });
+    }
+    if (data.discovery !== 'withheld' && !data.summary) {
+      context.addIssue({
+        code: 'custom',
+        path: ['summary'],
+        message: 'Discoverable research needs a summary of at most 155 characters for its meta description',
+      });
+    }
+    if (data.citation?.type === 'phdthesis' && !data.citation.school) {
+      context.addIssue({
+        code: 'custom',
+        path: ['citation', 'school'],
+        message: 'A dissertation citation must name the degree-granting school',
       });
     }
   }),

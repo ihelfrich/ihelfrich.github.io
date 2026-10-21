@@ -5,6 +5,7 @@ import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-projects.mjs";
 import { navRoutes, REDIRECTS } from "../src/data/navigation.mjs";
+import { SCHOLAR_WITHHELD } from "../src/data/research-citation.mjs";
 
 const root = path.resolve("dist");
 
@@ -136,6 +137,14 @@ for (const [surface, source] of [
   ["NMTC project", nmtcProjectDetail],
   ["NMTC dataset", nmtcDatasetDetail],
 ]) assert.ok(!source.includes(deadNmtcViewer), `${surface} must not link the dead hosted NMTC viewer`);
+// Scholar's record of authorship is hard to correct once crawled, so the NMTC record carries
+// no citation_* tags until plan item A-01 is settled; the records that opt in must carry them.
+assert.doesNotMatch(nmtcResearchDetail, /<meta name="citation_/, "the NMTC research record must not emit Google Scholar citation_* tags");
+for (const record of researchRecords.filter(({ id, discovery, citation }) => citation?.scholar && discovery !== "withheld" && !SCHOLAR_WITHHELD.includes(id))) {
+  const detail = await readFile(path.join(root, "research", record.id, "index.html"), "utf8");
+  assert.match(detail, /<meta name="citation_title" content="[^"]+">/, `/research/${record.id}/ must emit citation_title`);
+  assert.match(detail, /<meta name="citation_abstract_html_url" content="https:\/\/[^"]+">/, `/research/${record.id}/ must emit an absolute citation_abstract_html_url`);
+}
 assert.ok(nmtcResearchDetail.includes('data-pagefind-weight="10"'), "the flagship NMTC detail must give its subject metadata strong Pagefind weight");
 assert.ok(nmtcResearchDetail.includes('data-pagefind-meta="title:New Markets Tax Credit (NMTC):'), "the flagship NMTC detail must add the acronym to its Pagefind title metadata");
 assert.ok(nmtcResearchDetail.includes("New Markets Tax Credit (NMTC)"), "the flagship NMTC detail must spell out and expose the searchable acronym");

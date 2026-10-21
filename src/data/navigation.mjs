@@ -50,11 +50,13 @@ export const SECONDARY_PAGES = freezeAll([
   { label: "Asheville spatial investment scenario", href: "/spatial-economics", detail: "Conditional 3D scenario of incentive offers, additional jobs, and road-network job access in Asheville, NC" },
 ]);
 
-/** External profiles rendered in the footer. */
+/** External profiles rendered in the footer; the external ones are also the Person schema's sameAs. */
 export const CONNECT = freezeAll([
   { label: "Email", href: "mailto:ianthelfrich@gmail.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ian-helfrich", external: true },
   { label: "GitHub", href: "https://github.com/ihelfrich", external: true },
+  { label: "ORCID", href: "https://orcid.org/0000-0002-4105-1635", external: true },
+  // TODO(Dr. Helfrich): add Google Scholar, SSRN author and RePEc profile URLs here if they exist.
 ]);
 
 /** Command-K "Go" records: contact first, then navigation groups, then secondary pages. */
@@ -73,6 +75,8 @@ export const REDIRECTS = Object.freeze({
   "/start": "/contact",
   "/work-with-me": "/contact",
   "/capabilities": "/work",
+  // The research list lives on /research alone.
+  "/program": "/research",
 });
 
 /** Indexable pages that are reached from content rather than from the navigation. */
@@ -81,7 +85,6 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/colophon/",
   "/third-space/",
   "/people/",
-  "/program/",
   "/gis/",
   "/now/",
   "/reading/",

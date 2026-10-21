@@ -21,10 +21,9 @@ const aboutPath = "src/pages/about.astro";
 const cvPath = "src/pages/cv.astro";
 const contactPath = "src/pages/contact.astro";
 const jobMarketPath = "src/pages/job-market.astro";
-const programPath = "src/pages/program.astro";
 const navigationPath = "src/data/navigation.mjs";
 
-const [base, home, work, research, teaching, about, cv, contact, jobMarket, program] = await Promise.all([
+const [base, home, work, research, teaching, about, cv, contact, jobMarket] = await Promise.all([
   read(basePath),
   read(homePath),
   read(workPath),
@@ -34,7 +33,6 @@ const [base, home, work, research, teaching, about, cv, contact, jobMarket, prog
   read(cvPath),
   read(contactPath),
   read(jobMarketPath),
-  read(programPath),
 ]);
 
 // The shell renders its links from navigation.mjs, so the contract is checked there.
@@ -109,15 +107,13 @@ requireText(cv, cvPath, "tutoringRecord", "canonical tutoring evidence");
 requireText(cv, cvPath, "/job-market", "the contextual academic job-market link");
 requireText(contact, contactPath, "/cv#contact", "the canonical CV and contact destination");
 requireText(jobMarket, jobMarketPath, "research-discovery", "the canonical research discovery rules");
-forbidText(program, programPath, "helfrich-2026-aroe", "the withheld AROE route");
-forbidText(program, programPath, "Adaptive-regularization observation equilibria", "the withheld AROE title");
 
 // Retired funnels are redirects, not pages: no page file may shadow a redirect.
 for (const [from, to] of Object.entries(REDIRECTS)) {
   const shadow = `src/pages${from}.astro`;
   const exists = await access(shadow).then(() => true, () => false);
   if (exists) failures.push(`${shadow}: a page file shadows the ${from} → ${to} redirect`);
-  if (!["/contact", "/work"].includes(to)) failures.push(`${navigationPath}: ${from} must redirect to /contact or /work, not ${to}`);
+  if (!["/contact", "/work", "/research"].includes(to)) failures.push(`${navigationPath}: ${from} must redirect to /contact, /work or /research, not ${to}`);
 }
 
 const primaryPages = [home, work, research, teaching, about, cv].join("\n");

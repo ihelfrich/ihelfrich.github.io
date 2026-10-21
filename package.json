@@ -14,7 +14,7 @@
     "build:fast": "astro build",
     "check:copy": "node scripts/check-site-copy.mjs",
     "check:fieldbook": "node scripts/check-fieldbook-content.mjs",
-    "check:components": "node --test tests/unit/instruments.test.mjs",
+    "check:components": "node --test tests/unit/instruments.test.mjs tests/unit/research-citation.test.mjs",
     "check:navigation": "node --test tests/unit/navigation.test.mjs tests/unit/field-data.test.mjs tests/unit/breadcrumbs.test.mjs tests/unit/shared-bar.test.mjs tests/unit/field-graph.test.mjs tests/unit/field-build.test.mjs",
     "check:tokens": "node --test tests/unit/tokens.test.mjs tests/unit/color-lib.test.mjs tests/unit/migrate-colors.test.mjs tests/unit/check-tokens.test.mjs && node scripts/check-tokens.mjs",
     "check:city": "node --experimental-vm-modules --test tests/unit/city-*.test.mjs tests/unit/estate-analysis.test.mjs",

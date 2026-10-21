@@ -6,6 +6,8 @@ status: "working paper"
 venue: "SSRN 4772016"
 ssrn: "https://ssrn.com/abstract=4772016"
 abstract: "A theoretical working paper connecting economic equilibrium and optimal transport when the economic object is a function or distribution rather than a finite vector. The public manuscript is available on SSRN; theorem statements and assumptions remain outside this summary pending line-by-line verification."
+summary: "A theoretical working paper connecting economic equilibrium and optimal transport when the economic object is a function or distribution."
+citation: { type: "misc", note: "Working paper, SSRN 4772016", scholar: true }
 question: "Under what conditions can economic equilibrium be represented as an optimal-transport problem in an infinite-dimensional Hilbert space?"
 maturity: "circulating"
 displayStatus: "Public working paper"

@@ -5,6 +5,7 @@ year: 2026
 status: "draft"
 venue: "Design and data construction; no empirical results yet"
 abstract: "A proposed empirical design for studying what public AIS tracks, port arrivals, and commodity-flow records can reveal about Russian seaborne crude as routes adapt to sanctions and observation. Data construction and identification remain under development; no empirical results exist yet."
+summary: "A proposed design using AIS tracks, port arrivals, and commodity-flow records to study Russian seaborne crude under sanctions; no results yet."
 question: "Can public shipping and port records identify the feedback between sanctions-evasion behavior and the observation system used to measure Russian seaborne crude?"
 maturity: "development"
 displayStatus: "Active development · no results yet"

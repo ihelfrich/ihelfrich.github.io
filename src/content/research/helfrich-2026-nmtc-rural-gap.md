@@ -5,8 +5,13 @@ year: 2026
 status: "working paper"
 venue: "August 2026"
 ssrn: ""
+pdf: "/research/ian-helfrich-nmtc-working-paper.pdf"
 repo: "https://github.com/ihelfrich/us-nmtc-viewer"
 abstract: "A descriptive, noncausal decomposition of the rural-versus-urban leverage gap in the U.S. New Markets Tax Credit using Community Development Entity fixed effects. The raw private-leverage gap of −0.262 falls to a mean within-CDE estimate of −0.047 (95 percent CI: −0.245 to +0.152); the median estimate is −0.001, and neither margin estimate is statistically distinguishable from zero. In the base order-invariant decomposition, most explained movement is associated with observed CDE composition: −0.185, or 86 percent. The design does not identify why CDEs differ, and the mechanism remains unresolved."
+summary: "In the New Markets Tax Credit, the raw rural leverage gap of −0.262 falls to −0.047 within the same Community Development Entity; descriptive, noncausal."
+# BibTeX for the Cite section only. Scholar citation_* tags stay off until the authorship
+# decision (plan item A-01); SCHOLAR_WITHHELD in src/data/research-citation.mjs enforces it.
+citation: { type: "misc", note: "Working paper, August 2026" }
 question: "Does the rural private-leverage gap persist when rural and urban projects are compared within the same Community Development Entity?"
 maturity: "circulating"
 displayStatus: "Public working paper"

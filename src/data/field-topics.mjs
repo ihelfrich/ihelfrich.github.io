@@ -62,7 +62,6 @@ export const OVERRIDES = Object.freeze({
   "/people/": ["profile"],
   "/people/elizaveta-gonchar/": ["profile", "trade"],
   "/people/ian-helfrich/": ["profile"],
-  "/program/": ["trade", "place", "measurement"],
   "/projects/": ["profile"],
   "/projects/american-policy-atlas/": ["teaching", "place"],
   "/projects/applied-statistics/": ["teaching"],
@@ -158,7 +157,6 @@ export const LABELS = Object.freeze({
   "/people/": "People",
   "/people/elizaveta-gonchar/": "Elizaveta Gonchar",
   "/people/ian-helfrich/": "Ian Helfrich",
-  "/program/": "Research program",
   "/projects/": "Projects",
   "/projects/american-policy-atlas/": "American Policy Atlas",
   "/projects/applied-statistics/": "Applied Statistics",
@@ -264,7 +262,7 @@ export const ROUTES = Object.freeze({
   Collaborator: {
     summary: "Research program, data, tools, Third Space Labs, contact.",
     steps: [
-      ["/program/", "Research questions and how they connect."],
+      ["/research/", "Research questions, by current stage."],
       ["/research/helfrich-2026-penumbra/", "Draft on measurement gaps in cross-border trade data."],
       ["/datasets/", "Public datasets."],
       ["/hidden-rivers/", "Ocean transport and satellite imagery project."],

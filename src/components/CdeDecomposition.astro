@@ -4,6 +4,9 @@ import { CDE_FACTS } from "../lib/fieldbook-math.mjs";
 
 const axisValues = [-0.3, -0.2, -0.1, 0, 0.1, 0.2];
 const y = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
+// On the research record itself, a link back to the record would point at the current page.
+const recordHref = "/research/helfrich-2026-nmtc-rural-gap";
+const onRecord = Astro.url.pathname.replace(/\/$/, "") === recordHref;
 ---
 
 <EvidenceAperture
@@ -17,7 +20,7 @@ const y = (value: number) => 30 + (0.2 - value) / (0.2 - -0.32) * (240 - 30);
   role="Sole author and originator; Katia Antunes and Elizaveta Gonchar are contributors, not coauthors"
   limit="The analysis is descriptive and noncausal. It does not identify why intermediaries differ, and the mechanism remains unresolved."
   links={[
-    { label: "Research record", href: "/research/helfrich-2026-nmtc-rural-gap" },
+    ...(onRecord ? [] : [{ label: "Research record", href: recordHref }]),
     { label: "Working paper", href: "/research/ian-helfrich-nmtc-working-paper.pdf" },
     { label: "Repository and evidence files", href: "https://github.com/ihelfrich/us-nmtc-viewer", external: true },
   ]}

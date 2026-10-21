@@ -4,6 +4,7 @@ authors: ["Ian Helfrich"]
 year: 2026
 status: "draft"
 abstract: "A sole-authored draft asking how economic measurement should work when the act of observing changes what becomes visible. No results are claimed while the draft's theorem statements, assumptions, and completion status remain under verification."
+summary: "A draft on trade measurement when the act of observing cross-border trade changes what becomes visible; no results are claimed."
 question: "How should a trade model represent settings where the equilibrium changes the observation system used to measure that equilibrium?"
 maturity: "development"
 displayStatus: "Draft · claims under verification"
