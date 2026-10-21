@@ -11,4 +11,12 @@
 .nearby li a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 .nearby a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .nearby li svg { flex: none; width: 0.75rem; height: 0.75rem; }
+
+.nearby-body { display: grid; grid-template-columns: 11rem 1fr; gap: 2rem; align-items: start; }
+.nearby-ego { width: 11rem; height: 11rem; }
+.nearby-ego .ego-spoke { stroke: var(--ink); stroke-opacity: 0.35; stroke-width: 0.8; }
+.nearby-ego .ego-chord { stroke: var(--ink); stroke-opacity: 0.12; stroke-width: 0.6; }
+.nearby-ego g { stroke: var(--surface); stroke-width: 0.8; }
+.nearby-ego .ego-self { stroke: var(--ink); stroke-width: 0.6; }
+@media (max-width: 640px) { .nearby-body { grid-template-columns: 1fr; } .nearby-ego { width: 9rem; height: 9rem; } }
 @media print { .nearby { display: none; } }

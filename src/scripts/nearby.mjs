@@ -28,6 +28,7 @@ export async function mountNearby(root) {
   const neighbours = [...adj.get(path)].filter((id) => id !== "/").map((id) => byId.get(id));
   if (!neighbours.length) return;
   const groups = groupLinked(neighbours, deg, GROUPS, 6);
+  drawEgo(root.querySelector("[data-nearby-ego]"), byId.get(path), neighbours, adj);
   const box = root.querySelector("[data-nearby-groups]");
   for (const group of groups) {
     const section = document.createElement("div");
@@ -48,4 +49,34 @@ export async function mountNearby(root) {
     box.append(section);
   }
   root.hidden = false;
+}
+
+// Small drawing of this page (centre) and its linked pages (ring); lines between linked pages are kept.
+function drawEgo(svg, self, neighbours, adj) {
+  if (!svg) return;
+  const ns = "http://www.w3.org/2000/svg";
+  const shown = neighbours.slice(0, 24);
+  const pos = new Map([[self.id, [0, 0]]]);
+  shown.forEach((n, i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / shown.length;
+    pos.set(n.id, [Math.cos(a) * 62, Math.sin(a) * 62]);
+  });
+  const lines = [];
+  shown.forEach((n) => {
+    lines.push([self.id, n.id, true]);
+    shown.forEach((m) => { if (n.id < m.id && adj.get(n.id).has(m.id)) lines.push([n.id, m.id, false]); });
+  });
+  let out = "";
+  for (const [a, b, spoke] of lines) {
+    const [x1, y1] = pos.get(a), [x2, y2] = pos.get(b);
+    out += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" class="${spoke ? "ego-spoke" : "ego-chord"}"/>`;
+  }
+  for (const n of [...shown, self]) {
+    const [x, y] = pos.get(n.id);
+    const k = n === self ? 1.9 : 1;
+    out += `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${k})" style="fill:var(--topic-${(n.topics || [])[0] || "profile"})"${n === self ? ' class="ego-self"' : ""}>${MARK[n.type] || MARK.page}</g>`;
+  }
+  svg.setAttribute("viewBox", "-80 -80 160 160");
+  svg.innerHTML = out;
+  void ns;
 }

@@ -8,7 +8,10 @@ const { pathname = Astro.url.pathname } = Astro.props;
       <h2 id="nearby-title">Connected pages</h2>
       <a data-nearby-map href={`/field/#p=${encodeURIComponent(pathname)}`}>Show this page on the site map</a>
     </div>
-    <div class="nearby-groups" data-nearby-groups></div>
+    <div class="nearby-body">
+      <svg class="nearby-ego" data-nearby-ego role="img" aria-label="This page at the centre, with the pages it links to around it."></svg>
+      <div class="nearby-groups" data-nearby-groups></div>
+    </div>
   </div>
 </nav>
 <script>
