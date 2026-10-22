@@ -46,7 +46,7 @@ import { bookingEvent } from "../data/analytics.mjs";
 </Base>
 
 <style>
-  .book-hero { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-block: var(--ef-space-8); }
+  .book-hero { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); margin-inline: auto; padding-top: 52px; padding-bottom: var(--ef-space-7); }
   .record-label { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
   .book-heading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); column-gap: var(--ef-space-7); align-items: end; }
   .book-heading .record-label { grid-column: 1 / -1; }
@@ -73,7 +73,7 @@ import { bookingEvent } from "../data/analytics.mjs";
     .booking-portrait { max-width: 12rem; margin-block: var(--ef-space-4) var(--ef-space-6); padding-top: 0; border-top: 0; }
   }
   @media (max-width: 45rem) {
-    .book-hero { padding-block: var(--ef-space-7); }
+    .book-hero { padding-top: 32px; padding-bottom: var(--ef-space-6); }
     .booking-ledger li { grid-template-columns: 2.25rem minmax(0, 1fr); row-gap: 0.6rem; }
     .booking-minutes, .booking-route { grid-column: 2; justify-self: start; }
     .booking-note { grid-template-columns: 1fr; gap: 0.5rem; }

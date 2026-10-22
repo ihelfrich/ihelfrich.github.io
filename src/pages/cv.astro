@@ -115,7 +115,8 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
   .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
   .record-label,
   .document-meta { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
-  .cv-hero { min-height: 38rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  /* Same first-screen rhythm as /job-market: the kicker sits about 116px below the header. */
+  .cv-hero { padding-top: 52px; padding-bottom: var(--ef-space-6); align-items: start; border-bottom: 1px solid var(--ef-ink); }
   .cv-hero__copy { grid-column: 2 / span 7; }
   .cv-hero h1 { max-width: 10ch; }
   .cv-hero__copy > p:last-child { max-width: 64ch; font-size: 1.23rem; }
@@ -153,7 +154,7 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
   }
   @media (max-width: 45rem) {
     .route-grid { display: block; }
-    .cv-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .cv-hero { min-height: auto; padding-top: 32px; padding-bottom: var(--ef-space-6); }
     .cv-hero__status { margin-top: var(--ef-space-5); }
     .route-shell { padding-block: var(--ef-space-6); }
     .document-pair { grid-template-columns: 1fr; }
