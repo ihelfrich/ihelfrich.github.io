@@ -6,6 +6,7 @@ import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { OVERRIDES, ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
+import { computeLayouts } from "../src/lib/gravity-layout.mjs";
 
 const dist = path.resolve("dist");
 const SITE = "https://ihelfrich.github.io";
@@ -21,11 +22,26 @@ const normalise = (href) => {
   return clean.endsWith("/") ? clean : `${clean}/`;
 };
 
+// Removes every element marked data-field-skip, with its contents. The home page's list of all pages
+// carries the mark: it links to every page, and counting those links would make Home adjacent to all.
+export function withoutSkipped(html) {
+  const open = /<([a-z][a-z0-9-]*)\b[^>]*\bdata-field-skip\b[^>]*>/i;
+  let out = html, m;
+  while ((m = open.exec(out))) {
+    const tag = m[1].toLowerCase(), tags = new RegExp(`<(/?)${tag}\\b[^>]*>`, "gi");
+    tags.lastIndex = m.index + m[0].length;
+    let depth = 1, end = out.length, t;
+    while (depth && (t = tags.exec(out))) { depth += t[1] ? -1 : 1; if (!depth) end = tags.lastIndex; }
+    out = out.slice(0, m.index) + out.slice(end);
+  }
+  return out;
+}
+
 export function extractPage(html) {
   const title = decode((html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "").trim())
     .replace(/\s*[|·]\s*Ian Helfrich.*$/, "");
   const description = decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");
-  const main = html.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? html;
+  const main = withoutSkipped(html.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? html);
   const hrefs = [...main.matchAll(/href="([^"]+)"/g)].map(([, href]) => normalise(decode(href))).filter(Boolean);
   return { title, description, hrefs };
 }
@@ -118,7 +134,10 @@ export async function buildField() {
   // Pages whose topics come from the keyword rules rather than a hand-set entry. They still appear on the map.
   const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !node.id.startsWith("/econometrics/")).map((node) => node.id);
 
-  return { generated: new Date().toISOString().slice(0, 10), site: SITE, nodes, links, routes: routesOut, isolated, provisional };
+  // Rest-state positions for the home-page map, precomputed so the browser only scales them.
+  const layout = computeLayouts(nodes, links);
+
+  return { generated: new Date().toISOString().slice(0, 10), site: SITE, nodes, links, layout, routes: routesOut, isolated, provisional };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

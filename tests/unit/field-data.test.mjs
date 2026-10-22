@@ -46,6 +46,13 @@ test("link extraction reads main content only and normalises paths", () => {
   assert.deepEqual(page.hrefs, ["/datasets/", "/research/x/"]);
 });
 
+test("link extraction leaves out elements marked data-field-skip, nested or not", () => {
+  const html = `<main><a href="/a">A</a><details class="all" data-field-skip><summary>All</summary>
+    <details><summary>Inner</summary><a href="/b">B</a></details><a href="/c">C</a></details>
+    <a href="/d">D</a><div data-field-skip><div><a href="/e">E</a></div></div><a href="/f">F</a></main>`;
+  assert.deepEqual(extractPage(html).hrefs, ["/a/", "/d/", "/f/"]);
+});
+
 test("every short label is for a route and stays short", async () => {
   const { LABELS, labelFor } = await import("../../src/data/field-topics.mjs");
   for (const [route, label] of Object.entries(LABELS)) {
