@@ -2,6 +2,7 @@
 // topic color only for the page in focus and its neighbours. Data: /field.json.
 import * as d3 from "d3";
 import { TOPIC_ORDER, TOPIC_NAMES, TOPIC_SHORT } from "../data/field-topics.mjs";
+import { placeLabels } from "../lib/graph-labels.mjs";
 
 const SYM = { paper: d3.symbolSquare, data: d3.symbolDiamond, tool: d3.symbolStar, course: d3.symbolTriangle, page: d3.symbolCircle };
 const KIND = { paper: "Paper", data: "Dataset", tool: "Instrument", course: "Course", page: "Page" };
@@ -36,7 +37,10 @@ export function mountHomeGraph(root) {
     const symD = (n, k = 1) => d3.symbol().type(SYM[n.type] || d3.symbolCircle).size(Math.PI * R(n) * R(n) * (n.type === "page" ? 1 : 1.25) * k)();
 
     const svg = d3.select(svgEl);
-    const gl = svg.append("g"), ga = svg.append("g"), gn = svg.append("g"), gp = svg.append("g");
+    // Paint order: links, marks, then every label above the marks so no mark can cover one.
+    const LAYERS = ["hg-links-layer", "hg-marks", "hg-anchors", "hg-labels", "hg-hub-layer"];
+    const [gl, gn, ga, gt, gp] = LAYERS.map((name) => svg.append("g").attr("class", name));
+    gt.attr("aria-hidden", "true");
     const link = gl.selectAll("line").data(links).join("line").attr("class", "hg-link");
     const anchorLabel = ga.selectAll("g").data(TOPIC_ORDER).join("g").attr("class", "hg-topic");
     anchorLabel.append("circle").attr("r", 4).style("fill", (t) => COL[t]);
@@ -49,8 +53,17 @@ export function mountHomeGraph(root) {
       .attr("aria-label", (d) => (SECTIONS.has(d.id) ? `${d.label}, ${KIND[d.type]}` : null));
     node.append("circle").attr("class", "hg-hit").attr("r", 12);
     node.append("path").attr("class", "hg-sh").attr("d", (d) => symD(d));
-    node.filter((d) => (d.topics || []).length > 1).append("circle").attr("class", "hg-ring").attr("r", (d) => R(d) + 3.5);
-    node.filter((d) => SECTIONS.has(d.id)).append("text").attr("x", (d) => R(d) + 6).attr("y", 4).text((d) => d.label);
+    const ringed = (d) => (d.topics || []).length > 1;
+    const outerR = (d) => R(d) + (ringed(d) ? 3.5 : 0);
+    node.filter(ringed).append("circle").attr("class", "hg-ring").attr("r", outerR);
+    const sections = others.filter((d) => SECTIONS.has(d.id));
+    const label = gt.selectAll("text").data(sections).join("text").attr("class", "hg-label").text((d) => d.label);
+    const labelWidths = new Map();
+    const labelPositions = new Map();
+    const measureLabels = () => label.each(function (d) {
+      // A hidden label (phones, until selected) measures 0; estimate it from the text instead.
+      labelWidths.set(d.id, this.getComputedTextLength() || d.label.length * 6.3);
+    });
 
     const PR = 16;
     const hub = gp.append("g").attr("class", "hg-hub");
@@ -62,6 +75,7 @@ export function mountHomeGraph(root) {
       const near = focus ? adj.get(focus.id) : null;
       node.classed("dim", (x) => !!focus && x !== focus && !near.has(x.id)).classed("sel", (x) => x === focus)
         .select("path").style("fill", (x) => (focus && (x === focus || near.has(x.id)) ? COL[x.p] : null));
+      label.classed("dim", (x) => !!focus && x !== focus && !near.has(x.id)).classed("sel", (x) => x === focus);
       node.select(".hg-ring").style("stroke", (x) => (focus && (x === focus || near.has(x.id)) ? COL[(x.topics || [])[1]] : null));
       link.classed("on", (l) => !!focus && (l.source === focus || l.target === focus)).classed("dim", (l) => !!focus && l.source !== focus && l.target !== focus);
     };
@@ -92,6 +106,8 @@ export function mountHomeGraph(root) {
       link.attr("x1", (d) => d.source.x).attr("y1", (d) => d.source.y).attr("x2", (d) => d.target.x).attr("y2", (d) => d.target.y);
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       hub.attr("transform", `translate(${cx},${cy})`);
+      // The topic labels and the Home label are fixed boxes that the section labels avoid.
+      const fixedBoxes = [{ x0: cx - 22, y0: cy + 20, x1: cx + 22, y1: cy + 35 }];
       anchorLabel.each(function (t) {
         const [ax, ay] = anchors[t] || [cx, cy];
         const ux = ax - cx, uy = ay - cy, len = Math.hypot(ux, uy) || 1;
@@ -106,15 +122,26 @@ export function mountHomeGraph(root) {
         if ((side === "start" && lx + tw > W) || (side === "end" && lx - tw < 0)) { side = "middle"; above = true; }
         const half = tw / 2;
         const mx = side === "middle" ? Math.max(half - 6, Math.min(W - half + 6, lx)) - lx : 0;
-        g.select("text").attr("text-anchor", side).attr("x", side === "start" ? 8 : side === "end" ? -8 : mx)
-          .attr("y", side === "middle" ? (above || uy < 0 ? -9 : 17) : 4);
+        const ty = side === "middle" ? (above || uy < 0 ? -9 : 17) : 4;
+        g.select("text").attr("text-anchor", side).attr("x", side === "start" ? 8 : side === "end" ? -8 : mx).attr("y", ty);
+        const textLength = tw - 10;
+        const tx0 = side === "start" ? lx + 8 : side === "end" ? lx - 8 - textLength : lx + mx - textLength / 2;
+        fixedBoxes.push({ x0: Math.min(tx0, lx - 4) - 2, y0: Math.min(ly + ty - 10, ly - 4), x1: Math.max(tx0 + textLength, lx + 4) + 2, y1: Math.max(ly + ty + 4, ly + 4) });
       });
+      const marks = others.map((n) => ({ id: n.id, x: n.x, y: n.y, r: outerR(n) + 1 }));
+      marks.push({ id: home.id, x: cx, y: cy, r: PR });
+      const spots = placeLabels(
+        sections.map((d) => ({ id: d.id, x: d.x, y: d.y, r: outerR(d), width: labelWidths.get(d.id) || d.label.length * 6.3 })),
+        { marks, obstacles: fixedBoxes, bounds: { x0: 0, y0: 0, x1: W, y1: H }, previous: labelPositions },
+      );
+      label.attr("x", (d) => spots.get(d.id).x).attr("y", (d) => spots.get(d.id).y).attr("text-anchor", (d) => spots.get(d.id).anchor);
     };
     const layout = () => {
       const box = svgEl.getBoundingClientRect();
       W = box.width; H = box.height;
       if (!W || !H) return;
       cx = W / 2; cy = H / 2;
+      measureLabels();
       const rad = Math.min(W, H) * (W < 560 ? 0.24 : 0.32);
       TOPIC_ORDER.forEach((t, i) => {
         const a = -Math.PI / 2 + (i * 2 * Math.PI) / TOPIC_ORDER.length;

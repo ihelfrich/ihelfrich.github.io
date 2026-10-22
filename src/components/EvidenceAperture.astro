@@ -97,6 +97,12 @@ const captionId = `${id}-caption`;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
+  /* The bordered shell in fieldbook.css pads the figure and the margin; the question, controls and
+     result need the same inset so no text touches the frame. Surfaces that pad the whole shell
+     (the home instruments, /teaching) reset these. */
+  .evidence-aperture__header { padding: var(--ef-space-5) var(--ef-space-5) 0; }
+  .evidence-aperture__controls { padding: 0 var(--ef-space-5); }
+  .evidence-aperture__result { padding: 0 var(--ef-space-5) var(--ef-space-5); }
   .evidence-aperture__header h2 { margin-block: 0.2rem 0.5rem; }
   .evidence-aperture__caption { color: color-mix(in srgb, var(--ef-ink) 68%, transparent); max-width: 70ch; }
   .evidence-aperture__figure {

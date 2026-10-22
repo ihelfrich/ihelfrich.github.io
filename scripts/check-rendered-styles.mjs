@@ -2,7 +2,10 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { Window } from "happy-dom";
+import yaml from "js-yaml";
 import { PRIMARY, CONTACT, BOOK } from "../src/data/navigation.mjs";
+import { availabilityRecord } from "../src/data/public-record.mjs";
+import { boxHitsMark, placeLabels } from "../src/lib/graph-labels.mjs";
 
 const palette = {
   "--ef-ink": "#11131D",
@@ -607,6 +610,16 @@ if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.pus
  if(/job market paper/i.test(market.body.textContent)) failures.push('/job-market must not use the Job Market Paper label before it is approved');
  if([...market.querySelectorAll('.dossier-list aside strong')].some(label=>label.textContent.trim()==='Limit')) failures.push('/job-market dossier list must not repeat each record\'s limit');
  if(!market.querySelector('.market-hero .record-label')?.textContent.includes('2026–27')) failures.push('/job-market kicker must write the cycle as 2026–27, matching the h1');
+ // The kicker's date is the availability record's asOf, not a date typed into the page.
+ const kicker=market.querySelector('.market-hero .record-label')?.textContent.trim();
+ if(kicker!==`${availabilityRecord.cycle} · ${availabilityRecord.asOf}`) failures.push(`/job-market kicker must read "${availabilityRecord.cycle} · ${availabilityRecord.asOf}" from availabilityRecord (found "${kicker}")`);
+ // QA found 200px between the header and the kicker at 1440px (64px main padding plus a 136px hero
+ // padding) and 130px at 375px. The sibling route heroes pad their tops by 30-58px.
+ const marketHero=market.querySelector('.market-hero');
+ for(const width of [1440,375]) {
+  const top=marketHero&&cascadedPropertiesAtWidth(marketWindow,marketHero,width,['padding-top'])['padding-top'];
+  if(!/^\d+(\.\d+)?px$/.test(top??'')||Number.parseFloat(top)>58) failures.push(`${width}px /job-market hero must pad its top by at most 58px, like the other route heroes (found ${top})`);
+ }
  marketWindow.close();
 }
 
@@ -641,7 +654,67 @@ const pxAtLeast=(value,minimum)=>Number.parseFloat(value??'')>=minimum;
  const courseActions=teachingWindow.document.querySelector('.course-feature .action-row');
  const courseLayout=courseActions&&cascadedPropertiesAtWidth(teachingWindow,courseActions,1440,['display','gap']);
  if(!courseActions||courseLayout.display!=='flex'||!courseLayout.gap) failures.push('/teaching course links must be laid out with a gap');
+ // The register is a grid of rounded cards; the ruled-table borders it once had crossed their corners.
+ const borderWidths=['border-top-width','border-right-width','border-bottom-width','border-left-width'];
+ const bordered=(element,width)=>Object.values(cascadedPropertiesAtWidth(teachingWindow,element,width,borderWidths)).some(value=>Number.parseFloat(value)>0);
+ for(const width of [1440,375]) {
+  const register=teachingWindow.document.querySelector('.system-register');
+  if(!register||bordered(register,width)||[...register.children].some(card=>bordered(card,width))) failures.push(`${width}px /teaching register cards must not carry the legacy grid borders`);
+ }
+ // Stacked on phones, the closing h2 sat directly on the paragraph below it.
+ const closeCopy=teachingWindow.document.querySelector('.teaching-close > div:last-child');
+ const closeGap=closeCopy&&cascadedPropertiesAtWidth(teachingWindow,closeCopy,375,['margin-top'])['margin-top'];
+ if(!closeGap||/^0(px)?$/.test(closeGap)) failures.push(`375px /teaching closing copy must be spaced below its h2 (margin-top ${closeGap})`);
+ // The teaching surface pads the whole aperture shell, so the component inset must not add to it.
+ const relayHeader=teachingWindow.document.querySelector('.relay-section .evidence-aperture__header');
+ if(!relayHeader||Number.parseFloat(cascadedPropertiesAtWidth(teachingWindow,relayHeader,1440,['padding-left'])['padding-left'])!==0) failures.push('/teaching evidence aperture must not double its inset');
  teachingWindow.close();
+
+ // The bordered evidence frame inset belongs to EvidenceAperture, not to one template: the
+ // applied-statistics project record showed its question, controls and result against the border.
+ const projectWindow=await windowFor('projects/applied-statistics');
+ for(const selector of ['.evidence-aperture__header','.evidence-aperture__controls','.evidence-aperture__result']) {
+  const element=projectWindow.document.querySelector(selector);
+  if(!element||cascadedPropertiesAtWidth(projectWindow,element,1440,['padding-left'])['padding-left']!=='var(--ef-space-5)') failures.push(`/projects/applied-statistics ${selector} must be inset from the evidence frame`);
+ }
+ projectWindow.close();
+ if((await readFile(resolve('src/pages/research/[slug].astro'),'utf8')).includes('.evidence-block :global(.evidence-aperture__')) failures.push('the research-record template must rely on the EvidenceAperture inset, not a scoped copy of it');
+ // Home pads the instrument shells itself; the component inset must not add to it there.
+ for(const selector of ['.st-tool-body .evidence-aperture__controls','.st-tool-body .evidence-aperture__result']) {
+  const element=noScriptWindow.document.querySelector(selector);
+  if(!element||Number.parseFloat(cascadedPropertiesAtWidth(noScriptWindow,element,1440,['padding-left'])['padding-left'])!==0) failures.push(`homepage ${selector} must not double the instrument inset`);
+ }
+
+ // Home network: marks covered "Econometric Argument" and the lower Teaching label at 1440px. Labels
+ // now sit in a layer above the marks, with a 4px halo, and take the position that covers fewest marks.
+ const graphSource=await readFile(resolve('src/scripts/home-graph.mjs'),'utf8');
+ const layers=[...(graphSource.match(/const LAYERS = \[([^\]]+)\]/)?.[1].matchAll(/"([\w-]+)"/g)??[])].map(match=>match[1]);
+ if(!(layers.indexOf('hg-marks')>=0&&layers.indexOf('hg-labels')>layers.indexOf('hg-marks')&&layers.indexOf('hg-anchors')>layers.indexOf('hg-marks'))) failures.push('home network must paint the section and topic labels above the marks');
+ if(/node(?:\.filter\([^;]*?\))?\.append\("text"\)/.test(graphSource)) failures.push('home network section labels must not be drawn inside the mark groups, where later marks cover them');
+ const labelRule=interactiveHome.match(/\.hg-label\{([^}]*)\}/)?.[1]??'';
+ if(!/paint-order:stroke/.test(labelRule)||!(Number.parseFloat(labelRule.match(/stroke-width:([\d.]+)px/)?.[1])>=4)) failures.push('home network section labels need a halo of at least 4px');
+ const crowded={id:'/econometrics/',x:300,y:500,r:4,width:130};
+ const triangles=[[320,500],[342,497],[364,503],[388,500],[412,499],[300,520],[300,481]].map(([x,y],index)=>({id:`t${index}`,x,y,r:6}));
+ const crowdedSpot=placeLabels([crowded],{marks:triangles,bounds:{x0:0,y0:0,x1:800,y1:640}}).get(crowded.id);
+ if(triangles.some(mark=>boxHitsMark(crowdedSpot,mark))) failures.push(`home network label placement left "Econometric Argument" over a mark (${crowdedSpot.position})`);
+ const edge={id:'/datasets/',x:790,y:200,r:4,width:60};
+ const edgeSpot=placeLabels([edge],{bounds:{x0:0,y0:0,x1:800,y1:640}}).get(edge.id);
+ if(edgeSpot.x1>800) failures.push('home network label placement must keep a label inside the drawing');
+ const neighbours=[{id:'/teaching/',x:200,y:300,r:4,width:60},{id:'/lab/',x:200,y:316,r:4,width:30}];
+ const pair=placeLabels(neighbours,{marks:neighbours.map(({id,x,y,r})=>({id,x,y,r}))});
+ const [first,second]=neighbours.map(({id})=>pair.get(id));
+ if(first.x0<second.x1&&second.x0<first.x1&&first.y0<second.y1&&second.y0<first.y1) failures.push('home network labels must not be placed over one another');
+
+ // The 404 document has no address of its own, so it must not claim /404/ as canonical.
+ const notFound=await readFile(resolve('dist/404.html'),'utf8');
+ if(/<link rel="canonical"/.test(notFound)||/property="og:url"/.test(notFound)) failures.push('dist/404.html must not emit a canonical link or og:url');
+ if(!/<meta name="robots" content="noindex/.test(notFound)) failures.push('dist/404.html must stay noindex');
+
+ // Pictures of Inference credits the same authors in the teaching and project collections.
+ const authorsOf=async path=>yaml.load((await readFile(resolve(path),'utf8')).match(/^---\n([\s\S]*?)\n---/)?.[1]??'')?.authors;
+ const projectAuthors=await authorsOf('src/content/projects/pictures-of-inference.md');
+ const teachingAuthors=await authorsOf('src/content/teaching/pictures-of-inference.md');
+ if(!projectAuthors?.length||JSON.stringify(teachingAuthors)!==JSON.stringify(projectAuthors)) failures.push(`teaching/pictures-of-inference.md must credit ${JSON.stringify(projectAuthors)} as the project record does (found ${JSON.stringify(teachingAuthors)})`);
 }
 
 for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button", ".primary-nav .nav-book", ".has-js .header-contact"]) {

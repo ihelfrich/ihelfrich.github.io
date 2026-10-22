@@ -25,15 +25,17 @@
 .hg-sh { fill: var(--ink); stroke: var(--surface); stroke-width: 1.2; transition: fill 0.3s; }
 .hg-node.sel .hg-sh { stroke: var(--ink); stroke-width: 1.6; }
 .hg-ring { fill: none; stroke: var(--rule-strong); stroke-width: 1.4; }
-.hg-node text { font-size: 11.5px; font-weight: 560; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; pointer-events: none; }
+/* Section labels sit in their own layer above every mark; the halo masks any line or mark beneath them. */
+.hg-label { font-size: 11.5px; font-weight: 560; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; transition: opacity 0.3s; }
+.hg-label.dim { opacity: 0.18; }
 .hg-node:focus-visible .hg-sh { stroke: var(--focus-ring); stroke-width: 3; }
 .hg-node:focus { outline: none; }
-.hg-topic text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
+.hg-topic text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .hg-hub circle { fill: var(--ink); }
 .hg-hub .hg-hub-ring { fill: none; stroke: var(--ink); stroke-width: 1.4; }
 .hg-hub text { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
 .hg-hit { fill: transparent; stroke: none; }
-@media (prefers-reduced-motion: reduce) { .hg-link, .hg-node, .hg-sh { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .hg-link, .hg-node, .hg-sh, .hg-label { transition: none; } }
 .hg-topics { display: none; order: 3; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.8125rem; color: var(--ink); }
 .hg-topics li { display: flex; align-items: center; gap: 0.35rem; }
 .hg-topics span { width: 0.6rem; height: 0.6rem; border-radius: 50%; }
@@ -54,6 +56,6 @@
 @media (max-width: 560px) {
   .hg-topic { display: none; }
   .hg-topics { display: flex; }
-  .hg-node text { display: none; }
-  .hg-node.sel text { display: inline; }
+  .hg-label { display: none; }
+  .hg-label.sel { display: inline; }
 }

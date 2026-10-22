@@ -157,7 +157,8 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
   .record-label,
   .status-line { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
-  .market-hero { min-height: 40rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: start; border-bottom: 1px solid var(--ef-ink); }
+  /* 52px puts the kicker as far below the header as on /research, /teaching, /work and /about; space-8 left 200px empty above it. */
+  .market-hero { min-height: 40rem; padding-top: 52px; padding-bottom: var(--ef-space-6); align-items: start; border-bottom: 1px solid var(--ef-ink); }
   .market-hero__copy { grid-column: 2 / span 7; }
   .market-hero h1 { max-width: 16ch; margin-bottom: 1rem; font-size: clamp(2.6rem, 5.4vw, 5.25rem); }
   .market-position { margin: 0 0 1rem; font-size: 1.08rem; font-weight: 600; }
@@ -226,7 +227,7 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   }
   @media (max-width: 45rem) {
     .route-grid { display: block; }
-    .market-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .market-hero { min-height: auto; padding-top: 32px; padding-bottom: var(--ef-space-6); }
     .market-hero__margin { margin-top: var(--ef-space-5); }
     .route-shell { padding-block: var(--ef-space-6); }
     .paper-heading { grid-template-columns: 1fr; gap: var(--ef-space-5); }

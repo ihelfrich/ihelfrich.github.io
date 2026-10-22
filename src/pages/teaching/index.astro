@@ -277,11 +277,9 @@ const subjectFamilies = [
   .recognition-pair article { padding: var(--ef-space-5); }
   .recognition-pair article + article { border-left: 1px solid var(--ef-ink); }
   .recognition-pair h3 { margin: 0; }
-  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(2, 1fr); border: 1px solid var(--ef-ink); }
+  /* The register is a grid of separate rounded cards (content-clarity.css); the ruled table borders it once had would cut across their corners. */
+  .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(2, 1fr); }
   .system-register article { padding: var(--ef-space-5); }
-  .system-register article { border-bottom: 1px solid var(--ef-ink); }
-  .system-register article:nth-child(even) { border-left: 1px solid var(--ef-ink); }
-  .system-register article:nth-last-child(-n+2) { border-bottom: 0; }
   .system-register h3 { margin-top: 0; font-size: 1.45rem; }
   /* Compressed HTML drops the whitespace between sibling links, so each needs its own spacing. */
   .system-register article > a { display: inline-block; margin-right: 1.25rem; }
@@ -299,7 +297,6 @@ const subjectFamilies = [
     .subject-families { grid-template-columns: repeat(2, 1fr); }
     .coaching-sequence { grid-template-columns: repeat(2, 1fr); }
     .system-register { grid-template-columns: 1fr; }
-    .system-register article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
     .teaching-close > div:first-child { grid-column: 1 / span 5; }
     .teaching-close > div:last-child { grid-column: 6 / span 3; }
   }
@@ -317,5 +314,7 @@ const subjectFamilies = [
     .hours-pair article + article,
     .recognition-pair article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
     .chronology article { grid-template-columns: 1fr; gap: 0.65rem; }
+    /* Stacked, the closing h2 would otherwise sit directly on the paragraph below it. */
+    .teaching-close > div:last-child { margin-top: var(--ef-space-4); }
   }
 </style>

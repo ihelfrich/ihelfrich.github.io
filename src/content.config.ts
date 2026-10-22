@@ -107,6 +107,8 @@ const teaching = defineCollection({
     title: z.string(),
     blurb: z.string(),
     url: z.string(),
+    // Named authors for coauthored materials, as on the matching project record.
+    authors: z.array(z.string().min(1)).default([]),
     audience: z.string(),
     tags: z.array(z.string()).default([]),
     date: z.coerce.date(),

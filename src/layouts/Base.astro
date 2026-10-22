@@ -27,6 +27,8 @@ const {
   image = "/og.png",
   imageAlt = "Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates",
   noindex = false,
+  // A page with no address of its own (the 404 document) emits no canonical link or og:url.
+  omitCanonical = false,
   excludeFromSearch = false,
   pageClass = "",
   // Open Graph object type; research records with Scholar metadata pass "article".
@@ -98,7 +100,7 @@ const personSchema = {
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
   <meta property="og:type" content={ogType} />
-  <meta property="og:url" content={canonical} />
+  {!omitCanonical && <meta property="og:url" content={canonical} />}
   <meta property="og:site_name" content={siteTitle} />
   <meta property="og:image" content={socialImage} />
   <meta property="og:image:alt" content={imageAlt} />
@@ -108,7 +110,7 @@ const personSchema = {
   <meta name="twitter:image" content={socialImage} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
-  <link rel="canonical" href={canonical} />
+  {!omitCanonical && <link rel="canonical" href={canonical} />}
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   <slot name="head" />
