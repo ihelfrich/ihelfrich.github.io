@@ -77,6 +77,8 @@ a:hover { color: var(--copper); }
 }
 
 .skip-link:focus { transform: translateY(0); }
+/* Studio pages make their links inherit the text colour; the skip link keeps its own on the dark ground. */
+.studio .skip-link { color: var(--white); }
 
 .sr-only {
   position: absolute !important;

@@ -23,7 +23,7 @@ const MARKUP = `<section data-home-graph>
   <button type="button" data-hg-back hidden>Back to topics</button><ul data-hg-rings hidden></ul></div>
   <div data-hg-card hidden></div><p data-hg-live></p></section>`;
 
-function setup({ reduce = false } = {}) {
+function setup({ reduce = false, width = W, height = H } = {}) {
   const w = new Window({ url: "https://example.test/" }), d = w.document;
   d.body.innerHTML = MARKUP;
   const frames = new Map(), texts = [], at = new Map(), dashes = [];
@@ -43,7 +43,7 @@ function setup({ reduce = false } = {}) {
   });
   w.HTMLCanvasElement.prototype.getContext = () => ctx;
   const root = d.querySelector("[data-home-graph]"), stage = d.querySelector("[data-hg-stage]");
-  stage.getBoundingClientRect = () => ({ left: 0, top: 0, width: W, height: H, right: W, bottom: H });
+  stage.getBoundingClientRect = () => ({ left: 0, top: 0, width, height, right: width, bottom: height });
   const navigated = [];
   const dispose = mountHomeGraph(root, { load: async () => structuredClone(FIELD), navigate: (u) => navigated.push(u) });
   const run = (limit = 2000) => { // advance animation frames until the loop goes idle
@@ -58,7 +58,10 @@ function setup({ reduce = false } = {}) {
     assert.equal(stage.getAttribute("aria-busy"), "false", "the map mounted"); };
   return { w, d, root, stage, frames, texts, at, dashes, navigated, dispose, run, key, pointer, click, ready, media };
 }
-const restXY = (id) => { const i = NODES.findIndex((n) => n.id === id); return [FIELD.layout.wide.xy[2 * i] * W, FIELD.layout.wide.xy[2 * i + 1] * H]; };
+const restXY = (id, width = W, height = H) => {
+  const i = NODES.findIndex((n) => n.id === id), xy = FIELD.layout[width < 600 ? "narrow" : "wide"].xy;
+  return [xy[2 * i] * width, xy[2 * i + 1] * height];
+};
 
 test("the map paints labels last with a halo, and the export contract is stable", () => {
   assert.deepEqual(PAINT_ORDER, ["terrain", "links", "marks", "labels"]);
@@ -143,6 +146,51 @@ test("a still long press starts a drag, and only then is touchmove cancelled", a
   assert.ok(!t.stage.classList.contains("is-dragging"));
   assert.equal(t.stage.querySelector('[aria-selected="true"]'), null, "a drag does not choose the page");
   assert.ok(t.run() < 2000); assert.equal(t.frames.size, 0);
+  t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("on a phone, first-ring labels come in landmark order and a long one wraps onto two lines", async () => {
+  const t = setup({ reduce: true, width: 360, height: 476 });
+  await t.ready();
+  t.stage.dispatchEvent(new t.w.FocusEvent("focus"));
+  const from = t.texts.length;
+  t.key("Enter"); // the cursor starts on Home
+  t.run();
+  const drawn = t.texts.slice(from), at = (s) => drawn.indexOf(s);
+  assert.ok(drawn.includes("Home\u00a0↗"), "the chosen page is labelled");
+  for (const s of ["Job market", "Working paper:", "NMTC rural gap", "Contact", "Teaching"]) assert.ok(at(s) >= 0, `${s} is drawn`);
+  assert.ok(!drawn.includes("Working paper: NMTC rural gap"), "the long label is wrapped on a narrow stage");
+  assert.equal(at("NMTC rural gap"), at("Working paper:") + 1, "its two lines are drawn together");
+  assert.ok(at("Job market") < at("Working paper:") && at("Working paper:") < at("Contact") && at("Contact") < at("Teaching"),
+    "landmark order, not mass order, decides which labels are placed first");
+  t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("a phone tap scrolls Open page into view but keeps the chosen page clear of the bars stuck at the top", async () => {
+  const t = setup({ reduce: true, width: 360, height: 476 });
+  await t.ready();
+  const bar = (cls, top, bottom) => {
+    const el = t.d.createElement("div");
+    el.className = cls; el.style.position = "sticky";
+    el.getBoundingClientRect = () => ({ top, bottom, height: bottom - top, left: 0, right: 390, width: 390 });
+    t.d.body.prepend(el);
+  };
+  bar("site-header", 0, 73); bar("st-experience-nav", 73, 134);
+  Object.defineProperty(t.w, "innerHeight", { value: 844, configurable: true });
+  const top = 200;
+  t.stage.getBoundingClientRect = () => ({ left: 0, top, width: 360, height: 476, right: 360, bottom: top + 476 });
+  const proto = t.w.HTMLElement.prototype, rect = proto.getBoundingClientRect;
+  proto.getBoundingClientRect = function () { return this.classList.contains("hg-open") ? { top: 1100, bottom: 1140, height: 40, left: 0, right: 120, width: 120 } : rect.call(this); };
+  const scrolls = [];
+  t.w.scrollBy = (o) => scrolls.push(o.top);
+  const [x, y] = restXY("/contact/", 360, 476);
+  t.pointer("pointerdown", x, y + top); t.pointer("pointerup", x, y + top);
+  assert.match(t.stage.querySelector('[aria-selected="true"]').textContent, /^Contact/);
+  assert.equal(scrolls.length, 1);
+  // The chosen page sits at the centre of its rings, 238 px into the stage; it must stay 48 px below the bars.
+  assert.ok(top + 238 - scrolls[0] >= 134 + 48 - 1e-9, `the chosen page stays below the section chips (scrolled ${scrolls[0]})`);
+  assert.ok(scrolls[0] > 0);
+  proto.getBoundingClientRect = rect;
   t.dispose(); await t.w.happyDOM.abort();
 });
 

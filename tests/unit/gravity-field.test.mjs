@@ -2,9 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { contours } from "d3-contour";
 import {
-  ASSOCIATION, adjacency, boxDistance, contourLevels, createState, firstSentence, glyphPathData, glyphRadius, glyphReach,
-  glyphVertices, hopRings, integrate, labelBox, labelCandidates, padReach, pageMass, pageRings, placeLabels, placeOnRing,
-  potentialAt, reserveLabelRoom, ringContains, ringGeometry, sampleField, scaleLayout, traceSmoothRing, wellLevels, wellRadius,
+  ASSOCIATION, adjacency, boxDistance, closeTrack, contourLevels, createState, ellipseTrack, firstSentence, glyphPathData,
+  glyphRadius, glyphReach, glyphVertices, hopRings, integrate, labelBox, labelCandidates, padReach, pageMass, pageRings,
+  placeLabels, placeOnRing, placeOnTrack, potentialAt, reserveLabelRoom, ringContains, ringGeometry, sampleField, scaleLayout,
+  trackHits, trackLength, traceSmoothRing, wellLevels, wellRadius, wrapLabel,
 } from "../../src/lib/gravity-field.mjs";
 import { LAYOUT_FRAMES, computeLayouts } from "../../src/lib/gravity-layout.mjs";
 
@@ -200,6 +201,69 @@ test("room is reserved for forced labels: covered pages move aside, the labelled
       assert.ok(boxDistance(box, X[j], Y[j]) >= ASSOCIATION * own + 2 - 1e-9, `label ${it.key} is clearly nearest its own page, not ${j}`);
     }
   }
+});
+
+test("a first ring asked to be larger grows, within the room the stage allows", () => {
+  const base = { S: 0.6, RS: 0.74, narrow: true, counts: [1, 6, 40, 40] };
+  const a = ringGeometry(360, 476, base), b = ringGeometry(360, 476, { ...base, minR1: a.R1 + 20 });
+  close(b.R1, a.R1 + 20, 1e-9);
+  assert.ok(b.R2 - b.R1 >= 46 * 0.6 - 1e-9, "the second ring stays outside the first");
+  const c = ringGeometry(360, 476, { ...base, minR1: 1000 });
+  assert.ok(c.R2 <= 0.8 * (476 / 2 - 24 * 0.6) + 1e-9 && c.R1 <= c.R2 - 46 * 0.6 + 1e-9, "a request beyond the stage is capped");
+});
+
+test("a long label wraps onto two lines, after a colon when that fits, otherwise evenly", () => {
+  const m = (t) => t.length * 6;
+  assert.deepEqual(wrapLabel("Home", m, 100), ["Home"]);
+  assert.deepEqual(wrapLabel("Working paper: NMTC rural gap", m, 100), ["Working paper:", "NMTC rural gap"]);
+  assert.deepEqual(wrapLabel("Econometric Argument\u00a0↗", m, 100), ["Econometric", "Argument\u00a0↗"], "a no-break space keeps the arrow with its word");
+  assert.deepEqual(wrapLabel("Spatial Investment Lab, project record", m, 100), ["Spatial Investment", "Lab, project record"], "a colon or comma that leaves a long line is passed over");
+  assert.deepEqual(wrapLabel("Supercalifragilistic", m, 60), ["Supercalifragilistic"], "a single word stays whole");
+});
+
+test("a track closes arcs near a label and spreads its ring along what stays open", () => {
+  const t = ellipseTrack(200, 200, 120, 90);
+  const L = trackLength(t), ellipse = Math.PI * (3 * (120 + 90) - Math.sqrt((3 * 120 + 90) * (120 + 3 * 90)));
+  close(L, ellipse, 0.5);
+  const box = [300, 185, 380, 215], d = 12, hits = trackHits(t, box, d);
+  assert.ok(hits.length > 0);
+  const shorter = trackLength(t, hits);
+  assert.ok(shorter < L - 20, "closing the arc near the box shortens the track");
+  close(trackLength(t), L, 1e-9);
+  closeTrack(t, hits);
+  close(trackLength(t), shorter, 1e-9);
+  // Twelve pages placed round the open part: none within d of the box, evenly spaced, in their order.
+  const m = 12, list = [...Array(m).keys()], X = [], Y = [], TX = [], TY = [];
+  for (const i of list) { const a = (2 * Math.PI * i) / m + 0.1; X.push(200 + 100 * Math.cos(a)); Y.push(200 + 100 * Math.sin(a)); }
+  placeOnTrack(list, X, Y, 200, 200, 120 / 90, t, TX, TY, 0);
+  for (const i of list) {
+    assert.ok(boxDistance(box, TX[i], TY[i]) >= d - 1, `page ${i} stays clear of the label`);
+    close(((TX[i] - 200) / 120) ** 2 + ((TY[i] - 200) / 90) ** 2, 1, 1e-3);
+  }
+  const ang = (i) => Math.atan2(TY[i] - 200, TX[i] - 200), order = [...list].sort((a, b) => ang(a) - ang(b));
+  const rot = order.indexOf(0);
+  assert.deepEqual([...order.slice(rot), ...order.slice(0, rot)], list, "cyclic order is preserved");
+  const gaps = list.map((k) => Math.hypot(TX[order[k]] - TX[order[(k + 1) % m]], TY[order[k]] - TY[order[(k + 1) % m]])).sort((a, b) => a - b);
+  assert.ok(gaps[m - 2] < 1.15 * gaps[0], "pages are evenly spaced apart from the one gap across the closed arc");
+});
+
+test("a label place can be priced; pages with a negative size and faded rivals are judged as documented", () => {
+  const X = [200, 260], Y = [200, 200], W = 600, H = 400, it = () => ({ key: "a", i: 0, x: 200, y: 200, r: 8, w: 40, h: 14, prefer: [0, 1, 2, 3] });
+  // Page 1 sits just past the right-hand place: left out (negative size, no rival grade), it is ignored.
+  const right = placeLabels([it()], { X, Y, MR: [5, -1], n: 2, W, H, rival: [2, 0] });
+  assert.equal(right[0][1], 208, "the first place, beside on the right");
+  const blocked = placeLabels([it()], { X, Y, MR: [5, 5], n: 2, W, H });
+  assert.ok(blocked[0][1] < 200, "counted, page 1 sends the label to the left");
+  // A price picks the cheapest place that passes, and onPlace hears the choice.
+  const heard = [];
+  const priced = placeLabels([it()], { X, Y, MR: [5, -1], n: 2, W, H, rival: [2, 0], cost: (_, b, k) => (k === 2 ? 0 : 10 + k), onPlace: (_, b) => heard.push(b) });
+  assert.ok(priced[0][2] < 200 - 8, "the place above wins on price");
+  assert.equal(heard.length, 1);
+  assert.equal(placeLabels([it()], { X, Y, MR: [5, -1], n: 2, W, H, rival: [2, 0], cost: () => Infinity }).length, 0, "an infinite price refuses every place");
+  // A faded page must be farther from the label than its own page is, by the margin.
+  const near = { key: "b", i: 0, x: 200, y: 200, r: 8, w: 40, h: 14, prefer: [0] };
+  assert.equal(placeLabels([near], { X: [200, 258], Y: [200, 200], MR: [5, -1], n: 2, W, H, rival: [2, 1] }).length, 1, "a faded page well past the label's end");
+  assert.equal(placeLabels([near], { X: [200, 252], Y: [200, 215], MR: [5, -1], n: 2, W, H, rival: [2, 1] }).length, 0, "a faded page nearer than its own");
 });
 
 test("precomputed layouts are deterministic, normalised, and scale to any stage", () => {

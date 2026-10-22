@@ -61,7 +61,11 @@
   .hg .hg-head p { margin-bottom: 1rem; }
   .hg-links a { min-height: 44px; }
   .hg-stage { height: min(122vw, 480px); }
-  .hg-rings { position: static; background: none; padding: 10px 0 0; }
+  /* Back to topics sits below the map, beside the ring key, so it stays in view with the card. */
+  .hg-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; }
+  .hg-stage, .hg-keys { grid-column: 1 / -1; }
+  .hg-back { position: static; grid-column: 2; grid-row: 2; min-height: 44px; margin-top: 10px; }
+  .hg-rings { position: static; grid-column: 1; grid-row: 2; background: none; padding: 10px 0 0; }
   .hg-wrap.is-ringed .hg-keys { display: none; }
   .hg-card { margin-top: 1rem; }
   .hg-card li button { min-height: 44px; }

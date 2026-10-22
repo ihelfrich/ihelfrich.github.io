@@ -7,6 +7,7 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
+import { homeLabel } from "../../src/data/home-graph.mjs";
 
 const DIST = path.resolve("dist");
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".ico": "image/x-icon", ".xml": "application/xml", ".txt": "text/plain" };
@@ -24,9 +25,14 @@ async function serve() {
   return { server, base: `http://127.0.0.1:${server.address().port}` };
 }
 
-// Counts animation frames requested by the home-graph module, and records (and cancels) navigations.
+// Counts animation frames requested by the home-graph module, records (and cancels) navigations, and
+// keeps the text drawn in the latest frame of the map's scene canvas.
 const INSTRUMENT = `(() => {
-  window.__hgFrames = 0; window.__navs = [];
+  window.__hgFrames = 0; window.__navs = []; window.__hgTexts = [];
+  const P = CanvasRenderingContext2D.prototype, clear = P.clearRect, fill = P.fillText;
+  const scene = (c) => c.canvas && c.canvas.hasAttribute && c.canvas.hasAttribute("data-hg-scene");
+  P.clearRect = function (...a) { if (scene(this)) window.__hgTexts = []; return clear.apply(this, a); };
+  P.fillText = function (t, ...a) { if (scene(this)) window.__hgTexts.push(t); return fill.call(this, t, ...a); };
   const raf = window.requestAnimationFrame.bind(window);
   window.requestAnimationFrame = (cb) => { const mine = /home-graph/.test(new Error().stack || ""); return raf((t) => { if (mine) window.__hgFrames++; cb(t); }); };
   try { navigation.addEventListener("navigate", (e) => { const u = new URL(e.destination.url); if (u.pathname === location.pathname) return; window.__navs.push(u.pathname); e.preventDefault(); }); } catch {}
@@ -95,19 +101,58 @@ test("on a phone, a swipe from any point of the map scrolls the page and chooses
   await ctx.close();
 });
 
-test("on a phone, a tap chooses a page with Open page in view, and a second tap opens it", when, async () => {
-  const { ctx, page } = await open({ phone: true });
-  const [x, y] = restPoint("/contact/", await stage(page));
-  await page.touchscreen.tap(x, y);
-  await page.waitForTimeout(900);
-  assert.equal(await page.textContent("[data-hg-card] h3"), "Contact");
-  const btn = await page.evaluate(() => { const r = document.querySelector(".hg-open").getBoundingClientRect(); return { top: r.top, bottom: r.bottom, vh: innerHeight }; });
-  assert.ok(btn.top >= 0 && btn.bottom <= btn.vh, `Open page is in view (${Math.round(btn.top)}-${Math.round(btn.bottom)} of ${btn.vh})`);
-  await settle(page);
-  const b = await stage(page);
-  await page.touchscreen.tap(b.x + b.w / 2, b.y + (b.h + 40) / 2); // the chosen page moves to the centre of its rings
-  await page.waitForTimeout(300);
-  assert.deepEqual(await page.evaluate(() => window.__navs), ["/contact/"]);
+// Where an element is, and whether it is the topmost element at its centre (not under a sticky bar).
+const shown = (page, sel) => page.evaluate((s) => {
+  const el = document.querySelector(s), r = el.getBoundingClientRect(), top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+  return { top: r.top, bottom: r.bottom, vh: innerHeight, onTop: !!top && (top === el || el.contains(top)) };
+}, sel);
+
+test("on a phone, a tap chooses a page with Open page and Back in view, and a second tap opens it", when, async () => {
+  for (const id of ["/contact/", "/job-market/", "/research/helfrich-2026-nmtc-rural-gap/"]) {
+    const { ctx, page } = await open({ phone: true });
+    const [x, y] = restPoint(id, await stage(page));
+    await page.touchscreen.tap(x, y);
+    await page.waitForTimeout(1200);
+    assert.equal(await page.textContent("[data-hg-card] h3"), field.nodes.find((d) => d.id === id).title);
+    for (const sel of [".hg-open", "[data-hg-back]"]) {
+      const b = await shown(page, sel);
+      assert.ok(b.top >= 0 && b.bottom <= b.vh && b.onTop, `${sel} is in view and uncovered after choosing ${id} (${Math.round(b.top)}-${Math.round(b.bottom)} of ${b.vh})`);
+    }
+    if (id === "/contact/") {
+      await settle(page);
+      const b = await stage(page);
+      await page.touchscreen.tap(b.x + b.w / 2, b.y + b.h / 2); // the chosen page moves to the centre of its rings
+      await page.waitForTimeout(300);
+      assert.deepEqual(await page.evaluate(() => window.__navs), [id]);
+    }
+    await ctx.close();
+  }
+});
+
+// First-ring labels drawn in the latest frame; a wrapped label's two lines count once.
+async function ringLabels(page, i) {
+  const ring = new Set(field.links.flatMap(([a, b]) => (a === i ? [b] : b === i ? [a] : [])).map((j) => homeLabel(field.nodes[j])));
+  const texts = await page.evaluate(() => window.__hgTexts), out = [];
+  for (let k = 0; k < texts.length; k++) {
+    if (ring.has(texts[k])) out.push(texts[k]);
+    else if (ring.has(`${texts[k]} ${texts[k + 1]}`)) { out.push(`${texts[k]} ${texts[k + 1]}`); k++; }
+  }
+  return { size: ring.size, labels: out };
+}
+
+test("on a phone, a chosen page labels at least six of its first ring, the landmark pages first", when, async () => {
+  const { ctx, page } = await open({ phone: true, reduced: true });
+  await page.focus("[data-hg-stage]");
+  for (const id of ["/", "/job-market/", "/teaching/", "/econometrics/", "/projects/", "/library/"]) {
+    const i = field.nodes.findIndex((d) => d.id === id);
+    for (let k = 0; k < field.nodes.length && !(await page.getAttribute("[data-hg-stage]", "aria-activedescendant")).endsWith(`-${i}`); k++) await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(150);
+    const { size, labels } = await ringLabels(page, i);
+    assert.ok(labels.length >= Math.min(size, 6), `${id}: ${labels.length} of ${size} first-ring pages labelled`);
+    if (id === "/") for (const s of ["Job market", "Working paper: NMTC rural gap", "CV", "Contact", "Research"]) assert.ok(labels.includes(s), `${s} is labelled when Home is chosen`);
+    await page.keyboard.press("Escape");
+  }
   await ctx.close();
 });
 

@@ -6,10 +6,11 @@ import { contours as contourGenerator } from "d3-contour";
 import { KIND_NAMES, TOPIC_NAMES, TOPIC_ORDER, TOPIC_SHORT } from "../data/field-topics.mjs";
 import { FORCED_LANDMARKS, LANDMARKS, homeLabel } from "../data/home-graph.mjs";
 import {
-  LABEL_ORDER, TAU, adjacency, clamp, contourLevels, createState, firstSentence, glyphPathData, glyphRadius, glyphReach,
-  glyphVertices, hash, hopRings, integrate, labelBox, markRadius, padReach, pageMass, pageRings, placeLabels, placeOnRing,
-  potentialAt, radialPreference, reachBox, reserveLabelRoom, ringGeometry, sampleField, scaleLayout, stageScales,
-  traceSmoothRing, wellLevels, wellRadius,
+  LABEL_ORDER, TAU, adjacency, boxDistance, clamp, closeTrack, contourLevels, createState, ellipseTrack, firstSentence,
+  glyphPathData, glyphRadius, glyphReach, glyphVertices, hash, hopRings, integrate, labelBox, labelCandidates, markRadius,
+  padReach, pageMass, pageRings, placeLabels, placeOnRing, placeOnTrack, potentialAt, radialPreference, reachBox,
+  reserveLabelRoom, ringGeometry, sampleField, scaleLayout, stageScales, trackHits, trackLength, traceSmoothRing, wellLevels,
+  wellRadius, wrapLabel,
 } from "../lib/gravity-field.mjs";
 
 /** Canvas paint order: labels come last, over every mark, each with a halo in the stage colour. */
@@ -21,6 +22,11 @@ const LABEL_CLEARANCE_PX = 1.5;
 // Pages on the first ring are spread round the chosen page and labelled outwards, so their labels
 // need a smaller margin of association than labels on the dense map at rest (see ASSOCIATION).
 const RING_ASSOCIATION = 1.2;
+// Share of each outer ring's length (two links, three or more) that stays open when first-ring labels
+// close arcs of it. The faint outer band can give up more than the second ring.
+const RING_KEPT = [0.6, 0.5];
+// The chosen page's label: below or above its mark first, then slid, then further out.
+const CHOSEN_ORDER = Object.freeze([3, 2, 16, 17, 14, 15, 8, 9, 0, 1, 10, 11, 12, 13]);
 const WELL = 30; // mass of the chosen page's well
 const LONG_PRESS_MS = 300; // touch: hold this long, nearly still, to drag a page
 const TOUCH_SLOP = 8;
@@ -109,6 +115,9 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     for (let i = 0; i < n; i++) M0[i] = pageMass(N[i].kb, deg[i]);
     const ALLORDER = [...Array(n).keys()].sort((a, b) => TOPIC_ORDER.indexOf(topic[a]) - TOPIC_ORDER.indexOf(topic[b]) || M0[b] - M0[a]);
     const landmarks = LANDMARKS.map((id) => byId.get(id)).filter((i) => i != null);
+    // Label priority: the landmark pages in their listed order, then the others by mass.
+    const rank = N.map((d) => { const k = LANDMARKS.indexOf(d.id); return k < 0 ? LANDMARKS.length : k; });
+    const byPriority = (a, b) => rank[a] - rank[b] || M0[b] - M0[a];
     const RM = win.matchMedia("(prefers-reduced-motion: reduce)");
     const DARK = win.matchMedia("(prefers-color-scheme: dark)");
     const ctT = cvT.getContext("2d"), ctS = cvS.getContext("2d");
@@ -122,6 +131,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     let sel = -1, hov = -1, cursor = -1, drag = -1, dragX = 0, dragY = 0;
     let ring = null, ringA = 0, ringAT = 0, introA = 1, gamma = 3.2, streakT0 = -1e9;
     let levels = [], topLand = 1, coarse = false, well = [];
+    let plan = null; // the first-ring pages whose labels the outer rings were laid out round
     let family = "system-ui, sans-serif", theme = null;
     const F = (w, px) => `${w} ${px}px ${family}`;
 
@@ -213,13 +223,19 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     /* ---------- targets for the two states ---------- */
     function toLandscape() {
       for (let i = 0; i < n; i++) { TX[i] = PX0[i]; TY[i] = PY0[i]; RADT[i] = R0[i]; MT[i] = M0[i]; KRT[i] = bodyKernel(); }
-      REST.set(REST0); hop.fill(-1); ring = null; ringAT = 0;
+      REST.set(REST0); hop.fill(-1); ring = null; ringAT = 0; plan = null;
     }
+    // Back to topics sits over the top of the stage on a desktop and below it on a phone.
+    const backOverlays = () => win.getComputedStyle(backBtn).position === "absolute";
     function toRings(c) {
       hop = hopRings(adj, c);
       const g = [[], [], [], []];
       for (let i = 0; i < n; i++) g[hop[i]].push(i);
-      ring = ringGeometry(W, H, { S, RS, narrow, top: narrow ? 40 : 0, counts: g.map((x) => x.length) });
+      const geo = { S, RS, narrow, top: narrow && backOverlays() ? 40 : 0, counts: g.map((x) => x.length) };
+      ring = ringGeometry(W, H, geo);
+      // The chosen page's label sits inside the first ring; a ring too small for it grows.
+      const fit = chosenFit(c, g[1]);
+      if (fit > ring.R1) ring = ringGeometry(W, H, { ...geo, minR1: fit });
       const { cx, cy, e, R1, R2, PX, PY } = ring, ox = X[c], oy = Y[c];
       placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY);
       placeOnRing(g[2], X, Y, ox, oy, e, cx, cy, R2 * e, R2, TX, TY);
@@ -228,6 +244,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const scale = [1.25, 1, 0.8, 0.66];
       const soft = [12, 12, 17, 26]; // outer pages are more diffuse masses, so they do not form isolated rings
       for (let i = 0; i < n; i++) { RADT[i] = R0[i] * scale[hop[i]]; MT[i] = M0[i]; KRT[i] = soft[hop[i]] * S; }
+      plan = planRingLabels(c, g, ox, oy);
       MT[c] = WELL; KRT[c] = 34 * S;
       well = wellLevels(WELL, KRT[c], 0.72 * R1);
       for (let l = 0; l < L; l++) REST[l] = Math.hypot(TX[LB[l]] - TX[LA[l]], TY[LB[l]] - TY[LA[l]]);
@@ -337,26 +354,101 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       for (const [key, c] of reserveLabelRoom(items, { X: PX0, Y: PY0, MR, n, W, H })) last.set(key, c);
       for (let l = 0; l < L; l++) REST0[l] = Math.hypot(PX0[LB[l]] - PX0[LA[l]], PY0[LB[l]] - PY0[LA[l]]);
     }
-    function item(i, weight, size, extra = "", chosen = false) {
+    // A page's label. With a page chosen, a label too wide for the room it has wraps onto two lines: the
+    // chosen title when it is wider than the first ring, and on a narrow stage any long first-ring label.
+    // `target` measures the page at its target position and size rather than where it is now.
+    const lineRoom = (chosen) => (!ring ? Infinity : narrow ? Math.max(96, 0.3 * W) : chosen ? Math.max(80, 2 * ring.R1 * ring.e - 44) : Infinity);
+    function item(i, weight, size, extra = "", chosen = false, target = false) {
       const text = label[i] + extra, font = F(weight, size);
+      const x = target ? TX[i] : X[i], y = target ? TY[i] : Y[i], rad = target ? RADT[i] : RAD[i];
+      const lines = wrapLabel(text, (t) => textW(t, font), lineRoom(chosen));
       return {
-        key: i, i, x: X[i], y: Y[i], r: markReach(N[i].type, RAD[i], ringRadius(i), chosen ? CHOSEN_HALO_PX : LABEL_HALO_PX),
-        text, font, size, w: textW(text, font), h: size * 1.25, color: "ink", chosen,
-        alpha: clamp(1.25 - speed(i) / 140, 0, 1),
-        prefer: sel >= 0 && i !== sel ? radialPreference(X[i], Y[i], ring ? ring.cx : W / 2, ring ? ring.cy : H / 2) : LABEL_ORDER,
+        key: i, i, x, y, r: markReach(N[i].type, rad, ringRadius(i, rad), chosen ? CHOSEN_HALO_PX : LABEL_HALO_PX),
+        text, lines, font, size, w: Math.max(...lines.map((t) => textW(t, font))), h: size * 1.25 * lines.length, color: "ink", chosen,
+        alpha: target ? 1 : clamp(1.25 - speed(i) / 140, 0, 1),
+        prefer: sel >= 0 && i !== sel ? radialPreference(x, y, ring ? ring.cx : W / 2, ring ? ring.cy : H / 2) : LABEL_ORDER,
       };
+    }
+    // The chosen page sits alone at the centre of its well, so its label need only be nearest to it.
+    const chosenItem = (target) => Object.assign(item(sel, 650, narrow ? 14 : 15, "\u00a0↗", true, target), { alpha: 1, force: true, ratio: 1, prefer: CHOSEN_ORDER });
+    // A first-ring label points away from the chosen page where it can, and otherwise takes another
+    // place beside its mark that does not point into the well. The order is read from the page's target
+    // position, so it stays the same while the page moves there.
+    const ringItem = (i, target) => {
+      const it = item(i, 500, narrow ? 11 : 12, "", false, target);
+      const x = TX[i], y = TY[i], ux = x - ring.cx, uy = y - ring.cy;
+      const all = labelCandidates(x, y, it.r, it.w, it.h), first = radialPreference(x, y, ring.cx, ring.cy);
+      const outward = (k) => (all[k][0] + it.w / 2 - x) * ux + (all[k][1] + it.h / 2 - y) * uy >= 0;
+      return Object.assign(it, { ratio: RING_ASSOCIATION, prefer: [...first, ...LABEL_ORDER.filter((k) => !first.includes(k) && outward(k))] });
+    };
+    // Vertical semi-axis of the smallest first ring whose inside holds the chosen page's label under (or
+    // over) its mark, clear of the first ring's marks.
+    function chosenFit(c, r1) {
+      const it = chosenItem(true), rad = R0[c] * 1.25;
+      const reach = reachBox(markReach(N[c].type, rad, ringRadius(c, rad), CHOSEN_HALO_PX));
+      let mr = 0;
+      for (const i of r1) mr = Math.max(mr, GR[i] * R0[i] + 2);
+      const y1 = Math.max(reach.s, reach.n) + it.h + 2, half = it.w / 2 + 2 + mr + 4;
+      return Math.hypot(half / ring.e, y1);
+    }
+    function ringOne() {
+      const r1 = [];
+      for (let i = 0; i < n; i++) if (hop[i] === 1) r1.push(i);
+      return r1.sort(byPriority);
+    }
+    // The first ring is crowded, and on a phone the rings outside it leave its labels no room. So the
+    // first ring's labels are laid out first, in priority order and against the target positions, and the
+    // outer rings are then spread along the arcs those labels leave open. Each label then runs clear of
+    // every faded page, which stays farther from it than its own page is. A label is dropped when the arcs
+    // it would close leave its ring too little room. Returns the labelled pages, in priority order.
+    function planRingLabels(c, g, ox, oy) {
+      const { cx, cy, e, R2, PX, PY } = ring;
+      const jitter = narrow ? 0 : 0.06; // a phone's crowded rings stay smooth, so the arcs left open stay clear
+      const outer = [[g[2], R2 * e, R2, RING_KEPT[0]], [g[3], PX, PY, RING_KEPT[1]]].filter(([list]) => list.length).map(([list, fx, fy, kept]) => {
+        let rmax = 0, need = 0;
+        for (const i of list) { const r = GR[i] * RADT[i]; rmax = Math.max(rmax, r); need += 2 * r + 3; }
+        // the radial jitter of a crowded ring, and settling, as slack
+        const slack = (list.length > 30 ? (jitter / 2) * Math.max(fx, fy) : 0) + 2;
+        // A ring keeps most of its length, so that it still reads as a ring.
+        const t = ellipseTrack(cx, cy, fx, fy);
+        return { list, t, rmax, need: Math.max(need, kept * trackLength(t)), slack };
+      });
+      for (let i = 0; i < n; i++) { RV[i] = hop[i] <= 1 ? 2 : 0; MR[i] = hop[i] <= 1 ? GR[i] * RADT[i] + 2 : -1; }
+      // Arcs a label at box b would close: samples of each ring nearer the box than its own page is,
+      // by a clear margin, or than the ring's largest mark needs.
+      const closes = (it, b) => {
+        const own = boxDistance(b, TX[it.i], TY[it.i]);
+        return outer.map((o) => trackHits(o.t, b, Math.max(own * 1.3 + 3, o.rmax * 1.5 + 2) + o.slack));
+      };
+      // Of the places a label may take, the one that closes the least of the outer rings, with a slight
+      // preference for the usual order; none that would leave a ring too little room. The chosen page's
+      // label counts too, although it rarely leaves the first ring.
+      const cost = (it, b, k) => {
+        const hits = closes(it, b);
+        let shut = 0;
+        for (let q = 0; q < outer.length; q++) {
+          const left = trackLength(outer[q].t, hits[q]);
+          if (left < outer[q].need) return Infinity;
+          shut += trackLength(outer[q].t) - left;
+        }
+        return shut + 6 * k;
+      };
+      const onPlace = (it, b) => closes(it, b).forEach((h, q) => closeTrack(outer[q].t, h));
+      const items = [chosenItem(true), ...ringOne().map((i) => ringItem(i, true))];
+      // Places these pages' labels took before were from other candidate lists; the plan starts afresh.
+      for (const it of items) last.delete(it.key);
+      const placed = placeLabels(items, { X: TX, Y: TY, MR, n, W, H, last, rival: RV, cost, onPlace });
+      for (const o of outer) placeOnTrack(o.list, X, Y, ox, oy, e, o.t, TX, TY, jitter);
+      return placed.map(([it]) => it.i).filter((i) => i !== c);
     }
     function labelItems() {
       const items = [];
       const focus = hov;
       const small = narrow ? 11 : 12;
       if (sel >= 0) {
-        // The chosen page sits alone at the centre of its well, so its label need only be nearest to it.
-        items.push(Object.assign(item(sel, 650, narrow ? 14 : 15, " ↗", true), { alpha: 1, force: true, ratio: 1, prefer: [3, 2, 16, 17, 14, 15, 8, 9, 0, 1, 10, 11, 12, 13] }));
+        items.push(chosenItem(false));
         if (focus >= 0 && focus !== sel) items.push(Object.assign(item(focus, 600, 13), { alpha: 1, force: true }));
-        const r1 = [];
-        for (let i = 0; i < n; i++) if (hop[i] === 1) r1.push(i);
-        r1.sort((a, b) => M0[b] - M0[a]).forEach((i) => items.push(Object.assign(item(i, 500, small), { ratio: RING_ASSOCIATION })));
+        for (const i of plan || ringOne()) items.push(ringItem(i, false));
       } else if (focus >= 0) {
         items.push(Object.assign(item(focus, 650, 14), { alpha: 1, force: true }));
         adj[focus].slice().sort((a, b) => M0[b] - M0[a]).forEach((i) => items.push(item(i, 500, small)));
@@ -452,9 +544,10 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       }
       // labels, last, over every mark; another mark's outline and paper edge stay clear of the label box
       // Faded pages (two or more links from the chosen page) may meet a label's halo, but not its text,
-      // and on a wide stage a label must be nearer its own mark than to any of them; a phone has no room for that.
+      // and a label must be nearer its own mark than to any of them. On a wide stage the pages three or
+      // more links away lie far outside the first ring and do not count.
       for (let i = 0; i < n; i++) {
-        RV[i] = sel >= 0 ? (hop[i] <= 1 || nb[i] ? 2 : hop[i] === 2 && !narrow ? 1 : 0) : focus >= 0 ? (nb[i] ? 2 : 1) : 2;
+        RV[i] = sel >= 0 ? (hop[i] <= 1 || nb[i] ? 2 : hop[i] === 2 || narrow ? 1 : 0) : focus >= 0 ? (nb[i] ? 2 : 1) : 2;
         MR[i] = GR[i] * RAD[i] + (sel >= 0 && RV[i] < 2 ? 0 : 2);
       }
       const placed = placeLabels(labelItems(), { X, Y, MR, n, W, H, last, rival: RV });
@@ -463,12 +556,21 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       for (const [it, bx, by] of placed) {
         if (it.i != null && it.alpha > 0.3) labelHits.push([it.i, ...labelBox(it, bx, by)]);
         if (it.alpha < 0.03) continue;
+        // A wrapped label's lines align on the side nearest its mark, or centre over or under it.
+        const lines = it.lines || [it.text], lh = it.size * 1.25;
+        const at = lines.map((t, k) => {
+          const lw = lines.length > 1 ? textW(t, it.font) : it.w;
+          const dx = lines.length < 2 || bx >= it.x ? 0 : bx + it.w <= it.x ? it.w - lw : (it.w - lw) / 2;
+          return [t, bx + dx, by + k * lh];
+        });
         c.font = it.font;
         if (it.track && "letterSpacing" in c) c.letterSpacing = "1px";
         c.globalAlpha = it.alpha * (it.chosen ? 1 : 0.94);
-        c.lineWidth = it.chosen ? CHOSEN_HALO_PX : LABEL_HALO_PX; c.strokeStyle = theme.paper; c.strokeText(it.text, bx, by);
+        c.lineWidth = it.chosen ? CHOSEN_HALO_PX : LABEL_HALO_PX; c.strokeStyle = theme.paper;
+        for (const [t, x, y] of at) c.strokeText(t, x, y);
         c.globalAlpha = it.alpha;
-        c.fillStyle = it.color === "muted" ? theme.muted : theme.ink; c.fillText(it.text, bx, by);
+        c.fillStyle = it.color === "muted" ? theme.muted : theme.ink;
+        for (const [t, x, y] of at) c.fillText(t, x, y);
         if (it.track && "letterSpacing" in c) c.letterSpacing = "0px";
       }
       c.globalAlpha = 1;
@@ -569,15 +671,26 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       intent.t = t; intent.x = x; intent.y = y;
     }
     const open = (i) => go(N[i].id);
+    // Bottom edge of the bars stuck to the top of the window (the site header and the home page's
+    // section chips), which cover whatever scrolls beneath them.
+    function coveredTop() {
+      let y = 0;
+      for (const el of doc.querySelectorAll(".site-header, .st-experience-nav")) {
+        const cs = win.getComputedStyle(el);
+        if (cs.position !== "sticky" && cs.position !== "fixed") continue;
+        const r = el.getBoundingClientRect();
+        if (r.height > 0 && r.top < win.innerHeight / 3) y = Math.max(y, r.bottom);
+      }
+      return y || parseFloat(win.getComputedStyle(doc.documentElement).getPropertyValue("--site-header-height")) || 0;
+    }
     // On a phone the card sits below the map: after a tap, scroll just far enough to show "Open page",
-    // without moving the chosen page out of view.
+    // without moving the chosen page under the bars at the top of the window.
     function revealOpen() {
       const a = card.querySelector(".hg-open");
       if (!a || card.hidden) return;
       const need = a.getBoundingClientRect().bottom + 12 - win.innerHeight;
       if (need <= 0) return;
-      const header = parseFloat(win.getComputedStyle(doc.documentElement).getPropertyValue("--site-header-height")) || 0;
-      const room = stage.getBoundingClientRect().top + (ring ? ring.cy : H / 2) - header - 48;
+      const room = stage.getBoundingClientRect().top + (ring ? ring.cy : H / 2) - coveredTop() - 48;
       const dy = Math.min(need, room);
       if (dy > 4) win.scrollBy({ top: dy, behavior: RM.matches ? "auto" : "smooth" });
     }

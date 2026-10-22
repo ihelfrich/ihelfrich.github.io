@@ -265,13 +265,14 @@ export function integrate(s, dt, { sel = -1, home = -1, drag = -1, dragX = 0, dr
 
 /**
  * Ellipses for the chosen page's first and second rings and for the outer band, sized to the stage
- * and to the number of pages on each ring. counts = [1, ring 1, ring 2, ring 3+].
+ * and to the number of pages on each ring. counts = [1, ring 1, ring 2, ring 3+]. minR1 asks for a first
+ * ring at least that large (in its vertical semi-axis), within the room the stage allows.
  */
-export function ringGeometry(W, H, { S, RS, narrow, top = 0, counts }) {
+export function ringGeometry(W, H, { S, RS, narrow, top = 0, counts, minR1 = 0 }) {
   const cx = W / 2, cy = (H + top) / 2, ry = (H - top) / 2 - 24 * S, rx = W / 2 - 24 * S;
   const e = clamp(W / H, 0.82, 1.55);
   const perim = Math.PI * (1 + e);
-  let R1 = Math.max((narrow ? 0.4 : 0.36) * ry, (counts[1] * (narrow ? 21 : 24) * RS) / perim);
+  let R1 = Math.max((narrow ? 0.4 : 0.36) * ry, (counts[1] * (narrow ? 21 : 24) * RS) / perim, minR1);
   let R2 = Math.max(0.7 * ry, R1 + 60 * S, (counts[2] * 12 * RS) / perim);
   R2 = Math.min(R2, 0.8 * ry);
   R1 = Math.min(R1, R2 - 46 * S);
@@ -297,7 +298,107 @@ export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY) {
   });
 }
 
+/*
+ * A ring can be closed off in places, so that the labels of the pages inside it can run through. A track
+ * samples the ellipse (semi-axes fx, fy) at K points; closeTrack marks the samples near a label as closed,
+ * and placeOnTrack spreads a ring's pages evenly along what is left open.
+ */
+export function ellipseTrack(cx, cy, fx, fy, K = 720) {
+  const px = new Float64Array(K), py = new Float64Array(K), seg = new Float64Array(K);
+  for (let k = 0; k < K; k++) { const a = (TAU * k) / K; px[k] = cx + fx * Math.cos(a); py[k] = cy + fy * Math.sin(a); }
+  for (let k = 0; k < K; k++) { const j = (k + 1) % K; seg[k] = Math.hypot(px[j] - px[k], py[j] - py[k]); }
+  return { K, cx, cy, fx, fy, px, py, seg, closed: new Uint8Array(K), open: -1 };
+}
+
+/** Open samples of track t within distance d of box b. */
+export function trackHits(t, b, d) {
+  // A box that, grown by d, lies inside the ellipse (which is convex) is nowhere near it.
+  const { cx, cy, fx, fy } = t, inside = (x, y) => ((x - cx) / fx) ** 2 + ((y - cy) / fy) ** 2 < 1;
+  const x0 = b[0] - d, y0 = b[1] - d, x1 = b[2] + d, y1 = b[3] + d;
+  if (inside(x0, y0) && inside(x1, y0) && inside(x0, y1) && inside(x1, y1)) return [];
+  const hits = [];
+  for (let k = 0; k < t.K; k++) if (!t.closed[k] && boxDistance(b, t.px[k], t.py[k]) < d) hits.push(k);
+  return hits;
+}
+
+/** Length of the open part of track t, as it would be with the samples in `also` closed too. */
+export function trackLength(t, also = []) {
+  if (!also.length && t.open >= 0) return t.open;
+  for (const k of also) t.closed[k] = 2;
+  let s = 0;
+  for (let k = 0; k < t.K; k++) if (!t.closed[k] && !t.closed[(k + 1) % t.K]) s += t.seg[k];
+  for (const k of also) t.closed[k] = 0;
+  if (!also.length) t.open = s;
+  return s;
+}
+
+export function closeTrack(t, hits) {
+  for (const k of hits) t.closed[k] = 1;
+  if (hits.length) t.open = -1;
+}
+
+/**
+ * As placeOnRing, on the open part of track t: the pages keep their angular order as seen from (ox, oy)
+ * (x scaled by 1/e), are spaced evenly along the open arcs, and take the rotation that moves them least.
+ * A ring of more than 30 pages gets a radial jitter of up to +-jitter/2 of its radius.
+ */
+export function placeOnTrack(list, X, Y, ox, oy, e, t, TX, TY, jitter = 0.06) {
+  const m = list.length, { K, cx, cy, fx, fy, px, py, seg, closed } = t;
+  if (!m) return;
+  const cum = new Float64Array(K + 1);
+  for (let k = 0; k < K; k++) cum[k + 1] = cum[k] + (!closed[k] && !closed[(k + 1) % K] ? seg[k] : 0);
+  const total = cum[K];
+  if (total <= 0) { placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY); return; }
+  const at = (u) => {
+    u = ((u % total) + total) % total;
+    let lo = 0, hi = K; // smallest hi with cum[hi] > u; segment hi - 1 is open and contains u
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (cum[mid] > u) hi = mid; else lo = mid; }
+    const k = hi - 1, j = (k + 1) % K, f = (u - cum[k]) / seg[k];
+    return [px[k] + (px[j] - px[k]) * f, py[k] + (py[j] - py[k]) * f];
+  };
+  const th = list.map((i) => [i, Math.atan2(Y[i] - oy, (X[i] - ox) / e)]).sort((a, b) => a[1] - b[1]);
+  const step = total / m;
+  let best = [0, 0], cost = Infinity;
+  for (let q = 0; q < 4; q++) {
+    const u0 = (step * q) / 4;
+    const phi = th.map((_, k) => { const [x, y] = at(u0 + k * step); return Math.atan2((y - cy) / fy, (x - cx) / fx); });
+    for (let r = 0; r < m; r++) {
+      let c = 0;
+      for (let k = 0; k < m; k++) c += 1 - Math.cos(th[k][1] - phi[(k + r) % m]);
+      if (c < cost) { cost = c; best = [u0, r]; }
+    }
+  }
+  const [u0, r] = best;
+  th.forEach(([i], k) => {
+    const [x, y] = at(u0 + ((k + r) % m) * step), j = m > 30 ? (hash(i) - 0.5) * jitter : 0;
+    TX[i] = cx + (x - cx) * (1 + j);
+    TY[i] = cy + (y - cy) * (1 + j);
+  });
+}
+
 /* ---------- labels ---------- */
+
+/**
+ * Splits a label wider than maxW into two lines: after a colon or comma when that brings both lines
+ * within maxW, otherwise at the space that best balances them. measure(text) returns a width. A label
+ * with no ordinary space stays on one line (a no-break space keeps "Title ↗" together).
+ */
+export function wrapLabel(text, measure, maxW) {
+  if (measure(text) <= maxW) return [text];
+  const best = (ks) => {
+    let out = null, w = Infinity;
+    for (const k of ks) {
+      const a = text.slice(0, k), b = text.slice(k + 1), v = Math.max(measure(a), measure(b));
+      if (v < w) { w = v; out = [a, b]; }
+    }
+    return [out, w];
+  };
+  const spaces = [];
+  for (let k = text.indexOf(" "); k > 0; k = text.indexOf(" ", k + 1)) spaces.push(k);
+  if (!spaces.length) return [text];
+  const [p, pw] = best(spaces.filter((k) => /[:,]$/.test(text.slice(0, k))));
+  return p && pw <= maxW ? p : best(spaces)[0];
+}
 
 /**
  * How far a mark reaches from its centre: { e, w, n, s } along the axes and { ne, nw, se, sw }, the
@@ -376,14 +477,18 @@ export const labelBox = (it, bx, by) => [bx - 2, by - 1, bx + it.w + 2, by + it.
  * Greedy collision-free label placement. Items, in priority order: { key, i, x, y, r, w, h, cands?,
  * prefer?, force?, ratio? }, where r is the mark's reach (a radius or a reachBox object). A label never
  * overlaps an earlier label, stays inside the stage, avoids every other mark (centre X, Y and half-size
- * MR), and sits clearly closer to its own mark than to any other (by `ratio`, or the item's own; see
- * ASSOCIATION), so it cannot be read as another page's label. `rival`, when given, grades the pages for
- * that test: 2 for pages drawn at full strength (the full margin applies), 1 for faded pages (the label
- * need only be nearer its own mark), 0 for pages that do not count. A forced label with no such place
- * takes the one that covers, then misleads about, the fewest marks. `last` keeps each label's previous
- * candidate so labels do not flicker. Returns [[item, left, top], ...].
+ * MR; a page with a negative MR is left out), and sits clearly closer to its own mark than to any other
+ * (by `ratio`, or the item's own; see ASSOCIATION), so it cannot be read as another page's label.
+ * `rival`, when given, grades the pages for that test: 2 for pages drawn at full strength (the full
+ * margin applies), 1 for faded pages (the label must be nearer its own mark by `margin`), 0 for pages
+ * that do not count. Without `cost`, the first place in the item's order that passes these tests wins.
+ * `cost(item, box, k)`, when given, prices every place that passes (k is its rank in the item's order;
+ * Infinity refuses it): the cheapest wins, ties going to the earlier place, and `onPlace(item, box)` is
+ * told the choice. A forced label with no such place takes the one that covers, then misleads about, the
+ * fewest marks. `last` keeps each label's previous candidate, tried first, so labels do not flicker.
+ * Returns [[item, left, top], ...].
  */
-export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset = 4, ratio = ASSOCIATION, margin = 2, rival = null }) {
+export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset = 4, ratio = ASSOCIATION, margin = 2, rival = null, cost = null, onPlace = null }) {
   const boxes = [], out = [];
   const inside = (b) => b[0] >= inset && b[2] <= W - inset && b[1] >= inset && b[3] <= H - inset;
   const hitBox = (b) => boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
@@ -392,6 +497,7 @@ export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset 
     for (let i = 0; i < n; i++) {
       if (i === own) continue;
       const r = MR[i];
+      if (r < 0) continue;
       if (b[0] < X[i] + r && b[2] > X[i] - r && b[1] < Y[i] + r && b[3] > Y[i] - r) { k++; if (stopAtOne) return k; }
     }
     return k;
@@ -403,7 +509,7 @@ export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset 
     let k = 0;
     for (let i = 0; i < n; i++) {
       if (i === own || (rival && !rival[i])) continue;
-      const di = rival && rival[i] === 1 ? near : d;
+      const di = rival && rival[i] === 1 ? near + margin : d;
       const dx = Math.max(b[0] - X[i], 0, X[i] - b[2]);
       if (dx >= di) continue;
       if (Math.hypot(dx, Math.max(b[1] - Y[i], 0, Y[i] - b[3])) < di) { k++; if (stopAtOne) return k; }
@@ -418,26 +524,27 @@ export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset 
     const prev = last.get(it.key);
     const order = prev != null && prev < cands.length ? [prev, ...cands.keys()] : [...cands.keys()];
     const own = it.i ?? -1;
-    let done = false;
+    let pick = -1, price = Infinity;
     for (const c of order) {
       const [bx, by] = cands[c], b = labelBox(it, bx, by);
       if (!inside(b) || hitBox(b) || markHits(b, own, true) || rivals(b, own, true, it.ratio ?? ratio)) continue;
-      boxes.push(b); out.push([it, bx, by]); last.set(it.key, c); done = true;
-      break;
+      if (!cost) { pick = c; break; }
+      const k = cost(it, b, c);
+      if (k < price) { price = k; pick = c; }
     }
-    if (!done && it.force) {
-      let best = -1, fewest = Infinity;
+    if (pick < 0 && it.force) {
+      let fewest = Infinity;
       cands.forEach(([bx, by], c) => {
         const b = labelBox(it, bx, by);
         if (!inside(b) || hitBox(b)) return;
         const k = markHits(b, own, false) * 1000 + rivals(b, own, false, it.ratio ?? ratio);
-        if (k < fewest) { fewest = k; best = c; }
+        if (k < fewest) { fewest = k; pick = c; }
       });
-      if (best >= 0) {
-        const [bx, by] = cands[best];
-        boxes.push(labelBox(it, bx, by)); out.push([it, bx, by]); last.set(it.key, best);
-      }
     }
+    if (pick < 0) continue;
+    const [bx, by] = cands[pick], b = labelBox(it, bx, by);
+    boxes.push(b); out.push([it, bx, by]); last.set(it.key, pick);
+    if (onPlace) onPlace(it, b);
   }
   return out;
 }
