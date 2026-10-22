@@ -1,5 +1,6 @@
 ---
 import '../styles/tokens.css';
+import Analytics from '../components/Analytics.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
 import '../styles/st-louis-surface.css';
 import '../styles/st-louis-rail.css';
@@ -15,6 +16,7 @@ const title = 'St. Louis | City & property lab by Ian Helfrich';
   <title>{title}</title><meta name="description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." />
   <meta name="theme-color" content={THEME_COLOR.lab} /><link rel="canonical" href="https://ihelfrich.github.io/st-louis" /><link rel="icon" href="/favicon.svg" />
   <meta property="og:title" content={title} /><meta property="og:description" content="Explore St. Louis City and County in 3D, connect photographic surfaces, map imported listings and test transparent real estate scenarios." /><meta property="og:type" content="website" /><meta property="og:url" content="https://ihelfrich.github.io/st-louis" /><meta property="og:image" content="https://ihelfrich.github.io/og.png" /><meta name="twitter:card" content="summary_large_image" />
+  <Analytics />
 </head>
 <body class="city-workbench">
 <main id="city-app" data-surface="lab">

@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/econometrics.css';
 import 'katex/dist/katex.min.css';
 import SiteBar from '../components/SiteBar.astro';
+import Analytics from '../components/Analytics.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
 const { title = 'The Econometric Argument', description = 'A course in applied econometrics and quantitative reasoning: build a claim, inspect its assumptions, and work out what the evidence permits.', section = 'course', noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -24,10 +25,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://ihelfrich.github.io/econometrics/cover.svg" />
+    <Analytics />
   </head>
   <body class="ea" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <SiteBar title={title} />
+    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
     <header class="ea-header">
       <a class="ea-brand" href="/econometrics/" aria-label="The Econometric Argument home"><span class="ea-mark" aria-hidden="true">∴</span><span>The Econometric<br /><strong>Argument</strong></span></a>
       <nav aria-label="Course navigation">

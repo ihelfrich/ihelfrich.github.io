@@ -1,5 +1,5 @@
 import { access, readFile } from "node:fs/promises";
-import { PRIMARY, RECORDS, CONTACT, REDIRECTS } from "../src/data/navigation.mjs";
+import { PRIMARY, RECORDS, CONTACT, BOOK, REDIRECTS } from "../src/data/navigation.mjs";
 
 const read = (path) => readFile(path, "utf8");
 const failures = [];
@@ -21,10 +21,9 @@ const aboutPath = "src/pages/about.astro";
 const cvPath = "src/pages/cv.astro";
 const contactPath = "src/pages/contact.astro";
 const jobMarketPath = "src/pages/job-market.astro";
-const programPath = "src/pages/program.astro";
 const navigationPath = "src/data/navigation.mjs";
 
-const [base, home, work, research, teaching, about, cv, contact, jobMarket, program] = await Promise.all([
+const [base, home, work, research, teaching, about, cv, contact, jobMarket] = await Promise.all([
   read(basePath),
   read(homePath),
   read(workPath),
@@ -34,12 +33,12 @@ const [base, home, work, research, teaching, about, cv, contact, jobMarket, prog
   read(cvPath),
   read(contactPath),
   read(jobMarketPath),
-  read(programPath),
 ]);
 
 // The shell renders its links from navigation.mjs, so the contract is checked there.
 const navigationLinks = new Map([...PRIMARY, ...RECORDS].map(({ href, label }) => [href, label]));
 for (const [href, label] of [
+  ["/job-market", "Job market"],
   ["/work", "Work"],
   ["/research", "Research"],
   ["/teaching", "Teaching"],
@@ -48,9 +47,12 @@ for (const [href, label] of [
 ]) {
   if (navigationLinks.get(href) !== label) failures.push(`${navigationPath}: navigation is missing ${label} (${href})`);
 }
-if (PRIMARY.some(({ href }) => href === "/job-market")) failures.push(`${navigationPath}: Job market remains in primary navigation`);
+// During the 2026-27 market the header leads with the candidate page and ends with the CV.
+if (PRIMARY[0]?.href !== "/job-market") failures.push(`${navigationPath}: Job market must lead the primary navigation`);
+if (!PRIMARY.some(({ href }) => href === "/cv")) failures.push(`${navigationPath}: CV must be in the primary navigation`);
 if (CONTACT.href !== "/contact") failures.push(`${navigationPath}: Contact must remain the single primary action`);
-for (const token of ["PRIMARY.map", "RECORDS.map", "CONTACT.href"]) requireText(base, basePath, token, `navigation rendered from ${navigationPath} (${token})`);
+if (BOOK.href !== "/book") failures.push(`${navigationPath}: Book a time must link /book`);
+for (const token of ["PRIMARY.map", "RECORDS.map", "CONTACT.href", "BOOK.href"]) requireText(base, basePath, token, `navigation rendered from ${navigationPath} (${token})`);
 
 requireText(home, homePath, "selectedRecordIds", "the explicit selected-record list");
 for (const id of ["nmtc-rural-gap", "trade-in-the-spotlight", "applied-statistics"]) {
@@ -109,15 +111,13 @@ requireText(cv, cvPath, "tutoringRecord", "canonical tutoring evidence");
 requireText(cv, cvPath, "/job-market", "the contextual academic job-market link");
 requireText(contact, contactPath, "/cv#contact", "the canonical CV and contact destination");
 requireText(jobMarket, jobMarketPath, "research-discovery", "the canonical research discovery rules");
-forbidText(program, programPath, "helfrich-2026-aroe", "the withheld AROE route");
-forbidText(program, programPath, "Adaptive-regularization observation equilibria", "the withheld AROE title");
 
 // Retired funnels are redirects, not pages: no page file may shadow a redirect.
 for (const [from, to] of Object.entries(REDIRECTS)) {
   const shadow = `src/pages${from}.astro`;
   const exists = await access(shadow).then(() => true, () => false);
   if (exists) failures.push(`${shadow}: a page file shadows the ${from} → ${to} redirect`);
-  if (!["/contact", "/work"].includes(to)) failures.push(`${navigationPath}: ${from} must redirect to /contact or /work, not ${to}`);
+  if (!["/contact", "/work", "/research"].includes(to)) failures.push(`${navigationPath}: ${from} must redirect to /contact, /work or /research, not ${to}`);
 }
 
 const primaryPages = [home, work, research, teaching, about, cv].join("\n");

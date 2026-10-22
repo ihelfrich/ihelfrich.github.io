@@ -177,3 +177,8 @@
 .water-atlas .atlas-tabs>.atlas-tank-link:hover{color:var(--atlas-ink);background:var(--atlas-card-hover)}
 .water-atlas .atlas-tabs>.atlas-tank-link:focus-visible{outline:2px solid var(--atlas-focus);outline-offset:2px}
 @media(max-width:760px){.water-atlas .atlas-tabs>.atlas-tank-link{font-size:9px;padding:7px 4px;flex:1 1 0;white-space:normal;line-height:1.2}.water-atlas .atlas-tabs>button{flex:1 1 0;white-space:normal;line-height:1.2}}
+/* 24px hit area for the story dots; the visible dot stays 7px. */
+.story-navigation>div{gap:0}
+.story-navigation>div button,.story-navigation>div button[aria-pressed=true]{position:relative;width:24px;min-height:24px;height:24px;background:transparent;box-shadow:none;opacity:1}
+.story-navigation>div button::before{content:"";position:absolute;inset:0;margin:auto;width:7px;height:7px;border-radius:50%;background:var(--atlas-muted);opacity:.45}
+.story-navigation>div button[aria-pressed=true]::before{background:var(--atlas-story-gold);opacity:1;box-shadow:0 0 10px var(--atlas-story-gold)}

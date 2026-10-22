@@ -8,17 +8,20 @@
 
 const freezeAll = (items) => Object.freeze(items.map((item) => Object.freeze(item)));
 
-/** Primary header navigation, in display order. */
+/**
+ * Primary header navigation, in display order. During the 2026-27 academic market the
+ * header leads with the candidate page and the CV. "Work" keeps its label until after
+ * ASSA (January 2027); whether it becomes "Consulting" is Dr. Helfrich's decision.
+ */
 export const PRIMARY = freezeAll([
-  { label: "Work", href: "/work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", start: true },
+  { label: "Job market", href: "/job-market", detail: "Candidate page for the 2026–27 economics job market: fields, paper, availability", start: true },
   { label: "Research", href: "/research", detail: "Papers, programs, methods, data, and current questions", start: true },
   { label: "Teaching", href: "/teaching", detail: "University teaching, online instruction, independent tutoring, and quantitative research-design coaching", start: true },
-  { label: "Lab", href: "/lab", detail: "Working analytical instruments with methods and decision context", start: true },
-  { label: "Writing", href: "/writing", detail: "Essays and notes on evidence, measurement, and teaching" },
-  { label: "About", href: "/about", detail: "Education, current practice, leadership, and service" },
+  { label: "Work", href: "/work", detail: "Case studies in econometrics, spatial systems, and interactive evidence", start: true },
+  { label: "CV", href: "/cv", detail: "Executive resume, academic CV, career summary, availability, and contact", start: true },
 ]);
 
-/** The single call to action in the header, and the first Go record. */
+/** The single filled call to action in the header, and the first Go record. */
 export const CONTACT = Object.freeze({
   label: "Contact",
   href: "/contact",
@@ -26,15 +29,23 @@ export const CONTACT = Object.freeze({
   start: true,
 });
 
+/** The booking page, linked beside Contact in the header and under Connect in the footer. */
+export const BOOK = Object.freeze({
+  label: "Book a time",
+  href: "/book",
+  detail: "Tutoring, consulting, and job-market meetings, booked against Ian's open calendar times",
+  start: true,
+});
+
 /** Secondary "Records" strip under the header, repeated in the footer. */
 export const RECORDS = freezeAll([
-  { label: "Job market", href: "/job-market", detail: "Candidate page for the 2026-27 economics job market: fields, paper, availability" },
+  { label: "Lab", href: "/lab", detail: "Working analytical instruments with methods and decision context" },
+  { label: "Writing", href: "/writing", detail: "Essays and notes on evidence, measurement, and teaching" },
+  { label: "About", href: "/about", detail: "Education, current practice, leadership, and service" },
   { label: "Projects", href: "/projects", detail: "Software, viewers, teaching systems, and research infrastructure" },
   { label: "Spatial & 3D GIS", href: "/spatial", detail: "Spatial investment, LiDAR and terrain work, and geospatial applications, with data types and limits stated" },
-  { label: "Hidden Rivers", href: "/hidden-rivers", detail: "Ocean transport, flow diagnostics, Tessera coastal search, and a reproducible 3D film" },
   { label: "Datasets", href: "/datasets", detail: "Public datasets and release records with provenance" },
   { label: "Public index", href: "/library", detail: "Papers, data, essays, and tools in one searchable record" },
-  { label: "CV", href: "/cv", detail: "Executive resume, academic CV, career summary, availability, and contact" },
 ]);
 
 /** Pages that belong in the command-K index but not in the header or footer. */
@@ -43,23 +54,26 @@ export const SECONDARY_PAGES = freezeAll([
   { label: "Third Space Labs", href: "/third-space", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D." },
   { label: "Distribution Lab", href: "/teaching/distributions", detail: "Interactive probability distributions, test power, constructions of t, chi-square and F, and a department simulator for fitting models" },
   { label: "Site map", href: "/field", detail: "Interactive map of every page and the links between them, with routes for hiring committees, students, and collaborators" },
-  { label: "Book a time", href: "/book", detail: "Tutoring, consulting, and job-market meetings, booked against Ian's open calendar times" },
+  // Reached from /projects since it left the Records strip.
+  { label: "Hidden Rivers", href: "/hidden-rivers", detail: "Ocean transport, flow diagnostics, Tessera coastal search, and a reproducible 3D film" },
   { label: "Colophon", href: "/colophon", detail: "How this site works: the homepage solver's mathematics, the motion doctrine, the stack" },
   { label: "National Investment Atlas", href: "/spatial-economics/national", detail: "Nationwide spatial investment geography: observed New Markets Tax Credit (NMTC) financing, 8,439 projects and $71.019 billion in QLICI, 2001–2023 origination" },
   { label: "LiDAR & 3D GIS portfolio", href: "/gis-portfolio", detail: "Classified LiDAR, terrain diagnostics, survey design, and an interactive Haiti terrain mesh" },
   { label: "Asheville spatial investment scenario", href: "/spatial-economics", detail: "Conditional 3D scenario of incentive offers, additional jobs, and road-network job access in Asheville, NC" },
 ]);
 
-/** External profiles rendered in the footer. */
+/** External profiles rendered in the footer; the external ones are also the Person schema's sameAs. */
 export const CONNECT = freezeAll([
   { label: "Email", href: "mailto:ianthelfrich@gmail.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ian-helfrich", external: true },
   { label: "GitHub", href: "https://github.com/ihelfrich", external: true },
+  { label: "ORCID", href: "https://orcid.org/0000-0002-4105-1635", external: true },
+  // TODO(Dr. Helfrich): add Google Scholar, SSRN author and RePEc profile URLs here if they exist.
 ]);
 
-/** Command-K "Go" records: contact first, then navigation groups, then secondary pages. */
+/** Command-K "Go" records: contact and booking first, then navigation groups, then secondary pages. */
 export const GO_RECORDS = freezeAll(
-  [CONTACT, ...PRIMARY, ...RECORDS, ...SECONDARY_PAGES].map((item, index) => ({
+  [CONTACT, BOOK, ...PRIMARY, ...RECORDS, ...SECONDARY_PAGES].map((item, index) => ({
     code: `GO-${String(index + 1).padStart(2, "0")}`,
     label: item.label,
     detail: item.detail,
@@ -73,6 +87,8 @@ export const REDIRECTS = Object.freeze({
   "/start": "/contact",
   "/work-with-me": "/contact",
   "/capabilities": "/work",
+  // The research list lives on /research alone.
+  "/program": "/research",
 });
 
 /** Indexable pages that are reached from content rather than from the navigation. */
@@ -81,7 +97,6 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/colophon/",
   "/third-space/",
   "/people/",
-  "/program/",
   "/gis/",
   "/now/",
   "/reading/",
@@ -103,7 +118,7 @@ const withSlash = (href) => (href.endsWith("/") ? href : `${href}/`);
 
 /** Every internal route the navigation exposes, with trailing slashes, unique. */
 export function navRoutes() {
-  return [...new Set([CONTACT, ...PRIMARY, ...RECORDS, ...SECONDARY_PAGES].map(({ href }) => withSlash(href)))];
+  return [...new Set([CONTACT, BOOK, ...PRIMARY, ...RECORDS, ...SECONDARY_PAGES].map(({ href }) => withSlash(href)))];
 }
 
 /** Static routes for sitemap.xml: navigation routes plus standalone pages, unique. */

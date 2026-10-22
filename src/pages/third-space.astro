@@ -24,7 +24,6 @@ import Base from "../layouts/Base.astro";
       </div>
       <div class="status-copy">
         <p>The venture provides a home for joint research, methods development, and future educational work. The form of any program, fellowship, or external partnership remains unsettled.</p>
-        <aside><strong>Public boundary</strong><span>No application cycle, fellowship, or institutional affiliation is announced on this page.</span></aside>
       </div>
     </section>
 
@@ -35,17 +34,17 @@ import Base from "../layouts/Base.astro";
         <li>
           <p>Preprint · SSRN 5202676 · 2025</p>
           <article><h3><a href="/research/gonchar-helfrich-2025-spotlight">Trade in the Spotlight</a></h3><span>With Elizaveta Gonchar. Population and night-light information are used to construct economically weighted bilateral distance for gravity models.</span></article>
-          <aside><strong>Limit</strong><span>The preprint does not establish the planned transport-network extension or a completed global panel.</span></aside>
+          <aside role="note"><strong>Limit</strong><span>The preprint does not establish the planned transport-network extension or a completed global panel.</span></aside>
         </li>
         <li>
           <p>Active development · no results yet</p>
           <article><h3><a href="/research/gonchar-helfrich-2026-effective-distance-panel">Effective distance</a></h3><span>A planned time-varying bilateral trade-cost panel using satellite, population, and transport-network information.</span></article>
-          <aside><strong>Limit</strong><span>No validated panel, coverage claim, or completed result exists yet.</span></aside>
+          <aside role="note"><strong>Limit</strong><span>No validated panel, coverage claim, or completed result exists yet.</span></aside>
         </li>
         <li>
           <p>Active development · no results yet</p>
           <article><h3><a href="/research/gonchar-helfrich-2026-ukraine">Ukraine wartime economic measurement</a></h3><span>A proposed spatial measurement program combining several public and administrative source families.</span></article>
-          <aside><strong>Limit</strong><span>No completed index, empirical result, or ratified contribution statement exists yet.</span></aside>
+          <aside role="note"><strong>Limit</strong><span>No completed index, empirical result, or ratified contribution statement exists yet.</span></aside>
         </li>
       </ol>
     </section>
@@ -71,7 +70,7 @@ import Base from "../layouts/Base.astro";
 
     <footer class="third-space-contact">
       <div><p class="section-label">Contact</p><h2>Research conversations</h2></div>
-      <div><p>For a research or institutional inquiry connected to Third Space Labs, send a short note describing the question, stage, and proposed relationship.</p><a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs">Email Ian Helfrich</a></div>
+      <div><p>For a research or institutional inquiry connected to Third Space Labs, send a short note describing the question, stage, and proposed relationship.</p><a href="mailto:ianthelfrich@gmail.com?subject=Third%20Space%20Labs" data-goatcounter-click="email">Email Ian Helfrich</a></div>
     </footer>
   </div>
 </Base>
@@ -85,8 +84,6 @@ import Base from "../layouts/Base.astro";
   .status-section, .third-space-contact { display: grid; padding-block: clamp(3rem, 7vw, 6rem); grid-template-columns: minmax(0, .75fr) minmax(18rem, 1.25fr); gap: 2rem 5rem; border-bottom: 1px solid var(--ef-ink); }
   .status-section h2, .third-space-contact h2 { margin: .45rem 0 0; font-size: clamp(2rem, 5vw, 4rem); }
   .status-copy > p, .third-space-contact > div:last-child > p { max-width: 62ch; font-size: 1.1rem; }
-  .status-copy aside { display: grid; max-width: 38rem; margin-top: 2rem; padding-left: 1rem; gap: .35rem; color: var(--ef-oxide); border-left: 3px solid currentColor; }
-  .status-copy aside strong { font: 620 .68rem/1.5 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
   .research-section, .principles-section, .founders-section { padding-block: clamp(3rem, 7vw, 6rem); border-bottom: 1px solid var(--ef-ink); }
   .research-section > h2, .principles-section > h2, .founders-section > h2 { max-width: 17ch; margin: .45rem 0 2.5rem; font-size: clamp(2rem, 5vw, 4rem); }
   .research-section ol { margin: 0; padding: 0; border-top: 1px solid var(--ef-ink); list-style: none; }

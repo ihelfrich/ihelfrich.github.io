@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import ResearchGraph from "../../components/ResearchGraph.astro";
 import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
 import { picturesOfInferenceRecord } from "../../data/public-record.mjs";
+import { clickEvent } from "../../data/analytics.mjs";
 
 const maturityGroups = [
   {
@@ -42,6 +43,9 @@ const sourceLink = (record) => record.data.pdf
     : record.data.repo
       ? { label: "Repository", href: record.data.repo }
       : undefined;
+// Current work also lists the Pictures of Inference project record beneath its papers.
+const supportingRecords = (key) => key === "working" ? 1 : 0;
+const recordCount = (count) => `${String(count).padStart(2, "0")} ${count === 1 ? "record" : "records"}`;
 ---
 
 <Base
@@ -56,7 +60,7 @@ const sourceLink = (record) => record.data.pdf
       <h1>Research by current stage</h1>
       <p>Research in trade, spatial measurement, place-based policy, labor and AI, and economic theory.</p>
     </div>
-    <aside class="research-hero__key" aria-label="Status definitions">
+    <aside role="note" class="research-hero__key" aria-label="Status definitions">
       <details class="record-detail"><summary>What the stages mean</summary><dl>
         <div><dt>Public</dt><dd>A manuscript or institutional publication is available.</dd></div>
         <div><dt>Current</dt><dd>Analysis is underway, with public material linked where available.</dd></div>
@@ -77,7 +81,7 @@ const sourceLink = (record) => record.data.pdf
               <h2>{group.heading}</h2>
               <p>{group.note}</p>
             </div>
-            <strong>{String(records.length).padStart(2, "0")} records</strong>
+            <strong>{recordCount(records.length + supportingRecords(group.key))}</strong>
           </header>
 
           <div class="research-list">
@@ -93,10 +97,10 @@ const sourceLink = (record) => record.data.pdf
                     <details class="record-detail"><summary>Role and methods</summary><p>{record.data.role}</p><p>{record.data.method.join(" · ")}</p></details>
                     <nav aria-label={`${record.data.title} links`}>
                       <a href={`/research/${record.id}`}>Research record →</a>
-                      {artifact && <a href={artifact.href} target={/^https?:/.test(artifact.href) ? "_blank" : undefined} rel={/^https?:/.test(artifact.href) ? "noopener" : undefined}>{artifact.label}{/^https?:/.test(artifact.href) ? " ↗" : " →"}</a>}
+                      {artifact && <a href={artifact.href} target={/^https?:/.test(artifact.href) ? "_blank" : undefined} rel={/^https?:/.test(artifact.href) ? "noopener" : undefined} data-goatcounter-click={clickEvent(artifact.href)}>{artifact.label}{/^https?:/.test(artifact.href) ? " ↗" : " →"}</a>}
                     </nav>
                   </div>
-                  <aside class="research-row__margin">
+                  <aside role="note" class="research-row__margin">
                     <p class="limit"><span>Limit</span>{record.data.limit}</p>
                   </aside>
                 </article>
@@ -112,7 +116,7 @@ const sourceLink = (record) => record.data.pdf
                   <p><strong>Role:</strong> {picturesOfInferenceRecord.collaborators}. {picturesOfInferenceRecord.part}, {picturesOfInferenceRecord.chapters}, drafted as of {picturesOfInferenceRecord.draftedAsOf}.</p>
                   <nav aria-label="Pictures of Inference link"><a href={picturesOfInferenceRecord.href}>Project record →</a></nav>
                 </div>
-                <aside class="research-row__margin">
+                <aside role="note" class="research-row__margin">
                   <p><span>Method</span>Visual explanation · simulation · workbook construction</p>
                   <p class="limit"><span>Limit</span>{picturesOfInferenceRecord.limit}</p>
                 </aside>
@@ -144,7 +148,7 @@ const sourceLink = (record) => record.data.pdf
     </div>
     <div>
       <p>Please include the paper or project, the connection you see, and the question you would like to discuss.</p>
-      <a class="fieldbook-action" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry">Email Ian</a>
+      <a class="fieldbook-action" href="mailto:ianthelfrich@gmail.com?subject=Research%20inquiry" data-goatcounter-click="email">Email Ian</a>
     </div>
   </section>
 </Base>

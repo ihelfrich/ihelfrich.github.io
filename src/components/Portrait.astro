@@ -1,0 +1,20 @@
+---
+// The approved Zoom portrait, served as AVIF and WebP at 320, 640 and 960 px with
+// a small JPEG fallback. Each page passes `sizes` for the width it displays.
+import { Picture } from "astro:assets";
+import source from "../assets/people/ian-zoom-portrait.png";
+import { portrait } from "../data/homepage-studio.mjs";
+
+const { sizes, alt = portrait.alt, loading = "lazy", ...attributes } = Astro.props;
+---
+<Picture
+  src={source}
+  formats={["avif", "webp"]}
+  fallbackFormat="jpg"
+  widths={[320, 640, 960]}
+  sizes={sizes}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+  {...attributes}
+/>

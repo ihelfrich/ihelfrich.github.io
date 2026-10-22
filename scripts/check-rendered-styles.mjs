@@ -2,7 +2,10 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { Window } from "happy-dom";
-import { PRIMARY, CONTACT } from "../src/data/navigation.mjs";
+import yaml from "js-yaml";
+import { PRIMARY, CONTACT, BOOK } from "../src/data/navigation.mjs";
+import { availabilityRecord } from "../src/data/public-record.mjs";
+import { boxHitsMark, placeLabels } from "../src/lib/graph-labels.mjs";
 
 const palette = {
   "--ef-ink": "#11131D",
@@ -556,13 +559,165 @@ else {
  if(!layout["font-family"]?.includes("Space Grotesk")) failures.push("homepage masthead must use the approved Space Grotesk treatment");
  if(layout["font-size"]!=="17.3vw"||layout["overflow-wrap"]!=="normal"||layout["word-break"]!=="normal") failures.push("320px studio masthead must scale without breaking the name");
 }
-const portrait=noScriptWindow.document.querySelector('.st-portrait img');
-if(portrait?.getAttribute('src')!=='/people/ian-zoom-portrait.png') failures.push('homepage must retain the verified Zoom portrait');
+// The verified Zoom portrait is served through astro:assets: AVIF and WebP sources at
+// 320, 640 and 960 px, a JPEG fallback, and intrinsic width and height.
+const portrait=noScriptWindow.document.querySelector('.st-portrait picture img');
+if(!/^\/_astro\/ian-zoom-portrait\.[^/]+\.jpg$/.test(portrait?.getAttribute('src')??'')||portrait.getAttribute('width')!=='1024'||portrait.getAttribute('height')!=='1024'||!portrait.getAttribute('sizes')) failures.push('homepage must serve the verified Zoom portrait through astro:assets with width, height and sizes');
+for(const type of ['image/avif','image/webp']) {
+ const srcset=noScriptWindow.document.querySelector(`.st-portrait picture source[type="${type}"]`)?.getAttribute('srcset')??'';
+ if(!['320w','640w','960w'].every(width=>srcset.includes(width))) failures.push(`homepage portrait lacks a 320/640/960 ${type} source`);
+}
+const shareImage=noScriptWindow.document.querySelector('meta[property="og:image"]')?.getAttribute('content')??'';
+if(!shareImage.endsWith('/people/ian-zoom-portrait.jpg')) failures.push('homepage og:image must be the portrait JPEG');
+if(!String(personJSON?.image).endsWith('/people/ian-zoom-portrait.jpg')) failures.push('Person schema image must be the portrait JPEG');
+for(const route of ['index.html','about/index.html','teaching/index.html','book/index.html']) {
+ const html=await readFile(resolve('dist',route),'utf8');
+ if(html.includes('/people/ian-zoom-portrait.png')) failures.push(`${route} still loads the 1.5 MB portrait PNG`);
+ if(!/<picture[^>]*>[\s\S]*?ian-zoom-portrait\.[^"]+\.avif/.test(html)) failures.push(`${route} must show the responsive portrait`);
+}
+// First screen: the candidacy, then the paper, the CV and the candidate page, in that order.
+const heroStatus=noScriptWindow.document.querySelector('.st-hero-copy h2')?.textContent.trim();
+if(heroStatus!=='Applied economist on the 2026–27 economics job market') failures.push('homepage hero must state the job-market status');
+const heroActions=[...noScriptWindow.document.querySelectorAll('.st-hero-actions a')].map(link=>link.getAttribute('href'));
+if(JSON.stringify(heroActions.slice(0,3))!==JSON.stringify(['/research/ian-helfrich-nmtc-working-paper.pdf','/cv/ian-helfrich-cv.pdf','/job-market'])) failures.push('homepage hero actions must be the paper PDF, the CV PDF and the candidate page');
 for(const target of ['/econometrics/','/econometrics/lab/','/learn/policy-statistics/','/library','/job-market']) {
  if(!noScriptWindow.document.querySelector(`a[href="${target}"]`)) failures.push(`homepage is missing useful destination ${target}`);
 }
+// The coefficient figure is one component (NmtcCoefficientFigure) on home and /job-market.
+const coefficientFigureLabelled=(doc,selector)=>{const svg=doc.querySelector(`${selector} svg[role="img"]`);return Boolean(svg?.querySelector('title#coefficient-title')&&svg.querySelector('desc#coefficient-desc')&&doc.querySelector(`${selector} figcaption`)?.textContent.trim());};
+if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.push('homepage coefficient figure must keep its title, description and caption');
 
-for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button"]) {
+// /job-market: the paper PDF, CV and resume lead the hero; the email address is printed;
+// the paper block states the finding, abstract and version; the label stays as approved.
+{
+ const {document:marketHTML,url:marketURL}=await inlineStylesheets(await readFile(resolve('dist/job-market/index.html'),'utf8'),'job-market/index.html');
+ const marketWindow=new Window({url:marketURL});
+ marketWindow.document.write(marketHTML);
+ const market=marketWindow.document;
+ const marketTitle='Ian Helfrich: 2026–27 economics job market';
+ if(market.querySelector('h1')?.textContent.trim()!==marketTitle||market.title!==marketTitle) failures.push('/job-market h1 and <title> must name Ian and the 2026–27 economics job market');
+ const marketActions=[...market.querySelectorAll('.market-hero .action-row a')].map(link=>link.getAttribute('href'));
+ if(JSON.stringify(marketActions.slice(0,3))!==JSON.stringify(['/research/ian-helfrich-nmtc-working-paper.pdf','/cv/ian-helfrich-cv.pdf','/cv/ian-helfrich-executive-resume.pdf'])) failures.push('/job-market hero actions must begin with the paper PDF, the CV PDF and the resume PDF');
+ if(!market.querySelector('.market-hero .action-email')?.textContent.includes('ianthelfrich@gmail.com')) failures.push('/job-market must print the email address beside Email Ian');
+ if(market.querySelector('.market-position')?.textContent.trim()!=='Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024') failures.push('/job-market hero must state the current position');
+ if(!market.querySelector('.market-hero__margin .market-portrait picture img')) failures.push('/job-market hero aside must show the portrait');
+ if(!coefficientFigureLabelled(market,'.market-hero .market-figure')) failures.push('/job-market must show the coefficient figure with its title, description and caption');
+ if(market.querySelector('.paper-heading .record-label')?.textContent.trim()!=='Primary public working paper · sole author and originator') failures.push('/job-market paper label must stay as approved');
+ if(market.querySelector('.paper-version')?.textContent.trim()!=='Latest version: August 2026') failures.push('/job-market paper block must state the latest version');
+ if(!/^Pooled across intermediaries, rural New Markets Tax Credit projects/.test(market.querySelector('.paper-finding')?.textContent.trim()??'')) failures.push('/job-market paper block must open with the one-sentence finding');
+ const abstractWords=market.querySelector('.paper-account h3 + p')?.textContent.trim().split(/\s+/).length??0;
+ if(!abstractWords||abstractWords>150) failures.push(`/job-market abstract must be present and at most 150 words (found ${abstractWords})`);
+ if(/job market paper/i.test(market.body.textContent)) failures.push('/job-market must not use the Job Market Paper label before it is approved');
+ if([...market.querySelectorAll('.dossier-list aside strong')].some(label=>label.textContent.trim()==='Limit')) failures.push('/job-market dossier list must not repeat each record\'s limit');
+ if(!market.querySelector('.market-hero .record-label')?.textContent.includes('2026–27')) failures.push('/job-market kicker must write the cycle as 2026–27, matching the h1');
+ // The kicker's date is the availability record's asOf, not a date typed into the page.
+ const kicker=market.querySelector('.market-hero .record-label')?.textContent.trim();
+ if(kicker!==`${availabilityRecord.cycle} · ${availabilityRecord.asOf}`) failures.push(`/job-market kicker must read "${availabilityRecord.cycle} · ${availabilityRecord.asOf}" from availabilityRecord (found "${kicker}")`);
+ // QA found 200px between the header and the kicker at 1440px (64px main padding plus a 136px hero
+ // padding) and 130px at 375px. The sibling route heroes pad their tops by 30-58px.
+ const marketHero=market.querySelector('.market-hero');
+ for(const width of [1440,375]) {
+  const top=marketHero&&cascadedPropertiesAtWidth(marketWindow,marketHero,width,['padding-top'])['padding-top'];
+  if(!/^\d+(\.\d+)?px$/.test(top??'')||Number.parseFloat(top)>58) failures.push(`${width}px /job-market hero must pad its top by at most 58px, like the other route heroes (found ${top})`);
+ }
+ marketWindow.close();
+}
+
+// Deploy-1 QA regressions: layout faults found in the browser at 375 and 1440 px.
+const pxAtLeast=(value,minimum)=>Number.parseFloat(value??'')>=minimum;
+{
+ // The 44px Pause motion control sat over the portrait on phones; the stage must leave it a row below the photo.
+ const stage=noScriptWindow.document.querySelector('.st-portrait-stage');
+ if(!stage||!pxAtLeast(cascadedPropertiesAtWidth(noScriptWindow,stage,375,['padding-bottom'])['padding-bottom'],44)) failures.push('375px homepage portrait stage must leave at least 44px below the portrait for the Pause motion control');
+ const windowFor=async route=>{
+  const {document:html,url}=await inlineStylesheets(await readFile(resolve(`dist/${route}/index.html`),'utf8'),`${route}/index.html`);
+  const routeWindow=new Window({url});
+  routeWindow.document.write(html);
+  routeWindow.inlinedHTML=html;
+  return routeWindow;
+ };
+ // Above 820px the global .record-body indent (clamp(0rem,21vw,22rem), which happy-dom cannot evaluate)
+ // pushed the NMTC notes past their 70ch panel, so the template must reset it with a scoped rule. The
+ // bordered evidence frame also had no inset around its question and table.
+ const recordWindow=await windowFor('research/helfrich-2026-nmtc-rural-gap');
+ if(!recordWindow.document.querySelector('.methods-record .record-body > p')||!/\.record-body\[data-astro-cid-[\w-]+\]>\*\{[^}]*margin-left:0[;}]/.test(recordWindow.inlinedHTML)) failures.push('NMTC record notes must reset the global .record-body indent inside their 70ch panel');
+ for(const selector of ['.evidence-block .evidence-aperture__header','.evidence-block .evidence-aperture__result']) {
+  const element=recordWindow.document.querySelector(selector);
+  if(!element||cascadedPropertiesAtWidth(recordWindow,element,1440,['padding-left'])['padding-left']!=='var(--ef-space-5)') failures.push(`${selector} must be inset from the evidence frame on the NMTC record`);
+ }
+ recordWindow.close();
+ // Compressed HTML removes the whitespace between sibling links on /teaching, so the CSS must space them.
+ const teachingWindow=await windowFor('teaching');
+ const registerLink=teachingWindow.document.querySelector('.system-register article > a');
+ const registerGap=registerLink&&cascadedPropertiesAtWidth(teachingWindow,registerLink,1440,['margin-right'])['margin-right'];
+ if(!registerLink||!pxAtLeast(registerGap,0.5)) failures.push(`/teaching register links must be spaced apart (margin-right ${registerGap})`);
+ const courseActions=teachingWindow.document.querySelector('.course-feature .action-row');
+ const courseLayout=courseActions&&cascadedPropertiesAtWidth(teachingWindow,courseActions,1440,['display','gap']);
+ if(!courseActions||courseLayout.display!=='flex'||!courseLayout.gap) failures.push('/teaching course links must be laid out with a gap');
+ // The register is a grid of rounded cards; the ruled-table borders it once had crossed their corners.
+ const borderWidths=['border-top-width','border-right-width','border-bottom-width','border-left-width'];
+ const bordered=(element,width)=>Object.values(cascadedPropertiesAtWidth(teachingWindow,element,width,borderWidths)).some(value=>Number.parseFloat(value)>0);
+ for(const width of [1440,375]) {
+  const register=teachingWindow.document.querySelector('.system-register');
+  if(!register||bordered(register,width)||[...register.children].some(card=>bordered(card,width))) failures.push(`${width}px /teaching register cards must not carry the legacy grid borders`);
+ }
+ // Stacked on phones, the closing h2 sat directly on the paragraph below it.
+ const closeCopy=teachingWindow.document.querySelector('.teaching-close > div:last-child');
+ const closeGap=closeCopy&&cascadedPropertiesAtWidth(teachingWindow,closeCopy,375,['margin-top'])['margin-top'];
+ if(!closeGap||/^0(px)?$/.test(closeGap)) failures.push(`375px /teaching closing copy must be spaced below its h2 (margin-top ${closeGap})`);
+ // The teaching surface pads the whole aperture shell, so the component inset must not add to it.
+ const relayHeader=teachingWindow.document.querySelector('.relay-section .evidence-aperture__header');
+ if(!relayHeader||Number.parseFloat(cascadedPropertiesAtWidth(teachingWindow,relayHeader,1440,['padding-left'])['padding-left'])!==0) failures.push('/teaching evidence aperture must not double its inset');
+ teachingWindow.close();
+
+ // The bordered evidence frame inset belongs to EvidenceAperture, not to one template: the
+ // applied-statistics project record showed its question, controls and result against the border.
+ const projectWindow=await windowFor('projects/applied-statistics');
+ for(const selector of ['.evidence-aperture__header','.evidence-aperture__controls','.evidence-aperture__result']) {
+  const element=projectWindow.document.querySelector(selector);
+  if(!element||cascadedPropertiesAtWidth(projectWindow,element,1440,['padding-left'])['padding-left']!=='var(--ef-space-5)') failures.push(`/projects/applied-statistics ${selector} must be inset from the evidence frame`);
+ }
+ projectWindow.close();
+ if((await readFile(resolve('src/pages/research/[slug].astro'),'utf8')).includes('.evidence-block :global(.evidence-aperture__')) failures.push('the research-record template must rely on the EvidenceAperture inset, not a scoped copy of it');
+ // Home pads the instrument shells itself; the component inset must not add to it there.
+ for(const selector of ['.st-tool-body .evidence-aperture__controls','.st-tool-body .evidence-aperture__result']) {
+  const element=noScriptWindow.document.querySelector(selector);
+  if(!element||Number.parseFloat(cascadedPropertiesAtWidth(noScriptWindow,element,1440,['padding-left'])['padding-left'])!==0) failures.push(`homepage ${selector} must not double the instrument inset`);
+ }
+
+ // Home network: marks covered "Econometric Argument" and the lower Teaching label at 1440px. Labels
+ // now sit in a layer above the marks, with a 4px halo, and take the position that covers fewest marks.
+ const graphSource=await readFile(resolve('src/scripts/home-graph.mjs'),'utf8');
+ const layers=[...(graphSource.match(/const LAYERS = \[([^\]]+)\]/)?.[1].matchAll(/"([\w-]+)"/g)??[])].map(match=>match[1]);
+ if(!(layers.indexOf('hg-marks')>=0&&layers.indexOf('hg-labels')>layers.indexOf('hg-marks')&&layers.indexOf('hg-anchors')>layers.indexOf('hg-marks'))) failures.push('home network must paint the section and topic labels above the marks');
+ if(/node(?:\.filter\([^;]*?\))?\.append\("text"\)/.test(graphSource)) failures.push('home network section labels must not be drawn inside the mark groups, where later marks cover them');
+ const labelRule=interactiveHome.match(/\.hg-label\{([^}]*)\}/)?.[1]??'';
+ if(!/paint-order:stroke/.test(labelRule)||!(Number.parseFloat(labelRule.match(/stroke-width:([\d.]+)px/)?.[1])>=4)) failures.push('home network section labels need a halo of at least 4px');
+ const crowded={id:'/econometrics/',x:300,y:500,r:4,width:130};
+ const triangles=[[320,500],[342,497],[364,503],[388,500],[412,499],[300,520],[300,481]].map(([x,y],index)=>({id:`t${index}`,x,y,r:6}));
+ const crowdedSpot=placeLabels([crowded],{marks:triangles,bounds:{x0:0,y0:0,x1:800,y1:640}}).get(crowded.id);
+ if(triangles.some(mark=>boxHitsMark(crowdedSpot,mark))) failures.push(`home network label placement left "Econometric Argument" over a mark (${crowdedSpot.position})`);
+ const edge={id:'/datasets/',x:790,y:200,r:4,width:60};
+ const edgeSpot=placeLabels([edge],{bounds:{x0:0,y0:0,x1:800,y1:640}}).get(edge.id);
+ if(edgeSpot.x1>800) failures.push('home network label placement must keep a label inside the drawing');
+ const neighbours=[{id:'/teaching/',x:200,y:300,r:4,width:60},{id:'/lab/',x:200,y:316,r:4,width:30}];
+ const pair=placeLabels(neighbours,{marks:neighbours.map(({id,x,y,r})=>({id,x,y,r}))});
+ const [first,second]=neighbours.map(({id})=>pair.get(id));
+ if(first.x0<second.x1&&second.x0<first.x1&&first.y0<second.y1&&second.y0<first.y1) failures.push('home network labels must not be placed over one another');
+
+ // The 404 document has no address of its own, so it must not claim /404/ as canonical.
+ const notFound=await readFile(resolve('dist/404.html'),'utf8');
+ if(/<link rel="canonical"/.test(notFound)||/property="og:url"/.test(notFound)) failures.push('dist/404.html must not emit a canonical link or og:url');
+ if(!/<meta name="robots" content="noindex/.test(notFound)) failures.push('dist/404.html must stay noindex');
+
+ // Pictures of Inference credits the same authors in the teaching and project collections.
+ const authorsOf=async path=>yaml.load((await readFile(resolve(path),'utf8')).match(/^---\n([\s\S]*?)\n---/)?.[1]??'')?.authors;
+ const projectAuthors=await authorsOf('src/content/projects/pictures-of-inference.md');
+ const teachingAuthors=await authorsOf('src/content/teaching/pictures-of-inference.md');
+ if(!projectAuthors?.length||JSON.stringify(teachingAuthors)!==JSON.stringify(projectAuthors)) failures.push(`teaching/pictures-of-inference.md must credit ${JSON.stringify(projectAuthors)} as the project record does (found ${JSON.stringify(teachingAuthors)})`);
+}
+
+for (const selector of [".site-brand", ".footer-brand", ".secondary-nav a", ".footer-links a", ".site-footer-bottom button", ".primary-nav .nav-book", ".has-js .header-contact"]) {
   if (!hasDeclarationContract(noScriptWindow, selector, { "min-width": "44px", "min-height": "44px" })) {
     failures.push(`${selector} does not declare a 44 by 44 CSS-pixel touch target`);
   }
@@ -593,7 +748,10 @@ const expectedPrimary = PRIMARY.map(({ label, href }) => `${label}:${href}`);
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");
 if (JSON.stringify(primaryContract) !== JSON.stringify(expectedPrimary)) failures.push(`primary navigation must be ${expectedPrimary.join(", ")}`);
-if (!sheet?.querySelector("[data-secondary-nav] a[href='/job-market']")) failures.push("mobile navigation needs a secondary Job market record link");
+if (!sheet?.querySelector(`a.nav-book[href='${BOOK.href}']`)) failures.push("navigation needs Book a time beside Contact");
+const headerContact = window.document.querySelector(`.site-header-inner > a.header-contact[href='${CONTACT.href}']`);
+if (!headerContact || sheet?.contains(headerContact)) failures.push("the phone header needs a Contact link outside the collapsed menu");
+if (!window.document.querySelector(`.site-footer .footer-links a[href='${BOOK.href}']`)) failures.push("the footer needs Book a time under Connect");
 if (!sheet?.querySelector("button[data-index-open]")) failures.push("mobile navigation needs Index as a utility control");
 if (!sheet?.querySelector(`a.nav-cta[href='${CONTACT.href}']`)) failures.push("mobile navigation needs Contact as its single action");
 if (!backdrop || backdrop.tagName !== "BUTTON" || backdrop.getAttribute("aria-hidden") !== "true" || backdrop.getAttribute("tabindex") !== "-1") failures.push("mobile navigation needs a pointer-only backdrop outside the focus order");
@@ -606,7 +764,7 @@ if (toggle && sheet && navSurface && visibleLabel && backdrop) {
   if (!sheet.contains(window.document.activeElement)) failures.push("opening mobile navigation does not move focus into the sheet");
   if (visibleLabel.textContent.trim() !== "Close") failures.push("open mobile navigation does not show a visible Close label");
   if (navSurface.getAttribute("role") !== "dialog" || navSurface.getAttribute("aria-modal") !== "true") failures.push("open mobile navigation does not expose modal dialog semantics");
-  for (const selector of ["main", ".site-footer", ".site-brand"]) {
+  for (const selector of ["main", ".site-footer", ".site-brand", ".header-contact"]) {
     const background = window.document.querySelector(selector);
     if (!background?.hasAttribute("inert") || background.getAttribute("aria-hidden") !== "true") failures.push(`open mobile navigation does not isolate ${selector}`);
   }

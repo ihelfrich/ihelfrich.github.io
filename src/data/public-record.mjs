@@ -5,6 +5,27 @@ export const identityRecord = Object.freeze({
   compact: "Ian Helfrich: Applied economist, quantitative research designer, and educator",
   doctorate: "Ph.D. in Economics, Georgia Institute of Technology, 2024",
   location: "St. Louis, Missouri",
+  // Matches the CV entry "Independent Economist and Quantitative Researcher, 2024–present".
+  positionLine: "Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024",
+});
+
+// The NMTC working paper as /job-market presents it. Every number below appears in
+// public/research/ian-helfrich-nmtc-working-paper.pdf (draft of August 2026).
+// TODO(Dr. Helfrich): sign off on `finding`, the one-sentence statement of the result.
+// TODO(Dr. Helfrich): the page label stays "Primary public working paper · sole author and
+// originator" until the job-market-paper decision (plan item A-01) is settled.
+export const nmtcPaperRecord = Object.freeze({
+  title: "The rural mobilization gap in a U.S. place-based tax credit",
+  subtitle: "Intermediary selection versus market structure in the New Markets Tax Credit",
+  version: "August 2026",
+  pdf: "/research/ian-helfrich-nmtc-working-paper.pdf",
+  record: "/research/helfrich-2026-nmtc-rural-gap",
+  finding:
+    "Pooled across intermediaries, rural New Markets Tax Credit projects carry less additional capital per dollar of subsidized investment than urban projects (−0.262); within the same Community Development Entity the gap is −0.047 (95% CI −0.245 to +0.152; median −0.001), and 86% of the explained movement is associated with which CDEs originate the deals.",
+  abstract:
+    "The New Markets Tax Credit gives private investors a 39% federal credit for routing capital through certified Community Development Entities (CDEs) into projects in low-income census tracts. Over FY2001–FY2022 the program placed $66.6 billion of subsidized investment in 8,024 projects worth $120.9 billion. Non-metropolitan tracts received 19.6% of dollars, close to the program’s 20% administrative target, yet project-level leverage was lower there (median 1.07× against 1.19× metro). The raw rural gap is a precise −0.262. With CDE fixed effects, the mean within-CDE estimate is −0.047 and the median-regression analog is −0.001; neither the extensive- nor the intensive-margin estimate is statistically distinguishable from zero within intermediary. Of the explained movement, −0.185, or 86%, is associated with observed CDE composition. Deployment shows no bunching at the 20% target, although compliance may operate through allocation agreements that the public data do not record.",
+  design:
+    "The within-CDE estimates use CDE fixed effects identified from the 163 of 343 CDEs that deploy on both sides of the rural line; an order-invariant Gelbach decomposition divides the movement between the pooled and within-CDE estimates; and a cross-CDE excess-mass test looks for bunching at the 20% non-metropolitan target.",
 });
 
 export const tutoringRecord = Object.freeze({
@@ -49,7 +70,7 @@ export const serviceRecord = Object.freeze({
 });
 
 export const availabilityRecord = Object.freeze({
-  cycle: "2026-27 economics job market",
+  cycle: "2026–27 economics job market",
   status: "Available for academic and industry roles, research collaborations, teaching, and select advisory work",
   asOf: "August 2026",
   evidenceLabel: "Current availability statement",
@@ -71,6 +92,7 @@ export const picturesOfInferenceRecord = Object.freeze({
 export const publicLinks = Object.freeze({
   website: "https://ihelfrich.github.io/",
   email: "mailto:ianthelfrich@gmail.com",
+  emailAddress: "ianthelfrich@gmail.com",
   github: "https://github.com/ihelfrich",
   linkedin: "https://www.linkedin.com/in/ian-helfrich",
   cv: "/cv/",

@@ -1,6 +1,7 @@
 ---
 title: "Pictures of Inference"
-blurb: "A visual textbook on statistical and econometric inference. Figures lead, prose points at them. In active draft."
+blurb: "A visual textbook and workbook on statistical and econometric inference by Ian Helfrich and Elizaveta Gonchar, currently in draft."
+authors: ["Ian Helfrich", "Elizaveta Gonchar"]
 status: in-progress
 url: "https://github.com/ihelfrich/pictures-of-inference"
 repo: "https://github.com/ihelfrich/pictures-of-inference"
@@ -9,4 +10,4 @@ date: 2026-05-01
 pinned: true
 ---
 
-Companion to *Mostly Harmless Econometrics* but with figures doing more of the explanatory work. The thesis of the book is that intuition for inference is built visually first, then formally. Drafting in Quarto with a custom Python figure pipeline (palette: INK, RUST, SAGE, GOLD, VIOLET, DIM).
+The book's premise is that intuition for statistical inference is built visually first and formally second. It is drafted in Quarto, with its figures produced by a Python pipeline.

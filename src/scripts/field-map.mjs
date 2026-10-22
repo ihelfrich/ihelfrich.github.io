@@ -847,7 +847,7 @@ function init(D) {
   ];
   const selectedWork = () => {
     const items = SELECTED.filter((id) => byId.has(id)).map((id) => li(byId.get(id)));
-    return items.length ? `<h4>Selected work</h4><ul class="near">${items.join("")}</ul>` : "";
+    return items.length ? `<h3>Selected work</h3><ul class="near">${items.join("")}</ul>` : "";
   };
   const orderedLinked = (id) =>
     groupLinked([...adj.get(id)].map((b) => byId.get(b)), deg, GROUPS);
@@ -855,7 +855,7 @@ function init(D) {
     return orderedLinked(id)
       .map(
         ({ label, items }) =>
-          `<h4>${label}</h4><ul class="near">${items.map((m) => li(m)).join("")}</ul>`,
+          `<h3>${label}</h3><ul class="near">${items.map((m) => li(m)).join("")}</ul>`,
       )
       .join("");
   }

@@ -1,4 +1,7 @@
-export const portrait=Object.freeze({src:'/people/ian-zoom-portrait.png',width:1024,height:1024,alt:'Ian Helfrich outdoors in a navy suit and patterned tie'});
+// The approved Zoom portrait. Pages render it from `source` through astro:assets
+// (src/components/Portrait.astro); `share` is the JPEG used for og:image and the
+// Person schema, because social crawlers handle WebP and AVIF unreliably.
+export const portrait=Object.freeze({source:'src/assets/people/ian-zoom-portrait.png',share:'/people/ian-zoom-portrait.jpg',width:1024,height:1024,alt:'Ian Helfrich outdoors in a navy suit and patterned tie'});
 export const email='ianthelfrich@gmail.com';
 export const home='https://ihelfrich.github.io';
 export const intents=Object.freeze({learn:'Learning and quantitative coaching',collaborate:'Research collaboration or advisory work',hire:'Academic or industry opportunity'});

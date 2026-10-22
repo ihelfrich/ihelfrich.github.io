@@ -5,6 +5,7 @@ year: 2026
 status: "draft"
 venue: "In preparation"
 abstract: "A proposed measurement program for Ukrainian economic activity that becomes harder to observe during war. Administrative, satellite, maritime, displacement, damage, labor, and trade sources are proposed; no index or empirical result exists yet."
+summary: "A proposed measurement program for Ukraine's wartime economic activity using administrative, satellite, maritime, and labor data; no results yet."
 question: "How has Ukraine's wartime economic activity reorganized across space when official measurement is itself disrupted by conflict, occupation, and displacement?"
 maturity: "development"
 displayStatus: "Active development · no results yet"

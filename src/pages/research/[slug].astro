@@ -4,6 +4,8 @@ import CdeDecomposition from "../../components/CdeDecomposition.astro";
 import OptimalTransportAperture from "../../components/OptimalTransportAperture.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { filterDiscoverableResearch } from "../../data/research-discovery.mjs";
+import { bibtexFor, scholarMetaFor } from "../../data/research-citation.mjs";
+import { clickEvent } from "../../data/analytics.mjs";
 
 export async function getStaticPaths() {
   const papers = filterDiscoverableResearch(await getCollection("research"));
@@ -17,9 +19,19 @@ const hasArtifact = Boolean(paper.data.pdf || paper.data.ssrn || paper.data.repo
 const searchTitle = paper.data.searchTerms.length > 0
   ? `${paper.data.searchTerms[0]}: ${paper.data.title}`
   : undefined;
+const recordUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const scholarMeta = scholarMetaFor(paper, recordUrl);
+const bibtex = bibtexFor(paper, recordUrl);
 ---
 
-<Base wide pageClass="quiet-research-detail" title={paper.data.title} description={paper.data.abstract}>
+<Base
+  wide
+  pageClass="quiet-research-detail"
+  title={paper.data.title}
+  description={paper.data.summary ?? paper.data.abstract}
+  ogType={scholarMeta.length > 0 ? "article" : undefined}
+>
+  <Fragment slot="head">{scholarMeta.map(([name, content]) => <meta name={name} content={content} />)}</Fragment>
   <article class="research-shell">
     <header class="research-header">
       <a class="back-link" href="/research">Research</a>
@@ -42,9 +54,10 @@ const searchTitle = paper.data.searchTerms.length > 0
         <div class="artifact-record">
           <p><strong>Public artifacts</strong><span>{paper.data.displayStatus}</span></p>
           <nav aria-label="Research artifacts">
-            {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener">Manuscript PDF</a>}
+            {paper.data.pdf && <a href={paper.data.pdf} target="_blank" rel="noopener" data-goatcounter-click={clickEvent(paper.data.pdf) ?? `pdf-${paper.id}`}>Manuscript PDF</a>}
             {paper.data.ssrn && <a href={paper.data.ssrn} target="_blank" rel="noopener">SSRN record</a>}
             {paper.data.repo && <a href={paper.data.repo} target="_blank" rel="noopener">Code and data</a>}
+            {bibtex && <a href="#cite">Cite</a>}
           </nav>
         </div>
       ) : (
@@ -66,8 +79,40 @@ const searchTitle = paper.data.searchTerms.length > 0
       <div class="record-body"><Content /></div>
     </details>
 
+    {bibtex && (
+      <section id="cite" class="research-cite" aria-labelledby="cite-title" data-pagefind-ignore>
+        <p class="section-label">BibTeX</p>
+        <h2 id="cite-title">Citation</h2>
+        <div class="cite-record">
+          <pre><code data-bibtex>{bibtex}</code></pre>
+          <p class="cite-actions">
+            <button type="button" data-copy-bibtex hidden>Copy BibTeX</button>
+            <span role="status" data-copy-status></span>
+          </p>
+        </div>
+      </section>
+    )}
+
     <footer class="research-footer"><a href="/research">Research by stage</a><a href="/library">Public index</a></footer>
   </article>
+
+  <script>
+    document.querySelectorAll(".cite-record").forEach((record) => {
+      const button = record.querySelector("[data-copy-bibtex]");
+      const code = record.querySelector("[data-bibtex]");
+      const status = record.querySelector("[data-copy-status]");
+      if (!(button instanceof HTMLButtonElement) || !code || !navigator.clipboard) return;
+      button.hidden = false;
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? "");
+          if (status) status.textContent = "BibTeX copied.";
+        } catch {
+          if (status) status.textContent = "Copying was blocked. Select the entry and copy it.";
+        }
+      });
+    });
+  </script>
 </Base>
 
 <style>
@@ -94,14 +139,25 @@ const searchTitle = paper.data.searchTerms.length > 0
   .section-label { color: var(--muted); }
   .research-summary h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); }
   .research-summary > p:last-child { grid-column: 2; margin: 0; font-size: 1.12rem; }
+  .research-cite { display: grid; max-width: 70ch; padding-bottom: clamp(3rem, 7vw, 6rem); grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem 2rem; scroll-margin-top: 6rem; }
+  .research-cite h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); }
+  .cite-record { grid-column: 2; min-width: 0; }
+  .cite-record pre { margin: 0; padding: 1rem; overflow-x: auto; border: 1px solid var(--rule); font: 500 .78rem/1.6 var(--font-data); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .cite-record code { padding: 0; background: none; border-radius: 0; font: inherit; }
+  .cite-actions { display: flex; margin: .75rem 0 0; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; color: var(--muted); }
+  .cite-actions button { display: inline-flex; min-height: 44px; padding: 0 1rem; align-items: center; color: var(--ef-ink); background: transparent; border: 1px solid var(--ef-ink); border-radius: var(--ef-control-radius); cursor: pointer; font: 650 .7rem/1.4 var(--font-data); text-transform: uppercase; }
+  .cite-actions button:hover { color: var(--ef-figure); background: var(--ef-ink); }
+  .cite-actions button[hidden] { display: none; }
   .evidence-block { margin-block: clamp(2rem, 6vw, 5rem); }
   .methods-record { margin-block: clamp(3rem, 7vw, 6rem); border-block: 1px solid var(--ef-ink); }
   .methods-record summary { min-height: 56px; padding-block: 1rem; cursor: pointer; font: 650 .76rem/1.4 var(--font-data); letter-spacing: .07em; text-transform: uppercase; }
-  .record-body { max-width: 70ch; padding-block: 1rem 3rem; }
+  /* The global .record-body indents its children by up to 22rem above 820px; inside this 70ch panel that pushed the notes past its right edge. */
+  .record-body { box-sizing: content-box; max-width: 70ch; padding-block: 1rem 3rem; }
+  .record-body > :global(*) { margin-left: 0; }
   .record-body :global(h2) { margin-top: 2.5rem; font-size: clamp(1.9rem, 4vw, 3rem); }
   .record-body :global(h3) { margin-top: 2rem; font-size: 1.55rem; }
   .research-footer { display: flex; padding-block: 1.5rem; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--ef-ink); }
-  @media (max-width: 45rem) { h1 { font-size: clamp(2.35rem, 12vw, 3rem); overflow-wrap: anywhere; } .research-ledger, .artifact-record, .research-summary { grid-template-columns: 1fr; } .research-ledger .limit, .research-summary > p:last-child { grid-column: 1; } .research-footer { align-items: flex-start; flex-direction: column; } }
+  @media (max-width: 45rem) { h1 { font-size: clamp(2.35rem, 12vw, 3rem); overflow-wrap: anywhere; } .research-ledger, .artifact-record, .research-summary, .research-cite { grid-template-columns: 1fr; } .research-ledger .limit, .research-summary > p:last-child, .cite-record { grid-column: 1; } .research-footer { align-items: flex-start; flex-direction: column; } }
 </style>
 
 <style is:global>

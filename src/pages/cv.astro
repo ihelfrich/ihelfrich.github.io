@@ -16,7 +16,7 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
       <h1>CV, resume, and contact</h1>
       <p>The two-page resume is designed for industry, advisory, and applied-research conversations. The four-page academic CV gives the fuller research, teaching, education, leadership, and service record.</p>
     </div>
-    <aside class="cv-hero__status">
+    <aside role="note" class="cv-hero__status">
       <p class="record-label">Current availability</p>
       <strong>{availabilityRecord.status}</strong>
       <p>{availabilityRecord.asOf}</p>
@@ -37,13 +37,13 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
         <p class="document-meta">PDF · 2 pages · updated August 2026</p>
         <h3>Executive resume</h3>
         <p>A two-page introduction for industry, advisory, applied-research, and cross-sector conversations.</p>
-        <a class="fieldbook-action" href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener">Open executive resume ↗</a>
+        <a class="fieldbook-action" href="/cv/ian-helfrich-executive-resume.pdf" target="_blank" rel="noopener" data-goatcounter-click="pdf-resume">Open executive resume ↗</a>
       </article>
       <article>
         <p class="document-meta">PDF · 4 pages · updated August 2026</p>
         <h3>Full academic CV</h3>
         <p>A four-page record of research, teaching, education, service, leadership, and public work.</p>
-        <a class="fieldbook-action fieldbook-action--quiet" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener">Open academic CV ↗</a>
+        <a class="fieldbook-action fieldbook-action--quiet" href="/cv/ian-helfrich-cv.pdf" target="_blank" rel="noopener" data-goatcounter-click="pdf-cv">Open academic CV ↗</a>
       </article>
     </div>
   </section>
@@ -99,7 +99,7 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
       </article>
     </div>
     <div class="contact-actions">
-      <a class="fieldbook-action" href={publicLinks.email}>Email Ian</a>
+      <a class="fieldbook-action" href={publicLinks.email} data-goatcounter-click="email">Email Ian</a>
       <a href={publicLinks.github} target="_blank" rel="noopener">GitHub ↗</a>
       <a href={publicLinks.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
       <a href={publicLinks.wyzant} target="_blank" rel="noopener">Wyzant ↗</a>
@@ -115,7 +115,8 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
   .route-band { padding-block: var(--ef-space-7); background: var(--ef-figure); border-block: 1px solid var(--ef-ink); }
   .record-label,
   .document-meta { margin: 0 0 0.7rem; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
-  .cv-hero { min-height: 38rem; padding-block: var(--ef-space-8) var(--ef-space-7); align-items: end; border-bottom: 1px solid var(--ef-ink); }
+  /* Same first-screen rhythm as /job-market: the kicker sits about 116px below the header. */
+  .cv-hero { padding-top: 52px; padding-bottom: var(--ef-space-6); align-items: start; border-bottom: 1px solid var(--ef-ink); }
   .cv-hero__copy { grid-column: 2 / span 7; }
   .cv-hero h1 { max-width: 10ch; }
   .cv-hero__copy > p:last-child { max-width: 64ch; font-size: 1.23rem; }
@@ -153,7 +154,7 @@ import { availabilityRecord, publicLinks, tutoringRecord } from "../data/public-
   }
   @media (max-width: 45rem) {
     .route-grid { display: block; }
-    .cv-hero { min-height: auto; padding-block: var(--ef-space-7); }
+    .cv-hero { min-height: auto; padding-top: 32px; padding-bottom: var(--ef-space-6); }
     .cv-hero__status { margin-top: var(--ef-space-5); }
     .route-shell { padding-block: var(--ef-space-6); }
     .document-pair { grid-template-columns: 1fr; }

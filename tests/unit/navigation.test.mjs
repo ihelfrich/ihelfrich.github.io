@@ -5,6 +5,7 @@ import {
   PRIMARY,
   RECORDS,
   CONTACT,
+  BOOK,
   SECONDARY_PAGES,
   GO_RECORDS,
   REDIRECTS,
@@ -15,7 +16,7 @@ import {
 const hrefs = (items) => items.map(({ href }) => href);
 
 test("every navigation link is a root-relative path with a unique label and destination", () => {
-  const all = [...PRIMARY, CONTACT, ...RECORDS, ...SECONDARY_PAGES];
+  const all = [...PRIMARY, CONTACT, BOOK, ...RECORDS, ...SECONDARY_PAGES];
   for (const item of all) {
     assert.match(item.href, /^\/[a-z0-9-]+(?:\/[a-z0-9-]+)*$/, `${item.label} must be a root-relative path without a trailing slash: ${item.href}`);
     assert.ok(item.label.trim(), `${item.href} needs a label`);
@@ -27,21 +28,27 @@ test("every navigation link is a root-relative path with a unique label and dest
 
 test("primary navigation is the approved label set in order", () => {
   assert.deepEqual(PRIMARY.map(({ label, href }) => `${label}:${href}`), [
-    "Work:/work",
+    "Job market:/job-market",
     "Research:/research",
     "Teaching:/teaching",
-    "Lab:/lab",
-    "Writing:/writing",
-    "About:/about",
+    "Work:/work",
+    "CV:/cv",
   ]);
-  assert.deepEqual(hrefs(RECORDS), ["/job-market", "/projects", "/spatial", "/hidden-rivers", "/datasets", "/library", "/cv"]);
+  assert.deepEqual(hrefs(RECORDS), ["/lab", "/writing", "/about", "/projects", "/spatial", "/datasets", "/library"]);
   assert.equal(CONTACT.href, "/contact");
+  assert.deepEqual([BOOK.label, BOOK.href], ["Book a time", "/book"]);
 });
 
-test("go records are numbered without gaps and begin with the five starting points", () => {
+test("Hidden Rivers leaves the Records strip but stays indexed and published", () => {
+  assert.ok(!hrefs(RECORDS).includes("/hidden-rivers"), "Hidden Rivers is reached from /projects, not the Records strip");
+  assert.ok(hrefs(SECONDARY_PAGES).includes("/hidden-rivers"), "Hidden Rivers stays in the command-K index");
+  assert.ok(navRoutes().includes("/hidden-rivers/"), "Hidden Rivers stays in the sitemap");
+});
+
+test("go records are numbered without gaps and begin with the seven starting points", () => {
   assert.deepEqual(GO_RECORDS.map(({ code }) => code), GO_RECORDS.map((_, index) => `GO-${String(index + 1).padStart(2, "0")}`));
-  assert.deepEqual(GO_RECORDS.slice(0, 5).map(({ href }) => href), ["/contact", "/work", "/research", "/teaching", "/lab"]);
-  assert.equal(GO_RECORDS.filter(({ start }) => start).length, 5);
+  assert.deepEqual(GO_RECORDS.slice(0, 7).map(({ href }) => href), ["/contact", "/book", "/job-market", "/research", "/teaching", "/work", "/cv"]);
+  assert.equal(GO_RECORDS.filter(({ start }) => start).length, 7);
 });
 
 test("the sitemap static list covers every navigation route exactly once", () => {
@@ -50,7 +57,7 @@ test("the sitemap static list covers every navigation route exactly once", () =>
   for (const route of routes) assert.match(route, /^\/([a-z0-9-]+\/)*$/, `sitemap routes end with a slash: ${route}`);
   for (const route of navRoutes()) assert.ok(routes.includes(route), `${route} is in the navigation but not the sitemap`);
   assert.ok(routes.includes("/"), "the home page is in the sitemap");
-  for (const retired of ["/work-with-me/", "/start/", "/capabilities/"]) {
+  for (const retired of ["/work-with-me/", "/start/", "/capabilities/", "/program/"]) {
     assert.ok(!routes.includes(retired), `${retired} is redirected and must leave the sitemap`);
   }
 });

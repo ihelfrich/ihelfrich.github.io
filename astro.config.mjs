@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { REDIRECTS } from './src/data/navigation.mjs';
+import { rehypeClickEvents } from './src/data/analytics.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +14,8 @@ export default defineConfig({
   redirects: { ...REDIRECTS },
   // Discover the lazy photographic engine before a visitor submits a token.
   vite: { optimizeDeps: { include: ['cesium'] } },
-  markdown: { remarkPlugins: [remarkMath], rehypePlugins: [[rehypeKatex, { strict: 'error' }]] },
+  // rehypeClickEvents tags paper, CV, resume and email links in Markdown for GoatCounter.
+  markdown: { remarkPlugins: [remarkMath], rehypePlugins: [[rehypeKatex, { strict: 'error' }], rehypeClickEvents] },
   build: {
     format: 'directory'
   }

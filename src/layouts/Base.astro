@@ -9,28 +9,38 @@ import "../styles/visitor-experience.css";
 import "lenis/dist/lenis.css";
 import SiteIndex from "../components/SiteIndex.astro";
 import FieldRail from "../components/FieldRail.astro";
+import Nearby from "../components/Nearby.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Analytics from "../components/Analytics.astro";
+import { clickEvent } from "../data/analytics.mjs";
 import { crumbsFor } from "../data/breadcrumbs.mjs";
-import { PRIMARY, CONTACT, RECORDS, CONNECT } from "../data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK, RECORDS, CONNECT } from "../data/navigation.mjs";
 import { THEME_COLOR } from "../data/theme.mjs";
+import { portrait } from "../data/homepage-studio.mjs";
 
 const {
   title,
+  // A complete <title> for a page whose title already names Ian; skips the site suffix.
+  documentTitle,
   description,
   wide = false,
   image = "/og.png",
   imageAlt = "Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates",
   noindex = false,
+  // A page with no address of its own (the 404 document) emits no canonical link or og:url.
+  omitCanonical = false,
   excludeFromSearch = false,
   pageClass = "",
+  // Open Graph object type; research records with Scholar metadata pass "article".
+  ogType = "website",
 } = Astro.props;
 
 const siteTitle = "Ian Helfrich, PhD";
-const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
+const fullTitle = documentTitle ? documentTitle : title ? `${title} | ${siteTitle}` : `${siteTitle} | Economist`;
 const desc = description ?? "Applied economist, quantitative research designer, and educator in St. Louis.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
-const personImage = new URL("/people/ian-zoom-portrait.png", Astro.site ?? Astro.url.origin);
+const personImage = new URL(portrait.share, Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
 const year = new Date().getFullYear();
@@ -64,10 +74,8 @@ const personSchema = {
     "@type": "CollegeOrUniversity",
     name: "Georgia Institute of Technology",
   },
-  sameAs: [
-    "https://github.com/ihelfrich",
-    "https://www.linkedin.com/in/ian-helfrich",
-  ],
+  // The external profiles listed under Connect in the footer.
+  sameAs: CONNECT.filter(({ external }) => external).map(({ href }) => href),
   knowsAbout: [
     "Econometrics",
     "Causal inference",
@@ -91,8 +99,8 @@ const personSchema = {
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content={ogType} />
+  {!omitCanonical && <meta property="og:url" content={canonical} />}
   <meta property="og:site_name" content={siteTitle} />
   <meta property="og:image" content={socialImage} />
   <meta property="og:image:alt" content={imageAlt} />
@@ -102,11 +110,13 @@ const personSchema = {
   <meta name="twitter:image" content={socialImage} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
-  <link rel="canonical" href={canonical} />
+  {!omitCanonical && <link rel="canonical" href={canonical} />}
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+  <slot name="head" />
   <script is:inline>document.documentElement.classList.add('has-js');</script>
   <title>{fullTitle}</title>
+  <Analytics />
 </head>
 <body class={pageClass}>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -117,6 +127,8 @@ const personSchema = {
       <a href="/" class="site-brand" aria-label="Ian Helfrich, home">
         <span>Ian Helfrich</span><sup>PhD</sup>
       </a>
+
+      <a href={CONTACT.href} class="header-contact" data-header-contact aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
 
       <div class="nav-surface" data-nav-surface>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -134,6 +146,7 @@ const personSchema = {
             <div class="nav-utilities">
               <a href="/field" class="site-map-link" aria-current={isActive("/field") ? "page" : undefined}>Map</a>
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
+              <a href={BOOK.href} class="nav-book" aria-current={isActive(BOOK.href) ? "page" : undefined}>{BOOK.label}</a>
               <a href={CONTACT.href} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
             </div>
           </nav>
@@ -161,6 +174,8 @@ const personSchema = {
     <slot />
   </main>
 
+  <Nearby pathname={pathname} />
+
   <FieldRail />
 
   <footer class="site-footer">
@@ -183,8 +198,9 @@ const personSchema = {
         <div>
           <strong>Connect</strong>
           <a href={CONTACT.href}>{CONTACT.label}</a>
+          <a href={BOOK.href}>{BOOK.label}</a>
           {CONNECT.map(({ label, href, external }) => (
-            <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>{label}</a>
+            <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined} data-goatcounter-click={clickEvent(href)}>{label}</a>
           ))}
         </div>
       </div>
@@ -201,6 +217,7 @@ const personSchema = {
     const navSurface = document.querySelector('[data-nav-surface]');
     const navHeader = document.querySelector('.site-header');
     const siteBrand = document.querySelector('.site-brand');
+    const headerContact = document.querySelector('[data-header-contact]');
     const navLabel = navToggle?.querySelector('.nav-toggle-label');
     const navBackdrop = document.querySelector('[data-nav-backdrop]');
     const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -209,6 +226,7 @@ const personSchema = {
       const regions = [...document.body.children]
         .filter((element) => element !== navHeader && element.tagName !== 'SCRIPT');
       if (siteBrand) regions.push(siteBrand);
+      if (headerContact) regions.push(headerContact);
       regions.forEach((element) => {
         if (!isolatedState.has(element)) {
           isolatedState.set(element, {
