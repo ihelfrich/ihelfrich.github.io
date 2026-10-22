@@ -222,6 +222,9 @@ export function typeFor(path) {
   return "page";
 }
 
+// Display names for the page types above, shared by the site map, the home map and the connected-pages strip.
+export const KIND_NAMES = Object.freeze({ paper: "Paper", data: "Dataset", tool: "Tool", course: "Course", page: "Page" });
+
 export const ROUTES = Object.freeze({
   "Hiring committee": {
     summary: "Job market page, dissertation, a current paper and its data, teaching, CV.",
