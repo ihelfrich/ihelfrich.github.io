@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Window } from "happy-dom";
 import { computeLayouts } from "../../src/lib/gravity-layout.mjs";
-import { mountHomeGraph, PAINT_ORDER, LABEL_HALO_PX } from "../../src/scripts/home-graph.mjs";
+import { HOVER_MS, mountHomeGraph, PAINT_ORDER, LABEL_HALO_PX } from "../../src/scripts/home-graph.mjs";
 
 const NODES = [
   ["/", "Home", "Home", 200, "page", ["profile"]],
@@ -26,7 +26,7 @@ const MARKUP = `<section data-home-graph>
 function setup({ reduce = false } = {}) {
   const w = new Window({ url: "https://example.test/" }), d = w.document;
   d.body.innerHTML = MARKUP;
-  const frames = new Map(), texts = [];
+  const frames = new Map(), texts = [], at = new Map(), dashes = [];
   let next = 0, clock = 0;
   w.requestAnimationFrame = (fn) => { frames.set(++next, fn); return next; };
   w.cancelAnimationFrame = (id) => frames.delete(id);
@@ -34,7 +34,10 @@ function setup({ reduce = false } = {}) {
   w.matchMedia = (q) => (media[q] ??= Object.assign(new w.EventTarget(), { matches: q.includes("reduce") ? reduce : false }));
   w.ResizeObserver = class { observe() {} disconnect() {} };
   w.IntersectionObserver = class { constructor(fn) { this.fn = fn; } observe() { this.fn([{ isIntersecting: true }]); } disconnect() {} };
-  const ctx = new Proxy({ fillStyle: "#000", measureText: (t) => ({ width: t.length * 6.5 }), fillText: (t) => texts.push(t), getImageData: () => ({ data: [0, 0, 0, 255] }) }, {
+  const ctx = new Proxy({
+    fillStyle: "#000", measureText: (t) => ({ width: t.length * 6.5 }), getImageData: () => ({ data: [0, 0, 0, 255] }),
+    fillText: (t, x, y) => { texts.push(t); at.set(t, [x, y]); }, setLineDash: (d) => dashes.push(d.join(",")),
+  }, {
     get: (o, k) => (k in o ? o[k] : () => {}),
     set: (o, k, v) => { o[k] = v; return true; },
   });
@@ -50,9 +53,10 @@ function setup({ reduce = false } = {}) {
   };
   const key = (k) => stage.dispatchEvent(new w.KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
   const pointer = (type, x, y, pointerType = "touch") => stage.dispatchEvent(new w.PointerEvent(type, { clientX: x, clientY: y, pointerType, pointerId: 1, button: 0, bubbles: true, cancelable: true }));
+  const click = (x, y) => { pointer("pointerdown", x, y, "mouse"); pointer("pointerup", x, y, "mouse"); };
   const ready = async () => { for (let k = 0; k < 400 && stage.getAttribute("aria-busy") !== "false"; k++) await new Promise((r) => w.setTimeout(r, 5));
     assert.equal(stage.getAttribute("aria-busy"), "false", "the map mounted"); };
-  return { w, d, root, stage, frames, texts, navigated, dispose, run, key, pointer, ready, media };
+  return { w, d, root, stage, frames, texts, at, dashes, navigated, dispose, run, key, pointer, click, ready, media };
 }
 const restXY = (id) => { const i = NODES.findIndex((n) => n.id === id); return [FIELD.layout.wide.xy[2 * i] * W, FIELD.layout.wide.xy[2 * i + 1] * H]; };
 
@@ -78,7 +82,7 @@ test("mounting builds a listbox of every page, labels the NMTC paper for the hom
   t.dispose(); await t.w.happyDOM.abort();
 });
 
-test("Enter centres the page under the cursor and a second Enter opens it; arrows move the cursor", async () => {
+test("Enter centers the page under the cursor and a second Enter opens it; arrows move the cursor", async () => {
   const t = setup();
   await t.ready(); t.run();
   t.stage.focus();
@@ -159,10 +163,63 @@ test("hovering a section link highlights its page without waking the physics", a
   await t.ready(); t.run();
   const link = t.d.querySelector('.hg-links a[data-id="/contact/"]');
   link.dispatchEvent(new t.w.MouseEvent("mouseenter"));
+  assert.equal(t.frames.size, 0, "nothing changes until the pointer rests");
+  await new Promise((r) => t.w.setTimeout(r, HOVER_MS + 30));
   assert.equal(t.frames.size, 1, "one redraw");
   assert.equal(t.run(), 1, "and no physics frames after it");
   assert.match(t.d.querySelector("[data-hg-card] h3").textContent, /Contact/);
   t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("a quick sweep across the section links changes the card at most once", async () => {
+  const t = setup();
+  await t.ready(); t.run();
+  const card = t.d.querySelector("[data-hg-card]");
+  const seen = [];
+  new t.w.MutationObserver(() => seen.push(card.querySelector("h3")?.textContent ?? null)).observe(card, { childList: true, subtree: true });
+  const links = [...t.d.querySelectorAll(".hg-links a[data-id]")];
+  for (const a of links) { a.dispatchEvent(new t.w.MouseEvent("mouseenter")); await new Promise((r) => t.w.setTimeout(r, 20)); a.dispatchEvent(new t.w.MouseEvent("mouseleave")); }
+  await new Promise((r) => t.w.setTimeout(r, 3 * HOVER_MS));
+  assert.equal(seen.length, 0, "the card did not flicker");
+  assert.equal(card.hidden, true);
+  t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("a label is a target: clicking the text of a page's label chooses that page", async () => {
+  const t = setup();
+  await t.ready(); t.run();
+  const [x, y] = t.at.get("Contact");
+  t.click(x + ("Contact".length * 6.5) / 2, y + 7);
+  assert.match(t.stage.querySelector('[aria-selected="true"]').textContent, /^Contact/);
+  t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("the dashed keyboard cursor appears for the keyboard, not after mouse clicks", async () => {
+  const t = setup();
+  await t.ready(); t.run();
+  const [x, y] = restXY("/job-market/");
+  t.pointer("pointerdown", x, y, "mouse"); t.stage.focus(); t.pointer("pointerup", x, y, "mouse");
+  t.run();
+  const back = t.d.querySelector("[data-hg-back]");
+  back.dispatchEvent(new t.w.PointerEvent("pointerdown", { pointerType: "mouse", bubbles: true }));
+  back.dispatchEvent(new t.w.MouseEvent("click", { detail: 1, bubbles: true }));
+  t.run();
+  assert.equal(t.d.activeElement, t.stage);
+  assert.ok(!t.dashes.includes("3,3"), "no keyboard cursor after a mouse choice and Back");
+  t.key("ArrowRight"); t.run();
+  assert.ok(t.dashes.includes("3,3"), "the keyboard cursor shows once a key is pressed");
+  t.dispose(); await t.w.happyDOM.abort();
+});
+
+test("the listbox is named plainly and describes its keys once", async () => {
+  const t = setup();
+  await t.ready();
+  assert.equal(t.stage.getAttribute("aria-label"), "Site pages");
+  const help = t.d.getElementById(t.stage.getAttribute("aria-describedby"));
+  assert.match(help.textContent, /^Enter centers the chosen page/);
+  t.dispose();
+  assert.equal(t.d.getElementById(help.id), null);
+  await t.w.happyDOM.abort();
 });
 
 test("dispose stops the loop, removes the listbox and its listeners", async () => {

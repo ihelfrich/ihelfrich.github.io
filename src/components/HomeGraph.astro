@@ -9,7 +9,7 @@ import { glyphPathData } from "../lib/gravity-field.mjs";
 // field.json the map fetches (public/field.json is what the deployed site serves).
 const field = JSON.parse(readFileSync("public/field.json", "utf8"));
 const groups = TOPIC_ORDER
-  .map((t) => [t, field.nodes.filter((d) => (d.topics[0] || "profile") === t).sort((a, b) => homeLabel(a).localeCompare(homeLabel(b)))])
+  .map((t) => [t, field.nodes.filter((d) => (d.topics[0] || "profile") === t).sort((a, b) => homeLabel(a).localeCompare(homeLabel(b), "en", { numeric: true }))])
   .filter(([, list]) => list.length);
 const kinds = ["paper", "data", "tool", "course", "page"];
 ---

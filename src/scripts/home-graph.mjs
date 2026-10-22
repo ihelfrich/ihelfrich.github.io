@@ -6,20 +6,40 @@ import { contours as contourGenerator } from "d3-contour";
 import { KIND_NAMES, TOPIC_NAMES, TOPIC_ORDER, TOPIC_SHORT } from "../data/field-topics.mjs";
 import { FORCED_LANDMARKS, LANDMARKS, homeLabel } from "../data/home-graph.mjs";
 import {
-  TAU, adjacency, clamp, contourLevels, createState, firstSentence, glyphPathData, glyphVertices, hash, hopRings,
-  integrate, markRadius, pageMass, pageRings, placeLabels, placeOnRing, radialPreference, ringGeometry,
-  sampleField, scaleLayout, stageScales, traceSmoothRing, wellLevels, wellRadius,
+  LABEL_ORDER, TAU, adjacency, clamp, contourLevels, createState, firstSentence, glyphPathData, glyphRadius, glyphReach,
+  glyphVertices, hash, hopRings, integrate, labelBox, markRadius, padReach, pageMass, pageRings, placeLabels, placeOnRing,
+  potentialAt, radialPreference, reachBox, reserveLabelRoom, ringGeometry, sampleField, scaleLayout, stageScales,
+  traceSmoothRing, wellLevels, wellRadius,
 } from "../lib/gravity-field.mjs";
 
 /** Canvas paint order: labels come last, over every mark, each with a halo in the stage colour. */
 export const PAINT_ORDER = Object.freeze(["terrain", "links", "marks", "labels"]);
 export const LABEL_HALO_PX = 4;
-const CHOSEN_HALO_PX = 7;
+export const CHOSEN_HALO_PX = 7;
+// Clear space between a mark's outline (including its 1.5 px paper edge) and the halo of its label.
+const LABEL_CLEARANCE_PX = 1.5;
+// Pages on the first ring are spread round the chosen page and labelled outwards, so their labels
+// need a smaller margin of association than labels on the dense map at rest (see ASSOCIATION).
+const RING_ASSOCIATION = 1.2;
 const WELL = 30; // mass of the chosen page's well
 const LONG_PRESS_MS = 300; // touch: hold this long, nearly still, to drag a page
 const TOUCH_SLOP = 8;
 const STREAK_MS = 250;
 const FRAME_BUDGET_MS = 8;
+// Hover intent: the card follows the mouse only once it rests on a page, not while it sweeps across.
+export const HOVER_MS = 90;
+const HOVER_SPEED = 0.55; // px per ms
+const HELP = "Enter centers the chosen page and a second Enter opens it. Escape returns to the full map.";
+
+/** Reach of a label's own mark, as placeLabels expects it: the glyph, any ring round it, and clearance. */
+export function markReach(type, r, ring, halo) {
+  const g = glyphReach(type, r);
+  if (ring > 0) {
+    const rr = reachBox(ring);
+    for (const k in g) g[k] = Math.max(g[k], rr[k]);
+  }
+  return padReach(g, 1.5 + halo / 2 + LABEL_CLEARANCE_PX);
+}
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
@@ -93,6 +113,8 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     const DARK = win.matchMedia("(prefers-color-scheme: dark)");
     const ctT = cvT.getContext("2d"), ctS = cvS.getContext("2d");
     const MR = new Float64Array(n);
+    const RV = new Uint8Array(n); // how far each page counts as a rival for a label (see placeLabels)
+    const GR = N.map((d) => glyphRadius(d.type, 1));
     const PGX = new Float64Array(n), PGY = new Float64Array(n);
     const far = new Uint8Array(n);
     let hop = new Int8Array(n).fill(-1);
@@ -179,11 +201,11 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     function setLevels() {
       X.set(PX0); Y.set(PY0);
       for (let i = 0; i < n; i++) { MV[i] = M0[i]; KR[i] = bodyKernel(); }
-      sampleField(vals, { gw, gh, cell, ox: gridOX, oy: gridOY }, X, Y, MV, KR, n);
-      // Levels come from the visible part of the stage only, so the margin does not thin them out.
-      const seen = [];
-      const g0 = Math.ceil(margin / cell), gx1 = Math.floor((margin + W) / cell), gy1 = Math.floor((margin + H) / cell);
-      for (let gy = g0; gy <= gy1; gy++) for (let gx = g0; gx <= gx1; gx++) seen.push(vals[gy * gw + gx]);
+      // Levels come from the visible part of the stage only, so the margin does not thin them out. A grid
+      // at twice the contour spacing fixes the distribution; the peak is read at the pages themselves.
+      const seen = [], step = 2 * cell;
+      for (let y = step / 2; y < H; y += step) for (let x = step / 2; x < W; x += step) seen.push(potentialAt(x, y, X, Y, MV, KR, n));
+      for (let i = 0; i < n; i++) if (X[i] >= 0 && X[i] <= W && Y[i] >= 0 && Y[i] <= H) seen.push(potentialAt(X[i], Y[i], X, Y, MV, KR, n));
       ({ levels, top: topLand } = contourLevels(seen));
       contours.thresholds(levels);
     }
@@ -275,6 +297,8 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       return w;
     }
     const last = new Map();
+    let labelHits = []; // [page, x0, y0, x1, y1] for each page label drawn in the last frame
+    let kbd = false; // the keyboard, not a pointer, last moved the cursor
     const speed = (i) => Math.hypot(VX[i], VY[i]);
     let basins = [];
     function basinItems() {
@@ -297,12 +321,29 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
         return { key: "b" + k, text, font, size: 11, w, h, color: "muted", alpha: 1, track: true, cands: [[cx - w / 2, cy - 7], ...ud, [x0 - w - 16, cy - 7], [x1 + 16, cy - 7], [cx - w / 2, cy - 30], [cx - w / 2, cy + 16]] };
       }).filter(Boolean);
     }
-    function item(i, weight, size, extra = "") {
+    // Radius of the ring drawn round Home, the chosen page and the hovered page (0 when there is none),
+    // out to the outer edge of its stroke.
+    const ringRadius = (i, r = RAD[i]) => (i === HOME || i === sel || i === hov ? r * (N[i].type === "page" ? 1 : 1.35) + (i === sel ? 6 : 4) + 0.8 : 0);
+    // The landmark labels that always show get room in the rest layout of this stage: pages under or
+    // beside them move aside just enough, so each label covers no page and its own mark is the nearest.
+    function reserveLandmarks() {
+      const small = narrow ? 11 : 12;
+      const items = landmarks.slice(0, FORCED_LANDMARKS).map((i, k) => {
+        const size = k === 0 ? 13 : small, text = label[i];
+        return { key: i, i, r: markReach(N[i].type, R0[i], i === HOME ? ringRadius(i, R0[i]) : 0, LABEL_HALO_PX), w: textW(text, F(k === 0 ? 650 : 520, size)), h: size * 1.25 };
+      });
+      for (let i = 0; i < n; i++) MR[i] = GR[i] * R0[i] + 2;
+      last.clear();
+      for (const [key, c] of reserveLabelRoom(items, { X: PX0, Y: PY0, MR, n, W, H })) last.set(key, c);
+      for (let l = 0; l < L; l++) REST0[l] = Math.hypot(PX0[LB[l]] - PX0[LA[l]], PY0[LB[l]] - PY0[LA[l]]);
+    }
+    function item(i, weight, size, extra = "", chosen = false) {
       const text = label[i] + extra, font = F(weight, size);
       return {
-        key: i, i, x: X[i], y: Y[i], r: RAD[i], text, font, size, w: textW(text, font), h: size * 1.25, color: "ink",
+        key: i, i, x: X[i], y: Y[i], r: markReach(N[i].type, RAD[i], ringRadius(i), chosen ? CHOSEN_HALO_PX : LABEL_HALO_PX),
+        text, font, size, w: textW(text, font), h: size * 1.25, color: "ink", chosen,
         alpha: clamp(1.25 - speed(i) / 140, 0, 1),
-        prefer: sel >= 0 && i !== sel ? radialPreference(X[i], Y[i], ring ? ring.cx : W / 2, ring ? ring.cy : H / 2) : [0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 8, 9],
+        prefer: sel >= 0 && i !== sel ? radialPreference(X[i], Y[i], ring ? ring.cx : W / 2, ring ? ring.cy : H / 2) : LABEL_ORDER,
       };
     }
     function labelItems() {
@@ -310,11 +351,12 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const focus = hov;
       const small = narrow ? 11 : 12;
       if (sel >= 0) {
-        items.push(Object.assign(item(sel, 650, narrow ? 14 : 15, " ↗"), { alpha: 1, force: true, chosen: true, prefer: [3, 2, 8, 9, 0, 1, 10, 11, 12, 13] }));
+        // The chosen page sits alone at the centre of its well, so its label need only be nearest to it.
+        items.push(Object.assign(item(sel, 650, narrow ? 14 : 15, " ↗", true), { alpha: 1, force: true, ratio: 1, prefer: [3, 2, 16, 17, 14, 15, 8, 9, 0, 1, 10, 11, 12, 13] }));
         if (focus >= 0 && focus !== sel) items.push(Object.assign(item(focus, 600, 13), { alpha: 1, force: true }));
         const r1 = [];
         for (let i = 0; i < n; i++) if (hop[i] === 1) r1.push(i);
-        r1.sort((a, b) => M0[b] - M0[a]).forEach((i) => items.push(item(i, 500, small)));
+        r1.sort((a, b) => M0[b] - M0[a]).forEach((i) => items.push(Object.assign(item(i, 500, small), { ratio: RING_ASSOCIATION })));
       } else if (focus >= 0) {
         items.push(Object.assign(item(focus, 650, 14), { alpha: 1, force: true }));
         adj[focus].slice().sort((a, b) => M0[b] - M0[a]).forEach((i) => items.push(item(i, 500, small)));
@@ -403,16 +445,23 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
           }
         }
       }
-      // keyboard cursor
-      if (doc.activeElement === stage && cursor >= 0) {
+      // keyboard cursor, only while the keyboard is in use
+      if (kbd && doc.activeElement === stage && cursor >= 0) {
         c.save(); c.setLineDash([3, 3]); c.lineWidth = 1.5; c.strokeStyle = theme.ink;
         c.beginPath(); c.arc(X[cursor], Y[cursor], RAD[cursor] * 1.5 + 10, 0, TAU); c.stroke(); c.restore();
       }
-      // labels, last, over every mark
-      for (let i = 0; i < n; i++) MR[i] = RAD[i] * 1.2 + 1;
-      const placed = placeLabels(labelItems(), { X, Y, MR, n, W, H, last });
+      // labels, last, over every mark; another mark's outline and paper edge stay clear of the label box
+      // Faded pages (two or more links from the chosen page) may meet a label's halo, but not its text,
+      // and on a wide stage a label must be nearer its own mark than to any of them; a phone has no room for that.
+      for (let i = 0; i < n; i++) {
+        RV[i] = sel >= 0 ? (hop[i] <= 1 || nb[i] ? 2 : hop[i] === 2 && !narrow ? 1 : 0) : focus >= 0 ? (nb[i] ? 2 : 1) : 2;
+        MR[i] = GR[i] * RAD[i] + (sel >= 0 && RV[i] < 2 ? 0 : 2);
+      }
+      const placed = placeLabels(labelItems(), { X, Y, MR, n, W, H, last, rival: RV });
+      labelHits = [];
       c.textBaseline = "top";
       for (const [it, bx, by] of placed) {
+        if (it.i != null && it.alpha > 0.3) labelHits.push([it.i, ...labelBox(it, bx, by)]);
         if (it.alpha < 0.03) continue;
         c.font = it.font;
         if (it.track && "letterSpacing" in c) c.letterSpacing = "1px";
@@ -495,11 +544,43 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       wake();
     }
     function setHover(i) {
+      win.clearTimeout(intent.timer); intent.want = i;
       if (i === hov) return;
       hov = i;
       renderCard(); redraw();
     }
+    // Mouse hover waits until the pointer rests: a sweep across the map leaves the card and labels alone.
+    const intent = { want: -1, timer: 0, t: 0, x: 0, y: 0, v: 0 };
+    function hoverSoon(i) {
+      if (i === intent.want) return;
+      intent.want = i;
+      win.clearTimeout(intent.timer);
+      if (i !== hov) intent.timer = win.setTimeout(commitHover, i >= 0 ? HOVER_MS : 1.5 * HOVER_MS);
+    }
+    function commitHover() {
+      const still = win.performance.now() - intent.t > 60;
+      if (intent.want >= 0 && !still && intent.v > HOVER_SPEED) { intent.timer = win.setTimeout(commitHover, 40); return; }
+      setHover(intent.want);
+    }
+    function trackPointer(x, y) {
+      const t = win.performance.now(), dt = t - intent.t;
+      if (dt > 0 && dt < 200) intent.v = 0.6 * intent.v + 0.4 * (Math.hypot(x - intent.x, y - intent.y) / dt);
+      else intent.v = 0;
+      intent.t = t; intent.x = x; intent.y = y;
+    }
     const open = (i) => go(N[i].id);
+    // On a phone the card sits below the map: after a tap, scroll just far enough to show "Open page",
+    // without moving the chosen page out of view.
+    function revealOpen() {
+      const a = card.querySelector(".hg-open");
+      if (!a || card.hidden) return;
+      const need = a.getBoundingClientRect().bottom + 12 - win.innerHeight;
+      if (need <= 0) return;
+      const header = parseFloat(win.getComputedStyle(doc.documentElement).getPropertyValue("--site-header-height")) || 0;
+      const room = stage.getBoundingClientRect().top + (ring ? ring.cy : H / 2) - header - 48;
+      const dy = Math.min(need, room);
+      if (dy > 4) win.scrollBy({ top: dy, behavior: RM.matches ? "auto" : "smooth" });
+    }
 
     /* ---------- card ---------- */
     let cardFor = null;
@@ -527,7 +608,11 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     /* ---------- listbox ---------- */
     // The stage becomes a listbox only once it has options; without the script it is a plain figure.
     stage.setAttribute("role", "listbox");
-    stage.setAttribute("aria-label", "Site pages. Arrow keys move between pages, Enter centres a page and Enter again opens it, Escape returns to all topics.");
+    stage.setAttribute("aria-label", "Site pages");
+    const help = doc.createElement("p");
+    help.id = prefix + "help"; help.className = "hg-sr"; help.textContent = HELP;
+    root.appendChild(help);
+    stage.setAttribute("aria-describedby", help.id);
     stage.tabIndex = 0;
     const opts = N.map((d, i) => {
       const o = doc.createElement("div");
@@ -549,6 +634,8 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     }
     on(stage, "keydown", (e) => {
       const k = e.key;
+      win.clearTimeout(intent.timer); intent.want = -2; // the keyboard takes over from a pending mouse hover
+      if (!kbd && k !== "Tab") { kbd = true; redraw(); }
       if (k === "ArrowRight" || k === "ArrowDown" || k === "ArrowLeft" || k === "ArrowUp") {
         const order = cycle(), p = order.indexOf(cursor), dir = k === "ArrowRight" || k === "ArrowDown" ? 1 : -1;
         cursor = order[(p < 0 ? 0 : p + dir + order.length) % order.length];
@@ -559,18 +646,26 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
         if (cursor === sel && k === "Enter") open(sel); else { hov = -1; select(cursor); }
       } else if (k === "Escape" && sel >= 0) { e.preventDefault(); hov = -1; release(); }
     });
-    on(stage, "focus", () => { if (cursor < 0) cursor = sel >= 0 ? sel : HOME; syncOptions(); redraw(); });
+    // Focus that does not follow a pointer press in the map came from the keyboard.
+    let pressedAt = -1e9;
+    on(stage, "focus", () => { if (win.performance.now() - pressedAt > 600) kbd = true; if (cursor < 0) cursor = sel >= 0 ? sel : HOME; syncOptions(); redraw(); });
     on(stage, "blur", () => { if (hov >= 0 && !ptr.inside) { hov = -1; cardFor = null; renderCard(); } redraw(); });
-    on(backBtn, "click", () => { hov = -1; release(); stage.focus({ preventScroll: true }); });
+    on(root, "pointerdown", () => { pressedAt = win.performance.now(); if (kbd) { kbd = false; redraw(); } }, { capture: true });
+    // A keyboard press on Back reports detail 0; a click keeps the keyboard cursor hidden.
+    on(backBtn, "click", (e) => { if (e.detail === 0) kbd = true; hov = -1; release(); stage.focus({ preventScroll: true }); });
 
     /* ---------- pointer: hover, choose, drag ---------- */
     // Touch never blocks scrolling: a page is dragged only after a still long press, and only then is
     // touchmove cancelled. A quick swipe anywhere on the map scrolls the page.
     const ptr = { down: false, id: -1, type: "", cand: -1, sx: 0, sy: 0, x: 0, y: 0, drag: false, moved: false, inside: false, timer: 0 };
     const local = (e) => { const r = stage.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    // A page is hit on its mark, then on its label, then within `pad` of its mark.
     function hit(x, y, pad) {
       let best = -1, bd = Infinity;
       for (let i = 0; i < n; i++) { const d = Math.hypot(X[i] - x, Y[i] - y) - RAD[i] * 1.3; if (d < pad && d < bd) { bd = d; best = i; } }
+      if (bd <= 0) return best;
+      const lp = pad > 8 ? 4 : 0;
+      for (const [i, x0, y0, x1, y1] of labelHits) if (x >= x0 - lp && x <= x1 + lp && y >= y0 - lp && y <= y1 + lp) return i;
       return best;
     }
     function startDrag() {
@@ -585,6 +680,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       if (e.button > 0) return;
       const [x, y] = local(e);
       win.clearTimeout(ptr.timer);
+      win.clearTimeout(intent.timer); intent.want = hov;
       Object.assign(ptr, { down: true, id: e.pointerId, type: e.pointerType, sx: x, sy: y, x, y, drag: false, moved: false });
       ptr.cand = hit(x, y, e.pointerType === "touch" ? 18 : 8);
       if (ptr.cand >= 0 && e.pointerType === "touch") ptr.timer = win.setTimeout(startDrag, LONG_PRESS_MS);
@@ -601,7 +697,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
         if (ptr.drag) { dragX = clamp(x, 4, W - 4); dragY = clamp(y, 4, H - 4); wake(); }
         return;
       }
-      if (e.pointerType === "mouse") { const i = hit(x, y, 8); stage.classList.toggle("is-pointing", i >= 0); setHover(i); }
+      if (e.pointerType === "mouse") { trackPointer(x, y); const i = hit(x, y, 8); stage.classList.toggle("is-pointing", i >= 0); hoverSoon(i); }
     });
     on(stage, "touchmove", (e) => { if (ptr.drag && e.cancelable) e.preventDefault(); }, { passive: false });
     on(stage, "contextmenu", (e) => { if (ptr.down && ptr.type === "touch") e.preventDefault(); });
@@ -612,8 +708,11 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       if (ptr.drag) { drag = -1; ptr.drag = false; stage.classList.remove("is-dragging"); wake(); return; }
       if (cancel || ptr.moved) return;
       const i = ptr.cand;
-      if (i >= 0) { if (i === sel) open(i); else { if (ptr.type !== "mouse") hov = -1; select(i); } }
-      else if (sel >= 0) { hov = -1; release(); }
+      if (i >= 0) {
+        if (i === sel) open(i);
+        else if (ptr.type === "mouse") { setHover(i); select(i); }
+        else { setHover(-1); select(i); revealOpen(); }
+      } else if (sel >= 0) { setHover(-1); release(); }
     }
     on(stage, "pointerup", () => endPointer(false));
     on(stage, "pointercancel", () => endPointer(true));
@@ -621,13 +720,13 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     for (const a of root.querySelectorAll(".hg-links a[data-id]")) {
       const i = byId.get(a.dataset.id);
       if (i == null) continue;
-      on(a, "mouseenter", () => setHover(i)); on(a, "mouseleave", () => setHover(-1));
+      on(a, "mouseenter", () => hoverSoon(i)); on(a, "mouseleave", () => hoverSoon(-1));
       on(a, "focus", () => setHover(i)); on(a, "blur", () => setHover(-1));
     }
 
     /* ---------- lifecycle ---------- */
     function build(keep) {
-      measure(); landscape(); setLevels(); widths.clear(); basins = basinItems();
+      measure(); widths.clear(); landscape(); reserveLandmarks(); setLevels(); basins = basinItems();
       if (sel >= 0) toRings(sel); else toLandscape();
       if (!keep) {
         // Start outside the equilibrium so the first view shows the pages falling into their basins.
@@ -638,7 +737,12 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
         }
         X[HOME] = PX0[HOME]; Y[HOME] = PY0[HOME]; introA = 0;
       }
-      if (RM.matches || keep) settle(); else { drawTerrain(); drawScene(); }
+      if (RM.matches || keep) settle();
+      else {
+        // The terrain fades in from nothing, so the first frame clears it rather than sampling the field.
+        ctT.setTransform(1, 0, 0, 1, 0, 0); ctT.clearRect(0, 0, cvT.width, cvT.height);
+        drawScene();
+      }
     }
     function retheme() {
       theme = readTheme(); widths.clear(); basins = basinItems();
@@ -668,22 +772,28 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     const fontsReady = doc.fonts && doc.fonts.load
       ? Promise.all([doc.fonts.load(F(500, 12)), doc.fonts.load(F(650, 15))]).catch(() => null)
       : Promise.resolve();
+    // The first layout and draw run in a task of their own, after the setup above, so neither makes a long task.
+    let startT = 0;
     fontsReady.then(() => {
       if (disposed) return;
-      const r = stage.getBoundingClientRect();
-      lastW = r.width; lastH = r.height;
-      build(false); renderCard(); syncOptions();
-      stage.setAttribute("aria-busy", "false");
-      started = true; wake();
+      startT = win.setTimeout(() => {
+        if (disposed) return;
+        const r = stage.getBoundingClientRect();
+        lastW = r.width; lastH = r.height;
+        build(false); renderCard(); syncOptions();
+        stage.setAttribute("aria-busy", "false");
+        started = true; wake();
+      }, 0);
     });
 
     return () => {
       started = false;
       win.cancelAnimationFrame(raf); win.cancelAnimationFrame(pending); raf = pending = 0; awake = false;
-      win.clearTimeout(rsT); win.clearTimeout(ptr.timer);
+      win.clearTimeout(rsT); win.clearTimeout(ptr.timer); win.clearTimeout(intent.timer); win.clearTimeout(startT);
       ro.disconnect(); io.disconnect(); mo.disconnect();
       for (const o of opts) o.remove();
-      for (const a of ["aria-activedescendant", "role", "aria-label", "tabindex"]) stage.removeAttribute(a);
+      help.remove();
+      for (const a of ["aria-activedescendant", "aria-describedby", "role", "aria-label", "tabindex"]) stage.removeAttribute(a);
     };
   }
 

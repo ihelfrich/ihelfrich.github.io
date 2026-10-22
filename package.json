@@ -22,8 +22,9 @@
     "check:discovery": "node scripts/check-public-discovery.mjs",
     "check:analytics": "node scripts/check-analytics.mjs",
     "check:public-cv": "node scripts/check-public-cv-safety.mjs",
-    "check": "npm run check:copy && npm run check:fieldbook && npm run check:navigation && npm run check:tokens && npm run check:components && npm run check:econ-practice && npm run check:city && npm run check:macroeconomics && npm run check:calculus && npm run check:ols && npm run build:fast && npm run check:styles && npm run check:public-cv && npm run check:analytics",
+    "check": "npm run check:copy && npm run check:fieldbook && npm run check:navigation && npm run check:tokens && npm run check:components && npm run check:econ-practice && npm run check:city && npm run check:macroeconomics && npm run check:calculus && npm run check:ols && npm run build:fast && npm run check:styles && npm run check:browser && npm run check:public-cv && npm run check:analytics",
     "check:styles": "node scripts/check-rendered-styles.mjs",
+    "check:browser": "node --test tests/browser/home-graph.browser.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "field-data": "node scripts/build-field-data.mjs",
@@ -56,6 +57,7 @@
     "js-yaml": "^4.3.2",
     "pagefind": "^1.5.2",
     "pdfjs-dist": "^6.2.108",
+    "playwright-core": "1.64.0",
     "wrangler": "4.149.0"
   },
   "overrides": {

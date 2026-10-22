@@ -2,9 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { contours } from "d3-contour";
 import {
-  adjacency, contourLevels, createState, firstSentence, glyphPathData, glyphVertices, hopRings, integrate,
-  labelCandidates, pageMass, pageRings, placeLabels, placeOnRing, potentialAt, ringContains, ringGeometry,
-  sampleField, scaleLayout, traceSmoothRing, wellLevels, wellRadius,
+  ASSOCIATION, adjacency, boxDistance, contourLevels, createState, firstSentence, glyphPathData, glyphRadius, glyphReach,
+  glyphVertices, hopRings, integrate, labelBox, labelCandidates, padReach, pageMass, pageRings, placeLabels, placeOnRing,
+  potentialAt, reserveLabelRoom, ringContains, ringGeometry, sampleField, scaleLayout, traceSmoothRing, wellLevels, wellRadius,
 } from "../../src/lib/gravity-field.mjs";
 import { LAYOUT_FRAMES, computeLayouts } from "../../src/lib/gravity-layout.mjs";
 
@@ -149,7 +149,57 @@ test("labels never overlap one another, stay inside the stage, and avoid marks",
   assert.ok(edge[0][1] + 60 <= W - 4);
   const crowded = placeLabels([{ key: "x", x: 10, y: 10, r: 4, w: 900, h: 15 }], { X: [], Y: [], MR: [], n: 0, W, H });
   assert.equal(crowded.length, 0);
-  assert.equal(labelCandidates(0, 0, 4, 10, 10).length, 14);
+  assert.equal(labelCandidates(0, 0, 4, 10, 10).length, 18);
+});
+
+test("every label position clears its own glyph by the requested gap, for every page type", () => {
+  // Points along each glyph's outline; a label box must keep at least `gap` from all of them.
+  const outline = (type, r) => {
+    const v = glyphVertices(type, r);
+    if (!v) return Array.from({ length: 90 }, (_, k) => [r * Math.cos((k * Math.PI) / 45), r * Math.sin((k * Math.PI) / 45)]);
+    return v.flatMap(([x0, y0], k) => { const [x1, y1] = v[(k + 1) % v.length]; return Array.from({ length: 20 }, (_, t) => [x0 + ((x1 - x0) * t) / 20, y0 + ((y1 - y0) * t) / 20]); });
+  };
+  for (const type of ["paper", "data", "course", "tool", "page"]) {
+    const r = 7, gap = 5, pts = outline(type, r);
+    const cands = labelCandidates(0, 0, padReach(glyphReach(type, r), gap), 80, 15);
+    cands.forEach(([bx, by], k) => {
+      const box = [bx, by, bx + 80, by + 15], d = Math.min(...pts.map(([x, y]) => boxDistance(box, x, y)));
+      assert.ok(d >= gap - 1e-6, `${type} candidate ${k} is ${d.toFixed(2)} px from the glyph`);
+    });
+    assert.ok(glyphRadius(type, r) >= Math.max(...pts.map(([x, y]) => Math.hypot(x, y))) - 1e-9);
+  }
+});
+
+test("a label is never placed where another mark is nearly as close as its own", () => {
+  // The right-hand place would put the label's far end beside another page; the label goes left instead.
+  const X = [200, 280], Y = [200, 206], MR = [6, 6], W = 600, H = 400;
+  const it = { key: "a", i: 0, x: 200, y: 200, r: 10, w: 60, h: 15 };
+  const [[, bx, by]] = placeLabels([it], { X, Y, MR, n: 2, W, H });
+  const box = labelBox(it, bx, by), own = boxDistance(box, X[0], Y[0]);
+  assert.ok(boxDistance(box, X[1], Y[1]) >= ASSOCIATION * own + 2, "the other page is clearly farther");
+  assert.ok(bx + it.w < 200, "the label sits to the left of its mark");
+});
+
+test("room is reserved for forced labels: covered pages move aside, the labelled pages stay put", () => {
+  // A crowd round page 0: every place for its label would cover or crowd a neighbour.
+  const X = [300, 330, 270, 300, 300, 352, 248, 355, 245], Y = [200, 200, 200, 172, 228, 182, 182, 219, 219];
+  const n = X.length, MR = X.map(() => 6), W = 600, H = 400, X0 = X.slice(), Y0 = Y.slice();
+  const items = [{ key: 0, i: 0, r: 9, w: 70, h: 15 }, { key: 5, i: 5, r: 9, w: 40, h: 15 }];
+  const seeds = reserveLabelRoom(items, { X, Y, MR, n, W, H });
+  assert.equal(X[0], X0[0]); assert.equal(Y[0], Y0[0]); assert.equal(X[5], X0[5]); assert.equal(Y[5], Y0[5]);
+  const moved = X.map((x, j) => Math.hypot(x - X0[j], Y[j] - Y0[j]));
+  assert.ok(moved.some((d) => d > 0), "some neighbours moved");
+  assert.ok(Math.max(...moved) < 45, "and none moved far");
+  const last = new Map(seeds);
+  const placed = placeLabels(items.map((it) => ({ ...it, x: X[it.i], y: Y[it.i] })), { X, Y, MR, n, W, H, last });
+  assert.equal(placed.length, 2);
+  for (const [it, bx, by] of placed) {
+    const box = labelBox(it, bx, by), own = boxDistance(box, X[it.i], Y[it.i]);
+    for (let j = 0; j < n; j++) {
+      if (j === it.i) continue;
+      assert.ok(boxDistance(box, X[j], Y[j]) >= ASSOCIATION * own + 2 - 1e-9, `label ${it.key} is clearly nearest its own page, not ${j}`);
+    }
+  }
 });
 
 test("precomputed layouts are deterministic, normalised, and scale to any stage", () => {

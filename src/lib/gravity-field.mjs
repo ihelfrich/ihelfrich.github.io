@@ -299,32 +299,91 @@ export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY) {
 
 /* ---------- labels ---------- */
 
-/** Fourteen candidate top-left corners for a w x h label beside a mark of radius r at (x, y). */
-export function labelCandidates(x, y, r, w, h) {
+/**
+ * How far a mark reaches from its centre: { e, w, n, s } along the axes and { ne, nw, se, sw }, the
+ * smallest t such that no part of the mark lies beyond both x = ±t and y = ±t in that quadrant. A label
+ * whose box starts beyond these distances clears the mark. ext is a radius (a circle) or reach object.
+ */
+export function reachBox(ext) {
+  if (typeof ext !== "number") return ext;
+  const d = ext / Math.SQRT2;
+  return { e: ext, w: ext, n: ext, s: ext, ne: d, nw: d, se: d, sw: d };
+}
+
+/** Grows every reach by `pad` pixels. */
+export function padReach(reach, pad) {
+  const o = {};
+  for (const k in reach) o[k] = reach[k] + pad;
+  return o;
+}
+
+/** Reach of a page-type glyph of nominal radius r (see reachBox), measured from its outline. */
+export function glyphReach(type, r) {
+  const unit = GLYPH_REACH[type] || GLYPH_REACH.page, o = {};
+  for (const k in unit) o[k] = unit[k] * r;
+  return o;
+}
+
+/** Largest reach of a glyph of radius r in any direction: the radius of its circumscribed circle. */
+export function glyphRadius(type, r) {
+  const v = glyphVertices(type, r);
+  return v ? Math.max(...v.map(([x, y]) => Math.hypot(x, y))) : r;
+}
+
+/**
+ * Candidate top-left corners for a w x h label beside a mark at (x, y), whose reach is `ext` (a radius
+ * or a reach object). 0-3 sit beside, above and below; 4-7 at the diagonals; 8-13 further out; 14-17
+ * above and below, slid sideways so the label runs on from the mark rather than centring on it.
+ */
+export function labelCandidates(x, y, ext, w, h) {
+  const r = reachBox(ext);
   return [
-    [x + r, y - h / 2], [x - r - w, y - h / 2], [x - w / 2, y - r - h], [x - w / 2, y + r],
-    [x + r - 2, y - r - h + 3], [x - r - w + 2, y - r - h + 3], [x + r - 2, y + r - 3], [x - r - w + 2, y + r - 3],
-    [x - w / 2, y + r + 12], [x - w / 2, y - r - h - 12], [x + r + 8, y - r - h - 4], [x - r - w - 8, y - r - h - 4],
-    [x + r + 8, y + r + 4], [x - r - w - 8, y + r + 4],
+    [x + r.e, y - h / 2], [x - r.w - w, y - h / 2], [x - w / 2, y - r.n - h], [x - w / 2, y + r.s],
+    [x + r.ne, y - r.ne - h], [x - r.nw - w, y - r.nw - h], [x + r.se, y + r.se], [x - r.sw - w, y + r.sw],
+    [x - w / 2, y + r.s + 12], [x - w / 2, y - r.n - h - 12], [x + r.ne + 8, y - r.ne - h - 4], [x - r.nw - w - 8, y - r.nw - h - 4],
+    [x + r.se + 8, y + r.se + 4], [x - r.sw - w - 8, y + r.sw + 4],
+    [x - 0.2 * w, y - r.n - h], [x - 0.8 * w, y - r.n - h], [x - 0.2 * w, y + r.s], [x - 0.8 * w, y + r.s],
   ];
 }
+
+/** Candidate order for a page at rest: beside, above or below, diagonal, slid, then further out. */
+export const LABEL_ORDER = Object.freeze([0, 1, 2, 3, 4, 5, 6, 7, 14, 15, 16, 17, 10, 11, 12, 13, 8, 9]);
 
 /** Candidate order that points a label away from (cx, cy), for pages arranged on rings. */
 export function radialPreference(x, y, cx, cy) {
   const a = Math.atan2(y - cy, x - cx), c = Math.cos(a), s = Math.sin(a);
-  if (c > 0.45) return s < 0 ? [0, 4, 10, 6, 2, 12] : [0, 6, 12, 4, 3, 10];
-  if (c < -0.45) return s < 0 ? [1, 5, 11, 7, 2, 13] : [1, 7, 13, 5, 3, 11];
-  return s < 0 ? [2, 9, 4, 5, 10, 11] : [3, 8, 6, 7, 12, 13];
+  if (c > 0.45) return s < 0 ? [0, 4, 10, 6, 2, 14, 12] : [0, 6, 12, 4, 3, 16, 10];
+  if (c < -0.45) return s < 0 ? [1, 5, 11, 7, 2, 15, 13] : [1, 7, 13, 5, 3, 17, 11];
+  return s < 0 ? [2, 14, 15, 9, 4, 5, 10, 11] : [3, 16, 17, 8, 6, 7, 12, 13];
 }
 
 /**
- * Greedy collision-free label placement. Items, in priority order: { key, i, x, y, r, w, h, cands?,
- * prefer?, force? }. A label never overlaps an earlier label, stays inside the stage, and avoids every
- * mark (marks: centre and hit radius per page). A forced label may cover the fewest marks instead of
- * disappearing. `last` keeps each label's previous candidate so labels do not flicker.
- * Returns [[item, left, top], ...].
+ * A label reads as belonging to its own mark when every other mark is at least this many times as far
+ * from the label (plus a 2 px margin) as its own mark is.
  */
-export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset = 4 }) {
+export const ASSOCIATION = 1.5;
+
+/** Distance from point (x, y) to the box [x0, y0, x1, y1]; zero inside it. */
+export function boxDistance(b, x, y) {
+  const dx = Math.max(b[0] - x, 0, x - b[2]), dy = Math.max(b[1] - y, 0, y - b[3]);
+  return Math.hypot(dx, dy);
+}
+
+/** Box a label occupies, with its halo, when its text starts at (bx, by). */
+export const labelBox = (it, bx, by) => [bx - 2, by - 1, bx + it.w + 2, by + it.h + 1];
+
+/**
+ * Greedy collision-free label placement. Items, in priority order: { key, i, x, y, r, w, h, cands?,
+ * prefer?, force?, ratio? }, where r is the mark's reach (a radius or a reachBox object). A label never
+ * overlaps an earlier label, stays inside the stage, avoids every other mark (centre X, Y and half-size
+ * MR), and sits clearly closer to its own mark than to any other (by `ratio`, or the item's own; see
+ * ASSOCIATION), so it cannot be read as another page's label. `rival`, when given, grades the pages for
+ * that test: 2 for pages drawn at full strength (the full margin applies), 1 for faded pages (the label
+ * need only be nearer its own mark), 0 for pages that do not count. A forced label with no such place
+ * takes the one that covers, then misleads about, the fewest marks. `last` keeps each label's previous
+ * candidate so labels do not flicker. Returns [[item, left, top], ...].
+ */
+export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset = 4, ratio = ASSOCIATION, margin = 2, rival = null }) {
   const boxes = [], out = [];
   const inside = (b) => b[0] >= inset && b[2] <= W - inset && b[1] >= inset && b[3] <= H - inset;
   const hitBox = (b) => boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
@@ -337,36 +396,100 @@ export function placeLabels(items, { X, Y, MR, n, W, H, last = new Map(), inset 
     }
     return k;
   };
+  // Marks nearly as close to the label as its own mark is (measured centre to box).
+  const rivals = (b, own, stopAtOne, kr = ratio) => {
+    if (own < 0) return 0;
+    const near = boxDistance(b, X[own], Y[own]), d = near * kr + margin;
+    let k = 0;
+    for (let i = 0; i < n; i++) {
+      if (i === own || (rival && !rival[i])) continue;
+      const di = rival && rival[i] === 1 ? near : d;
+      const dx = Math.max(b[0] - X[i], 0, X[i] - b[2]);
+      if (dx >= di) continue;
+      if (Math.hypot(dx, Math.max(b[1] - Y[i], 0, Y[i] - b[3])) < di) { k++; if (stopAtOne) return k; }
+    }
+    return k;
+  };
   for (const it of items) {
     const cands = it.cands || (() => {
       const all = labelCandidates(it.x, it.y, it.r, it.w, it.h);
-      return (it.prefer || [0, 1, 2, 3, 4, 5, 6, 7]).map((k) => all[k]);
+      return (it.prefer || LABEL_ORDER).map((k) => all[k]);
     })();
     const prev = last.get(it.key);
     const order = prev != null && prev < cands.length ? [prev, ...cands.keys()] : [...cands.keys()];
     const own = it.i ?? -1;
     let done = false;
     for (const c of order) {
-      const [bx, by] = cands[c], b = [bx - 2, by - 1, bx + it.w + 2, by + it.h + 1];
-      if (!inside(b) || hitBox(b) || markHits(b, own, true)) continue;
+      const [bx, by] = cands[c], b = labelBox(it, bx, by);
+      if (!inside(b) || hitBox(b) || markHits(b, own, true) || rivals(b, own, true, it.ratio ?? ratio)) continue;
       boxes.push(b); out.push([it, bx, by]); last.set(it.key, c); done = true;
       break;
     }
     if (!done && it.force) {
       let best = -1, fewest = Infinity;
       cands.forEach(([bx, by], c) => {
-        const b = [bx - 2, by - 1, bx + it.w + 2, by + it.h + 1];
+        const b = labelBox(it, bx, by);
         if (!inside(b) || hitBox(b)) return;
-        const k = markHits(b, own, false);
+        const k = markHits(b, own, false) * 1000 + rivals(b, own, false, it.ratio ?? ratio);
         if (k < fewest) { fewest = k; best = c; }
       });
       if (best >= 0) {
         const [bx, by] = cands[best];
-        boxes.push([bx - 2, by - 1, bx + it.w + 2, by + it.h + 1]); out.push([it, bx, by]); last.set(it.key, best);
+        boxes.push(labelBox(it, bx, by)); out.push([it, bx, by]); last.set(it.key, best);
       }
     }
   }
   return out;
+}
+
+/**
+ * Makes room in a rest layout for labels that must always show. For each item in turn (as placeLabels
+ * takes them, with `i` set), picks the candidate place that needs the least movement of other pages, then
+ * moves those pages (X, Y, in place) just far enough that the label covers none of them and its own
+ * mark stays the nearest. Pages that carry one of these labels never move. Returns, per item key, the
+ * index of the chosen candidate in the item's preference order, to seed placeLabels' `last`.
+ */
+export function reserveLabelRoom(items, { X, Y, MR, n, W, H, inset = 4, ratio = ASSOCIATION, margin = 2, slack = 2 }) {
+  const pinned = new Set(items.map((it) => it.i)), boxes = [], chosen = new Map();
+  const inside = (b) => b[0] >= inset && b[2] <= W - inset && b[1] >= inset && b[3] <= H - inset;
+  const taken = (b) => boxes.some((o) => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
+  // Clearance page j needs from box b: outside its own half-size on both axes, and farther than the owner.
+  const need = (b, own, j) => Math.max(MR[j] * Math.SQRT2, boxDistance(b, X[own], Y[own]) * ratio + margin + slack);
+  for (const it of items) {
+    const all = labelCandidates(X[it.i], Y[it.i], it.r, it.w, it.h), order = it.prefer || LABEL_ORDER;
+    let best = -1, cost = Infinity;
+    order.forEach((k, c) => {
+      const b = labelBox(it, ...all[k]);
+      if (!inside(b) || taken(b)) return;
+      let move = c * 0.5; // a slight preference for the usual order
+      for (let j = 0; j < n && move < cost; j++) {
+        if (j === it.i) continue;
+        const gap = need(b, it.i, j) - boxDistance(b, X[j], Y[j]);
+        if (gap <= 0) continue;
+        if (pinned.has(j)) { move = Infinity; break; }
+        move += gap;
+      }
+      if (move < cost) { cost = move; best = c; }
+    });
+    if (best < 0 || cost === Infinity) continue;
+    const b = labelBox(it, ...all[order[best]]);
+    boxes.push(b); chosen.set(it.key, best);
+    for (let j = 0; j < n; j++) {
+      if (j === it.i || pinned.has(j)) continue;
+      const r = need(b, it.i, j);
+      if (boxDistance(b, X[j], Y[j]) >= r) continue;
+      // Push j straight away from the nearest point of the box; from inside, out through the nearest side.
+      const px = clamp(X[j], b[0], b[2]), py = clamp(Y[j], b[1], b[3]);
+      let dx = X[j] - px, dy = Y[j] - py, d = Math.hypot(dx, dy);
+      if (d < 1e-6) {
+        const sides = [[X[j] - b[0], -1, 0], [b[2] - X[j], 1, 0], [Y[j] - b[1], 0, -1], [b[3] - Y[j], 0, 1]].sort((a, c) => a[0] - c[0]);
+        [, dx, dy] = sides[0]; d = 1;
+        X[j] = (dx ? (dx < 0 ? b[0] : b[2]) : X[j]) + dx * r; Y[j] = (dy ? (dy < 0 ? b[1] : b[3]) : Y[j]) + dy * r;
+      } else { X[j] = px + (dx / d) * (r + 0.5); Y[j] = py + (dy / d) * (r + 0.5); }
+      X[j] = clamp(X[j], inset + MR[j], W - inset - MR[j]); Y[j] = clamp(Y[j], inset + MR[j], H - inset - MR[j]);
+    }
+  }
+  return chosen;
 }
 
 /* ---------- marks ---------- */
@@ -383,6 +506,23 @@ export function glyphVertices(type, r) {
   }
   return null;
 }
+
+// Reach of each glyph at unit radius (see reachBox), from points sampled along its outline. The
+// quadrant reach max(min(±x, ±y)) of a polygon is attained on its outline.
+const GLYPH_REACH = Object.freeze(Object.fromEntries(["paper", "data", "course", "tool", "page"].map((type) => {
+  const v = glyphVertices(type, 1), pts = [];
+  if (!v) for (let k = 0; k < 72; k++) pts.push([Math.cos((k * TAU) / 72), Math.sin((k * TAU) / 72)]);
+  else v.forEach(([x0, y0], k) => {
+    const [x1, y1] = v[(k + 1) % v.length];
+    for (let t = 0; t < 1; t += 1 / 24) pts.push([x0 + (x1 - x0) * t, y0 + (y1 - y0) * t]);
+  });
+  const max = (f) => Math.max(...pts.map(f));
+  return [type, Object.freeze({
+    e: max(([x]) => x), w: max(([x]) => -x), n: max(([, y]) => -y), s: max(([, y]) => y),
+    ne: max(([x, y]) => Math.min(x, -y)), nw: max(([x, y]) => Math.min(-x, -y)),
+    se: max(([x, y]) => Math.min(x, y)), sw: max(([x, y]) => Math.min(-x, y)),
+  })];
+})));
 
 /** SVG path data for a glyph centred on the origin (circles return null). */
 export function glyphPathData(type, r) {
