@@ -27,15 +27,16 @@ const publishedPdfs = [
     ],
   },
   {
+    // The academic CV sent with job applications since September 12, 2026 (adopted on the site
+    // October 24, 2026). It names Ian Helfrich as the paper's only author and credits contributors.
     path: "cv/ian-helfrich-cv.pdf",
-    pages: 4,
+    pages: 3,
     required: [
-      "Sole author and originator",
-      "With contributions from Katia Antunes and Elizaveta Gonchar",
+      "Helfrich, Ian. “The Rural Mobilization Gap in a U.S. Place-Based Tax Credit.”",
+      "With acknowledged contributions from Katia Antunes and Elizaveta Gonchar",
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
-      "More than 1,035 hours through Wyzant",
-      "nearly 1,000 additional direct",
-      "Ad hoc referee, Journal of Economic Theory",
+      "more than 1,035 Wyzant teaching hours",
+      "Ad hoc referee: Journal of Economic Theory",
     ],
   },
   {
