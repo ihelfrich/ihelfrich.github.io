@@ -124,6 +124,7 @@ const researchFiles = (await readdir(researchDirectory)).filter((name) => name.e
 const allowedMaturity = new Set(["circulating", "working", "development", "earlier"]);
 const allowedDiscovery = new Set(["primary", "secondary", "withheld"]);
 const allowedDisplayStatus = new Set([
+  "Job market paper",
   "Public working paper",
   "Preprint",
   "Published dissertation",
@@ -163,11 +164,13 @@ for (const record of withheldResearch) {
 }
 
 const humanOrMachine = researchRecords.find(({ id }) => id === "helfrich-2026-human-or-machine");
-if (humanOrMachine?.data?.discovery !== "withheld") {
-  failures.push("Human or Machine must remain withheld until Ian verifies the manuscript and authorship record.");
+// Dr. Helfrich confirmed on October 24, 2026 that the paper is sole-authored and still in progress.
+// It may appear in the research list as work in progress, but not as a finished result or a selected case.
+if (humanOrMachine?.data?.displayStatus !== "Work in progress" || JSON.stringify(humanOrMachine?.data?.authors) !== JSON.stringify(["Ian Helfrich"])) {
+  failures.push("Human or Machine must be listed as Ian Helfrich's sole-authored work in progress.");
 }
 if (workCases.some(({ id }) => id === "human-or-machine")) {
-  failures.push("Human or Machine must not be presented as a selected public work case while its manuscript status is disputed.");
+  failures.push("Human or Machine must not be presented as a selected public work case while it is in progress.");
 }
 for (const surface of [
   "src/pages/index.astro",
@@ -180,7 +183,7 @@ for (const surface of [
   const source = await readFile(surface, "utf8");
   for (const forbidden of ["Human or Machine", "helfrich-2026-human-or-machine", "out-of-time validation of AI-exposure"]) {
     if (source.toLocaleLowerCase().includes(forbidden.toLocaleLowerCase())) {
-      failures.push(`${surface} publicly presents disputed research: ${forbidden}.`);
+      failures.push(`${surface} features research that is still in progress: ${forbidden}.`);
     }
   }
 }
@@ -203,8 +206,9 @@ for (const record of researchRecords.filter(({ data }) => data?.maturity === "wo
   if (record.data.displayStatus !== "Current working paper") failures.push(`${record.filename} must display as Current working paper.`);
 }
 for (const record of researchRecords.filter(({ data }) => data?.maturity === "circulating")) {
-  const expected = record.data.status === "preprint" ? "Preprint" : "Public working paper";
-  if (record.data.displayStatus !== expected) failures.push(`${record.filename} must display as ${expected}.`);
+  // A circulating working paper may be labelled as the job market paper instead.
+  const expected = record.data.status === "preprint" ? ["Preprint"] : ["Public working paper", "Job market paper"];
+  if (!expected.includes(record.data.displayStatus)) failures.push(`${record.filename} must display as ${expected.join(" or ")}.`);
 }
 for (const record of researchRecords.filter(({ data }) => data?.maturity === "earlier")) {
   if (record.data.displayStatus !== "Published dissertation") failures.push(`${record.filename} must display as Published dissertation.`);
