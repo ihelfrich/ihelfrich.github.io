@@ -604,6 +604,7 @@ if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.pus
  if(!market.querySelector('.market-hero__margin .market-portrait picture img')) failures.push('/job-market hero aside must show the portrait');
  if(!coefficientFigureLabelled(market,'.market-hero .market-figure')) failures.push('/job-market must show the coefficient figure with its title, description and caption');
  if(market.querySelector('.paper-heading .record-label')?.textContent.trim()!=='Job market paper · sole author and originator') failures.push('/job-market must label the NMTC paper as the job market paper');
+ if([...market.querySelectorAll('.market-references .referee-list h3')].map(h=>h.textContent.trim()).join('|')!=='Tibor Besedeš|Usha Nair-Reichert|David V. Anderson') failures.push('/job-market must list the three referees from the references document');
  if(market.querySelector('.paper-version')?.textContent.trim()!=='Latest version: August 2026') failures.push('/job-market paper block must state the latest version');
  if(!/^Pooled across intermediaries, rural New Markets Tax Credit projects/.test(market.querySelector('.paper-finding')?.textContent.trim()??'')) failures.push('/job-market paper block must open with the one-sentence finding');
  const abstractWords=market.querySelector('.paper-account h3 + p')?.textContent.trim().split(/\s+/).length??0;

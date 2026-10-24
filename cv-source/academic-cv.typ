@@ -1,7 +1,8 @@
 // Academic CV of Ian Helfrich. Source for public/cv/ian-helfrich-cv.pdf.
 // Rebuilt on October 24, 2026 from the September 12, 2026 application CV (Helfrich_Academic_CV.pdf),
-// whose source was not recoverable. Text is that CV's, with two changes: the NMTC paper has its own
-// Job Market Paper section, and Human or Machine? is listed under Research in Progress.
+// whose source was not recoverable. Text is that CV's, with three changes: the NMTC paper has its own
+// Job Market Paper section, Human or Machine? is listed under Research in Progress, and a References
+// section lists the letter writers from Helfrich_References.pdf (office phone numbers omitted).
 // Build: typst compile cv-source/academic-cv.typ public/cv/ian-helfrich-cv.pdf
 
 #let ink = rgb("#14181d")
@@ -142,3 +143,10 @@ Georgia Tech Graduate Student Government, 2018–2020. Vice President for Campus
 #link("https://ihelfrich.github.io/job-market")[Academic research and teaching dossier] \
 #link("https://ihelfrich.github.io/teaching")[Teaching and quantitative instruction] \
 #link("https://github.com/ihelfrich")[Research code and analytical tools]
+
+#section[References]
+#grid(columns: (1fr, 1fr, 1fr), column-gutter: 1.2em,
+  [*Tibor Besedeš* \ Professor, School of Economics \ Georgia Institute of Technology \ #link("mailto:tibor.besedes@econ.gatech.edu")[tibor.besedes\@econ.gatech.edu]],
+  [*Usha Nair-Reichert* \ Associate Professor, School of Economics \ Georgia Institute of Technology \ #link("mailto:usha.nair@gatech.edu")[usha.nair\@gatech.edu]],
+  [*David V. Anderson* \ Georgia Institute of Technology \ #link("mailto:anderson@gatech.edu")[anderson\@gatech.edu]],
+)

@@ -34,6 +34,9 @@ const publishedPdfs = [
     pages: 3,
     required: [
       "Helfrich, Ian. “The Rural Mobilization Gap in a U.S. Place-Based Tax Credit.” Job market paper, August 2026.",
+      "Tibor Besedeš",
+      "Usha Nair-Reichert",
+      "David V. Anderson",
       "With acknowledged contributions from Katia Antunes and Elizaveta Gonchar",
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
       "more than 1,035 Wyzant teaching hours",
