@@ -79,8 +79,8 @@ test("mounting builds a listbox of every page, labels the NMTC paper for the hom
   assert.doesNotMatch(t.root.textContent, /Instrument/);
   assert.ok(t.run() < 2000, "the intro animation comes to rest");
   assert.equal(t.frames.size, 0, "no animation frames are requested once the pages have settled");
-  assert.ok(t.texts.includes("Working paper: NMTC rural gap"), "the home landmark label is drawn");
-  assert.ok(!t.texts.some((s) => /NMTC rural gap \(2026\)|Job market paper|JMP/.test(s)));
+  assert.ok(t.texts.includes("Job market paper: NMTC rural gap"), "the home landmark label is drawn");
+  assert.ok(!t.texts.some((s) => /NMTC rural gap \(2026\)/.test(s)), "the home map uses its landmark label, not the site-wide one");
   assert.ok(t.texts.includes("Contact"), "Contact is labelled at rest");
   t.dispose(); await t.w.happyDOM.abort();
 });
@@ -158,10 +158,10 @@ test("on a phone, first-ring labels come in landmark order and a long one wraps 
   t.run();
   const drawn = t.texts.slice(from), at = (s) => drawn.indexOf(s);
   assert.ok(drawn.includes("Home\u00a0↗"), "the chosen page is labelled");
-  for (const s of ["Job market", "Working paper:", "NMTC rural gap", "Contact", "Teaching"]) assert.ok(at(s) >= 0, `${s} is drawn`);
-  assert.ok(!drawn.includes("Working paper: NMTC rural gap"), "the long label is wrapped on a narrow stage");
-  assert.equal(at("NMTC rural gap"), at("Working paper:") + 1, "its two lines are drawn together");
-  assert.ok(at("Job market") < at("Working paper:") && at("Working paper:") < at("Contact") && at("Contact") < at("Teaching"),
+  for (const s of ["Job market", "Job market paper:", "NMTC rural gap", "Contact", "Teaching"]) assert.ok(at(s) >= 0, `${s} is drawn`);
+  assert.ok(!drawn.includes("Job market paper: NMTC rural gap"), "the long label is wrapped on a narrow stage");
+  assert.equal(at("NMTC rural gap"), at("Job market paper:") + 1, "its two lines are drawn together");
+  assert.ok(at("Job market") < at("Job market paper:") && at("Job market paper:") < at("Contact") && at("Contact") < at("Teaching"),
     "landmark order, not mass order, decides which labels are placed first");
   t.dispose(); await t.w.happyDOM.abort();
 });

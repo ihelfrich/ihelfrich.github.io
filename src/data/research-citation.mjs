@@ -5,11 +5,11 @@
 // library is used.
 
 /**
- * Records that never emit citation_* tags, whatever their frontmatter says. The NMTC
- * paper waits on the authorship decision (plan item A-01): Scholar's record of
- * authorship is hard to correct once it has been crawled.
+ * Records that never emit citation_* tags, whatever their frontmatter says. Empty since
+ * October 24, 2026, when Dr. Helfrich confirmed sole authorship of the NMTC paper; kept
+ * so that a record can be withheld again without touching the templates.
  */
-export const SCHOLAR_WITHHELD = Object.freeze(["helfrich-2026-nmtc-rural-gap"]);
+export const SCHOLAR_WITHHELD = Object.freeze([]);
 
 const TITLE_STOPWORDS = new Set(["a", "an", "the", "of", "in", "on", "and", "for", "to"]);
 

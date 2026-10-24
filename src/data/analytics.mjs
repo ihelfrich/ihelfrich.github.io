@@ -5,14 +5,11 @@
 // (learn/policy-statistics and teaching/market-mechanics) carry a small inline loader whose
 // `var code` literal must equal this value; scripts/check-analytics.mjs enforces both.
 //
-// TODO(Dr. Helfrich): create the GoatCounter account and put its site code here, for example
-// "ihelfrich" for https://ihelfrich.goatcounter.com. Copy the same code into the inline loader
-// in both public/ pages. While the code is empty, no page loads the counter.
-export const GOATCOUNTER_CODE = "";
+// Site code for https://ihelfrich.goatcounter.com (set October 24, 2026). The inline loaders in both
+// public/ pages carry the same literal.
+export const GOATCOUNTER_CODE = "ihelfrich";
 
-// TODO(Dr. Helfrich): when the code above is set, add a one-line privacy note to /colophon
-// (src/pages/colophon.astro, Privacy section) stating that GoatCounter counts page views and
-// link clicks without cookies or personal identifiers. Do not publish the note before then.
+// The /colophon Privacy paragraph states that GoatCounter counts page views and clicks without cookies.
 
 export const GOATCOUNTER_SCRIPT = "https://gc.zgo.at/count.js";
 

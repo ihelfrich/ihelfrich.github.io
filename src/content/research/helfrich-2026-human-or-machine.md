@@ -3,22 +3,19 @@ title: "Human or Machine? Out-of-Time Validation of Task-Level AI Exposure Ratin
 authors: ["Ian Helfrich"]
 year: 2026
 status: "draft"
-abstract: "A research record concerning out-of-time validation of task-level AI-exposure ratings exists in the working archive, but the manuscript, analysis, and authorship status have not yet been reverified against the underlying files. No completed result is claimed."
+abstract: "A sole-authored paper in progress that tests trained-human and GPT-4 task-level AI-exposure ratings against public measures of task use published after the ratings were constructed. It reports no results yet."
+summary: "A paper in progress testing human and GPT-4 task-level AI-exposure ratings against measures of task use published after the ratings were made."
 question: "Which task-level AI-exposure ratings continue to align with public measures of task use that appeared after the ratings were constructed?"
 maturity: "development"
-displayStatus: "Draft · claims under verification"
-role: "Authorship and manuscript status under verification"
+displayStatus: "Work in progress"
+role: "Sole author"
 method: ["within-occupation models", "paired cluster bootstrap", "out-of-time validation"]
-limit: "No manuscript status, authorship claim, completed analysis, or empirical result is presented as settled until the underlying archive is verified."
-discovery: "withheld"
+limit: "The paper is in progress and reports no results yet."
+discovery: "secondary"
 distinctiveQuery: "out-of-time validation task-level AI exposure ratings"
 tags: ["labor", "artificial-intelligence", "measurement", "validation", "occupations"]
 ---
 
 AI-exposure scores are often evaluated against outcomes that were available when the scores were constructed, or against measures built from the same conceptual ingredients. That can make a rating look validated even when the test is partly circular.
 
-The archived research record asks a stricter question: when trained-human and GPT-4 ratings are compared with evidence that became available later, which task-level ratings continue to line up with observed task use?
-
-Earlier project notes describe a proposed linkage of occupation-task records to later public task-use measures, with within-occupation specifications and paired cluster bootstraps. Those notes are not treated as a verified completed manuscript or result.
-
-The record remains withheld from the public site until the source files establish what was written, what was completed, and who should receive authorship credit.
+This paper asks a stricter question: when trained-human and GPT-4 ratings are compared with evidence that became available later, which task-level ratings continue to line up with observed task use?

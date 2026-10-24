@@ -42,16 +42,24 @@ test("Scholar tags are emitted for the Spotlight, SSRN 4772016 and dissertation 
   assert.ok(tagNames(dissertation).includes("citation_dissertation_institution"));
 });
 
-test("the NMTC record never emits Scholar tags, even if its frontmatter opts in", () => {
+test("the NMTC job market paper emits Scholar tags and a Cite entry with its sole author", () => {
   const id = "helfrich-2026-nmtc-rural-gap";
-  assert.ok(SCHOLAR_WITHHELD.includes(id));
+  assert.ok(!SCHOLAR_WITHHELD.includes(id));
   const record = byId(id);
   assert.equal(record.data.pdf, "/research/ian-helfrich-nmtc-working-paper.pdf", "the NMTC record header links the PDF");
-  assert.deepEqual(scholarMetaFor(record, recordUrl(id)), []);
-  assert.equal(record.data.citation, undefined, "no citation block until the authorship decision");
-  assert.equal(bibtexFor(record, recordUrl(id)), null);
-  const optedIn = { ...record, data: { ...record.data, citation: { type: "misc", scholar: true } } };
-  assert.deepEqual(scholarMetaFor(optedIn, recordUrl(id)), []);
+  const tags = scholarMetaFor(record, recordUrl(id));
+  assert.deepEqual(tags.filter(([name]) => name === "citation_author").map(([, value]) => value), ["Ian Helfrich"]);
+  assert.ok(tags.some(([name, value]) => name === "citation_pdf_url" && value === "https://ihelfrich.github.io/research/ian-helfrich-nmtc-working-paper.pdf"));
+  const entry = bibtexFor(record, recordUrl(id));
+  assert.match(entry, /author += \{Helfrich, Ian\}/);
+  assert.match(entry, /note += \{Job market paper, August 2026\}/);
+});
+
+test("a record listed in SCHOLAR_WITHHELD never emits Scholar tags, even if it opts in", () => {
+  const record = byId("helfrich-2024-dissertation");
+  const withheld = { ...record, id: SCHOLAR_WITHHELD[0] ?? "not-a-record" };
+  if (SCHOLAR_WITHHELD.length) assert.deepEqual(scholarMetaFor(withheld, recordUrl(withheld.id)), []);
+  else assert.ok(scholarMetaFor(record, recordUrl(record.id)).length > 0);
 });
 
 test("records without a citation block have no Cite entry and no Scholar tags", () => {

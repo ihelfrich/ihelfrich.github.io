@@ -30,7 +30,7 @@ test('home leads with the candidacy, the paper and the CV, then selected work be
  const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
  assert.equal(d.querySelector('.st-hero-copy h2').textContent.trim(),'Applied economist on the 2026–27 economics job market');
  assert.equal(d.querySelector('.st-position').textContent.trim(),'Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024');
- assert.deepEqual([...d.querySelectorAll('.st-hero-actions a')].map(a=>[a.textContent.trim(),a.getAttribute('href')]),[['Working paper (PDF)','/research/ian-helfrich-nmtc-working-paper.pdf'],['CV (PDF)','/cv/ian-helfrich-cv.pdf'],['Candidate page','/job-market']]);
+ assert.deepEqual([...d.querySelectorAll('.st-hero-actions a')].map(a=>[a.textContent.trim(),a.getAttribute('href')]),[['Job market paper (PDF)','/research/ian-helfrich-nmtc-working-paper.pdf'],['CV (PDF)','/cv/ian-helfrich-cv.pdf'],['Candidate page','/job-market']]);
  assert.ok(d.querySelector('.st-intro .st-portrait picture img'),'portrait stays in the hero');
  assert.equal(d.querySelector('[data-home-graph] img'),null,'network diagram carries no portrait');
  const order=['selected-work','graph','practice','technical-projects','explore','inquiry'].map(id=>d.getElementById(id));
@@ -47,9 +47,8 @@ test('home network leads with Job market, CV and Contact, labels the NMTC paper 
  const sections=[...graph.querySelectorAll('.hg-links a')].map(a=>[a.textContent.trim(),a.getAttribute('href')]);
  assert.deepEqual(sections.slice(0,3),[['Job market','/job-market/'],['CV','/cv/'],['Contact','/contact/']]);
  assert.deepEqual(sections.slice(3).map(([label])=>label),['Research','Teaching','Lab','Work','Projects','Datasets','Writing','Full site map']);
- assert.equal(graph.querySelector('.hg-all a[href="/research/helfrich-2026-nmtc-rural-gap/"]').textContent.trim(),'Working paper: NMTC rural gap');
+ assert.equal(graph.querySelector('.hg-all a[href="/research/helfrich-2026-nmtc-rural-gap/"]').textContent.trim(),'Job market paper: NMTC rural gap');
  assert.ok(graph.querySelector('.hg-all a[href="/contact/"]'),'the page list includes Contact');
- assert.doesNotMatch(graph.textContent,/Job market paper|\bJMP\b/);
  assert.ok([...graph.querySelectorAll('.hg-legend li')].some(li=>li.textContent.trim()==='Tool'));
  // "Instruments" survives only as the title of the econometrics chapter, never as a page type.
  const text=d.body.cloneNode(true);text.querySelectorAll('a[href="/econometrics/07-instruments/"]').forEach(a=>a.remove());

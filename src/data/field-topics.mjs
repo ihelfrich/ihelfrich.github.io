@@ -229,7 +229,7 @@ export const ROUTES = Object.freeze({
   "Hiring committee": {
     summary: "Job market page, dissertation, a current paper and its data, teaching, CV.",
     steps: [
-      ["/job-market/", "Candidate page: field, working paper, availability."],
+      ["/job-market/", "Candidate page: field, job market paper, availability."],
       ["/research/helfrich-2024-dissertation/", "Dissertation, Georgia Tech, 2024."],
       ["/research/helfrich-2026-nmtc-rural-gap/", "Current paper on the rural gap in New Markets Tax Credit financing."],
       ["/datasets/us-nmtc-panel/", "Project-level data used in that paper."],

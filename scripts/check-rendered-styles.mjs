@@ -603,12 +603,11 @@ if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.pus
  if(market.querySelector('.market-position')?.textContent.trim()!=='Independent economist since 2024 · PhD in Economics, Georgia Tech, 2024') failures.push('/job-market hero must state the current position');
  if(!market.querySelector('.market-hero__margin .market-portrait picture img')) failures.push('/job-market hero aside must show the portrait');
  if(!coefficientFigureLabelled(market,'.market-hero .market-figure')) failures.push('/job-market must show the coefficient figure with its title, description and caption');
- if(market.querySelector('.paper-heading .record-label')?.textContent.trim()!=='Primary public working paper · sole author and originator') failures.push('/job-market paper label must stay as approved');
+ if(market.querySelector('.paper-heading .record-label')?.textContent.trim()!=='Job market paper · sole author and originator') failures.push('/job-market must label the NMTC paper as the job market paper');
  if(market.querySelector('.paper-version')?.textContent.trim()!=='Latest version: August 2026') failures.push('/job-market paper block must state the latest version');
  if(!/^Pooled across intermediaries, rural New Markets Tax Credit projects/.test(market.querySelector('.paper-finding')?.textContent.trim()??'')) failures.push('/job-market paper block must open with the one-sentence finding');
  const abstractWords=market.querySelector('.paper-account h3 + p')?.textContent.trim().split(/\s+/).length??0;
  if(!abstractWords||abstractWords>150) failures.push(`/job-market abstract must be present and at most 150 words (found ${abstractWords})`);
- if(/job market paper/i.test(market.body.textContent)) failures.push('/job-market must not use the Job Market Paper label before it is approved');
  if([...market.querySelectorAll('.dossier-list aside strong')].some(label=>label.textContent.trim()==='Limit')) failures.push('/job-market dossier list must not repeat each record\'s limit');
  if(!market.querySelector('.market-hero .record-label')?.textContent.includes('2026–27')) failures.push('/job-market kicker must write the cycle as 2026–27, matching the h1');
  // The kicker's date is the availability record's asOf, not a date typed into the page.

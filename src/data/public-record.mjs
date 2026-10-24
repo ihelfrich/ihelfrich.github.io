@@ -12,8 +12,6 @@ export const identityRecord = Object.freeze({
 // The NMTC working paper as /job-market presents it. Every number below appears in
 // public/research/ian-helfrich-nmtc-working-paper.pdf (draft of August 2026).
 // TODO(Dr. Helfrich): sign off on `finding`, the one-sentence statement of the result.
-// TODO(Dr. Helfrich): the page label stays "Primary public working paper · sole author and
-// originator" until the job-market-paper decision (plan item A-01) is settled.
 export const nmtcPaperRecord = Object.freeze({
   title: "The rural mobilization gap in a U.S. place-based tax credit",
   subtitle: "Intermediary selection versus market structure in the New Markets Tax Credit",
