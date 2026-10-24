@@ -24,15 +24,16 @@ const publishedPdfs = [
       "More than 1,035 hours through Wyzant",
       "nearly 1,000 additional direct",
       "Ad hoc referee, Journal of Economic Theory",
+      "Sole-authored work in progress",
     ],
   },
   {
-    // The academic CV sent with job applications since September 12, 2026 (adopted on the site
-    // October 24, 2026). It names Ian Helfrich as the paper's only author and credits contributors.
+    // Built from cv-source/academic-cv.typ (October 24, 2026): the September 12 application CV with
+    // the NMTC paper as the job market paper. It names Ian Helfrich as the paper's only author.
     path: "cv/ian-helfrich-cv.pdf",
     pages: 3,
     required: [
-      "Helfrich, Ian. “The Rural Mobilization Gap in a U.S. Place-Based Tax Credit.”",
+      "Helfrich, Ian. “The Rural Mobilization Gap in a U.S. Place-Based Tax Credit.” Job market paper, August 2026.",
       "With acknowledged contributions from Katia Antunes and Elizaveta Gonchar",
       "Georgia Tech Economics Graduate Teaching Assistant of the Year",
       "more than 1,035 Wyzant teaching hours",
@@ -51,6 +52,8 @@ const publishedPdfs = [
 ];
 
 const forbiddenPdfPatterns = [
+  // Dr. Helfrich confirmed on October 24, 2026 that Human or Machine? is in progress.
+  [/Sole-authored working paper \| August 2026/i, "Human or Machine? presented as a finished working paper"],
   [/4949\s+Oakdale/i, "legacy residential address"],
   [/910[\s().+-]*922[\s.-]*5152/i, "legacy phone number"],
   [/@outlook\.com/i, "superseded Outlook address"],
