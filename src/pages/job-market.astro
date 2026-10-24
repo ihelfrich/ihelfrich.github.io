@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import NmtcCoefficientFigure from "../components/NmtcCoefficientFigure.astro";
 import Portrait from "../components/Portrait.astro";
-import { availabilityRecord, identityRecord, nmtcPaperRecord, publicLinks, teachingRecognition, tutoringRecord } from "../data/public-record.mjs";
+import { referees, availabilityRecord, identityRecord, nmtcPaperRecord, publicLinks, teachingRecognition, tutoringRecord } from "../data/public-record.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 
 const pageTitle = "Ian Helfrich: 2026–27 economics job market";
@@ -88,6 +88,25 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
         <a href="https://github.com/ihelfrich/us-nmtc-viewer" target="_blank" rel="noopener">Repository and evidence files ↗</a>
       </nav>
     </div>
+  </section>
+
+  <section class="market-references route-shell" data-rail-label="References" aria-labelledby="references-title">
+    <header class="section-intro">
+      <div>
+        <p class="record-label">Letters of recommendation</p>
+        <h2 id="references-title">References</h2>
+      </div>
+    </header>
+    <ul class="referee-list">
+      {referees.map((referee) => (
+        <li>
+          <h3>{referee.name}</h3>
+          {referee.title && <p>{referee.title}</p>}
+          <p>{referee.institution}</p>
+          <p><a href={`mailto:${referee.email}`}>{referee.email}</a></p>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <section class="market-research route-shell" data-rail-label="Research record">
@@ -209,6 +228,12 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .teaching-evidence article { min-height: 10rem; padding: var(--ef-space-4); }
   .teaching-evidence article + article { border-left: 1px solid var(--ef-ink); }
   .teaching-evidence span { display: block; margin-bottom: 1rem; color: var(--muted); font: 620 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .market-references { padding-bottom: 0; }
+  .referee-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--ef-space-5); margin: var(--ef-space-5) 0 0; padding: 0; list-style: none; }
+  .referee-list li { margin: 0; padding-top: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
+  .referee-list h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+  .referee-list p { margin: 0; line-height: 1.5; }
+  .referee-list a { overflow-wrap: anywhere; }
   .market-close { padding-block: var(--ef-space-7); }
   .market-close > div:first-child { grid-column: 2 / span 7; }
   .market-close > div:last-child { grid-column: 9 / span 3; }

@@ -105,3 +105,11 @@ export const bookingLinks = Object.freeze([
   { id: "job-market", label: "Job-market meeting", minutes: 30, href: "https://app.usemotion.com/meet/ianhelfrich/job-market", detail: "For search committees, hiring managers, and colleagues who want to talk about a role or a paper." },
   { id: "meeting", label: "Anything else", minutes: 30, href: "https://app.usemotion.com/meet/ianhelfrich/meeting", detail: "A general meeting for whatever the other four do not cover." },
 ].map((link) => Object.freeze(link)));
+
+// Letter writers, as listed in Helfrich_References.pdf (the references document sent with job
+// applications since September 5, 2026). Office phone numbers are left off the public site.
+export const referees = Object.freeze([
+  Object.freeze({ name: "Tibor Besedeš", title: "Professor, School of Economics", institution: "Georgia Institute of Technology", email: "tibor.besedes@econ.gatech.edu" }),
+  Object.freeze({ name: "Usha Nair-Reichert", title: "Associate Professor, School of Economics", institution: "Georgia Institute of Technology", email: "usha.nair@gatech.edu" }),
+  Object.freeze({ name: "David V. Anderson", title: "", institution: "Georgia Institute of Technology", email: "anderson@gatech.edu" }),
+]);
