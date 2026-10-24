@@ -18,7 +18,7 @@ export const HOME_SECTIONS = Object.freeze([
 
 /** Labels that differ on the home page from the site map's short labels. */
 export const HOME_LABELS = Object.freeze({
-  "/research/helfrich-2026-nmtc-rural-gap/": "Working paper: NMTC rural gap",
+  "/research/helfrich-2026-nmtc-rural-gap/": "Job market paper: NMTC rural gap",
 });
 
 /** Pages labelled when nothing is chosen, in priority order. The first FORCED_LANDMARKS always show. */

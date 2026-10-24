@@ -61,6 +61,7 @@ const research = defineCollection({
     ),
     maturity: z.enum(['circulating', 'working', 'development', 'earlier']),
     displayStatus: z.enum([
+      'Job market paper',
       'Public working paper',
       'Preprint',
       'Published dissertation',

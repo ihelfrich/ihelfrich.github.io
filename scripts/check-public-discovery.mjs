@@ -149,9 +149,9 @@ for (const [surface, source] of [
   ["NMTC project", nmtcProjectDetail],
   ["NMTC dataset", nmtcDatasetDetail],
 ]) assert.ok(!source.includes(deadNmtcViewer), `${surface} must not link the dead hosted NMTC viewer`);
-// Scholar's record of authorship is hard to correct once crawled, so the NMTC record carries
-// no citation_* tags until plan item A-01 is settled; the records that opt in must carry them.
-assert.doesNotMatch(nmtcResearchDetail, /<meta name="citation_/, "the NMTC research record must not emit Google Scholar citation_* tags");
+// Records that opt in to Scholar must carry citation_* tags; the NMTC job market paper has opted in
+// since Dr. Helfrich confirmed sole authorship on October 24, 2026.
+assert.match(nmtcResearchDetail, /<meta name="citation_author" content="Ian Helfrich">/, "the NMTC research record must emit citation_author");
 for (const record of researchRecords.filter(({ id, discovery, citation }) => citation?.scholar && discovery !== "withheld" && !SCHOLAR_WITHHELD.includes(id))) {
   const detail = await readFile(path.join(root, "research", record.id, "index.html"), "utf8");
   assert.match(detail, /<meta name="citation_title" content="[^"]+">/, `/research/${record.id}/ must emit citation_title`);

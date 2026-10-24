@@ -7,7 +7,7 @@ export const workCases = Object.freeze([
     why: "A pooled rural and urban comparison mixes project geography with the set of intermediaries serving each group.",
     builtLabel: "What I built",
     built: "I linked 19,907 transactions into 8,024 projects, documented their provenance, estimated pooled and within-CDE comparisons, and published the paper, code, viewer, and claim audit.",
-    status: "Public working paper · August 2026",
+    status: "Job market paper · August 2026",
     role: "Ian Helfrich originated the project and is its sole author; Katia Antunes and Elizaveta Gonchar are acknowledged contributors.",
     method: Object.freeze(["Community Development Entity fixed effects", "order-invariant decomposition", "bunching test"]),
     stateLabel: "Finding",

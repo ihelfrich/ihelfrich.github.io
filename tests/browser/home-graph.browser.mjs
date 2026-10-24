@@ -150,7 +150,7 @@ test("on a phone, a chosen page labels at least six of its first ring, the landm
     await page.waitForTimeout(150);
     const { size, labels } = await ringLabels(page, i);
     assert.ok(labels.length >= Math.min(size, 6), `${id}: ${labels.length} of ${size} first-ring pages labelled`);
-    if (id === "/") for (const s of ["Job market", "Working paper: NMTC rural gap", "CV", "Contact", "Research"]) assert.ok(labels.includes(s), `${s} is labelled when Home is chosen`);
+    if (id === "/") for (const s of ["Job market", "Job market paper: NMTC rural gap", "CV", "Contact", "Research"]) assert.ok(labels.includes(s), `${s} is labelled when Home is chosen`);
     await page.keyboard.press("Escape");
   }
   await ctx.close();
