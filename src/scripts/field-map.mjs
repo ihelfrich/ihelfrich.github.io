@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { TOPIC_ORDER, TOPIC_NAMES, TOPIC_SHORT } from "../data/field-topics.mjs";
+import { KIND_NAMES, TOPIC_ORDER, TOPIC_NAMES, TOPIC_SHORT } from "../data/field-topics.mjs";
 import {
   buildGraph,
   bfs as bfsOn,
@@ -47,11 +47,11 @@ function init(D) {
     course: d3.symbolTriangle,
     page: d3.symbolCircle,
   };
-  const KIND = { paper: "Paper", data: "Dataset", tool: "Instrument", course: "Course", page: "Page" };
+  const KIND = KIND_NAMES;
   const GROUPS = [
     ["paper", "Papers"],
     ["data", "Data"],
-    ["tool", "Instruments"],
+    ["tool", "Tools"],
     ["course", "Courses"],
     ["page", "Other pages"],
   ];

@@ -5,7 +5,8 @@ import { Window } from "happy-dom";
 import yaml from "js-yaml";
 import { PRIMARY, CONTACT, BOOK } from "../src/data/navigation.mjs";
 import { availabilityRecord } from "../src/data/public-record.mjs";
-import { boxHitsMark, placeLabels } from "../src/lib/graph-labels.mjs";
+import { placeLabels } from "../src/lib/gravity-field.mjs";
+import { LABEL_HALO_PX, PAINT_ORDER } from "../src/scripts/home-graph.mjs";
 
 const palette = {
   "--ef-ink": "#11131D",
@@ -685,25 +686,20 @@ const pxAtLeast=(value,minimum)=>Number.parseFloat(value??'')>=minimum;
   if(!element||Number.parseFloat(cascadedPropertiesAtWidth(noScriptWindow,element,1440,['padding-left'])['padding-left'])!==0) failures.push(`homepage ${selector} must not double the instrument inset`);
  }
 
- // Home network: marks covered "Econometric Argument" and the lower Teaching label at 1440px. Labels
- // now sit in a layer above the marks, with a 4px halo, and take the position that covers fewest marks.
- const graphSource=await readFile(resolve('src/scripts/home-graph.mjs'),'utf8');
- const layers=[...(graphSource.match(/const LAYERS = \[([^\]]+)\]/)?.[1].matchAll(/"([\w-]+)"/g)??[])].map(match=>match[1]);
- if(!(layers.indexOf('hg-marks')>=0&&layers.indexOf('hg-labels')>layers.indexOf('hg-marks')&&layers.indexOf('hg-anchors')>layers.indexOf('hg-marks'))) failures.push('home network must paint the section and topic labels above the marks');
- if(/node(?:\.filter\([^;]*?\))?\.append\("text"\)/.test(graphSource)) failures.push('home network section labels must not be drawn inside the mark groups, where later marks cover them');
- const labelRule=interactiveHome.match(/\.hg-label\{([^}]*)\}/)?.[1]??'';
- if(!/paint-order:stroke/.test(labelRule)||!(Number.parseFloat(labelRule.match(/stroke-width:([\d.]+)px/)?.[1])>=4)) failures.push('home network section labels need a halo of at least 4px');
- const crowded={id:'/econometrics/',x:300,y:500,r:4,width:130};
- const triangles=[[320,500],[342,497],[364,503],[388,500],[412,499],[300,520],[300,481]].map(([x,y],index)=>({id:`t${index}`,x,y,r:6}));
- const crowdedSpot=placeLabels([crowded],{marks:triangles,bounds:{x0:0,y0:0,x1:800,y1:640}}).get(crowded.id);
- if(triangles.some(mark=>boxHitsMark(crowdedSpot,mark))) failures.push(`home network label placement left "Econometric Argument" over a mark (${crowdedSpot.position})`);
- const edge={id:'/datasets/',x:790,y:200,r:4,width:60};
- const edgeSpot=placeLabels([edge],{bounds:{x0:0,y0:0,x1:800,y1:640}}).get(edge.id);
- if(edgeSpot.x1>800) failures.push('home network label placement must keep a label inside the drawing');
- const neighbours=[{id:'/teaching/',x:200,y:300,r:4,width:60},{id:'/lab/',x:200,y:316,r:4,width:30}];
- const pair=placeLabels(neighbours,{marks:neighbours.map(({id,x,y,r})=>({id,x,y,r}))});
- const [first,second]=neighbours.map(({id})=>pair.get(id));
- if(first.x0<second.x1&&second.x0<first.x1&&first.y0<second.y1&&second.y0<first.y1) failures.push('home network labels must not be placed over one another');
+ // Home network: marks covered "Econometric Argument" and the lower Teaching label at 1440px. The map is
+ // drawn on canvas: labels are painted after every mark, each with a halo, at a spot clear of marks.
+ if(PAINT_ORDER.at(-1)!=='labels'||!PAINT_ORDER.includes('marks')) failures.push('home network must paint the labels above the marks');
+ if(!(LABEL_HALO_PX>=4)) failures.push('home network labels need a halo of at least 4px');
+ const courseMarks=[[300,500],[320,500],[342,497],[364,503],[388,500],[412,499],[300,520],[300,481]];
+ const markX=courseMarks.map(m=>m[0]),markY=courseMarks.map(m=>m[1]),markR=courseMarks.map(()=>7);
+ const labelBox=([item,x,y])=>[x-2,y-1,x+item.w+2,y+item.h+1];
+ const hitsMark=(b,k)=>b[0]<markX[k]+markR[k]&&b[2]>markX[k]-markR[k]&&b[1]<markY[k]+markR[k]&&b[3]>markY[k]-markR[k];
+ const [crowdedSpot]=placeLabels([{key:'/econometrics/',i:0,x:300,y:500,r:4,w:130,h:15,force:true}],{X:markX,Y:markY,MR:markR,n:courseMarks.length,W:800,H:640});
+ if(!crowdedSpot||courseMarks.some((_,k)=>k>0&&hitsMark(labelBox(crowdedSpot),k))) failures.push('home network label placement left "Econometric Argument" over a mark');
+ const [edgeSpot]=placeLabels([{key:'/datasets/',x:790,y:200,r:4,w:60,h:15}],{X:[],Y:[],MR:[],n:0,W:800,H:640});
+ if(!edgeSpot||labelBox(edgeSpot)[2]>800) failures.push('home network label placement must keep a label inside the drawing');
+ const pair=placeLabels([{key:'/teaching/',i:0,x:200,y:300,r:4,w:60,h:15},{key:'/lab/',i:1,x:200,y:316,r:4,w:30,h:15}],{X:[200,200],Y:[300,316],MR:[5,5],n:2,W:800,H:640}).map(labelBox);
+ if(pair.length===2&&pair[0][0]<pair[1][2]&&pair[1][0]<pair[0][2]&&pair[0][1]<pair[1][3]&&pair[1][1]<pair[0][3]) failures.push('home network labels must not be placed over one another');
 
  // The 404 document has no address of its own, so it must not claim /404/ as canonical.
  const notFound=await readFile(resolve('dist/404.html'),'utf8');

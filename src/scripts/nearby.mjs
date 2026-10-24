@@ -2,7 +2,7 @@
 // marked with the same shapes as the site map. Reads /field.json; stays hidden if the page is not on the map.
 import { buildGraph, groupLinked } from "../lib/field-graph.mjs";
 
-const GROUPS = [["paper", "Papers"], ["data", "Data"], ["tool", "Instruments"], ["course", "Courses"], ["page", "Pages"]];
+const GROUPS = [["paper", "Papers"], ["data", "Data"], ["tool", "Tools"], ["course", "Courses"], ["page", "Pages"]];
 const MARK = {
   paper: '<rect x="-4" y="-4" width="8" height="8"/>',
   data: '<path d="M0-5.5L4.5 0 0 5.5-4.5 0z"/>',

@@ -41,6 +41,28 @@ test('home leads with the candidacy, the paper and the CV, then selected work be
  await w.happyDOM.abort();
 });
 
+test('home network leads with Job market, CV and Contact, labels the NMTC paper as a working paper, and calls tools Tools',async()=>{
+ const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
+ const graph=d.querySelector('section.hg[data-home-graph]#graph');assert.ok(graph);assert.equal(graph.getAttribute('aria-labelledby'),'hg-title');
+ const sections=[...graph.querySelectorAll('.hg-links a')].map(a=>[a.textContent.trim(),a.getAttribute('href')]);
+ assert.deepEqual(sections.slice(0,3),[['Job market','/job-market/'],['CV','/cv/'],['Contact','/contact/']]);
+ assert.deepEqual(sections.slice(3).map(([label])=>label),['Research','Teaching','Lab','Work','Projects','Datasets','Writing','Full site map']);
+ assert.equal(graph.querySelector('.hg-all a[href="/research/helfrich-2026-nmtc-rural-gap/"]').textContent.trim(),'Working paper: NMTC rural gap');
+ assert.ok(graph.querySelector('.hg-all a[href="/contact/"]'),'the page list includes Contact');
+ assert.doesNotMatch(graph.textContent,/Job market paper|\bJMP\b/);
+ assert.ok([...graph.querySelectorAll('.hg-legend li')].some(li=>li.textContent.trim()==='Tool'));
+ // "Instruments" survives only as the title of the econometrics chapter, never as a page type.
+ const text=d.body.cloneNode(true);text.querySelectorAll('a[href="/econometrics/07-instruments/"]').forEach(a=>a.remove());
+ assert.doesNotMatch(text.textContent,/Instrument/);
+ assert.equal(graph.querySelector('[data-hg-shock]'),null,'the shock button is gone');
+ assert.equal(graph.querySelector('img'),null);
+ // One DOM order for both layouts: heading, sections, map, card, page list.
+ const parts=['.hg-head','.hg-nav','.hg-wrap','.hg-card','.hg-all'].map(sel=>graph.querySelector(sel));
+ for(let i=1;i<parts.length;i++)assert.ok(parts[i-1].compareDocumentPosition(parts[i])&w.Node.DOCUMENT_POSITION_FOLLOWING);
+ assert.equal(graph.querySelector('[data-hg-stage]').getAttribute('role'),null,'the stage is a listbox only once the script gives it options');
+ await w.happyDOM.abort();
+});
+
 test('fluid portrait and section navigation reset correctly on preference changes and disposal',async()=>{
  const {mountFluidSurface}=await import('../../src/scripts/homepage-fluid.mjs');
  const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;

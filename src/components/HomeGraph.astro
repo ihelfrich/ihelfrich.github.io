@@ -1,40 +1,85 @@
 ---
+import { readFileSync } from "node:fs";
 import "../styles/home-graph.css";
-import { TOPIC_ORDER, TOPIC_SHORT } from "../data/field-topics.mjs";
-const sections = [
-  ["/research/", "Research"], ["/teaching/", "Teaching"], ["/lab/", "Lab"], ["/work/", "Work"],
-  ["/projects/", "Projects"], ["/datasets/", "Datasets"], ["/writing/", "Writing"], ["/field/", "Full site map"],
-];
+import { KIND_NAMES, TOPIC_NAMES, TOPIC_ORDER, TOPIC_SHORT } from "../data/field-topics.mjs";
+import { HOME_SECTIONS, homeLabel } from "../data/home-graph.mjs";
+import { glyphPathData } from "../lib/gravity-field.mjs";
+
+// The page list is the fallback for anything that cannot use the canvas. It is built from the same
+// field.json the map fetches (public/field.json is what the deployed site serves).
+const field = JSON.parse(readFileSync("public/field.json", "utf8"));
+const groups = TOPIC_ORDER
+  .map((t) => [t, field.nodes.filter((d) => (d.topics[0] || "profile") === t).sort((a, b) => homeLabel(a).localeCompare(homeLabel(b), "en", { numeric: true }))])
+  .filter(([, list]) => list.length);
+const kinds = ["paper", "data", "tool", "course", "page"];
 ---
 <section class="hg" data-surface="map" id="graph" aria-labelledby="hg-title" data-home-graph>
-  <div class="hg-copy">
+  <div class="hg-head">
     <h2 id="hg-title">How the site connects</h2>
-    <p>Each mark is a page on this site, grouped by topic, and each line is a link between two pages.</p>
-    <ul class="hg-links" aria-label="Main sections">
-      {sections.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
-    </ul>
-    <div class="hg-card" data-hg-card aria-live="polite"><strong>Nothing selected</strong><span>The larger ringed dots are the main sections.</span></div>
-    <button type="button" class="hg-shock" data-hg-shock>Send a shock from the selected page</button>
+    <p>Contours trace the softened potential of the site's pages, each weighted by its length and links; choosing a page sets the others in rings by link distance.</p>
   </div>
-  <div class="hg-stage"><svg data-hg-svg role="group" aria-label="Network of site pages. The list of sections beside it has the same destinations."></svg></div>
-  <ul class="hg-topics" aria-hidden="true">
-    {TOPIC_ORDER.map((t) => <li><span style={`background:var(--topic-${t})`}></span>{TOPIC_SHORT[t]}</li>)}
-  </ul>
-  <ul class="hg-legend" aria-hidden="true">
-    <li><svg viewBox="-7 -7 14 14"><rect x="-4.5" y="-4.5" width="9" height="9"/></svg>Paper</li>
-    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L1.8-1.9 6-1.9 2.6.9 3.8 5.4 0 2.7-3.8 5.4-2.6.9-6-1.9-1.8-1.9z"/></svg>Instrument</li>
-    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L5 4.5-5 4.5z"/></svg>Course</li>
-    <li><svg viewBox="-7 -7 14 14"><path d="M0-6L5 0 0 6-5 0z"/></svg>Dataset</li>
-    <li><svg viewBox="-7 -7 14 14"><circle r="4.5"/></svg>Page</li>
-  </ul>
+  <nav class="hg-nav" aria-label="Main sections">
+    <ul class="hg-links">
+      {HOME_SECTIONS.map(([href, label]) => <li><a href={href} data-id={href}>{label}</a></li>)}
+    </ul>
+  </nav>
+  <div class="hg-wrap" data-hg-wrap>
+    <div class="hg-stage" data-hg-stage aria-busy="true">
+      <canvas data-hg-terrain aria-hidden="true"></canvas>
+      <canvas data-hg-scene aria-hidden="true"></canvas>
+    </div>
+    <button type="button" class="hg-back" data-hg-back hidden>Back to topics</button>
+    <ul class="hg-rings" data-hg-rings aria-hidden="true" hidden></ul>
+    <div class="hg-keys" aria-hidden="true">
+      <ul class="hg-legend">
+        {kinds.map((k) => {
+          const d = glyphPathData(k, 4.6);
+          return <li><svg viewBox="-7 -7 14 14">{d ? <path d={d} /> : <circle r="4.6" />}</svg>{KIND_NAMES[k]}</li>;
+        })}
+      </ul>
+      <ul class="hg-topics">
+        {TOPIC_ORDER.map((t) => <li><i style={`background:var(--topic-${t})`}></i>{TOPIC_SHORT[t]}</li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="hg-card" data-hg-card hidden></div>
+  <details class="hg-all" data-field-skip>
+    <summary>All {field.nodes.length} pages, by topic</summary>
+    <div class="hg-all-groups">
+      {groups.map(([t, list]) => (
+        <section aria-labelledby={`hg-all-${t}`}>
+          <h3 id={`hg-all-${t}`}>{TOPIC_NAMES[t]}</h3>
+          <ul>{list.map((d) => <li><a href={d.id}>{homeLabel(d)}</a></li>)}</ul>
+        </section>
+      ))}
+    </div>
+  </details>
+  <p class="hg-sr" aria-live="polite" data-hg-live></p>
 </section>
 <script>
-  import { mountHomeGraph } from "../scripts/home-graph.mjs";
-  const root = document.querySelector("[data-home-graph]");
+  // Load and mount the map when the section first comes near the viewport; release it on pagehide.
+  const root = document.querySelector<HTMLElement>("[data-home-graph]");
   if (root) {
-    let dispose = null;
-    const start = () => { dispose = mountHomeGraph(root); };
-    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
-    window.addEventListener("pagehide", () => dispose && dispose());
+    let dispose: (() => void) | null = null, io: IntersectionObserver | null = null, live = false;
+    const start = async () => {
+      live = true;
+      const { mountHomeGraph } = await import("../scripts/home-graph.mjs");
+      if (live && !dispose) dispose = mountHomeGraph(root);
+    };
+    const arm = () => {
+      if (!("IntersectionObserver" in window)) { start(); return; }
+      io = new IntersectionObserver((entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io?.disconnect(); io = null; start();
+      }, { rootMargin: "400px 0px" });
+      io.observe(root);
+    };
+    arm();
+    window.addEventListener("pagehide", () => {
+      live = false;
+      io?.disconnect(); io = null;
+      dispose?.(); dispose = null;
+    });
+    window.addEventListener("pageshow", (event) => { if (event.persisted && !dispose && !io) arm(); });
   }
 </script>
