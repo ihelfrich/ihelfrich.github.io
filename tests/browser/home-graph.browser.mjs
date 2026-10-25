@@ -202,3 +202,17 @@ test("the map requests no animation frames once it has settled, and none under r
   assert.ok((await frames(rm.page)) - n1 <= 3, "a choice under reduced motion draws once, without animating");
   await rm.ctx.close();
 });
+
+test("a direct link to #graph lands on the map, even when the site's scripts load slowly", when, async () => {
+  for (const [width, height] of [[800, 600], [1440, 900], [390, 844]]) {
+    const ctx = await browser.newContext({ viewport: { width, height }, isMobile: width < 500 });
+    // Hold the site's scripts back, as a slow or throttled browser would.
+    await ctx.route(/\/_astro\/.*\.js$/, async (route) => { await new Promise((r) => setTimeout(r, 1500)); await route.continue(); });
+    const page = await ctx.newPage();
+    await page.goto(`${site.base}/#graph`, { waitUntil: "load" });
+    await page.waitForTimeout(1500);
+    const top = await page.evaluate(() => document.getElementById("graph").getBoundingClientRect().top);
+    assert.ok(top >= 0 && top < 320, `#graph sits ${Math.round(top)}px from the top after a direct link at ${width} px`);
+    await ctx.close();
+  }
+});

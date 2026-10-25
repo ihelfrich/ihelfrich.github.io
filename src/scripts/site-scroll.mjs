@@ -23,6 +23,6 @@ export function mountSiteScroll(doc,ScrollEngine=Lenis){
  engine.on('virtual-scroll',wake);engine.on('scroll',wake);
  on(doc,'click',prepareAnchor,true);on(win,'hashchange',revealHash);on(doc,'visibilitychange',()=>{if(doc.hidden){win.cancelAnimationFrame(frame);frame=0;}else wake();});
  const resize=new win.ResizeObserver(measure);for(const element of doc.querySelectorAll('.site-header,.st-experience-nav'))resize.observe(element);
- measure();revealHash(true);doc.documentElement.dataset.scrollEngine='lenis';
+ measure();revealHash(true);let moved=false;const intent=()=>{moved=true};for(const type of ['wheel','touchstart','keydown','pointerdown'])on(win,type,intent,{passive:true});const settle=()=>{if(!disposed&&!moved&&win.location.hash)revealHash(true)};if(doc.readyState==='complete')win.setTimeout(settle,0);else on(win,'load',settle);doc.fonts?.ready?.then(()=>win.setTimeout(settle,0));doc.documentElement.dataset.scrollEngine='lenis';
  return()=>{disposed=true;win.cancelAnimationFrame(frame);resize.disconnect();engine.destroy();cleanups.forEach(fn=>fn());delete doc.documentElement.dataset.scrollEngine;doc.documentElement.style.removeProperty('--site-anchor-offset');doc.documentElement.style.removeProperty('--site-header-height');};
 }

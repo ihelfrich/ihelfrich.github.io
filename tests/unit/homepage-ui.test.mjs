@@ -189,3 +189,20 @@ test('technical work is discoverable with public links and explicit publication 
   await w.happyDOM.abort();
  }
 });
+
+test('a direct link re-aligns after the page has loaded, unless the visitor has already scrolled',async()=>{
+ const {mountSiteScroll}=await import('../../src/scripts/site-scroll.mjs');
+ for(const moved of [false,true]){
+  const w=new Window({url:'https://example.test/#graph'}),d=w.document;
+  d.body.innerHTML='<header class="site-header"></header><section id="graph"></section>';
+  w.requestAnimationFrame=()=>1;w.cancelAnimationFrame=()=>{};w.ResizeObserver=class{observe(){}disconnect(){}};
+  const calls=[];class Engine{constructor(){}on(){}resize(){}scrollTo(target){calls.push(target)}raf(){}destroy(){}}
+  const dispose=mountSiteScroll(d,Engine);
+  assert.equal(calls.length,1,'aligned once when the scroll engine mounts');
+  if(moved)w.dispatchEvent(new w.Event('wheel'));
+  await new Promise(r=>w.setTimeout(r,30));w.dispatchEvent(new w.Event('load'));await new Promise(r=>w.setTimeout(r,30));
+  if(moved)assert.equal(calls.length,1,'no second jump after the visitor has scrolled');
+  else{assert.ok(calls.length>=2,'aligned again after load');assert.ok(calls.every(t=>t===d.getElementById('graph')),'always to the linked section');}
+  dispose();await w.happyDOM.abort();
+ }
+});
