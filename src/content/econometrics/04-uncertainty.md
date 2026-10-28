@@ -1,10 +1,11 @@
 ---
-title: 'Precision around the wrong answer'
+title: 'Sampling uncertainty and standard errors'
 order: 4
 part: 'Estimate'
 description: 'Distinguish sampling uncertainty from bias and choose an uncertainty calculation that matches the design.'
 question: 'What does a narrow confidence interval leave unresolved?'
-prerequisites: 'Expectation, variance, least squares, and square roots.'
+prerequisites: 'Expectation and variance (chapters 1 and 2), least squares (chapter 3), and square roots. The section on regression standard errors uses matrix notation.'
+requires: [2, 3]
 minutes: 30
 lab: 'sampling'
 ---
@@ -24,7 +25,7 @@ Let $Y_1,\ldots,Y_n$ be independent draws from a normal population with unknown 
 $$
 \bar Y\sim N\left(\mu,\frac{\sigma^2}{n}\right),
 \qquad
-Z=\frac{\bar Y-\mu}{\sigma/\sqrt n}\sim N(0,1).
+\frac{\bar Y-\mu}{\sigma/\sqrt n}\sim N(0,1).
 $$
 
 Let $z_{0.975}\approx1.959964$ be the standard normal 97.5th percentile. The interval
@@ -41,7 +42,7 @@ With $\bar Y=2.4$, $\sigma=4$, and $n=100$, the standard error is $0.4$. The int
 
 The parameter is fixed in this frequentist calculation; the interval is random before sampling. After observing a particular interval, the procedure's 95% coverage does not become a 95% posterior probability that $\mu$ lies in that interval. A Bayesian probability statement would require a specified probability model for the unknown parameter.
 
-If $\sigma$ is unknown and the observations remain independent normal draws, replacing it with the sample standard deviation yields a Student $t$ statistic with $n-1$ degrees of freedom. Using a normal critical value with an estimated standard error is usually an approximation, not that exact result.
+If $\sigma$ is unknown and the observations remain independent normal draws, replacing it with the sample standard deviation yields a Student $t$ statistic with $n-1$ degrees of freedom. Using a normal critical value with an estimated standard error is usually an approximation, not that exact result. The [Constructions tab of the Distribution Lab](/teaching/distributions/#s=eyJ0YWIiOiJidWlsZCIsImJ1aWxkIjp7InJlY2lwZSI6InQifX0=) builds the $t$ distribution draw by draw from a standard normal and an independent chi-square, which shows where its heavier tails come from.
 
 ## The limits behind large-sample reasoning
 
@@ -51,7 +52,7 @@ $$
 \sqrt n(\bar Y-\mu)\ \xrightarrow{d}\ N(0,\sigma^2).
 $$
 
-Convergence in probability concerns closeness to a target. Convergence in distribution concerns the shape of scaled fluctuations. Neither statement says every dataset of size 30, or 300, behaves approximately normally. Heavy tails, rare influential observations, and dependence can make an approximation poor.
+Convergence in probability concerns closeness to a target. Convergence in distribution concerns the shape of scaled fluctuations. Neither statement says every dataset of size 30, or 300, behaves approximately normally. Heavy tails, rare influential observations, and dependence can make an approximation poor. The lab's [central-limit construction](/teaching/distributions/#s=eyJ0YWIiOiJidWlsZCIsImJ1aWxkIjp7InJlY2lwZSI6ImNsdCJ9fQ==) averages draws from skewed and heavy-tailed sources, including a Cauchy source whose average never settles; the [normal-errors panel](/teaching/ols-assumptions/#a7-normality) of the OLS assumptions lab checks a regression test under skewed errors.
 
 The same distinction carries into regression. Under suitable sampling and moment conditions, a coefficient becomes increasingly precise around its population projection. That projection can differ from the causal parameter a manager cares about.
 
@@ -99,7 +100,7 @@ N(0,Q^{-1}\Omega Q^{-1}),
 \Omega=E[\mathbf x_i\mathbf x_i'u_i^2].
 $$
 
-The sample counterpart is the heteroskedasticity-robust sandwich variance estimator. Its job is to estimate sampling variance under unequal variances. It does not correct selection, measurement error, or omitted-variable bias.
+The sample counterpart is the heteroskedasticity-robust sandwich variance estimator. Its job is to estimate sampling variance under unequal variances. It does not correct selection, measurement error, or omitted-variable bias. The [constant-variance panel](/teaching/ols-assumptions/#a5-homoskedasticity) of the OLS assumptions lab shows how far the conventional standard error can understate the spread of a slope when error variance grows with a skewed regressor.
 
 Employees within an office may share shocks. A cluster-robust calculation aggregates score contributions within office:
 
@@ -112,7 +113,7 @@ $$
 \mathbf S_g=\sum_{i\in g}\mathbf x_i\widehat u_i.
 $$
 
-This displays the uncorrected form; software often adds finite-sample adjustments. The standard justification requires sufficiently many independent clusters and conditions preventing a few clusters from dominating. A large employee count cannot substitute for those conditions.
+This displays the uncorrected form; software often adds finite-sample adjustments. The standard justification requires sufficiently many independent clusters and conditions preventing a few clusters from dominating. A large employee count cannot substitute for those conditions. The lab's [independent-errors panel](/teaching/ols-assumptions/#a4-independence) shows the analogous failure for serially correlated errors: the slope stays centered while the conventional standard error understates its spread.
 
 As an illustration for a simple mean with equally sized independent clusters, cluster size $m=25$ and within-cluster correlation $\rho=0.1$ inflate variance relative to independent observations by $1+(m-1)\rho=3.4$. This formula depends on that exchangeable covariance structure; it is not a universal regression correction.
 

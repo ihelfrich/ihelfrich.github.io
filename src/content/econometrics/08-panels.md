@@ -1,10 +1,11 @@
 ---
-title: 'A comparison across time needs a counterfactual trend'
+title: 'Panel data and difference-in-differences'
 order: 8
 part: 'Identify'
 description: 'Derive difference-in-differences, separate fixed effects from identification, and quantify a transparent trend sensitivity.'
 question: 'Would the training offices have improved even without the program?'
-prerequisites: 'Potential outcomes, group means, regression, and sampling uncertainty.'
+prerequisites: 'Potential outcomes (chapter 5), group means, regression (chapter 3), and sampling uncertainty (chapter 4).'
+requires: [3, 4, 5]
 minutes: 30
 lab: 'design'
 ---
