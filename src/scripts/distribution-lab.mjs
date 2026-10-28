@@ -859,6 +859,7 @@ function init(root) {
   let history = makeHistory(scenario, Dp.seed);
   let models = null;
   let sim = null;
+  let simulated = false;
   let revealed = false;
   const eventPlots = [];
   const troublePlot = createPlot($("#d-trouble"), root, { t: 16 });
@@ -866,13 +867,12 @@ function init(root) {
   function resetModels(keep) {
     scenario = scenarioById(Dp.scenario);
     history = makeHistory(scenario, Dp.seed);
-    if (keep && Array.isArray(Dp.models) && Dp.models.length === scenario.events.length && Dp.models.every((m) => DIST[m?.family])) models = Dp.models.map((m) => ({ family: m.family, params: { ...m.params } }));
-    else models = scenario.events.map((event, i) => {
-      const family = POOLS[event.pool].includes("lognormal") && event.pool === "positive" ? "lognormal" : event.pool === "count" ? "poisson" : event.pool === "proportion" ? "beta" : "gamma";
-      return { family, params: initialParameters(family, history[i]).params };
-    });
+    if (keep && Array.isArray(Dp.models) && Dp.models.length === scenario.events.length && Dp.models.every((m) => m && (m.family === null || DIST[m.family]))) models = Dp.models.map((m) => ({ family: m.family, params: { ...(m.params ?? {}) } }));
+    // Every event starts without a model. A preset family would already be the answer for some
+    // events (the referee times are lognormal), so the learner chooses each one.
+    else models = scenario.events.map(() => ({ family: null, params: {} }));
     Dp.models = models;
-    sim = null; revealed = false;
+    sim = null; simulated = false; revealed = false;
   }
 
   function renderScenarioButtons() {
@@ -906,7 +906,10 @@ function init(root) {
       <p class="warn" data-warn></p>`;
     const sel = $("[data-family]", card);
     drawFamilySelect(sel, POOLS[event.pool]);
-    sel.value = models[i].family;
+    const choose = new Option("Choose a family", "");
+    choose.disabled = true;
+    sel.prepend(choose);
+    if (models[i].family) sel.value = models[i].family; else choose.selected = true;
     sel.addEventListener("change", () => {
       models[i].family = sel.value;
       models[i].params = initialParameters(sel.value, data).params;
@@ -914,6 +917,7 @@ function init(root) {
       renderParams(card, i); drawEvent(i); markStale(); saveHash();
     });
     $("[data-fit]", card).addEventListener("click", () => {
+      if (!models[i].family) { status("Choose a family for this event first."); sel.focus(); return; }
       const r = initialParameters(models[i].family, data);
       models[i].params = r.params;
       status(r.fitted ? `${DIST[models[i].family].name} fitted to the twelve observations.` : "No closed-form fit for this family; parameters reset to starting values.");
@@ -929,9 +933,10 @@ function init(root) {
 
   function renderParams(card, i) {
     const m = models[i];
-    const d = DIST[m.family];
     const box = $("[data-params]", card);
     box.innerHTML = "";
+    if (!m.family) return;
+    const d = DIST[m.family];
     for (const spec of d.params) {
       const r = parameterRange(m.family, spec, history[i]);
       const value = clamp(m.params[spec.id], r.min, r.max);
@@ -946,6 +951,7 @@ function init(root) {
 
   function modelWarning(i) {
     const m = models[i];
+    if (!m.family) return "";
     const d = DIST[m.family];
     if (!d.valid(m.params)) return "The upper limit must exceed the lower limit.";
     const bad = history[i].filter((x) => !(d.pdf(x, m.params) > 0));
@@ -960,21 +966,21 @@ function init(root) {
     const c = plot.c;
     const event = scenario.events[i];
     const m = models[i];
-    const d = DIST[m.family];
+    const d = m.family ? DIST[m.family] : null;
     const data = history[i];
     const warn = modelWarning(i);
     const card = plot.canvas.closest(".dl-event");
     $("[data-warn]", card).textContent = warn;
     plot.clear();
     const T = DIST[event.truth.family];
-    let [x0, x1] = d.valid(m.params) ? plotRange(d, m.params) : [Math.min(...data), Math.max(...data)];
+    let [x0, x1] = d?.valid(m.params) ? plotRange(d, m.params) : [Math.min(...data), Math.max(...data)];
     const dmin = Math.min(...data); const dmax = Math.max(...data);
     x0 = Math.min(x0, dmin); x1 = Math.max(x1, dmax, event.threshold * (event.direction === "upper" ? 1.1 : 1));
     if (revealed) { const [a, b] = plotRange(T, event.truth.params); x0 = Math.min(x0, a); x1 = Math.max(x1, b); }
     if (event.pool === "proportion" && !revealed && m.family === "beta") { x0 = 0; x1 = 1; }
     if (!(x1 > x0)) x1 = x0 + 1;
-    const discrete = d.discrete || T.discrete;
-    const fm = (x) => (d.valid(m.params) ? d.pdf(discrete ? Math.round(x) : x, m.params) : 0);
+    const discrete = d?.discrete || T.discrete;
+    const fm = (x) => (d?.valid(m.params) ? d.pdf(discrete ? Math.round(x) : x, m.params) : 0);
     const ft = (x) => T.pdf(discrete ? Math.round(x) : x, event.truth.params);
     let ymax = 0;
     for (let k = 1; k < 200; k += 1) { const x = x0 + ((x1 - x0) * k) / 200; for (const f of revealed ? [fm, ft] : [fm]) { const v = f(x); if (Number.isFinite(v)) ymax = Math.max(ymax, v); } }
@@ -985,22 +991,22 @@ function init(root) {
     plot.bars(bins, { color: c.pink, alpha: 0.28 });
     if (discrete) {
       const pts = []; for (let k = Math.ceil(x0); k <= x1; k += 1) pts.push([k, fm(k)]);
-      plot.line(pts, { color: c.accent, width: 1.5 }); pts.forEach(([k, y]) => plot.dots([k], y, { color: c.accent, r: 3.5 }));
+      if (d) { plot.line(pts, { color: c.accent, width: 1.5 }); pts.forEach(([k, y]) => plot.dots([k], y, { color: c.accent, r: 3.5 })); }
       if (revealed) { const q = []; for (let k = Math.ceil(x0); k <= x1; k += 1) q.push([k, ft(k)]); plot.line(q, { color: c.orange, width: 1.5, dash: [4, 3] }); }
     } else {
-      plot.line(plot.curvePoints(fm, x0, x1, 280), { color: c.accent, width: 2.2 });
+      if (d) plot.line(plot.curvePoints(fm, x0, x1, 280), { color: c.accent, width: 2.2 });
       if (revealed) plot.line(plot.curvePoints(ft, x0, x1, 280), { color: c.orange, width: 2, dash: [5, 4] });
     }
     plot.dots(data, 0, { color: c.ink, r: 3.6 });
     plot.vline(event.threshold, { color: c.muted, width: 1, dash: [3, 3], label: "stress point" });
-    plot.canvas.setAttribute("aria-label", `${event.name}. Your ${d.name} model${revealed ? " and the true distribution" : ""} against twelve observations.`);
+    plot.canvas.setAttribute("aria-label", d ? `${event.name}. Your ${d.name} model${revealed ? " and the true distribution" : ""} against twelve observations.` : `${event.name}. Twelve observations; choose a family to draw your model.`);
   }
 
   function markStale() {
     $("#d-replay").disabled = !sim;
     $("#d-reveal").disabled = !sim;
     $("#d-results").hidden = !sim;
-    $("#d-msg").textContent = sim ? "" : "Model changed. Simulate again to update the results.";
+    $("#d-msg").textContent = sim ? "" : simulated ? "Model changed. Simulate again to update the results." : models.every((m) => m.family) ? "Every event has a model. Simulate to see the results." : "";
     scenario.events.forEach((_, i) => drawEvent(i));
   }
 
@@ -1018,12 +1024,19 @@ function init(root) {
   }
 
   function runSim() {
+    const missing = models.findIndex((m) => !m.family);
+    if (missing > -1) {
+      $("#d-msg").textContent = `Choose a family for ${scenario.events[missing].name} before simulating.`;
+      $$("[data-family]", $("#d-events"))[missing]?.focus();
+      return;
+    }
     for (let i = 0; i < models.length; i += 1) {
       const w = modelWarning(i);
       if (w && w.startsWith("The upper")) { $("#d-msg").textContent = `Fix event ${i + 1}: ${w}`; return; }
     }
     Dp.years = Number($("#d-years").value);
     sim = simulateYears(scenario, models, Dp.years, Dp.seed * 101 + 17);
+    simulated = true;
     revealed = false;
     $("#d-results").hidden = false; $("#d-replay").disabled = false; $("#d-reveal").disabled = false;
     $("#d-msg").textContent = `${Dp.years.toLocaleString("en-US")} years simulated`;
@@ -1124,6 +1137,10 @@ function init(root) {
   let lang = "python";
   function codeFor() {
     if (state.tab === "dept") {
+      if (models.some((m) => !m.family)) {
+        const note = "Choose a family for every event to generate the simulation code.";
+        return { python: `# ${note}`, r: `# ${note}`, julia: `# ${note}`, stata: `* ${note}` };
+      }
       return departmentScript(scenario, models, Dp.years, 2026, drawExpressions);
     }
     if (state.tab === "desk") return deskCode();
