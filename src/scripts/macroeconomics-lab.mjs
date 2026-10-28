@@ -10,8 +10,8 @@ const NS='http://www.w3.org/2000/svg';
 const colors=['var(--macro-blue)','var(--macro-rust)','var(--macro-teal)','var(--ink)'];
 const solve={...extended,solow:engine.solow,ak:engine.ak,trap:engine.trap,olg:engine.olg,islm:engine.islm,nk:engine.newKeynesian,debt:engine.debt,optimal:engine.optimalGrowth};
 export function format(x,digits=2){if(x==null)return 'None';if(!Number.isFinite(x))return 'Outside range';if(Math.abs(x)>1e6||(Math.abs(x)>0&&Math.abs(x)<.0001))return x.toExponential(2);return new Intl.NumberFormat('en-US',{maximumFractionDigits:digits}).format(x);}
-// Shares below the display precision print as a bound, never as floating-point dust such as 1.26e-179%.
-const pct=x=>{const v=100*x;if(v!==0&&Math.abs(v)<.005)return v>0?'<0.01%':'>−0.01%';return `${format(v)}%`;};
+// Shares below the display precision print as a bound with their sign, never as floating-point dust such as 1.26e-179%.
+const pct=x=>{const v=100*x;if(v!==0&&Math.abs(v)<.005)return v>0?'<0.01%':'−<0.01%';return `${format(v)}%`;};
 // What a screen reader hears for a parameter slider: the readout, with its unit.
 const valueText=(field,value)=>{const percent=field.unit?.startsWith('%')||field.unit==='percentage points';return percent?`${format(100*value)}${field.unit==='percentage points'?' percentage points':'%'}`:`${format(value)}${field.unit?` ${field.unit}`:''}`;};
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

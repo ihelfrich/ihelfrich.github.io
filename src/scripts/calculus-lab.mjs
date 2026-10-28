@@ -10,16 +10,15 @@ const samples=(a,b,fn,n=100)=>Array.from({length:n+1},(_,i)=>{const x=a+(b-a)*i/
 const line=(a,b,color='blue',dash=false)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" class="cl-${color}" ${dash?'stroke-dasharray="7 5"':''}/>`;
 const text=(x,y,s,cls='')=>`<text x="${x}" y="${y}" class="${cls}">${escape(s)}</text>`;
 function probe(x,y,color='blue'){return `<g transform="translate(${x},${y})"><circle r="8" class="cl-probe cl-fill-${color}"/><circle cx="-2.5" cy="-1.5" r="1.2" fill="white"/><circle cx="2.5" cy="-1.5" r="1.2" fill="white"/></g>`;}
-// Axis ticks at round values: steps of 1, 2, 2.5 or 5 times a power of ten, about four per axis.
-const niceStep=span=>{const raw=(span||1)/4,power=10**Math.floor(Math.log10(raw));return [1,2,2.5,5,10].map(m=>m*power).find(v=>v>=raw*.999);};
+// Axis ticks at round values inside the plotted range, which they never widen: steps of 1, 2, 2.5 or 5
+// times a power of ten, choosing the count closest to five and, between equally close counts, the larger step.
 const ticksIn=(a,b,step)=>{const out=[];for(let k=Math.ceil(a/step-1e-9);k*step<=b+step*1e-9;k++)out.push(Number((k*step).toFixed(10)));return out;};
+export const axisTicks=(a,b)=>{const span=b-a;if(!(span>0)||!Number.isFinite(span))return [];let best=[];for(let power=10**Math.ceil(Math.log10(span));power>10**Math.floor(Math.log10(span))/100;power/=10)for(const m of [5,2.5,2,1]){const t=ticksIn(a,b,m*power);if(Math.abs(t.length-5)<Math.abs(best.length-5))best=t;}return best;};
 function chart({series,points=[],xRange,yRange,xLabel='x',yLabel='output',shade,extra='',interactive=true,p,caption}){
  const [xmin,xmax]=xRange,all=series.flatMap(s=>s.points.map(v=>v[1])).filter(Number.isFinite);let [ymin,ymax]=yRange??[Math.min(...all),Math.max(...all)];const pad=(ymax-ymin||1)*.12;if(!yRange){ymin-=pad;ymax+=pad;}
- // An automatic vertical range widens to the nearest round values so the grid lines carry readable labels.
- const yStep=niceStep(ymax-ymin);if(!yRange){ymin=Math.floor(ymin/yStep+1e-9)*yStep;ymax=Math.ceil(ymax/yStep-1e-9)*yStep;}
  const X=x=>60+480*(x-xmin)/(xmax-xmin),Y=y=>294-254*(y-ymin)/(ymax-ymin);let svg=line([X(xmin),40],[X(xmin),294],'grid')+line([X(xmax),40],[X(xmax),294],'grid')+line([60,Y(ymin)],[540,Y(ymin)],'grid')+line([60,Y(ymax)],[540,Y(ymax)],'grid');
- for(const x of ticksIn(xmin,xmax,niceStep(xmax-xmin)))svg+=line([X(x),40],[X(x),294],'grid')+text(X(x),316,tick(x),'cl-tick cl-center');
- for(const y of ticksIn(ymin,ymax,yStep))svg+=line([60,Y(y)],[540,Y(y)],'grid')+text(50,Y(y)+4,tick(y),'cl-tick cl-end');
+ for(const x of axisTicks(xmin,xmax))svg+=line([X(x),40],[X(x),294],'grid')+text(X(x),316,tick(x),'cl-tick cl-center');
+ for(const y of axisTicks(ymin,ymax))svg+=line([60,Y(y)],[540,Y(y)],'grid')+text(50,Y(y)+4,tick(y),'cl-tick cl-end');
  const path=points=>points.map((v,i)=>`${i?'L':'M'}${X(v[0])},${Y(v[1])}`).join(' ');
  if(shade?.length)svg+=`<path d="${path(shade)} Z" class="cl-area"/>`;
  svg+=`<g clip-path="url(#cl-plot-clip)">`;
