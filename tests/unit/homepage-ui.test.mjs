@@ -206,3 +206,14 @@ test('a direct link re-aligns after the page has loaded, unless the visitor has 
   dispose();await w.happyDOM.abort();
  }
 });
+
+test('home gives a tutoring visitor a route in the hero and links teaching tools instead of the direct-link policy lab',async()=>{
+ const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
+ const line=d.querySelector('.st-hero-copy .st-teaching-line');assert.ok(line,'the hero carries a teaching line');
+ assert.match(line.textContent,/tutor/);
+ assert.deepEqual([...line.querySelectorAll('a')].map(a=>a.getAttribute('href')),['/teaching/','/book/#tutoring-intro']);
+ assert.equal(line.closest('.st-hero-actions'),null,'the line sits outside the three hero actions');
+ assert.equal(d.querySelector('a[href^="/learn/policy-statistics"]'),null,'the policy statistics lab is direct-link only');
+ for(const href of ['/teaching/distributions/','/time-series/','/econometrics/lab/'])assert.ok(d.querySelector(`a[href="${href}"]`),href);
+ await w.happyDOM.abort();
+});
