@@ -86,6 +86,8 @@ Covariance has squared outcome units. Correlation and persistence are dimensionl
 
 The laboratory uses $c=0.6$, $\phi=0.7$, and $\sigma^2=1$. Its population mean is 2 and population variance is approximately 1.9608. The simulated sample will differ. That discrepancy is evidence of finite-sample variation; it should not be repaired by changing the population formulas to match the realized sample.
 
+Comparing a time average with a population moment needs one more condition, because stationarity alone does not make time averages converge. Draw $Z$ once and let $Y_t=Z+\varepsilon_t$ with independent innovations. The process is strictly stationary, yet its sample mean converges to the realized $Z$ rather than to $\mathbb E[Y_t]$: one long history reveals nothing about the other values $Z$ could have taken. The missing property is ergodicity, under which time averages of functions of the process converge to their expectations. For a strictly stationary process, a sufficient condition is mixing, under which events far apart in time become asymptotically independent. For the sample mean of a stable AR(1), less is needed. Under the linear-process assumptions above, the autocovariances are absolutely summable, so $\operatorname{Var}(\overline Y)\to0$ and $\overline Y$ converges in mean square to $\mu$. Sample variances, autocovariances, and the least-squares estimators of later lectures need more, such as independent innovations with finite variance, martingale-difference innovations with suitable higher moments, or a mixing condition that supports a law of large numbers and a central limit theorem for dependent data. Later laboratories assume conditions of this kind whenever they treat a time average as an estimate.
+
 ## Forecast more than one period ahead
 
 At date $t$, iterate the centered recursion forward:
@@ -164,7 +166,7 @@ For a quarterly flow total, replace the average by a sum. Variance and covarianc
 
 ## Execute the recursion and audit the result
 
-Run `ch02` in your preferred language. The source implements the recursion directly and computes a forecast by both repeated substitution and the closed formula. It compares the finite variance sum with its quotient and asserts numerical agreement. It also averages consecutive groups of three monthly observations and estimates an AR(1) coefficient on that aggregate.
+Run `ch02` in your preferred language. The source implements the recursion directly and computes the four-step forecast twice: by applying the recursion four times to the last observation, and by the closed formula $\mu+\phi^4(Y_t-\mu)$. It asserts that the two agree to $10^{-12}$ and reports both. The same program compares the finite variance sum with its quotient and asserts numerical agreement, and it averages consecutive groups of three monthly observations to estimate an AR(1) coefficient on that aggregate.
 
 First predict whether that aggregate coefficient should equal $0.7^3$. Use the covariance expressions above to explain your prediction. Compare the realized estimate with the implied aggregate lag-one correlation; finite samples and the fitted intercept will introduce differences. A single sample is a demonstration, not a consistency proof.
 

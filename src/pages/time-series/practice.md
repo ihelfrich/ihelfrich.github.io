@@ -12,6 +12,8 @@ Each assignment has three tasks. Choose a pair for a 10–12-minute practice ses
 
 ## Assignment 1: Quantity, clock, and geography
 
+These tasks accompany [Lecture 1: The decision and its information set](/time-series/01-information/).
+
 1. March sales are released May 10. A forecast is issued April 30. Can it admit March sales? Identify the date comparison that decides.
 2. Two areas have temperatures 30 and 90°F and weights 0.75 and 0.25. Compute heating exposure relative to 65°F by transforming the weighted mean and by weighting transformed temperatures.
 3. A dataset contains monthly spending flows and month-end debt stocks. Define meaningful quarterly aggregates of both.
@@ -27,6 +29,8 @@ Sum monthly spending flows to obtain quarterly spending. For debt, use a defined
 </details>
 
 ## Assignment 2: Recursion and uncertainty
+
+These tasks accompany [Lecture 2: Persistence, recursion, and aggregation](/time-series/02-dynamics/).
 
 1. An AR(1) has $c=2$, $\phi=0.75$, innovation variance 4, and current value 12. Find its mean, two-step forecast, and known-parameter two-step error variance.
 2. Describe the response to a positive shock when $\phi=-0.5$. Does its variance alternate in sign?
@@ -48,6 +52,8 @@ Quarterly averages combine three correlated monthly states. Their adjacent-quart
 
 ## Assignment 3: Recoverable shocks
 
+These tasks accompany [Lecture 3: ARMA models and recoverable innovations](/time-series/03-arma/).
+
 1. An MA(1) has coefficient 0.25 and innovation variance 16. Find its variance, lag-one covariance, and lag-one correlation.
 2. Construct its reciprocal-root covariance-equivalent representation and identify which is invertible.
 3. What happens to an ARMA(1,1) when $\theta=-\phi$? Why can a larger model be misleading in that case?
@@ -63,6 +69,8 @@ The AR and MA lag polynomials cancel, leaving white noise apart from initializat
 </details>
 
 ## Assignment 4: Evaluation and action
+
+These tasks accompany [Lecture 4: Forecasts that survive a chronological comparison](/time-series/04-forecasting/).
 
 1. A forecast issued at $t$ targets $t+3$. A regressor describes $t+1$ and is released at $t+2$. Is it admissible at the origin?
 2. Underprediction costs three units per unit error; overprediction costs one. Which conditional quantile minimizes expected cost?
@@ -80,6 +88,8 @@ Paired differences are $(-3,5,-5)$, averaging $-1$. The first method has lower m
 
 ## Assignment 5: Measurement and filtering
 
+These tasks accompany [Lecture 5: Signals, noisy measures, and information-preserving filters](/time-series/05-measurement/).
+
 1. A latent AR(1) has persistence 0.6 and innovation variance 0.64. Independent observation noise has variance 3. Find the observed lag-one correlation.
 2. A centered five-period average at $t$ includes two future records. Both increase by 30. How much does the historical average change?
 3. A noiseless state rises three units per period. What bias relative to the current state does a trailing three-period mean have?
@@ -95,6 +105,8 @@ The trailing mean averages states at $t,t-1,t-2$, so its expected level is the s
 </details>
 
 ## Assignment 6: Trends and testing
+
+These tasks accompany [Lecture 6: Trends, unit roots, and misleading level regressions](/time-series/06-trends/).
 
 1. A random walk has current value 40, drift 1, and innovation variance 2. Find its five-step forecast and process-error variance.
 2. Difference a stationary white-noise series with variance 2. Find the new variance and lag-one correlation.
@@ -112,6 +124,8 @@ The statistic does not cross the stated rejection threshold. This is non-rejecti
 
 ## Assignment 7: Dynamic regression
 
+These tasks accompany [Lecture 7: Weather, seasonality, and dynamic regression](/time-series/07-dynamic-regression/).
+
 1. Let $Y_t=5+2X_t+\eta_t$ and error persistence be 0.4. With $(Y_t,Y_{t-1})=(14,9)$ and $(X_t,X_{t-1})=(5,2)$, calculate the transformed outcome, predictor, intercept, and innovation.
 2. The latest error state is 2, its persistence 0.4, and next period's regression component is 20. Find the one-step scenario forecast.
 3. Explain why actual future temperature and a future month indicator have different availability status.
@@ -127,6 +141,8 @@ A calendar month is known before it occurs. Actual weather is not. A climate exp
 </details>
 
 ## Assignment 8: State updates
+
+These tasks accompany [Lecture 8: Estimating a latent state as observations arrive](/time-series/08-state-space/).
 
 1. Prior state mean is 8, variance 3, observation variance 6, and observation 14. Find the gain, posterior mean, and variance.
 2. What is the update if that observation is missing? Why is inserting zero wrong?
@@ -144,6 +160,8 @@ The smoother conditions on observations after the historical date. Those observa
 
 ## Assignment 9: Systems and networks
 
+These tasks accompany [Lecture 9: Multivariate dynamics and regional networks](/time-series/09-var-networks/).
+
 1. A zero-intercept VAR has $A=\begin{pmatrix}0.4&0.3\\0.2&0.6\end{pmatrix}$ and current vector $(10,5)'$. Compute its first two forecasts.
 2. A matrix has diagonal entries 0.7 and both off-diagonal entries 0.4. Are the diagonals sufficient to establish stability?
 3. With one-step covariance $\begin{pmatrix}4&1\\1&9\end{pmatrix}$, find error variance for the sum of the two outcomes.
@@ -159,6 +177,8 @@ Variance of the sum is $4+9+2(1)=15$. Ignoring contemporaneous covariance unders
 </details>
 
 ## Assignment 10: Shock identification
+
+These tasks accompany [Lecture 10: What an impulse response can claim](/time-series/10-identification/).
 
 1. Factor $\Sigma=\begin{pmatrix}1&0.6\\0.6&1.36\end{pmatrix}$ into a lower-triangular $LL'$.
 2. Multiply the factor by a 90-degree orthogonal rotation. Does covariance change? Does the first shock's interpretation remain the same?
@@ -176,6 +196,8 @@ A sampling band describes estimation variation under maintained identification a
 
 ## Assignment 11: Error correction
 
+These tasks accompany [Lecture 11: A stable relation between moving levels](/time-series/11-cointegration/).
+
 1. A relation is $Y=1.5X$. Current values are $Y_t=100$ and $X_t=60$, adjustment coefficient is $-0.2$, expected $\Delta X$ is 2, and its short-run coefficient is 1.5. Forecast the next change and level of $Y$.
 2. In the simple spread model, is adjustment coefficient $-3$ stable merely because it is negative?
 3. Why does a DF test applied to an estimated cointegrating residual need an appropriate residual-based reference distribution?
@@ -191,6 +213,8 @@ The residual incorporates estimated long-run parameters, altering the null distr
 </details>
 
 ## Assignment 12: Conditional risk
+
+These tasks accompany [Lecture 12: Predictable risk with an unpredictable return](/time-series/12-volatility/).
 
 1. GARCH parameters are $\omega=0.1$, $\alpha=0.2$, and $\beta=0.7$. Current variance is 1.5 and residual is 2 percentage points. Find next variance and the following variance forecast.
 2. Convert the model to decimal-return units.
@@ -208,6 +232,8 @@ The quantile also needs a conditional mean and standardized-shock distribution. 
 
 ## Assignment 13: Change and retirement
 
+These tasks accompany [Lecture 13: When the model or the measurement changes](/time-series/13-change/).
+
 1. A rolling procedure's squared losses are $(4,1,9)$ and an expanding procedure's are $(1,4,4)$ on identical targets. Find the paired mean difference.
 2. Explain a condition under which a shorter window helps and a condition under which it can hurt.
 3. A repair reduces expected monthly decision cost by two units but costs six units monthly to operate. What additional evidence or rationale would justify replacement?
@@ -224,6 +250,8 @@ Under the simple stated cost accounting, replacement loses four units per month.
 
 ## Assignment 14: Freeze and continue
 
+These tasks accompany [Lecture 14: Freeze a revision before its next test](/time-series/14-revision/).
+
 1. Candidate validation losses are $(1.4,1.1,1.2)$; continuation losses are $(1.0,1.6,0.9)$. What continuation loss did the declared minimum-validation rule achieve?
 2. Can a frozen rolling procedure refit coefficients as new observations arrive?
 3. How should an origin on which the model fails enter the comparison?
@@ -239,6 +267,8 @@ Use the declared fallback or abstention rule and retain a failure flag. Dropping
 </details>
 
 ## Assignment 15: Transfer and defense
+
+These tasks accompany [Lecture 15: Defend a forecast in an unfamiliar setting](/time-series/15-synthesis/).
 
 1. A linear forecast is 12 and its process variance is 9. Rescale the outcome by 100. What should the equivalent forecast and variance be?
 2. A regional VAR improves prediction, and its report claims a policy intervention caused the improvement. What is missing?
@@ -288,4 +318,4 @@ The six competencies cover dynamics and stationarity; forecast evaluation; trend
 
 Each contributes up to five course points: insufficient assessable evidence earns 0; relevant partial understanding with a consequential gap earns 2.5; independently meeting every essential requirement earns 5. A further boundary insight receives descriptive feedback and the same maximum 5. The higher independently verified level counts after the one scheduled reassessment. Practice completion is not a prerequisite for attempting graded work.
 
-Use the assignments to prepare a gap note after feedback: identify what was missing, explain the correction, and solve a changed example. The note guides preparation and earns no separate points. The final exam has no retake; project revision and competency reassessment remain separate opportunities described in the course syllabus.
+Use the assignments to prepare a gap note after feedback: identify what was missing, explain the correction, and solve a changed example. The note guides preparation and earns no separate points. The final exam has no retake; project revision and competency reassessment remain separate opportunities, described on the [projects page](/time-series/projects/) and in this section.

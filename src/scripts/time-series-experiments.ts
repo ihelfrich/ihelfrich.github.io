@@ -1,10 +1,25 @@
 type RoomRow={origin:string;target:string;latest:string;actual:number;forecasts:Record<string,number>;history:[string,number][]};
 const ink='var(--ink)',blue='var(--blue)',red='var(--orange)';
-function plot(svg:SVGElement,values:number[],labels:string[]=[],divider?:number,color=blue){
-  const left=55,right=620,top=25,bottom=250;const min=Math.min(...values,0),max=Math.max(...values,1);const span=Math.max(max-min,1);
-  const x=(i:number)=>left+i*(right-left)/Math.max(values.length-1,1);const y=(v:number)=>bottom-(v-min)/span*(bottom-top);
+type Reference={value:number,label:string};
+function ticks(min:number,max:number,count=5){
+  const raw=(max-min)/Math.max(count-1,1),power=10**Math.floor(Math.log10(raw)),step=[1,2,2.5,5,10].map(m=>m*power).find(m=>m>=raw)||10*power;
+  const digits=Math.max(0,-Math.floor(Math.log10(step)+1e-9))+(String(step/power).includes('.')?1:0);
+  const values:number[]=[];for(let v=Math.ceil(min/step-1e-9)*step;v<=max+1e-9*step;v+=step)values.push(v);
+  return values.map(v=>({value:v,label:(Math.abs(v)<step/1e6?0:v).toFixed(digits)}));
+}
+function plot(svg:SVGElement,values:number[],labels:string[]=[],divider?:number,color=blue,reference?:Reference){
+  // Size text from the rendered width so tick labels stay legible in narrow panels and on phones.
+  const width=svg.getBoundingClientRect().width||640,font=Math.min(30,Math.max(4,14*640/width));
+  const left=Math.max(55,font*3.6),right=625,top=Math.max(25,font*1.2),bottom=300-font*2;
+  const span=[...values,...(reference?[reference.value]:[])];let min=Math.min(...span),max=Math.max(...span);
+  if(!(max>min)){min-=.5;max+=.5}const pad=(max-min)*.08;min-=pad;max+=pad;
+  const x=(i:number)=>left+i*(right-left)/Math.max(values.length-1,1);const y=(v:number)=>bottom-(v-min)/(max-min)*(bottom-top);
   const points=values.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-  svg.innerHTML=`<path d="M${left},${top}V${bottom}H${right}" fill="none" stroke="${ink}" opacity=".4"/><polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.5"/>${values.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${color}"/>`).join('')}<text x="${left-7}" y="${top+5}" text-anchor="end" fill="${ink}" font-size="12">${max.toFixed(1)}</text><text x="${left-7}" y="${bottom}" text-anchor="end" fill="${ink}" font-size="12">${min.toFixed(1)}</text>${labels.map((l,i)=>`<text x="${x(i)}" y="278" text-anchor="middle" fill="${ink}" font-size="12">${l}</text>`).join('')}${divider===undefined?'':`<path d="M${x(divider+.5)},${top}V${bottom}" fill="none" stroke="${red}" stroke-dasharray="5 4"/>`}`;
+  const grid=ticks(min,max).map(t=>`<path d="M${left},${y(t.value)}H${right}" stroke="${ink}" opacity=".12"/><text x="${left-8}" y="${y(t.value)+font*.35}" text-anchor="end" fill="${ink}" font-size="${font}">${t.label}</text>`).join('');
+  const zero=min<0&&max>0?`<path d="M${left},${y(0)}H${right}" stroke="${ink}" opacity=".7"/>`:'';
+  const level=reference?`<path d="M${left},${y(reference.value)}H${right}" stroke="${ink}" stroke-dasharray="6 5" opacity=".7"/><text x="${right}" y="${y(reference.value)-font*.45}" text-anchor="end" fill="${ink}" font-size="${font}">${reference.label}</text>`:'';
+  const anchor=(label:string,i:number)=>label.length>4&&i===0?'start':label.length>4&&i===values.length-1?'end':'middle';
+  svg.innerHTML=`${grid}<path d="M${left},${top}V${bottom}" fill="none" stroke="${ink}" opacity=".4"/>${zero}${level}<polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.5"/>${values.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${color}"/>`).join('')}${labels.map((l,i)=>l?`<text x="${x(i)}" y="${bottom+font*1.45}" text-anchor="${anchor(l,i)}" fill="${ink}" font-size="${font}">${l}</text>`:'').join('')}${divider===undefined?'':`<path d="M${x(divider+.5)},${top}V${bottom}" fill="none" stroke="${red}" stroke-dasharray="5 4"/>`}`;
 }
 export function initializeTimeSeriesExperiments(){
   document.querySelectorAll<HTMLElement>('[data-ts-lab]').forEach(lab=>{
@@ -29,12 +44,13 @@ export function initializeTimeSeriesExperiments(){
       }else if(lab.dataset.tsLab==='rotation'){
         const angle=value('angle'),c=Math.cos(angle),s=Math.sin(angle);const b11=2*c,b12=-2*s,b21=c+2*s,b22=-s+2*c;
         write('angle-value',angle,2);write('impact',b21);write('covariance',b11*b21+b12*b22);
-        chart.innerHTML=`<path d="M70,150H600M320,35V265" fill="none" stroke="${ink}" opacity=".4"/><path d="M320,150L${320+b11*65},${150-b21*45}" fill="none" stroke="${blue}" stroke-width="3"/><circle cx="${320+b11*65}" cy="${150-b21*45}" r="6" fill="${blue}"/><text x="480" y="280" fill="${ink}" font-size="13">Variable 1 impact</text><text x="75" y="25" fill="${ink}" font-size="13">Variable 2 impact</text>`;
+        const font=Math.min(30,Math.max(4,14*640/(chart.getBoundingClientRect().width||640)));
+        chart.innerHTML=`<path d="M70,150H600M320,35V265" fill="none" stroke="${ink}" opacity=".4"/><path d="M320,150L${320+b11*65},${150-b21*45}" fill="none" stroke="${blue}" stroke-width="3"/><circle cx="${320+b11*65}" cy="${150-b21*45}" r="6" fill="${blue}"/><text x="625" y="290" text-anchor="end" fill="${ink}" font-size="${font}">Variable 1 impact</text><text x="75" y="${10+font}" fill="${ink}" font-size="${font}">Variable 2 impact</text>`;
       }else{
         const shock=value('shock'),next=.1+.1*shock**2+.8;write('shock-value',shock,1);write('next-variance',next);write('quantile',-1.6448536269514722*Math.sqrt(next));
-        plot(chart,Array.from({length:13},(_,j)=>1+.9**j*(next-1)),Array.from({length:13},(_,j)=>String(j+1)));
+        plot(chart,Array.from({length:13},(_,j)=>1+.9**j*(next-1)),Array.from({length:13},(_,j)=>String(j+1)),undefined,blue,{value:1,label:'Long-run variance 1'});
       }
-    };lab.addEventListener('input',update);lab.querySelector('[data-ts-reset]')?.addEventListener('click',()=>{lab.querySelectorAll<HTMLInputElement>('input[type=range]').forEach(input=>input.value=input.defaultValue);update()});update();lab.querySelectorAll<HTMLInputElement|HTMLButtonElement>('input[disabled],button[disabled]').forEach(control=>control.disabled=false);lab.querySelector('[data-ts-static]')?.setAttribute('hidden','');
+    };lab.addEventListener('input',update);if('ResizeObserver' in window){let width=0;new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==width){width=w;update();}}).observe(chart);}lab.querySelector('[data-ts-reset]')?.addEventListener('click',()=>{lab.querySelectorAll<HTMLInputElement>('input[type=range]').forEach(input=>input.value=input.defaultValue);update()});update();lab.querySelectorAll<HTMLInputElement|HTMLButtonElement>('input[disabled],button[disabled]').forEach(control=>control.disabled=false);lab.querySelector('[data-ts-static]')?.setAttribute('hidden','');
   });
   const room=document.querySelector<HTMLElement>('[data-ts-room]');if(!room)return;
   const get=<T extends HTMLElement>(key:string)=>room.querySelector<T>(`[data-room-${key}]`)!;
@@ -53,5 +69,6 @@ export function initializeTimeSeriesExperiments(){
   next.addEventListener('click',()=>{if(stage!==2||index>=data.length-1)return;index++;stage=0;reason.value='';get('result').textContent='';render()});
   get('reset').addEventListener('click',()=>{index=0;stage=0;ledger=[];reason.value='';get('result').textContent='';render()});
   get('export').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({case:'Texas fixed-vintage teaching case',release_lag:'two months, assumed',decisions:ledger},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='time-series-decision-ledger.json';a.click();URL.revokeObjectURL(url)});
+  if('ResizeObserver' in window){let width=0;new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==width){width=w;render();}}).observe(get<HTMLElement>('chart'));}
   fetch('/time-series/forecast-room.json').then(r=>{if(!r.ok)throw Error('Data unavailable');return r.json()}).then(rows=>{data=rows;render()}).catch(()=>{get('step').textContent='The fixed teaching data could not load. Download the code bundle to run the same case.';record.disabled=true});
 }

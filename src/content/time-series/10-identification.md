@@ -5,7 +5,7 @@ description: Derive reduced-form and structural responses, demonstrate rotationa
 question: Which assumptions turn an unexplained movement into an economic shock?
 prerequisites: Lecture 9, covariance matrices, orthogonal matrices, and matrix powers.
 lecture: March 26
-concepts: [structural shocks, Cholesky ordering, impulse responses, rotational ambiguity, network identification]
+concepts: [structural shocks, Cholesky ordering, impulse responses, local projections, rotational ambiguity, network identification]
 ---
 
 ## The disturbance is an unexplained movement
@@ -35,6 +35,8 @@ $$
 A unit structural shock in component $j$ at date $t$ has response $A^hBe_j$ at horizon $h$, holding other shocks at zero. At impact, the response is $Be_j$. At one period, it is $ABe_j$. Subsequent propagation follows the estimated reduced-form dynamics.
 
 These are model-implied responses to a shock defined by $B$. Their economic interpretation inherits the identification assumptions used to construct that matrix. A well-estimated $A$ and $\Sigma$ can coexist with an unresolved economic shock interpretation.
+
+A response can also be estimated without iterating the fitted VAR. A local projection ([Jordà 2005](https://doi.org/10.1257/0002828053828518)) regresses $Y_{t+h}$ directly on $Y_t$ and any further lags, one regression for each horizon. In a VAR(1) the horizon-$h$ coefficient matrix estimates $A^h$, and post-multiplying it by an impact matrix gives the response to the corresponding shock. [Plagborg-Møller and Wolf (2021)](https://doi.org/10.3982/ECTA17813) show that local projections and VARs with unrestricted lag lengths estimate the same population responses; in finite samples a VAR with few lags imposes more structure, which lowers variance and can add bias when the lag length is too short. The identification problem is unchanged: a local projection still needs $B$ or an external measure of the shock.
 
 Shock normalization affects scale. A one-standard-deviation shock, a shock normalized to move the first variable by one unit, and a shock normalized to a one-percent policy change produce differently scaled responses. State the normalization and outcome units on every response graph. An apparently large cross-region response can reflect a large shock normalization rather than a stronger economic mechanism.
 
@@ -94,6 +96,8 @@ Run `ch10`. The source fits the same synthetic two-variable VAR as Lecture 9. It
 
 The first recursive ordering produces a nonzero immediate response of the second variable to the first shock. Under the reversed recursive restriction, that corresponding impact is zero. The rotated factor yields a third value. Those discrepancies are the experiment's point: covariance agreement does not imply agreement about economic shock effects.
 
+The code also estimates the four-period response of the second variable to the first Cholesky shock in two ways. Iterating the fitted VAR gives 0.116; a local projection with the same impact matrix gives 0.063. The generating system's value is 0.087. Both estimators target that number and both miss it in this single sample, so one realization cannot rank them; comparing their dispersion would require repeated samples.
+
 The code asserts covariance reconstruction for both recursive factorizations. Inspect those tests before inspecting the response values. A failed reconstruction indicates a computational error; successful reconstruction followed by different responses indicates the identification ambiguity we intended to demonstrate.
 
 ## Break a causal story and repair the claim
@@ -114,4 +118,4 @@ Your ledger should retain the shock definition, normalization, identifying restr
 
 ## Sources
 
-[Sims (1980)](https://www.jstor.org/stable/1912017) motivates the distinction between a system's estimated dynamics and economic restrictions. The [Statsmodels impulse-response documentation](https://www.statsmodels.org/stable/generated/statsmodels.tsa.vector_ar.var_model.VARResults.irf.html) states its default Cholesky convention and covariance-factor requirement.
+[Sims (1980)](https://www.jstor.org/stable/1912017) motivates the distinction between a system's estimated dynamics and economic restrictions. [Jordà (2005)](https://doi.org/10.1257/0002828053828518) introduces local projections, and [Plagborg-Møller and Wolf (2021)](https://doi.org/10.3982/ECTA17813) relate them to VAR responses. [Kilian and Lütkepohl (2017)](https://doi.org/10.1017/9781108164818) survey structural VAR identification. The [Statsmodels impulse-response documentation](https://www.statsmodels.org/stable/generated/statsmodels.tsa.vector_ar.var_model.VARResults.irf.html) states its default Cholesky convention and covariance-factor requirement.
