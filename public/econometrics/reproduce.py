@@ -19,7 +19,7 @@ else:
     with urllib.request.urlopen(url, timeout=20) as response:
         source = response.read().decode("utf-8")
 rows = list(csv.DictReader(io.StringIO(source)))
-# Training is D, as in chapter 1. Files exported before October 2026 name its column x.
+# Training is D, as in chapter 1. Older exports name the training column x.
 training = "d" if "d" in rows[0] else "x"
 d = [float(r[training]) for r in rows]
 y = [float(r["y"]) for r in rows]

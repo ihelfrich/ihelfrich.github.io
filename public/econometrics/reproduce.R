@@ -4,7 +4,7 @@
 args <- commandArgs(trailingOnly=TRUE)
 source <- if (length(args)) args[1] else "https://ihelfrich.github.io/econometrics/data/observed.csv"
 obs <- read.csv(source)
-# Training is D, as in chapter 1. Files exported before October 2026 name its column x.
+# Training is D, as in chapter 1. Older exports name the training column x.
 if (!"d" %in% names(obs) && "x" %in% names(obs)) names(obs)[names(obs) == "x"] <- "d"
 stopifnot(all(c("id", "d", "y") %in% names(obs)), nrow(obs) > 2)
 print(coef(lm(y ~ d, data=obs)))
