@@ -7,7 +7,7 @@ import {getCollection} from 'astro:content';
 import SiteBar from '../components/SiteBar.astro';
 import Analytics from '../components/Analytics.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
-const {title='Econometrics Across Disciplines', description='Measurement, models, and decisions. A developing handbook with intuitive examples, complete proofs, and independently tested Python, Julia, and R calculations.', image='/og.png', imageAlt='Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates'}=Astro.props;
+const {title='Econometrics Across Disciplines', description='Measurement, models, and decisions. A developing handbook with intuitive examples, complete proofs, and independently tested Python, Julia, and R calculations.', noindex=false, image='/og.png', imageAlt='Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates'}=Astro.props;
 const canonical=new URL(Astro.url.pathname,Astro.site);
 // Social previews need a raster image; LinkedIn, Facebook and X do not render SVG.
 const socialImage=new URL(image,Astro.site);
@@ -15,11 +15,12 @@ const path=Astro.url.pathname.replace(/\/+$/,'');
 const isChapter=(await getCollection('handbook')).some(chapter=>path===`/handbook/${chapter.id}`);
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-pagefind-ignore={noindex ? 'all' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="author" content="Ian Helfrich" />
     <meta name="theme-color" content={THEME_COLOR.course} />
     <title>{title} · Ian Helfrich</title>

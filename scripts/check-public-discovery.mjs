@@ -47,8 +47,8 @@ for (const entry of await readdir(path.join(root, "teaching"), { withFileTypes: 
 // Every page a crawler may index must be in the sitemap. The /field/ map and its orphan report take
 // their page list from /sitemap.xml, so a section left out of it is invisible to both: the time-series
 // course and the handbook were published on October 9, 2026 and missed both until this check existed.
-// Print editions repeat their chapters on one page and stay out of the sitemap. Only /econometrics/print/
-// also declares noindex; /time-series/print/ and /handbook/print/ do not yet, so this check does not require it.
+// Print editions repeat their chapters on one page, stay out of the sitemap, and ask crawlers not to
+// index them while still following their links.
 const PRINT_EDITIONS = ["/econometrics/print/", "/time-series/print/", "/handbook/print/"];
 const builtHtml = await collectHtml(root);
 const routeFor = (htmlPath) => {
@@ -58,14 +58,17 @@ const routeFor = (htmlPath) => {
 for (const htmlPath of builtHtml) {
   if (path.basename(htmlPath) !== "index.html") continue;
   const route = routeFor(htmlPath);
+  const html = await readFile(htmlPath, "utf8");
   if (PRINT_EDITIONS.includes(route)) {
     assert.ok(!sitemapRoutes.includes(route), `${route} repeats its chapters and must stay out of /sitemap.xml`);
+    assert.match(html, /<meta name="robots" content="noindex, follow">/, `${route} repeats its chapters and must declare noindex, follow`);
     continue;
   }
-  const html = await readFile(htmlPath, "utf8");
   if (/<meta name="robots" content="[^"]*noindex/i.test(html)) continue;
   assert.ok(sitemapRoutes.includes(route), `${route} is indexable but missing from /sitemap.xml; list it there or mark it noindex`);
 }
+const builtRoutes = new Set(builtHtml.filter((htmlPath) => path.basename(htmlPath) === "index.html").map(routeFor));
+for (const route of PRINT_EDITIONS) assert.ok(builtRoutes.has(route), `${route} was not built`);
 // The three open courses must be reachable from the teaching and candidate pages, not only by URL.
 const courseLandings = ["/econometrics/", "/time-series/", "/handbook/"];
 for (const route of courseLandings) assert.ok(sitemapRoutes.includes(route), `/sitemap.xml must publish ${route}`);
