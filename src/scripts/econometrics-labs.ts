@@ -7,7 +7,7 @@ export function initializeWorlds(){document.querySelectorAll('[data-worlds]').fo
   const data=observationSample(),b=input(root,'[data-world-b]');
   const update=()=>{const value=Number(b.value);set(root,'[data-b-value]',value.toFixed(2));set(root,'[data-causal-slope]',value.toFixed(2));const line=get(root,'[data-intervention-line]');line.setAttribute('y1',String(150+value*84));line.setAttribute('y2',String(150-value*84));set(root,'[data-world-verdict]',`A one-unit intervention ${value<0?'lowers':value===0?'does not change':'raises'} the mean outcome${value===0?'':` by ${Math.abs(value).toFixed(2)}`}. The observational distribution has not changed.`);};
   b.addEventListener('input',update);update();
-  root.querySelector('[data-world-download]')?.addEventListener('click',()=>download('observed-worlds-seed-2026.csv',csv(world(data,Number(b.value)),['id','x','y'])));
+  root.querySelector('[data-world-download]')?.addEventListener('click',()=>download('observed-worlds-seed-2026.csv',csv(world(data,Number(b.value)),['id','d','y'])));
 });}
 export function initializeSampling(){document.querySelectorAll('[data-sampling]').forEach(root=>{
   let seed=2026,result;const n=input(root,'[data-sampling-n]'),bias=input(root,'[data-sampling-bias]');
@@ -25,7 +25,7 @@ export function initializeSampling(){document.querySelectorAll('[data-sampling]'
 export function initializeDesign(){document.querySelectorAll('[data-design]').forEach(root=>{
   const m=input(root,'[data-design-m]'),y=(v:number)=>265-(v-30)/40*240;
   const money=(v:number)=>`${v<0?'−':''}$${Math.abs(v).toFixed(0)}`;
-  const update=()=>{const M=Number(m.value),d=designBounds(M);set(root,'[data-m-value]',M.toFixed(1));set(root,'[data-effect]',`[${d.effect.map(v=>v.toFixed(1)).join(', ')}]`);set(root,'[data-net]',`[${d.net.map(money).join(', ')}]`);set(root,'[data-design-verdict]',`${d.decision}. ${d.net[0]>0?'Every effect allowed by this bound clears the $300 cost.':'The allowed effects include outcomes that fail to clear the cost; the data and this bound do not settle the investment.'}`);
+  const update=()=>{const M=Number(m.value),d=designBounds(M);set(root,'[data-m-value]',M.toFixed(1));set(root,'[data-effect]',`[${d.effect.map(v=>v.toFixed(1)).join(', ')}]`);set(root,'[data-net]',`[${d.net.map(money).join(', ')}]`);set(root,'[data-design-verdict]',`${d.decision}. ${d.note}`);
   let svg='';for(const t of [30,40,50,60,70])svg+=`<line x1="55" x2="485" y1="${y(t)}" y2="${y(t)}" stroke="#e3eaf4"/><text x="42" y="${y(t)+3}" font-size="10" text-anchor="end" fill="#506379">${t}</text>`;
   svg+=`<polygon points="95,${y(50)} 440,${y(56+M)} 440,${y(56-M)}" fill="#ad422e" opacity=".13"/><path d="M95 ${y(50)}L440 ${y(56)}" stroke="#ad422e" stroke-width="2" fill="none" stroke-dasharray="6 4"/><line x1="440" x2="440" y1="${y(56-M)}" y2="${y(56+M)}" stroke="#ad422e" stroke-width="3"/><path d="M95 ${y(40)}L440 ${y(46)}" stroke="#677b92" stroke-width="2" fill="none"/><path d="M95 ${y(50)}L440 ${y(62)}" stroke="#2459d3" stroke-width="3" fill="none"/>`;
   for(const [x,v,c] of [[95,50,'#2459d3'],[440,62,'#2459d3'],[95,40,'#677b92'],[440,46,'#677b92']])svg+=`<circle cx="${x}" cy="${y(Number(v))}" r="5" fill="${c}"/><text x="${Number(x)+12}" y="${y(Number(v))+4}" font-size="11" fill="${c}">${v}</text>`;

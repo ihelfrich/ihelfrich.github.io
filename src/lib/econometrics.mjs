@@ -14,7 +14,8 @@ export function observationSample(seed = 2026, n = 160) {
   count(n); const normal = randomNormal(seed);
   return Array.from({ length: n }, (_,i) => { const u=normal(),v=normal(); return { id:i+1, x:u, y:u+v, u, v }; });
 }
-export function world(data, b) { finite(b); return data.map(({id,x,y}) => ({id,x,y})); }
+// The observed columns are training d and output y; internally the sample keeps x for the training draw.
+export function world(data, b) { finite(b); return data.map(({id,x,y}) => ({id,d:x,y})); }
 export function interventionMean(b,x) { return finite(b)*finite(x); }
 export function ols(data) {
   if(data.length<2) throw new RangeError('At least two points required');
@@ -34,12 +35,47 @@ export function samplingExperiment({seed=2026,n=50,bias=0,repetitions=100}={}) {
   });
   return {rows,halfWidth,coverage:rows.filter(r=>r.covers).length/repetitions};
 }
+// Net value is exact at the half-unit slider steps, so equality to zero marks the break-even boundary.
 export function designBounds(M=0) {
   finite(M); if(M<0) throw new RangeError('The bound cannot be negative');
   const dd=(62-50)-(46-40),effect=[dd-M,dd+M],net=effect.map(v=>100*v-300);
-  return {dd,effect,net,decision:net[0]>0?'Robustly positive':net[1]<0?'Robustly negative':'Depends on the assumption'};
+  const [low,high]=net;
+  if(low>0) return {dd,effect,net,decision:'Robustly positive',note:'Every effect allowed by this bound clears the $300 cost.'};
+  if(high<0) return {dd,effect,net,decision:'Robustly negative',note:'Every effect allowed by this bound falls short of the $300 cost.'};
+  if(low===0&&high>0) return {dd,effect,net,decision:'Weakly positive',note:'No allowed effect loses money. At the lower boundary the program exactly breaks even, so training weakly dominates skipping.'};
+  if(high===0&&low<0) return {dd,effect,net,decision:'Weakly negative',note:'No allowed effect makes money. At the upper boundary the program exactly breaks even, so skipping weakly dominates training.'};
+  return {dd,effect,net,decision:'Depends on the assumption',note:'The allowed effects include some that fall short of the $300 cost and some that exceed it; the data and this bound do not settle the investment.'};
 }
 export function csv(rows,columns) {
   const quote=v=>{const s=String(v); return /[",\n\r]/.test(s)?'"'+s.replaceAll('"','""')+'"':s;};
   return [columns.join(','),...rows.map(r=>columns.map(k=>quote(r[k])).join(','))].join('\n')+'\n';
 }
+// Suggested reading paths. Core chapters are highlighted; optional chapters are extensions
+// whose prerequisites already lie on the path. tests/unit/econometrics.test.mjs checks every
+// path against the `requires` arrays in the chapter frontmatter.
+export const readingPaths=Object.freeze({
+  all:Object.freeze({core:Object.freeze([]),optional:Object.freeze([])}),
+  first:Object.freeze({core:Object.freeze([1,2,3,4,5,6]),optional:Object.freeze([])}),
+  applied:Object.freeze({core:Object.freeze([1,2,3,4,5,6,8,12]),optional:Object.freeze([10,11])}),
+  theory:Object.freeze({core:Object.freeze([1,2,3,4,5,7,8,10,12]),optional:Object.freeze([])}),
+});
+// Returns every [chapter, prerequisite] pair in which a listed chapter's prerequisite is absent.
+export function missingPrerequisites(chapters,requires) {
+  const listed=new Set(chapters),missing=[];
+  for(const chapter of chapters) for(const prerequisite of requires[chapter]||[]) if(!listed.has(prerequisite)) missing.push([chapter,prerequisite]);
+  return missing;
+}
+// One role per symbol across the twelve chapters. Rendered on the edition page and in the print edition.
+export const notation=Object.freeze([
+  ['Y','Outcome: output, or whether an employee meets the output target.'],
+  ['D','Training, the treatment of interest. Participation (0 or 1) in most chapters; intensity or hours in chapters 1, 3, 6, and 10.'],
+  ['Y(d)','Potential outcome under training status d; Y(1) with training and Y(0) without.'],
+  ['X','Pre-treatment covariates. In general regression formulas (chapters 3, 4, and 7), the regressors.'],
+  ['K','Prior experience, a binary pre-treatment covariate (chapters 2 and 3).'],
+  ['U','An unobserved characteristic or confounder.'],
+  ['Z','An instrument (chapter 7).'],
+  ['R','The running variable of a regression discontinuity design (chapter 9).'],
+  ['S','Inclusion in the analyzed data: an observed outcome (chapter 6) or trial participation (chapter 11).'],
+  ['E[·]','Expectation, the population average. No variable is named E.'],
+  ['τ','A treatment effect. Each chapter states whether it is an individual effect or an average, and over which population: all employees, compliers, adopting offices, or a target population.'],
+]);
