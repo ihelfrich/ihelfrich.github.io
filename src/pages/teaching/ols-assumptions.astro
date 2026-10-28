@@ -467,6 +467,16 @@ const overview = assumptions.map((item) => {
   @media (min-width: 58rem) {
     .ols-assumption__body { grid-template-columns: 1fr 1fr; }
   }
+  /* Print: one column, the whole results table, and the figures at their current settings without the controls. */
+  @media print {
+    .ols-assumption__body { grid-template-columns: 1fr; }
+    .ols-table-scroll { overflow: visible; }
+    .ols-map table { font-size: 9pt; min-width: 0; }
+    .ols-atlas__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ols-atlas__grid li, .ols-map tr, .ols-assumption__head { break-inside: avoid; }
+    .ols-assumption { break-before: page; }
+    .ols-assumption :global(input), .ols-assumption :global(button) { display: none; }
+  }
 </style>
 
 <script>

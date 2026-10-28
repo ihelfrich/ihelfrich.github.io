@@ -1546,10 +1546,12 @@ details p { margin-top: 0.8rem; color: var(--ink-3); }
 }
 
 @media print {
-  .site-header, .site-footer, .h-scroll-progress, .button-row { display: none !important; }
+  .skip-link, .site-header, .site-footer, .h-scroll-progress, .button-row { display: none !important; }
   body { color: var(--p-neutral-00); background: var(--surface-raised); font-size: 11pt; }
   main, main.wide { width: 100%; max-width: none; padding: 0; }
   a { color: var(--p-neutral-00); }
+  /* A printed page cannot follow a link, so external addresses are written out after the link text. */
+  main a[href^="http"]::after { content: " (" attr(href) ")"; overflow-wrap: anywhere; font-size: 0.85em; }
 }
 
 /* ── Instruments — shared chrome for the live components ─────────────────
