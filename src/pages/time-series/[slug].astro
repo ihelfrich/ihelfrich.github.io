@@ -2,21 +2,42 @@
 import { getCollection, render } from 'astro:content';
 import TimeSeries from '../../layouts/TimeSeries.astro';
 import Persistence from '../../components/time-series/Persistence.astro';
+import { getHeadings as practiceHeadings } from './practice.md';
 export async function getStaticPaths(){const chapters=(await getCollection('timeseries')).sort((a,b)=>a.data.order-b.data.order);return chapters.map((chapter,i)=>({params:{slug:chapter.id},props:{chapter,chapters,previous:chapters[i-1],next:chapters[i+1]}}));}
 const {chapter,chapters,previous,next}=Astro.props;
 const {Content,headings}=await render(chapter);
 const n=String(chapter.data.order).padStart(2,'0');
+const assignment=practiceHeadings().find(h=>h.depth===2&&h.text.startsWith(`Assignment ${chapter.data.order}:`));
+const experiments:Record<number,{id:string,title:string}>={
+  2:{id:'persistence',title:'Persistence and forecast risk'},
+  4:{id:'forecast-room',title:'A decision before its outcome'},
+  5:{id:'future-filter',title:'Can the future alter a past estimate?'},
+  10:{id:'rotation',title:'One covariance, several shock stories'},
+  12:{id:'variance',title:'A surprise changes the next risk forecast'},
+  14:{id:'forecast-room',title:'A decision before its outcome'},
+};
+const experiment=experiments[chapter.data.order];
 ---
 <TimeSeries title={chapter.data.title} description={chapter.data.description}>
   <div class="ea-reading-grid">
-    <aside class="ea-book-nav" aria-label="Book contents"><details open><summary>Chapters</summary><a href="/time-series/">← Contents</a><ol>{chapters.map(c=><li><a href={`/time-series/${c.id}/`} aria-current={c.id===chapter.id?'page':undefined}><span class="ea-small">Lecture {c.data.order}</span><br/>{c.data.title}</a></li>)}</ol><a href="/time-series/projects/">Semester projects</a></details></aside>
+    <aside class="ea-book-nav" aria-label="Book contents"><details open data-mobile-contents><summary>Chapters</summary><a href="/time-series/">← Contents</a><ol>{chapters.map(c=><li><a href={`/time-series/${c.id}/`} aria-current={c.id===chapter.id?'page':undefined}><span class="ea-small">Lecture {c.data.order}</span><br/>{c.data.title}</a></li>)}</ol><a href="/time-series/projects/">Semester projects</a></details></aside>
+    <script is:inline>(()=>{const menu=document.querySelector('[data-mobile-contents]');if(!menu||!window.matchMedia)return;const small=window.matchMedia('(max-width: 800px)');if(small.matches)menu.open=false;small.addEventListener?.('change',event=>{if(!event.matches)menu.open=true;});})();</script>
     <article>
-      <header class="ea-chapter-heading"><p class="ea-kicker">Lecture {chapter.data.order} of 15 · {chapter.data.lecture}</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-prereq">Prerequisites: {chapter.data.prerequisites}</p><div class="ts-code-tabs" aria-label="Executable chapter sources">{[['Python','py'],['R','R'],['Julia','jl']].map(([language,ext])=><a href={`/time-series/code/ch${n}.${ext}`} download>{language} source ↓</a>)}<a href={`/time-series/code/#lecture-${n}`}>Run &amp; verify</a></div></header>
+      <header class="ea-chapter-heading"><p class="ea-kicker">Lecture {chapter.data.order} of 15</p><h1>{chapter.data.title}</h1><p class="ea-lead">{chapter.data.question}</p><p class="ea-prereq">Prerequisites: {chapter.data.prerequisites}</p><div class="ts-code-tabs" aria-label="Executable laboratory"><a href="/time-series/downloads/time-series-labs.zip" download>Laboratory bundle (zip) ↓</a><a href={`/time-series/code/#lecture-${n}`}>Run ch{n} &amp; verify</a></div><p class="ts-code-note">Unzip the bundle, open its <code>code</code> folder, and run <code>ch{n}</code> in Python, R, or Julia; the entry point loads the course file and data beside it.</p></header>
       <div class="ea-prose"><Content /></div>
       {chapter.data.order===2&&<Persistence inline />}
+      <section class="ts-chapter-practice" aria-labelledby="lecture-practice">
+        <h2 id="lecture-practice">Practice and laboratory for Lecture {chapter.data.order}</h2>
+        <ul>
+          {assignment&&<li><a href={`/time-series/practice/#${assignment.slug}`}>{assignment.text}</a>, three tasks with worked answers.</li>}
+          <li><a href={`/time-series/code/#lecture-${n}`}>Run ch{n}</a> from the <a href="/time-series/downloads/time-series-labs.zip">laboratory bundle</a> in Python, R, or Julia.</li>
+          {experiment&&<li>Interactive experiment: <a href={`/time-series/experiments/#${experiment.id}`}>{experiment.title}</a></li>}
+          <li><a href={`/time-series/lectures/${chapter.id}/`}>Lecture {chapter.data.order} summary</a>, with the central equation, a problem, a failure, and its repair.</li>
+        </ul>
+      </section>
       <nav class="ea-chapter-next" aria-label="Adjacent chapters">{previous?<a href={`/time-series/${previous.id}/`}>← {previous.data.title}</a>:<a href="/time-series/">← Contents</a>}{next?<a href={`/time-series/${next.id}/`}>{next.data.title} →</a>:<a href="/time-series/projects/">Complete the revision project →</a>}</nav>
     </article>
-    <aside class="ea-margin" aria-label="On this page"><p>This lecture</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href="/time-series/methods/">References</a></aside>
+    <aside class="ea-margin" aria-label="On this page"><p>This lecture</p>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<a href="#lecture-practice">Practice and laboratory</a><a href="/time-series/methods/">References</a></aside>
   </div>
 </TimeSeries>
 <script>import {initializeTimeSeriesExperiments} from '../../scripts/time-series-experiments';initializeTimeSeriesExperiments();</script>
