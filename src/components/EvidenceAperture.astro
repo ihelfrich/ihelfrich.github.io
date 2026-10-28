@@ -8,6 +8,8 @@ export interface EvidenceLink {
 
 export interface Props {
   id?: string;
+  /** Short name that keeps this aperture's landmarks distinct when a page has several. */
+  name?: string;
   liveRegionId?: string;
   question: string;
   caption: string;
@@ -21,6 +23,7 @@ export interface Props {
 
 const {
   id = `aperture-${question.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+  name,
   liveRegionId,
   question,
   caption,
@@ -34,6 +37,8 @@ const {
 const methods = Array.isArray(method) ? method : [method];
 const linkIsExternal = (link: EvidenceLink) => link.external ?? /^https?:\/\//.test(link.href);
 const titleId = `${id}-question`;
+const recordLabel = name ? `Evidence record: ${name}` : "Evidence record";
+const sourcesLabel = name ? `Evidence sources: ${name}` : "Evidence sources";
 const captionId = `${id}-caption`;
 ---
 
@@ -62,7 +67,7 @@ const captionId = `${id}-caption`;
 
   {liveRegionId && <p id={liveRegionId} class="evidence-aperture__live" aria-live="polite" aria-atomic="true"></p>}
 
-  <aside role="region" class="evidence-aperture__margin" aria-label="Evidence record">
+  <aside role="region" class="evidence-aperture__margin" aria-label={recordLabel}>
     <dl>
       <div><dt>Status</dt><dd>{status}</dd></div>
       <div><dt>Method</dt><dd>{methods.join(" · ")}</dd></div>
@@ -70,7 +75,7 @@ const captionId = `${id}-caption`;
       <div class="evidence-aperture__limit"><dt>Limit</dt><dd>{limit}</dd></div>
     </dl>
     {links.length > 0 && (
-      <nav aria-label="Evidence sources">
+      <nav aria-label={sourcesLabel}>
         {links.map((link) => (
           <a href={link.href} target={linkIsExternal(link) ? "_blank" : undefined} rel={linkIsExternal(link) ? "noopener" : undefined} data-goatcounter-click={clickEvent(link.href)}>
             {link.label}{linkIsExternal(link) ? " ↗" : " →"}

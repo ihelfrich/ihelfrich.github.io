@@ -10,7 +10,8 @@
  *
  * Violations separate cleanly along those axes, which is the pedagogical point:
  * A1/A3 move the centre, A4/A5 corrupt the reported SE, A6 widens the spread
- * while staying honest about it, and A7 is a small-sample failure the CLT repairs.
+ * while staying honest about it, and A7 skews the errors without inflating the
+ * size of the slope test.
  *
  * All draws come from a seeded generator so a given (assumption, strength, n,
  * seed) renders identically for every visitor and can be checked in tests.
@@ -130,15 +131,24 @@ const TRUE_B1 = 1;
  * single slider drives every panel.
  */
 export const GENERATORS = {
-  /** A1. Truth curves; we fit a line. Omitted x^2 is correlated with x. */
+  /**
+   * A1. Truth curves; we fit a line. Omitted x^2 is correlated with x.
+   *
+   * The relationship is concave, y = 1 + x - c x^2 with c = 0.5 * strength, so
+   * the marginal effect 1 - 2cx falls as x rises and never turns negative on
+   * [0, 1]: the first dollar does the most, the last at full curvature does
+   * nothing. With x uniform on [0, 1], Cov(x, x^2) / Var(x) = 1, so the OLS
+   * slope converges to 1 - c. That is the average marginal effect E[1 - 2cx],
+   * and it differs from the linear-term coefficient by exactly -c.
+   */
   specification(rng, n, strength) {
-    const curvature = 2.4 * strength;
+    const curvature = 0.5 * strength;
     const xs = [];
     const ys = [];
     for (let i = 0; i < n; i += 1) {
       const x = rng();
       xs.push(x);
-      ys.push(1 + TRUE_B1 * x + curvature * x * x + 0.25 * standardNormal(rng));
+      ys.push(1 + TRUE_B1 * x - curvature * x * x + 0.25 * standardNormal(rng));
     }
     return { xs, ys, trueB1: TRUE_B1 };
   },
@@ -360,27 +370,39 @@ export function readVerdicts(result, { robust = false } = {}) {
   const size = robust ? result.sizeRobust : result.sizeConventional;
   const ratio = se > 0 ? result.sdB1 / se : Number.NaN;
   const biasInSes = se > 0 ? Math.abs(result.bias) / se : Number.NaN;
+  const reps = result.reps ?? 500;
+  const gap = Math.abs(result.bias).toFixed(2);
+  const direction = result.bias < 0 ? "below" : "above";
+  const times = (value) => `${value.toFixed(value < 2 ? 2 : 1)}×`;
+  const seName = robust ? "robust standard error" : "reported standard error";
 
   const centre =
     biasInSes < 0.5
       ? { state: "clean", label: "On target", detail: "the estimate centres on the truth" }
       : biasInSes < 2
-        ? { state: "warn", label: "Drifting", detail: `off by ${result.bias.toFixed(2)}` }
-        : { state: "broken", label: "Off target", detail: `off by ${result.bias.toFixed(2)}` };
+        ? { state: "warn", label: "Drifting", detail: `average ${gap} ${direction} the truth` }
+        : { state: "broken", label: "Off target", detail: `average ${gap} ${direction} the truth` };
 
+  /**
+   * The ratio is the actual spread of the estimates over the average reported
+   * standard error. Above one, the regression claims more precision than it has.
+   */
   const honesty =
-    ratio < 1.15
-      ? { state: "clean", label: "Honest", detail: "the reported error matches the real spread" }
-      : ratio < 1.5
-        ? { state: "warn", label: "Optimistic", detail: `understates by ${ratio.toFixed(1)}×` }
-        : { state: "broken", label: "Overconfident", detail: `understates by ${ratio.toFixed(1)}×` };
+    ratio < 0.87
+      ? { state: "warn", label: "Cautious", detail: `reported error is ${times(1 / ratio)} the actual spread` }
+      : ratio < 1.15
+        ? { state: "clean", label: "Honest", detail: "the reported error matches the real spread" }
+        : ratio < 1.5
+          ? { state: "warn", label: "Optimistic", detail: `actual spread is ${times(ratio)} the reported error` }
+          : { state: "broken", label: "Overconfident", detail: `actual spread is ${times(ratio)} the reported error` };
 
+  const sizeDetail = `${(size * 100).toFixed(0)}% across all ${reps} samples, against a promised 5%`;
   const sizeVerdict =
     size <= 0.08
-      ? { state: "clean", label: "Test holds", detail: `${(size * 100).toFixed(0)}% across all 500 samples, against a promised 5%` }
+      ? { state: "clean", label: "Test holds", detail: sizeDetail }
       : size < 0.2
-        ? { state: "warn", label: "Test slipping", detail: `${(size * 100).toFixed(0)}% across all 500 samples, against a promised 5%` }
-        : { state: "broken", label: "Test lies", detail: `${(size * 100).toFixed(0)}% across all 500 samples, against a promised 5%` };
+        ? { state: "warn", label: "Test slipping", detail: sizeDetail }
+        : { state: "broken", label: "Test lies", detail: sizeDetail };
 
   /**
    * Count the misses in the intervals the page actually draws, so the sentence
@@ -393,14 +415,32 @@ export function readVerdicts(result, { robust = false } = {}) {
         return interval.b1 - half > result.trueB1 || interval.b1 + half < result.trueB1;
       }).length
     : Math.round(size * 100);
-  const reading =
-    centre.state === "broken"
-      ? `The estimate has moved off the truth by ${result.bias.toFixed(2)}. No correction to the standard error can bring it back, because the coefficient is now answering a different question.`
-      : honesty.state === "broken"
-        ? `The estimate is still centred, and the regression understates its own uncertainty by a factor of ${ratio.toFixed(1)}. Of the hundred intervals drawn in the figure, ${misses} miss the truth they were built to cover.`
-        : sizeVerdict.state !== "clean"
-          ? `The estimate is centred and the standard error is close, yet ${misses} of the hundred intervals drawn still miss.`
-          : `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and ${misses} of the hundred intervals drawn miss, which is what 95% coverage means.`;
+  const missed = `${misses} of the hundred intervals drawn ${misses === 1 ? "misses" : "miss"}`;
+  const sizeClause =
+    sizeVerdict.state === "clean"
+      ? `Even so, the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, so it keeps its size, and ${missed} the truth.`
+      : `${missed[0].toUpperCase()}${missed.slice(1)} the truth they were built to cover, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples.`;
+
+  /**
+   * The sentence must never contradict a chip: it calls the estimate centred
+   * only when the centre reading is clean, and it calls all three readings
+   * clean only when they are.
+   */
+  const rejection = `The test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, against a promised 5%.`;
+  let reading;
+  if (centre.state === "broken") {
+    reading = `The average estimate sits ${gap} ${direction} the true slope. No correction to the standard error can bring it back, because the coefficient is now answering a different question. ${rejection}`;
+  } else if (centre.state === "warn") {
+    reading = `The average estimate has drifted ${gap} ${direction} the true slope, about ${biasInSes.toFixed(1)} times the ${seName}. A larger sample shrinks the standard error but not this gap. ${rejection}`;
+  } else if (honesty.state !== "clean" && ratio > 1) {
+    reading = `The estimate is centred, but the estimates actually spread ${times(ratio)} as far as the average ${seName} claims. ${sizeClause}`;
+  } else if (honesty.state !== "clean") {
+    reading = `The estimate is centred, and the average ${seName} is ${times(1 / ratio)} the actual spread, so the intervals are wider than they need to be. ${sizeClause}`;
+  } else if (sizeVerdict.state !== "clean") {
+    reading = `The estimate is centred and the standard error is close, yet ${missed} the truth, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples.`;
+  } else {
+    reading = `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and ${missed}, which is what 95% coverage means.`;
+  }
 
   return { centre, honesty, size: sizeVerdict, ratio, misses, reading };
 }
@@ -415,4 +455,171 @@ export function histogram(estimates, { min, max, bins = 34 }) {
     if (index >= 0 && index < bins) counts[index] += 1;
   }
   return { counts, width, min, max, peak: Math.max(1, ...counts) };
+}
+
+/**
+ * Tick values at round numbers inside [min, max]: the largest step of 1, 2,
+ * 2.5 or 5 times a power of ten that still yields at least `target` ticks.
+ */
+export function niceTicks(min, max, target = 4) {
+  const span = max - min;
+  if (!(span > 0) || !Number.isFinite(span)) return [];
+  const top = 10 ** Math.ceil(Math.log10(span));
+  for (let power = top; power > top / 1e4; power /= 10) {
+    for (const multiple of [5, 2.5, 2, 1]) {
+      const step = multiple * power;
+      const first = Math.ceil(min / step - 1e-9);
+      const last = Math.floor(max / step + 1e-9);
+      if (last - first + 1 < target) continue;
+      const ticks = [];
+      for (let k = first; k <= last; k += 1) ticks.push(k === 0 ? 0 : Number((k * step).toFixed(10)));
+      return ticks;
+    }
+  }
+  return [min, max];
+}
+
+/** Advance width of the monospaced data face (Geist Mono): 0.6 em per character. */
+function textWidth(text, size, tracking = 0) {
+  return String(text).length * size * (0.6 + tracking);
+}
+
+/** Keep a label inside [lo, hi]: centred on x where it fits, otherwise flush to the nearer edge. */
+function placeLabel(x, width, lo, hi) {
+  if (x - width / 2 < lo) return { x: lo, anchor: "start" };
+  if (x + width / 2 > hi) return { x: hi, anchor: "end" };
+  return { x, anchor: "middle" };
+}
+
+const formatTick = (value) => {
+  const text = Number(value.toFixed(2)).toString();
+  return value < 0 ? `−${text.slice(1)}` : text;
+};
+
+/**
+ * The lab figure as SVG markup, laid out for the width it will actually be
+ * drawn at. The coordinate system is one unit per CSS pixel, so every label
+ * renders at its stated size: 12px headings and flags, 11px ticks. Below 560
+ * units the layout narrows: shorter headings, fewer ticks, and the miss count
+ * on its own line.
+ *
+ * Returns the markup that goes inside the <svg>, the viewBox size, and the
+ * number of drawn intervals that miss the truth.
+ */
+export function renderFigure(result, { domain, width = 720, robust = false } = {}) {
+  const W = Math.round(Math.max(280, Math.min(1100, width)));
+  const narrow = W < 560;
+  const [dMin, dMax] = domain;
+  const span = dMax - dMin;
+  const L = 40;
+  const R = W - 6;
+  const size = { head: 12, tick: 11, flag: 12, span: 12 };
+  const headTracking = 0.06;
+
+  const y = {};
+  y.head = 14;
+  y.flagTruth = 34;
+  y.flagMean = 50;
+  y.distTop = 58;
+  y.distBase = y.distTop + (narrow ? 96 : 128);
+  y.tick = y.distBase + 16;
+  y.actualBar = y.distBase + 36;
+  y.actualLabel = y.actualBar + 18;
+  y.reportedBar = y.actualLabel + 18;
+  y.reportedLabel = y.reportedBar + 18;
+  y.combHead = y.reportedLabel + 36;
+  y.count = narrow ? y.combHead + 18 : y.combHead;
+  y.combTop = y.count + 16;
+  y.combBase = y.combTop + (narrow ? 168 : 216);
+  y.legend = y.combBase + 24;
+
+  const toX = (value) => L + ((value - dMin) / span) * (R - L);
+  const clampX = (value) => Math.max(L, Math.min(R, toX(value)));
+  const toY = (value) => y.combBase - Math.max(0, Math.min(1, (value - dMin) / span)) * (y.combBase - y.combTop);
+  const n = (value) => Number(value.toFixed(2));
+  const parts = [];
+  const text = (x, yy, content, cls, anchor = "start") =>
+    parts.push(`<text x="${n(x)}" y="${n(yy)}" class="${cls}"${anchor === "start" ? "" : ` text-anchor="${anchor}"`}>${content}</text>`);
+
+  // Region A: where the estimates land.
+  const headA = narrow ? `Where ${result.reps} estimates land` : "Where five hundred estimates land";
+  text(0, y.head, headA, "lab-head");
+  const bins = histogram(result.estimates, { min: dMin, max: dMax, bins: 40 });
+  const binWidth = (R - L) / bins.counts.length;
+  parts.push("<g>");
+  bins.counts.forEach((count, index) => {
+    const h = (count / bins.peak) * (y.distBase - y.distTop);
+    if (h <= 0) return;
+    parts.push(`<rect x="${n(L + index * binWidth)}" y="${n(y.distBase - h)}" width="${n(Math.max(1, binWidth - 1.2))}" height="${n(h)}" class="lab-bar"/>`);
+  });
+  parts.push("</g>");
+  parts.push(`<line x1="${L}" x2="${R}" y1="${y.distBase}" y2="${y.distBase}" class="lab-axis"/>`);
+  const ticks = niceTicks(dMin, dMax, narrow ? 3 : 4);
+  for (const tick of ticks) {
+    parts.push(`<line x1="${n(toX(tick))}" x2="${n(toX(tick))}" y1="${y.distBase}" y2="${y.distBase + 4}" class="lab-axis"/>`);
+    const label = placeLabel(toX(tick), textWidth(formatTick(tick), size.tick), 0, W);
+    text(label.x, y.tick, formatTick(tick), "lab-axis-tick", label.anchor);
+  }
+
+  const truthX = clampX(result.trueB1);
+  const meanX = clampX(result.meanB1);
+  parts.push(`<line x1="${n(truthX)}" x2="${n(truthX)}" y1="${y.flagTruth + 5}" y2="${y.distBase + 6}" class="lab-truth"/>`);
+  parts.push(`<line x1="${n(meanX)}" x2="${n(meanX)}" y1="${y.flagMean + 5}" y2="${y.distBase}" class="lab-mean"/>`);
+  const truthText = `true β₁ = ${formatTick(result.trueB1)}`;
+  const truthFlag = placeLabel(truthX, textWidth(truthText, size.flag), 0, W);
+  text(truthFlag.x, y.flagTruth, truthText, "lab-flag lab-flag--truth", truthFlag.anchor);
+  const meanFlag = placeLabel(meanX, textWidth("average", size.flag), 0, W);
+  text(meanFlag.x, y.flagMean, "average", "lab-flag lab-flag--mean", meanFlag.anchor);
+
+  const reportedSe = robust ? result.meanRobustSe : result.meanReportedSe;
+  parts.push(`<line x1="${n(clampX(result.trueB1 - result.sdB1))}" x2="${n(clampX(result.trueB1 + result.sdB1))}" y1="${y.actualBar}" y2="${y.actualBar}" class="lab-span lab-span--actual"/>`);
+  text(L, y.actualLabel, `${narrow ? "actual spread" : "how far estimates really move:"} ±${result.sdB1.toFixed(3)}`, "lab-span-label lab-span-label--actual");
+  parts.push(`<line x1="${n(clampX(result.trueB1 - reportedSe))}" x2="${n(clampX(result.trueB1 + reportedSe))}" y1="${y.reportedBar}" y2="${y.reportedBar}" class="lab-span lab-span--reported"/>`);
+  const reportedText = narrow
+    ? `${robust ? "robust" : "reported"} standard error ±${reportedSe.toFixed(3)}`
+    : `${robust ? "how far the robust standard error says they move" : "how far the regression says they move"}: ±${reportedSe.toFixed(3)}`;
+  text(L, y.reportedLabel, reportedText, "lab-span-label lab-span-label--reported");
+
+  // Region B: one hundred intervals, drawn inside their own band.
+  const sorted = [...result.intervals].sort((a, b) => a.b1 - b.b1);
+  let misses = 0;
+  const pitch = (R - L) / Math.max(1, sorted.length);
+  const stroke = Math.max(1.2, Math.min(4, pitch * 0.55));
+  parts.push(`<g style="--lab-ci-width:${n(stroke)}px;--lab-ci-miss-width:${n(Math.min(5, stroke * 1.3))}px">`);
+  sorted.forEach((interval, index) => {
+    const half = interval.tcrit * (robust ? interval.seRobust : interval.se);
+    const lo = interval.b1 - half;
+    const hi = interval.b1 + half;
+    const covers = lo <= result.trueB1 && hi >= result.trueB1;
+    if (!covers) misses += 1;
+    const x = L + (index + 0.5) * pitch;
+    parts.push(`<line x1="${n(x)}" x2="${n(x)}" y1="${n(toY(lo))}" y2="${n(toY(hi))}" class="lab-ci${covers ? "" : " lab-ci--miss"}"/>`);
+  });
+  parts.push("</g>");
+  parts.push(`<line x1="${L}" x2="${R}" y1="${n(toY(result.trueB1))}" y2="${n(toY(result.trueB1))}" class="lab-truth-rule"/>`);
+  for (const tick of ticks) {
+    text(L - 6, toY(tick) + 4, formatTick(tick), "lab-axis-tick", "end");
+  }
+  text(0, y.combHead, narrow ? `${sorted.length} intervals at 95%, one per study` : `One hundred 95% intervals, one per study`, "lab-head");
+  text(narrow ? 0 : W, y.count, `${misses} of these ${sorted.length} miss`, "lab-head lab-head--count", narrow ? "start" : "end");
+
+  // Legend under the band: what the rule is, what a miss looks like, and the ordering.
+  let legendX = L;
+  parts.push(`<line x1="${legendX}" x2="${legendX + 18}" y1="${y.legend - 4}" y2="${y.legend - 4}" class="lab-truth-rule"/>`);
+  const ruleText = `the truth, β₁ = ${formatTick(result.trueB1)}`;
+  text(legendX + 24, y.legend, ruleText, "lab-axis-tick");
+  legendX += 24 + textWidth(ruleText, size.tick) + 18;
+  parts.push(`<line x1="${n(legendX)}" x2="${n(legendX)}" y1="${y.legend - 11}" y2="${y.legend + 2}" class="lab-ci lab-ci--miss" style="stroke-width:3px"/>`);
+  text(legendX + 7, y.legend, "a miss", "lab-axis-tick");
+  legendX += 7 + textWidth("a miss", size.tick) + 18;
+  const orderText = "sorted by estimate, smallest to largest";
+  let height = y.legend + 8;
+  if (legendX + textWidth(orderText, size.tick) <= R) {
+    text(R, y.legend, orderText, "lab-axis-tick", "end");
+  } else {
+    text(L, y.legend + 18, orderText, "lab-axis-tick");
+    height = y.legend + 26;
+  }
+
+  return { width: W, height, markup: parts.join(""), misses };
 }
