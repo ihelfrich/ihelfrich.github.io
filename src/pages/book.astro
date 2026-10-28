@@ -3,6 +3,9 @@ import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
 import { bookingLinks, identityRecord, publicLinks } from "../data/public-record.mjs";
 import { bookingEvent } from "../data/analytics.mjs";
+
+const introCall = bookingLinks.find(({ id }) => id === "tutoring-intro");
+const session = bookingLinks.find(({ id }) => id === "tutoring-session");
 ---
 
 <Base
@@ -15,7 +18,7 @@ import { bookingEvent } from "../data/analytics.mjs";
     <div class="book-heading">
       <p class="record-label">Book a time · Times shown in your time zone</p>
       <h1>Book a time</h1>
-      <p>Each link opens my calendar with the times I have free over the next month. The confirmation email has the Zoom link, and a reminder arrives the day before.</p>
+      <p>Each link opens my calendar with the times I have free over the next month. It starts with the first few days that have openings; choose a later date in its calendar to see more times. The confirmation email has the Zoom link, and a reminder arrives the day before.</p>
     </div>
 
     <div class="booking-layout">
@@ -37,6 +40,11 @@ import { bookingEvent } from "../data/analytics.mjs";
         <figcaption>{identityRecord.name} · {identityRecord.location}</figcaption>
       </figure>
     </div>
+
+    <aside role="note" class="booking-note">
+      <strong>Tutoring booked here</strong>
+      <p>A session booked on this page is a {session?.minutes}-minute Zoom meeting for tutoring or research-design coaching. If we have not worked together, book the {introCall?.minutes}-minute intro call first; in it we go through the subject, your goals, and how sessions would work.</p>
+    </aside>
 
     <aside role="note" class="booking-note">
       <strong>Wyzant students</strong>
@@ -63,6 +71,7 @@ import { bookingEvent } from "../data/analytics.mjs";
   .booking-ledger p { max-width: 62ch; margin: 0.45rem 0 0; }
   .booking-code, .booking-minutes { color: var(--muted); font: 600 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   .booking-route { justify-self: end; font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; white-space: nowrap; }
+  .booking-note + .booking-note { margin-top: var(--ef-space-5); }
   .booking-note { display: grid; padding-top: var(--ef-space-4); grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr); gap: var(--ef-space-5); border-top: 2px solid var(--ef-oxide); }
   .booking-note strong { font: 650 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   .booking-note p { max-width: 68ch; margin: 0; }

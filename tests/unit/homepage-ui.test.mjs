@@ -169,7 +169,8 @@ test('technical work is discoverable with public links and explicit publication 
   assert.equal(section.closest('details'),null,'the new capabilities should be visible without opening the lab');
   const search=d.querySelector('[data-site-index]');assert.match(search.textContent,/Yellowjacket/);assert.match(search.textContent,/Oceanographic systems/);
   for(const [term,href] of [['unreal','/projects/oceanographic-systems'],['bellhop','/projects/oceanographic-systems'],['spectrogram','/projects/yellowjacket'],['transcription','/projects/yellowjacket']]){
-   const record=[...search.querySelectorAll('[data-search]')].find(e=>e.getAttribute('href')===href);
+   // The index renders each record in its trailing-slash form, which GitHub Pages serves without a 301.
+   const record=[...search.querySelectorAll('[data-search]')].find(e=>e.getAttribute('href')===`${href}/`);
    assert.ok(record?.getAttribute('data-search').includes(term),`${term} should find its project record`);
   }
   await w.happyDOM.abort();
@@ -205,4 +206,15 @@ test('a direct link re-aligns after the page has loaded, unless the visitor has 
   else{assert.ok(calls.length>=2,'aligned again after load');assert.ok(calls.every(t=>t===d.getElementById('graph')),'always to the linked section');}
   dispose();await w.happyDOM.abort();
  }
+});
+
+test('home gives a tutoring visitor a route in the hero and links teaching tools instead of the direct-link policy lab',async()=>{
+ const w=new Window({url:'https://example.test/'});w.document.write(await readFile('dist/index.html','utf8'));const d=w.document;
+ const line=d.querySelector('.st-hero-copy .st-teaching-line');assert.ok(line,'the hero carries a teaching line');
+ assert.match(line.textContent,/tutor/);
+ assert.deepEqual([...line.querySelectorAll('a')].map(a=>a.getAttribute('href')),['/teaching/','/book/#tutoring-intro']);
+ assert.equal(line.closest('.st-hero-actions'),null,'the line sits outside the three hero actions');
+ assert.equal(d.querySelector('a[href^="/learn/policy-statistics"]'),null,'the policy statistics lab is direct-link only');
+ for(const href of ['/teaching/distributions/','/time-series/','/econometrics/lab/'])assert.ok(d.querySelector(`a[href="${href}"]`),href);
+ await w.happyDOM.abort();
 });

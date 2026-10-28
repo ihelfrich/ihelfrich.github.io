@@ -2,6 +2,7 @@ import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 import { sitemapStaticRoutes } from "../data/navigation.mjs";
+import timeSeriesLectures from "../data/time-series-lectures.json";
 import { readdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -39,10 +40,20 @@ export async function GET({ site }) {
   const research = filterDiscoverableResearch(allResearch);
   const chapters = await getCollection('econometrics');
   const measurement = await getCollection('measurement');
+  // The open courses: chapters come from their collections and lecture decks from the same JSON file
+  // that src/pages/time-series/lectures/[slug].astro builds from. The print editions stay out of the
+  // sitemap because they repeat the chapters on one page, as /econometrics/print/ does.
+  const [timeSeriesChapters, handbookChapters] = await Promise.all([
+    getCollection('timeseries'),
+    getCollection('handbook'),
+  ]);
   const dynamicRoutes = [
     ...teachingLabRoutes,
     ...chapters.map((entry) => `/econometrics/${entry.id}/`),
     ...measurement.map((entry) => `/econometrics/measurement/${entry.id}/`),
+    ...timeSeriesChapters.map((entry) => `/time-series/${entry.id}/`),
+    ...timeSeriesLectures.map(({ slug }) => `/time-series/lectures/${slug}/`),
+    ...handbookChapters.map((entry) => `/handbook/${entry.id}/`),
     ...research.map((entry) => `/research/${entry.id}/`),
     ...projects.filter((entry) => !isArchivalProject(entry.id)).map((entry) => `/projects/${entry.id}/`),
     ...datasets.map((entry) => `/datasets/${entry.id}/`),

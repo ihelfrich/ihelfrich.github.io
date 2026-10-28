@@ -22,6 +22,20 @@ test("page types follow the route", () => {
   assert.equal(typeFor("/datasets/x/"), "data");
   assert.equal(typeFor("/hidden-rivers/"), "tool");
   assert.equal(typeFor("/econometrics/01-argument/"), "course");
+  assert.equal(typeFor("/time-series/03-arma/"), "course");
+  assert.equal(typeFor("/handbook/01-questions/"), "course");
+});
+
+test("course chapters are teaching pages even when their titles name no teaching keyword", () => {
+  assert.deepEqual(topicsFor("/time-series/03-arma/", "ARMA models and recoverable innovations", ""), ["teaching"]);
+  assert.deepEqual(topicsFor("/handbook/03-clocks/", "Observation clocks, releases, vintages, and provenance", ""), ["teaching"]);
+});
+
+test("the student and hiring-committee routes reach both further courses", () => {
+  for (const name of ["Student", "Hiring committee"]) {
+    const stops = ROUTES[name].steps.map(([id]) => id);
+    for (const course of ["/time-series/", "/handbook/"]) assert.ok(stops.includes(course), `${name} route must stop at ${course}`);
+  }
 });
 
 test("every route has a summary and at least three stops", () => {

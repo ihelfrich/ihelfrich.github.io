@@ -1,5 +1,6 @@
 ---
 import {visitorPaths} from '../data/visitor-paths.mjs';
+import {publicLinks} from '../data/public-record.mjs';
 const {compose=false}=Astro.props;
 const Picker=compose?"details":"div";
 ---
@@ -14,8 +15,8 @@ const Picker=compose?"details":"div";
   </div>
   </Picker>
   {compose&&<div class="visitor-compose" data-visitor-compose hidden>
-   <div><label for="visitor-name">Your name <span>(optional)</span></label><input id="visitor-name" autocomplete="name" maxlength="120" data-visitor-name/><label for="visitor-question">Your question, context, and timeline <span>(optional)</span></label><textarea id="visitor-question" rows="5" maxlength="2000" placeholder="What are you working on, and what would help?" data-visitor-question></textarea></div>
-   <div class="visitor-draft"><strong>Your email draft</strong><p data-draft-subject></p><pre data-draft-body></pre><a class="visitor-primary" data-visitor-email data-goatcounter-click="email">Open email draft <span aria-hidden="true">↗</span></a><p class="visitor-hint">Opens a draft in your email app. This form does not send or store it.</p></div>
+   <div><label for="visitor-name">Your name <span>(optional)</span></label><input id="visitor-name" autocomplete="name" maxlength="120" data-visitor-name/><label for="visitor-question">Your question, context, and timeline <span>(optional)</span></label><textarea id="visitor-question" rows="5" maxlength="2000" placeholder="The subject or project, your current level or role, the deadline, any software involved, and your time zone." data-visitor-question></textarea></div>
+   <div class="visitor-draft"><strong>Your email draft</strong><p data-draft-subject></p><pre data-draft-body></pre><a class="visitor-primary" data-visitor-email data-goatcounter-click="email">Open email draft <span aria-hidden="true">↗</span></a><p class="visitor-hint">Opens a draft in your email app. This form does not send or store it. If no email app opens, copy the draft above and send it to <a href={publicLinks.email} data-goatcounter-click="email">{publicLinks.emailAddress}</a>, or <a href="/book/">book a time</a> instead.</p></div>
   </div>}
  </div>
  <nav class="visitor-fallback" data-visitor-fallback aria-label="Ways to work with Ian"><a href="/teaching">Teaching and quantitative coaching</a><a href="/work">Applied research and selected work</a><a href="/job-market">Professional background and CV</a><a href="mailto:ianthelfrich@gmail.com" data-goatcounter-click="email">Email Ian</a></nav>

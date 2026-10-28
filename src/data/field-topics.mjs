@@ -53,6 +53,8 @@ export const OVERRIDES = Object.freeze({
   "/economics-practice/curriculum/": ["teaching"],
   "/gis-portfolio/": ["place", "measurement"],
   "/gis/": ["place", "measurement"],
+  "/handbook/": ["teaching"],
+  "/handbook/02-measurement/": ["teaching", "measurement"],
   "/hidden-rivers/": ["measurement", "place"],
   "/job-market/": ["profile"],
   "/lab/": ["teaching"],
@@ -102,6 +104,7 @@ export const OVERRIDES = Object.freeze({
   "/teaching/distributions/": ["teaching", "measurement"],
   "/teaching/ols-assumptions/": ["teaching"],
   "/third-space/": ["profile"],
+  "/time-series/": ["teaching"],
   "/work/": ["profile"],
   "/writing/": ["profile"],
   "/writing/hello-from-the-hub/": ["profile"],
@@ -148,11 +151,12 @@ export const LABELS = Object.freeze({
   "/economics-practice/curriculum/": "Economics curriculum",
   "/gis-portfolio/": "LiDAR and 3D GIS",
   "/gis/": "Spatial and GIS record",
+  "/handbook/": "Econometrics Across Disciplines",
   "/hidden-rivers/": "Hidden Rivers",
   "/job-market/": "Job market",
   "/lab/": "Lab",
   "/library/": "Public index",
-  "/macroeconomics/": "Macroeconomics lab",
+  "/macroeconomics/": "Macroeconomics suite",
   "/now/": "Now",
   "/people/": "People",
   "/people/elizaveta-gonchar/": "Elizaveta Gonchar",
@@ -197,6 +201,7 @@ export const LABELS = Object.freeze({
   "/teaching/market-mechanics/": "Market Mechanics Lab",
   "/teaching/ols-assumptions/": "OLS assumptions lab",
   "/third-space/": "Third Space Labs",
+  "/time-series/": "Time-Series Econometrics",
   "/work/": "Work",
   "/writing/": "Writing",
   "/writing/hello-from-the-hub/": "Rebuilding the research site",
@@ -207,7 +212,8 @@ export const labelFor = (path, title = "") => LABELS[path] ?? title;
 
 export function topicsFor(path, title = "", description = "") {
   if (OVERRIDES[path]) return [...OVERRIDES[path]];
-  if (path.startsWith("/econometrics/")) return ["teaching"];
+  // Course chapters are teaching pages whatever their titles say; "ARMA models" matches no keyword.
+  if (/^\/(econometrics|time-series|handbook)\//.test(path)) return ["teaching"];
   const haystack = `${path} ${title} ${description}`.toLowerCase();
   const found = KEYWORDS.filter(([, pattern]) => pattern.test(haystack)).map(([topic]) => topic);
   const ordered = TOPIC_ORDER.filter((topic) => found.includes(topic));
@@ -218,7 +224,7 @@ export function typeFor(path) {
   if (/^\/research\/./.test(path)) return "paper";
   if (/^\/datasets\/./.test(path)) return "data";
   if (/^\/(projects\/.|spatial|hidden-rivers|st-louis|gis-portfolio|spatial-economics)/.test(path)) return "tool";
-  if (/^\/(econometrics\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
+  if (/^\/(econometrics\/.|time-series\/.|handbook\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
   return "page";
 }
 
@@ -227,23 +233,27 @@ export const KIND_NAMES = Object.freeze({ paper: "Paper", data: "Dataset", tool:
 
 export const ROUTES = Object.freeze({
   "Hiring committee": {
-    summary: "Job market page, dissertation, a current paper and its data, teaching, CV.",
+    summary: "Job market page, dissertation, a current paper and its data, teaching record and open courses, CV.",
     steps: [
       ["/job-market/", "Candidate page: field, job market paper, availability."],
       ["/research/helfrich-2024-dissertation/", "Dissertation, Georgia Tech, 2024."],
       ["/research/helfrich-2026-nmtc-rural-gap/", "Current paper on the rural gap in New Markets Tax Credit financing."],
       ["/datasets/us-nmtc-panel/", "Project-level data used in that paper."],
       ["/spatial-economics/national/", "Interactive map of the same financing data."],
-      ["/teaching/", "Teaching record."],
+      ["/teaching/", "Teaching record: appointments, award, course evaluations and open courses."],
+      ["/time-series/", "Time-Series Econometrics, a graduate course: fifteen lectures, decks, practice and projects."],
+      ["/handbook/", "Econometrics Across Disciplines: foundation chapters with complete proofs and checked calculations."],
       ["/cv/", "CV and contact information."],
     ],
   },
   Student: {
-    summary: "Econometrics course, interactive labs, booking.",
+    summary: "Econometrics courses, the handbook, interactive labs, booking.",
     steps: [
       ["/teaching/", "Courses and teaching tools."],
       ["/econometrics/", "Open course in applied econometrics."],
       ["/econometrics/01-argument/", "Chapter 1."],
+      ["/time-series/", "Graduate course in time-series econometrics, with lecture decks, practice and code."],
+      ["/handbook/", "Working handbook, marked at four reading levels from orientation to proof."],
       ["/teaching/market-mechanics/", "Interactive supply and demand lab."],
       ["/teaching/distributions/", "Distributions, test power and model fitting."],
       ["/teaching/ols-assumptions/", "Companion to the classical OLS assumptions."],

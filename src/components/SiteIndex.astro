@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
-import { GO_RECORDS } from "../data/navigation.mjs";
+import { GO_RECORDS, withSlash } from "../data/navigation.mjs";
 
 const [allResearch, writing, datasets, allProjects] = await Promise.all([
   getCollection("research"),
@@ -26,7 +26,10 @@ const records = [
   { kind: "Tool", code: "E-2026-01", title: "Seven classical assumptions of OLS", detail: "Break specification, exogeneity, homoskedasticity, independence, and normality on purpose and measure the damage", href: "/teaching/ols-assumptions/" },
   { kind: "Tool", code: "E-2026-02", title: "Distribution Lab", detail: "Nineteen distributions, test power, constructions of t, chi-square and F, and a department simulator for fitting models to hidden processes", href: "/teaching/distributions/" },
   { kind: "Tool", code: "C-2026-01", title: "Calculus in motion", detail: "Interactive slopes, logs, partial derivatives, gradients, curvature and accumulation", href: "/calculus/" },
-  { kind: "Tool", code: "M-2026-01", title: "Macroeconomics lab", detail: "Solow, AK, growth traps, overlapping generations, IS-LM, New Keynesian policy, public debt and stochastic optimal growth", href: "/macroeconomics/" },
+  { kind: "Tool", code: "M-2026-01", title: "Macroeconomics suite", detail: "Solow, AK, growth traps, overlapping generations, IS-LM, New Keynesian policy, public debt and stochastic optimal growth", href: "/macroeconomics/" },
+  { kind: "Course", code: "K-2026-01", title: "The Econometric Argument", detail: "Open course in econometrics: twelve chapters on identification, probability, projection, research designs, measurement, dependence and decisions, with worked problems, three experiments and a teaching guide", href: "/econometrics/" },
+  { kind: "Course", code: "K-2026-02", title: "Time-Series Econometrics", detail: "Graduate course, first edition: fifteen lectures on forecasting, ARMA, state-space models, VARs, cointegration and volatility, with lecture decks, practice, projects and code in R, Julia and Python", href: "/time-series/" },
+  { kind: "Course", code: "K-2026-03", title: "Econometrics Across Disciplines", detail: "Working handbook: three foundation chapters on economic questions, measurement and observation clocks, marked at four reading levels from orientation to complete proofs, with calculations in Python, Julia and R", href: "/handbook/" },
   ...GO_RECORDS.map(({ code, label, detail, href, start }) => ({ kind: "Go", code, title: label, detail, href, start })),
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,
@@ -48,7 +51,7 @@ const records = [
   })),
   ...teachingFamilies.map(([title, detail], index) => ({
     kind: "Teach", code: `L-2026-${String(index + 1).padStart(2, "0")}`,
-    title, detail, href: "/teaching",
+    title, detail, href: "/teaching/",
   })),
 ];
 ---
@@ -76,7 +79,7 @@ const records = [
     <nav class="site-index-results" aria-label="Search results" data-index-results>
       {records.map((record) => (
         <a
-          href={record.href}
+          href={withSlash(record.href)}
           target={record.external ? "_blank" : undefined}
           rel={record.external ? "noopener" : undefined}
           data-index-record
@@ -96,7 +99,7 @@ const records = [
       <span><kbd>↑</kbd><kbd>↓</kbd> MOVE</span>
       <span><kbd>ENTER</kbd> OPEN</span>
       <span><kbd>ESC</kbd> CLOSE</span>
-      <a href="/library">OPEN THE COMPLETE PUBLIC INDEX →</a>
+      <a href="/library/">OPEN THE COMPLETE PUBLIC INDEX →</a>
     </footer>
   </div>
 </dialog>
