@@ -41,7 +41,10 @@ $$
 The coefficient $b$ describes the direct response to changing training while leaving the employee's underlying characteristic unchanged. Substitute the first equation into the second:
 
 $$
-Y=bU+(1-b)U+V=U+V=D+V.
+\begin{aligned}
+Y&=bU+(1-b)U+V\\
+&=U+V=D+V.
+\end{aligned}
 $$
 
 Every value of $b$ produces exactly the same joint distribution of observed training and output. In all these worlds,

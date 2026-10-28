@@ -29,7 +29,10 @@ $$
 Define the observable difference-in-differences as
 
 $$
-DD=E[Y_1-Y_0\mid G=1]-E[Y_1-Y_0\mid G=0].
+\begin{aligned}
+DD&=E[Y_1-Y_0\mid G=1]\\
+&\quad-E[Y_1-Y_0\mid G=0].
+\end{aligned}
 $$
 
 Add and subtract $E[Y_1(0)\mid G=1]$. The result is
@@ -41,8 +44,10 @@ $$
 where
 
 $$
-\delta=E[Y_1(0)-Y_0(0)\mid G=1]
--E[Y_1(0)-Y_0(0)\mid G=0].
+\begin{aligned}
+\delta&=E[Y_1(0)-Y_0(0)\mid G=1]\\
+&\quad-E[Y_1(0)-Y_0(0)\mid G=0].
+\end{aligned}
 $$
 
 **Parallel trends** sets $\delta=0$. The groups may have different initial levels. What must match is their mean untreated change over the relevant interval. The observed ten-unit baseline difference causes no algebraic difficulty.
@@ -68,7 +73,11 @@ Consider offices selected for training because management already expects their 
 When offices adopt at different dates, define $G_i=g$ as first treatment date and consider
 
 $$
-ATT(g,t)=E[Y_{it}(g)-Y_{it}(\infty)\mid G_i=g],\quad t\geq g.
+\begin{aligned}
+&ATT(g,t)\\
+&\quad=E[Y_{it}(g)-Y_{it}(\infty)\mid G_i=g],\\
+&\quad t\geq g.
+\end{aligned}
 $$
 
 $Y_{it}(g)$ is the outcome under adoption at $g$; $Y_{it}(\infty)$ is the outcome under no adoption. Identification requires specifying valid untreated comparisons for each cohort and date, such as never-treated or still-untreated units, with suitable no-anticipation, parallel-trends, and overlap conditions.

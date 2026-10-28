@@ -38,10 +38,13 @@ Conditioning on participation restricts attention to the 50 participants. Forty 
 
 $$
 \begin{aligned}
-P(Y=1\mid D=1)
-&=P(Y=1\mid K=1,D=1)P(K=1\mid D=1)\\
-&\quad+P(Y=1\mid K=0,D=1)P(K=0\mid D=1)\\
-&=0.8(0.8)+0.2(0.2)=0.68.
+&P(Y=1\mid D=1)\\
+&\quad=P(Y=1\mid K=1,D=1)\\
+&\qquad\times P(K=1\mid D=1)\\
+&\qquad+P(Y=1\mid K=0,D=1)\\
+&\qquad\times P(K=0\mid D=1)\\
+&\quad=0.8(0.8)+0.2(0.2)\\
+&\quad=0.68.
 \end{aligned}
 $$
 
@@ -80,9 +83,11 @@ Standardizing both participation groups to a half-experienced, half-new workforc
 Let $m(K)=E[Y\mid K]$. If $E[Y^2]<\infty$, then
 
 $$
+\begin{aligned}
 \operatorname{Var}(Y)
-=E\{\operatorname{Var}(Y\mid K)\}
-+\operatorname{Var}\{m(K)\}.
+&=E\{\operatorname{Var}(Y\mid K)\}\\
+&\quad+\operatorname{Var}\{m(K)\}.
+\end{aligned}
 $$
 
 The first term is variation within experience groups. The second is variation in their conditional means. In our population, $Y$ is binary with mean 0.5, so its variance is $0.5(1-0.5)=0.25$. Within either experience group, the variance is $0.8(0.2)=0.16$. The group means lie 0.3 above or below 0.5, so their variance is $0.09$. Thus $0.25=0.16+0.09$.
@@ -94,14 +99,21 @@ The [Distribution Lab](/teaching/distributions/#s=eyJ0YWIiOiJiZW5jaCIsImJlbmNoIj
 Write
 
 $$
-Y-E[Y]=\{Y-m(K)\}+\{m(K)-E[Y]\}.
+\begin{aligned}
+Y-E[Y]&=\{Y-m(K)\}\\
+&\quad+\{m(K)-E[Y]\}.
+\end{aligned}
 $$
 
 Square and take expectations. The cross term is zero because
 
 $$
-E[(Y-m(K))(m(K)-E[Y])]
-=E[(m(K)-E[Y])E[Y-m(K)\mid K]]=0.
+\begin{aligned}
+&E[(Y-m(K))(m(K)-E[Y])]\\
+&\quad=E[(m(K)-E[Y])\\
+&\qquad\times E[Y-m(K)\mid K]]\\
+&\quad=0.
+\end{aligned}
 $$
 
 The remaining two squared terms are precisely the within-group and between-group components.
@@ -109,8 +121,11 @@ The remaining two squared terms are precisely the within-group and between-group
 This also explains why the conditional mean minimizes mean squared prediction error among functions of $K$. For any square-integrable $g(K)$,
 
 $$
-E[(Y-g(K))^2]
-=E[(Y-m(K))^2]+E[(m(K)-g(K))^2].
+\begin{aligned}
+&E[(Y-g(K))^2]\\
+&\quad=E[(Y-m(K))^2]\\
+&\qquad+E[(m(K)-g(K))^2].
+\end{aligned}
 $$
 
 The second term cannot be negative. This is a prediction result and makes no causal claim.

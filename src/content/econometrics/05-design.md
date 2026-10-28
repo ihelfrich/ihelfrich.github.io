@@ -30,16 +30,20 @@ These definitions assume that each treatment condition has a specified version a
 For a population formulation, suppose
 
 $$
-D\ \perp\ (Y(1),Y(0)),\qquad 0<P(D=1)<1,
+\begin{gathered}
+D\ \perp\ (Y(1),Y(0)),\\
+0<P(D=1)<1,
+\end{gathered}
 $$
 
 and observed outcomes satisfy the consistency relation above. Then
 
 $$
 \begin{aligned}
-E[Y\mid D=1]-E[Y\mid D=0]
-&=E[Y(1)\mid D=1]-E[Y(0)\mid D=0]\\
-&=E[Y(1)]-E[Y(0)].
+&E[Y\mid D=1]-E[Y\mid D=0]\\
+&\quad=E[Y(1)\mid D=1]\\
+&\qquad-E[Y(0)\mid D=0]\\
+&\quad=E[Y(1)]-E[Y(0)].
 \end{aligned}
 $$
 

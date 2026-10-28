@@ -45,8 +45,10 @@ None automatically supplies the others. A simple bound computed around a sample 
 For a finite action set, a maximin decision maximizes the lowest utility over the maintained parameter set. With utilities $U(\text{train},\tau)=100\tau-300$ and $U(\text{skip},\tau)=0$,
 
 $$
-\min_{\tau\in[2,10]}U(\text{train},\tau)=-100,
-\qquad \min_{\tau\in[2,10]}U(\text{skip},\tau)=0.
+\begin{gathered}
+\min_{\tau\in[2,10]}U(\text{train},\tau)=-100,\\
+\min_{\tau\in[2,10]}U(\text{skip},\tau)=0.
+\end{gathered}
 $$
 
 Maximin therefore chooses to skip. This is a decision rule reflecting extreme caution over the permitted set, not a theorem that skipping is optimal under every preference.
@@ -76,7 +78,10 @@ An imprecisely identified parameter need not prevent a robust choice. If stronge
 Partial identification also arises without a chosen sensitivity bound. Suppose an outcome is binary, half the target population is treated, treated outcomes average 0.8, and untreated outcomes average 0.4. Without treatment exchangeability, the unobserved mean untreated outcome for treated people can range from 0 to 1, as can the unobserved treated outcome for untreated people. Therefore
 
 $$
-E[Y(1)]\in[0.4,0.9],\qquad E[Y(0)]\in[0.2,0.7],
+\begin{gathered}
+E[Y(1)]\in[0.4,0.9],\\
+E[Y(0)]\in[0.2,0.7],
+\end{gathered}
 $$
 
 yielding the no-assumptions ATE bounds $[-0.3,0.7]$ under consistency and the stated outcome support. The observed mean difference of 0.4 is only one compatible effect. New restrictions can narrow the set; name what supplies each restriction.

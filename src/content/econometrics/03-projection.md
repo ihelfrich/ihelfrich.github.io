@@ -24,9 +24,11 @@ $$
 Differentiate with respect to $a$ and $b$. At the optimum,
 
 $$
+\begin{gathered}
 \sum_i \widehat u_i=0,\qquad
-\sum_i d_i\widehat u_i=0,
-\quad\text{where }\widehat u_i=y_i-\widehat a-\widehat b d_i.
+\sum_i d_i\widehat u_i=0,\\
+\text{where }\widehat u_i=y_i-\widehat a-\widehat b d_i.
+\end{gathered}
 $$
 
 The first equation gives $\widehat a=\bar y-\widehat b\bar d$. Substituting it into the second gives
@@ -57,8 +59,10 @@ The overall means are $\bar d=2$ and $\bar y=5.5$. The centered cross-product is
 Now remove each experience group's mean from both variables. The group training means are 1 and 3; output means are 2 and 9. The residualized observations are
 
 $$
-\widetilde d=(-1,0,1,-1,0,1),\qquad
+\begin{gathered}
+\widetilde d=(-1,0,1,-1,0,1),\\
 \widetilde y=(-1,-2,3,-1,-2,3).
+\end{gathered}
 $$
 
 Their cross-product is 8 and the training sum of squares is 4. The adjusted slope is $8/4=2$.
@@ -111,8 +115,10 @@ Since $M_W$ is symmetric and idempotent, this is the regression of residualized 
 Suppose a substantive model is
 
 $$
-Y=\alpha+\beta D+\gamma K+\varepsilon,
-\qquad \operatorname{Cov}(D,\varepsilon)=0.
+\begin{gathered}
+Y=\alpha+\beta D+\gamma K+\varepsilon,\\
+\operatorname{Cov}(D,\varepsilon)=0.
+\end{gathered}
 $$
 
 Then the population slope from omitting $K$ is

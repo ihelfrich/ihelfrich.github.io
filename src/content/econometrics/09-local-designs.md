@@ -26,9 +26,11 @@ $$
 are continuous at $c$, with observations supported on both sides. Under consistency and no interference,
 
 $$
-\lim_{r\downarrow c}E[Y\mid R=r]
--\lim_{r\uparrow c}E[Y\mid R=r]
-=\mu_1(c)-\mu_0(c).
+\begin{aligned}
+&\lim_{r\downarrow c}E[Y\mid R=r]
+-\lim_{r\uparrow c}E[Y\mid R=r]\\
+&\quad=\mu_1(c)-\mu_0(c).
+\end{aligned}
 $$
 
 The first limit approaches the threshold from above; the second approaches from below. Above the threshold we observe the treated conditional mean. Below it we observe the untreated conditional mean. Continuity carries each to the same score. Their difference is the treatment effect at the cutoff, using these continuous extensions.
@@ -42,8 +44,10 @@ With imperfect take-up, divide the outcome jump by the participation jump only u
 A local linear fit on each side estimates separate intercepts at the cutoff. For a given side, minimize
 
 $$
-\sum_{i\text{ on that side}}K\!\left(\frac{R_i-c}{h}\right)
-\{Y_i-a-b(R_i-c)\}^2.
+\begin{aligned}
+&\sum_{i\text{ on that side}}K\!\left(\frac{R_i-c}{h}\right)\\
+&\qquad\times\{Y_i-a-b(R_i-c)\}^2.
+\end{aligned}
 $$
 
 $K$ weights nearby observations and $h$ is the bandwidth. The estimated jump is the right intercept minus the left intercept. Separate slopes allow different local trends.
@@ -63,8 +67,10 @@ Inspect score manipulation, heaping, covariate jumps, other rules at the cutoff,
 A different institution may introduce training throughout one region at once, leaving no score threshold. Synthetic control constructs a comparison from untreated regions:
 
 $$
-\hat Y_{1t}(0)=\sum_{j=2}^{J+1}w_jY_{jt},
-\qquad w_j\geq0,\quad\sum_jw_j=1.
+\begin{gathered}
+\hat Y_{1t}(0)=\sum_{j=2}^{J+1}w_jY_{jt},\\
+w_j\geq0,\quad\sum_jw_j=1.
+\end{gathered}
 $$
 
 Weights are selected using pre-treatment information, often to approximate outcomes and predictors. Nonnegative weights summing to one make the comparison a convex combination of donors.

@@ -26,7 +26,10 @@ $$
 The logistic model belongs to the generalized linear model family. Its link maps a probability into log odds. Conditional on covariates, the log-likelihood is
 
 $$
-L(\beta)=\sum_i\{Y_iX_i'\beta-\log(1+\exp(X_i'\beta))\}.
+\begin{aligned}
+L(\beta)&=\sum_i\{Y_iX_i'\beta\\
+&\qquad-\log(1+\exp(X_i'\beta))\}.
+\end{aligned}
 $$
 
 Differentiating yields the score $\sum_iX_i(Y_i-p_i)$ and Hessian $-\sum_ip_i(1-p_i)X_iX_i'$. The Hessian is negative semidefinite. With appropriate rank and existence conditions, optimization identifies the maximum; complete separation can prevent a finite maximum from existing.
@@ -56,8 +59,10 @@ $$
 The conditional mean forecast and forecast-error variance, with parameters known, are
 
 $$
-\hat Y_{T+h\mid T}=\mu+\phi^h(Y_T-\mu),
-\qquad s_h^2=\sigma^2\sum_{j=0}^{h-1}\phi^{2j}.
+\begin{gathered}
+\hat Y_{T+h\mid T}=\mu+\phi^h(Y_T-\mu),\\
+s_h^2=\sigma^2\sum_{j=0}^{h-1}\phi^{2j}.
+\end{gathered}
 $$
 
 Independence eliminates covariance terms in the variance sum. Gaussian innovations make the forecast error Gaussian, giving an approximately 95% predictive interval $\hat Y_{T+h\mid T}\pm1.96s_h$. Parameter-estimation uncertainty is absent from this known-parameter calculation.

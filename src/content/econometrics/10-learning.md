@@ -28,8 +28,10 @@ For causal work, excluding post-treatment variables and information unavailable 
 Consider independent observations $W=(Y,D,X)$ satisfying
 
 $$
-Y=\theta_0D+g_0(X)+\varepsilon,
-\qquad E[\varepsilon\mid D,X]=0,
+\begin{gathered}
+Y=\theta_0D+g_0(X)+\varepsilon,\\
+E[\varepsilon\mid D,X]=0,
+\end{gathered}
 $$
 
 where $D$ is training dose, $X$ contains pre-treatment covariates, and $\theta_0$ is a constant partial-linear coefficient. For a causal interpretation, the conditional mean restriction and structural interpretation must be credible, including the absence of relevant unmeasured confounding. This model is restrictive; arbitrary heterogeneous effects need different target definitions.
@@ -47,8 +49,11 @@ If $J=E[V^2]>0$, multiplying by $V$ and taking expectations identifies $\theta_0
 Use the residual-on-residual score
 
 $$
-\psi(W;\theta,\ell,m)
-=(D-m(X))\{Y-\ell(X)-\theta(D-m(X))\}.
+\begin{aligned}
+&\psi(W;\theta,\ell,m)\\
+&\quad=(D-m(X))\\
+&\qquad\times\{Y-\ell(X)-\theta(D-m(X))\}.
+\end{aligned}
 $$
 
 At the true functions and coefficient, $\psi=V\varepsilon$, with mean zero. Now perturb the nuisance functions along fixed square-integrable directions: $\ell_t=\ell_0+ta$ and $m_t=m_0+tb$. At $\theta_0$,
@@ -103,9 +108,11 @@ $$
 The asymptotic variance is $E[V^2\varepsilon^2]/J^2$. A corresponding standard-error estimate is
 
 $$
-\widehat{SE}^2=\frac{n^{-1}\sum_i\hat\psi_i^2}{n\hat J^2},
-\quad \hat J=n^{-1}\sum_i\tilde D_i^2,
-\quad \hat\psi_i=\tilde D_i(\tilde Y_i-\hat\theta\tilde D_i).
+\begin{gathered}
+\widehat{SE}^2=\frac{n^{-1}\sum_i\hat\psi_i^2}{n\hat J^2},\\
+\hat J=n^{-1}\sum_i\tilde D_i^2,\\
+\hat\psi_i=\tilde D_i(\tilde Y_i-\hat\theta\tilde D_i).
+\end{gathered}
 $$
 
 Dependence or clustered assignment needs an appropriate extension. None of these calculations measures uncertainty from omitted confounding.

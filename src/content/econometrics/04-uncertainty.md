@@ -68,9 +68,11 @@ $$
 The persistent bias is $b$. An analyst mistakenly reports the ordinary mean interval as an interval for $\theta$. Its actual coverage is
 
 $$
+\begin{aligned}
 P(\theta\in C)
-=\Phi\left(z_{0.975}-\frac{b\sqrt n}{\sigma}\right)
--\Phi\left(-z_{0.975}-\frac{b\sqrt n}{\sigma}\right),
+&=\Phi\left(z_{0.975}-\frac{b\sqrt n}{\sigma}\right)\\
+&\quad-\Phi\left(-z_{0.975}-\frac{b\sqrt n}{\sigma}\right),
+\end{aligned}
 $$
 
 where $\Phi$ is the standard normal cumulative distribution function.
@@ -93,11 +95,12 @@ for n in (25, 100, 400):
 Heteroskedasticity allows the error variance to differ across observations. For independent, identically distributed observations, let $\mathbf x_i$ be the regressor vector and $u_i$ the population projection error. The conditional error variance can still vary with $\mathbf x_i$. If the relevant moments exist, $Q=E[\mathbf x_i\mathbf x_i']$ is nonsingular, and a suitable central limit theorem applies,
 
 $$
+\begin{gathered}
 \sqrt n(\widehat{\boldsymbol\beta}-\boldsymbol\beta)
 \xrightarrow{d}
-N(0,Q^{-1}\Omega Q^{-1}),
-\quad
+N(0,Q^{-1}\Omega Q^{-1}),\\
 \Omega=E[\mathbf x_i\mathbf x_i'u_i^2].
+\end{gathered}
 $$
 
 The sample counterpart is the heteroskedasticity-robust sandwich variance estimator. Its job is to estimate sampling variance under unequal variances. It does not correct selection, measurement error, or omitted-variable bias. The [constant-variance panel](/teaching/ols-assumptions/#a5-homoskedasticity) of the OLS assumptions lab shows how far the conventional standard error can understate the spread of a slope when error variance grows with a skewed regressor.
@@ -105,12 +108,13 @@ The sample counterpart is the heteroskedasticity-robust sandwich variance estima
 Employees within an office may share shocks. A cluster-robust calculation aggregates score contributions within office:
 
 $$
+\begin{aligned}
 \widehat{\operatorname{Var}}(\widehat{\boldsymbol\beta})
-=(\mathbf X'\mathbf X)^{-1}
-\left(\sum_{g=1}^G\mathbf S_g\mathbf S_g'\right)
-(\mathbf X'\mathbf X)^{-1},
-\qquad
-\mathbf S_g=\sum_{i\in g}\mathbf x_i\widehat u_i.
+&=(\mathbf X'\mathbf X)^{-1}
+\left(\sum_{g=1}^G\mathbf S_g\mathbf S_g'\right)\\
+&\qquad\times(\mathbf X'\mathbf X)^{-1},\\
+\mathbf S_g&=\sum_{i\in g}\mathbf x_i\widehat u_i.
+\end{aligned}
 $$
 
 This displays the uncorrected form; software often adds finite-sample adjustments. The standard justification requires sufficiently many independent clusters and conditions preventing a few clusters from dominating. A large employee count cannot substitute for those conditions. The lab's [independent-errors panel](/teaching/ols-assumptions/#a4-independence) shows the analogous failure for serially correlated errors: the slope stays centered while the conventional standard error understates its spread.

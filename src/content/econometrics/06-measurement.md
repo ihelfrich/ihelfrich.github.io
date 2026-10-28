@@ -28,9 +28,11 @@ $$
 Assume the outcome obeys $Y=\beta D+\varepsilon$. Require finite second moments, $\operatorname{Var}(D)>0$, and
 
 $$
+\begin{gathered}
 \operatorname{Cov}(D,\varepsilon)=0,\qquad
-\operatorname{Cov}(D,\eta)=0,\qquad
+\operatorname{Cov}(D,\eta)=0,\\
 \operatorname{Cov}(\eta,\varepsilon)=0.
+\end{gathered}
 $$
 
 These are classical-error restrictions relevant to this single-regressor linear calculation. The population regression slope using the recorded variable is
@@ -73,8 +75,8 @@ $$
 \begin{aligned}
 E\left[\frac{SY}{\pi(X)}\right]
 &=E\left[\frac{E[SY\mid X]}{\pi(X)}\right]\\
-&=E\left[\frac{\pi(X)E[Y\mid X]}{\pi(X)}\right]
-=E[Y].
+&=E\left[\frac{\pi(X)E[Y\mid X]}{\pi(X)}\right]\\
+&=E[Y].
 \end{aligned}
 $$
 

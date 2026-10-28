@@ -34,16 +34,20 @@ Monotonicity leaves always-participants, never-participants, and compliers. A co
 Write $\tau=Y(1)-Y(0)$. Randomization and exclusion give
 
 $$
-E[Y\mid Z=1]-E[Y\mid Z=0]
-=E[(D(1)-D(0))\tau].
+\begin{aligned}
+&E[Y\mid Z=1]-E[Y\mid Z=0]\\
+&\quad=E[(D(1)-D(0))\tau].
+\end{aligned}
 $$
 
 For a binary choice, changing participation changes output by $\tau$; unchanged participation contributes zero. Similarly, the first-stage difference is $E[D(1)-D(0)]$. Under monotonicity, this difference equals the complier share. Therefore the **Wald estimand** is
 
 $$
-\frac{E[Y\mid Z=1]-E[Y\mid Z=0]}
-{E[D\mid Z=1]-E[D\mid Z=0]}
-=E[\tau\mid D(1)>D(0)].
+\begin{aligned}
+&\frac{E[Y\mid Z=1]-E[Y\mid Z=0]}
+{E[D\mid Z=1]-E[D\mid Z=0]}\\
+&\quad=E[\tau\mid D(1)>D(0)].
+\end{aligned}
 $$
 
 This is the local average treatment effect, or LATE. In the example, 40% are compliers, 20% always participate, and 40% never participate. Compliers gain 20 units on average. Effects for the other groups remain unknown. A compulsory-training policy may consequently have an effect very different from 20.
@@ -61,9 +65,10 @@ when the denominator is nonzero. This constant-effect formulation and the hetero
 With a regressor vector $X_i$, an instrument vector $Z_i$, and parameter vector $\theta$, generalized method of moments starts from $E[Z_i(Y_i-X_i'\theta)]=0$. Define
 
 $$
-\bar g_n(\theta)=\frac1n\sum_i Z_i(Y_i-X_i'\theta),
-\qquad
+\begin{gathered}
+\bar g_n(\theta)=\frac1n\sum_i Z_i(Y_i-X_i'\theta),\\
 \hat\theta=\arg\min_\theta \bar g_n(\theta)'W_n\bar g_n(\theta).
+\end{gathered}
 $$
 
 $W_n$ is a positive-definite weighting matrix. Identification requires sufficient rank in $E[Z_iX_i']$. Consistency of $\hat\theta$ as an estimator also requires valid moments, suitable sampling conditions, and convergence of the criterion. Two-stage least squares is one familiar linear implementation. Additional moments permit specification tests under further regularity conditions. Passing such a test does not establish that every instrument satisfies exclusion.
