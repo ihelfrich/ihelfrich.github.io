@@ -55,7 +55,7 @@ const isChapter = (await getCollection('econometrics')).some((chapter) => path =
     </header>
     <main id="main-content">
       <slot />
-      {isChapter && <div class="ea-reading-grid ea-help-row"><aside class="ea-help" aria-label="Tutoring"><p>Ian Helfrich tutors econometrics one-to-one, for students taking a course and for researchers designing a study. To work through this chapter with him, <a href="/book/#tutoring-intro" data-goatcounter-click="course-tutoring-intro">book a 20-minute intro call</a>; the <a href="/teaching/">teaching page</a> lists the subjects he covers and the kinds of support.</p></aside></div>}
+      {isChapter && <div class="ea-reading-grid ea-help-row" data-pagefind-ignore><aside class="ea-help" aria-label="Tutoring"><p>Ian Helfrich tutors econometrics one-to-one, for students taking a course and for researchers designing a study. To arrange sessions on this chapter, start with a <a href="/book/#tutoring-intro" data-goatcounter-click="course-tutoring-intro">20-minute intro call</a>; the <a href="/teaching/">teaching page</a> lists the subjects he covers and the kinds of support.</p></aside></div>}
     </main>
     <footer class="ea-footer">
       <div><strong>The Econometric Argument</strong><p>Applied work. Explicit assumptions. Consequences you can explain.</p></div>
