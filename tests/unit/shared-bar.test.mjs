@@ -1,17 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { PRIMARY, CONTACT, withSlash } from "../../src/data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK, withSlash } from "../../src/data/navigation.mjs";
 
 // The links SiteBar.astro renders, in order: the sections, the map, then booking and contact.
 const sections = [...PRIMARY.map(({ href }) => withSlash(href)), "/field/"];
 
-test("the static Market Mechanics page carries the shared bar's section links and Contact", async () => {
+test("the static Market Mechanics page carries the shared bar's links, booking and Contact, without redirects", async () => {
   const html = await readFile("public/teaching/market-mechanics/index.html", "utf8");
   const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)?.[0] ?? "";
   const hrefs = [...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href).filter((href) => href !== "/");
-  // The static page has no Book link yet; it is compared on the routes it does carry.
-  assert.deepEqual(hrefs.map(withSlash), [...sections, withSlash(CONTACT.href)]);
+  assert.deepEqual(hrefs, [...sections, withSlash(BOOK.href), withSlash(CONTACT.href)]);
+  assert.match(nav, new RegExp(`<a href="${withSlash(BOOK.href)}">${BOOK.label}</a>`), "the booking link carries the shared label");
 });
 
 test("the St. Louis lab links home, to the Lab, the map, and contact", async () => {
