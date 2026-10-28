@@ -114,7 +114,7 @@ revenue &lt;- <i>price</i> * quantity
       label?.setAttribute("x", String(Math.min(445, x + 15))); label?.setAttribute("y", String(Math.max(24, y - 11)));
       if (label) label.textContent = `P $${state.price} / Q ${state.quantity}`;
       if (graphDescription) graphDescription.textContent = `Quantity equals ninety minus two times price. The current point is price ${state.price} and quantity ${state.quantity}.`;
-      relay.style.setProperty("--relay-progress", `${(state.price - 10) / 25 * 100}%`);
+      input.style.setProperty("--relay-progress", `${(state.price - 10) / 25 * 100}%`);
       const summary = `At ${money(state.price)}, quantity demanded is ${state.quantity} units, revenue is ${money(state.revenue)}, and point elasticity is −${Math.abs(state.elasticity).toFixed(2)}.`;
       const summaryEl = one("[data-relay-summary]");
       if (summaryEl) summaryEl.textContent = summary;
@@ -143,9 +143,32 @@ revenue &lt;- <i>price</i> * quantity
 </script>
 
 <style>
-  .relay-control { width: min(100%, 28rem); }
-  .relay-control input[type="range"] { min-height: 44px; width: 100%; }
-  .relay-control button { min-height: 44px; }
+  /* instrument.css styles the relay for a full-width dark band. Here the figure sits in the
+     aperture's figure column (about 600 to 760 px wide on a desktop), and the controls sit on the
+     light page below it, so both are restyled for that setting. */
+  .relay { padding: clamp(1rem, 2.4vw, 2rem); }
+  .relay-cell { padding: clamp(1rem, 1.8vw, 1.6rem); }
+  .relay-sentence p { font-size: clamp(1.15rem, 1.6vw, 1.5rem); }
+  .relay-equation > div { font-size: clamp(1.3rem, 2.2vw, 2rem); line-height: 1.15; }
+  .relay-graph svg { min-height: 300px; }
+  @media (min-width: 761px) {
+    .relay-stage { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  }
+  @media (max-width: 760px) {
+    .relay-graph svg { height: auto; min-height: 0; }
+  }
+  .relay-control { width: min(100%, 28rem); min-height: 0; padding: 0; border: 0; color: var(--ef-ink); }
+  .relay-control-top { min-height: 0; padding-bottom: 0.5rem; align-items: baseline; color: color-mix(in srgb, var(--ef-ink) 65%, transparent); border-bottom-color: color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); font-size: 0.68rem; }
+  .relay-control-top output { color: var(--ef-ink); font-size: 2rem; }
+  .relay-control label { margin: 1rem 0 0.25rem; color: var(--ef-ink); font-size: 0.9rem; }
+  .relay-control input[type="range"] { min-height: 44px; width: 100%; background: linear-gradient(90deg, var(--ih-blue) 0 var(--relay-progress, 40%), color-mix(in srgb, var(--ef-ink) 25%, var(--ef-paper)) var(--relay-progress, 40%) 100%) center / 100% 3px no-repeat; }
+  .relay-control .relay-scale { margin-top: 0; color: color-mix(in srgb, var(--ef-ink) 65%, transparent); font-size: 0.68rem; }
+  .relay-control dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1rem; margin: 1rem 0; }
+  .relay-control dl div { border-top-color: color-mix(in srgb, var(--ef-ink) 18%, var(--ef-paper)); }
+  .relay-control dt { color: color-mix(in srgb, var(--ef-ink) 65%, transparent); font-size: 0.68rem; }
+  .relay-control dd { color: var(--ef-ink); font-size: 0.85rem; }
+  .relay-control button { min-height: 44px; color: var(--ef-ink); border-color: color-mix(in srgb, var(--ef-ink) 45%, var(--ef-paper)); font-size: 0.72rem; }
+  .relay-control button:hover { color: var(--surface-raised); }
   .relay :is(strong, b, [data-relay-point], [data-relay-guide-x], [data-relay-guide-y]) { transition-duration: var(--ef-motion-fast); transition-property: color, fill, stroke, transform; transition-timing-function: var(--ef-ease-standard); }
   .relay.is-resolving :is(strong, b) { color: var(--ef-signal); }
   .relay.is-resolving [data-relay-point] { fill: var(--ef-signal); }
