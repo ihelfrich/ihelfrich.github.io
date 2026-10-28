@@ -131,3 +131,5 @@ No. Trial-participation positivity fails for those roles. A target-wide effect r
 ## Further reading
 
 [Hansen's Econometrics](https://users.ssc.wisc.edu/~behansen/econometrics/) supplies likelihood and dependent-data foundations. Keep the conformal and transport references beside their assumptions: a portable algorithm does not imply a portable guarantee.
+
+[Time-Series Econometrics](/time-series/) carries dependent data through fifteen lectures, from persistence and ARMA models to forecasting, state-space filtering, cointegration, and volatility.
