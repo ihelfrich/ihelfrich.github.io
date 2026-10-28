@@ -163,7 +163,7 @@ else:
                      'src/pages/handbook/[slug].astro','src/pages/handbook/print.astro','scripts/build-handbook-release.py',
                      'src/components/handbook/AlertWorlds.astro','src/lib/handbook-worlds.mjs','src/scripts/handbook-worlds.ts',
                      'src/components/handbook/MeasurementWorlds.astro','src/lib/handbook-measurement.mjs','src/scripts/handbook-measurement.ts',
-                     'src/components/handbook/ClockAudit.astro','src/lib/handbook-clocks.mjs','src/scripts/handbook-clocks.ts']:
+                     'src/components/handbook/ClockAudit.astro','src/lib/handbook-clocks.mjs','src/scripts/handbook-clocks.ts','src/scripts/course-scroll.ts']:
             z.write(SITE/name,name)
     print(json.dumps({p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                       for p in DOWNLOADS.iterdir()},indent=2))
