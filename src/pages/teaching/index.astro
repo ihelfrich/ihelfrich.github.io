@@ -4,7 +4,7 @@ import "../../styles/teaching-studio.css";
 import CourseFeature from "../../components/econometrics/CourseFeature.astro";
 import RepresentationRelay from "../../components/RepresentationRelay.astro";
 import Portrait from "../../components/Portrait.astro";
-import { picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
+import { bookingLinks, picturesOfInferenceRecord, publicLinks, teachingRecognition, tutoringRecord } from "../../data/public-record.mjs";
 
 const institutions = [
   {
@@ -42,6 +42,9 @@ const subjectFamilies = [
   ["Business, strategy & marketing", "Managerial economics, finance, quantitative marketing, and decision analysis."],
   ["GIS & public data", "Spatial reasoning, remote sensing, QGIS, policy data, and geographic evidence."],
 ] as const;
+
+const introCall = bookingLinks.find(({ id }) => id === "tutoring-intro");
+const session = bookingLinks.find(({ id }) => id === "tutoring-session");
 ---
 
 <Base
@@ -54,8 +57,11 @@ const subjectFamilies = [
     <div class="teaching-hero__copy">
       <p class="record-label">Economics and quantitative methods</p>
       <h1>Teaching</h1>
-      <p>I teach economics, statistics, econometrics, programming, and research design. My work ranges from foundational instruction to advising doctoral researchers and executives on empirical design, analysis, and communication.</p>
-      <div class="teaching-entry-actions"><a href="/economics-practice/">Economics practice <span aria-hidden="true">↗</span></a><a href="/econometrics/">Open the course <span aria-hidden="true">↗</span></a><a href="/teaching/distributions/">Distribution Lab <span aria-hidden="true">↗</span></a><a href="/macroeconomics/">Macroeconomics lab <span aria-hidden="true">↗</span></a><a href="/calculus/">Calculus in motion <span aria-hidden="true">↗</span></a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a><a href="/book#tutoring-intro">Book a tutoring call <span aria-hidden="true">→</span></a></div>
+      <p>I teach economics, statistics, econometrics, and research design, together with Stata, Python, and SQL, to students, doctoral researchers, professionals, and executives. Engagements range from focused tutoring to ongoing coaching on a dissertation or research project.</p>
+      <p>Sessions last {session?.minutes} minutes and take place over Zoom, at times shown in your own time zone. If we have not worked together, the first step is a {introCall?.minutes}-minute intro call about the subject, your goals, and how sessions would work.</p>
+      <div class="teaching-entry-actions"><a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call <span aria-hidden="true">→</span></a><a href="/contact/">Send a question first</a></div>
+      <p class="teaching-standing"><span>Wyzant rating {tutoringRecord.wyzant.rating} of 5</span> · <span>{tutoringRecord.wyzant.hoursProse} platform-recorded hours as of {tutoringRecord.wyzant.asOf}</span> · <a href={publicLinks.wyzant} target="_blank" rel="noopener">Wyzant profile <span aria-hidden="true">↗</span></a></p>
+      <nav class="teaching-entry-materials" aria-label="Open courses and teaching tools"><span>Open courses and tools</span><a href="/econometrics/">The Econometric Argument</a><a href="/time-series/">Time-Series Econometrics</a><a href="/handbook/">Econometrics Across Disciplines</a><a href="/economics-practice/">Economics practice</a><a href="/teaching/distributions/">Distribution Lab</a><a href="/macroeconomics/">Macroeconomics suite</a><a href="/calculus/">Calculus in motion</a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a></nav>
     </div>
     <div class="teaching-hero__side">
       <figure class="teaching-portrait">
@@ -67,19 +73,60 @@ const subjectFamilies = [
     </div>
   </section>
 
-  <nav class="page-guide route-shell" aria-label="Teaching page guide"><span>On this page</span><a href="#course-start">Open course</a><a href="#teaching-relay">Try a demonstration</a><a href="#coaching">Coaching</a><a href="#teaching-record">Teaching record</a></nav>
-  <div id="course-start"><CourseFeature /></div>
+  <nav class="page-guide route-shell" aria-label="Teaching page guide"><span>On this page</span><a href="#course-start">Open courses</a><a href="#teaching-record">Teaching record</a><a href="#coaching">Tutoring and coaching</a><a href="#teaching-relay">Try a demonstration</a><a href="#capability-libraries">Public materials</a></nav>
+  <div id="course-start">
+    <CourseFeature />
+    <section class="course-companions route-shell" aria-labelledby="course-companions-title" data-rail-label="Open courses">
+      <h2 id="course-companions-title" class="sr-only">Two further open courses</h2>
+      <article>
+        <p class="source-line">Graduate course · First edition</p>
+        <h3><a href="/time-series/">Time-Series Econometrics</a></h3>
+        <p>Fifteen lectures from stationary processes and ARMA models to state-space models, cointegration, and conditional volatility, with complete derivations, lecture decks, worked practice, three semester projects, and executable code in R, Julia, and Python.</p>
+        <a href="/time-series/01-information/">Begin with lecture 1 →</a>
+        <a href="/time-series/lectures/">Lecture decks →</a>
+      </article>
+      <article>
+        <p class="source-line">Working handbook · Three completed chapters</p>
+        <h3><a href="/handbook/">Econometrics Across Disciplines</a></h3>
+        <p>Foundation chapters on economic questions and interventions, measurement, and observation clocks, each written as complete proofs at four marked reading levels and checked independently in Python, Julia, and R.</p>
+        <a href="/handbook/01-questions/">Read chapter 1 →</a>
+      </article>
+    </section>
+  </div>
 
-  <section class="relay-section route-band" data-rail-label="Representation relay">
+  <section id="teaching-record" class="institutional-record route-band" data-rail-label="Institutional record">
     <div class="route-shell route-shell--compact">
       <header class="section-intro">
         <div>
-          <p class="record-label">Live teaching demonstration</p>
-          <h2>One relationship, five representations</h2>
+          <p class="record-label">Institutional teaching record</p>
+          <h2>Classrooms, executive education, and online instruction</h2>
         </div>
-        <p>The same demand relationship in words, algebra, a table, a graph, and code.</p>
+        <p>Instructor of record and teaching assistant at Georgia Tech, graduate teaching assistant at Indiana University, teaching support in Duke's Global Executive MBA program, and online instruction for Campus / MTI College.</p>
       </header>
-      <details class="content-disclosure" id="teaching-relay"><summary><span>Demand example</span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><RepresentationRelay /></div></details>
+      <div class="recognition-pair">
+        <article>
+          <p class="source-line">{teachingRecognition.evidenceLabel}</p>
+          <h3>{teachingRecognition.award}, {teachingRecognition.year}</h3>
+        </article>
+        <article>
+          <p class="source-line">Teaching evaluations</p>
+          <h3><a href={teachingRecognition.evaluations.href}>Georgia Tech course-evaluation report (CIOS), {teachingRecognition.evaluations.year}</a></h3>
+          <p>Percentile ranks of student ratings for my instruction, as instructor and as teaching assistant, within Georgia Tech's School of Economics (PDF, three pages).</p>
+        </article>
+      </div>
+      <details class="content-disclosure"><summary><span>Appointments, 2015–2023</span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><div class="chronology">
+        {institutions.map((entry) => (
+          <article data-fieldbook-reveal>
+            <time>{entry.years}</time>
+            <div>
+              <h3>{entry.institution}</h3>
+              <p class="role-line">{entry.role}</p>
+              <p>{entry.detail}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      </div></details>
     </div>
   </section>
 
@@ -105,7 +152,8 @@ const subjectFamilies = [
         <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours, separate from Wyzant.</p>
       </article>
     </div>
-    <details class="content-disclosure"><summary><span>Subjects and kinds of support<small>From focused tutoring to ongoing research-design coaching</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><p class="practice-range">I work with students, doctoral researchers, professionals, and executives. Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. Engagements range from focused tutoring to ongoing quantitative research-design coaching.</p>
+    <p class="practice-range">Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. <a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a></p>
+    <details class="content-disclosure"><summary><span>Subject families<small>What each area of tutoring covers</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body">
     <div class="subject-families" aria-label="Teaching subject families">
       {subjectFamilies.map(([title, detail]) => (
         <article>
@@ -137,39 +185,16 @@ const subjectFamilies = [
     </div></details>
   </section>
 
-  <section id="teaching-record" class="institutional-record route-band" data-rail-label="Institutional record">
+  <section class="relay-section route-band" data-rail-label="Representation relay">
     <div class="route-shell route-shell--compact">
       <header class="section-intro">
         <div>
-          <p class="record-label">Institutional chronology</p>
-          <h2>Classrooms, executive education, and online instruction</h2>
+          <p class="record-label">Live teaching demonstration</p>
+          <h2>One relationship, five representations</h2>
         </div>
-
+        <p>The same demand relationship in words, algebra, a table, a graph, and code.</p>
       </header>
-      <details class="content-disclosure"><summary><span>Appointments, awards, and evaluations</span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><div class="chronology">
-        {institutions.map((entry) => (
-          <article data-fieldbook-reveal>
-            <time>{entry.years}</time>
-            <div>
-              <h3>{entry.institution}</h3>
-              <p class="role-line">{entry.role}</p>
-              <p>{entry.detail}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-      <div class="recognition-pair">
-        <article>
-          <p class="source-line">Award</p>
-          <h3>{teachingRecognition.award}, {teachingRecognition.year}</h3>
-        </article>
-        <article>
-          <p class="source-line">Teaching evaluations</p>
-          <h3>Georgia Tech course-evaluation record, {teachingRecognition.evaluations.year}</h3>
-          <a href={teachingRecognition.evaluations.href}>View source PDF →</a>
-        </article>
-      </div>
-      </div></details>
+      <details class="content-disclosure" id="teaching-relay"><summary><span>Demand example</span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body"><RepresentationRelay /></div></details>
     </div>
   </section>
 
@@ -210,6 +235,17 @@ const subjectFamilies = [
         <a href={picturesOfInferenceRecord.href}>Project record →</a>
       </article>
       <article>
+        <p class="source-line">Statistics · econometrics · economics · calculus</p>
+        <h3>Interactive teaching tools</h3>
+        <p>Probability distributions and test power, the classical assumptions of least squares, supply and demand, macroeconomic growth and policy models, calculus, and experiments in econometric reasoning.</p>
+        <a href="/teaching/distributions/">Distribution Lab →</a>
+        <a href="/teaching/ols-assumptions/">The seven classical assumptions of OLS →</a>
+        <a href="/teaching/market-mechanics/">Market Mechanics Lab →</a>
+        <a href="/macroeconomics/">Macroeconomics suite →</a>
+        <a href="/calculus/">Calculus in motion →</a>
+        <a href="/econometrics/lab/">Econometrics experiments →</a>
+      </article>
+      <article>
         <p class="source-line">Open supporting resources</p>
         <h3>Teaching notes and statistical software references</h3>
         <p>Public notes, examples, and reference material organized around reusable concepts and workflows.</p>
@@ -225,8 +261,9 @@ const subjectFamilies = [
     </div>
     <div>
       <p>I am available for advanced tutoring, quantitative research-design coaching, curriculum and learning-system work, and institutional teaching.</p>
-      <a class="fieldbook-action" href="/contact">Ask about teaching or coaching</a>
-      <a class="text-route" href="/cv#teaching">View the full teaching record →</a>
+      <a class="fieldbook-action" href="/contact/">Ask about teaching or coaching</a>
+      <a class="text-route" href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a>
+      <a class="text-route" href="/cv/#teaching">View the full teaching record →</a>
     </div>
   </section>
 </Base>
@@ -277,6 +314,14 @@ const subjectFamilies = [
   .recognition-pair article { padding: var(--ef-space-5); }
   .recognition-pair article + article { border-left: 1px solid var(--ef-ink); }
   .recognition-pair h3 { margin: 0; }
+  .recognition-pair p:not(.source-line) { max-width: 52ch; margin: 0.8rem 0 0; }
+  .institutional-record .recognition-pair + .content-disclosure { margin-top: var(--ef-space-5); }
+  .course-companions { display: grid; padding-block: 0 var(--ef-space-6); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ef-space-5); }
+  .course-companions article { padding: var(--ef-space-5); border: 1px solid var(--ef-ink); }
+  .course-companions h3 { margin: 0 0 0.75rem; font-size: clamp(1.45rem, 2.4vw, 2rem); }
+  .course-companions h3 a { color: inherit; }
+  .course-companions article > p:not(.source-line) { max-width: 60ch; }
+  .course-companions article > a { display: inline-block; margin: 0.4rem 1.25rem 0 0; font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
   /* The register is a grid of separate rounded cards (content-clarity.css); the ruled table borders it once had would cut across their corners. */
   .system-register { display: grid; margin-top: var(--ef-space-6); grid-template-columns: repeat(2, 1fr); }
   .system-register article { padding: var(--ef-space-5); }
@@ -296,7 +341,8 @@ const subjectFamilies = [
     .section-intro { grid-template-columns: 1fr; }
     .subject-families { grid-template-columns: repeat(2, 1fr); }
     .coaching-sequence { grid-template-columns: repeat(2, 1fr); }
-    .system-register { grid-template-columns: 1fr; }
+    .system-register,
+    .course-companions { grid-template-columns: 1fr; }
     .teaching-close > div:first-child { grid-column: 1 / span 5; }
     .teaching-close > div:last-child { grid-column: 6 / span 3; }
   }
