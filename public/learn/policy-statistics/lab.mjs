@@ -1,7 +1,13 @@
 import { challenges, checkPrediction } from "./challenges.mjs";
 import {
+  balanceAround,
   groupedCounts,
+  groupedStart,
+  groupedWidth,
   groupedSummary,
+  largestVillage,
+  largestVillageFloor,
+  villageCount,
   villageData,
   villageValues,
   villageFrequencies,
@@ -22,13 +28,28 @@ const colors = {
 };
 const fmt = (v, d = 2) =>
   v === null
-    ? "—"
+    ? "none"
     : v.toLocaleString("en-US", {
         minimumFractionDigits: d,
         maximumFractionDigits: d,
       });
+// Facts about the synthetic village table that the copy below repeats.
+const villages = villageCount,
+  half = villages / 2,
+  base = summarize(villageData()),
+  middle = base.median,
+  cumulative = villageFrequencies.map((_, i) =>
+    villageFrequencies.slice(0, i + 1).reduce((a, b) => a + b, 0),
+  ),
+  middleIndex = villageValues.indexOf(middle),
+  groupedTotal = groupedCounts.reduce((a, b) => a + b, 0),
+  people = (v) => fmt(v, 0),
+  // How the original table's villages balance around its median, and the town
+  // size at which the mean would reach the median.
+  balance = balanceAround(villageData(), middle),
+  balancingTown = villages * middle - (base.total - largestVillage);
 const presets = [
-  ["Lecture", [...groupedCounts]],
+  ["Village table", [...groupedCounts]],
   ["Bell", [1, 4, 12, 26, 44, 56, 56, 44, 26, 12, 4, 1]],
   ["Flat", Array(12).fill(30)],
   ["Right tail", [8, 50, 60, 45, 30, 20, 13, 8, 5, 3, 2, 1]],
@@ -37,7 +58,7 @@ const presets = [
 ];
 const defaults = () => ({
   shapes: { choice: 0, counts: [...groupedCounts], selected: 0, edited: false },
-  outlier: { value: 6000 },
+  outlier: { value: largestVillage },
   median: { pairs: 0, selected: -1 },
   spread: { scale: 1 },
   simpson: { a: 90, b: 10 },
@@ -71,7 +92,7 @@ function renderPrediction() {
 const activities = {
   shapes: {
     title: "Give the data a shape.",
-    source: "Lecture histogram · 245 villages to start",
+    source: `Synthetic village table · ${groupedTotal} villages to start`,
     challenge:
       "Draw a long right tail with your finger or mouse. Which side should have the short bars?",
     next: "Choose Flat. Turn it into two peaks. Can you make the mean sit in a valley?",
@@ -80,20 +101,19 @@ const activities = {
   },
   outlier: {
     title: "One village can pull the mean.",
-    source: "Lecture exercise · All 230 villages",
-    challenge:
-      "Before you move it: will bringing the 6,000-person village closer change the mean, the median, or both?",
-    next: "Slide it from 6,000 to 600 and back. Watch the magnified center. Explain why the green marker stays put.",
-    why: "<p>The mean shares the total population equally across 230 villages. Changing one village changes that total.</p><p>The median depends on the two middle positions. Both still contain 450 people, so the median stays at 450.</p>",
-    note: "The large chart keeps the same scale as you move. The ruler below magnifies the center. Only one village changes; the number of villages stays at 230.",
+    source: `Synthetic village table · All ${villages} villages`,
+    challenge: `Before you move it: will bringing the ${people(largestVillage)}-person village closer change the mean, the median, or both?`,
+    next: `Slide it from ${people(largestVillage)} to ${people(largestVillageFloor)} and back. Watch the magnified center. Explain why the green marker stays put.`,
+    why: `<p>The mean shares the total population equally across ${villages} villages. Changing one village changes that total.</p><p>The median depends on the two middle positions. Both still contain ${middle} people, so the median stays at ${middle}.</p>`,
+    note: `The large chart keeps the same scale as you move. The ruler below magnifies the center. Only one village changes; the number of villages stays at ${villages}.`,
   },
   median: {
     title: "Meet in the middle.",
-    source: "Lecture exercise · 230 villages in order",
+    source: `Synthetic village table · ${villages} villages in order`,
     challenge:
       "Cross off one village from the small end and one from the large end. Keep going. Where do the two sides meet?",
     next: "Tap a house to see its population. Why are there two middle villages instead of one?",
-    why: "<p>There are 230 observations: an even number. After crossing off 114 from each end, positions 115 and 116 remain.</p><p>Both have 450 people. Their average is 450, the median of the original 230 villages.</p>",
+    why: `<p>There are ${villages} observations: an even number. After crossing off ${half - 1} from each end, positions ${half} and ${half + 1} remain.</p><p>Both have ${middle} people. Their average is ${middle}, the median of the original ${villages} villages.</p>`,
     note: "Read left to right, then continue on the next row. Each house is one village, not one person. Crossing off is a counting trick; it does not change the dataset.",
   },
   spread: {
@@ -103,7 +123,7 @@ const activities = {
       "Stretch the villages apart without moving the center. If the distances double, what happens to variance? What happens to standard deviation?",
     next: "Pull the spread all the way to zero. Now try twice the original spread. Watch the blue squares grow.",
     why: "<p>Each blue square has area proportional to one squared distance from the mean. Variance averages those squared distances.</p><p>Double every distance: variance becomes four times as large. Standard deviation becomes twice as large, returning to the original units.</p>",
-    note: "Drag toward or away from the center to stretch the outer villages, or use the slider. These seven villages are an illustration, not the lecture exercise. Every village has equal weight. All displayed variances use the population denominator.",
+    note: "Drag toward or away from the center to stretch the outer villages, or use the slider. These seven villages are an illustration. Every village has equal weight. All displayed variances use the population denominator.",
   },
   simpson: {
     title: "Change the mix. Flip the headline.",
@@ -176,7 +196,7 @@ function begin() {
   $("#explain").textContent = "Show me why";
   $("#activity-note").textContent = a.note;
   document
-    .querySelectorAll("[data-activity]")
+    .querySelectorAll(".activities [data-activity]")
     .forEach((b) =>
       b.setAttribute("aria-pressed", String(b.dataset.activity === active)),
     );
@@ -260,9 +280,9 @@ function initShapes() {
 let shapeCoords;
 function drawShapes() {
   const s = state.shapes,
-    lecture = s.choice === 0,
-    start = lecture ? 250 : 0,
-    width = lecture ? 25 : 1,
+    table = s.choice === 0,
+    start = table ? groupedStart : 0,
+    width = table ? groupedWidth : 1,
     end = start + s.counts.length * width,
     chart = $("#shape-chart"),
     c = (shapeCoords = setupChart(chart, 310, [start, end], 70));
@@ -277,8 +297,8 @@ function drawShapes() {
     c,
     ticks,
     [0, 20, 40, 60],
-    lecture ? "Village population (people)" : "Value (illustrative units)",
-    lecture ? "Number of villages" : "Frequency",
+    table ? "Village population (people)" : "Value (illustrative units)",
+    table ? "Number of villages" : "Frequency",
   );
   const barwidth = (c.right - c.left) / s.counts.length;
   s.counts.forEach((v, i) => {
@@ -318,30 +338,30 @@ function drawShapes() {
     metric(
       "Mean ≈",
       fmt(q.mean),
-      lecture ? "people · midpoint estimate" : "midpoint estimate",
+      table ? "people · midpoint estimate" : "midpoint estimate",
       "mean",
     ) +
     metric("Median ≈", fmt(q.median), "within-bin estimate", "median") +
     metric(
       "Standard deviation ≈",
       fmt(q.sd),
-      lecture ? "people" : "illustrative units",
+      table ? "people" : "illustrative units",
     );
   $("#provenance").textContent = s.edited
     ? "Your edited histogram"
-    : lecture
-      ? "Lecture histogram · Original grouped counts"
+    : table
+      ? "Synthetic village table · Original grouped counts"
       : "Illustrative shape · " + presets[s.choice][0];
   const mode =
     q.modalBins.length === bins.length
       ? "All bins are tied"
       : q.modalBins.map((b) => b.join("–")).join(", ");
   $("#math-content").innerHTML =
-    `<p>Mean: multiply each bin midpoint by its count, add those products, and divide by ${q.n}. The median estimate assumes observations are spread evenly within the median bin. Exact individual values cannot be recovered from the histogram.</p><p>Median bin: <strong>${q.medianBin ? q.medianBin.join("–") : "none"}</strong>. Modal bin(s): <strong>${q.n ? mode : "none"}</strong>. Population variance ≈ <strong>${fmt(q.variance)}</strong> ${lecture ? "people²" : "units²"}.</p><div class="table-wrap"><table><thead><tr><th>Bin</th><th>Count</th><th>Midpoint</th></tr></thead><tbody>${bins.map(([a, b], i) => `<tr><td>${a}–${b}</td><td>${s.counts[i]}</td><td>${(a + b) / 2}</td></tr>`).join("")}</tbody></table></div>`;
+    `<p>Mean: multiply each bin midpoint by its count, add those products, and divide by ${q.n}. The median estimate assumes observations are spread evenly within the median bin. Exact individual values cannot be recovered from the histogram.</p><p>Median bin: <strong>${q.medianBin ? q.medianBin.join("–") : "none"}</strong>. Modal bin(s): <strong>${q.n ? mode : "none"}</strong>. Population variance ≈ <strong>${fmt(q.variance)}</strong> ${table ? "people²" : "units²"}.</p><div class="table-wrap"><table><thead><tr><th>Bin</th><th>Count</th><th>Midpoint</th></tr></thead><tbody>${bins.map(([a, b], i) => `<tr><td>${a}–${b}</td><td>${s.counts[i]}</td><td>${(a + b) / 2}</td></tr>`).join("")}</tbody></table></div>`;
 }
 function initOutlier() {
   controls.innerHTML =
-    '<div class="control-row"><label for="outlier-value">Large village</label><input id="outlier-value" type="range" min="600" max="6000" step="25"><output id="outlier-output"></output></div>';
+    `<div class="control-row"><label for="outlier-value">Large village</label><input id="outlier-value" type="range" min="${largestVillageFloor}" max="${largestVillage}" step="25"><output id="outlier-output"></output></div>`;
   stage.innerHTML = svg("outlier-chart", 230, true) + svg("center-chart", 150);
   bindRange("#outlier-value", (v) => (state.outlier.value = v));
   let down = false;
@@ -351,11 +371,10 @@ function initOutlier() {
       c = outlierCoords,
       x = ((e.clientX - r.left) * c.w) / r.width;
     state.outlier.value = Math.max(
-      600,
+      largestVillageFloor,
       Math.min(
-        6000,
-        Math.round((100 + ((x - c.left) / (c.right - c.left)) * 6100) / 25) *
-          25,
+        largestVillage,
+        Math.round((((x - c.left) / (c.right - c.left)) * 5200) / 25) * 25,
       ),
     );
     drawOutlier();
@@ -376,19 +395,20 @@ function drawOutlier() {
     d = villageData(value),
     q = summarize(d),
     el = $("#outlier-chart"),
-    c = (outlierCoords = setupChart(el, 230, [100, 6200], 90)),
-    bins = Array(61).fill(0);
-  d.forEach((v) => bins[Math.floor((v - 200) / 100)]++);
+    c = (outlierCoords = setupChart(el, 230, [0, 5200], 50)),
+    bins = Array(52).fill(0);
+  // Bin i holds populations from 50 + 100i up to 150 + 100i, centred on the table's round values.
+  d.forEach((v) => bins[Math.floor((v - 50) / 100)]++);
   let out = axes(
     c,
-    c.w < 420 ? [1000, 3000, 6000] : [1000, 2000, 3000, 4000, 5000, 6000],
-    [0, 40, 80],
+    c.w < 420 ? [1000, 3000, 5000] : [1000, 2000, 3000, 4000, 5000],
+    [0, 25, 50],
     "Village population (people)",
     "Villages",
   );
   bins.forEach((v, i) => {
     if (v)
-      out += `<rect x="${c.x(200 + i * 100)}" y="${c.y(v)}" width="${Math.max(1, c.x(300 + i * 100) - c.x(200 + i * 100) - 0.5)}" height="${c.bottom - c.y(v)}" fill="${i === Math.floor((value - 200) / 100) && value >= 700 ? colors.orange : colors.blue}"/>`;
+      out += `<rect x="${c.x(50 + i * 100)}" y="${c.y(v)}" width="${Math.max(1, c.x(150 + i * 100) - c.x(50 + i * 100) - 0.5)}" height="${c.bottom - c.y(v)}" fill="${i === Math.floor((value - 50) / 100) && value >= largestVillageFloor + 50 ? colors.orange : colors.blue}"/>`;
   });
   out +=
     line(c.x(value), c.top + 9, c.x(value), c.bottom, colors.orange, "3 4") +
@@ -397,20 +417,27 @@ function drawOutlier() {
   el.innerHTML = out;
   el.setAttribute(
     "aria-label",
-    `230 villages. Largest village ${value}. Mean ${fmt(q.mean)}. Median 450.`,
+    `${villages} villages. Largest village ${value}. Mean ${fmt(q.mean)}. Median ${q.median}.`,
   );
   const ruler = $("#center-chart"),
-    rc = setupChart(ruler, 150, [395, 455], 1);
+    rc = setupChart(ruler, 150, [440, 510], 1);
   let r =
     line(rc.left, 105, rc.right, 105) +
-    text(rc.left, 18, "Mean = balance point · center magnified");
-  [400, 420, 440].forEach(
+    // On a phone the full title runs past the frame; the activity note already says the ruler magnifies the center.
+    text(
+      rc.left,
+      18,
+      rc.w < 420
+        ? "Mean = balance point"
+        : "Mean = balance point · center magnified",
+    );
+  [450, 475, 500].forEach(
     (v) =>
       (r += line(rc.x(v), 105, rc.x(v), 110) + text(rc.x(v), 125, v, "middle")),
   );
   [
     [q.mean, colors.orange, 43, "Mean"],
-    [450, colors.green, 76, "Median"],
+    [q.median, colors.green, 76, "Median"],
   ].forEach(([v, color, y, label]) => {
     r +=
       line(rc.x(v), y, rc.x(v), 105, color, "3 3") +
@@ -428,27 +455,35 @@ function drawOutlier() {
   ruler.innerHTML = r;
   ruler.setAttribute(
     "aria-label",
-    `Magnified center: mean ${fmt(q.mean)}, median 450.`,
+    `Magnified center: mean ${fmt(q.mean)}, median ${q.median}.`,
   );
   $("#outlier-value").value = value;
   $("#outlier-output").textContent = fmt(value, 0);
   $("#provenance").textContent =
-    value === 6000
-      ? "Lecture exercise · All 230 villages"
+    value === largestVillage
+      ? `Synthetic village table · All ${villages} villages`
       : "What-if data · Only one village changed";
   metrics.innerHTML =
     metric("Mean", fmt(q.mean), "people", "mean") +
-    metric("Median", 450, "people", "median") +
+    metric("Median", q.median, "people", "median") +
     metric("Standard deviation", fmt(q.sd), "people");
   $("#math-content").innerHTML =
-    `<p>Total population: ${fmt(q.total, 0)} people. Mean = ${fmt(q.total, 0)} ÷ 230 = ${fmt(q.mean)}. Median = (450 + 450) ÷ 2 = 450.</p><p>Population variance = sum of squared distances from the mean ÷ 230 = ${fmt(q.variance)} people². Standard deviation = square root of variance = ${fmt(q.sd)} people.</p><p>A long right tail does not guarantee that the mean exceeds the median. The original data are a counterexample: 423.48 is below 450.</p>${villageTable(value)}`;
+    `<p>Total population: ${fmt(q.total, 0)} people. Mean = ${fmt(q.total, 0)} ÷ ${villages} = ${fmt(q.mean)}. Median = (${q.median} + ${q.median}) ÷ 2 = ${q.median}.</p><p>Population variance = sum of squared distances from the mean ÷ ${villages} = ${fmt(q.variance)} people². Standard deviation = square root of variance = ${fmt(q.sd)} people.</p>${counterexample}${villageTable(value)}`;
 }
-function villageTable(value = 6000) {
-  return `<div class="table-wrap"><table><thead><tr><th>Population</th><th>Villages</th><th>Cumulative</th></tr></thead><tbody>${villageValues.map((v, i) => `<tr><td>${fmt(i === 9 ? value : v, 0)}</td><td>${villageFrequencies[i]}</td><td>${villageFrequencies.slice(0, i + 1).reduce((a, b) => a + b, 0)}</td></tr>`).join("")}</tbody></table></div>`;
+// Why the original table's mean sits below its median despite the town: the
+// villages below the median fall further short of it than the villages above
+// it, the town included, exceed it.
+const counterexample =
+  base.mean < middle
+    ? `<p>A long right tail does not guarantee that the mean exceeds the median. The original table is a counterexample. Measured from the median of ${middle}, the ${balance.belowCount} villages below it fall a combined ${people(balance.shortfall)} people short of it, while the ${balance.aboveCount} above it, the town included, exceed it by only ${people(balance.excess)}. The ${balance.atCount} villages at exactly ${middle} add nothing. Because the mean is the balance point, the net shortfall of ${people(balance.shortfall - balance.excess)} people, shared across ${villages} villages, places it ${fmt((balance.shortfall - balance.excess) / villages)} below the median, at ${fmt(base.mean)}. The town would need ${people(balancingTown)} people to bring the mean up to the median.</p>`
+    : "";
+function villageTable(value = largestVillage) {
+  const last = villageValues.length - 1;
+  return `<div class="table-wrap"><table><thead><tr><th>Population</th><th>Villages</th><th>Cumulative</th></tr></thead><tbody>${villageValues.map((v, i) => `<tr><td>${fmt(i === last ? value : v, 0)}</td><td>${villageFrequencies[i]}</td><td>${cumulative[i]}</td></tr>`).join("")}</tbody></table></div>`;
 }
 function initMedian() {
   controls.innerHTML =
-    '<div class="pair-actions"><button class="small-button" type="button" data-pairs="1">Cross off 1 pair</button><button class="small-button" type="button" data-pairs="10">Cross off 10 pairs</button></div><div class="control-row"><label for="pairs-value">Pairs crossed off</label><input id="pairs-value" type="range" min="0" max="114" step="1"><output id="pairs-output"></output></div>';
+    `<div class="pair-actions"><button class="small-button" type="button" data-pairs="1">Cross off 1 pair</button><button class="small-button" type="button" data-pairs="10">Cross off 10 pairs</button></div><div class="control-row"><label for="pairs-value">Pairs crossed off</label><input id="pairs-value" type="range" min="0" max="${half - 1}" step="1"><output id="pairs-output"></output></div>`;
   stage.innerHTML =
     svg("median-chart", 350) +
     '<div id="median-status" class="status-line" aria-live="polite"></div>';
@@ -460,7 +495,7 @@ function initMedian() {
     (b) =>
       (b.onclick = () => {
         state.median.pairs = Math.min(
-          114,
+          half - 1,
           state.median.pairs + +b.dataset.pairs,
         );
         state.median.selected = -1;
@@ -475,7 +510,7 @@ function initMedian() {
       col = Math.floor((x - c.left) / c.cell),
       row = Math.floor((y - 18) / c.cell),
       i = row * c.cols + col;
-    if (col >= 0 && col < c.cols && row >= 0 && i < 230) {
+    if (col >= 0 && col < c.cols && row >= 0 && i < villages) {
       state.median.selected = i;
       drawMedian();
     }
@@ -486,10 +521,10 @@ function drawMedian() {
   const s = state.median,
     d = villageData(),
     w = Math.max(260, stage.clientWidth),
-    cols = w < 440 ? 10 : 23,
+    cols = w < 440 ? 10 : 20,
     left = 34,
     cell = (w - left - 4) / cols,
-    rows = Math.ceil(230 / cols),
+    rows = Math.ceil(villages / cols),
     h = rows * cell + 25;
   medianCoords = { w, h, cols, left, cell };
   const el = $("#median-chart");
@@ -499,11 +534,11 @@ function drawMedian() {
   for (let row = 0; row < rows; row++)
     out += text(left - 7, 18 + row * cell + cell * 0.66, 1 + row * cols, "end");
   d.forEach((v, i) => {
-    const crossed = i < s.pairs || i >= 230 - s.pairs,
+    const crossed = i < s.pairs || i >= villages - s.pairs,
       x = left + (i % cols) * cell,
       y = 18 + Math.floor(i / cols) * cell,
       size = cell - 3,
-      middle = s.pairs === 114 && !crossed;
+      middle = s.pairs === half - 1 && !crossed;
     out += `<g opacity="${crossed ? 0.12 : 1}" class="${middle ? "middle-house" : ""}"><title>Position ${i + 1}: ${fmt(v, 0)} people</title>${house(x + size / 2, y + size, size, middle ? colors.green : colors.blue)}</g>`;
     if (s.selected === i)
       out += `<rect x="${x - 1}" y="${y - 1}" width="${size + 2}" height="${size + 2}" fill="none" stroke="${colors.orange}" stroke-width="2"/>`;
@@ -513,27 +548,27 @@ function drawMedian() {
   el.innerHTML = out;
   el.setAttribute(
     "aria-label",
-    `Sorted village grid. ${230 - 2 * s.pairs} remain after crossing off ${s.pairs} pairs.`,
+    `Sorted village grid. ${villages - 2 * s.pairs} remain after crossing off ${s.pairs} pairs.`,
   );
   $("#pairs-value").value = s.pairs;
-  $("#pairs-output").textContent = s.pairs + " / 114";
+  $("#pairs-output").textContent = `${s.pairs} / ${half - 1}`;
   controls
     .querySelectorAll("[data-pairs]")
-    .forEach((b) => (b.disabled = s.pairs === 114));
+    .forEach((b) => (b.disabled = s.pairs === half - 1));
   const status = $("#median-status");
-  status.className = s.pairs === 114 ? "center-answer" : "status-line";
+  status.className = s.pairs === half - 1 ? "center-answer" : "status-line";
   status.textContent =
     s.selected >= 0
       ? `Position ${s.selected + 1}: ${fmt(d[s.selected], 0)} people`
-      : s.pairs === 114
-        ? "450 + 450, divided by 2. The median is 450."
-        : `${230 - 2 * s.pairs} villages remain. Ends: ${fmt(d[s.pairs], 0)} and ${fmt(d[229 - s.pairs], 0)} people.`;
+      : s.pairs === half - 1
+        ? `${d[half - 1]} + ${d[half]}, divided by 2. The median is ${middle}.`
+        : `${villages - 2 * s.pairs} villages remain. Ends: ${fmt(d[s.pairs], 0)} and ${fmt(d[villages - 1 - s.pairs], 0)} people.`;
   metrics.innerHTML =
-    metric("Starting villages", 230) +
+    metric("Starting villages", villages) +
     metric("Crossed off", s.pairs * 2) +
-    metric("Still visible", 230 - s.pairs * 2);
+    metric("Still visible", villages - s.pairs * 2);
   $("#math-content").innerHTML =
-    "<p>For 230 sorted observations, the two middle positions are 230 ÷ 2 = 115 and 116. The cumulative counts reach 100 at population 300, and 150 at population 450. Both middle positions therefore have population 450.</p>" +
+    `<p>For ${villages} sorted observations, the two middle positions are ${villages} ÷ 2 = ${half} and ${half + 1}. The cumulative counts reach ${cumulative[middleIndex - 1]} at population ${villageValues[middleIndex - 1]}, and ${cumulative[middleIndex]} at population ${middle}. Both middle positions therefore have population ${middle}.</p>` +
     villageTable();
 }
 function initSpread() {
@@ -695,7 +730,7 @@ function choose(name) {
   begin();
 }
 document
-  .querySelectorAll("[data-activity]")
+  .querySelectorAll(".activities [data-activity]")
   .forEach((b) => (b.onclick = () => choose(b.dataset.activity)));
 $("#reset").onclick = () => {
   delete predictions[active];

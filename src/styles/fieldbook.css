@@ -641,14 +641,18 @@ samp,
   .nav-backdrop[hidden] { display: none; }
 }
 
-@media (max-width: 45rem) {
-  .fieldbook-grid { display: block; width: calc(100% - (2 * var(--ef-edge))); }
-  .fieldbook-margin { margin-top: var(--ef-space-4); }
-
+/* EvidenceAperture places its children in two columns from 58rem. Below that the shell is a
+   single column; otherwise its parts auto-place into the narrow margin track. */
+@media (width < 58rem) {
   .evidence-aperture { grid-template-columns: 1fr; }
   .evidence-aperture__figure,
   .evidence-aperture__margin { grid-column: 1; }
   .evidence-aperture__margin { border-top: 1px solid var(--ef-ink); border-left: 0; }
+}
+
+@media (max-width: 45rem) {
+  .fieldbook-grid { display: block; width: calc(100% - (2 * var(--ef-edge))); }
+  .fieldbook-margin { margin-top: var(--ef-space-4); }
 
   .site-footer-inner { grid-template-columns: 1fr; gap: var(--ef-space-5); }
   .footer-links { grid-template-columns: 1fr 1fr; }

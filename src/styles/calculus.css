@@ -8,6 +8,8 @@ body.calculus-page{--ef-ink:var(--p-neutral-08b);--ef-paper:var(--p-neutral-98);
 .cl-header>div>p{font:400 .95rem/1.55 var(--font-display);margin:0 0 .1rem;max-width:26ch}
 .cl-header-note{max-width:70ch;color:var(--muted);font:400 .83rem/1.6 var(--font-display);margin:1.2rem 0 0}
 [data-calculus]{display:block;padding-top:0;position:relative}
+/* Until the experiments mount, hold a full screen below the header so the references and footer never paint in the first viewport and then jump away. Without scripting the placeholder collapses and the noscript summary follows directly. */
+@media (scripting:enabled){.cl-loading{min-height:100vh;min-height:100svh}}
 [data-calculus] [hidden]{display:none!important}
 [data-calculus] button,[data-calculus] input,[data-calculus] select{font:inherit}
 [data-calculus] button{cursor:pointer;min-height:44px;touch-action:manipulation;transition:background .18s,color .18s,border-color .18s,box-shadow .18s}

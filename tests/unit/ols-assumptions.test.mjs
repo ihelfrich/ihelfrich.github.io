@@ -7,7 +7,9 @@ import {
   fitOls2,
   histogram,
   makeRng,
+  niceTicks,
   readVerdicts,
+  renderFigure,
   runExperiment,
 } from "../../src/lib/ols-assumptions.mjs";
 
@@ -84,13 +86,34 @@ test("with every assumption satisfied the estimator is unbiased and the test has
 });
 
 /**
- * With x uniform on [0,1] the omitted square carries bias exactly equal to the
- * curvature, because Cov(x, x^2) and Var(x) are both 1/12.
+ * The page describes diminishing returns, so the truth must be concave with a
+ * marginal effect that never turns negative on [0, 1]. Fitting the quadratic
+ * on a large sample recovers y = 1 + x - 0.5 x^2 at full strength.
  */
-test("misspecification bias equals the omitted curvature", () => {
+test("the specification truth is concave with a non-negative marginal effect", () => {
+  const sample = GENERATORS.specification(makeRng(7), 40000, 1);
+  const fit = fitOls2(sample.xs, sample.xs.map((x) => x * x), sample.ys);
+  assert.ok(fit);
+  assert.ok(Math.abs(fit.b1 - 1) < 0.05, `linear term ${fit.b1}`);
+  assert.ok(Math.abs(fit.b2 + 0.5) < 0.05, `squared term ${fit.b2}`);
+  assert.ok(fit.b2 < 0, "the curvature must be concave");
+  // Marginal effect b1 + 2 b2 x at the top of the range stays at or above zero.
+  assert.ok(fit.b1 + 2 * fit.b2 > -0.1, `marginal effect at x = 1: ${fit.b1 + 2 * fit.b2}`);
+});
+
+/**
+ * With x uniform on [0,1], Cov(x, x^2) / Var(x) = (1/12) / (1/12) = 1, so the
+ * fitted slope is 1 - 0.5 = 0.5: the linear-term coefficient plus the omitted
+ * squared-term coefficient, which is also the average marginal effect E[1 - x].
+ */
+test("misspecification bias equals the omitted squared-term coefficient", () => {
   const result = runExperiment({ assumption: "specification", strength: 1, n: 200, reps: 1500 });
-  assert.ok(Math.abs(result.bias - 2.4) < 0.05, `bias ${result.bias}`);
+  assert.ok(Math.abs(result.bias + 0.5) < 0.03, `bias ${result.bias}`);
+  assert.ok(Math.abs(result.meanB1 - 0.5) < 0.03, `average estimate ${result.meanB1}`);
   assert.ok(result.sizeConventional > 0.9, `size ${result.sizeConventional}`);
+  const verdict = readVerdicts(result);
+  assert.equal(verdict.centre.state, "broken");
+  assert.match(verdict.reading, /0\.50 below the true coefficient/);
 });
 
 /** Omitted-variable bias is gamma * delta = 1.5 * 0.8 when the regressor is standardised. */
@@ -214,4 +237,134 @@ test("the experiment keeps one hundred whole samples so intervals can be drawn",
     return i.b1 - half > result.trueB1 || i.b1 + half < result.trueB1;
   }).length;
   assert.ok(Math.abs(misses / 100 - result.sizeConventional) < 0.06, `misses ${misses} vs size ${result.sizeConventional}`);
+});
+
+/**
+ * The sentence under the chips must never contradict them. Sweep every panel
+ * across strengths and sample sizes, with and without robust errors.
+ */
+test("the reading agrees with the three chips everywhere on the sliders", () => {
+  for (const assumption of Object.keys(GENERATORS)) {
+    for (const strength of [0, 0.1, 0.25, 0.5, 1]) {
+      for (const n of [10, 20, 60, 200]) {
+        const result = runExperiment({ assumption, strength, n, reps: 500 });
+        for (const robust of [false, true]) {
+          const verdict = readVerdicts(result, { robust });
+          const where = `${assumption} s=${strength} n=${n} robust=${robust}`;
+          const states = [verdict.centre.state, verdict.honesty.state, verdict.size.state];
+          if (/All three readings are clean/.test(verdict.reading)) {
+            assert.deepEqual(states, ["clean", "clean", "clean"], where);
+          }
+          if (/estimate is centred/.test(verdict.reading)) assert.equal(verdict.centre.state, "clean", where);
+          if (verdict.centre.state !== "clean") assert.match(verdict.reading, /average estimate/, where);
+          if (verdict.honesty.state !== "clean" && verdict.centre.state === "clean") {
+            assert.match(verdict.reading, /standard error/, where);
+            assert.doesNotMatch(verdict.reading, /matches the real spread/, where);
+          }
+        }
+      }
+    }
+  }
+});
+
+test("an optimistic standard error with a sound test gets its own reading", () => {
+  const result = {
+    bias: 0,
+    sdB1: 0.135,
+    meanReportedSe: 0.1,
+    meanRobustSe: 0.1,
+    sizeConventional: 0.03,
+    sizeRobust: 0.03,
+    trueB1: 1,
+    reps: 500,
+    intervals: [],
+  };
+  const verdict = readVerdicts(result);
+  assert.equal(verdict.centre.state, "clean");
+  assert.equal(verdict.honesty.state, "warn");
+  assert.equal(verdict.honesty.label, "Optimistic");
+  assert.equal(verdict.honesty.detail, "actual spread is 1.35× the reported error");
+  assert.equal(verdict.size.state, "clean");
+  assert.doesNotMatch(verdict.reading, /All three readings are clean/);
+  assert.match(verdict.reading, /1\.35× as far as the average reported standard error claims/);
+  assert.match(verdict.reading, /keeps its size/);
+  assert.match(verdict.reading, /3 of the hundred intervals drawn miss/);
+});
+
+test("the normality panel at full violation reads as optimistic, not clean", () => {
+  const verdict = readVerdicts(runExperiment({ assumption: "normality", strength: 1, n: 20, reps: 500 }));
+  assert.notEqual(verdict.honesty.state, "clean");
+  assert.equal(verdict.size.state, "clean");
+  assert.doesNotMatch(verdict.reading, /All three readings are clean/);
+});
+
+/**
+ * Under exact 95% coverage the miss count in a hundred intervals is
+ * Binomial(100, 0.05), so a clean panel can show 0 misses (probability about
+ * 0.6%) or 10. The clean reading must hold for any count and must not present
+ * the drawn count itself as the meaning of 95% coverage.
+ */
+test("the clean reading states coverage as an average, whatever the drawn count", () => {
+  const verdict = readVerdicts(runExperiment({ assumption: "noCollinearity", strength: 0, n: 60, reps: 500 }));
+  assert.deepEqual([verdict.centre.state, verdict.honesty.state, verdict.size.state], ["clean", "clean", "clean"]);
+  assert.equal(verdict.misses, 0);
+  assert.match(verdict.reading, /^All three readings are clean\./);
+  assert.match(verdict.reading, /rejects the true null in 4% of the 500 samples, against a promised 5%/);
+  assert.match(verdict.reading, /0 of the hundred intervals drawn miss the truth; 95% coverage means five misses per hundred on average/);
+  assert.doesNotMatch(verdict.reading, /which is what 95% coverage means/);
+  for (const assumption of Object.keys(GENERATORS)) {
+    const clean = readVerdicts(runExperiment({ assumption, strength: 0, n: assumption === "normality" ? 20 : 60, reps: 500 }));
+    if (clean.size.state === "clean" && clean.honesty.state === "clean" && clean.centre.state === "clean") {
+      assert.match(clean.reading, /on average, and the count in any particular hundred varies around that figure\.$/, assumption);
+    }
+  }
+});
+
+test("nice ticks land on round values inside the domain", () => {
+  assert.deepEqual(niceTicks(0.4, 4.2, 4), [1, 2, 3, 4]);
+  assert.deepEqual(niceTicks(-0.2, 1.7, 3), [0, 0.5, 1, 1.5]);
+  assert.deepEqual(niceTicks(0.5, 1.5, 3), [0.5, 1, 1.5]);
+  assert.deepEqual(niceTicks(1, 1, 3), []);
+});
+
+/**
+ * The figure uses one SVG unit per CSS pixel. At phone and desktop widths it
+ * must keep every interval inside its band, below the miss count, and above
+ * the legend, so no line is ever drawn through a label.
+ */
+test("the figure is laid out for its drawn width and keeps the comb inside its band", () => {
+  const result = runExperiment({ assumption: "normality", strength: 1, n: 60, reps: 500 });
+  const verdict = readVerdicts(result);
+  for (const width of [240, 264, 280, 300, 420, 728, 1000]) {
+    const figure = renderFigure(result, { domain: [0.1, 1.9], width });
+    assert.equal(figure.width, width);
+    assert.equal(figure.misses, verdict.misses);
+    const number = (pattern) => Number(figure.markup.match(pattern)[1]);
+    const countY = number(/<text x="[^"]+" y="([^"]+)" class="lab-head lab-head--count"/);
+    const legendY = number(/<text x="[^"]+" y="([^"]+)" class="lab-axis-tick">the truth/);
+    const ciYs = [...figure.markup.matchAll(/y1="([^"]+)" y2="([^"]+)" class="lab-ci/g)]
+      .flatMap((match) => [Number(match[1]), Number(match[2])]);
+    assert.equal(ciYs.length, 200 + 2, `width ${width}: 100 intervals plus the legend swatch`);
+    const comb = ciYs.slice(0, 200);
+    assert.ok(Math.min(...comb) > countY + 4, `width ${width}: interval above the miss count`);
+    assert.ok(Math.max(...comb) < legendY - 12, `width ${width}: interval reaches the legend`);
+    for (const match of figure.markup.matchAll(/<text x="([^"]+)"/g)) {
+      const x = Number(match[1]);
+      assert.ok(x >= 0 && x <= width, `width ${width}: label anchored outside the figure at ${x}`);
+    }
+    // Every label fits inside the frame, at the data face's advance of 0.6 em
+    // (plus 0.06 em tracking on headings).
+    const em = { "lab-head": 12 * 0.66, "lab-axis-tick": 11 * 0.6, "lab-span-label": 12 * 0.6, "lab-flag": 12 * 0.6 };
+    for (const match of figure.markup.matchAll(/<text x="([^"]+)" y="[^"]+" class="([^"]+)"(?: text-anchor="([^"]+)")?>([^<]*)<\/text>/g)) {
+      const [, x, cls, anchor = "start", content] = match;
+      const advance = em[cls.split(" ")[0]];
+      assert.ok(advance, `width ${width}: no advance for ${cls}`);
+      const span = [...content].length * advance;
+      const left = anchor === "end" ? Number(x) - span : anchor === "middle" ? Number(x) - span / 2 : Number(x);
+      assert.ok(left >= -0.5 && left + span <= width + 0.5, `width ${width}: "${content}" runs from ${left} to ${left + span}`);
+    }
+  }
+  assert.equal(renderFigure(result, { domain: [0.1, 1.9], width: 200 }).width, 240);
+  assert.match(renderFigure(result, { domain: [0.1, 1.9], width: 320 }).markup, /Where 500 estimates land/);
+  assert.match(renderFigure(result, { domain: [0.1, 1.9], width: 900 }).markup, /Where five hundred estimates land/);
 });

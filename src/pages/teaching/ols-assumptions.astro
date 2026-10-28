@@ -16,14 +16,14 @@ const assumptions = [
     caption:
       "A quadratic spending relationship fitted with a straight line. The slider controls the omitted curvature.",
     strengthLabel: "Curvature in the true relationship",
-    domain: [0.4, 4.2] as [number, number],
-    method: ["OLS on a quadratic truth", "500-sample Monte Carlo", "true null tested at 5%"],
+    domain: [-0.2, 1.7] as [number, number],
+    method: ["OLS on a concave quadratic truth", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "With this uniform regressor, the difference between the fitted slope and the linear-term coefficient equals the omitted curvature. Other regressor distributions change that relationship.",
+      "In the simulation, spending is uniform on [0, 1], so the fitted slope differs from the linear-term coefficient by exactly the coefficient on the omitted squared term and equals the average marginal effect. For spending uniform on [a, b], Cov(x, x²)/Var(x) = a + b, so the gap is (a + b) times that coefficient. The slope equals the average marginal effect whenever spending is symmetric about its mean; with a skewed regressor the two generally differ.",
     setting:
       "Spending per pupil raises test scores, and the first thousand dollars does more than the tenth. A budget office fits a line and reports a single per-dollar effect.",
     breaks:
-      "The omitted squared term contributes to the fitted slope. At full curvature, the average estimate is 3.4, while the coefficient of the linear term is 1.",
+      "The omitted squared term pulls the fitted slope down. At full curvature the true relationship is y = 1 + x − 0.5x², so the marginal effect falls from 1 at the lowest spending level to 0 at the highest. The average estimate is 0.5, the average of that marginal effect over the sample, against a linear-term coefficient of 1. A single per-dollar figure understates the return to the first dollars and overstates the return to the last.",
     detect:
       "Plot residuals against fitted values and regressors. Systematic curvature can indicate a missing nonlinear term; RESET tests for certain specification errors.",
     fix:
@@ -183,6 +183,15 @@ const assumptions = [
 ];
 
 /**
+ * The two rows of the summary table that report a bias are computed from the
+ * engine at full violation, n = 60, so the table cannot drift from the panels.
+ */
+const signed = (value: number) => `${value < 0 ? "\u2212" : "+"}${Math.abs(value).toFixed(1)}`;
+const fullViolation = (assumption: string) => runExperiment({ assumption, strength: 1, n: 60, reps: 500 });
+const specificationRow = fullViolation("specification");
+const exogeneityRow = fullViolation("exogeneity");
+
+/**
  * Seven thumbnails, each the same experiment at full violation: forty intervals
  * against the truth. The ones that bleed are the ones that cost you an answer.
  */
@@ -239,12 +248,15 @@ const overview = assumptions.map((item) => {
           <strong>How often does a 5% test reject a true null?</strong> A correctly sized test rejects in 5% of repetitions; simulation estimates that frequency with sampling variation.
         </li>
       </ol>
+      <p>
+        Every panel opens with its assumption satisfied. The first slider introduces the violation, and the three readings show which property of the estimate it affects.
+      </p>
 
     </section>
 
     <section class="ols-map" aria-labelledby="what-breaks">
       <h2 id="what-breaks">Simulation results</h2>
-      <div class="ols-table-scroll">
+      <div class="ols-table-scroll" tabindex="0" role="region" aria-label="Simulation results table" data-scroll-region>
         <table>
           <caption>Results at the maximum violation setting.</caption>
           <thead>
@@ -256,9 +268,9 @@ const overview = assumptions.map((item) => {
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">1 · Specification</th><td class="is-bad">No, bias +2.4</td><td>Roughly</td><td class="is-bad">~100%</td></tr>
+            <tr><th scope="row">1 · Specification</th><td class="is-bad">No, bias {signed(specificationRow.bias)}</td><td>Roughly</td><td class="is-bad">{Math.round(specificationRow.sizeConventional * 100)}%</td></tr>
             <tr><th scope="row">2 · Zero-mean error</th><td class="is-good">Yes</td><td class="is-good">Yes</td><td class="is-good">5%</td></tr>
-            <tr><th scope="row">3 · Exogeneity</th><td class="is-bad">No, bias +1.2</td><td>Roughly</td><td class="is-bad">~100%</td></tr>
+            <tr><th scope="row">3 · Exogeneity</th><td class="is-bad">No, bias {signed(exogeneityRow.bias)}</td><td>Roughly</td><td class="is-bad">{Math.round(exogeneityRow.sizeConventional * 100)}%</td></tr>
             <tr><th scope="row">4 · Independence</th><td class="is-good">Yes</td><td class="is-bad">No, understates 6×</td><td class="is-bad">~70%</td></tr>
             <tr><th scope="row">5 · Homoskedasticity</th><td class="is-good">Yes</td><td class="is-bad">No, understates 1.6×</td><td class="is-bad">~22%</td></tr>
             <tr><th scope="row">6 · No collinearity</th><td class="is-good">Yes</td><td class="is-good">Yes</td><td class="is-good">5%</td></tr>
@@ -456,3 +468,17 @@ const overview = assumptions.map((item) => {
     .ols-assumption__body { grid-template-columns: 1fr 1fr; }
   }
 </style>
+
+<script>
+  // The results table scrolls sideways only on narrow screens. It is a tab stop
+  // there, so keyboard users can scroll it, and leaves the tab order when it fits.
+  const region = document.querySelector("[data-scroll-region]");
+  if (region instanceof HTMLElement) {
+    const sync = () => {
+      if (region.scrollWidth > region.clientWidth + 1) region.setAttribute("tabindex", "0");
+      else region.removeAttribute("tabindex");
+    };
+    sync();
+    if ("ResizeObserver" in window) new ResizeObserver(sync).observe(region);
+  }
+</script>
