@@ -57,11 +57,22 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
     <div class="teaching-hero__copy">
       <p class="record-label">Economics and quantitative methods</p>
       <h1>Teaching</h1>
-      <p>I teach economics, statistics, econometrics, and research design, together with Stata, Python, and SQL, to students, doctoral researchers, professionals, and executives. Engagements range from focused tutoring to ongoing coaching on a dissertation or research project.</p>
-      <p>Sessions last {session?.minutes} minutes and take place over Zoom, at times shown in your own time zone. If we have not worked together, the first step is a {introCall?.minutes}-minute intro call about the subject, your goals, and how sessions would work.</p>
-      <div class="teaching-entry-actions"><a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call <span aria-hidden="true">→</span></a><a href="/contact/">Send a question first</a></div>
-      <p class="teaching-standing">Wyzant rating {tutoringRecord.wyzant.rating} of&nbsp;5&nbsp;· {tutoringRecord.wyzant.hoursProse} platform-recorded hours as of {tutoringRecord.wyzant.asOf}&nbsp;· <a href={publicLinks.wyzant} target="_blank" rel="noopener">Wyzant profile <span aria-hidden="true">↗</span></a></p>
-      <nav class="teaching-entry-materials" aria-label="Open courses and teaching tools"><span>Open courses and tools</span><a href="/econometrics/">The Econometric Argument</a><a href="/time-series/">Time-Series Econometrics</a><a href="/handbook/">Econometrics Across Disciplines</a><a href="/economics-practice/">Economics practice</a><a href="/teaching/distributions/">Distribution Lab</a><a href="/macroeconomics/">Macroeconomics suite</a><a href="/calculus/">Calculus in motion</a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a></nav>
+      <p>I teach economics, statistics, econometrics, programming, and research design. My work ranges from foundational instruction to advising doctoral researchers and executives on empirical design, analysis, and communication.</p>
+      <nav class="teaching-entry-courses" aria-label="Open courses and teaching record">
+        <span class="teaching-entry-label">Open courses</span>
+        <ul>
+          <li><a href="/econometrics/">The Econometric Argument</a><span>Open course · development edition</span></li>
+          <li><a href="/time-series/">Time-Series Econometrics</a><span>Graduate course · first edition</span></li>
+          <li><a href="/handbook/">Econometrics Across Disciplines</a><span>Working handbook · three chapters</span></li>
+        </ul>
+        <a class="teaching-entry-record" href="#teaching-record">Teaching record, award, and course evaluations <span aria-hidden="true">↓</span></a>
+      </nav>
+      <div class="teaching-entry-tutoring">
+        <p>I also tutor econometrics, statistics, Stata, Python, and SQL, and coach research design.</p>
+        <div class="teaching-entry-actions"><a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call <span aria-hidden="true">→</span></a><a href="/contact/">Send a question first</a></div>
+        <p class="teaching-standing"><span>Wyzant rating {tutoringRecord.wyzant.rating} of&nbsp;5&nbsp;·</span> <span>{tutoringRecord.wyzant.hoursProse} platform-recorded hours</span> <span>as of {tutoringRecord.wyzant.asOf}&nbsp;·</span> <a href={publicLinks.wyzant} target="_blank" rel="noopener">Wyzant profile <span aria-hidden="true">↗</span></a></p>
+      </div>
+      <nav class="teaching-entry-materials" aria-label="Teaching tools"><span>Teaching tools</span><a href="/economics-practice/">Economics practice</a><a href="/teaching/distributions/">Distribution Lab</a><a href="/macroeconomics/">Macroeconomics suite</a><a href="/calculus/">Calculus in motion</a><a href="#teaching-relay">Try a live explanation <span aria-hidden="true">↓</span></a></nav>
     </div>
     <div class="teaching-hero__side">
       <figure class="teaching-portrait">
@@ -88,7 +99,7 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
       <article>
         <p class="source-line">Working handbook · Three completed chapters</p>
         <h3><a href="/handbook/">Econometrics Across Disciplines</a></h3>
-        <p>Foundation chapters on economic questions and interventions, measurement, and observation clocks, each written as complete proofs at four marked reading levels and checked independently in Python, Julia, and R.</p>
+        <p>Foundation chapters on economic questions and interventions, measurement, and observation clocks. Passages are marked at four reading levels, from concrete orientation to complete proofs, and each chapter's calculations run independently in Python, Julia, and R.</p>
         <a href="/handbook/01-questions/">Read chapter 1 →</a>
       </article>
     </section>
@@ -110,7 +121,7 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
         </article>
         <article>
           <p class="source-line">Teaching evaluations</p>
-          <h3><a href={teachingRecognition.evaluations.href}>Georgia Tech course-evaluation report (CIOS), {teachingRecognition.evaluations.year}</a></h3>
+          <h3><a href={teachingRecognition.evaluations.href}>Georgia Tech course-evaluation record, {teachingRecognition.evaluations.year}</a></h3>
           <p>Percentile ranks of student ratings for my instruction, as instructor and as teaching assistant, within Georgia Tech's School of Economics (PDF, three pages).</p>
         </article>
       </div>
@@ -152,7 +163,8 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
         <p>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours, separate from Wyzant.</p>
       </article>
     </div>
-    <p class="practice-range">Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation. <a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a></p>
+    <p class="practice-range">Subjects include economics, statistics, econometrics, research design, Python, SQL, Stata, data analysis, finance, marketing analytics, strategy, policy, GIS, and quantitative test preparation.</p>
+    <p class="practice-format">Sessions booked through this site run {session?.minutes} minutes over Zoom. If we have not worked together, the first booking is a {introCall?.minutes}-minute intro call about the subject, your goals, and how sessions would work. Wyzant students schedule their lessons on Wyzant. <a href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a></p>
     <details class="content-disclosure"><summary><span>Subject families<small>What each area of tutoring covers</small></span><span class="disclosure-symbol" aria-hidden="true">+</span></summary><div class="disclosure-body">
     <div class="subject-families" aria-label="Teaching subject families">
       {subjectFamilies.map(([title, detail]) => (
@@ -257,13 +269,13 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
   <section class="teaching-close route-grid" data-rail-label="Contact">
     <div>
       <p class="record-label">Teaching and coaching inquiries</p>
-      <h2>Tell me the subject, level, timeline, and kind of help you need.</h2>
+      <h2>Institutional teaching, tutoring, and research-design coaching</h2>
     </div>
     <div>
-      <p>I am available for advanced tutoring, quantitative research-design coaching, curriculum and learning-system work, and institutional teaching.</p>
+      <p>I am available for institutional teaching, curriculum and learning-system work, advanced tutoring, and quantitative research-design coaching. For tutoring or coaching, it helps if a first message names the subject, level, timeline, and kind of help you need.</p>
       <a class="fieldbook-action" href="/contact/">Ask about teaching or coaching</a>
-      <a class="text-route" href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a>
       <a class="text-route" href="/cv/#teaching">View the full teaching record →</a>
+      <a class="text-route" href="/book/#tutoring-intro">Book a {introCall?.minutes}-minute intro call →</a>
     </div>
   </section>
 </Base>
@@ -295,6 +307,7 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
   .hours-pair article > strong { display: block; margin-block: 1rem; font: 570 clamp(3.5rem, 8vw, 7rem)/0.9 var(--font-display); letter-spacing: -0.065em; }
   .hours-pair h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
   .practice-range { max-width: 72ch; margin-top: var(--ef-space-5); font-size: 1.15rem; }
+  .practice-format { max-width: 72ch; margin-top: var(--ef-space-4); }
   .subject-families { display: grid; margin-top: var(--ef-space-5); grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ef-ink); border-left: 1px solid var(--ef-ink); }
   .subject-families article { min-height: 11rem; padding: var(--ef-space-4); border-right: 1px solid var(--ef-ink); border-bottom: 1px solid var(--ef-ink); }
   .subject-families h3 { margin-top: 0; font: 650 0.78rem/1.4 var(--font-data); text-transform: uppercase; }
