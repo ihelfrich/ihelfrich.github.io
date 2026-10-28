@@ -10,7 +10,7 @@ const parts=l.math.split(',\\quad');
 const math=parts.map((part,i)=>katex.renderToString(part+(i<parts.length-1?',':''),{displayMode:true,throwOnError:true,strict:'error'}));
 ---
 <TimeSeries title={`Lecture ${l.order} summary: ${l.title}`} description={l.opening}>
-<div class="ea-narrow ts-summary"><header class="ea-page-intro"><p class="ea-kicker">Lecture {l.order} summary · sample calendar, {l.date}</p><h1>{l.title}</h1><p><a href={`/time-series/${l.slug}/`}>Complete chapter</a> · <a href={`/time-series/code/#lecture-${n}`}>Laboratory ch{n}</a> · <a href="/time-series/practice/">Practice</a> · <a href="/time-series/lectures/">All summaries</a></p></header>
+<div class="ea-narrow ts-summary"><header class="ea-page-intro"><p class="ea-kicker">Lecture {l.order} summary · {l.date}, 2027</p><h1>{l.title}</h1><p><a href={`/time-series/${l.slug}/`}>Complete chapter</a> · <a href={`/time-series/code/#lecture-${n}`}>Laboratory ch{n}</a> · <a href="/time-series/practice/">Practice</a> · <a href="/time-series/lectures/">All summaries</a></p></header>
 <div class="ea-prose">
 <h2>The economic question</h2><p>{l.opening}</p>
 <h2>Central relation</h2><div class="ts-summary-math">{math.map(html=><div set:html={html}/>)}</div>
