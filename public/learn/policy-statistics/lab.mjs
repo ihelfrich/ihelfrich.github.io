@@ -1,5 +1,6 @@
 import { challenges, checkPrediction } from "./challenges.mjs";
 import {
+  balanceAround,
   groupedCounts,
   groupedStart,
   groupedWidth,
@@ -42,7 +43,11 @@ const villages = villageCount,
   ),
   middleIndex = villageValues.indexOf(middle),
   groupedTotal = groupedCounts.reduce((a, b) => a + b, 0),
-  people = (v) => fmt(v, 0);
+  people = (v) => fmt(v, 0),
+  // How the original table's villages balance around its median, and the town
+  // size at which the mean would reach the median.
+  balance = balanceAround(villageData(), middle),
+  balancingTown = villages * middle - (base.total - largestVillage);
 const presets = [
   ["Village table", [...groupedCounts]],
   ["Bell", [1, 4, 12, 26, 44, 56, 56, 44, 26, 12, 4, 1]],
@@ -418,7 +423,14 @@ function drawOutlier() {
     rc = setupChart(ruler, 150, [440, 510], 1);
   let r =
     line(rc.left, 105, rc.right, 105) +
-    text(rc.left, 18, "Mean = balance point · center magnified");
+    // On a phone the full title runs past the frame; the activity note already says the ruler magnifies the center.
+    text(
+      rc.left,
+      18,
+      rc.w < 420
+        ? "Mean = balance point"
+        : "Mean = balance point · center magnified",
+    );
   [450, 475, 500].forEach(
     (v) =>
       (r += line(rc.x(v), 105, rc.x(v), 110) + text(rc.x(v), 125, v, "middle")),
@@ -456,8 +468,15 @@ function drawOutlier() {
     metric("Median", q.median, "people", "median") +
     metric("Standard deviation", fmt(q.sd), "people");
   $("#math-content").innerHTML =
-    `<p>Total population: ${fmt(q.total, 0)} people. Mean = ${fmt(q.total, 0)} ÷ ${villages} = ${fmt(q.mean)}. Median = (${q.median} + ${q.median}) ÷ 2 = ${q.median}.</p><p>Population variance = sum of squared distances from the mean ÷ ${villages} = ${fmt(q.variance)} people². Standard deviation = square root of variance = ${fmt(q.sd)} people.</p><p>A long right tail does not guarantee that the mean exceeds the median. The original table is a counterexample: its mean, ${fmt(base.mean)}, is below its median, ${middle}, because most villages are small.</p>${villageTable(value)}`;
+    `<p>Total population: ${fmt(q.total, 0)} people. Mean = ${fmt(q.total, 0)} ÷ ${villages} = ${fmt(q.mean)}. Median = (${q.median} + ${q.median}) ÷ 2 = ${q.median}.</p><p>Population variance = sum of squared distances from the mean ÷ ${villages} = ${fmt(q.variance)} people². Standard deviation = square root of variance = ${fmt(q.sd)} people.</p>${counterexample}${villageTable(value)}`;
 }
+// Why the original table's mean sits below its median despite the town: the
+// villages below the median fall further short of it than the villages above
+// it, the town included, exceed it.
+const counterexample =
+  base.mean < middle
+    ? `<p>A long right tail does not guarantee that the mean exceeds the median. The original table is a counterexample. Measured from the median of ${middle}, the ${balance.belowCount} villages below it fall a combined ${people(balance.shortfall)} people short of it, while the ${balance.aboveCount} above it, the town included, exceed it by only ${people(balance.excess)}. The ${balance.atCount} villages at exactly ${middle} add nothing. Because the mean is the balance point, the net shortfall of ${people(balance.shortfall - balance.excess)} people, shared across ${villages} villages, places it ${fmt((balance.shortfall - balance.excess) / villages)} below the median, at ${fmt(base.mean)}. The town would need ${people(balancingTown)} people to bring the mean up to the median.</p>`
+    : "";
 function villageTable(value = largestVillage) {
   const last = villageValues.length - 1;
   return `<div class="table-wrap"><table><thead><tr><th>Population</th><th>Villages</th><th>Cumulative</th></tr></thead><tbody>${villageValues.map((v, i) => `<tr><td>${fmt(i === last ? value : v, 0)}</td><td>${villageFrequencies[i]}</td><td>${cumulative[i]}</td></tr>`).join("")}</tbody></table></div>`;

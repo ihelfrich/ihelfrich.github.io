@@ -3,8 +3,9 @@
  * describes real villages.
  *
  * Grouped table: 170 villages in seven population bins of width 50, starting
- * at 100 people. The counts are skewed to the right, so the grouped mean
- * (about 252.6) sits above the interpolated median (about 244.3).
+ * at 100 people. The counts are skewed to the right (moment skewness about
+ * 0.38 at the bin midpoints), and the grouped mean (about 252.6) sits above
+ * the interpolated median (about 244.3).
  */
 export const groupedCounts = [14, 32, 44, 36, 22, 14, 8];
 export const groupedStart = 100;
@@ -13,8 +14,12 @@ export const groupedWidth = 50;
 /*
  * Frequency table: 200 villages, one of them a town of 5,000. The count is
  * even, so the median averages positions 100 and 101, and both hold 500
- * people. Most villages are small, so the mean (477) stays below the median
- * despite the long right tail.
+ * people. The town gives the table a long right tail (moment skewness about
+ * 9.0), yet the mean, 477, stays below the median. Measured from 500, the 90
+ * villages below it fall 19,800 people short in total, while the 66 above it,
+ * the town included, exceed it by only 15,200. Without the town the table
+ * leans slightly left (skewness about -0.07), and one town of 5,000 does not
+ * offset that lean; the mean would reach the median only with a town of 9,600.
  */
 export const villageValues = [100, 200, 300, 400, 500, 600, 700, 800, 5000];
 export const villageFrequencies = [10, 24, 30, 26, 44, 34, 20, 11, 1];
@@ -26,6 +31,30 @@ export function villageData(outlier = largestVillage) {
   return villageValues.flatMap((v, i) =>
     Array(villageFrequencies[i]).fill(i === last ? outlier : v),
   );
+}
+/*
+ * How observations balance around a reference point such as the median: the
+ * count below it and their total shortfall, the count exactly at it, and the
+ * count above it and their total excess. The mean lies below the reference
+ * point exactly when the shortfall exceeds the excess, by
+ * (shortfall - excess) / n.
+ */
+export function balanceAround(values, reference) {
+  let belowCount = 0,
+    shortfall = 0,
+    atCount = 0,
+    aboveCount = 0,
+    excess = 0;
+  for (const v of values) {
+    if (v < reference) {
+      belowCount++;
+      shortfall += reference - v;
+    } else if (v > reference) {
+      aboveCount++;
+      excess += v - reference;
+    } else atCount++;
+  }
+  return { belowCount, shortfall, atCount, aboveCount, excess };
 }
 export function summarize(values) {
   const n = values.length;

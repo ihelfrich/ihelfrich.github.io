@@ -14,6 +14,7 @@ test("predictions provide correct feedback and reject invalid choices", () => {
   assert.equal(checkPrediction("unknown", 0), null);
 });
 import {
+  balanceAround,
   villageData,
   villageCount,
   largestVillage,
@@ -48,6 +49,34 @@ test("200-village synthetic table statistics match hand-computed totals", () => 
   close(s.variance, 73000000 / 200 - 477 ** 2);
   // The long right tail does not put the mean above the median in this table.
   assert.ok(s.mean < s.median);
+});
+
+/**
+ * Why the mean sits below the median despite the town, checked by hand.
+ * Below 500: 10, 24, 30, 26 villages at 100, 200, 300, 400, short by
+ * 4,000 + 7,200 + 6,000 + 2,600 = 19,800. Above 500: 34, 20, 11 villages at
+ * 600, 700, 800 and the town, over by 3,400 + 4,000 + 3,300 + 4,500 = 15,200.
+ * The net shortfall of 4,600 over 200 villages is 23, so the mean is 477. A
+ * town of 9,600 would close the gap.
+ */
+test("the mean sits below the median because the shortfall below outweighs the excess above", () => {
+  const d = villageData();
+  const s = summarize(d);
+  const b = balanceAround(d, s.median);
+  assert.deepEqual(b, { belowCount: 90, shortfall: 19800, atCount: 44, aboveCount: 66, excess: 15200 });
+  close(s.median - s.mean, (b.shortfall - b.excess) / d.length);
+  // Fewer than half the villages lie below the median, so "most villages are small" cannot be the reason.
+  assert.ok(b.belowCount < d.length / 2);
+  close(summarize(villageData(9600)).mean, s.median);
+  // Population skewness is strongly positive with the town and slightly negative without it.
+  const skew = (xs) => {
+    const m = xs.reduce((a, v) => a + v, 0) / xs.length;
+    const m2 = xs.reduce((a, v) => a + (v - m) ** 2, 0) / xs.length;
+    const m3 = xs.reduce((a, v) => a + (v - m) ** 3, 0) / xs.length;
+    return m3 / m2 ** 1.5;
+  };
+  assert.ok(skew(d) > 8.9 && skew(d) < 9.1, `skewness ${skew(d)}`);
+  assert.ok(skew(d.slice(0, -1)) < 0, `skewness without the town ${skew(d.slice(0, -1))}`);
 });
 
 test("shrinking the town preserves the sample and leaves the median unchanged", () => {
@@ -126,4 +155,11 @@ test("the lab stays unindexed, links back to the site, and promises only what it
   assert.match(footer, /href="\/teaching\/"/);
   assert.match(footer, /href="\/book\/"/);
   assert.doesNotMatch(html, /regression|uncertainty/i);
+});
+
+test("the lab explains the counterexample with the balance of shortfall and excess", () => {
+  const lab = read("lab.mjs");
+  assert.doesNotMatch(lab, /most villages are small/i);
+  assert.match(lab, /balanceAround\(villageData\(\), middle\)/);
+  assert.doesNotMatch(read("stats.mjs"), /most villages are small/i);
 });
