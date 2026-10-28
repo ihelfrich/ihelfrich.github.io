@@ -3,11 +3,16 @@ import '../styles/tokens.css';
 import '../styles/econometrics.css';
 import '../styles/time-series.css';
 import 'katex/dist/katex.min.css';
+import { getCollection } from 'astro:content';
 import SiteBar from '../components/SiteBar.astro';
 import Analytics from '../components/Analytics.astro';
 import { THEME_COLOR } from '../data/theme.mjs';
-const { title = 'Time-Series Econometrics', description = 'A complete course in time-series econometrics, with mathematical derivations, economic cases, and matched R, Julia, and Python laboratories.' } = Astro.props;
+const { title = 'Time-Series Econometrics', description = 'A complete course in time-series econometrics, with mathematical derivations, economic cases, and matched R, Julia, and Python laboratories.', image = '/og.png', imageAlt = 'Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Social previews need a raster image; LinkedIn, Facebook and X do not render SVG.
+const socialImage = new URL(image, Astro.site);
+const path = Astro.url.pathname.replace(/\/+$/, '');
+const isChapter = (await getCollection('timeseries')).some((chapter) => path === `/time-series/${chapter.id}`);
 ---
 <!doctype html>
 <html lang="en">
@@ -23,12 +28,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={`${title} · Ian Helfrich`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={isChapter ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Ian Helfrich, PhD" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} · Ian Helfrich`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <Analytics />
   </head>
   <body class="ea ts" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <SiteBar title={title} />
+    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
     <header class="ea-header">
       <a class="ea-brand" href="/time-series/"><span class="ea-mark" aria-hidden="true">t</span><span>Time-Series<br /><strong>Econometrics</strong></span></a>
       <nav aria-label="Course navigation">
@@ -41,12 +54,55 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       </nav>
       <a class="ea-author" href="/">Ian Helfrich <span>PhD ↗</span></a>
     </header>
-    <main id="main-content"><slot /></main>
+    <main id="main-content">
+      <slot />
+      <script is:inline>
+        // On a phone the lecture title comes before the chapter list: the list starts closed. The
+        // chapter page marks it details[data-mobile-contents]; an unmarked list in .ea-book-nav is
+        // closed as well. This runs as soon as the parser reaches it, before the deferred scripts.
+        // A window that widens past 800 px hides the toggle, so the list opens again.
+        (() => {
+          const phone = window.matchMedia('(max-width: 800px)');
+          const lists = document.querySelectorAll('details[data-mobile-contents], .ea-book-nav > details');
+          if (phone.matches) lists.forEach((list) => { list.open = false; });
+          phone.addEventListener('change', (event) => { if (!event.matches) lists.forEach((list) => { list.open = true; }); });
+        })();
+      </script>
+      {isChapter && <div class="ea-reading-grid ea-help-row" data-pagefind-ignore><aside class="ea-help" aria-label="Tutoring"><p>Ian Helfrich tutors econometrics one-to-one, for students taking a course and for researchers designing a study. To arrange sessions on this lecture, start with a <a href="/book/#tutoring-intro" data-goatcounter-click="course-tutoring-intro">20-minute intro call</a>; the <a href="/teaching/">teaching page</a> lists the subjects he covers and the kinds of support.</p></aside></div>}
+    </main>
     <footer class="ea-footer">
       <div><strong>Time-Series Econometrics</strong><p>Written by Ian Helfrich. First edition, October 2026.</p></div>
       <div><a href="/time-series/methods/">References &amp; methods</a><a href="/time-series/print/">Printable lectures</a><a href="https://github.com/ihelfrich/ihelfrich.github.io/tree/main/src/content/time-series">Source ↗</a></div>
       <div><a href="/time-series/research/">Research readings &amp; replication paths</a></div>
       <p class="ea-small">© 2026 Ian Helfrich. All rights reserved. Provider data retain their original terms.</p>
     </footer>
+    <script>
+      // A wide equation or table scrolls inside its own box. While a box overflows, it is a focusable,
+      // labelled region, so keyboard and zoomed readers can reach the part beyond the column edge.
+      document.querySelectorAll<HTMLTableElement>('.ea-prose table').forEach((table) => {
+        if (table.parentElement?.classList.contains('ea-scroll')) return;
+        const box = document.createElement('div');
+        box.className = 'ea-scroll';
+        table.before(box);
+        box.append(table);
+      });
+      const boxes = [...document.querySelectorAll<HTMLElement>('.ea-prose .katex-display, .ea-prose .ea-scroll')];
+      const equations = boxes.filter((box) => box.classList.contains('katex-display'));
+      const tables = boxes.filter((box) => !equations.includes(box));
+      const update = (box: HTMLElement) => {
+        if (box.scrollWidth > box.clientWidth) {
+          const equation = equations.includes(box);
+          box.tabIndex = 0;
+          box.setAttribute('role', equation ? 'group' : 'region');
+          box.setAttribute('aria-label', equation ? `Equation ${equations.indexOf(box) + 1}, scrolls horizontally` : `Table ${tables.indexOf(box) + 1}, scrolls horizontally`);
+          box.dataset.scrolls = '';
+        } else if ('scrolls' in box.dataset) {
+          ['tabindex', 'role', 'aria-label', 'data-scrolls'].forEach((name) => box.removeAttribute(name));
+        }
+      };
+      const observer = new ResizeObserver((entries) => entries.forEach((entry) => update(entry.target as HTMLElement)));
+      boxes.forEach((box) => observer.observe(box));
+      document.fonts?.ready.then(() => boxes.forEach(update));
+    </script>
   </body>
 </html>

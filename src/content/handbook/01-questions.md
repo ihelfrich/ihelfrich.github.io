@@ -77,8 +77,11 @@ These rows list possibilities and their probabilities. They are not six sampled 
 Write $p_i$ for the probability of day type $i$ and $y_i$ for its load. The symbol $\sum$ means “add the following terms over the listed day types.” The **expectation** of load is the probability-weighted average:
 
 $$
-E[Y]=\sum_{i=1}^{6}p_i y_i
-=\frac{9+10+11+11+12+13}{6}=11\text{ MW}.
+\begin{aligned}
+E[Y]&=\sum_{i=1}^{6}p_i y_i\\
+&=\frac{9+10+11+11+12+13}{6}\\
+&=11\text{ MW}.
+\end{aligned}
 $$
 
 The square brackets identify the quantity being averaged. They do not mean that a sampled average must equal eleven.
@@ -86,9 +89,10 @@ The square brackets identify the quantity being averaged. They do not mean that 
 To **condition** on an alert, retain the three alert-day possibilities and give them probabilities that add to one. Their original probabilities add to $3/6=1/2$. Each retained probability becomes $(1/6)/(1/2)=1/3$. Thus
 
 $$
-E[Y\mid A=0]=\frac{9+10+11}{3}=10,
-\qquad
-E[Y\mid A=1]=\frac{11+12+13}{3}=12.
+\begin{aligned}
+E[Y\mid A=0]&=\frac{9+10+11}{3}=10,\\
+E[Y\mid A=1]&=\frac{11+12+13}{3}=12.
+\end{aligned}
 $$
 
 The vertical bar means “given.” The difference of these conditional averages is $12-10=2$ MW. It describes two groups of days selected by the existing alert rule. We have not yet calculated what changing that rule would do.
@@ -96,7 +100,10 @@ The vertical bar means “given.” The difference of these conditional averages
 The rule $m(A)=10+2A$ gives the correct conditional average for either alert status. The letter $m$ names a function: insert zero to obtain ten, or one to obtain twelve. Its error is $Y-m(A)=V$, so the error takes values $-1$, $0$, and $1$ equally often in each group. The **mean squared error**, or MSE, is the average squared error:
 
 $$
-E[(Y-m(A))^2]=\frac{(-1)^2+0^2+1^2}{3}=\frac23\text{ MW}^2.
+\begin{aligned}
+E[(Y-m(A))^2]&=\frac{(-1)^2+0^2+1^2}{3}\\
+&=\frac23\text{ MW}^2.
+\end{aligned}
 $$
 
 The model contains unpredictable variation even when its conditional average is known exactly. Prediction accuracy concerns the declared information and loss; it does not establish an intervention effect.
@@ -118,9 +125,10 @@ The proof has five steps and uses no calculus.
 
    $$
    \begin{aligned}
-   E[(Y-q)^2\mid A=a]
+   &E[(Y-q)^2\mid A=a]\\
    &=E[(Y-m_a)^2\mid A=a]\\
-   &\quad+2(m_a-q)E[Y-m_a\mid A=a]+(m_a-q)^2.
+   &\quad+2(m_a-q)E[Y-m_a\mid A=a]\\
+   &\quad+(m_a-q)^2.
    \end{aligned}
    $$
 
@@ -129,13 +137,20 @@ The proof has five steps and uses no calculus.
 3. **Remove the cross term.** By the definition of $m_a$, the average deviation from it is zero:
 
    $$
-   E[Y-m_a\mid A=a]=E[Y\mid A=a]-m_a=0.
+   \begin{aligned}
+   &E[Y-m_a\mid A=a]\\
+   &\quad=E[Y\mid A=a]-m_a\\
+   &\quad=0.
+   \end{aligned}
    $$
 
    The middle term in step 2 therefore vanishes. Using the residual average square calculated in [Averages with stated information](#finite-averages) leaves
 
    $$
-   E[(Y-q)^2\mid A=a]=\frac23+(m_a-q)^2.
+   \begin{aligned}
+   &E[(Y-q)^2\mid A=a]\\
+   &\quad=\frac23+(m_a-q)^2.
+   \end{aligned}
    $$
 
 4. **Locate the minimum within the group.** The first term is the irreducible error. The second is a square, which is nonnegative and equals zero exactly when $q=m_a$. This proves the claim within either alert group.
@@ -143,8 +158,11 @@ The proof has five steps and uses no calculus.
 5. **Average across groups.** For an arbitrary two-value forecast $g$, weight the two group errors by their probabilities of one half:
 
    $$
-   E[(Y-g(A))^2]
-   =\frac23+\frac12(10-g(0))^2+\frac12(12-g(1))^2.
+   \begin{aligned}
+   &E[(Y-g(A))^2]\\
+   &\quad=\frac23+\frac12(10-g(0))^2\\
+   &\qquad+\frac12(12-g(1))^2.
+   \end{aligned}
    $$
 
    Both extra terms must vanish to attain $2/3$. A constant eleven-MW forecast pays an extra $(1/2)(1)^2+(1/2)(-1)^2=1$ MW², giving MSE $5/3$.
@@ -159,8 +177,11 @@ Every average here is finite and has positive conditioning probability. For an u
 We now specify how load responds to an alert and a heat condition. A **structural equation** describes that response together with the rule generating the alert. Consider the following family:
 
 $$
-A=U,\qquad
-Y=10+bA+(2-b)U+V,\qquad -2\leq b\leq2.
+\begin{gathered}
+A=U,\\
+Y=10+bA+(2-b)U+V,\\
+-2\leq b\leq2.
+\end{gathered}
 $$
 
 The parameter $b$ measures the load response, in MW, to changing $A$ from zero to one while keeping $U$ and $V$ fixed. The coefficient $2-b$ measures the heat contribution in this family. The parameter range is part of the example's model class; it is not a confidence interval inferred from observations. It keeps all of the assigned-alert loads positive in our six day types.
@@ -175,9 +196,11 @@ The family keeps the following assumptions explicit:
 Substitute $A=U$ into the load equation:
 
 $$
-Y=10+bU+(2-b)U+V
-=10+\{b+(2-b)\}U+V
-=10+2U+V.
+\begin{aligned}
+Y&=10+bU+(2-b)U+V\\
+&=10+\{b+(2-b)\}U+V\\
+&=10+2U+V.
+\end{aligned}
 $$
 
 The first equality uses the alert rule. The second collects terms multiplying the same heat indicator. The third uses $b+2-b=2$. The resulting observed equation contains no $b$.
@@ -202,8 +225,12 @@ $$
 The notation before the semicolon gives the assigned alert; the notation after it identifies the same background day. For each day,
 
 $$
-Y(1;u,v)-Y(0;u,v)
-=[10+b+(2-b)u+v]-[10+(2-b)u+v]=b.
+\begin{aligned}
+&Y(1;u,v)-Y(0;u,v)\\
+&\quad=[10+b+(2-b)u+v]\\
+&\qquad-[10+(2-b)u+v]\\
+&\quad=b.
+\end{aligned}
 $$
 
 All shared terms cancel. The difference is the same across the six types because this model assumes a constant alert response. Averaging a constant leaves it unchanged, so the population intervention effect is also $b$.
@@ -211,9 +238,11 @@ All shared terms cancel. The difference is the same across the six types because
 To calculate the two intervention levels, use $E[U]=1/2$ and $E[V]=(-1+0+1)/3=0$. Linearity follows by distributing and regrouping their finite weighted sums:
 
 $$
-E[Y\mid\operatorname{do}(A=a)]
-=10+ba+(2-b)\frac12+0
-=11+b\left(a-\frac12\right).
+\begin{aligned}
+&E[Y\mid\operatorname{do}(A=a)]\\
+&\quad=10+ba+(2-b)\frac12+0\\
+&\quad=11+b\left(a-\frac12\right).
+\end{aligned}
 $$
 
 | Mechanism | Assigned no alert, MW | Assigned alert, MW | Intervention difference, MW | Observed group difference, MW |
@@ -278,9 +307,13 @@ Consider a controlled experiment in which a fair, independent coin assigns $A$. 
 For either assigned alert status, the two heat conditions remain equally likely and the three shocks retain their original probabilities. Thus
 
 $$
+\begin{aligned}
 E[Y\mid A=a]
-=10+ba+(2-b)E[U\mid A=a]+E[V\mid A=a]
-=11+b\left(a-\frac12\right).
+&=10+ba\\
+&\quad+(2-b)E[U\mid A=a]\\
+&\quad+E[V\mid A=a]\\
+&=11+b\left(a-\frac12\right).
+\end{aligned}
 $$
 
 The first equality averages the specified load equation. The second uses independence of the randomized alert from both background variables, giving conditional averages $1/2$ and zero. Subtracting the average at $a=0$ from the one at $a=1$ leaves $b$. Both groups have positive probability. The experimental comparison therefore identifies the effect in this model.
@@ -295,7 +328,10 @@ Hernán and Robins's [*Causal Inference: What If*, chapters 1–3](https://migue
 Suppose a planner values an expected one-MW reduction in the daily peak at $v$ dollars and pays $c$ dollars to issue an alert. Under a deliberately simple linear valuation, the incremental net benefit is
 
 $$
-N(b)=v\{E[Y(0)]-E[Y(1)]\}-c=-vb-c.
+\begin{aligned}
+N(b)&=v\{E[Y(0)]-E[Y(1)]\}-c\\
+&=-vb-c.
+\end{aligned}
 $$
 
 The braces contain a reduction, so its sign is the negative of the load effect $b$. Let $v=1{,}000$ dollars per MW of daily peak reduction and $c=500$ dollars per day. Then $N(-2)=1{,}500$, $N(0)=-500$, and $N(2)=-2{,}500$ dollars per day. The same observed distribution is compatible with a profitable alert program and an unprofitable one under this valuation.
@@ -324,23 +360,43 @@ The following are worked exercises for this chapter's controlled model. They are
 
 1. **A mechanism between the plotted cases.** Set $b=-1$. Calculate the observed group difference and the two assigned-alert means. Does a positive observed difference rule out a load-reducing alert?
 
-   **Solution.** The observed equation is still $Y=10+2U+V$, so the group difference remains two MW. The formula in [Assigning the alert](#intervention) gives $11+(-1)(0-1/2)=11.5$ MW without the assigned alert and $11+(-1)(1-1/2)=10.5$ MW with it. The effect is $-1$ MW. Thus the observed two-MW difference coexists with a one-MW reduction under intervention.
+   <details class="solution"><summary>Work through the solution</summary>
+
+   The observed equation is still $Y=10+2U+V$, so the group difference remains two MW. The formula in [Assigning the alert](#intervention) gives $11+(-1)(0-1/2)=11.5$ MW without the assigned alert and $11+(-1)(1-1/2)=10.5$ MW with it. The effect is $-1$ MW. Thus the observed two-MW difference coexists with a one-MW reduction under intervention.
+
+   </details>
 
 2. **A less useful forecast.** A forecast reports nine MW when $A=0$ and thirteen MW when $A=1$. Calculate its MSE without listing all six squared errors.
 
-   **Solution.** Use the decomposition proved in [Result 1](#forecast-proof). Its extra error is $(1/2)(10-9)^2+(1/2)(12-13)^2=1$ MW². Adding the unavoidable $2/3$ gives $5/3$ MW². This equals the error of the constant eleven-MW forecast despite using the alert. Using an informative variable does not guarantee that a particular forecasting rule uses it well.
+   <details class="solution"><summary>Work through the solution</summary>
+
+   Use the decomposition proved in [Result 1](#forecast-proof). Its extra error is $(1/2)(10-9)^2+(1/2)(12-13)^2=1$ MW². Adding the unavoidable $2/3$ gives $5/3$ MW². This equals the error of the constant eleven-MW forecast despite using the alert. Using an informative variable does not guarantee that a particular forecasting rule uses it well.
+
+   </details>
 
 3. **A proposed statistical repair.** An analyst obtains the previously unrecorded heat indicator and proposes comparing alert and non-alert days within each heat category. Which needed cells are absent?
 
-   **Solution.** Under $A=U$, the pair $(U=0,A=1)$ never occurs and the pair $(U=1,A=0)$ never occurs. The proposed comparisons require averages in these zero-probability cells. [The overlap discussion](#identification-proof) explains why measuring a variable and having variation conditional on it are separate requirements. The independent assignment in [A new design](#new-design) supplies all four heat–alert combinations.
+   <details class="solution"><summary>Work through the solution</summary>
+
+   Under $A=U$, the pair $(U=0,A=1)$ never occurs and the pair $(U=1,A=0)$ never occurs. The proposed comparisons require averages in these zero-probability cells. [The overlap discussion](#identification-proof) explains why measuring a variable and having variation conditional on it are separate requirements. The independent assignment in [A new design](#new-design) supplies all four heat–alert combinations.
+
+   </details>
 
 4. **A decision threshold.** Under the linear valuation $v=1{,}000$ and $c=500$, which values of $b$ give positive net benefit? Is that condition identified from the old records?
 
-   **Solution.** Solve $-1{,}000b-500>0$: add five hundred to both sides to obtain $-1{,}000b>500$, then divide by a negative number, reversing the inequality, to get $b<-0.5$. The identified set $[-2,2]$ contains values on both sides of this threshold. The sign of net benefit therefore remains unresolved under the stated model class and valuation.
+   <details class="solution"><summary>Work through the solution</summary>
+
+   Solve $-1{,}000b-500>0$: add five hundred to both sides to obtain $-1{,}000b>500$, then divide by a negative number, reversing the inequality, to get $b<-0.5$. The identified set $[-2,2]$ contains values on both sides of this threshold. The sign of net benefit therefore remains unresolved under the stated model class and valuation.
+
+   </details>
 
 5. **A stronger statement than the evidence allows.** Rewrite “alerts increase demand by two MW, so cancel them.” Include the useful finding and the unanswered question.
 
-   **Solution.** “Under the existing alert rule, alert days have two MW higher mean peak load. The alert improves a conditional-average forecast in the six-state model. These records do not identify the load response to assigning an alert; the defined model class admits effects from −2 to 2 MW. An alert recommendation requires an assignment design or justified restrictions, together with the cost and benefit model.”
+   <details class="solution"><summary>Work through the solution</summary>
+
+   “Under the existing alert rule, alert days have two MW higher mean peak load. The alert improves a conditional-average forecast in the six-state model. These records do not identify the load response to assigning an alert; the defined model class admits effects from −2 to 2 MW. An alert recommendation requires an assignment design or justified restrictions, together with the cost and benefit model.”
+
+   </details>
 
 
 <span id="handoff"></span>
