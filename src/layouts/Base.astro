@@ -14,7 +14,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Analytics from "../components/Analytics.astro";
 import { clickEvent } from "../data/analytics.mjs";
 import { crumbsFor } from "../data/breadcrumbs.mjs";
-import { PRIMARY, CONTACT, BOOK, RECORDS, CONNECT } from "../data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK, RECORDS, CONNECT, withSlash } from "../data/navigation.mjs";
 import { THEME_COLOR } from "../data/theme.mjs";
 import { portrait } from "../data/homepage-studio.mjs";
 
@@ -43,6 +43,7 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 const personImage = new URL(portrait.share, Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const isActive = (href) => href === "/" ? pathname === "/" : pathname.startsWith(href);
+// Navigation data keeps slash-free identifiers; rendered links use the form GitHub Pages serves without a 301.
 const year = new Date().getFullYear();
 const trail = crumbsFor(pathname, title);
 const breadcrumbSchema = trail.length
@@ -128,7 +129,7 @@ const personSchema = {
         <span>Ian Helfrich</span><sup>PhD</sup>
       </a>
 
-      <a href={CONTACT.href} class="header-contact" data-header-contact aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
+      <a href={withSlash(CONTACT.href)} class="header-contact" data-header-contact aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
 
       <div class="nav-surface" data-nav-surface>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -140,14 +141,14 @@ const personSchema = {
           <nav class="primary-nav" aria-label="Primary navigation">
             <div class="primary-nav-list" data-primary-nav>
               {PRIMARY.map(({ label, href }) => (
-                <a href={href} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
+                <a href={withSlash(href)} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
               ))}
             </div>
             <div class="nav-utilities">
-              <a href="/field" class="site-map-link" aria-current={isActive("/field") ? "page" : undefined}>Map</a>
+              <a href="/field/" class="site-map-link" aria-current={isActive("/field") ? "page" : undefined}>Map</a>
               <button class="site-index-trigger" type="button" data-index-open><span>Search</span><kbd>⌘K</kbd></button>
-              <a href={BOOK.href} class="nav-book" aria-current={isActive(BOOK.href) ? "page" : undefined}>{BOOK.label}</a>
-              <a href={CONTACT.href} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
+              <a href={withSlash(BOOK.href)} class="nav-book" aria-current={isActive(BOOK.href) ? "page" : undefined}>{BOOK.label}</a>
+              <a href={withSlash(CONTACT.href)} class="nav-cta" aria-current={isActive(CONTACT.href) ? "page" : undefined}>{CONTACT.label}</a>
             </div>
           </nav>
 
@@ -155,7 +156,7 @@ const personSchema = {
             <span class="secondary-nav-label">Records</span>
             <div class="secondary-nav-links">
               {RECORDS.map(({ label, href }) => (
-                <a href={href} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
+                <a href={withSlash(href)} aria-current={isActive(href) ? "page" : undefined}>{label}</a>
               ))}
               <slot name="secondary-nav" />
             </div>
@@ -189,16 +190,16 @@ const personSchema = {
       <div class="footer-links">
         <div>
           <strong>Navigate</strong>
-          {PRIMARY.map(({ label, href }) => <a href={href}>{label}</a>)}
+          {PRIMARY.map(({ label, href }) => <a href={withSlash(href)}>{label}</a>)}
         </div>
         <div>
           <strong>Records</strong>
-          {RECORDS.map(({ label, href }) => <a href={href}>{label}</a>)}
+          {RECORDS.map(({ label, href }) => <a href={withSlash(href)}>{label}</a>)}
         </div>
         <div>
           <strong>Connect</strong>
-          <a href={CONTACT.href}>{CONTACT.label}</a>
-          <a href={BOOK.href}>{BOOK.label}</a>
+          <a href={withSlash(CONTACT.href)}>{CONTACT.label}</a>
+          <a href={withSlash(BOOK.href)}>{BOOK.label}</a>
           {CONNECT.map(({ label, href, external }) => (
             <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined} data-goatcounter-click={clickEvent(href)}>{label}</a>
           ))}

@@ -1,5 +1,8 @@
 // Breadcrumb trails for pages two or more levels deep. A parent appears as a link only
-// when its route is a real page listed in SECTION_LABELS.
+// when its route is a real page listed in SECTION_LABELS. Parent hrefs carry the trailing
+// slash, the form GitHub Pages serves without a 301; the routes in the tables below do not.
+
+import { withSlash } from "./navigation.mjs";
 
 export const SECTION_LABELS = Object.freeze({
   "/research": "Research",
@@ -41,13 +44,13 @@ export function crumbsFor(pathname, title) {
 
   const trail = [];
   const first = `/${segments[0]}`;
-  if (PARENT_OF[first]) trail.push({ label: TOP_LABELS[PARENT_OF[first]], href: PARENT_OF[first] });
+  if (PARENT_OF[first]) trail.push({ label: TOP_LABELS[PARENT_OF[first]], href: withSlash(PARENT_OF[first]) });
 
   let route = "";
   for (let i = 0; i < segments.length - 1; i += 1) {
     route += `/${segments[i]}`;
     const label = SECTION_LABELS[route];
-    if (label) trail.push({ label, href: route });
+    if (label) trail.push({ label, href: withSlash(route) });
   }
   if (!trail.length) return [];
   trail.push({ label: title, href: null });

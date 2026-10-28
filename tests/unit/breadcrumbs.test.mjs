@@ -9,15 +9,15 @@ test("top-level pages have no trail", () => {
 
 test("a research paper sits under Research and ends with its own title", () => {
   assert.deepEqual(crumbsFor("/research/helfrich-2026-penumbra/", "Penumbra"), [
-    { label: "Research", href: "/research" },
+    { label: "Research", href: "/research/" },
     { label: "Penumbra", href: null },
   ]);
 });
 
 test("course pages sit under Teaching and the course", () => {
   assert.deepEqual(crumbsFor("/econometrics/07-instruments/", "Instruments"), [
-    { label: "Teaching", href: "/teaching" },
-    { label: "The Econometric Argument", href: "/econometrics" },
+    { label: "Teaching", href: "/teaching/" },
+    { label: "The Econometric Argument", href: "/econometrics/" },
     { label: "Instruments", href: null },
   ]);
   const deep = crumbsFor("/econometrics/measurement/field-guide/", "Field guide");
@@ -32,7 +32,7 @@ test("instrument pages sit under Lab", () => {
 test("only the last crumb lacks a link, and every parent route is a labelled section", () => {
   const trail = crumbsFor("/spatial-economics/national/", "National Investment Atlas");
   assert.equal(trail.at(-1).href, null);
-  for (const { href } of trail.slice(0, -1)) assert.ok(href, "parents link somewhere");
+  for (const { href } of trail.slice(0, -1)) assert.match(href, /^\/[a-z0-9/-]+\/$/, "parents link to the trailing-slash form, which needs no redirect");
   for (const route of Object.keys(SECTION_LABELS)) assert.match(route, /^\/[a-z0-9-]+(?:\/[a-z0-9-]+)*$/);
 });
 
@@ -45,7 +45,7 @@ test("the time-series course and the handbook use their published titles in the 
     "Teaching", "Time-Series Econometrics", "ARMA models and recoverable innovations",
   ]);
   assert.deepEqual(crumbsFor("/time-series/lectures/03-arma/", "Lecture 3").map(({ label, href }) => [label, href]), [
-    ["Teaching", "/teaching"], ["Time-Series Econometrics", "/time-series"], ["Lecture 3", null],
+    ["Teaching", "/teaching/"], ["Time-Series Econometrics", "/time-series/"], ["Lecture 3", null],
   ]);
   assert.deepEqual(crumbsFor("/handbook/01-questions/", "Economic questions").map(({ label }) => label), [
     "Teaching", "Econometrics Across Disciplines", "Economic questions",

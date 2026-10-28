@@ -169,7 +169,8 @@ test('technical work is discoverable with public links and explicit publication 
   assert.equal(section.closest('details'),null,'the new capabilities should be visible without opening the lab');
   const search=d.querySelector('[data-site-index]');assert.match(search.textContent,/Yellowjacket/);assert.match(search.textContent,/Oceanographic systems/);
   for(const [term,href] of [['unreal','/projects/oceanographic-systems'],['bellhop','/projects/oceanographic-systems'],['spectrogram','/projects/yellowjacket'],['transcription','/projects/yellowjacket']]){
-   const record=[...search.querySelectorAll('[data-search]')].find(e=>e.getAttribute('href')===href);
+   // The index renders each record in its trailing-slash form, which GitHub Pages serves without a 301.
+   const record=[...search.querySelectorAll('[data-search]')].find(e=>e.getAttribute('href')===`${href}/`);
    assert.ok(record?.getAttribute('data-search').includes(term),`${term} should find its project record`);
   }
   await w.happyDOM.abort();

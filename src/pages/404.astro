@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { PRIMARY, RECORDS, CONTACT } from "../data/navigation.mjs";
+import { PRIMARY, RECORDS, CONTACT, withSlash } from "../data/navigation.mjs";
 ---
 
 <Base
@@ -18,17 +18,17 @@ import { PRIMARY, RECORDS, CONTACT } from "../data/navigation.mjs";
     <p class="lead">Check the address or search the site.</p>
     <div class="not-found-actions">
       <button type="button" class="fieldbook-action" data-index-open>Search the site index</button>
-      <a class="text-route" href="/library">Open the complete public index →</a>
+      <a class="text-route" href="/library/">Open the complete public index →</a>
     </div>
     <nav class="not-found-routes" aria-label="Main routes">
       <div>
         <strong>Navigate</strong>
-        {PRIMARY.map(({ label, href }) => <a href={href}>{label}</a>)}
+        {PRIMARY.map(({ label, href }) => <a href={withSlash(href)}>{label}</a>)}
       </div>
       <div>
         <strong>Records</strong>
-        {RECORDS.map(({ label, href }) => <a href={href}>{label}</a>)}
-        <a href={CONTACT.href}>{CONTACT.label}</a>
+        {RECORDS.map(({ label, href }) => <a href={withSlash(href)}>{label}</a>)}
+        <a href={withSlash(CONTACT.href)}>{CONTACT.label}</a>
       </div>
     </nav>
   </section>

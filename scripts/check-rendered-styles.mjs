@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { Window } from "happy-dom";
 import yaml from "js-yaml";
-import { PRIMARY, CONTACT, BOOK } from "../src/data/navigation.mjs";
+import { PRIMARY, CONTACT, BOOK, withSlash } from "../src/data/navigation.mjs";
 import { availabilityRecord } from "../src/data/public-record.mjs";
 import { placeLabels } from "../src/lib/gravity-field.mjs";
 import { LABEL_HALO_PX, PAINT_ORDER } from "../src/scripts/home-graph.mjs";
@@ -581,9 +581,11 @@ const heroStatus=noScriptWindow.document.querySelector('.st-hero-copy h2')?.text
 if(heroStatus!=='Applied economist on the 2026–27 economics job market') failures.push('homepage hero must state the job-market status');
 const heroActions=[...noScriptWindow.document.querySelectorAll('.st-hero-actions a')].map(link=>link.getAttribute('href'));
 if(JSON.stringify(heroActions.slice(0,3))!==JSON.stringify(['/research/ian-helfrich-nmtc-working-paper.pdf','/cv/ian-helfrich-cv.pdf','/job-market'])) failures.push('homepage hero actions must be the paper PDF, the CV PDF and the candidate page');
-for(const target of ['/econometrics/','/econometrics/lab/','/learn/policy-statistics/','/library','/job-market']) {
+// The open courses and teaching tools replaced the Policy Statistics Lab, which is reached by direct link only.
+for(const target of ['/econometrics/','/time-series/','/econometrics/lab/','/teaching/distributions/','/library','/job-market']) {
  if(!noScriptWindow.document.querySelector(`a[href="${target}"]`)) failures.push(`homepage is missing useful destination ${target}`);
 }
+if(noScriptWindow.document.querySelector('a[href^="/learn/policy-statistics"]')) failures.push('homepage must not link the direct-link Policy Statistics Lab');
 // The coefficient figure is one component (NmtcCoefficientFigure) on home and /job-market.
 const coefficientFigureLabelled=(doc,selector)=>{const svg=doc.querySelector(`${selector} svg[role="img"]`);return Boolean(svg?.querySelector('title#coefficient-title')&&svg.querySelector('desc#coefficient-desc')&&doc.querySelector(`${selector} figcaption`)?.textContent.trim());};
 if(!coefficientFigureLabelled(noScriptWindow.document,'.st-coeff')) failures.push('homepage coefficient figure must keep its title, description and caption');
@@ -739,17 +741,18 @@ const backdrop = window.document.querySelector("[data-nav-backdrop]");
 const visibleLabel = toggle?.querySelector(".nav-toggle-label");
 const primaryLinks = [...(sheet?.querySelectorAll("[data-primary-nav] > a") ?? [])];
 const primaryContract = primaryLinks.map((link) => `${link.textContent.trim()}:${link.getAttribute("href")}`);
-const expectedPrimary = PRIMARY.map(({ label, href }) => `${label}:${href}`);
+// The shell renders navigation hrefs in their trailing-slash form, which GitHub Pages serves without a 301.
+const expectedPrimary = PRIMARY.map(({ label, href }) => `${label}:${withSlash(href)}`);
 
 if (!toggle || !sheet || !navSurface || toggle.getAttribute("aria-controls") !== sheet.id) failures.push("mobile navigation lacks a controlling button, modal surface, and identified sheet");
 if (!visibleLabel || visibleLabel.textContent.trim() !== "Menu" || visibleLabel.classList.contains("sr-only")) failures.push("mobile navigation toggle needs a visible Menu label");
 if (JSON.stringify(primaryContract) !== JSON.stringify(expectedPrimary)) failures.push(`primary navigation must be ${expectedPrimary.join(", ")}`);
-if (!sheet?.querySelector(`a.nav-book[href='${BOOK.href}']`)) failures.push("navigation needs Book a time beside Contact");
-const headerContact = window.document.querySelector(`.site-header-inner > a.header-contact[href='${CONTACT.href}']`);
+if (!sheet?.querySelector(`a.nav-book[href='${withSlash(BOOK.href)}']`)) failures.push("navigation needs Book a time beside Contact");
+const headerContact = window.document.querySelector(`.site-header-inner > a.header-contact[href='${withSlash(CONTACT.href)}']`);
 if (!headerContact || sheet?.contains(headerContact)) failures.push("the phone header needs a Contact link outside the collapsed menu");
-if (!window.document.querySelector(`.site-footer .footer-links a[href='${BOOK.href}']`)) failures.push("the footer needs Book a time under Connect");
+if (!window.document.querySelector(`.site-footer .footer-links a[href='${withSlash(BOOK.href)}']`)) failures.push("the footer needs Book a time under Connect");
 if (!sheet?.querySelector("button[data-index-open]")) failures.push("mobile navigation needs Index as a utility control");
-if (!sheet?.querySelector(`a.nav-cta[href='${CONTACT.href}']`)) failures.push("mobile navigation needs Contact as its single action");
+if (!sheet?.querySelector(`a.nav-cta[href='${withSlash(CONTACT.href)}']`)) failures.push("mobile navigation needs Contact as its single action");
 if (!backdrop || backdrop.tagName !== "BUTTON" || backdrop.getAttribute("aria-hidden") !== "true" || backdrop.getAttribute("tabindex") !== "-1") failures.push("mobile navigation needs a pointer-only backdrop outside the focus order");
 
 if (toggle && sheet && navSurface && visibleLabel && backdrop) {
