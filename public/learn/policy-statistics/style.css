@@ -108,6 +108,25 @@ header {
 .byline {
   font-size: 13px;
   color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+.byline:hover {
+  color: var(--ink);
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 10px 0 0;
+}
+.footer-links a {
+  color: var(--muted);
+  font-weight: 600;
+}
+.footer-links a:hover {
+  color: var(--ink);
 }
 .intro {
   padding: 28px 0 26px;
@@ -595,9 +614,11 @@ footer p {
   }
   header {
     padding-top: 16px;
+    flex-wrap: wrap;
+    row-gap: 6px;
   }
   .byline {
-    display: none;
+    font-size: 12px;
   }
   .intro {
     padding: 22px 0;
@@ -1239,7 +1260,7 @@ h2 {
     padding-top: 14px;
   }
   .header-actions {
-    gap: 0;
+    gap: 12px;
   }
   .brand {
     font-size: 14px;

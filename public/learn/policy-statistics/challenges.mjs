@@ -13,19 +13,19 @@ export const challenges = {
   },
   outlier: {
     question:
-      "Move the largest village from 6,000 to 600. Which center changes?",
+      "Shrink the largest village from 5,000 to 800 people. Which center changes?",
     choices: ["Only the mean", "Only the median", "Both centers"],
     answer: 0,
     explanation:
-      "The total falls, so the mean falls. Both middle villages still have 450 people.",
+      "The total falls, so the mean falls. Both middle villages still have 500 people.",
   },
   median: {
     question:
-      "After crossing off pairs from 230 villages, how many middle villages remain?",
+      "After crossing off pairs from 200 villages, how many middle villages remain?",
     choices: ["One", "Two", "Ten"],
     answer: 1,
     explanation:
-      "230 is even. Positions 115 and 116 remain, and both have 450 people.",
+      "200 is even. Positions 100 and 101 remain, and both have 500 people.",
   },
   spread: {
     question:

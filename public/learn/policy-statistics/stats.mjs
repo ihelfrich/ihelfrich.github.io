@@ -1,11 +1,30 @@
-export const groupedCounts = [20, 30, 40, 55, 50, 30, 20];
-export const villageValues = [
-  200, 250, 275, 300, 450, 485, 525, 575, 600, 6000,
-];
-export const villageFrequencies = [10, 20, 30, 40, 50, 30, 26, 14, 9, 1];
-export function villageData(outlier = 6000) {
+/*
+ * Every table here is synthetic, constructed for these exercises. None
+ * describes real villages.
+ *
+ * Grouped table: 170 villages in seven population bins of width 50, starting
+ * at 100 people. The counts are skewed to the right, so the grouped mean
+ * (about 252.6) sits above the interpolated median (about 244.3).
+ */
+export const groupedCounts = [14, 32, 44, 36, 22, 14, 8];
+export const groupedStart = 100;
+export const groupedWidth = 50;
+
+/*
+ * Frequency table: 200 villages, one of them a town of 5,000. The count is
+ * even, so the median averages positions 100 and 101, and both hold 500
+ * people. Most villages are small, so the mean (477) stays below the median
+ * despite the long right tail.
+ */
+export const villageValues = [100, 200, 300, 400, 500, 600, 700, 800, 5000];
+export const villageFrequencies = [10, 24, 30, 26, 44, 34, 20, 11, 1];
+export const largestVillage = villageValues[villageValues.length - 1];
+export const largestVillageFloor = villageValues[villageValues.length - 2];
+export const villageCount = villageFrequencies.reduce((a, b) => a + b, 0);
+export function villageData(outlier = largestVillage) {
+  const last = villageValues.length - 1;
   return villageValues.flatMap((v, i) =>
-    Array(villageFrequencies[i]).fill(i === 9 ? outlier : v),
+    Array(villageFrequencies[i]).fill(i === last ? outlier : v),
   );
 }
 export function summarize(values) {

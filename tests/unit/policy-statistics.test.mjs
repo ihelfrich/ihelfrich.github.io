@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { checkPrediction } from "../../public/learn/policy-statistics/challenges.mjs";
+import { readFileSync } from "node:fs";
+import { checkPrediction, challenges } from "../../public/learn/policy-statistics/challenges.mjs";
 
 test("predictions provide correct feedback and reject invalid choices", () => {
   assert.equal(checkPrediction("outlier", 0).correct, true);
@@ -14,37 +15,65 @@ test("predictions provide correct feedback and reject invalid choices", () => {
 });
 import {
   villageData,
+  villageCount,
+  largestVillage,
+  largestVillageFloor,
   summarize,
   groupedSummary,
   groupedCounts,
+  groupedStart,
+  groupedWidth,
   simpsonRates,
 } from "../../public/learn/policy-statistics/stats.mjs";
 const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
-test("230 village population statistics match independently computed totals", () => {
+
+/**
+ * Synthetic frequency table, checked by hand:
+ * values 100..800 in steps of 100 with frequencies 10, 24, 30, 26, 44, 34, 20,
+ * 11, plus one town of 5,000. Total = 95,400 people over 200 villages, so the
+ * mean is 477. Cumulative counts reach 90 at 400 and 134 at 500, so positions
+ * 100 and 101 are both 500. The sum of squares is 73,000,000.
+ */
+test("200-village synthetic table statistics match hand-computed totals", () => {
   const d = villageData();
   const s = summarize(d);
-  assert.equal(d.length, 230);
-  assert.equal(s.total, 97400);
-  close(s.mean, 97400 / 230);
-  assert.equal(s.median, 450);
-  assert.deepEqual(s.modes, [450]);
-  close(s.variance, 75735500 / 230 - (97400 / 230) ** 2);
+  assert.equal(villageCount, 200);
+  assert.equal(d.length, 200);
+  assert.equal(largestVillage, 5000);
+  assert.equal(largestVillageFloor, 800);
+  assert.equal(s.total, 95400);
+  close(s.mean, 477);
+  assert.equal(s.median, 500);
+  assert.deepEqual(s.modes, [500]);
+  close(s.variance, 73000000 / 200 - 477 ** 2);
+  // The long right tail does not put the mean above the median in this table.
+  assert.ok(s.mean < s.median);
 });
-test("moving one village preserves the sample and leaves the median unchanged", () => {
-  const s = summarize(villageData(600));
-  assert.equal(s.n, 230);
-  close(s.mean, 400);
-  assert.equal(s.median, 450);
+
+test("shrinking the town preserves the sample and leaves the median unchanged", () => {
+  const s = summarize(villageData(largestVillageFloor));
+  assert.equal(s.n, 200);
+  close(s.mean, (95400 - 4200) / 200);
+  assert.equal(s.median, 500);
 });
-test("grouped slide estimates preserve counts and locate the median bin", () => {
-  const s = groupedSummary(groupedCounts, 250, 25);
-  assert.equal(s.n, 245);
-  close(s.mean, 338.5204081632653);
-  close(s.median, 339.77272727272725);
-  assert.deepEqual(s.medianBin, [325, 350]);
-  assert.deepEqual(s.modalBins, [[325, 350]]);
-  close(s.sd, 41.94237533584614);
+
+/**
+ * Grouped synthetic table: counts 14, 32, 44, 36, 22, 14, 8 in bins of width
+ * 50 from 100. Midpoint mean = 42,950 / 170. Half of 170 is 85; 46 villages
+ * lie below 200, so the median is 200 + (85 - 46) / 44 * 50.
+ */
+test("grouped synthetic estimates preserve counts and locate the median bin", () => {
+  const s = groupedSummary(groupedCounts, groupedStart, groupedWidth);
+  assert.equal(s.n, 170);
+  close(s.mean, 42950 / 170);
+  close(s.median, 200 + (39 / 44) * 50);
+  assert.deepEqual(s.medianBin, [200, 250]);
+  assert.deepEqual(s.modalBins, [[200, 250]]);
+  close(s.sd, 78.02936187666084);
+  // Right skew: the grouped mean exceeds the interpolated median.
+  assert.ok(s.mean > s.median);
 });
+
 test("empty drawings have no invented center or spread", () => {
   const s = groupedSummary([0, 0, 0], 0, 1);
   assert.equal(s.n, 0);
@@ -68,4 +97,33 @@ test("composition reverses aggregate admission rates despite fixed within-depart
   const b = simpsonRates(50, 50);
   close(b.a, 45);
   close(b.b, 55);
+});
+
+test("prediction explanations quote the synthetic table's own numbers", () => {
+  assert.match(challenges.outlier.question, /5,000 to 800/);
+  assert.match(challenges.outlier.explanation, /500 people/);
+  assert.match(challenges.median.question, /200 villages/);
+  assert.match(challenges.median.explanation, /Positions 100 and 101/);
+});
+
+const dir = new URL("../../public/learn/policy-statistics/", import.meta.url);
+const read = (name) => readFileSync(new URL(name, dir), "utf8");
+
+test("the lab cites no source lecture and labels its tables as synthetic", () => {
+  for (const name of ["index.html", "lab.mjs", "stats.mjs", "challenges.mjs", "README.md"]) {
+    const text = read(name);
+    assert.doesNotMatch(text, /lecture|slide \d|September 2/i, `${name} still refers to a source lecture`);
+  }
+  assert.match(read("index.html"), /Every table on this page is synthetic/);
+});
+
+test("the lab stays unindexed, links back to the site, and promises only what it teaches", () => {
+  const html = read("index.html");
+  assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
+  assert.match(html, /data-pagefind-ignore="all"/);
+  assert.match(html, /<header>[\s\S]*href="\/"[\s\S]*<\/header>/);
+  const footer = html.slice(html.indexOf("<footer>"), html.indexOf("</footer>"));
+  assert.match(footer, /href="\/teaching\/"/);
+  assert.match(footer, /href="\/book\/"/);
+  assert.doesNotMatch(html, /regression|uncertainty/i);
 });
