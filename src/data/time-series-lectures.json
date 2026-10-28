@@ -45,7 +45,7 @@
     "challenge": "Underprediction costs four and overprediction one. Which quantile is optimal? Compare model losses 2, 6, 1 with benchmark losses 4, 3, 5.",
     "answer": "The optimal quantile is 0.8. Paired differences are negative two, three, and negative four, averaging negative one. Three targets support a local comparison, not a persistent superiority claim.",
     "failure": "Time is shuffled, selection uses test loss, or methods are evaluated on different dates.",
-    "repair": "Separate chronological selection and evaluation. Match targets and use an uncertainty method appropriate to dependent losses; with nested models and estimated parameters, the Diebold–Mariano normal reference no longer applies."
+    "repair": "Separate chronological selection and evaluation. Match targets and use an uncertainty method appropriate to dependent losses; with nested models and estimated parameters, the Diebold–Mariano normal reference need not apply."
   },
   {
     "order": 5,

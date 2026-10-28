@@ -63,7 +63,7 @@ The distinction becomes especially important when constructing regressors. If a 
 
 Seasonal adjustment and benchmark revisions can have similar effects. A series released as a current indicator can be revised after future observations arrive. The latest adjusted history is useful for retrospective analysis but may not be the measure available to an earlier forecaster. Preserve the vintage or qualify the experiment.
 
-The Hodrick–Prescott filter, the most common trend extraction in macroeconomics, is a two-sided smoother of this kind. Its trend at date $t$ depends on observations after $t$, so the estimate near the end of a sample changes as later data arrive, and a cyclical gap computed from the full sample was not available to a forecaster at the time. [Hamilton (2018)](https://doi.org/10.1162/rest_a_00706) documents these endpoint revisions and the spurious dynamics the filter can create, and proposes a regression on lagged values in its place. The future-mutation test below exposes the problem directly.
+The Hodrick–Prescott filter, a widely used trend extraction in macroeconomics, is a two-sided smoother of this kind. Its trend at date $t$ depends on observations after $t$, so the estimate near the end of a sample changes as later data arrive, and a cyclical gap computed from the full sample was not available to a forecaster at the time. [Hamilton (2018)](https://doi.org/10.1162/rest_a_00706) documents these endpoint revisions and the spurious dynamics the filter can create, and proposes a regression on lagged values in its place. Applying the future-mutation test below to an HP trend would expose the problem directly.
 
 ## A future-mutation test
 
