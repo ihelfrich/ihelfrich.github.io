@@ -39,3 +39,15 @@ test("only the last crumb lacks a link, and every parent route is a labelled sec
 test("a page with no known parent gets no trail", () => {
   assert.deepEqual(crumbsFor("/unknown/page/", "Page"), []);
 });
+
+test("the time-series course and the handbook use their published titles in the trail", () => {
+  assert.deepEqual(crumbsFor("/time-series/03-arma/", "ARMA models and recoverable innovations").map(({ label }) => label), [
+    "Teaching", "Time-Series Econometrics", "ARMA models and recoverable innovations",
+  ]);
+  assert.deepEqual(crumbsFor("/time-series/lectures/03-arma/", "Lecture 3").map(({ label, href }) => [label, href]), [
+    ["Teaching", "/teaching"], ["Time-Series Econometrics", "/time-series"], ["Lecture 3", null],
+  ]);
+  assert.deepEqual(crumbsFor("/handbook/01-questions/", "Economic questions").map(({ label }) => label), [
+    "Teaching", "Econometrics Across Disciplines", "Economic questions",
+  ]);
+});

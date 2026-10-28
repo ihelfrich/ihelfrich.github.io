@@ -14,9 +14,9 @@ export const SECTION_LABELS = Object.freeze({
   "/econometrics/measurement": "Measurement",
   "/hidden-rivers": "Hidden Rivers",
   "/economics-practice": "Economics practice",
-  "/handbook": "Handbook",
-  "/time-series": "Time series",
-  "/macroeconomics": "Macroeconomics",
+  "/handbook": "Econometrics Across Disciplines",
+  "/time-series": "Time-Series Econometrics",
+  "/macroeconomics": "Macroeconomics suite",
 });
 
 // Sections that sit under another section in the trail, so the trail starts at the right place.
