@@ -113,7 +113,7 @@ test("misspecification bias equals the omitted squared-term coefficient", () => 
   assert.ok(result.sizeConventional > 0.9, `size ${result.sizeConventional}`);
   const verdict = readVerdicts(result);
   assert.equal(verdict.centre.state, "broken");
-  assert.match(verdict.reading, /0\.50 below the true slope/);
+  assert.match(verdict.reading, /0\.50 below the true coefficient/);
 });
 
 /** Omitted-variable bias is gamma * delta = 1.5 * 0.8 when the regressor is standardised. */
@@ -291,11 +291,33 @@ test("an optimistic standard error with a sound test gets its own reading", () =
   assert.match(verdict.reading, /3 of the hundred intervals drawn miss/);
 });
 
-test("the normality panel at its page defaults reads as optimistic, not clean", () => {
+test("the normality panel at full violation reads as optimistic, not clean", () => {
   const verdict = readVerdicts(runExperiment({ assumption: "normality", strength: 1, n: 20, reps: 500 }));
   assert.notEqual(verdict.honesty.state, "clean");
   assert.equal(verdict.size.state, "clean");
   assert.doesNotMatch(verdict.reading, /All three readings are clean/);
+});
+
+/**
+ * Under exact 95% coverage the miss count in a hundred intervals is
+ * Binomial(100, 0.05), so a clean panel can show 0 misses (probability about
+ * 0.6%) or 10. The clean reading must hold for any count and must not present
+ * the drawn count itself as the meaning of 95% coverage.
+ */
+test("the clean reading states coverage as an average, whatever the drawn count", () => {
+  const verdict = readVerdicts(runExperiment({ assumption: "noCollinearity", strength: 0, n: 60, reps: 500 }));
+  assert.deepEqual([verdict.centre.state, verdict.honesty.state, verdict.size.state], ["clean", "clean", "clean"]);
+  assert.equal(verdict.misses, 0);
+  assert.match(verdict.reading, /^All three readings are clean\./);
+  assert.match(verdict.reading, /rejects the true null in 4% of the 500 samples, against a promised 5%/);
+  assert.match(verdict.reading, /0 of the hundred intervals drawn miss the truth; 95% coverage means five misses per hundred on average/);
+  assert.doesNotMatch(verdict.reading, /which is what 95% coverage means/);
+  for (const assumption of Object.keys(GENERATORS)) {
+    const clean = readVerdicts(runExperiment({ assumption, strength: 0, n: assumption === "normality" ? 20 : 60, reps: 500 }));
+    if (clean.size.state === "clean" && clean.honesty.state === "clean" && clean.centre.state === "clean") {
+      assert.match(clean.reading, /on average, and the count in any particular hundred varies around that figure\.$/, assumption);
+    }
+  }
 });
 
 test("nice ticks land on round values inside the domain", () => {
@@ -313,7 +335,7 @@ test("nice ticks land on round values inside the domain", () => {
 test("the figure is laid out for its drawn width and keeps the comb inside its band", () => {
   const result = runExperiment({ assumption: "normality", strength: 1, n: 60, reps: 500 });
   const verdict = readVerdicts(result);
-  for (const width of [300, 420, 728, 1000]) {
+  for (const width of [240, 264, 280, 300, 420, 728, 1000]) {
     const figure = renderFigure(result, { domain: [0.1, 1.9], width });
     assert.equal(figure.width, width);
     assert.equal(figure.misses, verdict.misses);
@@ -330,7 +352,19 @@ test("the figure is laid out for its drawn width and keeps the comb inside its b
       const x = Number(match[1]);
       assert.ok(x >= 0 && x <= width, `width ${width}: label anchored outside the figure at ${x}`);
     }
+    // Every label fits inside the frame, at the data face's advance of 0.6 em
+    // (plus 0.06 em tracking on headings).
+    const em = { "lab-head": 12 * 0.66, "lab-axis-tick": 11 * 0.6, "lab-span-label": 12 * 0.6, "lab-flag": 12 * 0.6 };
+    for (const match of figure.markup.matchAll(/<text x="([^"]+)" y="[^"]+" class="([^"]+)"(?: text-anchor="([^"]+)")?>([^<]*)<\/text>/g)) {
+      const [, x, cls, anchor = "start", content] = match;
+      const advance = em[cls.split(" ")[0]];
+      assert.ok(advance, `width ${width}: no advance for ${cls}`);
+      const span = [...content].length * advance;
+      const left = anchor === "end" ? Number(x) - span : anchor === "middle" ? Number(x) - span / 2 : Number(x);
+      assert.ok(left >= -0.5 && left + span <= width + 0.5, `width ${width}: "${content}" runs from ${left} to ${left + span}`);
+    }
   }
+  assert.equal(renderFigure(result, { domain: [0.1, 1.9], width: 200 }).width, 240);
   assert.match(renderFigure(result, { domain: [0.1, 1.9], width: 320 }).markup, /Where 500 estimates land/);
   assert.match(renderFigure(result, { domain: [0.1, 1.9], width: 900 }).markup, /Where five hundred estimates land/);
 });

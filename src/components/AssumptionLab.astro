@@ -93,7 +93,6 @@ const figure = renderFigure(initial, { domain, width: 720 });
   </div>
 
   <div class="lab-receipt" data-lab-receipt>
-    <p class="lab-start">The panel opens with the assumption satisfied. Moving the first slider introduces the violation, and the three readings below show which property of the estimate it affects.</p>
     <ol class="lab-chips">
       <li class="lab-chip" data-state={verdict.centre.state} data-lab-chip="centre">
         <p class="lab-chip__axis">Centre</p>
@@ -205,12 +204,6 @@ const figure = renderFigure(initial, { domain, width: 720 });
   .lab-control--toggle input { accent-color: var(--ef-signal); height: 20px; width: 20px; }
 
   .lab-receipt { display: grid; gap: 0.85rem; }
-  .lab-start {
-    color: color-mix(in srgb, var(--ef-ink) 78%, transparent);
-    font: 400 0.92rem/1.55 var(--font-text);
-    margin: 0;
-    max-width: 66ch;
-  }
   .lab-chips { display: grid; gap: 0.6rem; list-style: none; margin: 0; padding: 0; }
   .lab-chip {
     border-left: 4px solid color-mix(in srgb, var(--ef-ink) 30%, var(--ef-paper));
@@ -321,7 +314,7 @@ const figure = renderFigure(initial, { domain, width: 720 });
       if (live && announce) {
         live.textContent =
           `${verdict.centre.label}. ${verdict.honesty.label}. ${verdict.size.label}. ` +
-          `${verdict.misses} of one hundred intervals miss the true slope.`;
+          `${verdict.misses} of one hundred intervals miss the true coefficient.`;
       }
     };
 

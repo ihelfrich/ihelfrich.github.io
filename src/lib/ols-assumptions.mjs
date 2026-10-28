@@ -429,9 +429,9 @@ export function readVerdicts(result, { robust = false } = {}) {
   const rejection = `The test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, against a promised 5%.`;
   let reading;
   if (centre.state === "broken") {
-    reading = `The average estimate sits ${gap} ${direction} the true slope. No correction to the standard error can bring it back, because the coefficient is now answering a different question. ${rejection}`;
+    reading = `The average estimate sits ${gap} ${direction} the true coefficient. No correction to the standard error can bring it back, because the coefficient is now answering a different question. ${rejection}`;
   } else if (centre.state === "warn") {
-    reading = `The average estimate has drifted ${gap} ${direction} the true slope, about ${biasInSes.toFixed(1)} times the ${seName}. A larger sample shrinks the standard error but not this gap. ${rejection}`;
+    reading = `The average estimate has drifted ${gap} ${direction} the true coefficient, about ${biasInSes.toFixed(1)} times the ${seName}. A larger sample shrinks the standard error but not this gap. ${rejection}`;
   } else if (honesty.state !== "clean" && ratio > 1) {
     reading = `The estimate is centred, but the estimates actually spread ${times(ratio)} as far as the average ${seName} claims. ${sizeClause}`;
   } else if (honesty.state !== "clean") {
@@ -439,7 +439,12 @@ export function readVerdicts(result, { robust = false } = {}) {
   } else if (sizeVerdict.state !== "clean") {
     reading = `The estimate is centred and the standard error is close, yet ${missed} the truth, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples.`;
   } else {
-    reading = `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and ${missed}, which is what 95% coverage means.`;
+    /**
+     * The hundred drawn intervals are a sample: under exact 95% coverage the
+     * miss count is Binomial(100, 0.05), and 0 or 10 misses both occur. The
+     * sentence states the promise as an average so it holds for any count.
+     */
+    reading = `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, against a promised 5%. ${missed[0].toUpperCase()}${missed.slice(1)} the truth; 95% coverage means five misses per hundred on average, and the count in any particular hundred varies around that figure.`;
   }
 
   return { centre, honesty, size: sizeVerdict, ratio, misses, reading };
@@ -501,13 +506,15 @@ const formatTick = (value) => {
  * drawn at. The coordinate system is one unit per CSS pixel, so every label
  * renders at its stated size: 12px headings and flags, 11px ticks. Below 560
  * units the layout narrows: shorter headings, fewer ticks, and the miss count
- * on its own line.
+ * on its own line. The narrowest layout, 240 units, is below the figure's
+ * width on a 320px phone, so a phone never scales the text down.
  *
  * Returns the markup that goes inside the <svg>, the viewBox size, and the
  * number of drawn intervals that miss the truth.
  */
+export const FIGURE_MIN_WIDTH = 240;
 export function renderFigure(result, { domain, width = 720, robust = false } = {}) {
-  const W = Math.round(Math.max(280, Math.min(1100, width)));
+  const W = Math.round(Math.max(FIGURE_MIN_WIDTH, Math.min(1100, width)));
   const narrow = W < 560;
   const [dMin, dMax] = domain;
   const span = dMax - dMin;
@@ -572,13 +579,16 @@ export function renderFigure(result, { domain, width = 720, robust = false } = {
   text(meanFlag.x, y.flagMean, "average", "lab-flag lab-flag--mean", meanFlag.anchor);
 
   const reportedSe = robust ? result.meanRobustSe : result.meanReportedSe;
+  // A span label starts under the plot when it fits there, and at the left edge when it does not.
+  const spanLabelX = (content) => (L + textWidth(content, size.span) <= W ? L : 0);
   parts.push(`<line x1="${n(clampX(result.trueB1 - result.sdB1))}" x2="${n(clampX(result.trueB1 + result.sdB1))}" y1="${y.actualBar}" y2="${y.actualBar}" class="lab-span lab-span--actual"/>`);
-  text(L, y.actualLabel, `${narrow ? "actual spread" : "how far estimates really move:"} ±${result.sdB1.toFixed(3)}`, "lab-span-label lab-span-label--actual");
+  const actualText = `${narrow ? "actual spread" : "how far estimates really move:"} ±${result.sdB1.toFixed(3)}`;
+  text(spanLabelX(actualText), y.actualLabel, actualText, "lab-span-label lab-span-label--actual");
   parts.push(`<line x1="${n(clampX(result.trueB1 - reportedSe))}" x2="${n(clampX(result.trueB1 + reportedSe))}" y1="${y.reportedBar}" y2="${y.reportedBar}" class="lab-span lab-span--reported"/>`);
   const reportedText = narrow
     ? `${robust ? "robust" : "reported"} standard error ±${reportedSe.toFixed(3)}`
     : `${robust ? "how far the robust standard error says they move" : "how far the regression says they move"}: ±${reportedSe.toFixed(3)}`;
-  text(L, y.reportedLabel, reportedText, "lab-span-label lab-span-label--reported");
+  text(spanLabelX(reportedText), y.reportedLabel, reportedText, "lab-span-label lab-span-label--reported");
 
   // Region B: one hundred intervals, drawn inside their own band.
   const sorted = [...result.intervals].sort((a, b) => a.b1 - b.b1);
@@ -600,26 +610,41 @@ export function renderFigure(result, { domain, width = 720, robust = false } = {
   for (const tick of ticks) {
     text(L - 6, toY(tick) + 4, formatTick(tick), "lab-axis-tick", "end");
   }
-  text(0, y.combHead, narrow ? `${sorted.length} intervals at 95%, one per study` : `One hundred 95% intervals, one per study`, "lab-head");
+  const combHead = `${sorted.length} intervals at 95%, one per study`;
+  text(0, y.combHead, !narrow ? `One hundred 95% intervals, one per study` : textWidth(combHead, size.head, headTracking) <= W ? combHead : "95% intervals, one per study", "lab-head");
   text(narrow ? 0 : W, y.count, `${misses} of these ${sorted.length} miss`, "lab-head lab-head--count", narrow ? "start" : "end");
 
-  // Legend under the band: what the rule is, what a miss looks like, and the ordering.
-  let legendX = L;
-  parts.push(`<line x1="${legendX}" x2="${legendX + 18}" y1="${y.legend - 4}" y2="${y.legend - 4}" class="lab-truth-rule"/>`);
+  // Legend under the band: what the rule is, what a miss looks like, and the
+  // ordering. The items run left to right and wrap to a new line when the next
+  // one would cross the frame. On a wide figure the ordering sits flush right.
   const ruleText = `the truth, β₁ = ${formatTick(result.trueB1)}`;
-  text(legendX + 24, y.legend, ruleText, "lab-axis-tick");
-  legendX += 24 + textWidth(ruleText, size.tick) + 18;
-  parts.push(`<line x1="${n(legendX)}" x2="${n(legendX)}" y1="${y.legend - 11}" y2="${y.legend + 2}" class="lab-ci lab-ci--miss" style="stroke-width:3px"/>`);
-  text(legendX + 7, y.legend, "a miss", "lab-axis-tick");
-  legendX += 7 + textWidth("a miss", size.tick) + 18;
-  const orderText = "sorted by estimate, smallest to largest";
-  let height = y.legend + 8;
-  if (legendX + textWidth(orderText, size.tick) <= R) {
-    text(R, y.legend, orderText, "lab-axis-tick", "end");
-  } else {
-    text(L, y.legend + 18, orderText, "lab-axis-tick");
-    height = y.legend + 26;
+  const longOrder = "sorted by estimate, smallest to largest";
+  const orderText = L + textWidth(longOrder, size.tick) <= R ? longOrder : "sorted by estimate";
+  const items = [
+    { width: 24 + textWidth(ruleText, size.tick), draw: (x, yy) => {
+      parts.push(`<line x1="${n(x)}" x2="${n(x + 18)}" y1="${yy - 4}" y2="${yy - 4}" class="lab-truth-rule"/>`);
+      text(x + 24, yy, ruleText, "lab-axis-tick");
+    } },
+    { width: 7 + textWidth("a miss", size.tick), draw: (x, yy) => {
+      parts.push(`<line x1="${n(x)}" x2="${n(x)}" y1="${yy - 11}" y2="${yy + 2}" class="lab-ci lab-ci--miss" style="stroke-width:3px"/>`);
+      text(x + 7, yy, "a miss", "lab-axis-tick");
+    } },
+    { width: textWidth(orderText, size.tick), order: true, draw: (x, yy, flush) => {
+      if (flush) text(R, yy, orderText, "lab-axis-tick", "end");
+      else text(x, yy, orderText, "lab-axis-tick");
+    } },
+  ];
+  let legendX = L;
+  let legendY = y.legend;
+  for (const item of items) {
+    if (legendX > L && legendX + item.width > R) {
+      legendX = L;
+      legendY += 18;
+    }
+    item.draw(legendX, legendY, item.order && legendX > L);
+    legendX += item.width + 18;
   }
+  const height = legendY + 8;
 
   return { width: W, height, markup: parts.join(""), misses };
 }

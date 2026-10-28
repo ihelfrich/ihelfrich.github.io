@@ -19,7 +19,7 @@ const assumptions = [
     domain: [-0.2, 1.7] as [number, number],
     method: ["OLS on a concave quadratic truth", "500-sample Monte Carlo", "true null tested at 5%"],
     limit:
-      "With spending uniform on its range, the fitted slope differs from the linear-term coefficient by exactly the coefficient on the omitted squared term, and it equals the average marginal effect across the sample. With a skewed regressor the fitted slope and the average marginal effect generally differ.",
+      "In the simulation, spending is uniform on [0, 1], so the fitted slope differs from the linear-term coefficient by exactly the coefficient on the omitted squared term and equals the average marginal effect. For spending uniform on [a, b], Cov(x, x²)/Var(x) = a + b, so the gap is (a + b) times that coefficient. The slope equals the average marginal effect whenever spending is symmetric about its mean; with a skewed regressor the two generally differ.",
     setting:
       "Spending per pupil raises test scores, and the first thousand dollars does more than the tenth. A budget office fits a line and reports a single per-dollar effect.",
     breaks:
@@ -248,12 +248,15 @@ const overview = assumptions.map((item) => {
           <strong>How often does a 5% test reject a true null?</strong> A correctly sized test rejects in 5% of repetitions; simulation estimates that frequency with sampling variation.
         </li>
       </ol>
+      <p>
+        Every panel opens with its assumption satisfied. The first slider introduces the violation, and the three readings show which property of the estimate it affects.
+      </p>
 
     </section>
 
     <section class="ols-map" aria-labelledby="what-breaks">
       <h2 id="what-breaks">Simulation results</h2>
-      <div class="ols-table-scroll" tabindex="0" role="region" aria-label="Simulation results table, scrollable">
+      <div class="ols-table-scroll" tabindex="0" role="region" aria-label="Simulation results table" data-scroll-region>
         <table>
           <caption>Results at the maximum violation setting.</caption>
           <thead>
@@ -465,3 +468,17 @@ const overview = assumptions.map((item) => {
     .ols-assumption__body { grid-template-columns: 1fr 1fr; }
   }
 </style>
+
+<script>
+  // The results table scrolls sideways only on narrow screens. It is a tab stop
+  // there, so keyboard users can scroll it, and leaves the tab order when it fits.
+  const region = document.querySelector("[data-scroll-region]");
+  if (region instanceof HTMLElement) {
+    const sync = () => {
+      if (region.scrollWidth > region.clientWidth + 1) region.setAttribute("tabindex", "0");
+      else region.removeAttribute("tabindex");
+    };
+    sync();
+    if ("ResizeObserver" in window) new ResizeObserver(sync).observe(region);
+  }
+</script>
