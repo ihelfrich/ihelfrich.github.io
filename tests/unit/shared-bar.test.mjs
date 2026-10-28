@@ -25,6 +25,8 @@ test("every course layout renders the shared bar before its own header", async (
   for (const layout of ["Econometrics", "Handbook", "TimeSeries"]) {
     const source = await readFile(`src/layouts/${layout}.astro`, "utf8");
     assert.ok(source.indexOf("<SiteBar") > 0 && source.indexOf("<SiteBar") < source.indexOf('<header class="ea-header">'), `${layout} needs the shared bar above its header`);
+    // The bar is its own <nav aria-label="Site"> landmark; a region wrapped around it only repeats the landmark.
+    assert.doesNotMatch(source, /role="region"[^>]*>\s*<SiteBar/, `${layout} must not wrap the shared bar in a second landmark`);
   }
 });
 

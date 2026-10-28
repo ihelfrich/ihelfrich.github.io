@@ -42,7 +42,7 @@ const isChapter=(await getCollection('handbook')).some(chapter=>path===`/handboo
   </head>
   <body class="ea hb" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
+    <SiteBar title={title} />
     <header class="ea-header">
       <a class="ea-brand" href="/handbook/"><span class="ea-mark" aria-hidden="true">∑</span><span>Econometrics<br /><strong>Across Disciplines</strong></span></a>
       <nav aria-label="Handbook navigation">

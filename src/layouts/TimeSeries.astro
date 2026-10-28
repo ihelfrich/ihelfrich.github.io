@@ -42,7 +42,7 @@ const isChapter = (await getCollection('timeseries')).some((chapter) => path ===
   </head>
   <body class="ea ts" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
+    <SiteBar title={title} />
     <header class="ea-header">
       <a class="ea-brand" href="/time-series/"><span class="ea-mark" aria-hidden="true">t</span><span>Time-Series<br /><strong>Econometrics</strong></span></a>
       <nav aria-label="Course navigation">
