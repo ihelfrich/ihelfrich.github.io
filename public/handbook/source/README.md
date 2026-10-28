@@ -4,4 +4,4 @@ Run `quarto render --to pdf` from this directory. Quarto and XeLaTeX are require
 
 Chapter-local links and links to available handbook chapters become PDF destinations. Other root-relative web links become full online URLs. The `../figures/*-print.pdf` files are original vector print figures with enlarged labels and vertically arranged panels. The neighboring `code` directory contains controlled fixtures, the small attributed BEA extract, manifests and independent implementations. Web Markdown is in `chapters/`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
 
-This working edition contains three foundation chapters. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
+This working edition contains three foundation chapters. Live assessments and grading keys are excluded.
