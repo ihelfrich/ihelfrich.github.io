@@ -71,6 +71,15 @@ For a pure AR$(p)$, the population PACF cuts off after $p$ and the ACF generally
 
 An estimated ACF is noisy. A familiar $\pm1.96/\sqrt n$ band is a rough white-noise reference, not a simultaneous confidence band for every lag of every fitted model. Inspecting many lags creates many opportunities for an apparent excursion. Use the plots to propose a short candidate list, then check residuals and evaluate the candidates on later targets.
 
+Information criteria rank such a list. For a Gaussian model with $k$ estimated parameters fitted to $n$ observations, and up to terms common to every candidate,
+
+$$
+\operatorname{AIC}=n\log\widehat\sigma^2+2k,\qquad
+\operatorname{BIC}=n\log\widehat\sigma^2+k\log n,
+$$
+
+where $\widehat\sigma^2$ is the estimated innovation variance ([Akaike 1974](https://doi.org/10.1109/TAC.1974.1100705); [Schwarz 1978](https://doi.org/10.1214/aos/1176344136)). The preferred candidate minimizes the criterion. BIC's penalty exceeds AIC's once $n\ge8$, so BIC chooses smaller models. When the true orders are among the candidates, BIC selects them with probability approaching one, while AIC retains a positive probability of overfitting; AIC is designed instead to approximate expected predictive loss. Compute every criterion on a common estimation sample, because a model with more lags loses initial observations, and criteria computed on different samples are not comparable. Select the order inside the training window and treat that selection rule as part of the procedure that later targets evaluate.
+
 The laboratory's ARMA series has $\phi=0.6$ and $\theta=0.4$. Its sample lag-one correlation is substantially larger than the isolated MA(1) correlation $0.4/(1+0.4^2)$. Comparing those two values does not reveal an error: one belongs to a mixed model and the other to a pure MA benchmark. Calculate the mixed-model population correlation using the formulas above before interpreting the sample.
 
 ## Estimate a conditional model transparently
@@ -90,7 +99,7 @@ Estimate a mean explicitly, or center using training data only. Centering with t
 
 ## Execute, break, and repair
 
-Run `ch03` in all three languages. The declared grid includes the generating coefficients, and the shared realization selects them under the conditional criterion. Inspect the entire grid if you want to see how sharply the objective distinguishes nearby candidates. Recover the residuals, then calculate their ACF. A model that reproduces the outcome's ACF can still leave predictable residual patterns.
+Run `ch03` in all three languages. The declared grid includes the generating coefficients, and the shared realization selects them under the conditional criterion. The code records the conditional mean squared residual at all sixteen grid points. The minimum, 0.939 at $(\phi,\theta)=(0.6,0.4)$, is close to its neighbors 0.991 at $(0.8,0.4)$ and 1.010 at $(0.4,0.4)$, while $(0.6,-0.4)$ gives 1.693. Use the grid to judge how sharply the objective distinguishes nearby candidates. Recover the residuals, then calculate their ACF. A model that reproduces the outcome's ACF can still leave predictable residual patterns.
 
 Set $\theta=1.2$ in the data generator and try the innovation recursion with that coefficient. Perturb the initial residual by a small amount. The initialization difference evolves as $(-\theta)^t$ and grows in magnitude. Repeat at $\theta=0.4$; the difference decays. Repair the representation by finding the reciprocal invertible coefficient and rescaling innovation variance. Explain which features of the observed series are retained.
 

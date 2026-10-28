@@ -55,19 +55,19 @@ The data clock still applies. If the observation describes period $t$ but arrive
 
 ## Retrospective smoothing uses the future
 
-After observing the entire sequence through $T$, a smoother estimates $S_t$ conditional on $\mathcal I_T$. The scalar Rauch–Tung–Striebel recursion starts from $s_T=m_T$ and moves backward:
+After observing the entire sequence through $T$, a smoother estimates $S_t$ conditional on $\mathcal I_T$. Write its mean as $m_{t|T}$ and its variance as $P_{t|T}$; in this notation the filtered quantities $m_t$ and $P_t$ are $m_{t|t}$ and $P_{t|t}$. The scalar Rauch–Tung–Striebel recursion starts from $m_{T|T}=m_T$ and $P_{T|T}=P_T$ and moves backward:
 
 $$
 J_t=\frac{P_t\phi}{V_{t+1}},
 \qquad
-s_t=m_t+J_t(s_{t+1}-a_{t+1}),
+m_{t|T}=m_t+J_t(m_{t+1|T}-a_{t+1}),
 $$
 
 $$
-S_t^{\mathrm{smooth}}=P_t+J_t^2(S_{t+1}^{\mathrm{smooth}}-V_{t+1}).
+P_{t|T}=P_t+J_t^2(P_{t+1|T}-V_{t+1}).
 $$
 
-The backward correction uses what later observations reveal about earlier states. Under the specified Gaussian model, conditioning on more observations weakly reduces state uncertainty. The code checks that smoothed variances are nonnegative and no larger than their corresponding filtered variances.
+The backward correction uses what later observations reveal about earlier states. Under the specified Gaussian model, conditioning on more observations weakly reduces state uncertainty. The code checks that each smoothed variance $P_{t|T}$ is nonnegative and no larger than the corresponding filtered variance $P_t$. In the source, `ms` and `Ps` hold $m_{t|T}$ and $P_{t|T}$.
 
 A smoother can improve historical state estimation while being unavailable for a real-time decision at that historical date. This is the model-based counterpart to Lecture 5's centered average. Use filtered states to evaluate an earlier decision; use smoothed states to describe a retrospective reconstruction with its later information set stated.
 
@@ -107,4 +107,4 @@ For Project 2, a measurement repair should state whether it changes the indicato
 
 ## Sources
 
-[Kalman (1960)](https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction) is the foundational filtering paper. [QuantEcon's linear state-space lecture](https://python.quantecon.org/linear_models.html) supplies a broader treatment.
+[Kalman (1960)](https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction) is the foundational filtering paper. [Rauch, Tung, and Striebel (1965)](https://doi.org/10.2514/3.3166) derive the fixed-interval smoother. [QuantEcon's linear state-space lecture](https://python.quantecon.org/linear_models.html) supplies a broader treatment.
