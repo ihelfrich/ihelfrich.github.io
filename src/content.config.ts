@@ -162,6 +162,9 @@ const econometrics = defineCollection({
     title: z.string(), order: z.number().int().min(1).max(12),
     part: z.enum(['Frame', 'Estimate', 'Identify', 'Generalize']),
     description: z.string(), question: z.string(), prerequisites: z.string(),
+    // Chapter numbers this chapter relies on, and ones it recommends without relying on them.
+    requires: z.array(z.number().int().min(1).max(12)).default([]),
+    recommends: z.array(z.number().int().min(1).max(12)).default([]),
     minutes: z.number().positive(), lab: z.enum(['worlds', 'sampling', 'design']).optional(),
   }),
 });
