@@ -7,7 +7,7 @@ tags: [econometrics, mathematics, measurement, proof, quantitative-economics]
 date: 2026-10-09
 ---
 
-The opening chapter uses six possible utility-demand days to distinguish prediction, intervention, identification, and a professional recommendation. It includes original figures, explained finite proofs, five worked exercises, and independently checked native programs. A working PDF and editable source package accompany the web chapters. The broader seventy-two-chapter architecture remains in development; the separate time-series course is available now.
+The opening chapter uses six possible utility-demand days to distinguish prediction, intervention, identification, and a professional recommendation. It includes original figures, explained finite proofs, five worked exercises, and independently checked native programs. A working PDF and editable source package accompany the web chapters. The working edition has three foundation chapters, described below; the separate time-series course is available now.
 
 Chapter 2 develops measurement definitions, power and energy, classical errors in variables, calibration failures, repeated readings, and denominator coverage. Its controlled experiments have independently checked Python, Julia, and R calculations, a visual instrument comparison, six worked exercises, and a measurement dictionary.
 
