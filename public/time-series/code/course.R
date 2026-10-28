@@ -5,6 +5,8 @@ script_file <- function() {
   if(length(arg)) normalizePath(sub('^--file=', '', arg[1])) else normalizePath('course.R')
 }
 ROOT <- dirname(script_file())
+MONTE_CARLO_SEED <- 2026
+MONTE_CARLO_REPLICATIONS <- 2000
 normals <- function(n, seed=515) {
   state <- seed; out <- numeric(2*ceiling(n/2))
   for(i in seq(1,length(out),by=2)) {
@@ -69,6 +71,30 @@ df_stat <- function(y) {
   covariance<-sum(u^2)/(length(u)-2)*solve(crossprod(X))
   fit$b[2]/sqrt(covariance[2,2])
 }
+slope_t <- function(y,x) {
+  X<-cbind(1,x);fit<-ols(X,y);u<-fit$u
+  covariance<-sum(u^2)/(length(u)-2)*solve(crossprod(X))
+  fit$b[2]/sqrt(covariance[2,2])
+}
+# One Park-Miller stream split into consecutive blocks: DF paths for each size,
+# then pairs of walks for each size. Never reseed each replication with seed+i.
+unit_root_monte_carlo <- function(replications=MONTE_CARLO_REPLICATIONS,sizes=c(80,240,720),seed=MONTE_CARLO_SEED) {
+  draws<-normals(replications*sum(sizes)*3,seed);offset<-0;out<-numeric()
+  rate<-function(name,n,hits){p<-mean(hits);out[paste0(name,'_rejection_n',n)]<<-p;out[paste0(name,'_mcse_n',n)]<<-sqrt(p*(1-p)/replications)}
+  for(n in sizes) {
+    block<-matrix(draws[offset+seq_len(replications*n)],nrow=replications,byrow=TRUE);offset<-offset+replications*n
+    if(n==sizes[1])out['mc_first_innovation_sd']<-sqrt(mean((block[,1]-mean(block[,1]))^2))
+    rate('df',n,apply(block,1,function(e)df_stat(cumsum(e)))< -2.86)
+  }
+  for(n in sizes) {
+    block<-matrix(draws[offset+seq_len(2*replications*n)],nrow=replications,byrow=TRUE);offset<-offset+2*replications*n
+    levels<-differences<-logical(replications)
+    for(i in seq_len(replications)){y<-cumsum(block[i,1:n]);x<-cumsum(block[i,(n+1):(2*n)])
+      levels[i]<-abs(slope_t(y,x))>1.96;differences[i]<-abs(slope_t(diff(y),diff(x)))>1.96}
+    rate('spurious',n,levels);rate('differenced',n,differences)
+  }
+  stopifnot(offset==length(draws));out['mc_replications']<-replications;out
+}
 kalman <- function(y,phi=.8,q=.25,r=1) {
   if(any(!is.finite(c(phi,q,r)))||q<0||r<=0||abs(phi)>=1)stop('Invalid stationary filter parameters')
   if(length(y)==0)stop('Require at least one observation')
@@ -78,9 +104,10 @@ kalman <- function(y,phi=.8,q=.25,r=1) {
     if(is.na(y[t])){m[t]<-a[t];P[t]<-V[t]}else{K<-V[t]/(V[t]+r);m[t]<-a[t]+K*(y[t]-a[t]);P[t]<-(1-K)*V[t]}
     previous<-m[t];variance<-P[t]
   }
-  s<-m;S<-P
-  if(n>1)for(t in (n-1):1){J<-if(V[t+1]==0)0 else P[t]*phi/V[t+1];s[t]<-m[t]+J*(s[t+1]-a[t+1]);S[t]<-P[t]+J^2*(S[t+1]-V[t+1])}
-  list(m=m,P=P,s=s,S=S)
+  # Smoothed mean m_{t|T} and variance P_{t|T}; the latent state itself is S_t.
+  ms<-m;Ps<-P
+  if(n>1)for(t in (n-1):1){J<-if(V[t+1]==0)0 else P[t]*phi/V[t+1];ms[t]<-m[t]+J*(ms[t+1]-a[t+1]);Ps[t]<-P[t]+J^2*(Ps[t+1]-V[t+1])}
+  list(m=m,P=P,ms=ms,Ps=Ps)
 }
 var_fit <- function(Y) {
   X<-cbind(1,Y[-nrow(Y),]);fit<-ols(X,Y[-1,]);U<-fit$u
@@ -107,12 +134,16 @@ experiment <- function(k,E=fixtures()) {
     record('weighted_temperature',mt);record('degree_days_before_aggregation',sum(weights*pmax(65-temperature,0)))
     record('degree_days_after_aggregation',max(65-mt,0));y<-100+ar(e[1:180],.8)
     record('naive_rmse',rmse(diff(y[120:180])));period<-0:11;release<-period+2;origin<-8
-    record('latest_available_period',max(period[release<=origin]));stopifnot(max(release[release<=origin])<=origin)
+    included<-period[release<=origin] # availability filter; period<=origin is the error
+    record('latest_available_period',max(included));record('included_records',length(included))
+    stopifnot(all(release[included+1]<=origin)) # audit each included record's own release date
   } else if(k==2) {
     phi<-.7;c<-.6;y<-ar(e[1:1024],phi,c)
     record('population_mean',c/(1-phi));record('population_variance',1/(1-phi^2))
     record('sample_mean',mean(y[101:1024]));record('sample_variance',mean((y[101:1024]-mean(y[101:1024]))^2))
     record('forecast_h4',c/(1-phi)+phi^4*(tail(y,1)-c/(1-phi)))
+    iterated<-tail(y,1);for(j in 1:4)iterated<-c+phi*iterated # repeated substitution
+    record('forecast_h4_iterated',iterated);stopifnot(abs(iterated-out['02_forecast_h4'])<1e-12)
     record('variance_h4',sum(phi^(2*(0:3))));quarterly<-rowMeans(matrix(y[1:1023],ncol=3,byrow=TRUE))
     record('aggregated_fitted_phi',ar_fit(quarterly)[2]);stopifnot(abs(sum(phi^(2*(0:3)))-(1-phi^8)/(1-phi^2))<1e-12)
   } else if(k==3) {
@@ -121,6 +152,7 @@ experiment <- function(k,E=fixtures()) {
     best<-c(0,0);loss<-Inf
     for(p in c(.2,.4,.6,.8))for(q in c(-.4,0,.4,.8)) {
       candidate<-mean(arma_residuals(y,p,q)[31:512]^2)
+      record(sprintf('grid_mse_phi%g_theta%g',p,q),candidate)
       if(candidate<loss){best<-c(p,q);loss<-candidate}
     }
     record('conditional_phi',best[1]);record('conditional_theta',best[2]);record('sample_acf1',ac(y,1))
@@ -132,7 +164,11 @@ experiment <- function(k,E=fixtures()) {
     record('ar_rmse_h4',rmse(err));record('naive_rmse_h4',rmse(naive));v<-sum(.8^(2*(0:3)))
     record('known_parameter_variance',v);record('known_parameter_interval_coverage',mean(abs(err)<=1.96*sqrt(v)))
     record('loss_difference',mean(err^2-naive^2));record('asymmetric_optimal_quantile',3/4)
-    record('forecast_error_ljung_box8',ljung_box(err,8))
+    # h-step errors of a correct model are MA(h-1): test one-step errors instead.
+    record('four_step_error_ljung_box8',ljung_box(err,8));record('four_step_error_acf1',ac(err,1))
+    psi<-.8^(0:3);record('four_step_theoretical_acf1',sum(psi[-4]*psi[-1])/sum(psi^2))
+    record('one_step_error_ljung_box8',ljung_box(rolling(y,1,120),8))
+    difference<-err^2-naive^2;record('dm_statistic_hac3',mean(difference)/hac_mean_se(difference,3))
     stopifnot(length(y[124:360])==length(err))
   } else if(k==5) {
     signal<-ar(e[1:240],.8);y<-signal+f[1:240];a<-ma_filter(y);b<-ma_filter(y,TRUE)
@@ -142,14 +178,12 @@ experiment <- function(k,E=fixtures()) {
     record('noise_variance',mean((f[1:240]-mean(f[1:240]))^2));stopifnot(ma_filter(altered)[121]==a[121],ma_filter(altered,TRUE)[121]!=b[121])
   } else if(k==6) {
     walk<-cumsum(e[1:360]);other<-cumsum(f[1:360]);u<-ols(cbind(1,other),walk)$u
-    record('spurious_level_r2',1-sum(u^2)/sum((walk-mean(walk))^2));d<-ols(cbind(1,diff(other)),diff(walk))$u
+    record('spurious_level_r2',1-sum(u^2)/sum((walk-mean(walk))^2));record('spurious_level_t',slope_t(walk,other));d<-ols(cbind(1,diff(other)),diff(walk))$u
     record('differenced_r2',1-sum(d^2)/sum((diff(walk)-mean(diff(walk)))^2));record('df_statistic',df_stat(walk))
     record('adf_statistic_lag2',adf_stat(walk,2));record('df_adf_zero_lag_error',adf_stat(walk,0)-df_stat(walk))
     record('arima010_drift_forecast_h3',tail(walk,1)+3*mean(diff(walk)))
-    for(n in c(80,240,720)) {
-      stats<-sapply(0:199,function(i)df_stat(cumsum(normals(n,515+i))))
-      count<-mean(stats< -2.86);record(paste0('df_rejection_n',n),count);record(paste0('df_mcse_n',n),sqrt(count*(1-count)/200))
-    };record('random_walk_h12_variance',12)
+    mc<-unit_root_monte_carlo();for(key in names(mc))record(key,mc[[key]])
+    record('random_walk_h12_variance',12)
   } else if(k==7) {
     n<-360;t<-0:(n-1);temperature<-60+18*sin(2*pi*t/12)+3*f[1:n]
     cooling<-pmax(temperature-65,0);heating<-pmax(65-temperature,0)
@@ -161,13 +195,13 @@ experiment <- function(k,E=fixtures()) {
     stopifnot(qr(X)$rank==5)
   } else if(k==8) {
     state<-ar(.5*e[1:360],.8);y<-state+f[1:360];y[151]<-NA;K<-kalman(y)
-    record('filter_rmse',rmse(K$m-state));record('smoother_rmse',rmse(K$s-state));record('missing_filtered_variance',K$P[151]);record('previous_filtered_variance',K$P[150])
+    record('filter_rmse',rmse(K$m-state));record('smoother_rmse',rmse(K$ms-state));record('missing_filtered_variance',K$P[151]);record('previous_filtered_variance',K$P[150])
     changed<-y;changed[182:360]<-changed[182:360]+10;C<-kalman(changed)
-    record('filter_future_sensitivity',C$m[181]-K$m[181]);record('smoother_future_sensitivity',C$s[181]-K$s[181]);record('minimum_smoothing_variance',min(K$S))
+    record('filter_future_sensitivity',C$m[181]-K$m[181]);record('smoother_future_sensitivity',C$ms[181]-K$ms[181]);record('minimum_smoothing_variance',min(K$Ps))
     a<-c(0,.8*K$m[-360]);previous<-c(.25/(1-.8^2),K$P[-360]);observation_variance<-.8^2*previous+.25+1
     observed<-!is.na(y);innovation<-y[observed]-a[observed]
     record('gaussian_log_likelihood',-.5*sum(log(2*pi*observation_variance[observed])+innovation^2/observation_variance[observed]))
-    stopifnot(all(K$S>= -1e-12),all(K$S<=K$P+1e-12),C$m[181]==K$m[181])
+    stopifnot(all(K$Ps>= -1e-12),all(K$Ps<=K$P+1e-12),C$m[181]==K$m[181])
   } else if(k %in% c(9,10)) {
     A<-matrix(c(.6,.15,.05,.5),2,byrow=TRUE);Y<-matrix(0,600,2);B<-matrix(c(1,0,.7,.8),2,byrow=TRUE)
     for(t in 2:600)Y[t,]<-A%*%Y[t-1,]+B%*%E[t,1:2]
@@ -176,6 +210,9 @@ experiment <- function(k,E=fixtures()) {
       record('estimated_a12',Ah[1,2]);record('estimated_a21',Ah[2,1]);record('spectral_radius',max(Mod(eigen(Ah)$values)))
       W<-matrix(c(0,1,1,0),2);record('network_forecast_first',((.6*diag(2)+.15*W)%*%Y[600,])[1])
       record('var_forecast_first',(fit$c+Ah%*%Y[600,])[1]);record('residual_covariance12',Sigma[1,2])
+      # Granger non-causality: Wald statistics for one excluded cross-lag each.
+      X<-cbind(1,Y[-600,]);XtX<-solve(crossprod(X))
+      record('granger_wald_2_to_1',Ah[1,2]^2/(Sigma[1,1]*XtX[3,3]));record('granger_wald_1_to_2',Ah[2,1]^2/(Sigma[2,2]*XtX[2,2]))
       V<-matrix(0,2,2);power<-diag(2)
       for(j in 1:4){V<-V+power%*%Sigma%*%t(power);power<-power%*%Ah}
       record('forecast_covariance_h4_trace',sum(diag(V)));record('forecast_sum_variance_h4',sum(V))
@@ -184,7 +221,10 @@ experiment <- function(k,E=fixtures()) {
       record('first_order_impact21',L[2,1]);record('reverse_order_impact21',reverse[2,1]);angle<-.5
       Q<-matrix(c(cos(angle),-sin(angle),sin(angle),cos(angle)),2,byrow=TRUE);rotated<-L%*%Q
       record('covariance_reconstruction_error',max(abs(rotated%*%t(rotated)-Sigma)));record('rotated_impact21',rotated[2,1])
-      record('response_h4',(Ah%*%Ah%*%Ah%*%Ah%*%L)[2,1]);stopifnot(max(abs(L%*%t(L)-Sigma))<1e-10,max(abs(reverse%*%t(reverse)-Sigma))<1e-10)
+      record('response_h4',(Ah%*%Ah%*%Ah%*%Ah%*%L)[2,1])
+      # Local projection: regress Y_{t+4} directly on [1, Y_t], then apply the same L.
+      projection<-ols(cbind(1,Y[1:596,]),Y[5:600,])$b;record('local_projection_response_h4',(t(projection[-1,])%*%L)[2,1])
+      stopifnot(max(abs(L%*%t(L)-Sigma))<1e-10,max(abs(reverse%*%t(reverse)-Sigma))<1e-10)
     }
   } else if(k==11) {
     x<-cumsum(e[1:720]);spread<-ar(.4*f[1:720],.5);y<-1.5*x+spread

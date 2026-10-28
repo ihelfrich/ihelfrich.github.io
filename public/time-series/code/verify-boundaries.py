@@ -12,10 +12,10 @@ programs = {
 from course import kalman
 for y in ([1.,np.nan,3.],[np.nan]):
     assert all(np.all(a==0) for a in kalman(y,q=0))
-m,P,s,S=kalman([3.],phi=0,q=.4,r=2)
-assert np.allclose([m[0],P[0],s[0],S[0]],[.5,1/3,.5,1/3])
-m,P,s,S=kalman([np.nan],phi=0,q=.4,r=2)
-assert np.allclose([m[0],P[0],s[0],S[0]],[0,.4,0,.4])
+m,P,ms,Ps=kalman([3.],phi=0,q=.4,r=2)
+assert np.allclose([m[0],P[0],ms[0],Ps[0]],[.5,1/3,.5,1/3])
+m,P,ms,Ps=kalman([np.nan],phi=0,q=.4,r=2)
+assert np.allclose([m[0],P[0],ms[0],Ps[0]],[0,.4,0,.4])
 for y,kwargs in [([],{}),([1.],{'q':float('inf')}),([1.],{'r':float('nan')})]:
     try: kalman(y,**kwargs)
     except ValueError: pass
@@ -32,8 +32,8 @@ for(args in list(list(y=numeric()),list(y=c(1),q=Inf),list(y=c(1),r=NaN))) {
 cat('PASS')'''],
     'julia': ['julia', '--startup-file=no', '-e', '''include("course.jl")
 for y in ([1.,NaN,3.],[NaN]);@assert all(a->all(iszero,a),values(kalman(y,.8,0.,1.)));end
-K=kalman([3.],0.,.4,2.);@assert all(isapprox.(vcat(K.m,K.P,K.s,K.S),[.5,1/3,.5,1/3]))
-K=kalman([NaN],0.,.4,2.);@assert all(isapprox.(vcat(K.m,K.P,K.s,K.S),[0.,.4,0.,.4]))
+K=kalman([3.],0.,.4,2.);@assert all(isapprox.(vcat(K.m,K.P,K.ms,K.Ps),[.5,1/3,.5,1/3]))
+K=kalman([NaN],0.,.4,2.);@assert all(isapprox.(vcat(K.m,K.P,K.ms,K.Ps),[0.,.4,0.,.4]))
 for args in ((Float64[],.8,.25,1.),([1.],.8,Inf,1.),([1.],.8,.25,NaN))
     rejected=try;kalman(args...);false;catch;true;end
     @assert rejected

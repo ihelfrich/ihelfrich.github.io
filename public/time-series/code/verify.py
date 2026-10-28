@@ -42,7 +42,8 @@ for language,values in results.items():
     assert np.allclose(list(values.values()),[reference[key] for key in values],atol=1e-9,rtol=1e-9)
     maximum[language]=max(differences)
 
-analytic={'01_weighted_temperature':60,'01_degree_days_before_aggregation':12.5,'01_degree_days_after_aggregation':5,'01_latest_available_period':6,'02_population_mean':2,'02_population_variance':1/(1-.7**2),'02_variance_h4':(1-.7**8)/(1-.7**2),'03_theoretical_ma1_acf':.4/(1+.4**2),'03_invertible_ma_equivalent':0,'04_asymmetric_optimal_quantile':.75,'05_one_sided_future_sensitivity':0,'05_centered_future_sensitivity':40,'06_random_walk_h12_variance':12,'08_filter_future_sensitivity':0,'10_reverse_order_impact21':0,'10_covariance_reconstruction_error':0,'12_unconditional_variance':1,'12_unit_scaling_error':0,'12_invalid_parameter_rejected':1,'14_continuation_observations':80,'15_forecast_rescaled_error':0,'15_future_mutation_forecast_error':0,'15_rank_failure_detected':1}
+psi=.8**np.arange(4)
+analytic={'01_weighted_temperature':60,'01_degree_days_before_aggregation':12.5,'01_degree_days_after_aggregation':5,'01_latest_available_period':6,'01_included_records':7,'04_four_step_theoretical_acf1':psi[:-1]@psi[1:]/(psi@psi),'06_mc_replications':2000,'02_population_mean':2,'02_population_variance':1/(1-.7**2),'02_variance_h4':(1-.7**8)/(1-.7**2),'03_theoretical_ma1_acf':.4/(1+.4**2),'03_invertible_ma_equivalent':0,'04_asymmetric_optimal_quantile':.75,'05_one_sided_future_sensitivity':0,'05_centered_future_sensitivity':40,'06_random_walk_h12_variance':12,'08_filter_future_sensitivity':0,'10_reverse_order_impact21':0,'10_covariance_reconstruction_error':0,'12_unconditional_variance':1,'12_unit_scaling_error':0,'12_invalid_parameter_rejected':1,'14_continuation_observations':80,'15_forecast_rescaled_error':0,'15_future_mutation_forecast_error':0,'15_rank_failure_detected':1}
 for key,target in analytic.items():assert np.isclose(reference[key],target,atol=1e-9,rtol=1e-9),(key,target,reference[key])
 assert reference['08_missing_filtered_variance']>reference['08_previous_filtered_variance']
 assert abs(reference['08_smoother_future_sensitivity'])>1
@@ -56,7 +57,16 @@ assert abs(reference['06_df_adf_zero_lag_error'])<1e-9
 assert reference['09_forecast_covariance_h4_trace']>0
 assert reference['09_forecast_sum_variance_h4']>0
 assert reference['13_hac_standard_error']>0
-assert len(reference)==112 and {key[:2] for key in reference}=={f'{i:02d}' for i in range(1,16)}
+assert np.isclose(reference['02_forecast_h4_iterated'],reference['02_forecast_h4'],atol=1e-12,rtol=0)
+grid=[value for key,value in reference.items() if key.startswith('03_grid_mse_')]
+assert len(grid)==16 and np.isclose(min(grid),reference['03_innovation_mse'],atol=1e-12,rtol=0)
+assert reference['04_one_step_error_ljung_box8']<reference['04_four_step_error_ljung_box8']
+# Replications must start from unit-variance draws; seeding each with seed+i fails this.
+assert abs(reference['06_mc_first_innovation_sd']-1)<.1
+for n in [80,240,720]:
+    assert reference[f'06_df_rejection_n{n}']<.1 and reference[f'06_differenced_rejection_n{n}']<.1
+    assert reference[f'06_spurious_rejection_n{n}']>.5
+assert len(reference)==152 and {key[:2] for key in reference}=={f'{i:02d}' for i in range(1,16)}
 
 project_commands={'python':[sys.executable,'projects.py'],'r':['Rscript','projects.R'],'julia':['julia','--startup-file=no','projects.jl']}
 def execute_project(item):
@@ -82,6 +92,6 @@ assert project_reference['p3_future_mutation_error']==0
 assert project_reference['p3_naive_rmse']<project_reference['p3_revised_rmse']<project_reference['p3_original_rmse']
 texas_manifest=json.loads((ROOT/'data/texas-manifest.json').read_text())
 assert hashlib.sha256((ROOT/'data/texas-electricity.csv').read_bytes()).hexdigest()==texas_manifest['output_sha256']
-report={'passed':True,'languages':list(results),'metrics':len(reference),'lectures':15,'project_metrics':len(project_reference),'matched_project_forecasts':len(forecast_reference),'analytic_checks':len(analytic),'absolute_tolerance':1e-9,'relative_tolerance':1e-9,'project_tolerance':1e-8,'maximum_absolute_difference':maximum,'project_maximum_absolute_difference':project_maximum,'fixture_sha256':manifest['sha256'],'texas_sha256':texas_manifest['output_sha256'],'assessment_keys_included':False}
+report={'passed':True,'languages':list(results),'metrics':len(reference),'lectures':15,'project_metrics':len(project_reference),'matched_project_forecasts':len(forecast_reference),'analytic_checks':len(analytic),'monte_carlo':{'seed':2026,'replications':2000,'design':'one Park-Miller/Box-Muller stream split into consecutive blocks'},'absolute_tolerance':1e-9,'relative_tolerance':1e-9,'project_tolerance':1e-8,'maximum_absolute_difference':maximum,'project_maximum_absolute_difference':project_maximum,'fixture_sha256':manifest['sha256'],'texas_sha256':texas_manifest['output_sha256'],'assessment_keys_included':False}
 (ROOT/'results/verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

@@ -1,7 +1,9 @@
 # Authored reference experiments. Copyright 2026 Ian Helfrich.
 # Julia standard libraries only. Run: julia --startup-file=no course.jl [lecture]
-using LinearAlgebra, Statistics, DelimitedFiles
+using LinearAlgebra, Statistics, DelimitedFiles, Printf
 const ROOT=@__DIR__
+const MONTE_CARLO_SEED=2026
+const MONTE_CARLO_REPLICATIONS=2000
 function normals(n,seed=515)
     state=seed;out=Float64[]
     while length(out)<n
@@ -72,6 +74,34 @@ function df_stat(y)
     covariance=dot(u,u)/(length(u)-2)*((X'X)\Matrix{Float64}(I,2,2))
     fit.b[2]/sqrt(covariance[2,2])
 end
+function slope_t(y,x)
+    X=hcat(ones(length(x)),x);fit=ols(X,y);u=fit.u
+    covariance=dot(u,u)/(length(u)-2)*((X'X)\Matrix{Float64}(I,2,2))
+    fit.b[2]/sqrt(covariance[2,2])
+end
+# One Park-Miller stream split into consecutive blocks: DF paths for each size,
+# then pairs of walks for each size. Never reseed each replication with seed+i.
+function unit_root_monte_carlo(replications=MONTE_CARLO_REPLICATIONS,sizes=[80,240,720],seed=MONTE_CARLO_SEED)
+    draws=normals(replications*sum(sizes)*3,seed);offset=0;out=Dict{String,Float64}()
+    function rate(name,n,hits)
+        p=mean(hits);out[name*"_rejection_n"*string(n)]=p;out[name*"_mcse_n"*string(n)]=sqrt(p*(1-p)/replications)
+    end
+    for n in sizes
+        block=reshape(draws[offset+1:offset+replications*n],n,replications);offset+=replications*n
+        n==sizes[1]&&(out["mc_first_innovation_sd"]=std(block[1,:];corrected=false))
+        rate("df",n,[df_stat(cumsum(block[:,i]))< -2.86 for i in 1:replications])
+    end
+    for n in sizes
+        block=reshape(draws[offset+1:offset+2*replications*n],2*n,replications);offset+=2*replications*n
+        levels=falses(replications);differences=falses(replications)
+        for i in 1:replications
+            y=cumsum(block[1:n,i]);x=cumsum(block[n+1:2n,i])
+            levels[i]=abs(slope_t(y,x))>1.96;differences[i]=abs(slope_t(diff(y),diff(x)))>1.96
+        end
+        rate("spurious",n,levels);rate("differenced",n,differences)
+    end
+    @assert offset==length(draws);out["mc_replications"]=replications;out
+end
 function kalman(y,phi=.8,q=.25,r=1.)
     all(isfinite,[phi,q,r])&&q>=0&&r>0&&abs(phi)<1||error("Invalid stationary filter parameters")
     isempty(y)&&error("Require at least one observation")
@@ -83,11 +113,12 @@ function kalman(y,phi=.8,q=.25,r=1.)
         else;K=V[t]/(V[t]+r);m[t]=a[t]+K*(y[t]-a[t]);P[t]=(1-K)*V[t];end
         previous=m[t];variance=P[t]
     end
-    s=copy(m);S=copy(P)
+    # Smoothed mean m_{t|T} and variance P_{t|T}; the latent state itself is S_t.
+    ms=copy(m);Ps=copy(P)
     for t in n-1:-1:1
-        J=V[t+1]==0 ? 0. : P[t]*phi/V[t+1];s[t]=m[t]+J*(s[t+1]-a[t+1]);S[t]=P[t]+J^2*(S[t+1]-V[t+1])
+        J=V[t+1]==0 ? 0. : P[t]*phi/V[t+1];ms[t]=m[t]+J*(ms[t+1]-a[t+1]);Ps[t]=P[t]+J^2*(Ps[t+1]-V[t+1])
     end
-    (m=m,P=P,s=s,S=S)
+    (m=m,P=P,ms=ms,Ps=Ps)
 end
 function var_fit(Y)
     X=hcat(ones(size(Y,1)-1),Y[1:end-1,:]);fit=ols(X,Y[2:end,:]);U=fit.u
@@ -116,12 +147,17 @@ function experiment(k,E=fixtures())
         record("weighted_temperature",mt);record("degree_days_before_aggregation",dot(weights,max.(65 .-temperature,0)))
         record("degree_days_after_aggregation",max(65-mt,0));y=100 .+ar(e[1:180],.8)
         record("naive_rmse",rmse(diff(y[120:180])));period=0:11;release=period.+2;origin=8
-        record("latest_available_period",maximum(period[release.<=origin]));@assert maximum(release[release.<=origin])<=origin
+        included=period[release.<=origin] # availability filter; period<=origin is the error
+        record("latest_available_period",maximum(included));record("included_records",length(included))
+        @assert all(release[included.+1].<=origin) # audit each included record's own release date
     elseif k==2
         phi=.7;c=.6;y=ar(e[1:1024],phi,c)
         record("population_mean",c/(1-phi));record("population_variance",1/(1-phi^2))
         record("sample_mean",mean(y[101:1024]));record("sample_variance",var(y[101:1024];corrected=false))
-        record("forecast_h4",c/(1-phi)+phi^4*(y[end]-c/(1-phi)));record("variance_h4",sum(phi.^(2 .*collect(0:3))))
+        record("forecast_h4",c/(1-phi)+phi^4*(y[end]-c/(1-phi)))
+        iterated=y[end];for j in 1:4;iterated=c+phi*iterated;end # repeated substitution
+        record("forecast_h4_iterated",iterated);@assert abs(iterated-out["02_forecast_h4"])<1e-12
+        record("variance_h4",sum(phi.^(2 .*collect(0:3))))
         quarterly=vec(mean(reshape(y[1:1023],3,:),dims=1));record("aggregated_fitted_phi",ar_fit(quarterly)[2])
         @assert abs(sum(phi.^(2 .*collect(0:3)))-(1-phi^8)/(1-phi^2))<1e-12
     elseif k==3
@@ -130,6 +166,7 @@ function experiment(k,E=fixtures())
         best=(0.,0.);loss=Inf
         for p in [.2,.4,.6,.8],q in [-.4,0.,.4,.8]
             candidate=mean(arma_residuals(y,p,q)[31:512].^2)
+            record(@sprintf("grid_mse_phi%g_theta%g",p,q),candidate)
             if candidate<loss;best=(p,q);loss=candidate;end
         end
         record("conditional_phi",best[1]);record("conditional_theta",best[2]);record("sample_acf1",ac(y,1))
@@ -141,7 +178,11 @@ function experiment(k,E=fixtures())
         record("ar_rmse_h4",rmse(err));record("naive_rmse_h4",rmse(naive));v=sum(0.8 .^(2 .*collect(0:3)))
         record("known_parameter_variance",v);record("known_parameter_interval_coverage",mean(abs.(err).<=1.96*sqrt(v)))
         record("loss_difference",mean(err.^2 .-naive.^2));record("asymmetric_optimal_quantile",3/4);@assert length(y[124:360])==length(err)
-        record("forecast_error_ljung_box8",ljung_box(err,8))
+        # h-step errors of a correct model are MA(h-1): test one-step errors instead.
+        record("four_step_error_ljung_box8",ljung_box(err,8));record("four_step_error_acf1",ac(err,1))
+        psi=0.8 .^(0:3);record("four_step_theoretical_acf1",dot(psi[1:3],psi[2:4])/dot(psi,psi))
+        record("one_step_error_ljung_box8",ljung_box(rolling(y,1,120),8))
+        difference=err.^2 .-naive.^2;record("dm_statistic_hac3",mean(difference)/hac_mean_se(difference,3))
     elseif k==5
         signal=ar(e[1:240],.8);y=signal.+f[1:240];a=ma_filter(y);b=ma_filter(y,true)
         altered=copy(y);altered[122:240].+=100
@@ -150,14 +191,11 @@ function experiment(k,E=fixtures())
         @assert ma_filter(altered)[121]==a[121] && ma_filter(altered,true)[121]!=b[121]
     elseif k==6
         walk=cumsum(e[1:360]);other=cumsum(f[1:360]);u=ols(hcat(ones(360),other),walk).u
-        record("spurious_level_r2",1-dot(u,u)/sum((walk.-mean(walk)).^2));d=ols(hcat(ones(359),diff(other)),diff(walk)).u
+        record("spurious_level_r2",1-dot(u,u)/sum((walk.-mean(walk)).^2));record("spurious_level_t",slope_t(walk,other));d=ols(hcat(ones(359),diff(other)),diff(walk)).u
         record("differenced_r2",1-dot(d,d)/sum((diff(walk).-mean(diff(walk))).^2));record("df_statistic",df_stat(walk))
         record("adf_statistic_lag2",adf_stat(walk,2));record("df_adf_zero_lag_error",adf_stat(walk,0)-df_stat(walk))
         record("arima010_drift_forecast_h3",walk[end]+3*mean(diff(walk)))
-        for n in [80,240,720]
-            stats=[df_stat(cumsum(normals(n,515+i))) for i in 0:199];count=mean(stats.< -2.86)
-            record("df_rejection_n"*string(n),count);record("df_mcse_n"*string(n),sqrt(count*(1-count)/200))
-        end
+        for (key,value) in unit_root_monte_carlo();record(key,value);end
         record("random_walk_h12_variance",12)
     elseif k==7
         n=360;t=collect(0:n-1);temperature=60 .+18*sin.(2*pi*t/12).+3*f[1:n]
@@ -169,13 +207,13 @@ function experiment(k,E=fixtures())
         record("gls_innovation_acf1",ac(gls.u,1));record("hot_scenario_level",dot([1.,0.,1.,0.,15.],bt));record("cold_scenario_level",dot([1.,0.,1.,15.,0.],bt));@assert rank(X)==5
     elseif k==8
         state=ar(.5*e[1:360],.8);y=state.+f[1:360];y[151]=NaN;K=kalman(y)
-        record("filter_rmse",rmse(K.m.-state));record("smoother_rmse",rmse(K.s.-state));record("missing_filtered_variance",K.P[151]);record("previous_filtered_variance",K.P[150])
+        record("filter_rmse",rmse(K.m.-state));record("smoother_rmse",rmse(K.ms.-state));record("missing_filtered_variance",K.P[151]);record("previous_filtered_variance",K.P[150])
         changed=copy(y);changed[182:360].+=10;C=kalman(changed)
-        record("filter_future_sensitivity",C.m[181]-K.m[181]);record("smoother_future_sensitivity",C.s[181]-K.s[181]);record("minimum_smoothing_variance",minimum(K.S))
+        record("filter_future_sensitivity",C.m[181]-K.m[181]);record("smoother_future_sensitivity",C.ms[181]-K.ms[181]);record("minimum_smoothing_variance",minimum(K.Ps))
         a=vcat(0.,.8*K.m[1:end-1]);previous=vcat(.25/(1-.8^2),K.P[1:end-1]);observation_variance=.8^2*previous .+ 0.25 .+ 1
         observed=.!isnan.(y);innovation=y[observed]-a[observed]
         record("gaussian_log_likelihood",-.5*sum(log.(2*pi*observation_variance[observed]).+innovation.^2 ./observation_variance[observed]))
-        @assert all(K.S.>= -1e-12)&&all(K.S.<=K.P.+1e-12)&&C.m[181]==K.m[181]
+        @assert all(K.Ps.>= -1e-12)&&all(K.Ps.<=K.P.+1e-12)&&C.m[181]==K.m[181]
     elseif k in [9,10]
         A=[.6 .15;.05 .5];Y=zeros(600,2);B=[1. 0.;.7 .8]
         for t in 2:600;Y[t,:]=A*Y[t-1,:]+B*E[t,1:2];end
@@ -183,6 +221,9 @@ function experiment(k,E=fixtures())
         if k==9
             record("estimated_a12",Ah[1,2]);record("estimated_a21",Ah[2,1]);record("spectral_radius",maximum(abs.(eigvals(Ah))))
             W=[0. 1.;1. 0.];record("network_forecast_first",((.6*I+.15*W)*Y[600,:])[1]);record("var_forecast_first",(fit.c+Ah*Y[600,:])[1]);record("residual_covariance12",Sigma[1,2])
+            # Granger non-causality: Wald statistics for one excluded cross-lag each.
+            X=hcat(ones(599),Y[1:599,:]);XtX=inv(X'X)
+            record("granger_wald_2_to_1",Ah[1,2]^2/(Sigma[1,1]*XtX[3,3]));record("granger_wald_1_to_2",Ah[2,1]^2/(Sigma[2,2]*XtX[2,2]))
             V=zeros(2,2);power=Matrix{Float64}(I,2,2)
             for j in 1:4;V+=power*Sigma*power';power=power*Ah;end
             record("forecast_covariance_h4_trace",tr(V));record("forecast_sum_variance_h4",sum(V))
@@ -190,6 +231,8 @@ function experiment(k,E=fixtures())
             L=Matrix(cholesky(Symmetric(Sigma)).L);order=[0. 1.;1. 0.];reverse=order*Matrix(cholesky(Symmetric(order*Sigma*order)).L)*order
             record("first_order_impact21",L[2,1]);record("reverse_order_impact21",reverse[2,1]);angle=.5;Q=[cos(angle) -sin(angle);sin(angle) cos(angle)];rotated=L*Q
             record("covariance_reconstruction_error",maximum(abs.(rotated*rotated'-Sigma)));record("rotated_impact21",rotated[2,1]);record("response_h4",(Ah^4*L)[2,1])
+            # Local projection: regress Y_{t+4} directly on [1, Y_t], then apply the same L.
+            projection=ols(hcat(ones(596),Y[1:596,:]),Y[5:600,:]).b;record("local_projection_response_h4",(Matrix(projection[2:3,:]')*L)[2,1])
             @assert maximum(abs.(L*L'-Sigma))<1e-10&&maximum(abs.(reverse*reverse'-Sigma))<1e-10
         end
     elseif k==11

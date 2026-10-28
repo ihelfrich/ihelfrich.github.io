@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-from course import fixtures,ar,acf,kalman,garch_variance,normals,df_stat
+from course import fixtures,ar,acf,kalman,garch_variance,unit_root_monte_carlo,MONTE_CARLO_REPLICATIONS
 from projects import load,forecast
 
 ROOT=Path(__file__).resolve().parent;OUTPUT=ROOT.parent/'figures';OUTPUT.mkdir(exist_ok=True)
@@ -38,16 +38,20 @@ for phi in [0,.7,-.7,.95]:
 axs[0].set(xlabel='Horizon',ylabel='Unit-shock response');axs[1].set(xlabel='Horizon',ylabel='Error variance, innovation variance = 1')
 axs[0].axhline(0,color=ink,lw=.5);axs[0].legend(fontsize=10);save('ar-persistence',fig)
 
-fig,ax=plt.subplots(figsize=(8,3.8));n=np.array([80,240,720]);rates=[];errors=[]
-for size in n:
-    probability=np.mean([df_stat(np.cumsum(normals(int(size),515+i)))< -2.86 for i in range(200)])
-    rates.append(probability);errors.append(1.96*np.sqrt(probability*(1-probability)/200))
+# The same single-stream Monte Carlo that course.py records for Lecture 6.
+mc=unit_root_monte_carlo();n=np.array([80,240,720])
+def band(name):return [mc[f'{name}_rejection_n{size}'] for size in n],[1.96*mc[f'{name}_mcse_n{size}'] for size in n]
+fig,ax=plt.subplots(figsize=(8,3.8));rates,errors=band('df')
 ax.errorbar(n,rates,yerr=errors,fmt='o',color=blue,capsize=5,label='Simulation proportion ± 1.96 MCSE')
-ax.axhline(.05,color=ink,ls='--',label='Nominal reference: 0.05');ax.set(xlabel='Observations per replication',ylabel='Rejection proportion',ylim=(0,.13));ax.legend(fontsize=10);save('unit-root-simulation',fig)
+ax.axhline(.05,color=ink,ls='--',label='Nominal reference: 0.05');ax.set(xlabel='Observations per replication',ylabel='Rejection proportion',ylim=(0,.1));ax.legend(fontsize=10);save('unit-root-simulation',fig)
+fig,ax=plt.subplots(figsize=(8,3.8))
+for name,color,marker,label in [('spurious',red,'o','Levels: Y on a constant and X'),('differenced',teal,'s','First differences')]:
+    rates,errors=band(name);ax.errorbar(n,rates,yerr=errors,fmt=marker,color=color,capsize=5,label=label)
+ax.axhline(.05,color=ink,ls='--',label='Nominal size: 0.05');ax.set(xlabel='Observations per replication',ylabel='Proportion with |t| > 1.96',ylim=(0,1));ax.legend(fontsize=10,loc='center right');save('spurious-regression',fig)
 
-state=ar(.5*e[:360],.8);y=state+f[:360];y[150]=np.nan;m,P,s,S=kalman(y)
+state=ar(.5*e[:360],.8);y=state+f[:360];y[150]=np.nan;m,P,ms,Ps=kalman(y)
 fig,ax=plt.subplots(figsize=(9,3.8));t=np.arange(110,191)
-ax.plot(t,state[t],color=ink,label='Known simulated state');ax.plot(t,m[t],color=blue,label='Filtered estimate');ax.plot(t,s[t],color=red,label='Retrospective smoother')
+ax.plot(t,state[t],color=ink,label='Known simulated state');ax.plot(t,m[t],color=blue,label='Filtered estimate');ax.plot(t,ms[t],color=red,label='Retrospective smoother')
 ax.fill_between(t,m[t]-1.96*np.sqrt(P[t]),m[t]+1.96*np.sqrt(P[t]),color=blue,alpha=.12,label='Filter conditional 95% band')
 ax.axvline(150,color=teal,ls=':',label='Missing observation');ax.set(xlabel='Observation index',ylabel='State units');ax.legend(fontsize=9,ncol=2);save('state-filter',fig)
 

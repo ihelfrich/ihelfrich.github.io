@@ -13,18 +13,23 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent
 
 
+MONTE_CARLO_SEED = 2026
+MONTE_CARLO_REPLICATIONS = 2000
+
+
 def normals(n, seed=515):
     """Park-Miller LCG plus Box-Muller: same arithmetic in all three languages."""
     state = seed
     out = []
-    while len(out) < n:
+    push = out.extend
+    for _ in range((n + 1) // 2):
         state = (48271 * state) % 2147483647
         u = state / 2147483647
         state = (48271 * state) % 2147483647
         v = state / 2147483647
         radius = math.sqrt(-2 * math.log(u))
-        out.extend([radius * math.cos(2 * math.pi * v),
-                    radius * math.sin(2 * math.pi * v)])
+        push((radius * math.cos(2 * math.pi * v),
+              radius * math.sin(2 * math.pi * v)))
     return np.array(out[:n])
 
 
@@ -139,6 +144,51 @@ def df_stat(y):
     return float(b[1] / np.sqrt(covariance[1,1]))
 
 
+def slope_t(y, x):
+    """Conventional OLS t statistic for the slope of y on a constant and x."""
+    X = np.column_stack([np.ones(len(x)), x])
+    b, u = ols(X, y)
+    covariance = (u @ u) / (len(u)-2) * np.linalg.solve(X.T @ X, np.eye(2))
+    return float(b[1] / np.sqrt(covariance[1,1]))
+
+
+def unit_root_monte_carlo(replications=MONTE_CARLO_REPLICATIONS, sizes=(80, 240, 720), seed=MONTE_CARLO_SEED):
+    """Rejection rates for DF size and for levels and differenced regressions.
+
+    One Park-Miller stream supplies every replication. It is split into
+    consecutive blocks in a fixed order: DF paths of n draws for each size, then
+    pairs of independent walks (2n draws) for each size. Reseeding replication i
+    with seed+i would make the first uniforms of a multiplicative generator nearly
+    equal across replications, so every path would start from a similar draw.
+    """
+    draws = normals(replications * sum(sizes) * 3, seed)
+    offset = 0
+    out = {}
+    def rate(name, n, hits):
+        p = float(np.mean(hits))
+        out[f'{name}_rejection_n{n}'] = p
+        out[f'{name}_mcse_n{n}'] = float(np.sqrt(p*(1-p)/replications))
+    for n in sizes:
+        block = draws[offset:offset+replications*n].reshape(replications, n)
+        offset += replications*n
+        if n == sizes[0]:
+            out['mc_first_innovation_sd'] = float(np.std(block[:, 0]))
+        rate('df', n, [df_stat(np.cumsum(path)) < -2.86 for path in block])
+    for n in sizes:
+        block = draws[offset:offset+2*replications*n].reshape(replications, 2*n)
+        offset += 2*replications*n
+        levels, differences = [], []
+        for path in block:
+            y, x = np.cumsum(path[:n]), np.cumsum(path[n:])
+            levels.append(abs(slope_t(y, x)) > 1.96)
+            differences.append(abs(slope_t(np.diff(y), np.diff(x))) > 1.96)
+        rate('spurious', n, levels)
+        rate('differenced', n, differences)
+    assert offset == len(draws)
+    out['mc_replications'] = replications
+    return out
+
+
 def kalman(y, phi=.8, q=.25, r=1.):
     """Given parameters: return filtered state, variances, and RTS smoother."""
     if not np.all(np.isfinite([phi,q,r])) or q < 0 or r <= 0 or abs(phi) >= 1:
@@ -154,13 +204,14 @@ def kalman(y, phi=.8, q=.25, r=1.):
             K = V[t]/(V[t]+r)
             m[t] = a[t]+K*(y[t]-a[t]); P[t] = (1-K)*V[t]
         previous, variance = m[t], P[t]
-    s = m.copy(); S = P.copy()
+    # Smoothed mean m_{t|T} and variance P_{t|T}; the latent state itself is S_t.
+    ms = m.copy(); Ps = P.copy()
     for t in range(n-2, -1, -1):
         # A zero stationary process variance makes the latent state known.
         J = 0. if V[t+1] == 0 else P[t]*phi/V[t+1]
-        s[t] = m[t]+J*(s[t+1]-a[t+1])
-        S[t] = P[t]+J**2*(S[t+1]-V[t+1])
-    return m, P, s, S
+        ms[t] = m[t]+J*(ms[t+1]-a[t+1])
+        Ps[t] = P[t]+J**2*(Ps[t+1]-V[t+1])
+    return m, P, ms, Ps
 
 
 def var_fit(Y):
@@ -207,8 +258,11 @@ def experiment(k, E=None):
         record('naive_rmse',rmse(np.diff(y[119:])))
         # Records dated month t are available t+2. No origin may include unreleased data.
         period = np.arange(12); release = period+2; origin=8
-        record('latest_available_period',max(period[release<=origin]))
-        assert max(release[release<=origin]) <= origin
+        included = period[release<=origin]   # availability filter; period<=origin is the error
+        record('latest_available_period',max(included))
+        record('included_records',len(included))
+        # Audit: look up each included record's own release date (row p holds period p).
+        assert np.all(release[included] <= origin)
     elif k == 2:
         phi=.7; c=.6; y=ar(e[:1024],phi,c)
         record('population_mean',c/(1-phi))
@@ -216,6 +270,10 @@ def experiment(k, E=None):
         record('sample_mean',np.mean(y[100:]))
         record('sample_variance',np.var(y[100:],ddof=0))
         record('forecast_h4',c/(1-phi)+phi**4*(y[-1]-c/(1-phi)))
+        iterated=y[-1]
+        for _ in range(4): iterated=c+phi*iterated   # repeated substitution of the recursion
+        record('forecast_h4_iterated',iterated)
+        assert abs(iterated-out['02_forecast_h4'])<1e-12
         record('variance_h4',sum(phi**(2*j) for j in range(4)))
         quarterly=y[:1023].reshape(-1,3).mean(axis=1)
         record('aggregated_fitted_phi',ar_fit(quarterly)[1])
@@ -227,6 +285,7 @@ def experiment(k, E=None):
         for p in [.2,.4,.6,.8]:
             for q in [-.4,0.,.4,.8]:
                 candidate=np.mean(arma_residuals(y,p,q)[30:]**2)
+                record(f'grid_mse_phi{p:g}_theta{q:g}',candidate)
                 if candidate<loss: best,loss=(p,q),float(candidate)
         record('conditional_phi',best[0]);record('conditional_theta',best[1])
         record('sample_acf1',acf(y,1));record('theoretical_ma1_acf',theta/(1+theta**2))
@@ -247,7 +306,15 @@ def experiment(k, E=None):
         record('known_parameter_interval_coverage',np.mean(np.abs(err)<=1.96*np.sqrt(variance)))
         record('loss_difference',np.mean(err**2-naive**2))
         record('asymmetric_optimal_quantile',3/(3+1))
-        record('forecast_error_ljung_box8',ljung_box(err,8))
+        # h-step errors of a correct model are MA(h-1): test one-step errors instead.
+        record('four_step_error_ljung_box8',ljung_box(err,8))
+        record('four_step_error_acf1',acf(err,1))
+        psi=.8**np.arange(4);record('four_step_theoretical_acf1',psi[:-1]@psi[1:]/(psi@psi))
+        one_step=rolling(y,1,120)
+        record('one_step_error_ljung_box8',ljung_box(one_step,8))
+        # Paired-loss (Diebold-Mariano form) statistic with Bartlett HAC bandwidth h-1=3.
+        difference=err**2-naive**2
+        record('dm_statistic_hac3',np.mean(difference)/hac_mean_se(difference,3))
         assert len(truth)==len(prediction)==len(err)
     elif k == 5:
         signal=ar(e[:240],.8); y=signal+f[:240]
@@ -264,17 +331,14 @@ def experiment(k, E=None):
         walk=np.cumsum(e[:360]); other=np.cumsum(f[:360])
         b,u=ols(np.column_stack([np.ones(360),other]),walk)
         record('spurious_level_r2',1-u@u/np.sum((walk-walk.mean())**2))
+        record('spurious_level_t',slope_t(walk,other))
         _,d=ols(np.column_stack([np.ones(359),np.diff(other)]),np.diff(walk))
         record('differenced_r2',1-d@d/np.sum((np.diff(walk)-np.diff(walk).mean())**2))
         record('df_statistic',df_stat(walk))
         record('adf_statistic_lag2',adf_stat(walk,2))
         record('df_adf_zero_lag_error',adf_stat(walk,0)-df_stat(walk))
         drift=np.mean(np.diff(walk));record('arima010_drift_forecast_h3',walk[-1]+3*drift)
-        for n in [80,240,720]:
-            stats=np.array([df_stat(np.cumsum(normals(n,515+i))) for i in range(200)])
-            count=np.mean(stats<-2.86)
-            record(f'df_rejection_n{n}',count)
-            record(f'df_mcse_n{n}',np.sqrt(count*(1-count)/200))
+        for key,value in unit_root_monte_carlo().items():record(key,value)
         record('random_walk_h12_variance',12)
     elif k == 7:
         n=360;t=np.arange(n); temperature=60+18*np.sin(2*np.pi*t/12)+3*f[:n]
@@ -290,19 +354,19 @@ def experiment(k, E=None):
         assert np.linalg.matrix_rank(X)==5
     elif k == 8:
         state=ar(.5*e[:360],.8);y=state+f[:360];y[150]=np.nan
-        m,P,s,S=kalman(y)
-        record('filter_rmse',rmse(m-state));record('smoother_rmse',rmse(s-state))
+        m,P,ms,Ps=kalman(y)
+        record('filter_rmse',rmse(m-state));record('smoother_rmse',rmse(ms-state))
         record('missing_filtered_variance',P[150]);record('previous_filtered_variance',P[149])
         changed=y.copy();changed[181:]+=10
         mm,_,ss,_=kalman(changed)
         record('filter_future_sensitivity',mm[180]-m[180])
-        record('smoother_future_sensitivity',ss[180]-s[180])
-        record('minimum_smoothing_variance',min(S))
+        record('smoother_future_sensitivity',ss[180]-ms[180])
+        record('minimum_smoothing_variance',min(Ps))
         a=np.r_[0,.8*m[:-1]];previous=np.r_[.25/(1-.8**2),P[:-1]]
         observation_variance=.8**2*previous+.25+1
         observed=~np.isnan(y);innovation=y[observed]-a[observed]
         record('gaussian_log_likelihood',-.5*np.sum(np.log(2*np.pi*observation_variance[observed])+innovation**2/observation_variance[observed]))
-        assert np.all(S>=-1e-12) and np.all(S<=P+1e-12)
+        assert np.all(Ps>=-1e-12) and np.all(Ps<=P+1e-12)
         assert mm[180]==m[180]
     elif k in [9,10]:
         A=np.array([[.6,.15],[.05,.5]]);Y=np.zeros((600,2))
@@ -316,6 +380,10 @@ def experiment(k, E=None):
             record('network_forecast_first',((.6*np.eye(2)+.15*W)@Y[-1])[0])
             record('var_forecast_first',(c+Ah@Y[-1])[0])
             record('residual_covariance12',Sigma[0,1])
+            # Granger non-causality: Wald statistics for one excluded cross-lag each.
+            X=np.column_stack([np.ones(599),Y[:-1]]);XtX=np.linalg.solve(X.T@X,np.eye(3))
+            record('granger_wald_2_to_1',Ah[0,1]**2/(Sigma[0,0]*XtX[2,2]))
+            record('granger_wald_1_to_2',Ah[1,0]**2/(Sigma[1,1]*XtX[1,1]))
             V=np.zeros((2,2));power=np.eye(2)
             for j in range(4):V+=power@Sigma@power.T;power=power@Ah
             record('forecast_covariance_h4_trace',np.trace(V))
@@ -330,6 +398,9 @@ def experiment(k, E=None):
             record('covariance_reconstruction_error',np.max(abs(rotated@rotated.T-Sigma)))
             record('rotated_impact21',rotated[1,0])
             record('response_h4', (Ah@Ah@Ah@Ah@L)[1,0])
+            # Local projection: regress Y_{t+4} directly on [1, Y_t], then apply the same L.
+            projection,_=ols(np.column_stack([np.ones(596),Y[:-4]]),Y[4:])
+            record('local_projection_response_h4',(projection[1:].T@L)[1,0])
             assert np.max(abs(L@L.T-Sigma))<1e-10
             assert np.max(abs(reverse@reverse.T-Sigma))<1e-10
     elif k == 11:
