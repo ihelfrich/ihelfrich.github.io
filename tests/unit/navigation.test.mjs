@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import {
   PRIMARY,
   RECORDS,
@@ -9,8 +9,10 @@ import {
   SECONDARY_PAGES,
   GO_RECORDS,
   REDIRECTS,
+  STANDALONE_ROUTES,
   navRoutes,
   sitemapStaticRoutes,
+  withSlash,
 } from "../../src/data/navigation.mjs";
 
 const hrefs = (items) => items.map(({ href }) => href);
@@ -74,4 +76,31 @@ test("redirects point at routes that are themselves published", () => {
 test("the Astro config publishes the same redirects", async () => {
   const config = await readFile(new URL("../../astro.config.mjs", import.meta.url), "utf8");
   assert.match(config, /REDIRECTS/, "astro.config.mjs must import the redirect table from navigation.mjs");
+});
+
+test("withSlash gives the redirect-free form of a route and leaves files, fragments and queries intact", () => {
+  assert.equal(withSlash("/teaching"), "/teaching/");
+  assert.equal(withSlash("/teaching/"), "/teaching/");
+  assert.equal(withSlash("/book#tutoring-intro"), "/book/#tutoring-intro");
+  assert.equal(withSlash("/contact?intent=learn"), "/contact/?intent=learn");
+  assert.equal(withSlash("/cv/ian-helfrich-cv.pdf"), "/cv/ian-helfrich-cv.pdf");
+  assert.equal(withSlash("https://example.org/a"), "https://example.org/a");
+  assert.equal(withSlash("/"), "/");
+});
+
+test("the open courses and every static time-series page are in the sitemap's static routes", async () => {
+  const routes = sitemapStaticRoutes();
+  for (const route of ["/econometrics/", "/time-series/", "/time-series/lectures/", "/handbook/"]) {
+    assert.ok(routes.includes(route), `${route} must be in the sitemap`);
+  }
+  // A new page beside the time-series chapters fails here until it is listed. Print editions stay out.
+  const pages = (await readdir(new URL("../../src/pages/time-series/", import.meta.url), { withFileTypes: true }))
+    .filter((entry) => entry.isFile() && /\.(astro|md)$/.test(entry.name))
+    .map((entry) => entry.name.replace(/\.(astro|md)$/, ""))
+    .filter((name) => !["index", "[slug]", "print"].includes(name));
+  assert.ok(pages.length >= 6, "the time-series course has static companion pages");
+  for (const name of pages) assert.ok(STANDALONE_ROUTES.includes(`/time-series/${name}/`), `/time-series/${name}/ must be listed in STANDALONE_ROUTES`);
+  for (const print of ["/econometrics/print/", "/time-series/print/", "/handbook/print/"]) {
+    assert.ok(!routes.includes(print), `${print} repeats its chapters and stays out of the sitemap`);
+  }
 });

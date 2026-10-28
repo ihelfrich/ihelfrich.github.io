@@ -43,6 +43,35 @@ for (const entry of await readdir(path.join(root, "teaching"), { withFileTypes: 
   if (html === null || /<meta name="robots" content="noindex/.test(html)) continue;
   assert.ok(sitemapRoutes.includes(`/teaching/${entry.name}/`), `/sitemap.xml must publish the teaching lab /teaching/${entry.name}/`);
 }
+// Every page a crawler may index must be in the sitemap. The /field/ map and its orphan report take
+// their page list from /sitemap.xml, so a section left out of it is invisible to both: the time-series
+// course and the handbook were published on October 9, 2026 and missed both until this check existed.
+// Print editions repeat their chapters on one page and stay out of the sitemap, as /econometrics/print/ does.
+const PRINT_EDITIONS = ["/econometrics/print/", "/time-series/print/", "/handbook/print/"];
+const builtHtml = await collectHtml(root);
+const routeFor = (htmlPath) => {
+  const directory = path.relative(root, path.dirname(htmlPath)).split(path.sep).filter(Boolean).join("/");
+  return directory ? `/${directory}/` : "/";
+};
+for (const htmlPath of builtHtml) {
+  if (path.basename(htmlPath) !== "index.html") continue;
+  const route = routeFor(htmlPath);
+  if (PRINT_EDITIONS.includes(route)) {
+    assert.ok(!sitemapRoutes.includes(route), `${route} repeats its chapters and must stay out of /sitemap.xml`);
+    continue;
+  }
+  const html = await readFile(htmlPath, "utf8");
+  if (/<meta name="robots" content="[^"]*noindex/i.test(html)) continue;
+  assert.ok(sitemapRoutes.includes(route), `${route} is indexable but missing from /sitemap.xml; list it there or mark it noindex`);
+}
+// The three open courses must be reachable from the teaching and candidate pages, not only by URL.
+const courseLandings = ["/econometrics/", "/time-series/", "/handbook/"];
+for (const route of courseLandings) assert.ok(sitemapRoutes.includes(route), `/sitemap.xml must publish ${route}`);
+for (const page of ["teaching", "job-market"]) {
+  const html = await readFile(path.join(root, page, "index.html"), "utf8");
+  const main = html.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? "";
+  for (const route of courseLandings) assert.ok(main.includes(`href="${route}"`), `/${page}/ must link ${route} in its page content`);
+}
 // Hidden Rivers left the Records strip for the 2026-27 market; /projects must still reach it,
 // and every page built on the shared shell must offer booking beside Contact.
 const projectsIndex = await readFile(path.join(root, "projects", "index.html"), "utf8");
@@ -114,7 +143,6 @@ for (const { id } of archivalProjects) {
   assert.ok(!html.includes("<dt>Topics</dt>"), `${id} must not republish promotional topic metadata`);
 }
 
-const builtHtml = await collectHtml(root);
 for (const { id, title } of archivalProjects) {
   const allowedPath = path.join(root, "projects", id, "index.html");
   for (const htmlPath of builtHtml) {

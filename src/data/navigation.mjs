@@ -112,9 +112,35 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/econometrics/teach/",
   "/econometrics/edition/",
   "/econometrics/measurement/",
+  // Time-Series Econometrics: the landing page and its static companions. The fifteen chapters and
+  // fifteen lecture decks are added from their sources in src/pages/sitemap.xml.js.
+  "/time-series/",
+  "/time-series/lectures/",
+  "/time-series/experiments/",
+  "/time-series/practice/",
+  "/time-series/projects/",
+  "/time-series/code/",
+  "/time-series/methods/",
+  "/time-series/research/",
+  // Econometrics Across Disciplines, the working handbook; its chapters come from the handbook collection.
+  "/handbook/",
+  // Hidden Rivers companion pages, reached from /hidden-rivers/.
+  "/hidden-rivers/folio/",
+  "/hidden-rivers/prints/",
+  "/hidden-rivers/research/",
+  "/hidden-rivers/tank/",
 ]);
 
-const withSlash = (href) => (href.endsWith("/") ? href : `${href}/`);
+/**
+ * The form of a route that GitHub Pages serves without a redirect. The navigation data keeps
+ * slash-free hrefs as identifiers; links rendered from it should pass through this helper,
+ * because /teaching answers with a 301 to /teaching/ before the page starts to load.
+ */
+export const withSlash = (href) => {
+  const [, path, suffix] = href.match(/^([^?#]*)(.*)$/);
+  if (!path.startsWith("/") || path.endsWith("/") || /\.[a-z0-9]+$/i.test(path)) return href;
+  return `${path}/${suffix}`;
+};
 
 /** Every internal route the navigation exposes, with trailing slashes, unique. */
 export function navRoutes() {
