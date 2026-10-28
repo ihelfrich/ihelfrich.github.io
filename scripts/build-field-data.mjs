@@ -132,7 +132,8 @@ export async function buildField() {
   const isolated = nodes.filter((_, i) => !linked.has(i)).map((node) => node.id);
 
   // Pages whose topics come from the keyword rules rather than a hand-set entry. They still appear on the map.
-  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !node.id.startsWith("/econometrics/")).map((node) => node.id);
+  // The three course texts are tagged Teaching by prefix in topicsFor, so they are not provisional.
+  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !/^\/(econometrics|time-series|handbook)\//.test(node.id)).map((node) => node.id);
 
   // Rest-state positions for the home-page map, precomputed so the browser only scales them.
   const layout = computeLayouts(nodes, links);
