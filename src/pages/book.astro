@@ -4,8 +4,6 @@ import Portrait from "../components/Portrait.astro";
 import { bookingLinks, identityRecord, publicLinks } from "../data/public-record.mjs";
 import { bookingEvent } from "../data/analytics.mjs";
 
-const introCall = bookingLinks.find(({ id }) => id === "tutoring-intro");
-const session = bookingLinks.find(({ id }) => id === "tutoring-session");
 ---
 
 <Base
@@ -40,11 +38,6 @@ const session = bookingLinks.find(({ id }) => id === "tutoring-session");
         <figcaption>{identityRecord.name} · {identityRecord.location}</figcaption>
       </figure>
     </div>
-
-    <aside role="note" class="booking-note">
-      <strong>Tutoring booked here</strong>
-      <p>A session booked on this page is a {session?.minutes}-minute Zoom meeting for tutoring or research-design coaching. If we have not worked together, book the {introCall?.minutes}-minute intro call first; in it we go through the subject, your goals, and how sessions would work.</p>
-    </aside>
 
     <aside role="note" class="booking-note">
       <strong>Wyzant students</strong>

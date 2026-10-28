@@ -113,7 +113,7 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/econometrics/edition/",
   "/econometrics/measurement/",
   // Time-Series Econometrics: the landing page and its static companions. The fifteen chapters and
-  // fifteen lecture decks are added from their sources in src/pages/sitemap.xml.js.
+  // fifteen lecture summaries are added from their sources in src/pages/sitemap.xml.js.
   "/time-series/",
   "/time-series/lectures/",
   "/time-series/experiments/",
