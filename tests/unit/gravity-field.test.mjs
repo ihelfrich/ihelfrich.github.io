@@ -131,6 +131,26 @@ test("ring geometry nests inside the stage and pages land on their ellipse in an
   assert.deepEqual([...order.slice(rot), ...order.slice(0, rot)], before, "cyclic order is preserved");
 });
 
+test("a weighted ring gives each page a share of the ring in proportion to its weight", () => {
+  const geo = ringGeometry(900, 700, { S: 1, RS: 1, narrow: false, counts: [1, 6, 0, 0] });
+  const fx = geo.R1 * geo.e, fy = geo.R1, ids = [0, 1, 2, 3, 4, 5];
+  const X = ids.map((k) => 450 + 100 * Math.cos((k * Math.PI) / 3 + 0.2)), Y = ids.map((k) => 350 + 100 * Math.sin((k * Math.PI) / 3 + 0.2));
+  const param = (TX, TY, i) => Math.atan2((TY[i] - geo.cy) / fy, (TX[i] - geo.cx) / fx);
+  const gaps = (TX, TY) => {
+    const a = ids.map((i) => [i, param(TX, TY, i)]).sort((p, q) => p[1] - q[1]);
+    return a.map(([i, v], k) => [i, a[(k + 1) % a.length][0], (((a[(k + 1) % a.length][1] - v) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)]);
+  };
+  const TX = [], TY = [];
+  placeOnRing(ids, X, Y, 450, 350, geo.e, geo.cx, geo.cy, fx, fy, TX, TY, (i) => (i === 0 ? 3 : 1));
+  // Page 0 takes 3 of 8 shares, so its neighbours sit a quarter turn from it and the rest an eighth apart.
+  for (const [a, b, gap] of gaps(TX, TY)) close(gap, a === 0 || b === 0 ? Math.PI / 2 : Math.PI / 4, 1e-9);
+  // Equal weights give the even spacing of the unweighted ring.
+  const EX = [], EY = [], UX = [], UY = [];
+  placeOnRing(ids, X, Y, 450, 350, geo.e, geo.cx, geo.cy, fx, fy, EX, EY, () => 1);
+  placeOnRing(ids, X, Y, 450, 350, geo.e, geo.cx, geo.cy, fx, fy, UX, UY);
+  for (const i of ids) { close(EX[i], UX[i], 1e-9); close(EY[i], UY[i], 1e-9); }
+});
+
 test("labels never overlap one another, stay inside the stage, and avoid marks", () => {
   // Regression from the old network: "Econometric Argument" among a run of course marks.
   const marks = [[300, 500], [320, 500], [342, 497], [364, 503], [388, 500], [412, 499], [300, 520], [300, 481]];

@@ -25,6 +25,16 @@ const RING_ASSOCIATION = 1.2;
 // Share of each outer ring's length (two links, three or more) that stays open when first-ring labels
 // close arcs of it. The faint outer band can give up more than the second ring.
 const RING_KEPT = [0.6, 0.5];
+// On a first ring too crowded for its labels, the pages labelled first take arcs as wide as their labels
+// plus this padding, so that no neighbouring mark sits under a label. Those wider arcs may add at most
+// RING_SLOT_BUDGET of the ring's page count in extra shares; the other pages close up to make room.
+const RING_SLOT_PAD_PX = 8;
+const RING_SLOT_BUDGET = 0.5;
+// A crowded outer ring may fill at most this share of its length with its marks and the gaps between
+// them, so that some first-ring labels always fit. Past it, the ring draws its pages smaller, down to
+// RING_MARK_MIN of their size; a ring still too full keeps this share and lets its faint marks overlap.
+const RING_FULL = 0.6;
+const RING_MARK_MIN = 0.35;
 // The chosen page's label: below or above its mark first, then slid, then further out.
 const CHOSEN_ORDER = Object.freeze([3, 2, 16, 17, 14, 15, 8, 9, 0, 1, 10, 11, 12, 13]);
 const WELL = 30; // mass of the chosen page's well
@@ -237,7 +247,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const fit = chosenFit(c, g[1]);
       if (fit > ring.R1) ring = ringGeometry(W, H, { ...geo, minR1: fit });
       const { cx, cy, e, R1, R2, PX, PY } = ring, ox = X[c], oy = Y[c];
-      placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY);
+      placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY, ringSlots(g[1], ox, oy));
       placeOnRing(g[2], X, Y, ox, oy, e, cx, cy, R2 * e, R2, TX, TY);
       placeOnRing(g[3], X, Y, ox, oy, e, cx, cy, PX, PY, TX, TY);
       TX[c] = cx; TY[c] = cy;
@@ -391,6 +401,27 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const y1 = Math.max(reach.s, reach.n) + it.h + 2, half = it.w / 2 + 2 + mr + 4;
       return Math.hypot(half / ring.e, y1);
     }
+    // Shares of the first ring (see RING_SLOT_PAD_PX), or null when its even spacing already clears the
+    // labels. Pages are taken in label priority until the extra shares would pass the budget.
+    function ringSlots(r1, ox, oy) {
+      const m = r1.length;
+      if (m < 2 || !narrow) return null;
+      const { e, R1 } = ring, spacing = (Math.PI * (1 + e) * R1) / m; // the ellipse's perimeter, shared evenly
+      const extra = new Map();
+      let budget = RING_SLOT_BUDGET * m;
+      for (const i of [...r1].sort(byPriority)) {
+        // The label's extent along the ring where the page now lies: its width at the top and bottom,
+        // its height at the sides.
+        const it = item(i, 500, 11), a = Math.atan2(Y[i] - oy, (X[i] - ox) / e);
+        const tx = -e * Math.sin(a), ty = Math.cos(a), tl = Math.hypot(tx, ty);
+        const more = (it.w * Math.abs(tx / tl) + it.h * Math.abs(ty / tl) + RING_SLOT_PAD_PX) / spacing - 1;
+        if (more <= 0) continue;
+        if (more > budget) break;
+        extra.set(i, more);
+        budget -= more;
+      }
+      return extra.size ? (i) => 1 + (extra.get(i) ?? 0) : null;
+    }
     function ringOne() {
       const r1 = [];
       for (let i = 0; i < n; i++) if (hop[i] === 1) r1.push(i);
@@ -405,13 +436,18 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const { cx, cy, e, R2, PX, PY } = ring;
       const jitter = narrow ? 0 : 0.06; // a phone's crowded rings stay smooth, so the arcs left open stay clear
       const outer = [[g[2], R2 * e, R2, RING_KEPT[0]], [g[3], PX, PY, RING_KEPT[1]]].filter(([list]) => list.length).map(([list, fx, fy, kept]) => {
-        let rmax = 0, need = 0;
-        for (const i of list) { const r = GR[i] * RADT[i]; rmax = Math.max(rmax, r); need += 2 * r + 3; }
+        const t = ellipseTrack(cx, cy, fx, fy), length = trackLength(t), gaps = 3 * list.length;
+        let marks = 0;
+        for (const i of list) marks += 2 * GR[i] * RADT[i];
+        // A ring whose marks would leave the first ring's labels too little room draws them smaller.
+        const fit = (RING_FULL * length - gaps) / marks;
+        if (fit < 1) { const k = Math.max(fit, RING_MARK_MIN); for (const i of list) RADT[i] *= k; marks *= k; }
+        let rmax = 0;
+        for (const i of list) rmax = Math.max(rmax, GR[i] * RADT[i]);
         // the radial jitter of a crowded ring, and settling, as slack
         const slack = (list.length > 30 ? (jitter / 2) * Math.max(fx, fy) : 0) + 2;
-        // A ring keeps most of its length, so that it still reads as a ring.
-        const t = ellipseTrack(cx, cy, fx, fy);
-        return { list, t, rmax, need: Math.max(need, kept * trackLength(t)), slack };
+        // A ring keeps most of its length, so that it still reads as a ring, and at most RING_FULL of it.
+        return { list, t, rmax, need: Math.min(Math.max(marks + gaps, kept * length), RING_FULL * length), slack };
       });
       for (let i = 0; i < n; i++) { RV[i] = hop[i] <= 1 ? 2 : 0; MR[i] = hop[i] <= 1 ? GR[i] * RADT[i] + 2 : -1; }
       // Arcs a label at box b would close: samples of each ring nearer the box than its own page is,

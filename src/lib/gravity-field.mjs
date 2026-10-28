@@ -282,17 +282,25 @@ export function ringGeometry(W, H, { S, RS, narrow, top = 0, counts, minR1 = 0 }
 
 /**
  * Spreads the pages of one ring evenly round an ellipse with semi-axes (fx, fy), keeping their angular
- * order as seen from (ox, oy) and rotating the set to the angle that moves them least.
+ * order as seen from (ox, oy) and rotating the set to the angle that moves them least. With a weight
+ * function, each page takes a share of the ring in proportion to its weight instead of an equal one.
  */
-export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY) {
+export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY, weight = null) {
   const m = list.length;
   if (!m) return;
   const th = list.map((i) => [i, Math.atan2(Y[i] - oy, (X[i] - ox) / e)]).sort((a, b) => a[1] - b[1]);
+  let slot = (k) => (TAU * k) / m;
+  if (weight) {
+    const w = th.map(([i]) => weight(i)), total = w.reduce((s, v) => s + v, 0), at = [];
+    let run = 0;
+    for (const v of w) { at.push((TAU * (run + v / 2)) / total); run += v; }
+    slot = (k) => at[k];
+  }
   let sx = 0, sy = 0;
-  th.forEach(([, a], k) => { const d = a - (TAU * k) / m; sx += Math.cos(d); sy += Math.sin(d); });
+  th.forEach(([, a], k) => { const d = a - slot(k); sx += Math.cos(d); sy += Math.sin(d); });
   const off = Math.atan2(sy, sx);
   th.forEach(([i], k) => {
-    const a = off + (TAU * k) / m, j = m > 30 ? (hash(i) - 0.5) * 0.06 : 0;
+    const a = off + slot(k), j = m > 30 ? (hash(i) - 0.5) * 0.06 : 0;
     TX[i] = cx + fx * (1 + j) * Math.cos(a);
     TY[i] = cy + fy * (1 + j) * Math.sin(a);
   });
