@@ -4,7 +4,10 @@ export function mountVisitorPath(root){
  const doc=root.ownerDocument,cleanups=[],radios=[...root.querySelectorAll('[name=visitor-intent]')],select=root.querySelector('[data-visitor-focus]');
  const on=(el,type,fn)=>{el?.addEventListener(type,fn);cleanups.push(()=>el?.removeEventListener(type,fn));};
  let intent='';
- const updateDraft=()=>{const draft=visitorDraft(intent,select.value,root.querySelector('[data-visitor-name]')?.value,root.querySelector('[data-visitor-question]')?.value);if(!draft||root.dataset.compose!=='true')return;root.querySelector('[data-draft-subject]').textContent=draft.subject;root.querySelector('[data-draft-body]').textContent=draft.body;root.querySelector('[data-visitor-email]').href=draft.href;};
+ // Copy draft appears only where the Clipboard API exists; it copies the subject and body shown on the page.
+ const copy=root.querySelector('[data-visitor-copy]'),copyStatus=root.querySelector('[data-visitor-copy-status]'),clipboard=doc.defaultView?.navigator?.clipboard;
+ if(copy&&typeof clipboard?.writeText==='function'){copy.hidden=false;on(copy,'click',async()=>{const subject=root.querySelector('[data-draft-subject]').textContent,body=root.querySelector('[data-draft-body]').textContent;try{await clipboard.writeText(`Subject: ${subject}\n\n${body}`);copyStatus.textContent='Draft copied. Paste it into a new email.';}catch{copyStatus.textContent='Copying was blocked. Select the draft above and copy it.';}});}
+ const updateDraft=()=>{const draft=visitorDraft(intent,select.value,root.querySelector('[data-visitor-name]')?.value,root.querySelector('[data-visitor-question]')?.value);if(!draft||root.dataset.compose!=='true')return;if(copyStatus)copyStatus.textContent='';root.querySelector('[data-draft-subject]').textContent=draft.subject;root.querySelector('[data-draft-body]').textContent=draft.body;root.querySelector('[data-visitor-email]').href=draft.href;};
  const render=()=>{
   const selected=resolveVisitorPath(intent,select.value);if(!selected)return;
   root.querySelector('[data-visitor-title]').textContent=selected.option.title;

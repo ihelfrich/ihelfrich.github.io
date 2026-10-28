@@ -149,6 +149,17 @@ test('visitor choices produce relevant routes and compose an editable email with
  }
  const draft=visitorDraft('learn','ideas','Zoë','How does β change?');assert.ok(decodeURIComponent(draft.href).includes('Zoë'));assert.ok(decodeURIComponent(draft.href).includes('β'));
 });
+test('the contact draft offers Copy draft only where the Clipboard API exists',async()=>{
+ const {mountVisitorPath}=await import('../../src/scripts/visitor-path.mjs');
+ for(const available of [true,false]){
+  const w=new Window({url:'https://example.test/contact?intent=research&focus=spatial'}),d=w.document;d.write(await readFile('dist/contact/index.html','utf8'));
+  let written=null;Object.defineProperty(w.navigator,'clipboard',{configurable:true,value:available?{writeText:async(text)=>{written=text;}}:undefined});
+  const root=d.querySelector('[data-visitor-path]'),dispose=mountVisitorPath(root),copy=root.querySelector('[data-visitor-copy]');
+  assert.equal(copy.hidden,!available);
+  if(available){copy.click();await new Promise(resolve=>setTimeout(resolve,0));assert.equal(written,`Subject: ${root.querySelector('[data-draft-subject]').textContent}\n\n${root.querySelector('[data-draft-body]').textContent}`);assert.match(root.querySelector('[data-visitor-copy-status]').textContent,/copied/i);}
+  dispose();await w.happyDOM.abort();
+ }
+});
 
 
 test('every suggested visitor resource resolves to a built page and destination',async()=>{
