@@ -1,10 +1,12 @@
 ---
-title: 'Make a decision the evidence can support'
+title: 'Decisions under partial identification'
 order: 12
 part: 'Generalize'
 description: 'Translate effects into a constrained decision, distinguish sensitivity from sampling uncertainty, and assemble an auditable empirical argument.'
 question: 'How strong must the evidence be before the firm should pay for training?'
-prerequisites: 'Treatment effects, identification, uncertainty, heterogeneity, and target populations.'
+prerequisites: 'Sampling uncertainty (chapter 4), individual and average treatment effects and their identification (chapter 5), and the difference-in-differences bound (chapter 8). The transport assumption that carries the chapter 8 bound to the employees in question is stated here. Chapter 11 develops such assumptions for trial results and is recommended background, though not required.'
+requires: [4, 5, 8]
+recommends: [11]
 minutes: 30
 ---
 
@@ -16,7 +18,7 @@ A decision therefore needs an action set, a target population, a consequence mod
 
 ## The training decision
 
-Suppose the firm can train or not train an employee. Continuing the synthetic example from chapter 8 and the design experiment, training costs \$300 and each additional output unit contributes \$100 after variable production costs. Let $\tau$ be the average output effect in the target population. Expected incremental net benefit is
+Suppose the firm can train or not train an employee. Continuing the synthetic example from chapter 8 and the design experiment, training costs \$300 and each additional output unit contributes \$100 after variable production costs. Let the target population be the employees the firm is now deciding whether to train, and let $\tau$ be the average output effect of training in that population. Expected incremental net benefit is
 
 $$
 B(\tau)=100\tau-300.
@@ -28,7 +30,7 @@ This small model assumes costs and margins are known, output effects convert int
 
 ## Point estimates, sets, and distributions
 
-An estimate $\hat\tau=6$ implies an estimated net benefit of \$300. Suppose, however, that the observable population contrast is 6 and allowed failures of parallel trends are bounded by $M=4$. The population identification region is then $\mathcal T=[2,10]$. The corresponding net-benefit region is $[-100,700]$ dollars.
+An estimate $\hat\tau=6$ implies an estimated net benefit of \$300. Suppose, however, that the observable population contrast is 6 and allowed failures of parallel trends are bounded by $M=4$. Chapter 8 showed that these restrictions confine the average effect for the offices that adopted training, their ATT, to $[2,10]$. That interval bounds $\tau$ only if the adopters' ATT equals the effect in the target population, a transport assumption of the kind chapter 11 examines. Maintaining that assumption, the population identification region for $\tau$ is $\mathcal T=[2,10]$, and the corresponding net-benefit region is $[-100,700]$ dollars. Without it, the region for $\tau$ is wider.
 
 Three objects must stay separate:
 
@@ -52,7 +54,7 @@ Maximin therefore chooses to skip. This is a decision rule reflecting extreme ca
 Regret measures the loss relative to the action that would be best if $\tau$ were known:
 
 $$
-R(a,\tau)=\max_{a'}U(a',\tau)-U(a,\tau).
+\operatorname{Reg}(a,\tau)=\max_{a'}U(a',\tau)-U(a,\tau).
 $$
 
 For training, maximum regret over $[2,10]$ is \$100, attained at $\tau=2$. For skipping, maximum regret is \$700, attained at $\tau=10$. Among these two deterministic actions, **minimax regret** chooses training. Both calculations use the same evidence. They differ in the criterion applied to uncertain consequences. Allowing randomized actions would change the optimization problem again.

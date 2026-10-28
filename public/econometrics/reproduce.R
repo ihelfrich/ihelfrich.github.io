@@ -3,17 +3,25 @@
 # With no argument, reads the fixed synthetic sample from the public site.
 args <- commandArgs(trailingOnly=TRUE)
 source <- if (length(args)) args[1] else "https://ihelfrich.github.io/econometrics/data/observed.csv"
-d <- read.csv(source)
-stopifnot(all(c("id", "x", "y") %in% names(d)), nrow(d) > 2)
-print(coef(lm(y ~ x, data=d)))
+obs <- read.csv(source)
+# Training is D, as in chapter 1. Older exports name the training column x.
+if (!"d" %in% names(obs) && "x" %in% names(obs)) names(obs)[names(obs) == "x"] <- "d"
+stopifnot(all(c("id", "d", "y") %in% names(obs)), nrow(obs) > 2)
+print(coef(lm(y ~ d, data=obs)))
 
 # This latent decomposition is imposed as a model; it is not identified.
-u <- d$x
-v <- d$y-d$x
+# The equality check holds by construction for any data; it restates
+# observational equivalence.
+u <- obs$d
+v <- obs$y-obs$d
 for (b in c(-1,0,.5,1,2)) {
-  model.y <- b*d$x+(1-b)*u+v
-  stopifnot(max(abs(model.y-d$y)) < 1e-12)
-  cat("b =", b, ": same observed data; E[Y | do(X=1)] =", b, "\n")
+  model.y <- b*obs$d+(1-b)*u+v
+  stopifnot(max(abs(model.y-obs$y)) < 1e-12)
+  # Under do(D=1), U and V keep their values. The population mean is b; the
+  # sample analogue differs from b by the sampling error in the means of U and V.
+  sample.mean <- mean(b+(1-b)*u+v)
+  cat(sprintf("b = %4.1f: same observed data; E[Y | do(D=1)] = %4.1f in the model, %.4f in this sample\n",
+              b, b, sample.mean))
 }
 
 dd <- (62-50)-(46-40)

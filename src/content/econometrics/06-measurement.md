@@ -1,10 +1,11 @@
 ---
-title: 'The dataset is part of the model'
+title: 'Measurement error, missing data, and selection'
 order: 6
 part: 'Identify'
 description: 'Trace measurement, missingness, and conditioning decisions into the estimand and its identification.'
 question: 'What changes when training hours are self-reported and some output records disappear?'
-prerequisites: 'Conditional expectation, regression, and potential outcomes.'
+prerequisites: 'Conditional expectation (chapter 2), regression (chapter 3), and potential outcomes (chapter 5).'
+requires: [2, 3, 5]
 minutes: 30
 ---
 
@@ -18,17 +19,17 @@ An estimator operates on the variables supplied to it. A careful measurement mod
 
 ## Classical measurement error
 
-Suppose true, centered training intensity is $X$, but the recorded value is
+Suppose true, centered training intensity is $D$, but the recorded value is
 
 $$
-X^*=X+\eta.
+D^*=D+\eta.
 $$
 
-Assume the outcome obeys $Y=\beta X+\varepsilon$. Require finite second moments, $\operatorname{Var}(X)>0$, and
+Assume the outcome obeys $Y=\beta D+\varepsilon$. Require finite second moments, $\operatorname{Var}(D)>0$, and
 
 $$
-\operatorname{Cov}(X,\varepsilon)=0,\qquad
-\operatorname{Cov}(X,\eta)=0,\qquad
+\operatorname{Cov}(D,\varepsilon)=0,\qquad
+\operatorname{Cov}(D,\eta)=0,\qquad
 \operatorname{Cov}(\eta,\varepsilon)=0.
 $$
 
@@ -37,9 +38,9 @@ These are classical-error restrictions relevant to this single-regressor linear 
 $$
 \begin{aligned}
 b^*
-&=\frac{\operatorname{Cov}(X^*,Y)}{\operatorname{Var}(X^*)}\\
-&=\frac{\beta\operatorname{Var}(X)}
-{\operatorname{Var}(X)+\operatorname{Var}(\eta)}
+&=\frac{\operatorname{Cov}(D^*,Y)}{\operatorname{Var}(D^*)}\\
+&=\frac{\beta\operatorname{Var}(D)}
+{\operatorname{Var}(D)+\operatorname{Var}(\eta)}
 =\lambda\beta,
 \end{aligned}
 $$
@@ -54,10 +55,10 @@ This result has boundaries. Correlated reporting errors can move a coefficient i
 
 ## Missing outcomes change the population
 
-Let $R=1$ indicate that output is observed, and let $Z$ contain fully observed baseline information. With one potentially missing outcome, useful distinctions are:
+Let $S=1$ indicate that output is observed, and let $X$ contain fully observed baseline information. With one potentially missing outcome, useful distinctions are:
 
-- **Missing completely at random:** $R$ is independent of both $Y$ and $Z$.
-- **Missing at random given $Z$:** $R$ is independent of $Y$ conditional on $Z$.
+- **Missing completely at random:** $S$ is independent of the pair $(Y,X)$. Independence from $Y$ and from $X$ taken one at a time is weaker, because it still allows response to depend on how the two combine.
+- **Missing at random given $X$:** $S$ is independent of $Y$ conditional on $X$.
 - **Missing not at random:** response still depends on the missing outcome after conditioning on the observed information in the model.
 
 “At random” in the second phrase does not mean every employee has the same response probability. Experience may predict response strongly. The restriction is that, within the observed information, response does not further select on the outcome.
@@ -66,20 +67,20 @@ Suppose experienced and new employees each constitute half the workforce, with t
 
 <details><summary>Why inverse response weighting can recover the mean</summary>
 
-Define $\pi(Z)=P(R=1\mid Z)$. Assume $R\perp Y\mid Z$, positive response probability wherever the target population has support, and integrability. Then
+Define $\pi(X)=P(S=1\mid X)$. Assume $S\perp Y\mid X$, positive response probability wherever the target population has support, and integrability. Then
 
 $$
 \begin{aligned}
-E\left[\frac{RY}{\pi(Z)}\right]
-&=E\left[\frac{E[RY\mid Z]}{\pi(Z)}\right]\\
-&=E\left[\frac{\pi(Z)E[Y\mid Z]}{\pi(Z)}\right]
+E\left[\frac{SY}{\pi(X)}\right]
+&=E\left[\frac{E[SY\mid X]}{\pi(X)}\right]\\
+&=E\left[\frac{\pi(X)E[Y\mid X]}{\pi(X)}\right]
 =E[Y].
 \end{aligned}
 $$
 
-The recorded product $RY$ contributes zero for nonrespondents, so their unobserved outcomes do not need to be filled in to implement the sample counterpart. In practice $\pi$ is often estimated, adding estimation error and model dependence. Very small response probabilities produce unstable weights.
+The recorded product $SY$ contributes zero for nonrespondents, so their unobserved outcomes do not need to be filled in to implement the sample counterpart. In practice $\pi$ is often estimated, adding estimation error and model dependence. Very small response probabilities produce unstable weights.
 
-If response depends on unobserved output within $Z$, the factorization in the second line fails. Missing-at-random assumptions generally cannot be verified from observed outcomes alone. Sensitivity analysis should vary the unresolved outcome distribution, not simply run another imputation package.
+If response depends on unobserved output within $X$, the factorization in the second line fails. Missing-at-random assumptions generally cannot be verified from observed outcomes alone. Sensitivity analysis should vary the unresolved outcome distribution, not simply run another imputation package.
 
 </details>
 
@@ -87,11 +88,11 @@ If response depends on unobserved output within $Z$, the factorization in the se
 
 A causal graph is an explicit proposal about how variables arise. An arrow denotes a possible direct causal relationship in the proposed model; absence of an arrow is a substantive restriction. Graphs help expose the assumptions behind a control list.
 
-**Common cause:** $Z\to D$ and $Z\to Y$. Prior experience might influence both participation and output. Adjustment can close this confounding path, provided the selected variables are sufficient and treatment has overlap within their values.
+**Common cause:** $X\to D$ and $X\to Y$. Prior experience might influence both participation and output. Adjustment can close this confounding path, provided the selected variables are sufficient and treatment has overlap within their values.
 
 **Mediator:** $D\to M\to Y$. Training may improve skill, which raises output. Controlling for post-training skill removes part of the pathway included in a total-effect question. The remaining coefficient does not automatically identify a direct effect; mediator–outcome confounding introduces further requirements.
 
-**Collider:** $D\to S\leftarrow U\to Y$. Inclusion in a performance review may depend on training and latent readiness. Conditioning on review inclusion can associate randomized training with readiness.
+**Collider:** $D\to S\leftarrow U\to Y$, with $S$ the inclusion indicator defined above. Inclusion in a performance review, and therefore in the outcome data, may depend on training and latent readiness. Conditioning on review inclusion can associate randomized training with readiness.
 
 Here is an exact collider example. Let $D$ and $U$ be independent fair zero-one variables, let $Y=U$, and include employees if $S=1$ whenever $D=1$ or $U=1$. Training has no effect on output. Among included employees with $D=0$, everyone has $U=1$, so their mean output is 1. Among included employees with $D=1$, half have $U=1$, so their mean is 0.5. The selected-sample difference is $-0.5$.
 

@@ -1,10 +1,11 @@
 ---
-title: 'Which population is inside the average?'
+title: 'Conditional expectation and composition'
 order: 2
 part: 'Frame'
 description: 'Use conditioning and expectation to diagnose changes in composition before interpreting an average.'
 question: 'Why do training participants meet their targets more often?'
-prerequisites: 'Fractions and the distinction between association and intervention.'
+prerequisites: 'Fractions, and the distinction between association and intervention from chapter 1.'
+requires: [1]
 minutes: 25
 ---
 
@@ -12,7 +13,7 @@ minutes: 25
 
 Suppose a report says that 68% of training participants meet their output target, compared with 32% of nonparticipants. Before explaining the difference, find out who is inside each denominator.
 
-Here is a completely constructed population of 100 employees. Let $D=1$ mean participation, $E=1$ mean prior experience, and $Y=1$ mean meeting the output target. Each entry describes people, not estimated probabilities.
+Here is a completely constructed population of 100 employees. Let $D=1$ mean participation, $K=1$ mean prior experience, and $Y=1$ mean meeting the output target. Each entry describes people, not estimated probabilities.
 
 | Prior experience | Participation | Employees | Meet target |
 | --- | --- | ---: | ---: |
@@ -33,20 +34,20 @@ $$
 P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
 $$
 
-Conditioning on participation restricts attention to the 50 participants. Forty are experienced, so $P(E=1\mid D=1)=0.8$. The probability of meeting the target is
+Conditioning on participation restricts attention to the 50 participants. Forty are experienced, so $P(K=1\mid D=1)=0.8$. The probability of meeting the target is
 
 $$
 \begin{aligned}
 P(Y=1\mid D=1)
-&=P(Y=1\mid E=1,D=1)P(E=1\mid D=1)\\
-&\quad+P(Y=1\mid E=0,D=1)P(E=0\mid D=1)\\
+&=P(Y=1\mid K=1,D=1)P(K=1\mid D=1)\\
+&\quad+P(Y=1\mid K=0,D=1)P(K=0\mid D=1)\\
 &=0.8(0.8)+0.2(0.2)=0.68.
 \end{aligned}
 $$
 
 The same calculation for nonparticipants gives $0.8(0.2)+0.2(0.8)=0.32$. The within-group success rates are identical. The weights differ.
 
-Probabilities with different conditioning information answer different questions. $P(E=1\mid D=1)=0.8$ says how many participants are experienced. $P(D=1\mid E=1)=0.8$ says how many experienced employees participate. They happen to agree here because both marginal group sizes are 50. That coincidence is not a general symmetry.
+Probabilities with different conditioning information answer different questions. $P(K=1\mid D=1)=0.8$ says how many participants are experienced. $P(D=1\mid K=1)=0.8$ says how many experienced employees participate. They happen to agree here because both marginal group sizes are 50. That coincidence is not a general symmetry.
 
 ## Expectation is a weighted sum
 
@@ -61,7 +62,7 @@ The expectation of a zero-one variable equals its probability of being one. Expe
 The **law of iterated expectations** says, for an integrable outcome,
 
 $$
-E[Y]=E\{E[Y\mid E]\}.
+E[Y]=E\{E[Y\mid K]\}.
 $$
 
 Here integrable means $E[|Y|]<\infty$. In the table, half the workforce is experienced:
@@ -72,42 +73,44 @@ $$
 
 You can also count directly: $32+8+2+8=50$ successes among 100 employees. Conditioning reorganizes the calculation without changing the overall population average, provided the outer weights are the correct population weights.
 
-Standardizing both participation groups to a half-experienced, half-new workforce gives a success rate of 0.5 for each. Whether that standardized contrast identifies a causal effect depends on consistency, overlap, and the adequacy of experience as an adjustment variable. An identity about probabilities cannot certify those causal conditions.
+Standardizing both participation groups to a half-experienced, half-new workforce gives a success rate of 0.5 for each, so the standardized contrast is zero. That zero measures the causal effect of participation only under three conditions. First, each employee's recorded success must be the success that employee would have under the participation status actually recorded. This causal condition is called **consistency**; chapter 5 states it with potential outcomes, and it is unrelated to the estimator property of the same name in chapter 1. Second, each experience group must contain both participants and nonparticipants, a condition called **overlap**; here the experienced employees split 40 and 10, and the new employees 10 and 40. Third, nothing besides experience may influence both participation and success. The table can check the second condition. It cannot check the first or the third, and no identity about probabilities can certify them.
 
 ## Where variation comes from
 
-Let $m(E)=E[Y\mid E]$. If $E[Y^2]<\infty$, then
+Let $m(K)=E[Y\mid K]$. If $E[Y^2]<\infty$, then
 
 $$
 \operatorname{Var}(Y)
-=E\{\operatorname{Var}(Y\mid E)\}
-+\operatorname{Var}\{m(E)\}.
+=E\{\operatorname{Var}(Y\mid K)\}
++\operatorname{Var}\{m(K)\}.
 $$
 
 The first term is variation within experience groups. The second is variation in their conditional means. In our population, $Y$ is binary with mean 0.5, so its variance is $0.5(1-0.5)=0.25$. Within either experience group, the variance is $0.8(0.2)=0.16$. The group means lie 0.3 above or below 0.5, so their variance is $0.09$. Thus $0.25=0.16+0.09$.
+
+The [Distribution Lab](/teaching/distributions/#s=eyJ0YWIiOiJiZW5jaCIsImJlbmNoIjp7ImRpc3QiOiJiaW5vbWlhbCIsInBhcmFtcyI6eyJuIjoxLCJwIjowLjV9fX0=) opens on a binomial distribution with one trial and success probability 0.5, which is this binary outcome. Its bench reports the mean 0.5 and the variance 0.25. Moving the success probability to 0.8 reproduces the within-group variance of 0.16. The same bench covers eighteen other distributions.
 
 <details><summary>Why the decomposition works</summary>
 
 Write
 
 $$
-Y-E[Y]=\{Y-m(E)\}+\{m(E)-E[Y]\}.
+Y-E[Y]=\{Y-m(K)\}+\{m(K)-E[Y]\}.
 $$
 
 Square and take expectations. The cross term is zero because
 
 $$
-E[(Y-m(E))(m(E)-E[Y])]
-=E[(m(E)-E[Y])E[Y-m(E)\mid E]]=0.
+E[(Y-m(K))(m(K)-E[Y])]
+=E[(m(K)-E[Y])E[Y-m(K)\mid K]]=0.
 $$
 
 The remaining two squared terms are precisely the within-group and between-group components.
 
-This also explains why the conditional mean minimizes mean squared prediction error among functions of $E$. For any square-integrable $g(E)$,
+This also explains why the conditional mean minimizes mean squared prediction error among functions of $K$. For any square-integrable $g(K)$,
 
 $$
-E[(Y-g(E))^2]
-=E[(Y-m(E))^2]+E[(m(E)-g(E))^2].
+E[(Y-g(K))^2]
+=E[(Y-m(K))^2]+E[(m(K)-g(K))^2].
 $$
 
 The second term cannot be negative. This is a prediction result and makes no causal claim.
@@ -150,7 +153,7 @@ Use the future population weights: $0.75(0.8)+0.25(0.2)=0.65$. Using 0.5 would s
 
 <details class="solution"><summary>Work through the solution</summary>
 
-No. Let $X$ be equally likely to equal $-1,0,1$ and let $Z=X^2$. Then $E[X]=0$ and $E[XZ]=E[X^3]=0$, so $\operatorname{Cov}(X,Z)=0$. But $Z$ is determined by $X$: for example, $P(Z=0\mid X=0)=1$, whereas $P(Z=0)=1/3$. A zero linear association can conceal complete nonlinear dependence.
+No. Let $X$ be equally likely to equal $-1,0,1$ and let $Y=X^2$. Then $E[X]=0$ and $E[XY]=E[X^3]=0$, so $\operatorname{Cov}(X,Y)=0$. But $Y$ is determined by $X$: for example, $P(Y=0\mid X=0)=1$, whereas $P(Y=0)=1/3$. A zero linear association can conceal complete nonlinear dependence.
 
 </details>
 

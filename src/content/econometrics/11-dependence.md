@@ -1,10 +1,11 @@
 ---
-title: 'Tomorrow and elsewhere are different populations'
+title: 'Likelihood, forecasting, and transportability'
 order: 11
 part: 'Generalize'
 description: 'Connect likelihood, dependent-data forecasting, predictive coverage, and the assumptions needed to transfer an effect.'
 question: 'What changes when the next observation comes next month or from a different workplace?'
-prerequisites: 'Conditional expectation, variance, estimation, and the distinction between prediction and intervention.'
+prerequisites: 'Conditional expectation (chapter 2), variance and estimation (chapter 4), potential outcomes (chapter 5), and the distinction between prediction and intervention (chapter 1).'
+requires: [2, 4, 5]
 minutes: 35
 ---
 
@@ -99,13 +100,13 @@ Ordinary chronological dependence or distribution shift can break exchangeabilit
 
 ## Generalizing trial results
 
-Let $S=1$ denote trial participation and $S=0$ the target population. Randomization can identify $\mu_a(x)=E[Y\mid A=a,X=x,S=1]$ within the trial. To identify target potential-outcome means through
+Let $S=1$ denote trial participation and $S=0$ the target population, and let $D$ be the treatment assigned in the trial. Within the trial, randomization and consistency give $E[Y(d)\mid X=x,S=1]=\mu_d(x)$, where $\mu_d(x)=E[Y\mid D=d,X=x,S=1]$ is an observable regression. To identify target potential-outcome means through
 
 $$
-E[Y(a)\mid S=0]=E[\mu_a(X)\mid S=0],
+E[Y(d)\mid S=0]=E[\mu_d(X)\mid S=0],
 $$
 
-we additionally need conditional mean exchangeability across participation, $E[Y(a)\mid X,S=1]=E[Y(a)\mid X,S=0]$, and trial support throughout the target covariate distribution. Consistency, trial treatment positivity, and the trial's treatment-identification conditions still apply. [Dahabreh and coauthors](https://arxiv.org/abs/1709.04589) develop a formal generalization framework.
+we additionally need conditional mean exchangeability across participation, $E[Y(d)\mid X,S=1]=E[Y(d)\mid X,S=0]$, and trial support throughout the target covariate distribution. Consistency, trial treatment positivity, and the trial's treatment-identification conditions still apply. [Dahabreh and coauthors](https://arxiv.org/abs/1709.04589) develop a formal generalization framework.
 
 Different division cultures may alter training effects even after measured adjustment. Spatial spillovers can also change the intervention itself. Reweighting addresses observed population composition under assumptions; it cannot manufacture missing support or policy invariance.
 

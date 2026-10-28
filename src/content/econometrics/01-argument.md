@@ -1,10 +1,11 @@
 ---
-title: 'One scatterplot, several possible worlds'
+title: 'Estimands and identification'
 order: 1
 part: 'Frame'
 description: 'Separate the question a dataset can answer from the question a decision requires.'
 question: 'If employees who train more produce more, should the firm buy more training?'
-prerequisites: 'Words, fractions, and an interest in evidence.'
+prerequisites: 'Fractions and basic algebra. The notation bridge inside the chapter introduces the expectation, variance, covariance, independence, and normal distribution that the main argument uses. The definition of a consistent estimator previews convergence in probability, which chapter 4 develops.'
+requires: []
 minutes: 25
 lab: 'worlds'
 ---
@@ -23,48 +24,48 @@ An **estimand** is the mathematical quantity corresponding to that target. An **
 
 <details><summary>A quick notation bridge</summary>
 
-$E[Y]$ means the population average of $Y$. The bar in $E[Y\mid X=x]$ restricts that average to observations with $X=x$. Variance, $\operatorname{Var}(Y)$, averages the squared distance from the mean, so it measures spread in squared units. Covariance, $\operatorname{Cov}(X,Y)$, averages the product of the two variables' deviations from their means; its sign describes linear co-movement.
+$E[Y]$ means the population average of $Y$. The bar in $E[Y\mid D=d]$ restricts that average to observations with $D=d$. Variance, $\operatorname{Var}(Y)$, averages the squared distance from the mean, so it measures spread in squared units. Covariance, $\operatorname{Cov}(D,Y)$, averages the product of the two variables' deviations from their means; its sign describes linear co-movement.
 
 Two variables are independent when learning the value of one leaves the other's distribution unchanged. A standard normal variable has a bell-shaped distribution with mean zero and variance one. These ingredients keep the following thought experiment easy to calculate. Chapter 2 develops the averaging rules.
 
 </details>
 
-Here is a deliberately stripped-down, synthetic economy. Let $U$ denote an unobserved employee characteristic and $V$ an independent output shock. Both have mean zero and variance one; specifically, they are independent standard normal variables. Training intensity $X$ is measured relative to its mean, so a negative value means below-average intensity.
+Here is a deliberately stripped-down, synthetic economy. Let $U$ denote an unobserved employee characteristic and $V$ an independent output shock. Both have mean zero and variance one; specifically, they are independent standard normal variables. Training intensity $D$ is measured relative to its mean, so a negative value means below-average intensity.
 
 For any real number $b$, suppose the economy obeys
 
 $$
-X=U,\qquad Y=bX+(1-b)U+V.
+D=U,\qquad Y=bD+(1-b)U+V.
 $$
 
 The coefficient $b$ describes the direct response to changing training while leaving the employee's underlying characteristic unchanged. Substitute the first equation into the second:
 
 $$
-Y=bU+(1-b)U+V=U+V=X+V.
+Y=bU+(1-b)U+V=U+V=D+V.
 $$
 
 Every value of $b$ produces exactly the same joint distribution of observed training and output. In all these worlds,
 
 $$
-E[Y\mid X=x]=x,\qquad
-\frac{\operatorname{Cov}(X,Y)}{\operatorname{Var}(X)}=1.
+E[Y\mid D=d]=d,\qquad
+\frac{\operatorname{Cov}(D,Y)}{\operatorname{Var}(D)}=1.
 $$
 
-Now intervene. The operation $\operatorname{do}(X=x)$ replaces the training equation with $X=x$. It leaves the distribution of $U,V$ and the output equation alone. Consequently,
+Now intervene. The operation $\operatorname{do}(D=d)$ replaces the training equation with $D=d$. It leaves the distribution of $U,V$ and the output equation alone. Consequently,
 
 $$
-E[Y\mid \operatorname{do}(X=x)]=bx.
+E[Y\mid \operatorname{do}(D=d)]=bd.
 $$
 
 At $b=1$, moving training from zero to one increases expected output by one unit. At $b=0$, it changes nothing. At $b=-1$, it reduces expected output by one unit. The observational regression is upward-sloping in all three cases.
 
 ## Identification
 
-A target is **identified** within a stated model class if every model in that class consistent with the observable distribution gives the same target value. Identification is therefore a joint statement about data and restrictions.
+A target is **identified** within a stated model class if every model in that class consistent with the observable distribution gives the same target value. Identification is therefore a joint statement about data and restrictions. The **identified set** collects the target values of every model in the class that matches the observable distribution, so it is always taken relative to the maintained model class.
 
-In this example, the observable distribution cannot identify $b$. No estimator that sees only $(X,Y)$ can consistently recover the correct $b$ in every one of these worlds. The reason is stronger than “the sample is small”: such an estimator receives data with the same distribution whichever world is true.
+In this example, the observable distribution cannot identify $b$. An estimator is **consistent** if it converges in probability to its target as the sample grows; chapter 4 makes that convergence precise. No estimator that sees only $(D,Y)$ can consistently recover the correct $b$ in every one of these worlds. The reason is stronger than “the sample is small”: such an estimator receives data with the same distribution whichever world is true. Chapters 2 and 5 use the word in a second sense, for a causal assumption about how observed outcomes relate to the outcomes a unit would have under each treatment. That sense has nothing to do with sample size.
 
-The [same-data experiment](/econometrics/lab/#worlds) lets you change $b$ while preserving the observed sample. Its slider limits are a teaching choice. They are not a data-derived identified set. In the unrestricted construction above, every real $b$ is observationally compatible.
+The [same-data experiment](/econometrics/lab/#worlds) lets you change $b$ while preserving the observed sample. Its slider runs from $-1$ to $2$ as a teaching choice. In the unrestricted construction above, every real $b$ is observationally compatible, so the identified set for $b$ is the whole real line. If the model class were restricted to $b\in[-1,2]$, the identified set would be that whole interval: the restriction would have produced it, and the observations would not narrow it.
 
 There is plenty of variation in observed training: the normal distribution has support on the entire real line. That does not remove confounding. Conditional on $U$, training is deterministic. Even measuring $U$ would leave no within-$U$ training variation in this toy economy. A credible randomized intervention would add the variation needed to distinguish these worlds.
 
@@ -77,17 +78,18 @@ import numpy as np
 
 rng = np.random.default_rng(20260904)
 u, v = rng.normal(size=(2, 1000))
-x = u.copy()
-reference = x + v
+d = u.copy()
+reference = d + v
 
 for b in (-1.0, 0.0, 1.0, 2.0):
-    observed_y = b*x + (1-b)*u + v
+    observed_y = b*d + (1-b)*u + v
     intervention_y = b*1.0 + (1-b)*u + v
+    slope = np.polyfit(d, observed_y, 1)[0]
     print(b, np.max(np.abs(observed_y-reference)),
-          np.mean(intervention_y))
+          round(slope, 4), round(np.mean(intervention_y), 4))
 ~~~
 
-The maximum observed-data difference is zero up to floating-point rounding. The simulated intervention mean is close to $b$, with sampling error from the finite draws. The observed fitted slope is close to one and identical across worlds. Its finite-sample departure from one is an estimation issue; its inability to reveal $b$ is an identification issue.
+Each line prints $b$, the maximum observed-data difference, the fitted slope, and the simulated intervention mean. The maximum difference is zero up to floating-point rounding. The fitted slope is 1.0241 in every world, because every world produces the same observations. The intervention mean is close to $b$; its departures, such as 0.0762 when $b=0$, are sampling error from 1,000 draws. The slope's finite-sample departure from one is an estimation issue; its inability to reveal $b$ is an identification issue.
 
 ## Components of an empirical analysis
 
@@ -106,11 +108,11 @@ Reporting a regression coefficient as a causal effect requires an identification
 
 ## Exercises
 
-**1.** In the synthetic model, the observational mean rises by two units when $X$ rises from zero to two. What is the corresponding intervention contrast when $b=0.4$?
+**1.** In the synthetic model, the observational mean rises by two units when $D$ rises from zero to two. What is the corresponding intervention contrast when $b=0.4$?
 
 <details class="solution"><summary>Work through the solution</summary>
 
-The intervention mean is $bx$, so the contrast is $0.4(2-0)=0.8$. The observational contrast is two because changing the observed value of $X$ also selects a different value of $U$. The intervention changes $X$ while retaining the population distribution of $U$.
+The intervention mean is $bd$, so the contrast is $0.4(2-0)=0.8$. The observational contrast is two because changing the observed value of $D$ also selects a different value of $U$. The intervention changes $D$ while retaining the population distribution of $U$.
 
 </details>
 

@@ -1,5 +1,6 @@
 ---
 import Econometrics from '../../layouts/Econometrics.astro';
+import {notation} from '../../lib/econometrics.mjs';
 ---
 
 <Econometrics title="Edition and methods" description="Scope, provenance, mathematical conventions, and limits of The Econometric Argument development edition." section="edition">
@@ -36,11 +37,20 @@ import Econometrics from '../../layouts/Econometrics.astro';
     <p>This is a development edition. Its pedagogy has not been evaluated in a controlled teaching study, and it has not undergone external scholarly peer review as a complete book.</p>
     <p>Coverage of likelihood, Bayesian modeling, structural estimation, time series, spatial methods, and current causal research is selective. Additional readings are needed for specialist work. A recent paper is marked as a reading path with its status; inclusion does not imply that its method is implemented in the browser.</p>
 
+    <h2 id="notation">Notation</h2>
+    <p>The table fixes the role of each main variable across the twelve chapters. Coefficients, errors, functions, and other symbols are defined where they appear and can recur with a local meaning; in chapter 9, for example, K(·) is a kernel weight function, and W denotes the controls in chapter 3, a weighting matrix in chapter 7, and the observation (Y, D, X) in chapter 10.</p>
+    <table>
+      <thead><tr><th scope="col">Symbol</th><th scope="col">Role</th></tr></thead>
+      <tbody>{notation.map(([symbol, meaning]) => <tr><th scope="row"><var>{symbol}</var></th><td>{meaning}</td></tr>)}</tbody>
+    </table>
+
     <h2>Conventions</h2>
     <ul>
       <li>Population quantities, sample estimators, and realized estimates have distinct roles. Each worked argument defines the relevant objects.</li>
       <li>A fitted association receives a causal interpretation only through an explicit model or design.</li>
       <li>A confidence interval, a prediction interval, and an identified set answer different questions. The accompanying assumptions determine which guarantee applies.</li>
+      <li>An identified set is always taken relative to the maintained model class. Chapter 1 defines it, and chapters 8 and 12 state the restrictions behind each set they report.</li>
+      <li>Consistency has two meanings. An estimator is consistent when it converges in probability to its target; the causal consistency assumption equates an observed outcome with the potential outcome under the treatment received. Chapter 1 defines estimator consistency; chapters 2 and 5 define the causal assumption and mark the difference.</li>
       <li>A numerical decision requires an objective, units, and a target population. Statistical significance supplies none of these by itself.</li>
       <li>Optional reading progress and notes are stored in the browser. No account is required. Keep a separate copy of notes you need to retain.</li>
     </ul>

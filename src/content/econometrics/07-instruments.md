@@ -1,10 +1,11 @@
 ---
-title: 'An instrument moves a choice'
+title: 'Instrumental variables and the LATE'
 order: 7
 part: 'Identify'
 description: 'Derive an instrumental-variables target, distinguish validity from strength, and examine what happens when exclusion fails.'
 question: 'What can a randomized invitation tell us when employees choose whether to train?'
-prerequisites: 'Potential outcomes, conditional means, and regression projections.'
+prerequisites: 'Conditional means (chapter 2), regression projections (chapter 3), and potential outcomes and the intention-to-treat effect (chapter 5).'
+requires: [3, 5]
 minutes: 30
 ---
 
@@ -65,7 +66,7 @@ $$
 \hat\theta=\arg\min_\theta \bar g_n(\theta)'W_n\bar g_n(\theta).
 $$
 
-$W_n$ is a positive-definite weighting matrix. Identification requires sufficient rank in $E[Z_iX_i']$; consistency also requires valid moments, suitable sampling conditions, and convergence of the criterion. Two-stage least squares is one familiar linear implementation. Additional moments permit specification tests under further regularity conditions. Passing such a test does not establish that every instrument satisfies exclusion.
+$W_n$ is a positive-definite weighting matrix. Identification requires sufficient rank in $E[Z_iX_i']$. Consistency of $\hat\theta$ as an estimator also requires valid moments, suitable sampling conditions, and convergence of the criterion. Two-stage least squares is one familiar linear implementation. Additional moments permit specification tests under further regularity conditions. Passing such a test does not establish that every instrument satisfies exclusion.
 
 ## A small denominator changes inference
 

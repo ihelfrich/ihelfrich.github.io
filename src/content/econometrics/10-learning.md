@@ -1,10 +1,11 @@
 ---
-title: 'Let prediction help estimation without choosing the question'
+title: 'Double machine learning'
 order: 10
 part: 'Generalize'
 description: 'Derive an orthogonal partial-linear score and understand the role and limits of sample splitting and nuisance learning.'
 question: 'Can flexible prediction estimate a training effect without absorbing the effect we want?'
-prerequisites: 'Projection, conditional expectation, exogeneity, and asymptotic inference.'
+prerequisites: 'Conditional and iterated expectations (chapter 2), projection and residualization (chapter 3), and asymptotic inference (chapter 4). The remainder analysis uses little-o rate notation, defined where it first appears.'
+requires: [2, 3, 4]
 minutes: 35
 ---
 
@@ -80,7 +81,7 @@ $$
 \|a\|_2\|b\|_2+|\theta_0|\|b\|_2^2,
 $$
 
-where $\|f\|_2=(E[f(X)^2])^{1/2}$. Sufficient rate conditions make both terms $o_p(n^{-1/2})$. Taking both nuisance errors to be $o_p(n^{-1/4})$ suffices; other combinations are possible provided the product **and the squared treatment-model error** satisfy the condition. This parameterization should not be silently exchanged for a score using the structural function $g_0$.
+where $\|f\|_2=(E[f(X)^2])^{1/2}$. A random sequence $A_n$ is $o_p(r_n)$ when $A_n/r_n$ converges in probability to zero. Sufficient rate conditions make both terms $o_p(n^{-1/2})$. Taking both nuisance errors to be $o_p(n^{-1/4})$ suffices; other combinations are possible provided the product **and the squared treatment-model error** satisfy the condition. This parameterization should not be silently exchanged for a score using the structural function $g_0$.
 
 Together with nuisance consistency, suitable moments and sampling conditions, and $J$ bounded away from zero, these restrictions support asymptotically linear inference. Orthogonality alone is insufficient.
 

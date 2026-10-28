@@ -21,7 +21,9 @@ order: 1
 part: 'Frame'  # Frame, Estimate, Identify, Generalize
 description: 'One sentence describing what the reader can do.'
 question: 'A concrete opening question?'
-prerequisites: 'Words, fractions, and an interest in evidence.'
+prerequisites: 'Fractions and basic algebra.'  # name each earlier chapter relied on by number
+requires: []      # earlier chapters that must be read first; reading paths are checked against these
+recommends: []    # optional: earlier background chapters that are not required; the prerequisites text says why
 minutes: 25
 lab: 'worlds' # optional worlds, sampling, design
 ---
@@ -30,7 +32,7 @@ Use ## headings, no top-level # (template renders title). Use linked source titl
 
 ## Chapter allocation
 
-1 01-argument: estimand, association, intervention, observational equivalence. DGP U,V iid standard normal, X=U, Y=bX+(1-b)U+V, hence observed Y=X+V for every b. Intervention do(X=x) replaces X equation only; E[Y|do X=x]=bx. Range b [-1,2] is a teaching restriction, not an identified set. Causal worlds observationally indistinguishable; positivity of observed X does not solve latent confounding. Randomization would distinguish them. Link /econometrics/lab/#worlds.
+1 01-argument: estimand, association, intervention, observational equivalence. DGP U,V iid standard normal, D=U, Y=bD+(1-b)U+V, hence observed Y=D+V for every b. Intervention do(D=d) replaces D equation only; E[Y|do D=d]=bd. Range b [-1,2] is a teaching restriction, not an identified set. Causal worlds observationally indistinguishable; positivity of observed D does not solve latent confounding. Randomization would distinguish them. Link /econometrics/lab/#worlds.
 2 02-probability: probability/conditioning/expectation, iterated expectations, variance decomposition, sampling vs population; binary worked table/selection.
 3 03-projection: OLS projection, normal equations, residual orthogonality, FWL, finite-sample vs causal assertions. Geometry and omitted variables numerical example.
 4 04-uncertainty: finite vs asymptotic inference, LLN/CLT assumptions, sandwich, clustering, coverage vs probability parameter; lab uses known-sigma Gaussian CI deliberately. Include why n cannot cure bias.

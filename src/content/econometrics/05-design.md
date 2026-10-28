@@ -1,10 +1,11 @@
 ---
-title: 'Make the comparison before the outcomes arrive'
+title: 'Randomized experiments'
 order: 5
 part: 'Identify'
 description: 'Construct a randomized comparison, distinguish its estimand from uptake effects, and inspect the design threats.'
 question: 'What would the firm have to randomize to learn whether training works?'
-prerequisites: 'Conditional expectation, sample means, and confidence intervals.'
+prerequisites: 'Conditional expectation (chapter 2), sample means, and confidence intervals (chapter 4).'
+requires: [2, 4]
 minutes: 30
 ---
 
@@ -20,7 +21,7 @@ $$
 Y_i=D_iY_i(1)+(1-D_i)Y_i(0),
 $$
 
-where $D_i$ indicates assigned and delivered training in this initial, perfect-compliance example.
+where $D_i$ indicates assigned and delivered training in this initial, perfect-compliance example. This equation is the **consistency** assumption: the observed outcome equals the potential outcome under the treatment actually received. It is a causal restriction, distinct from the consistency of an estimator defined in chapter 1.
 
 These definitions assume that each treatment condition has a specified version and that another employee's assignment does not affect $i$'s outcome. These are the usual no-hidden-versions and no-interference components associated with SUTVA. If trained employees teach their colleagues, the second assumption is doubtful. The intervention and analysis may need to move to teams.
 
