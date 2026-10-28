@@ -4,7 +4,7 @@ order: 1
 part: 'Frame'
 description: 'Separate the question a dataset can answer from the question a decision requires.'
 question: 'If employees who train more produce more, should the firm buy more training?'
-prerequisites: 'Fractions and basic algebra. The notation bridge inside the chapter introduces the expectation, variance, covariance, independence, and normal distribution that the main argument uses.'
+prerequisites: 'Fractions and basic algebra. The notation bridge inside the chapter introduces the expectation, variance, covariance, independence, and normal distribution that the main argument uses. The definition of a consistent estimator previews convergence in probability, which chapter 4 develops.'
 requires: []
 minutes: 25
 lab: 'worlds'

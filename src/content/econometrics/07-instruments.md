@@ -4,7 +4,7 @@ order: 7
 part: 'Identify'
 description: 'Derive an instrumental-variables target, distinguish validity from strength, and examine what happens when exclusion fails.'
 question: 'What can a randomized invitation tell us when employees choose whether to train?'
-prerequisites: 'Potential outcomes and the intention-to-treat effect (chapter 5), conditional means, and regression projections (chapter 3).'
+prerequisites: 'Conditional means (chapter 2), regression projections (chapter 3), and potential outcomes and the intention-to-treat effect (chapter 5).'
 requires: [3, 5]
 minutes: 30
 ---

@@ -52,13 +52,26 @@ export function csv(rows,columns) {
 }
 // Suggested reading paths. Core chapters are highlighted; optional chapters are extensions
 // whose prerequisites already lie on the path. tests/unit/econometrics.test.mjs checks every
-// path against the `requires` arrays in the chapter frontmatter.
+// path against the `requires` arrays in the chapter frontmatter, and checks that a path
+// containing a chapter also offers that chapter's `recommends` (chapter 12 recommends 11).
 export const readingPaths=Object.freeze({
   all:Object.freeze({core:Object.freeze([]),optional:Object.freeze([])}),
   first:Object.freeze({core:Object.freeze([1,2,3,4,5,6]),optional:Object.freeze([])}),
   applied:Object.freeze({core:Object.freeze([1,2,3,4,5,6,8,12]),optional:Object.freeze([10,11])}),
-  theory:Object.freeze({core:Object.freeze([1,2,3,4,5,7,8,10,12]),optional:Object.freeze([])}),
+  theory:Object.freeze({core:Object.freeze([1,2,3,4,5,7,8,10,12]),optional:Object.freeze([11])}),
 });
+// Names an ascending list of chapters in words: [1,2,3,4,5,7,8] -> 'chapters 1–5, 7, and 8'.
+// Runs of three or more consecutive chapters collapse to a range.
+export function chapterList(orders) {
+  const runs=[];
+  for(let i=0;i<orders.length;){
+    let j=i; while(j+1<orders.length&&orders[j+1]===orders[j]+1) j++;
+    if(j-i>=2) runs.push(`${orders[i]}–${orders[j]}`); else for(let k=i;k<=j;k++) runs.push(String(orders[k]));
+    i=j+1;
+  }
+  const noun=runs.length===1&&!runs[0].includes('–')?'chapter':'chapters';
+  return `${noun} ${runs.length<3?runs.join(' and '):`${runs.slice(0,-1).join(', ')}, and ${runs.at(-1)}`}`;
+}
 // Returns every [chapter, prerequisite] pair in which a listed chapter's prerequisite is absent.
 export function missingPrerequisites(chapters,requires) {
   const listed=new Set(chapters),missing=[];
@@ -70,7 +83,7 @@ export const notation=Object.freeze([
   ['Y','Outcome: output, or whether an employee meets the output target.'],
   ['D','Training, the treatment of interest. Participation (0 or 1) in most chapters; intensity or hours in chapters 1, 3, 6, and 10.'],
   ['Y(d)','Potential outcome under training status d; Y(1) with training and Y(0) without.'],
-  ['X','Pre-treatment covariates. In general regression formulas (chapters 3, 4, and 7), the regressors.'],
+  ['X','Pre-treatment covariates. In general regression and likelihood formulas (chapters 3, 4, 7, and 11), the regressors. Exercise 2 in chapters 2 and 3 uses X and Y as generic random variables.'],
   ['K','Prior experience, a binary pre-treatment covariate (chapters 2 and 3).'],
   ['U','An unobserved characteristic or confounder.'],
   ['Z','An instrument (chapter 7).'],

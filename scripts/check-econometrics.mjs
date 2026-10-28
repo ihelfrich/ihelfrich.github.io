@@ -15,6 +15,7 @@ for(const file of files){
   const front=raw.match(/^---\n([\s\S]*?)\n---/); assert.ok(front,`${file}: frontmatter`);
   const meta=load(front[1]);orders.push(meta.order);chapters.push({id:file.replace(/\.md$/,''),...meta});
   assert.ok(Array.isArray(meta.requires)&&meta.requires.every(r=>Number.isInteger(r)&&r<meta.order),`${file}: requires lists earlier chapters`);
+  assert.ok(meta.recommends===undefined||(Array.isArray(meta.recommends)&&meta.recommends.every(r=>Number.isInteger(r)&&r<meta.order&&!meta.requires.includes(r))),`${file}: recommends lists earlier chapters that are not required`);
   let body=raw.slice(front[0].length);words+=body.split(/\s+/).length;
   const count=(body.match(/class="solution"/g)||[]).length;
   assert.ok(count>=2,`${file}: two solved exercises`);solutions+=count;

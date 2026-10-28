@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { load } from 'js-yaml';
-import { randomNormal, observationSample, world, interventionMean, ols, samplingExperiment, designBounds, csv, readingPaths, missingPrerequisites, notation } from '../../src/lib/econometrics.mjs';
+import { randomNormal, observationSample, world, interventionMean, ols, samplingExperiment, designBounds, csv, readingPaths, missingPrerequisites, chapterList, notation } from '../../src/lib/econometrics.mjs';
 
 const chapterDirectory = new URL('../../src/content/econometrics/', import.meta.url);
 const chapters = readdirSync(chapterDirectory).filter(f => f.endsWith('.md')).sort().map(file => {
@@ -96,19 +96,33 @@ test('chapter prerequisites point only backward and agree with the prerequisite 
   for (const c of chapters) {
     assert.ok(Array.isArray(c.requires), `${c.file}: requires array`);
     for (const r of c.requires) assert.ok(Number.isInteger(r) && r >= 1 && r < c.order, `${c.file}: requires only earlier chapters`);
-    const named = [...c.prerequisites.matchAll(/chapters? (\d+(?:(?:,? and |, )\d+)*)/g)].flatMap(m => m[1].match(/\d+/g).map(Number));
-    for (const n of named) assert.ok(closure(c.order).has(n), `${c.file}: prerequisites name chapter ${n}, which requires does not reach`);
+    const recommends = c.recommends ?? [];
+    for (const r of recommends) assert.ok(Number.isInteger(r) && r >= 1 && r < c.order && !closure(c.order).has(r), `${c.file}: recommends only earlier chapters that requires does not already reach`);
+    const named = [...c.prerequisites.matchAll(/chapters? (\d+(?:(?:,? and |, )\d+)*)/gi)].flatMap(m => m[1].match(/\d+/g).map(Number));
+    // A later chapter named in the prerequisites is a forward pointer; an earlier one must be required or recommended.
+    for (const n of named.filter(n => n < c.order)) assert.ok(closure(c.order).has(n) || recommends.includes(n), `${c.file}: prerequisites name chapter ${n}, which neither requires nor recommends reaches`);
+    for (const r of recommends) assert.ok(named.includes(r), `${c.file}: prerequisites explain why chapter ${r} is recommended`);
   }
+  // Chapter 12 rests its bound on a transport assumption that chapter 11 develops.
+  assert.deepEqual(chapters[11].recommends, [11]);
 });
 test('no suggested reading path omits a prerequisite', () => {
   for (const [name, path] of Object.entries(readingPaths)) {
     assert.deepEqual(missingPrerequisites(path.core, requires), [], `${name}: core chapters`);
     assert.deepEqual(missingPrerequisites([...path.core, ...path.optional], requires), [], `${name}: core with optional chapters`);
     for (const c of path.optional) assert.ok(!path.core.includes(c), `${name}: chapter ${c} is either core or optional`);
+    for (const c of path.core) for (const r of chapters[c - 1].recommends ?? []) assert.ok(path.core.includes(r) || path.optional.includes(r), `${name}: chapter ${c} recommends chapter ${r}, which the path should offer`);
   }
-  // The paths published before October 2026 skipped prerequisites; the check must catch them.
+  // The previously published paths skipped prerequisites; the check must catch them.
   assert.notDeepEqual(missingPrerequisites([1,4,6,8,10,11,12], requires), []);
   assert.notDeepEqual(missingPrerequisites([2,3,4,7,10,12], requires), []);
+});
+test('reading-path summaries name chapters in words', () => {
+  assert.equal(chapterList([11]), 'chapter 11');
+  assert.equal(chapterList([10, 11]), 'chapters 10 and 11');
+  assert.equal(chapterList([1, 2, 3, 4, 5, 6]), 'chapters 1–6');
+  assert.equal(chapterList(readingPaths.applied.core), 'chapters 1–6, 8, and 12');
+  assert.equal(chapterList(readingPaths.theory.core), 'chapters 1–5, 7, 8, 10, and 12');
 });
 test('notation table gives each symbol one entry', () => {
   const symbols = notation.map(([symbol]) => symbol);

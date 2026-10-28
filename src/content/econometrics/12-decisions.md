@@ -4,8 +4,9 @@ order: 12
 part: 'Generalize'
 description: 'Translate effects into a constrained decision, distinguish sensitivity from sampling uncertainty, and assemble an auditable empirical argument.'
 question: 'How strong must the evidence be before the firm should pay for training?'
-prerequisites: 'Treatment effects and identification (chapter 5), the difference-in-differences bound (chapter 8), uncertainty (chapter 4), heterogeneity, and target populations.'
+prerequisites: 'Sampling uncertainty (chapter 4), individual and average treatment effects and their identification (chapter 5), and the difference-in-differences bound (chapter 8). The transport assumption that carries the chapter 8 bound to the employees in question is stated here. Chapter 11 develops such assumptions for trial results and is recommended background, though not required.'
 requires: [4, 5, 8]
+recommends: [11]
 minutes: 30
 ---
 

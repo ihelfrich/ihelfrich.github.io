@@ -4,7 +4,7 @@ order: 9
 part: 'Identify'
 description: 'Explain what a cutoff or a synthetic comparison identifies, including the conditions that make a convincing picture insufficient.'
 question: 'Does an eligibility threshold create a credible experiment near its edge?'
-prerequisites: 'Conditional means, potential outcomes (chapter 5), the instrumental-variables argument (chapter 7), and difference-in-differences (chapter 8). The bandwidth discussion uses order-of-magnitude rate notation.'
+prerequisites: 'Conditional means (chapter 2), potential outcomes (chapter 5), the instrumental-variables argument (chapter 7), and difference-in-differences (chapter 8). The bandwidth discussion uses order-of-magnitude rate notation.'
 requires: [5, 7, 8]
 minutes: 30
 ---
