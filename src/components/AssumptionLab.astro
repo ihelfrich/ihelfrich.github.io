@@ -351,9 +351,20 @@ const figure = renderFigure(initial, { domain, width: 720 });
     });
     if (robust instanceof HTMLInputElement) robust.addEventListener("change", schedule);
 
-    // The server drew the figure at a nominal width. Redraw it at the real one,
-    // and again whenever the column changes width, without rerunning the simulation.
-    draw(false);
+    // The server drew the figure at a nominal width. Redraw it at the real one
+    // shortly before the panel scrolls into view, so seven simulations do not
+    // all run during page load, and again whenever the column changes width,
+    // without rerunning the simulation.
+    if ("IntersectionObserver" in window) {
+      const reveal = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        reveal.disconnect();
+        if (!latest) draw(false);
+      }, { rootMargin: "600px 0px" });
+      reveal.observe(svg);
+    } else {
+      draw(false);
+    }
     if ("ResizeObserver" in window) {
       new ResizeObserver(() => {
         const width = svg.getBoundingClientRect().width;
