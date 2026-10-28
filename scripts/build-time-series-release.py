@@ -34,15 +34,17 @@ This book teaches time-series econometrics through a continuing economic decisio
 
 The fifteen lectures cover stationary dynamics, ARMA, chronological forecasting, measurement and filtering, stochastic trends, dynamic regression, latent states, VARs and networks, structural identification, cointegration, conditional volatility, changing environments, and model revision. Applications connect financial risk with economic measurement, geographic exposure, and regional dependence. Three projects carry one procedure through Build, Audit, and Revise.
 
-Read a chapter before its lecture, reproduce the laboratory in your preferred language, and attempt its practice problems before reading the answers. R, Julia, and Python independently implement the same declared quantities. Students need one language; parallel implementations provide evidence about conventions and reproducibility. All code, fixed inputs, and verification results are available with the online book.
+Each lecture has a chapter, an assignment, a laboratory, and a one-page summary. Read the chapter and work its derivations. Attempt the three tasks of the matching assignment before opening the worked answers. Run the chapter's entry point from the laboratory bundle in one language, predict each reported quantity before running it, and carry out the chapter's break-and-repair exercise. Where an interactive experiment exists online, use it to test a prediction. The lecture summary then checks that you can state the central relation, the failure, and the repair with the chapter closed.
 
-The observed Texas example uses a fixed EIA/NOAA vintage with a clearly labeled two-month teaching release lag. Its final seasonal benchmark narrowly beats the selected revision. That result belongs in the argument; sophistication alone is not evidence of a better deployment decision.
+The course assumes probability through conditional expectation and Gaussian conditioning, linear algebra through eigenvalues and orthogonal matrices, and least-squares regression in matrix form. Each chapter lists its own prerequisites. R, Julia, and Python independently implement the same declared quantities. Students need one language; parallel implementations provide evidence about conventions and reproducibility. All code, fixed inputs, and verification results are available with the online book.
 
-Public practice includes worked solutions. Live assessments, grading keys, and graded continuation data are kept in the instructor package. Course dates, assessment arrangements, and section details belong to the syllabus.
+The observed Texas example uses a fixed EIA/NOAA vintage with a clearly labeled two-month teaching release lag. On preliminary 2025 EIA data, its final seasonal benchmark narrowly beats the selected revision. That result belongs in the argument; sophistication alone is not evidence of a better deployment decision.
+
+Public practice includes worked solutions. Live assessments, grading keys, and graded continuation data are kept in the instructor package. Dates in the lecture summaries and project specifications follow a sample fifteen-week calendar for planning a semester.
 
 First edition, October 2026. Copyright © 2026 Ian Helfrich. All rights reserved. Provider data, cited works, and bundled fonts retain their own terms. Public access to authored source does not grant a blanket redistribution or adaptation license.
 
-[Online book](https://ihelfrich.github.io/time-series/) · [Lecture materials](https://ihelfrich.github.io/time-series/lectures/) · [Code and data](https://ihelfrich.github.io/time-series/code/)
+[Online book](https://ihelfrich.github.io/time-series/) · [Lecture summaries](https://ihelfrich.github.io/time-series/lectures/) · [Code and data](https://ihelfrich.github.io/time-series/code/)
 ''')
 config='''project:
   type: book

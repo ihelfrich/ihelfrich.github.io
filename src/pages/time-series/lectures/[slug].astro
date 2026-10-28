@@ -5,13 +5,15 @@ import katex from 'katex';
 export function getStaticPaths(){return lectures.map(lecture=>({params:{slug:lecture.slug},props:{lecture}}));}
 const {lecture:l}=Astro.props;
 const n=String(l.order).padStart(2,'0');
-const math=katex.renderToString(l.math,{displayMode:true,throwOnError:true,strict:'error'});
+// Relations joined by ',\quad' render as separate blocks, so a narrow screen wraps them instead of clipping one long line.
+const parts=l.math.split(',\\quad');
+const math=parts.map((part,i)=>katex.renderToString(part+(i<parts.length-1?',':''),{displayMode:true,throwOnError:true,strict:'error'}));
 ---
 <TimeSeries title={`Lecture ${l.order} summary: ${l.title}`} description={l.opening}>
-<div class="ea-narrow ts-summary"><header class="ea-page-intro"><p class="ea-kicker">Lecture {l.order} summary · model calendar, {l.date}</p><h1>{l.title}</h1><p><a href={`/time-series/${l.slug}/`}>Complete chapter</a> · <a href={`/time-series/code/#lecture-${n}`}>Laboratory ch{n}</a> · <a href="/time-series/practice/">Practice</a> · <a href="/time-series/lectures/">All summaries</a></p></header>
+<div class="ea-narrow ts-summary"><header class="ea-page-intro"><p class="ea-kicker">Lecture {l.order} summary · sample calendar, {l.date}</p><h1>{l.title}</h1><p><a href={`/time-series/${l.slug}/`}>Complete chapter</a> · <a href={`/time-series/code/#lecture-${n}`}>Laboratory ch{n}</a> · <a href="/time-series/practice/">Practice</a> · <a href="/time-series/lectures/">All summaries</a></p></header>
 <div class="ea-prose">
 <h2>The economic question</h2><p>{l.opening}</p>
-<h2>Central relation</h2><div class="ts-summary-math" set:html={math}/>
+<h2>Central relation</h2><div class="ts-summary-math">{math.map(html=><div set:html={html}/>)}</div>
 <h2>Individual problem</h2><p>{l.challenge}</p>
 <details><summary>Worked reasoning</summary><p>{l.answer}</p></details>
 <h2>A consequential failure</h2><p>{l.failure}</p>
