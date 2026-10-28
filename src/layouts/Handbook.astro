@@ -41,7 +41,7 @@ const isChapter=(await getCollection('handbook')).some(chapter=>path===`/handboo
   </head>
   <body class="ea hb" data-surface="course">
     <a class="ea-skip" href="#main-content">Skip to content</a>
-    <SiteBar title={title} />
+    <div role="region" aria-label="Site bar"><SiteBar title={title} /></div>
     <header class="ea-header">
       <a class="ea-brand" href="/handbook/"><span class="ea-mark" aria-hidden="true">∑</span><span>Econometrics<br /><strong>Across Disciplines</strong></span></a>
       <nav aria-label="Handbook navigation">
@@ -74,11 +74,14 @@ const isChapter=(await getCollection('handbook')).some(chapter=>path===`/handboo
         box.append(table);
       });
       const boxes = [...document.querySelectorAll<HTMLElement>('.ea-prose .katex-display, .ea-prose .ea-scroll')];
+      const equations = boxes.filter((box) => box.classList.contains('katex-display'));
+      const tables = boxes.filter((box) => !equations.includes(box));
       const update = (box: HTMLElement) => {
-        if (box.scrollWidth > box.clientWidth + 1) {
+        if (box.scrollWidth > box.clientWidth) {
+          const equation = equations.includes(box);
           box.tabIndex = 0;
-          box.setAttribute('role', 'region');
-          box.setAttribute('aria-label', box.classList.contains('katex-display') ? 'Wide equation, scrolls horizontally' : 'Wide table, scrolls horizontally');
+          box.setAttribute('role', equation ? 'group' : 'region');
+          box.setAttribute('aria-label', equation ? `Equation ${equations.indexOf(box) + 1}, scrolls horizontally` : `Table ${tables.indexOf(box) + 1}, scrolls horizontally`);
           box.dataset.scrolls = '';
         } else if ('scrolls' in box.dataset) {
           ['tabindex', 'role', 'aria-label', 'data-scrolls'].forEach((name) => box.removeAttribute(name));
