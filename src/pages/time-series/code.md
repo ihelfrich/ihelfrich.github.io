@@ -56,7 +56,7 @@ uv run python verify.py
 
 The runner executes the full lecture implementations concurrently, then executes the three project implementations concurrently. It checks input hashes, finite outputs, analytic identities, future-mutation invariants, parameter-domain failures, metric coverage, cross-language agreement, and every retained project forecast's dates and value.
 
-The current [verification report](/time-series/code/results/verification.json) records **112 lecture quantities**, **13 project quantities**, and **276 matched project forecast rows**. Lecture numerical tolerance is $10^{-9}$ absolute and relative; project tolerance is $10^{-8}$. The observed discrepancies are much smaller. Agreement is evidence of consistent implementation, not proof of a shared economic assumption.
+The current [verification report](/time-series/code/results/verification.json) records **152 lecture quantities**, **13 project quantities**, and **276 matched project forecast rows**. Lecture numerical tolerance is $10^{-9}$ absolute and relative; project tolerance is $10^{-8}$. The observed discrepancies are much smaller. Agreement is evidence of consistent implementation, not proof of a shared economic assumption.
 
 The tests include deliberately failing cases: an inadmissible centered feature responds to future changes; a smoother intentionally uses later information; a covariance rotation changes shock interpretation without changing covariance; a rank-deficient design is rejected; a finite-variance GARCH routine rejects inadmissible parameters. The resulting repair or narrowed interpretation belongs to the lesson.
 
@@ -66,20 +66,20 @@ Lecture 2's changing-risk example has independent [Python](/time-series/code/ris
 
 ## Lecture entry points
 
-Each row runs a complete case and writes its metrics. The chapter describes the economic argument, exact conventions, and the relevant functions in the full source. Entry points are intentionally short so the common algorithms remain in one inspectable file per language.
+Each row runs a complete case and writes its metrics. The chapter describes the economic argument, exact conventions, and the relevant functions in the full source. Entry points are intentionally short so the common algorithms remain in one inspectable file per language. For that reason an entry point runs only inside the extracted `code` folder, where it can load the course file and data beside it.
 
 | Lecture | Main executable concepts | Python | R | Julia |
 | --- | --- | --- | --- | --- |
-| <span id="lecture-01">1</span> | Release clock, geography, naive benchmark | [ch01.py](/time-series/code/ch01.py) | [ch01.R](/time-series/code/ch01.R) | [ch01.jl](/time-series/code/ch01.jl) |
-| <span id="lecture-02">2</span> | AR recursion, moments, forecasts, aggregation | [ch02.py](/time-series/code/ch02.py) | [ch02.R](/time-series/code/ch02.R) | [ch02.jl](/time-series/code/ch02.jl) |
-| <span id="lecture-03">3</span> | ARMA residuals, ACF/PACF, invertibility, forecasts | [ch03.py](/time-series/code/ch03.py) | [ch03.R](/time-series/code/ch03.R) | [ch03.jl](/time-series/code/ch03.jl) |
-| <span id="lecture-04">4</span> | Rolling origins, loss, coverage, Ljung–Box statistic | [ch04.py](/time-series/code/ch04.py) | [ch04.R](/time-series/code/ch04.R) | [ch04.jl](/time-series/code/ch04.jl) |
+| <span id="lecture-01">1</span> | Release clock, availability audit, geography, naive benchmark | [ch01.py](/time-series/code/ch01.py) | [ch01.R](/time-series/code/ch01.R) | [ch01.jl](/time-series/code/ch01.jl) |
+| <span id="lecture-02">2</span> | AR recursion, moments, iterated and closed-form forecasts, aggregation | [ch02.py](/time-series/code/ch02.py) | [ch02.R](/time-series/code/ch02.R) | [ch02.jl](/time-series/code/ch02.jl) |
+| <span id="lecture-03">3</span> | ARMA residuals, full objective grid, ACF/PACF, invertibility, forecasts | [ch03.py](/time-series/code/ch03.py) | [ch03.R](/time-series/code/ch03.R) | [ch03.jl](/time-series/code/ch03.jl) |
+| <span id="lecture-04">4</span> | Rolling origins, loss, coverage, Ljung–Box on one- and four-step errors, paired-loss statistic | [ch04.py](/time-series/code/ch04.py) | [ch04.R](/time-series/code/ch04.R) | [ch04.jl](/time-series/code/ch04.jl) |
 | <span id="lecture-05">5</span> | Noisy signals, trailing/centered filters, mutation | [ch05.py](/time-series/code/ch05.py) | [ch05.R](/time-series/code/ch05.R) | [ch05.jl](/time-series/code/ch05.jl) |
-| <span id="lecture-06">6</span> | Trends, DF/ADF, integration, Monte Carlo error | [ch06.py](/time-series/code/ch06.py) | [ch06.R](/time-series/code/ch06.R) | [ch06.jl](/time-series/code/ch06.jl) |
+| <span id="lecture-06">6</span> | Trends, DF/ADF, single-stream Monte Carlo, spurious regression | [ch06.py](/time-series/code/ch06.py) | [ch06.R](/time-series/code/ch06.R) | [ch06.jl](/time-series/code/ch06.jl) |
 | <span id="lecture-07">7</span> | Fourier terms, temperature proxies, feasible GLS | [ch07.py](/time-series/code/ch07.py) | [ch07.R](/time-series/code/ch07.R) | [ch07.jl](/time-series/code/ch07.jl) |
 | <span id="lecture-08">8</span> | Filter, smoother, missing update, Gaussian likelihood | [ch08.py](/time-series/code/ch08.py) | [ch08.R](/time-series/code/ch08.R) | [ch08.jl](/time-series/code/ch08.jl) |
-| <span id="lecture-09">9</span> | VAR fit, eigenvalues, networks, forecast covariance | [ch09.py](/time-series/code/ch09.py) | [ch09.R](/time-series/code/ch09.R) | [ch09.jl](/time-series/code/ch09.jl) |
-| <span id="lecture-10">10</span> | Cholesky ordering, rotation, responses | [ch10.py](/time-series/code/ch10.py) | [ch10.R](/time-series/code/ch10.R) | [ch10.jl](/time-series/code/ch10.jl) |
+| <span id="lecture-09">9</span> | VAR fit, eigenvalues, Granger Wald tests, networks, forecast covariance | [ch09.py](/time-series/code/ch09.py) | [ch09.R](/time-series/code/ch09.R) | [ch09.jl](/time-series/code/ch09.jl) |
+| <span id="lecture-10">10</span> | Cholesky ordering, rotation, VAR and local-projection responses | [ch10.py](/time-series/code/ch10.py) | [ch10.R](/time-series/code/ch10.R) | [ch10.jl](/time-series/code/ch10.jl) |
 | <span id="lecture-11">11</span> | Common trend, spread, ECM estimation and forecast | [ch11.py](/time-series/code/ch11.py) | [ch11.R](/time-series/code/ch11.R) | [ch11.jl](/time-series/code/ch11.jl) |
 | <span id="lecture-12">12</span> | GARCH recursion/grid, risk quantile, scale invariance | [ch12.py](/time-series/code/ch12.py) | [ch12.R](/time-series/code/ch12.R) | [ch12.jl](/time-series/code/ch12.jl) |
 | <span id="lecture-13">13</span> | Breaks, windows, paired loss, block/HAC uncertainty | [ch13.py](/time-series/code/ch13.py) | [ch13.R](/time-series/code/ch13.R) | [ch13.jl](/time-series/code/ch13.jl) |
@@ -94,7 +94,7 @@ Download the [forecast table](/time-series/code/results/project-forecasts-python
 
 ## Fixed input files
 
-The [synthetic innovations](/time-series/code/data/innovations.csv) have a [generator and hash record](/time-series/code/data/innovations-manifest.json). All languages read the same 2,048-by-6 file. Monte Carlo paths use the explicitly implemented Park–Miller/Box–Muller algorithm, not three unrelated language-default generators.
+The [synthetic innovations](/time-series/code/data/innovations.csv) have a [generator and hash record](/time-series/code/data/innovations-manifest.json). All languages read the same 2,048-by-6 file. Monte Carlo paths use the explicitly implemented Park–Miller/Box–Muller algorithm, not three unrelated language-default generators. Lecture 6 draws 2,000 replications per design from one stream with seed 2026, split into consecutive blocks. Reseeding each replication with consecutive seeds would give every replication nearly the same first draws, because the generator is multiplicative. [monte-carlo-reference.py](/time-series/code/monte-carlo-reference.py) repeats the designs with 200,000 replications from NumPy's generator, and its [report](/time-series/code/results/monte-carlo-reference.json) records the reference rates.
 
 The [Texas electricity and temperature extract](/time-series/code/data/texas-electricity.csv) has a [provider and units manifest](/time-series/code/data/texas-manifest.json). The [extraction source](/time-series/code/data/build_extract.py) checks the provider's geographic label, workbook units, unique state-month rows, and month matches. Rebuilding the provider extract needs `openpyxl==3.1.5`; running the course does not.
 

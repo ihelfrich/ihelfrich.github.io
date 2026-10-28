@@ -10,7 +10,7 @@ Choose an economic decision with a clearly defined time-series target. Retain on
 
 Use one supported language. The book supplies equivalent R, Julia, and Python implementations to make the methods inspectable across environments; completing the course does not require learning three languages. Your reasoning must be reproducible independently of the language.
 
-The public Texas case below is a fully worked practice example. A taught section uses separately released project data and private assessment materials. Its live holdout outcomes and grading keys are not part of this public book.
+The public Texas case below is a fully worked practice example. A taught section uses separately released project data and private assessment materials. Its live holdout outcomes and grading keys are not part of this public book. The project dates below follow the model fifteen-week calendar used on the lecture summaries page.
 
 ## Project 1: A forecast someone can use
 
@@ -48,7 +48,7 @@ Submit the updated tool, evidence and change log, reproduction instructions, con
 
 ## A complete public case: Texas residential electricity sales
 
-The fixed dataset contains 192 months from January 2010 through December 2025. EIA supplies residential sales in MWh, customer counts, price units, and publication status. NOAA supplies Texas statewide monthly average temperature in Fahrenheit. The source files, retrieval date, selections, units, and hashes are documented in the [data manifest](/time-series/code/data/texas-manifest.json).
+The fixed dataset contains 192 months from January 2010 through December 2025. EIA supplies residential sales in MWh, customer counts, price units, and publication status. In this vintage EIA marks every month from January 2010 through December 2024 as final and all twelve months of 2025 as preliminary, so the selection targets are final values and the continuation targets are preliminary values that EIA may revise. NOAA supplies Texas statewide monthly average temperature in Fahrenheit. The source files, retrieval date, selections, units, and hashes are documented in the [data manifest](/time-series/code/data/texas-manifest.json).
 
 The exercise assumes a two-month observation-release lag. This is a teaching assumption, not verified historical provider release metadata. It uses a fixed downloaded vintage, so the evaluation is pseudo-out-of-sample rather than a reconstruction of all historical vintages. Heating and cooling transformations of monthly mean temperature are proxies, not daily degree-day totals.
 
@@ -83,6 +83,8 @@ The original AR poorly represents monthly seasonality. The centered calculation'
 
 On the twelve continuation targets, the calendar repair substantially improves on the original AR. The seasonal naive benchmark nevertheless has a slightly lower RMSE. That small difference, the short comparison period, and the simple decision cost support retaining the benchmark as the main rule while documenting the calendar procedure as a candidate alternative. They do not support a claim of durable model superiority.
 
+The ranking is also sensitive to data revision. A uniform upward revision of about 0.07 percent to the twelve preliminary 2025 values would equalize the two RMSEs, or about 0.08 percent if the revised values also enter the calendar model's inputs. Revising the targets up by 0.5 percent would give seasonal naive an RMSE of 0.882 and the calendar repair 0.843 million MWh; a downward revision widens the benchmark's lead. The recommendation to retain the benchmark holds under either ranking. When EIA publishes final 2025 values, rescore the frozen procedure without changing it and report both results. The case will then contain a genuine evaluation on revised data.
+
 The analysis remains useful because it identifies a failure, repairs it honestly, and limits the final action to the evidence. Its final recommendation is not dictated by the complexity of the method.
 
 ## Common scoring criteria
@@ -91,7 +93,7 @@ Each revised project contributes 20 course points: 12 shared and 8 individual. S
 
 Full-credit evidence names the relevant assumptions, uses a consequential diagnostic, preserves an admissible chronological comparison, makes the principal result reproducible, and explains an action a reader can understand. A forecast ranking is not itself a grade. Partial credit follows the demonstrated parts of each criterion; the same error is not deducted repeatedly under unrelated criteria.
 
-The course total is projects 60%, six individual competency checks 30%, and the individual applied final 10%. Practice, prototypes, peer comments, and confidence estimates are ungraded. The final exam's assigned May 5–12 slot and section-specific administrative details remain the instructor's published course information.
+The course total is projects 60%, six individual competency checks 30%, and the individual applied final 10%. Practice, prototypes, peer comments, and confidence estimates are ungraded. In the model calendar the final examination falls in the week of May 5–12; a taught section's examination date and administrative details are set by its instructor.
 
 ## Files to retain
 

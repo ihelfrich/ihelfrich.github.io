@@ -6,8 +6,8 @@
     "slug": "01-information",
     "opening": "Define an economic target and decision deadline before choosing a model. A low error cannot rescue information unavailable at the origin.",
     "math": "\\mathbb E[(Y-a)^2\\mid\\mathcal I]=\\operatorname{Var}(Y\\mid\\mathcal I)+(\\mathbb E[Y\\mid\\mathcal I]-a)^2",
-    "challenge": "Equally weighted temperatures are 40 and 80. Cooling exposure is the positive part of temperature minus 65. Compare transformation before and after averaging.",
-    "answer": "Average temperature is 60, so its cooling exposure is zero. Average cooling exposure is one half of fifteen, or 7.5. Nonlinear transformation does not commute with averaging.",
+    "challenge": "Equally weighted temperatures are 40 and 80. Heating exposure is the positive part of 65 minus temperature. Compare transformation before and after averaging.",
+    "answer": "Average temperature is 60, so its heating exposure is 5. Average heating exposure is one half of 25, or 12.5. Nonlinear transformation does not commute with averaging.",
     "failure": "Observed target-month weather is quietly included in an earlier forecast.",
     "repair": "Retain observation, release, vintage, origin, and target dates. Forecast an unavailable predictor or declare a scenario."
   },
@@ -45,7 +45,7 @@
     "challenge": "Underprediction costs four and overprediction one. Which quantile is optimal? Compare model losses 2, 6, 1 with benchmark losses 4, 3, 5.",
     "answer": "The optimal quantile is 0.8. Paired differences are negative two, three, and negative four, averaging negative one. Three targets support a local comparison, not a persistent superiority claim.",
     "failure": "Time is shuffled, selection uses test loss, or methods are evaluated on different dates.",
-    "repair": "Separate chronological selection and evaluation. Match targets and use an uncertainty method appropriate to dependent losses."
+    "repair": "Separate chronological selection and evaluation. Match targets and use an uncertainty method appropriate to dependent losses; with nested models and estimated parameters, the Diebold–Mariano normal reference no longer applies."
   },
   {
     "order": 5,
@@ -68,8 +68,8 @@
     "math": "Y_t=Y_{t-1}+d+\\varepsilon_t,\\quad\\widehat Y_{t+h|t}=Y_t+hd,\\quad V_h=h\\sigma^2",
     "challenge": "A random walk has drift 0.3, current level 20, and innovation variance 1.5. Find its four-period forecast and variance. Interpret a unit-root nonrejection.",
     "answer": "The forecast is 21.2 and variance is six. Nonrejection is not proof of a unit root; power and deterministic specification matter.",
-    "failure": "An ordinary t reference is applied to a DF statistic, or every independent random-walk realization is claimed to have high level R squared.",
-    "repair": "Use a deterministic-case reference. Report Monte Carlo uncertainty, initialization, sample size, and replications; retain weak-correlation realizations too."
+    "failure": "An ordinary t reference is applied to a DF statistic, or a levels regression of one random walk on another is read with conventional t statistics.",
+    "repair": "Use a deterministic-case reference. Draw Monte Carlo replications from one stream, and report their uncertainty, initialization, sample size, and number; retain weak-correlation realizations too."
   },
   {
     "order": 7,

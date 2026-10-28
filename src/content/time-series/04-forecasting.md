@@ -5,7 +5,7 @@ description: Construct rolling-origin comparisons, distinguish kinds of uncertai
 question: Has the model improved a decision on targets it had not seen?
 prerequisites: Lectures 1–3, conditional variance, and least squares.
 lecture: February 5
-concepts: [rolling origins, horizons, loss, forecast intervals, parameter uncertainty, residual diagnostics]
+concepts: [rolling origins, horizons, loss, forecast intervals, parameter uncertainty, Diebold–Mariano, nested models, residual diagnostics]
 ---
 
 ## Fitting and forecasting answer different questions
@@ -86,6 +86,10 @@ $$
 
 A negative mean favors A for that loss and those targets. Pairing preserves the fact that both forecasts face the same difficult months. A standard error for $\overline d$ must reflect serial dependence, including dependence from overlapping horizons and repeated estimation. A heteroskedasticity-and-autocorrelation-consistent estimate or a carefully designed block bootstrap can be suitable under its assumptions.
 
+The ratio $\overline d/\widehat{\operatorname{se}}(\overline d)$ is the test of equal predictive accuracy proposed by [Diebold and Mariano (1995)](https://doi.org/10.1080/07350015.1995.10524599), who treated the two forecast sequences as given. For $h$-step forecasts, $d_t$ inherits the MA$(h-1)$ dependence of overlapping errors described in the diagnostics section below, so the HAC estimate should include at least $h-1$ lags; the Bartlett weights of [Newey and West (1987)](https://doi.org/10.2307/1913610) keep the estimate nonnegative.
+
+Forecasts from estimated models add a complication. [West (1996)](https://doi.org/10.2307/2171956) showed that parameter estimation can contribute a term to the asymptotic variance of $\overline d$. His results require that variance to be positive, and that requirement fails when one model nests the other, which is the case in this lecture: the no-change forecast is the AR(1) with $c=0$ and $\phi=1$. Under the null of equal population accuracy, the two nested forecasts coincide in population, the loss differential degenerates, and the DM statistic does not have a standard normal limit. [Clark and McCracken (2001)](https://doi.org/10.1016/S0304-4076(01)00071-9) and [McCracken (2007)](https://doi.org/10.1016/j.jeconom.2006.07.020) derive nonstandard critical values for such comparisons. [Giacomini and White (2006)](https://doi.org/10.1111/j.1468-0262.2006.00718.x) pose a different null: whether two forecasting methods, each including its estimation window, have equal expected loss given the information available at the origin. With an estimation window of fixed length, their test uses normal or chi-squared critical values for nested and non-nested models alike. An expanding window lies outside that framework.
+
 Do not turn every small numerical difference into a superiority claim. The sample may be short, the decision costs may be poorly specified, or the improvement may disappear when the release lag changes. Report the size of the improvement and what it would change operationally. An inconclusive comparison can justify retaining a transparent benchmark.
 
 ## Diagnose the innovation sequence
@@ -98,6 +102,14 @@ $$
 
 Its approximate reference distribution depends on model fitting and degrees-of-freedom adjustments. The statistic aggregates selected residual correlations; failing to reject does not prove independence or complete model correctness. Residual diagnostics complement later-target evaluation. They cannot substitute for it.
 
+Apply the statistic to errors that a correct model would leave unpredictable. One-step errors of a correctly specified AR(1) are its innovations. An $h$-step error,
+
+$$
+e_{t+h|t}=\sum_{j=0}^{h-1}\phi^j\varepsilon_{t+h-j},
+$$
+
+shares innovations with the errors issued at the $h-1$ preceding origins. It is an MA$(h-1)$ process, and its first $h-1$ autocorrelations are nonzero even when the model is exactly right. For $\phi=0.8$ and $h=4$ they are 0.709, 0.454, and 0.221. Substituting them into $Q$ with the laboratory's 237 four-step errors gives about 182, far above 15.5, the 5% critical value of a $\chi^2(8)$ reference, although nothing is misspecified. For $h$-step errors, either apply the diagnostic to the one-step errors of the same procedure or test only lags $h$ and beyond with a variance that allows for the MA$(h-1)$ structure.
+
 For a correctly specified conditional-mean model, systematic residual correlation with an available predictor reveals a potential repair. The predictor must have been observable at the origin. Regressing historical forecast errors on realized future weather may explain mistakes retrospectively while supplying no feasible real-time forecasting method.
 
 ## Execute a matched comparison
@@ -105,6 +117,8 @@ For a correctly specified conditional-mean model, systematic residual correlatio
 The lecture's code simulates an AR(1) with coefficient 0.8 and evaluates four-step forecasts after an initial 120 observations. It refits an intercept and persistence coefficient at every origin. The naive competitor holds the latest observed value for all four steps. Both methods forecast the same targets.
 
 The shared realization gives an AR RMSE of about 1.530 and a naive RMSE of about 1.760. The mean difference in squared loss favors the fitted AR procedure on this realization. This is a conditional teaching result, not a claim that autoregressions always dominate naive forecasts.
+
+The code reports a Ljung–Box statistic of $Q(8)\approx224$ for the four-step errors, as the overlap predicts, and $Q(8)\approx5.0$ for the one-step errors of the same rolling procedure, which gives no evidence against the specification. It also reports the paired squared-loss statistic with three Bartlett lags, about $-2.49$. Because the comparison is nested and the window expands, comparing that value with $\pm1.96$ is not justified by the results above; read it as a standardized description of the loss difference.
 
 The code also checks a plug-in interval using the generating process variance while the point forecast uses estimated coefficients. Its label explicitly describes the known-parameter variance component. The resulting coverage is diagnostic, not an exact nominal-coverage theorem for the estimated procedure. Change the sample length and persistence to see where ignoring estimation uncertainty becomes more consequential.
 
@@ -120,4 +134,4 @@ For the first concept check, be prepared to derive an AR forecast, identify an i
 
 ## Further reading
 
-See [Forecasting: Principles and Practice on point accuracy](https://otexts.com/fpp3/accuracy.html) and [residual diagnostics](https://otexts.com/fpp3/diagnostics.html). Its [forecasting with dynamic regression](https://otexts.com/fpp3/forecasting.html) explains why future regressors also require forecasts.
+See [Forecasting: Principles and Practice on point accuracy](https://otexts.com/fpp3/accuracy.html) and [residual diagnostics](https://otexts.com/fpp3/diagnostics.html). Its [forecasting with dynamic regression](https://otexts.com/fpp3/forecasting.html) explains why future regressors also require forecasts. For paired-loss inference, read [Diebold and Mariano (1995)](https://doi.org/10.1080/07350015.1995.10524599), [West (1996)](https://doi.org/10.2307/2171956), [Clark and McCracken (2001)](https://doi.org/10.1016/S0304-4076(01)00071-9), and [Giacomini and White (2006)](https://doi.org/10.1111/j.1468-0262.2006.00718.x).

@@ -5,7 +5,7 @@ description: Estimate a small VAR, derive its forecasts and stability condition,
 question: Does another region's history add information about this region's future?
 prerequisites: Lectures 2–4 and 7, matrix multiplication, eigenvalues, and multivariate regression.
 lecture: March 12
-concepts: [VAR, matrix recursion, eigenvalue stability, cross-lags, networks, forecast covariance]
+concepts: [VAR, matrix recursion, eigenvalue stability, cross-lags, Granger causality, networks, forecast covariance]
 ---
 
 ## Let several outcomes evolve together
@@ -70,9 +70,15 @@ $$
 
 In our storage convention, the first row of $B$ is the intercept and the remaining block is $A'$. Transposing the block recovers the column-vector recursion. A transpose mistake can reverse directional interpretations while leaving dimensions deceptively plausible.
 
-Estimate disturbance covariance as $\widehat\Sigma=U'U/(n-k)$, where $n$ is the number of usable rows and $k$ the number of regressors per equation. An ML convention uses denominator $n$; both are legitimate if their names and comparisons are consistent. The parallel code uses the residual-degrees-of-freedom convention.
+Estimate disturbance covariance as $\widehat\Sigma=U'U/(n-k)$, where $n$ is the number of usable rows and $k$ the number of regressors per equation. An ML convention uses denominator $n$; both are legitimate if their names and comparisons are consistent. The parallel code uses the residual-degrees-of-freedom convention. Consistency of these estimates rests on the stability condition above together with the ergodicity and innovation conditions discussed in Lecture 2.
 
-Adding variables or lags quickly increases parameter count. A VAR with $m$ variables and $p$ lags has $m(1+mp)$ mean parameters. A short monthly sample cannot support an arbitrarily large network of unrestricted regressions. Keep the core system small and compare it with univariate benchmarks on matched origins.
+Adding variables or lags quickly increases parameter count. A VAR with $m$ variables and $p$ lags has $m(1+mp)$ mean parameters. A short monthly sample cannot support an arbitrarily large network of unrestricted regressions. Keep the core system small and compare it with univariate benchmarks on matched origins. Choose $p$ inside the training window with an information criterion from Lecture 3, replacing $\log\widehat\sigma^2$ by $\log\det\widehat\Sigma$ and counting every mean parameter.
+
+## Does another region's history predict this one?
+
+The lecture's question has a standard name. Series 2 does not Granger-cause series 1, relative to the variables in the system, when the past of series 2 does not reduce the mean squared error of the optimal linear forecast of series 1 given the past of series 1 ([Granger 1969](https://doi.org/10.2307/1912791)). In the VAR(1) that is the restriction $a_{12}=0$; in a VAR$(p)$ it sets the coefficients on every lag of series 2 in the first equation to zero. When the system is stable, a Wald or $F$ test of those restrictions has its usual large-sample distribution under the conditions of the previous section. With integrated or cointegrated levels its limiting distribution can be nonstandard.
+
+The name invites misreading. Granger causality is incremental predictability within the chosen information set. An omitted common factor, as in Lecture 10, can create it without any direct channel, and a genuine channel can fail to appear at the sampling frequency. The laboratory reports one Wald statistic for each excluded cross-lag. The estimates are $\widehat a_{12}=0.089$ and $\widehat a_{21}=0.103$, against generating values of 0.15 and 0.05, and the statistics are 3.98 and 4.99 against a 5% $\chi^2(1)$ critical value of 3.84. Both tests reject, correctly, because both cross-lags are nonzero in the generating system; the larger estimate belongs to the smaller generating coefficient, a reminder of how noisy cross-lag estimates are at 600 observations.
 
 ## A known network imposes structure
 
@@ -108,4 +114,4 @@ For the project audit, identify whether a regional comparison concerns predictio
 
 ## Sources
 
-[Sims (1980), Macroeconomics and Reality](https://www.jstor.org/stable/1912017) is a foundational VAR reference. [Statsmodels' VAR documentation](https://www.statsmodels.org/stable/vector_ar.html) describes estimation and analysis conventions.
+[Sims (1980), Macroeconomics and Reality](https://www.jstor.org/stable/1912017) is a foundational VAR reference. [Granger (1969)](https://doi.org/10.2307/1912791) defines predictive causality. [Statsmodels' VAR documentation](https://www.statsmodels.org/stable/vector_ar.html) describes estimation and analysis conventions.
