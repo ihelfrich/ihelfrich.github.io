@@ -79,7 +79,8 @@ Write $p_i$ for the probability of day type $i$ and $y_i$ for its load. The symb
 $$
 \begin{aligned}
 E[Y]&=\sum_{i=1}^{6}p_i y_i\\
-&=\frac{9+10+11+11+12+13}{6}=11\text{ MW}.
+&=\frac{9+10+11+11+12+13}{6}\\
+&=11\text{ MW}.
 \end{aligned}
 $$
 
@@ -99,7 +100,10 @@ The vertical bar means “given.” The difference of these conditional averages
 The rule $m(A)=10+2A$ gives the correct conditional average for either alert status. The letter $m$ names a function: insert zero to obtain ten, or one to obtain twelve. Its error is $Y-m(A)=V$, so the error takes values $-1$, $0$, and $1$ equally often in each group. The **mean squared error**, or MSE, is the average squared error:
 
 $$
-E[(Y-m(A))^2]=\frac{(-1)^2+0^2+1^2}{3}=\frac23\text{ MW}^2.
+\begin{aligned}
+E[(Y-m(A))^2]&=\frac{(-1)^2+0^2+1^2}{3}\\
+&=\frac23\text{ MW}^2.
+\end{aligned}
 $$
 
 The model contains unpredictable variation even when its conditional average is known exactly. Prediction accuracy concerns the declared information and loss; it does not establish an intervention effect.
@@ -122,9 +126,9 @@ The proof has five steps and uses no calculus.
    $$
    \begin{aligned}
    &E[(Y-q)^2\mid A=a]\\
-   &\quad=E[(Y-m_a)^2\mid A=a]\\
-   &\qquad+2(m_a-q)E[Y-m_a\mid A=a]\\
-   &\qquad+(m_a-q)^2.
+   &=E[(Y-m_a)^2\mid A=a]\\
+   &\quad+2(m_a-q)E[Y-m_a\mid A=a]\\
+   &\quad+(m_a-q)^2.
    \end{aligned}
    $$
 
@@ -134,15 +138,19 @@ The proof has five steps and uses no calculus.
 
    $$
    \begin{aligned}
-   E[Y-m_a\mid A=a]&=E[Y\mid A=a]-m_a\\
-   &=0.
+   &E[Y-m_a\mid A=a]\\
+   &\quad=E[Y\mid A=a]-m_a\\
+   &\quad=0.
    \end{aligned}
    $$
 
    The middle term in step 2 therefore vanishes. Using the residual average square calculated in [Averages with stated information](#finite-averages) leaves
 
    $$
-   E[(Y-q)^2\mid A=a]=\frac23+(m_a-q)^2.
+   \begin{aligned}
+   &E[(Y-q)^2\mid A=a]\\
+   &\quad=\frac23+(m_a-q)^2.
+   \end{aligned}
    $$
 
 4. **Locate the minimum within the group.** The first term is the irreducible error. The second is a square, which is nonnegative and equals zero exactly when $q=m_a$. This proves the claim within either alert group.
@@ -170,7 +178,8 @@ We now specify how load responds to an alert and a heat condition. A **structura
 
 $$
 \begin{gathered}
-A=U,\qquad Y=10+bA+(2-b)U+V,\\
+A=U,\\
+Y=10+bA+(2-b)U+V,\\
 -2\leq b\leq2.
 \end{gathered}
 $$
@@ -217,10 +226,10 @@ The notation before the semicolon gives the assigned alert; the notation after i
 
 $$
 \begin{aligned}
-Y(1;u,v)-Y(0;u,v)
-&=[10+b+(2-b)u+v]\\
-&\quad-[10+(2-b)u+v]\\
-&=b.
+&Y(1;u,v)-Y(0;u,v)\\
+&\quad=[10+b+(2-b)u+v]\\
+&\qquad-[10+(2-b)u+v]\\
+&\quad=b.
 \end{aligned}
 $$
 
@@ -230,9 +239,9 @@ To calculate the two intervention levels, use $E[U]=1/2$ and $E[V]=(-1+0+1)/3=0$
 
 $$
 \begin{aligned}
-E[Y\mid\operatorname{do}(A=a)]
-&=10+ba+(2-b)\frac12+0\\
-&=11+b\left(a-\frac12\right).
+&E[Y\mid\operatorname{do}(A=a)]\\
+&\quad=10+ba+(2-b)\frac12+0\\
+&\quad=11+b\left(a-\frac12\right).
 \end{aligned}
 $$
 
@@ -300,7 +309,8 @@ For either assigned alert status, the two heat conditions remain equally likely 
 $$
 \begin{aligned}
 E[Y\mid A=a]
-&=10+ba+(2-b)E[U\mid A=a]\\
+&=10+ba\\
+&\quad+(2-b)E[U\mid A=a]\\
 &\quad+E[V\mid A=a]\\
 &=11+b\left(a-\frac12\right).
 \end{aligned}
@@ -318,7 +328,10 @@ Hernán and Robins's [*Causal Inference: What If*, chapters 1–3](https://migue
 Suppose a planner values an expected one-MW reduction in the daily peak at $v$ dollars and pays $c$ dollars to issue an alert. Under a deliberately simple linear valuation, the incremental net benefit is
 
 $$
-N(b)=v\{E[Y(0)]-E[Y(1)]\}-c=-vb-c.
+\begin{aligned}
+N(b)&=v\{E[Y(0)]-E[Y(1)]\}-c\\
+&=-vb-c.
+\end{aligned}
 $$
 
 The braces contain a reduction, so its sign is the negative of the load effect $b$. Let $v=1{,}000$ dollars per MW of daily peak reduction and $c=500$ dollars per day. Then $N(-2)=1{,}500$, $N(0)=-500$, and $N(2)=-2{,}500$ dollars per day. The same observed distribution is compatible with a profitable alert program and an unprofitable one under this valuation.

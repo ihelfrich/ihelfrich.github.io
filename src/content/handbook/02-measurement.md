@@ -54,8 +54,11 @@ Here $P_j$ is in MW, each $\Delta t_j$ is in hours, and $E$ is in MWh. This expr
 The [NIST SI definitions, §2.3.4, Table 4](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.330-2019.pdf#page=31) distinguish the joule as energy and the watt as joules per second. Since an hour contains 3,600 seconds,
 
 $$
-1\ \mathrm{MWh}=10^6\ \frac{\mathrm{J}}{\mathrm{s}}
-\times3{,}600\ \mathrm{s}=3.6\times10^9\ \mathrm{J}.
+\begin{aligned}
+1\ \mathrm{MWh}&=10^6\ \frac{\mathrm{J}}{\mathrm{s}}
+\times3{,}600\ \mathrm{s}\\
+&=3.6\times10^9\ \mathrm{J}.
+\end{aligned}
 $$
 
 The peak-load outcome in [chapter 1's utility example](/handbook/01-questions/#six-days) is power in MW. This chapter's meter measures daily energy in MWh. They describe different objects. Dividing a day's energy by its duration gives average power; it does not recover the day's peak.
@@ -109,8 +112,9 @@ For a finite population with state probabilities $p_i$, the mean is the weighted
 
 $$
 \begin{aligned}
-\operatorname{Var}(A)&=E[(A-E[A])^2],\\
-\operatorname{Cov}(A,B)&=E[(A-E[A])(B-E[B])].
+&\operatorname{Var}(A)=E[(A-E[A])^2],\\
+&\operatorname{Cov}(A,B)\\
+&\quad=E[(A-E[A])(B-E[B])].
 \end{aligned}
 $$
 
@@ -119,8 +123,10 @@ Variance averages squared distances from a mean. Covariance averages products of
 The **population linear projection** chooses an intercept $a$ and slope $b$ to minimize $E[(Y-a-bM)^2]$. It is the best line for that population and squared loss. When $\operatorname{Var}(M)>0$, its coefficients are
 
 $$
-b_M=\frac{\operatorname{Cov}(M,Y)}{\operatorname{Var}(M)},
-\qquad a_M=E[Y]-b_ME[M].
+\begin{gathered}
+b_M=\frac{\operatorname{Cov}(M,Y)}{\operatorname{Var}(M)},\\
+a_M=E[Y]-b_ME[M].
+\end{gathered}
 $$
 
 Here is a direct proof without an optimization routine.
@@ -168,13 +174,13 @@ Independence of the three components is sufficient for the covariance restrictio
 
    $$
    \begin{aligned}
-   \operatorname{Cov}(M,Y)
-   &=\operatorname{Cov}(X+W,\alpha+\beta X+\varepsilon)\\
-   &=\beta\operatorname{Var}(X)
+   &\operatorname{Cov}(M,Y)\\
+   &\quad=\operatorname{Cov}(X+W,\alpha+\beta X+\varepsilon)\\
+   &\quad=\beta\operatorname{Var}(X)
    +\beta\operatorname{Cov}(W,X)\\
-   &\quad+\operatorname{Cov}(X,\varepsilon)
+   &\qquad+\operatorname{Cov}(X,\varepsilon)
    +\operatorname{Cov}(W,\varepsilon)\\
-   &=\beta\operatorname{Var}(X).
+   &\quad=\beta\operatorname{Var}(X).
    \end{aligned}
    $$
 
@@ -192,9 +198,11 @@ Independence of the three components is sufficient for the covariance restrictio
 3. Divide these expressions and define the signal fraction $\lambda$:
 
    $$
-   b_M=\beta\lambda,
-   \qquad \lambda=\frac{\operatorname{Var}(X)}{
+   \begin{gathered}
+   b_M=\beta\lambda,\\
+   \lambda=\frac{\operatorname{Var}(X)}{
      \operatorname{Var}(X)+\operatorname{Var}(W)}.
+   \end{gathered}
    $$
 
    Both variances are nonnegative and the signal variance is positive. Thus $0<\lambda\leq1$. Positive noise variance makes $\lambda<1$, shrinking the slope's magnitude toward zero. For a negative $\beta$, shrinkage makes the slope less negative; “downward bias” would be an imprecise description.
@@ -254,7 +262,8 @@ $$
    \begin{aligned}
    &\operatorname{Cov}(M_1,M_2)\\
    &\quad=\operatorname{Var}(X)+\operatorname{Cov}(X,W_2)\\
-   &\qquad+\operatorname{Cov}(W_1,X)+\operatorname{Cov}(W_1,W_2)\\
+   &\qquad+\operatorname{Cov}(W_1,X)\\
+   &\qquad+\operatorname{Cov}(W_1,W_2)\\
    &\quad=\operatorname{Var}(X).
    \end{aligned}
    $$
