@@ -60,6 +60,9 @@ def prepare():
             caption=match.group(1).strip()
             return f'![{caption}](../figures/{stem}-print.pdf){{width=72%}}\n\n'
         text=re.sub(r'<picture>.*?</picture>\s*\n\*\*Figure \d+\.\*\*([^\n]+)\n\n',picture,text,flags=re.S)
+        # Worked solutions sit behind a disclosure on the web; pandoc drops that HTML for LaTeX, so the
+        # printed edition keeps them inline under a bold label.
+        text=re.sub(r'<details class="solution"><summary>[^<]*</summary>\n\n *(.+?)\n\n *</details>',r'**Solution.** \1',text,flags=re.S)
         # Available-chapter references become checked PDF destinations; course links stay online.
         for target in chapters:
             text=text.replace(f'](/handbook/{target.stem}/#',f']({target.stem}.qmd#')
@@ -94,7 +97,7 @@ def prepare():
 
 Econometrics begins with a question about a measured world. This handbook develops the mathematical tools needed to state that question, investigate it, and explain the conditions under which an answer follows. Concrete examples and pictures accompany fully explained proofs and independent Python, Julia, and R calculations.
 
-This working edition contains three foundation chapters: economic questions, measurement, and observation clocks. The broader seventy-two-chapter manuscript is being developed. The separate fifteen-lecture time-series course is available at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/); it supplies material for the dynamic-systems part of the broader book. Its existing chapter numbering is retained in the linked course.
+This working edition contains three foundation chapters: economic questions, measurement, and observation clocks. The fifteen-lecture time-series course is published separately at [ihelfrich.github.io/time-series](https://ihelfrich.github.io/time-series/) and keeps its own lecture numbering.
 
 ## Four reading levels
 
@@ -134,7 +137,7 @@ Run `quarto render --to pdf` from this directory. Quarto and XeLaTeX are require
 
 Chapter-local links and links to available handbook chapters become PDF destinations. Other root-relative web links become full online URLs. The `../figures/*-print.pdf` files are original vector print figures with enlarged labels and vertically arranged panels. The neighboring `code` directory contains controlled fixtures, the small attributed BEA extract, manifests and independent implementations. Web Markdown is in `chapters/`; the Astro files are source for integration with Ian Helfrich's existing site, not a standalone replacement site.
 
-This working edition contains three foundation chapters. It is not the complete seventy-two-chapter handbook. Live assessments and grading keys are excluded.
+This working edition contains three foundation chapters. Live assessments and grading keys are excluded.
 ''')
 
 if '--finalize' not in sys.argv:
