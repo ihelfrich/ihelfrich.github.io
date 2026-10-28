@@ -1,12 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
-import { PRIMARY, CONTACT, BOOK, withSlash } from "../../src/data/navigation.mjs";
+import { readFile } from "node:fs/promises";
+import { PRIMARY, CONTACT, withSlash } from "../../src/data/navigation.mjs";
 
 // The links SiteBar.astro renders, in order: the sections, the map, then booking and contact.
 const sections = [...PRIMARY.map(({ href }) => withSlash(href)), "/field/"];
-const barLinks = [...sections, withSlash(BOOK.href), withSlash(CONTACT.href)];
-const built = await access("dist/time-series/03-arma/index.html").then(() => true, () => false);
 
 test("the static Market Mechanics page carries the shared bar's section links and Contact", async () => {
   const html = await readFile("public/teaching/market-mechanics/index.html", "utf8");
@@ -30,14 +28,25 @@ test("every course layout renders the shared bar before its own header", async (
   }
 });
 
-test("the shared bar is a labelled landmark that offers booking beside Contact without redirect hops", { skip: !built }, async () => {
-  for (const route of ["time-series/03-arma", "handbook/01-questions", "econometrics/03-projection"]) {
-    const html = await readFile(`dist/${route}/index.html`, "utf8");
-    const bar = html.match(/<nav class="site-bar"[\s\S]*?<\/div>\s*<div class="site-bar-actions">[\s\S]*?<\/div>\s*<\/nav>/)?.[0];
-    assert.ok(bar, `${route} must render the shared bar`);
-    assert.match(bar, /^<nav class="site-bar"[^>]*aria-label="Site"/, `${route}: the bar is a navigation landmark, so its name link is inside one`);
-    const links = bar.replace(/<nav class="crumbs[\s\S]*?<\/nav>/, "");
-    const hrefs = [...links.matchAll(/href="([^"]+)"/g)].map(([, href]) => href).filter((href) => href !== "/");
-    assert.deepEqual(hrefs, barLinks, `${route}: section links, Map, Book a time and Contact, each with its trailing slash`);
+// These read the component source, so they run in CI before anything is built. The rendered bar on the
+// course pages is checked after the build by scripts/check-public-discovery.mjs.
+test("the shared bar is a labelled navigation landmark whose links need no redirect", async () => {
+  const source = await readFile("src/components/SiteBar.astro", "utf8");
+  const markup = source.replace(/^---[\s\S]*?---\s*/, "");
+  assert.match(markup, /^<nav class="site-bar"[^>]*aria-label="Site"[^>]*>/, "the bar root is a <nav> named Site, so its links sit inside a landmark");
+  assert.ok(markup.trimEnd().endsWith("</nav>"), "the <nav> wraps the whole bar");
+  assert.ok(markup.indexOf("<Breadcrumbs") > markup.indexOf('class="site-bar-name"'), "the trail follows the name link");
+  const hrefs = [...markup.matchAll(/href=(?:"([^"]*)"|\{([^}]*)\})/g)].map(([, literal, expression]) => literal ?? expression.trim());
+  assert.deepEqual(hrefs, ["/", "withSlash(href)", "/field/", "withSlash(BOOK.href)", "withSlash(CONTACT.href)"],
+    "name, section links, Map, Book a time and Contact, each rendered in trailing-slash form");
+  assert.match(markup, /PRIMARY\.map\(\(\{ label, href \}\) => <a href=\{withSlash\(href\)\}>/, "the section links come from PRIMARY");
+});
+
+test("withSlash gives every navigation target its served form", () => {
+  for (const href of [...PRIMARY.map(({ href }) => href), CONTACT.href, "/book", "/field"]) {
+    assert.match(withSlash(href), /^\/[a-z0-9-]+\/$/, `${href} renders with a trailing slash`);
   }
+  assert.equal(withSlash("/book#tutoring-intro"), "/book/#tutoring-intro");
+  assert.equal(withSlash("/cv/ian-helfrich-cv.pdf"), "/cv/ian-helfrich-cv.pdf");
+  assert.equal(withSlash("https://example.org/a"), "https://example.org/a");
 });

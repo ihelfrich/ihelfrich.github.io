@@ -4,8 +4,9 @@ import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { ARCHIVAL_PROJECTS as archivalProjects } from "../src/data/archival-projects.mjs";
-import { BOOK, navRoutes, REDIRECTS } from "../src/data/navigation.mjs";
+import { BOOK, CONTACT, PRIMARY, navRoutes, REDIRECTS, withSlash } from "../src/data/navigation.mjs";
 import { SCHOLAR_WITHHELD } from "../src/data/research-citation.mjs";
+import { teachingRecognition } from "../src/data/public-record.mjs";
 
 const root = path.resolve("dist");
 
@@ -46,7 +47,8 @@ for (const entry of await readdir(path.join(root, "teaching"), { withFileTypes: 
 // Every page a crawler may index must be in the sitemap. The /field/ map and its orphan report take
 // their page list from /sitemap.xml, so a section left out of it is invisible to both: the time-series
 // course and the handbook were published on October 9, 2026 and missed both until this check existed.
-// Print editions repeat their chapters on one page and stay out of the sitemap, as /econometrics/print/ does.
+// Print editions repeat their chapters on one page and stay out of the sitemap. Only /econometrics/print/
+// also declares noindex; /time-series/print/ and /handbook/print/ do not yet, so this check does not require it.
 const PRINT_EDITIONS = ["/econometrics/print/", "/time-series/print/", "/handbook/print/"];
 const builtHtml = await collectHtml(root);
 const routeFor = (htmlPath) => {
@@ -78,8 +80,32 @@ const projectsIndex = await readFile(path.join(root, "projects", "index.html"), 
 assert.match(projectsIndex, /href="\/(?:projects\/)?hidden-rivers\/?"/, "/projects/ must link Hidden Rivers now that it is not in the Records strip");
 for (const route of ["/", "/job-market/", "/research/", "/cv/"]) {
   const html = await readFile(path.join(root, route, "index.html"), "utf8");
-  assert.match(html, new RegExp(`<a href="${BOOK.href}" class="nav-book"`), `${route} must link ${BOOK.href} beside Contact in the header`);
+  assert.match(html, new RegExp(`<a href="${withSlash(BOOK.href)}" class="nav-book"`), `${route} must link ${withSlash(BOOK.href)} beside Contact in the header`);
 }
+// The course layouts carry the shared bar instead of the shell header. It must be a labelled landmark, offer
+// booking beside Contact, and link every route, the breadcrumb trail included, in the form served without a 301.
+const barLinks = [...PRIMARY.map(({ href }) => withSlash(href)), "/field/", withSlash(BOOK.href), withSlash(CONTACT.href)];
+for (const route of ["/time-series/03-arma/", "/handbook/01-questions/", "/econometrics/03-projection/"]) {
+  const html = await readFile(path.join(root, route, "index.html"), "utf8");
+  const bar = html.match(/<nav class="site-bar"[^>]*>[\s\S]*?<div class="site-bar-actions">[\s\S]*?<\/div>\s*<\/nav>/)?.[0];
+  assert.ok(bar, `${route} must render the shared bar`);
+  assert.match(bar, /^<nav class="site-bar"[^>]*aria-label="Site"/, `${route}: the shared bar must be a navigation landmark named Site`);
+  const crumbs = bar.match(/<nav class="crumbs[\s\S]*?<\/nav>/)?.[0] ?? "";
+  const crumbHrefs = [...crumbs.matchAll(/href="([^"]+)"/g)].map(([, href]) => href);
+  assert.ok(crumbHrefs.length > 0, `${route}: the shared bar must carry its breadcrumb trail`);
+  for (const href of crumbHrefs) assert.equal(href, withSlash(href), `${route}: breadcrumb ${href} must use its trailing-slash form`);
+  const hrefs = [...bar.replace(crumbs, "").matchAll(/href="([^"]+)"/g)].map(([, href]) => href).filter((href) => href !== "/");
+  assert.deepEqual(hrefs, barLinks, `${route}: section links, Map, Book a time and Contact, each with its trailing slash`);
+}
+// The course-evaluation report carries one name wherever the teaching record links it.
+const evaluationLabels = await Promise.all(["teaching", "job-market"].map(async (page) => {
+  const html = await readFile(path.join(root, page, "index.html"), "utf8");
+  const href = teachingRecognition.evaluations.href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const anchor = html.match(new RegExp(`<a href="${href}"[^>]*>([\\s\\S]*?)</a>`))?.[1];
+  assert.ok(anchor, `/${page}/ must link the course-evaluation report`);
+  return anchor.replace(/<[^>]+>/g, "").replace(/\s*→\s*$/, "").replace(/\s+/g, " ").trim();
+}));
+assert.equal(new Set(evaluationLabels).size, 1, `/teaching/ and /job-market/ must label the course-evaluation report the same way: ${evaluationLabels.join(" | ")}`);
 for (const [from, to] of Object.entries(REDIRECTS)) {
   const html = await readFile(path.join(root, from, "index.html"), "utf8").catch(() => null);
   assert.ok(html !== null, `${from} must build as a redirect page`);
@@ -188,7 +214,7 @@ for (const record of researchRecords.filter(({ id, discovery, citation }) => cit
 assert.ok(nmtcResearchDetail.includes('data-pagefind-weight="10"'), "the flagship NMTC detail must give its subject metadata strong Pagefind weight");
 assert.ok(nmtcResearchDetail.includes('data-pagefind-meta="title:New Markets Tax Credit (NMTC):'), "the flagship NMTC detail must add the acronym to its Pagefind title metadata");
 assert.ok(nmtcResearchDetail.includes("New Markets Tax Credit (NMTC)"), "the flagship NMTC detail must spell out and expose the searchable acronym");
-assert.match(library, new RegExp(`data-search="[^"]*nmtc[^"]*"[^>]*href="/research/${nmtcResearchId}"|href="/research/${nmtcResearchId}"[^>]*data-search="[^"]*nmtc[^"]*"`), "SiteIndex must surface the flagship research record for NMTC");
+assert.match(library, new RegExp(`data-search="[^"]*nmtc[^"]*"[^>]*href="/research/${nmtcResearchId}/?"|href="/research/${nmtcResearchId}/?"[^>]*data-search="[^"]*nmtc[^"]*"`), "SiteIndex must surface the flagship research record for NMTC");
 
 const exactAward = "Georgia Tech Economics Graduate Teaching Assistant of the Year, 2023";
 const accuracyPages = ["about", "cv", "job-market", "teaching"];
