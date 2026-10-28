@@ -149,8 +149,16 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
         <article><span>Evaluations</span><strong><a href={teachingRecognition.evaluations.href}>Georgia Tech course-evaluation record, {teachingRecognition.evaluations.year} →</a></strong></article>
         <article><span>Wyzant · platform-recorded</span><strong>{tutoringRecord.wyzant.hoursProse[0].toUpperCase() + tutoringRecord.wyzant.hoursProse.slice(1)} hours</strong></article>
         <article><span>Private practice · practice-recorded</span><strong>{tutoringRecord.privatePractice.hoursProse[0].toUpperCase() + tutoringRecord.privatePractice.hoursProse.slice(1)} additional hours</strong></article>
-        <article><span>Materials</span><strong><a href="/teaching">Full teaching and coaching record →</a></strong></article>
+        <article><span>Full record</span><strong><a href="/teaching/">Teaching and coaching record →</a></strong></article>
       </div>
+      <section class="course-materials" aria-labelledby="course-materials-title">
+        <h3 id="course-materials-title">Course materials</h3>
+        <ul>
+          <li><a href="/econometrics/">The Econometric Argument</a><span>Development edition, September 2026</span><p>An introduction to econometrics in twelve chapters, from probability and projection to identification and decisions, with worked problems, three browser experiments, Python and R reproductions, and a teaching guide with a twelve-week schedule.</p></li>
+          <li><a href="/time-series/">Time-Series Econometrics</a><span>Graduate course, first edition</span><p>Fifteen lectures from stationary processes and ARMA models to state-space models, cointegration, and conditional volatility, with complete derivations, lecture decks, problem sets with worked answers, three semester projects, and code in R, Julia, and Python.</p></li>
+          <li><a href="/handbook/">Econometrics Across Disciplines</a><span>Working handbook, three completed chapters</span><p>Foundation chapters on economic questions and interventions, measurement, and observation clocks, written as complete proofs and checked independently in Python, Julia, and R.</p></li>
+        </ul>
+      </section>
     </div>
   </section>
 
@@ -228,6 +236,13 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
   .teaching-evidence article { min-height: 10rem; padding: var(--ef-space-4); }
   .teaching-evidence article + article { border-left: 1px solid var(--ef-ink); }
   .teaching-evidence span { display: block; margin-bottom: 1rem; color: var(--muted); font: 620 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .course-materials { display: grid; margin-top: var(--ef-space-6); grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 2.2fr); column-gap: var(--ef-space-6); }
+  .course-materials h3 { margin: 0; color: var(--muted); font: 620 0.7rem/1.45 var(--font-data); letter-spacing: 0.07em; text-transform: uppercase; }
+  .course-materials ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ef-ink); }
+  .course-materials li { padding-block: var(--ef-space-4); border-bottom: 1px solid var(--rule); }
+  .course-materials li > a { font: 600 1.15rem/1.35 var(--font-display); }
+  .course-materials li > span { display: block; margin-top: 0.25rem; color: var(--muted); font: 600 0.68rem/1.4 var(--font-data); text-transform: uppercase; }
+  .course-materials li > p { max-width: 70ch; margin: 0.5rem 0 0; }
   .market-references { padding-bottom: 0; }
   .referee-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--ef-space-5); margin: var(--ef-space-5) 0 0; padding: 0; list-style: none; }
   .referee-list li { margin: 0; padding-top: var(--ef-space-4); border-top: 1px solid var(--ef-ink); }
@@ -259,6 +274,8 @@ const dossierResearch = filterDiscoverableResearch(await getCollection("research
     .dossier-list article { grid-template-columns: 2.5rem 1fr; }
     .dossier-list aside { grid-column: 2; padding: 1rem 0 0; border-top: 1px solid var(--rule); border-left: 0; }
     .teaching-evidence { grid-template-columns: 1fr; }
+    .course-materials { grid-template-columns: 1fr; }
+    .course-materials ul { margin-top: var(--ef-space-4); }
     .teaching-evidence article + article { border-top: 1px solid var(--ef-ink); border-left: 0; }
     .market-links { margin-top: var(--ef-space-5); }
   }
