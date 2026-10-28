@@ -416,10 +416,11 @@ export function readVerdicts(result, { robust = false } = {}) {
       }).length
     : Math.round(size * 100);
   const missed = `${misses} of the hundred intervals drawn ${misses === 1 ? "misses" : "miss"}`;
+  const missedLead = `Of the hundred intervals drawn, ${misses} ${misses === 1 ? "misses" : "miss"}`;
   const sizeClause =
     sizeVerdict.state === "clean"
       ? `Even so, the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, so it keeps its size, and ${missed} the truth.`
-      : `${missed[0].toUpperCase()}${missed.slice(1)} the truth they were built to cover, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples.`;
+      : `${missedLead} the truth they were built to cover, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples.`;
 
   /**
    * The sentence must never contradict a chip: it calls the estimate centred
@@ -444,7 +445,7 @@ export function readVerdicts(result, { robust = false } = {}) {
      * miss count is Binomial(100, 0.05), and 0 or 10 misses both occur. The
      * sentence states the promise as an average so it holds for any count.
      */
-    reading = `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, against a promised 5%. ${missed[0].toUpperCase()}${missed.slice(1)} the truth; 95% coverage means five misses per hundred on average, and the count in any particular hundred varies around that figure.`;
+    reading = `All three readings are clean. The estimate centres on the truth, the reported uncertainty matches the real spread, and the test rejects the true null in ${(size * 100).toFixed(0)}% of the ${reps} samples, against a promised 5%. ${missedLead} the truth; 95% coverage means five misses per hundred on average, and the count in any particular hundred varies around that figure.`;
   }
 
   return { centre, honesty, size: sizeVerdict, ratio, misses, reading };

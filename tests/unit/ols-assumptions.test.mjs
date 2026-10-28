@@ -310,7 +310,7 @@ test("the clean reading states coverage as an average, whatever the drawn count"
   assert.equal(verdict.misses, 0);
   assert.match(verdict.reading, /^All three readings are clean\./);
   assert.match(verdict.reading, /rejects the true null in 4% of the 500 samples, against a promised 5%/);
-  assert.match(verdict.reading, /0 of the hundred intervals drawn miss the truth; 95% coverage means five misses per hundred on average/);
+  assert.match(verdict.reading, /Of the hundred intervals drawn, 0 miss the truth; 95% coverage means five misses per hundred on average/);
   assert.doesNotMatch(verdict.reading, /which is what 95% coverage means/);
   for (const assumption of Object.keys(GENERATORS)) {
     const clean = readVerdicts(runExperiment({ assumption, strength: 0, n: assumption === "normality" ? 20 : 60, reps: 500 }));
