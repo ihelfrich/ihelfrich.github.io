@@ -199,7 +199,10 @@ The improvement has a precise proof. Let $m_0$ and $m_1$ denote optimal conditio
 2. Square and average. On a finer cell the second term is constant, so its cross-product with $Y-m_1$ has conditional mean zero. Summing over the cell probabilities keeps that cross-product zero. Thus
 
    $$
-   E[(Y-m_0)^2]=E[(Y-m_1)^2]+E[(m_1-m_0)^2].
+   \begin{aligned}
+   E[(Y-m_0)^2]&=E[(Y-m_1)^2]\\
+   &\quad+E[(m_1-m_0)^2].
+   \end{aligned}
    $$
 
 3. The last term is a mean of squares and is nonnegative. Therefore the finer-information optimum cannot have larger squared-error risk. Equality holds precisely when the two conditional means agree on every positive-probability cell.

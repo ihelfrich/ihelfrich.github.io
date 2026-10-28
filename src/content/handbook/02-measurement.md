@@ -129,18 +129,22 @@ Here is a direct proof without an optimization routine.
 2. Expand the remaining square using the [variance and covariance definitions](#covariance):
 
    $$
-   E[(Y_c-bM_c)^2]
-   =\operatorname{Var}(Y)-2b\operatorname{Cov}(M,Y)
-   +b^2\operatorname{Var}(M).
+   \begin{aligned}
+   &E[(Y_c-bM_c)^2]\\
+   &\quad=\operatorname{Var}(Y)-2b\operatorname{Cov}(M,Y)\\
+   &\qquad+b^2\operatorname{Var}(M).
+   \end{aligned}
    $$
 
 3. Complete the square in $b$. The same expression becomes
 
    $$
-   \operatorname{Var}(Y)
-   -\frac{\operatorname{Cov}(M,Y)^2}{\operatorname{Var}(M)}
-   +\operatorname{Var}(M)\left(b-
+   \begin{aligned}
+   &\operatorname{Var}(Y)
+   -\frac{\operatorname{Cov}(M,Y)^2}{\operatorname{Var}(M)}\\
+   &\quad+\operatorname{Var}(M)\left(b-
    \frac{\operatorname{Cov}(M,Y)}{\operatorname{Var}(M)}\right)^2.
+   \end{aligned}
    $$
 
    The first two terms do not depend on $b$. The last term is nonnegative and vanishes only at the stated slope because $\operatorname{Var}(M)>0$. This proves the unique minimizing line and its risk.
@@ -167,8 +171,8 @@ Independence of the three components is sufficient for the covariance restrictio
    \operatorname{Cov}(M,Y)
    &=\operatorname{Cov}(X+W,\alpha+\beta X+\varepsilon)\\
    &=\beta\operatorname{Var}(X)
-   +\beta\operatorname{Cov}(W,X)
-   +\operatorname{Cov}(X,\varepsilon)
+   +\beta\operatorname{Cov}(W,X)\\
+   &\quad+\operatorname{Cov}(X,\varepsilon)
    +\operatorname{Cov}(W,\varepsilon)\\
    &=\beta\operatorname{Var}(X).
    \end{aligned}
@@ -178,9 +182,11 @@ Independence of the three components is sufficient for the covariance restrictio
 2. Expand the denominator. Using $M-E[M]=(X-E[X])+W$ and taking the expected square gives
 
    $$
-   \operatorname{Var}(M)=\operatorname{Var}(X)
-   +2\operatorname{Cov}(X,W)+\operatorname{Var}(W)
-   =\operatorname{Var}(X)+\operatorname{Var}(W).
+   \begin{aligned}
+   \operatorname{Var}(M)&=\operatorname{Var}(X)+2\operatorname{Cov}(X,W)\\
+   &\quad+\operatorname{Var}(W)\\
+   &=\operatorname{Var}(X)+\operatorname{Var}(W).
+   \end{aligned}
    $$
 
 3. Divide these expressions and define the signal fraction $\lambda$:
@@ -245,9 +251,12 @@ $$
 1. Expand the readings' covariance:
 
    $$
-   \operatorname{Cov}(M_1,M_2)=\operatorname{Var}(X)
-   +\operatorname{Cov}(X,W_2)+\operatorname{Cov}(W_1,X)
-   +\operatorname{Cov}(W_1,W_2)=\operatorname{Var}(X).
+   \begin{aligned}
+   &\operatorname{Cov}(M_1,M_2)\\
+   &\quad=\operatorname{Var}(X)+\operatorname{Cov}(X,W_2)\\
+   &\qquad+\operatorname{Cov}(W_1,X)+\operatorname{Cov}(W_1,W_2)\\
+   &\quad=\operatorname{Var}(X).
+   \end{aligned}
    $$
 
    The denominator is strictly positive by the signal-variance assumption.
