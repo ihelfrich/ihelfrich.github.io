@@ -15,7 +15,8 @@ import { publicLinks } from "../data/public-record.mjs";
       <p class="record-label">Contact · St. Louis, Missouri</p>
       <h1>Contact</h1>
       <p>For research, teaching, consulting, and employment inquiries.</p>
-      <div class="contact-actions"><a class="text-route" href={publicLinks.email} data-goatcounter-click="email">Email Ian directly</a><a class="text-route" href="/book">Book a time</a><a class="text-route" href="/cv#contact">CV and current availability</a></div>
+      <p class="contact-address">Write to <a href={publicLinks.email} data-goatcounter-click="email">{publicLinks.emailAddress}</a><button type="button" class="contact-copy" data-copy-email={publicLinks.emailAddress} hidden>Copy address</button><span class="contact-copy-status" data-copy-status role="status"></span></p>
+      <div class="contact-actions"><a class="text-route" href="/book/">Book a time instead</a><a class="text-route" href="/cv#contact">CV and current availability</a></div>
     </div>
     <VisitorPath compose/>
     <aside role="note" class="privacy-note">
@@ -24,6 +25,23 @@ import { publicLinks } from "../data/public-record.mjs";
     </aside>
   </section>
 </Base>
+
+<script>
+  // The address is printed and linked above, so this button only saves a step where the clipboard is available.
+  const button = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  const status = document.querySelector<HTMLElement>("[data-copy-status]");
+  if (button && status && navigator.clipboard) {
+    button.hidden = false;
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? "");
+        status.textContent = "Copied";
+      } catch {
+        status.textContent = "Copy failed; select the address instead";
+      }
+    });
+  }
+</script>
 
 <style>
   .contact-hero { width: min(calc(100% - 2 * var(--ef-edge)), var(--ef-grid-max)); min-height: calc(100vh - 4.5rem); margin-inline: auto; padding-block: var(--ef-space-8); }
@@ -36,6 +54,11 @@ import { publicLinks } from "../data/public-record.mjs";
   .fieldbook-action { display: inline-flex; min-height: 48px; padding: 0.8rem 1rem; align-items: center; color: var(--ef-figure); background: var(--ef-signal); border: 1px solid var(--ef-signal); border-radius: var(--ef-control-radius); font: 650 0.72rem/1 var(--font-data); text-decoration: none; text-transform: uppercase; }
   .fieldbook-action:hover { color: var(--ef-figure); background: var(--ef-ink); border-color: var(--ef-ink); }
   .text-route { font: 620 0.72rem/1.4 var(--font-data); text-transform: uppercase; }
+  .contact-address { display: flex; flex-wrap: wrap; grid-column: 1 / -1; align-items: baseline; gap: 0.4rem 0.9rem; margin: var(--ef-space-5) 0 0; font-size: 1.16rem; }
+  .contact-address a { overflow-wrap: anywhere; font-weight: 600; }
+  .contact-copy { min-height: 36px; padding: 0.3rem 0.8rem; color: var(--ef-ink); background: transparent; border: 1px solid var(--ef-ink); border-radius: var(--ef-control-radius); font: 620 0.68rem/1.2 var(--font-data); text-transform: uppercase; cursor: pointer; }
+  .contact-copy:hover { color: var(--ef-figure); background: var(--ef-ink); }
+  .contact-copy-status { color: var(--muted); font: 560 0.72rem/1.4 var(--font-data); }
   .inquiry-register { display: grid; margin-top: var(--ef-space-7); grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ef-ink); }
   .inquiry-register article { min-height: 18rem; padding: var(--ef-space-5); }
   .inquiry-register article + article { border-left: 1px solid var(--ef-ink); }
