@@ -25,9 +25,10 @@ const RING_ASSOCIATION = 1.2;
 // Share of each outer ring's length (two links, three or more) that stays open when first-ring labels
 // close arcs of it. The faint outer band can give up more than the second ring.
 const RING_KEPT = [0.6, 0.5];
-// On a first ring too crowded for its labels, the pages labelled first take arcs as wide as their labels
-// plus this padding, so that no neighbouring mark sits under a label. Those wider arcs may add at most
-// RING_SLOT_BUDGET of the ring's page count in extra shares; the other pages close up to make room.
+// On a first ring too crowded for its labels, the pages labelled first take arcs as long as their labels
+// plus RING_SLOT_PAD_PX, and long enough that no neighbouring mark comes nearly as close to a label as its
+// own mark does (see ringSlots). Those wider arcs may add at most RING_SLOT_BUDGET of the ring's page
+// count in extra shares; the other pages close up to make room.
 const RING_SLOT_PAD_PX = 8;
 const RING_SLOT_BUDGET = 0.5;
 // A crowded outer ring may fill at most this share of its length with its marks and the gaps between
@@ -35,6 +36,18 @@ const RING_SLOT_BUDGET = 0.5;
 // RING_MARK_MIN of their size; a ring still too full keeps this share and lets its faint marks overlap.
 const RING_FULL = 0.6;
 const RING_MARK_MIN = 0.35;
+// Mark size on each ring (the chosen page, one link, two links, three or more), against size at rest.
+const RING_SCALE = Object.freeze([1.25, 1, 0.8, 0.66]);
+// On a phone the stage is tall and narrow, so a first-ring label has the stage's full width above or
+// below the ring but only the strip between the ring and the stage's edge beside it, where most labels
+// do not fit. Which pages land where, and so how many labels fit, turns on the ring's rotation, which
+// the rest layout would otherwise decide. The first ring is therefore planned at RING_TURNS rotations,
+// in order of how far they turn it from the one that moves its pages least, and keeps the first that
+// does best by, in turn: labelling RING_LABEL_GOAL of its pages (or all of a smaller ring), labelling
+// the landmark pages in their order, and labelling the most pages. A plan that labels them all stops it.
+const RING_TURNS = 24;
+const RING_LABEL_GOAL = 6;
+const TURN_ORDER = Object.freeze([...Array(RING_TURNS).keys()].map((k) => (k % 2 ? 1 : -1) * Math.ceil(k / 2) * (TAU / RING_TURNS)));
 // The chosen page's label: below or above its mark first, then slid, then further out.
 const CHOSEN_ORDER = Object.freeze([3, 2, 16, 17, 14, 15, 8, 9, 0, 1, 10, 11, 12, 13]);
 const WELL = 30; // mass of the chosen page's well
@@ -142,6 +155,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     let ring = null, ringA = 0, ringAT = 0, introA = 1, gamma = 3.2, streakT0 = -1e9;
     let levels = [], topLand = 1, coarse = false, well = [];
     let plan = null; // the first-ring pages whose labels the outer rings were laid out round
+    let planned = null; // the place (see placeLabels' `last`) each of those labels, and the chosen page's, took in the plan
     let family = "system-ui, sans-serif", theme = null;
     const F = (w, px) => `${w} ${px}px ${family}`;
 
@@ -233,7 +247,7 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     /* ---------- targets for the two states ---------- */
     function toLandscape() {
       for (let i = 0; i < n; i++) { TX[i] = PX0[i]; TY[i] = PY0[i]; RADT[i] = R0[i]; MT[i] = M0[i]; KRT[i] = bodyKernel(); }
-      REST.set(REST0); hop.fill(-1); ring = null; ringAT = 0; plan = null;
+      REST.set(REST0); hop.fill(-1); ring = null; ringAT = 0; plan = planned = null;
     }
     // Back to topics sits over the top of the stage on a desktop and below it on a phone.
     const backOverlays = () => win.getComputedStyle(backBtn).position === "absolute";
@@ -247,14 +261,23 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const fit = chosenFit(c, g[1]);
       if (fit > ring.R1) ring = ringGeometry(W, H, { ...geo, minR1: fit });
       const { cx, cy, e, R1, R2, PX, PY } = ring, ox = X[c], oy = Y[c];
-      placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY, ringSlots(g[1], ox, oy));
       placeOnRing(g[2], X, Y, ox, oy, e, cx, cy, R2 * e, R2, TX, TY);
       placeOnRing(g[3], X, Y, ox, oy, e, cx, cy, PX, PY, TX, TY);
       TX[c] = cx; TY[c] = cy;
-      const scale = [1.25, 1, 0.8, 0.66];
       const soft = [12, 12, 17, 26]; // outer pages are more diffuse masses, so they do not form isolated rings
-      for (let i = 0; i < n; i++) { RADT[i] = R0[i] * scale[hop[i]]; MT[i] = M0[i]; KRT[i] = soft[hop[i]] * S; }
-      plan = planRingLabels(c, g, ox, oy);
+      for (let i = 0; i < n; i++) { RADT[i] = R0[i] * RING_SCALE[hop[i]]; MT[i] = M0[i]; KRT[i] = soft[hop[i]] * S; }
+      // On a phone, the first ring takes the rotation whose labels fit best (see RING_TURNS).
+      let turn = 0;
+      if (narrow && g[1].length > 1) {
+        const ideal = ringScore(g[1]); // every page labelled
+        let best = null;
+        for (const t of TURN_ORDER) {
+          const score = ringScore(layRingOne(c, g, ox, oy, t, true));
+          if (!best || beats(score, best)) { best = score; turn = t; }
+          if (!beats(ideal, best)) break;
+        }
+      }
+      plan = layRingOne(c, g, ox, oy, turn, false);
       MT[c] = WELL; KRT[c] = 34 * S;
       well = wellLevels(WELL, KRT[c], 0.72 * R1);
       for (let l = 0; l < L; l++) REST[l] = Math.hypot(TX[LB[l]] - TX[LA[l]], TY[LB[l]] - TY[LA[l]]);
@@ -401,20 +424,25 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       const y1 = Math.max(reach.s, reach.n) + it.h + 2, half = it.w / 2 + 2 + mr + 4;
       return Math.hypot(half / ring.e, y1);
     }
-    // Shares of the first ring (see RING_SLOT_PAD_PX), or null when its even spacing already clears the
-    // labels. Pages are taken in label priority until the extra shares would pass the budget.
-    function ringSlots(r1, ox, oy) {
+    // Shares of the first ring for its pages where they now lie (TX, TY), or null when the even spacing
+    // already clears the labels. A label's extent along the ring is its width at the top and bottom and its
+    // height at the sides. Its page's arc holds that extent and the padding, so that labels side by side
+    // fit; and a neighbouring mark, half an arc away, stays beyond the label's halo and the room within
+    // which it would be as near as the margin of association allows: with the label d from its own mark
+    // (at most the mark's reach), sqrt((RING_ASSOCIATION d + 2)^2 - d^2). Pages are taken in label
+    // priority until the extra shares would pass the budget.
+    function ringSlots(r1) {
       const m = r1.length;
       if (m < 2 || !narrow) return null;
-      const { e, R1 } = ring, spacing = (Math.PI * (1 + e) * R1) / m; // the ellipse's perimeter, shared evenly
+      const { cx, cy, e, R1 } = ring, spacing = (Math.PI * (1 + e) * R1) / m; // the ellipse's perimeter, shared evenly
       const extra = new Map();
       let budget = RING_SLOT_BUDGET * m;
       for (const i of [...r1].sort(byPriority)) {
-        // The label's extent along the ring where the page now lies: its width at the top and bottom,
-        // its height at the sides.
-        const it = item(i, 500, 11), a = Math.atan2(Y[i] - oy, (X[i] - ox) / e);
+        const it = item(i, 500, 11, "", false, true), a = Math.atan2(TY[i] - cy, (TX[i] - cx) / e);
         const tx = -e * Math.sin(a), ty = Math.cos(a), tl = Math.hypot(tx, ty);
-        const more = (it.w * Math.abs(tx / tl) + it.h * Math.abs(ty / tl) + RING_SLOT_PAD_PX) / spacing - 1;
+        const r = reachBox(it.r), d = Math.max(r.e, r.w, r.n, r.s), clear = Math.sqrt((RING_ASSOCIATION * d + 2) ** 2 - d * d);
+        const ext = it.w * Math.abs(tx / tl) + it.h * Math.abs(ty / tl);
+        const more = Math.max((ext + RING_SLOT_PAD_PX) / spacing - 1, (ext + 2 * (2 + clear)) / spacing - 2);
         if (more <= 0) continue;
         if (more > budget) break;
         extra.set(i, more);
@@ -422,6 +450,23 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       }
       return extra.size ? (i) => 1 + (extra.get(i) ?? 0) : null;
     }
+    // Lays out the first ring turned by `turn` (see placeOnRing), with wider arcs for the pages labelled
+    // first, as they lie once it is turned (see ringSlots), and plans its labels (see planRingLabels). A dry
+    // run leaves the outer rings in place and only reports the labelled pages.
+    function layRingOne(c, g, ox, oy, turn, dry) {
+      const { cx, cy, e, R1 } = ring;
+      placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY, null, turn);
+      const slots = ringSlots(g[1]);
+      if (slots) placeOnRing(g[1], X, Y, ox, oy, e, cx, cy, R1 * e, R1, TX, TY, slots, turn);
+      return planRingLabels(c, g, ox, oy, dry);
+    }
+    // How well a plan labels the first ring (see RING_TURNS); beats(a, b) compares two scores.
+    function ringScore(labelled) {
+      let landmarks = 0;
+      for (const i of labelled) if (rank[i] < LANDMARKS.length) landmarks += 2 ** (LANDMARKS.length - 1 - rank[i]);
+      return [Math.min(labelled.length, RING_LABEL_GOAL), landmarks, labelled.length];
+    }
+    const beats = (a, b) => { for (let k = 0; k < a.length; k++) if (a[k] !== b[k]) return a[k] > b[k]; return false; };
     function ringOne() {
       const r1 = [];
       for (let i = 0; i < n; i++) if (hop[i] === 1) r1.push(i);
@@ -431,15 +476,17 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     // first ring's labels are laid out first, in priority order and against the target positions, and the
     // outer rings are then spread along the arcs those labels leave open. Each label then runs clear of
     // every faded page, which stays farther from it than its own page is. A label is dropped when the arcs
-    // it would close leave its ring too little room. Returns the labelled pages, in priority order.
-    function planRingLabels(c, g, ox, oy) {
+    // it would close leave its ring too little room. Returns the labelled pages, in priority order. A dry
+    // run only finds them: the outer rings stay where they are and the plan's places are not kept.
+    function planRingLabels(c, g, ox, oy, dry = false) {
       const { cx, cy, e, R2, PX, PY } = ring;
       const jitter = narrow ? 0 : 0.06; // a phone's crowded rings stay smooth, so the arcs left open stay clear
       const outer = [[g[2], R2 * e, R2, RING_KEPT[0]], [g[3], PX, PY, RING_KEPT[1]]].filter(([list]) => list.length).map(([list, fx, fy, kept]) => {
         const t = ellipseTrack(cx, cy, fx, fy), length = trackLength(t), gaps = 3 * list.length;
         let marks = 0;
-        for (const i of list) marks += 2 * GR[i] * RADT[i];
-        // A ring whose marks would leave the first ring's labels too little room draws them smaller.
+        for (const i of list) { RADT[i] = R0[i] * RING_SCALE[hop[i]]; marks += 2 * GR[i] * RADT[i]; }
+        // A ring whose marks would leave the first ring's labels too little room draws them smaller (from
+        // their usual size each time, since a phone plans its rings at several turns).
         const fit = (RING_FULL * length - gaps) / marks;
         if (fit < 1) { const k = Math.max(fit, RING_MARK_MIN); for (const i of list) RADT[i] *= k; marks *= k; }
         let rmax = 0;
@@ -474,7 +521,10 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       // Places these pages' labels took before were from other candidate lists; the plan starts afresh.
       for (const it of items) last.delete(it.key);
       const placed = placeLabels(items, { X: TX, Y: TY, MR, n, W, H, last, rival: RV, cost, onPlace });
-      for (const o of outer) placeOnTrack(o.list, X, Y, ox, oy, e, o.t, TX, TY, jitter);
+      if (!dry) {
+        for (const o of outer) placeOnTrack(o.list, X, Y, ox, oy, e, o.t, TX, TY, jitter);
+        planned = new Map(placed.map(([it]) => [it.key, last.get(it.key)]));
+      }
       return placed.map(([it]) => it.i).filter((i) => i !== c);
     }
     function labelItems() {
@@ -613,6 +663,9 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
     }
 
     /* ---------- loop ---------- */
+    // On the way to the rings, labels keep the places they took (see placeLabels' `last`), and one can
+    // end where another's plan put its label. At rest, each goes back to the place its plan chose.
+    const toPlan = () => { if (planned) for (const [key, k] of planned) last.set(key, k); };
     let awake = false, raf = 0, pending = 0, tPrev = 0, visible = true, calm = 0, started = false, frameNo = 0;
     function frame(t) {
       raf = 0;
@@ -625,10 +678,22 @@ export function mountHomeGraph(root, { load = loadField, navigate } = {}) {
       ringA += (ringAT - ringA) * rr; introA += (1 - introA) * r;
       const moving = busy > 2.5 || drag >= 0 || Math.abs(ringAT - ringA) > 0.01 || introA < 0.995;
       frameNo++;
+      if (!moving && calm === 0) toPlan();
       if (quality < 2 || frameNo % 2 === 0 || !moving) drawTerrain();
       drawScene();
       calm = moving ? 0 : calm + 1;
-      if (calm > 12) { VX.fill(0); VY.fill(0); }
+      if (calm > 12) {
+        VX.fill(0); VY.fill(0);
+        // The loop stops with pages a few hundredths of a pixel short of their targets, which is enough to
+        // refuse a label planned against the targets at the very edge of the stage or of a margin. Pages
+        // that near are set on their targets, and the scene is drawn once more, with the planned places.
+        let near = false;
+        for (let i = 0; i < n; i++) {
+          const d = Math.abs(X[i] - TX[i]) + Math.abs(Y[i] - TY[i]);
+          if (d > 0 && d < 0.5) { X[i] = TX[i]; Y[i] = TY[i]; near = true; }
+        }
+        if (near) { toPlan(); drawScene(); }
+      }
       if (calm > 12 || !visible || doc.hidden) { awake = false; return; }
       raf = win.requestAnimationFrame(frame);
     }

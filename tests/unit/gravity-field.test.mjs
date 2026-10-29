@@ -151,6 +151,40 @@ test("a weighted ring gives each page a share of the ring in proportion to its w
   for (const i of ids) { close(EX[i], UX[i], 1e-9); close(EY[i], UY[i], 1e-9); }
 });
 
+test("a turned ring is the least-moving ring turned on by that angle", () => {
+  const geo = ringGeometry(358, 476, { S: 0.6, RS: 0.74, narrow: true, counts: [1, 9, 0, 0] });
+  const fx = geo.R1 * geo.e, fy = geo.R1, ids = [...Array(9).keys()];
+  const X = ids.map((k) => 180 + 90 * Math.cos(k * 0.6 + 0.3)), Y = ids.map((k) => 240 + 120 * Math.sin(k * 0.6 + 0.3));
+  const param = (TX, TY, i) => Math.atan2((TY[i] - geo.cy) / fy, (TX[i] - geo.cx) / fx);
+  for (const weight of [null, (i) => (i === 2 ? 4 : 1)]) {
+    const AX = [], AY = [], BX = [], BY = [];
+    placeOnRing(ids, X, Y, 180, 240, geo.e, geo.cx, geo.cy, fx, fy, AX, AY, weight);
+    placeOnRing(ids, X, Y, 180, 240, geo.e, geo.cx, geo.cy, fx, fy, BX, BY, weight, 0.7);
+    for (const i of ids) {
+      const d = param(BX, BY, i) - param(AX, AY, i);
+      close(d - 2 * Math.PI * Math.round(d / (2 * Math.PI)), 0.7, 1e-9);
+    }
+  }
+});
+
+test("a track's samples near a box are exactly those within the given distance, wherever the box lies", () => {
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  let near = 0;
+  for (let n = 0; n < 40; n++) {
+    const t = ellipseTrack(100 + 300 * rnd(), 100 + 300 * rnd(), 20 + 200 * rnd(), 20 + 200 * rnd(), [720, 97][n % 2]);
+    closeTrack(t, [0, 1, t.K - 1, Math.floor(t.K / 3)]); // closed samples are never reported, across angle zero too
+    for (let q = 0; q < 200; q++) {
+      const x = -50 + 600 * rnd(), y = -50 + 600 * rnd(), b = [x, y, x + 300 * rnd() * rnd(), y + 60 * rnd()], d = 40 * rnd();
+      const all = [];
+      for (let k = 0; k < t.K; k++) if (!t.closed[k] && boxDistance(b, t.px[k], t.py[k]) < d) all.push(k);
+      assert.deepEqual(trackHits(t, b, d), all);
+      near += all.length > 0;
+    }
+  }
+  assert.ok(near > 1000, "most of the boxes tried lie near their track");
+});
+
 test("labels never overlap one another, stay inside the stage, and avoid marks", () => {
   // Regression from the old network: "Econometric Argument" among a run of course marks.
   const marks = [[300, 500], [320, 500], [342, 497], [364, 503], [388, 500], [412, 499], [300, 520], [300, 481]];

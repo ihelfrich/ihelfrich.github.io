@@ -282,10 +282,11 @@ export function ringGeometry(W, H, { S, RS, narrow, top = 0, counts, minR1 = 0 }
 
 /**
  * Spreads the pages of one ring evenly round an ellipse with semi-axes (fx, fy), keeping their angular
- * order as seen from (ox, oy) and rotating the set to the angle that moves them least. With a weight
- * function, each page takes a share of the ring in proportion to its weight instead of an equal one.
+ * order as seen from (ox, oy) and rotating the set to the angle that moves them least, then on by `turn`
+ * radians. With a weight function, each page takes a share of the ring in proportion to its weight
+ * instead of an equal one.
  */
-export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY, weight = null) {
+export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY, weight = null, turn = 0) {
   const m = list.length;
   if (!m) return;
   const th = list.map((i) => [i, Math.atan2(Y[i] - oy, (X[i] - ox) / e)]).sort((a, b) => a[1] - b[1]);
@@ -298,7 +299,7 @@ export function placeOnRing(list, X, Y, ox, oy, e, cx, cy, fx, fy, TX, TY, weigh
   }
   let sx = 0, sy = 0;
   th.forEach(([, a], k) => { const d = a - slot(k); sx += Math.cos(d); sy += Math.sin(d); });
-  const off = Math.atan2(sy, sx);
+  const off = Math.atan2(sy, sx) + turn;
   th.forEach(([i], k) => {
     const a = off + slot(k), j = m > 30 ? (hash(i) - 0.5) * 0.06 : 0;
     TX[i] = cx + fx * (1 + j) * Math.cos(a);
@@ -321,12 +322,32 @@ export function ellipseTrack(cx, cy, fx, fy, K = 720) {
 /** Open samples of track t within distance d of box b. */
 export function trackHits(t, b, d) {
   // A box that, grown by d, lies inside the ellipse (which is convex) is nowhere near it.
-  const { cx, cy, fx, fy } = t, inside = (x, y) => ((x - cx) / fx) ** 2 + ((y - cy) / fy) ** 2 < 1;
+  const { K, cx, cy, fx, fy } = t, inside = (x, y) => ((x - cx) / fx) ** 2 + ((y - cy) / fy) ** 2 < 1;
   const x0 = b[0] - d, y0 = b[1] - d, x1 = b[2] + d, y1 = b[3] + d;
   if (inside(x0, y0) && inside(x1, y0) && inside(x0, y1) && inside(x1, y1)) return [];
+  // Only samples inside the grown box can be that near. Scaled to the unit circle, sample k lies at angle
+  // TAU k / K, and every point of the box lies within the angles its corners span about the centre,
+  // unless the box contains the centre. Only those samples are measured; one either side covers rounding.
+  const u0 = (x0 - cx) / fx, u1 = (x1 - cx) / fx, v0 = (y0 - cy) / fy, v1 = (y1 - cy) / fy;
+  let k0 = 0, k1 = K - 1;
+  if (!(u0 <= 0 && u1 >= 0 && v0 <= 0 && v1 >= 0)) {
+    const mid = Math.atan2(v0 + v1, u0 + u1);
+    let lo = 0, hi = 0;
+    for (const [u, v] of [[u0, v0], [u1, v0], [u0, v1], [u1, v1]]) {
+      const a = Math.atan2(v, u) - mid, w = a - TAU * Math.round(a / TAU);
+      if (w < lo) lo = w;
+      if (w > hi) hi = w;
+    }
+    k0 = Math.floor(((mid + lo) / TAU) * K) - 1;
+    k1 = Math.ceil(((mid + hi) / TAU) * K) + 1;
+    if (k1 - k0 >= K - 1) { k0 = 0; k1 = K - 1; }
+  }
   const hits = [];
-  for (let k = 0; k < t.K; k++) if (!t.closed[k] && boxDistance(b, t.px[k], t.py[k]) < d) hits.push(k);
-  return hits;
+  for (let j = k0; j <= k1; j++) {
+    const k = ((j % K) + K) % K;
+    if (!t.closed[k] && boxDistance(b, t.px[k], t.py[k]) < d) hits.push(k);
+  }
+  return k0 < 0 || k1 >= K ? hits.sort((a, c) => a - c) : hits;
 }
 
 /** Length of the open part of track t, as it would be with the samples in `also` closed too. */
