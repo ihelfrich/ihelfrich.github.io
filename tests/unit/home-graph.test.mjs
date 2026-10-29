@@ -26,7 +26,7 @@ const MARKUP = `<section data-home-graph>
 function setup({ reduce = false, width = W, height = H, field = FIELD } = {}) {
   const w = new Window({ url: "https://example.test/" }), d = w.document;
   d.body.innerHTML = MARKUP;
-  const frames = new Map(), texts = [], at = new Map(), dashes = [];
+  const frames = new Map(), texts = [], at = new Map(), dashes = [], log = []; // log: clears, arcs and texts, in order
   let next = 0, clock = 0;
   w.requestAnimationFrame = (fn) => { frames.set(++next, fn); return next; };
   w.cancelAnimationFrame = (id) => frames.delete(id);
@@ -36,7 +36,8 @@ function setup({ reduce = false, width = W, height = H, field = FIELD } = {}) {
   w.IntersectionObserver = class { constructor(fn) { this.fn = fn; } observe() { this.fn([{ isIntersecting: true }]); } disconnect() {} };
   const ctx = new Proxy({
     fillStyle: "#000", measureText: (t) => ({ width: t.length * 6.5 }), getImageData: () => ({ data: [0, 0, 0, 255] }),
-    fillText: (t, x, y) => { texts.push(t); at.set(t, [x, y]); }, setLineDash: (d) => dashes.push(d.join(",")),
+    fillText: (t, x, y) => { texts.push(t); at.set(t, [x, y]); log.push(["text", t, x, y]); }, setLineDash: (d) => dashes.push(d.join(",")),
+    arc: (x, y, r) => log.push(["arc", x, y, r]), clearRect: () => log.push(["clear"]),
   }, {
     get: (o, k) => (k in o ? o[k] : () => {}),
     set: (o, k, v) => { o[k] = v; return true; },
@@ -56,7 +57,7 @@ function setup({ reduce = false, width = W, height = H, field = FIELD } = {}) {
   const click = (x, y) => { pointer("pointerdown", x, y, "mouse"); pointer("pointerup", x, y, "mouse"); };
   const ready = async () => { for (let k = 0; k < 400 && stage.getAttribute("aria-busy") !== "false"; k++) await new Promise((r) => w.setTimeout(r, 5));
     assert.equal(stage.getAttribute("aria-busy"), "false", "the map mounted"); };
-  return { w, d, root, stage, frames, texts, at, dashes, navigated, dispose, run, key, pointer, click, ready, media };
+  return { w, d, root, stage, frames, texts, at, dashes, log, navigated, dispose, run, key, pointer, click, ready, media };
 }
 const restXY = (id, width = W, height = H) => {
   const i = NODES.findIndex((n) => n.id === id), xy = FIELD.layout[width < 600 ? "narrow" : "wide"].xy;
@@ -185,7 +186,7 @@ function hubField() {
   }
   return { nodes, links, layout: computeLayouts(nodes, links) };
 }
-// The hub with its phone layout turned by angle a about Home.
+// A field with its phone layout turned by angle a about its first page (Home, in the hub).
 function turnedHub(hub, a) {
   const [fw, fh] = LAYOUT_FRAMES.narrow, xy0 = hub.layout.narrow.xy, xy = xy0.slice(), hx = xy0[0] * fw, hy = xy0[1] * fh;
   for (let i = 1; i < hub.nodes.length; i++) {
@@ -224,6 +225,45 @@ test("on a phone, first-ring labels do not depend on which way the rest layout f
     assert.ok(labels.length >= 6, `turned ${45 * q} degrees: ${labels.length} first-ring labels`);
     for (const s of ["Job market", "Job market paper: NMTC rural gap", "CV", "Contact", "Research"]) assert.ok(labels.includes(s), `turned ${45 * q} degrees: ${s} is labelled`);
   }
+});
+
+// A page whose long title wraps onto two wide lines on a phone, and the four pages it links to. It is the
+// first page, so the keyboard cursor starts on it.
+function lectureField() {
+  const nodes = [{ id: "/lecture/", title: "L", label: "Lecture 6 summary: Trends, unit roots, and misleading level regressions", kb: 17, type: "page", topics: ["teaching"] }];
+  for (const [label, kb] of [["Trends, unit roots, and misleading level regressions", 109], ["Code, data, and reproducibility", 25], ["Lecture summaries", 12], ["Practice with worked answers", 131]])
+    nodes.push({ id: `/n${nodes.length}/`, title: label, label, kb, type: "page", topics: ["teaching"] });
+  const links = [[0, 1], [0, 2], [0, 3], [0, 4]];
+  return { nodes, links, layout: computeLayouts(nodes, links) };
+}
+
+test("on a phone, the chosen page's label is drawn clear of the first ring's marks", async () => {
+  // The chosen page's label always shows, so at some rotations of the first ring it can only take a
+  // place over one of its marks. The ring then takes a rotation that leaves the label room.
+  const lecture = lectureField(), bad = [];
+  for (let q = 0; q < 16; q++) {
+    const t = setup({ reduce: true, width: 328, height: 439, field: turnedHub(lecture, (q * Math.PI) / 8) });
+    await t.ready();
+    t.run();
+    t.stage.dispatchEvent(new t.w.FocusEvent("focus"));
+    t.key("Enter");
+    t.run();
+    // The last frame drawn: its marks, then its labels, the chosen page's first, line by line.
+    const end = t.log.findLastIndex(([k, s]) => k === "text" && s.endsWith("\u00a0↗"));
+    assert.ok(end > 0, "the chosen label is drawn");
+    const frame = t.log.slice(t.log.findLastIndex(([k], j) => k === "clear" && j < end) + 1, end + 1);
+    const lines = frame.slice(frame.findIndex(([k]) => k === "text")).filter(([k]) => k === "text");
+    const box = [Math.min(...lines.map(([, , x]) => x)) - 2, lines[0][3] - 1, Math.max(...lines.map(([, s, x]) => x + s.length * 6.5)) + 2, lines.at(-1)[3] + 14 * 1.25 + 1];
+    // A first-ring page draws one arc, its mark; the chosen page draws its mark and the rings round it.
+    const at = new Map();
+    for (const [k, x, y, r] of frame) if (k === "arc") at.set(`${x},${y}`, [...(at.get(`${x},${y}`) || []), [x, y, r]]);
+    const marks = [...at.values()].filter((a) => a.length === 1).map(([m]) => m);
+    assert.equal(marks.length, 4, `turned ${22.5 * q} degrees: the four first-ring marks are drawn`);
+    const under = marks.filter(([x, y, r]) => box[0] < x + r && box[2] > x - r && box[1] < y + r && box[3] > y - r);
+    if (under.length) bad.push(`turned ${22.5 * q} degrees: ${under.length} under the chosen label`);
+    t.dispose(); await t.w.happyDOM.abort();
+  }
+  assert.deepEqual(bad, []);
 });
 
 test("on a phone, the rings come to rest with the first-ring labels their plan chose, with or without motion", async () => {
