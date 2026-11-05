@@ -2,7 +2,9 @@
 //
 // GOATCOUNTER_CODE in src/data/analytics.mjs switches GoatCounter on for the whole site.
 // While it is empty this gate confirms that no page loads the counter. Once it is set, every
-// built page except a redirect stub must load the counter exactly once. In both states the two
+// built page except a redirect stub or the local STATAverse app must load the counter exactly once.
+// STATAverse must remain tracker-free to preserve its self-contained browser/offline runtime.
+// In both states the two
 // hand-written public/ pages must carry the inline loader with the same code, and the paper,
 // CV, resume, booking and email links must carry their click-event names.
 import { readFile, readdir } from "node:fs/promises";
@@ -14,6 +16,7 @@ const root = path.resolve("dist");
 const failures = [];
 const endpoint = goatcounterEndpoint();
 const enabled = Boolean(endpoint);
+const stataverse = JSON.parse(await readFile("config/stataverse.json", "utf8"));
 
 if (GOATCOUNTER_CODE && !enabled) failures.push(`GOATCOUNTER_CODE ${JSON.stringify(GOATCOUNTER_CODE)} is not a GoatCounter site code (lower-case letters, digits and hyphens)`);
 
@@ -45,7 +48,9 @@ for (const file of pages) {
   const loaders = [...html.matchAll(loaderPattern)];
   const isRedirect = /<meta http-equiv="refresh"/i.test(html);
 
-  if (!enabled) {
+  if (route.startsWith(stataverse.base)) {
+    if (tags.length || loaders.length) failures.push(`${route} must preserve STATAverse's tracker-free local runtime`);
+  } else if (!enabled) {
     if (tags.length) failures.push(`${route} loads the counter while GOATCOUNTER_CODE is empty`);
   } else if (!isRedirect) {
     const snippets = tags.filter(([tag, value]) => value === endpoint && attribute(tag, "src") === GOATCOUNTER_SCRIPT).length
