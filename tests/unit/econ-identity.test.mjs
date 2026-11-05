@@ -7,7 +7,7 @@ import {finishSignIn,participant} from '../../services/econ-response/auth.mjs';
 import worker from '../../services/econ-response/worker.mjs';
 import {CONSENT_VERSION} from '../../services/econ-response/common.mjs';
 
-test('lost link response, reload and wrong-account retry preserve pending answers and session',async()=>{
+for(const answerFormat of ['sampled','multipart']) test(`lost link response, reload and wrong-account retry preserve pending answers and session (${answerFormat})`,async()=>{
  const DB=createLocalDB();for(const name of readdirSync('services/econ-response/migrations').filter(n=>n.endsWith('.sql')).sort())DB.exec(readFileSync('services/econ-response/migrations/'+name,'utf8'));
  const env={DB,GOOGLE_CLIENT_ID:'synthetic'},nodes=new Map(),oldDocument=globalThis.document,oldWindow=globalThis.window;
  let profile=null,session=null,callback,googleAccount='owner',loseResponse=true,flushes=0;
@@ -25,7 +25,13 @@ test('lost link response, reload and wrong-account retry preserve pending answer
  const setup=()=>setupIdentity({request,flush:async()=>{flushes++;for(const event of [...pending]){const receipt=await request(`/sessions/${event.sessionId}/answers`,event.payload);assert.equal(receipt.persisted,true);assert.equal(receipt.eventId,event.payload.eventId);pending.splice(pending.indexOf(event),1);}},getProfile:()=>profile,setProfile:p=>{profile=JSON.parse(JSON.stringify(p));},getSession:()=>session,setSession:s=>{session=s;},beginSession:async()=>{},ready(){},show(){},save(){}});
  try{
   let ui=setup();await ui.ensureProfile();const oldToken=profile.token;session=await request('/sessions',{course:'ap-micro',mode:'practice'});const sessionId=session.sessionId;
-  const presented=await request(`/sessions/${sessionId}/next`,{});pendingEvent={sessionId,payload:{eventId:crypto.randomUUID(),presentationId:presented.presentationId,attemptNumber:1,response:0,elapsedMs:5000,activeMs:4500,submittedAt:new Date().toISOString()}};
+  const presented=await request(`/sessions/${sessionId}/next`,{});
+  if(answerFormat==='multipart'){
+   const saved=await DB.prepare('SELECT item_snapshot_json FROM presentations WHERE id=?').bind(presented.presentationId).first();
+   const item={...JSON.parse(saved.item_snapshot_json),format:'multipart',parts:[{id:'q',prompt:'Quantity',answer:20,tolerance:.005,points:1,explanation:'Synthetic fixture.'},{id:'p',prompt:'Price',answer:40,tolerance:.005,points:1,explanation:'Synthetic fixture.'}]};
+   await DB.prepare('UPDATE presentations SET item_snapshot_json=? WHERE id=?').bind(JSON.stringify(item),presented.presentationId).run();presented.item=item;
+  }
+  pendingEvent={sessionId,payload:{eventId:crypto.randomUUID(),presentationId:presented.presentationId,attemptNumber:1,response:presented.item.format==='multipart'?Object.fromEntries(presented.item.parts.map(part=>[part.id,0])):0,elapsedMs:5000,activeMs:4500,submittedAt:new Date().toISOString()}};
   await nodes.get('prepare-signin').handlers.click();await callback({credential:'synthetic'});
   assert.equal(profile.linkPending,true);assert.equal(profile.token,oldToken);assert.equal(pending.length,1);
   // Reload uses the persisted profile and session, not in-memory transition state.
