@@ -17,6 +17,12 @@ const escape = (s) =>
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
 export function integrateHtml(html, relative) {
+  // The project Pages bridge runs only at the retired /STATAverse/ address.
+  // Canonical pages need no extra blocking request for that redirect.
+  html = html.replace(
+    /<script src="[^"]*assets\/js\/legacy-location\.js"><\/script>\s*/g,
+    "",
+  );
   const route = release.base + relative.replace(/index\.html$/, "");
   const url = new URL(route, "https://ihelfrich.github.io");
   const links = [

@@ -54,7 +54,7 @@ async function fixture(run) {
 }
 test("integrated pages preserve the skip link, local assets and query/hash routes with shared site destinations", () => {
   const html = integrateHtml(
-    '<html><head></head><body><a class="skip-link" href="#main">Skip</a><main><a href="../../Learn/#regression">Practice</a><a href="../../ScriptLibrary/script.html?id=regress&amp;x=1">Code</a><img src="../../assets/x.svg"></main></body></html>',
+    '<html><head><script src="../../assets/js/legacy-location.js"></script></head><body><a class="skip-link" href="#main">Skip</a><main><a href="../../Learn/#regression">Practice</a><a href="../../ScriptLibrary/script.html?id=regress&amp;x=1">Code</a><img src="../../assets/x.svg"></main></body></html>',
     "Labs/Data/index.html",
   );
   assert.ok(
