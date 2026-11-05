@@ -19,4 +19,6 @@ Practice and investigation storage keys are unchanged. Reading progress reuses i
 
 Verification includes `npm run check:stataverse`, the existing navigation/discovery/copy/token/style checks and the STATAverse integration browser runner against this built site. The browser receipt and selected reusable procedure are registered by the owning STATAverse overhaul project in its `.scholon-outputs.json`.
 
+The current pin includes the fourth browser lab, instrumental variables, at `/learn/stata/Labs/IV/`. Its first-stage/2SLS calculations and Anderson–Rubin confidence sets have nine independent R/native Stata verification cases. The integration runner exercises a checked weak-instrument comparison offline, the shared navigation and the phone layout. The new route enters the sitemap and site-wide search with the other packaged pages.
+
 This candidate has not been published. Before release, verify the new public route and arrange compatibility at the former `/STATAverse/` project address. GitHub Pages may route that address to the separately published project; adding a root-site redirect does not by itself establish compatibility. Preserve query strings, lesson fragments and browser-local work during the transition. No domain or DNS changes are required.
