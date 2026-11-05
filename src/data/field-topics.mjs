@@ -62,6 +62,7 @@ export const OVERRIDES = Object.freeze({
   "/hidden-rivers/tank/": ["measurement", "place"],
   "/job-market/": ["profile"],
   "/lab/": ["teaching"],
+  "/learn/stata/": ["teaching"],
   "/library/": ["profile"],
   "/macroeconomics/": ["teaching"],
   "/now/": ["profile"],
@@ -218,7 +219,7 @@ export const labelFor = (path, title = "") => LABELS[path] ?? title;
 export function topicsFor(path, title = "", description = "") {
   if (OVERRIDES[path]) return [...OVERRIDES[path]];
   // Course chapters are teaching pages whatever their titles say; "ARMA models" matches no keyword.
-  if (/^\/(econometrics|time-series|handbook)\//.test(path)) return ["teaching"];
+  if (/^\/(econometrics|time-series|handbook|learn\/stata)\//.test(path)) return ["teaching"];
   const haystack = `${path} ${title} ${description}`.toLowerCase();
   const found = KEYWORDS.filter(([, pattern]) => pattern.test(haystack)).map(([topic]) => topic);
   const ordered = TOPIC_ORDER.filter((topic) => found.includes(topic));
@@ -229,7 +230,7 @@ export function typeFor(path) {
   if (/^\/research\/./.test(path)) return "paper";
   if (/^\/datasets\/./.test(path)) return "data";
   if (/^\/(projects\/.|spatial|hidden-rivers|st-louis|gis-portfolio|spatial-economics)/.test(path)) return "tool";
-  if (/^\/(econometrics\/.|time-series\/.|handbook\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
+  if (/^\/(learn\/stata|econometrics\/.|time-series\/.|handbook\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
   return "page";
 }
 
@@ -255,6 +256,7 @@ export const ROUTES = Object.freeze({
     summary: "Econometrics courses, the handbook, interactive labs, booking.",
     steps: [
       ["/teaching/", "Courses and teaching tools."],
+      ["/learn/stata/", "Stata commands, data preparation and inference in the browser."],
       ["/econometrics/", "Open course in applied econometrics."],
       ["/econometrics/01-argument/", "Chapter 1."],
       ["/time-series/", "Graduate course in time-series econometrics, with lecture summaries, practice and code."],

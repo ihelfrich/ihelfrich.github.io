@@ -21,6 +21,10 @@ const staticLabRoutes = existsSync(staticLabDirectory)
   : [];
 const teachingLabRoutes = [...new Set([...pageLabRoutes, ...staticLabRoutes])].sort().map((name) => `/teaching/${name}/`);
 
+// The integrated Stata app is built before Astro; discover its directory pages.
+const stataDirectory = resolve("public/learn/stata");
+const stataRoutes = existsSync(stataDirectory) ? readdirSync(stataDirectory, { recursive: true }).filter(name => name === "index.html" || name.endsWith("/index.html")).map(name => "/learn/stata/" + name.replace(/index\.html$/, "")) : [];
+
 const escapeXml = (value) => value
   .replaceAll("&", "&amp;")
   .replaceAll("<", "&lt;")
@@ -49,6 +53,7 @@ export async function GET({ site }) {
   ]);
   const dynamicRoutes = [
     ...teachingLabRoutes,
+    ...stataRoutes,
     ...chapters.map((entry) => `/econometrics/${entry.id}/`),
     ...measurement.map((entry) => `/econometrics/measurement/${entry.id}/`),
     ...timeSeriesChapters.map((entry) => `/time-series/${entry.id}/`),
