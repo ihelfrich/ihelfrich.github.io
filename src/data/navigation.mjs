@@ -50,6 +50,7 @@ export const RECORDS = freezeAll([
 
 /** Pages that belong in the command-K index but not in the header or footer. */
 export const SECONDARY_PAGES = freezeAll([
+  { label: "STATAverse", href: "/learn/stata", detail: "Stata practice in the browser, guided data preparation, regression and sampling labs, and reproducible do-files" },
   { label: "Economics practice", href: "/economics-practice", detail: "Economics course practice, diagnostic sessions, worked explanations, and course directory" },
   { label: "Third Space Labs", href: "/third-space", detail: "The independent research venture Ian is building with Elizaveta Gonchar, Ph.D." },
   { label: "Distribution Lab", href: "/teaching/distributions", detail: "Interactive probability distributions, test power, constructions of t, chi-square and F, and a department simulator for fitting models" },

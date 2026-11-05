@@ -44,6 +44,10 @@ Publishing conventions are documented in `PUBLISHING.md`; the visual and motion 
 
 The St. Louis City & Property Lab has [component-specific terms](public/st-louis/LICENSE.txt). Commercial use requires a signed agreement with Dr. Ian Helfrich specifying a base license fee plus a percentage-of-sales royalty. His own use is exempt. Third-party software and public-source data retain their own terms; this does not relicense the site's other teaching materials.
 
+## STATAverse
+
+STATAverse is integrated under `/learn/stata/` from a pinned static build, with shared navigation and site-wide discovery. See [integration and local setup](docs/stataverse-integration.md).
+
 ## Deployment
 
 Pushes to `main` trigger `.github/workflows/deploy.yml`. The workflow builds the site, refreshes the reading cache, creates the Pagefind index, and deploys the `dist/` artifact to GitHub Pages.

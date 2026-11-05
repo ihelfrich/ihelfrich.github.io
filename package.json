@@ -6,9 +6,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "predev": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs",
-    "prebuild": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs",
-    "prebuild:fast": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs",
+    "predev": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/prepare-stataverse.mjs",
+    "prebuild": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs && node scripts/prepare-stataverse.mjs",
+    "prebuild:fast": "node scripts/copy-cesium.mjs && node scripts/copy-web-ifc.mjs && node scripts/econ-practice/audit-bank.mjs && node scripts/prepare-stataverse.mjs",
     "dev": "astro dev",
     "build": "npm run check:copy && astro build && npm run field-data && npm run fetch-spokes && npm run pagefind && npm run clean-spokes && npm run check:discovery && npm run check:analytics",
     "build:fast": "astro build",
@@ -35,7 +35,9 @@
     "check:macroeconomics": "node --test tests/unit/macroeconomics*.test.mjs",
     "check:calculus": "node --test tests/unit/calculus*.test.mjs",
     "check:ols": "node --test tests/unit/ols-assumptions.test.mjs",
-    "check:econ-practice": "node --test tests/unit/econ-*.test.mjs && node scripts/econ-practice/audit-bank.mjs"
+    "check:econ-practice": "node --test tests/unit/econ-*.test.mjs && node scripts/econ-practice/audit-bank.mjs",
+    "prepare:stataverse": "node scripts/prepare-stataverse.mjs",
+    "check:stataverse": "node --test tests/unit/stataverse-integration.test.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.1",
