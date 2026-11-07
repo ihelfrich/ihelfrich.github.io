@@ -31,16 +31,32 @@ test('abatement periods overlap filter years without manufacturing exact start o
  assert.equal(r.records.length,1);assert.equal(r.records[0].date,null);assert.equal(r.records[0].datePrecision,'year');assert.equal(r.layers[0].dateBasis,'recorded-year-interval-overlap');client.dispose();
 });
 test('documents stay unmapped and filter by their source date without relabeling meetings as hearings',async()=>{
- const client=createPropertyPlanningData({fetchImpl:fetcher});const r=await client.query({layers:['planning-documents'],bounds:[-90.4,38.5,-90.3,38.6],fromDate:'2026-09-21',toDate:'2026-09-21'});
- assert.ok(r.records.length>=2);assert.equal(r.features.length,0);
+ // Constructed records test date semantics independently of the live feed's moving window.
+ const sourceId='county-planning-commission';
+ const record=(id,dates)=>({id:`${sourceId}:${id}`,sourceId,title:`Synthetic ${id} fixture`,sourceURL:`https://stlouisco.civicweb.net/__test_fixture__/${id}`,hearingDate:null,meetingDate:null,publishedDate:null,documentDate:null,landingPagePublishedDate:null,...dates});
+ const fixture={schema:'property-planning-documents-v1',retrievedAt:'2026-09-22T00:00:00Z',complete:true,sources:{[sourceId]:{id:sourceId,url:'https://stlouisco.civicweb.net/__test_fixture__/planning',retrievedAt:'2026-09-22T00:00:00Z'}},records:[
+  record('hearing',{hearingDate:'2026-09-21',meetingDate:'2026-09-21'}),
+  record('meeting',{meetingDate:'2026-09-21'}),
+  record('publication',{publishedDate:'2026-09-21'}),
+  record('outside-range',{hearingDate:'2026-09-22'}),
+  record('undated',{}),
+ ]};
+ const client=createPropertyPlanningData({fetchImpl:async()=>response(fixture)});const r=await client.query({layers:['planning-documents'],bounds:[-90.4,38.5,-90.3,38.6],fromDate:'2026-09-21',toDate:'2026-09-21'});
+ assert.equal(r.records.length,3);assert.equal(r.features.length,0);
  assert.ok(r.records.every(r=>r.date==='2026-09-21'&&r.longitude===null&&r.recordKey===null));
  for(const row of r.records){
   if(row.hearingDate){assert.equal(row.hearingDate,row.date);assert.equal(row.dateBasis,'verified-hearing-date');}
-  else{assert.equal(row.hearingDate,null);assert.equal(row.meetingDate,row.date);assert.equal(row.dateBasis,'source-associated-meeting-date');}
+  else if(row.meetingDate){assert.equal(row.hearingDate,null);assert.equal(row.meetingDate,row.date);assert.equal(row.dateBasis,'source-associated-meeting-date');}
+  else{assert.equal(row.hearingDate,null);assert.equal(row.meetingDate,null);assert.equal(row.publishedDate,row.date);assert.equal(row.dateBasis,'source-publication-date');}
  }
  assert.ok(r.records.some(row=>row.dateBasis==='verified-hearing-date'));
  assert.ok(r.records.some(row=>row.dateBasis==='source-associated-meeting-date'));
- assert.equal(r.layers[0].status,'unmapped');client.dispose();
+ assert.ok(r.records.some(row=>row.dateBasis==='source-publication-date'));
+ assert.equal(r.layers[0].status,'unmapped');
+ const all=await client.query({layers:['planning-documents']});assert.equal(all.records.length,5);assert.equal(all.features.length,0);
+ const undated=all.records.find(row=>row.id.endsWith(':undated'));assert.equal(undated.date,null);assert.equal(undated.dateBasis,'not-supplied');
+ const nextDay=await client.query({layers:['planning-documents'],fromDate:'2026-09-22',toDate:'2026-09-22'});assert.deepEqual(nextDay.records.map(row=>row.id),[`${sourceId}:outside-range`]);
+ client.dispose();
 });
 test('unavailable source reports null counts, does not cache failure, and respects byte bounds',async()=>{
  let calls=0;const client=createPropertyPlanningData({fetchImpl:async()=>++calls===1?{ok:false}:response(fixtures['tif-districts'])});
