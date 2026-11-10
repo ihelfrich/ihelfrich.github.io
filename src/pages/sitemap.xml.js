@@ -3,7 +3,7 @@ import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 import { sitemapStaticRoutes } from "../data/navigation.mjs";
 import timeSeriesLectures from "../data/time-series-lectures.json";
-import { readdirSync, existsSync } from "node:fs";
+import { readdirSync, existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 // Teaching labs are not a content collection. They arrive two ways, and both are
@@ -22,8 +22,9 @@ const staticLabRoutes = existsSync(staticLabDirectory)
 const teachingLabRoutes = [...new Set([...pageLabRoutes, ...staticLabRoutes])].sort().map((name) => `/teaching/${name}/`);
 
 // The integrated Stata app is built before Astro; discover its directory pages.
+// A page that declares noindex (an unlinked preview) stays out of the sitemap.
 const stataDirectory = resolve("public/learn/stata");
-const stataRoutes = existsSync(stataDirectory) ? readdirSync(stataDirectory, { recursive: true }).filter(name => name === "index.html" || name.endsWith("/index.html")).map(name => "/learn/stata/" + name.replace(/index\.html$/, "")) : [];
+const stataRoutes = existsSync(stataDirectory) ? readdirSync(stataDirectory, { recursive: true }).filter(name => name === "index.html" || name.endsWith("/index.html")).filter(name => !/<meta name="robots" content="[^"]*noindex/i.test(readFileSync(resolve(stataDirectory, name), "utf8"))).map(name => "/learn/stata/" + name.replace(/index\.html$/, "")) : [];
 
 const escapeXml = (value) => value
   .replaceAll("&", "&amp;")
