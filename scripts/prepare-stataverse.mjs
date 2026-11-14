@@ -160,14 +160,30 @@ export async function prepareStataverse(options = {}) {
     path.join(root, "src/styles/stataverse-bar.css"),
     "utf8",
   );
-  const fontFaces = (
-    await fs.readFile(path.join(root, "src/styles/fieldbook.css"), "utf8")
-  )
-    .match(/@font-face\s*\{[^}]+\}/g)
-    .filter((face) =>
-      /Geist Variable|Newsreader Variable|Geist Mono Variable/.test(face),
-    )
-    .join("\n");
+  // The navigation and the STATAverse Console take their typefaces from the
+  // hub's own faces. Each must be found exactly once: a renamed or moved
+  // face would otherwise drop out silently and the Console would fall back
+  // to a system font.
+  const families = [
+    "Geist Variable",
+    "Newsreader Variable",
+    "Geist Mono Variable",
+  ];
+  const faces =
+    (
+      await fs.readFile(path.join(root, "src/styles/fieldbook.css"), "utf8")
+    ).match(/@font-face\s*\{[^}]+\}/g) ?? [];
+  const familyOf = (face) =>
+    /font-family:\s*["']?([^"';]+)["']?\s*;/.exec(face)?.[1].trim();
+  const picked = faces.filter((face) => families.includes(familyOf(face)));
+  for (const family of families) {
+    const found = picked.filter((face) => familyOf(face) === family).length;
+    if (found !== 1)
+      throw new Error(
+        `src/styles/fieldbook.css has ${found} @font-face rules for "${family}"; the STATAverse navigation and Console need exactly one`,
+      );
+  }
+  const fontFaces = picked.join("\n");
   const typography =
     ":root{" +
     ["font-display", "font-text", "font-data"]
