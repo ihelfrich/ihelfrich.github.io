@@ -1,0 +1,88 @@
+---
+// Pages of The View from Somewhere. Each page is a printed sheet exported from the book's LaTeX
+// build, with its own type and style sheet (public/view-from-somewhere/book.css). This layout adds
+// what the site owns: metadata, the shared bar with its breadcrumb trail, and the visit counter.
+// The site's tokens come first and the book's style sheet after them, in that order on purpose:
+// both define --ink, --paper and --rule, and the sheet must keep its own. The tokens are inlined
+// here because an imported style sheet would be placed after the book's.
+import SiteBar from '../components/SiteBar.astro';
+import Analytics from '../components/Analytics.astro';
+import siteTokens from '../styles/tokens.css?inline';
+import { book } from '../data/view-from-somewhere.mjs';
+const {title, crumb = title, description, css = '', article = false, image = '/og.png', imageAlt = 'Ian Helfrich: applied economist, quantitative research designer, and educator; NMTC raw and within-CDE estimates'} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Social previews need a raster image; LinkedIn, Facebook and X do not render SVG.
+const socialImage = new URL(image, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="author" content={book.author} />
+    <title>{title} · Ian Helfrich</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={`${title} · Ian Helfrich`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={article ? 'article' : 'book'} />
+    <meta property="og:site_name" content="Ian Helfrich, PhD" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} · Ian Helfrich`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <style is:inline set:html={siteTokens}></style>
+    <link rel="stylesheet" href={`/view-from-somewhere/book.css?v=${book.assets}`} />
+    {css && <style is:inline set:html={css}></style>}
+    <Analytics />
+  </head>
+  <body class="vfs">
+    <a class="vfs-skip" href="#main-content">Skip to content</a>
+    <SiteBar title={crumb} />
+    <main id="main-content">
+      <slot />
+    </main>
+  </body>
+</html>
+<style is:global>
+  /* The bar's face, declared as in the course style sheets. */
+  @font-face{font-family:"Geist Variable";src:url('/fonts/geist-variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+  /* The sheet's own colors, read on the body where the book's values are in force. */
+  .vfs {
+    --vfs-paper: var(--paper);
+    --vfs-ink: var(--ink);
+    --vfs-soft: var(--ink-soft);
+    --vfs-rule: var(--rule);
+  }
+  /* The shared bar keeps the site's type and layout. Its surface roles resolve to the sheet's
+     colors, so the bar follows the sheet in dark mode. */
+  .vfs .site-bar {
+    --surface: var(--vfs-paper);
+    --surface-raised: var(--vfs-paper);
+    --ink: var(--vfs-ink);
+    --ink-muted: var(--vfs-soft);
+    --rule: var(--vfs-rule);
+    --rule-strong: var(--vfs-soft);
+    --accent: var(--vfs-ink);
+    --focus-ring: var(--vfs-ink);
+  }
+  .vfs .site-bar a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .vfs-skip {
+    position: absolute;
+    left: 0.75rem;
+    top: -4rem;
+    z-index: 10;
+    padding: 0.4rem 0.7rem;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    font-size: 0.85em;
+  }
+  .vfs-skip:focus { top: 0.5rem; }
+  @media print { .vfs-skip { display: none; } }
+</style>

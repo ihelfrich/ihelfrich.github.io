@@ -30,6 +30,7 @@ const records = [
   { kind: "Course", code: "K-2026-01", title: "The Econometric Argument", detail: "Open course in econometrics: twelve chapters on identification, probability, projection, research designs, measurement, dependence and decisions, with worked problems, three experiments and a teaching guide", href: "/econometrics/" },
   { kind: "Course", code: "K-2026-02", title: "Time-Series Econometrics", detail: "Graduate course, first edition: fifteen lectures on forecasting, ARMA, state-space models, VARs, cointegration and volatility, with lecture summaries, practice, projects and code in R, Julia and Python", href: "/time-series/" },
   { kind: "Course", code: "K-2026-03", title: "Econometrics Across Disciplines", detail: "Working handbook: three foundation chapters on economic questions, measurement and observation clocks, marked at four reading levels from orientation to complete proofs, with calculations in Python, Julia and R", href: "/handbook/" },
+  { kind: "Course", code: "K-2026-04", title: "The View from Somewhere", detail: "Textbook: seventeen chapters on local views of data and the loops that test whether they fit together, tried on price indexes and overlapping surveys, with figures the reader can operate", href: "/view-from-somewhere/" },
   ...GO_RECORDS.map(({ code, label, detail, href, start }) => ({ kind: "Go", code, title: label, detail, href, start })),
   ...research.map((entry, index) => ({
     kind: "Paper", code: `P-${entry.data.year}-${String(index + 1).padStart(2, "0")}`,

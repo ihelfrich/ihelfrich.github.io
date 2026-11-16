@@ -1,0 +1,8 @@
+---
+// The book's opening page: title page, the note before the book, and the map of its chapters.
+import Layout from '../../layouts/ViewFromSomewhere.astro';
+import { book, sheet } from '../../data/view-from-somewhere.mjs';
+---
+<Layout title={book.title} description={book.description}>
+  <Fragment set:html={sheet('contents.html')} />
+</Layout>

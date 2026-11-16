@@ -20,6 +20,7 @@ export const SECTION_LABELS = Object.freeze({
   "/handbook": "Econometrics Across Disciplines",
   "/time-series": "Time-Series Econometrics",
   "/macroeconomics": "Macroeconomics suite",
+  "/view-from-somewhere": "The View from Somewhere",
 });
 
 // Sections that sit under another section in the trail, so the trail starts at the right place.
@@ -29,6 +30,7 @@ const PARENT_OF = Object.freeze({
   "/time-series": "/teaching",
   "/economics-practice": "/teaching",
   "/macroeconomics": "/teaching",
+  "/view-from-somewhere": "/teaching",
   "/spatial-economics": "/lab",
   "/st-louis": "/lab",
   "/hidden-rivers": "/lab",

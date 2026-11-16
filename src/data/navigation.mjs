@@ -125,6 +125,9 @@ export const STANDALONE_ROUTES = Object.freeze([
   "/time-series/research/",
   // Econometrics Across Disciplines, the working handbook; its chapters come from the handbook collection.
   "/handbook/",
+  // The View from Somewhere, a textbook exported from its own LaTeX build; its chapters are added from the
+  // book's exported structure in src/pages/sitemap.xml.js.
+  "/view-from-somewhere/",
   // Hidden Rivers companion pages, reached from /hidden-rivers/.
   "/hidden-rivers/folio/",
   "/hidden-rivers/prints/",
