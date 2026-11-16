@@ -29,7 +29,8 @@ const KEYWORDS = [
 ];
 
 // Hand-set topics, path to topic list. The first topic is the primary one. A page missing from this
-// list falls back to the keyword rules above, so new pages appear on the map with a provisional tag.
+// list takes its section's topics (SECTION_TOPICS, below) or, outside those sections, falls back to the
+// keyword rules above, so new pages appear on the map with a provisional tag.
 export const OVERRIDES = Object.freeze({
   "/": ["profile"],
   "/about/": ["profile"],
@@ -220,17 +221,32 @@ export const LABELS = Object.freeze({
 
 export const labelFor = (path, title = "") => LABELS[path] ?? title;
 
+// Sections tagged as a whole, route pattern to topic list. A page under one of these takes the section's
+// topics unless OVERRIDES names it, as it names the measurement chapters of the course texts.
+const SECTION_TOPICS = [
+  // Course chapters are teaching pages whatever their titles say; "ARMA models" matches no keyword.
+  // So are the pages of STATAverse. Its routes have capitals (/learn/stata/Labs/IV/), which the keys of
+  // OVERRIDES may not, and none of its pages has measurement, trade or place as its subject.
+  [/^\/(econometrics|time-series|handbook|learn\/stata)\//, ["teaching"]],
+  // The View from Somewhere is a textbook about measurement: price indexes, overlapping surveys, inference.
+  [/^\/view-from-somewhere\//, ["teaching", "measurement"]],
+];
+
+const sectionTopics = (path) => SECTION_TOPICS.find(([section]) => section.test(path))?.[1];
+
 export function topicsFor(path, title = "", description = "") {
   if (OVERRIDES[path]) return [...OVERRIDES[path]];
-  // Course chapters are teaching pages whatever their titles say; "ARMA models" matches no keyword.
-  if (/^\/(econometrics|time-series|handbook|learn\/stata)\//.test(path)) return ["teaching"];
-  // The View from Somewhere is a textbook about measurement: price indexes, overlapping surveys, inference.
-  if (path.startsWith("/view-from-somewhere/")) return ["teaching", "measurement"];
+  const section = sectionTopics(path);
+  if (section) return [...section];
   const haystack = `${path} ${title} ${description}`.toLowerCase();
   const found = KEYWORDS.filter(([, pattern]) => pattern.test(haystack)).map(([topic]) => topic);
   const ordered = TOPIC_ORDER.filter((topic) => found.includes(topic));
   return ordered.length ? ordered : ["profile"];
 }
+
+// True when a page's topics come from the keyword rules: OVERRIDES does not name it and no section covers it.
+// scripts/build-field-data.mjs prints these pages so that they can be given topics by hand.
+export const isProvisional = (path) => !OVERRIDES[path] && !sectionTopics(path);
 
 export function typeFor(path) {
   if (/^\/research\/./.test(path)) return "paper";

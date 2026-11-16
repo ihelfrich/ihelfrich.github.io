@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { access } from "node:fs/promises";
-import { TOPIC_ORDER } from "../../src/data/field-topics.mjs";
+import { TOPIC_ORDER, isProvisional } from "../../src/data/field-topics.mjs";
 import { buildField } from "../../scripts/build-field-data.mjs";
 
 // These checks read the built site. They are skipped when dist/ has not been built yet.
@@ -27,6 +27,12 @@ test("field.json covers the sitemap, with valid links, topics, labels and routes
   for (const [name, route] of Object.entries(data.routes)) {
     for (const [id] of route.steps) assert.ok(ids.has(id), `${name}: ${id} must be a page`);
   }
+});
+
+test("the pages reported as provisional are those whose topics come from the keyword rules", { skip: !built }, async () => {
+  const data = await buildField();
+  // A page of a section tagged as a whole (a course text, STATAverse, the textbook) has its topics set and is not reported.
+  assert.deepEqual(data.provisional, data.nodes.map((node) => node.id).filter(isProvisional));
 });
 
 test("no page is left without a link to or from another page", { skip: !built }, async () => {

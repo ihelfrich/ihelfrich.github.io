@@ -24,10 +24,10 @@ Then, in this repository, run `npm run check:navigation` and build. The exporter
 The committed copy of the site map, `public/field.json`, is what the deployed site serves and what the home page lists, because the deploy runs `astro build` without the site-map step. It needs regenerating only when a chapter is added, removed or retitled. Chapter labels on the map are the chapter titles, read from `book.json` by the generator, so nothing else needs editing. After a build:
 
 ```sh
-node scripts/build-field-data.mjs --public --skip '^/learn/stata/.+'
+node scripts/build-field-data.mjs --public
 ```
 
-then build again, since the home page lists the map's pages, and repeat until the file stops changing (once is usually enough). The `--skip` is there because a full regeneration also adds eighteen STATAverse subpages. Their topics are still provisional, and the title of one of them, "Instrumental variables · STATAverse", fails the homepage test that keeps the word "Instrument" off the home page. The STATAverse landing page stays in, as a step of the Student route. Drop the `--skip` once those pages are settled.
+then build again, since the home page lists the map's pages, and repeat until the file stops changing (once is usually enough).
 
 ## What this site adds
 
@@ -44,7 +44,7 @@ The book is registered in the places the rest of the site reads:
 - `src/data/field-topics.mjs`: topics, short labels, the page type and a step on the Student route of the site map.
 - `src/pages/teaching/index.astro`: the entry among the open courses and the card under them.
 - `src/content/teaching/view-from-somewhere.md`: the book's record in the teaching collection, beside the other course texts.
-- `public/field.json`: the committed copy of the site map, regenerated so the map shows the book (see the note above on what else it lists).
+- `public/field.json`: the committed copy of the site map, regenerated so the map shows the book.
 
 ## Checks
 

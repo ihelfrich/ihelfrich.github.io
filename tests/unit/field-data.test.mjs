@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { OVERRIDES, ROUTES, TOPIC_ORDER, topicsFor, typeFor } from "../../src/data/field-topics.mjs";
+import { OVERRIDES, ROUTES, TOPIC_ORDER, isProvisional, topicsFor, typeFor } from "../../src/data/field-topics.mjs";
 import { extractPage } from "../../scripts/build-field-data.mjs";
 
 test("every hand-set topic list uses known topics and has at least one", () => {
@@ -31,6 +31,21 @@ test("course chapters are teaching pages even when their titles name no teaching
   assert.deepEqual(topicsFor("/handbook/03-clocks/", "Observation clocks, releases, vintages, and provenance", ""), ["teaching"]);
 });
 
+test("STATAverse pages are teaching pages even when their descriptions name another topic's keyword", () => {
+  // "measurement columns" and "identification" would otherwise tag these two labs as Measurement first.
+  assert.deepEqual(topicsFor("/learn/stata/Labs/Data/", "Merge and reshape · STATAverse", "Inspect keys, unmatched rows, conflicting values and measurement columns."), ["teaching"]);
+  assert.deepEqual(topicsFor("/learn/stata/MethodLab/", "Method comparison · STATAverse", "An outcome model, an identification argument and a covariance choice answer different questions."), ["teaching"]);
+});
+
+test("topics are provisional only when they come from the keyword rules", () => {
+  assert.equal(isProvisional("/research/a-new-trade-paper/"), true, "no hand-set entry and no section rule");
+  assert.equal(isProvisional("/research/"), false, "hand-set in OVERRIDES");
+  assert.equal(isProvisional("/time-series/03-arma/"), false, "a course text is tagged as a section");
+  assert.equal(isProvisional("/view-from-somewhere/ch08-survey-triangle/"), false, "the textbook is tagged as a section");
+  // STATAverse routes have capitals, so they cannot be OVERRIDES keys; the section rule is where their topics are set.
+  assert.equal(isProvisional("/learn/stata/Labs/IV/"), false, "STATAverse is tagged as a section");
+});
+
 test("the student and hiring-committee routes reach both further courses", () => {
   for (const name of ["Student", "Hiring committee"]) {
     const stops = ROUTES[name].steps.map(([id]) => id);
@@ -58,6 +73,19 @@ test("link extraction reads main content only and normalises paths", () => {
   assert.equal(page.title, "Research");
   assert.equal(page.description, "Papers & data");
   assert.deepEqual(page.hrefs, ["/datasets/", "/research/x/"]);
+});
+
+test("page extraction reads a description whose meta tag is written over several lines", () => {
+  // STATAverse pages are formatted this way; Astro writes the tag on one line.
+  const html = `<html><head>
+    <meta
+      name="description"
+      content="Work through first stages &amp; 2SLS."
+    />
+    <title>Instrumental variables · STATAverse</title></head><body><main><a href="/learn/stata/">Start</a></main></body></html>`;
+  const page = extractPage(html);
+  assert.equal(page.description, "Work through first stages & 2SLS.");
+  assert.equal(page.title, "Instrumental variables · STATAverse");
 });
 
 test("link extraction leaves out elements marked data-field-skip, nested or not", () => {
