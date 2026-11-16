@@ -3,11 +3,11 @@
 // so header and footer links (present on every page) do not join everything to everything.
 // Usage: node scripts/build-field-data.mjs [--public] [--skip <regular expression>]
 //   --public also refreshes public/field.json, the copy the deployed site serves
-//   --skip leaves out sitemap pages whose route matches, e.g. --skip '^/learn/stata/.+'
+//   --skip leaves out sitemap pages whose route matches, e.g. --skip '^/section/.+' while a section is not ready for the map
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
-import { OVERRIDES, ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
+import { ROUTES, isProvisional, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
 import { computeLayouts } from "../src/lib/gravity-layout.mjs";
 import { book as viewFromSomewhere, chapterRoute as viewFromSomewhereRoute } from "../src/data/view-from-somewhere.mjs";
 
@@ -47,7 +47,8 @@ export function withoutSkipped(html) {
 export function extractPage(html) {
   const title = decode((html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "").trim())
     .replace(/\s*[|·]\s*Ian Helfrich.*$/, "");
-  const description = decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");
+  // \s+ rather than a space: STATAverse writes this tag with one attribute per line.
+  const description = decode(html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1] ?? "");
   const main = withoutSkipped(html.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? html);
   const hrefs = [...main.matchAll(/href="([^"]+)"/g)].map(([, href]) => normalise(decode(href))).filter(Boolean);
   return { title, description, hrefs };
@@ -139,8 +140,8 @@ export async function buildField({ skip = null } = {}) {
   const isolated = nodes.filter((_, i) => !linked.has(i)).map((node) => node.id);
 
   // Pages whose topics come from the keyword rules rather than a hand-set entry. They still appear on the map.
-  // The three course texts and the textbook are tagged by prefix in topicsFor, so they are not provisional.
-  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !/^\/(econometrics|time-series|handbook|view-from-somewhere)\//.test(node.id)).map((node) => node.id);
+  // The course texts, STATAverse and the textbook are tagged as sections in field-topics.mjs, so they are not provisional.
+  const provisional = nodes.filter((node) => isProvisional(node.id)).map((node) => node.id);
 
   // Rest-state positions for the home-page map, precomputed so the browser only scales them.
   const layout = computeLayouts(nodes, links);

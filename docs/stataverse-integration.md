@@ -15,6 +15,8 @@ A temporary local preview may set `STATAVERSE_ALLOW_DIRTY=1`. CI rejects dirty p
 
 The shared navigation registry supplies the compact menu on every STATAverse HTML page. Teaching and Lab link directly to the app; the teaching collection and project record feed the public catalogue and site index. Directory pages enter the sitemap, Pagefind and field map, and the Student route includes the app. No existing primary header labels are changed.
 
+The field map the site serves is the committed `public/field.json`. When a pin adds, removes or retitles a directory page, regenerate that file as `docs/site-map.md` describes. On the map every STATAverse page has the topic Teaching and is labeled with its own title; a page's description on the map is its `<meta name="description">`, and a page without one has none.
+
 Practice and investigation storage keys are unchanged. Reading progress reuses its original project-path keys at the new mount. The app's service worker controls only `/learn/stata/`; it leaves the rest of this website alone. Long simulations run in a local worker, and student imports remain on the device. No credentials, server-side Stata or model API are needed.
 
 Verification includes `npm run check:stataverse`, the existing navigation/discovery/copy/token/style checks and the STATAverse integration browser runner against this built site. The browser receipt and selected reusable procedure are registered by the owning STATAverse overhaul project in its `.scholon-outputs.json`.

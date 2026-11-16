@@ -15,8 +15,11 @@ published pages, so it stays current without hand-maintained lists.
    `src/lib/field-graph.mjs` holds the graph logic (shortest path, ring radii, search ranking,
    references) and is covered by unit tests.
 
-`public/field.json` is a committed copy so that `npm run dev` works. Refresh it with
-`node scripts/build-field-data.mjs --public` after a build.
+`public/field.json` is a committed copy. `npm run dev` and the deployed site serve it, and the home page
+lists its pages: the deploy runs `npm run build:fast`, which is `astro build` alone and does not run the
+script. Refresh the copy when a page is added, removed or retitled. Build with `npm run build:fast`, run
+`node scripts/build-field-data.mjs --public`, then build again, since the home page lists the map's pages,
+and repeat until the file stops changing.
 
 ## Adding or changing a page
 
@@ -25,7 +28,12 @@ published pages, so it stays current without hand-maintained lists.
 - Topics: add the route to `OVERRIDES` in `src/data/field-topics.mjs`. The first topic is the primary
   one and sets the page's color when a topic is selected. Until then the page gets a provisional tag from
   keyword rules, and the build prints it.
+- Sections tagged as a whole are in `SECTION_TOPICS` in the same file: the three course texts, STATAverse
+  and *The View from Somewhere*. Their pages need no entry of their own and are not provisional.
 - Short label: add the route to `LABELS` in the same file. Labels must be unique and 40 characters or fewer.
+- The keys of `OVERRIDES` and `LABELS` are lowercase routes. STATAverse's routes have capitals
+  (`/learn/stata/Labs/IV/`), so its pages take the section's topic, Teaching, and are labeled with their
+  own titles.
 - Guided routes (Hiring committee, Student, Collaborator, Industry and policy): edit `ROUTES` in the same
   file. The build fails if a route lists a page that does not exist.
 - Paper details come from the page's content file: `authors`, `year`, `displayStatus` or `status`,

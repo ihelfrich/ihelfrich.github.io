@@ -50,8 +50,11 @@ test('home network leads with Job market, CV and Contact, labels the NMTC paper 
  assert.equal(graph.querySelector('.hg-all a[href="/research/helfrich-2026-nmtc-rural-gap/"]').textContent.trim(),'Job market paper: NMTC rural gap');
  assert.ok(graph.querySelector('.hg-all a[href="/contact/"]'),'the page list includes Contact');
  assert.ok([...graph.querySelectorAll('.hg-legend li')].some(li=>li.textContent.trim()==='Tool'));
- // "Instruments" survives only as the title of the econometrics chapter, never as a page type.
- const text=d.body.cloneNode(true);text.querySelectorAll('a[href="/econometrics/07-instruments/"]').forEach(a=>a.remove());
+ // "Instrument" was the name of the Tool page type and must not return as one. The word survives only in the
+ // titles of pages on the econometric method ("Ch. 7: Instruments", STATAverse's "Instrumental variables"), and
+ // the page list prints every page's title. Its links are set aside; the legend of page types, the list's own
+ // headings and the rest of the page are still checked.
+ const text=d.body.cloneNode(true);text.querySelectorAll('.hg-all a').forEach(a=>a.remove());
  assert.doesNotMatch(text.textContent,/Instrument/);
  assert.equal(graph.querySelector('[data-hg-shock]'),null,'the shock button is gone');
  assert.equal(graph.querySelector('img'),null);
