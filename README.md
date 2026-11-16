@@ -48,6 +48,10 @@ The St. Louis City & Property Lab has [component-specific terms](public/st-louis
 
 STATAverse is integrated under `/learn/stata/` from a pinned static build, with shared navigation and site-wide discovery. See [integration and local setup](docs/stataverse-integration.md).
 
+## The View from Somewhere
+
+*The View from Somewhere*, a textbook with live figures, is published at `/view-from-somewhere/` from an export of the book's own LaTeX build. The export lives in `src/data/view-from-somewhere/` and `public/view-from-somewhere/` and is never edited here. See [how it is refreshed and what the site adds](docs/view-from-somewhere.md).
+
 ## Deployment
 
 Pushes to `main` trigger `.github/workflows/deploy.yml`. The workflow builds the site, refreshes the reading cache, creates the Pagefind index, and deploys the `dist/` artifact to GitHub Pages.

@@ -1,12 +1,19 @@
 // Builds field.json for the site map at /field/ from the built site in dist/.
 // Pages come from dist/sitemap.xml. Links are the internal links inside each page's <main>,
 // so header and footer links (present on every page) do not join everything to everything.
-// Usage: node scripts/build-field-data.mjs [--public]   (--public also refreshes public/field.json for dev)
+// Usage: node scripts/build-field-data.mjs [--public] [--skip <regular expression>]
+//   --public also refreshes public/field.json, the copy the deployed site serves
+//   --skip leaves out sitemap pages whose route matches, e.g. --skip '^/learn/stata/.+'
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { load as parseYaml } from "js-yaml";
 import { OVERRIDES, ROUTES, labelFor, topicsFor, typeFor } from "../src/data/field-topics.mjs";
 import { computeLayouts } from "../src/lib/gravity-layout.mjs";
+import { book as viewFromSomewhere, chapterRoute as viewFromSomewhereRoute } from "../src/data/view-from-somewhere.mjs";
+
+// A chapter of The View from Somewhere is labeled with its title, read from the export, so a retitled
+// chapter needs no second edit. (field-topics.mjs is also bundled for the browser and cannot read the export.)
+const BOOK_LABELS = Object.fromEntries(viewFromSomewhere.chapters.map((chapter) => [viewFromSomewhereRoute(chapter), chapter.title]));
 
 const dist = path.resolve("dist");
 const SITE = "https://ihelfrich.github.io";
@@ -74,11 +81,11 @@ async function frontmatterFor(route) {
   };
 }
 
-export async function buildField() {
+export async function buildField({ skip = null } = {}) {
   const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
   const routes = [...sitemap.matchAll(/<loc>https:\/\/ihelfrich\.github\.io(\/[^<]*)<\/loc>/g)]
     .map(([, route]) => route)
-    .filter((route) => route !== "/field/")
+    .filter((route) => route !== "/field/" && !(skip && skip.test(route)))
     .sort();
   const known = new Set(routes);
 
@@ -96,7 +103,7 @@ export async function buildField() {
     const node = {
       id: route,
       title: page.title || route,
-      label: labelFor(route, page.title || route),
+      label: BOOK_LABELS[route] ?? labelFor(route, page.title || route),
       desc: page.description.slice(0, 200),
       kb: page.kb,
       type: typeFor(route),
@@ -132,8 +139,8 @@ export async function buildField() {
   const isolated = nodes.filter((_, i) => !linked.has(i)).map((node) => node.id);
 
   // Pages whose topics come from the keyword rules rather than a hand-set entry. They still appear on the map.
-  // The three course texts are tagged Teaching by prefix in topicsFor, so they are not provisional.
-  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !/^\/(econometrics|time-series|handbook)\//.test(node.id)).map((node) => node.id);
+  // The three course texts and the textbook are tagged by prefix in topicsFor, so they are not provisional.
+  const provisional = nodes.filter((node) => !OVERRIDES[node.id] && !/^\/(econometrics|time-series|handbook|view-from-somewhere)\//.test(node.id)).map((node) => node.id);
 
   // Rest-state positions for the home-page map, precomputed so the browser only scales them.
   const layout = computeLayouts(nodes, links);
@@ -142,7 +149,8 @@ export async function buildField() {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const data = await buildField();
+  const skipAt = process.argv.indexOf("--skip");
+  const data = await buildField({ skip: skipAt > 0 && process.argv[skipAt + 1] ? new RegExp(process.argv[skipAt + 1]) : null });
   const json = JSON.stringify(data);
   await mkdir(dist, { recursive: true });
   await writeFile(path.join(dist, "field.json"), json);

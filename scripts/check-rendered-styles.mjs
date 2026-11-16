@@ -299,7 +299,7 @@ const contrast = (foreground, background) => {
 };
 
 const inlineStylesheets = async (html, page) => {
-  const cssLinks = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+\.css)"[^>]*>/g)];
+  const cssLinks = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"?]+\.css)(?:\?[^"]*)?"[^>]*>/g)];
   const css = [];
   for (const [, href] of cssLinks) {
     try {
@@ -308,7 +308,7 @@ const inlineStylesheets = async (html, page) => {
       if (href !== "/pagefind/pagefind-ui.css") failures.push(`${page} references missing stylesheet ${href}`);
     }
   }
-  const document = html.replace(/<link[^>]+rel="stylesheet"[^>]+href="[^"]+\.css"[^>]*>/g, "")
+  const document = html.replace(/<link[^>]+rel="stylesheet"[^>]+href="[^"?]+\.css(?:\?[^"]*)?"[^>]*>/g, "")
     .replace("</head>", `<style>${css.join("\n")}</style></head>`);
   return { document, url: `https://example.test/${dirname(page)}/` };
 };
@@ -328,7 +328,7 @@ const htmlFiles = (await Promise.all((await collectFiles(resolve("dist"), ".html
 const linkedStylesheetPaths = new Set();
 for (const htmlPath of htmlFiles) {
   const html = await readFile(htmlPath, "utf8");
-  for (const [, href] of html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+\.css)"[^>]*>/g)) {
+  for (const [, href] of html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"?]+\.css)(?:\?[^"]*)?"[^>]*>/g)) {
     if (href === "/pagefind/pagefind-ui.css") continue;
     linkedStylesheetPaths.add(resolve("dist", href.replace(/^\//, "")));
   }
@@ -413,10 +413,17 @@ if (!/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*::view-transition-grou
   failures.push("fieldbook.css does not collapse View Transitions under reduced motion");
 }
 
+// The View from Somewhere carries megabytes of inline SVG mathematics and figures on each page, more
+// than happy-dom can hold in memory. None of it bears on the heading and font checks below, so the
+// scripts and drawings are dropped before such a page is loaded (scripts first: some hold SVG source as text).
+const withoutBookDrawings = (page, html) => page.startsWith("view-from-somewhere/")
+  ? html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<mjx-container[\s\S]*?<\/mjx-container>/g, "").replace(/<svg[\s\S]*?<\/svg>/g, "")
+  : html;
+
 let darkHeadingCount = 0;
 for (const htmlPath of htmlFiles) {
   const page = relative(resolve("dist"), htmlPath);
-  const rawHTML = await readFile(htmlPath, "utf8");
+  const rawHTML = withoutBookDrawings(page, await readFile(htmlPath, "utf8"));
   const { document, url } = await inlineStylesheets(rawHTML, page);
   const window = new Window({ url });
   window.document.write(document);

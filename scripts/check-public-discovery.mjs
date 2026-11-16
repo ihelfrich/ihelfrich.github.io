@@ -77,6 +77,25 @@ for (const page of ["teaching", "job-market"]) {
   const main = html.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? "";
   for (const route of courseLandings) assert.ok(main.includes(`href="${route}"`), `/${page}/ must link ${route} in its page content`);
 }
+// The View from Somewhere is a textbook exported from its own LaTeX build. The teaching page must reach it,
+// its opening page must link every chapter, and every chapter must be built and listed in the sitemap.
+{
+  const teaching = await readFile(path.join(root, "teaching", "index.html"), "utf8");
+  const teachingMain = teaching.match(/<main[\s>][\s\S]*?<\/main>/)?.[0] ?? "";
+  assert.ok(teachingMain.includes('href="/view-from-somewhere/"'), "/teaching/ must link /view-from-somewhere/ in its page content");
+  const bookStructure = JSON.parse(await readFile(path.resolve("src/data/view-from-somewhere/book.json"), "utf8"));
+  const opening = await readFile(path.join(root, "view-from-somewhere", "index.html"), "utf8");
+  for (const { slug } of bookStructure.chapters) {
+    const route = `/view-from-somewhere/${slug}/`;
+    assert.ok(sitemapRoutes.includes(route), `/sitemap.xml must publish the chapter ${route}`);
+    assert.ok(opening.includes(`href="${route}"`), `/view-from-somewhere/ must link the chapter ${route}`);
+    const html = await readFile(path.join(root, route, "index.html"), "utf8").catch(() => null);
+    assert.ok(html !== null, `${route} was not built`);
+    assert.ok(html.includes('<article class="sheet">'), `${route} must carry the chapter's sheet`);
+    assert.ok(html.includes(`href="/view-from-somewhere/book.css?v=${bookStructure.assets}"`), `${route} must load the book's style sheet at its exported version`);
+  }
+  for (const asset of ["book.css", "book.js"]) await access(path.join(root, "view-from-somewhere", asset));
+}
 // Hidden Rivers left the Records strip for the 2026-27 market; /projects must still reach it,
 // and every page built on the shared shell must offer booking beside Contact.
 const projectsIndex = await readFile(path.join(root, "projects", "index.html"), "utf8");
@@ -88,7 +107,7 @@ for (const route of ["/", "/job-market/", "/research/", "/cv/"]) {
 // The course layouts carry the shared bar instead of the shell header. It must be a labelled landmark, offer
 // booking beside Contact, and link every route, the breadcrumb trail included, in the form served without a 301.
 const barLinks = [...PRIMARY.map(({ href }) => withSlash(href)), "/field/", withSlash(BOOK.href), withSlash(CONTACT.href)];
-for (const route of ["/time-series/03-arma/", "/handbook/01-questions/", "/econometrics/03-projection/"]) {
+for (const route of ["/time-series/03-arma/", "/handbook/01-questions/", "/econometrics/03-projection/", "/view-from-somewhere/ch03-gauss-loops/"]) {
   const html = await readFile(path.join(root, route, "index.html"), "utf8");
   const bar = html.match(/<nav class="site-bar"[^>]*>[\s\S]*?<div class="site-bar-actions">[\s\S]*?<\/div>\s*<\/nav>/)?.[0];
   assert.ok(bar, `${route} must render the shared bar`);

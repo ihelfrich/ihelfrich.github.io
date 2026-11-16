@@ -111,6 +111,7 @@ export const OVERRIDES = Object.freeze({
   "/teaching/ols-assumptions/": ["teaching"],
   "/third-space/": ["profile"],
   "/time-series/": ["teaching"],
+  "/view-from-somewhere/": ["teaching", "measurement"],
   "/work/": ["profile"],
   "/writing/": ["profile"],
   "/writing/hello-from-the-hub/": ["profile"],
@@ -208,6 +209,9 @@ export const LABELS = Object.freeze({
   "/teaching/ols-assumptions/": "OLS assumptions lab",
   "/third-space/": "Third Space Labs",
   "/time-series/": "Time-Series Econometrics",
+  "/view-from-somewhere/": "The View from Somewhere",
+  // its chapters are labeled with their titles by scripts/build-field-data.mjs, from the export
+  "/learn/stata/": "STATAverse · Learn Stata",
   "/work/": "Work",
   "/writing/": "Writing",
   "/writing/hello-from-the-hub/": "Rebuilding the research site",
@@ -220,6 +224,8 @@ export function topicsFor(path, title = "", description = "") {
   if (OVERRIDES[path]) return [...OVERRIDES[path]];
   // Course chapters are teaching pages whatever their titles say; "ARMA models" matches no keyword.
   if (/^\/(econometrics|time-series|handbook|learn\/stata)\//.test(path)) return ["teaching"];
+  // The View from Somewhere is a textbook about measurement: price indexes, overlapping surveys, inference.
+  if (path.startsWith("/view-from-somewhere/")) return ["teaching", "measurement"];
   const haystack = `${path} ${title} ${description}`.toLowerCase();
   const found = KEYWORDS.filter(([, pattern]) => pattern.test(haystack)).map(([topic]) => topic);
   const ordered = TOPIC_ORDER.filter((topic) => found.includes(topic));
@@ -230,7 +236,7 @@ export function typeFor(path) {
   if (/^\/research\/./.test(path)) return "paper";
   if (/^\/datasets\/./.test(path)) return "data";
   if (/^\/(projects\/.|spatial|hidden-rivers|st-louis|gis-portfolio|spatial-economics)/.test(path)) return "tool";
-  if (/^\/(learn\/stata|econometrics\/.|time-series\/.|handbook\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
+  if (/^\/(learn\/stata|econometrics\/.|time-series\/.|handbook\/.|view-from-somewhere\/.|teaching\/.|macroeconomics|calculus|economics-practice)/.test(path)) return "course";
   return "page";
 }
 
@@ -253,7 +259,7 @@ export const ROUTES = Object.freeze({
     ],
   },
   Student: {
-    summary: "Econometrics courses, the handbook, interactive labs, booking.",
+    summary: "Econometrics courses, the handbook, a textbook with live figures, interactive labs, booking.",
     steps: [
       ["/teaching/", "Courses and teaching tools."],
       ["/learn/stata/", "Stata commands, data preparation and inference in the browser."],
@@ -261,6 +267,7 @@ export const ROUTES = Object.freeze({
       ["/econometrics/01-argument/", "Chapter 1."],
       ["/time-series/", "Graduate course in time-series econometrics, with lecture summaries, practice and code."],
       ["/handbook/", "Working handbook, marked at four reading levels from orientation to proof."],
+      ["/view-from-somewhere/", "Textbook on local views of data and the loops that test them, with figures to operate."],
       ["/teaching/market-mechanics/", "Interactive supply and demand lab."],
       ["/teaching/distributions/", "Distributions, test power and model fitting."],
       ["/teaching/ols-assumptions/", "Companion to the classical OLS assumptions."],

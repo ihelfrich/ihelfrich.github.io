@@ -1,0 +1,19 @@
+---
+// One chapter of the book. The sheet, its figures and its scripts come from the book's own build.
+import Layout from '../../layouts/ViewFromSomewhere.astro';
+import { book, sheet } from '../../data/view-from-somewhere.mjs';
+
+export function getStaticPaths() {
+  return book.chapters.map((chapter) => ({ params: { slug: chapter.slug }, props: { chapter } }));
+}
+const { chapter } = Astro.props;
+---
+<Layout
+  title={`${chapter.title} · ${book.title}`}
+  crumb={`${chapter.num}. ${chapter.title}`}
+  description={chapter.description}
+  css={chapter.css}
+  article
+>
+  <Fragment set:html={sheet(`chapters/${chapter.slug}.html`)} />
+</Layout>

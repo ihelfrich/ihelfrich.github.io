@@ -3,6 +3,7 @@ import { isArchivalProject } from "../data/archival-projects.mjs";
 import { filterDiscoverableResearch } from "../data/research-discovery.mjs";
 import { sitemapStaticRoutes } from "../data/navigation.mjs";
 import timeSeriesLectures from "../data/time-series-lectures.json";
+import { chapterRoutes as viewFromSomewhereChapters } from "../data/view-from-somewhere.mjs";
 import { readdirSync, existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -60,6 +61,8 @@ export async function GET({ site }) {
     ...timeSeriesChapters.map((entry) => `/time-series/${entry.id}/`),
     ...timeSeriesLectures.map(({ slug }) => `/time-series/lectures/${slug}/`),
     ...handbookChapters.map((entry) => `/handbook/${entry.id}/`),
+    // The View from Somewhere: chapters from the book's exported structure; its opening page is a standalone route.
+    ...viewFromSomewhereChapters(),
     ...research.map((entry) => `/research/${entry.id}/`),
     ...projects.filter((entry) => !isArchivalProject(entry.id)).map((entry) => `/projects/${entry.id}/`),
     ...datasets.map((entry) => `/datasets/${entry.id}/`),
